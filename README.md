@@ -1,6 +1,6 @@
 # Zuriportfolio - Frontend
 
-This is a `Node.js / Express` project.
+This is a `Nextjs, Typescript and Tailwindcss` project.
 
 ## Getting Started
 
