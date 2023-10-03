@@ -9,7 +9,7 @@ This project uses `yarn workspaces` as default monorepo architecture.
 #### First clone the repo
 
 ```bash
-git clone <repo-url>
+git clone <https://github.com/hngx-org/zuriportfolio-frontend.git>
 ```
 
 #### Install all dependencies
@@ -41,8 +41,8 @@ Free Lunch is open to contributions, but I recommend creating an issue or replyi
 
 ## Contribution Guidelines
 
-1. Clone the repo `git clone <repo_url>`.
-2. Open your terminal & set the origin branch: `git remote add origin <repo_url>.web.git`
+1. Clone the repo `git clone <https://github.com/hngx-org/zuriportfolio-frontend.git>`.
+2. Open your terminal & set the origin branch: `git remote add origin <https://github.com/hngx-org/zuriportfolio-frontend.git>.web.git`
 3. Pull origin `git pull origin dev`
 4. Create a new branch for the task you were assigned to, eg : `git checkout -b feat-csv-parser`
 5. After making changes, do `git add .`
