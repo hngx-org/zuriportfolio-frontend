@@ -9,7 +9,7 @@ This project uses `yarn workspaces` as default monorepo architecture.
 #### First clone the repo
 
 ```bash
-git clone <https://github.com/hngx-org/zuriportfolio-frontend.git>
+git clone https://github.com/hngx-org/zuriportfolio-frontend.git
 ```
 
 #### Install all dependencies
@@ -32,7 +32,7 @@ pnpm dev
 
 ## Branches
 
-- **dev** -> pr this branch for everything `frontend` & `` related
+- **dev** -> pr this branch for everything `frontend` related
 - **main** -> **dont touch** this branch, this is what is running in production.
 
 ## Contributions
