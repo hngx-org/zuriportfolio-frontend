@@ -1,0 +1,20 @@
+{
+  "name": "zuriportfolio-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "",
+    "start": "cd packages/app && yarn start",
+    "app": "yarn workspace . run dev",
+    "build": "yarn workspaces run build",
+    "watch": "yarn workspaces run watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
