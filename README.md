@@ -77,3 +77,52 @@ zuriportfolio is open to contributions, but I recommend creating an issue or rep
 
 - `chore: Updated README file` := `chore` is used because the commit didn't make any changes to the , frontend or test folders in any way.
 - `feat: Added plugin info endpoints` := `feat` is used here because the feature was non-existent before the commit.
+
+## Code Explanation
+
+### API Calls
+
+A separate folder called `http` which contains `axios.ts` and `index.ts` files where created to handle any outgoing or incoming http request/response. the `index.ts` file should contain all outgoing `API` calls to the backend server.
+
+> ❗❗Do not create any custom http calls inside a page or components. Whatever calls that need to be processed by the server should be called within the `index.ts` file.
+
+### Custom Authentication Handler
+
+Within the `helpers` folder contains **two** different files called `withAuth.tsx` and `withoutAuth.tsx`.
+
+- **WithAuth.tsx** :- is a `HOF` function which wraps every components that needs protection or protected route components. for eg `Dashboard` or any other page that require the user to be loggedIn. All you have to do is import the cusstom handler and wrap your component inside it. i.e
+
+```js
+withAuth(Dashboard);
+withAuth(Promotion);
+```
+
+- **WithoutAuth.tsx** :- is the opposite of `withAuth.tsx` HOF. It only meant to be used to prevent loggedIn users from redirecting or navigating to a page. i.e when a user is loggedIn and you dont want them to view a certain page, use this function.
+
+```js
+withoutAuth(Login);
+withoutAuth(Signup);
+```
+
+### MainLayout.tsx
+
+Within this file contains a `MainLayout` component, rather than calling `Footer`, `Sidebar`, `TopBar` component on every file manually, all you have to do is first invoke the `<MainLayout>` component inside any page before adding the children of that page.
+
+for eg
+
+```js
+import Link from 'next/link';
+import MainLayout from '../components/Layout/MainLayout';
+
+function Home() {
+  return (
+    <MainLayout activePage="home" showDashboardSidebar showTopbar>
+      <p className="text-dark-100">Home Page</p>
+    </MainLayout>
+  );
+}
+
+export default Home;
+```
+
+you also get to decide whether to show the footer or sidebar using the available props.

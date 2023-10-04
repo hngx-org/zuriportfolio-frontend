@@ -1,20 +1,35 @@
 {
-  "name": "zuriportfolio-frontend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "zuriportfolio",
+  "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "test": "",
-    "start": "cd packages/app && yarn start",
-    "app": "yarn workspace . run dev",
-    "build": "yarn workspaces run build",
-    "watch": "yarn workspaces run watch"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "npx prettier --write ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "axios": "^1.5.1",
+    "eslint": "8.31.0",
+    "eslint-config-next": "13.1.1",
+    "jwt-decode": "^3.1.2",
+    "next": "^13.5.4",
+    "nprogress": "^0.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwind-merge": "^1.14.0",
+    "typescript": "4.9.4"
+  },
+  "description": "zuriportfolio frontend",
+  "devDependencies": {
+    "@types/node": "18.11.18",
+    "@types/nprogress": "^0.2.1",
+    "@types/react": "^18.2.24",
+    "@types/react-dom": "18.0.10",
+    "autoprefixer": "10.4.16",
+    "postcss": "8.4.31",
+    "prettier": "^3.0.3",
+    "tailwindcss": "3.3.3"
+  }
 }

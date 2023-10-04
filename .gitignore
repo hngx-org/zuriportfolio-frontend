@@ -1,6 +1,10 @@
 
 /node_modules
 
-# packages node_modules
-/packages/**/node_modules
-/packages/**/node_modules
+/.next
+
+/.env
+
+/.env.local
+
+/yarn-error.log
