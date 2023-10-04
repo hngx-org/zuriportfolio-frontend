@@ -52,7 +52,7 @@ zuriportfolio is open to contributions, but I recommend creating an issue or rep
 5. After making changes, do `git add .`
 6. Commit your changes with a descriptive commit message : `git commit -m "your commit message"`.
 7. To make sure there are no conflicts, run `git pull origin dev`.
-8. Push changes to your new branch, run `git push -u origin feat-csv-parser`.
+8. Push changes to your new branch, run `git push -u origin ZA-001/Feat/Sign-Up-from`.
 9. Create a pull request to the `dev` branch not `main`.
 10. Ensure to describe your pull request.
 11. > If you've added code that should be tested, add some test examples.
