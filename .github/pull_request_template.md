@@ -1,56 +1,21 @@
-<!--- Provide a general summary of your changes in the Title above -->
-
-## Issue Number
-
-<!-- Add your issue number here starting with a Hashtag (#24) -->
-
-## Description
-
-<!--- Describe your changes in detail -->
-
-​
-
-## Related Issue
-
-<!--- This project only accepts pull requests related to open issues -->
-<!--- If suggesting a new feature or change, please discuss it in an issue first -->
-<!--- If fixing a bug, there should be an issue describing it with steps to reproduce -->
-<!--- Please link to the issue here: -->
-
-​
-
-## Motivation and Context
-
-<!--- Why is this change required? What problem does it solve? -->
-
-## How Has This Been Tested?
-
-<!--- Please describe in detail how you tested your changes. -->
-<!--- Include details of your testing environment, and the tests you ran to -->
-<!--- see how your change affects other areas of the code, etc. -->
-
-​
-
-## Screenshots (if appropriate):
-
-​
-
-## Types of changes
-
-<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
-
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to change)
-      ​
-
-## Checklist:
-
-<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
-<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
-
+you can check this one that was used for the previous cohort
+# Fixes Issue/Linear Ticket
+> This could be an existing issue or a linear ticket
+> - Github Issue Example: My PR Closes #{ISSUE}
+> - Linear Ticket Example: Fixes ID-#{ISSUE}
+# Changes proposed
+> Talk about the things you did eg. files changes, dependencies installed e.t.c
+# Check List (Check all the applicable boxes)
+:rotating_light:Please review the [style guide for contributing](add link here) and [guidelines for contributing](add link here) to this repository.
 - [ ] My code follows the code style of this project.
-- [ ] My change requires a change to the documentation.
-- [ ] I have updated the documentation accordingly.
-- [ ] I have added tests to cover my changes.
-- [ ] All new and existing tests passed.
+- [ ] This PR does not contain plagiarized content.
+- [ ] The title and description of the PR is clear and explains the approach.
+- [ ] I am making a pull request against the **main branch** (left side).
+- [ ] My commit messages styles matches our requested structure.
+- [ ] My code additions will fail neither code linting checks nor unit test.
+- [ ] I am only making changes to files I was requested to.
+# Screenshots/ Videos
+<!-- If the changes are static page changes or UI changes add screenshots -->
+<!-- If the changes involve implementing a functionality or working with apis, include a video
+detailing how to implement the functionality and the request to the api and responses from the api endpoint-->
+<!-- Add all the screenshots/videos which support your changes i.e before your change and after your change -->
