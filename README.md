@@ -28,6 +28,10 @@ yarn dev
 pnpm dev
 ```
 
+## Types
+
+As you know by now that this is a typescript based project. Please all types must be created separately in the `type` or `@types` directly outside of the componentss folder. If your components require a custom type, create them inside a folder called `types` or `@types` and export it to be used somewhere else.
+
 # Commit Standards
 
 ## Branches
