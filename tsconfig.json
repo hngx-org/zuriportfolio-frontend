@@ -14,7 +14,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./"]
+      "@/*": ["./"],
+      "@ui/*": ["./components/ui/*"]
     },
     "forceConsistentCasingInFileNames": true
   },
