@@ -13,7 +13,37 @@ function StyleGuide() {
     }
   }, [loading]);
   return (
-    <div className="py-5 px-9">
+    <div className="py-5 px-9 flex items-center justify-center gap-9">
+      <Button
+        leftIcon={<I24Support color="#fff" />}
+        intent={'primary'}
+        onClick={() => setLoading(true)}
+        size={'md'}
+        isLoading={loading}
+        spinnerColor="#000"
+      >
+        Button
+      </Button>
+      <Button
+        leftIcon={<I24Support color="#06C270" />}
+        intent={'secondary'}
+        onClick={() => setLoading(true)}
+        size={'md'}
+        isLoading={loading}
+        spinnerColor="#000"
+      >
+        Button
+      </Button>
+      <Button
+        leftIcon={<I24Support color="#fff" />}
+        intent={'success'}
+        onClick={() => setLoading(true)}
+        size={'md'}
+        isLoading={loading}
+        spinnerColor="#000"
+      >
+        Button
+      </Button>
       <Button
         leftIcon={<I24Support color="#fff" />}
         intent={'error'}
