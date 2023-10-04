@@ -54,6 +54,15 @@ function StyleGuide() {
       >
         Button
       </Button>
+      <Button
+        leftIcon={<I24Support color="#fff" />}
+        intent={'primary'}
+        href="#"
+        onClick={() => setLoading(true)}
+        size={'md'}
+      >
+        Link Button
+      </Button>
     </div>
   );
 }

@@ -64,8 +64,7 @@ const Button: React.FC<ButtonProps> = ({
 
   if (href) {
     return (
-      // @ts-expect-error
-      <Link href={href} ref={ref} className={classNames} {...others}>
+      <Link href={href} className={classNames} {...props}>
         {leftIcon && leftIcon}
         {children}
         {rightIcon && rightIcon}
