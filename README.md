@@ -48,7 +48,7 @@ zuriportfolio is open to contributions, but I recommend creating an issue or rep
 1. Clone the repo `git clone https://github.com/hngx-org/zuriportfolio-frontend.git`.
 2. Open your terminal & set the origin branch: `git remote add origin https://github.com/hngx-org/zuriportfolio-frontend.git.web.git`
 3. Pull origin `git pull origin dev`
-4. Create a new branch for the task you were assigned to, eg : `git checkout -b feat-csv-parser`
+4. Create a new branch for the task you were assigned to, eg `TicketNumber/(Feat/Bug/Fix/Chore)/Ticket-title` : `git checkout -b ZA-001/Feat/Sign-Up-from`
 5. After making changes, do `git add .`
 6. Commit your changes with a descriptive commit message : `git commit -m "your commit message"`.
 7. To make sure there are no conflicts, run `git pull origin dev`.
@@ -57,6 +57,9 @@ zuriportfolio is open to contributions, but I recommend creating an issue or rep
 10. Ensure to describe your pull request.
 11. > If you've added code that should be tested, add some test examples.
 
+
+# Merging
+Under any circumstances should you merge a pull requests on a specific branch to the `dev` or `main` branch
 
 ### _Commit CheatSheet_
 
