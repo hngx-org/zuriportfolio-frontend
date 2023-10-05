@@ -13,10 +13,10 @@
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --config ./.prettierrc.js --write"
+      "prettier --config ./.prettierrc --write"
     ],
     "**/*.{css,scss,md,html,json}": [
-      "prettier --config ./.prettierrc.js --write"
+      "prettier --config ./.prettierrc --write"
     ]
   },
   "dependencies": {
