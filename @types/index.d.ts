@@ -23,7 +23,7 @@ export interface ModalProps {
   title?: string;
   size?: 'lg' | 'md' | 'sm';
   isCloseIconPresent?: boolean;
-
+}
 export interface PriceData {
   subtotal: number;
   discount: number;
@@ -33,5 +33,11 @@ export interface PriceData {
 
 export interface SummaryProps {
   prices?: PriceData;
-
+}
+export interface OrderHistory {
+  id: number;
+  productName: string;
+  customerName: string;
+  date: Date;
+  status: string;
 }
