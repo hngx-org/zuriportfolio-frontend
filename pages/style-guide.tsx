@@ -231,7 +231,7 @@ function StyleGuide() {
         <div className="flex items-center justify-center gap-9">
           <SelectInput
             leftIcon={<I24Support color="#777" />}
-            size={'md'}
+            inputSize={'md'}
             options={[
               {
                 value: 'helpme2',
@@ -270,7 +270,7 @@ function StyleGuide() {
         <div className="flex items-center justify-center gap-9 pt-5">
           {/* Select */}
           <SelectInput
-            size={'md'}
+            inputSize={'md'}
             options={[
               {
                 value: 'helpme2',
@@ -304,7 +304,7 @@ function StyleGuide() {
             }}
             type="email"
             intent={'default'}
-            size={'lg'}
+            inputSize={'lg'}
             placeHolder="Size - lg and right Icon"
             rightIcon={<EmptyWalletAdd color="#777" />}
           />
