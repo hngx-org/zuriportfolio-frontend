@@ -139,6 +139,7 @@ export function Input({
         placeholder={placeHolder ?? 'Placeholder'}
         disabled={isLoading ?? disabled}
       />
+      {rightIcon && rightIcon}
     </div>
   );
 }
