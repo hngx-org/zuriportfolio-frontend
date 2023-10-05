@@ -64,11 +64,7 @@ const Button: React.FC<ButtonProps> = ({
 
   if (href) {
     return (
-<<<<<<< HEAD
-      <Link href={href} className={classNames} {...props}>
-=======
       <Link href={href} className={classNames} onClick={onClick} {...props}>
->>>>>>> 36680b076791b0d976563ba9c9d2dcf0ae60e75c
         {leftIcon && leftIcon}
         {children}
         {rightIcon && rightIcon}
