@@ -34,7 +34,7 @@ const codes = [
   },
   {
     variant: 'secondary',
-    code: `   // Secondary button
+    code: `   // Secondary buttonˇ
     import Button from '@ui/Button';
 
     <Button
