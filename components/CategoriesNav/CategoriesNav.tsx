@@ -10,18 +10,6 @@ interface CategoriesNavProp {
   navItems: NavItem[];
 }
 
-/* <CategoriesNav
-navItems={[
-  {
-    link: '#',
-    text: 'All Categories',
-  },
-  {
-    text: ' Design & Graphics',
-  },
-]}
-/> */
-
 function CategoriesNav(props: CategoriesNavProp) {
   const { navItems } = props;
   return (
@@ -31,34 +19,12 @@ function CategoriesNav(props: CategoriesNavProp) {
           return (
             <li
               key={item.text.toLowerCase()}
-              className=" font-body  text-hngblack hover:text-hc select-none transition duration-400 ease-in-out text-base font-normal"
+              className=" font-body  text-hngblack hover:text-hc select-none hover:cursor-pointer transition duration-400 ease-in-out text-base font-normal"
             >
               {item.link ? <a href={item.link}>{item.text}</a> : item.text}
             </li>
           );
         })}
-
-        {/* <li className=" font-body text-hngblack hover:text-hc select-none transition duration-400 ease-in-out text-base font-normal">
-          Design & Graphics
-        </li>
-        <li className=" font-body text-hngblack hover:text-hc select-none transition duration-400 ease-in-out text-base font-normal">
-          Development & Programming
-        </li>
-        <li className=" font-body text-hngblack hover:text-hc select-none transition duration-400 ease-in-out text-base font-normal">
-          Content Creation
-        </li>
-        <li className=" font-body text-hngblack hover:text-hc select-none transition duration-400 ease-in-out text-base font-normal">
-          Digital Arts & Media
-        </li>
-        <li className=" font-body text-hngblack hover:text-hc select-none transition duration-400 ease-in-out text-base font-normal">
-          Audio & Sound
-        </li>
-        <li className=" font-body text-hngblack hover:text-hc select-none transition duration-400 ease-in-out text-base font-normal">
-          Photography
-        </li>
-        <li className=" font-body text-hngblack hover:text-hc select-none  transition duration-400 ease-in-out text-base font-normal ">
-          More...
-        </li> */}
       </ul>
     </div>
   );
