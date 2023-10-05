@@ -19,7 +19,7 @@ const Assesment = () => {
   };
   const beginer = {
     score: '49%',
-    img: expertBag,
+    img: beginner,
     retake: 'Retake',
     intermediate: 'beginner',
   };
