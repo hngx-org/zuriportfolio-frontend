@@ -11,7 +11,7 @@ const FeedbackHeader = () => {
         <p className=" text-[14px] font-manropeL">Design Assessment</p>
       </div>
       <div className="flex">
-        <Image src={baseImgg} alt="stamp" className=" mr-[137px]" />
+        <Image src={baseImgg} alt="stampbag" className=" mr-[137px]" />
         <Image src={bubble} alt="" width={139} className="pb-2" height={139} />
       </div>
     </div>
