@@ -45,21 +45,21 @@ function SignUpWithEmail() {
         <div className="flex flex-col gap-y-4">
           <Button
             intent={'tertiary'}
-            className="w-full bg-[#fff] text-[#536066] border-[#BFC8CC] border rounded-md hover:border-brand-green-primary"
+            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary"
             leftIcon={<Image width={30} height={30} src={'/assets/images/logo/google-logo.svg'} alt="Google logo" />}
           >
             Continue with Google
           </Button>
           <Button
             intent={'tertiary'}
-            className="w-full bg-[#fff] text-[#536066] border-[#BFC8CC] border rounded-md hover:border-brand-green-primary"
+            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary"
             leftIcon={<Image width={20} height={20} src={'/assets/images/logo/github-logo.svg'} alt="Github logo" />}
           >
             Continue with Github
           </Button>
           <Button
             intent={'tertiary'}
-            className="w-full bg-[#fff] text-[#536066] border-[#BFC8CC] border rounded-md hover:border-brand-green-primary"
+            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary"
             leftIcon={
               <Image width={20} height={20} src={'/assets/images/logo/facebook-logo.svg'} alt="Facebook logo" />
             }
