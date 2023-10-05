@@ -39,6 +39,7 @@ module.exports = {
             pressed: '#06C270',
           },
           disabled: '#E1E3E2',
+          disabled2: '#C4C7C6',
         },
         red: {
           100: 'rgb(255, 0, 0, .5)',
@@ -57,7 +58,7 @@ module.exports = {
           100: '#fff',
           200: '#f2f2f2',
           300: '#e6e6e6',
-          400: '#d9d9d9',
+          400: '#A8ACAB',
           500: '#cccccc',
           600: '#bfbfbf',
           700: '#b3b3b3',
