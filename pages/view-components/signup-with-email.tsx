@@ -3,11 +3,11 @@ import { Input } from '@ui/Input';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import SignUpLayout from '../../modules/auth/component/SignUpLayout';
+import AuthLayout from '../../modules/auth/component/AuthLayout';
 
 function SignUpWithEmail() {
   return (
-    <SignUpLayout>
+    <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
       <div className="text-center lg:text-left">
         <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100">Sign up</h1>
         <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
@@ -45,21 +45,21 @@ function SignUpWithEmail() {
         <div className="flex flex-col gap-y-4">
           <Button
             intent={'tertiary'}
-            className="w-full bg-transparent text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-transparent hover:border-brand-green-primary"
+            className="w-full bg-[#fff] text-[#536066] border-[#BFC8CC] border rounded-md hover:border-brand-green-primary"
             leftIcon={<Image width={30} height={30} src={'/assets/images/logo/google-logo.svg'} alt="Google logo" />}
           >
             Continue with Google
           </Button>
           <Button
             intent={'tertiary'}
-            className="w-full bg-transparent text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-transparent hover:border-brand-green-primary"
+            className="w-full bg-[#fff] text-[#536066] border-[#BFC8CC] border rounded-md hover:border-brand-green-primary"
             leftIcon={<Image width={20} height={20} src={'/assets/images/logo/github-logo.svg'} alt="Github logo" />}
           >
             Continue with Github
           </Button>
           <Button
             intent={'tertiary'}
-            className="w-full bg-transparent text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-transparent hover:border-brand-green-primary"
+            className="w-full bg-[#fff] text-[#536066] border-[#BFC8CC] border rounded-md hover:border-brand-green-primary"
             leftIcon={
               <Image width={20} height={20} src={'/assets/images/logo/facebook-logo.svg'} alt="Facebook logo" />
             }
@@ -68,7 +68,7 @@ function SignUpWithEmail() {
           </Button>
         </div>
       </div>
-    </SignUpLayout>
+    </AuthLayout>
   );
 }
 

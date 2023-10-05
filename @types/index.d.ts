@@ -36,7 +36,9 @@ export interface SummaryProps {
   prices?: PriceData;
 }
 
-export interface SignUpLayoutProps {
+export interface AuthLayoutProps {
   children: React.ReactNode;
   authLeftImage?: React.ReactNode;
+  isTopRightBlobShown?: boolean;
+  isBottomLeftPadlockShown?: boolean;
 }

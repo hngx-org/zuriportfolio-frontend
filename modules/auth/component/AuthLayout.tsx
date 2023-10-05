@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import React from 'react';
-import { SignUpLayoutProps } from '../../../@types';
+import { AuthLayoutProps } from '../../../@types';
 
-function SignUpLayout({ children, authLeftImage }: SignUpLayoutProps) {
+function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeftPadlockShown }: AuthLayoutProps) {
   return (
-    <>
-      <div className="border-b border-b-gray-100 lg:hidden">
+    <div className='relative min-h-screen'>
+      <div className="border-b border-b-gray-100 lg:hidden bg-[#fff]">
         <div className="px-4 py-4">
           <Image width={100} height={100} src="/assets/images/logo/zuriportfolio-logo.svg" alt="Zuri portfolio logo" />
         </div>
@@ -33,9 +33,28 @@ function SignUpLayout({ children, authLeftImage }: SignUpLayoutProps) {
           </div>
           <div className="max-w-xl mx-auto w-full">{children}</div>
         </div>
+
+        {/* the blob and padlock images */}
+        {/* blob image */}
+        {isTopRightBlobShown && <Image
+        width={200}
+        height={200}
+          className=" absolute top-0 right-0 hidden md:block md:w-[200px] md:h-[200px] -z-[1]"
+          src="/assets/images/blob-os.svg"
+          alt=""
+        />}
+
+        {/* padlock image */}
+        {isBottomLeftPadlockShown && <Image
+        width={200}
+        height={200}
+          className="absolute bottom-0 left-0 w-[170px] h-[170px] md:w-[200px] md:h-[200px] -z-[1]"
+          src="/assets/images/unlock-os.svg"
+          alt=""
+        />}
       </div>
-    </>
+    </div>
   );
 }
 
-export default SignUpLayout;
+export default AuthLayout;
