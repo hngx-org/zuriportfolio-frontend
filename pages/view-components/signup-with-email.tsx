@@ -1,14 +1,13 @@
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import { Google } from 'iconsax-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import SignupLayout from './SignupLayout';
+import SignUpLayout from '../../modules/auth/component/SignUpLayout';
 
 function SignUpWithEmail() {
   return (
-    <SignupLayout>
+    <SignUpLayout>
       <div className="text-center lg:text-left">
         <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100">Sign up</h1>
         <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
@@ -17,13 +16,19 @@ function SignUpWithEmail() {
         <form className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <label htmlFor="email">Email Address</label>
-            <Input placeHolder="Allusugar@gmail.com" id="email" name="email" className="w-full border-[#D0D5DD]" />
+            <Input
+              placeHolder="Allusugar@gmail.com"
+              id="email"
+              name="email"
+              className="w-full border-[#D0D5DD]"
+              type="email"
+            />
           </div>
           <Button intent={'primary'} size={'sm'} className="w-full rounded-lg" type="submit">
             Continue
           </Button>
         </form>
-        
+
         <div className="mt-8">
           <p className="text-center text-gray-200">
             Already have an account?{' '}
@@ -63,7 +68,7 @@ function SignUpWithEmail() {
           </Button>
         </div>
       </div>
-    </SignupLayout>
+    </SignUpLayout>
   );
 }
 
