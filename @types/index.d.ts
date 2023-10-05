@@ -23,6 +23,7 @@ export interface ModalProps {
   title?: string;
   size?: 'lg' | 'md' | 'sm';
   isCloseIconPresent?: boolean;
+}
 
 export interface PriceData {
   subtotal: number;
@@ -33,5 +34,11 @@ export interface PriceData {
 
 export interface SummaryProps {
   prices?: PriceData;
+}
 
+export interface AuthLayoutProps {
+  children: React.ReactNode;
+  authLeftImage?: React.ReactNode;
+  isTopRightBlobShown?: boolean;
+  isBottomLeftPadlockShown?: boolean;
 }
