@@ -1,40 +1,22 @@
 import Link from 'next/link';
 import MainLayout from '../components/Layout/MainLayout';
-import CategoriesNav from '../components/CategoriesNav/CategoriesNav';
+import CategoriesNav from '../modules/marketplace/component/CategoriesNav/CategoriesNav';
 
 function Home() {
+  const navItems: string[] = [
+    'All Categories',
+    ' Design & Graphics',
+    ' Development & Programming',
+    ' Content Creation',
+    ' Digital Arts & Media',
+    ' Audio & Sound',
+    ' Photography',
+    ' More...',
+  ];
+
   return (
     <MainLayout activePage="home" showDashboardSidebar showTopbar>
-      <CategoriesNav
-        navItems={[
-          {
-            link: '#',
-            text: 'All Categories',
-          },
-          {
-            text: ' Design & Graphics',
-          },
-          {
-            text: ' Development & Programming',
-          },
-          {
-            text: ' Content Creation',
-          },
-          {
-            text: ' Digital Arts & Media',
-          },
-          {
-            text: ' Audio & Sound',
-          },
-          {
-            text: ' Photography',
-          },
-          {
-            text: ' More...',
-          },
-        ]}
-      />
-      <div className="w-full flex items-start justify-start"></div>
+      <CategoriesNav navItems={navItems} />
     </MainLayout>
   );
 }

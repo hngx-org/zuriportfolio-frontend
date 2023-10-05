@@ -2,6 +2,7 @@
   "name": "zuriportfolio",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -31,10 +32,8 @@
     "react": "18.2.0",
     "react-code-blocks": "^0.1.4",
     "react-dom": "18.2.0",
-    "rub": "^2.0.0",
     "tailwind-merge": "^1.14.0",
-    "typescript": "4.9.4",
-    "yarn": "^1.22.19"
+    "typescript": "4.9.4"
   },
   "description": "zuriportfolio frontend",
   "devDependencies": {
