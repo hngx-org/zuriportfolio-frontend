@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import React from 'react';
+import { SignUpLayoutProps } from '../../../@types';
 
-function SignUpLayout({ children, authLeftImage }: { children: React.ReactNode; authLeftImage?: React.ReactNode }) {
+function SignUpLayout({ children, authLeftImage }: SignUpLayoutProps) {
   return (
     <>
       <div className="border-b border-b-gray-100 lg:hidden">

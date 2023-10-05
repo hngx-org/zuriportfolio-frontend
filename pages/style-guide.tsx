@@ -3,6 +3,8 @@ import Button from '@ui/Button';
 import { EmptyWalletAdd, I24Support, UserSquare } from 'iconsax-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { CodeBlock, a11yDark } from 'react-code-blocks';
+import SampleModal from '../components/Modals/SampleModal';
+import useDisclosure from '../hooks/useDisclosure';
 
 function ZuriCodeBlock({
   code,
@@ -114,6 +116,7 @@ const codes = [
 function StyleGuide() {
   const [loading, setLoading] = useState(false);
   const [codeSelected, setCodeSelected] = useState(0);
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
     if (loading) {
@@ -187,6 +190,9 @@ function StyleGuide() {
             spinnerColor="#000"
           >
             Error
+          </Button>
+          <Button leftIcon={<I24Support color="#fff" />} onClick={onOpen} size={'md'}>
+            Open Modal
           </Button>
         </div>
         <div className="flex items-center justify-center gap-9 pt-10">
@@ -350,6 +356,11 @@ function StyleGuide() {
             showLineNumbers={true}
           />
         </div>
+      </div>
+
+      {/* {'Modals'} */}
+      <div className="">
+        <SampleModal isOpen={isOpen} onClose={onClose} />
       </div>
     </div>
   );

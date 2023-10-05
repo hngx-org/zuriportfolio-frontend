@@ -4,13 +4,14 @@ import SideBar from '../Navbars/Sidebar';
 import MainLayoutContext from '../../context/LayoutContext';
 import TopBar from '../Navbars/TopBar';
 import { MainLayoutProps } from '../../@types';
+import Footer from '../Footer';
 
 function MainLayout({
   children,
   activePage,
   className,
   showDashboardSidebar = true,
-  showFooter,
+  showFooter = true,
   showTopbar,
 }: MainLayoutProps) {
   const { setActivePage } = useContext(MainLayoutContext);
@@ -28,7 +29,7 @@ function MainLayout({
         {showDashboardSidebar && <SideBar activePage={activePage} />}
         {children}
       </div>
-      {showFooter && <TopBar />}
+      {showFooter && <Footer />}
     </div>
   );
 }
