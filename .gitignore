@@ -8,3 +8,5 @@
 /.env.local
 
 /yarn-error.log
+
+/package-lock.json
