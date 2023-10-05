@@ -1,18 +1,8 @@
-type Props = {
-  productTitle: string;
-  productPrice: number;
-  productSeller: string;
-  productImage: string;
-  productRating: number;
-  cardStyle: string;
-  discountPercentage?: number;
-  tag?: string;
-  tagBackground?: string
-};
+import { ProductCardProps } from "../../@types";
 
 export default function ProductCard({productImage,productTitle,cardStyle,
                                     productPrice,productRating,productSeller,
-                                    discountPercentage,tag,tagBackground}: Props) {
+                                    discountPercentage,tag,tagBackground}: ProductCardProps) {
     let tagStyle = ` absolute py-2 px-3 top-0 left-0 rounded-md text-[#fff] ${tagBackground} `
     const get_rating = () => {
         let MAX_RATING = 5;
@@ -40,14 +30,15 @@ export default function ProductCard({productImage,productTitle,cardStyle,
         return content;
     }
   return (
+    
     <div className={cardStyle}>
       <div className="relative  mb-3">
-        <img src={productImage} alt={productTitle} />
+        <img className="w-full" src={productImage} alt={productTitle} />
         {discountPercentage && <span className="absolute py-2 px-3 top-0 left-0 bg-[#e6f5ea] rounded-md">{discountPercentage}% off</span>}
         {tag && <span className={tagStyle}>{tag}</span>}
         <img className="absolute top-0 right-0" src="/assets/icons/close.svg" alt="" />
       </div>
-      <div className="w-[252px]">
+      <div className="md:w-[252px] ">
         <p className="truncate">{productTitle}</p>
         <p className="text-2xl font-bold">${productPrice}</p>
         <div className="mt-2 font-light">
@@ -58,5 +49,6 @@ export default function ProductCard({productImage,productTitle,cardStyle,
         </div>
       </div>
     </div>
+    
   );
 }

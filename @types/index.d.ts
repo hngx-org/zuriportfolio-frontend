@@ -14,3 +14,25 @@ export interface MainLayoutContextProps {
   activePage?: string;
   setActivePage: (page: string) => void;
 }
+
+export type ProductCardProps = {
+  productTitle: string;
+  productPrice: number;
+  productSeller: string;
+  productImage: string;
+  productRating: number;
+  cardStyle: string;
+  discountPercentage?: number;
+  tag?: string;
+  tagBackground?: string
+};
+
+export type CartItemProps = {
+  productImage: string,
+  productTitle: string,
+  productSize: string,
+  productColor: string,
+  productSeller: string,
+  productPrice: number
+};
+
