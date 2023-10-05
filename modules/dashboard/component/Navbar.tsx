@@ -1,3 +1,4 @@
+import React from 'react';
 const navLinks: {
   link: string;
   title: string;
@@ -26,7 +27,13 @@ const navLinks: {
 const NavDashBoard: React.FC = () => {
   return (
     <nav className="max-w-[1024px] mx-auto pt-[22px]">
-      <ul className=" gap-[72px] font-manropeB font-semibold text-[#737876] text-base [& > *]:px-[31.5px] [& > *]:pb-8 text-center hidden lg:flex">
+      <ul
+        className="gap-20 font-manropeB font-semibold text-[#737876] text-base text-center flex"
+        style={{
+          gap: '72px',
+          color: '#737876',
+        }}
+      >
         {navLinks.map((nav) => (
           <li
             key={nav.link}

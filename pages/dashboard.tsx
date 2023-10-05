@@ -3,10 +3,9 @@ import NavDashBoard from '../modules/dashboard/component/Navbar';
 
 function dashboard() {
   return (
-    <>
-      {' '}
+    <div>
       <NavDashBoard />
-    </>
+    </div>
   );
 }
 
