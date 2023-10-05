@@ -14,3 +14,8 @@ export interface MainLayoutContextProps {
   activePage?: string;
   setActivePage: (page: string) => void;
 }
+
+export interface VerificationLayoutProps {
+  children?: React.ReactNode;
+  className?: React.ComponentProps<'div'>['className'];
+}
