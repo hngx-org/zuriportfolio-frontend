@@ -1,13 +1,12 @@
 import React from 'react';
-import NavDashBoard from '../modules/dashboard/component/Navbar';
 import withAuth from '../helpers/withAuth';
-import MainLayout from '../components/Layout/MainLayout';
+import NavDashBoard from '../modules/dashboard/component/Navbar';
 
 function dashboard() {
   return (
-    <MainLayout activePage="dashboard" showTopbar={true} showDashboardSidebar={false}>
-      <NavDashBoard />
-    </MainLayout>
+    <div>
+      <NavDashBoard active="dashboard" />
+    </div>
   );
 }
 
