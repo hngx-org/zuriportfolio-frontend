@@ -1,5 +1,5 @@
 import React from 'react';
-import Feedback from '../../modules/assessment/feedback';
+import Feedback from '../../../modules/assessment/component/Feedback';
 
 const feedback = () => {
   return (
