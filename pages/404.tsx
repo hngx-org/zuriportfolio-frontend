@@ -18,9 +18,13 @@ function Error404() {
       <div className=" border-b border-[#EBEEEF] border-style: solid" />
       <section
         className=" flex flex-col gap-9 sm:gap-[72px] min-h-[calc(100vh-105px)] max-w-[1240px] 
-      mx-6 xl:mx-auto items-center justify-center xl:flex-row-reverse xl:gap-[162px]"
+      mx-6 sm:mx-[105] xl:mx-auto items-center justify-center xl:flex-row-reverse xl:gap-[162px]"
       >
-        <Image src={oops} alt="oops}" className=" xl:w-[480px] xl:h-[480px]" />
+        <Image
+          src={oops}
+          alt="oops"
+          className="w-[180px] h-[180px] sm:w-[280px] sm:h-[280px] xl:w-[480px] xl:h-[480px]"
+        />
         <div className=" flex flex-col justify-center items-center xl:items-start gap-6">
           <h2 className=" text-2xl md:text-[32px] xl:text-[45px] md:leading-[36px] xl:leading-[52px] sm:font-bold xl:text-left max-w-[504px] text-center font-semibold font-manropeL xl:font-manropeB">
             {title}
