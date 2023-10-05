@@ -5,7 +5,6 @@ import CategoriesNav from '../components/CategoriesNav/CategoriesNav';
 function Home() {
   return (
     <MainLayout activePage="home" showDashboardSidebar showTopbar>
-      {/* <p className="text-dark-100">Home Page</p> */}
       <CategoriesNav
         navItems={[
           {
@@ -35,6 +34,7 @@ function Home() {
           },
         ]}
       />
+      <div className="w-full flex items-start justify-start"></div>
     </MainLayout>
   );
 }
