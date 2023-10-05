@@ -1,9 +1,9 @@
 import React from 'react';
 import FeedbackHeader from './FeedbackHeader';
 import Feedcard from './Feedcard';
-import expertBag from '../../../public/assets/images/banner/expertBag.png';
-import beginnerImg from '../../../public/assets/images/banner/bignneerbadge.png';
-import intermidiate from '../../../public/assets/images/banner/intermediateBadge.png';
+import expertBag from '../../../public/assets/images/expertBag.png';
+import beginnerImg from '../../../public/assets/images/bignneerbadge.png';
+import intermidiate from '../../../public/assets/images/intermediateBadge.png';
 
 const Feedback = () => {
   const exepert = {

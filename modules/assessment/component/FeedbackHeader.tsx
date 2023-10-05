@@ -1,6 +1,6 @@
 import React from 'react';
-import baseImgg from '../../../public/assets/images/banner/assbase.png';
-import bubble from '../../../public/assets/images/banner/bubble.png';
+import baseImgg from '../../../public/assets/images/assbase.png';
+import bubble from '../../../public/assets/images/bubble.png';
 import Image from 'next/image';
 
 const FeedbackHeader = () => {
