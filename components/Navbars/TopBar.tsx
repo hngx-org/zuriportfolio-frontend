@@ -3,6 +3,7 @@ import logo from './assets/zuriLogo.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { set } from 'nprogress';
+import { useRouter } from 'next/router';
 
 function TopBar() {
   const [toggle, setToggle] = useState(false);
@@ -10,6 +11,11 @@ function TopBar() {
     setToggle(!toggle);
     console.log('toggle', toggle);
   };
+  const router = useRouter();
+  const activeLink = (path: string) =>
+    router.pathname === path
+      ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
+      : 'text-gray-600 text-base font-semibold  leading-normal tracking-tight';
   return (
     <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[10000] relative ">
       <div className="max-w-[1240px] mx-auto flex items-center justify-between  ">
@@ -17,19 +23,16 @@ function TopBar() {
           <Image className="object-contain" width={126} height={24} src={logo} alt="Zuri Portfolio Logo" />
           <div className=" hidden lg:flex gap-10 items-start">
             <div className="group h flex flex-col ali justify-center items-center gap-1">
-              <Link
-                className="text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight"
-                href={'/'}
-              >
+              <Link className={activeLink('/')} href={'/'}>
                 Explore
               </Link>
-              <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" />
+              {router.pathname === '/' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
             <div className=" group flex flex-col ali justify-center items-center gap-1 ">
-              <Link className="text-gray-600 text-base font-semibold  leading-normal tracking-tight" href={'/'}>
+              <Link className={activeLink('/marketplace')} href={'/marketplace'}>
                 Marketplace
               </Link>
-              <div className=" hidden w-6 h-0.5 bg-emerald-600 rounded-lg" />
+              {router.pathname === '/marketplace' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
           </div>
         </div>
@@ -97,19 +100,16 @@ function TopBar() {
           <div className="w-[267px] h-16 p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-20  lg:mt-0">
             <div className=" flex flex-col lg:hidden gap-5 ">
               <div className="group h flex flex-col ali justify-center items-center gap-1">
-                <Link
-                  className="text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight"
-                  href={'/'}
-                >
+                <Link className={activeLink('/')} href={'/'}>
                   Explore
                 </Link>
-                <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" />
+                {router.pathname === '/' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
               </div>
               <div className=" group flex flex-col ali justify-center items-center gap-1 ">
-                <Link className="text-gray-600 text-base font-semibold  leading-normal tracking-tight" href={'/'}>
+                <Link className={activeLink('/marketplace')} href={'/'}>
                   Marketplace
                 </Link>
-                <div className=" hidden w-6 h-0.5 bg-emerald-600 rounded-lg" />
+                {router.pathname === '/marketplace' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
               </div>
             </div>
             <div className="w-6 h-6 justify-center items-center flex  gap-2">
