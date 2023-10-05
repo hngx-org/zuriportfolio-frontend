@@ -4,7 +4,7 @@ import { EmptyWalletAdd, I24Support, UserSquare } from 'iconsax-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { CodeBlock, a11yDark } from 'react-code-blocks';
 import SampleModal from '../components/Modals/SampleModal';
-import useDisclosure from '@ui/useDisclosure';
+import useDisclosure from '../hooks/useDisclosure';
 
 function ZuriCodeBlock({
   code,

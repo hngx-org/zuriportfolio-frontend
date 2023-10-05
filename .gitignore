@@ -3,6 +3,8 @@
 
 /.next
 
+/.vscode
+
 /.env
 
 /.env.local
@@ -12,3 +14,7 @@
 /tsconfig.tsbuildinfo
 
 /package-lock.json
+
+/package.json
+
+
