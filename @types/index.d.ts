@@ -14,3 +14,24 @@ export interface MainLayoutContextProps {
   activePage?: string;
   setActivePage: (page: string) => void;
 }
+
+export interface ModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  children?: React.ReactNode;
+  closeOnOverlayClick?: boolean;
+  title?: string;
+  size?: 'lg' | 'md' | 'sm';
+  isCloseIconPresent?: boolean;
+
+export interface PriceData {
+  subtotal: number;
+  discount: number;
+  vat: number;
+  total: number;
+}
+
+export interface SummaryProps {
+  prices?: PriceData;
+
+}
