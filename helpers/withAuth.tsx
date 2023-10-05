@@ -10,8 +10,7 @@ const withAuth = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
 
     useEffect(() => {
       const token = localStorage.getItem('authToken');
-      // const isLoggedIn = isAuthenticated(token as string);
-      const isLoggedIn = true;
+      const isLoggedIn = isAuthenticated(token as string);
       if (!isLoggedIn) {
         router.push('/auth/login');
       }
