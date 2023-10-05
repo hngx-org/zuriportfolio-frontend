@@ -25,7 +25,7 @@ export default function ProductDetailsDescription() {
 
         {/* Product Detail Data */}
         <div className="space-y-6 w-full">
-          <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px]">
+          <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] gap-x-">
             Webinar and Course Slide
             <span>Templates by Sarah Rino (Soft Copy)</span>
           </h1>
