@@ -3,12 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import footerLogo from '../public/zuriporfolio-footer-logo.png';
 
-import { Manrope } from 'next/font/google';
-const manrope = Manrope({ subsets: ['latin'], adjustFontFallback: false, weight: ['400', '600', '700'] });
-
 function Footer() {
   return (
-    <footer className={`${manrope.className} bg-[#006F37] text-md text-white-100 leading-[1.5]`}>
+    <footer className={`font-manropeL bg-[#006F37] text-md text-white-100 leading-[1.5]`}>
       <section
         className="px-6 py-[4rem] flex
       flex-col gap-10 md:py-[4rem] md:flex-row md:justify-between xl:max-w-[77.5rem] xl:mx-auto"
