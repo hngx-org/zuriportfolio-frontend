@@ -36,7 +36,7 @@ function LoginForm() {
                 <Image src={loginEye} alt="visible" />
               </div>
               <p className=" font-manrope text-[#009254] text-right  text-[1.18313rem]">Forgot Password ?</p>
-              <Button intent={'tertiary'}></Button>
+              {/* <Button intent={'tertiary'}></Button> */}
             </form>
           </div>
         </div>
