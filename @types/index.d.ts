@@ -14,3 +14,13 @@ export interface MainLayoutContextProps {
   activePage?: string;
   setActivePage: (page: string) => void;
 }
+
+export interface ModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  children?: React.ReactNode;
+  closeOnOverlayClick?: boolean;
+  title?: string;
+  size?: 'lg' | 'md' | 'sm';
+  isCloseIconPresent?: boolean;
+}
