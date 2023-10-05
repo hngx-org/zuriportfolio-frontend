@@ -1,6 +1,6 @@
 import Button from '@ui/Button';
 import Image from 'next/image';
-import logo from '../public/assets/404/logo.svg';
+import logo from '../public/assets/404/logo-zuri-auth.svg';
 import oops from '../public/assets/404/oops.svg';
 import Link from 'next/link';
 
@@ -9,7 +9,7 @@ const text = `Even the best explorers take wrong turns. Don't worry, we've got y
 const btnText = `Back to homepage`;
 function Error404() {
   return (
-    <main className=" bg-[#FFFFFF] min-h-screen">
+    <main className=" bg-white-100 min-h-screen">
       <header className="max-w-[1240px] py-6 mx-6 xl:mx-auto md:py-[38px]">
         <Link href={'/'}>
           <Image src={logo} alt="logo" />
