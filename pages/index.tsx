@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import MainLayout from '../components/Layout/MainLayout';
-import Summary from '../components/cart/checkout/Summary';
 
 function Home() {
   return (
