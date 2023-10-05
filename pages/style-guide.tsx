@@ -15,7 +15,7 @@ function StyleGuide() {
   }, [loading]);
   return (
     <div className="py-5 px-9 flex items-center justify-center gap-9">
-      <Button
+      {/* <Button
         leftIcon={<I24Support color="#fff" />}
         intent={'primary'}
         onClick={() => setLoading(true)}
@@ -24,7 +24,7 @@ function StyleGuide() {
         spinnerColor="#000"
       >
         Button
-      </Button>
+      </Button> */}
       <br />
       <SelectInput
         leftIcon={<I24Support color="#777" />}
