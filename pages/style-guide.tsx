@@ -3,6 +3,8 @@ import Button from '@ui/Button';
 import { EmptyWalletAdd, I24Support, UserSquare } from 'iconsax-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { CodeBlock, a11yDark } from 'react-code-blocks';
+import SampleModal from '../components/Modals/SampleModal';
+import useDisclosure from '../hooks/useDisclosure';
 
 function ZuriCodeBlock({
   code,
@@ -114,6 +116,7 @@ const codes = [
 function StyleGuide() {
   const [loading, setLoading] = useState(false);
   const [codeSelected, setCodeSelected] = useState(0);
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
     if (loading) {
@@ -188,6 +191,9 @@ function StyleGuide() {
           >
             Error
           </Button>
+          <Button leftIcon={<I24Support color="#fff" />} onClick={onOpen} size={'md'}>
+            Open Modal
+          </Button>
         </div>
         <div className="flex items-center justify-center gap-9 pt-10">
           <Button intent={'primary'} onClick={() => setCodeSelected(5)} size={'sm'}>
@@ -231,7 +237,7 @@ function StyleGuide() {
         <div className="flex items-center justify-center gap-9">
           <SelectInput
             leftIcon={<I24Support color="#777" />}
-            size={'md'}
+            inputSize={'md'}
             options={[
               {
                 value: 'helpme2',
@@ -270,7 +276,7 @@ function StyleGuide() {
         <div className="flex items-center justify-center gap-9 pt-5">
           {/* Select */}
           <SelectInput
-            size={'md'}
+            inputSize={'md'}
             options={[
               {
                 value: 'helpme2',
@@ -304,7 +310,7 @@ function StyleGuide() {
             }}
             type="email"
             intent={'default'}
-            size={'lg'}
+            inputSize={'lg'}
             placeHolder="Size - lg and right Icon"
             rightIcon={<EmptyWalletAdd color="#777" />}
           />
@@ -350,6 +356,11 @@ function StyleGuide() {
             showLineNumbers={true}
           />
         </div>
+      </div>
+
+      {/* {'Modals'} */}
+      <div className="">
+        <SampleModal isOpen={isOpen} onClose={onClose} />
       </div>
     </div>
   );

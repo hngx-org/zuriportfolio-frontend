@@ -1,5 +1,5 @@
 import Button from "@ui/Button";
-import { CartItemProps } from "../../@types";
+import { CartItemProps } from "../../../../../@types";
 
 
 
