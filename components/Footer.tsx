@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import footerLogo from '../public/zuriporfolio-footer-logo.png';
+import footerLogo from '../public/assets/zuriporfolio-footer-logo.png';
 
 function Footer() {
   return (
