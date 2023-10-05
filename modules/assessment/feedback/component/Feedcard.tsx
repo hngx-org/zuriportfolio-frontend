@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import happyemoji from '../../../public/assets/images/banner/emoji-happy.png';
-import share from '../../../public/assets/images/banner/share.svg';
+import happyemoji from '../../../../public/assets/images/banner/emoji-happy.png';
+import share from '../../../../public/assets/images/banner/share.svg';
 import Button from '@ui/Button';
 import { StaticImageData } from 'next/image';
 

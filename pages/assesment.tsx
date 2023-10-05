@@ -1,12 +1,8 @@
 import React from 'react';
-import Assesment from '../modules/assessment';
+// import Assesment from '../modules/assessment';
 
 const assesment = () => {
-  return (
-    <>
-      <Assesment />
-    </>
-  );
+  return <>{/* <Assesment /> */}</>;
 };
 
 export default assesment;
