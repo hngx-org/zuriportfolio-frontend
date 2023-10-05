@@ -14,7 +14,7 @@ const UserSideProfile = ({ showNotification = false, parentComp }) => {
         <p className="font-manropeB">Babatunde Walters</p>
         <p className="text-xs text-gray-500 font-manropeL">Super Admin</p>
       </div>
-      <div className="w-10 h-10 rounded-full border border-[#009254] overflow-hidden">
+      <div className="w-10 h-10 rounded-full border border-brand-green-primary overflow-hidden">
         <Image
           loader={() => image}
           src={image}

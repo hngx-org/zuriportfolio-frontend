@@ -9,7 +9,6 @@ const AdminSidebar = () => {
   const router = useRouter();
   const [showSidebar, setShowSidebar] = useState(false);
 
-  // Calculate the translateX value based on whether the sidebar is open or closed
   const sidebarTransform = showSidebar ? 'translateX(0)' : 'translateX(-100%)';
 
   return (
@@ -31,7 +30,7 @@ const AdminSidebar = () => {
                 <div
                   key={item.title}
                   className={`${
-                    router.pathname !== item.to ? 'text-[#009254] bg-[#F5FBF6]' : 'text-[#737876]'
+                    router.pathname !== item.to ? 'text-brand-green-primary bg-[#F5FBF6]' : 'text-[#737876]'
                   } p-4 w-full rounded-[8px] flex items-center gap-3`}
                 >
                   <div>{item.icon}</div>

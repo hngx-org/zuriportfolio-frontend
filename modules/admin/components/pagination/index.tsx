@@ -32,7 +32,7 @@ const AdminPagination = ({ currentPage, totalPages, onPageChange }: AdminTablePa
           key={i}
           onClick={() => onPageChange(i)}
           className={`w-9 h-8 rounded-md ${
-            i === currentPage ? 'bg-[#009254] text-white' : 'text-[gray-600] hover:bg-[#EBFDF3]'
+            i === currentPage ? 'bg-brand-green-primary text-white' : 'text-[gray-600] hover:bg-[#EBFDF3]'
           }`}
         >
           {i}

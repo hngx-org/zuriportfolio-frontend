@@ -70,8 +70,8 @@ const AdminNavbar = () => {
               href={item.to}
               className={`${
                 router.pathname === item.to
-                  ? 'text-[#009254] border-b-[#009254] border-b-2 bg-[#FAFFFD]'
-                  : 'text-[#737876] hover:text-[#009254] transition duration-75'
+                  ? 'text-brand-green-primary border-b-brand-green-primary border-b-2 bg-[#FAFFFD]'
+                  : 'text-[#737876] hover:text-brand-green-primary transition duration-75'
               } px-4  py-2 `}
             >
               {item.title}
