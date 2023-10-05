@@ -5,14 +5,14 @@ import footerLogo from '../public/zuriporfolio-footer-logo.png';
 
 function Footer() {
   return (
-    <footer className={`font-manropeL bg-[#006F37] text-md text-white-100 leading-[1.5]`}>
+    <footer className="font-manropeL bg-[#006F37] text-md text-white-100 leading-[1.5]">
       <section
         className="px-6 py-[4rem] flex
-      flex-col gap-10 md:py-[4rem] md:flex-row md:justify-between xl:max-w-[77.5rem] xl:mx-auto"
+      flex-col gap-12 md:py-[4rem] md:flex-row md:justify-between xl:max-w-[77.5rem] xl:mx-auto"
       >
-        <div className="flex flex-col gap-5 md:w-[20rem] xl:w-[32.5rem]">
-          <Link href="/" className="flex gap-2">
-            <Image src={footerLogo} alt="Zuriportfolio" />
+        <div className="flex flex-col gap-8 md:w-[20rem] xl:w-[32.5rem]">
+          <Link href="/" className="flex gap-2 hover:underline">
+            <Image src={footerLogo} alt="Zuriportfolio" width={20} height={20} className="object-contain" />
             <span className="font-bold tracking-[0.008rem]">zuriportfolio</span>
           </Link>
 
@@ -24,60 +24,84 @@ function Footer() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-8 gap-y-8 justify-between md:gap-[4rem] lg:grid-cols-3 xl:gap-16">
+        <div className="grid grid-cols-2 gap-[4rem] justify-between md:gap-[4rem] lg:grid-cols-3 xl:gap-16">
           <div className="flex flex-col gap-2">
-            <h4 className="font-semibold text-2xl leading-[1.75]">Social Media</h4>
+            <h4 className="font-semibold text-[1.375rem] leading-[1.75]">Social Media</h4>
 
             <ul className="flex flex-col gap-2 font-normal">
               <li>
-                <a href="">Instagram</a>
+                <a href="" className="hover:underline">
+                  Instagram
+                </a>
               </li>
               <li>
-                <a href="">Twitter</a>
+                <a href="" className="hover:underline">
+                  Twitter
+                </a>
               </li>
               <li>
-                <a href="">Facebook</a>
+                <a href="" className="hover:underline">
+                  Facebook
+                </a>
               </li>
             </ul>
           </div>
 
           <div className="flex flex-col gap-2">
-            <h4 className="font-semibold text-2xl leading-[1.75]">Services</h4>
+            <h4 className="font-semibold text-[1.375rem] leading-[1.75]">Services</h4>
 
             <ul className="flex flex-col gap-2 font-normal">
               <li>
-                <a href="">Portfolio</a>
+                <a href="" className="hover:underline">
+                  Portfolio
+                </a>
               </li>
               <li>
-                <a href="">Explore</a>
+                <a href="" className="hover:underline">
+                  Explore
+                </a>
               </li>
               <li>
-                <a href="">Marketplace</a>
+                <a href="" className="hover:underline">
+                  Marketplace
+                </a>
               </li>
               <li>
-                <a href="">Shop</a>
+                <a href="" className="hover:underline">
+                  Shop
+                </a>
               </li>
             </ul>
           </div>
 
           <div className="flex flex-col gap-2">
-            <h4 className="font-semibold text-2xl leading-[1.75]">Links</h4>
+            <h4 className="font-semibold text-[1.375rem] leading-[1.75]">Links</h4>
 
             <ul className="flex flex-col gap-2 font-normal">
               <li>
-                <a href="">Zuri Training</a>
+                <a href="" className="hover:underline">
+                  Zuri Training
+                </a>
               </li>
               <li>
-                <a href="">Zuri Internship</a>
+                <a href="" className="hover:underline">
+                  Zuri Internship
+                </a>
               </li>
               <li>
-                <a href="">Partner with Us</a>
+                <a href="" className="hover:underline">
+                  Partner with Us
+                </a>
               </li>
               <li>
-                <a href="">Recruit Talent</a>
+                <a href="" className="hover:underline">
+                  Recruit Talent
+                </a>
               </li>
               <li>
-                <a href="">Partner to Train</a>
+                <a href="" className="hover:underline">
+                  Partner to Train
+                </a>
               </li>
             </ul>
           </div>
