@@ -1,6 +1,6 @@
 import { VariantProps, cva } from 'class-variance-authority';
 import { ArrowDown2, Car } from 'iconsax-react';
-import React from 'react';
+import React, { DetailedHTMLProps, InputHTMLAttributes, SelectHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 const inputVariants = cva(
@@ -11,7 +11,7 @@ const inputVariants = cva(
         default: 'border-solid border-[2px] border-white-400 text-dark-600 ',
         primary: 'border-solid border-[2px] focus-within:text-dark-100 text-white-400 ',
       },
-      size: {
+      inputSize: {
         sm: 'text-sm py-2',
         md: 'text-base py-3',
         lg: 'text-lg py-4',
@@ -19,20 +19,20 @@ const inputVariants = cva(
     },
     defaultVariants: {
       intent: 'default',
-      size: 'sm',
+      inputSize: 'sm',
     },
   },
 );
 
-export interface InputVariants extends VariantProps<typeof inputVariants> {}
+export interface InputVariants
+  extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+    VariantProps<typeof inputVariants> {}
 
-interface DefaultInputProps extends InputVariants {
-  // children: React.ReactNode;
-  className?: React.ComponentProps<'div'>['className'];
-  leftIcon?: React.ReactNode;
-}
+export interface SelectInputVariants
+  extends DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>,
+    VariantProps<typeof inputVariants> {}
 
-interface SelectInputProps extends DefaultInputProps {
+interface SelectInputVariantsProps extends SelectInputVariants {
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: Array<{ value: string; label: string }>;
   isLoading?: boolean;
@@ -40,15 +40,18 @@ interface SelectInputProps extends DefaultInputProps {
   href?: string;
   caretColor?: string;
   caretSize?: string | number;
+  className?: React.ComponentProps<'div'>['className'];
+  leftIcon?: React.ReactNode;
 }
 
-interface TextInputProps extends DefaultInputProps {
+interface TextInputProps extends InputVariants {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isLoading?: boolean;
   disabled?: boolean;
   iconColor?: string;
   iconSize?: string | number;
   type?: string;
+  leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   placeHolder?: string;
 }
@@ -61,10 +64,12 @@ export function SelectInput({
   caretColor,
   onChange,
   disabled,
+  intent,
+  inputSize,
   ...props
-}: SelectInputProps) {
+}: SelectInputVariantsProps) {
   const classNames = twMerge(
-    inputVariants(props),
+    inputVariants({ intent, inputSize }),
     className,
     disabled && 'bg-brand-disabled opacity-[.8] border-[1px] border-brand-disabled2 cursor-not-allowed',
   );
@@ -116,10 +121,12 @@ export function Input({
   disabled,
   onChange,
   placeHolder,
+  intent,
+  inputSize,
   ...props
 }: TextInputProps) {
   const classNames = twMerge(
-    inputVariants(props),
+    inputVariants({ intent, inputSize }),
     className,
     disabled || isLoading
       ? 'bg-brand-disabled opacity-[.8] border-[1px] border-brand-disabled2 cursor-not-allowed'
@@ -139,6 +146,7 @@ export function Input({
         placeholder={placeHolder ?? 'Placeholder'}
         disabled={isLoading ?? disabled}
       />
+      {rightIcon && rightIcon}
     </div>
   );
 }

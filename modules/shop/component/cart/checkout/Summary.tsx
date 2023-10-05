@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { PriceData, SummaryProps } from '../../../@types';
+import { PriceData, SummaryProps } from '../../../../../@types';
 
 const Summary: React.FC<SummaryProps> = ({ prices }) => {
   const [couponValue, setCouponValue] = useState<string>('');
