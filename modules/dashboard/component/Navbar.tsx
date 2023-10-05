@@ -26,14 +26,8 @@ const navLinks: {
 ];
 const NavDashBoard: React.FC = () => {
   return (
-    <nav className="max-w-[1024px] mx-auto pt-[22px]">
-      <ul
-        className="gap-20 font-manropeB font-semibold text-[#737876] text-base text-center flex"
-        style={{
-          gap: '72px',
-          color: '#737876',
-        }}
-      >
+    <nav className="max-w-[1024px] ml-[100px] pt-[22px] mt-[22px]">
+      <ul className="gap-[72px] font-manropeB font-semibold text-[#737876] text-base text-center flex">
         {navLinks.map((nav) => (
           <li
             key={nav.link}
