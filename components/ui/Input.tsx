@@ -73,7 +73,6 @@ export function SelectInput({
       {leftIcon && <div className="absolute top-2.5 left-2">{leftIcon}</div>}
       <select
         onChange={onChange}
-        name={name}
         className={twMerge(
           'pr-2 border-none outline-none bg-transparent hide-caret mr-3',
           leftIcon && 'pl-7',
