@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import { VariantProps, cva } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 import Link from 'next/link';
@@ -32,7 +32,9 @@ const buttonVariants = cva(
   },
 );
 
-export interface ButtonVariants extends VariantProps<typeof buttonVariants> {}
+export interface ButtonVariants
+  extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {}
 
 interface ButtonProps extends ButtonVariants {
   onClick?: () => void;
@@ -64,6 +66,7 @@ const Button: React.FC<ButtonProps> = ({
 
   if (href) {
     return (
+      // @ts-expect-error
       <Link href={href} className={classNames} onClick={onClick} {...props}>
         {leftIcon && leftIcon}
         {children}

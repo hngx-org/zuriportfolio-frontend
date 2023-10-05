@@ -57,8 +57,8 @@ zuriportfolio is open to contributions, but I recommend creating an issue or rep
 10. Ensure to describe your pull request.
 11. > If you've added code that should be tested, add some test examples.
 
-
 # Merging
+
 Under any circumstances should you merge a pull requests on a specific branch to the `dev` or `main` branch
 
 ### _Commit CheatSheet_
