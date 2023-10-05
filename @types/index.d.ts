@@ -14,3 +14,14 @@ export interface MainLayoutContextProps {
   activePage?: string;
   setActivePage: (page: string) => void;
 }
+
+export interface PriceData {
+  subtotal: number;
+  discount: number;
+  vat: number;
+  total: number;
+}
+
+export interface SummaryProps {
+  prices?: PriceData;
+}
