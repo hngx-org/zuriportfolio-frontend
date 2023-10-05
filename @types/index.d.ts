@@ -24,7 +24,6 @@ export interface ModalProps {
   size?: 'lg' | 'md' | 'sm';
   isCloseIconPresent?: boolean;
 }
-
 export interface PriceData {
   subtotal: number;
   discount: number;
