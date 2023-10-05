@@ -4,101 +4,66 @@ import { Google } from 'iconsax-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import SignupLayout from './SignupLayout';
 
 function SignUpWithEmail() {
   return (
-    <>
-      <div className="border-b border-b-gray-100 lg:hidden">
-        <div className="px-4 py-4">
-          <Image width={100} height={100} src="/assets/images/logo/zuriportfolio-logo.svg" alt="Zuri portfolio logo" />
+    <SignupLayout>
+      <div className="text-center lg:text-left">
+        <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100">Sign up</h1>
+        <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
+      </div>
+      <div className="mt-6 md:mt-12">
+        <form className="flex flex-col gap-8">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email">Email Address</label>
+            <Input placeHolder="Allusugar@gmail.com" id="email" name="email" className="w-full border-[#D0D5DD]" />
+          </div>
+          <Button intent={'primary'} size={'sm'} className="w-full rounded-lg" type="submit">
+            Continue
+          </Button>
+        </form>
+        
+        <div className="mt-8">
+          <p className="text-center text-gray-200">
+            Already have an account?{' '}
+            <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+              Sign in
+            </Link>
+          </p>
+        </div>
+        <div className="text-[#737876] flex justify-between items-center my-6 lg:my-10">
+          <span className="w-[40%] lg:w-[45%] h-[1px] bg-[#737876]"></span>
+          <span>OR</span>
+          <span className="w-[40%] lg:w-[45%] h-[1px] bg-[#737876]"></span>
+        </div>
+        <div className="flex flex-col gap-y-4">
+          <Button
+            intent={'tertiary'}
+            className="w-full bg-transparent text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-transparent hover:border-brand-green-primary"
+            leftIcon={<Image width={30} height={30} src={'/assets/images/logo/google-logo.svg'} alt="Google logo" />}
+          >
+            Continue with Google
+          </Button>
+          <Button
+            intent={'tertiary'}
+            className="w-full bg-transparent text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-transparent hover:border-brand-green-primary"
+            leftIcon={<Image width={20} height={20} src={'/assets/images/logo/github-logo.svg'} alt="Github logo" />}
+          >
+            Continue with Github
+          </Button>
+          <Button
+            intent={'tertiary'}
+            className="w-full bg-transparent text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-transparent hover:border-brand-green-primary"
+            leftIcon={
+              <Image width={20} height={20} src={'/assets/images/logo/facebook-logo.svg'} alt="Facebook logo" />
+            }
+          >
+            Continue with Facebook
+          </Button>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-20 pt-10 md:pt-16 pb-24 px-4 overflow-y-auto text-sm lg:pr-24 lg:pl-16 w-full lg:h-screen lg:grid-cols-2">
-        <div className="w-full h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden hidden lg:block">
-          <Image
-            width={100}
-            height={100}
-            src="/assets/images/zuri-auth-signup-email-left-image.png"
-            alt="Sign up image"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="flex flex-col gap-16">
-          <div className="hidden lg:block">
-            <Image
-              width={200}
-              height={200}
-              src="/assets/images/logo/zuriportfolio-logo.svg"
-              alt="Zuri portfolio logo"
-            />
-          </div>
-          <div className="max-w-xl mx-auto w-full">
-            <div className="text-center lg:text-left">
-              <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100">Sign up</h1>
-              <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
-            </div>
-            <div className="mt-6 md:mt-12">
-              <form className="flex flex-col gap-8">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="email">Email Address</label>
-                  <Input
-                    placeHolder="Allusugar@gmail.com"
-                    id="email"
-                    name="email"
-                    className="w-full border-[#D0D5DD]"
-                  />
-                </div>
-                <Button intent={'primary'} size={'sm'} className="w-full rounded-lg" type="submit">
-                  Continue
-                </Button>
-              </form>
-              <div className="mt-8">
-                <p className="text-center text-gray-200">
-                  Already have an account?{' '}
-                  <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
-                    Sign in
-                  </Link>
-                </p>
-              </div>
-              <div className="text-[#737876] flex justify-between items-center my-6 lg:my-10">
-                <span className="w-[40%] lg:w-[45%] h-[1px] bg-[#737876]"></span>
-                <span>OR</span>
-                <span className="w-[40%] lg:w-[45%] h-[1px] bg-[#737876]"></span>
-              </div>
-              <div className="flex flex-col gap-y-4">
-                <Button
-                  intent={'tertiary'}
-                  className="w-full bg-transparent text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-transparent hover:border-brand-green-primary"
-                  leftIcon={
-                    <Image width={30} height={30} src={'/assets/images/logo/google-logo.svg'} alt="Google logo" />
-                  }
-                >
-                  Continue with Google
-                </Button>
-                <Button
-                  intent={'tertiary'}
-                  className="w-full bg-transparent text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-transparent hover:border-brand-green-primary"
-                  leftIcon={
-                    <Image width={20} height={20} src={'/assets/images/logo/github-logo.svg'} alt="Github logo" />
-                  }
-                >
-                  Continue with Github
-                </Button>
-                <Button
-                  intent={'tertiary'}
-                  className="w-full bg-transparent text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-transparent hover:border-brand-green-primary"
-                  leftIcon={
-                    <Image width={20} height={20} src={'/assets/images/logo/facebook-logo.svg'} alt="Facebook logo" />
-                  }
-                >
-                  Continue with Facebook
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    </SignupLayout>
   );
 }
 
