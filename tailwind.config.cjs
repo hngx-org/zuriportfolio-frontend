@@ -4,6 +4,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        hngblack: '#052011',
+        hc: '#00894C',
         dark: {
           100: '#131418',
           105: '#26242b',
@@ -110,6 +112,7 @@ module.exports = {
         ppReg: ['var(--font-ppReg)'],
         ppB: ['var(--font-ppB)'],
         ppEB: ['var(--font-ppEB)'],
+        body: ['Manrope'],
       },
     },
   },
