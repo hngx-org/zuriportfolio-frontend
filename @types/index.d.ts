@@ -182,6 +182,12 @@ interface OrderHistory {
   status: 'completed' | 'cancelled' | 'pending';
 }
 
+export interface AdminTablePagination {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (newPage: number) => void;
+}
+
 export interface Product {
   productId: string;
   productName: string;
