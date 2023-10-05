@@ -9,4 +9,5 @@
 
 /yarn-error.log
 
+/tsconfig.tsbuildinfo
 /package-lock.json
