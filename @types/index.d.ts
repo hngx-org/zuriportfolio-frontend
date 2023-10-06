@@ -67,3 +67,13 @@ export interface AuthLayoutProps {
   isTopRightBlobShown?: boolean;
   isBottomLeftPadlockShown?: boolean;
 }
+export interface OrderHistory {
+  id: number;
+  productName: string;
+  customerName: string;
+  date: Date;
+  status: string;
+  type?: string;
+  price?: number;
+  sales?: number;
+}
