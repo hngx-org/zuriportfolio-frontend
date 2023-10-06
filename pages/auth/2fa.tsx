@@ -7,12 +7,8 @@ import React from 'react';
 
 function _2FA() {
   return (
-    <MainLayout
-      showDashboardSidebar={false}
-      showTopbar={false}
-      activePage="2fa"
-      showFooter={false}
-      className="relative overflow-hidden lg:overflow-visible"
+    <div
+      className="relative overflow-hidden lg:overflow-visible h-[100vh]"
     >
       <section
         className="flex flex-col md:grid lg:grid-cols-2
@@ -32,7 +28,7 @@ function _2FA() {
           <Code2FA />
         </div>
       </section>
-    </MainLayout>
+    </div>
   );
 }
 

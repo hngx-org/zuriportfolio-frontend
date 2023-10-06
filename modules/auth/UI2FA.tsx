@@ -45,7 +45,7 @@ function UI2FA() {
         width={120}
         height={100}
         style={{ width: '180px', height: '150px' }}
-        className="absolute top-[10%] lg:top-[0%] right-0 z-[-1] opacity-40 hidden md:block"
+        className="absolute top-[10%] lg:top-[-6%] right-0 z-[-1] opacity-40 hidden md:block"
       />
     </>
   );
