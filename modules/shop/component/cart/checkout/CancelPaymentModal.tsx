@@ -8,7 +8,7 @@ const CancelPaymentModal = () => {
       
        <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
       <>
-      <div className="bg-[#fff] rounded-[20px] w-full lg:w-[572px] flex flex-col gap-[24px] items-center justify-center lg:px-[73px] lg:py-[50px]">
+      <div className="bg-[#fff] rounded-[20px]  w-[350px] md:w-[572px] flex flex-col gap-[24px] items-center justify-center px-[16px] lg:px-[73px]  py-[50px]">
     
 
           <Image src="/assets/cancel-alert.svg" alt="" width={54} height={54} />
