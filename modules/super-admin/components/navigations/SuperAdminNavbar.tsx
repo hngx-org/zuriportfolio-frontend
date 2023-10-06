@@ -71,8 +71,8 @@ const SuperAdminNavbar = () => {
             />
           </div>
           <p className="font-manropeB block md:hidden">{changePageTitle(router.pathname)}</p>
-          <div className='flex items-center gap-4'>
-            <Notification size="24" color="#5b5f5e" className='cursor-pointer' />
+          <div className="flex items-center gap-4">
+            <Notification size="24" color="#5b5f5e" className="cursor-pointer" />
             <p className="text-xs text-gray-500 font-manropeL hidden md:block">Super Admin</p>
           </div>
         </div>
