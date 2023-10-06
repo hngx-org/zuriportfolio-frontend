@@ -1,13 +1,16 @@
 import Button from '@ui/Button';
 import React from 'react';
+import Image from 'next/image';
 
 function VerificationLinkSent() {
   return (
     <div className="  px-[24px]">
-      <img
+      <Image
         className="w-[150px] h-[150px] xl:w-[218px] xl:h-[218px] mx-auto"
         src="/assets/images/verification-link-sent.svg"
         alt=""
+        width={218}
+        height={218}
       />
       <div className=" bg-brand-green-ttr px-4 sm:px-[40px] md:px-[58px] lg:px-[148px] py-8 border border-brand-disabled rounded-[32px]">
         <h1 className=" font-manropeEB text-2xl md:text-4xl text-center">Verification Link Sent</h1>

@@ -16,3 +16,10 @@
 tsconfig.tsbuildinfo
 
 
+/tsconfig.tsbuildinfo
+
+/npm
+
+/yarn
+
+/.vscode
