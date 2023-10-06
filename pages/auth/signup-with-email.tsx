@@ -9,13 +9,15 @@ function SignUpWithEmail() {
   return (
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
       <div className="text-center lg:text-left">
-        <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100">Sign up</h1>
-        <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
+        <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100 font-manropeEB">Sign up</h1>
+        <p className="md:text-[22px] text-[#536066] font-manropeB">Let&apos;s get you started</p>
       </div>
       <div className="mt-6 md:mt-12">
         <form className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email" className="font-manropeB">
+              Email Address
+            </label>
             <Input
               placeHolder="Allusugar@gmail.com"
               id="email"
@@ -30,7 +32,7 @@ function SignUpWithEmail() {
         </form>
 
         <div className="mt-8">
-          <p className="text-center text-gray-200">
+          <p className="text-center text-gray-200 font-manropeL">
             Already have an account?{' '}
             <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
               Sign in
@@ -45,7 +47,7 @@ function SignUpWithEmail() {
         <div className="flex flex-col gap-y-4">
           <Button
             intent={'tertiary'}
-            size={"sm"}
+            size={'sm'}
             className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             leftIcon={<Image width={30} height={30} src={'/assets/images/logo/google-logo.svg'} alt="Google logo" />}
           >
@@ -53,7 +55,7 @@ function SignUpWithEmail() {
           </Button>
           <Button
             intent={'tertiary'}
-            size={"sm"}
+            size={'sm'}
             className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             leftIcon={<Image width={20} height={20} src={'/assets/images/logo/github-logo.svg'} alt="Github logo" />}
           >
@@ -61,7 +63,7 @@ function SignUpWithEmail() {
           </Button>
           <Button
             intent={'tertiary'}
-            size={"sm"}
+            size={'sm'}
             className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             leftIcon={
               <Image width={20} height={20} src={'/assets/images/logo/facebook-logo.svg'} alt="Facebook logo" />
