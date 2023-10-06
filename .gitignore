@@ -11,9 +11,17 @@
 
 /yarn-error.log
 
-/yarn.lock
 /package-lock.json
+tsconfig.tsbuildinfo
 
-/package.json
 
 /tsconfig.tsbuildinfo
+
+/npm
+
+/yarn
+
+/.vscode
+
+/helpers/withAuth.tsx
+/helpers/withoutAuth.tsx
