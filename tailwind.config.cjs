@@ -163,7 +163,7 @@ module.exports = {
         manropeEL: ['var(--font-manropeEL)'],
         manropeB: ['var(--font-manropeB)'],
         manropeEB: ['var(--font-manropeEB)'],
-      },
+      }
     }
   },
   plugins: [],
