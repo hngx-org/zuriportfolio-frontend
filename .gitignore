@@ -22,3 +22,6 @@ tsconfig.tsbuildinfo
 /yarn
 
 /.vscode
+
+/helpers/withAuth.tsx
+/helpers/withoutAuth.tsx
