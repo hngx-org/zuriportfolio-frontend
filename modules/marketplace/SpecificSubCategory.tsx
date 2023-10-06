@@ -4,6 +4,7 @@ import MainLayout from '../../components/Layout/MainLayout';
 import Button from '@ui/Button';
 import { ProductCardProps } from '../../@types';
 import ProductCard from './component/ProductCard';
+import { formatNumberWithCommas } from '../../helpers';
 
 const dummyHandPickedData: ProductCardProps[] = [
   {
@@ -125,7 +126,7 @@ const SpecificSubCategory: FC = () => {
                 aria-label="number of products available"
                 className={`${manropeB.className} text-[#052011] text-[1rem] leading-[1.5rem] tracking-[0.005rem] md:text-[1.5rem] md:leading-[2rem] lg:text-[1.75rem] lg:leading-[2.25rem]`}
               >
-                {57098} Products
+                {formatNumberWithCommas(57098)} Products
               </div>
               <Button className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-[#fff] w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem]">
                 Filter
