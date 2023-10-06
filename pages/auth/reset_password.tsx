@@ -9,7 +9,7 @@ function ResetPassword() {
   return (
     <>
       <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
-        <div className=''>
+        <div className="">
           {!passwordChanged ? (
             <div className="flex flex-col gap-8 mt-10 lg:mt-0">
               <div className="flex flex-col gap-3 items-center lg:items-start text-center lg:text-left">
