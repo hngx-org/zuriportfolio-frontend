@@ -71,7 +71,7 @@ const useOrders = (initialOrders = dummyOrders) => {
     if (sortOrder === 'asc') {
       setSortObj((prev) => ({ ...prev, sortOrder: 'desc' }));
     } else {
-      setSortObj({ sortBy: 'id', sortOrder: 'desc' });
+      setSortObj({ sortBy: 'id', sortOrder: 'asc' });
     }
   };
 

@@ -49,7 +49,7 @@ const Orders: React.FC = () => {
                   className={`${
                     orderNav.id === orderFilter &&
                     'text-brand-green-primary border-b-2 border-b-brand-green-primary capitalize'
-                  }`}
+                  } cursor-pointer`}
                   onClick={() => {
                     changeFilter(orderNav.id);
                     changeCurrentPage(0);
