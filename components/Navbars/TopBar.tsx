@@ -4,8 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Button from '@ui/Button';
+import MobileNav from '@modules/dashboard/component/MobileNav';
 
-function TopBar() {
+function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [toggle, setToggle] = useState(false);
   const handleToggle = () => {
     setToggle(!toggle);
@@ -42,7 +43,7 @@ function TopBar() {
         <div
           className={`flex items-center gap-4 lg:static absolute lg:flex-row flex-col ${
             toggle ? 'left-0' : 'left-[-100dvw]'
-          }  bg-white-100 w-[100%] py-8 lg:py-0 lg:w-auto lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]  z-[1]`}
+          }  bg-white-100 w-[100%] py-8 lg:py-0 lg:w-auto lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
         >
           {/* Search Input */}
           <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col">
@@ -95,7 +96,7 @@ function TopBar() {
             </div>
           </div>
           {/* Action Buttons */}
-          <div className="w-[267px] h-16 p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-20  lg:mt-0">
+          <div className="w-[267px]  p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
             <div className=" flex flex-col lg:hidden gap-5 ">
               <div className="group h flex flex-col ali justify-center items-center gap-1">
                 <Link className={activeLink('/')} href={'/'}>
@@ -108,6 +109,7 @@ function TopBar() {
                   Marketplace
                 </Link>
                 {router.pathname === '/marketplace' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
+                {props.showDashBorad && <MobileNav active={props.activePage} />}
               </div>
             </div>
             <div className="w-6 h-6 justify-center items-center flex  gap-2">
