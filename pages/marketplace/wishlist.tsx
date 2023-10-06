@@ -1,10 +1,7 @@
 import Wishlist from '../../modules/marketplace/wishlist';
 
-
 const WishlistPage = () => {
-  return (
-    <Wishlist />
-  )
-}
+  return <Wishlist />;
+};
 
 export default WishlistPage;
