@@ -36,7 +36,7 @@ const Orders: React.FC = () => {
   const { orders, orderFilter, changeFilter, changeSortBy, sortBy, toggleSortOrder } = useOrders();
   const { changeCurrentPage, pageItem, currentPage, pageLength } = usePaginate(orders, 5);
   return (
-    <div>
+    <>
       <NavDashBoard active="orders" />
       <main className="max-w-[1240px] mx-auto px-10">
         <section className="font-manropeB font-semibold">
@@ -148,7 +148,7 @@ const Orders: React.FC = () => {
         </section>
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

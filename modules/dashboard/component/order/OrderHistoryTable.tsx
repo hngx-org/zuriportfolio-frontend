@@ -41,21 +41,18 @@ const OrderHistoryTable: React.FC<{
   };
   return (
     <table className="w-full mb-10 hidden md:table">
-      <thead className="border border-[#EAECF0] font-manropeL font-medium text-[#667085] bg-[#F9FAFB] [&>*]:px-6 [&>*]:py-3 ">
-        {/* <th className="text-center">Order iD</th>
-        <th className="text-start">Product Name</th>
-        <th className="text-start">Customer Name</th>
-        <th className="text-start">Date</th>
-        <th className="text-center">Status</th> */}
-        {tableHeaders.map((header, i) => (
-          <th
-            className={`${i === 0 || i === 4 ? 'text-center' : 'text-start'} cursor-pointer`}
-            key={header.id}
-            onClick={() => OnCLick(header.id)}
-          >
-            {header.title}
-          </th>
-        ))}
+      <thead>
+        <tr className="border border-[#EAECF0] font-manropeL font-medium text-[#667085] bg-[#F9FAFB] [&>*]:px-6 [&>*]:py-3 ">
+          {tableHeaders.map((header, i) => (
+            <th
+              className={`${i === 0 || i === 4 ? 'text-center' : 'text-start'} cursor-pointer`}
+              key={header.id}
+              onClick={() => OnCLick(header.id)}
+            >
+              {header.title}
+            </th>
+          ))}
+        </tr>
       </thead>
       <tbody>
         {pageItem.map((order) => (
