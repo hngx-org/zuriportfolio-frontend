@@ -8,7 +8,7 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
     <div className="relative min-h-screen">
       <div className="border-b border-b-gray-100 lg:hidden bg-[#fff]">
         <div className="px-4 py-4">
-          <Image width={100} height={100} src="/assets/images/logo/zuriportfolio-logo.svg" alt="Zuri portfolio logo" />
+          <Image width={150} height={150} src="/assets/images/logo/zuriportfolio-logo.svg" alt="Zuri portfolio logo" />
         </div>
       </div>
       <div className="grid grid-cols-1 gap-20 pt-10 md:pt-16 pb-24 px-4 overflow-y-auto text-sm lg:pr-24 lg:pl-16 w-full lg:h-screen lg:grid-cols-2">
