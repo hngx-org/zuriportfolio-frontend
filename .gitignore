@@ -17,3 +17,7 @@
 /package.json
 
 /tsconfig.tsbuildinfo
+
+/npm
+
+/yarn
