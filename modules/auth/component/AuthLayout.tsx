@@ -32,7 +32,7 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
               alt="Zuri portfolio logo"
             />
           </div>
-          <div className="max-w-xl mx-auto w-full">{children}</div>
+          <div className="max-w-xl mx-auto lg:mx-0 w-full">{children}</div>
         </div>
 
         {/* the blob and padlock images */}
