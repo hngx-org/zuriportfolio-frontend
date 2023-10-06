@@ -15,7 +15,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
       <Link href={`marketplace/${category.toLowerCase().replaceAll(' ', '')}`}>{category}</Link>
 
       <div
-        className={`border-[2px]  border-slate-50 flex flex-col gap-2 ${
+        className={`border-[2px]  border-slate-50 flex flex-col gap-3 ${
           popupClass ? 'visible opacity-100' : 'invisible opacity-0'
         }  rounded-lg absolute translate-y-4 transition-all duration-500 w-[286px] bg-white-100`}
       >

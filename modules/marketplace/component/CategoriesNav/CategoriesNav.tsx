@@ -46,9 +46,9 @@ const CategoriesNav = () => {
         <button className="" onMouseOver={() => setPopupClass(true)} onMouseLeave={() => setPopupClass(false)}>
           More...
           <div
-            className={`border-[2px] border-slate-50 flex flex-col gap-2 ${
+            className={`border-[2px] border-slate-50 flex flex-col gap-3 ${
               popupClass ? 'visible opacity-100' : 'invisible opacity-0'
-            } text-start rounded-lg absolute transition-all duration-500 w-[286px] z-50 translate-y-4 bg-white-100`}
+            } text-start rounded-lg absolute transition-all duration-500 w-[286px] z-50 translate-y-4 -translate-x-1/4 bg-white-100`}
           >
             {[
               'Writing & Copywriting',
