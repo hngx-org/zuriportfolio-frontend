@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useDisclosure from '../../../hooks/useDisclosure';
 import Modal from '@ui/Modal';
-import { CloseCircle } from 'iconsax-react';
+import { Add, CloseCircle, CloseSquare } from 'iconsax-react';
 import { Input, SelectInput } from '@ui/Input';
 import Button from '@ui/Button';
 import { WorkExperience } from '../../../@types';
@@ -20,6 +20,47 @@ const WorkExperienceSection = () => {
   const [idCounter, setIdCounter] = useState(1);
   const [isForm, setIsForm] = useState(true);
 
+  const handleSaveExperience2 = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const experienceObject = {
+      id: idCounter,
+      role,
+      company,
+      description,
+      startMonth,
+      startYear,
+      endYear: isChecked ? 'Present' : endYear,
+      endMonth: isChecked ? 'Present' : endMonth,
+    };
+    if (
+      role === '' ||
+      company === '' ||
+      description === '' ||
+      startMonth === '' ||
+      startYear === '' ||
+      (!isChecked && (endYear === '' || endMonth === ''))
+    ) {
+      alert('Pls fill in all the inputs');
+      return;
+    }
+
+    if (!isChecked) {
+      alert();
+    }
+    setWorkExperiences((prev) => [experienceObject, ...prev]);
+    setIdCounter((prev) => prev + 1);
+    setIsForm(false);
+
+    // Reset form fields
+    setRole('');
+    setCompany('');
+    setDescription('');
+    setStartMonth('');
+    setStartYear('');
+    setEndYear('Present');
+    setEndMonth('');
+    setIsChecked(true);
+  };
   const handleSaveExperience = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const experienceObject = {
@@ -29,8 +70,8 @@ const WorkExperienceSection = () => {
       description,
       startMonth,
       startYear,
-      endYear,
-      endMonth,
+      endYear: isChecked ? 'Present' : endYear,
+      endMonth: isChecked ? 'Present' : endMonth,
     };
     if (
       role === '' ||
@@ -38,25 +79,28 @@ const WorkExperienceSection = () => {
       description === '' ||
       startMonth === '' ||
       startYear === '' ||
-      endYear === '' ||
-      endMonth === ''
+      (!isChecked && (endYear === '' || endMonth === ''))
     ) {
       alert('Pls fill in all the inputs');
       return;
+    }
+
+    if (!isChecked) {
+      alert();
     }
     setWorkExperiences((prev) => [experienceObject, ...prev]);
     setIdCounter((prev) => prev + 1);
     setIsForm(false);
 
     // Reset form fields
-    // setRole('');
-    // setCompany('');
-    // setDescription('');
-    // setStartMonth('');
-    // setStartYear('');
-    // setEndYear('Present');
-    // setEndMonth('');
-    // setIsChecked(true);
+    setRole('');
+    setCompany('');
+    setDescription('');
+    setStartMonth('');
+    setStartYear('');
+    setEndYear('Present');
+    setEndMonth('');
+    setIsChecked(true);
   };
 
   const months = [
@@ -142,9 +186,7 @@ const WorkExperienceSection = () => {
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
               <p className="text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Work Experience</p>
-              <button onClick={onClose} className="bg-brand-green-primary rounded-md text-white-100">
-                <CloseCircle />
-              </button>
+              <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
             </div>
             <div className="bg-brand-green-primary h-1 rounded-sm"></div>
           </div>
@@ -241,7 +283,7 @@ const WorkExperienceSection = () => {
                       onChange={(e) => setStartYear(e.target.value)}
                     />
                   </div>
-                  <div className="w-full flex gap-2 flex-1 flex-col">
+                  <div className="w-full flex gap-4 flex-1 flex-col">
                     <div className="flex gap-2">
                       <SelectInput
                         options={months}
@@ -258,7 +300,7 @@ const WorkExperienceSection = () => {
                         className="justify-self-end w-full sm:w-auto border-[#E1E3E2]"
                       />
                     </div>
-                    <div className="self-start">
+                    <div className="self-start flex items-center">
                       <input
                         checked={isChecked}
                         onChange={() => {
@@ -274,8 +316,9 @@ const WorkExperienceSection = () => {
                           }
                         }}
                         type="checkbox"
-                        name=""
-                        id=""
+                        name="presentCheck"
+                        id="presentCheck"
+                        className="w-[1.5rem] rounded-full h-[1.5rem]"
                       />
                       <span className="font-normal font-manropeL ml-2 text-[#5B5F5E]">Present</span>
                     </div>
@@ -285,7 +328,13 @@ const WorkExperienceSection = () => {
                   <Button intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                     Cancel
                   </Button>
-                  <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                  <Button
+                    // onClick={(e: any) => handleSaveExperience2(e)}
+                    // onClick={(e: any) => handleSaveExperience2}
+                    type="submit"
+                    className="w-full rounded-md sm:w-[6rem]"
+                    size={'lg'}
+                  >
                     Save
                   </Button>
                 </div>
@@ -294,14 +343,14 @@ const WorkExperienceSection = () => {
           </>
           <>
             {!isForm && (
-              <div className="px-4 flex justify-between flex-col sm:flex-row">
+              <div className="px-4 gap-2 flex justify-between flex-col sm:flex-row">
                 <button
-                  className="text-brand-green-primary font-semibold font-manropeB"
+                  className="text-brand-green-primary flex items-center gap-1 font-semibold font-manropeB"
                   onClick={() => setIsForm(true)}
                 >
-                  Add new work experience
+                  <Add size="32" color="#009254" /> Add new work experience
                 </button>
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <Button intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                     Cancel
                   </Button>
@@ -314,9 +363,9 @@ const WorkExperienceSection = () => {
           </>
         </div>
       </Modal>
-      <button className="bg-black text-white-100" onClick={onOpen}>
-        open bobo
-      </button>
+      <Button onClick={onOpen} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        Open Modal
+      </Button>
     </>
   );
 };
