@@ -210,4 +210,5 @@ export interface WorkExperience {
   startMonth: string;
   endYear: string;
   endMonth: string;
+  id: number;
 }
