@@ -6,9 +6,21 @@ interface MyComponentProps {
 
 const ButtonCat: React.FC<MyComponentProps> = ({ item }) => {
   const [popupClass, setPopupClass] = useState(false);
+  const [active, setactive] = useState(false);
+
+  const handleActiveNav = () => {
+    setactive(false);
+    setTimeout(() => {
+      setactive(true);
+    }, 1000);
+  };
 
   return (
-    <button className="" onMouseOver={() => setPopupClass(true)} onMouseLeave={() => setPopupClass(false)}>
+    <button
+      className={`${active ? 'text-brand-green-shade50' : ''}`}
+      onMouseOver={() => setPopupClass(true)}
+      onMouseLeave={() => setPopupClass(false)}
+    >
       {item}
 
       <div
@@ -25,7 +37,11 @@ const ButtonCat: React.FC<MyComponentProps> = ({ item }) => {
           'sub-categories',
           'sub-categories',
         ].map((item, i) => (
-          <p className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between" key={i + 1}>
+          <p
+            onClick={handleActiveNav}
+            className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between"
+            key={i + 1}
+          >
             {item}
           </p>
         ))}
