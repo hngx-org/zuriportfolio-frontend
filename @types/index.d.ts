@@ -1,6 +1,5 @@
 // export all interfaces and types
 declare module 'nprogress';
-declare module 'mjml';
 
 export interface MainLayoutProps {
   children?: React.ReactNode;
@@ -171,14 +170,13 @@ export interface MetricTimelineProps {
   setTimeline: (data: { active: boolean; index: number }) => void;
 }
 
-interface OrderHistory {
-  id: string;
+export interface OrderHistory {
+  id: number;
   productName: string;
   customerName: string;
   date: Date;
   status: 'completed' | 'cancelled' | 'pending';
 }
-
 export interface Product {
   productId: string;
   productName: string;
@@ -201,4 +199,14 @@ export interface FavoriteProduct extends Product {
 
 export interface VerificationProps {
   handleClick(): void;
+}
+export interface PaginationBtn {
+  handleClick: () => void;
+  disabledFn: boolean;
+  title: React.ReactNode;
+}
+export interface AdminTablePagination {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (newPage: number) => void;
 }
