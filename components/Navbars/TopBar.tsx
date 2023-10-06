@@ -17,7 +17,7 @@ function TopBar() {
       ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
       : 'text-gray-600 text-base font-semibold  leading-normal tracking-tight';
   return (
-    <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[10000] relative ">
+    <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[1] relative ">
       <div className="max-w-[1240px] mx-auto flex items-center justify-between  ">
         <div className=" flex gap-14">
           <Image className="object-contain" width={126} height={24} src={logo} alt="Zuri Portfolio Logo" />
