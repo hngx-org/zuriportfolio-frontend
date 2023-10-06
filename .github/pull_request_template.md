@@ -15,13 +15,13 @@ you can check this one that was used for the previous cohort
 
 :rotating_light:Please review the [style guide for contributing](add link here) and [guidelines for contributing](add link here) to this repository.
 
-- [ ] My code follows the code style of this project.
-- [ ] This PR does not contain plagiarized content.
-- [ ] The title and description of the PR is clear and explains the approach.
-- [ ] I am making a pull request against the **main branch** (left side).
-- [ ] My commit messages styles matches our requested structure.
-- [ ] My code additions will fail neither code linting checks nor unit test.
-- [ ] I am only making changes to files I was requested to.
+- [x] My code follows the code style of this project.
+- [x] This PR does not contain plagiarized content.
+- [x] The title and description of the PR is clear and explains the approach.
+- [x] I am making a pull request against the **main branch** (left side).
+- [x] My commit messages styles matches our requested structure.
+- [x] My code additions will fail neither code linting checks nor unit test.
+- [x] I am only making changes to files I was requested to.
 
 # Screenshots/ Videos
 
