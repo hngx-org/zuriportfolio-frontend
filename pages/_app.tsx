@@ -13,7 +13,9 @@ Router.events.on('routeChangeStart', nProgress.start);
 Router.events.on('routeChangeError', nProgress.done);
 Router.events.on('routeChangeComplete', nProgress.done);
 
-export default function App({ Component, pageProps, err }: AppProps & { err: any }) {
+export default function App({ Component, pageProps }: AppProps) {
+  const AnyComponent = Component as any;
+
   return (
     <>
       <style jsx global>
@@ -30,7 +32,7 @@ export default function App({ Component, pageProps, err }: AppProps & { err: any
       </style>
       <ErrorBoundary>
         <MainLayoutContextProvider>
-          <Component {...pageProps} err={err} />
+          <AnyComponent {...pageProps} />
         </MainLayoutContextProvider>
       </ErrorBoundary>
     </>
