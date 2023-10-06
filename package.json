@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint && tsc --noEmit",
     "format": "npx prettier --write .",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "genMail": "cd scripts && ts-node mjmlToHtml.ts"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
@@ -28,6 +29,7 @@
     "eslint-config-next": "13.1.1",
     "iconsax-react": "^0.0.8",
     "jwt-decode": "^3.1.2",
+    "mjml": "^4.14.1",
     "next": "^13.5.4",
     "nprogress": "^0.2.0",
     "react": "18.2.0",
@@ -38,6 +40,7 @@
   },
   "description": "zuriportfolio frontend",
   "devDependencies": {
+    "@types/mjml": "^4.7.2",
     "@types/node": "18.11.18",
     "@types/nprogress": "^0.2.1",
     "@types/react": "^18.2.24",
@@ -49,7 +52,8 @@
     "lint-staged": "^14.0.1",
     "postcss": "8.4.31",
     "prettier": "^3.0.3",
-    "tailwindcss": "3.3.3"
+    "tailwindcss": "3.3.3",
+    "ts-node": "^10.9.1"
   },
   "config": {
     "commitizen": {
