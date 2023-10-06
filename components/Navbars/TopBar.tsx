@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import logo from './assets/zuriLogo.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import { set } from 'nprogress';
 import { useRouter } from 'next/router';
 
 function TopBar() {
