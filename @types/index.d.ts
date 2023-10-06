@@ -174,8 +174,8 @@ export interface MetricTimelineProps {
   setTimeline: (data: { active: boolean; index: number }) => void;
 }
 
-interface OrderHistory {
-  id: string;
+export interface OrderHistory {
+  id: number;
   productName: string;
   customerName: string;
   date: Date;
