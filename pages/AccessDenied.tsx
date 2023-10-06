@@ -1,7 +1,7 @@
 import React from "react";
-import deniedIcon from "../src/Assets/denied-icon.svg";
-import accessDeniedImage from "../src/Assets/denied-image.svg";
-import logo from "../src/Assets/logo.svg";
+import deniedIcon from "../public/assets/deniedAssets/denied-icon.svg"
+import accessDeniedImage from "../public/assets/deniedAssets/denied-image.svg";
+import logo from "../public/assets/deniedAssets/logo.svg";
 import Link from 'next/link';
 
 const AccessDenied = () => {
