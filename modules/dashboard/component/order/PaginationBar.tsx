@@ -23,7 +23,7 @@ const PaginationBar = ({
     changeCurrentPage(currentPage + 1);
   };
   return (
-    <nav className="w-fit mx-auto flex items-center gap-4 p-2 rounded-[15px] mb-16 ">
+    <nav className="w-fit mx-auto flex items-center gap-4 p-2 rounded-[15px] mb-16 bg-[#F2F4F5] ">
       <div>{pageLength > 1 && <PaginationLeft active={currentPage > 0} OnClick={decreasePage} />}</div>
       <ul className={`${inter.className} flex text-[#767676] `}>
         {items.map((paginate) => (
@@ -40,7 +40,7 @@ const PaginationBar = ({
           </li>
         ))}
       </ul>
-      <div>{pageLength > 1 && <PaginationRight active={currentPage !== pageLength} OnClick={increasePage} />}</div>
+      <div>{pageLength > 1 && <PaginationRight active={currentPage + 1 !== pageLength} OnClick={increasePage} />}</div>
     </nav>
   );
 };
