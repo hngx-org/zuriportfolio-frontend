@@ -181,7 +181,6 @@ export interface OrderHistory {
   date: Date;
   status: 'completed' | 'cancelled' | 'pending';
 }
-
 export interface Product {
   productId: string;
   productName: string;
@@ -200,4 +199,15 @@ export interface WishlistProduct extends Product {
 export interface FavoriteProduct extends Product {
   isFavourite: boolean;
   productCreator: string;
+}
+
+export interface PaginationBtn {
+  handleClick: () => void;
+  disabledFn: boolean;
+  title: React.ReactNode;
+}
+export interface AdminTablePagination {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (newPage: number) => void;
 }
