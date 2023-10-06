@@ -58,7 +58,6 @@ const otherProducts: ProductCardProps[] = [
   }
 ];
 
-
 export default function ProductDetails() {
   const router = useRouter()
 
