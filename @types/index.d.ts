@@ -15,6 +15,10 @@ export interface MainLayoutContextProps {
   setActivePage: (page: string) => void;
 }
 
+export interface VerificationLayoutProps {
+  children?: React.ReactNode;
+  className?: React.ComponentProps<'div'>['className'];
+}
 export interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
