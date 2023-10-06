@@ -1,4 +1,5 @@
 import Footer from '../components/Footer';
+import MainLayout from '../components/Layout/MainLayout';
 // import withAuth from '../helpers/withAuth';
 import NavDashBoard from '../modules/dashboard/component/Navbar';
 import OrderHistory from '../modules/dashboard/component/order/OrderHistory/OrderHistory';
@@ -6,9 +7,12 @@ import OrderHistory from '../modules/dashboard/component/order/OrderHistory/Orde
 const Orders: React.FC = () => {
   return (
     <>
-      <NavDashBoard active="orders" />
-      <OrderHistory />
-      <Footer />
+      <MainLayout activePage="orders" showDashboardSidebar={false} showTopbar={true}>
+        <div className="w-full">
+          <NavDashBoard active="orders" />
+          <OrderHistory />
+        </div>
+      </MainLayout>
     </>
   );
 };
