@@ -74,10 +74,6 @@ export interface starProps {
   [key: number]: ratingProps;
 }
 
-export interface VerificationLayoutProps {
-  children?: React.ReactNode;
-  className?: React.ComponentProps<'div'>['className'];
-}
 export interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -201,6 +197,9 @@ export interface FavoriteProduct extends Product {
   productCreator: string;
 }
 
+export interface VerificationProps {
+  handleClick(): void;
+}
 export interface PaginationBtn {
   handleClick: () => void;
   disabledFn: boolean;

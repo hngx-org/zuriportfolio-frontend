@@ -1,9 +1,7 @@
-import SuperAdminNavbar from "../../../../modules/super-admin/components/navigations/SuperAdminNavbar";
+import SuperAdminNavbar from '../../../../modules/super-admin/components/navigations/SuperAdminNavbar';
 
 const Nav = () => {
-    return (
-        <SuperAdminNavbar />
-     );
-}
- 
+  return <SuperAdminNavbar />;
+};
+
 export default Nav;
