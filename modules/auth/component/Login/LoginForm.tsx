@@ -9,11 +9,12 @@ import github from '../../../../public/assets/loginPageAssets/github.svg';
 import facebook from '../../../../public/assets/loginPageAssets/facebook.svg';
 import shape from '../../../../public/assets/loginPageAssets/shape.svg';
 import lock from '../../../../public/assets/loginPageAssets/lock.svg';
+import hide from '../../../../public/assets/loginPageAssets/hide.svg';
 import Header from './header';
 
 function LoginForm() {
   return (
-    <div className="relative ">
+    <div className="relative overflow-hidden">
       <Header />
       <div className="pl-4 md:lg:pl-16 pr-4 md:lg:pr-16 pt-4 md:lg:pt-8 pb-4 md:lg:pb-8 ">
         <div className="absolute right-0 top-0 hidden md:hidden sm:hidden lg:block">
@@ -55,12 +56,13 @@ function LoginForm() {
                     Password
                   </label>{' '}
                 </div>
-                <div className="input flex gap-[50%] items-center  w-[100%]  pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] md:pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]">
+                <div className="input flex md:gap-[50%] gap-[35%]   items-center  w-[100%]  pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] md:pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]">
                   <input
                     className="shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]"
                     placeholder="Gbemi345"
                   />
-                  <Image src={loginEye} alt="visible" className="ml-[3rem]" />
+                  <Image src={loginEye} alt="visible" className="ml-[3rem] hidden lg:block md:block" />
+                  <Image src={hide} alt="Hide" className=" block lg:hidden md:hidden" />
                 </div>
                 <p className=" font-manrope text-[#009254] text-right  text-[1.18313rem] mt-[0.62rem]">
                   Forgot Password ?
@@ -87,7 +89,7 @@ function LoginForm() {
                 <Button
                   intent={'secondary'}
                   className="flex justify-center items-center gap-2.5 pr-[2.625rem] py-2 pl-6 text-[#536066]  w-full h-14 rounded-[0.3125rem] border border-[#bfc8cc]"
-                  leftIcon={<Image src={google} alt="Google" />}
+                  leftIcon={<Image src={google} alt="Google" className="mr-[0.62rem]" />}
                 >
                   Contunue with Google
                 </Button>
