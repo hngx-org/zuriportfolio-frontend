@@ -15,24 +15,26 @@ function LoginForm() {
   return (
     <div className="relative ">
       <Header />
-      <div className="pl-16 pr-16 pt-8 pb-8  ">
+      <div className="pl-4 md:lg:pl-16 pr-4 md:lg:pr-16 pt-4 md:lg:pt-8 pb-4 md:lg:pb-8 ">
         <div className="absolute right-0 top-0 hidden md:hidden sm:hidden lg:block">
           <Image src={shape} alt="shape" />
         </div>
-        <div className="flex gap-11 ">
-          <div className=" hidden md:hidden lg:block xl:block w-82 h-96 ">
-            <Image src={LoginImage} alt="image" />
+        <div className="md:flex md:gap-11 block">
+          <div className=" hidden md:hidden lg:block xl:block w-82 ">
+            <Image src={LoginImage} alt="image" className="h-[57.375rem] " />
           </div>
 
           {/************************* leftside *******************************************/}
-          <div className="mt-4  md:mx-auto ">
+          <div className="mt-4  md:mx-auto">
             <div className=" hidden lg:block md:hidden">
               <Image src={loginLogo} alt="logo" />
             </div>
 
             <div className="md:flex sm:flex flex-col items-center justify-center lg:items-start">
-              <p className="pt-[5rem] text-4xl font-bold leading-10 ">Log In</p>
-              <p className="text-[#6B797F]  pt-[0.94rem] text-[1.375rem] font-semibold">
+              <p className="md:pt-[5rem] md:text-4xl text-[1.5rem] font-bold leading-10 text-center lg:text-left ">
+                Log In
+              </p>
+              <p className="text-[#6B797F]  pt-[0.94rem] md:text-[1.375rem]  lg:font-semibold sm:tracking-[0.00375rem] text-center md:text-left">
                 Log in to continue using zuriportfolio
               </p>
             </div>
@@ -42,9 +44,9 @@ function LoginForm() {
                 <label htmlFor="" className="text-[#344054] font-semibold leading-7">
                   Email Address
                 </label>
-                <div className="input flex items-center   pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]">
+                <div className="input flex items-center   pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)] w-[100%]">
                   <input
-                    className="w-96 shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]  "
+                    className=" shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]  "
                     placeholder="Aliusugar@gmail.com "
                   />
                 </div>
@@ -53,8 +55,11 @@ function LoginForm() {
                     Password
                   </label>{' '}
                 </div>
-                <div className="input flex items-center  pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]">
-                  <input className="w-96" placeholder="Gbemi345" />
+                <div className="input flex gap-[50%] items-center  w-[100%]  pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] md:pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]">
+                  <input
+                    className="shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]"
+                    placeholder="Gbemi345"
+                  />
                   <Image src={loginEye} alt="visible" className="ml-[3rem]" />
                 </div>
                 <p className=" font-manrope text-[#009254] text-right  text-[1.18313rem] mt-[0.62rem]">
@@ -62,7 +67,7 @@ function LoginForm() {
                 </p>
                 <Button
                   intent={'primary'}
-                  className="flex justify-center items-center gap-4 pl-[15.0625rem] pr-[15.0625rem] py-3 px-60 w-96 h-14 rounded-lg button text-white-100 text-center mt-[1rem]"
+                  className="flex justify-center items-center gap-4 md:pl-[15.0625rem] md:pr-[15.0625rem] pl-[55%] pr-[40%] py-3 md:px-60 md:w-[100%] w-[100%] h-14 rounded-lg button text-white-100 text-center mt-[1rem]"
                 >
                   Continue
                 </Button>
