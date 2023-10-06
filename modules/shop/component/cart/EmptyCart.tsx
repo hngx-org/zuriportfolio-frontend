@@ -26,18 +26,8 @@ const EmptyCart = () => {
        )
 }
 
-        <div className="help-line border-y border-[#E1E3E2] px-[100px] py-[24px] w-full">
-          <p className="font-manropeL text-[16px] font-[400] leading-[24px] w-[1240px]">
-            Need some help?{' '}
-            <a href="#" className="text-[#009254] font-[600]">
-              Chat now{' '}
-            </a>
-            or call +234-8zuri-store
-          </p>
-        </div>
-      </section>
-    </>
-  );
-};
+
+  
+
 
 export default EmptyCart;
