@@ -35,10 +35,10 @@ const CategoriesNav = () => {
       >
         <button>All Categories</button>
       </li>
-      {navItems.map((item, i) => {
+      {navItems.map((category, i) => {
         return (
           <li key={i + 1} className=" relative">
-            <ButtonCat active={active} handleActiveNav={handleActiveNav} category={item} index={i} />
+            <ButtonCat active={active} handleActiveNav={handleActiveNav} category={category} index={i} />
           </li>
         );
       })}

@@ -201,3 +201,14 @@ export interface FavoriteProduct extends Product {
   isFavourite: boolean;
   productCreator: string;
 }
+
+export interface CategoriesProps {
+  category: string;
+  index: number;
+  handleActiveNav: (arg: number) => void;
+  active: number;
+}
+
+export interface SubCategoriesProps {
+  item: string;
+}

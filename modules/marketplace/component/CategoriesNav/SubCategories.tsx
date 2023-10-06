@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { SubCategoriesProps } from '../../../../@types';
 
-interface MyComponentProps {
-  item: string;
-}
-
-const SubCategories: React.FC<MyComponentProps> = ({ item }) => {
+// interface MyComponentProps {
+//   item: string;
+// }
+//
+// const SubCategories: React.FC<MyComponentProps> = ({ item }) => {
+const SubCategories = ({ item }: SubCategoriesProps) => {
   const [popupClass, setPopupClass] = useState(false);
 
   return (

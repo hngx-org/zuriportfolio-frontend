@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { CategoriesProps } from '../../../../@types';
 
-type funcType = (arg: number) => void;
-
-interface MyComponentProps {
-  category: string;
-  index: number;
-  handleActiveNav: funcType;
-  active: number;
-}
-
-const ButtonCat: React.FC<MyComponentProps> = ({ category, index, handleActiveNav, active }) => {
+const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps) => {
   const [popupClass, setPopupClass] = useState(false);
 
   return (
