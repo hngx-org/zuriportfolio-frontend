@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./pages/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './modules/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     extend: {
       colors: {
@@ -115,8 +119,6 @@ module.exports = {
           600: '#e82a4f',
         },
         gray: {
-          50: "#536066",
-          94: "#EBEEEF",
           100: '#a0a6c9',
           200: '#3f4550',
           300: "#D0D5DD",
@@ -129,15 +131,10 @@ module.exports = {
         ppReg: ['var(--font-ppReg)'],
         ppB: ['var(--font-ppB)'],
         ppEB: ['var(--font-ppEB)'],
-        manropeEL: ['var(--font-manropeEL)'],
         manropeL: ['var(--font-manropeL)'],
         manropeB: ['var(--font-manropeB)'],
         manropeEB: ['var(--font-manropeEB)'],
       },
-    },
-    container: {
-      center: true,
-      padding: '2rem',
     }
   },
   plugins: [],
