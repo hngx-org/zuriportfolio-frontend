@@ -132,11 +132,16 @@ function TopBar() {
               <span className=" lg:hidden">Cart</span>
             </div>
             <div className="justify-center items-center lg:w-auto w-[100%] gap-2 lg:flex-row flex flex-col">
-              <Button className="rounded-lg border-0 bg-green-50 bg-opacity-50" intent={'secondary'} size={'md'}>
+              <Button
+                href="/auth/login"
+                className="rounded-lg border-0 bg-green-50 bg-opacity-50"
+                intent={'secondary'}
+                size={'md'}
+              >
                 Sign In
               </Button>
 
-              <Button className="rounded-lg" intent={'primary'} size={'md'}>
+              <Button href="/auth/signup" className="rounded-lg" intent={'primary'} size={'md'}>
                 Sign Up
               </Button>
             </div>
