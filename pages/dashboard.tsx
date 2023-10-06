@@ -4,10 +4,9 @@ import NavDashBoard from '../modules/dashboard/component/Navbar';
 
 function dashboard() {
   return (
-    <div>
+    <div className=''>
       <NavDashBoard active="dashboard" />
     </div>
   );
 }
-
 export default withAuth(dashboard);

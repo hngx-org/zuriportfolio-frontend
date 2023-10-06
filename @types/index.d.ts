@@ -42,3 +42,4 @@ export interface AuthLayoutProps {
   isTopRightBlobShown?: boolean;
   isBottomLeftPadlockShown?: boolean;
 }
+
