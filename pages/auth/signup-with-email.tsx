@@ -24,7 +24,7 @@ function SignUpWithEmail() {
               type="email"
             />
           </div>
-          <Button intent={'primary'} size={'sm'} className="w-full rounded-lg" type="submit">
+          <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
             Continue
           </Button>
         </form>
@@ -45,21 +45,24 @@ function SignUpWithEmail() {
         <div className="flex flex-col gap-y-4">
           <Button
             intent={'tertiary'}
-            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary"
+            size={"sm"}
+            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             leftIcon={<Image width={30} height={30} src={'/assets/images/logo/google-logo.svg'} alt="Google logo" />}
           >
             Continue with Google
           </Button>
           <Button
             intent={'tertiary'}
-            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary"
+            size={"sm"}
+            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             leftIcon={<Image width={20} height={20} src={'/assets/images/logo/github-logo.svg'} alt="Github logo" />}
           >
             Continue with Github
           </Button>
           <Button
             intent={'tertiary'}
-            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary"
+            size={"sm"}
+            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             leftIcon={
               <Image width={20} height={20} src={'/assets/images/logo/facebook-logo.svg'} alt="Facebook logo" />
             }
