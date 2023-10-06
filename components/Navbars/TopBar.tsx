@@ -3,6 +3,7 @@ import logo from './assets/zuriLogo.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Button from '@ui/Button';
 
 function TopBar() {
   const [toggle, setToggle] = useState(false);
@@ -133,22 +134,13 @@ function TopBar() {
               <span className=" lg:hidden">Cart</span>
             </div>
             <div className="justify-center items-center lg:w-auto w-[100%] gap-2 lg:flex-row flex flex-col">
-              <Link
-                href={'/'}
-                className="text-center text-emerald-600 text-base font-normal leading-normal tracking-tight px-6 py-3 bg-green-50 bg-opacity-50 rounded-lg justify-center items-center gap-4 flex lg:w-auto w-[100%]"
-              >
+              <Button className="rounded-lg border-0 bg-green-50 bg-opacity-50" intent={'secondary'} size={'md'}>
                 Sign In
-              </Link>
+              </Button>
 
-              <Link
-                style={{
-                  color: 'white',
-                }}
-                href={'/'}
-                className="px-6 py-3 bg-emerald-600 rounded-lg justify-center items-center gap-4 flex text-center  text-base font-normal  leading-normal tracking-tight text-white lg:w-auto w-[100%]"
-              >
+              <Button className="rounded-lg" intent={'primary'} size={'md'}>
                 Sign Up
-              </Link>
+              </Button>
             </div>
           </div>
         </div>
