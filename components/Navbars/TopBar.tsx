@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from './assets/zuriLogo.png';
+import logo from './assets/zuriLogo.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
