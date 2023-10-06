@@ -2,8 +2,12 @@ import React from 'react';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { ProductCardProps } from '../../../../@types';
 import ProductCard from '../ProductCard';
+import Link from 'next/link';
+import Image from 'next/image';
 import ProductCardWrapper from './productCardWrapper/product-card-wrapper';
 import ExperienceCard from './experience-cards/experience-card';
+import Cancel from '../../../../public/assets/recentlyviewed/cancel.svg';
+import styles from './productCardWrapper/product-card-wrapper.module.css';
 
 const handPicked: ProductCardProps[] = [
   {
@@ -187,6 +191,53 @@ const limitedOffers: ProductCardProps[] = [
   },
 ];
 
+const recentlyViewed: ProductCardProps[] = [
+  {
+    image: '/assets/recentlyviewed/image1.webp',
+    productName: 'Webinar and Course Slide Templa',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: true,
+    showTopPicks: false,
+    showDiscount: true,
+    discount: 60,
+  },
+  {
+    image: '/assets/recentlyviewed/image2.webp',
+    productName: 'Webinar and Course Slide Templa',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: false,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/recentlyviewed/image3.webp',
+    productName: 'Webinar and Course Slide Templa',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: true,
+    showTopPicks: false,
+    showDiscount: true,
+    discount: 60,
+  },
+  {
+    image: '/assets/recentlyviewed/image4.webp',
+    productName: 'Webinar and Course Slide Templa',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: true,
+    showTopPicks: true,
+    showDiscount: true,
+    discount: 0,
+  },
+];
+
 function LandingPage() {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
@@ -290,6 +341,48 @@ function LandingPage() {
             </ul>
           </section>
         </div>
+        <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-2.5">
+          <h3 className="text-[#101928] font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
+            Recently Viewed
+            <Link className="flex items-center gap-2 text-sm font-bold text-brand-green-shade50" href="">
+              View All
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M7.42578 16.5999L12.8591 11.1666C13.5008 10.5249 13.5008 9.4749 12.8591 8.83324L7.42578 3.3999"
+                  stroke="#00894C"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
+          </h3>
+          <div
+            className={`flex flex-nowrap lg:flex-wrap justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll  ${styles['hide-scroll']}`}
+          >
+            {recentlyViewed.map((item, index) => {
+              return (
+                <div key={index} className="relative w-1/2 md:w-1/3 lg:w-1/4 pr-2 md:pr-4 lg:pr-8">
+                  <button className="absolute bg-[#fff] rounded-full top-4 right-10 p-2">
+                    <Image src={Cancel} alt="Cancel Icon" />
+                  </button>
+                  <ProductCard
+                    image={item?.image}
+                    productName={item?.productName}
+                    productPrice={item?.productPrice}
+                    productOwner={item?.productOwner}
+                    productRating={item?.productRating}
+                    showLimitedOffer={item?.showLimitedOffer}
+                    showTopPicks={item?.showTopPicks}
+                    showDiscount={item?.showDiscount}
+                    discount={item?.discount}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </section>
       </div>
     </MainLayout>
   );
