@@ -1,4 +1,4 @@
-import Landing from '@modules/portfolio/component/LandingPage';
+import Landing from '@modules/portfolio/component/landing-page';
 import MainLayout from '../../components/Layout/MainLayout';
 
 const portfolio = () => {
