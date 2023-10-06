@@ -4,6 +4,7 @@ import { ProductCardProps } from '../../../../@types';
 import ProductCard from '../ProductCard';
 import ProductCardWrapper from './productCardWrapper/product-card-wrapper';
 import ExperienceCard from './experience-cards/experience-card';
+import CategoriesNav from '../CategoriesNav/CategoriesNav';
 
 const handPicked: ProductCardProps[] = [
   {
@@ -190,7 +191,8 @@ const limitedOffers: ProductCardProps[] = [
 function LandingPage() {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="py-6 px-4 overflow-hidden w-full">
+      <div className="pb-6 px-4 overflow-hidden w-full">
+        <CategoriesNav />
         <div className="max-w-[1240px] mx-auto">
           <ProductCardWrapper title="Handpicked For You" productsList={handPicked} />
 
