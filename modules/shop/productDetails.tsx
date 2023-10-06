@@ -7,9 +7,90 @@ import React, { useRef, useState } from 'react';
 import Button from '@ui/Button';
 import { ProfileCircle } from 'iconsax-react';
 import { ArrowLeft } from 'iconsax-react';
+import { ProductCardProps } from '../../@types';
+import ProductCardWrapper from '../marketplace/component/landingpage/productCardWrapper/product-card-wrapper';
+import { useRouter } from 'next/router' 
+
+const otherProducts: ProductCardProps[] = [
+  {
+    image: '/assets/products-banner/Image-1.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-2.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-3.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-4.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  }
+];
 
 
 export default function ProductDetails() {
+  const router = useRouter()
+
+  const [image, setImage] = useState(mainImage);
+
+  const updateImage = (newImage: any) => {
+    setImage(newImage);
+  };
+
+  const [isClickedDesc, setIsClickedDesc] = useState(true);
+  const [isClickedSpec, setIsClickedSpec] = useState(false);
+  const [isClickedRev, setIsClickedRev] = useState(false);
+
+
+  const handleClick0 = () => {
+    setIsClickedDesc(true);
+    setIsClickedSpec(false)
+    setIsClickedRev(false)
+  };
+
+  const handleClick1 = () => {
+    setIsClickedSpec(true);
+    setIsClickedDesc(false)
+    setIsClickedRev(false)
+  };
+
+  const handleClick2 = () => {
+    setIsClickedRev(true);
+    setIsClickedSpec(false);
+    setIsClickedDesc(false)
+  };
+
   const lensRef = useRef<HTMLDivElement | null>(null);
   const secondRef = useRef<HTMLDivElement | null>(null);
 
@@ -33,7 +114,7 @@ export default function ProductDetails() {
 
     setSecondStyle({
       ...secondStyle,
-      backgroundPosition: (x - 500 / 2 / 6) * -6 + 'px ' + (y - 500 / 2 / 6 + 250) * -6 + 'px',
+      backgroundPosition: (x - 500 / 2 / 6) * -6 + 'px ' + (y - 500 / 2 / 6 + 40) * -6 + 'px',
     });
   }
 
@@ -46,7 +127,7 @@ export default function ProductDetails() {
 
   return (
     <main className={`flex flex-col items-center lg:px-12 md:px-10 px-6 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
-      <ArrowLeft size="32" color="#000000" className="self-start" />
+      <a onClick={() => router.back()} className="self-start"><ArrowLeft size="32" color="#000000" /></a>
       {/* Product Details  */}
       <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
         {/* Product Detail Images  */}
@@ -60,9 +141,9 @@ export default function ProductDetails() {
                 id="lens"
               ></span>
               <Image
-                src={mainImage}
+                src={image}
                 alt="Main Image"
-                className="lg:w-full md:w-[750px] w-[350px] lg:h-[520px] md:h-[600px] h-[340px] lg:object-cover object-contain rounded-3xl"
+                className="lg:w-full md:w-[750px] w-[350px] lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
               />
             </div>
             <div
@@ -72,19 +153,19 @@ export default function ProductDetails() {
               id="second"
             ></div>
           </div>
-          <Slider />
+          <Slider updateImage={updateImage}/>
         </div>
 
         {/* Product Detail Data */}
-        <div className="space-y-6 w-full md:mt-8">
-          <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] gap-x-">
+        <div className="space-y-6 w-full">
+          <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] mt-8">
             Webinar and Course Slide (Soft Copy)
           </h1>
           <div className="flex items-center">
             <ProfileCircle size="32" color="#464646" variant="Bulk" />
             <p className="w-fit ml-2">Fola Kingsley</p>
           </div>
-          <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
+          <p className="text-lg font-normal font-manropeL leading-normal tracking-tight flex flex-col">
             <span>Empower your educational endeavors with our Webinar and Course Template.</span>
             <span>Craft immersive online learning experiences that captivate audiences. </span>
             <span>Seamlessly integrate multimedia elements, quizzes, and discussions to enrich t...</span>
@@ -120,19 +201,29 @@ export default function ProductDetails() {
             </p>
           </div>
 
-          <Button intent={'primary'} size={'lg'} className="w-5/12">
+          <Button intent={'primary'} size={'lg'} className="w-5/12 text-xs">
             Add to cart
           </Button>
         </div>
       </div>
 
       {/* Description, Specification, Reviews  */}
-      <div></div>
+      <div className='my-10 w-full'>
+        <div className='flex justify-around items-center mt-10 mb-4 w-full'>
+          <p onClick={handleClick0} className={`font-manrope text-base tracking-wide cursor-pointer ${isClickedDesc ? 'text-green-600 underline' : 'text-[#292E32]'}`}>Description</p>
+          <p onClick={handleClick1} className={`font-manrope text-base tracking-wide cursor-pointer ${isClickedSpec ? 'text-green-600 underline' : 'text-[#292E32]'}`}>Specification</p>
+          <p onClick={handleClick2} className={`font-manrope text-base tracking-wide cursor-pointer ${isClickedRev ? 'text-green-600 underline' : 'text-[#292E32]'}`}>Review</p>
+        </div>
+        <div className='p-6 border border-[#EEEEEE] rounded-lg flex gap-y-6 flex-col'>
+          <h1 className='font-manropeB text-2xl text-[#2E3130]'>{isClickedDesc ? 'Description' : `${isClickedSpec ? 'Specification' : 'Review'}`}</h1>
+          <p>Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions to enrich the learning journey. Tailor the template to your brand with customizable design options. Track learner progress, foster collaboration, and gain insights through built-in analytics. Whether you're an educator or a business, this template streamlines course creation, webinar hosting, and community building. Elevate your online education with a user-friendly, responsive, and feature-rich solution that engages and enlightens learners.</p>
+        </div>
+      </div>
 
       {/* favorite products  */}
-      <div className="self-start mt-20">
-        <h2 className="font-manropeB text-2xl text-[#2E3130] font-bold">Other Products by Fola Kingsley</h2>
-      </div>
+      <div className="mt-10"></div>
+      <ProductCardWrapper title="Other Products by Fola Kingsley" productsList={otherProducts} />
+
     </main>
   );
 }
