@@ -46,20 +46,18 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
   };
 
   return (
-    <section className="flex justify-end ml-auto flex-grow px-10 py-8 max-w-md">
-      <div className="cart-summary_wrapper flex flex-col space-y-6 w-full">
+    <section className="flex flex-grow px-10 py-8">
+      <div className="cart-summary_wrapper flex flex-col space-y-6">
         <div className="cart-summary__header border border-gray-300 rounded-md shadow-sm">
           <h1 className="font-bold capitalize text-xl px-4 py-4">cart summary</h1>
-
           <div className="line bg-gray-300 h-0.5 w-[80%] pr-4"></div>
-
           <div className="coupon flex flex-col py-4 px-4">
             <span></span> <span className="text-sm">Have a coupon?</span>
             <div className="coupon w-full flex items-center">
               <input
                 type="text"
                 placeholder="50 SALE"
-                className={`border border-green-300 border-r-0 placeholder-green-400 outline-none py-2 px-4 my-1 rounded-l-lg max-w-sm md:max-w-md ${
+                className={`border border-green-300 border-r-0 placeholder-green-400 outline-none py-2 px-4 my-1 rounded-l-lg ${
                   couponErrorState ? 'border-brand-red-primary' : ''
                 }`}
                 onFocus={() => {
