@@ -1,5 +1,5 @@
-import MainLayout from '../components/Layout/MainLayout';
-import Landing from '../modules/portfolio';
+import MainLayout from '../../components/Layout/MainLayout';
+import Landing from '../../modules/portfolio/component/LandingPage';
 
 import React from 'react';
 
