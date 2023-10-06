@@ -1,7 +1,15 @@
-import OrderHistory from '../modules/dashboard/component/order/OrderHistory';
+import Footer from '../components/Footer';
+import NavDashBoard from '../modules/dashboard/component/Navbar';
+import OrderHistory from '../modules/dashboard/component/order/OrderHistory/OrderHistory';
 
 const Orders: React.FC = () => {
-  return <OrderHistory />;
+  return (
+    <>
+      <NavDashBoard active="orders" />
+      <OrderHistory />
+      <Footer />
+    </>
+  );
 };
 
 export default Orders;

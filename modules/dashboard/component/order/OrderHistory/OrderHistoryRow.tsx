@@ -1,6 +1,6 @@
 import { Manrope } from 'next/font/google';
 import React from 'react';
-import { OrderHistory } from '../../../../@types';
+import { OrderHistory } from '../../../../../@types';
 import { Clock } from 'iconsax-react';
 const manropeMD = Manrope({
   weight: ['500'],

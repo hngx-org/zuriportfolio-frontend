@@ -52,11 +52,7 @@ export interface OrderHistory {
   customerName: string;
   date: Date;
   status: string;
-}
-
-export interface OrderHook {
-  orders: OrderHistory[];
-  orderFilter: string;
-  changeSortBy: (val: keyof OrderHistory) => void;
-  toggleSortOrder: () => void;
+  type?: string;
+  price?: number;
+  sales?: number;
 }

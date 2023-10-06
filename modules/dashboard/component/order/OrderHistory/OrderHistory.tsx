@@ -1,12 +1,11 @@
 import React from 'react';
-import PaginationBar from './PaginationBar';
-import Footer from '../../../../components/Footer';
+import PaginationBar from '../PaginationBar';
+import Footer from '../../../../../components/Footer';
 import { OrderHistoryMobile } from './OrderHistoryRow';
 import OrderHistoryTable from './OrderHistoryTable';
 import { SearchNormal1 } from 'iconsax-react';
-import NavDashBoard from '../Navbar';
-import usePaginate from '../../../../hooks/usePaginate';
-import useOrders from '../../../../hooks/useOrders';
+import usePaginate from '../../../../../hooks/usePaginate';
+import useOrders from '../../../../../hooks/useOrders';
 const orderNavs: {
   id: string;
   title: string;
@@ -33,7 +32,6 @@ const OrderHistory: React.FC = () => {
   const { changeCurrentPage, pageItem, currentPage, pageLength } = usePaginate(orders, 5);
   return (
     <>
-      <NavDashBoard active="orders" />
       <main className="max-w-[1240px] mx-auto px-10">
         <section className="font-manropeB font-semibold mt-4">
           <h1 className=" text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order History</h1>
@@ -178,7 +176,6 @@ const OrderHistory: React.FC = () => {
           <PaginationBar {...{ changeCurrentPage, currentPage, pageLength }} />
         </section>
       </main>
-      <Footer />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import OrderHistoryRow from './OrderHistoryRow';
-import { OrderHistory } from '../../../../@types';
+import { OrderHistory } from '../../../../../@types';
 const tableHeaders: {
   id: keyof OrderHistory;
   title: string;
