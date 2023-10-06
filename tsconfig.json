@@ -15,10 +15,11 @@
     "incremental": true,
     "paths": {
       "@/*": ["./"],
-      "@ui/*": ["./components/ui/*"]
+      "@ui/*": ["./components/ui/*"],
+      "@modules/*": ["./modules/*"]
     },
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "scripts/mjmlToHtml.js", "helpers/mjml/basic.mjml"],
   "exclude": ["node_modules"]
 }
