@@ -131,15 +131,53 @@ export type ProductCardProps = {
   cardStyle: string;
   discountPercentage?: number;
   tag?: string;
-  tagBackground?: string
+  tagBackground?: string;
 };
 
 export type CartItemProps = {
-  productImage: string,
-  productTitle: string,
-  productSize: string,
-  productColor: string,
-  productSeller: string,
-  productPrice: number
+  productImage: string;
+  productTitle: string;
+  productSize: string;
+  productColor: string;
+  productSeller: string;
+  productPrice: number;
 };
 
+// In a file like '@types/index.ts' or a similar location
+
+export interface ActivityCardProps {
+  name: string;
+  item: string;
+}
+
+export interface MetricCardProps {
+  title: string;
+  percentage: number;
+  isCurrency: boolean;
+  value: number;
+}
+
+export interface MetricChartProps {
+  title: string;
+  src: string;
+  isBarChart: boolean;
+}
+
+export interface MetricMonthsProps {
+  month: string;
+}
+
+export interface MetricTimelineProps {
+  timespan: string;
+  index: number;
+  active: boolean;
+  setTimeline: (data: { active: boolean; index: number }) => void;
+}
+
+interface OrderHistory {
+  id: string;
+  productName: string;
+  customerName: string;
+  date: Date;
+  status: 'completed' | 'cancelled' | 'pending';
+}
