@@ -98,7 +98,7 @@ const Assesment: React.FC = () => {
           isOpen={isModalOpen}
           onClose={closeModal}
           onSave={handleSave}
-          currentAnswer={'Berlin'}
+          currentAnswer={'To provide customer support'}
         />
       )}
       {isConfirmationOpen && (

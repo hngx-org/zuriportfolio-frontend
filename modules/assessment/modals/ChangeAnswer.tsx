@@ -40,7 +40,7 @@ const ChangeAnswerModal: React.FC<ChangeAnswerProps> = ({
           <label className='cursor-pointer flex w-fit gap-2' onClick={() => handleOptionClick(option)}>
             <div className=" flex w-fit">
               <Image
-                src={`${selectedOption === option ? '/assets/checkedradiocheckbox.svg' : '/assets/uncheckedradiocheckbox.svg'}`}
+                src={`${selectedOption == option ? '/assets/checkedradiocheckbox.svg' : '/assets/uncheckedradiocheckbox.svg'}`}
                 alt={option}
                 width={20}
                 height={20}
