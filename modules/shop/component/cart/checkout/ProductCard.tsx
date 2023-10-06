@@ -1,8 +1,8 @@
-import { ProductCardProps } from "../../../../../@types";
+import { CartProductCardProps, ProductCardProps } from "../../../../../@types";
 
 export default function ProductCard({productImage,productTitle,cardStyle,
                                     productPrice,productRating,productSeller,
-                                    discountPercentage,tag,tagBackground}: ProductCardProps) {
+                                    discountPercentage,tag,tagBackground}: CartProductCardProps) {
     let tagStyle = ` absolute py-2 px-3 top-0 left-0 rounded-md text-[#fff] ${tagBackground} `
     const get_rating = () => {
         let MAX_RATING = 5;

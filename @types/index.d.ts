@@ -15,6 +15,18 @@ export interface MainLayoutContextProps {
   setActivePage: (page: string) => void;
 }
 
+export interface CartProductCardProps {
+  productImage: string;
+  productTitle: string;
+  cardStyle: string;
+  productPrice: string;
+  productRating: number;
+  productSeller: string;
+  discountPercentage: string;
+  tag: string;
+  tagBackground: string;
+}
+
 export interface ProductCardProps {
   image: string;
   productName: string;
