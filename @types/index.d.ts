@@ -201,3 +201,13 @@ export interface FavoriteProduct extends Product {
   isFavourite: boolean;
   productCreator: string;
 }
+
+export interface WorkExperience {
+  role: string;
+  description: string;
+  company: string;
+  startYear: string;
+  startMonth: string;
+  endYear: string;
+  endMonth: string;
+}
