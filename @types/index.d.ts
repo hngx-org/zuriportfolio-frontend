@@ -75,10 +75,6 @@ export interface starProps {
   [key: number]: ratingProps;
 }
 
-export interface VerificationLayoutProps {
-  children?: React.ReactNode;
-  className?: React.ComponentProps<'div'>['className'];
-}
 export interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -183,9 +179,6 @@ interface OrderHistory {
   status: 'completed' | 'cancelled' | 'pending';
 }
 
-
-
-
 export interface Product {
   productId: string;
   productName: string;
@@ -204,4 +197,8 @@ export interface WishlistProduct extends Product {
 export interface FavoriteProduct extends Product {
   isFavourite: boolean;
   productCreator: string;
+}
+
+export interface VerificationProps {
+  handleClick(): void;
 }
