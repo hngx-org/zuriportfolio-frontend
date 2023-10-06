@@ -8,6 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        "neutral-key-colour-n50": "#6b797f",
         dark: {
           100: '#131418',
           105: '#26242b',
