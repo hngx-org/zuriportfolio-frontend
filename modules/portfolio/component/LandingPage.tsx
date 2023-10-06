@@ -143,7 +143,7 @@ const Landing = () => {
               className="hidden"
               accept="image/png, image/jpeg"
             />
-            {hasData && <Button>Take Assesment</Button>}
+            {hasData && <Button className="rounded-lg">Take Assesment</Button>}
           </div>
         </div>
         <div className="pt-8 md:pt-14 pb-40">
@@ -190,10 +190,12 @@ const Landing = () => {
               </p>
             </div>
             <div className="flex md:flex-row flex-col w-full justify-center items-center gap-4">
-              <Button onClick={viewPortfolio} intent={'secondary'}>
+              <Button className="rounded-lg" onClick={viewPortfolio} intent={'secondary'}>
                 View Templates
               </Button>
-              <Button onClick={buildPortfolio}>Build your Portfolio</Button>
+              <Button className="rounded-lg" onClick={buildPortfolio}>
+                Build your Portfolio
+              </Button>
             </div>
           </div>
         </div>

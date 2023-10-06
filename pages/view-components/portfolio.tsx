@@ -3,7 +3,7 @@ import MainLayout from '../../components/Layout/MainLayout';
 
 const portfolio = () => {
   return (
-    <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio">
+    <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
       <Landing />
     </MainLayout>
   );
