@@ -3,6 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import VerificationLayout from './component/verificationLayout';
 import { Input } from '@ui/Input';
+import Link from 'next/link';
 
 function ChangeEmailAddress() {
   return (
@@ -35,9 +36,11 @@ function ChangeEmailAddress() {
               />
             </form>
 
-            <Button size="sm" className=" w-full h-[60px] rounded-md ">
-              Confirm
-            </Button>
+            <Link href="/auth/login">
+              <Button size="sm" className=" w-full h-[60px] rounded-md ">
+                Confirm
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
