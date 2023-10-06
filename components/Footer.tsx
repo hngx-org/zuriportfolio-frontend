@@ -52,24 +52,24 @@ function Footer() {
 
             <ul className="flex flex-col gap-2 font-normal">
               <li>
-                <a href="" className="hover:underline">
+                <Link href="/portfolio" className="hover:underline">
                   Portfolio
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="" className="hover:underline">
+                <Link href="/explore" className="hover:underline">
                   Explore
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="" className="hover:underline">
+                <Link href="/marketplace" className="hover:underline">
                   Marketplace
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="" className="hover:underline">
+                <Link href="/shop" className="hover:underline">
                   Shop
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
