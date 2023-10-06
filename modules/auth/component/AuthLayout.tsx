@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { AuthLayoutProps } from '../../../@types';
+import LeftImage from '../../../public/assets/images/Rectangle_2.png';
 
 function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeftPadlockShown }: AuthLayoutProps) {
   return (
@@ -14,9 +15,9 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
         <div className="w-full h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden hidden lg:block">
           {authLeftImage ?? (
             <Image
-              width={100}
-              height={100}
-              src="/assets/images/zuri-auth-signup-email-left-image.png"
+              // width={100}
+              // height={100}
+              src={LeftImage}
               alt="Sign up image"
               className="w-full h-full object-cover"
             />
