@@ -28,6 +28,14 @@ export interface CartProductCardProps {
   tagBackground?: string;
 }
 
+export interface Product {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  description: string;
+}
+
 export interface ProductCardProps {
   image: string;
   productName: string;
