@@ -7,9 +7,7 @@ import React from 'react';
 
 function _2FA() {
   return (
-    <div
-      className="relative overflow-hidden lg:overflow-visible h-[100vh]"
-    >
+    <div className="relative overflow-hidden lg:overflow-visible h-[100vh]">
       <section
         className="flex flex-col md:grid lg:grid-cols-2
     max-w-[1000px] lg:mt-12 container m-auto
