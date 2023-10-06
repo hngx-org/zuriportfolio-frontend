@@ -54,6 +54,7 @@ interface TextInputProps extends InputVariants {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   placeHolder?: string;
+  isPasswordVisible?: boolean;
 }
 
 export function SelectInput({
