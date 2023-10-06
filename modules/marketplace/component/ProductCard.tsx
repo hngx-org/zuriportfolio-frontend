@@ -27,7 +27,7 @@ export default function ProductCard({
   const starRating = productRating in stars;
 
   return (
-    <div className="p-[16px] border-[1px] border-[#D5DBDD] rounded-[8px] w-[286px] m-[100px]">
+    <div className="p-2.5 md:p-[16px] border-[1px] border-[#D5DBDD] rounded-[8px] w-[286px] max-w-full">
       <Link href="">
         <div className="flex flex-col items-start">
           {/* Product Image */}
@@ -50,7 +50,7 @@ export default function ProductCard({
             <Image src={image} alt="Landscape picture" width={254} height={209} className="rounded-[8px]" />
           </div>
           {/* Product Name */}
-          <p className="font-manropeL text-[#052011] text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
+          <p className="font-manropeL text-[#052011] text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px] whitespace-nowrap text-ellipsis overflow-hidden w-full">
             {productName?.length > 30 ? <span>{productNameTrimmed}...</span> : productName}
           </p>
           {/* Product Price */}
