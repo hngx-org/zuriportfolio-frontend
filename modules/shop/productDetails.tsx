@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import Button from '@ui/Button';
 import { ProfileCircle } from 'iconsax-react';
 
-
 export default function ProductDetails() {
   const router = useRouter();
 
@@ -22,7 +21,7 @@ export default function ProductDetails() {
             alt="Main Image"
             className="w-full lg:h-[520px] md:h-[600px] h-[340px] lg:object-cover object-cover rounded-3xl"
           />
-          <Slider/>
+          <Slider />
         </div>
 
         {/* Product Detail Data */}
@@ -31,8 +30,8 @@ export default function ProductDetails() {
             Webinar and Course Slide (Soft Copy)
           </h1>
           <div className="flex items-center">
-          <ProfileCircle size="32" color="#464646" variant="Bulk"/>
-            <p className='w-fit ml-2'>Fola Kingsley</p>
+            <ProfileCircle size="32" color="#464646" variant="Bulk" />
+            <p className="w-fit ml-2">Fola Kingsley</p>
           </div>
           <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
             <span>Empower your educational endeavors with our Webinar and Course Template.</span>
@@ -54,7 +53,9 @@ export default function ProductDetails() {
             </p>
           </div>
 
-          <div><hr className="bg-[#EEEEEE] text-[#EEEEEE] h-[2px] border-0 lg:block hidden mt-12"/></div>
+          <div>
+            <hr className="bg-[#EEEEEE] text-[#EEEEEE] h-[2px] border-0 lg:block hidden mt-12" />
+          </div>
 
           <div className="flex flex-col gap-y-2">
             <p className="text-base font-normal font-manropeL leading-normal tracking-tight  mt-7">
@@ -68,7 +69,7 @@ export default function ProductDetails() {
             </p>
           </div>
 
-          <Button intent={'primary'} size={'lg'} className='w-5/12'>
+          <Button intent={'primary'} size={'lg'} className="w-5/12">
             Add to cart
           </Button>
         </div>
@@ -78,8 +79,8 @@ export default function ProductDetails() {
       <div></div>
 
       {/* favorite products  */}
-      <div className='self-start mt-20'>
-        <h2 className='font-manropeB text-2xl text-[#2E3130] font-bold'>Other Products by Fola Kingsley</h2>
+      <div className="self-start mt-20">
+        <h2 className="font-manropeB text-2xl text-[#2E3130] font-bold">Other Products by Fola Kingsley</h2>
       </div>
     </main>
   );
