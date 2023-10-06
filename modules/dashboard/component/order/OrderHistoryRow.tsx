@@ -94,7 +94,7 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
   };
   return (
     <div
-      className="font-manropeB font-semibold px-[10px] py-4 rounded-2xl flex justify-between items-center"
+      className="font-manropeB font-semibold px-[10px]  py-4 rounded-2xl flex justify-between items-center"
       style={{
         boxShadow: `0px 0px 2px 0px rgba(0, 0, 0, 0.14)`,
       }}
@@ -108,8 +108,10 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
           Order ID: <span className="text-[#2E3130] font-manropeL font-normal">#{props.id}</span>
         </p>
       </div>
-      <div>
-        <CompletedTab />
+      <div className="flex flex-col gap-2">
+        {props.status === 'completed' && <CompletedTab />}
+        {props.status === 'cancelled' && <CancelledTab />}
+        {props.status === 'pending' && <PendingTab />}
         <p>{formatDate()}</p>
       </div>
     </div>

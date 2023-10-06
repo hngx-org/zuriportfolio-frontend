@@ -49,3 +49,10 @@ export interface OrderHistory {
   date: Date;
   status: string;
 }
+
+export interface OrderHook {
+  orders: OrderHistory[];
+  orderFilter: string;
+  changeSortBy: (val: keyof OrderHistory) => void;
+  toggleSortOrder: () => void;
+}
