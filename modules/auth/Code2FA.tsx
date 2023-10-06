@@ -1,6 +1,7 @@
 "use client"
 import React, { ChangeEvent, useState, useRef } from "react";
-import Button from "@ui/Button";
+import Button from "../../components/ui/Button"
+
 
 function Code2FA() {
     const [digits, setDigits] = useState<string[]>(["", "", "", "", "", ""]);
@@ -33,12 +34,12 @@ function Code2FA() {
   return (
     <>
         <h2 className="text-3xl
-        text-center pt-[3rem] md:pt-0 md:text-left max-w-[20ch] md:self-start">
+        text-center pt-[3rem] lg:pt-0 lg:text-left max-w-[20ch] lg:self-start">
           A code has been sent to your mail
         </h2>
             <form className="flex flex-col gap-4 items-center w-full">
-          <p className="text-sm font-light md:self-start">Enter 6 digit code</p>
-          <div className="flex items-center justify-center space-x-2 md:self-start">
+          <p className="text-sm font-light lg:self-start">Enter 6 digit code</p>
+          <div className="flex items-center justify-center space-x-2 lg:self-start">
             {digits.slice(0, 3).map((digit, index) => (
               <input
                 key={index}
@@ -69,8 +70,8 @@ function Code2FA() {
           </div>
           <Button
           href=""
-          className={` w-[90%] m-auto md:m-0 h-[52px]
-          md:self-start rounded-lg text-base mt-3 md:mt-6
+          className={` w-[80%] md:w-[60%] lg:w-[90%] m-auto md:m-0 h-[52px]
+          lg:self-start rounded-lg text-base mt-3 md:mt-6
           ${isContinueDisabled ?
             "rounded-lg bg-gray-400 hover:bg-gray-400 bg-opacity-50 text-gray-900"
           :
@@ -81,7 +82,7 @@ function Code2FA() {
         </form>
         <Button
         onClick={() => console.log("to be implmented with api integration")}
-        className="bg-tranparent text-black hover:bg-transparent w-fit md:self-center"
+        className="bg-tranparent text-black hover:bg-transparent w-fit lg:self-center"
         >
           Didn’t receive code? <span className="text-green-600">Resend</span>
         </Button>
