@@ -33,7 +33,7 @@ const navLinks: {
 
 const NavDashBoard: React.FC<{ active: string }> = (props) => {
   return (
-    <nav className="max-w-[1024px] ml-[100px] pt-[22px] mt-[22px] mb-16">
+    <nav className="max-w-[1024px] pt-[22px] mt-[22px] mb-16">
       <ul className="gap-[72px] font-manropeB font-semibold text-[#737876] text-base text-center flex">
         {navLinks.map((nav) => (
           <li

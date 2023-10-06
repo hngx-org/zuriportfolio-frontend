@@ -42,3 +42,35 @@ export interface AuthLayoutProps {
   isTopRightBlobShown?: boolean;
   isBottomLeftPadlockShown?: boolean;
 }
+
+
+// dashboard
+export interface MetricCardProps {
+  title: string;
+  percentage: number;
+  isCurrency: boolean;
+  value: number;
+}
+
+export interface MetricChartProps {
+  title: string;
+  src: string;
+  isBarChart: boolean;
+}
+
+export interface MetricTimelineProps {
+  timespan: string;
+  key: number;
+  index: number;
+  setTimeline: (args: any) => void;
+  active: boolean;
+}
+
+export interface MetricMonthsProps {
+  month: string;
+}
+
+export interface ActivityCardProps {
+  name: string;
+  item: string;
+}
