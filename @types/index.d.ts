@@ -15,6 +15,18 @@ export interface MainLayoutContextProps {
   setActivePage: (page: string) => void;
 }
 
+export interface CartProductCardProps {
+  productImage: string;
+  productTitle: string;
+  cardStyle: string;
+  productPrice: number;
+  productRating: number;
+  productSeller: string;
+  discountPercentage?: number;
+  tag?: string;
+  tagBackground?: string;
+}
+
 export interface ProductCardProps {
   image: string;
   productName: string;
@@ -93,3 +105,41 @@ export interface AuthLayoutProps {
   isTopRightBlobShown?: boolean;
   isBottomLeftPadlockShown?: boolean;
 }
+// export all interfaces and type s
+declare module 'nprogress';
+
+export interface MainLayoutProps {
+  children?: React.ReactNode;
+  className?: React.ComponentProps<'div'>['className'];
+  activePage: string;
+  showDashboardSidebar?: boolean;
+  showTopbar?: boolean;
+  showFooter?: boolean;
+}
+
+export interface MainLayoutContextProps {
+  activePage?: string;
+  setActivePage: (page: string) => void;
+}
+
+export type ProductCardProps = {
+  productTitle: string;
+  productPrice: number;
+  productSeller: string;
+  productImage: string;
+  productRating: number;
+  cardStyle: string;
+  discountPercentage?: number;
+  tag?: string;
+  tagBackground?: string
+};
+
+export type CartItemProps = {
+  productImage: string,
+  productTitle: string,
+  productSize: string,
+  productColor: string,
+  productSeller: string,
+  productPrice: number
+};
+
