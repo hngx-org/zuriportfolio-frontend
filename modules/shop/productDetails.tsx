@@ -3,41 +3,46 @@ import mainImage from '../../public/assets/mainImage.png';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
 import Slider from './component/slider';
-import { useRouter } from 'next/router';
+import React, { useRef, useState } from 'react';
 import Button from '@ui/Button';
 import { ProfileCircle } from 'iconsax-react';
 import { ArrowLeft } from 'iconsax-react';
 
-const lens = document.getElementById('lens');
-const second = document.getElementById('second');
-
-function zoomOnHover(e: React.MouseEvent<HTMLDivElement>) {
-  const target = e.target as HTMLDivElement;
-  const offsetLeft = target.offsetLeft;
-  const offsetTop = target.offsetTop;
-
-  var x = e.clientX - offsetLeft;
-  var y = e.clientY - offsetTop;
-
-  if (lens && lens.style) {
-    lens.style.display = 'block';
-    lens.style.left = x + 'px';
-    lens.style.top = y + 40 + 'px';
-  }
-
-  if (second && second.style) {
-    second.style.backgroundPosition = (x - 500 / 2 / 6) * -6 + 'px ' + (y - 500 / 2 / 6 + 250) * -6 + 'px';
-  }
-}
-
-function mouseOut() {
-  if (lens && lens.style) {
-    lens.style.display = 'none';
-  }
-}
 
 export default function ProductDetails() {
-  const router = useRouter();
+  const lensRef = useRef<HTMLDivElement | null>(null);
+  const secondRef = useRef<HTMLDivElement | null>(null);
+
+  const [lensStyle, setLensStyle] = useState<React.CSSProperties>({ display: 'none' });
+  const [secondStyle, setSecondStyle] = useState<React.CSSProperties>({});
+
+  function zoomOnHover(e: React.MouseEvent<HTMLDivElement>) {
+    const target = e.target as HTMLDivElement;
+    const offsetLeft = target.offsetLeft;
+    const offsetTop = target.offsetTop;
+
+    var x = e.clientX - offsetLeft;
+    var y = e.clientY - offsetTop;
+
+    setLensStyle({
+      ...lensStyle,
+      display: 'block',
+      left: x + 'px',
+      top: y + 40 + 'px',
+    });
+
+    setSecondStyle({
+      ...secondStyle,
+      backgroundPosition: (x - 500 / 2 / 6) * -6 + 'px ' + (y - 500 / 2 / 6 + 250) * -6 + 'px',
+    });
+  }
+
+  function mouseOut() {
+    setLensStyle({
+      ...lensStyle,
+      display: 'none',
+    });
+  }
 
   return (
     <main className={`flex flex-col items-center lg:px-12 md:px-10 px-6 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
@@ -49,6 +54,8 @@ export default function ProductDetails() {
           <div>
             <div id="first" onMouseOut={mouseOut} onMouseMove={(e) => zoomOnHover(e)} className="peer">
               <span
+                ref={lensRef}
+                style={lensStyle}
                 className="w-32 h-32 bg-black/40 absolute border-2 translate-x-2/4 -translate-y-2/4 hidden"
                 id="lens"
               ></span>
@@ -59,6 +66,8 @@ export default function ProductDetails() {
               />
             </div>
             <div
+              ref={secondRef}
+              style={secondStyle}
               className='absolute w-2/4 h-[65vh] left-[50%] top-8 overflow-hidden bg-black bg-[size:600%_600%] bg-[url("../public/assets/mainImage.png")] rounded-3xl hidden peer-hover:block'
               id="second"
             ></div>
