@@ -24,7 +24,6 @@ export default function ProductCard({productImage,productTitle,cardStyle,
     };
 
   return (
-    
     <div className={cardStyle}>
       <div className="relative w-full h-[250px] overflow-hidden mb-3">
       <Image layout="fill" src={productImage} alt={productTitle} ></Image>
@@ -43,6 +42,5 @@ export default function ProductCard({productImage,productTitle,cardStyle,
         </div>
       </div>
     </div>
-    
   );
 }

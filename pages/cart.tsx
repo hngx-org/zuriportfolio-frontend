@@ -1,9 +1,8 @@
-import React from 'react'
-import MainLayout from '../components/Layout/MainLayout'
-import ProductCard from '../modules/shop/component/cart/checkout/ProductCard'
-import Summary from '../modules/shop/component/cart/checkout/Summary'
-import CartItem from '../modules/shop/component/cart/checkout/CartItem'
-
+import React from 'react';
+import MainLayout from '../components/Layout/MainLayout';
+import ProductCard from '../modules/shop/component/cart/checkout/ProductCard';
+import Summary from '../modules/shop/component/cart/checkout/Summary';
+import CartItem from '../modules/shop/component/cart/checkout/CartItem';
 
 export default function cart() {
   return (
@@ -56,5 +55,5 @@ export default function cart() {
           </section>
       </main>
     </MainLayout>
-  )
+  );
 }

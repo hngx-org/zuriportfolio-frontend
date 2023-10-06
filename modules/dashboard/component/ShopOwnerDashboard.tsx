@@ -9,8 +9,13 @@ import {
   metricsChartMonths,
   metricsChartTimeline,
 } from '../../../db/dashboard';
-import { ActivityCardProps, MetricCardProps, MetricChartProps, MetricMonthsProps, MetricTimelineProps } from '../../../@types';
-
+import {
+  ActivityCardProps,
+  MetricCardProps,
+  MetricChartProps,
+  MetricMonthsProps,
+  MetricTimelineProps,
+} from '../../../@types';
 
 const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardProps) => {
   return (
