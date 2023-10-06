@@ -183,9 +183,6 @@ interface OrderHistory {
   status: 'completed' | 'cancelled' | 'pending';
 }
 
-
-
-
 export interface Product {
   productId: string;
   productName: string;
