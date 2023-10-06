@@ -1,6 +1,5 @@
 // export all interfaces and types
 declare module 'nprogress';
-declare module 'mjml';
 
 export interface MainLayoutProps {
   children?: React.ReactNode;
@@ -182,9 +181,6 @@ interface OrderHistory {
   date: Date;
   status: 'completed' | 'cancelled' | 'pending';
 }
-
-
-
 
 export interface Product {
   productId: string;
