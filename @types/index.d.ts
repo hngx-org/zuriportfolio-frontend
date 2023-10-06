@@ -1,4 +1,4 @@
-// export all interfaces and type s
+// export all interfaces and types
 declare module 'nprogress';
 
 export interface MainLayoutProps {
@@ -13,6 +13,32 @@ export interface MainLayoutProps {
 export interface MainLayoutContextProps {
   activePage?: string;
   setActivePage: (page: string) => void;
+}
+
+export interface ProductCardProps {
+  image: string;
+  productName: string;
+  productPrice: string;
+  productOwner: string;
+  productRating: number;
+  showLimitedOffer?: boolean;
+  showTopPicks?: boolean;
+  showDiscount?: boolean;
+  discount?: number;
+}
+
+export interface ratingProps {
+  src: string;
+  alt: string;
+}
+
+export interface starProps {
+  [key: number]: ratingProps;
+}
+
+export interface VerificationLayoutProps {
+  children?: React.ReactNode;
+  className?: React.ComponentProps<'div'>['className'];
 }
 
 export interface ProductCardProps {
@@ -66,14 +92,4 @@ export interface AuthLayoutProps {
   authLeftImage?: React.ReactNode;
   isTopRightBlobShown?: boolean;
   isBottomLeftPadlockShown?: boolean;
-}
-export interface OrderHistory {
-  id: number;
-  productName: string;
-  customerName: string;
-  date: Date;
-  status: string;
-  type?: string;
-  price?: number;
-  sales?: number;
 }
