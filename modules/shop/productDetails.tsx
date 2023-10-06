@@ -8,7 +8,6 @@ import Button from '@ui/Button';
 import { ProfileCircle } from 'iconsax-react';
 import { ArrowLeft } from 'iconsax-react';
 
-
 export default function ProductDetails() {
   const lensRef = useRef<HTMLDivElement | null>(null);
   const secondRef = useRef<HTMLDivElement | null>(null);
