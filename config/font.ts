@@ -20,6 +20,12 @@ export const ppEB = Poppins({
   weight: ['900'],
 });
 
+export const manropeEL = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manropeEL',
+  weight: ['300'],
+});
+
 export const manropeL = Manrope({
   subsets: ['latin'],
   variable: '--font-manropeL',
