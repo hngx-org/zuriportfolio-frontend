@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ButtonCat from './ButtonCat';
 import SubCategories from './SubCategories';
 
 const navItems: string[] = [
-  'All Categories',
   ' Design & Graphics',
   ' Development & Programming',
   ' Content Creation',
@@ -14,12 +13,32 @@ const navItems: string[] = [
 
 const CategoriesNav = () => {
   const [popupClass, setPopupClass] = useState(false);
+  const [active, setActive] = useState(-1);
+  const [allCatActive, setAllCatActive] = useState(false);
+
+  useEffect(() => {
+    if (active >= 0) setAllCatActive(false);
+  }, [active]);
+
+  const handleActiveNav = (i: number) => {
+    setActive(i);
+  };
+
   return (
     <ul className="hidden md:flex gap-8 py-5 relative">
+      <li
+        className={`${allCatActive ? 'text-brand-green-shade50' : ''}`}
+        onClick={() => {
+          setAllCatActive(true);
+          setActive(-1);
+        }}
+      >
+        <button>All Categories</button>
+      </li>
       {navItems.map((item, i) => {
         return (
           <li key={i + 1} className="text-base relative">
-            <ButtonCat item={item} />
+            <ButtonCat active={active} handleActiveNav={handleActiveNav} item={item} index={i} />
           </li>
         );
       })}

@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
 
+type funcType = (arg: number) => void;
+
 interface MyComponentProps {
   item: string;
+  index: number;
+  handleActiveNav: funcType;
+  active: number;
 }
 
-const ButtonCat: React.FC<MyComponentProps> = ({ item }) => {
+const ButtonCat: React.FC<MyComponentProps> = ({ item, index, handleActiveNav, active }) => {
   const [popupClass, setPopupClass] = useState(false);
-  const [active, setactive] = useState(false);
-
-  const handleActiveNav = () => {
-    setactive(false);
-    setTimeout(() => {
-      setactive(true);
-    }, 1000);
-  };
 
   return (
     <button
-      className={`${active ? 'text-brand-green-shade50' : ''}`}
+      className={`${active === index ? 'text-brand-green-shade50' : 'text-brand-green-shade10'}`}
       onMouseOver={() => setPopupClass(true)}
       onMouseLeave={() => setPopupClass(false)}
     >
@@ -38,8 +35,8 @@ const ButtonCat: React.FC<MyComponentProps> = ({ item }) => {
           'sub-categories',
         ].map((item, i) => (
           <p
-            onClick={handleActiveNav}
-            className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between"
+            onClick={() => handleActiveNav(index)}
+            className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
             key={i + 1}
           >
             {item}
