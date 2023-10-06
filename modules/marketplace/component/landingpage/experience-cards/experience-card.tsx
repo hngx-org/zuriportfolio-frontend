@@ -6,8 +6,8 @@ function ExperienceCard({ children, title, content }: { children: React.ReactNod
       <span className="h-[27px] w-[30px] rounded-[18px] grid place-content-center mb-2.5 bg-brand-green-ttr">
         {children}
       </span>
-      <h4 className="text-black font-manropeL mb-2 text-xs font-bold tracking-[0.046px]">{title}</h4>
-      <p className="text-[#475367] font-manropeL text-[8px]">{content}</p>
+      <h4 className="text-black font-manropeL mb-2 text-sm sm:text-[14px] font-bold tracking-[0.046px]">{title}</h4>
+      <p className="text-[#475367] font-manropeL text-10px]">{content}</p>
     </li>
   );
 }

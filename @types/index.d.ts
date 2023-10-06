@@ -1,6 +1,5 @@
 // export all interfaces and types
 declare module 'nprogress';
-declare module 'mjml';
 
 export interface MainLayoutProps {
   children?: React.ReactNode;
@@ -192,4 +191,25 @@ export interface PromotionHistory {
   sales?: number;
   quantity?: number;
   action?: any;
+
+}
+
+export interface Product {
+  productId: string;
+  productName: string;
+  productPrice: number;
+  productImage: StaticImageData;
+  productRating: number;
+  numReviews: number;
+}
+
+export interface WishlistProduct extends Product {
+  productCategory: string;
+  inStock: boolean;
+  inCart: boolean;
+}
+
+export interface FavoriteProduct extends Product {
+  isFavourite: boolean;
+  productCreator: string;
 }
