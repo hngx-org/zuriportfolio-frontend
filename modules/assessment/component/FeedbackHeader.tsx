@@ -1,6 +1,6 @@
 import React from 'react';
-import baseImgg from '../../../public/assets/images/banner/assbase.png';
-import bubble from '../../../public/assets/images/banner/bubble.png';
+import baseImgg from '../../../public/assets/images/assbase.png';
+import bubble from '../../../public/assets/images/bubble.png';
 import Image from 'next/image';
 
 const FeedbackHeader = () => {
@@ -11,7 +11,7 @@ const FeedbackHeader = () => {
         <p className=" text-[14px] font-manropeL">Design Assessment</p>
       </div>
       <div className="flex">
-        <Image src={baseImgg} alt="stamp" className=" mr-[137px]" />
+        <Image src={baseImgg} alt="stampbag" className=" mr-[137px]" />
         <Image src={bubble} alt="" width={139} className="pb-2" height={139} />
       </div>
     </div>

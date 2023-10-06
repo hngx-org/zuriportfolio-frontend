@@ -15,6 +15,10 @@ export interface MainLayoutContextProps {
   setActivePage: (page: string) => void;
 }
 
+export interface VerificationLayoutProps {
+  children?: React.ReactNode;
+  className?: React.ComponentProps<'div'>['className'];
+}
 export interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -23,6 +27,7 @@ export interface ModalProps {
   title?: string;
   size?: 'lg' | 'md' | 'sm';
   isCloseIconPresent?: boolean;
+}
 
 export interface PriceData {
   subtotal: number;
@@ -33,5 +38,11 @@ export interface PriceData {
 
 export interface SummaryProps {
   prices?: PriceData;
+}
 
+export interface AuthLayoutProps {
+  children: React.ReactNode;
+  authLeftImage?: React.ReactNode;
+  isTopRightBlobShown?: boolean;
+  isBottomLeftPadlockShown?: boolean;
 }

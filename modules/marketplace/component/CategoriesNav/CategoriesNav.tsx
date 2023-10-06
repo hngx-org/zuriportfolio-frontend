@@ -6,13 +6,13 @@ interface MyComponentProps {
 
 const CategoriesNav: React.FC<MyComponentProps> = ({ navItems }) => {
   return (
-    <div className="w-full  flex  px-10">
+    <div className="w-full  flex pt-10  px-10">
       <ul className="flex  w-full justify-between  gap-[32px]">
         {navItems.map((item) => {
           return (
             <li
               key={item.toLowerCase()}
-              className=" font-body  text-hngblack hover:text-hc select-none hover:cursor-pointer transition duration-400 ease-in-out text-base font-normal"
+              className=" font-ppReg text-base  hover:text-brand-green-shade50 select-none hover:cursor-pointer transition duration-400 ease-in-out text-brand-green-shade10 font-normal"
             >
               {item ? <a href="">{item}</a> : item}
             </li>

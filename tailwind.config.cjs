@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./pages/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './modules/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     extend: {
       colors: {
@@ -17,15 +21,38 @@ module.exports = {
           800: 'rgba(19, 20, 24, .8)',
           900: 'rgba(19, 20, 24, .4)',
         },
-        green: {
-          100: '#64f4ac',
-          200: '#64f4acea',
-          300: 'rgb(100, 244, 172, .7)',
-          305: '#5dc8a9',
-          400: '#05ff82',
-          405: '#3CB35A',
-          500: '#0FB982',
-          600: 'rgb(3, 252, 128, .1)',
+        brand: {
+          green: {
+            primary: '#009254',
+            hover: '#33A467',
+            focused: '#009254',
+            pressed: '#006F37',
+            shd: '#CAEAD499',
+            ttr: '#F4FBF6',
+            shade0: '#000000',
+            shade10: '#052011',
+            shade20: '#003A1B',
+            shade40: '#005427',
+            shade50: '#00894C',
+            shade70: '#64BD87',
+            shade80: '#96D4AB',
+            shade90: '#CAEAD4',
+            shade95: '#E6F5EA',
+          },
+          red: {
+            primary: '#FF2E2E',
+            hover: '#FF5C5C',
+            focused: '#FF2E2E',
+            pressed: '#FF2E2E',
+          },
+          success: {
+            primary: '#06C270',
+            hover: '#39D98A',
+            focused: '#06C270',
+            pressed: '#06C270',
+          },
+          disabled: '#E1E3E2',
+          disabled2: '#C4C7C6',
         },
         red: {
           100: 'rgb(255, 0, 0, .5)',
@@ -44,7 +71,7 @@ module.exports = {
           100: '#fff',
           200: '#f2f2f2',
           300: '#e6e6e6',
-          400: '#d9d9d9',
+          400: '#A8ACAB',
           500: '#cccccc',
           600: '#bfbfbf',
           700: '#b3b3b3',
@@ -110,6 +137,10 @@ module.exports = {
         ppReg: ['var(--font-ppReg)'],
         ppB: ['var(--font-ppB)'],
         ppEB: ['var(--font-ppEB)'],
+        manropeL: ['var(--font-manropeL)'],
+        manropeEL: ['var(--font-manropeEL)'],
+        manropeB: ['var(--font-manropeB)'],
+        manropeEB: ['var(--font-manropeEB)'],
       },
     },
   },
