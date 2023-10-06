@@ -19,12 +19,12 @@ export interface CartProductCardProps {
   productImage: string;
   productTitle: string;
   cardStyle: string;
-  productPrice: string;
+  productPrice: number;
   productRating: number;
   productSeller: string;
-  discountPercentage: string;
-  tag: string;
-  tagBackground: string;
+  discountPercentage?: number;
+  tag?: string;
+  tagBackground?: string;
 }
 
 export interface ProductCardProps {
