@@ -1,41 +1,51 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../../../public/assets/404/logo-zuri-auth.svg';
-import { Chart, I24Support, I3Dcube, Personalcard, SearchNormal1 } from 'iconsax-react';
+import { Chart, I24Support, I3Dcube, Notification, Personalcard, SearchNormal1 } from 'iconsax-react';
 import { Input } from '@ui/Input';
 import { useRouter } from 'next/router';
-import Sidebar from './AdminSidebar';
-import UserSideProfile from './UserSideProfile';
+import Sidebar from './SuperAdminSidebar';
 
 export const menu = [
   {
+    title: 'Analytics & Reporting',
+    to: '/super-admin/analytics-and-reporting',
+    icon: <Chart size="20" />,
+  },
+  {
     title: 'Product Listing',
-    to: '/admin/product-listing',
+    to: '/super-admin/product-listing',
     icon: <I3Dcube size="20" />,
   },
   {
     title: 'Vendor Management',
-    to: '/admin/vendor-management',
+    to: '/super-admin/vendor-management',
     icon: <Personalcard size="20" />,
   },
   {
-    title: 'Analytics & Reporting',
-    to: '/admin/analytics-and-reporting',
-    icon: <Chart size="20" />,
-  },
-  {
     title: 'Feedback & Customer Support',
-    to: '/admin/feedback-and-customer-support',
+    to: '/super-admin/feedback-and-customer-support',
     icon: <I24Support size="20" />,
   },
-  // {
-  //   title: 'Role-Based Access Control',
-  //   to: '/admin/role-base-and-access-control',
-  // },
 ];
 
-const AdminNavbar = () => {
+const SuperAdminNavbar = () => {
   const router = useRouter();
+  const changePageTitle = (route: string) => {
+    switch (route) {
+      case '/super-admin/analytics-and-reporting':
+        return 'Analytics & Reporting';
+      case '/super-admin/product-listing':
+        return 'Product Listing';
+      case '/super-admin/vendor-management':
+        return 'Vendor Management';
+      case '/super-admin/feedback-and-customer-support':
+        return 'Feedback & Customer Support';
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <nav className="sticky top-0 bg-white-100">
@@ -60,8 +70,11 @@ const AdminNavbar = () => {
               leftIcon={<SearchNormal1 color="#777" />}
             />
           </div>
-          <p className="font-manropeB block md:hidden">Product Listing</p>
-          <UserSideProfile showNotification parentComp="navbar" />
+          <p className="font-manropeB block md:hidden">{changePageTitle(router.pathname)}</p>
+          <div className='flex items-center gap-4'>
+            <Notification size="24" color="#5b5f5e" className='cursor-pointer' />
+            <p className="text-xs text-gray-500 font-manropeL hidden md:block">Super Admin</p>
+          </div>
         </div>
         <div className="px-24 py-5 mt-6 justify-between font-manropeB hidden lg:flex">
           {menu.map((item) => (
@@ -83,4 +96,4 @@ const AdminNavbar = () => {
   );
 };
 
-export default AdminNavbar;
+export default SuperAdminNavbar;

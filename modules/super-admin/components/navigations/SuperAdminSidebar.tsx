@@ -1,11 +1,10 @@
 import { HambergerMenu, LogoutCurve } from 'iconsax-react';
-import UserSideProfile from './UserSideProfile';
-import { menu } from './AdminNavbar';
+import { menu } from './SuperAdminNavbar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-const AdminSidebar = () => {
+const SuperAdminSidebar = () => {
   const router = useRouter();
   const [showSidebar, setShowSidebar] = useState(false);
 
@@ -14,7 +13,7 @@ const AdminSidebar = () => {
   return (
     <>
       <div className="block lg:hidden">
-        <div className="w-fit" onClick={() => setShowSidebar(true)}>
+        <div className="" onClick={() => setShowSidebar(true)}>
           <HambergerMenu size="32" color="#464646" />
         </div>
         <div
@@ -22,15 +21,15 @@ const AdminSidebar = () => {
           style={{ transform: sidebarTransform }}
         >
           <div className="px-10">
-            <UserSideProfile parentComp="sidebar" />
+            <p className="text-xs text-gray-500 font-manropeL">Super Admin</p>
           </div>
-          <div className="flex-grow px-5  text-xs md:text-sm ">
+          <div className="flex-grow px-5  text-xs md:text-sm mt-14">
             <div className="flex flex-col gap-6">
               {menu.map((item) => (
                 <div
                   key={item.title}
                   className={`${
-                    router.pathname !== item.to ? 'text-brand-green-primary bg-[#F5FBF6]' : 'text-[#737876]'
+                    router.pathname === item.to ? 'text-brand-green-primary bg-[#F5FBF6]' : 'text-[#737876]'
                   } p-4 w-full rounded-[8px] flex items-center gap-3`}
                 >
                   <div>{item.icon}</div>
@@ -55,4 +54,4 @@ const AdminSidebar = () => {
   );
 };
 
-export default AdminSidebar;
+export default SuperAdminSidebar;

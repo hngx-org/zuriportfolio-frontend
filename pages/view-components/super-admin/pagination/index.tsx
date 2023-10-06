@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import AdminPagination from '../../../../modules/admin/components/pagination';
+import SuperAdminPagination from '../../../../modules/super-admin/components/pagination';
 
 const Pagination = () => {
-      // Example data
+  // Example data
   const totalItems = 1000;
   const itemsPerPage = 10;
 
@@ -14,7 +14,7 @@ const Pagination = () => {
     setCurrentPage(newPage);
   };
 
-  return <AdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />;
+  return <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />;
 };
 
 export default Pagination;
