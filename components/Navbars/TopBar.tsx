@@ -75,9 +75,7 @@ function TopBar() {
                   bg-opacity-0 hover:cursor-pointer "
                 >
                   <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
-                  <option> Adventure</option>
-                  <option>Action</option>
-                  <option>Awesome</option>
+                  <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
                 </select>
                 <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                   <div className="w-6 h-6  ">
