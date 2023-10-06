@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
+import { Input } from '@ui/Input';
+import Button from '@ui/Button';
 import { Eye, EyeSlash } from 'iconsax-react';
 
 function ResetPassword() {
@@ -23,17 +25,20 @@ function ResetPassword() {
                   <label htmlFor="reset_new_password" className="font-manropeB text-base font-semibold text-gray-700">
                     New password
                   </label>
-                  <div className="w-full h-[2.75rem] md:h-[3.75rem] rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] flex justify-between items-center">
-                    <input
-                      id="reset_new_password"
-                      type={showPassword[0] ? 'text' : 'password'}
-                      className="h-[2.75rem] md:h-[3.75rem] w-[85%] bg-transparent outline-none pl-3 text-gray-500 text-base font-manropeEL font-light"
-                      required
-                    />
-                    <div className="pr-3 cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
-                      {showPassword[0] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
-                    </div>
-                  </div>
+                  <Input
+                    id="reset_new_password"
+                    name="reset_new_password"
+                    type={showPassword[0] ? 'text' : 'password'}
+                    isPasswordVisible={showPassword[0]}
+                    className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-gray-500 text-base font-manropeEL font-light"
+                    placeHolder="new password"
+                    rightIcon={
+                      <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
+                        {showPassword[0] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
+                      </div>
+                    }
+                    required
+                  />
                 </div>
                 <div className="flex flex-col gap-3">
                   <label
@@ -42,21 +47,24 @@ function ResetPassword() {
                   >
                     Confirm password
                   </label>
-                  <div className="w-full h-[2.75rem] md:h-[3.75rem] rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] flex justify-between items-center">
-                    <input
-                      id="reset_confirm_password"
-                      type={showPassword[1] ? 'text' : 'password'}
-                      className="h-[2.75rem] md:h-[3.75rem] w-[85%] bg-transparent outline-none pl-3 text-gray-500 text-base font-manropeEL font-light"
-                      required
-                    />
-                    <div className="pr-3 cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
-                      {showPassword[1] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
-                    </div>
-                  </div>
+                  <Input
+                    id="reset_confirm_password"
+                    name="reset_confirm_password"
+                    type={showPassword[1] ? 'text' : 'password'}
+                    isPasswordVisible={showPassword[1]}
+                    className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-gray-500 text-base font-manropeEL font-light"
+                    placeHolder="confirm password"
+                    rightIcon={
+                      <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
+                        {showPassword[1] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
+                      </div>
+                    }
+                    required
+                  />
                 </div>
-                <button className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-5 font-manropeB text-base text-white-100">
+                <Button className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-5 font-manropeB text-base text-white-100">
                   Change password
-                </button>
+                </Button>
               </form>
             </div>
           ) : (
