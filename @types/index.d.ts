@@ -35,3 +35,35 @@ export interface ratingProps {
 export interface starProps {
   [key: number]: ratingProps;
 }
+
+export interface VerificationLayoutProps {
+  children?: React.ReactNode;
+  className?: React.ComponentProps<'div'>['className'];
+}
+export interface ModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  children?: React.ReactNode;
+  closeOnOverlayClick?: boolean;
+  title?: string;
+  size?: 'lg' | 'md' | 'sm';
+  isCloseIconPresent?: boolean;
+}
+
+export interface PriceData {
+  subtotal: number;
+  discount: number;
+  vat: number;
+  total: number;
+}
+
+export interface SummaryProps {
+  prices?: PriceData;
+}
+
+export interface AuthLayoutProps {
+  children: React.ReactNode;
+  authLeftImage?: React.ReactNode;
+  isTopRightBlobShown?: boolean;
+  isBottomLeftPadlockShown?: boolean;
+}
