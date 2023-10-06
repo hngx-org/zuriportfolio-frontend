@@ -3,12 +3,22 @@
 
 /.next
 
+/.vscode
+
 /.env
 
 /.env.local
 
 /yarn-error.log
 
+/package-lock.json
+tsconfig.tsbuildinfo
+
+
 /tsconfig.tsbuildinfo
 
-/package-lock.json
+/npm
+
+/yarn
+
+/.vscode
