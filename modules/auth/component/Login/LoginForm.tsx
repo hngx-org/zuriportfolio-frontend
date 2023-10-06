@@ -11,10 +11,11 @@ import shape from '../../../../public/assets/loginPageAssets/shape.svg';
 import lock from '../../../../public/assets/loginPageAssets/lock.svg';
 import hide from '../../../../public/assets/loginPageAssets/hide.svg';
 import Header from './header';
+import Link from 'next/link';
 
 function LoginForm() {
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden font-manropeL">
       <Header />
       <div className="pl-4 md:lg:pl-16 pr-4 md:lg:pr-16 pt-4 md:lg:pt-8 pb-4 md:lg:pb-8 ">
         <div className="absolute right-0 top-0 hidden md:hidden sm:hidden lg:block">
@@ -45,9 +46,9 @@ function LoginForm() {
                 <label htmlFor="" className="text-[#344054] font-semibold leading-7">
                   Email Address
                 </label>
-                <div className="input flex items-center   pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)] w-[100%]">
+                <div className="input flex items-center   pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white  w-[100%]">
                   <input
-                    className=" shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]  "
+                    className=" shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)] outline-none"
                     placeholder="Aliusugar@gmail.com "
                   />
                 </div>
@@ -58,15 +59,17 @@ function LoginForm() {
                 </div>
                 <div className="input flex md:gap-[50%] gap-[35%]   items-center  w-[100%]  pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] md:pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]">
                   <input
-                    className="shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]"
+                    className="shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]  outline-none"
                     placeholder="Gbemi345"
                   />
                   <Image src={loginEye} alt="visible" className="ml-[3rem] hidden lg:block md:block" />
                   <Image src={hide} alt="Hide" className=" block lg:hidden md:hidden" />
                 </div>
-                <p className=" font-manrope text-[#009254] text-right  text-[1.18313rem] mt-[0.62rem]">
-                  Forgot Password ?
-                </p>
+                <Link href={'/auth/twoFactorAuthentication'}>
+                  <p className=" font-manrope text-[#009254] text-right  text-[1.18313rem] mt-[0.62rem]">
+                    Forgot Password ?
+                  </p>
+                </Link>
                 <Button
                   intent={'primary'}
                   className="flex justify-center items-center gap-4 md:pl-[15.0625rem] md:pr-[15.0625rem] pl-[55%] pr-[40%] py-3 md:px-60 md:w-[100%] w-[100%] h-14 rounded-lg button text-white-100 text-center mt-[1rem]"

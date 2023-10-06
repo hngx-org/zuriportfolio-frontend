@@ -1,5 +1,5 @@
 import React from 'react';
-import withAuth from '../helpers/withAuth';
+// import withAuth from '../helpers/withAuth';
 import NavDashBoard from '../modules/dashboard/component/Navbar';
 import ShopOwnerDashboard from '../modules/dashboard/component/ShopOwnerDashboard';
 
