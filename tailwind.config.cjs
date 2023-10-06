@@ -156,6 +156,7 @@ module.exports = {
         gray: {
           100: '#a0a6c9',
           200: '#3f4550',
+          300: '#8D9290',
         },
       },
       fontFamily: {
