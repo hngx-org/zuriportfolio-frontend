@@ -40,7 +40,7 @@ function TopBar() {
         {/* Right Items */}
 
         <div
-          className={`flex items-center gap-4 lg:static absolute lg:flex-row flex-col ${
+          className={`lg:flex hidden items-center gap-4 lg:static  lg:flex-row flex-col ${
             toggle ? 'left-0' : 'left-[-100dvw]'
           }  bg-white-100 w-[100%] py-8 lg:py-0 lg:w-auto lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]  z-[1]`}
         >
@@ -131,7 +131,7 @@ function TopBar() {
               </div>
               <span className=" lg:hidden">Cart</span>
             </div>
-            <div className="justify-center items-center lg:w-auto w-[100%] gap-2 lg:flex-row flex flex-col">
+            <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
               <Button
                 href="/auth/login"
                 className="rounded-lg border-0 bg-green-50 bg-opacity-50"
