@@ -7,21 +7,21 @@ import intermidiate from '../../../public/assets/images/intermediateBadge.png';
 
 const Feedback = () => {
   const exepert = {
-    score: '90%',
+    score: '90',
     img: expertBag,
-    badgeName: 'expert',
+    badgeName: 'Expert',
   };
   const midiate = {
-    score: '79%',
+    score: '79',
     img: intermidiate,
     retake: 'Retake',
-    badgeName: 'intermediate',
+    badgeName: 'Intermediate',
   };
   const beginner = {
-    score: '49%',
+    score: '49',
     img: beginnerImg,
     retake: 'Retake',
-    badgeName: 'beginner',
+    badgeName: 'Beginner',
   };
   return (
     <div className=" bg-white-300">
