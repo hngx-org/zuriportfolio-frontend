@@ -22,7 +22,7 @@ function ResetPassword() {
               </div>
               <form className="flex flex-col gap-4" onSubmit={(e) => (e.preventDefault(), setPasswordChanged(true))}>
                 <div className="flex flex-col gap-3">
-                  <label htmlFor="reset_new_password" className="font-manropeB text-base font-semibold text-gray-700">
+                  <label htmlFor="reset_new_password" className="font-manropeB text-base font-semibold text-[#344054]">
                     New password
                   </label>
                   <Input
@@ -30,7 +30,7 @@ function ResetPassword() {
                     name="reset_new_password"
                     type={showPassword[0] ? 'text' : 'password'}
                     isPasswordVisible={showPassword[0]}
-                    className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-gray-500 text-base font-manropeEL font-light"
+                    className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-[#667085] text-base font-manropeEL font-light"
                     placeHolder="new password"
                     rightIcon={
                       <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
@@ -43,7 +43,7 @@ function ResetPassword() {
                 <div className="flex flex-col gap-3">
                   <label
                     htmlFor="reset_confirm_password"
-                    className="font-manropeB text-base font-semibold text-gray-700"
+                    className="font-manropeB text-base font-semibold text-[#344054]"
                   >
                     Confirm password
                   </label>
@@ -52,7 +52,7 @@ function ResetPassword() {
                     name="reset_confirm_password"
                     type={showPassword[1] ? 'text' : 'password'}
                     isPasswordVisible={showPassword[1]}
-                    className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-gray-500 text-base font-manropeEL font-light"
+                    className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-[#667085] text-base font-manropeEL font-light"
                     placeHolder="confirm password"
                     rightIcon={
                       <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
@@ -81,9 +81,9 @@ function ResetPassword() {
               <p className="font-manropeL lg:font-manropeB text-sm lg:text-[1.375rem] text-[#536066] w-[80%] md:w-[40%] lg:w-full">
                 Your password has been successfully changed
               </p>
-              <button className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-8 font-manropeB text-base text-white-100">
+              <Button className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-8 font-manropeB text-base text-white-100">
                 Login to account
-              </button>
+              </Button>
             </div>
           )}
         </div>
