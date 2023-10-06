@@ -34,7 +34,7 @@ export interface SelectInputVariants
 
 interface SelectInputVariantsProps extends SelectInputVariants {
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: Array<{ value: string; label: string }>;
+  options: Array<{ value: string; label: string; disabled?: boolean }>;
   isLoading?: boolean;
   disabled?: boolean;
   href?: string;
@@ -54,6 +54,7 @@ interface TextInputProps extends InputVariants {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   placeHolder?: string;
+  isPasswordVisible?: boolean;
 }
 
 export function SelectInput({
@@ -87,7 +88,7 @@ export function SelectInput({
         disabled={disabled}
       >
         {options.map((op, idx) => (
-          <option key={idx} value={op.value}>
+          <option key={idx} value={op.value} disabled={op.disabled}>
             {op.label}
           </option>
         ))}
