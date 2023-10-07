@@ -24,7 +24,7 @@ const Feedback = () => {
     badgeName: 'Beginner',
   };
   return (
-    <div className=" bg-white-300">
+    <div className=" bg-white-300 w-full">
       <FeedbackHeader />
       <Feedcard score={beginner.score} badge={beginner.img} badgeName={beginner.badgeName} retake="" />
     </div>
