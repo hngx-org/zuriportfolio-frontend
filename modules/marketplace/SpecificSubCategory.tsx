@@ -266,7 +266,9 @@ const SpecificSubCategory: FC = () => {
   return (
     <div>
       <MainLayout showDashboardSidebar={false} showFooter={true} showTopbar={true} activePage="marketplace">
-        <div className={`${manropeL.className} w-[100%] flex flex-col px-[1rem] mb-[2rem] md:px-[1.5rem] lg:px-[4rem]`}>
+        <div
+          className={`${manropeL.className} w-[100%] flex flex-col px-[1rem] mb-[2rem] md:px-[1.5rem] lg:px-[4rem] lg:max-w-[1350px] mx-auto`}
+        >
           {/* nav component */}
           <nav></nav>
           {/* nav component */}
@@ -289,11 +291,11 @@ const SpecificSubCategory: FC = () => {
             <div className="flex items-center">
               <div
                 aria-label="number of products available"
-                className={`${manropeB.className} text-[#052011] text-[1rem] leading-[1.5rem] tracking-[0.005rem] md:text-[1.5rem] md:leading-[2rem] lg:text-[1.75rem] lg:leading-[2.25rem]`}
+                className={`${manropeB.className} text-green-850 text-[1rem] leading-[1.5rem] tracking-[0.005rem] md:text-[1.5rem] md:leading-[2rem] lg:text-[1.75rem] lg:leading-[2.25rem]`}
               >
                 {formatNumberWithCommas(57098)} Products
               </div>
-              <Button className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-[#fff] w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem]">
+              <Button className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-white-100 w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem] hover:text-white-100">
                 Filter
               </Button>
             </div>

@@ -1,59 +1,45 @@
-import { CartProductCardProps, ProductCardProps } from '../../../../../@types';
+import Image from "next/image";
+import {CartProductCardProps}  from "../../../../../@types";
 
-export default function ProductCard({
-  productImage,
-  productTitle,
-  cardStyle,
-  productPrice,
-  productRating,
-  productSeller,
-  discountPercentage,
-  tag,
-  tagBackground,
-}: CartProductCardProps) {
-  let tagStyle = ` absolute py-2 px-3 top-0 left-0 rounded-md text-[#fff] ${tagBackground} `;
-  const get_rating = () => {
-    let MAX_RATING = 5;
-    let ratings: any[] = [];
+export default function ProductCard({productImage,productTitle,cardStyle,
+                                    productPrice,productRating,productSeller,
+                                    discountPercentage,tag,tagBackground}: CartProductCardProps) {
 
-    for (let i = 0; i < productRating; i++) {
-      ratings.push(1);
-    }
+    let tagStyle = ` absolute py-2 px-3 top-0 left-0 rounded-md text-[#fff] font-manropeB ${tagBackground} `;
 
-    if (ratings.length < 5) {
-      let y = 5 - ratings.length;
+    const getRating = () => {
+      let maxRating = 5;
+      const ratings = Array(productRating).fill(1).concat(Array(maxRating - productRating).fill(0));
+    
+      return ratings.map((rating, index) => (
+        <Image
+          key={index}
+          className="h-5 w-5"
+          src={rating === 1 ? "/assets/icons/star-fill.svg" : "/assets/icons/star-outline.svg"}
+          width={25}
+          height={25}
+          alt={rating === 1 ? "star-fill" : "star-outline"}
+        />
+      ));
+    };
 
-      for (let x = 0; x < y; x++) {
-        ratings.push(0);
-      }
-    }
-    let content = ratings.map((rating) => {
-      if (rating > 0) {
-        return <img className="h-5 w-5" src="/assets/icons/star-fill.svg" alt="" />;
-      } else {
-        return <img className="h-5 w-5" src="/assets/icons/star-outline.svg" alt="" />;
-      }
-    });
-
-    return content;
-  };
   return (
     <div className={cardStyle}>
-      <div className="relative  mb-3">
-        <img className="w-full" src={productImage} alt={productTitle} />
-        {discountPercentage && (
-          <span className="absolute py-2 px-3 top-0 left-0 bg-[#e6f5ea] rounded-md">{discountPercentage}% off</span>
-        )}
+      <div className="relative w-full mb-3 overflow-hidden">
+      <Image width={254} height={209} src={productImage} alt={productTitle} ></Image>
+        {discountPercentage && <span className="absolute py-2 px-3 top-0 left-0 bg-[#e6f5ea] rounded-md">{discountPercentage}% off</span>}
         {tag && <span className={tagStyle}>{tag}</span>}
-        <img className="absolute top-0 right-0" src="/assets/icons/close.svg" alt="" />
+        <Image className="absolute top-0 right-3" width={25} height={25} src="/assets/icons/close.svg" alt="close" ></Image>
       </div>
       <div className="md:w-[252px] ">
-        <p className="truncate">{productTitle}</p>
-        <p className="text-2xl font-bold">${productPrice}</p>
-        <div className="mt-2 font-light">
+        <p className="truncate font-manropeL text-sm">{productTitle}</p>
+        <p className="text-2xl font-bold font-manropeEB">${productPrice}</p>
+        <div className="mt-2 font-light font-manropeL">
           <span>By:</span> <span className="underline">{productSeller}</span>
         </div>
-        <div className="flex mt-5 mb-3">{get_rating()}</div>
+        <div className="flex mt-5 mb-3">
+        {getRating()} <span className="ml-2 font-manropeB">({productRating})</span>
+        </div>
       </div>
     </div>
   );
