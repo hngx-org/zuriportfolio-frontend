@@ -2,10 +2,8 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { PriceData, SummaryProps } from '../../../../../@types';
 import PaymentInformationModal from './PaymentInformationModal';
-// import useDisclosure from '../../../../../hooks/useDisclosure';
 
 const Summary: React.FC<SummaryProps> = ({ prices }) => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
