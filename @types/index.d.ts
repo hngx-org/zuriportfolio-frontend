@@ -266,6 +266,17 @@ export interface PromotionHistory {
   action?: any;
 }
 
+export interface ReviewCardProps {
+  id?: number;
+  className?: string;
+  imageSrc: string;
+  title: string;
+  author: string;
+  avgRating: number;
+  ratingNo: number;
+  price: number;
+}
+
 export interface ProjectModalProps {
   title: string;
   tags: string[];
