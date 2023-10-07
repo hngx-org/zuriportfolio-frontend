@@ -1,7 +1,4 @@
-
 import React, { useState } from 'react';
-
-
 
 import ChangeAnswerModal from '@modules/assessment/modals/ChangeAnswer';
 import Button from '@ui/Button';
@@ -10,8 +7,6 @@ import SubmissionSuccess from '@modules/assessment/modals/SubmissionSuccess';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 
 const ViewModals: React.FC = () => {
- 
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -52,23 +47,21 @@ const ViewModals: React.FC = () => {
     setIsSuccessOpen(false);
   };
 
-
-  const handlesubmissionsuccess = ()=>{
-      setIsSuccessOpen(!isSuccessOpen)
-      closeConfirmation();
-      closeModal()
-  }
+  const handlesubmissionsuccess = () => {
+    setIsSuccessOpen(!isSuccessOpen);
+    closeConfirmation();
+    closeModal();
+  };
 
   const handleRetake = () => {
-    setIsOutOftimeOpen(!isOutOftimeOpen)
+    setIsOutOftimeOpen(!isOutOftimeOpen);
     closeConfirmation();
-      closeModal()
-      setIsSuccessOpen(false);
+    closeModal();
+    setIsSuccessOpen(false);
   };
 
   return (
     <div className="bg-white-300 pb-8 min-h-screen">
-     
       <div className="flex gap-3 mb-4">
         <Button onClick={openModal}>Test Change Answer</Button>
         <Button onClick={openConfirmation}>Test confirm submission</Button>
@@ -83,18 +76,9 @@ const ViewModals: React.FC = () => {
           currentAnswer={'To provide customer support'}
         />
       )}
-      {isConfirmationOpen && (
-        <ConfirmSubmission
-          onCancel={closeConfirmation}
-          onConfirm={handleConfirmSubmission}
-        />
-      )}
-      {isSuccessOpen && (
-        <SubmissionSuccess onClose={handleSuccessClose} />
-      )}
-      {isOutOftimeOpen && (
-        <OutOfTime onClose={handleRetake}  onRetake={handleRetake}  />
-      )}
+      {isConfirmationOpen && <ConfirmSubmission onCancel={closeConfirmation} onConfirm={handleConfirmSubmission} />}
+      {isSuccessOpen && <SubmissionSuccess onClose={handleSuccessClose} />}
+      {isOutOftimeOpen && <OutOfTime onClose={handleRetake} onRetake={handleRetake} />}
     </div>
   );
 };

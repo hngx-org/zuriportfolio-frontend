@@ -114,7 +114,7 @@ export interface ModalProps {
   children?: React.ReactNode;
   closeOnOverlayClick?: boolean;
   title?: string;
-  size?: 'lg' | 'md' | 'sm';
+  size?: 'lg' | 'md' | 'sm' | 'xl';
   isCloseIconPresent?: boolean;
 }
 
@@ -229,6 +229,30 @@ export interface WishlistProduct extends Product {
 export interface FavoriteProduct extends Product {
   isFavourite: boolean;
   productCreator: string;
+}
+
+export interface WorkExperience {
+  role: string;
+  description: string;
+  company: string;
+  startYear: string;
+  startMonth: string;
+  endYear: string;
+  endMonth: string;
+  id: number;
+}
+export interface VerificationProps {
+  handleClick(): void;
+}
+export interface PaginationBtn {
+  handleClick: () => void;
+  disabledFn: boolean;
+  title: React.ReactNode;
+}
+export interface AdminTablePagination {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (newPage: number) => void;
 }
 
 export interface PromotionHistory {
