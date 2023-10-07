@@ -265,3 +265,53 @@ export interface PromotionHistory {
   quantity?: number;
   action?: any;
 }
+
+export interface ReviewCardProps {
+  id?: number;
+  className?: string;
+  imageSrc: string;
+  title: string;
+  author: string;
+  avgRating: number;
+  ratingNo: number;
+  price: number;
+}
+
+export interface ProjectModalProps {
+  title: string;
+  tags: string[];
+  description: string;
+  url: string;
+  images: object[];
+}
+
+export interface ProjectModalProps {
+  title: string;
+  tags: string[];
+  description: string;
+  url: string;
+  images: object[];
+}
+
+export interface RatingBarProps {
+  avgRating: number;
+}
+
+export interface RatingCardProps {
+  rating: string;
+  users: string;
+}
+
+export interface filterProps {
+  rating: number;
+  review: number;
+}
+
+export interface reviewProps {
+  buyerName: string;
+  adminDate: string;
+  review: string;
+  noOfStars: number;
+  shopName?: string;
+  shopReply?: string;
+}
