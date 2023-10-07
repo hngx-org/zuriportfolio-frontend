@@ -3,7 +3,7 @@ import Modal from '../ui/Modal';
 import Image from 'next/image';
 import badge from "../../public/assets/images/CATAYST.png";
 import peaceIcon from "../../public/assets/images/peace-icon.png";
-import Button from '@ui/Button';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@ui/SelectInput';
 
 function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
 
@@ -24,7 +24,7 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   return (
     <Modal isOpen={isOpen} closeModal={onClose} closeOnOverlayClick isCloseIconPresent={false}>
 
-        <div className="bg-white rounded-lg pt-[110px] mx-auto flex flex-col gap-[22px] items-center">
+        <div className="bg-white rounded-lg pt-[110px] min-h-auto mx-auto flex flex-col gap-[22px] items-center">
           <h4 className="text-green-600 font-manropeB text-[32px] ">Congratulations!</h4>
 
           <Image src={badge} alt="user badge" className="w-40" priority />
@@ -37,85 +37,18 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
             You just unlocked the Expert Badge as you have scored 90 points or
             above by completing this assessment.
           </p>
-
-          <div
-            className={`flex flex-col gap-2 overflow-y-hidden duration-300 ${
-              isShown ? "h-[11rem]" : "h-14"
-            }`}
-          >
-            <Button
-              className="mt-2 px-6 py-3 text-white text-sm w-fit flex items-center gap-4 bg-[#009254] rounded-2xl"
-              onClick={() => toggleSelection()}
-            >
-              <span className='text-white-100'>Download</span>
-              {hasSelected ? (
-                <p className='text-white-100'>{selection}</p>
-              ) : isShown ? (
-                <span>
-                  <svg
-                    className="w-5"
-                    width="25"
-                    height="25"
-                    viewBox="0 0 25 25"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M20.4201 15.7734L13.9001 9.25338C13.1301 8.48338 11.8701 8.48338 11.1001 9.25338L4.58008 15.7734"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeMiterlimit="10"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              ) : (
-                <span>
-                  <svg
-                    className="w-5"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19.9201 8.94995L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.94995"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeMiterlimit="10"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              )}
-            </Button>
-            <div className="border border-[#4E4E4E] rounded-md">
-              <ul className="text-left flex flex-col">
-                <li
-                  className="py-1 px-2 cursor-pointer hover:bg-green-300"
-                  onClick={handleSelect}
-                >
-                  PDF
-                </li>
-                <li
-                  className="py-1 px-2 cursor-pointer hover:bg-green-300"
-                  onClick={handleSelect}
-                >
-                  JPG
-                </li>
-                <li
-                  className="py-1 px-2 cursor-pointer hover:bg-green-300"
-                  onClick={handleSelect}
-                >
-                  PNG
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+          
+          <Select>
+            <SelectTrigger className='relative z-50 min-w-[8rem] overflow-hidden rounded-md w-[120px] bg-green-400 font-manropeB text-[14px] text-white-100 relative z-50 border-none'>
+              <span>Download</span>
+            </SelectTrigger>
+            <SelectContent className='bg-green-400 border-none'>
+              <SelectItem value='pdf' onClick={handleSelect}>PDF</SelectItem>
+              <SelectItem value='jpg' onClick={handleSelect}>JPG</SelectItem>
+              <SelectItem value='png' onClick={handleSelect}>PNG</SelectItem>
+            </SelectContent>
+          </Select>
+        </div> 
     </Modal>
   );
 }
