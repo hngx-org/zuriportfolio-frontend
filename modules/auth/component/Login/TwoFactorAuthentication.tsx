@@ -16,8 +16,8 @@ const TwoFactorAuthentication = () => {
           <Image src={shape} alt="shape" />
         </div>
         <div className="md:flex md:gap-11 block">
-          <div className=" hidden md:hidden lg:block xl:block w-[40rem] ">
-            <Image src={LoginImage} alt="image" className="h-[53rem]" />
+          <div className=" hidden md:hidden lg:flex xl:block ">
+            <Image src={LoginImage} alt="image" className="lg:w-[50rem] h-[53rem]" />
           </div>
 
           {/************************* leftside *******************************************/}
