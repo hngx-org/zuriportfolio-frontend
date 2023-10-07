@@ -1,9 +1,7 @@
 import React from 'react';
-
+import { ProductCardProps, starProps } from '../../../@types';
 import Image from 'next/image';
 import Link from 'next/link';
-
-import { ProductCardProps, starProps } from '../../../@types';
 
 export default function ProductCard({
   image,
@@ -29,7 +27,7 @@ export default function ProductCard({
   const starRating = productRating in stars;
 
   return (
-    <div className="p-2.5 md:p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[286px] max-w-full">
+    <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[286px] max-w-full">
       <Link href="">
         <div className="flex flex-col items-start">
           {/* Product Image */}
@@ -40,7 +38,7 @@ export default function ProductCard({
                   Top Picks
                 </div>
               ) : showDiscount ? (
-                <div className="absolute w-[100px] h-[36px] bg-green-30 rounded-[8px] flex items-center justify-center text-green-300 tracking-[0.4%] font-manropeL font-semibold text-[12px]">
+                <div className="absolute w-[100px] h-[36px] bg-brand-green-shade95 rounded-[8px] flex items-center justify-center text-brand-green-shade50 tracking-[0.4%] font-manropeL font-semibold text-[12px]">
                   {`${discount}% Off`}
                 </div>
               ) : showLimitedOffer ? (
@@ -52,11 +50,11 @@ export default function ProductCard({
             <Image src={image} alt="Landscape picture" width={254} height={209} className="rounded-[8px]" />
           </div>
           {/* Product Name */}
-          <p className="font-manropeL text-green-850 text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px] whitespace-nowrap text-ellipsis overflow-hidden w-full">
+          <p className="font-manropeL text-brand-green-shade10 text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
             {productName?.length > 30 ? <span>{productNameTrimmed}...</span> : productName}
           </p>
           {/* Product Price */}
-          <h1 className="font-manropeL text-green-850 text-[18px] font-bold leading-[20px] letter pt-[2px] pb-[8px]">
+          <h1 className="font-manropeL text-brand-green-shade10 text-[18px] font-bold leading-[20px] letter pt-[2px] pb-[8px]">
             {`$${productPrice}`}
           </h1>
           {/* Product Owner */}

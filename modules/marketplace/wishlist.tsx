@@ -25,6 +25,8 @@ import Image from 'next/image';
 import { WishlistProductCard } from './component/WishlistProductCard';
 import { FavoriteproductCard } from './component/FavoriteProductCard';
 
+import MainLayout from '../../components/Layout/MainLayout';
+
 function Wishlist() {
   const [showEmptyWishlistModal, setShowEmptyWishlistModal] = useState(false);
 
@@ -47,7 +49,9 @@ function Wishlist() {
   }, [wishlistProducts]);
 
   return (
-    <main className="absolute w-full mx-auto">
+    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+     <div>
+    <main className="w-full container">
       {showEmptyWishlistModal && (
         <div className="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-50 backdrop-blur-5 z-10 flex justify-center items-center ">
           {/* close button */}
@@ -76,8 +80,10 @@ function Wishlist() {
           </div>
         </div>
       )}
+      </main>
+
       <div className="font-manropeL max-w-[1240px] mx-auto my-8 ">
-        <section className="py-5 px-5 sm:px-[30px] md:px-[98px] flex flex-col gap-6 my-4">
+        <section className="px-3 lg:px-0 flex flex-col gap-6 my-4">
           <div className="flex justify-between items-center">
             <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">
               My Wishlist (<span>{wishlistProducts.length}</span> items)
@@ -93,7 +99,7 @@ function Wishlist() {
             ))}
           </div>
         </section>
-        <section className="py-5 px-5 sm:px-[30px] md:px-[98px] flex flex-col gap-6 my-4">
+        <section className="px-3 lg:px-0 py-5 flex flex-col gap-6 my-4">
           <div className="flex justify-between items-center">
             <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">My Favorites</h2>
             <Button
@@ -113,7 +119,8 @@ function Wishlist() {
           </div>
         </section>
       </div>
-    </main>
+    </div>
+    </MainLayout>
   );
 }
 
