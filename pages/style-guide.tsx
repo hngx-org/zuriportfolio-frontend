@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { CodeBlock, a11yDark } from 'react-code-blocks';
 import SampleModal from '../components/Modals/SampleModal';
 import useDisclosure from '../hooks/useDisclosure';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 function ZuriCodeBlock({
   code,
@@ -236,6 +237,21 @@ function StyleGuide() {
       <div className="py-1 px-9 pb-10" id="inputs">
         <h3 className="text-3xl flex justify-center py-10">Inputs</h3>
         <div className="flex items-center justify-center gap-9">
+          <Select
+            onValueChange={(value) => {
+              console.log(value);
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
+
           <SelectInput
             leftIcon={<I24Support color="#777" />}
             inputSize={'md'}
@@ -361,6 +377,27 @@ function StyleGuide() {
             console.log(e.target.value);
           }}
 />
+
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+
+// Flexible select input
+// This allows you to customize the select input however way yu want using className.
+
+
+<Select
+  onValueChange={(value) => {
+    console.log(value);
+  }}
+>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Theme" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="light">Light</SelectItem>
+    <SelectItem value="dark">Dark</SelectItem>
+    <SelectItem value="system">System</SelectItem>
+  </SelectContent>
+</Select>
 `}
             language={'JavaScript'}
             showLineNumbers={true}
