@@ -15,6 +15,7 @@ import ShopNavbar from './component/header-footer/shopNavbar';
 import ShopFooter from './component/header-footer/shopFooter';
 import Footer from '../../components/Footer';
 
+
 const otherProducts: ProductCardProps[] = [
   {
     image: '/assets/products-banner/Image-1.png',
