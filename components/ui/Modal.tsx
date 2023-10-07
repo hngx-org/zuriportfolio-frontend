@@ -17,7 +17,7 @@ function Modal({
   closeOnOverlayClick = false,
   children,
   title,
-  size = 'lg',
+  size = 'sm',
   isCloseIconPresent = true,
 }: ModalProps) {
   return (
