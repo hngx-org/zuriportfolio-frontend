@@ -65,16 +65,16 @@ const ViewModals: React.FC = () => {
      
       <div className="flex gap-3 mb-4 w-full">
         <button 
-        className='rounded-[16px] text-white-100 items-center justify-center bg-brand-green-primary w-fit flex hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed'
+        className='rounded-[16px] p-2 text-white-100 items-center justify-center bg-brand-green-primary w-fit flex hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed'
         onClick={openModal}>Test Change Answer</button>
         <button 
-        className='rounded-[16px] text-white-100 items-center justify-center bg-brand-green-primary w-fit flex hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed'
+        className='rounded-[16px] p-2 text-white-100 items-center justify-center bg-brand-green-primary w-fit flex hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed'
         onClick={openConfirmation}>Test confirm submission</button>
         <button 
-        className='rounded-[16px] text-white-100 items-center justify-center bg-brand-green-primary w-fit flex hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed'
+        className='rounded-[16px] p-2 text-white-100 items-center justify-center bg-brand-green-primary w-fit flex hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed'
         onClick={handlesubmissionsuccess}>Test Submission Success</button>
         <button 
-        className='rounded-[16px] text-white-100 items-center justify-center bg-brand-green-primary w-fit flex hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed'
+        className='rounded-[16px] p-2 text-white-100 items-center justify-center bg-brand-green-primary w-fit flex hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed'
         onClick={handleRetake}>Test OutOftime</button>
       </div>
       {isModalOpen && (
