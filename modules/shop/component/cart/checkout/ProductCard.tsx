@@ -25,11 +25,11 @@ export default function ProductCard({productImage,productTitle,cardStyle,
 
   return (
     <div className={cardStyle}>
-      <div className="relative w-full h-[250px] overflow-hidden mb-3">
-      <Image layout="fill" src={productImage} alt={productTitle} ></Image>
+      <div className="relative w-full mb-3 overflow-hidden">
+      <Image width={254} height={209} src={productImage} alt={productTitle} ></Image>
         {discountPercentage && <span className="absolute py-2 px-3 top-0 left-0 bg-[#e6f5ea] rounded-md">{discountPercentage}% off</span>}
         {tag && <span className={tagStyle}>{tag}</span>}
-        <Image className="absolute top-0 right-0" width={25} height={25} src="/assets/icons/close.svg" alt="close" ></Image>
+        <Image className="absolute top-0 right-3" width={25} height={25} src="/assets/icons/close.svg" alt="close" ></Image>
       </div>
       <div className="md:w-[252px] ">
         <p className="truncate font-manropeL text-sm">{productTitle}</p>
