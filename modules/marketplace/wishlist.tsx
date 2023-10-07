@@ -67,8 +67,8 @@ function Wishlist() {
             <Image src={loadingIllustration} alt="loading" width={100} height={100} />
 
             <div className="flex flex-col gap-2 items-center">
-              <h3 className="text-[#101828] text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
-              <p className="text-[#475467] text-xs md:text-sm">Looks like you have no items in your wishlist.</p>
+              <h3 className="text-custom-color10 text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
+              <p className="text-custom-color14 text-xs md:text-sm">Looks like you have no items in your wishlist.</p>
             </div>
             <Button intent={'primary'} size={'sm'} className="h-[44px] rounded-md mb-4">
               Start Shopping
@@ -79,7 +79,7 @@ function Wishlist() {
       <div className="font-manropeL max-w-[1240px] mx-auto my-8 ">
         <section className="py-5 px-5 sm:px-[30px] md:px-[98px] flex flex-col gap-6 my-4">
           <div className="flex justify-between items-center">
-            <h2 className="sm:text-[28px] text-[16px] font-semibold text-[#052011]">
+            <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">
               My Wishlist (<span>{wishlistProducts.length}</span> items)
             </h2>
           </div>
@@ -95,13 +95,13 @@ function Wishlist() {
         </section>
         <section className="py-5 px-5 sm:px-[30px] md:px-[98px] flex flex-col gap-6 my-4">
           <div className="flex justify-between items-center">
-            <h2 className="sm:text-[28px] text-[16px] font-semibold text-[#052011]">My Favorites</h2>
+            <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">My Favorites</h2>
             <Button
               rightIcon={<ArrowRight2 color="#06C270" />}
               intent={'secondary'}
               size={'md'}
               spinnerColor="#000"
-              className="border-none bg-white-100 text-[#06C270] font-semibold"
+              className="border-none bg-white-100 text-brand-success-primary font-semibold"
             >
               View All
             </Button>

@@ -43,21 +43,21 @@ function LoginForm() {
 
             <div className="pt-[2.25rem]">
               <form>
-                <label htmlFor="" className="text-[#344054] font-semibold leading-7">
+                <label htmlFor="" className="text-slate-300 font-semibold leading-7">
                   Email Address
                 </label>
-                <div className="input flex items-center   pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white  w-[100%]">
+                <div className="input flex items-center   pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-slate-50 bg-white  w-[100%]">
                   <input
                     className=" shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)] outline-none"
                     placeholder="Aliusugar@gmail.com "
                   />
                 </div>
                 <div className="mt-[2.25rem]">
-                  <label htmlFor="" className="text-[#344054] font-semibold leading-7 mt-4">
+                  <label htmlFor="" className="text-slate-300 font-semibold leading-7 mt-4">
                     Password
                   </label>{' '}
                 </div>
-                <div className="input flex md:gap-[50%] gap-[35%]   items-center  w-[100%]  pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] md:pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px] border-[#d0d5dd] bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]">
+                <div className="input flex md:gap-[50%] gap-[35%]   items-center  w-[100%]  pb-[0.8125rem] pt-[0.8125rem] pl-[1.125rem] md:pr-[1.125rem] mt-[0.5rem]  py-3 px-4 rounded-lg border-[1.352px]  border-slate-50 bg-white bg-white shadow-[0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]">
                   <input
                     className="shadow-[ 0px 1.35215px 2.7043px 0px rgba(16, 24, 40, 0.05)]  outline-none"
                     placeholder="Gbemi345"
@@ -66,7 +66,7 @@ function LoginForm() {
                   <Image src={hide} alt="Hide" className=" block lg:hidden md:hidden" />
                 </div>
                 <Link href={'/auth/twoFactorAuthentication'}>
-                  <p className=" font-manrope text-[#009254] text-right  text-[1.18313rem] mt-[0.62rem]">
+                  <p className=" font-manrope text-brand-green-primary text-right  text-[1.18313rem] mt-[0.62rem]">
                     Forgot Password ?
                   </p>
                 </Link>
@@ -78,35 +78,35 @@ function LoginForm() {
                 </Button>
               </form>
               <div>
-                <p className=" text-[#536066] text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-                  Already have an account? <span className="text-[#009254] ">Sign in</span>
+                <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
+                  Already have an account? <span className="text-brand-green-primary">Sign in</span>
                 </p>
               </div>
 
               <div className="flex items-center justify-center mt-[3.09rem]">
-                <div className="w-1/2 h-[0.0925rem] bg-[#BFC8CC]"></div>
-                <p className="mx-4 text-[#BFC8CC] font-semibold">OR</p>
-                <div className="w-1/2 h-[0.0925rem] bg-[#BFC8CC]"></div>
+                <div className="w-1/2 h-[0.0625rem] bg-white-650"></div>
+                <p className="mx-4 text-white-650 font-semibold">OR</p>
+                <div className="w-1/2 h-[0.0625rem] bg-white-650"></div>
               </div>
               <div className="mt-[1.5rem] flex flex-col gap-[1rem] relative">
                 <Button
                   intent={'secondary'}
-                  className="flex justify-center items-center gap-2.5 pr-[2.625rem] py-2 pl-6 text-[#536066]  w-full h-14 rounded-[0.3125rem] border border-[#bfc8cc]"
+                  className="flex justify-center items-center gap-2.5 pr-[3rem] py-2  text-custom-color20  w-full h-14 rounded-[0.3125rem] border border-custom-color21"
                   leftIcon={<Image src={google} alt="Google" className="mr-[0.62rem]" />}
                 >
                   Contunue with Google
                 </Button>
                 <Button
                   intent={'secondary'}
-                  className="flex justify-center items-center gap-2.5 pr-[3.625rem]  py-2 pl-6 text-[#536066]  w-full h-14 rounded-[0.3125rem] border border-[#bfc8cc]"
+                  className="flex justify-center items-center gap-2.5 pr-[3.625rem]  py-2 pl-6 text-custom-color20  w-full h-14 rounded-[0.3125rem] border  border-custom-color21"
                   leftIcon={<Image src={github} alt="Google" className="mr-[0.62rem]" />}
                 >
                   Continue with Github
                 </Button>
                 <Button
                   intent={'secondary'}
-                  className="flex justify-center items-center gap-2.5 pr-[2.625rem]  py-2 pl-6 text-[#536066]  w-full h-14 rounded-[0.3125rem] border border-[#bfc8cc]"
-                  leftIcon={<Image src={facebook} alt="Google" className="" />}
+                  className="flex justify-center items-center gap-2.5 pr-[2.625rem]  py-2 pl-6 text-custom-color20  w-full h-14 rounded-[0.3125rem] border  border-custom-color21"
+                  leftIcon={<Image src={facebook} alt="Google" className="mr-[0.62rem]" />}
                 >
                   Continue with Facebook
                 </Button>
