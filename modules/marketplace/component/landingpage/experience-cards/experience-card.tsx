@@ -2,7 +2,7 @@ import React from 'react';
 
 function ExperienceCard({ children, title, content }: { children: React.ReactNode; title: string; content: string }) {
   return (
-    <li className=" flex flex-col items-center text-center md:items-start md:text-left">
+    <li className=" flex flex-col items-center text-center md:items-start md:text-left my-10">
       <span className="h-[27px] w-[30px] rounded-[18px] grid place-content-center mb-2.5 bg-brand-green-ttr">
         {children}
       </span>
