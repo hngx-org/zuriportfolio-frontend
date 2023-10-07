@@ -13,7 +13,6 @@ import { useRouter } from 'next/router';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import ShopNavbar from './component/header-footer/shopNavbar';
 import ShopFooter from './component/header-footer/shopFooter';
-import Footer from '../../components/Footer';
 
 
 const otherProducts: ProductCardProps[] = [
