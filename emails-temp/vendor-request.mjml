@@ -12,15 +12,17 @@
 
         <!-- Main Content -->
         <mj-text color="#000" padding-top="50px" font-weight="600" font-family="ManropeEB" font-size="22px">
-        Order Confirmation
+       Order request
         </mj-text>
         <mj-text font-size="16px" font-weight="400">
-             Hi Mirabel,<br />
+             Hi Vendor,
+        </mj-text>      
+         <mj-text font-size="16px" font-weight="400">
+            A client has placed an order on your website, click on the button below in order to confirm the client’s order.
         </mj-text>
-        <mj-text font-size="16px" font-weight="400">
-            Thank you for using Zuriportfolio. Your order has been received and is being shipped right now.
-            You can track the delivery progress by clicking the button below.
-        </mj-text>
+         <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px">
+            Confirm request
+        </mj-button>
         <mj-divider border-color="#F0F1F0" padding-top="20px" />
             </mj-column>
        </mj-section>
