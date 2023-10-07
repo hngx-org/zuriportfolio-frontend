@@ -14,7 +14,7 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
         <span className="text-2xl font-bold md:text-3xl">{`${isCurrency ? '$' : ''}${value}`}</span>
         <span
           className={`${
-            percentage > 0 ? 'bg-brand-green-30 text-brand-green-primary' : 'bg-[#FFDCDC] text-brand-red-primary'
+            percentage > 0 ? 'bg-green-30 text-brand-green-primary' : 'bg-pink-120 text-brand-red-primary'
           } flex items-center rounded-full px-2 py-1 font-medium gap-1`}
         >
           <Image

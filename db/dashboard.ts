@@ -1,9 +1,3 @@
-// export type MetricsCardData = typeof metricsCardData;
-// export type MetricsChartData = typeof metricsChartData;
-// export type MetricsChartTimeline = typeof metricsChartTimeline;
-// export type MetricsChartMonths = typeof metricsChartMonths;
-// export type ActivityData = typeof activityData;
-
 export const metricsCardData = [
   {
     title: "Today's revenue",

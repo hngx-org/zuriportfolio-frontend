@@ -56,7 +56,7 @@ const MetricTimeline = ({ timespan, index, active, setTimeline }: MetricTimeline
     <button
       onClick={() => setTimeline({ active: true, index })}
       className={`${
-        active ? 'bg-brand-green-30 text-brand-green-primary' : 'text-brand-white-650'
+        active ? 'bg-green-30 text-brand-green-primary' : 'text-brand-white-650'
       } p-1.5 md:p-2 rounded-md font-semibold text-sm md:text-base hover:text-brand-green-primary`}
     >
       {timespan}
