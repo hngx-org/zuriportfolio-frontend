@@ -1,5 +1,4 @@
 import { VariantProps, cva } from 'class-variance-authority';
-import { ArrowDown2, Car } from 'iconsax-react';
 import React, { DetailedHTMLProps, InputHTMLAttributes, SelectHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -148,6 +147,7 @@ export function Input({
         )}
         placeholder={placeHolder ?? 'Placeholder'}
         disabled={isLoading ?? disabled}
+        {...props}
       />
       {rightIcon && rightIcon}
     </div>

@@ -1,6 +1,8 @@
 import React from 'react';
-import { AdminTablePagination, PaginationBtn } from '../../../../@types';
+
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+
+import { AdminTablePagination, PaginationBtn } from '../../../../@types';
 
 const PaginationBtn = ({ handleClick, disabledFn, title }: PaginationBtn) => {
   return (

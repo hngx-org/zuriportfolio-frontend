@@ -26,7 +26,7 @@ export const WishlistProductCard = ({
             <div className="flex flex-col gap-2 md:gap-3">
               <div className="flex gap-1 md:gap-2 items-center">
                 <div className="flex flex-col gap-2">
-                  <p className="text-[10px] md:text-xs text-[#64748B]">{product.productCategory}</p>
+                  <p className="text-[10px] md:text-xs text-custom-color16">{product.productCategory}</p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
                     {product.productName}
                   </p>
@@ -38,16 +38,20 @@ export const WishlistProductCard = ({
               </div>
               <div className="flex gap-1 self-start">
                 <RatingCard rating={product.productRating} size={22} />
-                <span className="text-[12px] md:text-lg text-[#4F4E4E]">({product.numReviews})</span>
+                <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
               </div>
               <div className="md:hidden">
-                <p className={`text-xs font-medium text-${product.inStock ? '[#009254]' : '[#FF2E2E]'} `}>
+                <p
+                  className={`text-xs font-medium ${
+                    product.inStock ? 'text-brand-green-primary' : 'text-brand-red-primary'
+                  } `}
+                >
                   {product.inStock ? 'In Stock' : 'Out of Stock'}
                 </p>
               </div>
               <div className="md:hidden">
                 <Button
-                  className="bg-white-100 rounded-md h-[40px] border border-[#D5D5DB] text-[#00894C]"
+                  className="bg-white-100 rounded-md h-[40px] border border-custom-color17 text-brand-green-shade50"
                   size={'sm'}
                   intent={'tertiary'}
                   spinnerColor="#00894C px-3 py-1"
@@ -59,7 +63,7 @@ export const WishlistProductCard = ({
 
             <div className="hidden md:flex gap-3 self-start">
               <Button
-                className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md  border border-[#D5DBDB] text-[#737876] "
+                className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md  border border-custom-color17 text-white-650 "
                 size={'sm'}
                 spinnerColor="#D5DBDB"
                 onClick={() => removeProductFromWishlist(product.productId)}
@@ -70,8 +74,8 @@ export const WishlistProductCard = ({
                 Remove
               </Button>
               <Button
-                className={`hover:bg-white-100 bg-white-100 rounded-md border border-[#D5D5DB] ${
-                  product.inStock ? 'text-[#009254]' : 'text-[#FF2E2E]'
+                className={`hover:bg-white-100 bg-white-100 rounded-md border border-custom-color17 ${
+                  product.inStock ? 'text-brand-green-primary' : 'text-brand-red-primary'
                 }`}
                 size={'sm'}
                 intent={'tertiary'}
@@ -87,7 +91,7 @@ export const WishlistProductCard = ({
         </div>
         <div className="hidden md:block">
           <Button
-            className="bg-white rounded-md border border-[#D5D5DB] text-[#00894C]"
+            className="bg-white rounded-md border border-custom-color17 text-brand-green-shade50"
             size={'sm'}
             intent={'tertiary'}
             spinnerColor="#00894C px-4 py-2"
@@ -98,7 +102,7 @@ export const WishlistProductCard = ({
       </div>
       <div
         className="
-              h-[1px] w-full bg-[#EFEFF4]
+              h-[1px] w-full bg-custom-color19
               "
       ></div>
     </>
