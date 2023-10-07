@@ -86,13 +86,13 @@ const LandingPageFilled: React.FC = () => {
           </div>
         </div>
         <div className="font-['Manrope'] tracking-[0.08] leading-[24px] text-[#737876] self-end mb-4 w-full">
-          I'm Babatundende, a digital product designer based in Lagos, Nigeria. My
+          Im Babatundende, a digital product designer based in Lagos, Nigeria. My
           design journey has taken me across various companies, startups, and
           agencies in both Africa and Europe. With a unique blend of design and
-          engineering expertise, I've applied design methodologies to tackle
+          engineering expertise, Ive applied design methodologies to tackle
           diverse problem domains, taking charge of the entire design process,
           from research to implementation.Beyond my product design journey,
-          you'll often find me on the tennis court. I also nurture my creativity
+          youll often find me on the tennis court. I also nurture my creativity
           through music, language learning, and exploration of new destinations.
         </div>
         <div
