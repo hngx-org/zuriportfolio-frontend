@@ -32,7 +32,7 @@ function ResetPassword() {
                   id="reset_new_password"
                   name="reset_new_password"
                   type={showPassword[0] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
-                  isPasswordVisible={showPassword[0]} // Pass the visibility state as a prop
+                  // isPasswordVisible={showPassword[0]} // Pass the visibility state as a prop
                   className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-custom-color2 text-base font-manropeEL font-light"
                   placeHolder="new password"
                   rightIcon={
@@ -55,7 +55,7 @@ function ResetPassword() {
                   id="reset_confirm_password"
                   name="reset_confirm_password"
                   type={showPassword[1] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
-                  isPasswordVisible={showPassword[1]} // Pass the visibility state as a prop
+                  // isPasswordVisible={showPassword[1]} // Pass the visibility state as a prop
                   className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-custom-color2 text-base font-manropeEL font-light"
                   placeHolder="confirm password"
                   rightIcon={
