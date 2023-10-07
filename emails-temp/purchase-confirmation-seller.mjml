@@ -10,108 +10,25 @@
       <mj-class name="rounded" border-radius="0.63rem" />
       <mj-text font-family="Manrope" font-size="16px" line-height="24px" letter-spacing="0.08px" />
     </mj-attributes>
-    <mj-font 
-      name="Manrope"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap"
-      />
+    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
     <mj-style>
-      h1, h2, h3, h4, h5, h6, p {
-        margin: 0
-      }
-      h1 {
-        font-family: Manrope;
-        font-size: 1.5rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 2rem;
-        text-align: center;
-      }
-      h2 {
-        font-family: Manrope;
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 1.5rem;
-        letter-spacing: 0.005rem;
-      }
-      .header > table > tbody > tr > td, .wrapper > table > tbody > tr > td {
-        padding-block: 0 !important;
-      }
-      .mj-column-per-100 > table > tbody > tr > td {
-        padding-block-start: 0 !important;
-      }
-      @media screen and (min-width: 1024px){
-        h1 {
-          text-align: left !important;
-        }
-        .container {
-          padding: 5.69rem !important;
-        }
-        .content {
-          padding: 2rem !important;
-          box-sizing: border-box;
-        }
-        .title {
-          flex-direction: row !important;
-          justify-content: space-between;
-          align-items: flex-end !important;
-        }
-        .title > div {
-          width: 150px;
-          position: relative
-        }
-        .title > div > img {
-          bottom: 0;
-          position: absolute;
-          width: 100%;
-        }
-        .order-summary {
-          gap: 1rem !important;
-        }
-      }
-      @media screen and (min-width: 500px) {
-        .order-summary {
-          flex-direction: row !important;
-        }
-      }
-      .container {
-          padding: 3rem 1.5rem !important;
-        }
-      .content {
-        margin-block: 64px !important;
-      }
-      .content * {
-         color: #2E3130 !important;
-      }
-      .content h1 {
-         color: #1A1C1B !important;
-      }
-      .order-summary {
-        display: flex;
-        gap: .5rem;
-        flex-direction: column;
-      }
-      .title {
-        gap: .5rem;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-      }
-      .order-image {
-        width: 150px;
-        height: 150px;
-        border-radius: 8px;
-        overflow: hidden;
-      }
-      .order-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+      h1, h2, h3, h4, h5, h6, p { margin: 0 } h1 { font-family: Manrope; font-size: 1.5rem; font-style: normal;
+      font-weight: 700; line-height: 2rem; text-align: center; } h2 { font-family: Manrope; font-size: 1rem; font-style:
+      normal; font-weight: 700; line-height: 1.5rem; letter-spacing: 0.005rem; } .header > table > tbody > tr > td,
+      .wrapper > table > tbody > tr > td { padding-block: 0 !important; } .mj-column-per-100 > table > tbody > tr > td {
+      padding-block-start: 0 !important; } @media screen and (min-width: 1024px){ h1 { text-align: left !important; }
+      .container { padding: 5.69rem !important; } .content { padding: 2rem !important; box-sizing: border-box; } .title
+      { flex-direction: row !important; justify-content: space-between; align-items: flex-end !important; } .title > div
+      { width: 150px; position: relative } .title > div > img { bottom: 0; position: absolute; width: 100%; }
+      .order-summary { gap: 1rem !important; } } @media screen and (min-width: 500px) { .order-summary { flex-direction:
+      row !important; } } .container { padding: 3rem 1.5rem !important; } .content { margin-block: 64px !important; }
+      .content * { color: #2E3130 !important; } .content h1 { color: #1A1C1B !important; } .order-summary { display:
+      flex; gap: .5rem; flex-direction: column; } .title { gap: .5rem; align-items: center; display: flex;
+      flex-direction: column; } .order-image { width: 150px; height: 150px; border-radius: 8px; overflow: hidden; }
+      .order-image img { width: 100%; height: 100%; object-fit: cover; } span.bold { font-weight: 700; }
     </mj-style>
   </mj-head>
   <mj-body mj-class="secondary-color" width="1024px" css-class="container">
-
     <mj-section css-class="header">
       <mj-column>
         <mj-image width="350px" src="/assets/purchase-confirmation/icons/logo_green.svg" />
@@ -140,11 +57,12 @@
       <mj-section css-class="wrapper">
         <mj-column>
           <mj-text>
-            <p>Hi [First name],</p>
+            <p>Dear [Seller's Name],</p>
             <p>
-              We are excited to confirm your recent order with Zuriportfolio.
-              Below are the details:
+              We are pleased to inform you of a recent purchase of your online course, introduction to UIUX, on
+              Zuriportfolio.
             </p>
+            <p>Below are the order details</p>
           </mj-text>
         </mj-column>
       </mj-section>
@@ -155,15 +73,15 @@
             <h2>Order Summary</h2>
             <div>
               <span>Order #:</span>
-              <span>655922</span>
+              <span class="bold">655922</span>
             </div>
             <div>
               <span>Order Date:</span>
-              <span>September 16, 2023</span>
+              <span class="bold">September 16, 2023</span>
             </div>
             <div>
               <span>Total Amount:</span>
-              <span>20,000 NGN</span>
+              <span class="bold">20,000 NGN</span>
             </div>
           </mj-text>
         </mj-column>
@@ -173,7 +91,7 @@
         <mj-group width="100%">
           <mj-column>
             <mj-text>
-              <h2>Order Summary</h2>
+              <h2>Order Details</h2>
             </mj-text>
           </mj-column>
         </mj-group>
@@ -184,24 +102,22 @@
                 <img src="/assets/purchase-confirmation/images/imagePlaceholder.png" alt="" />
               </div>
               <div>
-              <div>
-              <span>Online Course:</span>
-              <span className="font-bold">Introduction</span>
-            </div>
-            <div>
-              <span>Instruction:</span>
-              <span className="font-bold">Daviowhite</span>
-            </div>
-            <div>
-              <span>Access link:</span>
-              <span className="font-bold"
-                >[Click here to access your course]</span
-              >
-            </div>
-            <div>
-              <span>Amount:</span>
-              <span className="font-bold">20,000 NGN</span>
-            </div>
+                <div>
+                  <span>Online Course:</span>
+                  <span class="bold">Introduction</span>
+                </div>
+                <div>
+                  <span>Instruction:</span>
+                  <span class="bold">Daviowhite</span>
+                </div>
+                <div>
+                  <span>Access link:</span>
+                  <span class="bold">[Click here to access your course]</span>
+                </div>
+                <div>
+                  <span>Amount:</span>
+                  <span class="bold">20,000 NGN</span>
+                </div>
               </div>
             </div>
           </mj-text>
@@ -217,19 +133,47 @@
         <mj-column>
           <mj-text>
             <div>
-              <h2>Billing Information</h2>
+              <h2>Buyer's Information</h2>
               <div>
                 <span>Name:</span>
-                <span>[Billing Name]</span>
+                <span class="bold">[Buyer's Name]</span>
               </div>
               <div>
                 <span>Email Address:</span>
-                <span>[Billing Email]</span>
+                <span class="bold">[Buyer's Email]</span>
+              </div>
+            </div>
+          </mj-text>
+          <mj-divider css-class="divider" border-width="2px" border-color="#E1E3E2" />
+        </mj-column>
+      </mj-section>
+      <mj-section css-class="wrapper">
+        <mj-column>
+          <mj-text>
+            <div>
+              <h2>Earnings Summary</h2>
+              <div>
+                <span>Total Earnings:</span>
+                <span class="bold">[Total Earnings]</span>
               </div>
               <div>
-                <span>Payment Method:</span>
-                <span className="font-bold">[Billing Method]</span>
+                <span>Net Earnings:</span>
+                <span class="bold">[Net Earnings]</span>
               </div>
+            </div>
+          </mj-text>
+          <mj-divider css-class="divider" border-width="2px" border-color="#E1E3E2" />
+        </mj-column>
+      </mj-section>
+      <mj-section css-class="wrapper">
+        <mj-column>
+          <mj-text>
+            <div>
+              <h2>Payment Method</h2>
+              <p>
+                Payment will be processed to your zuri portfolio wallet on [Payment Date], which can then be withdrawn
+                to your local bank.
+              </p>
             </div>
           </mj-text>
           <mj-divider css-class="divider" border-width="2px" border-color="#E1E3E2" />
@@ -239,27 +183,11 @@
       <mj-section css-class="wrapper">
         <mj-column width="100%">
           <mj-text>
-            <h2>Access Instructions</h2>
-            <ol>
-              <li>Visit the course platform using the provided access link</li>
-              <li>
-                Log in using the email address associated with this purchase
-              </li>
-              <li>Your course content will be available on your dashboard</li>
-            </ol>
-          </mj-text>
-        </mj-column>
-        <mj-column width="100%">
-          <mj-text>
             <h2>Important Notes</h2>
             <ul>
+              <li>Make sure to provide any necessary support or additional resources for your course.</li>
               <li>
-                Please keep your login information secure and do not share it
-                with others.
-              </li>
-              <li>
-                If you have any questions or need support, please contact us at
-                [Customer Support Contact].
+                If you have any questions or need assistance, please contact our support team at [Support Contact].
               </li>
             </ul>
           </mj-text>
@@ -267,20 +195,17 @@
         <mj-column width="100%">
           <mj-text>
             <span
-              >Thank you for choosing Zuriportfolio! We hope you enjoyed your
-              experience with us.</span
+              >Thank you for being a valued contributor to Zuriportfolio! We appreciate your dedication to sharing
+              knowledge.</span
             >
           </mj-text>
         </mj-column>
         <mj-column width="100%">
           <mj-text>
-            <h2 className="text-[#1A1C1B] font-bold">
-              Thanks,<br />Zuriportfolio support team
-            </h2>
+            <h2 className="text-[#1A1C1B] font-bold">Thanks,<br />Zuriportfolio support team</h2>
           </mj-text>
         </mj-column>
       </mj-section>
-
     </mj-wrapper>
     <mj-section background-color="#009254" mj-class="rounded">
       <mj-column width="100%">
