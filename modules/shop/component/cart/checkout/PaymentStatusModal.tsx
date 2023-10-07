@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { PaymentStatusModalProps } from '../../../../../@types';
 
 const PaymentStatusModal: React.FC<PaymentStatusModalProps> = ({ children }) => {

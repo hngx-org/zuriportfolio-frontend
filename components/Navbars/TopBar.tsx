@@ -4,8 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Button from '@ui/Button';
+import MobileNav from '@modules/dashboard/component/MobileNav';
 
-function TopBar() {
+function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [toggle, setToggle] = useState(false);
   const handleToggle = () => {
     setToggle(!toggle);
@@ -17,7 +18,7 @@ function TopBar() {
       ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
       : 'text-gray-600 text-base font-semibold  leading-normal tracking-tight';
   return (
-    <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[10000] relative ">
+    <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[1] relative ">
       <div className="max-w-[1240px] mx-auto flex items-center justify-between  ">
         <div className=" flex gap-14">
           <Image className="object-contain" width={126} height={24} src={logo} alt="Zuri Portfolio Logo" />
@@ -42,7 +43,7 @@ function TopBar() {
         <div
           className={`flex items-center gap-4 lg:static absolute lg:flex-row flex-col ${
             toggle ? 'left-0' : 'left-[-100dvw]'
-          }  bg-white-100 w-[100%] py-8 lg:py-0 lg:w-auto lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]  z-[1]`}
+          }  bg-white-100 w-[100%] py-8 lg:py-0 lg:w-auto lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
         >
           {/* Search Input */}
           <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col">
@@ -75,9 +76,7 @@ function TopBar() {
                   bg-opacity-0 hover:cursor-pointer "
                 >
                   <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
-                  <option> Adventure</option>
-                  <option>Action</option>
-                  <option>Awesome</option>
+                  <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
                 </select>
                 <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                   <div className="w-6 h-6  ">
@@ -97,7 +96,7 @@ function TopBar() {
             </div>
           </div>
           {/* Action Buttons */}
-          <div className="w-[267px] h-16 p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-20  lg:mt-0">
+          <div className="w-[267px]  p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
             <div className=" flex flex-col lg:hidden gap-5 ">
               <div className="group h flex flex-col ali justify-center items-center gap-1">
                 <Link className={activeLink('/')} href={'/'}>
@@ -110,6 +109,7 @@ function TopBar() {
                   Marketplace
                 </Link>
                 {router.pathname === '/marketplace' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
+                {props.showDashBorad && <MobileNav active={props.activePage} />}
               </div>
             </div>
             <div className="w-6 h-6 justify-center items-center flex  gap-2">

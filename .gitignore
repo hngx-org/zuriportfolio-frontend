@@ -23,4 +23,5 @@ tsconfig.tsbuildinfo
 
 /.vscode
 
-/helpers
+/helpers/withAuth.tsx
+/helpers/withoutAuth.tsx

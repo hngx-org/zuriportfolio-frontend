@@ -74,10 +74,6 @@ export interface starProps {
   [key: number]: ratingProps;
 }
 
-export interface VerificationLayoutProps {
-  children?: React.ReactNode;
-  className?: React.ComponentProps<'div'>['className'];
-}
 export interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -174,14 +170,13 @@ export interface MetricTimelineProps {
   setTimeline: (data: { active: boolean; index: number }) => void;
 }
 
-interface OrderHistory {
-  id: string;
+export interface OrderHistory {
+  id: number;
   productName: string;
   customerName: string;
   date: Date;
   status: 'completed' | 'cancelled' | 'pending';
 }
-
 export interface Product {
   productId: string;
   productName: string;
@@ -204,4 +199,17 @@ export interface FavoriteProduct extends Product {
 
 export interface PaymentStatusModalProps {
   children: any
+}
+export interface VerificationProps {
+  handleClick(): void;
+}
+export interface PaginationBtn {
+  handleClick: () => void;
+  disabledFn: boolean;
+  title: React.ReactNode;
+}
+export interface AdminTablePagination {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (newPage: number) => void;
 }
