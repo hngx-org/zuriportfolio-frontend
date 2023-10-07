@@ -4,18 +4,24 @@ import { ArrowLeft } from 'iconsax-react';
 import Link from 'next/link';
 import Button from '@ui/Button';
 import { useRouter } from 'next/router';
+import { AssessmentBanner } from '@modules/assessment/component/banner';
 const TakeTest: FC = () => {
   const router = useRouter();
   return (
     <>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
+        <AssessmentBanner
+          bannerImageSrc="/assets/images/banner/assm_1.svg"
+          title="Assessment test"
+          subtitle="You are currently writing the  user persona quiz"
+        />
         <div className="container pt-16 px-8 pb-36 md-pb-4 md:h-screen">
-          <div className="mx-auto sm:w  md:w-fit rounded-lg border border-slate-300 pt-10 pb-5 md:pb-10 md:px-10 px-5">
+          <div className="mx-auto sm:w  md:w-fit rounded-lg border border-slate-100 pt-10 pb-5 md:pb-10 md:px-10 px-5">
             <button onClick={() => router.back()}>
               <ArrowLeft />
             </button>
             <h1 className="text-brand-green-primary font-manropeEB mt-4 mb-6 font-extrabold text-2xl">
-              Welcome to the User persornal quiz
+              Welcome to the User persorna quiz
             </h1>
             <p className="mb-8 text-sm md:text-base">
               Test Duration: This assessment would take approximately one minute to complete
