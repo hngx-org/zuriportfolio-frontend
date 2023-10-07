@@ -2,6 +2,7 @@ import React from 'react';
 import deniedIcon from '../public/assets/deniedAssets/denied-icon.svg';
 import accessDeniedImage from '../public/assets/deniedAssets/denied-image.svg';
 import logo from '../public/assets/deniedAssets/logo.svg';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const AccessDenied = () => {
@@ -9,7 +10,7 @@ const AccessDenied = () => {
     <div className=" bg-white-100 min-h-screen">
       <header className="max-w-[1240px] py-6 px-8 mx-6 xl:mx-auto md:py-[38px]">
         <Link href={'/'}>
-          <img src={logo} alt="logo" />
+          <Image src={logo} alt="logo" />
         </Link>
       </header>
       <div className=" border-b border-[#EBEEEF] border-style: solid" />
@@ -22,7 +23,7 @@ const AccessDenied = () => {
             <h2 className="text-2xl md:text-[32px] xl:text-[45px] md:leading-[36px] xl:leading-[52px] sm:font-bold xl:text-left max-w-[504px] text-center font-semibold font-manropeL xl:font-manropeB">
               Access Denied
             </h2>
-            <img className="w-[34px]" src={deniedIcon} alt="denied-icon" />
+            <Image className="w-[34px]" src={deniedIcon} alt="denied-icon" />
           </div>
           <p className=" text-[#737876] max-w-[623px]  text-sm sm:text-2xl sm:left-8 sm:text-[#8D9290] text-center xl:text-left ">
             Whoa there, hold on! It looks like this area is off-limits. Our virtual police officer is here to ensure
@@ -34,7 +35,7 @@ const AccessDenied = () => {
             </button>
           </Link>
         </div>
-        <img
+        <Image
           src={accessDeniedImage}
           alt="Access denied"
           className="w-[180px] h-[180px] sm:w-[280px] sm:h-[280px] xl:w-[480px] xl:h-[480px] mt-[20px]"
