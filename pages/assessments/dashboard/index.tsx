@@ -5,7 +5,7 @@ import { LevelData, AssesMentData } from '../../../helpers/dashboardui'
 import MainLayout from '../../../components/Layout/MainLayout'
 
 const Dashboard = () => {
-  const [locked, setLocked] = React.useState<boolean>(false)
+  const [locked, setLocked] = React.useState<boolean>(false) 
 
   return (
     <MainLayout showTopbar activePage='dashboard' showFooter showDashboardSidebar={false}>
