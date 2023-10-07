@@ -5,34 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Button from '@ui/Button';
 import MobileNav from '@modules/dashboard/component/MobileNav';
-
-function Cart({ items }: { items?: number }) {
-  return (
-    <Link href={'/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
-      <div className="w-6 h-6 relative">
-        {items && (
-          <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
-            {items}
-          </span>
-        )}
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-          <g>
-            <g stroke="#5B5F5E" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="1.5">
-              <path d="M2 2h1.74c1.08 0 1.93.93 1.84 2l-.83 9.96a2.796 2.796 0 002.79 3.03h10.65c1.44 0 2.7-1.18 2.81-2.61l.54-7.5c.12-1.66-1.14-3.01-2.81-3.01H5.82"></path>
-              <path d="M16.25 22a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z"></path>
-              <path d="M8.25 22a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z"></path>
-              <path d="M9 8h12"></path>
-            </g>
-          </g>
-        </svg>
-      </div>
-      <span className=" lg:hidden">Cart</span>
-    </Link>
-  );
-}
+import notificationIcon from './assets/notification.svg';
+import documentUploadIcon from './assets/document-upload.svg';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
+  const [auth, setAuth] = useState(false);
   const [toggle, setToggle] = useState(false);
   const handleToggle = () => {
     setToggle(!toggle);
@@ -46,7 +23,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   return (
     <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[1] relative ">
       <div className="max-w-[1240px] mx-auto flex items-center justify-between  ">
-        <div className=" flex gap-14">
+        <div className=" flex max-w-[368px] w-[100%] gap-14">
           <Link href={'/'}>
             <Image className="object-contain" width={126} height={24} src={logo} alt="Zuri Portfolio Logo" />
           </Link>
@@ -69,11 +46,11 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         {/* Right Items */}
 
         <div
-          className={`lg:flex hidden items-center gap-4 lg:static  lg:flex-row flex-col ${
-            toggle ? 'left-0' : 'left-[-100dvw]'
-          }  bg-white-100 w-[100%] py-8 lg:py-0 lg:w-auto lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
+          className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:w-auto lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
         >
-          {/* Search Input */}
+          {/* <Search></Search>
+
+          Input */}
           <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col">
             <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-[20dvw] w-auto">
               <div className="w-4 h-4 justify-center items-center flex">
@@ -124,38 +101,44 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
           </div>
           {/* Action Buttons */}
-          <div className="w-[267px]  p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
-            <div className=" flex flex-col lg:hidden gap-5 ">
-              <div className="group h flex flex-col ali justify-center items-center gap-1">
-                <Link className={activeLink('/')} href={'/'}>
-                  Explore
-                </Link>
-                {router.pathname === '/' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
-              </div>
-              <div className=" group flex flex-col ali justify-center items-center gap-1 ">
-                <Link className={activeLink('/marketplace')} href={'/'}>
-                  Marketplace
-                </Link>
-                {router.pathname === '/marketplace' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
-                {props.showDashBorad && <MobileNav active={props.activePage} />}
-              </div>
-            </div>
-            <Cart items={6} />
-            <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
-              <Button
-                href="/auth/login"
-                className="rounded-lg border-0 bg-green-50 bg-opacity-50"
-                intent={'secondary'}
-                size={'md'}
-              >
-                Sign In
-              </Button>
+          {auth || (
+            <div className="w-[268px]  p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
+              <Cart items={6} />
+              <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
+                <Button
+                  href="/auth/login"
+                  className="rounded-lg border-0 bg-green-50 bg-opacity-50"
+                  intent={'secondary'}
+                  size={'md'}
+                >
+                  Sign In
+                </Button>
 
-              <Button href="/auth/signup" className="rounded-lg" intent={'primary'} size={'md'}>
-                Sign Up
-              </Button>
+                <Button href="/auth/signup" className="rounded-lg" intent={'primary'} size={'md'}>
+                  Sign Up
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
+          {auth && (
+            <>
+              <span>
+                <Image src={documentUploadIcon} alt="document upload icon" />
+              </span>
+
+              <Cart items={6} />
+              <span>
+                <Image src={notificationIcon} alt="notification icon" />
+              </span>
+              <div className="auth flex items-center gap-3">
+                <div className="details">
+                  <p className=" font-bold">John Doe</p>
+                  <p className="text-sm ">Zuri Team</p>
+                </div>
+                <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
+              </div>
+            </>
+          )}
         </div>
         <MenuIcon toggle={toggle} style="lg:hidden" toggler={handleToggle} />
       </div>
@@ -320,5 +303,31 @@ function MenuUI({
         </Button>
       </ul>
     </nav>
+  );
+}
+
+function Cart({ items }: { items?: number }) {
+  return (
+    <Link href={'/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
+      <div className="w-6 h-6 relative">
+        {items && (
+          <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+            {items}
+          </span>
+        )}
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <g>
+            <g stroke="#5B5F5E" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="1.5">
+              <path d="M2 2h1.74c1.08 0 1.93.93 1.84 2l-.83 9.96a2.796 2.796 0 002.79 3.03h10.65c1.44 0 2.7-1.18 2.81-2.61l.54-7.5c.12-1.66-1.14-3.01-2.81-3.01H5.82"></path>
+              <path d="M16.25 22a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z"></path>
+              <path d="M8.25 22a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z"></path>
+              <path d="M9 8h12"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <span className=" lg:hidden">Cart</span>
+    </Link>
   );
 }
