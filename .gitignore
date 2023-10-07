@@ -26,4 +26,4 @@ tsconfig.tsbuildinfo
 /helpers/withAuth.tsx
 /helpers/withoutAuth.tsx
 
-/yarn.lock
+yarn.lock
