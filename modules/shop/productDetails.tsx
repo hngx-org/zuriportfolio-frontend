@@ -194,7 +194,7 @@ export default function ProductDetails() {
             </p>
             <p className="flex gap-x-4 items-center">
               <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">$100.00</span>
-              <span className="text-[22px] font-normal font-manrope line-through leading-7 text-[#8D9290]">
+              <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
                 $120.00
               </span>
             </p>
