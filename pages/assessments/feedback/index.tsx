@@ -4,7 +4,7 @@ import MainLayout from '../../../components/Layout/MainLayout';
 
 const feedback = () => {
   return (
-    <MainLayout activePage="dashbord" showTopbar showFooter showDashboardSidebar={false}>
+    <MainLayout activePage="assessments" showTopbar showFooter showDashboardSidebar={false}>
       <Feedback />
     </MainLayout>
   );
