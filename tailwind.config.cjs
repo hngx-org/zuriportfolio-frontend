@@ -168,7 +168,7 @@ module.exports = {
           300: '#8D9290',
           400: '#737876',
         },
-	custom: {
+        custom: {
           color1: '#eaecf0',
           color2: '#667085',
           color3: '#f9fafb',
@@ -188,6 +188,22 @@ module.exports = {
           color17: '#D5D5DB',
           color18: '#D5DBDB',
           color19: '#EFEFF4',
+          color20: '#536066',
+          color21: '#bfc8cc',
+          color22: '#5B5F5E',
+          color23: '#59656F',
+          color24: '#FCEEE3',
+          color25: '#A46A26',
+          color26: '#F2F4F5',
+          color27: '#767676',
+          color28: '#263238',
+          color29: '#6C6C6C',
+          color30: '#6B797F',
+          color31: '#101928',
+          color32: '#d5dbdd',
+          color33: '#F9F9FA',
+          color34: '#E53535', 
+          color35: '#05A660',
         },
       },
       fontFamily: {
@@ -202,5 +218,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 };
