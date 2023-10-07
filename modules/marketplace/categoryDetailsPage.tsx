@@ -161,7 +161,7 @@ function getLabel(showTopPicks: boolean, showDiscount: boolean, showLimitedOffer
     labels.push(
       <div
         key="top-picks"
-        className="absolute w-[100px] h-[36px] bg-[#59656F] rounded-[8px] flex items-center justify-center tracking-[0.4%] text-white-100 font-manropeL font-semibold text-[12px]"
+        className="absolute w-[100px] h-[36px] bg-gray-300 rounded-[8px] flex items-center justify-center tracking-[0.4%] text-white-100 font-manropeL font-semibold text-[12px]"
       >
         Top Picks
       </div>,
@@ -172,7 +172,7 @@ function getLabel(showTopPicks: boolean, showDiscount: boolean, showLimitedOffer
     labels.push(
       <div
         key="discount"
-        className="absolute w-[100px] h-[36px] bg-[#E6F5EA] rounded-[8px] flex items-center justify-center text-[#00894C] tracking-[0.4%] font-manropeL font-semibold text-[12px]"
+        className="absolute w-[100px] h-[36px] bg-green-30 rounded-[8px] flex items-center justify-center text-green-40 tracking-[0.4%] font-manropeL font-semibold text-[12px]"
       >
         {`${60}% Off`}
       </div>,
@@ -183,7 +183,7 @@ function getLabel(showTopPicks: boolean, showDiscount: boolean, showLimitedOffer
     labels.push(
       <div
         key="limited-offer"
-        className="absolute w-[100px] h-[36px] bg-[#FCEEE3] rounded-[8px] flex items-center justify-center text-[#A46A26] tracking-[0.4%] font-manropeL font-semibold text-[12px]"
+        className="absolute w-[100px] h-[36px] bg-green-30 rounded-[8px] flex items-center justify-center text-orange-700 tracking-[0.4%] font-manropeL font-semibold text-[12px]"
       >
         Limited Offer
       </div>,
@@ -203,7 +203,7 @@ const ProductCard = ({
   discount,
 }: ProductCardProps) => {
   return (
-    <div className="flex flex-col content-center max-sm:p-[12px] md:p-[14px] lg:p-[16px] border-[1px] rounded-[8px] max-w-full border-[#d5dbdd] relative">
+    <div className="flex flex-col content-center max-sm:p-[12px] md:p-[14px] lg:p-[16px] border-[1px] rounded-[8px] max-w-full border-white-800 relative">
       {getLabel(showTopPicks, showDiscount, showLimitedOffer, discount)}
       <div className="w-full h-auto rounded-[9px]">
         <Image
@@ -214,13 +214,13 @@ const ProductCard = ({
           height={209}
         />
       </div>
-      <h2 className=" mt-[8px] max-sm:text-[13px] md:text-[15px] lg:text-[16px] leading-[20px] tracking-[0.1%] font-normal font-manropeL text-[#052011] capitalize max-w-full overflow-hidden whitespace-nowrap overflow-ellipsis">
+      <h2 className=" mt-[8px] max-sm:text-[13px] md:text-[15px] lg:text-[16px] leading-[20px] tracking-[0.1%] font-normal font-manropeL text-dark-106 capitalize max-w-full overflow-hidden whitespace-nowrap overflow-ellipsis">
         {AllCategoryDetails.name}
       </h2>
-      <p className="mt-[6px] font-bold max-sm:text-[16px] md:text-[17px] lg:text-[18px] leading-[24.59px] text-[#052011] font-manropeEB">
+      <p className="mt-[6px] font-bold max-sm:text-[16px] md:text-[17px] lg:text-[18px] leading-[24.59px] text-dark-106 font-manropeEB">
         {AllCategoryDetails.price}
       </p>
-      <p className=" mt-[10px] font-normal max-sm:text-[12px] md:text-[14px] lg:text-[14px] leading-[20px] tracking-[0.25%] text-[#4f4e4e]">
+      <p className=" mt-[10px] font-normal max-sm:text-[12px] md:text-[14px] lg:text-[14px] leading-[20px] tracking-[0.25%] text-gray-400">
         By: <span className=" underline">{AllCategoryDetails.author}</span>
       </p>
       <Image
@@ -287,10 +287,10 @@ const CategoryAllDetails: React.FC<CategoryAllDetailsProps> = ({ category }) => 
       <div className="w-auto max-w-[1240px] px-4 relative  h-auto flex flex-col content-center gap-[80px] py-[50px] ">
         <section className="w-full h-auto flex flex-col content-center max-sm:gap-[20px] md:gap-[25px] lg:gap-[30px]">
           <div className="w-full flex flex-row content-center items-center justify-between">
-            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-[#052011]">
+            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-dark-106">
               Graphics Design Templates
             </h1>
-            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-[#00894c]">
+            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-green-40">
               View all
               <ArrowRight2 color="#00894c" size={15} />
             </p>
@@ -310,16 +310,16 @@ const CategoryAllDetails: React.FC<CategoryAllDetailsProps> = ({ category }) => 
         </section>
         <section className="w-full h-auto flex flex-col content-center max-sm:gap-[20px] md:gap-[25px] lg:gap-[30px]">
           <div className="w-full flex flex-row content-center items-center justify-between">
-            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-[#052011]">
+            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-dark-106">
               Illustration
             </h1>
-            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-[#00894c]">
+            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-green-40">
               View all
               <ArrowRight2 color="#00894c" size={15} />
             </p>
           </div>
           <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 rounded-[9px] max-sm:gap-[10px] lg:gap-[30px] md:gap-[24px]">
-            {graphicDesign.map((AllCategoryDetails, index) => (
+            {illustration.map((AllCategoryDetails, index) => (
               <ProductCard
                 key={index}
                 AllCategoryDetails={AllCategoryDetails}
@@ -333,16 +333,16 @@ const CategoryAllDetails: React.FC<CategoryAllDetailsProps> = ({ category }) => 
         </section>
         <section className="w-full h-auto flex flex-col content-center max-sm:gap-[20px] md:gap-[25px] lg:gap-[30px]">
           <div className="w-full flex flex-row content-center items-center justify-between">
-            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-[#052011]">
+            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-dark-106">
               Logo Design
             </h1>
-            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-[#00894c]">
+            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-green-40">
               View all
               <ArrowRight2 color="#00894c" size={15} />
             </p>
           </div>
           <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 max-sm:gap-[10px] lg:gap-[30px] md:gap-[24px]">
-            {graphicDesign.map((AllCategoryDetails, index) => (
+            {logoDesign.map((AllCategoryDetails, index) => (
               <ProductCard
                 key={index}
                 AllCategoryDetails={AllCategoryDetails}
@@ -356,16 +356,16 @@ const CategoryAllDetails: React.FC<CategoryAllDetailsProps> = ({ category }) => 
         </section>
         <section className="w-full h-auto flex flex-col content-center max-sm:gap-[20px] md:gap-[25px] lg:gap-[30px]">
           <div className="w-full flex flex-row content-center items-center justify-between">
-            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-[#052011]">
+            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-dark-106">
               Branding Assets
             </h1>
-            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-[#00894c]">
+            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-green-40">
               View all
               <ArrowRight2 color="#00894c" size={15} />
             </p>
           </div>
           <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 max-sm:gap-[10px] lg:gap-[30px] md:gap-[24px]">
-            {graphicDesign.map((AllCategoryDetails, index) => (
+            {brandingAssets.map((AllCategoryDetails, index) => (
               <ProductCard
                 key={index}
                 AllCategoryDetails={AllCategoryDetails}
@@ -379,16 +379,16 @@ const CategoryAllDetails: React.FC<CategoryAllDetailsProps> = ({ category }) => 
         </section>
         <section className="w-full h-auto flex flex-col content-center max-sm:gap-[20px] md:gap-[25px] lg:gap-[30px]">
           <div className="w-full flex flex-row content-center items-center justify-between">
-            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-[#052011]">
+            <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-dark-106">
               Ui/Ux Design Elements
             </h1>
-            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-[#00894c]">
+            <p className="max-sm:text-[13px]  font-manropeL flex flex-row content-center items-center gap-[5px] md:text-[14px] lg:text-[14px] font-semibold leading-[20px] text-green-40">
               View all
               <ArrowRight2 color="#00894c" size={15} />
             </p>
           </div>
           <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 max-sm:gap-[10px] lg:gap-[30px] md:gap-[24px]">
-            {graphicDesign.map((AllCategoryDetails, index) => (
+            {designElements.map((AllCategoryDetails, index) => (
               <ProductCard
                 key={index}
                 AllCategoryDetails={AllCategoryDetails}
