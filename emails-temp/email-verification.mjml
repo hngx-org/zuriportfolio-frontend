@@ -3,12 +3,11 @@
     <mj-title>
         E-mail Verification / Order Fulfillment
     </mj-title>
-
-     <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope" />
+    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope" />
 </mj-head>
   <mj-body>
     <mj-wrapper border="1px solid #E1E3E2" padding="0px" full-width="full-width">
-      <mj-section>
+      <mj-section background-color="#ffffff">
         <mj-column>
           <mj-image src="./assets/kachi/logo.png" alt="zuri portfolio logo" width="126px" />
         </mj-column>
@@ -24,7 +23,7 @@
         </mj-column>
       </mj-section>
     </mj-wrapper>
-    <mj-section border="1px solid #E1E3E2">
+    <mj-section background-color="#ffffff" border="1px solid #E1E3E2">
       <mj-column>
         <mj-text font-family="Manrope" color="#2E3130" padding-top="24px" padding-bottom="24px" font-size="15px" font-weight="400" line-height="24px">
             Hi Chukwuemeka,<br>
