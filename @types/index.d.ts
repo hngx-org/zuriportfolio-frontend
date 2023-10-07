@@ -265,3 +265,11 @@ export interface PromotionHistory {
   quantity?: number;
   action?: any;
 }
+
+export interface ProjectModalProps {
+  title: string;
+  tags: string[];
+  description: string;
+  url: string;
+  images: object[];
+}
