@@ -16,7 +16,7 @@ export const AssessmentBanner: FC<BannerProps> = ({ title, subtitle, bannerImage
         <p className="font-manropeL text-white-100 text-[12px] lg:text-[14px]">{subtitle}</p>
       </div>
 
-      <div className="w-[25%] md:w-[35%] lg:w-[50%] h-full absolute top-0 right-0 bottom-0">
+      <div className="w-[60%] md:w-[35%] lg:w-[50%] h-full absolute top-0 md:right-0 bottom-0 right-[-30%]">
         <Image alt="banner" src={bannerImageSrc} width={0} height={0} className="w-full h-full object-fill" />
       </div>
     </div>
