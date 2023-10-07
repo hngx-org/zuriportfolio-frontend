@@ -67,3 +67,9 @@ export function genRandNum(len: number = 10) {
   }
   return generated;
 }
+
+export const formatNumberWithCommas = (value: number): string | null => {
+  // format number from 1000 to 1,000
+  if (!value || !Number.isFinite(value)) return null;
+  return new Intl.NumberFormat('en-US').format(value);
+};
