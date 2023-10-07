@@ -207,6 +207,8 @@ module.exports = {
           color37: ':#008080',
           color38: '#F9F9F9',
           color39: '#A1ADB2',
+          color40: '#FFFBDE',
+          color41: '#E0FFF0',
         },
       },
       fontFamily: {
