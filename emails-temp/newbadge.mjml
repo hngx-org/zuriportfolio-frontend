@@ -3,7 +3,7 @@
     <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" />
     <mj-attributes>
       <mj-image padding="0px" />
-       <mj-body background-color="#F4FBF6"/>
+      <mj-body background-color="#F4FBF6" />
       <mj-button background-color="#009254" />
       <mj-text font-family="Manrope, sans-serif" font-size="14px" letter-spacing="0.035px" color="#000" />
     </mj-attributes>
@@ -27,26 +27,16 @@
           Hi Chioma,
         </mj-text>
         <mj-text color="#191c1d" line-height="20px" font-family="Manrope, sans-serif" font-size="14px" letter-spacing="0.035px">
-          Great job! You’ve proved your skill as a <mj-text color="#191c1d" font-weight="bold">Content Writer</mj-text> and
-          we’re thrilled to let you know that you ‘ve earned the <mj-text color="#191c1d" font-weight="bold">Content Writing</mj-text>
+          Great job! You’ve proved your skill as a 
+          <mj-raw>
+            <span style="font-weight: bold; color: #191c1d;">Content Writer</span>
+          </mj-raw> 
+          and we’re thrilled to let you know that you’ve earned the 
+          <mj-raw>
+            <span style="font-weight: bold; color: #191c1d;"> Content Writing </span>
+          </mj-raw>
           badge. People will now be able to view your badge on your profile. Keep up the good work!
         </mj-text>
-        <mj-raw>
-          <style>
-            @media screen and (max-width: 600px) {
-              /* Adjust text size for mobile devices */
-              .mj-text {
-                font-size: 14px !important;
-              }
-            }
-            @media screen and (min-width: 601px) {
-              /* Set a larger text size for larger screens */
-              .mj-text {
-                font-size: 16px !important;
-              }
-            }
-          </style>
-        </mj-raw>
         <mj-text>
           Love,
         </mj-text>
