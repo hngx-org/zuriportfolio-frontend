@@ -14,7 +14,6 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import ShopNavbar from './component/header-footer/shopNavbar';
 import ShopFooter from './component/header-footer/shopFooter';
 
-
 const otherProducts: ProductCardProps[] = [
   {
     image: '/assets/products-banner/Image-1.png',
@@ -156,7 +155,7 @@ export default function ProductDetails() {
                 <Image
                   src={image}
                   alt="Main Image"
-                  className="lg:w-full md:w-[750px] w-[350px] lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
+                  className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
                 />
               </div>
               <div
