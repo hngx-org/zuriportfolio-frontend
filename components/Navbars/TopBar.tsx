@@ -47,7 +47,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[1] relative ">
       <div className="max-w-[1240px] mx-auto flex items-center justify-between  ">
         <div className=" flex gap-14">
-          <Image className="object-contain" width={126} height={24} src={logo} alt="Zuri Portfolio Logo" />
+          <Link href={'/'}>
+            <Image className="object-contain" width={126} height={24} src={logo} alt="Zuri Portfolio Logo" />
+          </Link>
           <div className=" hidden lg:flex gap-10 items-start">
             <div className="group h flex flex-col ali justify-center items-center gap-1">
               <Link className={activeLink('/')} href={'/'}>
