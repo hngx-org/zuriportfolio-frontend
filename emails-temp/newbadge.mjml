@@ -73,7 +73,7 @@
         <mj-text color="#fff" font-size="12px" align="center" letter-spacing="0.048px">
           Copyright © 2023 Zuriportfolio, All rights reserved.
         </mj-text>
-        <mj-button color="#96D4AB" font-family="Manrope, sans-serif" font-size="12px" font-weight="600" padding="10px 20px" align="center" border-radius="8px" href="#">
+        <mj-button padding="0px" color="#96D4AB" font-family="Manrope, sans-serif" font-size="12px" font-weight="600" padding="10px 20px" align="center" border-radius="8px" href="#">
           Unsubscribe
         </mj-button>
       </mj-column>
