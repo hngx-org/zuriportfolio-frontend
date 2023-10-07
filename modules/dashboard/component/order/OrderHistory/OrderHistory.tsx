@@ -41,7 +41,7 @@ const OrderHistory: React.FC = () => {
           <h1 className="text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order History</h1>
           <div className="justify-between items-center mb-[25px] gap-[35px] flex md:hidden">
             <div
-              className="focus-within:outline focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-[#D0D5DD] rounded-lg md:hidden flex-1 min-w-0"
+              className="focus-within:outline focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg md:hidden flex-1 min-w-0"
               style={{
                 boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
               }}
@@ -53,7 +53,7 @@ const OrderHistory: React.FC = () => {
               />
             </div>
             <button
-              className="px-4 py-[10px] border rounded-lg flex gap-2 border-[#D0D5DD] text-[14px] font-manropeL font-medium text-[#344054] items-center leading-[142.857%]"
+              className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
               style={{
                 boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
               }}
@@ -70,7 +70,7 @@ const OrderHistory: React.FC = () => {
             </button>
           </div>
           <nav className="flex flex-col md:gap-4 gap-5">
-            <ul className="md:text-[22px] text-[14px] w-fit mx-auto md:mx-0 leading-[127.273%] text-[#2E3130] flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
+            <ul className="md:text-[22px] text-[14px] w-fit mx-auto md:mx-0 leading-[127.273%] text-dark-110 flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
               {orderNavs.map((orderNav) => (
                 <li
                   key={orderNav.id}
@@ -99,7 +99,7 @@ const OrderHistory: React.FC = () => {
           >
             <div className="px-8 justify-between items-center gap-[129px] mb-[25px] hidden md:flex">
               <div
-                className="focus-within:outline focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-[#D0D5DD] rounded-lg flex-1"
+                className="focus-within:outline focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1"
                 style={{
                   boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
                 }}
@@ -112,7 +112,7 @@ const OrderHistory: React.FC = () => {
               </div>
               <div className="flex items-center gap-6">
                 <button
-                  className="px-4 py-[10px] border rounded-lg flex gap-2 border-[#D0D5DD] text-[14px] font-manropeL font-medium text-[#344054] items-center leading-[142.857%]"
+                  className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
                   style={{
                     boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
                   }}
@@ -129,7 +129,7 @@ const OrderHistory: React.FC = () => {
                   <span>Filters</span>
                 </button>
                 <button
-                  className="px-4 py-[10px] border rounded-lg flex gap-2 border-[#D0D5DD] text-[14px] font-manropeL font-medium text-[#344054] items-center leading-[142.857%]"
+                  className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
                   style={{
                     boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
                   }}
@@ -164,7 +164,7 @@ const OrderHistory: React.FC = () => {
             {/*commented out*/}
           </section>
           {pageItem.length === 0 ? (
-            <p className="text-center text-[#2E3130] font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+            <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
               No Order to Show
             </p>
           ) : (
