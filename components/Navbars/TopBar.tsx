@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import logo from './assets/zuriLogo.svg';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
 import Button from '@ui/Button';
+
+import logo from './assets/zuriLogo.svg';
 
 function TopBar() {
   const [toggle, setToggle] = useState(false);
