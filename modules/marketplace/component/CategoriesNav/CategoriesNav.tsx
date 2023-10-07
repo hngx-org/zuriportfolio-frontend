@@ -6,7 +6,7 @@ interface MyComponentProps {
 
 const CategoriesNav: React.FC<MyComponentProps> = ({ navItems }) => {
   return (
-    <div className="w-full  flex pt-10  px-10">
+    <div className="w-full  hidden md:flex pt-10  px-10">
       <ul className="flex  w-full justify-between  gap-[32px]">
         {navItems.map((item) => {
           return (

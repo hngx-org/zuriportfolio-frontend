@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import SuperAdminPagination from '../../../../modules/super-admin/components/pagination';
 
 const Pagination = () => {
@@ -14,7 +15,14 @@ const Pagination = () => {
     setCurrentPage(newPage);
   };
 
-  return <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />;
+  return (
+    <SuperAdminPagination
+      currentPage={currentPage}
+      totalPages={totalPages}
+      onPageChange={handlePageChange}
+      title={undefined}
+    />
+  );
 };
 
 export default Pagination;
