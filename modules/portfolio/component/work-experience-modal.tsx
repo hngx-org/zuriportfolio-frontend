@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import useDisclosure from '../../../hooks/useDisclosure';
 import Modal from '@ui/Modal';
-import { Add, CloseCircle, CloseSquare } from 'iconsax-react';
-import { Input, SelectInput } from '@ui/Input';
+import { Add, CloseSquare } from 'iconsax-react';
+import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { WorkExperience } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
@@ -173,8 +173,6 @@ const WorkExperienceSection = () => {
     years.push(yearObject);
   }
 
-  console.log(workExperiences);
-
   const handleDeleteExperience = (id: number) => {
     const updatedExperience = workExperiences.filter((experience) => experience.id !== id);
     setWorkExperiences(updatedExperience);
@@ -199,7 +197,6 @@ const WorkExperienceSection = () => {
                     className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}
                     key={index}
                   >
-                    {/* <div className="flex flex-col gap-3 sm:flex-row flex-2 justify-between"> */}
                     <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                       <div className="flex gap-3 sm:gap-5 flex-col sm:flex-row">
                         <p className="text-[#8D9290] font-semibold font-manropeB">
