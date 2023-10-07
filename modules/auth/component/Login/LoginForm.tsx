@@ -40,7 +40,7 @@ function LoginForm() {
                   Password
                 </label>
                 <Input
-                  placeHolder={'Gbemi345'}
+                  placeHolder="Gbemi345"
                   id="password"
                   name="password"
                   className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem]"
