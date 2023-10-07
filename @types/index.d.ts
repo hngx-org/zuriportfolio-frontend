@@ -276,3 +276,23 @@ export interface ReviewCardProps {
   ratingNo: number;
   price: number;
 }
+
+export interface VendorCardProps {
+  vendorname: string;
+  pic: StaticImageData;
+  name: string;
+  price: number;
+}
+
+export interface VendorProduct {
+  productName: string;
+  productPrice: number;
+  productAuthor: string;
+  productImage: StaticImageData;
+  id: number;
+}
+
+export interface PageProps {
+  cards: Product[];
+  record: number;
+}
