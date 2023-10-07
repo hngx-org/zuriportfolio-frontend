@@ -74,10 +74,6 @@ export interface starProps {
   [key: number]: ratingProps;
 }
 
-export interface VerificationLayoutProps {
-  children?: React.ReactNode;
-  className?: React.ComponentProps<'div'>['className'];
-}
 export interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -174,8 +170,8 @@ export interface MetricTimelineProps {
   setTimeline: (data: { active: boolean; index: number }) => void;
 }
 
-interface OrderHistory {
-  id: string;
+export interface OrderHistory {
+  id: number;
   productName: string;
   customerName: string;
   date: Date;
@@ -201,6 +197,9 @@ export interface FavoriteProduct extends Product {
   productCreator: string;
 }
 
+export interface VerificationProps {
+  handleClick(): void;
+}
 export interface PaginationBtn {
   handleClick: () => void;
   disabledFn: boolean;
