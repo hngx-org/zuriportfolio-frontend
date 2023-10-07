@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PromotionHistory } from '../@types';
+
 const dummyPromotions: PromotionHistory[] = [
   {
     productName: 'Programming Course',
@@ -82,6 +83,7 @@ const dummyPromotions: PromotionHistory[] = [
     sales: 128,
   },
 ];
+
 const usePromotions = (initialPromotions = dummyPromotions) => {
   const [promotions, setPromotions] = useState(initialPromotions);
   const [promotionFilter, setPromotionFilters] = useState('all');

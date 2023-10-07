@@ -1,5 +1,5 @@
-import PromotionHistory from '@modules/dashboard/component/promotion/PromotionHistory/PromotionHistory';
 import MainLayout from '../../../components/Layout/MainLayout';
+import PromotionHistory from '@modules/dashboard/component/promotion/PromotionHistory/PromotionHistory';
 
 const Promotions: React.FC = () => {
   return (
