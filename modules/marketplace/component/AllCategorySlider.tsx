@@ -54,7 +54,7 @@ export const data: AllCategorySliderTypes[] = [
 
 function AllCategorySlider() {
   return (
-    <div className="allCategoryText  py-3 font-[500] text-xl max-w-[1240px] mx-auto w-full">
+    <div className="allCategoryText  py-10 font-[500] text-xl max-w-[1240px] mx-auto w-full">
       <h1 className="text-[#101928] font-manropeL font-bold md:text-2xl leading-normal">All Categories</h1>
       <div
         className={`allCategorySlider flex flex-nowrap gap-x-3 mt-10 w-full overflow-x-scroll ${styles['hide-scroll']}`}
