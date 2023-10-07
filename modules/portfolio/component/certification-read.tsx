@@ -26,7 +26,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
       <div className="flex flex-col sm:flex-row gap-6">
         <div className="flex flex-col sm:flex-row sm:gap-10 sm:flex-[3] lg:flex-[2] gap-4 justify-between">
           <div>
-            <p className="font-semibold text-[16px] leading-6  text-[#8D9290]">{date}</p>
+            <p className="font-semibold text-[16px] leading-6  text-gray-300">{date}</p>
           </div>
           <div className="flex flex-col gap-2">
             <h1 className="font-semibold text-[22px] leading-7 text-white-700">{title}</h1>

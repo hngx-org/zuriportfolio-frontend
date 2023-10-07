@@ -30,7 +30,7 @@ function Tester() {
         <Button onClick={openModalForAwards}>Awards</Button>
       </div>
       <Certification isOpen={isModalOpenForCerti} onClose={closeModalForCerti} />
-      <Awards isOpen={isModalOpenForCerti} onClose={closeModalForCerti} />
+      <Awards isOpen={isModalOpenForAwards} onClose={closeModalForAwards} />
     </div>
   );
 }

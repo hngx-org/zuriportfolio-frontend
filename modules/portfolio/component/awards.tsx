@@ -1,4 +1,5 @@
 import Button from '@ui/Button';
+import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
 import { ArrowLeft2, CloseSquare } from 'iconsax-react'; // Remove unused imports
 import React, { useState } from 'react';
@@ -41,12 +42,12 @@ const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =
                     <label htmlFor="home" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                       Awards Title*
                     </label>
-                    <input
+                    <Input
                       type="text"
                       id="home"
                       name="home"
-                      placeholder="My best yet"
-                      className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-6   placeholder:text-[#737876] placeholder:font-semibold rounded-lg border-[1px]"
+                      placeHolder="My best yet"
+                      className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-6   placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
                     />
                   </div>
                   <div className="flex  flex-col gap-[10px] flex-1">
@@ -56,7 +57,7 @@ const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =
                     <select
                       id="year"
                       name="year"
-                      className="p-4 border-brand-disabled rounded-lg border-[1px]"
+                      className="p-4 border-brand-disabled rounded-lg border-[1px] "
                       value={selectedYear}
                       onChange={handleYearChange}
                     >
@@ -79,24 +80,24 @@ const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =
                     <label htmlFor="home" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                       Organization*
                     </label>
-                    <input
+                    <Input
                       type="text"
                       id="home"
                       name="home"
-                      placeholder="Google"
-                      className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-[#737876] placeholder:font-semibold rounded-lg border-[1px]"
+                      placeHolder="Google"
+                      className="p-4 border-brand-disabled  placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
                     />
                   </div>
                   <div className="flex  flex-col gap-[10px] flex-1">
                     <label htmlFor="home" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                       Url
                     </label>
-                    <input
+                    <Input
                       type="text"
                       id="home"
                       name="home"
-                      placeholder="Type link"
-                      className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-[#737876] placeholder:font-semibold rounded-lg border-[1px]"
+                      placeHolder="Type link"
+                      className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
                     />
                   </div>
                 </div>
@@ -104,12 +105,11 @@ const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =
                   <label htmlFor="home" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                     Description
                   </label>
-                  <input
+                  <Input
+                    placeHolder=""
                     type="text"
-                    id="home"
                     name="home"
-                    placeholder=""
-                    className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-[#737876] placeholder:font-semibold rounded-lg border-[1px]"
+                    className="p-4 w-full border-brand-disabled placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
                   />
                 </div>
                 <div className="flex gap-4 justify-end items-center">

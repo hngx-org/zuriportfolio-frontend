@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowLeft2, CloseSquare } from 'iconsax-react'; // Remove un
 import React, { useState } from 'react';
 
 import CertificationRead from './certification-read';
+import { Input } from '@ui/Input';
 
 const Certification = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [selectedYear, setSelectedYear] = useState('2023');
@@ -44,11 +45,11 @@ const Certification = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                     <label htmlFor="home" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                       Certification Title*
                     </label>
-                    <input
+                    <Input
                       type="text"
                       id="home"
                       name="home"
-                      placeholder="My best yet"
+                      placeHolder="My best yet"
                       className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-6   placeholder:text-[#737876] placeholder:font-semibold rounded-lg border-[1px]"
                     />
                   </div>
@@ -82,7 +83,7 @@ const Certification = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                     <label htmlFor="home" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                       Organization*
                     </label>
-                    <input
+                    <Input
                       type="text"
                       id="home"
                       name="home"
@@ -94,11 +95,11 @@ const Certification = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                     <label htmlFor="home" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                       Url
                     </label>
-                    <input
+                    <Input
                       type="text"
                       id="home"
                       name="home"
-                      placeholder="Type link"
+                      placeHolder="Type link"
                       className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-[#737876] placeholder:font-semibold rounded-lg border-[1px]"
                     />
                   </div>
@@ -107,11 +108,11 @@ const Certification = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                   <label htmlFor="home" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                     Description
                   </label>
-                  <input
+                  <Input
                     type="text"
                     id="home"
                     name="home"
-                    placeholder="Certificate ID & details"
+                    placeHolder="Certificate ID & details"
                     className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-[#737876] placeholder:font-semibold rounded-lg border-[1px]"
                   />
                 </div>

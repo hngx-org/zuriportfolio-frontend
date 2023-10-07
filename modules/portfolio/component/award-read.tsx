@@ -26,11 +26,11 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
       <div className="flex flex-col sm:flex-row gap-6">
         <div className="flex flex-col sm:flex-row sm:gap-10 sm:flex-[3] lg:flex-[3] gap-4 justify-between">
           <div>
-            <p className="font-semibold text-[16px] leading-6  text-[#8D9290]">{date}</p>
+            <p className="font-semibold text-[16px] leading-6  text-gray-300">{date}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <h1 className="font-semibold text-[22px] leading-7 text-[#2E3130]">{title}</h1>
-            <h2 className="font-bold text-[16px] leading-6 text-[#2E3130]">{team}</h2>
+            <h1 className="font-semibold text-[22px] leading-7 text-white-700 ">{title}</h1>
+            <h2 className="font-bold text-[16px] leading-6 text-white-700 ">{team}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary ">
               <Link href={url} target="_blank" className="flex items-center">
                 {url} <ArrowUp className="w-4 h-4 whitespace-nowrap rotate-45" />
@@ -95,7 +95,7 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
         <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
           <div className="flex items-center gap-6">
             <ArrowLeft2 />
-            <h1 className="font-bold text-2xl text-[#2E3130]">Awards</h1>
+            <h1 className="font-bold text-2xl text-white-700 ">Awards</h1>
           </div>
           <div onClick={onClose}>
             <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
