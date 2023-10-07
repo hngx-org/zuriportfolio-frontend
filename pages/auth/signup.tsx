@@ -3,7 +3,6 @@ import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Link from 'next/link';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
-import MainLayout from '../../components/Layout/MainLayout';
 
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -20,8 +19,8 @@ function Signup() {
   };
 
   return (
-    <MainLayout activePage="signup">
-      <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
+    <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
+      <div>
         <div className="text-center lg:text-left">
           <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100">Sign up</h1>
           <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
@@ -218,8 +217,8 @@ function Signup() {
             </p>
           </div>
         </div>
-      </AuthLayout>
-    </MainLayout>
+      </div>
+    </AuthLayout>
   );
 }
 
