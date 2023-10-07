@@ -15,42 +15,42 @@ const ProductListingTable = () => {
       productName: 'Frontend Development',
       vendor: 'Chukwu Chinaza',
       id: 1235,
-      dateAdded: '08-01-23',
+      dateAdded: '08-02-23',
       status: 'Deleted',
     },
     {
       productName: 'Backend Development',
       vendor: 'Mark Essien',
       id: 1236,
-      dateAdded: '08-01-23',
+      dateAdded: '08-03-23',
       status: 'Active',
     },
     {
       productName: 'Ethical Hacking',
       vendor: 'Shobande Abraham',
       id: 1237,
-      dateAdded: '08-01-23',
+      dateAdded: '08-04-23',
       status: 'Active',
     },
     {
       productName: 'Product Management',
       vendor: 'John Paul',
       id: 1238,
-      dateAdded: '08-01-23',
+      dateAdded: '08-05-23',
       status: 'Active',
     },
     {
       productName: 'Digital Marketing',
       vendor: 'Bakare Femi',
       id: 1239,
-      dateAdded: '08-01-23',
+      dateAdded: '08-06-23',
       status: 'Active',
     },
     {
       productName: 'Fullstack Development',
       vendor: 'Gustavo Silas',
       id: 1233,
-      dateAdded: '08-01-23',
+      dateAdded: '08-07-23',
       status: 'Active',
     },
   ];
@@ -71,12 +71,17 @@ const ProductListingTable = () => {
   };
 
   const handleFilter = (status: string) => {
-    const filteredProducts = productList.filter((product) => {
-      const nameMatch = product.productName.toLowerCase().includes(searchVal.toLowerCase());
-      const statusMatch = status === 'all' || product.status === status;
-      return nameMatch && statusMatch;
+    const sortedProducts = [...productList].sort((a, b) => {
+      const dateA = new Date(a.dateAdded);
+      const dateB = new Date(b.dateAdded);
+
+      if (status === 'newest') {
+        return dateB.getTime() - dateA.getTime(); // Newest to oldest
+      } else {
+        return dateA.getTime() - dateB.getTime(); // Oldest to newest
+      }
     });
-    setFilteredProducts(filteredProducts);
+    setFilteredProducts(sortedProducts);
   };
   return (
     <>

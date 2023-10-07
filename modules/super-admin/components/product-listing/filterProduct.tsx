@@ -21,16 +21,12 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
             label: 'Filters',
           },
           {
-            value: 'Active',
-            label: 'active',
+            value: 'newest',
+            label: 'Newest to oldest',
           },
           {
-            value: 'Deleted',
-            label: 'deleted',
-          },
-          {
-            value: 'Sanctioned',
-            label: 'sanctioned',
+            value: 'oldest',
+            label: 'Oldest to newest',
           },
         ]}
         disabled={false}
