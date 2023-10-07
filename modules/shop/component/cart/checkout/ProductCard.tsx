@@ -32,7 +32,7 @@ export default function ProductCard({productImage,productTitle,cardStyle,
         <Image className="absolute top-0 right-0" width={25} height={25} src="/assets/icons/close.svg" alt="close" ></Image>
       </div>
       <div className="md:w-[252px] ">
-        <p className="truncate font-manropeL">{productTitle}</p>
+        <p className="truncate font-manropeL text-sm">{productTitle}</p>
         <p className="text-2xl font-bold font-manropeEB">${productPrice}</p>
         <div className="mt-2 font-light font-manropeL">
           <span>By:</span> <span className="underline">{productSeller}</span>
