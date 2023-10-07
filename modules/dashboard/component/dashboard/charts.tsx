@@ -3,7 +3,8 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { MetricChartProps, MetricMonthsProps, MetricTimelineProps } from '../../../../@types';
-import { metricsChartMonths, metricsChartTimeline } from '../../../../db/dashboard';
+import { metricsChartTimeline, monthNames } from '../../../../db/dashboard';
+// import { BarChart, Bar, XAxis, CartesianGrid, LineChart, Line } from "recharts";
 
 export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
   const [timeline, setTimeline] = useState({ active: true, index: 0 });
@@ -43,8 +44,8 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
         />
       </div>
       <p className="flex items-center justify-between px-1 md:px-3 lg:px-4 xl:px-5">
-        {metricsChartMonths.map((data, index) => {
-          return <MetricMonths key={index} month={data.month} />;
+        {monthNames.map((month, index) => {
+          return <MetricMonths key={index} month={month} />;
         })}
       </p>
     </div>
@@ -67,3 +68,24 @@ const MetricTimeline = ({ timespan, index, active, setTimeline }: MetricTimeline
 const MetricMonths = ({ month }: MetricMonthsProps) => {
   return <span className="font-light text-xs md:text-sm">{month}</span>;
 };
+
+const salesReportData = [];
+
+for (let i = 0; i < 12; i++) {
+  const income: number = Math.floor(Math.random() * 1001) + 500;
+  const month: string = monthNames[i];
+  salesReportData.push({ month, income });
+}
+// console.log(salesReportData);
+
+const storeTrafficData = [];
+
+for (let i = 0; i < 12; i++) {
+  const income1: number = Math.floor(Math.random() * 1001) + 500;
+  const income2: number = Math.floor(Math.random() * 1001) + 500;
+  const month: string = monthNames[i];
+
+  storeTrafficData.push({ month, income1, income2 });
+}
+
+// console.log(storeTrafficData);
