@@ -10,7 +10,7 @@ function SignUpWithEmail() {
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
       <div className="text-center lg:text-left">
         <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100 font-manropeEB">Sign up</h1>
-        <p className="md:text-[22px] text-[#536066] font-manropeB">Let&apos;s get you started</p>
+        <p className="md:text-[22px] text-custom-color20 font-manropeB">Let&apos;s get you started</p>
       </div>
       <div className="mt-6 md:mt-12">
         <form className="flex flex-col gap-8">
@@ -48,7 +48,7 @@ function SignUpWithEmail() {
           <Button
             intent={'tertiary'}
             size={'sm'}
-            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
+            className="w-full bg-white-100 text-custom-color20 border-custom-color21 border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             leftIcon={<Image width={30} height={30} src={'/assets/images/logo/google-logo.svg'} alt="Google logo" />}
           >
             Continue with Google
@@ -56,7 +56,7 @@ function SignUpWithEmail() {
           <Button
             intent={'tertiary'}
             size={'sm'}
-            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
+            className="w-full bg-white-100 text-custom-color20 border-custom-color21 border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             leftIcon={<Image width={20} height={20} src={'/assets/images/logo/github-logo.svg'} alt="Github logo" />}
           >
             Continue with Github
@@ -64,7 +64,7 @@ function SignUpWithEmail() {
           <Button
             intent={'tertiary'}
             size={'sm'}
-            className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
+            className="w-full bg-white-100 text-custom-color20 border-custom-color21 border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
 
             leftIcon={
               <Image width={20} height={20} src={'/assets/images/logo/facebook-logo.svg'} alt="Facebook logo" />
