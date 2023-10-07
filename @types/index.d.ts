@@ -277,6 +277,22 @@ export interface ReviewCardProps {
   price: number;
 }
 
+export interface ProjectModalProps {
+  title: string;
+  tags: string[];
+  description: string;
+  url: string;
+  images: object[];
+}
+
+export interface ProjectModalProps {
+  title: string;
+  tags: string[];
+  description: string;
+  url: string;
+  images: object[];
+}
+
 export interface RatingBarProps {
   avgRating: number;
 }
