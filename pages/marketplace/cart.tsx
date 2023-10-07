@@ -11,7 +11,7 @@ export default function cart() {
       <main className='flex w-full flex-col justify-between mb-8'>
           <section className="mx-[13%] mt-[3%] flex flex-col md:flex-col lg:flex-row gap-4">
                 <div className='w-full flex flex-col md:w-full lg:w-4/5 '>
-                    <h1 className='text-2xl mb-7'>Shopping Cart (6)</h1>
+                    <h1 className='text-2xl mb-7 font-manropeEB'>Shopping Cart (6)</h1>
 
                     <CartItem productColor='blue' productTitle='Moodring: Cute Shop' productImage='/assets/images/image-zuri-1.png' 
                                 productSeller='Artel Market' productSize='medium' productPrice={100} />
@@ -33,7 +33,7 @@ export default function cart() {
           </section>
 
           <section className='flex flex-col md:mx-[10%] mt-[50px]'>
-            <h1 className='text-[35px] font-bold ml-5 md:ml-0'>Recently Viewed</h1>
+            <h1 className='text-[35px] font-bold ml-5 md:ml-0 font-manropeEB'>Recently Viewed</h1>
 
             <div className="flex flex-col md:flex-row items-center gap-x-8 gap-y-4 md:gap-x-4 md:flex-wrap mt-4 lg:justify-between">
                 <ProductCard productImage='/assets/images/image-zuri-7.png' productPrice={100} discountPercentage={60}
