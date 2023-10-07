@@ -276,3 +276,11 @@ export interface ReviewCardProps {
   ratingNo: number;
   price: number;
 }
+
+export interface ProjectModalProps {
+  title: string;
+  tags: string[];
+  description: string;
+  url: string;
+  images: object[];
+}
