@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import CartPaymentModal from '../../../../../components/Modals/CartPaymentModal';
+import PaymentStatusModal from './PaymentStatusModal';
+import checkedPayment from '../../../../../public/assets/images/check-1.png';
 
 const PaymentInformationModal = () => {
   const [modalOpen, setModalOpen] = useState(true);
 
-  const [paymentStatus, setPaymentStatus] = useState(false)
-
-
+  const [paymentStatus, setPaymentStatus] = useState(false);
 
   const showPaymentStatus = () => {
-    setPaymentStatus(true)
-  }
-  return (
-    paymentStatus ? <CartPaymentModal /> :
+    setPaymentStatus(true);
+  };
+  return paymentStatus ? (
+    <PaymentStatusModal>
+      <div className="bg-white-100 py-6 rounded text-center w-72">
+        <div className="flex justify-center">
+          <Image src={checkedPayment} alt="checked" />
+        </div>
+        <h3 className="text-sm w-20 mx-auto font-bold my-4">Payment Successful!</h3>
+        <button
+          className="bg-green-700 hover:bg-green-600 rounded text-white-100 text-sm w-1/2 h-9 px-3"
+          onClick={() => setModalOpen(false)}
+        >
+          Back to Home
+        </button>
+      </div>
+    </PaymentStatusModal>
+  ) : (
     modalOpen && (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
         <div className="bg-white-100 p-12 rounded-lg w-sm   ">
@@ -133,16 +146,17 @@ const PaymentInformationModal = () => {
             </div>
           </div>
 
-          <button className=" py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 " onClick={showPaymentStatus}>
+          <button
+            className=" py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
+            onClick={showPaymentStatus}
+          >
             Continue
           </button>
           <p className="text-center text-sm mt-4">
             This is an encrypted payment, your details are 100% secured and safe
           </p>
         </div>
-        
       </div>
-      
     )
   );
 };

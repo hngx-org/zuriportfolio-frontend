@@ -201,3 +201,7 @@ export interface FavoriteProduct extends Product {
   isFavourite: boolean;
   productCreator: string;
 }
+
+export interface PaymentStatusModalProps {
+  children: any
+}
