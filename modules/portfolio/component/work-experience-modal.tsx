@@ -245,7 +245,7 @@ const WorkExperienceSection = () => {
                       onChange={(e) => {
                         setRole(e.target.value);
                       }}
-                      className="border-[#E1E3E2]"
+                      className="border-[#E1E3E2] w-full"
                       inputSize={'lg'}
                     />
                   </div>
