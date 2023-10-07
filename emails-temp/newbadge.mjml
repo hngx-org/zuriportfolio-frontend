@@ -1,0 +1,82 @@
+<mjml>
+  <mj-head>
+    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" />
+    <mj-attributes>
+      <mj-image padding="0px" />
+       <mj-body background-color="#F4FBF6"/>
+      <mj-button background-color="#009254" />
+      <mj-text font-family="Manrope, sans-serif" font-size="14px" letter-spacing="0.035px" color="#000" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-wrapper padding="0px" full-width="full-width">
+      <mj-section background-color="#009254">
+        <mj-column>
+          <mj-image src="./assets/newbadge/logoo.png" alt="zuri portfolio logo" width="126px" />
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+    <mj-section padding="30px 2px 76px 2px" background-color="#fff">
+      <mj-column>
+        <mj-text font-size="22px" font-weight="600" color="#191c1d" align="center">
+          Congratulations, Chioma. You earned a new badge!
+        </mj-text>
+        <mj-image src="./assets/newbadge/graphics.png" alt="success" width="180px" />
+        <mj-divider border-width="0.9px" border-color="#DEE3E5" />
+        <mj-text color="#191c1d" font-family="Manrope, sans-serif" font-size="14px" letter-spacing="0.035px">
+          Hi Chioma,
+        </mj-text>
+        <mj-text color="#191c1d" line-height="20px" font-family="Manrope, sans-serif" font-size="14px" letter-spacing="0.035px">
+          Great job! You’ve proved your skill as a <mj-text color="#191c1d" font-weight="bold">Content Writer</mj-text> and
+          we’re thrilled to let you know that you ‘ve earned the <mj-text color="#191c1d" font-weight="bold">Content Writing</mj-text>
+          badge. People will now be able to view your badge on your profile. Keep up the good work!
+        </mj-text>
+        <mj-raw>
+          <style>
+            @media screen and (max-width: 600px) {
+              /* Adjust text size for mobile devices */
+              .mj-text {
+                font-size: 14px !important;
+              }
+            }
+            @media screen and (min-width: 601px) {
+              /* Set a larger text size for larger screens */
+              .mj-text {
+                font-size: 16px !important;
+              }
+            }
+          </style>
+        </mj-raw>
+        <mj-text>
+          Love,
+        </mj-text>
+        <mj-text padding="0px 24px 24px 24px" color="#865311" font-weight="bold">
+          The Zuri Team
+        </mj-text>
+        <mj-button background-color="#009254" color="#fff" font-family="Manrope, sans-serif" font-size="14px" padding="10px 20px" align="center" border-radius="8px" href="#">
+          View Profile
+        </mj-button>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#009254">
+      <mj-column>
+        <mj-image src="./assets/newbadge/logoo.png" alt="zuriportfolio logo" width="125px" />
+        <mj-social align="center" icon-size="24px" mode="horizontal">
+          <mj-social-element name="instagram" src="./assets/newbadge/instagram.png"></mj-social-element>
+          <mj-social-element name="facebook" src="./assets/newbadge/facebook.png"></mj-social-element>
+          <mj-social-element name="twitter" src="./assets/newbadge/twitter.png"></mj-social-element>
+          <mj-social-element name="linkedin" src="./assets/newbadge/linkedin.png"></mj-social-element>
+        </mj-social>
+        <mj-text color="#fff" font-family="Manrope, sans-serif" font-size="12px" letter-spacing="0.048px" align="center">
+          Beaverton, Oregon, Washington County, USA
+        </mj-text>
+        <mj-text color="#fff" font-size="12px" align="center" letter-spacing="0.048px">
+          Copyright © 2023 Zuriportfolio, All rights reserved.
+        </mj-text>
+        <mj-button padding="0px" color="#96D4AB" font-family="Manrope, sans-serif" font-size="12px" font-weight="600" padding="10px 20px" align="center" border-radius="8px" href="#">
+          Unsubscribe
+        </mj-button>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
