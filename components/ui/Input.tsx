@@ -42,6 +42,7 @@ interface SelectInputVariantsProps extends SelectInputVariants {
   caretSize?: string | number;
   className?: React.ComponentProps<'div'>['className'];
   leftIcon?: React.ReactNode;
+  optionColor?: string;
 }
 
 interface TextInputProps extends InputVariants {
@@ -67,6 +68,7 @@ export function SelectInput({
   disabled,
   intent,
   inputSize,
+  optionColor,
   ...props
 }: SelectInputVariantsProps) {
   const classNames = twMerge(
@@ -88,7 +90,7 @@ export function SelectInput({
         disabled={disabled}
       >
         {options.map((op, idx) => (
-          <option key={idx} value={op.value} disabled={op.disabled}>
+          <option key={idx} value={op.value} disabled={op.disabled} className={`${optionColor}`}>
             {op.label}
           </option>
         ))}
