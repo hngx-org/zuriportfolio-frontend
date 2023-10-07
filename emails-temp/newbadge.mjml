@@ -61,18 +61,16 @@
     <mj-section background-color="#009254">
       <mj-column>
         <mj-image src="./assets/newbadge/logoo.png" alt="zuriportfolio logo" width="125px" />
-        <mj-divider border-color="#009254"></mj-divider>
         <mj-social align="center" icon-size="24px" mode="horizontal">
           <mj-social-element name="instagram" src="./assets/newbadge/instagram.png"></mj-social-element>
           <mj-social-element name="facebook" src="./assets/newbadge/facebook.png"></mj-social-element>
           <mj-social-element name="twitter" src="./assets/newbadge/twitter.png"></mj-social-element>
           <mj-social-element name="linkedin" src="./assets/newbadge/linkedin.png"></mj-social-element>
         </mj-social>
-        <mj-divider border-color="#009254"></mj-divider>
         <mj-text color="#fff" font-family="Manrope, sans-serif" font-size="12px" letter-spacing="0.048px" align="center">
           Beaverton, Oregon, Washington County, USA
         </mj-text>
-        <mj-text color="#fff" font-size="12px" font-weight="600" align="center" letter-spacing="0.048px">
+        <mj-text color="#fff" font-size="12px" align="center" letter-spacing="0.048px">
           Copyright © 2023 Zuriportfolio, All rights reserved.
         </mj-text>
         <mj-button color="#96D4AB" font-family="Manrope, sans-serif" font-size="12px" font-weight="600" padding="10px 20px" align="center" border-radius="8px" href="#">
