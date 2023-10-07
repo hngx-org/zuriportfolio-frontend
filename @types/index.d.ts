@@ -23,6 +23,14 @@ export interface AllCategoryDetails {
   showLimitedOffer: boolean;
   discount: number;
 }
+export interface Product {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  description: string;
+  category: string;
+}
 
 export interface AdminTablePagination {
   handleClick?: any;
