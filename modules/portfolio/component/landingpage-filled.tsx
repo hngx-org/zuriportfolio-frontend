@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
+
 const LandingPageFilled: React.FC = () => {
   return (
     <div className="flex flex-col gap-20 w-full">
@@ -691,3 +692,4 @@ const LandingPageFilled: React.FC = () => {
 };
 
 export default LandingPageFilled;
+
