@@ -21,15 +21,15 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
             label: 'Filters',
           },
           {
-            value: 'active',
+            value: 'Active',
             label: 'active',
           },
           {
-            value: 'deleted',
+            value: 'Deleted',
             label: 'deleted',
           },
           {
-            value: 'sanctioned',
+            value: 'Sanctioned',
             label: 'sanctioned',
           },
         ]}
