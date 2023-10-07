@@ -27,15 +27,20 @@ function LoginForm() {
                 <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                   Email Address
                 </label>
-                <Input className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem]" placeholder="Aliusugar@gmail.com " />
+                <Input
+                  placeHolder="Allusugar@gmail.com"
+                  id="email"
+                  name="email"
+                  className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem]"
+                  type="email"
+                />
               </div>
               <div className="mt-[2.25rem]">
                 <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
                   Password
                 </label>
-
                 <Input
-                  placeHolder="Gbemi345"
+                  placeHolder={'Gbemi345'}
                   id="password"
                   name="password"
                   className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem]"
