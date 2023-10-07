@@ -58,7 +58,7 @@ function Assessmentresponses() {
             key={child?.id}
           >
             <div>
-              <div className="text-brand-disabled2 text-base md:text-[18px] font-manropeB font-bold mb-[4px]">
+              <div className="text-custom-color11 text-base md:text-[18px] font-manropeB font-bold mb-[4px]">
                 {child?.trackname}
               </div>
               <div className="my-[6px] md:my-[10px] text-white-650"> {child?.createddate}</div>
