@@ -7,7 +7,7 @@ interface SubmissionSuccessProps {
 
 const SubmissionSuccess: React.FC<SubmissionSuccessProps> = ({ onClose }) => {
   return (
-    <div className='w-[50%] m-auto items-center font-manropeB justify-center px-16 bg-white-100 rounded-[16px] py-24 p-4 gap-3 flex flex-col'>
+    <div className='w-fit m-auto items-center font-manropeB justify-center px-8 sm:px-16 bg-white-100 rounded-[16px] py-16 sm:py-24 p-4 gap-3 flex flex-col'>
       <div className="items-center justify-center m-auto align-middle  flex flex-col gap-8">
 
       <div className="top flex items-center justify-center m-auto " >

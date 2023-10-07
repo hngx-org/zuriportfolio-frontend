@@ -32,7 +32,7 @@ const ChangeAnswerModal: React.FC<ChangeAnswerProps> = ({
   };
 
   return (
-    <div className='w-[50%] m-auto items-center font-manropeB justify-center bg-white-100 rounded-[16px] p-4 gap-3 flex flex-col'>
+    <div className='w-fit m-auto items-center font-manropeB justify-center bg-white-100 rounded-[16px] p-4 gap-3 flex flex-col'>
       <div className="question justify-start text-left w-full text-[1.1em]  text-[#2E3130] items-start"> <span className="">{questnumber}.</span> {question}</div>
       <p className="text-[#004FC4] w-full justify-start items-start">Pick only one correct answer</p>
       {options.map((option) => (
