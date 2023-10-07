@@ -129,9 +129,9 @@ export default function ProductDetails() {
 
   return (
     <>
-    {/* Navbar */}
+      {/* Navbar */}
       <ShopNavbar activePage={router.pathname} showDashBorad={false} />
-      
+
       {/* Main */}
       <main className={`flex flex-col items-center lg:px-12 md:px-10 px-6 lg:pt-6 pt-4`}>
         <span className="self-start mb-[0.75rem] ml-4">
@@ -140,7 +140,7 @@ export default function ProductDetails() {
         <a onClick={() => router.back()} className="self-start mb-4 ml-2">
           <ArrowLeft size="27" color="#000000" />
         </a>
-        
+
         {/* Product Details  */}
         <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
           {/* Product Detail Images  */}
@@ -268,7 +268,7 @@ export default function ProductDetails() {
         <div className="mt-10"></div>
         <ProductCardWrapper title="Other Products by Fola Kingsley" productsList={otherProducts} />
       </main>
-      <ShopFooter/>
+      <ShopFooter />
     </>
   );
 }
