@@ -16,10 +16,10 @@ const LandingPageFilled: React.FC = () => {
           />
           <div className="border-solid border-[#009254] overflow-hidden bg-white/50 relative flex flex-col justify-end pt-4 items-start border-2 rounded-[180px]">
             <Image
-              src="/assets/images/landingPageFilled/profile.svg"
+              src="/assets/images/landingPageFilled/profile.png"
               id="Image1"
-              width={0}
-              height={0}
+              width={150}
+              height={150}
               alt="cover"
               className="mx-0"
             />
@@ -29,7 +29,7 @@ const LandingPageFilled: React.FC = () => {
           <div className="flex flex-col gap-2 items-start">
             <div className="flex flex-col gap-1 w-64">
               <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">
-                BABATUNDE WALTERS
+                BabatundeNDE WALTERS
               </div>
               <div className="flex flex-row mr-5 gap-1 items-start">
                 <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#444846]">
@@ -52,7 +52,7 @@ const LandingPageFilled: React.FC = () => {
             </button>
           </div>
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            Edit
+            <a href='#'>Edits</a>
           </div>
         </div>
       </div>
@@ -78,15 +78,15 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-center ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              Edit
+            <a href="#">Edits</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              Delete
+              <a href='#'>Delete</a>
             </div>
           </div>
         </div>
         <div className="font-['Manrope'] tracking-[0.08] leading-[24px] text-[#737876] self-end mb-4 w-full">
-          I'm Babatunde, a digital product designer based in Lagos, Nigeria. My
+          I'm Babatundende, a digital product designer based in Lagos, Nigeria. My
           design journey has taken me across various companies, startups, and
           agencies in both Africa and Europe. With a unique blend of design and
           engineering expertise, I've applied design methodologies to tackle
@@ -145,10 +145,10 @@ const LandingPageFilled: React.FC = () => {
           <div className="flex flex-col gap-6 w-1/2 items-end">
             <div className="flex flex-row mb-5 gap-6 items-start">
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                Edit
+                <a href='#'>Edit</a>
               </div>
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-                Delete
+                <a href="#">Delete</a>
               </div>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876] w-full">
@@ -188,19 +188,19 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-start ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              Edit
+              <a href='#'>Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              Delete
+              <a href='#'>Delete</a>
             </div>
           </div>
         </div>
         <div className="flex flex-row gap-16 items-start mb-2 ml-8">
           <Image
-            src="/assets/images/landingPageFilled/imageplace.svg"
+            src="/assets/images/landingPageFilled/imageplace.png"
             id="ImagePlaceholder"
-            width={0}
-            height={0}
+            width={200}
+            height={250}
             alt="cover"
             className=""
           />
@@ -254,7 +254,7 @@ const LandingPageFilled: React.FC = () => {
             </div>
             <div className="flex flex-row items-start">
               <div className="text-right font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                Link to project
+                <a href='#'>Link to project</a>
               </div>
               <Image
                 src="/assets/images/landingPageFilled/arrow.svg"
@@ -269,10 +269,10 @@ const LandingPageFilled: React.FC = () => {
         </div>
         <div className="flex flex-row gap-16 items-start mb-4 mx-8">
           <Image
-            src="/assets/images/landingPageFilled/imageplace.svg"
+            src="/assets/images/landingPageFilled/imageplace.png"
             id="ImagePlaceholder1"
-            width={0}
-            height={0}
+            width={200}
+            height={250}
             alt="cover"
             className=""
           />
@@ -326,7 +326,7 @@ const LandingPageFilled: React.FC = () => {
             </div>
             <div className="flex flex-row items-start">
               <div className="text-right font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                Link to project
+                <a href='#'>Link to project</a>
               </div>
               <Image
                 src="/assets/images/landingPageFilled/arrow.svg"
@@ -391,10 +391,10 @@ const LandingPageFilled: React.FC = () => {
           <div className="flex flex-col mt-5 gap-6 w-1/2 items-end">
             <div className="flex flex-row mb-5 gap-6 items-start">
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                Edit
+                <a href='#'>Edit</a>
               </div>
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-                Delete
+                <a href='#'>Delete</a>
               </div>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876] w-full">
@@ -434,10 +434,10 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-start ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              Edit
+              <a href='#'>Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              Delete
+              <a href='#'>Delete</a>
             </div>
           </div>
         </div>
@@ -511,20 +511,20 @@ const LandingPageFilled: React.FC = () => {
             </div>
           </div>
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c] ml-[960px]">
-            Delete
+            <a href='#'>Delete</a>
           </div>
         </div>
         <Image
           src="/assets/images/landingPageFilled/book.jpg"
           id="ImagePlaceholder2"
-          width={0}
-          height={0}
+          width={200}
+          height={250}
           alt="cover"
           className="mb-2 ml-8"
         />
         <div className="flex flex-row gap-px items-start mb-4 ml-8">
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            Go to shop
+            <a href='#'>Go to shop</a>
           </div>
           <Image
             src="/assets/images/landingPageFilled/arrow.svg"
@@ -560,10 +560,10 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-start ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              Edit
+              <a href='#'>Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              Delete
+              <a>Delete</a>
             </div>
           </div>
         </div>
@@ -649,10 +649,10 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-start ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              Edit
+              <a href='#'>Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              Delete
+              <a>Delete</a>
             </div>
           </div>
         </div>
@@ -662,7 +662,7 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row w-[208px] shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              Babatunde@gmailcom
+              <a href='#'>Babatundende@gmailcom</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -680,7 +680,7 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row w-32 shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              Babatundew
+              <a href='#'>Babatunde</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -698,7 +698,7 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row w-32 shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              Babatundew
+              <a href='#'>Babatunde</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -716,7 +716,7 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row w-32 shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              Babatundew
+              <a href='#'>Babatunde</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
