@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@radix-ui/react-select": "^2.0.0",
     "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
     "eslint": "8.31.0",
@@ -34,7 +35,9 @@
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
     "react-code-blocks": "^0.1.4",
-    "react-dom": "^18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.11.0",
+    "react-modal": "^3.16.1",
     "tailwind-merge": "^1.14.0",
     "typescript": "4.9.4"
   },
