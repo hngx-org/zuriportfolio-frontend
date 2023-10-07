@@ -244,7 +244,6 @@ const WorkExperienceSection = () => {
                       placeHolder=""
                       onChange={(e) => {
                         setRole(e.target.value);
-                        console.log(e.target.value);
                       }}
                       className="border-[#E1E3E2]"
                       inputSize={'lg'}
@@ -256,7 +255,6 @@ const WorkExperienceSection = () => {
                       placeHolder=""
                       onChange={(e) => {
                         setCompany(e.target.value);
-                        console.log(e.target.value);
                       }}
                       className="border-[#E1E3E2] w-full"
                       inputSize={'lg'}
@@ -283,7 +281,7 @@ const WorkExperienceSection = () => {
                       <>
                         <Select
                           onValueChange={(value: string) => {
-                            console.log(value);
+                            setStartMonth(value);
                           }}
                         >
                           <SelectTrigger className="w-[180px]">
@@ -303,7 +301,7 @@ const WorkExperienceSection = () => {
                       <>
                         <Select
                           onValueChange={(value: string) => {
-                            console.log(value);
+                            setStartYear(value);
                           }}
                         >
                           <SelectTrigger className="w-[180px]">
@@ -330,7 +328,7 @@ const WorkExperienceSection = () => {
                       <>
                         <Select
                           onValueChange={(value: string) => {
-                            console.log(value);
+                            setEndMonth(value);
                           }}
                         >
                           <SelectTrigger className="w-[180px]">
@@ -350,7 +348,7 @@ const WorkExperienceSection = () => {
                       <>
                         <Select
                           onValueChange={(value: string) => {
-                            console.log(value);
+                            setEndYear(value);
                           }}
                         >
                           <SelectTrigger className="w-[180px]">
