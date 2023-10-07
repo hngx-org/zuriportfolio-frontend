@@ -201,7 +201,7 @@ module.exports = {
           color31: '#101928',
           color32: '#d5dbdd',
           color33: '#F9F9FA',
-          color34: '#E53535', 
+          color34: '#E53535',
           color35: '#05A660',
         },
       },
@@ -217,7 +217,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('tailwind-scrollbar'),
-  ],
+  plugins: [require('tailwind-scrollbar')],
 };

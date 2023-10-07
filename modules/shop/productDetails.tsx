@@ -14,7 +14,6 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import ShopNavbar from './component/header-footer/shopNavbar';
 import ShopFooter from './component/header-footer/shopFooter';
 
-
 const otherProducts: ProductCardProps[] = [
   {
     image: '/assets/products-banner/Image-1.png',
