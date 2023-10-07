@@ -80,7 +80,7 @@ export interface ModalProps {
   children?: React.ReactNode;
   closeOnOverlayClick?: boolean;
   title?: string;
-  size?: 'lg' | 'md' | 'sm';
+  size?: 'lg' | 'md' | 'sm' | 'xl';
   isCloseIconPresent?: boolean;
 }
 
@@ -197,6 +197,16 @@ export interface FavoriteProduct extends Product {
   productCreator: string;
 }
 
+export interface WorkExperience {
+  role: string;
+  description: string;
+  company: string;
+  startYear: string;
+  startMonth: string;
+  endYear: string;
+  endMonth: string;
+  id: number;
+}
 export interface VerificationProps {
   handleClick(): void;
 }
