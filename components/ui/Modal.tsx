@@ -5,7 +5,8 @@ import { CloseCircle } from 'iconsax-react';
 import { ModalProps } from '../../@types';
 import Button from './Button';
 
-const sizes: Record<'lg' | 'md' | 'sm', string> = {
+const sizes: Record<'xl' | 'lg' | 'md' | 'sm', string> = {
+  xl: 'max-w-[700px]',
   lg: 'max-w-xl',
   md: 'max-w-lg',
   sm: 'max-w-[480px]',

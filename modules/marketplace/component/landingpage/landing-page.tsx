@@ -8,6 +8,7 @@ import ProductCardWrapper from './productCardWrapper/product-card-wrapper';
 import ExperienceCard from './experience-cards/experience-card';
 import Cancel from '../../../../public/assets/recentlyviewed/cancel.svg';
 import styles from './productCardWrapper/product-card-wrapper.module.css';
+import AllCategorySlider from '../AllCategorySlider';
 
 const handPicked: ProductCardProps[] = [
   {
@@ -341,6 +342,9 @@ function LandingPage() {
             </ul>
           </section>
         </div>
+
+        <AllCategorySlider />
+
         <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-2.5">
           <h3 className="text-[#101928] font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
             Recently Viewed
