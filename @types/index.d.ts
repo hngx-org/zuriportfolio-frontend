@@ -185,7 +185,7 @@ export interface OrderHistory {
   date: Date;
   status: 'completed' | 'cancelled' | 'pending';
 }
-export interface Product {
+export interface Products {
   productId: string;
   productName: string;
   productPrice: number;
@@ -194,13 +194,13 @@ export interface Product {
   numReviews: number;
 }
 
-export interface WishlistProduct extends Product {
+export interface WishlistProduct extends Products {
   productCategory: string;
   inStock: boolean;
   inCart: boolean;
 }
 
-export interface FavoriteProduct extends Product {
+export interface FavoriteProduct extends Products {
   isFavourite: boolean;
   productCreator: string;
 }
