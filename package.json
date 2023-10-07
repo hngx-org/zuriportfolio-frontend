@@ -34,7 +34,8 @@
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
     "react-code-blocks": "^0.1.4",
-    "react-dom": "^18.2.0",
+    "react-dom": "18.2.0",
+    "react-modal": "^3.16.1",
     "tailwind-merge": "^1.14.0",
     "typescript": "4.9.4"
   },
