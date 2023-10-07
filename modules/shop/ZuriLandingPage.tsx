@@ -14,6 +14,7 @@ const ZuriLandingPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,6 +33,7 @@ const ZuriLandingPage = () => {
           description: apiProduct.description,
           price: apiProduct.price,
           image: apiProduct.image,
+          category: apiProduct.category,
         }));
 
         setProducts(mappedProducts);
@@ -44,7 +46,22 @@ const ZuriLandingPage = () => {
     fetchProducts();
   }, []);
 
-  const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+  };
+
+  const categories = Array.from(new Set(products.map((product) => product.category)));
+  console.log('Categories:', categories);
+  const filteredProducts = products.filter((product) => {
+    if (selectedCategory === 'All' || selectedCategory === '') {
+      return product.name.toLowerCase().includes(searchQuery.toLowerCase());
+    } else {
+      return (
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        product.category.toLowerCase() === selectedCategory.toLowerCase()
+      );
+    }
+  });
 
   const totalPageCount = Math.ceil(filteredProducts.length / productsPerPage);
 
@@ -56,15 +73,22 @@ const ZuriLandingPage = () => {
 
   return (
     <div>
-      <Header setSearchQuery={setSearchQuery} cartItemCount={cartItemCount} />{' '}
+      <Header
+        setSearchQuery={setSearchQuery}
+        cartItemCount={cartItemCount}
+        categories={categories}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        handleCategoryChange={handleCategoryChange}
+      />{' '}
       <div className="p-4 container mx-auto">
         <div className="space-y-12 py-10">
-          <h1 className="mb-4 text-3xl font-manropeEB">Hello, Welcome to TechVerse.</h1>
-          <p className="text-base font-normal font-manropeL">
+          <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to TechVerse.</h1>
+          <p className="md:text-base text-xs font-normal font-manropeL">
             Explore our store for courses and E-books that will elevate your skills from novice to expert.
           </p>
         </div>
-        <div className="flex gap-3 text-white">
+        <div className="flex gap-3  text-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 32 32">
             <path
               d="M31.999 6.075c-1.177.523-2.448.875-3.999 1.033 1.439-.865 2.542-2.232 3.057-3.866-1.34.794-2.826 1.369-4.411 1.684-1.266-1.352-3.062-2.196-5.055-2.196-3.815 0-6.914 3.097-6.914 6.911 0 .543.062 1.073.18 1.587-5.748-.288-10.859-3.041-14.291-7.236-.599 1.034-.944 2.244-.944 3.535 0 2.448 1.248 4.61 3.15 5.879-1.16-.038-2.25-.354-3.216-.878-.001.032-.001.065-.001.097 0 3.415 2.434 6.265 5.667 6.921-.592.162-1.221.248-1.867.248-.455 0-.898-.043-1.331-.125.9 2.773 3.522 4.792 6.623 4.852-2.422 1.887-5.469 3.014-8.774 3.014-.571 0-1.136-.034-1.693-.1 3.144 2.019 6.871 3.204 10.887 3.204 13.063 0 20.202-10.831 20.202-20.202 0-.309-.007-.617-.018-.924 1.389-1 2.589-2.248 3.536-3.669z"

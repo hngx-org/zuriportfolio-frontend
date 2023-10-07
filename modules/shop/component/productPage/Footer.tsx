@@ -4,7 +4,7 @@ import { Instagram } from 'iconsax-react';
 import TechVerse from '../../../../public/assets/TechVerse.png';
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#009254] w-full text-[#fff]">
+    <footer className="bg-[#009254] w-full  text-[#fff]">
       <div className="container mx-auto py-20 px-4 sm:px-6 md:px-8">
         <div className="md:flex  md:flex-row grid grid-cols-1  items-center justify-between">
           <div className="text-left md:text-left mb-4 md:mb-0">
@@ -13,16 +13,16 @@ const Footer: React.FC = () => {
           </div>
           <div className=" flex md:flex-row flex-col md:space-y-0 space-y-6 md:items-center items-start   md:space-x-6">
             <div>
-              <h1 className="text-sm text-normal">Contact Us</h1>
+              <h1 className="text-sm cursor-pointer text-normal">Contact Us</h1>
             </div>
             <div>
-              <h1 className="font-semibold text-base">info@techverse.com</h1>
+              <h1 className="font-semibold cursor-pointer text-base">info@techverse.com</h1>
             </div>
             <div>
-              <h1 className="text-sm text-normal">Follow Us</h1>
+              <h1 className="text-sm cursor-pointer text-normal">Follow Us</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <a href="#" className="text-white bg-[#1DA1F2] rounded-full p-2">
+              <a href="#" className="text-white cursor-pointer bg-[#1DA1F2] rounded-full p-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32">
                   <path
                     d="M31.999 6.075c-1.177.523-2.448.875-3.999 1.033 1.439-.865 2.542-2.232 3.057-3.866-1.34.794-2.826 1.369-4.411 1.684-1.266-1.352-3.062-2.196-5.055-2.196-3.815 0-6.914 3.097-6.914 6.911 0 .543.062 1.073.18 1.587-5.748-.288-10.859-3.041-14.291-7.236-.599 1.034-.944 2.244-.944 3.535 0 2.448 1.248 4.61 3.15 5.879-1.16-.038-2.25-.354-3.216-.878-.001.032-.001.065-.001.097 0 3.415 2.434 6.265 5.667 6.921-.592.162-1.221.248-1.867.248-.455 0-.898-.043-1.331-.125.9 2.773 3.522 4.792 6.623 4.852-2.422 1.887-5.469 3.014-8.774 3.014-.571 0-1.136-.034-1.693-.1 3.144 2.019 6.871 3.204 10.887 3.204 13.063 0 20.202-10.831 20.202-20.202 0-.309-.007-.617-.018-.924 1.389-1 2.589-2.248 3.536-3.669z"
@@ -30,10 +30,10 @@ const Footer: React.FC = () => {
                   />
                 </svg>
               </a>
-              <a href="" className="bg-[#F00073] rounded-full p-2 text-white">
+              <a href="" className="bg-[#F00073] cursor-pointer rounded-full p-2 text-white">
                 <Instagram size={18} color="#fff" />
               </a>
-              <a href="#" className="text-white bg-[#000] rounded-full p-2">
+              <a href="#" className="text-white cursor-pointer bg-[#000] rounded-full p-2">
                 <svg width="20" height="20" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     id="githab"
