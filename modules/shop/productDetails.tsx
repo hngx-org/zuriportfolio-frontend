@@ -185,7 +185,7 @@ export default function ProductDetails() {
           </div>
 
           <div>
-            <hr className="bg-[#EEEEEE] text-[#EEEEEE] h-[2px] border-0 lg:block hidden mt-12" />
+            <hr className="bg-white-110 text-white-110 h-[2px] border-0 lg:block hidden mt-12" />
           </div>
 
           <div className="flex flex-col gap-y-2">
@@ -209,12 +209,12 @@ export default function ProductDetails() {
       {/* Description, Specification, Reviews  */}
       <div className='my-10 w-full'>
         <div className='flex justify-around items-center mt-10 mb-4 w-full'>
-          <p onClick={handleClick0} className={`font-manrope text-base tracking-wide cursor-pointer ${isClickedDesc ? 'text-green-600 underline' : 'text-[#292E32]'}`}>Description</p>
-          <p onClick={handleClick1} className={`font-manrope text-base tracking-wide cursor-pointer ${isClickedSpec ? 'text-green-600 underline' : 'text-[#292E32]'}`}>Specification</p>
-          <p onClick={handleClick2} className={`font-manrope text-base tracking-wide cursor-pointer ${isClickedRev ? 'text-green-600 underline' : 'text-[#292E32]'}`}>Review</p>
+          <p onClick={handleClick0} className={`font-manrope text-base tracking-wide cursor-pointer ${isClickedDesc ? 'text-green-600 underline' : 'text-dark-115'}`}>Description</p>
+          <p onClick={handleClick1} className={`font-manrope text-base tracking-wide cursor-pointer ${isClickedSpec ? 'text-green-600 underline' : 'text-dark-115'}`}>Specification</p>
+          <p onClick={handleClick2} className={`font-manrope text-base tracking-wide cursor-pointer ${isClickedRev ? 'text-green-600 underline' : 'text-dark-115'}`}>Review</p>
         </div>
-        <div className='p-6 border border-[#EEEEEE] rounded-lg flex gap-y-6 flex-col'>
-          <h1 className='font-manropeB text-2xl text-[#2E3130]'>{isClickedDesc ? 'Description' : `${isClickedSpec ? 'Specification' : 'Review'}`}</h1>
+        <div className='p-6 border border-white-110 rounded-lg flex gap-y-6 flex-col'>
+          <h1 className='font-manropeB text-2xl text-white-700'>{isClickedDesc ? 'Description' : `${isClickedSpec ? 'Specification' : 'Review'}`}</h1>
           <p>Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions to enrich the learning journey. Tailor the template to your brand with customizable design options. Track learner progress, foster collaboration, and gain insights through built-in analytics. Whether you're an educator or a business, this template streamlines course creation, webinar hosting, and community building. Elevate your online education with a user-friendly, responsive, and feature-rich solution that engages and enlightens learners.</p>
         </div>
       </div>
