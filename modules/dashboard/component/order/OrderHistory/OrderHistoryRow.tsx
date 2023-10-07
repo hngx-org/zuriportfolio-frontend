@@ -83,6 +83,7 @@ const OrderHistoryRow = (props: OrderHistory) => {
     </tr>
   );
 };
+
 export const OrderHistoryMobile = (props: OrderHistory) => {
   const padDate = (num: number) => {
     return String(num).padStart(2, '0');
