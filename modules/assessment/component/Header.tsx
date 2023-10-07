@@ -7,7 +7,7 @@ import Image from 'next/image';
 function Header({ heading, body }: any) {
   return (
     <div className="w-full relative">
-      <div className=" relative grid grid-cols-1 md:grid-cols-2 bg-[#005427] justify-between w-full">
+      <div className=" relative grid grid-cols-1 md:grid-cols-2 bg-brand-green-shade40 justify-between w-full">
         <div className=" flex flex-col text-white-100 justify-center pl-[20px] lg:pl-[68px] py-7 z-10">
           <h1 className=" font-manropeB text-[24px] md:text-[32px] py-2">{heading}</h1>
           <p className=" text-sm font-manropeL">{body}</p>

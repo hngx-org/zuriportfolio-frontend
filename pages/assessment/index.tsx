@@ -36,13 +36,13 @@ function Index() {
       <Header heading={'Admin Assessment Board'} body={'For the general creation and management of assessments'} />
       <div className="assessment-body text-Manrope mx-[16px] lg:mx-[104px]">
         <div className="assessment-links mt-[50px] md:mt-[95px] flex px:[12px] md:px-[50px] lg:px-[100px] gap-4 md:gap-[13vw]">
-          <div className="flex-1 border-[1px] border-[#A8ACAB] p-2 md:p-6 rounded-lg hover:text-[#005427]">
+          <div className="flex-1 border-[1px] border-white-400 p-2 md:p-6 rounded-lg hover:text-brand-green-shade40">
             <Link className="w-full grid place-items-center" href="/assessment/new">
               <Image src={addmessage} width="33" height="33" alt="add message" />
               <div className="text-sm md:text-base font-semibold font-ManropeB pt-[9px]">Create new assesment</div>
             </Link>
           </div>
-          <div className="flex-1 center border-[1px] border-[#A8ACAB] p-2 md:p-6 rounded-lg hover:text-[#005427]">
+          <div className="flex-1 center border-[1px] border-[#A8ACAB] p-2 md:p-6 rounded-lg hover:text-brand-green-shade40">
             <Link className="grid place-items-center w-full" href="/assessment/drafts">
               <Image src={draftsimg} width="33" height="33" alt="go to drafts" />
               <div className="grid place-items-center text-sm md:text-base font-semibold font-ManropeB pt-[9px]">
@@ -56,7 +56,7 @@ function Index() {
           <Description info="CREATED ASSESSMENTS" number={12} icon={booksaved} />
           <Description info="PASS/FAIL RATIO" number={'3:1'} icon={ratioimg} />
         </div>
-        <div className="search w-full border-[#E1E3E2] border-[1px] p-2 md:p-4 rounded-lg flex items-center">
+        <div className="search w-full border-dark-200 border-[1px] p-2 md:p-4 rounded-lg flex items-center">
           <div className="icon relative w-4 h-4 mr-2">
             <Image src={searchimg} alt="search" layout="fill" />
           </div>
