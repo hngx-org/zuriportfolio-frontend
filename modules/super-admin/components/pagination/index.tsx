@@ -9,7 +9,7 @@ const PaginationBtn = ({ handleClick, disabledFn, title }: PaginationBtn) => {
     <button
       onClick={handleClick}
       className={`px-4 py-2 rounded-md ${
-        disabledFn ? 'bg-white text-gray-100 cursor-not-allowed' : 'text-black hover:bg-[#EBFDF3]'
+        disabledFn ? 'bg-white text-gray-100 cursor-not-allowed' : 'text-black hover:bg-white-140'
       } hidden md:block`}
       disabled={disabledFn}
     >
@@ -48,7 +48,7 @@ const SuperAdminPagination = ({ currentPage, totalPages, onPageChange }: AdminTa
           key={i}
           onClick={() => onPageChange(i)}
           className={`w-9 h-8 rounded-md ${
-            i === currentPage ? 'bg-brand-green-primary text-white' : 'text-[gray-600] hover:bg-[#EBFDF3]'
+            i === currentPage ? 'bg-brand-green-primary text-white' : 'text-[gray-600] hover:bg-white-140'
           }`}
         >
           {i}
