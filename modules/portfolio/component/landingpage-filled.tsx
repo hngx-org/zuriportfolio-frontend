@@ -52,7 +52,7 @@ const LandingPageFilled: React.FC = () => {
             </button>
           </div>
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            <a href='#'>Edits</a>
+            <a href='#'>Edit</a>
           </div>
         </div>
       </div>
@@ -78,7 +78,7 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-center ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            <a href="#">Edits</a>
+            <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
               <a href='#'>Delete</a>
