@@ -38,8 +38,7 @@ const NavDashBoard: React.FC<{ active: string }> = (props) => {
       className={
         props.active === 'COM-1/Feat/Zuri-Shop-Owner-Dashboard'
           ? 'max-w-[1024px] pt-[22px] mt-[22px] mb-16'
-          : 'max-w-[1024px] pt-[22px] mt-[22px] mb-16 hidden lg:block'
-          : 'max-w-[1024px] pt-[22px] mt-[22px] mb-16 hidden lg:block mx-auto ml-[100px]'
+          : 'max-w-[1024px] pt-[22px] mt-[22px] mb-16 hidden lg:block mx-auto'
       }
     >
       <ul className="gap-[72px] font-manropeB font-semibold text-[#737876] text-base text-center flex">
