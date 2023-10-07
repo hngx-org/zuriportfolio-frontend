@@ -38,19 +38,19 @@ export default function cart() {
             <div className="flex flex-col md:flex-row items-center gap-x-8 gap-y-4 md:gap-x-4 md:flex-wrap mt-4 lg:justify-between">
                 <ProductCard productImage='/assets/images/image-zuri-7.png' productPrice={100} discountPercentage={60}
                         productRating={3} productSeller='Mark Essien' productTitle='Webinar and Course Slide Template'
-                        cardStyle='border border-[#d5dbdd] rounded-md lg:max-w-[340px] md:w-1/2 md:max-w-[290px] flex flex-col p-3 items-center' />
+                        cardStyle='border border-[#d5dbdd] rounded-md lg:max-w-[340px] md:w-1/2 md:max-w-[290px] flex flex-col p-3 ' />
 
                 <ProductCard productImage='/assets/images/image-zuri-8.png' productPrice={100} 
                         productRating={3} productSeller='Mark Essien' productTitle='Webinar and Course Slide Template'
-                        cardStyle='border border-[#d5dbdd] rounded-md lg:max-w-[340px] md:w-1/2 md:max-w-[290px] flex flex-col p-3 items-center' />
+                        cardStyle='border border-[#d5dbdd] rounded-md lg:max-w-[340px] md:w-1/2 md:max-w-[290px] flex flex-col p-3 ' />
 
                 <ProductCard productImage='/assets/images/image-zuri-9.png' productPrice={100} discountPercentage={60}
                         productRating={3} productSeller='Mark Essien' productTitle='Webinar and Course Slide Template'
-                        cardStyle='border border-[#d5dbdd] rounded-md lg:max-w-[340px] md:w-1/2 md:max-w-[290px] flex flex-col p-3 items-center' />
+                        cardStyle='border border-[#d5dbdd] rounded-md lg:max-w-[340px] md:w-1/2 md:max-w-[290px] flex flex-col p-3 ' />
 
                 <ProductCard productImage='/assets/images/image-zuri-10.png' productPrice={100} tag='Top Picks'
                         productRating={3} productSeller='Mark Essien' productTitle='Webinar and Course Slide Template'
-                        cardStyle='border border-[#d5dbdd] rounded-md lg:max-w-[340px] md:w-1/2 md:max-w-[290px] flex flex-col p-3 items-center' tagBackground="bg-[#515b63]" />
+                        cardStyle='border border-[#d5dbdd] rounded-md lg:max-w-[340px] md:w-1/2 md:max-w-[290px] flex flex-col p-3 ' tagBackground="bg-[#515b63]" />
             </div>
           </section>
       </main>
