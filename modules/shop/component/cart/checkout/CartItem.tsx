@@ -26,7 +26,7 @@ export default function CartItem({
   return (
     <>
       <div className={'' + modalClosed}>
-        <RemoveCart onClose={closeModal}></RemoveCart>
+        <RemoveCart></RemoveCart>
       </div>
 
       <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5">
