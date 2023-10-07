@@ -10,7 +10,7 @@ const manropeMD = Manrope({
 const CancelledTab: React.FC = () => {
   return (
     <div
-      className={`md:bg-[#FEF3F2] text-[#B42318] ${manropeMD.className} mx-auto py-[2px] pl-[6px] pr-2 flex items-center gap-2 w-fit rounded-2xl  `}
+      className={`md:bg-custom-color4 text-custom-color5 ${manropeMD.className} mx-auto py-[2px] pl-[6px] pr-2 flex items-center gap-2 w-fit rounded-2xl  `}
     >
       <div className="hidden md:block">
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
@@ -30,7 +30,7 @@ const CancelledTab: React.FC = () => {
 const CompletedTab: React.FC = () => {
   return (
     <div
-      className={`md:bg-[#ECFDF3] text-[#027A48] ${manropeMD.className} mx-auto py-[2px] pl-[6px] pr-2 flex items-center gap-2 w-fit rounded-2xl `}
+      className={`md:bg-custom-color6 text-custom-color7 ${manropeMD.className} mx-auto py-[2px] pl-[6px] pr-2 flex items-center gap-2 w-fit rounded-2xl `}
     >
       <div className="md:block hidden">
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
@@ -50,7 +50,7 @@ const CompletedTab: React.FC = () => {
 const PendingTab = () => {
   return (
     <div
-      className={`md:bg-[#fcec66] text-[#837737] ${manropeMD.className}  mx-auto py-[2px] pl-[6px] pr-2 flex items-center gap-2 w-fit rounded-2xl `}
+      className={`md:bg-yellow-100 text-custom-color9 ${manropeMD.className}  mx-auto py-[2px] pl-[6px] pr-2 flex items-center gap-2 w-fit rounded-2xl `}
     >
       <div className="md:block hidden">
         <Clock size="16" color="#837737" />
@@ -70,10 +70,10 @@ const OrderHistoryRow = (props: OrderHistory) => {
   };
 
   return (
-    <tr className="font-manropeL border border-[#EAECF0] font-normal text-[#667085] [&>*]:px-6  [&>*]:py-4">
-      <td className={`text-[#101828] ${manropeMD.className} text-center`}>#{props.id}</td>
+    <tr className="font-manropeL border border-custom-color1 font-normal text-custom-color2 [&>*]:px-6  [&>*]:py-4">
+      <td className={`text-custom-color10 ${manropeMD.className} text-center`}>#{props.id}</td>
       <td>{props.productName}</td>
-      <td className={`text-[#101828] ${manropeMD.className}`}>{props.customerName}</td>
+      <td className={`text-custom-color10 ${manropeMD.className}`}>{props.customerName}</td>
       <td>{formatDate()}</td>
       <td>
         {props.status === 'completed' && <CompletedTab />}
@@ -100,12 +100,12 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
       }}
     >
       <div className="flex flex-col">
-        <h2 className=" text-[14px] font-semibold mb-2 text-[#1A1C1B]  tracking-[0.014px] leading-[144%]">
+        <h2 className=" text-[14px] font-semibold mb-2 text-custom-color11  tracking-[0.014px] leading-[144%]">
           {props.productName}
         </h2>
-        <p className="text-[12px] mb-3  text-[#2E3130]">{props.customerName}</p>
-        <p className="text-[#5B5F5E] font-semibold">
-          Order ID: <span className="text-[#2E3130] font-manropeL font-normal">#{props.id}</span>
+        <p className="text-[12px] mb-3  text-dark-110">{props.customerName}</p>
+        <p className="text-custom-color22 font-semibold">
+          Order ID: <span className="text-dark-110 font-manropeL font-normal">#{props.id}</span>
         </p>
       </div>
       <div className="flex flex-col gap-2">
