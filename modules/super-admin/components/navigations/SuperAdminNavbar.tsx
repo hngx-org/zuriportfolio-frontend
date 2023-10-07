@@ -49,7 +49,7 @@ const SuperAdminNavbar = () => {
   return (
     <nav className="sticky top-0 bg-white-100">
       <div className="px-5 md:px-10 lg:px-24 py-7 border-b border-white-115">
-        <div className="max-w-[1240px] flex justify-between items-center mx-auto">
+        <div className="container flex justify-between items-center mx-auto">
           <div className="flex items-center gap-4">
             <Sidebar />
             <div className="hidden md:block">
@@ -77,7 +77,7 @@ const SuperAdminNavbar = () => {
           </div>
         </div>
       </div>
-      <div className="px-24 py-5 mt-6 justify-between font-manropeB hidden lg:flex max-w-[1240px] mx-auto">
+      <div className="px-5 py-5 mt-6 justify-between font-manropeB hidden lg:flex container mx-auto">
         {menu.map((item) => (
           <Link
             key={item.title}

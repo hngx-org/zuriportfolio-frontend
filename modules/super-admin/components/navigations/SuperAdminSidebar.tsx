@@ -44,7 +44,7 @@ const SuperAdminSidebar = () => {
       </div>
       {showSidebar ? (
         <div
-          className="h-[100vh] absolute top-0 inset-0 left-0 z-10 md:w-[100vw] bg-[rgba(118,118,118,.25)] backdrop-blur-sm"
+          className="h-[100vh] absolute top-0 inset-0 left-0 z-10 md:w-[100vw] bg-white-610 backdrop-blur-sm"
           onClick={() => setShowSidebar(false)}
         ></div>
       ) : null}
