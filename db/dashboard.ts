@@ -1,9 +1,3 @@
-// export type MetricsCardData = typeof metricsCardData;
-// export type MetricsChartData = typeof metricsChartData;
-// export type MetricsChartTimeline = typeof metricsChartTimeline;
-// export type MetricsChartMonths = typeof metricsChartMonths;
-// export type ActivityData = typeof activityData;
-
 export const metricsCardData = [
   {
     title: "Today's revenue",
@@ -56,44 +50,7 @@ export const metricsChartTimeline = [
   },
 ];
 
-export const metricsChartMonths = [
-  {
-    month: 'Jan',
-  },
-  {
-    month: 'Feb',
-  },
-  {
-    month: 'Mar',
-  },
-  {
-    month: 'Apr',
-  },
-  {
-    month: 'May',
-  },
-  {
-    month: 'Jun',
-  },
-  {
-    month: 'Jul',
-  },
-  {
-    month: 'Aug',
-  },
-  {
-    month: 'Sep',
-  },
-  {
-    month: 'Oct',
-  },
-  {
-    month: 'Nov',
-  },
-  {
-    month: 'Dec',
-  },
-];
+export const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export const activityData = [
   {

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import logo from './assets/zuriLogo.svg';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Button from '@ui/Button';
+
 import MobileNav from '@modules/dashboard/component/MobileNav';
+import Button from '@ui/Button';
+
+import logo from './assets/zuriLogo.svg';
 
 function Cart({ items }: { items?: number }) {
   return (
-    <Link href={'/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
+    <Link href={'/marketplace/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
       <div className="w-6 h-6 relative">
         {items && (
           <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
