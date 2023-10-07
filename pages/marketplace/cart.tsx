@@ -1,8 +1,8 @@
 import React from 'react';
-import MainLayout from '../../../components/Layout/MainLayout';
-import ProductCard from '../../../modules/shop/component/cart/checkout/ProductCard';
-import Summary from '../../../modules/shop/component/cart/checkout/Summary';
-import CartItem from '../../../modules/shop/component/cart/checkout/CartItem';
+import MainLayout from '../../components/Layout/MainLayout';
+import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard';
+import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
+import Summary from '@modules/shop/component/cart/checkout/Summary';
 
 export default function cart() {
   return (
