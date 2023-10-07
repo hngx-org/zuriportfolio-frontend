@@ -5,7 +5,8 @@ import { CloseCircle } from 'iconsax-react';
 import { ModalProps } from '../../@types';
 import Button from './Button';
 
-const sizes: Record<'lg' | 'md' | 'sm', string> = {
+const sizes: Record<'xl' | 'lg' | 'md' | 'sm', string> = {
+  xl: 'max-w-[700px]',
   lg: 'max-w-xl',
   md: 'max-w-lg',
   sm: 'max-w-[480px]',
@@ -16,7 +17,7 @@ function Modal({
   closeOnOverlayClick = false,
   children,
   title,
-  size = 'lg',
+  size = 'sm',
   isCloseIconPresent = true,
 }: ModalProps) {
   return (
@@ -46,7 +47,7 @@ function Modal({
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel
-                  className={`relative w-full ${sizes[size]} font-nunito font-light transform overflow-hidden text-sm rounded-[12px] text-left align-middle shadow-xl transition-all`}
+                  className={`relative w-full ${sizes[size]} bg-white-100 and p-4 font-nunito font-light transform overflow-hidden text-sm rounded-[12px] text-left align-middle shadow-xl transition-all`}
                 >
                   {title && (
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">

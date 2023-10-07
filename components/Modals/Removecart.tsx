@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Image from 'next/image';
-import group from './Group.png';
+import group from '../../public/assets/removecart/Group.png';
+import trash from '../../public/assets/removecart/delete.svg';
 
 interface RemoveCartProps {
   onClose: () => void;
@@ -9,7 +10,7 @@ interface RemoveCartProps {
 const RemoveCart: FunctionComponent<RemoveCartProps> = ({ onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-md backdrop-filter backdrop-opacity-50">
-      <div className="bg-white w-96 h-auto p-6 rounded-lg shadow-lg relative text-center">
+      <div className="bg-white w-[90%] max-w-[400px] px-5 py-8 h-auto rounded-lg shadow-lg relative text-center">
         {/* Close button */}
         <button className="absolute top-2 right-2 text-gray-600" onClick={onClose}>
           <svg
@@ -25,15 +26,22 @@ const RemoveCart: FunctionComponent<RemoveCartProps> = ({ onClose }) => {
             />
           </svg>
         </button>
+
         {/* Image */}
-        <Image src={group} alt="group" />
+        <div className="flex justify-center">
+          <Image src={group} alt="checked" width={200} height={200} />
+        </div>
+
         {/* Modal content */}
-        <h2 className="text-xl font-semibold mb-4">Remove from Cart</h2>
-        <p className="text-gray-900 mb-4">Are you sure you want to remove this item from your cart?</p>
+        <h2 className="text-[22px] font-bold pt-4 text-[#101828]">Remove from Cart</h2>
+        <p className="text-[#475467] text-[16px] font-normal">
+          Are you sure you want to remove this item from your cart?
+        </p>
 
         {/* Buttons */}
-        <div className="flex justify-between">
-          <button className="px-4 py-2 text-white bg-white rounded-lg border-black border" onClick={onClose}>
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <button className="px-6 py-3 border rounded-md flex items-center gap-2" onClick={onClose}>
+            {/* Save for Later icon */}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
               <g id="vuesax/outline/heart">
                 <g id="vuesax/outline/heart_2">
@@ -47,19 +55,15 @@ const RemoveCart: FunctionComponent<RemoveCartProps> = ({ onClose }) => {
                 </g>
               </g>
             </svg>
-            Save for Later
+            <span className="text-[#001F23]">Save for Later</span>
           </button>
+
           <button
-            className="focus:outline-none text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+            className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[16px] flex items-center gap-2 rounded-md"
             onClick={onClose}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current inline mr-2" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M5 3a1 1 0 00-1 1v11a1 1 0 001 1h1v1a2 2 0 002 2h8a2 2 0 002-2v-1h1a1 1 0 001-1V4a1 1 0 00-1-1H5zm1 2h8a1 1 0 011 1v8H5V6a1 1 0 011-1zm7 10a1 1 0 100 2 1 1 0 000-2zm-7 0a1 1 0 100 2 1 1 0 000-2zm3-5a1 1 0 112 0 1 1 0 01-2 0z"
-                clipRule="evenodd"
-              />
-            </svg>
+            {/* Remove Item icon */}
+            <Image src={trash} alt="checked" width={20} height={20} />
             Remove Item
           </button>
         </div>

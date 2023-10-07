@@ -1,10 +1,12 @@
 import React, { useContext, useEffect } from 'react';
+
 import { twMerge } from 'tailwind-merge';
-import SideBar from '../Navbars/Sidebar';
-import MainLayoutContext from '../../context/LayoutContext';
-import TopBar from '../Navbars/TopBar';
+
 import { MainLayoutProps } from '../../@types';
+import MainLayoutContext from '../../context/LayoutContext';
 import Footer from '../Footer';
+import SideBar from '../Navbars/Sidebar';
+import TopBar from '../Navbars/TopBar';
 
 function MainLayout({
   children,
@@ -23,12 +25,11 @@ function MainLayout({
 
   return (
     <div className={twMerge('w-full relative h-screen overflow-y-auto', className)}>
-      {showTopbar && <TopBar />}
+      {showTopbar && <TopBar activePage={activePage} showDashBorad={showDashboardSidebar} />}
 
-      <div className="flex">
-        {showDashboardSidebar && <SideBar activePage={activePage} />}
-        {children}
-      </div>
+      {showDashboardSidebar && <SideBar activePage={activePage} />}
+      {children}
+
       {showFooter && <Footer />}
     </div>
   );
