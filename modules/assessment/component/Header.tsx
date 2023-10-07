@@ -1,7 +1,7 @@
 import React from 'react';
-import badgebg from '../assets/headerbg/badge.png';
-import greenbadgebg from '../assets/headerbg/greenbadge.png';
-import notebg from '../assets/headerbg/note.png';
+import badgebg from '../../../public/assets/assessment/headerbg/badge.png';
+import greenbadgebg from '../../../public/assets/assessment/headerbg/greenbadge.png';
+import notebg from '../../../public/assets/assessment/headerbg/note.png';
 import Image from 'next/image';
 
 function Header({ heading, body }: any) {

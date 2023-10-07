@@ -12,8 +12,26 @@ import Image from 'next/image';
 
 import Link from 'next/link';
 import Description from '../../modules/assessment/component/Description';
+import Assessmentlist from '../../modules/assessment/component/assessmentlist';
+import Assessmentresponses from '../../modules/assessment/component/Assessmentresponses';
 export const ListContext = React.createContext([{}]);
 function Index() {
+  const [list, setList]: any = useState(Assessmentlist);
+  const [filterParam, setfilterParam] = useState('');
+  const onFilter = (e: any) => {
+    setfilterParam(e.target.value.toLowerCase());
+  };
+  useEffect(() => {
+    setList(
+      Assessmentlist?.filter((child: any) => {
+        if (filterParam === '') {
+          return list;
+        } else {
+          return child?.trackname.toLowerCase().includes(filterParam);
+        }
+      }),
+    );
+  }, [filterParam]);
   return (
     <div className="w-full items-start justify-start">
       <Header heading={'Admin Assessment Board'} body={'For the general creation and management of assessments'} />
@@ -41,7 +59,12 @@ function Index() {
           <div className="icon relative w-4 h-4 mr-2">
             <Image src={searchimg} alt="search" layout="fill" />
           </div>
+
+          <input className="w-full outline-none" placeholder="Search assessments and responses" onInput={onFilter} />
         </div>
+        <ListContext.Provider value={[list, setList]}>
+          <Assessmentresponses />
+        </ListContext.Provider>
       </div>
     </div>
   );
