@@ -1,5 +1,6 @@
 'use client';
 import React, { ChangeEvent, useState, useRef } from 'react';
+import { KeyboardEvent } from 'react';
 import Button from '../../components/ui/Button';
 
 function Code2FA() {
@@ -15,20 +16,40 @@ function Code2FA() {
     useRef<HTMLInputElement>(null),
   ];
 
-  const handleDigitChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
+  function handleKeyDown(e: KeyboardEvent<HTMLInputElement>, index: number) {
+    const input = e.target as HTMLInputElement;
+    const previousInput = inputRefs[index - 1];
+    const nextInput = inputRefs[index + 1];
+
+    if ((e.key === 'Backspace' || e.key === 'Delete') && input.value === '') {
+        e.preventDefault();
+        const newDigits = [...digits];
+        newDigits[index] = '';
+        setDigits(newDigits);
+        if (previousInput?.current) {
+            previousInput.current.focus();
+        }
+    } else if (e.key === 'ArrowRight' && nextInput?.current) {
+        nextInput.current.focus();
+    } else if (e.key === 'ArrowLeft' && previousInput?.current) {
+        previousInput.current.focus();
+    }
+}
+
+ const handleDigitChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
 
-    if (/^\d$/.test(newValue)) {
-      const newDigits = [...digits];
-      newDigits[index] = newValue;
-      setDigits(newDigits);
+    if (/^\d?$/.test(newValue)) { // Allow single digit or empty value
+        const newDigits = [...digits];
+        newDigits[index] = newValue;
+        setDigits(newDigits);
 
-      // Move focus to the next input field
-      if (index < 5 && inputRefs[index + 1].current) {
-        inputRefs[index + 1]?.current?.focus();
-      }
+        // Move focus to the next input field if a digit is entered
+        if (newValue && index < 5 && inputRefs[index + 1].current) {
+            inputRefs[index + 1]?.current?.focus();
+        }
     }
-  };
+};
 
   return (
     <>
@@ -40,36 +61,24 @@ function Code2FA() {
       </h2>
       <form className="flex flex-col gap-10 items-center w-full">
         <p className="text-base lg:self-start text-gray-700 mb-[-1.8rem]">Enter 6 digit code</p>
-        <div className="flex items-center justify-center space-x-2 lg:self-start">
-          {digits.slice(0, 3).map((digit, index) => (
+        <div className="grid grid-cols-6 gap-3 justify-center lg:self-start relative">
+          {digits.map((digit, index) => (
             <input
               key={index}
               name={index.toString()}
-              type="text"
+              type="tel"
               maxLength={1}
               pattern="\d"
               required
               value={digit}
               onChange={(e) => handleDigitChange(index, e)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
               ref={inputRefs[index]}
-              className="w-9 h-9 md:w-14 md:h-14 text-center border border-gray-300 rounded border-opacity-70 focus:outline-green-600"
+              className="w-9 h-9 md:w-14 md:h-14 text-center border
+              border-gray-300 rounded border-opacity-70 focus:outline-green-600"
             />
           ))}
-          <span className="text-gray-500">-</span>
-          {digits.slice(3).map((digit, index) => (
-            <input
-              key={index + 3}
-              name={index.toString()}
-              type="text"
-              maxLength={1}
-              pattern="\d"
-              required
-              value={digit}
-              onChange={(e) => handleDigitChange(index + 3, e)}
-              ref={inputRefs[index + 3]}
-              className="w-9 h-9 md:w-14 md:h-14 text-center border border-gray-300 rounded border-opacity-70 focus:outline-green-600"
-            />
-          ))}
+          <span className="text-gray-500 absolute top-2 md:top-5 left-1/2 ml-[-0.7%]">-</span>
         </div>
         <Button
           href=""
@@ -83,7 +92,8 @@ function Code2FA() {
       <Button
         onClick={() => console.log('to be implmented with api integration')}
         className="bg-tranparent text-gray-700 hover:bg-transparent
-        mx-auto p-0 justtify-self-center self-center font-base text-center"
+        mx-auto p-0 justtify-self-center self-center font-base text-center
+        active:bg-transparent focus:bg-transparent"
       >
         Didn’t receive code? <span className="text-green-600 ml-[-4px]">Resend</span>
       </Button>
