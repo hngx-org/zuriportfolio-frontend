@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { manropeL, manropeB, manropeEB } from '../../config/font';
 import MainLayout from '../../components/Layout/MainLayout';
 import Button from '@ui/Button';
@@ -95,9 +95,174 @@ const dummyHandPickedData: ProductCardProps[] = [
     showDiscount: false,
     discount: 0,
   },
+  {
+    image: '/assets/products-banner/Image-1.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-2.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-1.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-2.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-3.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-2.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-3.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-2.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    image: '/assets/products-banner/Image-3.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: '100',
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: true,
+    showDiscount: false,
+    discount: 0,
+  },
 ];
 
 const SpecificSubCategory: FC = () => {
+  const [productCards, setProductCards] = useState<ProductCardProps[]>(dummyHandPickedData);
+  const [pageNumber, setPageNumber] = useState(0);
+  const [currentPageSet, setCurrentPageSet] = useState(0);
+
+  const usersPerPage = 8;
+  const pagesVisited = pageNumber * usersPerPage;
+  const totalPages = Math.ceil(productCards.length / usersPerPage);
+  const pagesPerSet = 4;
+
+  useEffect(() => {
+    setCurrentPageSet(Math.floor(pageNumber / pagesPerSet));
+  }, [pageNumber]);
+
+  const displayProductCards = productCards
+    .slice(pagesVisited, pagesVisited + usersPerPage)
+    .map((productCard, index) => (
+      <ProductCard
+        key={index}
+        image={productCard.image}
+        productName={productCard.productName}
+        productPrice={productCard.productPrice}
+        productOwner={productCard.productOwner}
+        productRating={productCard.productRating}
+        discount={productCard.discount}
+        showDiscount={productCard.showDiscount}
+        showLimitedOffer={productCard.showLimitedOffer}
+        showTopPicks={productCard.showTopPicks}
+      />
+    ));
+
+  const nextPage = () => {
+    if (pageNumber < totalPages - 1) {
+      setPageNumber(pageNumber + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (pageNumber > 0) {
+      setPageNumber(pageNumber - 1);
+    }
+  };
+
+  const renderPageNumbers = () => {
+    const startPage = currentPageSet * pagesPerSet;
+    const endPage = Math.min(startPage + pagesPerSet, totalPages);
+
+    const pages = [];
+    for (let i = startPage; i < endPage; i++) {
+      pages.push(
+        <button
+          key={i}
+          onClick={() => setPageNumber(i)}
+          className={`page-button font-manropeEL ${
+            i === pageNumber
+              ? 'bg-green-300 text-white-100 px-3 py-1 rounded-lg'
+              : 'text-gray-400 hover:bg-green-300 hover:text-white-100 hover:px-3 hover:py-1 hover:rounded-lg'
+          }`}
+        >
+          {i + 1}
+        </button>,
+      );
+    }
+
+    return pages;
+  };
+
   return (
     <div>
       <MainLayout showDashboardSidebar={false} showFooter={true} showTopbar={true} activePage="marketplace">
@@ -136,26 +301,36 @@ const SpecificSubCategory: FC = () => {
             </div>
 
             <div className="grid grid-cols-2 [grid-column-gap:0.56rem] [grid-row-gap:1.25rem] md:grid-cols-3 md:[grid-column-gap:1.5rem] md:[grid-row-gap:3.25rem] lg:grid-cols-4 lg:[grid-column-gap:2rem] lg:[grid-row-gap:3.75rem] ">
-              {dummyHandPickedData.map((item, index) => (
-                <ProductCard
-                  key={index}
-                  image={item.image}
-                  productName={item.productName}
-                  productPrice={item.productPrice}
-                  productOwner={item.productOwner}
-                  productRating={item.productRating}
-                  discount={item.discount}
-                  showDiscount={item.showDiscount}
-                  showLimitedOffer={item.showLimitedOffer}
-                  showTopPicks={item.showTopPicks}
-                />
-              ))}
+              {displayProductCards}
             </div>
           </section>
 
           {/* Pagination */}
           {/* place here pagination component here.. don't add margin top to move it..i done it already */}
-          <div>Pagination component</div>
+          <div className="flex justify-center items-center">
+            <div className="flex gap-4  items-center border-2 rounded-lg bg-white-110 border-white-110 p-2">
+              <button
+                onClick={prevPage}
+                className={`${pageNumber === 0 ? 'text-gray-100' : ' text-gray-400'} px-2 py-1 rounded-lg`}
+                disabled={pageNumber === 0}
+              >
+                &lt;
+              </button>
+
+              {renderPageNumbers()}
+
+              <button
+                onClick={nextPage}
+                className={`${
+                  pageNumber === totalPages - 1 ? ' text-gray-100' : ' text-gray-400'
+                } px-2 py-1 rounded-lg`}
+                disabled={pageNumber === totalPages - 1}
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
+
           {/*  */}
         </div>
       </MainLayout>
