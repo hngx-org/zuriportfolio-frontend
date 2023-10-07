@@ -1,10 +1,17 @@
-import Button from '@ui/Button';
 import React from 'react';
-import Image from 'next/image';
-import VerificationLayout from './component/verificationLayout';
-import { VerificationProps } from '../../@types';
 
-function VerificationLinkSent({ handleClick }: VerificationProps) {
+import Image from 'next/image';
+
+import Button from '@ui/Button';
+
+import { VerificationLayoutProps } from '../../@types';
+import VerificationLayout from './component/verificationLayout';
+
+type Props = {
+  handleClick: VerificationLayoutProps['handleClick'];
+};
+
+function VerificationLinkSent({ handleClick }: Props) {
   return (
     <VerificationLayout>
       <Image

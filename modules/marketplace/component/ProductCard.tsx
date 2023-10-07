@@ -1,7 +1,9 @@
 import React from 'react';
-import { ProductCardProps, starProps } from '../../../@types';
+
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { ProductCardProps, starProps } from '../../../@types';
 
 export default function ProductCard({
   image,

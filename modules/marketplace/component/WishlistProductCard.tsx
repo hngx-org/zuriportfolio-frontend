@@ -41,7 +41,11 @@ export const WishlistProductCard = ({
                 <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
               </div>
               <div className="md:hidden">
-                <p className={`text-xs font-medium ${product.inStock ? 'text-brand-green-primary' : 'text-brand-red-primary'} `}>
+                <p
+                  className={`text-xs font-medium ${
+                    product.inStock ? 'text-brand-green-primary' : 'text-brand-red-primary'
+                  } `}
+                >
                   {product.inStock ? 'In Stock' : 'Out of Stock'}
                 </p>
               </div>
