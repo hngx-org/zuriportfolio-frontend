@@ -5,12 +5,12 @@ import ShopProductList from './component/productPage/ShopProduct/ShopProductList
 import Pagination from './component/productPage/Pagination/Pagination';
 import Header from '../shop/component/productPage/Header';
 import Footer from '../shop/component/productPage/Footer';
-import { Product } from '../../@types';
+import { Products } from '../../@types';
 
 const fakeStoreApiUrl = 'https://fakestoreapi.com/products';
 
 const ZuriLandingPage = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Products[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;

@@ -1,10 +1,10 @@
 // components/ProductCard.tsx
 import Image from 'next/image';
-import { Product } from '../../../../../@types';
+import { Products } from '../../../../../@types';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
 interface ProductCardProps {
-  product: Product;
+  product: Products;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {

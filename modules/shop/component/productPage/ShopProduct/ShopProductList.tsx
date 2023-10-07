@@ -1,9 +1,9 @@
 // components/ShopProductList.tsx
-import { Product } from '../../../../../@types';
+import { Products } from '../../../../../@types';
 import ProductCard from '../ProductCard/ProductCard';
 
 interface ShopProductListProps {
-  products: Product[];
+  products: Products[];
 }
 
 const ShopProductList: React.FC<ShopProductListProps> = ({ products }) => {

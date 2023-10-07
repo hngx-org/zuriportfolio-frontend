@@ -23,7 +23,7 @@ export interface AllCategoryDetails {
   showLimitedOffer: boolean;
   discount: number;
 }
-export interface Product {
+export interface Products {
   id: string;
   name: string;
   image: string;
