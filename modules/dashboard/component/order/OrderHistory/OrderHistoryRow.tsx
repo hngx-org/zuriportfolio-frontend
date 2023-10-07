@@ -104,7 +104,7 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
           {props.productName}
         </h2>
         <p className="text-[12px] mb-3  text-dark-110">{props.customerName}</p>
-        <p className="text-[#5B5F5E] font-semibold">
+        <p className="text-custom-color22 font-semibold">
           Order ID: <span className="text-dark-110 font-manropeL font-normal">#{props.id}</span>
         </p>
       </div>
