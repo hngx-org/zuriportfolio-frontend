@@ -30,7 +30,7 @@ const TakeTest: FC = () => {
               <li>Submission: Complete all questions and submit within the time limit</li>
             </ul>
             <div className="flex items-center justify-end mt-8">
-              <Link href="/assessment/take-test/questions">
+              <Link href="/assessments/take-test/questions">
                 <Button
                   intent={'primary'}
                   size={'md'}
