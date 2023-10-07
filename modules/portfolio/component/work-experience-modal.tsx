@@ -185,7 +185,7 @@ const WorkExperienceSection = () => {
         <div className="space-y-6 bg-white-100 p-4 py-5">
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
-              <p className="text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Work Experience</p>
+              <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Work Experience</p>
               <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
             </div>
             <div className="bg-brand-green-primary h-1 rounded-sm"></div>
@@ -208,9 +208,9 @@ const WorkExperienceSection = () => {
                           <p className="font-normal text-brand-green-primary text-sm">{experience.role}</p>
                         </div>
                       </div>
-                      <div className="font-semibold font-manropeEB text-[12px] text-[#737876]">
+                      <p className="font-semibold font-manropeEB max-w-sm text-[12px] text-[#737876]">
                         {experience.description}
-                      </div>
+                      </p>
                     </div>
                     <div className="self-end flex gap-4 font-manropeL">
                       <span className="font-semibold cursor-pointer text-[#5B8DEF]">Edit</span>
@@ -267,23 +267,31 @@ const WorkExperienceSection = () => {
                   ></textarea>
                 </div>
                 <div className="flex justify-between flex-col sm:flex-row gap-3">
-                  <div className="w-full sm:justify-start flex gap-2">
-                    <SelectInput
-                      options={months}
-                      disabled={false}
-                      className="w-full sm:w-auto border-[#E1E3E2]"
-                      intent="default"
-                      onChange={(e) => setStartMonth(e.target.value)}
-                    />
-                    <SelectInput
-                      options={years}
-                      disabled={false}
-                      intent="default"
-                      className="w-full sm:w-auto border-[#E1E3E2]"
-                      onChange={(e) => setStartYear(e.target.value)}
-                    />
+                  <div className="w-full sm:justify-start flex flex-col gap-2">
+                    <p className="text-[#444846] font-normal font-manropeL">
+                      Start date <span className="text-[#8D9290]">(optional)</span>
+                    </p>
+                    <div className="flex gap-2">
+                      <SelectInput
+                        options={months}
+                        disabled={false}
+                        className="w-full sm:w-auto border-[#E1E3E2]"
+                        intent="default"
+                        onChange={(e) => setStartMonth(e.target.value)}
+                      />
+                      <SelectInput
+                        options={years}
+                        disabled={false}
+                        intent="default"
+                        className="w-full sm:w-auto border-[#E1E3E2]"
+                        onChange={(e) => setStartYear(e.target.value)}
+                      />
+                    </div>
                   </div>
-                  <div className="w-full flex gap-4 flex-1 flex-col">
+                  <div className="w-full flex gap-2 flex-1 flex-col">
+                    <p className="text-[#444846] font-normal font-manropeL">
+                      Start date <span className="text-[#8D9290]">(optional)</span>
+                    </p>
                     <div className="flex gap-2">
                       <SelectInput
                         options={months}
@@ -325,16 +333,10 @@ const WorkExperienceSection = () => {
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
-                  <Button intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                  <Button type="button" intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                     Cancel
                   </Button>
-                  <Button
-                    // onClick={(e: any) => handleSaveExperience2(e)}
-                    // onClick={(e: any) => handleSaveExperience2}
-                    type="submit"
-                    className="w-full rounded-md sm:w-[6rem]"
-                    size={'lg'}
-                  >
+                  <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                     Save
                   </Button>
                 </div>
@@ -343,15 +345,15 @@ const WorkExperienceSection = () => {
           </>
           <>
             {!isForm && (
-              <div className="px-4 gap-2 flex justify-between flex-col sm:flex-row">
+              <div className="px-3 gap-2 flex justify-between flex-col sm:flex-row">
                 <button
-                  className="text-brand-green-primary flex items-center gap-1 font-semibold font-manropeB"
+                  className="text-brand-green-primary self-center text-[12px] sm:text-[15px] flex items-center gap-1 font-semibold font-manropeB"
                   onClick={() => setIsForm(true)}
                 >
-                  <Add size="32" color="#009254" /> Add new work experience
+                  <Add size="16" color="#009254" /> Add new work experience
                 </button>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Button intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                  <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                     Cancel
                   </Button>
                   <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
