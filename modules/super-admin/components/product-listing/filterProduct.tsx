@@ -1,0 +1,49 @@
+import { SelectInput } from '@ui/Input';
+import { Sort } from 'iconsax-react';
+import React, { useEffect, useState } from 'react';
+import { filterProp } from '../../../../@types';
+
+const FilterProduct = ({ handleFilter }: filterProp) => {
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [searchVal, setSearchVal] = useState('');
+
+  useEffect(() => {
+    handleFilter(filterStatus);
+  }, [filterStatus]);
+  return (
+    <div>
+      <SelectInput
+        leftIcon={<Sort color="#777" />}
+        inputSize={'sm'}
+        options={[
+          {
+            value: 'all',
+            label: 'Filters',
+          },
+          {
+            value: 'active',
+            label: 'active',
+          },
+          {
+            value: 'deleted',
+            label: 'deleted',
+          },
+          {
+            value: 'sanctioned',
+            label: 'sanctioned',
+          },
+        ]}
+        disabled={false}
+        intent="default"
+        onChange={(e) => {
+          setFilterStatus(e.target.value);
+          handleFilter(e.target.value);
+          console.log(e.target.value);
+        }}
+        className="w-[150px]"
+      />
+    </div>
+  );
+};
+
+export default FilterProduct;
