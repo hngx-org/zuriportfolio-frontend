@@ -27,7 +27,7 @@ module.exports = {
           green: {
             primary: '#009254',
             hover: '#33A467',
-            focused: '#009254',
+            ocused: '#009254',
             pressed: '#006F37',
             shd: '#CAEAD499',
             ttr: '#F4FBF6',
