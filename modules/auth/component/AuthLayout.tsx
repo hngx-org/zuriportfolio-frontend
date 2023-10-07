@@ -19,7 +19,7 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
               // height={100}
               src={LeftImage}
               alt="Sign up image"
-              className=" lg:w-full h-full object-cover"
+              className="w-full h-full object-cover"
             />
           )}
         </div>
