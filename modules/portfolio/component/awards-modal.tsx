@@ -120,6 +120,7 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
 
 const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [selectedYear, setSelectedYear] = useState('2023');
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -171,7 +172,7 @@ const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =
                     <select
                       id="year"
                       name="year"
-                      className="p-4 border-brand-disabled rounded-lg border-[1px] "
+                      className="p-4 border-brand-disabled rounded-lg border-[1px]"
                       value={selectedYear}
                       onChange={handleYearChange}
                     >
