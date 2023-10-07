@@ -1,4 +1,5 @@
 import Button from '@ui/Button';
+import Modal from '@ui/Modal';
 import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import Link from 'next/link';
 import React from 'react';
@@ -28,8 +29,8 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             <p className="font-semibold text-[16px] leading-6  text-[#8D9290]">{date}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <h1 className="font-semibold text-[22px] leading-7 text-[#2E3130]">{title}</h1>
-            <h2 className="font-bold text-[16px] leading-6 text-[#2E3130]">{team}</h2>
+            <h1 className="font-semibold text-[22px] leading-7 text-white-700">{title}</h1>
+            <h2 className="font-bold text-[16px] leading-6 text-white-700">{team}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary ">
               <Link href={url} target="_blank" className="flex items-center">
                 {url} <ArrowUp className="w-4 h-4 whitespace-nowrap rotate-45" />
@@ -38,7 +39,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
           </div>
         </div>
         <div className="flex sm:flex-[2] lg:flex-[3]">
-          <p className="font-bold text-[16px] leading-6 text-[#737876]">{description}</p>
+          <p className="font-bold text-[16px] leading-6 text-white-650">{description}</p>
         </div>
       </div>
       <div className="flex justify-end items-center">
@@ -66,8 +67,8 @@ const CertificationList: React.FC<CertificationListProps> = ({ certifications })
   );
 };
 
-// Define the certificateRead component
-const certificateRead = () => {
+// Define the CertificationRead component
+const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const certifications: Certification[] = [
     {
       date: 'August 2023',
@@ -89,32 +90,34 @@ const certificateRead = () => {
   ];
 
   return (
-    <div className="p-5 sm:p-10 lg:p-8 flex gap-6 flex-col font-manropeL">
-      <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-        <div className="flex items-center gap-6">
-          <ArrowLeft2 />
-          <h1 className="font-bold text-2xl text-[#2E3130]">Certification</h1>
+    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
+      <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
+        <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
+          <div className="flex items-center gap-6">
+            <ArrowLeft2 />
+            <h1 className="font-bold text-2xl text-white-700">Certification</h1>
+          </div>
+          <div onClick={onClose}>
+            <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
+          </div>
         </div>
-        <Link href="/">
-          <CloseSquare className="fill-brand-green-hover border-brand-green-hover text-white-100 h-7 w-7" />
-        </Link>
+        <CertificationList certifications={certifications} />
+        <div className="flex flex-col sm:flex-row justify-between gap-6">
+          <div>
+            <p className="font-bold text-[16px] leading-6 text-brand-green-primary">Add new certification</p>
+          </div>
+          <div className="flex gap-4 justify-start items-center">
+            <Button className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover:bg-brand-disabled">
+              Cancel
+            </Button>{' '}
+            <Button className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100">
+              Save
+            </Button>
+          </div>
+        </div>
       </div>
-      <CertificationList certifications={certifications} />
-      <div className="flex flex-col sm:flex-row justify-between gap-6">
-        <div>
-          <p className="font-bold text-[16px] leading-6 text-brand-green-primary">Add new certification</p>
-        </div>
-        <div className="flex gap-4 justify-start items-center">
-          <Button className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover:bg-brand-disabled">
-            Cancel
-          </Button>{' '}
-          <Button className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100">
-            Save
-          </Button>
-        </div>
-      </div>
-    </div>
+    </Modal>
   );
 };
 
-export default certificateRead;
+export default CertificationRead;

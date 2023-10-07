@@ -1,4 +1,5 @@
 import Button from '@ui/Button';
+import Modal from '@ui/Modal';
 import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import Link from 'next/link';
 import React from 'react';
@@ -23,7 +24,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   return (
     <div className="border-b-[1px] border-b-brand-disabled gap-12 py-3">
       <div className="flex flex-col sm:flex-row gap-6">
-        <div className="flex flex-col sm:flex-row sm:gap-10 sm:flex-[3] lg:flex-[2] gap-4 justify-between">
+        <div className="flex flex-col sm:flex-row sm:gap-10 sm:flex-[3] lg:flex-[3] gap-4 justify-between">
           <div>
             <p className="font-semibold text-[16px] leading-6  text-[#8D9290]">{date}</p>
           </div>
@@ -38,7 +39,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
           </div>
         </div>
         <div className="flex sm:flex-[2] lg:flex-[3]">
-          <p className="font-bold text-[16px] leading-6 text-[#737876]">{description}</p>
+          <p className="font-bold text-left text-[16px] leading-6 text-white-650">{description}</p>
         </div>
       </div>
       <div className="flex justify-end items-center">
@@ -66,14 +67,14 @@ const AwardList: React.FC<AwardListProps> = ({ awards }) => {
   );
 };
 
-// Define the awardRead component
-const awardRead = () => {
+// Define the AwardRead component
+const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const awards: Award[] = [
     {
       date: 'August 2023',
       title: 'HNG Internship',
       team: 'Zuri Team',
-      url: 'http://www.zuriinternship.com',
+      url: 'www.zuriinternship.com',
       description:
         'Implemented A/B testing for website redesign, leading to a 40% improvement in user retention and a 25% increase in conversion rates, ultimately resulting in a 20% boost in overall revenue.',
     },
@@ -89,32 +90,34 @@ const awardRead = () => {
   ];
 
   return (
-    <div className="p-5 sm:p-10 lg:p-8 flex gap-6 flex-col font-manropeL">
-      <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-        <div className="flex items-center gap-6">
-          <ArrowLeft2 />
-          <h1 className="font-bold text-2xl text-[#2E3130]">Awards</h1>
+    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
+      <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
+        <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
+          <div className="flex items-center gap-6">
+            <ArrowLeft2 />
+            <h1 className="font-bold text-2xl text-[#2E3130]">Awards</h1>
+          </div>
+          <div onClick={onClose}>
+            <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
+          </div>
         </div>
-        <Link href="/">
-          <CloseSquare className="fill-brand-green-hover border-brand-green-hover text-white-100 h-7 w-7" />
-        </Link>
+        <AwardList awards={awards} />
+        <div className="flex flex-col sm:flex-row justify-between gap-6">
+          <div>
+            <p className="font-bold text-[16px] leading-6 text-brand-green-primary">Add new awards</p>
+          </div>
+          <div className="flex gap-4 justify-start items-center">
+            <Button className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover:bg-brand-disabled">
+              Cancel
+            </Button>{' '}
+            <Button className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100">
+              Save
+            </Button>
+          </div>
+        </div>
       </div>
-      <AwardList awards={awards} />
-      <div className="flex flex-col sm:flex-row justify-between gap-6">
-        <div>
-          <p className="font-bold text-[16px] leading-6 text-brand-green-primary">Add new awards</p>
-        </div>
-        <div className="flex gap-4 justify-start items-center">
-          <Button className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover:bg-brand-disabled">
-            Cancel
-          </Button>{' '}
-          <Button className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100">
-            Save
-          </Button>
-        </div>
-      </div>
-    </div>
+    </Modal>
   );
 };
 
-export default awardRead;
+export default AwardRead;
