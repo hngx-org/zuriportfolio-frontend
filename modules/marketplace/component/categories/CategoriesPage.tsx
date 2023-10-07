@@ -1,12 +1,6 @@
 import React from 'react';
 import ProductCardWrapper from '@modules/marketplace/component/landingpage/productCardWrapper/product-card-wrapper';
-// import React from 'react';
-// import MainLayout from '../../../../components/Layout/MainLayout';
-// import { ProductCardProps } from '../../../@types';
 import { ProductCardProps } from '../../../../@types';
-// import ProductCard from '../ProductCard';
-// import ProductCardWrapper from './productCardWrapper/product-card-wrapper';
-// import ExperienceCard from './experience-cards/experience-card';
 
 const handPicked: ProductCardProps[] = [
   {
