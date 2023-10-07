@@ -11,7 +11,9 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     <div className="shadow rounded-md px-5 py-5 space-y-1.5 md:space-y-3">
       <p className="flex items-center justify-between font-light">
         <span className="text-base md:text-lg">{title}</span>
-        <button className="p-1.5 md:p-2 border border-[#E1E3E2] rounded-md text-sm md:text-base">View report</button>
+        <button className="p-1.5 md:p-2 border border-brand-green-disabled rounded-md text-sm md:text-base">
+          View report
+        </button>
       </p>
       <p className="space-x-2">
         {metricsChartTimeline.map((data, index) => {
@@ -54,7 +56,7 @@ const MetricTimeline = ({ timespan, index, active, setTimeline }: MetricTimeline
     <button
       onClick={() => setTimeline({ active: true, index })}
       className={`${
-        active ? 'bg-[#E6F5EA] text-brand-green-primary' : 'text-[#737876]'
+        active ? 'bg-brand-green-30 text-brand-green-primary' : 'text-brand-white-650'
       } p-1.5 md:p-2 rounded-md font-semibold text-sm md:text-base hover:text-brand-green-primary`}
     >
       {timespan}

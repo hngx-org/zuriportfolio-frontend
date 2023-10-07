@@ -28,7 +28,7 @@ const ShopOwnerDashboard = () => {
       <div className="shadow rounded-md px-5 py-3 space-y-4">
         <p className="flex items-center justify-between font-medium">
           <span className="text-xl md:text-2xl">Activity</span>
-          <span className="text-sm text-[#737876] md:text-base">View all</span>
+          <span className="text-sm text-brand-white-650 md:text-base">View all</span>
         </p>
         {activityData.map((data, index) => (
           <ActivityCard key={index} name={data.name} item={data.item} />
