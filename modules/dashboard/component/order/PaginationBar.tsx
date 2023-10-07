@@ -23,9 +23,9 @@ const PaginationBar = ({
     changeCurrentPage(currentPage + 1);
   };
   return (
-    <nav className="w-fit mx-auto flex items-center gap-4 p-2 rounded-[15px] mb-16 bg-[#F2F4F5] ">
+    <nav className="w-fit mx-auto flex items-center gap-4 p-2 rounded-[15px] mb-16 bg-custom-color26">
       <div>{pageLength > 1 && <PaginationLeft active={currentPage > 0} OnClick={decreasePage} />}</div>
-      <ul className={`${inter.className} flex text-[#767676] `}>
+      <ul className={`${inter.className} flex text-custom-color27 `}>
         {items.map((paginate) => (
           <li
             key={paginate}
