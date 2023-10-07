@@ -7,7 +7,7 @@ import styles from './product-card-wrapper.module.css';
 function ProductCardWrapper({ productsList, title }: { productsList: ProductCardProps[]; title: string }) {
   return (
     <section className="w-full mb-2.5 md:mb-8 pt-2.5">
-      <h3 className="text-[#101928] font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
+      <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
         {title}
 
         <Link className="flex lg:hidden items-center gap-2 text-sm font-bold text-brand-green-shade50" href="">

@@ -249,7 +249,7 @@ function LandingPage() {
           <ProductCardWrapper title="Limited Offers" productsList={limitedOffers} />
 
           <section className="my-6 py-2.5  lg:hidden">
-            <h3 className="text-[#101928] font-manropeL mb-5 md:mb-6 font-bold md:text-2xl leading-normal flex items-center justify-between">
+            <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-6 font-bold md:text-2xl leading-normal flex items-center justify-between">
               We provide the <br />
               best customer experience
             </h3>
@@ -346,7 +346,7 @@ function LandingPage() {
         <AllCategorySlider />
 
         <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-2.5">
-          <h3 className="text-[#101928] font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
+          <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
             Recently Viewed
             <Link className="flex items-center gap-2 text-sm font-bold text-brand-green-shade50" href="">
               View All

@@ -29,7 +29,7 @@ export default function ProductCard({
   const starRating = productRating in stars;
 
   return (
-    <div className="p-2.5 md:p-[16px] border-[1px] border-[#D5DBDD] rounded-[8px] w-[286px] max-w-full">
+    <div className="p-2.5 md:p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[286px] max-w-full">
       <Link href="">
         <div className="flex flex-col items-start">
           {/* Product Image */}
