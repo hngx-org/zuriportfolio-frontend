@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Button from '@ui/Button';
-import Modal from '@ui/Modal';
+
 import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import { Input } from '@ui/Input';
 import Link from 'next/link';
+import Modal from '@ui/Modal';
 
 interface Certification {
   date: string;
@@ -87,7 +88,7 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
   ];
 
   return (
-    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
+    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="lg">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
         <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
           <div className="flex items-center gap-6">
@@ -136,7 +137,7 @@ const Certification = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
   return (
     <div>
       {!isModalOpen && (
-        <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
+        <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="lg">
           <div className="p-5 sm:p-6 lg:p-8 flex gap-12 flex-col font-manropeB">
             <div className="flex gap-2  border-b-4 border-brand-green-primary py-4 px-0 justify-between items-center">
               <div className="flex items-center gap-6">

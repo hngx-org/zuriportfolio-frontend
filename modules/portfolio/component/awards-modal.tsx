@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import Modal from '@ui/Modal';
+
 import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import Link from 'next/link';
+import Modal from '@ui/Modal';
 
 // Interfaces
 interface Award {
@@ -24,7 +25,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   return (
     <div className="border-b-[1px] border-b-brand-disabled gap-12 py-3">
       <div className="flex flex-col sm:flex-row gap-6">
-        <div className="flex flex-col sm:flex-row sm:gap-10 sm:flex-[3] lg:flex-[3] gap-4 justify-between">
+        <div className="flex flex-col sm:flex-row sm:gap-10 sm:flex-[3] lg:flex-[2] gap-4 justify-between">
           <div>
             <p className="font-semibold text-[16px] leading-6  text-gray-300">{date}</p>
           </div>
@@ -88,7 +89,7 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   ];
 
   return (
-    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
+    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="lg">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
         <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
           <div className="flex items-center gap-6">
@@ -138,7 +139,7 @@ const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =
   return (
     <div>
       {!isModalOpen && (
-        <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
+        <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="lg">
           <div className="p-5 sm:p-6 lg:p-8 flex gap-12 flex-col font-manropeB">
             <div className="flex gap-2  border-b-4 border-brand-green-primary py-4 px-0 justify-between items-center">
               <div className="flex items-center gap-6">
@@ -161,7 +162,7 @@ const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =
                       id="home"
                       name="home"
                       placeHolder="My best yet"
-                      className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-6   placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
+                      className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-6 w-full  placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
                     />
                   </div>
                   <div className="flex  flex-col gap-[10px] flex-1">
@@ -200,7 +201,7 @@ const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =
                       id="home"
                       name="home"
                       placeHolder="Google"
-                      className="p-4 border-brand-disabled  placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
+                      className="p-4 border-brand-disabled w-full  placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
                     />
                   </div>
                   <div className="flex  flex-col gap-[10px] flex-1">
@@ -212,7 +213,7 @@ const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =
                       id="home"
                       name="home"
                       placeHolder="Type link"
-                      className="p-4 border-brand-disabled placeholder:text-[16px] placeholder:leading-[24px]   placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
+                      className="p-4 border-brand-disabled placeholder:text-[16px] w-full placeholder:leading-[24px]   placeholder:text-white-650 placeholder:font-semibold rounded-lg border-[1px]"
                     />
                   </div>
                 </div>
