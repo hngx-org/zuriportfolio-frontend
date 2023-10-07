@@ -49,7 +49,7 @@ const Feedcard = ({ score, badge, badgeName }: Props) => {
             </p>
             <Image src={badge} alt="badge" width={198} height={215} className="mb-[17px]" />
           </div>
-          <div className=" flex flex-col items-end sm:items-center sm:flex-row gap-5 mt-[16px] mb-[16.5px] sm:mb-[36.5px] lg:mb-[39px]">
+          <div className="flex flex-col items-end sm:items-center md:flex-row gap-5 mt-[16px] mb-[16.5px] sm:mb-[36.5px] lg:mb-[39px]">
             <Button
               intent={'primary'}
               size={'md'}
