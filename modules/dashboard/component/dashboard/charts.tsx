@@ -1,10 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
-import { MetricChartProps, MetricMonthsProps, MetricTimelineProps } from '../../../../@types';
+import { MetricChartProps, MetricTimelineProps } from '../../../../@types';
 import { metricsChartTimeline, monthNames } from '../../../../db/dashboard';
-// import { BarChart, Bar, XAxis, CartesianGrid, LineChart, Line } from "recharts";
+import { BarChart, Bar, XAxis, CartesianGrid, LineChart, Line, ResponsiveContainer } from 'recharts';
 
 export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
   const [timeline, setTimeline] = useState({ active: true, index: 0 });
@@ -29,25 +28,42 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
           );
         })}
       </p>
-      <div className="h-[100px] md:h-[176px] relative flex flex-col justify-between">
-        {Array(5)
-          .fill(null)
-          .map((_, index) => (
-            <div key={index} className="h-1 border-b border-gray-100 border-opacity-10"></div>
-          ))}
-        <Image
-          src={`/assets/images/${src}.png`}
-          width={1000}
-          height={250}
-          alt={title}
-          className={`${isBarChart && 'bottom-0'} absolute`}
-        />
-      </div>
-      <p className="flex items-center justify-between px-1 md:px-3 lg:px-4 xl:px-5">
-        {monthNames.map((month, index) => {
-          return <MetricMonths key={index} month={month} />;
-        })}
-      </p>
+      <ResponsiveContainer height={250}>
+        {isBarChart ? (
+          <BarChart
+            width={800}
+            height={250}
+            data={salesReportData}
+            margin={{
+              top: 5,
+              right: 20,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid vertical={false} strokeDasharray="1 0" />
+            <XAxis dataKey="month" />
+            <Bar barSize={30} dataKey="income" fill="#CBEAD4" />
+          </BarChart>
+        ) : (
+          <LineChart
+            width={800}
+            height={250}
+            data={storeTrafficData}
+            margin={{
+              top: 5,
+              right: 20,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid vertical={false} strokeDasharray="1 0" />
+            <XAxis dataKey="month" />
+            <Line dot={false} type="monotone" dataKey="income1" stroke="#F1D5BA" strokeWidth={2.5} />
+            <Line dot={false} type="monotone" dataKey="income2" stroke="#E1BD90" strokeWidth={2.5} />
+          </LineChart>
+        )}
+      </ResponsiveContainer>
     </div>
   );
 };
@@ -65,11 +81,7 @@ const MetricTimeline = ({ timespan, index, active, setTimeline }: MetricTimeline
   );
 };
 
-const MetricMonths = ({ month }: MetricMonthsProps) => {
-  return <span className="font-light text-xs md:text-sm">{month}</span>;
-};
-
-const salesReportData = [];
+const salesReportData: { month: string; income: number }[] = [];
 
 for (let i = 0; i < 12; i++) {
   const income: number = Math.floor(Math.random() * 1001) + 500;
@@ -78,7 +90,7 @@ for (let i = 0; i < 12; i++) {
 }
 // console.log(salesReportData);
 
-const storeTrafficData = [];
+const storeTrafficData: { month: string; income1: number; income2: number }[] = [];
 
 for (let i = 0; i < 12; i++) {
   const income1: number = Math.floor(Math.random() * 1001) + 500;

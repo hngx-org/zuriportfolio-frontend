@@ -5,7 +5,7 @@ import { ActivityCard } from './sidebar';
 
 const ShopOwnerDashboard = () => {
   return (
-    <div className="grid grid-cols-1 pb-[209px] gap-x-6 space-y-6 md:pb-[418px] lg:grid-cols-4 lg:space-y-0 pt-5 lg:pt-0">
+    <div className="grid grid-cols-1 pb-[209px] gap-x-6 space-y-6 md:pb-[418px] lg:grid-cols-4 lg:space-y-0 pt-5 lg:pt-0 font-manropeL">
       {/* Main */}
       <div className="col-span-1 md:col-span-3 space-y-[24px]">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-[24px] lg:gap-y-0 lg:gap-x-[24px]">
