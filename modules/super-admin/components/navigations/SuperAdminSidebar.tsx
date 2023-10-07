@@ -28,7 +28,7 @@ const SuperAdminSidebar = () => {
               <div
                 key={item.title}
                 className={`${
-                  router.pathname.includes(item.to) ? 'text-brand-green-primary bg-[#F5FBF6]' : 'text-[#737876]'
+                  router.pathname.includes(item.to) ? 'text-brand-green-primary bg-white-210' : 'text-white-650'
                 } p-4 w-full rounded-[8px] flex items-center gap-3`}
               >
                 <div>{item.icon}</div>
@@ -37,7 +37,7 @@ const SuperAdminSidebar = () => {
             ))}
           </div>
         </div>
-        <button className="flex items-center gap-3 text-brand-red-primary border-t py-5  text-xs md:text-sm  mx-5 border-[#EBEEEF]">
+        <button className="flex items-center gap-3 text-brand-red-primary border-t py-5  text-xs md:text-sm  mx-5 border-white-115">
           <LogoutCurve size="20" color="#ff2e2e" />
           Log out
         </button>
