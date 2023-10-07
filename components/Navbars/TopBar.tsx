@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import MobileNav from '@modules/dashboard/component/MobileNav';
 import Button from '@ui/Button';
 
+import logo from './assets/zuriLogo.svg';
+
 function Cart({ items }: { items?: number }) {
   return (
     <Link href={'/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
@@ -48,13 +50,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[1] relative ">
       <div className="max-w-[1240px] mx-auto flex items-center justify-between  ">
         <div className=" flex gap-14">
-          <Image
-            className="object-contain"
-            width={126}
-            height={24}
-            src={'/assets/zuriLogo.svg'}
-            alt="Zuri Portfolio Logo"
-          />
           <Link href={'/'}>
             <Image className="object-contain" width={126} height={24} src={logo} alt="Zuri Portfolio Logo" />
           </Link>
