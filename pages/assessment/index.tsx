@@ -11,14 +11,9 @@ import booksaved from '../../public/assets/assessment/book-saved.png';
 import Image from 'next/image';
 
 import Link from 'next/link';
-
+import Description from '../../modules/assessment/component/Description';
 export const ListContext = React.createContext([{}]);
 function Index() {
-  const [filterParam, setfilterParam] = useState('');
-  const onFilter = (e: any) => {
-    setfilterParam(e.target.value.toLowerCase());
-  };
-
   return (
     <div className="w-full items-start justify-start">
       <Header heading={'Admin Assessment Board'} body={'For the general creation and management of assessments'} />
@@ -37,13 +32,15 @@ function Index() {
             </Link>
           </div>
         </div>
-
+        <div className="board-desc flex gap-[26px] justify-center w-full my-[79px]">
+          <Description info="Responses" number={120} icon={bookimg} />
+          <Description info="CREATED ASSESSMENTS" number={12} icon={booksaved} />
+          <Description info="PASS/FAIL RATIO" number={'3:1'} icon={ratioimg} />
+        </div>
         <div className="search w-full border-[#E1E3E2] border-[1px] p-4 rounded-lg flex items-center">
           <div className="icon relative w-4 h-4 mr-2">
             <Image src={searchimg} alt="search" layout="fill" />
           </div>
-
-          <input className="w-full outline-none" placeholder="Search assessments and responses" onInput={onFilter} />
         </div>
       </div>
     </div>
