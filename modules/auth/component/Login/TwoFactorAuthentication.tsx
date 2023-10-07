@@ -9,7 +9,7 @@ import Header from './header';
 
 const TwoFactorAuthentication = () => {
   return (
-    <div className="relative  md:h-[60rem] lg:h-auto font-manropeL">
+    <div className="relative  md:h-[60rem] lg:h-auto  font-manropeL">
       <Header />
       <div className="pl-4 md:lg:pl-16 pr-4 md:lg:pr-16 pt-4 md:lg:pt-8 pb-4 lg:pb-8 ">
         <div className="absolute right-0 top-0 hidden md:hidden sm:hidden lg:block ">
@@ -17,7 +17,7 @@ const TwoFactorAuthentication = () => {
         </div>
         <div className="md:flex md:gap-11 block">
           <div className=" hidden md:hidden lg:block xl:block w-[40rem] ">
-            <Image src={LoginImage} alt="image" className="h-[40rem] " />
+            <Image src={LoginImage} alt="image" className="h-[53rem]" />
           </div>
 
           {/************************* leftside *******************************************/}
@@ -32,7 +32,7 @@ const TwoFactorAuthentication = () => {
             </div>
 
             <div>
-              <p className="text-[1rem] font-semibold mt-[3rem] text-center font:#344054 lg:text-left">
+              <p className="text-[1rem] font-semibold mt-[3rem] text-center text-slate-300 lg:text-left">
                 Enter 6 digit code
               </p>
             </div>
@@ -41,17 +41,17 @@ const TwoFactorAuthentication = () => {
               <div className="flex space-x-2">
                 <input
                   type="text"
-                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem] p-2 text-4xl border border-gray-300 rounded-md text-center outline-none"
+                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem] p-2 text-4xl border border-slate-50 rounded-md text-center outline-none"
                   placeholder=""
                 />
                 <input
                   type="text"
-                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-gray-300 rounded-md text-center outline-none"
+                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-slate-50 rounded-md text-center outline-none"
                   placeholder=""
                 />
                 <input
                   type="text"
-                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-gray-300 rounded-md text-center outline-none"
+                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-slate-50 rounded-md text-center outline-none"
                   placeholder=""
                 />
               </div>
@@ -61,30 +61,30 @@ const TwoFactorAuthentication = () => {
               <div className="flex space-x-2">
                 <input
                   type="text"
-                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-gray-300 rounded-md text-center outline-none"
+                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-slate-50 rounded-md text-center outline-none"
                   placeholder=""
                 />
                 <input
                   type="text"
-                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-gray-300 rounded-md text-center outline-none"
+                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-slate-50 rounded-md text-center outline-none"
                   placeholder=""
                 />
                 <input
                   type="text"
-                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-gray-300 rounded-md text-center outline-none"
+                  className="w-[2.47156rem] h-[2.55681rem] md:w-[3.625rem] md:h-[3.625rem]  p-2 text-4xl border border-slate-50 rounded-md text-center outline-none"
                   placeholder=""
                 />
               </div>
             </div>
             <Button
               intent={'tertiary'}
-              className="bg-[#E1E3E2] mt-[3.06rem] md:pl-[15.0625rem]  md:pr-[15.0625rem]   w-[100%] py-3   h-14 rounded-lg  button text-[#6c6c6c] font-semibold"
+              className="bg-brand-disabled mt-[3.06rem] md:pl-[15.0625rem]  md:pr-[15.0625rem]   w-[100%] py-3   h-14 rounded-lg  button text-[#6c6c6c] font-semibold"
             >
               Continue
             </Button>
             <div>
               <p className=" text-[#536066] text-center text-[1rem] font-semibold mt-[3.06rem] leading-5">
-                Didn’t receive code? <span className="text-[#009254] "> Resend</span>
+                Didn’t receive code? <span className="text-green-400 "> Resend</span>
               </p>
             </div>
           </div>
