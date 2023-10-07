@@ -1,10 +1,11 @@
 import { Input, SelectInput } from '@ui/Input';
 import Button from '@ui/Button';
-import { EmptyWalletAdd, I24Support, UserSquare } from 'iconsax-react';
+import { EmptyWalletAdd, Eye, EyeSlash, I24Support, UserSquare } from 'iconsax-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { CodeBlock, a11yDark } from 'react-code-blocks';
 import SampleModal from '../components/Modals/SampleModal';
 import useDisclosure from '../hooks/useDisclosure';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 function ZuriCodeBlock({
   code,
@@ -117,6 +118,7 @@ function StyleGuide() {
   const [loading, setLoading] = useState(false);
   const [codeSelected, setCodeSelected] = useState(0);
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const [defaultInpType, setDefaultInpType] = useState<'password' | 'text'>('password');
 
   useEffect(() => {
     if (loading) {
@@ -235,6 +237,21 @@ function StyleGuide() {
       <div className="py-1 px-9 pb-10" id="inputs">
         <h3 className="text-3xl flex justify-center py-10">Inputs</h3>
         <div className="flex items-center justify-center gap-9">
+          <Select
+            onValueChange={(value) => {
+              console.log(value);
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
+
           <SelectInput
             leftIcon={<I24Support color="#777" />}
             inputSize={'md'}
@@ -242,10 +259,12 @@ function StyleGuide() {
               {
                 value: 'helpme2',
                 label: 'With left icon',
+                disabled: false,
               },
               {
                 value: 'helpme',
                 label: 'some random placeholder',
+                disabled: true,
               },
             ]}
             disabled={false}
@@ -258,8 +277,14 @@ function StyleGuide() {
             onChange={(e) => {
               console.log(e.target.value);
             }}
-            leftIcon={<UserSquare color="#777" />}
-            type="email"
+            rightIcon={
+              defaultInpType === 'text' ? (
+                <Eye color="#777" onClick={() => setDefaultInpType('password')} />
+              ) : (
+                <EyeSlash color="#777" onClick={() => setDefaultInpType('text')} />
+              )
+            }
+            type={defaultInpType}
             intent={'default'}
             disabled={false}
           />
@@ -352,6 +377,27 @@ function StyleGuide() {
             console.log(e.target.value);
           }}
 />
+
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+
+// Flexible select input
+// This allows you to customize the select input however way yu want using className.
+
+
+<Select
+  onValueChange={(value) => {
+    console.log(value);
+  }}
+>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Theme" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="light">Light</SelectItem>
+    <SelectItem value="dark">Dark</SelectItem>
+    <SelectItem value="system">System</SelectItem>
+  </SelectContent>
+</Select>
 `}
             language={'JavaScript'}
             showLineNumbers={true}
