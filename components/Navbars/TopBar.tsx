@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
 import MobileNav from '@modules/dashboard/component/MobileNav';
 import Button from '@ui/Button';
-
 import logo from './assets/zuriLogo.svg';
 import notificationIcon from './assets/notification.svg';
 import documentUploadIcon from './assets/document-upload.svg';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(true);
   const [toggle, setToggle] = useState(false);
   const handleToggle = () => {
     setToggle(!toggle);
