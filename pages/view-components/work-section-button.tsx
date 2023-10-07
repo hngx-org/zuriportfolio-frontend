@@ -1,6 +1,7 @@
 import WorkExperienceSection from '@modules/portfolio/component/work-experience-modal';
+import React from 'react';
 
-const OpenWorkSection = () => {
+const WorkExperienceModal = () => {
   return (
     <div>
       <WorkExperienceSection />
@@ -8,4 +9,4 @@ const OpenWorkSection = () => {
   );
 };
 
-export default OpenWorkSection;
+export default WorkExperienceModal;

@@ -181,7 +181,7 @@ const WorkExperienceSection = () => {
 
   return (
     <>
-      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="lg">
+      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
         <div className="space-y-6 bg-white-100 p-4 py-5">
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
@@ -198,7 +198,8 @@ const WorkExperienceSection = () => {
                     className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}
                     key={index}
                   >
-                    <div className="flex flex-col gap-3 sm:flex-row flex-2 justify-between">
+                    {/* <div className="flex flex-col gap-3 sm:flex-row flex-2 justify-between"> */}
+                    <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                       <div className="flex gap-3 sm:gap-5 flex-col sm:flex-row">
                         <p className="text-[#8D9290] font-semibold font-manropeB">
                           {experience.startMonth} {experience.startYear} - {experience.endYear}
@@ -208,7 +209,13 @@ const WorkExperienceSection = () => {
                           <p className="font-normal text-brand-green-primary text-sm">{experience.role}</p>
                         </div>
                       </div>
-                      <p className="font-semibold font-manropeEB max-w-sm text-[12px] text-[#737876]">
+                      <p
+                        style={{
+                          whiteSpace: 'normal',
+                          overflowWrap: 'break-word',
+                        }}
+                        className="font-semibold font-manropeEB text-[12px] max-w-full sm:pl-[3rem] text-ellipsis text-[#737876]"
+                      >
                         {experience.description}
                       </p>
                     </div>
@@ -250,7 +257,7 @@ const WorkExperienceSection = () => {
                         setCompany(e.target.value);
                         console.log(e.target.value);
                       }}
-                      className="border-[#E1E3E2]"
+                      className="border-[#E1E3E2] w-full"
                       inputSize={'lg'}
                     />
                   </div>
@@ -333,7 +340,13 @@ const WorkExperienceSection = () => {
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
-                  <Button type="button" intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                  <Button
+                    type="button"
+                    onClick={onClose}
+                    intent={'secondary'}
+                    className="w-full rounded-md sm:w-[6rem]"
+                    size={'lg'}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
@@ -353,7 +366,13 @@ const WorkExperienceSection = () => {
                   <Add size="16" color="#009254" /> Add new work experience
                 </button>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                  <Button
+                    type="button"
+                    onClick={onClose}
+                    intent={'secondary'}
+                    className="w-full rounded-md sm:w-[6rem]"
+                    size={'lg'}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
