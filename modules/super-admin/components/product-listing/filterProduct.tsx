@@ -13,7 +13,7 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
   return (
     <div>
       <SelectInput
-        leftIcon={<Sort color="#777" />}
+        leftIcon={<Sort />}
         inputSize={'sm'}
         options={[
           {

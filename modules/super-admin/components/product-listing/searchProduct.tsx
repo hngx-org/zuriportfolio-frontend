@@ -27,7 +27,7 @@ function SearchProduct({ handleSearchChange }: searchProp) {
           handleSearchChange(searchVal);
           console.log(searchVal);
         }}
-        leftIcon={<SearchNormal1 color="#777" />}
+        leftIcon={<SearchNormal1 />}
         type="text"
         intent={'default'}
         disabled={false}
