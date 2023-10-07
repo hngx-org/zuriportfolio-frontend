@@ -14,10 +14,12 @@ import Assessmentresponses from '../../modules/assessment/component/Assessmentre
 export const ListContext = React.createContext([{}]);
 function Index() {
   const [list, setList]: any = useState(Assessmentlist);
+  //This is for the search box, to be updated as user inputs
   const [filterParam, setfilterParam] = useState('');
   const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
+  //The list is searched according to what user enters
   useEffect(() => {
     setList(
       Assessmentlist?.filter((child: any) => {

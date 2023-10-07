@@ -5,16 +5,21 @@ import trash from '../../../public/assets/assessment/trash.png';
 import editmessage from '../../../public/assets/assessment/message-edit.png';
 
 function Assessmentresponses() {
+  //Uses and updates the list from the index page
   const [list, setList]: any = useContext(ListContext);
+  //todel is a state, booleen, to be updated when the user tries to delete a project
   const [todel, setTodel] = useState(false);
+  //todelId is the id of the project to be deleted
   const [todelId, setTodelId] = useState();
   const delitem = (id: any) => {
     setTodelId(id);
     setTodel(true);
   };
+  //holdon, to stop deleting flow
   const holdon = () => {
     setTodel(false);
   };
+  //to confirm and delete item
   const yesdelete = () => {
     setList(
       list?.filter((child: any) => {
