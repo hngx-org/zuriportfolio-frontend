@@ -1,12 +1,15 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { PriceData, SummaryProps } from '../../../../../@types';
+import PaymentInformationModal from './PaymentInformationModal';
 
 const Summary: React.FC<SummaryProps> = ({ prices }) => {
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
   const [invalid, setInvalid] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const defaultPrices: PriceData = {
     subtotal: 600,
     discount: 50,
@@ -43,6 +46,10 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
       setShowDiscount(true);
       setInvalid(false);
     }
+  };
+
+  const handleCheckoutClick = () => {
+    setModalOpen(true);
   };
 
   return (
@@ -133,9 +140,15 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
             </div>
           </div>
 
-          <div className="checkout-btn bg-brand-green-primary text-center text-white-100 py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-brand-green-primary focus:bg-brand-green-focu transition-all duration-300">
-            CheckOut
+          <div>
+            <button
+              className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-brand-green-primary focus:bg-brand-green-focu transition-all duration-300"'
+              onClick={handleCheckoutClick}
+            >
+              Checkout
+            </button>
           </div>
+          {modalOpen ? <PaymentInformationModal /> : null}
         </div>
       </div>
     </section>

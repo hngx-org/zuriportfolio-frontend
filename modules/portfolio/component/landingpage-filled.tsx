@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
- 
+
 
 const LandingPageFilled: React.FC = () => {
   return (
@@ -52,7 +52,7 @@ const LandingPageFilled: React.FC = () => {
             </button>
           </div>
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            <a href='#'>Edit</a>
+            <a href="#">Edit</a>
           </div>
         </div>
       </div>
@@ -76,22 +76,20 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-center ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            <a href="#">Edit</a>
+              <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              <a href='#'>Delete</a>
+              <a href="#">Delete</a>
             </div>
           </div>
         </div>
         <div className="font-['Manrope'] tracking-[0.08] leading-[24px] text-[#737876] self-end mb-4 w-full">
-          Im Babatundende, a digital product designer based in Lagos, Nigeria. My
-          design journey has taken me across various companies, startups, and
-          agencies in both Africa and Europe. With a unique blend of design and
-          engineering expertise, Ive applied design methodologies to tackle
-          diverse problem domains, taking charge of the entire design process,
-          from research to implementation.Beyond my product design journey,
-          youll often find me on the tennis court. I also nurture my creativity
-          through music, language learning, and exploration of new destinations.
+          Im Babatundende, a digital product designer based in Lagos, Nigeria. My design journey has taken me across
+          various companies, startups, and agencies in both Africa and Europe. With a unique blend of design and
+          engineering expertise, Ive applied design methodologies to tackle diverse problem domains, taking charge of
+          the entire design process, from research to implementation.Beyond my product design journey, youll often find
+          me on the tennis court. I also nurture my creativity through music, language learning, and exploration of new
+          destinations.
         </div>
         <div id="Divider" className="border-solid border-[#e1e3e2] mb-4 h-px shrink-0 border-t border-b-0 border-x-0" />
         <div className="bg-white flex flex-row justify-between items-end mb-4 mr-px rounded-lg">
@@ -134,7 +132,7 @@ const LandingPageFilled: React.FC = () => {
           <div className="flex flex-col gap-6 w-1/2 items-end">
             <div className="flex flex-row mb-5 gap-6 items-start">
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                <a href='#'>Edit</a>
+                <a href="#">Edit</a>
               </div>
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
                 <a href="#">Delete</a>
@@ -173,10 +171,10 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-start ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Edit</a>
+              <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              <a href='#'>Delete</a>
+              <a href="#">Delete</a>
             </div>
           </div>
         </div>
@@ -224,7 +222,7 @@ const LandingPageFilled: React.FC = () => {
             </div>
             <div className="flex flex-row items-start">
               <div className="text-right font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                <a href='#'>Link to project</a>
+                <a href="#">Link to project</a>
               </div>
               <Image
                 src="/assets/images/landingPageFilled/arrow.svg"
@@ -281,7 +279,7 @@ const LandingPageFilled: React.FC = () => {
             </div>
             <div className="flex flex-row items-start">
               <div className="text-right font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                <a href='#'>Link to project</a>
+                <a href="#">Link to project</a>
               </div>
               <Image
                 src="/assets/images/landingPageFilled/arrow.svg"
@@ -344,10 +342,10 @@ const LandingPageFilled: React.FC = () => {
           <div className="flex flex-col mt-5 gap-6 w-1/2 items-end">
             <div className="flex flex-row mb-5 gap-6 items-start">
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                <a href='#'>Edit</a>
+                <a href="#">Edit</a>
               </div>
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-                <a href='#'>Delete</a>
+                <a href="#">Delete</a>
               </div>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876] w-full">
@@ -383,10 +381,10 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-start ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Edit</a>
+              <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              <a href='#'>Delete</a>
+              <a href="#">Delete</a>
             </div>
           </div>
         </div>
@@ -458,7 +456,7 @@ const LandingPageFilled: React.FC = () => {
             </div>
           </div>
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c] ml-[960px]">
-            <a href='#'>Delete</a>
+            <a href="#">Delete</a>
           </div>
         </div>
         <Image
@@ -471,7 +469,7 @@ const LandingPageFilled: React.FC = () => {
         />
         <div className="flex flex-row gap-px items-start mb-4 ml-8">
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            <a href='#'>Go to shop</a>
+            <a href="#">Go to shop</a>
           </div>
           <Image
             src="/assets/images/landingPageFilled/arrow.svg"
@@ -505,7 +503,7 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-start ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Edit</a>
+              <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
               <a>Delete</a>
@@ -592,7 +590,7 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-start ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Edit</a>
+              <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
               <a>Delete</a>
@@ -603,7 +601,7 @@ const LandingPageFilled: React.FC = () => {
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">Email</div>
           <div className="flex flex-row w-[208px] shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Babatundende@gmailcom</a>
+              <a href="#">Babatundende@gmailcom</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -619,7 +617,7 @@ const LandingPageFilled: React.FC = () => {
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">Twitter</div>
           <div className="flex flex-row w-32 shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Babatunde</a>
+              <a href="#">Babatunde</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -635,7 +633,7 @@ const LandingPageFilled: React.FC = () => {
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">Github</div>
           <div className="flex flex-row w-32 shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Babatunde</a>
+              <a href="#">Babatunde</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -651,7 +649,7 @@ const LandingPageFilled: React.FC = () => {
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">Linkedin</div>
           <div className="flex flex-row w-32 shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Babatunde</a>
+              <a href="#">Babatunde</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
