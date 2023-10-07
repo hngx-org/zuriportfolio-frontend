@@ -5,6 +5,7 @@ import { Add, CloseCircle, CloseSquare } from 'iconsax-react';
 import { Input, SelectInput } from '@ui/Input';
 import Button from '@ui/Button';
 import { WorkExperience } from '../../../@types';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 const WorkExperienceSection = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -273,26 +274,52 @@ const WorkExperienceSection = () => {
                     onChange={(e) => setDescription(e.target.value)}
                   ></textarea>
                 </div>
-                <div className="flex justify-between flex-col sm:flex-row gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                   <div className="w-full sm:justify-start flex flex-col gap-2">
                     <p className="text-[#444846] font-normal font-manropeL">
                       Start date <span className="text-[#8D9290]">(optional)</span>
                     </p>
                     <div className="flex gap-2">
-                      <SelectInput
-                        options={months}
-                        disabled={false}
-                        className="w-full sm:w-auto border-[#E1E3E2]"
-                        intent="default"
-                        onChange={(e) => setStartMonth(e.target.value)}
-                      />
-                      <SelectInput
-                        options={years}
-                        disabled={false}
-                        intent="default"
-                        className="w-full sm:w-auto border-[#E1E3E2]"
-                        onChange={(e) => setStartYear(e.target.value)}
-                      />
+                      <>
+                        <Select
+                          onValueChange={(value: string) => {
+                            console.log(value);
+                          }}
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Month" />
+                          </SelectTrigger>
+                          <>
+                            <SelectContent>
+                              {months.map((month, index) => (
+                                <SelectItem key={index} value={month.value}>
+                                  {month.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </>
+                        </Select>
+                      </>
+                      <>
+                        <Select
+                          onValueChange={(value: string) => {
+                            console.log(value);
+                          }}
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Year" />
+                          </SelectTrigger>
+                          <>
+                            <SelectContent>
+                              {years.map((year, index) => (
+                                <SelectItem key={index} value={year.value}>
+                                  {year.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </>
+                        </Select>
+                      </>
                     </div>
                   </div>
                   <div className="w-full flex gap-2 flex-1 flex-col">
@@ -300,20 +327,46 @@ const WorkExperienceSection = () => {
                       Start date <span className="text-[#8D9290]">(optional)</span>
                     </p>
                     <div className="flex gap-2">
-                      <SelectInput
-                        options={months}
-                        disabled={false}
-                        className="w-full sm:w-auto border-[#E1E3E2]"
-                        intent="default"
-                        onChange={(e) => setEndMonth(e.target.value)}
-                      />
-                      <SelectInput
-                        options={years}
-                        disabled={false}
-                        intent="default"
-                        onChange={(e) => setEndYear(e.target.value)}
-                        className="justify-self-end w-full sm:w-auto border-[#E1E3E2]"
-                      />
+                      <>
+                        <Select
+                          onValueChange={(value: string) => {
+                            console.log(value);
+                          }}
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Month" />
+                          </SelectTrigger>
+                          <>
+                            <SelectContent>
+                              {months.map((month, index) => (
+                                <SelectItem key={index} value={month.value}>
+                                  {month.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </>
+                        </Select>
+                      </>
+                      <>
+                        <Select
+                          onValueChange={(value: string) => {
+                            console.log(value);
+                          }}
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Year" />
+                          </SelectTrigger>
+                          <>
+                            <SelectContent>
+                              {years.map((year, index) => (
+                                <SelectItem key={index} value={year.value}>
+                                  {year.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </>
+                        </Select>
+                      </>
                     </div>
                     <div className="self-start flex items-center">
                       <input
