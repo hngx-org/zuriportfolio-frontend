@@ -102,19 +102,19 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
           {/* Action Buttons */}
           {auth || (
-            <div className="w-[268px]  p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
+            <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
               <Cart items={6} />
               <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                 <Button
                   href="/auth/login"
-                  className="rounded-lg border-0 bg-green-50 bg-opacity-50"
+                  className="rounded-lg py-3 px-6 border-0 bg-green-50 bg-opacity-50"
                   intent={'secondary'}
                   size={'md'}
                 >
                   Sign In
                 </Button>
 
-                <Button href="/auth/signup" className="rounded-lg" intent={'primary'} size={'md'}>
+                <Button href="/auth/signup" className="rounded-lg px-6 py-3" intent={'primary'} size={'md'}>
                   Sign Up
                 </Button>
               </div>
