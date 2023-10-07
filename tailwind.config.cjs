@@ -203,6 +203,7 @@ module.exports = {
           color33: '#F9F9FA',
           color34: '#E53535', 
           color35: '#05A660',
+          color36: ':#E5B800'
         },
       },
       fontFamily: {
