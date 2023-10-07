@@ -51,7 +51,6 @@ const ZuriLandingPage = () => {
   };
 
   const categories = Array.from(new Set(products.map((product) => product.category)));
-  console.log('Categories:', categories);
   const filteredProducts = products.filter((product) => {
     if (selectedCategory === 'All' || selectedCategory === '') {
       return product.name.toLowerCase().includes(searchQuery.toLowerCase());
