@@ -47,7 +47,7 @@ function Wishlist() {
   }, [wishlistProducts]);
 
   return (
-    <main className="absolute">
+    <main className="absolute w-full mx-auto">
       {showEmptyWishlistModal && (
         <div className="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-50 backdrop-blur-5 z-10 flex justify-center items-center ">
           {/* close button */}
