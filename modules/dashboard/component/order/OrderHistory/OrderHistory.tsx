@@ -36,7 +36,7 @@ const OrderHistory: React.FC = () => {
 
   return (
     <>
-      <main className="max-w-[1240px] mx-auto px-10">
+      <main className="max-w-[1240px] mx-auto md:px-10 px-4">
         <section className="font-manropeB font-semibold mt-4">
           <h1 className="text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order History</h1>
           <div className="justify-between items-center mb-[25px] gap-[35px] flex md:hidden">
@@ -70,14 +70,14 @@ const OrderHistory: React.FC = () => {
             </button>
           </div>
           <nav className="flex flex-col md:gap-4 gap-5">
-            <ul className="md:text-[22px] text-[14px] w-fit mx-auto md:mx-0 leading-[127.273%] text-dark-110 flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
+            <ul className="lg:text-[22px] text-[14px] overflow-x-scroll  mx-auto md:mx-0 leading-[127.273%] text-dark-110 flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
               {orderNavs.map((orderNav) => (
                 <li
                   key={orderNav.id}
                   className={`${
                     orderNav.id === orderFilter &&
                     'text-brand-green-primary border-b-2 border-b-brand-green-primary capitalize'
-                  } cursor-pointer`}
+                  } cursor-pointer whitespace-nowrap`}
                   onClick={() => {
                     changeFilter(orderNav.id);
                     changeCurrentPage(0);
