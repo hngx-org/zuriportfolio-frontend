@@ -65,6 +65,7 @@ function SignUpWithEmail() {
             intent={'tertiary'}
             size={'sm'}
             className="w-full bg-white-100 text-[#536066] border-[#BFC8CC] border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
+
             leftIcon={
               <Image width={20} height={20} src={'/assets/images/logo/facebook-logo.svg'} alt="Facebook logo" />
             }
