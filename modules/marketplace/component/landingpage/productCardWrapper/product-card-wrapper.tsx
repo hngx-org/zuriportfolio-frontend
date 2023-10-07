@@ -15,7 +15,7 @@ function ProductCardWrapper({ productsList, title }: { productsList: ProductCard
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path
               d="M7.42578 16.5999L12.8591 11.1666C13.5008 10.5249 13.5008 9.4749 12.8591 8.83324L7.42578 3.3999"
-              stroke="#00894C"
+              className=" stroke-green-300"
               strokeWidth="1.5"
               strokeMiterlimit="10"
               strokeLinecap="round"
