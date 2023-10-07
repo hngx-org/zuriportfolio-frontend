@@ -22,7 +22,7 @@ function SignUpWithEmail() {
               placeHolder="Allusugar@gmail.com"
               id="email"
               name="email"
-              className="w-full border-[#D0D5DD]"
+              className="w-full border-slate-50"
               type="email"
             />
           </div>
@@ -39,10 +39,10 @@ function SignUpWithEmail() {
             </Link>
           </p>
         </div>
-        <div className="text-[#737876] flex justify-between items-center my-6 lg:my-10">
-          <span className="w-[40%] lg:w-[45%] h-[1px] bg-[#737876]"></span>
+        <div className="text-white-650 flex justify-between items-center my-6 lg:my-10">
+          <span className="w-[40%] lg:w-[45%] h-[1px] bg-white-650"></span>
           <span>OR</span>
-          <span className="w-[40%] lg:w-[45%] h-[1px] bg-[#737876]"></span>
+          <span className="w-[40%] lg:w-[45%] h-[1px] bg-white-650"></span>
         </div>
         <div className="flex flex-col gap-y-4">
           <Button

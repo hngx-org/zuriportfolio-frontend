@@ -6,7 +6,7 @@ import LeftImage from '../../../public/assets/images/Rectangle_2.png';
 function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeftPadlockShown }: AuthLayoutProps) {
   return (
     <div className="relative min-h-screen">
-      <div className="border-b border-b-gray-100 lg:hidden bg-[#fff]">
+      <div className="border-b border-b-gray-100 lg:hidden bg-white-100">
         <div className="px-4 py-4">
           <Image width={150} height={150} src="/assets/images/logo/zuriportfolio-logo.svg" alt="Zuri portfolio logo" />
         </div>
