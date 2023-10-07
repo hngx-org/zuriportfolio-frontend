@@ -230,3 +230,14 @@ export interface FavoriteProduct extends Product {
   isFavourite: boolean;
   productCreator: string;
 }
+
+export interface PromotionHistory {
+  productName: string;
+  type?: string;
+  status: string;
+  discount?: number | string;
+  quantity?: number;
+  sales?: number;
+  quantity?: number;
+  action?: any;
+}
