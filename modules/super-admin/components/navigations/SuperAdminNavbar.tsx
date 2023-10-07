@@ -48,41 +48,43 @@ const SuperAdminNavbar = () => {
 
   return (
     <nav className="sticky top-0 bg-white-100">
-      <div className="px-5 md:px-10 lg:px-24 py-7 flex justify-between items-center border-b border-[#EBEEEF]">
-        <div className="flex items-center gap-4">
-          <Sidebar />
-          <div className="hidden md:block">
-            <Link href={'/'}>
-              <Image src={logo} alt="logo" />
-            </Link>
+      <div className="px-5 md:px-10 lg:px-24 py-7 border-b border-white-115">
+        <div className="max-w-[1240px] flex justify-between items-center mx-auto">
+          <div className="flex items-center gap-4">
+            <Sidebar />
+            <div className="hidden md:block">
+              <Link href={'/'}>
+                <Image src={logo} alt="logo" />
+              </Link>
+            </div>
+          </div>
+          <div className="hidden lg:block">
+            <Input
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+              type="email"
+              intent={'default'}
+              className="w-[28.47vw] border-white-115"
+              placeHolder="Search"
+              leftIcon={<SearchNormal1 color="#777" />}
+            />
+          </div>
+          <p className="font-manropeB block md:hidden">{getPageTitle(router.pathname)}</p>
+          <div className="flex items-center gap-4">
+            <Notification size="24" color="#5b5f5e" className="cursor-pointer" />
+            <p className="text-xs text-gray-500 font-manropeL hidden md:block">Super Admin</p>
           </div>
         </div>
-        <div className="hidden lg:block">
-          <Input
-            onChange={(e) => {
-              console.log(e.target.value);
-            }}
-            type="email"
-            intent={'default'}
-            className="w-[28.47vw] border-[#EBEEEF]"
-            placeHolder="Search"
-            leftIcon={<SearchNormal1 color="#777" />}
-          />
-        </div>
-        <p className="font-manropeB block md:hidden">{getPageTitle(router.pathname)}</p>
-        <div className="flex items-center gap-4">
-          <Notification size="24" color="#5b5f5e" className="cursor-pointer" />
-          <p className="text-xs text-gray-500 font-manropeL hidden md:block">Super Admin</p>
-        </div>
       </div>
-      <div className="px-24 py-5 mt-6 justify-between font-manropeB hidden lg:flex">
+      <div className="px-24 py-5 mt-6 justify-between font-manropeB hidden lg:flex max-w-[1240px] mx-auto">
         {menu.map((item) => (
           <Link
             key={item.title}
             href={item.to}
             className={`${
               router.pathname.includes(item.to)
-                ? 'text-brand-green-primary border-b-brand-green-primary border-b-2 bg-[#FAFFFD]'
+                ? 'text-brand-green-primary border-b-brand-green-primary border-b-2 bg-white-220'
                 : 'text-white-650 hover:text-brand-green-primary transition duration-75'
             } px-4 py-2 `}
           >
