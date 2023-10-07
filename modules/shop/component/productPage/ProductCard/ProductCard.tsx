@@ -1,5 +1,6 @@
 // components/ProductCard.tsx
 import Image from 'next/image';
+
 import { Products } from '../../../../../@types';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
@@ -8,10 +9,16 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const isExternalImage = product.image.startsWith('http');
+
   return (
     <div className="p-4 shadow border h-auto rounded-md bg-[#ffffff]">
       <div className="relative w-full h-52">
-        <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" className="rounded-md  h-52" />
+        {isExternalImage ? (
+          <img src={product.image} alt={product.name} className="rounded-md  w-full h-52" />
+        ) : (
+          <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" className="rounded-md  h-52" />
+        )}{' '}
       </div>
       <div className="flex flex-col gap-2 flex-grow">
         <div>
