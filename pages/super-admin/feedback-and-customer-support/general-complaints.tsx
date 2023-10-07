@@ -1,8 +1,9 @@
-// import Input from "../../components/ui/Input"
 import React from 'react';
-// import { Complains } from '../../../@types';
+import Image from 'next/image';
+import { Input } from '@ui/Input';
 import Nav from '../../view-components/super-admin/navbar';
 import Image from 'next/image';
+import Pagination from '../../view-components/super-admin/pagination/index';
 type Complains = {
   id: number;
   name: string;
@@ -35,6 +36,60 @@ export default function GeneralComplaints() {
     },
     {
       id: 3,
+      name: 'John Kennedy',
+      email: 'ken006john@yahoo.com',
+      image: '/../../images/vendorComplaint.png',
+      complaintDescription: 'Order not recieved',
+      date: '09-07-23',
+      status: 'InProgress',
+    },
+    {
+      id: 4,
+      name: 'Jeffery Dahmer',
+      email: 'dahmerbones@gmail.com',
+      complaintDescription: 'Order Eaten',
+      image: '/../../images/vendorComplaint.png',
+      date: '07-09-99',
+      status: 'Pending',
+    },
+    {
+      id: 5,
+      name: 'Mark Essien',
+      email: 'markessien@gmail.com',
+      image: '/../../images/vendorComplaint.png',
+      complaintDescription: 'Bad Product',
+      date: '09-07-23',
+      status: 'Resolved',
+    },
+    {
+      id: 6,
+      name: 'John Kennedy',
+      email: 'ken006john@yahoo.com',
+      image: '/../../images/vendorComplaint.png',
+      complaintDescription: 'Order not recieved',
+      date: '09-07-23',
+      status: 'InProgress',
+    },
+    {
+      id: 7,
+      name: 'Jeffery Dahmer',
+      email: 'dahmerbones@gmail.com',
+      complaintDescription: 'Order Eaten',
+      image: '/../../images/vendorComplaint.png',
+      date: '07-09-99',
+      status: 'Pending',
+    },
+    {
+      id: 8,
+      name: 'Mark Essien',
+      email: 'markessien@gmail.com',
+      image: '/../../images/vendorComplaint.png',
+      complaintDescription: 'Bad Product',
+      date: '09-07-23',
+      status: 'Resolved',
+    },
+    {
+      id: 9,
       name: 'John Kennedy',
       email: 'ken006john@yahoo.com',
       image: '/../../images/vendorComplaint.png',
@@ -250,6 +305,8 @@ export default function GeneralComplaints() {
             <div className="complaintHeading h-18 p-3 flex flex-row items-center justify-between border-b-2 border-slate-100">
               <div className="headerText min-w-[190px] mr-2">
                 <h2 className="font-manropeL text-xl font-semibold ">My Complaint</h2>
+                <h2 className="font-manropeL text-xl font-semibold">My Complaint</h2>
+
                 <h3 className="font-manropeL text-base font-normal text-slate-600">
                   List of all complaint and their details
                 </h3>
@@ -265,7 +322,7 @@ export default function GeneralComplaints() {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <input
+                  <Input
                     type="search"
                     onChange={(e) => setSearchedItem(e.target.value)}
                     placeholder="Search"
@@ -338,6 +395,7 @@ export default function GeneralComplaints() {
                           className="vendorComplaints p-3 flex flex-row items-center justify-between "
                         >
                           <input className="w-6 min-w-[32px] h-5 cursor-pointer " type="checkbox" name="" id="" />
+                          <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
                           <div className="name w-80 flex flex-row items-center min-w-[250px]">
                             <div className="displayPicture">
                               <Image
@@ -347,11 +405,12 @@ export default function GeneralComplaints() {
                                 width={40}
                                 height={40}
                               />
-                              {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                             </div>
                             <div className="identity pl-2">
                               <h2 className="font-manropeL text-l font-semibold text-base">{complains.name}</h2>
                               <p className="font-manropeL text-xs font-normal  text-slate-500">{complains.email}</p>
+                              <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
+                              <p className="font-manropeL font-normal text-base text-slate-500">{complains.email}</p>
                             </div>
                           </div>
                           <div className="description w-40  min-w-[120px]">
@@ -448,11 +507,12 @@ export default function GeneralComplaints() {
                               width={40}
                               height={40}
                             />
-                            {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                           </div>
                           <div className="identity pl-2">
                             <h2 className="font-manropeL text-l font-semibold text-base">{complains.name}</h2>
                             <p className="font-manropeL text-xs font-normal  text-slate-500">{complains.email}</p>
+                            <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
+                            <p className="font-manropeL font-normal text-base text-slate-500">{complains.email}</p>
                           </div>
                         </div>
                         <div className="description w-40 min-w-[120px]">
@@ -515,22 +575,7 @@ export default function GeneralComplaints() {
                       </div>
                     );
                   })}
-              <div className="pages w-auto items-center justify-center flex my-5">
-                <p className="cursor-pointer font-manropeL font-medium text-base text-slate-500">Previous</p>
-                <p className="cursor-pointer page1 flex items-center justify-center bg-green-600 h-8 w-8 rounded-lg ont-manropeL font-medium text-base text-slate-50 ml-1.5">
-                  1
-                </p>
-                <p className="cursor-pointer page2 flex items-center justify-center h-8 w-8 rounded-lg ont-manropeL font-medium text-base text-slate-500 ml-1.5">
-                  2
-                </p>
-                <p className="cursor-pointer page3 flex items-center justify-center h-8 w-8 rounded-lg ont-manropeL font-medium text-base text-slate-500 ml-1.5">
-                  3
-                </p>
-                <p className="cursor-pointer page4 flex items-center justify-center h-8 w-8 rounded-lg ont-manropeL font-medium text-base text-slate-500 ml-1.5">
-                  4
-                </p>
-                <p className="cursor-pointer font-manropeL font-medium text-base text-slate-500 ml-1.5">Next</p>
-              </div>
+              <Pagination />
             </div>
           </div>
         </div>
