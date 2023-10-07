@@ -9,18 +9,17 @@ function ResetPassword() {
   const [showPassword, setShowPassword] = useState([false, false]);
   const [passwordChanged, setPasswordChanged] = useState(false);
   return (
-    <>
       <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
         <div className="">
           {!passwordChanged ? (
-            <div className="flex flex-col gap-8 mt-10 lg:mt-0">
-              <div className="flex flex-col gap-3 items-center lg:items-start text-center lg:text-left">
+            <div className="flex flex-col gap-8 lg:gap-12 mt-10 lg:mt-0">
+              <div className="flex flex-col gap-2 md:gap-4 items-center lg:items-start text-center lg:text-left">
                 <h1 className="font-manropeEB text-2xl md:text-4xl">Reset password</h1>
                 <p className="font-manropeL lg:font-manropeB text-xs md:text-sm lg:text-[1.375rem] text-[#536066]">
                   Enter your new password below.
                 </p>
               </div>
-              <form className="flex flex-col gap-4" onSubmit={(e) => (e.preventDefault(), setPasswordChanged(true))}>
+              <form className="flex flex-col gap-4 lg:mb-16 2xl:mb-0" onSubmit={(e) => (e.preventDefault(), setPasswordChanged(true))}>
                 <div className="flex flex-col gap-3">
                   <label htmlFor="reset_new_password" className="font-manropeB text-base font-semibold text-[#344054]">
                     New password
@@ -88,7 +87,6 @@ function ResetPassword() {
           )}
         </div>
       </AuthLayout>
-    </>
   );
 }
 
