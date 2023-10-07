@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../../../../public/assets/shop/techverse_logo.svg';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Button from '@ui/Button';
-import MobileNav from '@modules/dashboard/component/MobileNav';
 
 function ShopNavbar(props: { activePage: string; showDashBorad: boolean }) {
   const [toggle, setToggle] = useState(false);

@@ -70,7 +70,7 @@ const OrderHistory: React.FC = () => {
             </button>
           </div>
           <nav className="flex flex-col md:gap-4 gap-5">
-            <ul className="lg:text-[22px] text-[14px] overflow-x-scroll  mx-auto md:mx-0 leading-[127.273%] text-dark-110 flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
+            <ul className="lg:text-[22px] text-[14px]   mx-auto md:mx-0 leading-[127.273%] text-dark-110 flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
               {orderNavs.map((orderNav) => (
                 <li
                   key={orderNav.id}
