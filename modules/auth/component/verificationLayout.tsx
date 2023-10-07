@@ -8,7 +8,7 @@ function VerificationLayout({ children }: VerificationLayoutProps) {
   return (
     <div className=" h-[100dvh]">
       <div className="border-b border-[#EBEEEF] border-style:solid h-[10%]">
-        <header className="max-w-[1440px] mx-6 xl:mx-auto h-full flex items-center ">
+        <header className="max-w-[1240px] mx-6 xl:mx-auto h-full flex items-center ">
           <Link href={'/'}>
             <Image src={logo} alt="logo" />
           </Link>
