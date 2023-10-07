@@ -7,8 +7,7 @@ import slider3 from '../../../public/assets/slider3.png';
 import slider4 from '../../../public/assets/slider4.png';
 import arrowCircleRight from '../../../public/assets/arrow-circle-right.svg';
 
-export default function Slider({ updateImage }:any) {
-
+export default function Slider({ updateImage }: any) {
   const handleUpdateImage1 = () => {
     updateImage(slider1);
   };
@@ -29,29 +28,27 @@ export default function Slider({ updateImage }:any) {
     updateImage(mainImage);
   };
 
-
-
   return (
     <div className="flex items-center lg:justify-start md:justify-center mt-2 w-full">
       <div className="flex lg:w-full md:w-4/5 justify-between lg:gap-x-3">
         <Image
           src={slider1}
           alt="slider image 1"
-          id='slider1'
+          id="slider1"
           onClick={handleUpdateImage1}
           className="object-cover lg:w-[18%] w-1/5 lg:h-[94px] md:h-[131px] h-[95px] rounded-lg"
         />
         <Image
           src={slider2}
           alt="slider image 2"
-          id='slider2'
+          id="slider2"
           onClick={handleUpdateImage2}
           className="object-cover lg:w-[18%] w-1/5 lg:h-[94px] md:h-[131px] h-[95px] rounded-lg"
         />
         <Image
           src={slider3}
           alt="slider image 3"
-          id='slider3'
+          id="slider3"
           onClick={handleUpdateImage3}
           className="object-cover lg:w-[18%] w-1/5 lg:h-[94px] md:h-[131px] h-[95px] rounded-lg"
         />
@@ -64,7 +61,7 @@ export default function Slider({ updateImage }:any) {
         <Image
           src={mainImage}
           alt="slider image 5"
-          id='slider5'
+          id="slider5"
           onClick={handleUpdateImage5}
           className="object-cover lg:w-[18%] w-1/5 lg:h-[94px] md:h-[131px] h-[95px] lg:block hidden md:rounded-lg"
         />
