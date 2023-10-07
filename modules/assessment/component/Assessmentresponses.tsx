@@ -64,10 +64,10 @@ function Assessmentresponses() {
               <div className="my-[6px] md:my-[10px] text-[#737876]"> {child?.createddate}</div>
               <div className="text-[#737876]">Modified {child?.modifieddate}</div>
             </div>
-            <div className="flex gap-8">
+            <div className="flex gap-2 md:gap-8">
               <div className="flex flex-col items-center cursor-pointer">
                 <Image src={editmessage} height="24" width="24" alt="edit message" />
-                <p className="pt-[6px]">Edit</p>
+                <p className="text-xs md:text-base pt-[6px]">Edit</p>
               </div>
               <div
                 className="flex flex-col items-center cursor-pointer"
@@ -76,7 +76,7 @@ function Assessmentresponses() {
                 }}
               >
                 <Image src={trash} height="24" width="24" alt="trash" />
-                <p className="pt-[6px]">Delete</p>
+                <p className="text-xs md:text-base pt-[6px]">Delete</p>
               </div>
             </div>
           </div>
