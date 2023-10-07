@@ -76,7 +76,7 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-2.5">
           <Button
             onClick={onClose}
-            className="border flex justify-center border-[#009444] bg-white-100 py-3 px-5 text-sm sm:text-base font-normal text-[#009444] text-center rounded-lg hover:bg-white-100 hover:text-[#009444]"
+            className="border flex justify-center border-[#009444] bg-white-100 py-3 px-5 text-sm sm:text-base font-normal text-text-green-600 text-center rounded-lg hover:bg-white-100 hover:text-[#009444]"
           >
             Cancel
           </Button>

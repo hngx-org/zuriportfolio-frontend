@@ -109,7 +109,7 @@ const InterestModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         </section>
 
         <section className="mt-2.5">
-          <h5 className="text-[#009254] text-base font-bold"> Suggestions </h5>
+          <h5 className="text-green-600 text-base font-bold"> Suggestions </h5>
 
           <section className="flex items-center flex-wrap gap-4 mt-2.5 mb-5">{suggestions}</section>
         </section>
