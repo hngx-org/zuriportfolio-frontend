@@ -1,10 +1,6 @@
 import React from 'react';
 import { SelectInput } from '@ui/Input';
-
-interface filterProps {
-  rating: number;
-  review: number;
-}
+import { filterProps } from '../../../../../@types';
 
 export default function Filter(props: filterProps) {
   return (

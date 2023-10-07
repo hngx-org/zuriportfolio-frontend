@@ -276,3 +276,26 @@ export interface ReviewCardProps {
   ratingNo: number;
   price: number;
 }
+
+export interface RatingBarProps {
+  avgRating: number;
+}
+
+export interface RatingCardProps {
+  rating: string;
+  users: string;
+}
+
+export interface filterProps {
+  rating: number;
+  review: number;
+}
+
+export interface reviewProps {
+  buyerName: string;
+  adminDate: string;
+  review: string;
+  noOfStars: number;
+  shopName?: string;
+  shopReply?: string;
+}

@@ -1,20 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { reviewProps } from '../../../../../@types';
 import { useState } from 'react';
 import { Input } from '@ui/Input';
 import { Send } from 'iconsax-react';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
-
-interface reviewProps {
-  buyerName: string;
-  adminDate: string;
-  review: string;
-  noOfStars: number;
-  shopName?: string;
-  shopReply?: string;
-}
 
 export default function SellerReview(props: reviewProps) {
   const [reply, setReply] = useState<string>();

@@ -1,12 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
+import { RatingCardProps } from '../../../../../@types';
 
-interface RatingProps {
-  rating: string;
-  users: string;
-}
-
-const RatingCard: React.FC<RatingProps> = ({ rating, users }) => {
+const RatingCard = ({ rating, users }: RatingCardProps) => {
   return (
     <div className="min-w-[194px] max-w-[full] justify-center">
       <div className=" w-full justify-between flex items-center">

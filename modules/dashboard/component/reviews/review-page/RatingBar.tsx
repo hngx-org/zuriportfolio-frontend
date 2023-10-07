@@ -1,13 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
+import { RatingBarProps } from '../../../../../@types';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
 
-interface RatingProps {
-  avgRating: number;
-}
-
-const RatingBar: React.FC<RatingProps> = ({ avgRating }) => {
+const RatingBar = ({ avgRating }: RatingBarProps) => {
   function getStars(avgRating: number) {
     let stars = [];
     for (let i = 0; i < 5; i++) {
