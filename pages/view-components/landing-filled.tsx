@@ -1,5 +1,5 @@
 import MainLayout from '../../components/Layout/MainLayout';
-import LandingPageFilled from '../../modules/portfolio/component/landingPageFilled';
+import LandingPageFilled from '../../modules/portfolio/component/landingpage-filled';
 import React from 'react';
 
 const LandingFilled = () => {
