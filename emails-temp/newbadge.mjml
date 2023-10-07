@@ -3,6 +3,7 @@
     <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" />
     <mj-attributes>
       <mj-image padding="0px" />
+       <mj-body background-color="#F4FBF6"/>
       <mj-button background-color="#009254" />
       <mj-text font-family="Manrope, sans-serif" font-size="14px" letter-spacing="0.035px" color="#000" />
     </mj-attributes>
