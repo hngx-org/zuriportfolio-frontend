@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Button from '@ui/Button';
 import MobileNav from '@modules/dashboard/component/MobileNav';
-import cart from '../../pages/cart';
 
 function Cart({ items }: { items?: number }) {
   return (
