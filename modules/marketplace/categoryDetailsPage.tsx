@@ -161,7 +161,7 @@ function getLabel(showTopPicks: boolean, showDiscount: boolean, showLimitedOffer
     labels.push(
       <div
         key="top-picks"
-        className="absolute w-[100px] h-[36px] bg-gray-300 rounded-[8px] flex items-center justify-center tracking-[0.4%] text-white-100 font-manropeL font-semibold text-[12px]"
+        className="absolute w-[100px] h-[36px] bg-gray-350 rounded-[8px] flex items-center justify-center tracking-[0.4%] text-white-100 font-manropeL font-semibold text-[12px]"
       >
         Top Picks
       </div>,

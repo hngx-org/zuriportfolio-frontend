@@ -10,6 +10,17 @@ export interface MainLayoutProps {
   showFooter?: boolean;
 }
 
+export interface AllCategoryDetails {
+  price: string;
+  name: string;
+  author: string;
+  imageUrl: string;
+  showTopPicks: boolean;
+  showDiscount: boolean;
+  showLimitedOffer: boolean;
+  discount: number;
+}
+
 export interface MainLayoutContextProps {
   activePage?: string;
   setActivePage: (page: string) => void;
@@ -74,10 +85,6 @@ export interface starProps {
   [key: number]: ratingProps;
 }
 
-export interface VerificationLayoutProps {
-  children?: React.ReactNode;
-  className?: React.ComponentProps<'div'>['className'];
-}
 export interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -174,14 +181,13 @@ export interface MetricTimelineProps {
   setTimeline: (data: { active: boolean; index: number }) => void;
 }
 
-interface OrderHistory {
-  id: string;
+export interface OrderHistory {
+  id: number;
   productName: string;
   customerName: string;
   date: Date;
   status: 'completed' | 'cancelled' | 'pending';
 }
-
 export interface Product {
   productId: string;
   productName: string;
@@ -200,15 +206,4 @@ export interface WishlistProduct extends Product {
 export interface FavoriteProduct extends Product {
   isFavourite: boolean;
   productCreator: string;
-}
-
-export interface AllCategoryDetails {
-  price: string;
-  name: string;
-  author: string;
-  imageUrl: string;
-  showTopPicks: boolean;
-  showDiscount: boolean;
-  showLimitedOffer: boolean;
-  discount: number;
 }
