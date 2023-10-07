@@ -344,14 +344,14 @@ export default function GeneralComplaints() {
                           />
                           <div className="name w-80 flex flex-row items-center min-w-[250px]">
                             <div className="displayPicture">
-                              <image
+                              <img
                                 alt=""
                                 src="/../../assets/images/vendorComplaint.png"
                                 className="h-10 w-10 rounded-full object-contain"
                                 width={40}
                                 height={40}
                               />
-                              {/* <image src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
+                              {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                             </div>
                             <div className="identity pl-2">
                               <h2 className="font-manropeL text-l font-semibold text-base">{complains.name}</h2>
@@ -447,14 +447,14 @@ export default function GeneralComplaints() {
                         <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
                         <div className="name w-80 flex flex-row items-center min-w-[250px]">
                           <div className="displayPicture">
-                            <image
+                            <img
                               alt=""
                               src="/../../assets/images/vendorComplaint.png"
                               className="h-10 w-10 rounded-full object-contain"
                               width={40}
                               height={40}
                             />
-                            {/* <image src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
+                            {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                           </div>
                           <div className="identity pl-2">
                             <h2 className="font-manropeL text-l font-semibold text-base">{complains.name}</h2>
