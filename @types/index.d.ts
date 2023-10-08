@@ -24,11 +24,11 @@ export interface AllCategoryDetails {
   discount: number;
 }
 export interface Products {
-  id: string;
+  id: number;
   name: string;
   image: string;
+  shopOwner: string;
   price: number;
-  description: string;
   category: string;
 }
 

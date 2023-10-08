@@ -9,42 +9,175 @@ import { Products } from '../../@types';
 
 const fakeStoreApiUrl = 'https://fakestoreapi.com/products';
 
+const staticProducts: Products[] = [
+  {
+    id: 1,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg4.png',
+    category: 'Category 1',
+  },
+  {
+    id: 2,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg2.png',
+    category: 'Category 2',
+  },
+  {
+    id: 3,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg4.png', // Reference to your local image in the public folder
+    category: 'Category 3',
+  },
+  {
+    id: 4,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg7.png', // Reference to your local image in the public folder
+    category: 'Category 4',
+  },
+  {
+    id: 5,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg3.png', // Reference to your local image in the public folder
+    category: 'Category 5',
+  },
+  {
+    id: 6,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg6.png', // Reference to your local image in the public folder
+    category: 'Category 6',
+  },
+  {
+    id: 7,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg5.png', // Reference to your local image in the public folder
+    category: 'Category 7',
+  },
+  {
+    id: 8,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg2.png', // Reference to your local image in the public folder
+    category: 'Category 8',
+  },
+  {
+    id: 9,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg4.png', // Reference to your local image in the public folder
+    category: 'Category 9',
+  },
+  {
+    id: 10,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg1.png', // Reference to your local image in the public folder
+    category: 'Category 10',
+  },
+  {
+    id: 11,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg6.png', // Reference to your local image in the public folder
+    category: 'Category 11',
+  },
+  {
+    id: 12,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg5.png', // Reference to your local image in the public folder
+    category: 'Category 12',
+  },
+  {
+    id: 13,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg7.png', // Reference to your local image in the public folder
+    category: 'Category 13',
+  },
+  {
+    id: 14,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg2.png', // Reference to your local image in the public folder
+    category: 'Category 14',
+  },
+  {
+    id: 15,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg4.png', // Reference to your local image in the public folder
+    category: 'Category 15',
+  },
+  {
+    id: 16,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg5.png', // Reference to your local image in the public folder
+    category: 'Category 16',
+  },
+  {
+    id: 17,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg3.png', // Reference to your local image in the public folder
+    category: 'Category 17',
+  },
+  {
+    id: 18,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg1.png', // Reference to your local image in the public folder
+    category: 'Category 18',
+  },
+  {
+    id: 19,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg6.png', // Reference to your local image in the public folder
+    category: 'Category 19',
+  },
+  {
+    id: 20,
+    name: 'Webinar and Course Template',
+    price: 100,
+    shopOwner: 'Mark Essien',
+    image: '/assets/wishlistAssets/favProductImg7.png',
+    category: 'Category 20',
+  },
+];
+
 const ZuriLandingPage = () => {
-  const [products, setProducts] = useState<Products[]>([]);
+  const [products] = useState(staticProducts);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
   const [selectedCategory, setSelectedCategory] = useState('All');
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        console.log('Fetching product data from Fake Store API...');
-        const response = await axios.get(fakeStoreApiUrl, {
-          params: {
-            count: 30,
-          },
-        });
-        const apiProducts = response.data;
-
-        const mappedProducts = apiProducts.map((apiProduct: any) => ({
-          id: apiProduct.id,
-          name: apiProduct.title,
-          description: apiProduct.description,
-          price: apiProduct.price,
-          image: apiProduct.image,
-          category: apiProduct.category,
-        }));
-
-        setProducts(mappedProducts);
-        console.log('Fetched product data successfully:', mappedProducts);
-      } catch (error) {
-        console.error('Error fetching product data:', error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);

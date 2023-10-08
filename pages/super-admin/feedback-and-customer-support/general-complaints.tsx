@@ -2,7 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import { Input } from '@ui/Input';
 import Nav from '../../view-components/super-admin/navbar';
-import Image from 'next/image';
 import Pagination from '../../view-components/super-admin/pagination/index';
 type Complains = {
   id: number;
