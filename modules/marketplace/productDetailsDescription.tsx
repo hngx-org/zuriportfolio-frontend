@@ -11,12 +11,13 @@ import Button from '@ui/Button';
 import MainLayout from '../../components/Layout/MainLayout';
 import TabContainer from './component/Tabbed';
 import { useState } from 'react';
+import CategoriesNav from './component/CategoriesNav/CategoriesNav';
 
 export default function ProductDetailsDescription() {
   const [showAll, setShowAll] = useState(false);
   const router = useRouter();
   const specificationData = [
-    'Adaptable withHTML5  and CSS3',
+    'Adaptable with HTML5  and CSS3',
     'Comprehensive documentation and customer support',
     'Similar products you might like',
     'WC3 valid HTML codes',
@@ -33,8 +34,20 @@ export default function ProductDetailsDescription() {
     setShowAll(!showAll);
   };
 
+  const navItems: string[] = [
+    'All Categories',
+    ' Design & Graphics',
+    ' Development & Programming',
+    ' Content Creation',
+    ' Digital Arts & Media',
+    ' Audio & Sound',
+    ' Photography',
+    ' More...',
+  ];
+
   return (
     <MainLayout activePage="product-details" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+      <CategoriesNav navItems={navItems} />
       {/* lg:px-[100px] md:px-10*/}
       <main className={`flex flex-col items-center max-w-[1240px] mx-auto  px-6 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
         {/* Product Details  */}
@@ -53,7 +66,7 @@ export default function ProductDetailsDescription() {
           <div className="space-y-6 w-full">
             <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] gap-x-">
               Webinar and Course Slide
-              <span>Templates by Sarah Rino (Soft Copy)</span>
+              <span> Templates by Sarah Rino (Soft Copy)</span>
             </h1>
             <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
               <span>Empower your educational endeavors with our Webinar and Course Template.</span>
@@ -83,7 +96,7 @@ export default function ProductDetailsDescription() {
               </p>
               <p className="flex gap-x-4 items-center">
                 <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">$100.00</span>
-                <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-200/">
+                <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
                   $120.00
                 </span>
               </p>

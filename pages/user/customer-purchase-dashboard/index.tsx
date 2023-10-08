@@ -82,9 +82,9 @@ const MyPage: React.FC = () => {
   ];
 
   // function to handle delete
-  const onDelete = ()=> {
+  const onDelete = () => {
     onClose();
-  }
+  };
 
   // Calculate counts for each category
   const allPurchasesCount = data.length;
@@ -176,65 +176,68 @@ const MyPage: React.FC = () => {
             <Sort size="16" /> Filters
           </Button>
 
-          <Button onClick={onOpen} className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]">
+          <Button
+            onClick={onOpen}
+            className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]"
+          >
             <Trash size="16" /> Delete
           </Button>
         </div>
 
         {/* table */}
-        {data.length > 0 &&
-        <table className="w-full mt-6 mb-[2rem]">
-          <thead className="h-[3rem]">
-            <tr className="bg-white-200">
-              <th className="text-left px-4 py-2 text-[0.75rem]">
-                <span className="px-4">
-                  <input type="checkbox" />
-                </span>
-                Items
-              </th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Order ID</th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Price</th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Date</th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Sellers Name</th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Status</th>
-            </tr>
-          </thead>
+        {data.length > 0 && (
+          <table className="w-full mt-6 mb-[2rem]">
+            <thead className="h-[3rem]">
+              <tr className="bg-white-200">
+                <th className="text-left px-4 py-2 text-[0.75rem]">
+                  <span className="px-4">
+                    <input type="checkbox" />
+                  </span>
+                  Items
+                </th>
+                <th className="text-left px-4 py-2 text-[0.75rem]">Order ID</th>
+                <th className="text-left px-4 py-2 text-[0.75rem]">Price</th>
+                <th className="text-left px-4 py-2 text-[0.75rem]">Date</th>
+                <th className="text-left px-4 py-2 text-[0.75rem]">Sellers Name</th>
+                <th className="text-left px-4 py-2 text-[0.75rem]">Status</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {data
-              .filter((item) => (filter ? item.status.toLowerCase() === filter.toLowerCase() : true))
-              .map((item) => (
-                <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
-                  <td className="text-[0.75rem]">
-                    <span className="px-4 ml-[1rem]">
-                      {' '}
-                      <input type="checkbox" />
-                    </span>
-                    {item.item}
-                  </td>
-                  <td className="text-[0.75rem] px-4 py-2">{item.orderID}</td>
-                  <td className="text-[0.75rem] px-4 py-2">{item.price}</td>
-                  <td className="text-[0.75rem] px-4 py-2">{item.date}</td>
-                  <td className="text-[0.75rem] px-4 py-2">{item.sellerName}</td>
-                  <td className="text-[0.75rem] px-4 py-2">
-                    <span
-                      className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
-                        getStatusBackgroundColor(item.status)[0]
-                      }`}
-                    >
-                      <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>{item.status}</p>
-                    </span>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-        }
+            <tbody>
+              {data
+                .filter((item) => (filter ? item.status.toLowerCase() === filter.toLowerCase() : true))
+                .map((item) => (
+                  <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
+                    <td className="text-[0.75rem]">
+                      <span className="px-4 ml-[1rem]">
+                        {' '}
+                        <input type="checkbox" />
+                      </span>
+                      {item.item}
+                    </td>
+                    <td className="text-[0.75rem] px-4 py-2">{item.orderID}</td>
+                    <td className="text-[0.75rem] px-4 py-2">{item.price}</td>
+                    <td className="text-[0.75rem] px-4 py-2">{item.date}</td>
+                    <td className="text-[0.75rem] px-4 py-2">{item.sellerName}</td>
+                    <td className="text-[0.75rem] px-4 py-2">
+                      <span
+                        className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
+                          getStatusBackgroundColor(item.status)[0]
+                        }`}
+                      >
+                        <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>{item.status}</p>
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        )}
 
         {/* error page */}
         {data.length === 0 && <PurchaseNotFound />}
       </div>
-      <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete}/>
+      <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
     </div>
   );
 };
