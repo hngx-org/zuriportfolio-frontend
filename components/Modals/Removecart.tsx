@@ -12,7 +12,7 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal }) => {
 
   const closeModalInternal = () => {
     setModalOpen(false);
-    closeModal(); // Call the parent's closeModal function
+    closeModal(); // Call the parent's closeModal function to reset the state
   };
 
   if (modalOpen) {
