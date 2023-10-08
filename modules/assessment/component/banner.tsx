@@ -9,7 +9,7 @@ export interface BannerProps {
 
 export const AssessmentBanner: FC<BannerProps> = ({ title, subtitle, bannerImageSrc }) => {
   return (
-    <div className="w-full bg-[#005427] py-[14px] md:py-[22px] lg:py-[32px] px-[24px] md:px-[40px] lg:px-[100px] relative">
+    <div className="w-full bg-[#005427] py-[14px] md:py-[22px] lg:py-[32px] px-[24px] md:px-[40px] lg:px-[100px] relative overflow-hidden">
       <div className="flex flex-col gap-1">
         <p className="font-manropeL text-white-100 text-[24px] md:text-[26px] lg:text-[28px]">{title}</p>
 
