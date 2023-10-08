@@ -2,12 +2,44 @@ import Image from 'next/image';
 import React from 'react';
 import ScoreDropdown from './component/scoreDropdown';
 import Header from './component/Header';
+import Link from 'next/link';
 
 const ScoringScreen = () => {
   const arr = ['Intermediate', 'Expert'];
   return (
     <div>
       <Header heading={'Preview/Edit'} body={'An overview of all questions and answers.'} />
+      <div>
+        <div className="flex items-center justify-between px-12 py-6 md:px-24 md:py-8">
+          <Link href={'/'} className="hover:underline flex items-center gap-1">
+            <Image src="/assets/arrow-left.svg" alt="arro left icon" width={20} height={20} color="#000" />
+            Go back
+          </Link>
+          <button className="rounded-2xl text-white-300 px-3 py-2 text-xs sm:text-lg sm:py-3 sm:px-5 bg-green-600">
+            Save Changes
+          </button>
+        </div>
+
+        <div className=" border-b border-gray-500 pb-0">
+          <div className="flex justify-center items-center gap-12">
+            <Link href={'/assessment/create-assessment'}>
+              <button className="font-bold text-gray-400 font-manropeL">Questions & Answer</button>
+            </Link>
+            <Link href={'/assessment/scoring'}>
+              <button
+                style={{
+                  color: 'rgba(191, 132, 67, 1)',
+                  borderBottom: '4px solid rgba(191, 132, 67, 1)',
+                  borderRadius: '2px',
+                }}
+                className="font-manropeL"
+              >
+                Scoring
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
       <div className="py-14 flex justify-center items-center w-full">
         <form action="" className="px-6 flex flex-col items-center gap-[45px] w-full">
           {/* Badge Option */}
