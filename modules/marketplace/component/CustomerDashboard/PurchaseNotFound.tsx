@@ -8,16 +8,26 @@ const PurchaseNotFound = () => {
   const browseProdutLink = '#';
 
   return (
-    <div className="w-[80%] mx-auto my-[3rem]">
-      <p className="text-center text-[4.5rem] font-bold translate-y-[100%] font-manropeEB">OOPS!</p>
-      <div className="cus-2-image ">
-        <Image className="w-[50%] mx-auto" src={NotFound} width={20} alt="Not Found" unoptimized />
-      </div>
-      <p className="text-center text-[3.5rem] mt-[2rem]">There is nothing here</p>
-      <div className="cus-2-btn flex justify-center mt-[4rem]">
-        <Button intent={'primary'} href={browseProdutLink} size={'lg'}>
-          Browse Products
-        </Button>
+    <div className="w-full mx-auto my-[3rem] flex items-center justify-center h-fit">
+      <div className="w-full md:w-3/4 flex flex-col">
+        <p className="text-center text-5xl md:text-[4.5rem] font-bold sm:translate-y-[70%] md:translate-y-[65%] lg:translate-y-[100%] font-manropeEB">
+          OOPS!
+        </p>
+        <div className="cus-2-image ">
+          <Image
+            className="w-[15rem] sm:w-3/4 lg:w-[50%] mx-auto"
+            src={NotFound}
+            width={20}
+            alt="Not Found"
+            unoptimized
+          />
+        </div>
+        <p className="text-center text-4xl sm:text-[3.5rem] mt-[2rem]">There is nothing here</p>
+        <div className="cus-2-btn flex justify-center mt-[4rem]">
+          <Button intent={'primary'} href={browseProdutLink} size={'lg'}>
+            Browse Products
+          </Button>
+        </div>
       </div>
     </div>
   );
