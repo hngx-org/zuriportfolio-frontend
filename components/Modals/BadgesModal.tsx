@@ -15,10 +15,9 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   const [badgeType, setBadgeType] = useState<null | string>(null);
 
   const router = useRouter()
-  const {badge:level} = router.query
   
   useEffect(() => {
-const {badge:level} = router.query
+    const {badge:level} = router.query
     if(typeof level === "string") {
       setBadgeType(level)
     } 
