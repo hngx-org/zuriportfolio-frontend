@@ -352,3 +352,21 @@ export type SectionModalProps = {
   primaryText: string;
   onClickAction: () => void;
 };
+
+export interface Vendor {
+  vendorImgSrc: string;
+  name: string;
+  email: string;
+  amount: string;
+  quantity: number;
+  date: string;
+  statusIndicatorSrc: string;
+  statusText: string;
+}
+
+export type BannedDeletedVendorsProps = {
+  showBanned: boolean;
+  setShowBanned: (any: boolean) => void;
+  showDeleted: boolean;
+  setShowDeleted: (any: boolean) => void;
+};
