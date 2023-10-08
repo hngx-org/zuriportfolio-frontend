@@ -1,10 +1,10 @@
 <mjml>
   <mj-head>
-    <mj-title>Guess Complete SignUp Mail Notification</mj-title>
+    <mj-title>Guest Complete SignUp Mail Notification</mj-title>
     <!-- Define the font-family -->
     <mj-style>
-      .set-margin { margin-top: 50px; } .blob { position: absolute; height: 70px; width: 70px; right: 0; top: 0; }
-      .blob-parent{ position:relative; overflow:hidden; } .unlock{ position:absolute; left:0; bottom:0; }
+      .set-margin { margin-top: 50px; } .blob { position: absolute; height: 70px; width: 70px; right: 1px; top: 5px; }
+      .blob-parent{ position:relative; overflow:hidden; } .unlock{ position:absolute; left:1px; bottom:5px; } .border{border-radius:10px;}
     </mj-style>
 
        
@@ -18,13 +18,12 @@
     </mj-section>
 
     <!-- Section with Border -->
-    <mj-section border="1px solid #CCCCCC"   css-class="blob-parent" padding="20px">
+    <mj-section border="4px solid #CCCCCC"   css-class="blob-parent border" padding="20px">
       <mj-column >
       <!-- blob image -->
       <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/muees/vector.png" width="70px" align="right" padding="0" css-class="blob"></mj-image> 
         <!-- Header Text -->
         <mj-text
-          font-family="Manrope"
           font-size="24px"
           color="#333333"
           font-weight="bold"
@@ -36,9 +35,8 @@
         <!-- Email Text(content) -->
         <mj-text
           font-size="16px"
-          font-family="Manrope"
           color="#000"
-          font-weight="300"
+          font-weight="400"
           align="center"
           padding-bottom="20px"
         >
@@ -67,13 +65,12 @@
     </mj-section>
 
     <!-- Section with Border -->
-    <mj-section border="1px solid #CCCCCC" padding="20px" css-class="set-margin">
+    <mj-section border="4px solid #CCCCCC" padding="20px" css-class="blob-parent border">
       <mj-column>
       <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/muees/mail.svg" alt="img" width="50px"/>
         <!-- Header Text -->
         <mj-text
           font-size="20px"
-          font-family="Manrope"
           color="#333333"
           font-weight="bold"
           align="center"
@@ -84,9 +81,8 @@
         <!-- Email Text(content) -->
         <mj-text
           font-size="16px"
-          font-family="Manrope"
           color="#000"
-          font-weight="300"
+          font-weight="400"
           align="center"
           padding-bottom="20px"
         >
