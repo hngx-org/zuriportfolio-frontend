@@ -34,7 +34,7 @@ const BadgeComponent: React.FC<BadgeComponentProps> = ({
       className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[173px] lg:w-[330px] lg:h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
     >
       {isLocked && (
-        <div className="badgelockoverlay absolute w-full h-full top-0 bg-opacity-60 bg-black flex items-center justify-center z-10 ">
+        <div className="badgelockoverlay absolute w-full h-full top-0 bg-opacity-60 bg-black flex items-center justify-center z-10">
           <div className="badgelockimage w-[139px] sm:w-[90px] lg:w-[139px] lg:h-[139px]  h-[139px] sm:h-[90px] relative">
             <Image
               src="/assets/images/badges/badgelock.png"
