@@ -32,8 +32,8 @@ const FilterDropDown = ({ onChooseFilter }: { onChooseFilter: (filter: string) =
     <div className="w-max">
       <Menu>
         <Menu.Button as={React.Fragment} >
-          <Button className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-black-600 bg-white-100 hover:bg-white-100 active:bg-white-100 text-[0.88rem] ">
-            <Sort size="16" /> Filters
+          <Button className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-max sm:w-[6.25rem] rounded text-black-600 bg-white-100 hover:bg-white-100 active:bg-white-100 text-[0.88rem] ">
+            <Sort size="16" /> <span className='hidden sm:block'>Filters</span>
           </Button>
         </Menu.Button>
         <Transition
@@ -44,7 +44,7 @@ const FilterDropDown = ({ onChooseFilter }: { onChooseFilter: (filter: string) =
           leaveFrom="transform scale-100 opacity-100"
           leaveTo="transform scale-95 opacity-0"
         >
-          <Menu.Items className="absolute bg-white-100 py-2 mt-[.5rem] text-sm font-medium text-gray-700 border border-slate-100">
+          <Menu.Items className="absolute bg-white-100 w-max py-2 mt-[.5rem] text-sm font-medium text-gray-700 border border-slate-100">
             {filterByList.map((item) => (
               <Menu.Item key={item.id}>
                 {({ active }) => (
