@@ -50,13 +50,6 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
     localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo.filter((el) => el !== item)]));
   };
 
-  // const updatedItems = [...items];
-  //   updatedItems.splice(index, 1);
-  //   setItems(updatedItems);
-  //   saveItemsToLocal(updatedItems);
-  // };
-  
-
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
       const trimmedValue = inputValue.trim();

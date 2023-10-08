@@ -68,7 +68,10 @@ const RemoveCart = () => {
               <span className="text-[#001F23]">Save for Later</span>
             </button>
 
-            <button className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[16px] flex items-center gap-2 rounded-md mt-4">
+            <button
+              className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[16px] flex items-center gap-2 rounded-md mt-4"
+              onClick={closeModal}
+            >
               {' '}
               {/* Added margin-top */}
               {/* Remove Item icon */}
