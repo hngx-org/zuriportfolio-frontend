@@ -352,3 +352,11 @@ export interface searchProp {
 export interface filterProp {
   handleFilter: (status: string) => void;
 }
+
+export type SectionModalProps = {
+  openButtonText: string;
+  heading: string;
+  paragraph: string;
+  primaryText: string;
+  onClickAction: () => void;
+};
