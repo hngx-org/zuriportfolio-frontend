@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
-import googleLogo from "../../public/assets/images/logo/google-logo.svg"
-import facebookLogo from "../../public/assets/images/logo/facebook-logo.svg"
-import githubLogo from "../../public/assets/images/logo/github-logo.svg"
+import googleLogo from '../../public/assets/images/logo/google-logo.svg';
+import facebookLogo from '../../public/assets/images/logo/facebook-logo.svg';
+import githubLogo from '../../public/assets/images/logo/github-logo.svg';
 
 function SignUpWithEmail() {
   return (
@@ -53,7 +53,7 @@ function SignUpWithEmail() {
             size={'sm'}
             className="w-full bg-white-100 text-custom-color20 border-custom-color21 border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             // the google logo has white space around it, so i am reducing the margin on the right so all the buttons look similar
-            leftIcon={<Image src={googleLogo} alt="Google logo" className="w-8 h-8 -mr-1.5" />} 
+            leftIcon={<Image src={googleLogo} alt="Google logo" className="w-8 h-8 -mr-1.5" />}
           >
             Continue with Google
           </Button>
