@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Input } from '@ui/Input';
+import Button from '@ui/Button';
+import { Add } from 'iconsax-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 const EditLayout = () => {
   const { id } = useParams();
   const [mockArr, setMcokarr] = useState(new Array(5).fill(null));
@@ -10,6 +13,13 @@ const EditLayout = () => {
     setMcokarr(updatedArr);
   };
 
+  const handleIncreaseLength = () => {
+    if (mockArr.length > 0) {
+      const lastElement = mockArr[mockArr.length - 1];
+      const updatedArr = [...mockArr, lastElement];
+      setMcokarr(updatedArr);
+    }
+  };
   return (
     <div className="w-full border-[1px] border-[#DFE3E6] rounded-[18px] py-10 px-6 relative text-left">
       <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${id}`}</div>
@@ -71,13 +81,14 @@ const EditLayout = () => {
                 onClick={() => {
                   handleDelete(index);
                 }}
+                className="cursor-pointer"
               >
                 <path
                   d="M13.9069 26.1667C20.3236 26.1667 25.5736 20.9167 25.5736 14.5C25.5736 8.08334 20.3236 2.83334 13.9069 2.83334C7.49023 2.83334 2.24023 8.08334 2.24023 14.5C2.24023 20.9167 7.49023 26.1667 13.9069 26.1667Z"
                   fill="#FF5C5C"
                   stroke="#464646"
                   stroke-width="1.5"
-                  stroke-linecap="round"
+                  strokeLinecap="round"
                   stroke-linejoin="round"
                 />
                 <path
@@ -92,6 +103,33 @@ const EditLayout = () => {
           </div>
         );
       })}
+      <div className="pt-2">
+        <Button
+          rightIcon={<Add color="black" />}
+          intent={'primary'}
+          size={'md'}
+          className="bg-[tansparent] text-dark-100 hover:text-dark-100 hover:bg-[transparent]"
+        >
+          Add Another Option
+        </Button>
+      </div>
+      <div className=" text-[20px] font-semibold  text-[#1A1C1B] pt-3">Choose Correct Answer</div>
+      <div className="pt-4 w-full ">
+        <Select
+          onValueChange={(value) => {
+            console.log(value);
+          }}
+        >
+          <SelectTrigger className="w-full p-6">
+            <SelectValue placeholder="Theme" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="light">Light</SelectItem>
+            <SelectItem value="dark">Dark</SelectItem>
+            <SelectItem value="system">System</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 };
