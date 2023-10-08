@@ -18,7 +18,7 @@ const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) 
       >
         Description
         <span
-          className={`h-[2px] w-[40px] bg-custom-color37 block mx-auto mt-[2px] ${
+          className={`h-[2px] w-[40px] bg-green-400 block mx-auto mt-[2px] ${
             tab === 'description' ? 'opacity-1' : 'opacity-0'
           }`}
         ></span>
@@ -31,7 +31,7 @@ const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) 
       >
         Specification
         <span
-          className={`h-[2px] w-[40px] bg-custom-color37 block mx-auto mt-[2px] ${
+          className={`h-[2px] w-[40px] bg-green-400 block mx-auto mt-[2px] ${
             tab === 'specification' ? 'opacity-1' : 'opacity-0'
           }`}
         ></span>
@@ -44,7 +44,7 @@ const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) 
       >
         Review
         <span
-          className={`h-[2px] w-[40px] bg-custom-color37 block mx-auto mt-[2px] ${
+          className={`h-[2px] w-[40px] bg-green-400 block mx-auto mt-[2px] ${
             tab === 'review' ? 'opacity-1' : 'opacity-0'
           }`}
         ></span>
