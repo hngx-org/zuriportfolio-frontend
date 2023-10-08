@@ -13,7 +13,12 @@
   <mj-body background-color="#f4fbf6" width="1500px">
     <mj-section background-color="#33a467" css-class="set-nposition">
       <mj-column width="100%" padding="20px 0px 250px 0px">
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Logo.png" alt="Logo" width="337px" height="64px" />
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Logo.png"
+          alt="Logo"
+          width="337px"
+          height="64px"
+        />
       </mj-column>
     </mj-section>
 
@@ -25,7 +30,12 @@
     >
       <mj-group background-color="#f4fef6" vertical-align="middle" width="100%" css-class="border-radius-top">
         <mj-column vertical-align="middle" css-class="mobile-hidden" width="33%">
-          <mj-image width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
+          <mj-image
+            width="120px"
+            height="120px"
+            padding="0"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png"
+          />
         </mj-column>
 
         <mj-column css-class="n-width" vertical-align="middle">
@@ -43,12 +53,21 @@
           </mj-text>
         </mj-column>
         <mj-column css-class="mobile-hidden" vertical-align="middle">
-          <mj-image width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
+          <mj-image
+            width="120px"
+            height="120px"
+            padding="0"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png"
+          />
         </mj-column>
       </mj-group>
 
       <mj-column width="500px">
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/bro.png" alt="bro" width="160px" />
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/bro.png"
+          alt="bro"
+          width="160px"
+        />
       </mj-column>
 
       <mj-column width="100%">
@@ -97,7 +116,12 @@
 
     <mj-section background-color="#33a467">
       <mj-column width="600px">
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png" alt="Logo" width="150px" height="32px" />
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png"
+          alt="Logo"
+          width="150px"
+          height="32px"
+        />
       </mj-column>
 
       <mj-column width="100%">
