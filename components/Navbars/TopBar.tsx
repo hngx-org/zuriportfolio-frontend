@@ -14,7 +14,7 @@ import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
-  const [auth, setAuth] = useState(true);
+  const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
@@ -278,6 +278,16 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             )}
             {!auth && (
               <>
+                <span className="mr-[20px]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <g>
+                      <g stroke="#464646" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5">
+                        <path d="M11.5 21a9.5 9.5 0 100-19 9.5 9.5 0 000 19z"></path>
+                        <path d="M22 22l-2-2"></path>
+                      </g>
+                    </g>
+                  </svg>
+                </span>
                 <Cart2
                   items={6}
                   style={{
