@@ -351,6 +351,10 @@ export type SectionModalProps = {
   paragraph: string;
   primaryText: string;
   onClickAction: () => void;
+}
+
+export interface PaymentStatusModalProps {
+  children: any;
 };
 
 export interface SettingOptionTypes {
