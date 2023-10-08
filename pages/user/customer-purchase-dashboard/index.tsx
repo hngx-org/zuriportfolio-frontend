@@ -87,11 +87,11 @@ const MyPage: React.FC = () => {
   const getStatusBackgroundColor = (status: string): string[] => {
     switch (status.toLowerCase()) {
       case 'successful':
-        return ['bg-[#E0FFF0]', 'text-green-500']; // Return an array of background and text colors
+        return ['bg-custom-color41', 'text-custom-color35']; // Return an array of background and text colors
       case 'pending':
-        return ['bg-[#FFFBDE]', 'text-[#FFA500]'];
+        return ['bg-custom-color40', 'text-yellow-600'];
       case 'failed':
-        return ['bg-[#FDCDCD]', 'text-[#FF0000]'];
+        return ['bg-pink-120', 'text-custom-color34'];
       default:
         return ['bg-gray-200', 'text-gray-600'];
     }
