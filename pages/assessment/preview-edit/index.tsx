@@ -65,7 +65,7 @@ const Previewedit: React.FC = () => {
             <>
               <Edithead />
               <div className="pt-4">
-                <PreviewQuests questNo={1} question={quest} />
+                <PreviewQuests />
               </div>
             </>
           ) : (

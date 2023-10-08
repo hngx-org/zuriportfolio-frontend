@@ -3,12 +3,7 @@ import Button from '@ui/Button';
 import Link from 'next/link';
 import { questionArr } from './questionsArr';
 
-type questionTypes = {
-  questNo: number;
-  question: string;
-};
-const PreviewQuests = (props: questionTypes) => {
-  const { questNo, question } = props;
+const PreviewQuests = () => {
   const [currentSection, setCurrentSection] = useState(0);
 
   const handleNext = () => {

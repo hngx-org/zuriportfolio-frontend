@@ -34,14 +34,14 @@ const Dashboard = () => {
             />
           </div>
         </div>
-        <div className="mt-[2rem] mx-8 border border-[2px] md:border-[1px] border-white-400 rounded-md p-4">
+        <div className="mt-[2rem] mx-8  border-[2px] md:border-[1px] border-white-400 rounded-md p-4">
           <div className="px-2">
             <h2 className="text-green-950 text-[1.45rem] font-semibold">Current Skill Level</h2>
             <div className="md:flex">
               {LevelData().map((item, index) => (
                 <div
                   key={index}
-                  className="flex md:mx-3 items-center gap-4 border md:border-[1px] border-[2px] my-[2.5rem] border-white-400 px-3 rounded-md h-[11rem]"
+                  className="flex md:mx-3 items-center gap-4 md:border-[1px] border-[2px] my-[2.5rem] border-white-400 px-3 rounded-md h-[11rem]"
                 >
                   <div className="relative group">
                     <div
