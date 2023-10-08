@@ -359,3 +359,17 @@ export type SectionModalProps = {
   primaryText: string;
   onClickAction: () => void;
 };
+
+export interface SettingOptionTypes {
+  accountManagement: boolean;
+  notificationSettings: boolean;
+  deleteAccount: boolean;
+  refer: boolean;
+}
+export interface NotificationCheckboxType {
+  receiveEmail: boolean;
+  specialOffers: boolean;
+  getNotification: boolean;
+  notifyFollow: boolean;
+  notifyMessages: boolean;
+}
