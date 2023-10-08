@@ -27,11 +27,10 @@ const BadgeComponent: React.FC<BadgeComponentProps> = ({
 }) => {
   return (
     <Link
-      href="/badges/[badge]"
-      as={`/badges/
-      ${badgelabel}`}
+      href="/badges/badge/[badge]"
+      as={`/badges/badge/${badgelabel}`}
       passHref
-      className="badgecomponent w-[280px] h-[330px] sm:w-[236px] sm:h-[173px] lg:w-[330px] lg:h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
+      className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[236px] lg:min-w-[330px] lg:h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
     >
       {isLocked && (
         <div className="badgelockoverlay absolute w-full h-full top-0 bg-opacity-60 bg-black flex items-center justify-center z-10">
@@ -134,11 +133,11 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
             />
           </div>
         </div>
-        <div className="h-full lg:px-[130px] xl:px-[230px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
+        <div className="h-full lg:px-[60px] xl:px-[150px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
           <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start">
             Product design Badges
           </h1>
-          <div className="badgecomponents flex flex-col md:flex-row  items-center justify-between gap-[95px] md:gap-[24px] lg:gap-[94px]">
+          <div className="badgecomponents flex flex-col md:flex-row  items-center justify-between gap-[94px]  md:gap-[24px] lg:gap-[40px] xl:gap-[94px] ">
             {/* beginner badge component */}
 
             <BadgeComponent
@@ -150,7 +149,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
               isLocked={false}
               locked={true}
               href="/badges/badge/[badge]"
-              badgelabel="beginner-badge"
+              badgelabel="beginner"
               as={''}
             />
             {/* intermediate badge component */}
@@ -162,7 +161,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
               earnedDate="Earned on: Sept 12, 2023"
               isLocked={true}
               locked={true}
-              badgelabel="intermediate-badge"
+              badgelabel="intermediate"
               href="/badges/badge/[badge]"
               as={''}
             />
@@ -177,7 +176,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
               earnedDate="Earned on: Sept 12, 2023"
               isLocked={true}
               locked={true}
-              badgelabel="expert-badge"
+              badgelabel="expert"
               href="/badges/badge/[badge]"
               as={''}
             />
