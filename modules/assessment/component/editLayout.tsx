@@ -125,9 +125,11 @@ const EditLayout = () => {
             <SelectValue placeholder="Theme" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
+            <SelectItem value="light">Option1</SelectItem>
+            <SelectItem value="dark">Option2</SelectItem>
+            <SelectItem value="system">Option3</SelectItem>
+            <SelectItem value="system">Option4</SelectItem>
+            <SelectItem value="system">Option5</SelectItem>
           </SelectContent>
         </Select>
       </div>

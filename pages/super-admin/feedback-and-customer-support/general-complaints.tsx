@@ -303,7 +303,7 @@ export default function GeneralComplaints() {
           <div className="mt-8 w-full h-auto border-2 border-slate-100 max-md:overflow-x-scroll overflow-x-scroll">
             <div className="complaintHeading h-18 p-3 flex flex-row items-center justify-between border-b-2 border-slate-100">
               <div className="headerText min-w-[190px] mr-2">
-                <h2 className="font-manropeL text-xl font-semibold">My Complaint</h2>
+                <h2 className="font-manropeL text-xl font-semibold ">My Complaint</h2>
                 <h3 className="font-manropeL text-base font-normal text-slate-600">
                   List of all complaint and their details
                 </h3>
@@ -323,10 +323,10 @@ export default function GeneralComplaints() {
                     type="search"
                     onChange={(e) => setSearchedItem(e.target.value)}
                     placeholder="Search"
-                    className="  border-none focus:outline-none ml-1.5 h-6 w-96"
+                    className="  border-none focus:outline-none ml-1.5 h-6 w-96 -z-10"
                   />
                 </div>
-                <div className="filter cursor-pointer rounded-lg ml-2 w-28 p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-slate-200 border-2">
+                <div className="filter cursor-pointer rounded-lg ml-2  p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-slate-200 border-2">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
@@ -396,7 +396,7 @@ export default function GeneralComplaints() {
                             <div className="displayPicture">
                               <Image
                                 alt=""
-                                src="/../../assets/images/vendorComplaint.png"
+                                src="/../.././assets/images/vendorComplaint.png"
                                 className="h-10 w-10 rounded-full object-contain"
                                 width={40}
                                 height={40}
@@ -496,7 +496,7 @@ export default function GeneralComplaints() {
                           <div className="displayPicture">
                             <Image
                               alt=""
-                              src="/../../assets/images/vendorComplaint.png"
+                              src="/../.././assets/images/vendorComplaint.png"
                               className="h-10 w-10 rounded-full object-contain"
                               width={40}
                               height={40}
@@ -504,7 +504,7 @@ export default function GeneralComplaints() {
                           </div>
                           <div className="identity pl-2">
                             <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
-                            <p className="font-manropeL font-normal text-base text-slate-500">{complains.email}</p>
+                            <p className="font-manropeL text-xs font-normal  text-slate-500">{complains.email}</p>
                           </div>
                         </div>
                         <div className="description w-40 min-w-[120px]">

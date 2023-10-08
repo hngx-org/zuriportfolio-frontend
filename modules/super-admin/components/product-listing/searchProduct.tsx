@@ -8,12 +8,6 @@ import FilterProduct from './filterProduct';
 import { searchProp } from '../../../../@types';
 
 function SearchProduct({ handleSearchChange }: searchProp) {
-  const productList = [
-    { id: 1, productName: 'Product 1', vendorName: 'Okereke James', dateAdded: '2023-10-01', status: 'active' },
-    { id: 2, productName: 'Product 2', vendorName: 'Okereke James', dateAdded: '2023-10-01', status: 'active' },
-    { id: 3, productName: 'Product 3', vendorName: 'Okereke James', dateAdded: '2023-10-02', status: 'deleted' },
-    { id: 4, productName: 'Product 4', vendorName: 'Okereke James', dateAdded: '2023-10-03', status: 'sanctioned' },
-  ];
   const [searchVal, setSearchVal] = useState('');
 
   useEffect(() => {

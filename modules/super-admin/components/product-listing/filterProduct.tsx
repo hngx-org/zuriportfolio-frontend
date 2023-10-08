@@ -36,7 +36,7 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
           handleFilter(e.target.value);
           console.log(e.target.value);
         }}
-        className="w-[150px]"
+        className="md:w-[150px] w-[100px]"
       />
     </div>
   );
