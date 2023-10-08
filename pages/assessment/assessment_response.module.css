@@ -1,0 +1,25 @@
+.student_name {
+  font-size: 32px;
+  font-weight: 600;
+  color: #009254;
+}
+
+.student_score {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px; /* 125% */
+  color: #009254;
+  display: flex;
+  width: 143px;
+  padding: 13px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 20px;
+  border: 1px solid #dfe3e6;
+  background: #f2f4f5;
+}
+
+.checked {
+  accent-color: #009254;
+}
