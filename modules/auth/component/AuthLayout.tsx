@@ -13,8 +13,10 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
           <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className="w-[126px] h-[24px]" />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-20 py-10 px-6 text-sm md:py-12 lg:pr-24 lg:pl-16 lg:grid-cols-2 xl:w-[1280px] xl:mx-auto xl:flex">
-        <div className="h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden hidden lg:block xl:w-3/5">
+      <div className="py-10 px-6 md:py-12 lg:px-16 xl:w-[1280px] xl:mx-auto">
+
+      <div className="grid grid-cols-1 gap-20 text-sm lg:flex">
+        <div className="min-h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden hidden lg:block lg:w-3/5">
           {authLeftImage ?? (
             <Image
               // width={100}
@@ -26,13 +28,13 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
             />
           )}
         </div>
-        <div className="flex flex-col gap-16 lg:max-w-lg xl:w-2/5">
-          {/* header for screens larger than 1024px */}
+        <div className="flex flex-col gap-16 lg:w-2/5">
+          {/* Header for screens larger than 1024px */}
           <div className="hidden lg:block">
             <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className="w-[178px] h-[36px]" />
           </div>
           {/* give the element on the right of the container a max width of 672px, only on screen size less than 1024px */}
-          <div className="max-lg:max-w-2xl mx-auto lg:mx-0 w-full">{children}</div>
+          <div className="max-lg:max-w-2xl mx-auto lg:mx-0 w-full lg:pb-4">{children}</div>
         </div>
 
         {/* the blob and padlock images */}
@@ -57,6 +59,7 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
             alt=""
           />
         )}
+      </div>
       </div>
     </div>
   );
