@@ -163,7 +163,7 @@ const MyPage: React.FC = () => {
   };
 
   return (
-    <MainLayout showFooter showTopbar activePage='' showDashboardSidebar={false}>
+    <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage=''>
       <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
         <div className="mt-9 mb-12 hidden sm:block">
           <div className="flex items-center">
