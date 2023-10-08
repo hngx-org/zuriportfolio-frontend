@@ -17,7 +17,7 @@ export default function ProductDetailsDescription() {
   const [showAll, setShowAll] = useState(false);
   const router = useRouter();
   const specificationData = [
-    'Adaptable withHTML5  and CSS3',
+    'Adaptable with HTML5  and CSS3',
     'Comprehensive documentation and customer support',
     'Similar products you might like',
     'WC3 valid HTML codes',
