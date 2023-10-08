@@ -70,7 +70,6 @@
 
     <!-- Section with Border -->
     <mj-section border="4px solid #CCCCCC" padding="20px" css-class="blob-parent border">
-    <mj-section border="4px solid #CCCCCC" padding="20px" css-class="blob-parent border">
       <mj-column>
             <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/muees/mail.svg" alt="img" width="50px"/>
             <!-- Header Text -->
