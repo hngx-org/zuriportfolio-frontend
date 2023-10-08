@@ -26,6 +26,8 @@ const Badges = () => {
     }
   });
 
+  //staging change
+
   return (
     <section className="bg-[#F2F4F5]">
       <div className="hidden lg:flex pl-6  sm:pl-[96px] pt-8 flex justify-start align-middle text-2xl cursor-pointer">
