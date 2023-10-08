@@ -29,7 +29,7 @@ const ProductsListingNavbar = () => {
                 <h3 className="text-3xl font-bold">14</h3>
                 <div className="flex items-center">
                   <button className="text-xl bg-green-700 text-white-100 rounded-3xl px-4 py-2 h-8 flex items-center justify-center">
-                    <Link href="/product-listing/sanctioned-products"> View</Link>
+                    <Link href="/super-admin/sanctioned-products"> View</Link>
                   </button>
                 </div>
               </div>
@@ -45,7 +45,7 @@ const ProductsListingNavbar = () => {
                 <h3 className="text-3xl font-bold">14</h3>
                 <div className="flex items-center">
                   <button className="text-xl bg-green-700 text-white-100 rounded-3xl px-4 py-2 h-8 flex items-center justify-center">
-                    <Link href="/ product-listing/deleted-products"> View</Link>
+                    <Link href="/super-admin/deleted-products"> View</Link>
                   </button>
                 </div>
               </div>
