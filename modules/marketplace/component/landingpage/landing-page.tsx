@@ -252,6 +252,14 @@ function LandingPage() {
             ' Digital Arts & Media',
             ' Audio & Sound',
             ' Photography',
+            'Writing & Copywriting',
+            'Video & motion',
+            'Data & Analytics',
+            'Marketing & Advertising',
+            'eCommerce & Business',
+            'Gaming & Entertainment',
+            'Virtual Reality & Augmented Reality',
+            'e-Books',
           ]}
         />
         <div className="max-w-[1240px] mx-auto">
