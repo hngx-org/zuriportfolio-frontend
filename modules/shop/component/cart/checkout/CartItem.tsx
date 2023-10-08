@@ -25,8 +25,8 @@ export default function CartItem({
 
   return (
     <>
-      <div className={'' + modalClosed}>
-        <RemoveCart></RemoveCart>
+      <div className={modalClosed}>
+        <RemoveCart closeModal={closeModal} /> {/* Pass closeModal function to close the modal */}
       </div>
 
       <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5">
@@ -40,7 +40,7 @@ export default function CartItem({
           </p>
           <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">${productPrice}</p>
         </div>
-        <div className=" md:mt-3 md:ml-auto md:flex md:items-center">
+        <div className="md:mt-3 md:ml-auto md:flex md:items-center">
           <Button
             onClick={removeItem}
             className="bg-[#fff] ml-auto md:mr-0 flex border px-5 gap-1 items-center justify-center shadow-md w-[100px] h-[40px] border-[#d5dbdd] rounded-md cursor-pointer"
