@@ -2,10 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import footerLogo from '../../../../public/assets/shop/techverse_light.svg';
-import twitterLogo from '../../../../public/assets/shop/twitter_icon.svg'
-import instaLogo from '../../../../public/assets/shop/instagram_icon.svg'
-import githubLogo from '../../../../public/assets/shop/github_icon.svg'
-
+import twitterLogo from '../../../../public/assets/shop/twitter_icon.svg';
+import instaLogo from '../../../../public/assets/shop/instagram_icon.svg';
+import githubLogo from '../../../../public/assets/shop/github_icon.svg';
 
 function ShopFooter() {
   return (
@@ -22,15 +21,15 @@ function ShopFooter() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-x-[1.5rem] pt-[2rem] md:pt-0 items-center">
-            <h4 className="cursor-pointer font-normal md:text-[1.1rem] text-[0.75rem]">Contact Us</h4>
+          <h4 className="cursor-pointer font-normal md:text-[1.1rem] text-[0.75rem]">Contact Us</h4>
 
-            <h4 className="cursor-pointer font-bold md:text-[1.2rem] text-[1rem]">info@techverse.com</h4>
+          <h4 className="cursor-pointer font-bold md:text-[1.2rem] text-[1rem]">info@techverse.com</h4>
 
           <div className="flex flex-row gap-3 mt-[1px]">
             <h4 className="cursor-pointer font-normal md:text-[1.1rem] text-[0.75rem]">Follow Us</h4>
-            <Image src={twitterLogo} alt="Twitter" width={20} height={20}/>
-            <Image src={instaLogo} alt="Instagram" width={20} height={20}/>
-            <Image src={githubLogo} alt="Github" width={20} height={20}/>
+            <Image src={twitterLogo} alt="Twitter" width={20} height={20} />
+            <Image src={instaLogo} alt="Instagram" width={20} height={20} />
+            <Image src={githubLogo} alt="Github" width={20} height={20} />
           </div>
         </div>
       </section>
