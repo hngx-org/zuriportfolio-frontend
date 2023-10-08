@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useParams } from 'next/navigation';
 import Badges from '@modules/assessment/component/Badges/Badges';
 import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
 import MainLayout from '../../../components/Layout/MainLayout';
 
 const Page: React.FC = () => {
-  const params = useParams();
-  const badgelabel = params.badge;
+  const params = useRouter();
+  const badgelabel = params.query.paramName;
+  console.log(badgelabel);
 
   const [scorePercentage, setScorePercentage] = useState<number>(90);
   const [isdownloadOpen, setIsdownloadOpen] = useState(false);
