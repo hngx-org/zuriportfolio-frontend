@@ -1,8 +1,11 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import {MdArrowBackIosNew} from 'react-icons/md';
+import {BsFillShareFill} from 'react-icons/bs'
 
-//fix the ui on figma that takes you back for large screens and attach the retake test link for large screens too, thank you
+
 
 const Badges = () => {
   const params = useParams();
@@ -21,33 +24,14 @@ const Badges = () => {
   });
 
   return (
-    <section>
-      <nav className="h-20">Navbar</nav>
-      <div className="h-24 bg-[#009254] flex flex-col h-full ">
-        <div className="flex flex-col gap-2 relative h-full ">
-          <div className="flex flex-col justify-center h-full">
-            <h3 className="text-[#FFFFFF] text-2xl whitespace-nowrap font-manropeEL px-4">Wireframe Challenge</h3>
-            <p className="text-[#FFFFFF] px-4">Design Assessment</p>
-            <Image
-              className="h-12 w-10 absolute right-0 p flex items-center justify-center "
-              alt=""
-              height={200}
-              width={200}
-              src="/assets/images/badges/wireframeIcon2.png"
-            />
-          </div>
-
-          <Image
-            className="absolute flex right-8 bottom-0 h-16 md:h-24 md:w-56 self-end lg:right-"
-            alt=""
-            height={200}
-            width={200}
-            src="/assets/images/badges/wireframe challenge Base.png"
-          />
-        </div>
+   
+ <section className='bg-[#F2F4F5]'>
+     
+      <div className='pl-6  sm:pl-[96px] pt-8 flex justify-start align-middle text-2xl '>
+      <MdArrowBackIosNew />
       </div>
 
-      <div className="h-full w-full flex items-center justify-center  bg-[#F2F4F5] ">
+      <div className="h-full w-full flex flex-col items-center justify-center  ">
         <div className="flex items-center rounded-t-3xl justify-center flex-col w-full p-6  border-0 h-auto md:px-10 lg:w-7/12">
           <div className="flex h-48 justify-center items-center bg-[#F1AE67] w-full rounded-t-3xl">
             <Image
@@ -80,21 +64,24 @@ const Badges = () => {
                   View
                 </button>
               </div>
-              <div className=" h-10  flex items-center justify-end w-10/12 pb-2 md:w-auto md:justify-center md:h-12 md:pt-6">
-                <Image
-                  height={200}
-                  width={100}
-                  alt="share Icon"
-                  src="/assets/images/badges/share.png"
-                  className=" h-6 w-6 cursor-pointer"
-                />
+              <div className=" h-10  flex items-center justify-end w-10/12 pb-2 md:w-auto md:justify-center md:h-12 md:pt-6 text-2xl text-[#009254]">
+                <BsFillShareFill  />
               </div>
-            </div>
+            </div> 
           </div>
+          <div className='flex justify-end w-full'>
+            <Link href={'#'}>
+              <p className=" underline mt-[30px] flex right-6 pr-4 sm:pr-10 ">
+                  Retake Test
+                </p>
+              </Link>
+          </div>
+          
         </div>
       </div>
-      <footer className="h-96 bg-[#009254]"></footer>
     </section>
+   
+   
   );
 };
 
