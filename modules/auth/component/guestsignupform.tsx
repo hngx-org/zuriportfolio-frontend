@@ -8,8 +8,64 @@ const Guestsignupform: React.FC = () => {
   const [passwordVisible, togglePasswordVisibility] = usePasswordVisibility();
   const [confirmPasswordVisible, toggleConfirmPasswordVisibility] = usePasswordVisibility();
 
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    password: '',
+    confirmPassword: '',
+    agreed: false,
+  });
+
+  const [formErrors, setFormErrors] = useState({
+    firstName: '',
+    lastName: '',
+    password: '',
+    confirmPassword: '',
+    agreed: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setFormErrors({ ...formErrors, [name]: '' });
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const errors: { [key: string]: string } = {};
+
+    if (!formData.firstName) {
+      errors.firstName = 'First name is required';
+    }
+
+    if (!formData.lastName) {
+      errors.lastName = 'Last name is required';
+    }
+
+    if (!formData.password) {
+      errors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+    }
+
+    if (!formData.confirmPassword) {
+      errors.confirmPassword = 'Confirm password is required';
+    } else if (formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+
+    if (!formData.agreed) {
+      errors.agreed = 'You must agree to the terms and privacy policy';
+    }
+
+    if (Object.keys(errors).length === 0) {
+      console.log('Form data:', formData);
+    } else {
+      setFormErrors((prevFormErrors) => ({
+        ...prevFormErrors,
+        ...errors,
+      }));
+    }
   };
 
   return (
@@ -22,14 +78,36 @@ const Guestsignupform: React.FC = () => {
       </div>
       <div className="mt-6 md:mt-12">
         <form className="flex flex-col" onSubmit={handleSubmit}>
-          <FormField label="First name" placeholder="Enter first name" id="firstname" type="text" />
-          <FormField label="Last name" placeholder="Enter last name" id="lastname" type="text" />
+          <FormField
+            label="First name"
+            placeholder="Enter first name"
+            id="firstName"
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            error={formErrors.firstName}
+          />
+          <FormField
+            label="Last name"
+            placeholder="Enter last name"
+            id="lastName"
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            error={formErrors.lastName}
+          />
           <PasswordField
             label="Password"
             placeholder="Enter password"
             id="password"
             passwordVisible={passwordVisible}
             togglePasswordVisibility={togglePasswordVisibility}
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            error={formErrors.password}
           />
           <PasswordField
             label="Confirm password"
@@ -37,9 +115,19 @@ const Guestsignupform: React.FC = () => {
             id="confirmPassword"
             passwordVisible={confirmPasswordVisible}
             togglePasswordVisibility={toggleConfirmPasswordVisibility}
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            error={formErrors.confirmPassword}
           />
           <div className="flex items-center leading-[27.04px] my-4 mb-8 h-5">
-            <Checkbox label="I agree with Zuri stores" />
+            <Checkbox
+              label="I agree with Zuri stores"
+              name="agreed"
+              checked={formData.agreed}
+              onChange={handleChange}
+              error={formErrors.agreed}
+            />
           </div>
           <SubmitButton label="Continue" />
         </form>
@@ -70,11 +158,15 @@ interface FormFieldProps {
   placeholder: string;
   id: string;
   type: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string;
 }
 
 const FormField: React.FC<FormFieldProps> = ({ label, placeholder, id, type }) => {
   return (
-    <div className="flex flex-col gap-2 mb-2">
+    <div className="flex flex-col gap-2 mb-4">
       <label htmlFor={id} className="leading-[27.04px] font-medium text-gray-600 text-base">
         {label}
       </label>
@@ -95,6 +187,10 @@ interface PasswordFieldProps {
   id: string;
   passwordVisible: boolean;
   togglePasswordVisibility: () => void;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string;
 }
 
 const PasswordField: React.FC<PasswordFieldProps> = ({
@@ -105,7 +201,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
   togglePasswordVisibility,
 }) => {
   return (
-    <div className="flex flex-col gap-2 mb-2">
+    <div className="flex flex-col gap-2 mb-4">
       <label htmlFor={id} className="leading-[27.04px] font-medium text-gray-600 text-base	">
         {label}
       </label>
@@ -182,6 +278,10 @@ const PasswordHiddenIcon: React.FC = () => {
 
 interface CheckboxProps {
   label: string;
+  name: string;
+  checked: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string;
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({ label }) => {
