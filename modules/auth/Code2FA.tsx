@@ -22,34 +22,35 @@ function Code2FA() {
     const nextInput = inputRefs[index + 1];
 
     if ((e.key === 'Backspace' || e.key === 'Delete') && input.value === '') {
-        e.preventDefault();
-        const newDigits = [...digits];
-        newDigits[index] = '';
-        setDigits(newDigits);
-        if (previousInput?.current) {
-            previousInput.current.focus();
-        }
-    } else if (e.key === 'ArrowRight' && nextInput?.current) {
-        nextInput.current.focus();
-    } else if (e.key === 'ArrowLeft' && previousInput?.current) {
+      e.preventDefault();
+      const newDigits = [...digits];
+      newDigits[index] = '';
+      setDigits(newDigits);
+      if (previousInput?.current) {
         previousInput.current.focus();
+      }
+    } else if (e.key === 'ArrowRight' && nextInput?.current) {
+      nextInput.current.focus();
+    } else if (e.key === 'ArrowLeft' && previousInput?.current) {
+      previousInput.current.focus();
     }
-}
+  }
 
- const handleDigitChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
+  const handleDigitChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
 
-    if (/^\d?$/.test(newValue)) { // Allow single digit or empty value
-        const newDigits = [...digits];
-        newDigits[index] = newValue;
-        setDigits(newDigits);
+    if (/^\d?$/.test(newValue)) {
+      // Allow single digit or empty value
+      const newDigits = [...digits];
+      newDigits[index] = newValue;
+      setDigits(newDigits);
 
-        // Move focus to the next input field if a digit is entered
-        if (newValue && index < 5 && inputRefs[index + 1].current) {
-            inputRefs[index + 1]?.current?.focus();
-        }
+      // Move focus to the next input field if a digit is entered
+      if (newValue && index < 5 && inputRefs[index + 1].current) {
+        inputRefs[index + 1]?.current?.focus();
+      }
     }
-};
+  };
 
   return (
     <>
