@@ -1,8 +1,10 @@
+'use client';
 import Button from '@ui/Button';
 import Image from 'next/image';
 import logo from '../public/assets/404/logo-zuri-auth.svg';
 import oops from '../public/assets/404/oops.svg';
 import Link from 'next/link';
+import PlainHeader from '../modules/auth/component/PlainHeader/PlainHeader';
 
 const title = `Oops! You've wandered off the path 🗺️`;
 const text = `Even the best explorers take wrong turns. Don't worry, we've got your back .Let's get you back on track!`;
@@ -10,11 +12,7 @@ const btnText = `Back to homepage`;
 function Error404() {
   return (
     <main className=" bg-white-100 min-h-screen">
-      <header className="max-w-[1240px] py-6 mx-6 xl:mx-auto md:py-[38px]">
-        <Link href={'/'}>
-          <Image src={logo} alt="logo" />
-        </Link>
-      </header>
+      <PlainHeader />
       <div className=" border-b border-white-115 border-style: solid" />
       <section
         className=" flex flex-col gap-9 sm:gap-[72px] min-h-[calc(100vh-105px)] max-w-[1240px] 
