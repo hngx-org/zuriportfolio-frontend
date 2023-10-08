@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
-import googleLogo from "../../public/assets/images/logo/google-logo.svg"
-import facebookLogo from "../../public/assets/images/logo/facebook-logo.svg"
-import githubLogo from "../../public/assets/images/logo/github-logo.svg"
+import googleLogo from '../../public/assets/images/logo/google-logo.svg';
+import facebookLogo from '../../public/assets/images/logo/facebook-logo.svg';
+import githubLogo from '../../public/assets/images/logo/github-logo.svg';
 
 function SignUpWithEmail() {
   return (
@@ -15,7 +15,7 @@ function SignUpWithEmail() {
         <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100 font-manropeEB">Sign up</h1>
         <p className="md:text-[22px] text-custom-color20 font-manropeB">Let&apos;s get you started</p>
       </div>
-      <div className="mt-6 md:mt-12">
+      <div className="mt-6 md:my-12">
         <form className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="font-manropeB">
@@ -25,8 +25,9 @@ function SignUpWithEmail() {
               placeHolder="Allusugar@gmail.com"
               id="email"
               name="email"
-              className="w-full border-slate-50"
+              className="w-full border border-slate-50 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]"
               type="email"
+              required={true}
             />
           </div>
           <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
@@ -53,7 +54,7 @@ function SignUpWithEmail() {
             size={'sm'}
             className="w-full bg-white-100 text-custom-color20 border-custom-color21 border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
             // the google logo has white space around it, so i am reducing the margin on the right so all the buttons look similar
-            leftIcon={<Image src={googleLogo} alt="Google logo" className="w-8 h-8 -mr-1.5" />} 
+            leftIcon={<Image src={googleLogo} alt="Google logo" className="w-8 h-8 -mr-1.5" />}
           >
             Continue with Google
           </Button>

@@ -15,14 +15,7 @@ const Pagination = () => {
     setCurrentPage(newPage);
   };
 
-  return (
-    <SuperAdminPagination
-      currentPage={currentPage}
-      totalPages={totalPages}
-      onPageChange={handlePageChange}
-      title={undefined}
-    />
-  );
+  return <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />;
 };
 
 export default Pagination;
