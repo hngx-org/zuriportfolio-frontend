@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+//fix the ui on figma that takes you back for large screens and attach the retake test link for large screens too, thank you
+
 const Badges = () => {
   const params = useParams();
 
