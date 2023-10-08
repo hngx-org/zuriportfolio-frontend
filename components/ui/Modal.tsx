@@ -17,8 +17,9 @@ function Modal({
   closeOnOverlayClick = false,
   children,
   title,
-  size = 'lg',
+  size = 'sm',
   isCloseIconPresent = true,
+  closeBtnClass,
 }: ModalProps) {
   return (
     <>
@@ -57,7 +58,7 @@ function Modal({
                   {/* Close button */}
                   {isCloseIconPresent ? (
                     <div className="absolute right-1 top-2">
-                      <Button onClick={closeModal}>
+                      <Button onClick={closeModal} className={closeBtnClass}>
                         <CloseCircle />
                       </Button>
                     </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import SuperAdminPagination from '../../../../modules/super-admin/components/pagination';
 
 const Pagination = () => {

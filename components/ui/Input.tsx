@@ -1,7 +1,6 @@
 import { VariantProps, cva } from 'class-variance-authority';
-import React, { DetailedHTMLProps, Fragment, InputHTMLAttributes, SelectHTMLAttributes } from 'react';
+import React, { DetailedHTMLProps, InputHTMLAttributes, SelectHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ArrowDown2 } from 'iconsax-react';
 
 const inputVariants = cva(
   'relative px-4 py-3 flex items-center justify-center gap-3 w-fit h-[48px] rounded-[10px] font-manropeL text-dark-100 hide-caret transition-all select-none focus-within:border-brand-green-primary ',
@@ -148,6 +147,7 @@ export function Input({
         )}
         placeholder={placeHolder ?? 'Placeholder'}
         disabled={isLoading ?? disabled}
+        {...props}
       />
       {rightIcon && rightIcon}
     </div>
