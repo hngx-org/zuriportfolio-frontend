@@ -32,15 +32,6 @@ export interface Products {
   category: string;
 }
 
-export interface AdminTablePagination {
-  handleClick?: any;
-  disabledFn?: any;
-  title: any;
-  currentPage: any;
-  totalPages: any;
-  onPageChange: any;
-}
-
 export interface SuperAdminPagination {
   title: any;
 }
@@ -124,6 +115,7 @@ export interface ModalProps {
   title?: string;
   size?: 'lg' | 'md' | 'sm' | 'xl';
   isCloseIconPresent?: boolean;
+  closeBtnClass?: string;
 }
 
 export interface PriceData {
@@ -352,6 +344,17 @@ export interface searchProp {
 export interface filterProp {
   handleFilter: (status: string) => void;
 }
+<<<<<<< HEAD
 export interface PaymentStatusModalProps {
   children: any;
 }
+=======
+
+export type SectionModalProps = {
+  openButtonText: string;
+  heading: string;
+  paragraph: string;
+  primaryText: string;
+  onClickAction: () => void;
+};
+>>>>>>> 199574560cf93481a8cad522517ecdd6c5d7b6fb

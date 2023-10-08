@@ -6,7 +6,8 @@ const PaymentStatusModal: React.FC<PaymentStatusModalProps> = ({ children }) => 
   return (
     modalOpen && (
       <div
-        className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center"
+        // className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center"
+        className='flex justify-center items-center'
         onClick={() => setModalOpen(false)}
       >
         {children}

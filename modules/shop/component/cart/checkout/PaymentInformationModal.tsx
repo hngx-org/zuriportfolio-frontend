@@ -12,7 +12,7 @@ const PaymentInformationModal = () => {
     return (
       <>
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-          <div className="bg-white-100 p-12 rounded-lg w-sm   ">
+          <div className="bg-white-100 p-12 rounded-lg w-sm  md:w-9/10">
             <svg
               onClick={() => setModalOpen(false)}
               className="ml-auto"
