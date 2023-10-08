@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '@ui/Modal';
 import useDisclosure from '../../../hooks/useDisclosure';
-import { Add, Award, Briefcase, CloseSquare, Global, Menu } from 'iconsax-react';
+import { Add, Award, Briefcase, CloseSquare, Global, Menu, Teacher } from 'iconsax-react';
 import Button from '@ui/Button';
 
 function Home() {
@@ -26,7 +26,7 @@ function Home() {
     {
       title: 'Education',
       description: 'Show off your  academic qualification  degrees, and also relevant certification.',
-      icon: <Briefcase />,
+      icon: <Teacher />,
     },
     {
       title: 'Skill',
@@ -113,21 +113,21 @@ function Home() {
   return (
     <>
       <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
-        <div className="space-y-6 bg-white-100 p-4 py-5">
+        <div className=" bg-white-100 p-3 py-5 rounded-lg">
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
-              <p className="text-2xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold">Add a section</p>
+              <p className="text-4xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold leading-10">Add a section</p>
               <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
             {sections.map(
               (section, index) =>
                 !isSectionSelected(section.title) && (
                   <div
                     key={index}
-                    className="bg-[#F4FBF6] p-4 rounded-lg shadow-md cursor-pointer hover:border-2 hover:border-green-500"
+                    className="bg-[#F4FBF6] p-4 rounded-lg cursor-pointer hover:border-2 hover:border-green-500"
                     onClick={() => handleSectionClick(section.title)}
                   >
                     <div className="flex gap-2 items-center text-green-500">
@@ -135,13 +135,13 @@ function Home() {
                       <h2 className="text-black leading-6 text-base font-medium">{section.title}</h2>
                     </div>
                     <div>
-                      <p className="text-[#444846]">{section.description}</p>
+                      <p className="text-[#444846] mt-2">{section.description}</p>
                     </div>
                   </div>
                 ),
             )}
             <div
-              className="bg-[#ffffff] p-4 rounded-lg shadow-md flex items-center cursor-pointer border border-green-500 border-dashed hover:border-2 hover:border-green-500"
+              className="bg-[#ffffff] p-4 rounded-lg flex items-center cursor-pointer border border-green-500 border-dashed hover:border-2 hover:border-green-500"
               onClick={() => handleSectionClick('Custom')}
             >
               <div>
