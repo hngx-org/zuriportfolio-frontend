@@ -284,3 +284,42 @@ export interface ProjectModalProps {
   url: string;
   images: object[];
 }
+
+export interface ProjectModalProps {
+  title: string;
+  tags: string[];
+  description: string;
+  url: string;
+  images: object[];
+}
+
+export interface RatingBarProps {
+  avgRating: number;
+}
+
+export interface RatingCardProps {
+  rating: string;
+  users: string;
+}
+
+export interface filterProps {
+  rating: number;
+  review: number;
+}
+
+export interface reviewProps {
+  buyerName: string;
+  adminDate: string;
+  review: string;
+  noOfStars: number;
+  shopName?: string;
+  shopReply?: string;
+}
+
+export interface searchProp {
+  handleSearchChange: (searchString: string) => void;
+}
+
+export interface filterProp {
+  handleFilter: (status: string) => void;
+}
