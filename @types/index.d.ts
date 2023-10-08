@@ -354,7 +354,7 @@ export type SectionModalProps = {
 }
 
 export interface PaymentStatusModalProps {
-  children: any;
+  children: React.ReactNode;
 };
 
 export interface SettingOptionTypes {
