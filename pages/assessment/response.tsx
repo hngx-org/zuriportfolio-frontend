@@ -79,7 +79,7 @@ export default function AssessmentResponse() {
               <button className="font-manropeL">Preview</button>
             </Link>
 
-            <Link href={'/assessment/assessment_response'}>
+            <Link href={'/assessment/response'}>
               <button
                 style={{
                   color: 'rgba(191, 132, 67, 1)',

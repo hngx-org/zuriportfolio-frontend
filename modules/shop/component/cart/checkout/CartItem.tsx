@@ -26,7 +26,7 @@ export default function CartItem({
   return (
     <>
       <div className={modalClosed}>
-        <RemoveCart closeModal={closeModal} /> {/* Pass closeModal function to close the modal */}
+        <RemoveCart closeModal={closeModal} />
       </div>
 
       <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5">
