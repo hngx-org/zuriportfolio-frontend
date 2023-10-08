@@ -77,7 +77,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
           <div className="absolute top-0 sm:hidden sm:top-0 right-0  mix-blend-burn lg:hidden block overflow-hidden">
             <Image
               src="/assets/images/badges/bannerexpertsmallbadge.svg"
-              width={145}
+              width={144}
               height={130}
               alt="expert badge image"
               priority={true}
