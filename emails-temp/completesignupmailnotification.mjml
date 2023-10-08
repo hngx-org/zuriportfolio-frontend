@@ -6,20 +6,22 @@
       .set-margin { margin-top: 50px; } .blob { position: absolute; height: 70px; width: 70px; right: 0; top: 0; }
       .blob-parent{ position:relative; overflow:hidden; } .unlock{ position:absolute; left:0; bottom:0; }
     </mj-style>
-  </mj-head>
-  <mj-body>
+
+       
+</mj-head>
+  <mj-body background-color="#fff" >
     <!-- Logo Image -->
     <mj-section>
-      <mj-column>
-        <mj-image src="./assets/muees/zurilogo.png" alt="Logo" width="150px" />
+      <mj-column >
+        <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/muees/zurilogo.png" alt="Logo" width="150px" />
       </mj-column>
     </mj-section>
 
     <!-- Section with Border -->
-    <mj-section border="1px solid #CCCCCC" css-class="blob-parent" padding="20px">
-      <mj-column>
-        <!-- blob image -->
-        <mj-image src="./assets/muees/vector.png" width="70px" align="right" padding="0" css-class="blob"></mj-image>
+    <mj-section border="1px solid #CCCCCC"   css-class="blob-parent" padding="20px">
+      <mj-column >
+      <!-- blob image -->
+      <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/muees/vector.png" width="70px" align="right" padding="0" css-class="blob"></mj-image> 
         <!-- Header Text -->
         <mj-text
           font-family="Manrope"
@@ -55,7 +57,8 @@
         >
           Complete signup
         </mj-button>
-        <mj-image src="./assets/muees/unlock.png" width="70px" padding="0" css-class="unlock" align="left"></mj-image>
+        <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/muees/unlock.png" width="70px" padding="0" css-class="unlock" align="left"></mj-image> 
+
       </mj-column>
     </mj-section>
 
@@ -66,7 +69,7 @@
     <!-- Section with Border -->
     <mj-section border="1px solid #CCCCCC" padding="20px" css-class="set-margin">
       <mj-column>
-        <mj-image src="./assets/muees/mail.svg" alt="img" width="50px" />
+      <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/muees/mail.svg" alt="img" width="50px"/>
         <!-- Header Text -->
         <mj-text
           font-size="20px"

@@ -12,7 +12,7 @@
     <mj-wrapper padding="0px" full-width="full-width">
       <mj-section background-color="#009254">
         <mj-column>
-          <mj-image src="./assets/newbadge/logoo.png" alt="zuri portfolio logo" width="126px" />
+          <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/newbadge/logoo.png" alt="zuri portfolio logo" width="126px" />
         </mj-column>
       </mj-section>
     </mj-wrapper>
@@ -21,7 +21,7 @@
         <mj-text font-size="22px" font-weight="600" color="#191c1d" align="center">
           Congratulations, Chioma. You earned a new badge!
         </mj-text>
-        <mj-image src="./assets/newbadge/graphics.png" alt="success" width="180px" />
+        <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/newbadge/graphics.png" alt="success" width="180px" />
         <mj-divider border-width="0.9px" border-color="#DEE3E5" />
         <mj-text color="#191c1d" font-family="Manrope, sans-serif" font-size="14px" letter-spacing="0.035px">
           Hi Chioma,
@@ -61,12 +61,12 @@
     </mj-section>
     <mj-section background-color="#009254">
       <mj-column>
-        <mj-image src="./assets/newbadge/logoo.png" alt="zuriportfolio logo" width="125px" />
+        <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/newbadge/logoo.png" alt="zuriportfolio logo" width="125px" />
         <mj-social align="center" icon-size="24px" mode="horizontal">
-          <mj-social-element name="instagram" src="./assets/newbadge/instagram.png"></mj-social-element>
-          <mj-social-element name="facebook" src="./assets/newbadge/facebook.png"></mj-social-element>
-          <mj-social-element name="twitter" src="./assets/newbadge/twitter.png"></mj-social-element>
-          <mj-social-element name="linkedin" src="./assets/newbadge/linkedin.png"></mj-social-element>
+          <mj-social-element name="instagram" src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/newbadge/instagram.png"></mj-social-element>
+          <mj-social-element name="facebook" src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/newbadge/facebook.png"></mj-social-element>
+          <mj-social-element name="twitter" src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/newbadge/twitter.png"></mj-social-element>
+          <mj-social-element name="linkedin" src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/newbadge/linkedin.png"></mj-social-element>
         </mj-social>
         <mj-text
           color="#fff"
