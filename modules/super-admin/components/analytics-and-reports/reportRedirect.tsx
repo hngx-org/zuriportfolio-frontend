@@ -44,13 +44,7 @@ const ReportRedirect: React.FC = () => {
       </div>
       {reportModalOpen && (
         <div>
-          <Modal
-            closeOnOverlayClick
-            closeModal={() => setReportModalOpen(true)}
-            isOpen={!reportModalOpen}
-            isCloseIconPresent={false}
-            size="xl"
-          >
+          <Modal closeOnOverlayClick closeModal={() => setReportModalOpen(true)} isOpen={!reportModalOpen} size="xl">
             {isLoading ? (
               <div className="w-20 h-20 border-2 border-[#009254] border-solid border-opacity-100 border-transparent rounded-full inline-block box-border animate-rotation"></div>
             ) : (
