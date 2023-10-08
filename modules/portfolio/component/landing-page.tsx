@@ -76,10 +76,10 @@ const Landing = () => {
               width={0}
               height={0}
               alt="cover"
-              className="absolute h-[200px] md:h-[250px] lg:h-[300px] w-screen top-0 left-0 -z-50 mt-[81px] lg:mt-[113px]"
+              className="absolute h-[200px] md:h-[250px] lg:h-[300px] w-screen top-0 left-0 -z-50 mt-[81px] lg:mt-[96px]"
             />
           ) : (
-            <div className="absolute h-[200px] md:h-[250px] lg:h-[300px] w-full top-0 left-0 -z-50 bg-[#F0F1F0] opacity-80 mt-[81px] lg:mt-[113px]">
+            <div className="absolute h-[200px] md:h-[250px] lg:h-[300px] w-full top-0 left-0 -z-50 bg-[#F0F1F0] opacity-80 mt-[81px] lg:mt-[96px]">
               {' '}
             </div>
           )}
