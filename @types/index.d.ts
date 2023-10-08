@@ -276,3 +276,7 @@ export interface ReviewCardProps {
   ratingNo: number;
   price: number;
 }
+
+export interface PaymentStatusModalProps {
+  children: any
+}
