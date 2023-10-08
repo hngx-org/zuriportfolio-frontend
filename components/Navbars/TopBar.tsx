@@ -16,6 +16,9 @@ import { SearchNormal1 } from 'iconsax-react';
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
+  const searchRef1 = useRef<HTMLDivElement | null>(null);
+  const searchRef2 = useRef<HTMLDivElement | null>(null);
+  const [searchMobile, setSearchMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
   const handleAuthMenu = () => {
@@ -38,9 +41,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       if (authMenuRef.current && !authMenuRef.current.contains(targetNode)) {
         setAuthMenu(false);
       }
+      if (searchRef1.current && !searchRef1.current.contains(targetNode)) {
+        setSearchMobile(false);
+      }
+      if (searchRef2.current && !searchRef2.current.contains(targetNode)) {
+        setSearchMobile(false);
+      }
     }
 
-    if (authMenu) {
+    if (authMenu || searchMobile) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -49,7 +58,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [authMenu]);
+  }, [authMenu, searchMobile]);
+
   return (
     <>
       <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[80] isolate fixed  ">
@@ -248,24 +258,18 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           <div className="flex lg:hidden items-center ">
             {auth && (
               <div className="lg:hidden flex items-center gap-1 ">
-                <div className="flex gap-1">
-                  <span>
-                    {' '}
+                <div className="flex gap-3">
+                  <span onClick={() => setSearchMobile(!searchMobile)} className="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <g>
-                        <g fill="#5B5F5E">
-                          <path d="M9 17.75c-.41 0-.75-.34-.75-.75v-4.19l-.72.72c-.29.29-.77.29-1.06 0a.754.754 0 010-1.06l2-2c.21-.21.54-.28.82-.16.28.11.46.39.46.69v6c0 .41-.34.75-.75.75z"></path>
-                          <path d="M11 13.75c-.19 0-.38-.07-.53-.22l-2-2a.754.754 0 010-1.06c.29-.29.77-.29 1.06 0l2 2c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22z"></path>
-                          <path d="M15 22.75H9c-5.43 0-7.75-2.32-7.75-7.75V9c0-5.43 2.32-7.75 7.75-7.75h5c.41 0 .75.34.75.75s-.34.75-.75.75H9C4.39 2.75 2.75 4.39 2.75 9v6c0 4.61 1.64 6.25 6.25 6.25h6c4.61 0 6.25-1.64 6.25-6.25v-5c0-.41.34-.75.75-.75s.75.34.75.75v5c0 5.43-2.32 7.75-7.75 7.75z"></path>
-                          <path d="M22 10.75h-4c-3.42 0-4.75-1.33-4.75-4.75V2c0-.3.18-.58.46-.69.28-.12.6-.05.82.16l8 8a.751.751 0 01-.53 1.28zm-7.25-6.94V6c0 2.58.67 3.25 3.25 3.25h2.19l-5.44-5.44z"></path>
+                        <g stroke="#464646" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5">
+                          <path d="M11.5 21a9.5 9.5 0 100-19 9.5 9.5 0 000 19z"></path>
+                          <path d="M22 22l-2-2"></path>
                         </g>
                       </g>
                     </svg>
                   </span>
-                  <Cart items={6} />
-                  <span>
-                    <Image draggable={false} src={notificationIcon} alt="notification icon" />
-                  </span>
+                  <Cart items={7} />
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details ">
@@ -278,7 +282,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             )}
             {!auth && (
               <>
-                <span className="mr-[20px]">
+                <span onClick={() => setSearchMobile(!searchMobile)} className="mr-[20px]">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <g>
                       <g stroke="#464646" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5">
@@ -307,6 +311,62 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           handleAuthMenu={handleAuthMenu}
           auth={auth}
         />
+        {/* Search Mobile Nav */}
+        {searchMobile && (
+          <div className="absolute min-h-screen lg:hidden bg-white-610 right-0 left-0 top-20">
+            <div ref={searchRef1} className="bg-white-100 p-6">
+              <div className="max-w-[496px] mx-auto  h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex flex-row ">
+                <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-[20dvw] w-auto">
+                  <div className="w-4 h-4 justify-center items-center flex">
+                    <div className="w-4 h-4 relative">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
+                        <g>
+                          <g stroke="#464646" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5">
+                            <path d="M7.667 14a6.333 6.333 0 100-12.667 6.333 6.333 0 000 12.667z"></path>
+                            <path d="M14.667 14.667l-1.333-1.334"></path>
+                          </g>
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                  <input
+                    placeholder="Search"
+                    className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
+                  />
+                </div>
+                <div className="justify-start items-center gap-4 flex ">
+                  <label
+                    htmlFor="explore"
+                    className="justify-start items-center gap-2 flex lg:border-l-2 border-neutral-200 pl-4 relative"
+                  >
+                    <select
+                      id="explore"
+                      className="text-zinc-900 text-base font-normal background-transparent pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
+                  bg-opacity-0 hover:cursor-pointer "
+                    >
+                      <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
+                      <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
+                    </select>
+                    <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
+                      <div className="w-6 h-6  ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <g>
+                            <g>
+                              <path
+                                fill="#8D9290"
+                                d="M12 16.8c-.7 0-1.4-.27-1.93-.8L3.55 9.48a.754.754 0 010-1.06c.29-.29.77-.29 1.06 0l6.52 6.52c.48.48 1.26.48 1.74 0l6.52-6.52c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L13.93 16c-.53.53-1.23.8-1.93.8z"
+                              ></path>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
       <div className="mb-24"></div>
     </>
@@ -328,7 +388,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </svg>
         </span>
 
-        <Cart items={6} />
+        <Cart items={7} />
         <span>
           <Image draggable={false} src={notificationIcon} alt="notification icon" />
         </span>
@@ -431,54 +491,32 @@ function MenuUI({
         </svg>
         <MenuIcon toggle={toggle} style="lg:hidden" toggler={toggler} />
       </div>
-      <ul className="p-4 flex gap-4 flex-col items-center">
-        <Input placeHolder="Search" leftIcon={<SearchNormal1 size="20" color="#464646" />} />
-        <SelectInput
-          placeholder="Explore"
-          className=""
-          size={1}
-          options={[
-            {
-              value: 'helpme2',
-              label: 'Explore',
-            },
-            {
-              value: 'helpme',
-              label: 'Market place',
-            },
-          ]}
-          disabled={false}
-          intent="default"
-          onChange={(e) => {
-            console.log(e.target.value);
-          }}
-        />
-
+      <ul className="p-6 flex gap-6 flex-col place-items-start">
         <li className=" flex flex-col lg:hidden gap-5 ">
-          <div className="group h flex flex-col ali justify-center items-center gap-1">
+          <div className="group h flex flex-col ali justify-center gap-1">
             <Link className={activeLink('/')} href={'/'}>
               Explore
             </Link>
-            {router.pathname === '/' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            {router.pathname === '/' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
-          <div className=" group flex flex-col ali justify-center items-center gap-1 ">
+          <div className=" group flex flex-col ali justify-center  gap-1 ">
             <Link className={activeLink('/marketplace')} href={'/marketplace'}>
               Marketplace
             </Link>
-            {router.pathname === '/marketplace' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            {router.pathname === '/marketplace' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
         </li>
         {!auth && (
           <>
             <Button
               href="/auth/login"
-              className="rounded-lg border-0 bg-green-50 bg-opacity-50  max-w-sm"
+              className="rounded-lg border-0 bg-green-50 bg-opacity-50  w-[100%]"
               intent={'secondary'}
               size={'md'}
             >
               Sign In
             </Button>
-            <Button href="/auth/signup" className="rounded-lg  max-w-sm" intent={'primary'} size={'md'}>
+            <Button href="/auth/signup" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
               Sign Up
             </Button>
           </>
