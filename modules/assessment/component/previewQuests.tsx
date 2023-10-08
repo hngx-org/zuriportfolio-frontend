@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from '@ui/Button';
+import Link from 'next/link';
 import { questionArr } from './questionsArr';
 type questionTypes = {
   questNo: number;
@@ -30,7 +31,9 @@ const PreviewQuests = (props: questionTypes) => {
               }`}
             >
               <div className=" text-[20px] text-[#009254]">{`Question ${items.id} out of 10`}</div>
-              <span className="absolute top-2 right-10 cursor-pointer">Edit</span>
+              <Link href="edit-assesment" className="absolute top-2 right-10 cursor-pointer">
+                Edit
+              </Link>
               <div className="pt-4 text-[14px]">{items.question}</div>
               <p className=" text-blue-100 pt-2">{items.tip}</p>
 
@@ -73,12 +76,15 @@ const PreviewQuests = (props: questionTypes) => {
                 </label>
               </div>
               <div className="flex justify-center items-center gap-[10px] pt-3">
-                <Button
-                  className="p-4 border-2 border-white-100 text-green-500 text-center  bg-white-100 hover:text-white-100 text-sm"
-                  onClick={handlePrev}
-                >
-                  End Assessmnet
-                </Button>
+                {items.id < 2 ? null : (
+                  <Button
+                    className="p-4 border-2 border-white-100 text-green-500 text-center  bg-white-100 hover:text-white-100 text-sm"
+                    onClick={handlePrev}
+                  >
+                    End Assessmnet
+                  </Button>
+                )}
+
                 {items.id < 10 ? (
                   <button
                     onClick={handleNext}
