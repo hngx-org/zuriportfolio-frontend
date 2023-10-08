@@ -15,7 +15,7 @@ function SignUpWithEmail() {
         <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100 font-manropeEB">Sign up</h1>
         <p className="md:text-[22px] text-custom-color20 font-manropeB">Let&apos;s get you started</p>
       </div>
-      <div className="mt-6 md:mt-12">
+      <div className="mt-6 md:my-12">
         <form className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="font-manropeB">
