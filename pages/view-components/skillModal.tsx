@@ -1,10 +1,8 @@
-import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal'
-import React from 'react'
+import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
+import React from 'react';
 
 const skillModal = () => {
-  return (
-    <SkillModal/>
-  )
-}
+  return <SkillModal />;
+};
 
-export default skillModal
+export default skillModal;
