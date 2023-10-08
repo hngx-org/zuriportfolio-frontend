@@ -52,6 +52,10 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
     setModalOpen(true);
   };
 
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <section className="flex flex-grow px-10 py-8">
       <div className="cart-summary_wrapper flex flex-col space-y-6">
@@ -148,7 +152,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
               Checkout
             </button>
           </div>
-          {modalOpen ? <PaymentInformationModal /> : null}
+          {modalOpen ? <PaymentInformationModal closeModal={closeModal} /> : null}
         </div>
       </div>
     </section>
