@@ -31,9 +31,10 @@ const PreviewQuests = (props: questionTypes) => {
               }`}
             >
               <div className=" text-[20px] text-[#009254]">{`Question ${items.id} out of 10`}</div>
-              <Link href="edit-assesment" className="absolute top-2 right-10 cursor-pointer">
+              <Link href={`/preview-edit/${items.id}`} className="absolute top-2 right-10 cursor-pointer">
                 Edit
               </Link>
+
               <div className="pt-4 text-[14px]">{items.question}</div>
               <p className=" text-blue-100 pt-2">{items.tip}</p>
 

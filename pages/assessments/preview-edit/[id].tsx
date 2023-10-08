@@ -1,4 +1,4 @@
-import MainLayout from '../../../../components/Layout/MainLayout';
+import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 
