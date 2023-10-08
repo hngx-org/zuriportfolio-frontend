@@ -213,7 +213,7 @@ function VendorDetails(): React.ReactElement {
         <ArrowLeft size="18" />
         <p className="ml-3">Products by Gustavo Silas</p>
       </div>
-      <hr className="border-[#EAECF0]" />
+      <hr className="border-custom-color1" />
       <div className="mt-4 mb-10  lg:grid-cols-4 md:grid-cols-3 px-2 grid grid-cols-2 gap-5">
         {records.map((card) => {
           const { productAuthor, productImage, productName, productPrice, id } = card;
@@ -228,7 +228,7 @@ function VendorDetails(): React.ReactElement {
           );
         })}
       </div>
-      <hr className="border-[#EAECF0] mb-10" />
+      <hr className="border-custom-color1 mb-10" />
       <nav className="flex justify-center items-center mb-32">
         <ul className="flex gap-5 items-center">
           <li className="mr-5 cursor-pointer font-manropeB" onClick={prevPage}>
@@ -240,7 +240,7 @@ function VendorDetails(): React.ReactElement {
           {numbers.map((n, i) => (
             <li
               className={`py-[8px] px-[14px] rounded-lg text-[14px] cursor-pointer font-semibold ${
-                currentPage === n ? 'bg-[#009254] text-[#fff] ' : 'text-[#767676]'
+                currentPage === n ? 'bg-green-600 text-white-100 ' : 'text-custom-color-27'
               }`}
               key={i}
               onClick={() => changeCPage(n)}
@@ -256,8 +256,6 @@ function VendorDetails(): React.ReactElement {
           </li>
         </ul>
       </nav>
-
-      {/*flex px-2 items-center justify-center flex-wrap w-[100%]*/}
     </div>
   );
 }
