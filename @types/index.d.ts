@@ -344,11 +344,9 @@ export interface searchProp {
 export interface filterProp {
   handleFilter: (status: string) => void;
 }
-<<<<<<< HEAD
 export interface PaymentStatusModalProps {
   children: any;
 }
-=======
 
 export type SectionModalProps = {
   openButtonText: string;
@@ -357,4 +355,3 @@ export type SectionModalProps = {
   primaryText: string;
   onClickAction: () => void;
 };
->>>>>>> 199574560cf93481a8cad522517ecdd6c5d7b6fb
