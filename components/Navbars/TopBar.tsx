@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -15,12 +15,13 @@ import { SearchNormal1 } from 'iconsax-react';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [auth, setAuth] = useState(true);
+  const authMenuRef = useRef(null);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
   };
-
+  const handleClose = () => {};
   const handleToggle = () => {
     setToggle(!toggle);
     console.log('toggle', toggle);
@@ -155,7 +156,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           {auth && AuthUser()}
         </div>
         {authMenu && (
-          <div className="absolute flex flex-col right-0 lg:top-[71px] top-[60px] bg-white-100 shadow-lg">
+          <div
+            ref={authMenuRef}
+            className="absolute flex flex-col right-0 lg:top-[71px] top-[60px] bg-white-100 shadow-lg"
+          >
             <ul>
               <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
                 <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
