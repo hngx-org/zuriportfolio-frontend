@@ -6,15 +6,15 @@ import zuriPortfolioLogo from '../../../public//assets/images/logo/zuriportfolio
 
 function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeftPadlockShown }: AuthLayoutProps) {
   return (
-    <div className="relative  min-h-screen ">
+    <div className="relative  min-h-screen">
       {/* Header for screens less than 1024px */}
       <div className="border-b border-b-gray-100 lg:hidden bg-white-100">
         <div className="px-6 py-6 md:px-10">
-          <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className='w-[126px] h-[24px]'/>
+          <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className="w-[126px] h-[24px]" />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-20 xl:gap-20 pt-10 md:pt-12 md:py-12 pb-10 px-6 overflow-y-auto text-sm xl:flex xl:flex-row xl:justify-center lg:pr-24 lg:pl-16 lg:h-screen lg:grid-cols-2">
-        <div className="h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden hidden lg:flex ">
+      <div className="grid grid-cols-1 gap-20 py-10 px-6 text-sm md:py-12 lg:pr-24 lg:pl-16 lg:grid-cols-2 xl:w-[1280px] xl:mx-auto xl:flex">
+        <div className="h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden hidden lg:block xl:w-3/5">
           {authLeftImage ?? (
             <Image
               // width={100}
@@ -22,14 +22,14 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
               src={LeftImage}
               priority={true}
               alt="Sign up image"
-              className="w-full xl:w-[680px] h-full object-cover"
+              className="w-full h-full object-cover"
             />
           )}
         </div>
-        <div className="flex flex-col gap-16 lg:max-w-lg xl:w-2/4 md:pr-5">
+        <div className="flex flex-col gap-16 lg:max-w-lg xl:w-2/5">
           {/* header for screens larger than 1024px */}
           <div className="hidden lg:block">
-            <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className='w-[178px] h-[36px]'/>
+            <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className="w-[178px] h-[36px]" />
           </div>
           {/* give the element on the right of the container a max width of 672px, only on screen size less than 1024px */}
           <div className="max-lg:max-w-2xl mx-auto lg:mx-0 w-full">{children}</div>
