@@ -10,17 +10,17 @@ interface RemoveCartProps {
 const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal }) => {
   const [modalOpen, setModalOpen] = useState(true);
 
-  const closeModalInternal = () => {
-    setModalOpen(false);
-    closeModal(); // Call the parent's closeModal function to reset the state
-  };
+  // const closeModalInternal = () => {
+  //   setModalOpen(false);
+  //   closeModal(); // Call the parent's closeModal function to reset the state
+  // };
 
   if (modalOpen) {
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
         <div className="bg-white-100 p-12 rounded-lg w-sm text-center">
           <svg
-            onClick={closeModalInternal}
+            onClick={closeModal}
             className="ml-auto"
             xmlns="http://www.w3.org/2000/svg"
             width="40"
@@ -53,7 +53,7 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal }) => {
           </div>
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-4">
-            <button className="px-6 py-3 border rounded-md flex items-center gap-2 mt-4" onClick={closeModalInternal}>
+            <button className="px-6 py-3 border rounded-md flex items-center gap-2 mt-4" onClick={closeModal}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
                 <g id="vuesax/outline/heart">
                   <g id="vuesax/outline/heart_2">
@@ -72,7 +72,7 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal }) => {
 
             <button
               className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[16px] flex items-center gap-2 rounded-md mt-4"
-              onClick={closeModalInternal}
+              onClick={closeModal}
             >
               {/* Remove Item icon */}
               <Image src={trash} alt="checked" width={20} height={20} />
