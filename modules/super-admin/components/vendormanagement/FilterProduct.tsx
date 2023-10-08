@@ -5,7 +5,6 @@ import { filterProp } from '../../../../@types';
 
 const FilterProduct = ({ handleFilter }: filterProp) => {
   const [filterStatus, setFilterStatus] = useState('all');
-  const [searchVal, setSearchVal] = useState('');
 
   useEffect(() => {
     handleFilter(filterStatus);
@@ -21,12 +20,20 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
             label: 'Filters',
           },
           {
+            value: 'highest',
+            label: 'Highest qty',
+          },
+          {
+            value: 'lowest',
+            label: 'Lowest qty',
+          },
+          {
             value: 'newest',
-            label: 'Newest to oldest',
+            label: 'Newest products',
           },
           {
             value: 'oldest',
-            label: 'Oldest to newest',
+            label: 'Oldest products',
           },
         ]}
         disabled={false}
@@ -36,7 +43,7 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
           handleFilter(e.target.value);
           console.log(e.target.value);
         }}
-        className="md:w-[150px] w-[100px]"
+        className="md:w-fit w-[100px]"
       />
     </div>
   );

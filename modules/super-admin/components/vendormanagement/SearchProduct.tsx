@@ -1,10 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input, SelectInput } from '@ui/Input';
-import Button from '@ui/Button';
-import Image from 'next/image';
 import { SearchNormal1, Sort } from 'iconsax-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import FilterProduct from './filterProduct';
 import { searchProp } from '../../../../@types';
 
 function SearchProduct({ handleSearchChange }: searchProp) {
