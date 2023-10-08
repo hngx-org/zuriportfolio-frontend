@@ -2,17 +2,18 @@ import Image from 'next/image';
 import React from 'react';
 import { AuthLayoutProps } from '../../../@types';
 import LeftImage from '../../../public/assets/images/Rectangle_2.png';
+import zuriPortfolioLogo from '../../../public//assets/images/logo/zuriportfolio-logo.svg';
 
 function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeftPadlockShown }: AuthLayoutProps) {
   return (
     <div className="relative  min-h-screen ">
       {/* Header for screens less than 1024px */}
       <div className="border-b border-b-gray-100 lg:hidden bg-white-100">
-        <div className="px-4 py-4">
-          <Image width={150} height={150} src="/assets/images/logo/zuriportfolio-logo.svg" alt="Zuri portfolio logo" />
+        <div className="px-6 py-6 md:px-10">
+          <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className='w-[126px] h-[24px]'/>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-20 xl:gap-20 pt-10 md:pt-12 md:py-12 pb-10 px-8 overflow-y-auto text-sm xl:flex xl:flex-row xl:justify-center lg:r-24 lg:pl-16 lg:h-screen lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-20 xl:gap-20 pt-10 md:pt-12 md:py-12 pb-10 px-6 overflow-y-auto text-sm xl:flex xl:flex-row xl:justify-center lg:pr-24 lg:pl-16 lg:h-screen lg:grid-cols-2">
         <div className="h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden hidden lg:flex ">
           {authLeftImage ?? (
             <Image
@@ -28,12 +29,7 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
         <div className="flex flex-col gap-16 lg:max-w-lg xl:w-2/4 md:pr-5">
           {/* header for screens larger than 1024px */}
           <div className="hidden lg:block">
-            <Image
-              width={200}
-              height={200}
-              src="/assets/images/logo/zuriportfolio-logo.svg"
-              alt="Zuri portfolio logo"
-            />
+            <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className='w-[178px] h-[36px]'/>
           </div>
           {/* give the element on the right of the container a max width of 672px, only on screen size less than 1024px */}
           <div className="max-lg:max-w-2xl mx-auto lg:mx-0 w-full">{children}</div>
