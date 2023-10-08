@@ -5,6 +5,9 @@ import { ArrowRight2 } from 'iconsax-react';
 import { Trash } from 'iconsax-react';
 import { Sort } from 'iconsax-react';
 import { SearchNormal1 } from 'iconsax-react';
+import DeleteModal from '@modules/marketplace/component/CustomerDashboard/DeleteModal';
+import useDisclosure from '../../../hooks/useDisclosure';
+import PurchaseNotFound from '@modules/marketplace/component/CustomerDashboard/PurchaseNotFound';
 
 // Define a type for the data
 type PurchaseData = {
@@ -18,6 +21,7 @@ type PurchaseData = {
 };
 
 const MyPage: React.FC = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const [filter, setFilter] = useState<string | null>(null);
   const data: PurchaseData[] = [
     {
@@ -76,6 +80,11 @@ const MyPage: React.FC = () => {
     },
     // Add more data items as needed
   ];
+
+  // function to handle delete
+  const onDelete = ()=> {
+    onClose();
+  }
 
   // Calculate counts for each category
   const allPurchasesCount = data.length;
@@ -167,11 +176,13 @@ const MyPage: React.FC = () => {
             <Sort size="16" /> Filters
           </Button>
 
-          <Button className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]">
+          <Button onClick={onOpen} className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]">
             <Trash size="16" /> Delete
           </Button>
         </div>
 
+        {/* table */}
+        {data.length > 0 &&
         <table className="w-full mt-6 mb-[2rem]">
           <thead className="h-[3rem]">
             <tr className="bg-white-200">
@@ -218,7 +229,12 @@ const MyPage: React.FC = () => {
               ))}
           </tbody>
         </table>
+        }
+
+        {/* error page */}
+        {data.length === 0 && <PurchaseNotFound />}
       </div>
+      <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete}/>
     </div>
   );
 };
