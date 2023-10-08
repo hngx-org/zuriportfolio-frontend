@@ -259,7 +259,7 @@ function LandingPage() {
 
           <ProductCardWrapper title="Limited Offers" productsList={limitedOffers} />
 
-          <section className="my-6 py-2.5  lg:hidden">
+          <section className="my-6 py-2.5 hidden sm:contents lg:hidden">
             <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-6 font-bold md:text-2xl leading-normal flex items-center justify-between">
               We provide the <br />
               best customer experience
@@ -356,7 +356,7 @@ function LandingPage() {
 
         <AllCategorySlider />
 
-        <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-2.5">
+        <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-[60px]">
           <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
             Recently Viewed
             <Link className="flex items-center gap-2 text-sm font-bold text-brand-green-shade50" href="">
@@ -379,7 +379,7 @@ function LandingPage() {
             {recentlyViewed.map((item, index) => {
               return (
                 <div key={index} className="relative w-1/2 md:w-1/3 lg:w-1/4 pr-2 md:pr-4 lg:pr-8">
-                  <button className="absolute bg-white rounded-full top-4 right-10 p-2">
+                  <button className="absolute bg-white-100 rounded-full top-3 right-4 md:top-4 md:right-10 p-1">
                     <Image src={Cancel} alt="Cancel Icon" />
                   </button>
                   <ProductCard
