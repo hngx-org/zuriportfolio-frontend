@@ -28,7 +28,7 @@ const Dashboard = () => {
           </div>
         </div>
         <Button className="mt-[1rem] ml-auto me-4 text-[.7rem] md:text-[1rem]">View Past assessment</Button>
-        <div className="mt-[2rem] mx-[.75rem] md:mx-8 border border-white-400 rounded-md py-[1rem] px-2 md:p-4">
+        <div className="mt-[2rem] mx-[.75rem] md:mx-8 borderborder-white-400 rounded-md py-[1rem] px-2 md:p-4">
           <div className="px-[2px]">
             <h2 className="text-green-950 text-[1.45rem] font-semibold">Current Skill Level</h2>
             <div className="md:flex">

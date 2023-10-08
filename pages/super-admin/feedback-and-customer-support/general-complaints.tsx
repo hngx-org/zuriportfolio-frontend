@@ -4,12 +4,13 @@ import Pagination from '../../view-components/super-admin/pagination';
 import Nav from '../../view-components/super-admin/navbar';
 import Image from 'next/image';
 import Link from 'next/link';
+import VendorComplaint from '../../../public/assets/images/vendorComplaint.png';
 
 type Complains = {
   id: number;
   name: string;
   email: string;
-  image: string;
+  image: any;
   complaintDescription: string;
   date: string;
   status: string;
@@ -22,7 +23,7 @@ export default function GeneralComplaints() {
       name: 'Jeffery Dahmer',
       email: 'dahmerbones@gmail.com',
       complaintDescription: 'Order Eaten',
-      image: '/../../../assets/images/vendorComplaint.png',
+      image: VendorComplaint,
       date: '07-09-99',
       status: 'Pending',
     },
@@ -30,7 +31,7 @@ export default function GeneralComplaints() {
       id: 2,
       name: 'Mark Essien',
       email: 'markessien@gmail.com',
-      image: '/../../../assets/images/vendorComplaint.png',
+      image: VendorComplaint,
       complaintDescription: 'Bad Product',
       date: '09-07-23',
       status: 'Resolved',
@@ -39,7 +40,7 @@ export default function GeneralComplaints() {
       id: 3,
       name: 'John Kennedy',
       email: 'ken006john@yahoo.com',
-      image: '/../../../assets/images/vendorComplaint.png',
+      image: VendorComplaint,
       complaintDescription: 'Order not recieved',
       date: '09-07-23',
       status: 'InProgress',
@@ -340,7 +341,7 @@ export default function GeneralComplaints() {
                             <div className="displayPicture">
                               <Image
                                 alt=""
-                                src="/../../../assets/images/vendorComplaint.png"
+                                src={complains.image}
                                 className="h-10 w-10 rounded-full object-contain"
                                 width={40}
                                 height={40}
@@ -443,7 +444,7 @@ export default function GeneralComplaints() {
                           <div className="displayPicture">
                             <Image
                               alt=""
-                              src="/../../../assets/images/vendorComplaint.png"
+                              src={complains.image}
                               className="h-10 w-10 rounded-full object-contain"
                               width={40}
                               height={40}
