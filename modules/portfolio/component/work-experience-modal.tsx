@@ -361,10 +361,11 @@ const WorkExperienceSection = () => {
                           onChange={() => {
                             setIsChecked(!isChecked);
                             if (isChecked) {
-                              // Clear endYear and endMonth when 'Present' is unchecked
-                              // Set 'Present' when 'Present' is checked
                               setEndYear('Present');
                               setEndMonth('Present');
+                            } else {
+                              setEndMonth(endMonth);
+                              setEndYear(endYear);
                             }
                           }}
                           className="peer shrink-0 appearance-none h-[100%] w-[100%] border-[1px] border-[#A8ACAB] rounded-md checked:bg-brand-green-primary checked:border-0"
