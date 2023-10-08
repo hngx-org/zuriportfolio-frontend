@@ -473,7 +473,7 @@ function Cart({ items, style }: { items?: number; style?: {} }) {
           </span>
         )}
 
-        <Image src={cartIcon} draggable={false} objectFit="contain" width={24} height={24} alt="Cart Icon" />
+        <Image src={cartIcon} draggable={false} width={24} height={24} alt="Cart Icon" />
       </div>
       {/* <span className=" lg:hidden">Cart</span> */}
     </Link>
@@ -490,7 +490,7 @@ function Cart2({ items, style }: { items?: number; style?: {} }) {
           </span>
         )}
 
-        <Image src={cartIcon} draggable={false} objectFit="contain" width={24} height={24} alt="Cart Icon" />
+        <Image src={cartIcon} draggable={false} width={24} height={24} alt="Cart Icon" />
       </div>
       {/* <span className=" lg:hidden">Cart</span> */}
     </Link>
