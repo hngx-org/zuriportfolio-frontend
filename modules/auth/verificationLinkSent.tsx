@@ -1,9 +1,17 @@
-import Button from '@ui/Button';
 import React from 'react';
+
 import Image from 'next/image';
+
+import Button from '@ui/Button';
+
+import { VerificationLayoutProps } from '../../@types';
 import VerificationLayout from './component/verificationLayout';
 
-function VerificationLinkSent() {
+type Props = {
+  handleClick: VerificationLayoutProps['handleClick'];
+};
+
+function VerificationLinkSent({ handleClick }: Props) {
   return (
     <VerificationLayout>
       <Image
@@ -29,7 +37,10 @@ function VerificationLinkSent() {
             Link expires in <span className=" font-manropeB text-[#003A1B]">4:23</span>
           </p>
 
-          <button className=" font-manropeL text-left sm:text-right text-[10px] md:text-brand-green-primary text-[#737876] ">
+          <button
+            onClick={handleClick}
+            className=" font-manropeL text-left sm:text-right text-[10px] md:text-brand-green-primary text-[#737876] "
+          >
             Incorrect email address? Change email address
           </button>
         </div>

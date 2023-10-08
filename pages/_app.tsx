@@ -14,6 +14,8 @@ Router.events.on('routeChangeError', nProgress.done);
 Router.events.on('routeChangeComplete', nProgress.done);
 
 export default function App({ Component, pageProps }: AppProps) {
+  const AnyComponent = Component as any;
+
   return (
     <>
       <style jsx global>
@@ -30,7 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </style>
       <ErrorBoundary>
         <MainLayoutContextProvider>
-          <Component {...pageProps} />
+          <AnyComponent {...pageProps} />
         </MainLayoutContextProvider>
       </ErrorBoundary>
     </>

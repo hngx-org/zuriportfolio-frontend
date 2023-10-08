@@ -1,3 +1,4 @@
+/.DS_Store 
 
 /node_modules
 
@@ -22,3 +23,8 @@ tsconfig.tsbuildinfo
 /yarn
 
 /.vscode
+
+/helpers/withAuth.tsx
+/helpers/withoutAuth.tsx
+
+yarn.lock
