@@ -323,3 +323,11 @@ export interface reviewProps {
   shopName?: string;
   shopReply?: string;
 }
+
+export interface searchProp {
+  handleSearchChange: (searchString: string) => void;
+}
+
+export interface filterProp {
+  handleFilter: (status: string) => void;
+}
