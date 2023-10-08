@@ -3,7 +3,7 @@ import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import AllOTPModal from '../../../../../components/Modals/OTPModals/AllOTPModal';
 
-const PaymentInformationModal = () => {
+const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalOpen, setModalOpen] = useState(true);
   const [showOTP, setShowOTP] = useState(true);
@@ -14,7 +14,8 @@ const PaymentInformationModal = () => {
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
           <div className="bg-white-100 p-12 rounded-lg w-sm  md:w-9/10">
             <svg
-              onClick={() => setModalOpen(false)}
+              // onClick={() => setModalOpen(false)}
+              onClick={closeModal}
               className="ml-auto"
               xmlns="http://www.w3.org/2000/svg"
               width="40"
