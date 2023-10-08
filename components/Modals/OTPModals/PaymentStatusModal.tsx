@@ -14,5 +14,4 @@ const PaymentStatusModal: React.FC<PaymentStatusModalProps> = ({ children }) => 
     )
   );
 };
-
 export default PaymentStatusModal;
