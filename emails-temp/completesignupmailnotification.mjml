@@ -1,6 +1,7 @@
 <mjml>
   <mj-head>
     <mj-title>Guest Complete SignUp Mail Notification</mj-title>
+    <mj-title>Guest Complete SignUp Mail Notification</mj-title>
     <!-- Define the font-family -->
     <mj-style>
 
@@ -68,6 +69,7 @@
     </mj-section>
 
     <!-- Section with Border -->
+    <mj-section border="4px solid #CCCCCC" padding="20px" css-class="blob-parent border">
     <mj-section border="4px solid #CCCCCC" padding="20px" css-class="blob-parent border">
       <mj-column>
             <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/muees/mail.svg" alt="img" width="50px"/>
