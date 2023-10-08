@@ -18,8 +18,8 @@ export default function NotificationsSettings() {
   };
 
   return (
-    <div className="">
-      <h1 className="font-semibold text-md font-manropeB">Notification Setting</h1>
+    <div className=" flex flex-col items-start">
+      <h1 className="font-semibold text-md font-manropeB text-dark-100">Notification Setting</h1>
       <p className="text-sm text-[#444846]">Email Notification</p>
       <div className="text-sm font-manropeB text-white-650 space-y-4 mt-4">
         <div className="flex items-center gap-2">
@@ -28,11 +28,11 @@ export default function NotificationsSettings() {
             name="receiveEmail"
             id="receiveEmail"
             checked={checkboxState.receiveEmail}
-            className="appearance-none"
+            className="appearance-none hidden"
           />
           <label
             htmlFor="receiveEmail"
-            className="m-2 flex gap-2 items-center"
+            className=" flex gap-2 items-center justify-start"
             onClick={() => handleLabelClick('receiveEmail')}
           >
             <p className="border-[1.6px] relative flex items-center justify-center border-white-650">
@@ -51,11 +51,11 @@ export default function NotificationsSettings() {
             name="specialOffers"
             id="specialOffers"
             checked={checkboxState.specialOffers}
-            className="appearance-none"
+            className="appearance-none hidden"
           />
           <label
             htmlFor="specialOffers"
-            className="m-2 flex gap-2 items-center"
+            className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('specialOffers')}
           >
             <p className="border-[1.6px] relative flex items-center justify-center border-white-650">
@@ -74,11 +74,11 @@ export default function NotificationsSettings() {
             name="getNotification"
             id="getNotification"
             checked={checkboxState.getNotification}
-            className="appearance-none"
+            className="appearance-none hidden"
           />
           <label
             htmlFor="getNotification"
-            className="m-2 flex gap-2 items-center"
+            className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('getNotification')}
           >
             <p className="border-[1.6px] relative flex items-center justify-center border-white-650">
@@ -97,11 +97,11 @@ export default function NotificationsSettings() {
             name="notifyFollow"
             id="notifyFollow"
             checked={checkboxState.notifyFollow}
-            className="appearance-none"
+            className="appearance-none hidden"
           />
           <label
             htmlFor="notifyFollow"
-            className="m-2 flex gap-2 items-center"
+            className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('notifyFollow')}
           >
             <p className="border-[1.6px] relative flex items-center justify-center border-white-650">
@@ -120,11 +120,11 @@ export default function NotificationsSettings() {
             name="notifyMessages"
             id="notifyMessages"
             checked={checkboxState.notifyMessages}
-            className="appearance-none"
+            className="appearance-none hidden"
           />
           <label
             htmlFor="notifyMessages"
-            className="m-2 flex gap-2 items-center"
+            className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('notifyMessages')}
           >
             <p className="border-[1.6px] relative flex items-center justify-center border-white-650">

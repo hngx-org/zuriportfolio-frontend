@@ -24,15 +24,17 @@ export default function InviteLink() {
     setOPenModal((prev: boolean) => !prev);
   };
   return (
-    <div className={`space-y-5 font-manropeB font-semibold  `}>
+    <div className={`space-y-5 font-manropeB   `}>
       <p className="fon  text-dark-110 text-md">invite your friends </p>
-      <p className="text-white-650 text-sm">use your referral link to help us grow the community and receive reward </p>
+      <p className="text-white-650 font-manropeEB font-normal text-sm">
+        use your referral link to help us grow the community and receive reward{' '}
+      </p>
       <div className="w-fit flex boder-[1px]  rounded-md border-dark-[#D0D5DD] ">
         <input
           type="text"
           id="invite"
           ref={copyInvite}
-          className="py-1 appearance-none outline-none border-[1px]  px-2 text-[12px] rounded-l-md text-[#667085]"
+          className="py-1 appearance-none outline-none  border-[1px]  px-2 text-[12px] rounded-l-md text-[#667085]"
           value="tftyfugfuigihijh?=pleroma"
           readOnly
         />
@@ -62,7 +64,9 @@ export default function InviteLink() {
               <CloseCircle size="32" color="#009254" />
             </span>
           </div>
-          <p className=" text-[#8d9290]">share your referal link to help us grow the community</p>
+          <p className=" text-[#8d9290] font-manropeEB font-normal">
+            share your referal link to help us grow the community
+          </p>
           <div className="flex  w-[90%] justify-between">
             <Image src={Social} height={30} width={30} alt="so" />
             <Image src={Social1} height={30} width={30} alt="so" />

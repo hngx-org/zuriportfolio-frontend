@@ -11,7 +11,7 @@ import { SettingOptionTypes } from '../../@types';
 
 export default function SettingPage() {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
-    accountManagement: true,
+    accountManagement: false,
     notificationSettings: false,
     deleteAccount: false,
     refer: false,
@@ -53,6 +53,17 @@ export default function SettingPage() {
   };
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth >= 1024) {
+        setSettingOption((prevSettingOption) => ({
+          ...prevSettingOption,
+          accountManagement: true,
+        }));
+      }
+    }
+  });
+
+  useEffect(() => {
     if (loading) {
       setTimeout(() => {
         setLoading(false);
@@ -62,12 +73,12 @@ export default function SettingPage() {
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
-      <div className="w-full relative  lg:mb-2  pt-5rem flex flex-col  ">
+      <div className="w-full relative font-manropeEB  lg:mb-2  pt-5rem flex flex-col  ">
         <div
-          className="hidden lg:flex lg:border-b-[1px]  cursor-auto  lg:border-white-500 relative min-h-[100vh]   items-start before:bg-white-500 before:w-full before:absolute before:top-[5rem] before:h-[1px]
+          className="hidden lg:flex lg:border-b-[1px]  cursor-auto  lg:border-white-500 relative min-h-[90vh]   items-start before:bg-white-500 before:w-full before:absolute before:top-[5rem] before:h-[1px]
                      pb-0   py-[3rem]  "
         >
-          <div className="font-manropeB  relative  min-w-[26%]    font-normal">
+          <div className="font-manropeEB  relative  min-w-[26%]    font-normal">
             <ul className="flex gap-6  text-sm font-manropeB font-semibold mb-6 justify-center w-full relative ">
               <li
                 onClick={() => setShowReferInfo(false)}
@@ -156,14 +167,14 @@ export default function SettingPage() {
           </div>
         </div>
 
-        <div className="flex flex-col items-start  px-6 md:items-center lg:hidden py-4 gap-6 justify-center">
+        <div className="flex flex-col items-start min-h-[50vh] font-manropeEB  px-6 md:items-center lg:hidden py-4 gap-6 justify-start">
           {!openEachSeting ? (
             <>
               <ul className="flex gap-6 md:justify-center justify-start text-md text-semibold">
                 <li
                   onClick={() => setShowReferInfo(false)}
                   className={`hover:text-brand-green-hover   ${
-                    !showReferInfo ? 'border-b-2 text-brand-green-primary  border-brand-green-primary' : ''
+                    !showReferInfo ? 'border-b-2 text-brand-green-primary   border-brand-green-primary' : ''
                   }`}
                 >
                   Settings
@@ -185,7 +196,7 @@ export default function SettingPage() {
                       toggleShow(setShowNotInfo);
                       changeSettingOptions('refer');
                     }}
-                    className="py-4 w-full  border-b-[1px] border-white-500 "
+                    className="py-4 w-full min-w-[50vw] hover:bg-brand-green-shade95   border-b-[1px] border-white-500 "
                   >
                     Refer your friends
                   </li>
@@ -197,7 +208,7 @@ export default function SettingPage() {
                       toggleShow(setShowNotInfo);
                       changeSettingOptions('accountManagement');
                     }}
-                    className="py-4 w-full  border-b-[1px] border-white-500 "
+                    className="py-4 w-full   hover:bg-brand-green-shade95 min-w-[50vw]  border-b-[1px] border-white-500 "
                   >
                     Account Management
                   </li>
@@ -206,7 +217,7 @@ export default function SettingPage() {
                       toggleShow(setShowNotInfo);
                       changeSettingOptions('notificationSettings');
                     }}
-                    className="py-4 w-full hover:brand-green-hover border-b-[1px] border-white-500 "
+                    className="py-4 w-full hover:bg-brand-green-shade95 min-w-[50vw] border-b-[1px] border-white-500 "
                   >
                     Notification Settings
                   </li>
@@ -215,7 +226,7 @@ export default function SettingPage() {
                       toggleShow(setShowNotInfo);
                       changeSettingOptions('deleteAccount');
                     }}
-                    className="py-4 w-full border-b-[1px] md:border-none border-white-500 
+                    className="py-4 w-full border-b-[1px] md:border-none hover:bg-brand-green-shade95 min-w-[50vw] border-white-500 
                   "
                   >
                     Delete Account
