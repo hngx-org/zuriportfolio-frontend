@@ -149,7 +149,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
               isLocked={false}
               locked={true}
               href="/badges/badge/[badge]"
-              badgelabel="beginner-badge"
+              badgelabel="beginner"
               as={''}
             />
             {/* intermediate badge component */}
@@ -161,7 +161,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
               earnedDate="Earned on: Sept 12, 2023"
               isLocked={true}
               locked={true}
-              badgelabel="intermediate-badge"
+              badgelabel="intermediate"
               href="/badges/badge/[badge]"
               as={''}
             />
@@ -176,7 +176,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
               earnedDate="Earned on: Sept 12, 2023"
               isLocked={true}
               locked={true}
-              badgelabel="expert-badge"
+              badgelabel="expert"
               href="/badges/badge/[badge]"
               as={''}
             />

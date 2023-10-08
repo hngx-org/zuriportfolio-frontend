@@ -8,20 +8,12 @@ import Link from 'next/link';
 interface BadgesProps {
   scorePercentage: number;
   badgelabel: string | string[] | undefined;
-  image: string;
   setIsdownloadOpen: (value: boolean) => void;
   isdownloadOpen: boolean;
   onClose: () => void;
 }
 
-const Badges: React.FC<BadgesProps> = ({
-  scorePercentage,
-  badgelabel,
-  image,
-  setIsdownloadOpen,
-  isdownloadOpen,
-  onClose,
-}) => {
+const Badges: React.FC<BadgesProps> = ({ scorePercentage, badgelabel, setIsdownloadOpen, isdownloadOpen, onClose }) => {
   return (
     <section className="bg-[#F2F4F5]">
       <div className="hidden lg:flex pl-6  sm:pl-[96px] pt-8 flex justify-start align-middle text-2xl cursor-pointer">
@@ -52,7 +44,13 @@ const Badges: React.FC<BadgesProps> = ({
             </div>
             <p className=" mt-4 mb-8  font-manropeL">You&apos;ve earned yourself an {badgelabel} badge!</p>
             <div className="flex justify-center align-middle h-30 w-full">
-              <Image src={image} width={200} height={200} alt="badge" className="h-52 w-52" />
+              <Image
+                src={`/assets/images/badges/${badgelabel}.png`}
+                width={200}
+                height={200}
+                alt="badge"
+                className="h-52 w-52"
+              />
             </div>
             <div className="flex flex-col md:flex-row items-center justify-center gap-2 font-manropeL relative pb-4 md:gap-4 md:pb-10">
               <div className="w-10/12 flex flex-col gap-6 pt-6 md:flex-row ">
