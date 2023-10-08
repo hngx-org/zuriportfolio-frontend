@@ -41,12 +41,12 @@ function VendorDetails() {
 
   //linking to all products page
   function allProducts() {
-    router.push('/super-admin/vendor-management/details.tsx');
+    router.push('/super-admin/vendor-management/details');
   }
   return (
     <>
       <SuperAdminNavbar />
-      <Link href="/super-admin/vendor-management/index.tsx">
+      <Link href="/super-admin/vendor-management/index">
         <div className="top flex items-center mr-5 border-b border-gray-100 ml-10 mt-5 mb-5">
           <Image src={right} alt="back" className="mr-2 pb-3"></Image>
           <p className="pb-3">Vendor Profile Details</p>
