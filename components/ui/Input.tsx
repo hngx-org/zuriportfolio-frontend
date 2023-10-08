@@ -1,5 +1,4 @@
 import { VariantProps, cva } from 'class-variance-authority';
-import { ArrowDown2, Car } from 'iconsax-react';
 import React, { DetailedHTMLProps, InputHTMLAttributes, SelectHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -42,6 +41,7 @@ interface SelectInputVariantsProps extends SelectInputVariants {
   caretSize?: string | number;
   className?: React.ComponentProps<'div'>['className'];
   leftIcon?: React.ReactNode;
+  optionColor?: string;
 }
 
 interface TextInputProps extends InputVariants {
@@ -67,6 +67,7 @@ export function SelectInput({
   disabled,
   intent,
   inputSize,
+  optionColor,
   ...props
 }: SelectInputVariantsProps) {
   const classNames = twMerge(
@@ -88,7 +89,7 @@ export function SelectInput({
         disabled={disabled}
       >
         {options.map((op, idx) => (
-          <option key={idx} value={op.value} disabled={op.disabled}>
+          <option key={idx} value={op.value} disabled={op.disabled} className={`${optionColor}`}>
             {op.label}
           </option>
         ))}
@@ -104,7 +105,7 @@ export function SelectInput({
           fill={caretColor ?? '#7777'}
           fillRule="evenodd"
           d="M16.53 8.97a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 0 1-1.06 0l-4-4a.75.75 0 1 1 1.06-1.06L12 12.44l3.47-3.47a.75.75 0 0 1 1.06 0Z"
-          clip-rule="evenodd"
+          clipRule="evenodd"
         />
       </svg>
     </div>
@@ -146,6 +147,7 @@ export function Input({
         )}
         placeholder={placeHolder ?? 'Placeholder'}
         disabled={isLoading ?? disabled}
+        {...props}
       />
       {rightIcon && rightIcon}
     </div>

@@ -4,6 +4,7 @@ import cover from '../../../public/assets/images/portfolioLanding/cover.png';
 import profile from '../../../public/assets/images/portfolioLanding/profile.png';
 import React, { useState } from 'react';
 import Button from '@ui/Button';
+import Modal from '@ui/Modal';
 
 const Landing = () => {
   const [coverImage, setCoverImage] = useState<File | any>(cover);
@@ -49,24 +50,21 @@ const Landing = () => {
   return (
     <>
       {showModal && (
-        <div
-          onClick={modal}
-          className="flex justify-center items-center h-screen w-screen fixed top-0 left-0 z-[100000] bg-black bg-opacity-70"
-        >
+        <div onClick={modal}>
           {showProfileUpdate && (
-            <div className="text-black bg-white-100 min-w-[50%] min-h-[50%] opacity-100 bg-opacity-100 z-50 ">
-              Awaiting profile update modal
-            </div>
+            <Modal isOpen={showModal} closeModal={modal}>
+              <p>Awaiting update profile modal</p>
+            </Modal>
           )}
           {showBuildPortfolio && (
-            <div className="text-black bg-white-100 min-w-[50%] min-h-[50%] opacity-100 bg-opacity-100 z-50 ">
-              Awaiting build portfolio modal
-            </div>
+            <Modal isOpen={showModal} closeModal={modal}>
+              <p>Awaiting build portfolio modal</p>
+            </Modal>
           )}
           {showViewtemplates && (
-            <div className="text-black bg-white-100 min-w-[50%] min-h-[50%] opacity-100 bg-opacity-100 z-50 ">
-              Awaiting view template modal
-            </div>
+            <Modal isOpen={showModal} closeModal={modal}>
+              <p>Awaiting view template modal</p>
+            </Modal>
           )}
         </div>
       )}

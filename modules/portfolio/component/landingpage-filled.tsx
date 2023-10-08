@@ -1,8 +1,17 @@
-import React from 'react';
+import {useState} from 'react';
 import Image from 'next/image';
+import SkillsModal from './skillModal/SkillsModal';
 
 
 const LandingPageFilled: React.FC = () => {
+  const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
+
+   const handleOpenSkillModal = () => {
+     setIsSkillModalOpen(true);
+   };
+   const handleCloseSkillModal = () => {
+   setIsSkillModalOpen(false);
+ };
   return (
     <div className="flex flex-col gap-20 w-[100%] overflow-hidden">
       <div className="flex flex-col gap-6 w-[100%]">
@@ -52,7 +61,7 @@ const LandingPageFilled: React.FC = () => {
             </button>
           </div>
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            <a href='#'>Edit</a>
+            <a href="#">Edit</a>
           </div>
         </div>
       </div>
@@ -71,17 +80,15 @@ const LandingPageFilled: React.FC = () => {
               id="Experience"
               className="border-solid border-[#009254] flex flex-col justify-center w-16 shrink-0 h-16 items-start border-t-0 border-b-4 border-x-0"
             >
-              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">
-                About
-              </div>
+              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">About</div>
             </div>
           </div>
           <div className="flex flex-row gap-6 items-center">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            <a href="#">Edit</a>
+              <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              <a href='#'>Delete</a>
+              <a href="#">Delete</a>
             </div>
           </div>
         </div>
@@ -134,9 +141,7 @@ const LandingPageFilled: React.FC = () => {
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#8d9290]">
                 May 2021 - Present
               </div>
-              <div className="text-xl font-['Manrope'] font-semibold leading-[28px] text-[#2e3130]">
-                Pepsi, Nigeria
-              </div>
+              <div className="text-xl font-['Manrope'] font-semibold leading-[28px] text-[#2e3130]">Pepsi, Nigeria</div>
             </div>
             <div className="text-sm font-['Manrope'] tracking-[0.04] leading-[20px] text-[#009254] mb-8 ml-[60%] hidden sm:flex">
               Senior product designer
@@ -145,9 +150,7 @@ const LandingPageFilled: React.FC = () => {
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#8d9290]">
                 May 2021 - Present
               </div>
-              <div className="text-xl font-['Manrope'] font-semibold leading-[28px] text-[#2e3130]">
-                Pepsi, Nigeria
-              </div>
+              <div className="text-xl font-['Manrope'] font-semibold leading-[28px] text-[#2e3130]">Pepsi, Nigeria</div>
             </div>
             <div className="text-sm font-['Manrope'] tracking-[0.04] leading-[20px] text-[#009254] ml-[60%] hidden sm:flex">
               Senior product designer
@@ -185,17 +188,15 @@ const LandingPageFilled: React.FC = () => {
               id="Experience4"
               className="border-solid border-[#009254] flex flex-col justify-center w-20 shrink-0 h-16 items-start border-t-0 border-b-4 border-x-0"
             >
-              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">
-                Project
-              </div>
+              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">Project</div>
             </div>
           </div>
           <div className="flex flex-row gap-6 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Edit</a>
+              <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              <a href='#'>Delete</a>
+              <a href="#">Delete</a>
             </div>
           </div>
         </div>
@@ -258,7 +259,7 @@ const LandingPageFilled: React.FC = () => {
             </div>
             <div className="flex flex-row items-start">
               <div className="text-right font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                <a href='#'>Link to project</a>
+                <a href="#">Link to project</a>
               </div>
               <Image
                 src="/assets/images/landingPageFilled/arrow.svg"
@@ -330,7 +331,7 @@ const LandingPageFilled: React.FC = () => {
             </div>
             <div className="flex flex-row items-start">
               <div className="text-right font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                <a href='#'>Link to project</a>
+                <a href="#">Link to project</a>
               </div>
               <Image
                 src="/assets/images/landingPageFilled/arrow.svg"
@@ -409,14 +410,12 @@ const LandingPageFilled: React.FC = () => {
           <div className="flex flex-col gap-6 w-1/2 items-end hidden sm:flex">
             
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876] w-full">
-              Implemented A/B testing for website redesign, leading to a 40%
-              improvement in user retention and a 25% increase in conversion
-              rates, ultimately resulting in a 20% boost in overall revenue.
+              Implemented A/B testing for website redesign, leading to a 40% improvement in user retention and a 25%
+              increase in conversion rates, ultimately resulting in a 20% boost in overall revenue.
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876] w-full">
-              Implemented A/B testing for website redesign, leading to a 40%
-              improvement in user retention and a 25% increase in conversion
-              rates, ultimately resulting in a 20% boost in overall revenue.
+              Implemented A/B testing for website redesign, leading to a 40% improvement in user retention and a 25%
+              increase in conversion rates, ultimately resulting in a 20% boost in overall revenue.
             </div>
           </div>
         </div>
@@ -438,17 +437,22 @@ const LandingPageFilled: React.FC = () => {
               id="Experience8"
               className="border-solid border-[#009254] flex flex-col justify-center w-12 shrink-0 h-16 items-start border-t-0 border-b-4 border-x-0"
             >
-              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">
-                Skill
-              </div>
+              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">Skill</div>
             </div>
           </div>
           <div className="flex flex-row gap-6 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Edit</a>
+              {/* <a href="#">Edit</a> */}
+              <button
+                className="hover:text-brand-green-hover outline-none border-none bg-transparent"
+                onClick={handleOpenSkillModal}
+                type="button"
+              >
+                Edit
+              </button>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
-              <a href='#'>Delete</a>
+              <a href="#">Delete</a>
             </div>
           </div>
         </div>
@@ -516,9 +520,7 @@ const LandingPageFilled: React.FC = () => {
               id="Experience10"
               className="border-solid border-[#009254] flex flex-col justify-center w-16 shrink-0 h-16 items-start border-t-0 border-b-4 border-x-0"
             >
-              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">
-                Shop
-              </div>
+              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">Shop</div>
             </div>
           </div>
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
@@ -535,7 +537,7 @@ const LandingPageFilled: React.FC = () => {
         />
         <div className="flex flex-row gap-px items-start mb-4 ml-8">
           <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-            <a href='#'>Go to shop</a>
+            <a href="#">Go to shop</a>
           </div>
           <Image
             src="/assets/images/landingPageFilled/arrow.svg"
@@ -564,14 +566,12 @@ const LandingPageFilled: React.FC = () => {
               id="Experience12"
               className="border-solid border-[#009254] flex flex-col justify-center w-24 shrink-0 h-16 items-start border-t-0 border-b-4 border-x-0"
             >
-              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">
-                Interest
-              </div>
+              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">Interest</div>
             </div>
           </div>
           <div className="flex flex-row gap-6 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Edit</a>
+              <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
               <a>Delete</a>
@@ -653,14 +653,12 @@ const LandingPageFilled: React.FC = () => {
               id="Experience14"
               className="border-solid border-[#009254] flex flex-col justify-center w-24 shrink-0 h-16 items-start border-t-0 border-b-4 border-x-0"
             >
-              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">
-                Contact
-              </div>
+              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">Contact</div>
             </div>
           </div>
           <div className="flex flex-row gap-6 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Edit</a>
+              <a href="#">Edit</a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
               <a>Delete</a>
@@ -668,12 +666,10 @@ const LandingPageFilled: React.FC = () => {
           </div>
         </div>
         <div className="flex flex-row justify-between ml-8 gap-24 items-start">
-          <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">
-            Email
-          </div>
+          <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">Email</div>
           <div className="flex flex-row w-[208px] shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Babatundende@gmailcom</a>
+              <a href="#">Babatundende@gmailcom</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -686,12 +682,10 @@ const LandingPageFilled: React.FC = () => {
           </div>
         </div>
         <div className="flex flex-row ml-8 gap-20 items-start">
-          <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">
-            Twitter
-          </div>
+          <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">Twitter</div>
           <div className="flex flex-row w-32 shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Babatunde</a>
+              <a href="#">Babatunde</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -704,12 +698,10 @@ const LandingPageFilled: React.FC = () => {
           </div>
         </div>
         <div className="flex flex-row ml-8 gap-24 items-start">
-          <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">
-            Github
-          </div>
+          <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">Github</div>
           <div className="flex flex-row w-32 shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Babatunde</a>
+              <a href="#">Babatunde</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -722,12 +714,10 @@ const LandingPageFilled: React.FC = () => {
           </div>
         </div>
         <div className="flex flex-row gap-20 items-start mb-4 ml-8">
-          <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">
-            Linkedin
-          </div>
+          <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#737876]">Linkedin</div>
           <div className="flex flex-row w-32 shrink-0 items-start">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href='#'>Babatunde</a>
+              <a href="#">Babatunde</a>
             </div>
             <Image
               src="/assets/images/landingPageFilled/arrow.svg"
@@ -760,11 +750,12 @@ const LandingPageFilled: React.FC = () => {
             className="text-center font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#009254]"
           >
             Add
-            {"  "}
-            section{" "}
+            {'  '}
+            section{' '}
           </button>
         </button>
       </div>
+      {isSkillModalOpen && <SkillsModal handleCloseSkillModal={handleCloseSkillModal} isSkillModalOpen={isSkillModalOpen} />}
     </div>
   );
 };

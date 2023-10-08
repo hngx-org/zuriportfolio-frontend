@@ -3,7 +3,6 @@ import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Link from 'next/link';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
-import MainLayout from '../../components/Layout/MainLayout';
 
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -20,8 +19,8 @@ function Signup() {
   };
 
   return (
-    <MainLayout activePage="signup">
-      <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
+    <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
+      <div className="md:max-w-[517px] mx-auto md:max-xl max-w-[390px] ">
         <div className="text-center lg:text-left">
           <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100">Sign up</h1>
           <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
@@ -36,7 +35,7 @@ function Signup() {
                 placeHolder="Aliu"
                 id="firstname"
                 name="firstname"
-                className="w-full border-[#D0D5DD]"
+                className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type="text"
               />
             </div>
@@ -48,7 +47,7 @@ function Signup() {
                 placeHolder="Sugar"
                 id="lastname"
                 name="lastname"
-                className="w-full border-[#D0D5DD]"
+                className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type="text"
               />
             </div>
@@ -60,7 +59,7 @@ function Signup() {
                 placeHolder="Gbemi345"
                 id="password"
                 name="password"
-                className="w-full border-[#D0D5DD]"
+                className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type={passwordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
                 isPasswordVisible={passwordVisible} // Pass the visibility state as a prop
                 rightIcon={
@@ -116,7 +115,7 @@ function Signup() {
                 placeHolder="Gbemi345"
                 id="confirmPassword"
                 name="confirmPassword"
-                className="w-full border-[#D0D5DD]"
+                className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type={confirmPasswordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
                 isPasswordVisible={confirmPasswordVisible} // Pass the visibility state as a prop
                 rightIcon={
@@ -205,7 +204,12 @@ function Signup() {
               }
             `}</style>
 
-            <Button intent={'primary'} size={'sm'} className="w-full rounded-lg" type="submit">
+            <Button
+              intent={'primary'}
+              size={'sm'}
+              className="w-full h-[44px] md:h-[60px] rounded-lg mt-3"
+              type="submit"
+            >
               Continue
             </Button>
           </form>
@@ -218,8 +222,8 @@ function Signup() {
             </p>
           </div>
         </div>
-      </AuthLayout>
-    </MainLayout>
+      </div>
+    </AuthLayout>
   );
 }
 
