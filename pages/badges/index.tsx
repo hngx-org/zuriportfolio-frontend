@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import MainLayout from '../../components/Layout/MainLayout';
+import { useState } from 'react';
 
 interface BadgeComponentProps {
   locked: boolean;
