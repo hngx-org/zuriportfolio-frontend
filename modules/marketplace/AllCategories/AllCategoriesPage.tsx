@@ -22,13 +22,12 @@ interface ProductData {
   discount: number;
 }
 
-
 export default function AllCategoriesPage() {
   // Sample product data (you can replace this with your actual data)
-  const products: ProductData[] =  [
+  const products: ProductData[] = [
     // Product 1
     {
-      image:'/assets/products-banner/Image-1.png',
+      image: '/assets/products-banner/Image-1.png',
       productName: 'Webinar and Course Slide Templa...',
       productPrice: '100.0',
       productOwner: 'Mark Essien',
@@ -89,7 +88,7 @@ export default function AllCategoriesPage() {
       productPrice: '120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
-      showLimitedOffer:  false,
+      showLimitedOffer: false,
       showTopPicks: false,
       showDiscount: true,
       discount: 60,
@@ -100,7 +99,7 @@ export default function AllCategoriesPage() {
       productPrice: '120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
-      showLimitedOffer:  false,
+      showLimitedOffer: false,
       showTopPicks: false,
       showDiscount: false,
       discount: 60,
@@ -111,7 +110,7 @@ export default function AllCategoriesPage() {
       productPrice: '120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
-      showLimitedOffer:  false,
+      showLimitedOffer: false,
       showTopPicks: false,
       showDiscount: true,
       discount: 60,
@@ -210,7 +209,7 @@ export default function AllCategoriesPage() {
     {
       image: '/assets/products-banner/Image-5.png',
       productName: 'Webinar and Course Slide Templa...',
-      productPrice:' 120.0',
+      productPrice: ' 120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
       showLimitedOffer: false,
@@ -257,7 +256,7 @@ export default function AllCategoriesPage() {
     {
       image: '/assets/products-banner/Image-9.png',
       productName: 'Webinar and Course Slide Templa...',
-      productPrice:' 120.0',
+      productPrice: ' 120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
       showLimitedOffer: false,
@@ -297,9 +296,7 @@ export default function AllCategoriesPage() {
       showTopPicks: true,
       showDiscount: false,
       discount: 60,
-    }
-
-   
+    },
   ];
 
   // Array of paragraph texts for each row
@@ -309,8 +306,7 @@ export default function AllCategoriesPage() {
     'Content Creation & Education',
     'Degital Arts & Media',
     'Audio & Sound',
-    'Photography'
-    
+    'Photography',
   ];
 
   // Function to group products into rows
@@ -326,25 +322,12 @@ export default function AllCategoriesPage() {
   const productRows: ProductData[][] = groupProductsIntoRows(products, itemsPerRow);
 
   return (
-   
     <div className="category">
       {productRows.map((row, index) => (
-         <div key={index} className="">
+        <div key={index} className="">
           <ProductCardWrapper productsList={row} title={paragraphTexts[index]} />
         </div>
       ))}
     </div>
- 
   );
 }
-
-
-
-
-
-
-
-
-
-
-
