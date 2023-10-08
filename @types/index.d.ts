@@ -314,4 +314,5 @@ export interface reviewProps {
   noOfStars: number;
   shopName?: string;
   shopReply?: string;
+  help?: number;
 }
