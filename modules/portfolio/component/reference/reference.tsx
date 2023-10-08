@@ -8,33 +8,24 @@ interface formData {
   company: string;
   position: string;
   email: string;
-  phone: number;
+  phone: string;
 }
 interface Errors {
   fullname?: string;
   company?: string;
-  position?: string;
   email?: string;
-  phone?: number;
 }
 
 function PortfolioReference() {
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
-  };
-
   const initialFormData: formData = {
     email: '',
     fullname: '',
     company: '',
     position: '',
-    phone: 0,
+    phone: '',
   };
 
-  const [formData, setFormData] = useState(initialFormData);
-  const [text, setText] = useState<string>('');
-  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState<formData>(initialFormData);
   const [hide, setHide] = useState('block');
   const [errors, setErrors] = useState<Errors>({});
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -45,19 +36,49 @@ function PortfolioReference() {
       ...prevData,
       [name]: value,
     }));
-    console.log(formData);
   };
 
-  //   const validateAllFieldsNotEmpty = () => {
-  //     let hasEmptyField = false;
-  //     Object.keys(formData).forEach((inputName) => {
-  //       if (!formData[inputName as keyof FormData].trim()) {
-  //         setErrors((prevErrors) => ({ ...prevErrors, [inputName]: `${inputName} is required` }));
-  //         hasEmptyField = true;
-  //       }
-  //     });
-  //     return !hasEmptyField;
-  //   };
+  const validateAllFieldsNotEmpty = () => {
+    let hasEmptyField = false;
+    const fieldsToValidate = ['fullname', 'email', 'company'];
+
+    Object.entries(formData).forEach(([inputName, inputValue]) => {
+      // Check if inputName is one of the fields to validate
+      if (fieldsToValidate.includes(inputName)) {
+        if (!inputValue.trim()) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            [inputName]: `${inputName} is required`.charAt(0).toUpperCase() + `${inputName} is required`.slice(1),
+          }));
+          hasEmptyField = true;
+        } else if (inputName === 'email' && !isValidEmail(inputValue)) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            [inputName]: 'Invalid email format'.charAt(0).toUpperCase() + 'Invalid email format'.slice(1),
+          }));
+          hasEmptyField = true;
+        }
+      }
+    });
+
+    console.log(hasEmptyField);
+    return !hasEmptyField;
+  };
+
+  // Function to validate email format
+  const isValidEmail = (email: string) => {
+    // Regular expression pattern for a typical email address format
+    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    return emailPattern.test(email);
+  };
+
+  function handleSubmit() {
+    if (!validateAllFieldsNotEmpty()) {
+      validateAllFieldsNotEmpty();
+    } else {
+      setErrors({ ...errors, fullname: '', email: '', company: '' });
+    }
+  }
 
   return (
     <Modal isOpen={true} closeModal={() => {}} size="lg">
@@ -87,7 +108,7 @@ function PortfolioReference() {
             x
           </div>
         </div>
-        <form className="p-4 mt-10 border flex flex-col gap-4 rounded-lg border-brand-disabled">
+        <form onSubmit={handleSubmit} className="p-4 mt-10 border flex flex-col gap-4 rounded-lg border-brand-disabled">
           <DynamicInput
             onChange={handleInputChange}
             type="text"
@@ -98,6 +119,7 @@ function PortfolioReference() {
             labelFor="fullname"
             value={formData.fullname}
             required={true}
+            error={errors.fullname}
           />
           <div className="w-full flex flex-col md:flex-row gap-4 justify-between">
             <div className="w-full md:w-[47%]">
@@ -111,6 +133,7 @@ function PortfolioReference() {
                 labelFor="company"
                 value={formData.company}
                 required={true}
+                error={errors.company}
               />
             </div>
             <div className="w-full md:w-[47%]">
@@ -135,8 +158,9 @@ function PortfolioReference() {
             name="email"
             label="Email*"
             labelFor="email"
-            value={formData.fullname}
+            value={formData.email}
             required={true}
+            error={errors.email}
           />
           <DynamicInput
             onChange={handleInputChange}
@@ -146,7 +170,7 @@ function PortfolioReference() {
             name="phone"
             label="Phone Number"
             labelFor="phone"
-            value={formData.fullname}
+            value={formData.phone}
             required={false}
             leftIcon={<span>+234</span>}
             pattern={'[0-9]{3}-[0-9]{2}-[0-9]{3}'}
@@ -155,7 +179,7 @@ function PortfolioReference() {
             <Button intent={'secondary'} size={'sm'} className="w-24" type="button">
               Close
             </Button>
-            <Button intent={'primary'} size={'sm'} className="w-24" type="button" onClick={() => {}}>
+            <Button intent={'primary'} size={'sm'} className="w-24" type="button" onClick={handleSubmit}>
               Save
             </Button>
           </div>
