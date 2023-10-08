@@ -188,7 +188,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     <p>View Live Profile</p>
                   </div>
                 </li>
-                <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 ">
+                <Link
+                  href={'/marketplace/cart'}
+                  className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
+                >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <g>
                       <g
@@ -206,23 +209,35 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     </g>
                   </svg>
                   <p>Your Shop</p>
-                </li>
-                <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 ">
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
+                >
                   <Image draggable={false} src={dashBoard} alt="dashboard" />
                   <p>Customer Dashboard</p>
-                </li>
-                <li className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 ">
+                </Link>
+                <Link
+                  href="/portfolio"
+                  className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
+                >
                   <Image draggable={false} src={briefCaseIcon} alt="Briefcase icon" />
                   <p>Manage Portfolio</p>
-                </li>
-                <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 ">
+                </Link>
+                <Link
+                  href="/assessments"
+                  className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
+                >
                   <Image draggable={false} src={likesIcon} alt="Like" />
                   <p>Assessments & Badges</p>
-                </li>
-                <li className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 ">
+                </Link>
+                <Link
+                  href="/settings"
+                  className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
+                >
                   <Image draggable={false} src={settingsIcon} alt="Setting" />
                   <p>Settings</p>
-                </li>
+                </Link>
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 text-[#FF2E2E]">
                   <Image draggable={false} src={errorBoxIcon} alt="SignOut" />
                   <p>Sign Out</p>
