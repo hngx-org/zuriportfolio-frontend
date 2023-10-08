@@ -12,7 +12,7 @@ function Header({ heading, body }: any) {
           <h1 className=" font-manropeB text-[24px] md:text-[32px] py-2">{heading}</h1>
           <p className=" text-sm font-manropeL">{body}</p>
         </div>
-        <div className="bg w-full absolute top-0 left-0 h-auto w-full md:relative z-0">
+        <div className="bg w-full absolute top-0 left-0 h-auto md:relative z-0">
           <div className="absolute top-0 right-0 w-[100px] lg:w-auto h-auto">
             <Image src={greenbadgebg} alt="Green background" layout="contain" />
           </div>
