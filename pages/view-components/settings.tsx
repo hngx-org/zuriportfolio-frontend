@@ -8,6 +8,9 @@ import NotificationSettings from '../../modules/portfolio/component/portfolioSet
 //import AccountManagement from '../../modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
 //import AccountManagementMobile from '../../modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
 import { SettingOptionTypes } from '../../@types';
+import DeleteAccount from '@modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
+import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
+import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
 
 export default function SettingPage() {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -159,8 +162,8 @@ export default function SettingPage() {
               ) : (
                 <div>
                   {settingOption.notificationSettings && <NotificationSettings />}
-                  {/* {settingOption.deleteAccount && <DeleteAccount />}
-                  {settingOption.accountManagement && <AccountManagement />} */}
+                  {settingOption.deleteAccount && <DeleteAccount />}
+                  {settingOption.accountManagement && <AccountManagement />}
                 </div>
               )}
             </div>
@@ -244,8 +247,8 @@ export default function SettingPage() {
               </p>
               <div className=" w-full relative">
                 {settingOption.notificationSettings && <NotificationSettings />}
-                {/* {settingOption.deleteAccount && <DeleteAccount />}
-                {settingOption.accountManagement && <AccountManagementMobile />} */}
+                {settingOption.deleteAccount && <DeleteAccount />}
+                {settingOption.accountManagement && <AccountManagementMobile />}
                 {settingOption.refer && <InviteLink />}
               </div>
             </div>

@@ -1,17 +1,16 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import SkillsModal from './skillModal/SkillsModal';
-
 
 const LandingPageFilled: React.FC = () => {
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
 
-   const handleOpenSkillModal = () => {
-     setIsSkillModalOpen(true);
-   };
-   const handleCloseSkillModal = () => {
-   setIsSkillModalOpen(false);
- };
+  const handleOpenSkillModal = () => {
+    setIsSkillModalOpen(true);
+  };
+  const handleCloseSkillModal = () => {
+    setIsSkillModalOpen(false);
+  };
   return (
     <div className="flex flex-col gap-20 w-full">
       <div className="flex flex-col gap-6">
@@ -703,7 +702,9 @@ const LandingPageFilled: React.FC = () => {
           </button>
         </button>
       </div>
-      {isSkillModalOpen && <SkillsModal handleCloseSkillModal={handleCloseSkillModal} isSkillModalOpen={isSkillModalOpen} />}
+      {isSkillModalOpen && (
+        <SkillsModal handleCloseSkillModal={handleCloseSkillModal} isSkillModalOpen={isSkillModalOpen} />
+      )}
     </div>
   );
 };
