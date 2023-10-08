@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import useDisclosure from '../../../hooks/useDisclosure';
 import Modal from '@ui/Modal';
-import { Add, CloseCircle, CloseSquare } from 'iconsax-react';
-import { Input, SelectInput } from '@ui/Input';
+import { Add, CloseSquare } from 'iconsax-react';
+import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { WorkExperience } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
@@ -17,63 +17,47 @@ const WorkExperienceSection = () => {
   const [startMonth, setStartMonth] = useState('');
   const [endYear, setEndYear] = useState<string | 'Present'>('Present');
   const [endMonth, setEndMonth] = useState('');
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
   const [idCounter, setIdCounter] = useState(1);
   const [isForm, setIsForm] = useState(true);
+  const [editedExperience, setEditedExperience] = useState<WorkExperience | null>(null);
+  const [editMode, setEditMode] = useState(false);
 
-  const handleSaveExperience2 = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const experienceObject = {
-      id: idCounter,
-      role,
-      company,
-      description,
-      startMonth,
-      startYear,
-      endYear: isChecked ? 'Present' : endYear,
-      endMonth: isChecked ? 'Present' : endMonth,
-    };
-    if (
-      role === '' ||
-      company === '' ||
-      description === '' ||
-      startMonth === '' ||
-      startYear === '' ||
-      (!isChecked && (endYear === '' || endMonth === ''))
-    ) {
-      alert('Pls fill in all the inputs');
-      return;
+  const handleEditExperience = (id: number) => {
+    const editedExperience = workExperiences.find((experience) => experience.id === id);
+
+    // Set the form fields with the values from the found experience
+    if (editedExperience) {
+      setRole(editedExperience.role);
+      setCompany(editedExperience.company);
+      setDescription(editedExperience.description);
+      setStartMonth(editedExperience.startMonth);
+      setStartYear(editedExperience.startYear);
+      setEndYear(editedExperience.endYear);
+      setEndMonth(editedExperience.endMonth);
+      setIsChecked(editedExperience.endYear === 'Present'); // Set the checkbox based on 'endYear'
+
+      // Now, set the form into edit mode
+      setIsForm(true);
+      setEditMode(true);
+      setEditedExperience(editedExperience);
     }
-
-    if (!isChecked) {
-      alert();
-    }
-    setWorkExperiences((prev) => [experienceObject, ...prev]);
-    setIdCounter((prev) => prev + 1);
-    setIsForm(false);
-
-    // Reset form fields
-    setRole('');
-    setCompany('');
-    setDescription('');
-    setStartMonth('');
-    setStartYear('');
-    setEndYear('Present');
-    setEndMonth('');
-    setIsChecked(true);
+    handleDeleteExperience(id);
   };
+
+  const experienceObject = {
+    id: idCounter,
+    role,
+    company,
+    description,
+    startMonth,
+    startYear,
+    endYear: isChecked ? 'Present' : endYear,
+    endMonth: isChecked ? 'Present' : endMonth,
+  };
+
   const handleSaveExperience = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const experienceObject = {
-      id: idCounter,
-      role,
-      company,
-      description,
-      startMonth,
-      startYear,
-      endYear: isChecked ? 'Present' : endYear,
-      endMonth: isChecked ? 'Present' : endMonth,
-    };
     if (
       role === '' ||
       company === '' ||
@@ -84,10 +68,6 @@ const WorkExperienceSection = () => {
     ) {
       alert('Pls fill in all the inputs');
       return;
-    }
-
-    if (!isChecked) {
-      alert();
     }
     setWorkExperiences((prev) => [experienceObject, ...prev]);
     setIdCounter((prev) => prev + 1);
@@ -173,8 +153,6 @@ const WorkExperienceSection = () => {
     years.push(yearObject);
   }
 
-  console.log(workExperiences);
-
   const handleDeleteExperience = (id: number) => {
     const updatedExperience = workExperiences.filter((experience) => experience.id !== id);
     setWorkExperiences(updatedExperience);
@@ -221,7 +199,12 @@ const WorkExperienceSection = () => {
                       </p>
                     </div>
                     <div className="self-end flex gap-4 font-manropeL">
-                      <span className="font-semibold cursor-pointer text-[#5B8DEF]">Edit</span>
+                      <span
+                        onClick={() => handleEditExperience(experience.id)}
+                        className="font-semibold cursor-pointer text-[#5B8DEF]"
+                      >
+                        Edit
+                      </span>
                       <span
                         className="font-semibold cursor-pointer text-brand-red-hover"
                         onClick={() => handleDeleteExperience(experience.id)}
@@ -245,8 +228,9 @@ const WorkExperienceSection = () => {
                       onChange={(e) => {
                         setRole(e.target.value);
                       }}
-                      className="border-[#E1E3E2] w-full"
+                      className="border-[#E1E3E2] w-full h-[44px] rounded-md border-[1px]"
                       inputSize={'lg'}
+                      value={role}
                     />
                   </div>
                   <div className="flex flex-col gap-[.5rem] w-[90%]">
@@ -256,17 +240,16 @@ const WorkExperienceSection = () => {
                       onChange={(e) => {
                         setCompany(e.target.value);
                       }}
-                      className="border-[#E1E3E2] w-full"
+                      className="border-[#E1E3E2] w-full h-[44px] rounded-md border-[1px]"
                       inputSize={'lg'}
+                      value={company}
                     />
                   </div>
                 </div>
                 <div className="flex flex-col gap-[.5rem]">
                   <label className="font-semibold text-[#444846] text-[1rem]">Description</label>
                   <textarea
-                    className="resize-none border-2 border-solid border-[#E1E3E2] pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary "
-                    name=""
-                    id=""
+                    className="resize-none border-[1px] border-solid border-[#E1E3E2] pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary "
                     rows={4}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -283,6 +266,7 @@ const WorkExperienceSection = () => {
                           onValueChange={(value: string) => {
                             setStartMonth(value);
                           }}
+                          value={startMonth}
                         >
                           <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Month" />
@@ -303,6 +287,7 @@ const WorkExperienceSection = () => {
                           onValueChange={(value: string) => {
                             setStartYear(value);
                           }}
+                          value={startYear}
                         >
                           <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Year" />
@@ -322,7 +307,7 @@ const WorkExperienceSection = () => {
                   </div>
                   <div className="w-full flex gap-2 flex-1 flex-col">
                     <p className="text-[#444846] font-normal font-manropeL">
-                      Start date <span className="text-[#8D9290]">(optional)</span>
+                      End date <span className="text-[#8D9290]">(optional)</span>
                     </p>
                     <div className="flex gap-2">
                       <>
@@ -330,6 +315,7 @@ const WorkExperienceSection = () => {
                           onValueChange={(value: string) => {
                             setEndMonth(value);
                           }}
+                          value={endMonth}
                         >
                           <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Month" />
@@ -350,6 +336,7 @@ const WorkExperienceSection = () => {
                           onValueChange={(value: string) => {
                             setEndYear(value);
                           }}
+                          value={endYear}
                         >
                           <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Year" />
@@ -366,27 +353,33 @@ const WorkExperienceSection = () => {
                         </Select>
                       </>
                     </div>
-                    <div className="self-start flex items-center">
+                    <div className="relative w-7 h-7 flex items-center justify-center">
                       <input
-                        checked={isChecked}
+                        type="checkbox"
+                        defaultChecked={isChecked}
                         onChange={() => {
                           setIsChecked(!isChecked);
-                          if (!isChecked) {
+                          if (isChecked) {
                             // Clear endYear and endMonth when 'Present' is unchecked
-                            setEndYear('');
-                            setEndMonth('');
-                          } else {
                             // Set 'Present' when 'Present' is checked
                             setEndYear('Present');
                             setEndMonth('Present');
                           }
                         }}
-                        type="checkbox"
-                        name="presentCheck"
-                        id="presentCheck"
-                        className="w-[1.5rem] rounded-full h-[1.5rem]"
+                        className="peer shrink-0 appearance-none h-[100%] w-[100%] border-[1px] border-[#A8ACAB] rounded-md checked:bg-brand-green-primary checked:border-0"
                       />
-                      <span className="font-normal font-manropeL ml-2 text-[#5B5F5E]">Present</span>
+                      <svg
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 hidden peer-checked:block pointer-events-none"
+                        xmlns="http://w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
                     </div>
                   </div>
                 </div>
