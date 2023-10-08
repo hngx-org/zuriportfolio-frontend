@@ -33,7 +33,9 @@ function FeedbackModal({ isOpen, onClose, score, badge, badgeName }: { isOpen: b
             onChange={(e) => {
               console.log(e.target.value);
             }}
-            className="outline-none border-none text-white-100 focus-within:text-dark-100"
+            caretColor="#fff"
+            className="outline-none border-none text-white-100"
+            optionColor="text-black"
           />
         </div>
       </div>
