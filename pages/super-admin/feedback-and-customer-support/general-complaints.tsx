@@ -338,7 +338,7 @@ export default function GeneralComplaints() {
                             <div className="displayPicture">
                               <Image
                                 alt=""
-                                src="/assets/images/vendorComplaint.png"
+                                src="/../../../assets/images/vendorComplaint.png"
                                 className="h-10 w-10 rounded-full object-contain"
                                 width={40}
                                 height={40}
@@ -439,7 +439,7 @@ export default function GeneralComplaints() {
                           <div className="displayPicture">
                             <Image
                               alt=""
-                              src="/assets/images/vendorComplaint.png"
+                              src="/../../../assets/images/vendorComplaint.png"
                               className="h-10 w-10 rounded-full object-contain"
                               width={40}
                               height={40}
