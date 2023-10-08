@@ -59,7 +59,7 @@ const data: ProductInfo[] = [
 
 const ProductListingTable: FC = () => {
   return (
-    <div className="font-manropeL">
+    <div className="font-manropeL max-w-7xl mx-auto">
       {/* Heading */}
       <div>
         <div className="py-2">
@@ -74,15 +74,21 @@ const ProductListingTable: FC = () => {
           <tr>
             <th className="text-gray-500 text-xs font-normal leading-[18px] px-6 py-3 gap-3 text-left flex items-center">
               <input type="checkbox" />
-              <p> Product Name</p>
+              <samp> Product Name</samp>
             </th>
             <th className="text-gray-500 text-xs font-normal leading-[18px] px-3 py-3 gap-3">Vendor</th>
-            <th className=" md:table-cell text-gray-500 text-xs font-normal leading-[18px] px-3 py-3 gap-3 ">ID</th>
-            <th className=" md:table-cell text-gray-500 text-xs font-normal leading-[18px] px-3 py-3 gap-3">
+            <th className=" hidden md:table-cell text-gray-500 text-xs font-normal leading-[18px] px-3 py-3 gap-3 ">
+              ID
+            </th>
+            <th className="hidden md:table-cell text-gray-500 text-xs font-normal leading-[18px] px-3 py-3 gap-3">
               Date Added
             </th>
-            <th className=" md:table-cell text-gray-500 text-xs font-normal leading-[18px] px-3 py-3 gap-3">Status</th>
-            <th className=" md:table-cell text-gray-500 text-xs font-normal leading-[18px] px-3 py-3 gap-3">Action</th>
+            <th className="hidden md:table-cell text-gray-500 text-xs font-normal leading-[18px] px-3 py-3 gap-3">
+              Status
+            </th>
+            <th className="hidden md:table-cell text-gray-500 text-xs font-normal leading-[18px] px-3 py-3 gap-3">
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -96,15 +102,15 @@ const ProductListingTable: FC = () => {
               <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                 <p>{product.vendor} </p>
               </td>
-              <td className="md:table-cell tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
+              <td className="hidden md:table-cell tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                 <p>#{product.id}</p>
               </td>
-              <td className="md:table-cell tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
+              <td className="hidden md:table-cell tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                 <p>{product.dateAdded}</p>
               </td>
               <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                 <div
-                  className={`mx-auto rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
+                  className={` hidden  mx-auto rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
                     product.status === 'Sanctioned'
                       ? 'bg-yellow-100 bg-opacity-50 text-yellow-800'
                       : product.status === 'Deleted'
@@ -124,7 +130,7 @@ const ProductListingTable: FC = () => {
                   <span>{product.status}</span>
                 </div>
               </td>
-              <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-4 text-center w-max mx-auto lg:flex">
+              <td className="hidden tracking-wide font-manropeL text-base text-gray-900 px-6 py-4 text-center w-max mx-auto md:flex">
                 <More />
               </td>
             </tr>
