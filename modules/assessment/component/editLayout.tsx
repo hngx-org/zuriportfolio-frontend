@@ -6,7 +6,7 @@ import { Add } from 'iconsax-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 const EditLayout = () => {
   const { id } = useParams();
-  const [mockArr, setMcokarr] = useState(new Array(5).fill(null));
+  const [mockArr, setMcokarr] = useState(new Array(4).fill(null));
 
   const handleDelete = (indexToDelete: number) => {
     const updatedArr = mockArr.filter((item, index) => index !== indexToDelete);
@@ -56,7 +56,7 @@ const EditLayout = () => {
       {mockArr.map((item, index) => {
         return (
           <div key={index} className="pt-4 flex flex-col gap-y-[10px]">
-            <div className=" text-[18px] font-semibold  text-[#1A1C1B]">Option 1</div>
+            <div className=" text-[18px] font-semibold  text-[#1A1C1B]">{`Option ${index + 1}`}</div>
             <div className="flex items-center justify-between gap-x-2">
               <svg width="28" height="29" viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="14" cy="14.5" r="13.5" stroke="#009254" />
@@ -87,9 +87,9 @@ const EditLayout = () => {
                   d="M13.9069 26.1667C20.3236 26.1667 25.5736 20.9167 25.5736 14.5C25.5736 8.08334 20.3236 2.83334 13.9069 2.83334C7.49023 2.83334 2.24023 8.08334 2.24023 14.5C2.24023 20.9167 7.49023 26.1667 13.9069 26.1667Z"
                   fill="#FF5C5C"
                   stroke="#464646"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   strokeLinecap="round"
-                  stroke-linejoin="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M9.24023 14.5H18.5736"
@@ -105,6 +105,7 @@ const EditLayout = () => {
       })}
       <div className="pt-2">
         <Button
+          onClick={handleIncreaseLength}
           rightIcon={<Add color="black" />}
           intent={'primary'}
           size={'md'}
