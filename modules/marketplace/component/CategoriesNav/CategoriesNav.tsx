@@ -1,15 +1,12 @@
 import React from 'react';
 
-const navItems: string[] = [
-  ' Design & Graphics',
-  ' Development & Programming',
-  ' Content Creation',
-  ' Digital Arts & Media',
-  ' Audio & Sound',
-  ' Photography',
-];
+interface CategoriesNavProps {
+  navItems: string[];
+}
 
-const CategoriesNav = () => {
+const CategoriesNav = (props: CategoriesNavProps) => {
+  const { navItems } = props;
+
   return (
     <ul className="hidden lg:flex gap-8 py-5 mb-8 xl:mb-[52px] relative max-w-[1240px] mx-auto z-50 text-sm xl:text-base">
       <li>All Categories</li>
