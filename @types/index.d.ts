@@ -316,3 +316,11 @@ export interface reviewProps {
   shopReply?: string;
   help?: number;
 }
+
+export interface searchProp {
+  handleSearchChange: (searchString: string) => void;
+}
+
+export interface filterProp {
+  handleFilter: (status: string) => void;
+}
