@@ -179,7 +179,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </ul>
           </div>
         )}
-        <div className="flex items-center ">
+        <div className="flex lg:hidden items-center ">
           {auth && (
             <div className="lg:hidden flex items-center gap-1 ">
               <div className="flex gap-1">
