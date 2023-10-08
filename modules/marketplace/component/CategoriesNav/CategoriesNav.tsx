@@ -1,25 +1,33 @@
 import React from 'react';
 
-interface MyComponentProps {
+interface CategoriesNavProps {
   navItems: string[];
 }
 
-const CategoriesNav: React.FC<MyComponentProps> = ({ navItems }) => {
+const CategoriesNav = (props: CategoriesNavProps) => {
+  const { navItems } = props;
+
   return (
-    <div className="w-full  hidden md:flex pt-10  px-10">
-      <ul className="flex  w-full justify-between  gap-[32px]">
-        {navItems.map((item) => {
-          return (
-            <li
-              key={item.toLowerCase()}
-              className=" font-ppReg text-base  hover:text-brand-green-shade50 select-none hover:cursor-pointer transition duration-400 ease-in-out text-brand-green-shade10 font-normal"
-            >
-              {item ? <a href="">{item}</a> : item}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <ul className="hidden lg:flex gap-8 py-5 mb-8 xl:mb-[52px] relative max-w-[1240px] mx-auto z-50 text-sm xl:text-base">
+      <li className="whitespace-nowrap">All Categories</li>
+      {navItems.map((item) => {
+        return (
+          <li
+            key={item.toLowerCase()}
+            className=" font-ppReg text-base  hover:text-brand-green-shade50 select-none hover:cursor-pointer transition duration-400 ease-in-out text-brand-green-shade10 font-normal"
+          >
+            {item ? (
+              <a className="whitespace-nowrap" href="">
+                {item}
+              </a>
+            ) : (
+              item
+            )}
+          </li>
+        );
+      })}
+      <li>More...</li>
+    </ul>
   );
 };
 
