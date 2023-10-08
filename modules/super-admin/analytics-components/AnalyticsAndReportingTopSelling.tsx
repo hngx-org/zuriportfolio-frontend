@@ -1,27 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import SuperAdminPagination from '../components/pagination';
+import { topListingProduct, AdminTablePagination } from '../../../@types';
 
-type Product = {
-  id: number;
-  productName: string;
-  productImage: string;
-  category: string;
-  order: string;
-  price: string;
-  topSales: string;
-  vendor: string;
-};
 
-type SuperAdminPaginationProps = {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-  title?: string | JSX.Element; // Make title optional
-};
 
 const AnalyticsAndReportingTopSelling = () => {
-  const products: Product[] = [
+  const products: topListingProduct[] = [
     {
       id: 1,
       productName: 'Product Design course',
@@ -104,7 +89,7 @@ const currentPage = 1;
 const totalPages = 10;
 
    return (
-    <section className=" px-6 mb-10 font-sans">
+    <section className=" px-6 mb-10 font-manropeL">
       <div className="max-w-[1220px] mx-auto py-4 border border-white-200 rounded-lg shadow-md overflow-x-auto lg:max-w-[1050px] xl:max-w-[1220px]">
         <div className="grid grid-cols-2 min-w-[1000px] items-center text-custom-color2 border-b border-white-200 px-4 py-3 bord">
           <div className="flex items-center gap-1">

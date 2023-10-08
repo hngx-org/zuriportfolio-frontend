@@ -1,14 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import { cardinfo } from '../../../@types';
 
-type cardinfo = {
-  title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
-}
 
 
 const AnalyticsAndReportingCards = () => {
@@ -52,7 +46,7 @@ const AnalyticsAndReportingCards = () => {
           {cardDetails.map((items, index) => (
             <div
               key={items.id}
-              className={`px-4 border border-white-200 bg-white-100 shadow-sm rounded-lg py-6 ${index === 0 ? 'lg:order-last' : ''}`}
+              className={`px-5 border border-white-200 bg-white-100 shadow-sm rounded-lg py-6 ${index === 0 ? 'lg:order-last' : ''}`}
             >
               <div className='flex justify-between items-center'>
                 <p className='font-light text-[15px] text-custom-color30'>{items.title}</p>
@@ -70,9 +64,9 @@ const AnalyticsAndReportingCards = () => {
         </div>
       </section>
       <section className='max-w-[1270px] mx-auto mt-5 font-manropeL lg:max-w-[1100px] xl:max-w-[1270px]'>
-        <div ref={cardsContainerRef} className='flex overflow-x-auto over px-4 sm:grid gap-2 sm:grid-cols-3 md:grid-cols-3 ' style={{overflowX: 'auto', scrollbarWidth: 'none'}}>
+        <div ref={cardsContainerRef} className='flex overflow-x-auto over px-4 sm:grid gap-2 sm:grid-cols-3 md:grid-cols-3'>
           {cardDetails.map((items, index) => (
-            <div key={items.id} className='px-4 border border-white-200 bg-white-100 shadow-sm rounded-lg py-6 mx-2 min-w-[300px] sm:min-w-0'>
+            <div key={items.id} className='px-5 border border-white-200 bg-white-100 shadow-sm rounded-lg py-6 mx-2 min-w-[300px] sm:min-w-0'>
               <div className='flex justify-between items-center'>
                 <p className='font-light text-[15px] text-custom-color30'>{items.title}</p>
                 <Image src={items.kMenu} alt='kmenu' width={25} height={25} className='object-contain' />

@@ -1,27 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Graph, activity } from '../../../@types';
 
-type Graph = {
-  id: number;
-  title: string;
-  btn: string;
-  calender: {
-    twelveM: string;
-    threeM: string;
-    thirtyD: string;
-    sevenD: string;
-    twentyFourH: string;
-    md: boolean;
-  };
-};
-
-type activity = {
-  name: string;
-  purchased: string;
-  pItem: string;
-  id: number;
-};
 
 const AnalyticsAndReportingGraphs = () => {
 const [isGraph, setIsGraph] = useState (false)
@@ -67,19 +48,19 @@ useEffect(() => {
     {
       name: 'Demi Wikinson',
       purchased: 'Purchased',
-      pItem: 'Webflow101',
+      pItem: 'Webflow 101',
       id: 1,
     },
     {
       name: 'John Doe',
       purchased: 'Purchased',
-      pItem: 'ProductX',
+      pItem: 'Figma Course',
       id: 2,
     },
     {
       name: 'Jane Smith',
       purchased: 'Purchased',
-      pItem: 'ServiceY',
+      pItem: 'Webflow 101',
       id: 3,
     },
     {
@@ -91,43 +72,43 @@ useEffect(() => {
     {
       name: 'Alice Brown',
       purchased: 'Purchased',
-      pItem: 'ServiceA',
+      pItem: 'Webflow 101',
       id: 5,
     },
     {
       name: 'Charlie Davis',
       purchased: 'Purchased',
-      pItem: 'ProductB',
+      pItem: 'Website Template',
       id: 6,
     },
     {
       name: 'Eva White',
       purchased: 'Purchased',
-      pItem: 'ServiceC',
+      pItem: 'SEO Masterclass',
       id: 7,
     },
     {
       name: 'Frank Miller',
       purchased: 'Purchased',
-      pItem: 'ProductD',
+      pItem: 'Webflow 101',
       id: 8,
     },
     {
       name: 'Grace Wilson',
       purchased: 'Purchased',
-      pItem: 'ServiceE',
+      pItem: 'Webflow 101',
       id: 9,
     },
     {
       name: 'Grace Wilson',
       purchased: 'Purchased',
-      pItem: 'ServiceE',
+      pItem: 'Webflow 101',
       id: 10,
     },
     {
       name: 'Grace Wilson',
       purchased: 'Purchased',
-      pItem: 'ServiceE',
+      pItem: 'Webflow 101',
       id: 11,
     },
   ];
@@ -149,7 +130,7 @@ useEffect(() => {
 
   return (
     <>
-      <section className="my-10 mx-auto px-6 font-sans gap-2 space-y-6  md:max-w-[1270px] md:space-y-0 lg:flex lg:justify-between lg:items-center lg:max-w-[1100px] xl:max-w-[1270px] ">
+      <section className="my-10 mx-auto px-6 font-manropeL gap-2 space-y-6  md:max-w-[1270px] md:space-y-0 lg:flex lg:justify-between lg:items-center lg:max-w-[1100px] xl:max-w-[1270px] ">
         <div className="space-y-6 md:space-y-0  md:flex-grow">
           {graphDetails.map((item, index) => (
             <div key={item.id} className="mb-8 lg:w-[98%]">
@@ -195,7 +176,7 @@ useEffect(() => {
           ))}
         </div>
         <section className="lg:w-[25%]">
-          <div className="py-7 px-6 sm:px-10 lg:shadow-sm bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:max-w-[1270px]">
+          <div className="py-7 px-5  whitespace-nowrap lg:shadow-sm bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:px-10 xl:max-w-[1270px]">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-[19px]">Activity</h3>
               <p className="text-custom-color15 text-[15px]">View All</p>
@@ -204,9 +185,9 @@ useEffect(() => {
               {activityDetails.map((item) => (
                 <div key={item.id}>
                   <h3 className="text-custom-color15 text-[17px]">{item.name}</h3>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1.5">
                     <p className="text-custom-color22 font-light">{item.purchased}</p>
-                    <span className="text-orange-110">{item.pItem}</span>
+                    <span className="text-orange-110 text-[15px]">{item.pItem}</span>
                   </div>
                 </div>
               ))}

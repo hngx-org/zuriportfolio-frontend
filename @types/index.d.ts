@@ -315,3 +315,42 @@ export interface reviewProps {
   shopName?: string;
   shopReply?: string;
 }
+
+export type topListingProduct = {
+  id: number;
+  productName: string;
+  productImage: string;
+  category: string;
+  order: string;
+  price: string;
+  topSales: string;
+  vendor: string;
+}
+
+export type cardinfo = {
+  title: string;
+  kMenu: string;
+  price: number;
+  arUp: string;
+  id: number;
+}
+export type Graph = {
+  id: number;
+  title: string;
+  btn: string;
+  calender: {
+    twelveM: string;
+    threeM: string;
+    thirtyD: string;
+    sevenD: string;
+    twentyFourH: string;
+    md: boolean;
+  };
+};
+
+export type activity = {
+  name: string;
+  purchased: string;
+  pItem: string;
+  id: number;
+};
