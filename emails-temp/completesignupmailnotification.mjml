@@ -1,29 +1,10 @@
 <mjml>
-<mj-head>
+  <mj-head>
     <mj-title>Guess Complete SignUp Mail Notification</mj-title>
     <!-- Define the font-family -->
-      <mj-style>
-          .set-margin {
-            margin-top: 50px;
-          }
-
-       .blob {
-        position: absolute;
-       height: 70px;
-        width: 70px;
-        right: 0;
-        top: 0;
-        }
-        .blob-parent{
-          position:relative;
-          overflow:hidden;
-        }
-        .unlock{
-          position:absolute;
-          left:0;
-          bottom:0;
-        }
-        
+    <mj-style>
+      .set-margin { margin-top: 50px; } .blob { position: absolute; height: 70px; width: 70px; right: 0; top: 0; }
+      .blob-parent{ position:relative; overflow:hidden; } .unlock{ position:absolute; left:0; bottom:0; }
     </mj-style>
 
        
@@ -42,18 +23,38 @@
       <!-- blob image -->
       <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/muees/vector.png" width="70px" align="right" padding="0" css-class="blob"></mj-image> 
         <!-- Header Text -->
-        <mj-text font-family="Manrope" font-size="24px" color="#333333" font-weight="bold" align="center" padding-bottom="10px">
-          <span style='font-size:25px;'>&#128075;</span>Hi, Finish your account setup
-            
+        <mj-text
+          font-family="Manrope"
+          font-size="24px"
+          color="#333333"
+          font-weight="bold"
+          align="center"
+          padding-bottom="10px"
+        >
+          <span style="font-size: 25px">&#128075;</span>Hi, Finish your account setup
         </mj-text>
         <!-- Email Text(content) -->
-        <mj-text  font-size="16px" font-family="Manrope" color="#000" font-weight="300" align="center" padding-bottom="20px">
-          <p>Welcome to Zuriportfolio.Enjoy access to thousand of </p>
-                <p>curated content and a pool of highly talented</p>
-                <p>individuals when you're all signed up.</p>
+        <mj-text
+          font-size="16px"
+          font-family="Manrope"
+          color="#000"
+          font-weight="300"
+          align="center"
+          padding-bottom="20px"
+        >
+          <p>Welcome to Zuriportfolio.Enjoy access to thousand of</p>
+          <p>curated content and a pool of highly talented</p>
+          <p>individuals when you're all signed up.</p>
         </mj-text>
         <!-- Button -->
-        <mj-button background-color="#009254" color="white" font-size="18px" padding="15px 30px" border-radius="5px" align="center">
+        <mj-button
+          background-color="#009254"
+          color="white"
+          font-size="18px"
+          padding="15px 30px"
+          border-radius="5px"
+          align="center"
+        >
           Complete signup
         </mj-button>
         <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/muees/unlock.png" width="70px" padding="0" css-class="unlock" align="left"></mj-image> 
@@ -62,7 +63,7 @@
     </mj-section>
 
     <mj-section>
-    <mj-column width="100%" padding="0px"></mj-column>
+      <mj-column width="100%" padding="0px"></mj-column>
     </mj-section>
 
     <!-- Section with Border -->
@@ -70,13 +71,25 @@
       <mj-column>
       <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/muees/mail.svg" alt="img" width="50px"/>
         <!-- Header Text -->
-        <mj-text font-size="20px" font-family="Manrope" color="#333333" font-weight="bold" align="center" padding-bottom="10px">
+        <mj-text
+          font-size="20px"
+          font-family="Manrope"
+          color="#333333"
+          font-weight="bold"
+          align="center"
+          padding-bottom="10px"
+        >
           Get the most out of your Zuri Portfolio Account
-            
         </mj-text>
         <!-- Email Text(content) -->
-        <mj-text font-size="16px" font-family="Manrope" color="#000" 
-            font-weight="300" align="center" padding-bottom="20px">
+        <mj-text
+          font-size="16px"
+          font-family="Manrope"
+          color="#000"
+          font-weight="300"
+          align="center"
+          padding-bottom="20px"
+        >
           <p>We'll send you personalized tips,news and.</p>
         </mj-text>
       </mj-column>

@@ -1,5 +1,5 @@
 <mjml>
- <mj-head>
+  <mj-head>
     <!-- <mj-attributes>
         <mj-class name="mjtext" padding-top="0" />
     </mj-attributes> -->
@@ -12,36 +12,39 @@
 
         <!-- Main Content -->
         <mj-text color="#000" padding-top="50px" font-weight="600" font-family="ManropeEB" font-size="22px">
-        Review time!
+          Review time!
+        </mj-text>
+        <mj-text font-size="16px" font-weight="400"> Hi Mirabel,<br /> </mj-text>
+        <mj-text font-size="16px" font-weight="400">
+          We're thrilled that you chose to shop with Zuriportfolio, and we hope you're enjoying your orders. Your
+          satisfaction is our top priority, and we'd greatly appreciate it if you could take a moment to share your
+          experience with us.
         </mj-text>
         <mj-text font-size="16px" font-weight="400">
-             Hi Mirabel,<br />
+          Your feedback helps us improve our products and services, and it also provides valuable insights to potential
+          customers looking to make a purchase. Whether you had an exceptional experience or feel there's room for
+          improvement, we want to hear from you.
         </mj-text>
         <mj-text font-size="16px" font-weight="400">
-            We're thrilled that you chose to shop with Zuriportfolio, and we hope you're enjoying your orders. Your satisfaction is our top priority, and we'd greatly appreciate it if you could take a moment to share your experience with us.
-        </mj-text>
-         <mj-text font-size="16px" font-weight="400">
-            Your feedback helps us improve our products and services, and it also provides valuable insights to potential customers looking to make a purchase. Whether you had an exceptional experience or feel there's room for improvement, we want to hear from you.
-        </mj-text>
-         <mj-text font-size="16px" font-weight="400">
-            To leave a review, simply click on the link below and share your thoughts:
+          To leave a review, simply click on the link below and share your thoughts:
         </mj-text>
         <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px">
-            Send a review
+          Send a review
         </mj-button>
         <mj-divider border-color="#F0F1F0" padding-top="20px" />
-            </mj-column>
-       </mj-section>
-      <mj-section padding-top="2px">
-        <mj-column > 
-             <mj-text font-weight="700" font-family="ManropeB" font-size="16px" padding-top="2px" color="#000">
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="2px">
+      <mj-column>
+        <mj-text font-weight="700" font-family="ManropeB" font-size="16px" padding-top="2px" color="#000">
           Product Details:
         </mj-text>
-        </mj-column>
-     </mj-section>
-     <mj-section>
-     <mj-group>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-group>
         <mj-column>
+<<<<<<< HEAD
             <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/order/product2.svg" alt="" width="90px" align="left"/>
             <mj-text font-size="12px" color="#737876">
               ITEM
@@ -49,12 +52,18 @@
             <mj-text color="#000" padding-top="0" font-size="12px">
            Brown nylon jacket         
             </mj-text>
+=======
+          <mj-image src="assets/order/product2.svg" alt="" width="90px" align="left" />
+          <mj-text font-size="12px" color="#737876"> ITEM </mj-text>
+          <mj-text color="#000" padding-top="0" font-size="12px"> Brown nylon jacket </mj-text>
+>>>>>>> 7ead5fbdb6072dbdb30242ad6467a9e4fb52cdd7
         </mj-column>
-     </mj-group>    
-     </mj-section>
-      <mj-section>
-     <mj-group>
+      </mj-group>
+    </mj-section>
+    <mj-section>
+      <mj-group>
         <mj-column>
+<<<<<<< HEAD
             <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/order/product.svg" alt="" width="90px" align="left"/>
             <mj-text font-size="12px" color="#737876">
               ITEM
@@ -62,31 +71,48 @@
             <mj-text color="#000" padding-top="0" font-size="12px">
            Brown nylon jacket         
             </mj-text>
+=======
+          <mj-image src="assets/order/product.svg" alt="" width="90px" align="left" />
+          <mj-text font-size="12px" color="#737876"> ITEM </mj-text>
+          <mj-text color="#000" padding-top="0" font-size="12px"> Brown nylon jacket </mj-text>
+>>>>>>> 7ead5fbdb6072dbdb30242ad6467a9e4fb52cdd7
         </mj-column>
-     </mj-group>    
-     </mj-section>
-      <mj-section padding-bottom="200px">
-        <mj-group>
-        <mj-column > 
-             <mj-text font-weight="600" font-family="ManropeB" font-size="14px">
-        If you have any questions, reply to this email or contact us at hello@zuriportfolio.com
-        </mj-text>
+      </mj-group>
+    </mj-section>
+    <mj-section padding-bottom="200px">
+      <mj-group>
+        <mj-column>
+          <mj-text font-weight="600" font-family="ManropeB" font-size="14px">
+            If you have any questions, reply to this email or contact us at hello@zuriportfolio.com
+          </mj-text>
         </mj-column>
+<<<<<<< HEAD
         </mj-group>
      </mj-section>
        <mj-section background-color="#009254">
         <mj-column width="90%">
              <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/order/footer-logo.svg" alt="" width="100px" align="center" />
+=======
+      </mj-group>
+    </mj-section>
+    <mj-section background-color="#009254">
+      <mj-column width="90%">
+        <mj-image src="assets/order/footer-logo.svg" alt="" width="100px" align="center" />
+>>>>>>> 7ead5fbdb6072dbdb30242ad6467a9e4fb52cdd7
         <mj-social font-size="14px" icon-size="24px" mode="horizontal" padding-top="8px">
           <mj-social-element src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/order/linkedin.svg" href="#" />
           <mj-social-element src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/order/instagram.svg" href="#" />
           <mj-social-element src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/order/facebook.svg" href="#" />
           <mj-social-element src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/order/twitter.svg" href="#" />
         </mj-social>
-        <mj-text color="#fff" padding-top="4px" align="center" font-size="14px">Beaverto, Oregon, Washington County, USA</mj-text>
-        <mj-text color="#fff" align="center" font-size="14px">Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text>
-        <mj-text color="#C4C7C6" padding-top="4px" align="center" font-size="12px">Unsubscribe</mj-text>     
-        </mj-column>
-       </mj-section>
+        <mj-text color="#fff" padding-top="4px" align="center" font-size="14px"
+          >Beaverto, Oregon, Washington County, USA</mj-text
+        >
+        <mj-text color="#fff" align="center" font-size="14px"
+          >Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text
+        >
+        <mj-text color="#C4C7C6" padding-top="4px" align="center" font-size="12px">Unsubscribe</mj-text>
+      </mj-column>
+    </mj-section>
   </mj-body>
 </mjml>

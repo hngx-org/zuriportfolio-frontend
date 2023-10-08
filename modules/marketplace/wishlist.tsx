@@ -50,76 +50,78 @@ function Wishlist() {
 
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-     <div>
-    <main className="w-full container">
-      {showEmptyWishlistModal && (
-        <div className="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-50 backdrop-blur-5 z-10 flex justify-center items-center ">
-          {/* close button */}
+      <div>
+        <main className="w-full container">
+          {showEmptyWishlistModal && (
+            <div className="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-50 backdrop-blur-5 z-10 flex justify-center items-center ">
+              {/* close button */}
 
-          <div className="absolute top-0 right-0 mr-5 mt-5">
-            <Button
-              leftIcon={<CloseCircle color="#06C270" />}
-              intent={'secondary'}
-              size={'sm'}
-              onClick={() => removeEmptyWishlistModal()}
-            >
-              Close
-            </Button>
-          </div>
+              <div className="absolute top-0 right-0 mr-5 mt-5">
+                <Button
+                  leftIcon={<CloseCircle color="#06C270" />}
+                  intent={'secondary'}
+                  size={'sm'}
+                  onClick={() => removeEmptyWishlistModal()}
+                >
+                  Close
+                </Button>
+              </div>
 
-          <div className="bg-white-100 py-3 md:py-4 flex flex-col justify-center items-center gap-5 rounded-md w-9/12 md:w-[485px]">
-            <Image src={loadingIllustration} alt="loading" width={100} height={100} />
+              <div className="bg-white-100 py-3 md:py-4 flex flex-col justify-center items-center gap-5 rounded-md w-9/12 md:w-[485px]">
+                <Image src={loadingIllustration} alt="loading" width={100} height={100} />
 
-            <div className="flex flex-col gap-2 items-center">
-              <h3 className="text-custom-color10 text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
-              <p className="text-custom-color14 text-xs md:text-sm">Looks like you have no items in your wishlist.</p>
+                <div className="flex flex-col gap-2 items-center">
+                  <h3 className="text-custom-color10 text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
+                  <p className="text-custom-color14 text-xs md:text-sm">
+                    Looks like you have no items in your wishlist.
+                  </p>
+                </div>
+                <Button intent={'primary'} size={'sm'} className="h-[44px] rounded-md mb-4">
+                  Start Shopping
+                </Button>
+              </div>
             </div>
-            <Button intent={'primary'} size={'sm'} className="h-[44px] rounded-md mb-4">
-              Start Shopping
-            </Button>
-          </div>
-        </div>
-      )}
-      </main>
+          )}
+        </main>
 
-      <div className="font-manropeL max-w-[1240px] mx-auto my-8 ">
-        <section className="px-3 lg:px-0 flex flex-col gap-6 my-4">
-          <div className="flex justify-between items-center">
-            <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">
-              My Wishlist (<span>{wishlistProducts.length}</span> items)
-            </h2>
-          </div>
-          <div className="flex flex-col gap-6">
-            {wishlistProducts.map((product) => (
-              <WishlistProductCard
-                key={product.productId}
-                product={product}
-                removeProductFromWishlist={removeProductFromWishlist}
-              />
-            ))}
-          </div>
-        </section>
-        <section className="px-3 lg:px-0 py-5 flex flex-col gap-6 my-4">
-          <div className="flex justify-between items-center">
-            <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">My Favorites</h2>
-            <Button
-              rightIcon={<ArrowRight2 color="#06C270" />}
-              intent={'secondary'}
-              size={'md'}
-              spinnerColor="#000"
-              className="border-none bg-white-100 text-brand-success-primary font-semibold"
-            >
-              View All
-            </Button>
-          </div>
-          <div className="gap-2 sm:gap-6 md:gap-8  gap-y-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {favoriteProducts.map((product) => (
-              <FavoriteproductCard product={product} key={product.productId} />
-            ))}
-          </div>
-        </section>
+        <div className="font-manropeL max-w-[1240px] mx-auto my-8 ">
+          <section className="px-3 lg:px-0 flex flex-col gap-6 my-4">
+            <div className="flex justify-between items-center">
+              <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">
+                My Wishlist (<span>{wishlistProducts.length}</span> items)
+              </h2>
+            </div>
+            <div className="flex flex-col gap-6">
+              {wishlistProducts.map((product) => (
+                <WishlistProductCard
+                  key={product.productId}
+                  product={product}
+                  removeProductFromWishlist={removeProductFromWishlist}
+                />
+              ))}
+            </div>
+          </section>
+          <section className="px-3 lg:px-0 py-5 flex flex-col gap-6 my-4">
+            <div className="flex justify-between items-center">
+              <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">My Favorites</h2>
+              <Button
+                rightIcon={<ArrowRight2 color="#06C270" />}
+                intent={'secondary'}
+                size={'md'}
+                spinnerColor="#000"
+                className="border-none bg-white-100 text-brand-success-primary font-semibold"
+              >
+                View All
+              </Button>
+            </div>
+            <div className="gap-2 sm:gap-6 md:gap-8  gap-y-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {favoriteProducts.map((product) => (
+                <FavoriteproductCard product={product} key={product.productId} />
+              ))}
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
     </MainLayout>
   );
 }
