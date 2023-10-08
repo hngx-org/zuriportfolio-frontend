@@ -1,21 +1,26 @@
 import Button from '@ui/Button';
 
-function AccountManagementMobile() {
+function AccountManagement() {
   return (
-    <div className="sm:w-[465px] flex flex-col mx-[24px] mt-[2rem] sm:ml-[73px] gap-y-[1rem] mb-[37px]">
-      <h3 className=" font-manropeEB text-[1.375rem] text-[#2E3130] leading-[1.75rem]">Account Management</h3>
+    <div className="flex flex-col gap-y-[1rem]">
+      <h3 className=" font-manropeEB lg:font-manropeB text-[1rem] lg:text-[1.375rem] text-[#2E3130] leading-[1.5rem] lg:leading-[1.75rem]">
+        Account Management
+      </h3>
       <form className="flex flex-col gap-y-[2rem]">
         <div className="flex flex-col gap-y-[0.5rem]">
-          <label htmlFor="email" className=" font-manropeEB text-[1rem] leading-[1.5rem] text-[#344054]">
+          <label
+            htmlFor="email"
+            className=" font-manropeEB text-[0.875rem] lg:text-[1rem] leading-[1.25rem] lg:leading-[1.5rem] text-[#344054]"
+          >
             Email
           </label>
           <div className="flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Current Email Address</p>
-            <div className="relative flex flex-row">
+            <div className="relative w-[35rem] flex flex-row">
               <input
-                name="password"
-                type="password"
-                placeholder="Enter password"
+                name="email"
+                type="email"
+                placeholder="Enter Email"
                 className="w-full border py-[0.625rem] px-[0.875rem] pr-7 rounded-[0.5rem] font-manropeL text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#667085]"
               />
               <svg
@@ -45,16 +50,19 @@ function AccountManagementMobile() {
           </div>
         </div>
         <div className="flex flex-col gap-y-[0.5rem]">
-          <label htmlFor="currentPassword" className=" font-manropeEB text-[1rem] leading-[1.5rem] text-[#344054]">
+          <label
+            htmlFor="currentPassword"
+            className=" font-manropeEB text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#344054]"
+          >
             Change Password
           </label>
           <div className="flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Current Passowrd</p>
-            <div className="relative flex flex-row">
+            <div className="relative w-[35rem] flex flex-row">
               <input
-                name="password"
+                name="currentPassword"
                 type="password"
-                placeholder="Enter password"
+                placeholder="Enter passowrd"
                 className="w-full border py-[0.625rem] px-[0.875rem] pr-7 rounded-[0.5rem] font-manropeL text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#667085]"
               />
               <svg
@@ -83,12 +91,15 @@ function AccountManagementMobile() {
             </div>
           </div>
           <div className="flex flex-col gap-y-[0.375rem]">
-            <label htmlFor="newPassword" className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">
+            <label
+              htmlFor="newPassword"
+              className=" font-manropeB lg:font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]"
+            >
               New Password
             </label>
-            <div className="relative flex flex-row">
+            <div className="relative w-[35rem] flex flex-row">
               <input
-                name="password"
+                name="newPassword"
                 type="password"
                 placeholder="Enter new password"
                 className="w-full border py-[0.625rem] px-[0.875rem] pr-7 rounded-[0.5rem] font-manropeL text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#667085]"
@@ -120,11 +131,11 @@ function AccountManagementMobile() {
           </div>
           <div className="flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Confirm New Password</p>
-            <div className="relative flex flex-row">
+            <div className="relative w-[35rem] flex flex-row">
               <input
-                name="password"
+                name="newPassword"
                 type="password"
-                placeholder="Enter new password"
+                placeholder="Enter new passowrd"
                 className="w-full border py-[0.625rem] px-[0.875rem] pr-7 rounded-[0.5rem] font-manropeL text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#667085]"
               />
               <svg
@@ -154,11 +165,11 @@ function AccountManagementMobile() {
           </div>
         </div>
       </form>
-      <Button size="lg" intent="primary" className="w-full rounded-[0.5rem] py-[0.5rem] px-[1.25rem] mt-[2rem]">
+      <Button size="md" intent="primary" className="w-fit mb-8 rounded-[0.5rem] py-[0.5rem] px-[1.25rem] mt-[2rem]">
         Confirm Changes
       </Button>
     </div>
   );
 }
 
-export default AccountManagementMobile;
+export default AccountManagement;
