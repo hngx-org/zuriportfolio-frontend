@@ -59,7 +59,7 @@ const Dashboard = () => {
                     <p className="text-brand-green-shade10 font-medium text-[1.2rem] md:text-[1rem] lg:text-[1.5rem] leading-1">
                       Level: {item.level}
                     </p>
-                    <p className="text-brand-green-shade10 font-medium text-[1.2rem] md:text-[1.5rem] leading-1">
+                    shade10 font-medium text-[1.2rem] md:text-[1.5rem] leading-1">
                       Score: {item.score}
                     </p>
                     <p className="text-white-650 text-[.8rem] md:text-[1rem]">{item.desc}</p>
