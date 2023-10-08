@@ -25,7 +25,7 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
             />
           )}
         </div>
-        <div className="flex flex-col gap-16 lg:max-w-lg xl:w-2/4">
+        <div className="flex flex-col gap-16 lg:max-w-lg xl:w-2/4 md:pr-5">
           {/* header for screens larger than 1024px */}
           <div className="hidden lg:block">
             <Image

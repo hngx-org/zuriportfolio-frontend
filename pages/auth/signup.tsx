@@ -20,7 +20,7 @@ function Signup() {
 
   return (
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
-      <div className="max-w-2xl md:w-[517px] mx-auto max-w-[390px] ">
+      <div className="md:max-w-[517px] mx-auto md:max-xl max-w-[390px] ">
         <div className="text-center lg:text-left">
           <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100">Sign up</h1>
           <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
