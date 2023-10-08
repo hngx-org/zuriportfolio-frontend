@@ -304,8 +304,6 @@ export default function GeneralComplaints() {
             <div className="complaintHeading h-18 p-3 flex flex-row items-center justify-between border-b-2 border-slate-100">
               <div className="headerText min-w-[190px] mr-2">
                 <h2 className="font-manropeL text-xl font-semibold ">My Complaint</h2>
-                <h2 className="font-manropeL text-xl font-semibold">My Complaint</h2>
-
                 <h3 className="font-manropeL text-base font-normal text-slate-600">
                   List of all complaint and their details
                 </h3>
@@ -325,7 +323,7 @@ export default function GeneralComplaints() {
                     type="search"
                     onChange={(e) => setSearchedItem(e.target.value)}
                     placeholder="Search"
-                    className="  border-none focus:outline-none ml-1.5 h-6 w-96"
+                    className="  border-none focus:outline-none ml-1.5 h-6 w-96 -z-10"
                   />
                 </div>
                 <div className="filter cursor-pointer rounded-lg ml-2  p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-slate-200 border-2">
@@ -393,21 +391,18 @@ export default function GeneralComplaints() {
                           key={complains.id}
                           className="vendorComplaints p-3 flex flex-row items-center justify-between "
                         >
-                          <input className="w-6 min-w-[32px] h-5 cursor-pointer " type="checkbox" name="" id="" />
                           <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
                           <div className="name w-80 flex flex-row items-center min-w-[250px]">
                             <div className="displayPicture">
                               <Image
                                 alt=""
-                                src="/../../assets/images/vendorComplaint.png"
+                                src="/../.././assets/images/vendorComplaint.png"
                                 className="h-10 w-10 rounded-full object-contain"
                                 width={40}
                                 height={40}
                               />
                             </div>
                             <div className="identity pl-2">
-                              <h2 className="font-manropeL text-l font-semibold text-base">{complains.name}</h2>
-                              <p className="font-manropeL text-xs font-normal  text-slate-500">{complains.email}</p>
                               <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
                               <p className="font-manropeL font-normal text-base text-slate-500">{complains.email}</p>
                             </div>
@@ -501,17 +496,15 @@ export default function GeneralComplaints() {
                           <div className="displayPicture">
                             <Image
                               alt=""
-                              src="/../../assets/images/vendorComplaint.png"
+                              src="/../.././assets/images/vendorComplaint.png"
                               className="h-10 w-10 rounded-full object-contain"
                               width={40}
                               height={40}
                             />
                           </div>
                           <div className="identity pl-2">
-                            <h2 className="font-manropeL text-l font-semibold text-base">{complains.name}</h2>
-                            <p className="font-manropeL text-xs font-normal  text-slate-500">{complains.email}</p>
                             <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
-                            <p className="font-manropeL font-normal text-base text-slate-500">{complains.email}</p>
+                            <p className="font-manropeL text-xs font-normal  text-slate-500">{complains.email}</p>
                           </div>
                         </div>
                         <div className="description w-40 min-w-[120px]">
