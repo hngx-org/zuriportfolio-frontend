@@ -132,7 +132,7 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
 
             <button
               onClick={onOpen}
-              className=" py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
+              className=" py-2 px-4 w-full hover:bg-green-600 bg-green-700 rounded text-white-100 "
             >
               Continue
             </button>
