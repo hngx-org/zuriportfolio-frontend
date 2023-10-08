@@ -27,8 +27,8 @@ const BadgeComponent: React.FC<BadgeComponentProps> = ({
 }) => {
   return (
     <Link
-      href="/badges/[badge]"
-      as={`/badges/${badgelabel}`}
+      href="/badges/badge/[badge]"
+      as={`/badges/badge/${badgelabel}`}
       passHref
       className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[236px] lg:min-w-[330px] lg:h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
     >

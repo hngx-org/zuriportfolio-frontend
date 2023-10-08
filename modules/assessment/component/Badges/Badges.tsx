@@ -1,37 +1,33 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { MdArrowBackIosNew } from 'react-icons/md';
 import { BsFillShareFill } from 'react-icons/bs';
 import BadgeModal from '../../../../components/Modals/BadgesModal';
+import Image from 'next/image';
+import Link from 'next/link';
 
-const Badges = () => {
-  const params = useParams();
+interface BadgesProps {
+  scorePercentage: number;
+  badgelabel: string | string[] | undefined;
+  image: string;
+  setIsdownloadOpen: (value: boolean) => void;
+  isdownloadOpen: boolean;
+  onClose: () => void;
+}
 
-  const [scorePercentage, setScorePercentage] = useState<number>(90);
-  const [image, setImage] = useState<string>('/assets/images/badges/badge expert.png');
-  const [isdownloadOpen, setIsdownloadOpen] = useState(false);
-  const onClose = () => {
-    setIsdownloadOpen(false);
-  };
-
-  useEffect(() => {
-    if (params.badge === 'expert') {
-      setImage('/assets/images/badges/badge expert.png');
-    } else if (params.badge === 'intermediary') {
-      setImage('/assets/images/badges/badge intermediary.png');
-    } else {
-      setImage('/assets/images/badges/badge intermediary.png');
-    }
-  });
-
-  //staging change
-
+const Badges: React.FC<BadgesProps> = ({
+  scorePercentage,
+  badgelabel,
+  image,
+  setIsdownloadOpen,
+  isdownloadOpen,
+  onClose,
+}) => {
   return (
     <section className="bg-[#F2F4F5]">
       <div className="hidden lg:flex pl-6  sm:pl-[96px] pt-8 flex justify-start align-middle text-2xl cursor-pointer">
-        <MdArrowBackIosNew />
+        <Link href="/badges">
+          <MdArrowBackIosNew />
+        </Link>
       </div>
 
       <div className="h-full w-full flex flex-col items-center justify-center  ">
@@ -54,7 +50,7 @@ const Badges = () => {
                 {scorePercentage}%
               </button>
             </div>
-            <p className=" mt-4 mb-8  font-manropeL">You&apos;ve earned yourself an {params?.badge} badge!</p>
+            <p className=" mt-4 mb-8  font-manropeL">You&apos;ve earned yourself an {badgelabel} badge!</p>
             <div className="flex justify-center align-middle h-30 w-full">
               <Image src={image} width={200} height={200} alt="badge" className="h-52 w-52" />
             </div>
