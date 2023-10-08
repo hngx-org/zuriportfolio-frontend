@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Pagination from "../../../components/ui/Pagination";
+import Pagination from '../../../components/ui/Pagination';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { ArrowRight2 } from 'iconsax-react';
@@ -181,7 +181,7 @@ const MyPage: React.FC = () => {
             placeholder="Search by items, status, seller etc"
           />
 
-          <div className='flex gap-4'>
+          <div className="flex gap-4">
             <Button className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-fit rounded-lg text-black-600 bg-white-100 hover:bg-white-100 active:bg-white-100 text-[0.88rem] ">
               <Sort size="16" />
             </Button>
