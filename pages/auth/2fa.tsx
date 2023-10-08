@@ -7,9 +7,7 @@ import AuthLayout from '@modules/auth/component/AuthLayout';
 function _2FA() {
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
-      <section
-        className="grid font-manropeEB overflow-hidden overflow-y-hidden "
-      >
+      <section className="grid font-manropeEB overflow-hidden overflow-y-hidden ">
         <UI2FA />
         <div className="flex items-center flex-col gap-11 py-24 lg:pt-3">
           <Code2FA />
