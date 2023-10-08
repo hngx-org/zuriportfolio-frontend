@@ -31,7 +31,7 @@
   <mj-body mj-class="secondary-color" width="1024px" css-class="container">
     <mj-section css-class="header">
       <mj-column>
-        <mj-image width="350px" src="/assets/purchase-confirmation/icons/logo_green.svg" />
+        <mj-image width="350px" src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_green.svg" />
       </mj-column>
     </mj-section>
 
@@ -42,7 +42,7 @@
             <div class="title">
               <h1>PURCHASE CONFIRMATION</h1>
               <div>
-                <img width="150px" src="/assets/purchase-confirmation/icons/card_payments.svg" alt="" />
+                <img width="150px" src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/card_payments.svg" alt="" />
               </div>
             </div>
           </mj-text>
@@ -95,7 +95,7 @@
           <mj-text>
             <div class="order-summary">
               <div class="order-image">
-                <img src="/assets/purchase-confirmation/images/imagePlaceholder.png" alt="" />
+                <img src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png" alt="" />
               </div>
               <div>
                 <div>
@@ -182,35 +182,35 @@
     </mj-wrapper>
     <mj-section background-color="#009254" mj-class="rounded">
       <mj-column width="100%">
-        <mj-image width="200px" src="/assets/purchase-confirmation/icons/logo_white.svg" />
+        <mj-image width="200px" src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_white.svg" />
       </mj-column>
       <mj-column width="100%">
         <mj-social inner-padding="12px">
           <mj-social-element
             icon-size="24px"
             background-color="transparent"
-            src="/assets/purchase-confirmation/icons/instagram.svg"
+            src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/instagram.svg"
             name="instagram"
             href="https://mjml.io/"
           />
           <mj-social-element
             icon-size="24px"
             background-color="transparent"
-            src="/assets/purchase-confirmation/icons/facebook.svg"
+            src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/facebook.svg"
             name="facebook"
             href="https://mjml.io/"
           />
           <mj-social-element
             icon-size="24px"
             background-color="transparent"
-            src="/assets/purchase-confirmation/icons/twitter.svg"
+            src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/twitter.svg"
             name="twitter"
             href="https://mjml.io/"
           />
           <mj-social-element
             icon-size="24px"
             background-color="transparent"
-            src="/assets/purchase-confirmation/icons/linkedin.svg"
+            src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/linkedin.svg"
             name="linkedin"
             href="https://mjml.io/"
           />
