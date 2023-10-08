@@ -1,4 +1,4 @@
-'use client'
+
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -149,7 +149,7 @@ useEffect(() => {
 
   return (
     <>
-      <section className="my-10 mx-auto px-6 font-sans gap-2 space-y-6  md:max-w-[1270px] md:space-y-0 lg:flex lg:justify-between lg:items-center ">
+      <section className="my-10 mx-auto px-6 font-sans gap-2 space-y-6  md:max-w-[1270px] md:space-y-0 lg:flex lg:justify-between lg:items-center lg:max-w-[1100px] xl:max-w-[1270px] ">
         <div className="space-y-6 md:space-y-0  md:flex-grow">
           {graphDetails.map((item, index) => (
             <div key={item.id} className="mb-8 lg:w-[98%]">
@@ -178,13 +178,13 @@ useEffect(() => {
                     </div>
                   )}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <ResponsiveContainer height={230} className="mx-auto mt-8 -z-20">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className=''>
+                  <ResponsiveContainer height={230} className="mx-auto mt-8 0 ">
                     <LineChart data={chartData}>
                       <XAxis dataKey="name" />
                       <YAxis />
                       <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-                      <Tooltip wrapperStyle={{zIndex: 1000}}  />
+                      <Tooltip   />
                       <Legend />
                       <Line type="monotone" dataKey="uv" stroke="#8884d8" />
                     </LineChart>
@@ -195,12 +195,12 @@ useEffect(() => {
           ))}
         </div>
         <section className="lg:w-[25%]">
-          <div className="py-7 px-6 sm:px-10 lg:shadow-sm bg-white-100 lg:border-white-200 lg:border lg:rounded-lg">
+          <div className="py-7 px-6 sm:px-10 lg:shadow-sm bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:max-w-[1270px]">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-[19px]">Activity</h3>
               <p className="text-[#5B5F5E] text-[15px]">View All</p>
             </div>
-            <div className="space-y-5 md:space-y-[13.5px]">
+            <div className="space-y-5 md:space-y-[15.5px]">
               {activityDetails.map((item) => (
                 <div key={item.id}>
                   <h3 className="text-[#5B5F5E] text-[17px]">{item.name}</h3>
