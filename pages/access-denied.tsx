@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@ui/Button';
-import deniedIcon from '../public/assets/deniedAssets/denied-icon.svg';
 import accessDeniedImage from '../public/assets/deniedAssets/denied-image.svg';
 import logo from '../public/assets/deniedAssets/logo.svg';
 import Image from 'next/image';
