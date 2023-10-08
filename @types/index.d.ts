@@ -23,14 +23,13 @@ export interface AllCategoryDetails {
   showLimitedOffer: boolean;
   discount: number;
 }
-
-export interface AdminTablePagination {
-  handleClick?: any;
-  disabledFn?: any;
-  title: any;
-  currentPage: any;
-  totalPages: any;
-  onPageChange: any;
+export interface Products {
+  id: number;
+  name: string;
+  image: string;
+  shopOwner: string;
+  price: number;
+  category: string;
 }
 
 export interface SuperAdminPagination {
@@ -116,6 +115,7 @@ export interface ModalProps {
   title?: string;
   size?: 'lg' | 'md' | 'sm' | 'xl';
   isCloseIconPresent?: boolean;
+  closeBtnClass?: string;
 }
 
 export interface PriceData {
@@ -343,4 +343,26 @@ export interface searchProp {
 
 export interface filterProp {
   handleFilter: (status: string) => void;
+}
+
+export type SectionModalProps = {
+  openButtonText: string;
+  heading: string;
+  paragraph: string;
+  primaryText: string;
+  onClickAction: () => void;
+};
+
+export interface SettingOptionTypes {
+  accountManagement: boolean;
+  notificationSettings: boolean;
+  deleteAccount: boolean;
+  refer: boolean;
+}
+export interface NotificationCheckboxType {
+  receiveEmail: boolean;
+  specialOffers: boolean;
+  getNotification: boolean;
+  notifyFollow: boolean;
+  notifyMessages: boolean;
 }
