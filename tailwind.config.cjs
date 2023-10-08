@@ -209,7 +209,7 @@ module.exports = {
           color39: '#A1ADB2',
           color40: '#FFFBDE',
           color41: '#E0FFF0',
-	  color42: '#FCFCFD',
+          color42: '#FCFCFD',
         },
       },
       fontFamily: {
@@ -225,6 +225,18 @@ module.exports = {
     },
   },
   plugins: [
-    require('tailwind-scrollbar'),
+    require('tailwind-scrollbar'), 
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+        },
+        ".no-scrollbar": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+        },
+      };
+      addUtilities(newUtilities);
+    },
   ],
 };
