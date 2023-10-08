@@ -1,0 +1,167 @@
+<mjml>
+ <mj-head>
+    <!-- <mj-attributes>
+        <mj-class name="mjtext" padding-top="0" />
+    </mj-attributes> -->
+  </mj-head>
+  <mj-body background-color="white">
+    <mj-section>
+      <mj-column width="100%">
+        <!-- Header -->
+        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/logo.svg" alt="" width="200px" align="left" />
+
+        <!-- Main Content -->
+        <mj-text color="#000" padding-top="50px" font-weight="600" font-family="ManropeEB" font-size="22px">
+       Order request
+        </mj-text>
+        <mj-text font-size="16px" font-weight="400">
+             Hi Vendor,
+        </mj-text>      
+         <mj-text font-size="16px" font-weight="400">
+            A client has placed an order on your website, click on the button below in order to confirm the client’s order.
+        </mj-text>
+         <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px">
+            Confirm request
+        </mj-button>
+        <mj-divider border-color="#F0F1F0" padding-top="20px" />
+            </mj-column>
+       </mj-section>
+      <mj-section>
+      <mj-group>
+        <mj-column > 
+             <mj-text font-weight="700" font-family="ManropeB" font-size="16px" padding-top="2px" color="#000">
+          Product Details:
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="400" font-family="ManropeEB" font-size="14px" padding-top="8px" color="#737876" align="right">Order #2424352345
+             </mj-text>
+        </mj-column>
+    </mj-group>
+     </mj-section>
+     <mj-section>
+     <mj-group>
+        <mj-column>
+            <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product2.svg" alt="" width="90px" align="left"/>
+            <mj-raw>
+                <div></div>
+            </mj-raw>
+            <mj-text font-size="12px" color="#737876">
+              ITEM
+            </mj-text>
+            <mj-text color="#000" padding-top="0" font-size="12px">
+           Brown nylon jacket         
+            </mj-text>
+        </mj-column>
+        <mj-column>
+            <mj-text font-weight="700" font-family="ManropeB" align="right" font-size="14px">$400.00</mj-text>
+        </mj-column>
+     </mj-group>    
+     </mj-section>
+      <mj-section>
+     <mj-group>
+        <mj-column>
+            <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product.svg" alt="" width="90px" align="left"/>
+            <mj-text font-size="12px" color="#737876">
+              ITEM
+            </mj-text>
+            <mj-text color="#000" padding-top="0" font-size="12px">
+           Brown nylon jacket         
+            </mj-text>
+        </mj-column>
+        <mj-column>
+            <mj-text font-weight="700" font-family="ManropeB" align="right" font-size="14px">$400.00</mj-text>
+        </mj-column>
+     </mj-group>    
+     </mj-section>
+      <mj-section>
+        <mj-group>
+        <mj-column > 
+             <mj-text font-weight="400" font-family="ManropeB" font-size="12px" color="#737876">
+          Subtotal
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="400" font-family="ManropeEB" font-size="14px" align="right">$800.00
+             </mj-text>
+        </mj-column>
+        </mj-group>
+     </mj-section>
+    <mj-section>
+    <mj-group>
+        <mj-column > 
+             <mj-text font-weight="400" font-family="ManropeB" font-size="12px"  color="#737876">
+          Discount
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="400" font-family="ManropeEB" font-size="14px" padding-top="8px" align="right" color="green">- 10% ($80.00)
+             </mj-text>
+        </mj-column>
+     </mj-group>
+     </mj-section>
+      <mj-section>
+      <mj-group>
+        <mj-column > 
+             <mj-text font-weight="400" font-family="ManropeB" font-size="12px" padding-top="8px" color="#737876">
+          Shipping
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="400" font-family="ManropeEB" font-size="14px" padding-top="8px" align="right">$10.00
+             </mj-text>
+        </mj-column>
+    </mj-group>
+     </mj-section>
+     <mj-section>
+        <mj-column>
+               <mj-divider border-color="#009254" padding-top="2px" />
+        </mj-column>
+     </mj-section>
+     <mj-section padding-top="0">
+     <mj-group>
+        <mj-column > 
+             <mj-text font-weight="700" font-family="ManropeEB" font-size="12px" padding-top="8px">
+          Total 
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="700" font-family="ManropeEB" font-size="16px" padding-top="8px" align="right">$730.00
+             </mj-text>
+        </mj-column>
+    </mj-group>
+     </mj-section>
+     <mj-section padding-bottom="200px">
+        <mj-column>
+            <mj-text font-weight="700" font-family="ManropeEB" font-size="16px" padding-top="24px" padding-bottom="14px">
+          Customer Details
+        </mj-text>
+        <mj-text font-weight="500" font-family="ManropeB" font-size="16px" padding-top="6px" font-size="14px">
+          Billing information
+        </mj-text>
+        <mj-text color="#737876" padding-top="2px" font-size="12px">Mirabel Offiong</mj-text>
+        <mj-text color="#737876" padding-top="2px" font-size="12px">Mirabeloffiong34@gmail.com</mj-text>
+        </mj-column>
+     </mj-section>
+     
+       <mj-section background-color="#009254">
+        <mj-column width="90%">
+             <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/footer-logo.svg" alt="" width="100px" align="center" />
+        <mj-social font-size="14px" icon-size="24px" mode="horizontal" padding-top="8px">
+          <mj-social-element src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/linkedin.svg" href="#" />
+          <mj-social-element src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/instagram.svg" href="#" />
+          <mj-social-element src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/facebook.svg" href="#" />
+          <mj-social-element src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/twitter.svg" href="#" />
+        </mj-social>
+        <mj-text color="#fff" padding-top="4px" align="center" font-size="14px">Beaverto, Oregon, Washington County, USA</mj-text>
+        <mj-text color="#fff" align="center" font-size="14px">Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text>
+        <mj-text color="#C4C7C6" padding-top="4px" align="center" font-size="12px">Unsubscribe</mj-text>     
+        </mj-column>
+       </mj-section>
+  </mj-body>
+</mjml>
