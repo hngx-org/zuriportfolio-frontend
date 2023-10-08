@@ -93,6 +93,7 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
       }
     });
   }, [activeOTPIndexes]);
+  
 
   const otpInputClasses = `w-[80px] h-[80px] text-center border-[1px] border-[solid] rounded-[8px] 
     [@media(max-width:520px)]:w-[50px] [@media(max-width:520px)]:h-[50px] [@media(max-width:520px)]:items-center [@media(max-width:400px)]:w-[50px] [@media(max-width:400px)]:h-[50px]
