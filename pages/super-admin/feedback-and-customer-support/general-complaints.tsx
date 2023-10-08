@@ -3,6 +3,8 @@ import React from 'react';
 import Pagination from '../../view-components/super-admin/pagination';
 import Nav from '../../view-components/super-admin/navbar';
 import Image from 'next/image';
+import Link from 'next/link';
+
 type Complains = {
   id: number;
   name: string;
@@ -345,10 +347,12 @@ export default function GeneralComplaints() {
                               />
                               {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                             </div>
-                            <div className="identity pl-2">
-                              <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
-                              <p className="font-manropeL text-xs font-normal text-slate-500">{complains.email}</p>
-                            </div>
+                            <Link href={'/super-admin/feedback-and-customer-support/[1]'} className="identity pl-2">
+                              <div>
+                                <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
+                                <p className="font-manropeL text-xs font-normal text-slate-500">{complains.email}</p>
+                              </div>
+                            </Link>
                           </div>
                           <div className="description w-40  min-w-[120px]">
                             <p className="font-manropeL font-medium text-base text-slate-500">
@@ -446,10 +450,12 @@ export default function GeneralComplaints() {
                             />
                             {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                           </div>
-                          <div className="identity pl-2">
-                            <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
-                            <p className="font-manropeL text-xs font-normal text-slate-500">{complains.email}</p>
-                          </div>
+                          <Link href={'/super-admin/feedback-and-customer-support/[1]'} className="identity pl-2">
+                            <div>
+                              <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
+                              <p className="font-manropeL text-xs font-normal text-slate-500">{complains.email}</p>
+                            </div>
+                          </Link>
                         </div>
                         <div className="description w-40 min-w-[120px]">
                           <p className="font-manropeL font-medium text-base text-slate-500">
