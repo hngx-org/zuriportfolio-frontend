@@ -51,8 +51,8 @@ const {badge:level} = router.query
 
   return (
     <Modal isOpen={isOpen} closeModal={onClose} closeOnOverlayClick isCloseIconPresent={false}>
-      <div className="bg-white rounded-lg pt-[110px] mx-auto flex flex-col gap-[22px] items-center">
-        <h4 className="text-green-600 font-manropeB text-[32px] ">Congratulations!</h4>
+        <div className="bg-white rounded-lg pt-[110px] mx-auto flex flex-col gap-[22px] items-center">
+          <h4 className="text-green-600 font-manropeB text-[32px] ">Congratulations!</h4>
 
           <Image src={badgeImage} alt="user badge" className="w-40" priority />
 
