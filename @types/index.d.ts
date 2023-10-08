@@ -115,6 +115,7 @@ export interface ModalProps {
   title?: string;
   size?: 'lg' | 'md' | 'sm' | 'xl';
   isCloseIconPresent?: boolean;
+  closeBtnClass?: string;
 }
 
 export interface PriceData {
