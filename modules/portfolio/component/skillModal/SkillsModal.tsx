@@ -40,34 +40,23 @@ const SkillModal = () => {
     setArrayTwo(arrayTwo.filter((el) => el !== item));
     setArrayOne([...arrayOne, item]);
   };
-  
-    const handleKeyPress = (e: { key: string; }) => {
-      
-      if (e.key === 'Enter') {
-        
-        const trimmedValue = inputValue.trim();
 
-        if (trimmedValue !== '') {
-          setArrayTwo((prevArray) => [...prevArray, trimmedValue]);
-          setInputValue(''); // Clear the input field after pushing the value
-        }
+  const handleKeyPress = (e: { key: string }) => {
+    if (e.key === 'Enter') {
+      const trimmedValue = inputValue.trim();
+
+      if (trimmedValue !== '') {
+        setArrayTwo((prevArray) => [...prevArray, trimmedValue]);
+        setInputValue(''); // Clear the input field after pushing the value
       }
-    };
-    console.log(arrayTwo)
-
-
+    }
+  };
+  console.log(arrayTwo);
 
   return (
     <section className="w-full flex items-center justify-center ">
       {skillModalOpen && (
-        <Modal
-          closeOnOverlayClick
-          isOpen={skillModalOpen}
-          closeModal={onClose}
-          isCloseIconPresent={true}
-          size="lg"
-          
-        >
+        <Modal closeOnOverlayClick isOpen={skillModalOpen} closeModal={onClose} isCloseIconPresent={true} size="lg">
           <div className=" w-full max-sm:w-full px-4 py-6 fontFamily-manropeEL">
             <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
               <h1 className="font-bold text-2xl ">Skill</h1>
