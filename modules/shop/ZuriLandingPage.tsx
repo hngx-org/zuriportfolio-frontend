@@ -9,7 +9,7 @@ import { Products } from '../../@types';
 
 const fakeStoreApiUrl = 'https://fakestoreapi.com/products';
 
-const staticProducts: Products[] = [
+export const staticProducts: Products[] = [
   {
     id: 1,
     name: 'Webinar and Course Template',

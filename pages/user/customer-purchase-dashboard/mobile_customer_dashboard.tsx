@@ -9,6 +9,7 @@ import { SearchNormal1 } from 'iconsax-react';
 import DeleteModal from '@modules/marketplace/component/CustomerDashboard/DeleteModal';
 import useDisclosure from '../../../hooks/useDisclosure';
 import PurchaseNotFound from '@modules/marketplace/component/CustomerDashboard/PurchaseNotFound';
+import FilterDropDown from '@modules/marketplace/component/CustomerDashboard/FilterDropDown';
 
 // Define a type for the data
 type PurchaseData = {
@@ -155,6 +156,12 @@ const MyPage: React.FC = () => {
     setFilter(filterName);
   };
 
+  // handle filter dropdown
+  const [ filterBy, setFilterBy ] = useState<string>("item")
+  const onChooseFilter = (filter: string) => {
+      setFilterBy(filter)
+  }
+
   const [page, setPage] = useState(1);
 
   return (
@@ -182,9 +189,12 @@ const MyPage: React.FC = () => {
           />
 
           <div className="flex gap-4">
+
             <Button className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-fit rounded-lg text-black-600 bg-white-100 hover:bg-white-100 active:bg-white-100 text-[0.88rem] ">
               <Sort size="16" />
             </Button>
+            <FilterDropDown onChooseFilter={onChooseFilter}/>
+
 
             <Button
               onClick={onOpen}
