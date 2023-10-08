@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import Modal from '@ui/Modal';
 import Button from '@ui/Button';
 import useDisclosure from '../../../../hooks/useDisclosure';
@@ -28,6 +28,7 @@ function EducationSection() {
   });
 
   const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [editMode, setEditMode] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [formChanged, setFormChanged] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -69,12 +70,18 @@ function EducationSection() {
     }
     setShowForm(false);
     setFormChanged(false);
+    setEditMode(false);
   };
+  useEffect(() => {
+    setEducationData(educationData);
+  }, [educationData]);
 
   const handleEdit = (index: number) => {
     const entryToEdit = educationList[index];
-    setEducationData(entryToEdit);
+    console.log('Entry to Edit:', entryToEdit);
+    setEducationData({ ...entryToEdit });
     setEditIndex(index);
+    setEditMode(true);
     setShowForm(true);
     setFormChanged(false);
   };
@@ -93,10 +100,12 @@ function EducationSection() {
         setEducationData(initialEducationData);
         setShowForm(false);
         setFormChanged(false);
+        setEditMode(false);
       }
     } else {
       setEducationData(initialEducationData);
       setShowForm(false);
+      setEditMode(false);
     }
   };
 
@@ -226,17 +235,17 @@ function EducationSection() {
           ) : (
             <div className="saved-section border-transparent">
               {educationList.map((entry, index) => (
-                <div key={index} className="mb-4 p-4 rounded border border-transparent flex flex-wrap">
-                  <div className="w-full sm:w-1/3 py-10">
+                <div key={index} className="border border-transparent flex flex-wrap mt-3">
+                  <div className="w-full sm:w-1/4 py-6">
                     <p className="text-sm text-gray-600">
-                      {entry.dateFrom} - {entry.dateTo}
+                      {entry.dateFrom.split('-')[0]} - {entry.dateTo.split('-')[0]}
                     </p>
                   </div>
-                  <div className="w-full sm:w-1/3 py-10">
+                  <div className="w-full sm:w-1/4 py-6">
                     <p className="text-lg font-semibold">{entry.fieldOfStudy}</p>
                     <p>{entry.school}</p>
                   </div>
-                  <div className="w-full sm:w-1/3">
+                  <div className="w-full sm:w-1/4 py-6 ml-20">
                     <p>{entry.description}</p>
                   </div>
                   <div className="w-full flex justify-end mt-2">
@@ -258,9 +267,9 @@ function EducationSection() {
                 </div>
               ))}
               <div className="border-t border-gray-300 w-full h-0"></div>
-              <div className="mt-4 flex justify-between">
+              <div className="mt-4 flex items-center justify-between h-24 gap-2">
                 <a
-                  className="text-lg font-medium text-green-600 cursor-pointer ml-2"
+                  className="text-[16px] font-medium text-green-600 cursor-pointer mr-3"
                   onClick={() => {
                     setEducationData({
                       degree: '',
@@ -279,7 +288,7 @@ function EducationSection() {
                 <div className="mt-4 flex justify-end">
                   <Button
                     intent={'primary'}
-                    className="bg-white text-lg font-semibold text-[#009444] border border-green-600 rounded-lg border-2 mr-6 px-6 py-3 rounded hover:bg-red-500 hover:text-white cursor-pointer"
+                    className="bg-white text-lg font-semibold text-[#009444] border border-green-600 rounded-lg border-2 mr-4 px-4 py-3 rounded hover:bg-red-500 hover:text-white cursor-pointer"
                     onClick={() => {
                       setShowForm(false);
                     }}
@@ -288,7 +297,7 @@ function EducationSection() {
                   </Button>
                   <Button
                     intent={'success'}
-                    className="bg-[#009444] text-lg font-semibold text-white-100 border border-green-700 rounded-lg border-2 px-8 py-3 rounded cursor-pointer"
+                    className="bg-[#009444] text-lg font-semibold text-white-100 border border-green-700 rounded-lg border-2 px-6 py-3 rounded cursor-pointer"
                     onClick={handleSave}
                   >
                     Save
