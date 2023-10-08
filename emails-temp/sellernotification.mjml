@@ -13,7 +13,7 @@
   <mj-body background-color="#f4fbf6" width="1500px">
     <mj-section background-color="#33a467" css-class="set-nposition">
       <mj-column width="100%" padding="20px 0px 250px 0px">
-        <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/assessment/logo.png" alt="Logo" width="337px" height="64px" />
+        <mj-image src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/assessment/Logo.png" alt="Logo" width="337px" height="64px" />
       </mj-column>
     </mj-section>
 
