@@ -73,7 +73,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="mt-[4rem] mx-8 border border-[2px] lg:border-[1px] rounded-md border-[#A8ACAB]">
+        <div className="mt-[4rem] mx-8 border-[2px] lg:border-[1px] rounded-md border-[#A8ACAB]">
           <div className="flex items-center border-b-[2px] border-b-[#A8ACAB] mx-8">
             <Image
               src="/assets/dashboard/assesment.svg"
