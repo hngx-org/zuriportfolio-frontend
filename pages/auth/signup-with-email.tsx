@@ -15,7 +15,7 @@ function SignUpWithEmail() {
         <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100 font-manropeEB">Sign up</h1>
         <p className="md:text-[22px] text-custom-color20 font-manropeB">Let&apos;s get you started</p>
       </div>
-      <div className="mt-6 md:mt-12">
+      <div className="mt-6 md:my-12">
         <form className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="font-manropeB">
@@ -25,8 +25,9 @@ function SignUpWithEmail() {
               placeHolder="Allusugar@gmail.com"
               id="email"
               name="email"
-              className="w-full border-slate-50"
+              className="w-full border border-slate-50 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]"
               type="email"
+              required={true}
             />
           </div>
           <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
