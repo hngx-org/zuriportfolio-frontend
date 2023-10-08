@@ -28,14 +28,14 @@ const Dashboard = () => {
             </div>
         </div>
         <Button className="mt-[1rem] ml-auto me-4 text-[.7rem] md:text-[1rem]">View Past assessment</Button>
-        <div className="mt-[2rem] mx-[.75rem] md:mx-8 border border-[1px] border-white-400 rounded-md py-[1rem] px-2 md:p-4">
+        <div className="mt-[2rem] mx-[.75rem] md:mx-8 border border-white-400 rounded-md py-[1rem] px-2 md:p-4">
           <div className="px-[2px]">
             <h2 className="text-green-950 text-[1.45rem] font-semibold">Current Skill Level</h2>
             <div className="md:flex">
               {LevelData().map((item, index) => (
                 <div
                   key={index}
-                  className="flex md:mx-2 items-center gap-2 border border-[1px] mb-[.75rem] my-[1rem] border-white-400 px-2 rounded-md h-[8rem] md:h-[9.5rem]"
+                  className="flex md:mx-2 items-center gap-2 border mb-[.75rem] my-[1rem] border-white-400 px-2 rounded-md h-[8rem] md:h-[9.5rem]"
                 >
                   <div className="relative group">
                     <div
@@ -68,7 +68,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="mt-[4rem] mx-[.75rem] md:mx-8 border-[1px] lg:border-[1px] rounded-md border-[#A8ACAB]">
-          <div className="flex gap-[.8rem] items-center border-b-[1px] border-b-[#A8ACAB] mx-[.75rem] mx-8">
+          <div className="flex gap-[.8rem] items-center border-b-[1px] border-b-[#A8ACAB] mx-[.75rem]">
             <Image
               src="/assets/dashboard/assesment.svg"
               alt="progress"
