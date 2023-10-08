@@ -1,17 +1,24 @@
-
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, BarChart, Bar, XAxis, ReferenceLine, ResponsiveContainer } from 'recharts';
 import { Graph, activity } from '../../../@types';
 
 
-const AnalyticsAndReportingGraphs = () => {
-const [isGraph, setIsGraph] = useState (false)
 
-useEffect(() => {
-  if (window.innerWidth > 768) {
-    setIsGraph(true);
-  }
-}, []);
+const AnalyticsAndReportingGraphs = () => {
+  const [isGraph, setIsGraph] = useState(false);
+
+  useEffect(() => {
+    const updateIsGraph = () => {
+      setIsGraph(window.innerWidth > 768);
+    };
+
+    updateIsGraph(); // Initial check
+    window.addEventListener('resize', updateIsGraph);
+
+    return () => {
+      window.removeEventListener('resize', updateIsGraph);
+    };
+  }, []);
 
 
   const graphDetails: Graph[] = [
@@ -27,7 +34,6 @@ useEffect(() => {
         twentyFourH: '24 hrs',
         md: true,
       },
-     
     },
     {
       id: 2,
@@ -113,20 +119,37 @@ useEffect(() => {
     },
   ];
 
-  const chartData = [
-    { name: 'January', uv: 4000, pv: 2400, amt: 2400 },
-    { name: 'February', uv: 3000, pv: 1398, amt: 2210 },
-    { name: 'March', uv: 2000, pv: 9800, amt: 2290 },
-    { name: 'April', uv: 2780, pv: 3908, amt: 2000 },
-    { name: 'May', uv: 1890, pv: 4800, amt: 2181 },
-    { name: 'June', uv: 2390, pv: 3800, amt: 2500 },
-    { name: 'July', uv: 3490, pv: 4300, amt: 2100 },
-    { name: 'August', uv: 4000, pv: 2400, amt: 2400 },
-    { name: 'September', uv: 3000, pv: 1398, amt: 2210 },
-    { name: 'October', uv: 2000, pv: 9800, amt: 2290 },
-    { name: 'November', uv: 2780, pv: 3908, amt: 2000 },
-    { name: 'December', uv: 1890, pv: 4800, amt: 2181 },
+  const barChartData = [
+    { name: 'Jan', value: 500 },
+    { name: 'Feb', value: 700 },
+    { name: 'Mar', value: 400 },
+    { name: 'Apr', value: 900 },
+    { name: 'May', value: 600 },
+    { name: 'Jun', value: 1200 },
+    { name: 'Jul', value: 950 },
+    { name: 'Aug', value: 550 },
+    { name: 'Sep', value: 450 },
+    { name: 'Oct', value: 300 },
+    { name: 'Nov', value: 400 },
+    { name: 'Dec', value: 600 },
   ];
+
+  const snakeLineData = [
+    { name: 'Jan', uv: 4000, pv: 2400 },
+    { name: 'Feb', uv: 6000, pv: 2000 },
+    { name: 'Mar', uv: 7000, pv: 4800 },
+    { name: 'Apr', uv: 5800, pv: 5398 },
+    { name: 'May', uv: 3000, pv: 4508 },
+    { name: 'Jun', uv: 2840, pv: 1398 },
+    { name: 'Jul', uv: 5100, pv: 3298 },
+    { name: 'Aug', uv: 3700, pv: 5398 },
+    { name: 'Sep', uv: 4200, pv: 4398 },
+    { name: 'Oct', uv: 1700, pv: 4398 },
+    { name: 'Nov', uv: 4060, pv: 2398 },
+    { name: 'Dec', uv: 3060, pv: 3398 },
+  ];
+  
+  
 
   return (
     <>
@@ -141,12 +164,12 @@ useEffect(() => {
                     {item.btn}
                   </button>
                 </div>
-                <div className="flex justify-center items-center font-light text-custom-color27 px-6 mt-8 md:justify-between">
+                <div className="flex justify-center items-center whitespace-nowrap font-light text-custom-color27 px-6 mt-8 md:justify-between">
                   <div className="flex justify-center items-center text-center  gap-3 text-[13px] sm:text-[15px] md:gap-5">
                     <p className="rounded-md bg-green-300 bg-opacity-20 py-1.5 px-2 text-green-900">
-                      {isGraph ? '12 months' : item.calender.twelveM }
+                      {isGraph ? '12 months' : item.calender.twelveM}
                     </p>
-                    <p>{isGraph ? '3 months' : item.calender.threeM }</p>
+                    <p>{isGraph ? '3 months' : item.calender.threeM}</p>
                     <p>{item.calender.thirtyD}</p>
                     <p>{item.calender.sevenD}</p>
                     <p>{isGraph ? '24 hours' : item.calender.twentyFourH}</p>
@@ -159,16 +182,31 @@ useEffect(() => {
                     </div>
                   )}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className=''>
-                  <ResponsiveContainer height={230} className="mx-auto mt-8 0 ">
-                    <LineChart data={chartData}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className="">
+                  <ResponsiveContainer height={230} className="mx-auto mt-8 ">
+                    {index === 0 ? (
+                      <LineChart data={snakeLineData}>
                       <XAxis dataKey="name" />
-                      <YAxis />
-                      <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-                      <Tooltip   />
-                      <Legend />
-                      <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+                      <ReferenceLine y={1000} stroke="#F2F4F7" />
+                      <ReferenceLine y={3200} stroke="#F2F4F7" />
+                      <ReferenceLine y={5200} stroke="#F2F4F7" />
+                      <ReferenceLine y={7200} stroke="#F2F4F7" />
+                      <ReferenceLine y={9200} stroke="#F2F4F7" />
+                      <Line type="natural" dataKey="uv" stroke="#EABE95" strokeWidth={3} dot={false} />
+                      <Line type="natural" dataKey="pv" stroke="#D7A068" strokeWidth={3} dot={false}/>
                     </LineChart>
+                    
+                    
+                    ) : (
+                      <BarChart data={barChartData}>
+                        <XAxis dataKey="name" />
+                        <ReferenceLine y={300} stroke="#F2F4F7" />
+                        <ReferenceLine y={600} stroke="#F2F4F7" />
+                        <ReferenceLine y={900} stroke="#F2F4F7" />
+                        <ReferenceLine y={1200} stroke="#F2F4F7" />
+                        <Bar dataKey="value" fill="#CAEAD4" barSize={35} />
+                      </BarChart>
+                    )}
                   </ResponsiveContainer>
                 </div>
               </div>
