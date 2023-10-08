@@ -142,24 +142,28 @@ export default function ProductDetails() {
     });
   }
 
-  var cartItemCount = 0;
-  const handleAddToCart = function () {
-    cartItemCount = cartItemCount + 1;
-    console.log(cartItemCount);
-  };
 
-  const [selectedCategory, setSelectedCategory] = useState(product.category);
-  const [searchQuery, setSearchQuery] = useState('');
+const [selectedCategory, setSelectedCategory] = useState(product.category);
+const [searchQuery, setSearchQuery] = useState('');
 
-  const handleCategoryChange = () => {};
+
+const handleCategoryChange = () => {
+};
+
+const [cartCount, setCartCount] = useState(0);
+  
+
+var cartItemCount = function() {
+  setCartCount(cartCount + 1);
+}
+
 
   return (
     <>
       {/* Navbar */}
-      {/* <ShopNavbar activePage={router.pathname} showDashBorad={false} /> */}
       <Header
         setSearchQuery={setSearchQuery}
-        cartItemCount={cartItemCount}
+        cartItemCount={cartCount}
         categories={[]}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
@@ -255,7 +259,7 @@ export default function ProductDetails() {
               </p>
             </div>
 
-            <Button intent={'primary'} size={'lg'} className="w-5/12 text-xs" onClick={handleAddToCart}>
+            <Button intent={'primary'} size={'lg'} className="w-5/12 text-xs" onClick={cartItemCount}>
               Add to cart
             </Button>
           </div>
