@@ -40,7 +40,7 @@ const DraftPage = () => {
   };
 
   return (
-    <div className="p-4 sm:px-24 sm:py-11">
+    <div className="p-4 sm:px-24 sm:py-11 mb-10">
       <Link href="/assessment" className="flex gap-1 items-center mb-16 cursor-pointer">
         <Image src="/assets/arrow-left.svg" alt="arrow left icon" width={20} height={20} />
         <span>Go back</span>
