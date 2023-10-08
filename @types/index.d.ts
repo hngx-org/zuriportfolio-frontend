@@ -352,3 +352,12 @@ export type SectionModalProps = {
   primaryText: string;
   onClickAction: () => void;
 };
+
+export interface DeletedProducts {
+  name: string;
+  vendor: string;
+  id: number;
+  dateAdded: Date;
+  dateDeleted: Date;
+  status: string;
+}
