@@ -12,7 +12,7 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
           <Image width={150} height={150} src="/assets/images/logo/zuriportfolio-logo.svg" alt="Zuri portfolio logo" />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-20 pt-10 md:pt-16 pb-24 px-8 overflow-y-auto text-sm lg:pr-24 lg:pl-16 w-full lg:h-screen lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-20 pt-10 md:pt-12 md:py-12 pb-10 px-8 overflow-y-auto text-sm lg:pr-24 lg:pl-16 w-full lg:h-screen lg:grid-cols-2">
         <div className="w-full h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden hidden lg:block">
           {authLeftImage ?? (
             <Image
