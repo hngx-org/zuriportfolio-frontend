@@ -17,7 +17,7 @@ const Dashboard = () => {
               Level Up Your UX Superpowers! Earn Badges, Build Trust, and Land the Dream Projects!
             </p>
           </div>
-          <div className="h-full">
+         <div className="h-full">
             <Image
               src="/assets/dashboard/dashboard-top.svg"
               alt="checklist"
