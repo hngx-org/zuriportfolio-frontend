@@ -35,7 +35,7 @@ export default function Slider() {
         alt="slider image 1"
         className="object-contain lg:w-[105px] md:w-[180px] w-[90px] lg:h-[94px] md:h-[131px] h-[95px] lg:block hidden"
       />
-      <div className="px-2.5 py-2 rounded-full shadow-lg w-fit absolute bg-white-100 top-8 -right-[10px] md:block hidden">
+      <div className="px-2.5 py-2 rounded-full shadow-lg w-fit absolute bg-white-100 top-8 -right-[10px] lg:block hidden">
         <Image src={slider} alt="slider" />
       </div>
     </div>
