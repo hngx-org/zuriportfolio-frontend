@@ -32,15 +32,6 @@ export interface Products {
   category: string;
 }
 
-export interface AdminTablePagination {
-  handleClick?: any;
-  disabledFn?: any;
-  title: any;
-  currentPage: any;
-  totalPages: any;
-  onPageChange: any;
-}
-
 export interface SuperAdminPagination {
   title: any;
 }
@@ -124,6 +115,7 @@ export interface ModalProps {
   title?: string;
   size?: 'lg' | 'md' | 'sm' | 'xl';
   isCloseIconPresent?: boolean;
+  closeBtnClass?: string;
 }
 
 export interface PriceData {
@@ -360,3 +352,10 @@ export interface ProductInfo {
   dateAdded: string;
   status: string;
 }
+export type SectionModalProps = {
+  openButtonText: string;
+  heading: string;
+  paragraph: string;
+  primaryText: string;
+  onClickAction: () => void;
+};
