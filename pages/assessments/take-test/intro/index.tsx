@@ -15,7 +15,7 @@ const TakeTest: FC = () => {
           title="Assessment test"
           subtitle="You are currently writing the  user persona quiz"
         />
-        <div className="container pt-16 px-8 pb-36 md-pb-4 md:h-screen">
+        <div className="container mx-auto pt-16 px-8 pb-36 md-pb-4 md:h-screen">
           <div className="mx-auto sm:w  md:w-fit rounded-lg border border-slate-100 pt-10 pb-5 md:pb-10 md:px-10 px-5">
             <button onClick={() => router.back()}>
               <ArrowLeft />

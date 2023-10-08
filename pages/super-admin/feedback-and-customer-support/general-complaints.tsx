@@ -1,13 +1,16 @@
-import React from 'react';
-import Image from 'next/image';
 import { Input } from '@ui/Input';
+import React from 'react';
+import Pagination from '../../view-components/super-admin/pagination';
 import Nav from '../../view-components/super-admin/navbar';
-import Pagination from '../../view-components/super-admin/pagination/index';
+import Image from 'next/image';
+import Link from 'next/link';
+import VendorComplaint from '../../../public/assets/images/vendorComplaint.png';
+
 type Complains = {
   id: number;
   name: string;
   email: string;
-  image: string;
+  image: any;
   complaintDescription: string;
   date: string;
   status: string;
@@ -20,7 +23,7 @@ export default function GeneralComplaints() {
       name: 'Jeffery Dahmer',
       email: 'dahmerbones@gmail.com',
       complaintDescription: 'Order Eaten',
-      image: '/../../images/vendorComplaint.png',
+      image: VendorComplaint,
       date: '07-09-99',
       status: 'Pending',
     },
@@ -28,7 +31,7 @@ export default function GeneralComplaints() {
       id: 2,
       name: 'Mark Essien',
       email: 'markessien@gmail.com',
-      image: '/../../images/vendorComplaint.png',
+      image: VendorComplaint,
       complaintDescription: 'Bad Product',
       date: '09-07-23',
       status: 'Resolved',
@@ -37,61 +40,7 @@ export default function GeneralComplaints() {
       id: 3,
       name: 'John Kennedy',
       email: 'ken006john@yahoo.com',
-      image: '/../../images/vendorComplaint.png',
-      complaintDescription: 'Order not recieved',
-      date: '09-07-23',
-      status: 'InProgress',
-    },
-    {
-      id: 4,
-      name: 'Jeffery Dahmer',
-      email: 'dahmerbones@gmail.com',
-      complaintDescription: 'Order Eaten',
-      image: '/../../images/vendorComplaint.png',
-      date: '07-09-99',
-      status: 'Pending',
-    },
-    {
-      id: 5,
-      name: 'Mark Essien',
-      email: 'markessien@gmail.com',
-      image: '/../../images/vendorComplaint.png',
-      complaintDescription: 'Bad Product',
-      date: '09-07-23',
-      status: 'Resolved',
-    },
-    {
-      id: 6,
-      name: 'John Kennedy',
-      email: 'ken006john@yahoo.com',
-      image: '/../../images/vendorComplaint.png',
-      complaintDescription: 'Order not recieved',
-      date: '09-07-23',
-      status: 'InProgress',
-    },
-    {
-      id: 7,
-      name: 'Jeffery Dahmer',
-      email: 'dahmerbones@gmail.com',
-      complaintDescription: 'Order Eaten',
-      image: '/../../images/vendorComplaint.png',
-      date: '07-09-99',
-      status: 'Pending',
-    },
-    {
-      id: 8,
-      name: 'Mark Essien',
-      email: 'markessien@gmail.com',
-      image: '/../../images/vendorComplaint.png',
-      complaintDescription: 'Bad Product',
-      date: '09-07-23',
-      status: 'Resolved',
-    },
-    {
-      id: 9,
-      name: 'John Kennedy',
-      email: 'ken006john@yahoo.com',
-      image: '/../../images/vendorComplaint.png',
+      image: VendorComplaint,
       complaintDescription: 'Order not recieved',
       date: '09-07-23',
       status: 'InProgress',
@@ -267,9 +216,6 @@ export default function GeneralComplaints() {
                         strokeWidth="1.5"
                       />
                     </svg>
-                    {/* <div className="h-10 w-24 flex items-center justify-center rounded-md border-2 border-slate-300 absolute bottom-6 text-slate-800">
-                                    View
-                                </div> */}
                   </div>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
@@ -303,7 +249,7 @@ export default function GeneralComplaints() {
           <div className="mt-8 w-full h-auto border-2 border-slate-100 max-md:overflow-x-scroll overflow-x-scroll">
             <div className="complaintHeading h-18 p-3 flex flex-row items-center justify-between border-b-2 border-slate-100">
               <div className="headerText min-w-[190px] mr-2">
-                <h2 className="font-manropeL text-xl font-semibold ">My Complaint</h2>
+                <h2 className="font-manropeL text-xl font-semibold">My Complaint</h2>
                 <h3 className="font-manropeL text-base font-normal text-slate-600">
                   List of all complaint and their details
                 </h3>
@@ -323,10 +269,10 @@ export default function GeneralComplaints() {
                     type="search"
                     onChange={(e) => setSearchedItem(e.target.value)}
                     placeholder="Search"
-                    className="  border-none focus:outline-none ml-1.5 h-6 w-96 -z-10"
+                    className="  border-none focus:outline-none ml-1.5 h-6 w-96"
                   />
                 </div>
-                <div className="filter cursor-pointer rounded-lg ml-2  p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-slate-200 border-2">
+                <div className="filter cursor-pointer rounded-lg ml-2 w-28 p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-slate-200 border-2">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
@@ -336,7 +282,6 @@ export default function GeneralComplaints() {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  {/* <p className="pl-2 text-slate-600 font-manropeL text-l font-normal ">Filters</p> */}
                   <select
                     name=""
                     onChange={(e) => setFilteredState(e.target.value)}
@@ -391,21 +336,24 @@ export default function GeneralComplaints() {
                           key={complains.id}
                           className="vendorComplaints p-3 flex flex-row items-center justify-between "
                         >
-                          <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
+                          <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
                           <div className="name w-80 flex flex-row items-center min-w-[250px]">
                             <div className="displayPicture">
                               <Image
                                 alt=""
-                                src="/../.././assets/images/vendorComplaint.png"
+                                src={complains.image}
                                 className="h-10 w-10 rounded-full object-contain"
                                 width={40}
                                 height={40}
                               />
+                              {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                             </div>
-                            <div className="identity pl-2">
-                              <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
-                              <p className="font-manropeL font-normal text-base text-slate-500">{complains.email}</p>
-                            </div>
+                            <Link href={'/super-admin/feedback-and-customer-support/[1]'} className="identity pl-2">
+                              <div>
+                                <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
+                                <p className="font-manropeL text-xs font-normal text-slate-500">{complains.email}</p>
+                              </div>
+                            </Link>
                           </div>
                           <div className="description w-40  min-w-[120px]">
                             <p className="font-manropeL font-medium text-base text-slate-500">
@@ -496,16 +444,19 @@ export default function GeneralComplaints() {
                           <div className="displayPicture">
                             <Image
                               alt=""
-                              src="/../.././assets/images/vendorComplaint.png"
+                              src={complains.image}
                               className="h-10 w-10 rounded-full object-contain"
                               width={40}
                               height={40}
                             />
+                            {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                           </div>
-                          <div className="identity pl-2">
-                            <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
-                            <p className="font-manropeL text-xs font-normal  text-slate-500">{complains.email}</p>
-                          </div>
+                          <Link href={'/super-admin/feedback-and-customer-support/[1]'} className="identity pl-2">
+                            <div>
+                              <h2 className="font-manropeL font-semibold text-base">{complains.name}</h2>
+                              <p className="font-manropeL text-xs font-normal text-slate-500">{complains.email}</p>
+                            </div>
+                          </Link>
                         </div>
                         <div className="description w-40 min-w-[120px]">
                           <p className="font-manropeL font-medium text-base text-slate-500">
