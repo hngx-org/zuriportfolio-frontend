@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import MobileNav from '@modules/dashboard/component/MobileNav';
 import Button from '@ui/Button';
-import logo from './assets/zuriLogo.svg';
 import notificationIcon from './assets/notification.svg';
-import documentUploadIcon from './assets/document-upload.svg';
 import cartIcon from './assets/shopping-cart.svg';
 import briefCaseIcon from './assets/briefcase.svg';
 import errorBoxIcon from './assets/bx-error-alt.svg';
@@ -219,10 +216,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
               </div>
               <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                 <div className="details ">
-                  <p className=" font-bold text-sm">John Doe</p>
-                  <p className="text-xs ">Zuri Team</p>
+                  <p className=" font-bold ">John Doe</p>
+                  <p className="text-sm ">Zuri Team</p>
                 </div>
-                <div className="w-6 h-6 aspect-square relative bg-gray-400 rounded-[100px]" />
+                <div className="w-10 h-10 aspect-square relative bg-gray-400 rounded-[100px]" />
               </div>
             </div>
           )}
