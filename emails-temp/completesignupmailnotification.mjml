@@ -28,7 +28,7 @@
 
        
 </mj-head>
-  <mj-body >
+  <mj-body background-color="#fff" >
     <!-- Logo Image -->
     <mj-section>
       <mj-column >
