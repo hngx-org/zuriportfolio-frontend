@@ -15,7 +15,7 @@ const WorkExperienceSection = () => {
   const [description, setDescription] = useState('');
   const [startYear, setStartYear] = useState('');
   const [startMonth, setStartMonth] = useState('');
-  const [endYear, setEndYear] = useState<string | 'Present'>('Present');
+  const [endYear, setEndYear] = useState('');
   const [endMonth, setEndMonth] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   const [idCounter, setIdCounter] = useState(1);
@@ -353,33 +353,36 @@ const WorkExperienceSection = () => {
                         </Select>
                       </>
                     </div>
-                    <div className="relative w-7 h-7 flex items-center justify-center">
-                      <input
-                        type="checkbox"
-                        defaultChecked={isChecked}
-                        onChange={() => {
-                          setIsChecked(!isChecked);
-                          if (isChecked) {
-                            // Clear endYear and endMonth when 'Present' is unchecked
-                            // Set 'Present' when 'Present' is checked
-                            setEndYear('Present');
-                            setEndMonth('Present');
-                          }
-                        }}
-                        className="peer shrink-0 appearance-none h-[100%] w-[100%] border-[1px] border-[#A8ACAB] rounded-md checked:bg-brand-green-primary checked:border-0"
-                      />
-                      <svg
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 hidden peer-checked:block pointer-events-none"
-                        xmlns="http://w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="white"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
+                    <div className="flex items-center gap-2">
+                      <div className="relative w-7 h-7 flex items-center justify-center">
+                        <input
+                          type="checkbox"
+                          defaultChecked={isChecked}
+                          onChange={() => {
+                            setIsChecked(!isChecked);
+                            if (isChecked) {
+                              // Clear endYear and endMonth when 'Present' is unchecked
+                              // Set 'Present' when 'Present' is checked
+                              setEndYear('Present');
+                              setEndMonth('Present');
+                            }
+                          }}
+                          className="peer shrink-0 appearance-none h-[100%] w-[100%] border-[1px] border-[#A8ACAB] rounded-md checked:bg-brand-green-primary checked:border-0"
+                        />
+                        <svg
+                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 hidden peer-checked:block pointer-events-none"
+                          xmlns="http://w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="white"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </div>
+                      <p>Present</p>
                     </div>
                   </div>
                 </div>
