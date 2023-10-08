@@ -47,11 +47,13 @@ export default function ProductDetailsDescription() {
 
   return (
     <MainLayout activePage="product-details" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <CategoriesNav navItems={navItems} />
+      <div className="whitespace-nowrap overflow-hidden">
+        <CategoriesNav navItems={navItems} />
+      </div>
       {/* lg:px-[100px] md:px-10*/}
       <main className={`flex flex-col items-center max-w-[1240px] mx-auto  px-6 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
         {/* Product Details  */}
-        <div className="flex lg:flex-row flex-col items-center justify-center gap-y-3 w-full">
+        <div className="flex lg:flex-row flex-col items-center lg:justify-between justify-center gap-y-3 xl:gap-x-0 lg:gap-x-10 gap-x-0 w-full">
           {/* Product Detail Images  */}
           <div className="flex flex-col w-full item-center lg:gap-y-4">
             <Image
@@ -69,9 +71,9 @@ export default function ProductDetailsDescription() {
               <span> Templates by Sarah Rino (Soft Copy)</span>
             </h1>
             <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
-              <span>Empower your educational endeavors with our Webinar and Course Template.</span>
-              <span>Craft immersive online learning experiences that captivate audiences. </span>
-              <span>Seamlessly integrate multimedia elements, quizzes, and discussions to enrich...</span>
+              Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
+              experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
+              to enrich <b className="text-green-600 lg:hidden flex">Read More...</b>
             </p>
 
             <div className="flex flex-col gap-y-2">
@@ -90,7 +92,7 @@ export default function ProductDetailsDescription() {
 
             <hr className="bg-white-110 text-white-110 h-[2px] border-0 lg:block hidden" />
 
-            <div className="flex flex-col gap-y-2 pb-10">
+            <div className="flex flex-col gap-y-2 lg:pb-10 pb-0">
               <p className="text-base font-normal font-manropeL leading-normal tracking-tight">
                 Total Payment (Incl. taxes)
               </p>
@@ -102,7 +104,7 @@ export default function ProductDetailsDescription() {
               </p>
             </div>
 
-            <Button intent={'primary'} size={'lg'}>
+            <Button intent={'primary'} size={'lg'} className="lg:px-5 md:px-14 md:w-fit w-full">
               Add to cart
             </Button>
           </div>
