@@ -9,6 +9,7 @@ import ExperienceCard from './experience-cards/experience-card';
 import Cancel from '../../../../public/assets/recentlyviewed/cancel.svg';
 import styles from './productCardWrapper/product-card-wrapper.module.css';
 import AllCategorySlider from '../AllCategorySlider';
+import CategoriesNav from '../CategoriesNav/CategoriesNav';
 
 const handPicked: ProductCardProps[] = [
   {
@@ -243,6 +244,7 @@ function LandingPage() {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
       <div className="py-6 px-4 overflow-hidden w-full">
+        <CategoriesNav />
         <div className="max-w-[1240px] mx-auto">
           <ProductCardWrapper title="Handpicked For You" productsList={handPicked} />
 
