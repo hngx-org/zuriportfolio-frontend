@@ -154,13 +154,13 @@ useEffect(() => {
           {graphDetails.map((item, index) => (
             <div key={item.id} className="mb-8 lg:w-[98%]">
               <div className=" shadow-sm rounded-sm border border-white-200 bg-white-100">
-                <div className="flex justify-between items-center px-6 mt-5 text-[#2E3130]">
+                <div className="flex justify-between items-center px-6 mt-5 text-custom-color15">
                   <h3 className="text-[18px] font-light">{item.title}</h3>
                   <button className="font-light rounded-lg border border-white-100 py-2.5 px-4 text-[15px] md:bg-brand-green-primary md:text-white-100 md:border-0">
                     {item.btn}
                   </button>
                 </div>
-                <div className="flex justify-center items-center font-light text-[#8D9290] px-6 mt-8 md:justify-between">
+                <div className="flex justify-center items-center font-light text-custom-color27 px-6 mt-8 md:justify-between">
                   <div className="flex justify-center items-center text-center  gap-3 text-[13px] sm:text-[15px] md:gap-5">
                     <p className="rounded-md bg-green-300 bg-opacity-20 py-1.5 px-2 text-green-900">
                       {isGraph ? '12 months' : item.calender.twelveM }
@@ -198,15 +198,15 @@ useEffect(() => {
           <div className="py-7 px-6 sm:px-10 lg:shadow-sm bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:max-w-[1270px]">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-[19px]">Activity</h3>
-              <p className="text-[#5B5F5E] text-[15px]">View All</p>
+              <p className="text-custom-color15 text-[15px]">View All</p>
             </div>
             <div className="space-y-5 md:space-y-[15.5px]">
               {activityDetails.map((item) => (
                 <div key={item.id}>
-                  <h3 className="text-[#5B5F5E] text-[17px]">{item.name}</h3>
-                  <div className="flex gap-2">
-                    <p className="text-[#737876] font-light">{item.purchased}</p>
-                    <span className="text-[#F1AE67]">{item.pItem}</span>
+                  <h3 className="text-custom-color15 text-[17px]">{item.name}</h3>
+                  <div className="flex gap-1">
+                    <p className="text-custom-color22 font-light">{item.purchased}</p>
+                    <span className="text-orange-110">{item.pItem}</span>
                   </div>
                 </div>
               ))}
