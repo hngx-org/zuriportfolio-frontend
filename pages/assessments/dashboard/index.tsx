@@ -17,15 +17,15 @@ const Dashboard = () => {
               Level Up Your UX Superpowers! Earn Badges, Build Trust, and Land the Dream Projects!
             </p>
           </div>
-            <div className='h-full'>
-              <Image
-                src="/assets/dashboard/dashboard-top.svg"
-                alt="checklist"
-                width={120}
-                height={120}
-                className="h-[100%] md:w-[400px]"
-              />
-            </div>
+          <div className="h-full">
+            <Image
+              src="/assets/dashboard/dashboard-top.svg"
+              alt="checklist"
+              width={120}
+              height={120}
+              className="h-[100%] md:w-[400px]"
+            />
+          </div>
         </div>
         <Button className="mt-[1rem] ml-auto me-4 text-[.7rem] md:text-[1rem]">View Past assessment</Button>
         <div className="mt-[2rem] mx-[.75rem] md:mx-8 border border-white-400 rounded-md py-[1rem] px-2 md:p-4">
@@ -59,7 +59,9 @@ const Dashboard = () => {
                     <p className="text-brand-green-shade10 font-medium text-[1.2rem] md:text-[1rem] lg:text-[1.5rem] leading-1">
                       Level: {item.level}
                     </p>
-                    <p className="text-brand-green-shade10 font-medium text-[1.2rem] md:text-[1.5rem] leading-1">Score: {item.score}</p>
+                    <p className="text-brand-green-shade10 font-medium text-[1.2rem] md:text-[1.5rem] leading-1">
+                      Score: {item.score}
+                    </p>
                     <p className="text-white-650 text-[.8rem] md:text-[1rem]">{item.desc}</p>
                   </div>
                 </div>
