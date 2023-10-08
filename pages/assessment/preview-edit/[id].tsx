@@ -1,10 +1,16 @@
 import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
-
-import React from 'react';
-
+import Edithead from '@modules/assessment/component/edittitleHead';
+import React, { useState } from 'react';
+import EditLayout from '@modules/assessment/component/editLayout';
 const EditAssesment = () => {
+  const [active, setActive] = useState<null | string>('button1');
+
+  const handleClick = (button: string) => {
+    setActive(button);
+  };
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
@@ -29,6 +35,38 @@ const EditAssesment = () => {
             </Button>
             <Button className="p-3 text-white-100 text-center ">Publish Assesments</Button>
           </div>
+        </div>
+        <div className="pt-4 pb-2 flex space-x-10 justify-center">
+          <div
+            className={` cursor-pointer ${
+              active === 'button1' ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443] ' : 'text-dark-100'
+            }`}
+            onClick={() => handleClick('button1')}
+          >
+            Questions &amp; Answers
+          </div>
+          <div
+            className={` cursor-pointer ${
+              active === 'button2' ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443]' : 'text-dark-100'
+            }`}
+            onClick={() => handleClick('button2')}
+          >
+            Scoring
+          </div>
+        </div>
+        <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
+        {/* Actual layouts */}
+        <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
+          {active === 'button1' ? (
+            <>
+              <Edithead />
+              <div className="pt-4">
+                <EditLayout />
+              </div>
+            </>
+          ) : (
+            <p>Scoring...</p>
+          )}
         </div>
       </main>
     </MainLayout>

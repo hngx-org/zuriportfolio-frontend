@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from '@ui/Button';
 import Link from 'next/link';
 import { questionArr } from './questionsArr';
+
 type questionTypes = {
   questNo: number;
   question: string;
