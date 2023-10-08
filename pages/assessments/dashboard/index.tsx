@@ -17,15 +17,15 @@ const Dashboard = () => {
               Level Up Your UX Superpowers! Earn Badges, Build Trust, and Land the Dream Projects!
             </p>
           </div>
-            <div className='h-full'>
-              <Image
-                src="/assets/dashboard/dashboard-top.svg"
-                alt="checklist"
-                width={120}
-                height={120}
-                className="h-[100%] md:w-[400px]"
-              />
-            </div>
+          <div className="h-full">
+            <Image
+              src="/assets/dashboard/dashboard-top.svg"
+              alt="checklist"
+              width={120}
+              height={120}
+              className="h-[100%] md:w-[400px]"
+            />
+          </div>
         </div>
         <div className='lg:mx-[5rem] md:mx-[3rem] mx-[1.5rem]'>
           <Button className="mt-[1rem] ml-auto text-[.7rem] md:text-[1rem]">View Past assessment</Button>
