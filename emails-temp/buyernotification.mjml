@@ -1,13 +1,21 @@
 <mjml>
   <mj-head>
     <mj-title>Buyer Notification</mj-title>
+    <mj-font
+      name="Manrope"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+    />
+     <mj-attributes>
+  
+      <mj-text font-family="Manrope" font-size="16px" />
+    </mj-attributes>
     <mj-style>
       .set-nposition{position:relative} .center-group { margin: 0 auto; } .set-position{position: absolute}
       .set-width{width: 80%} .text-center { text-align: center; } .set-display{display: flex} .img-responsive
       .text-primary { color: #33a467; } .text-secondary { color: #f4fbf6; } .text-white { color: #fff; }
       .section-position { position: relative; top: 50%; transform: translateY(-25%); } .border-radius-top {
       border-radius: 10px 10px 0 0; } .width{width: 100%} .center-text { text-align: center; } @media (max-width: 480px)
-      { .mobile-hidden { display: none !important; } .n-width { width: 100% !important; } }
+      { .mobile-hidden { display: none !important; } .n-width { width: 100% !important; } } .new-width {width: 4rem; height: 4rem}
     </mj-style>
   </mj-head>
   <mj-body background-color="#f4fbf6" width="1500px">
@@ -24,14 +32,14 @@
       padding="0px 0 80px 0"
     >
       <mj-group background-color="#f4fef6" vertical-align="middle" width="100%" css-class="border-radius-top">
-        <mj-column vertical-align="middle" css-class="mobile-hidden" width="33%">
-          <mj-image width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
+
+        <mj-column css-class="mobile-hidden" vertical-align="middle"   width="20%">
+          <mj-image  width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
         </mj-column>
 
-        <mj-column css-class="n-width" vertical-align="middle">
+        <mj-column css-class="n-width" width="60%" vertical-align="middle">
           <mj-text
             background-color="#f4fbf6"
-            font-family="sans-serif"
             align="center"
             font-size="18px"
             color="#33a467"
@@ -42,9 +50,10 @@
             <p>Review PHP Test Results</p>
           </mj-text>
         </mj-column>
-        <mj-column css-class="mobile-hidden" vertical-align="middle">
-          <mj-image width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
+        <mj-column  width="20%" css-class="mobile-hidden"  vertical-align="middle">
+          <mj-image  width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
         </mj-column>
+
       </mj-group>
 
       <mj-column width="500px">
@@ -57,7 +66,7 @@
 
 
       <mj-column width="100%">
-        <mj-text font-family="sans-serif" font-size="18px" line-height="24px">
+        <mj-text  font-size="18px" line-height="24px">
           <p>Hi <span style="font-weight: bold">Mark</span>,</p>
           <p>
             Congratulations on completing your internal assessment for
@@ -84,7 +93,7 @@
       </mj-column>
 
       <mj-column width="100%">
-        <mj-text font-family="sans-serif" font-size="18px" line-height="24px">
+        <mj-text  font-size="18px" line-height="24px">
           <p>
             If you have any questions about your results, please contact our support group at
             <a href="mailto:zurisupport@gmail.com" style="font-weight: bold; color: #000">zurisupport@gmail.com</a>
@@ -114,7 +123,7 @@
 
         <mj-text align="center" color="#fff">Beaverto, Oregon, Washington County, USA</mj-text>
         <mj-text align="center" color="#fff">Copyright © 2023 Zuriportfolio, All rights reserved.</mj-text>
-        <mj-text align="center"><a href="#">Unsubscribe</a></mj-text>
+        <mj-text align="center" color="#fff"><a href="#">Unsubscribe</a></mj-text>
       </mj-column>
     </mj-section>
   </mj-body>
