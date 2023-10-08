@@ -8,6 +8,7 @@ import { SearchNormal1 } from 'iconsax-react';
 import DeleteModal from '@modules/marketplace/component/CustomerDashboard/DeleteModal';
 import useDisclosure from '../../../hooks/useDisclosure';
 import PurchaseNotFound from '@modules/marketplace/component/CustomerDashboard/PurchaseNotFound';
+import MobileCustomerDashboard from "./mobile_customer_dashboard"
 
 // Define a type for the data
 type PurchaseData = {
@@ -111,8 +112,8 @@ const MyPage: React.FC = () => {
   };
 
   return (
-    <div className="px-16">
-      <div className="mt-9 mb-12">
+    <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
+      <div className="mt-9 mb-12 hidden sm:block">
         <div className="flex items-center">
           <p className="text-base text-brand-green-primary">Settings</p>
           <span className="mx-[5px]">
@@ -121,16 +122,16 @@ const MyPage: React.FC = () => {
           <p className="text-base text-gray-100">Dashboard</p>
         </div>
       </div>
-      <h3 className="font-semibold text-3xl">Customer Purchase Dashboard</h3>
+      <h3 className="font-semibold text-3xl hidden sm:block">Customer Purchase Dashboard</h3>
 
-      <div className="flex align-center justify-between w-3/4 mt-9 w-[56.5rem]">
+      <div className="hidden sm:flex sm:align-center sm:justify-between w-full lg:w-4/5 mt-9">
         <div
           className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
             filter === null ? 'border-brand-green-primary' : 'border-white-100'
           }`}
           onClick={() => handleFilterClick(null)}
         >
-          <p className={`text-base ${filter === null ? 'text-brand-green-primary' : 'border-white-100'}`}>
+          <p className={`text-sm lg:text-base ${filter === null ? 'text-brand-green-primary' : 'border-white-100'}`}>
             All Purchases ({allPurchasesCount})
           </p>
         </div>
@@ -140,7 +141,9 @@ const MyPage: React.FC = () => {
           }`}
           onClick={() => handleFilterClick('Pending')}
         >
-          <p className={`text-base ${filter === 'Pending' ? '' : ''}`}>Pending Purchases ({pendingPurchasesCount})</p>
+          <p className={`text-sm lg:text-base ${filter === 'Pending' ? '' : ''}`}>
+            Pending Purchases ({pendingPurchasesCount})
+          </p>
         </div>
         <div
           className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
@@ -148,7 +151,11 @@ const MyPage: React.FC = () => {
           }`}
           onClick={() => handleFilterClick('Successful')}
         >
-          <p className={`text-base ${filter === 'Successful' ? 'border-brand-green-primary' : 'border-white-100'}`}>
+          <p
+            className={`text-sm lg:text-base ${
+              filter === 'Successful' ? 'border-brand-green-primary' : 'border-white-100'
+            }`}
+          >
             Completed Purchases ({completedPurchasesCount})
           </p>
         </div>
@@ -158,14 +165,18 @@ const MyPage: React.FC = () => {
           }`}
           onClick={() => handleFilterClick('Failed')}
         >
-          <p className={`text-base ${filter === 'Failed' ? 'border-brand-green-primary' : 'border-white-100'}`}>
+          <p
+            className={`text-sm lg:text-base ${
+              filter === 'Failed' ? 'border-brand-green-primary' : 'border-white-100'
+            }`}
+          >
             Failed Purchases ({failedPurchasesCount})
           </p>
         </div>
       </div>
 
-      <div className="border-r-4 border-white-200 border-solid w-[78.5rem] px-4">
-        <div className="flex items-center justify-between h-[2.5rem] mt-[4.375rem]">
+      <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
+        <div className="hidden sm:flex items-center justify-between h-[2.5rem] gap-10 mt-[3rem] ">
           <Input
             leftIcon={<SearchNormal1 color="#777" />}
             className="border-2 border-solid border-white-200 pl-6 w-[62.5rem] h-[2.5rem] pr-[1rem] rounded"
@@ -176,65 +187,70 @@ const MyPage: React.FC = () => {
             <Sort size="16" /> Filters
           </Button>
 
-          <Button onClick={onOpen} className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]">
+          <Button
+            onClick={onOpen}
+            className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]"
+          >
             <Trash size="16" /> Delete
           </Button>
         </div>
 
         {/* table */}
-        {data.length > 0 &&
-        <table className="w-full mt-6 mb-[2rem]">
-          <thead className="h-[3rem]">
-            <tr className="bg-white-200">
-              <th className="text-left px-4 py-2 text-[0.75rem]">
-                <span className="px-4">
-                  <input type="checkbox" />
-                </span>
-                Items
-              </th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Order ID</th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Price</th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Date</th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Sellers Name</th>
-              <th className="text-left px-4 py-2 text-[0.75rem]">Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {data
-              .filter((item) => (filter ? item.status.toLowerCase() === filter.toLowerCase() : true))
-              .map((item) => (
-                <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
-                  <td className="text-[0.75rem]">
-                    <span className="px-4 ml-[1rem]">
-                      {' '}
+        {data.length > 0 && (
+          <div className="hidden sm:block w-full overflow-x-auto">
+            <table className="w-max md:w-full mt-6 mb-8">
+              <thead className="h-[3rem]">
+                <tr className="bg-white-200">
+                  <th className="text-left px-4 py-2 text-[0.75rem]">
+                    <span className="px-4">
                       <input type="checkbox" />
                     </span>
-                    {item.item}
-                  </td>
-                  <td className="text-[0.75rem] px-4 py-2">{item.orderID}</td>
-                  <td className="text-[0.75rem] px-4 py-2">{item.price}</td>
-                  <td className="text-[0.75rem] px-4 py-2">{item.date}</td>
-                  <td className="text-[0.75rem] px-4 py-2">{item.sellerName}</td>
-                  <td className="text-[0.75rem] px-4 py-2">
-                    <span
-                      className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
-                        getStatusBackgroundColor(item.status)[0]
-                      }`}
-                    >
-                      <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>{item.status}</p>
-                    </span>
-                  </td>
+                    Items
+                  </th>
+                  <th className="text-left px-4 py-2 text-[0.75rem]">Order ID</th>
+                  <th className="text-left px-4 py-2 text-[0.75rem]">Price</th>
+                  <th className="text-left px-4 py-2 text-[0.75rem]">Date</th>
+                  <th className="text-left px-4 py-2 text-[0.75rem]">Sellers Name</th>
+                  <th className="text-left px-4 py-2 text-[0.75rem]">Status</th>
                 </tr>
-              ))}
-          </tbody>
-        </table>
-        }
+              </thead>
 
+              <tbody>
+                {data
+                  .filter((item) => (filter ? item.status.toLowerCase() === filter.toLowerCase() : true))
+                  .map((item) => (
+                    <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
+                      <td className="text-[0.75rem] flex items-center mt-5">
+                        <span className="px-4 ml-[1rem]">
+                          {' '}
+                          <input type="checkbox" />
+                        </span>
+                        {item.item}
+                      </td>
+                      <td className="text-[0.75rem] px-4 py-2">{item.orderID}</td>
+                      <td className="text-[0.75rem] px-4 py-2">{item.price}</td>
+                      <td className="text-[0.75rem] px-4 py-2">{item.date}</td>
+                      <td className="text-[0.75rem] px-4 py-2">{item.sellerName}</td>
+                      <td className="text-[0.75rem] px-4 py-2">
+                        <span
+                          className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
+                            getStatusBackgroundColor(item.status)[0]
+                          }`}
+                        >
+                          <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>{item.status}</p>
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <MobileCustomerDashboard />
         {/* error page */}
         {data.length === 0 && <PurchaseNotFound />}
       </div>
-      <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete}/>
+      <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
     </div>
   );
 };
