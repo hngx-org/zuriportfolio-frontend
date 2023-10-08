@@ -31,7 +31,7 @@ const BadgeComponent: React.FC<BadgeComponentProps> = ({
       as={`/badges/
       ${badgelabel}`}
       passHref
-      className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[173px] lg:w-[330px] lg:h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
+      className="badgecomponent w-[280px] h-[330px] sm:w-[236px] sm:h-[173px] lg:w-[330px] lg:h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
     >
       {isLocked && (
         <div className="badgelockoverlay absolute w-full h-full top-0 bg-opacity-60 bg-black flex items-center justify-center z-10">
@@ -67,10 +67,10 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
       <div className="w-full h-auto font-manropeL">
         <div className="w-full h-[130px] bg-[#005427] px-[15px] sm:px-[68px] xl:px-[230px] flex items-center sm:justify-start  relative ">
           <div className="gap-[8px] flex flex-col ">
-            <h1 className="text-[22px] sm:text-[32px] font-[600] text-white-100 leading-[36px] md:leading-[40px] tracking-normal lg:pr-[100px]">
+            <h1 className="text-[22px] sm:text-[25px] font-[600] text-white-100 leading-[36px] md:leading-[40px] tracking-normal lg:pr-[100px]">
               Keep tabs on all yours badges
             </h1>
-            <p className="text-[14px] leading-[20px] font-[500] text-white-100">
+            <p className="text-[12px] sm:text-[10] leading-[20px] font-[500] text-white-100">
               Start your journey and earn a badge today!
             </p>
           </div>
