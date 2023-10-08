@@ -19,7 +19,7 @@
     <mj-section padding-top="20px">
       <mj-column css-class="logo" width="100%">
         <mj-image
-          src="assets/welcomeemail/logo.png"
+          src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/welcomeemail/logo.png"
           alt=""
           width="140px"
           height="30px"
@@ -114,7 +114,7 @@
 
         <mj-column css-class="logo" width="100%">
         <mj-image
-          src="assets/welcomeemail/logo.png"
+          src="https://zuriportfolio-frontend-pwh1.vercel.app/assets/images/emails-temp/welcomeemail/logo.png"
           alt=""
           width="140px"
           height="30px"
