@@ -89,7 +89,7 @@ function Wishlist() {
               My Wishlist (<span>{wishlistProducts.length}</span> items)
             </h2>
           </div>
-          <div className="flex flex-col gap-6 md:px-[100px]">
+          <div className="flex flex-col gap-6 lg:px-[100px]">
             {wishlistProducts.map((product) => (
               <WishlistProductCard
                 key={product.productId}
