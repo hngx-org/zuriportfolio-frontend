@@ -8,6 +8,7 @@ function Tester() {
   const { isOpen: isModalOpenForCerti, onOpen: openModalForCerti, onClose: closeModalForCerti } = useDisclosure();
   const { isOpen: isModalOpenForAwards, onOpen: openModalForAwards, onClose: closeModalForAwards } = useDisclosure();
   //use useDisclosure here
+
   return (
     <div>
       <div className="flex  flex-col h-screen w-full justify-center items-center gap-24">
