@@ -22,7 +22,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
   };
 
   return (
-    <ul className="hidden lg:flex gap-8 py-5 mb-8 xl:mb-[52px] relative max-w-[1240px] mx-auto z-50 text-sm xl:text-base">
+    <ul className="hidden lg:flex gap-5 xl:gap-8 py-5 mb-8 xl:mb-[52px] relative max-w-[1240px] mx-auto z-50 text-sm xl:text-base">
       <li
         className={`${allCatActive ? 'text-brand-green-shade50' : ''}`}
         onClick={() => {
