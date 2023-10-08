@@ -352,3 +352,11 @@ export interface searchProp {
 export interface filterProp {
   handleFilter: (status: string) => void;
 }
+
+export interface ProductInfo {
+  productName: string;
+  vendor: string;
+  id: number;
+  dateAdded: string;
+  status: string;
+}
