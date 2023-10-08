@@ -228,10 +228,10 @@ const MyPage: React.FC = () => {
         </div>
 
         <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
-          <div className="hidden sm:flex items-center justify-between h-[2.5rem] gap-10 mt-[3rem] ">
+          <div className="hidden sm:flex items-center h-[2.5rem] gap-10 mt-[3rem] ">
             <Input
               leftIcon={<SearchNormal1 color="#777" />}
-              className="border-2 border-solid border-white-200 pl-6 w-[62.5rem] h-[2.5rem] pr-[1rem] rounded"
+              className="border-2 border-solid border-white-200 pl-6 w-[62.5rem] h-[2.5rem] pr-[1rem] rounded flex-1"
               placeholder="Search by items, status, seller etc"
             />
 
