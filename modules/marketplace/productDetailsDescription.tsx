@@ -53,7 +53,7 @@ export default function ProductDetailsDescription() {
       {/* lg:px-[100px] md:px-10*/}
       <main className={`flex flex-col items-center max-w-[1240px] mx-auto  px-6 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
         {/* Product Details  */}
-        <div className="flex lg:flex-row flex-col items-center justify-center gap-y-3 w-full">
+        <div className="flex lg:flex-row flex-col items-center lg:justify-between justify-center gap-y-3 xl:gap-x-0 lg:gap-x-10 gap-x-0 w-full">
           {/* Product Detail Images  */}
           <div className="flex flex-col w-full item-center lg:gap-y-4">
             <Image
@@ -71,9 +71,9 @@ export default function ProductDetailsDescription() {
               <span> Templates by Sarah Rino (Soft Copy)</span>
             </h1>
             <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
-              <span>Empower your educational endeavors with our Webinar and Course Template.</span>
-              <span>Craft immersive online learning experiences that captivate audiences. </span>
-              <span>Seamlessly integrate multimedia elements, quizzes, and discussions to enrich...</span>
+              Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
+              experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
+              to enrich <b className="text-green-600 lg:hidden flex">Read More...</b>
             </p>
 
             <div className="flex flex-col gap-y-2">
