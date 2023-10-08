@@ -14,7 +14,7 @@ import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(true);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
   const handleAuthMenu = () => {
