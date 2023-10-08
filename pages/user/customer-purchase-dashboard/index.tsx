@@ -163,8 +163,8 @@ const MyPage: React.FC = () => {
   };
 
   return (
-    <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage=''>
-      <div className="px-5 sm:px-16 max-w-screen md:mx-auto md:w-[80%] overflow-hidden">
+    <MainLayout showFooter showTopbar activePage='' showDashboardSidebar={false}>
+      <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
         <div className="mt-9 mb-12 hidden sm:block">
           <div className="flex items-center">
             <p className="text-base text-brand-green-primary">Settings</p>
