@@ -31,8 +31,8 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
   useEffect(() => {
     const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
     setArrayTwo(storedArrayTwo);
-    console.log(arrayTwo);
-  }, [arrayTwo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
   
 
@@ -56,13 +56,15 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
 
       if (trimmedValue !== '') {
         setArrayTwo((prevArray) => [...prevArray, trimmedValue]);
+        
       }
     }
+    
     setInputValue(''); // Clear the input field after pushing the value
   };
 
   return (
-    <section className="w-full flex items-center justify-center ">
+    <section className="w-full flex items-center justify-center fontFamily-manropeEL">
       <Modal
         closeOnOverlayClick
         isOpen={isSkillModalOpen}
@@ -106,8 +108,8 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
               type="text"
               placeHolder='Enter your skill and press "ENTER'
               className="w-full rounded-lg p-4 mb-6 border-2 border-[#C4C7C6]"
-              onKeyDown={handleKeyPress}
               onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyPress}
             />
           </div>
 
