@@ -56,7 +56,7 @@ function Home() {
     {
       title: 'Language',
       description: 'A place to highlight your professional experience A place to highlight your professional ',
-      icon: <Global/>,
+      icon: <Global />,
     },
     {
       title: 'Awards',
@@ -78,7 +78,6 @@ function Home() {
       description: 'A place to highlight your professional experience A place to highlight your professional ',
       icon: <Briefcase />,
     },
-
   ];
 
   const isSectionSelected = (title: string) => selectedSections.includes(title);
@@ -156,15 +155,11 @@ function Home() {
         </div>
       </Modal>
 
-       {/* after adding section */}
+      {/* after adding section */}
 
       <div className="p-4">
         {selectedSections.map((section) => (
-          <div
-            key={section}
-            className="p-4  mt-4 cursor-pointer"
-            onClick={() => setSelectedSection(section)}
-          >
+          <div key={section} className="p-4  mt-4 cursor-pointer" onClick={() => setSelectedSection(section)}>
             <div className="flex items-center justify-between">
               <div className="flex gap-2 items-center">
                 <Menu className="text-sm font-thin" />
@@ -183,14 +178,12 @@ function Home() {
               </div>
             </div>
 
-           
             <div className="p-4 flex flex-col sm:flex-row text-gray-500  gap-4">
               <div className="p-4 font-light text-sm sm:text-left sm:w-1/3">mm/yyyy - mm/yyyy</div>
 
               <div className="w-full sm:w-2/3 sm:pl-4 text-gray-500 ">
                 <div className=" font-medium text-gray-500 ]">Company</div>
                 <div className="font-light text-sm">role</div>
-                
               </div>
               <div className="mt-0 text-sm sm:mt-2 font-normal">Description</div>
             </div>

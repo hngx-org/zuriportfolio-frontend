@@ -5,6 +5,7 @@ import slider1 from '../../../public/assets/slider1.png';
 import slider2 from '../../../public/assets/slider2.png';
 import slider3 from '../../../public/assets/slider3.png';
 import slider4 from '../../../public/assets/slider4.png';
+import slider5 from '../../../public/assets/slider5.png';
 
 export default function Slider({ updateImage }: any) {
   const handleUpdateImage1 = () => {
@@ -24,6 +25,10 @@ export default function Slider({ updateImage }: any) {
   };
 
   const handleUpdateImage5 = () => {
+    updateImage(slider5);
+  };
+
+  const handleUpdateImage6 = () => {
     updateImage(mainImage);
   };
 
@@ -58,10 +63,16 @@ export default function Slider({ updateImage }: any) {
           className="object-cover lg:w-[18%] w-1/5 lg:h-[94px] md:h-[131px] h-[95px] md:block rounded-lg"
         />
         <Image
-          src={mainImage}
+          src={slider5}
           alt="slider image 5"
-          id="slider5"
           onClick={handleUpdateImage5}
+          className="object-cover lg:w-[18%] w-1/5 lg:h-[94px] md:h-[131px] h-[95px] md:block rounded-lg"
+        />
+        <Image
+          src={mainImage}
+          alt="slider image 6"
+          id="slider5"
+          onClick={handleUpdateImage6}
           className="object-cover lg:w-[18%] w-1/5 lg:h-[94px] md:h-[131px] h-[95px] md:block md:rounded-lg"
         />
       </div>
