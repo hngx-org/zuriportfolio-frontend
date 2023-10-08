@@ -30,7 +30,7 @@ const AccessDenied = () => {
             your safety and privacy. You might need special credentials or permissions to enter this zone
           </p>
           <Link href={'/'}>
-            <button className="bg-green-500 text-white w-full h-[52px] xl:w-[517px] rounded-lg text-base mt-3">
+            <button className="bg-green-500 text-[#fff] w-full h-[52px] xl:w-[517px] rounded-lg text-base mt-3">
               Back to homepage
             </button>
           </Link>
