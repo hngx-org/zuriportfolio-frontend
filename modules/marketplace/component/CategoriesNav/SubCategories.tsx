@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import chevron from '../../../../public/assets/chevron-down.svg';
+import chevron from '../../../../public/assets/chevron-down.svg';
 import Image from 'next/image';
 
 export interface SubCategoriesProps {
@@ -17,7 +17,7 @@ const SubCategories = ({ item }: SubCategoriesProps) => {
     >
       {item}
 
-      {/* <Image src={chevron} alt="chevron svg" width={20} height={20} /> */}
+      <Image src={chevron} alt="chevron svg" width={20} height={20} />
       <span
         className={`border-[2px]  border-slate-50 flex flex-col gap-3 ${
           popupClass ? 'visible opacity-100' : 'invisible opacity-0'
