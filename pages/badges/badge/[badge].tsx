@@ -6,7 +6,7 @@ import MainLayout from '../../../components/Layout/MainLayout';
 
 const Page: React.FC = () => {
   const params = useRouter();
-  const badgelabel = params.query.paramName;
+  const badgelabel = params.query?.badge;
   console.log(badgelabel);
 
   const [scorePercentage, setScorePercentage] = useState<number>(90);
