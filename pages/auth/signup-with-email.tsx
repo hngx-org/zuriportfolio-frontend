@@ -25,8 +25,9 @@ function SignUpWithEmail() {
               placeHolder="Allusugar@gmail.com"
               id="email"
               name="email"
-              className="w-full border-slate-50"
+              className="w-full border border-slate-50 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]"
               type="email"
+              required={true}
             />
           </div>
           <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Products } from '../../../../../@types';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
-import Link from 'next/link'
+import Link from 'next/link';
 
 interface ProductCardProps {
   product: Products;
