@@ -6,24 +6,27 @@ import LeftImage from '../../../public/assets/images/Rectangle_2.png';
 function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeftPadlockShown }: AuthLayoutProps) {
   return (
     <div className="relative min-h-screen">
-      <div className="border-b border-b-gray-100 lg:hidden bg-[#fff]">
+      {/* Header for screens less than 1024px */}
+      <div className="border-b border-b-gray-100 lg:hidden bg-white-100">
         <div className="px-4 py-4">
-          <Image width={100} height={100} src="/assets/images/logo/zuriportfolio-logo.svg" alt="Zuri portfolio logo" />
+          <Image width={150} height={150} src="/assets/images/logo/zuriportfolio-logo.svg" alt="Zuri portfolio logo" />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-20 pt-10 md:pt-16 pb-24 px-4 overflow-y-auto text-sm lg:pr-24 lg:pl-16 w-full lg:h-screen lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-20 pt-10 md:pt-12 md:py-12 pb-10 px-8 overflow-y-auto text-sm lg:pr-24 lg:pl-16 w-full lg:h-screen lg:grid-cols-2">
         <div className="w-full h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden hidden lg:block">
           {authLeftImage ?? (
             <Image
               // width={100}
               // height={100}
               src={LeftImage}
+              priority={true}
               alt="Sign up image"
               className="w-full h-full object-cover"
             />
           )}
         </div>
         <div className="flex flex-col gap-16">
+          {/* header for screens larger than 1024px */}
           <div className="hidden lg:block">
             <Image
               width={200}
@@ -32,7 +35,8 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
               alt="Zuri portfolio logo"
             />
           </div>
-          <div className="max-w-xl mx-auto lg:mx-0 w-full">{children}</div>
+          {/* give the element on the right of the container a max width of 672px, only on screen size less than 1024px */}
+          <div className="max-lg:max-w-2xl mx-auto lg:mx-0 w-full">{children}</div>
         </div>
 
         {/* the blob and padlock images */}

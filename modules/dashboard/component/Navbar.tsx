@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 const navLinks: {
   link: string;
@@ -33,7 +34,7 @@ const navLinks: {
 
 const NavDashBoard: React.FC<{ active: string }> = (props) => {
   return (
-    <nav className={props.active === 'COM-1/Feat/Zuri-Shop-Owner-Dashboard' ? "max-w-[1024px] pt-[22px] mt-[22px] mb-16" : "max-w-[1024px] pt-[22px] mt-[22px] mb-16 hidden lg:block hidden lg:block"}>
+    <nav className={'max-w-[1240px] mx-auto pt-[22px] mt-[22px] mb-16 hidden lg:block px-4 '}>
       <ul className="gap-[72px] font-manropeB font-semibold text-[#737876] text-base text-center flex">
         {navLinks.map((nav) => (
           <li
@@ -43,7 +44,7 @@ const NavDashBoard: React.FC<{ active: string }> = (props) => {
               'text-brand-green-primary border-b-2 border-b-brand-green-primary px-[31.5px]'
             } pb-2  whitespace-nowrap  cursor-pointer hover:text-brand-green-primary transition`}
           >
-            {nav.title}
+            <Link href={`${nav.link === '/' ? '/dashboard' : `/dashboard${nav.link}`}`}>{nav.title}</Link>
           </li>
         ))}
       </ul>
