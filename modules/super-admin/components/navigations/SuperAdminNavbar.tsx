@@ -47,7 +47,9 @@ const SuperAdminNavbar = () => {
   };
 
   return (
+
     <nav className="sticky top-0 bg-white-100 z-50">
+
       <div className="px-5 md:px-10 lg:px-24 py-7 border-b border-white-115">
         <div className="container flex justify-between items-center mx-auto">
           <div className="flex items-center gap-4">

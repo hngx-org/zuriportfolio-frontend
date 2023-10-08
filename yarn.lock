@@ -1706,9 +1706,11 @@
   integrity sha512-1jJ3OO8FXHCcuVXCuO1EMC/MjDuT6/cxgsMw/UebkO9afnL99Y5QTpUjk7+flK4G5FzBVJEgDKL5eFtoxJs9MQ==
 
 "@types/react-dom@^18.2.10":
-  version "18.2.10"
-  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.10.tgz"
-  integrity sha512-5VEC5RgXIk1HHdyN1pHlg0cOqnxHzvPGpMMyGAP5qSaDRmyZNDaQ0kkVAkK6NYlDhP6YBID3llaXlmAS/mdgCA==
+
+  version "18.2.11"
+  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.11.tgz"
+  integrity sha512-zq6Dy0EiCuF9pWFW6I6k6W2LdpUixLE4P6XjXU1QHLfak3GPACQfLwEuHzY5pOYa4hzj1d0GxX/P141aFjZsyg==
+
   dependencies:
     "@types/react" "*"
 
@@ -5389,6 +5391,13 @@ react-code-blocks@^0.1.4:
     styled-components "^6.0.5"
     tslib "^2.6.0"
 
+
+react-date-object@^2.1.5:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/react-date-object/-/react-date-object-2.1.7.tgz#a21fff40ef18344fee3616f40ee86169c1e83f5e"
+  integrity sha512-810eaGk/xvQBJNncPvhwXaKcSwPRKX48jtY/5U5T1bSUnGFqmBdMvl4EVl76cyzQ8U3KX6hpF6xZ1c0eY9vvJA==
+
+
 react-dom@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
@@ -5396,6 +5405,11 @@ react-dom@18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-element-popper@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/react-element-popper/-/react-element-popper-2.1.6.tgz#4afb912287d57de5d442fb85e76f4d7b94fde879"
+  integrity sha512-8va7mUmrKIkUnaM2t5Dyctd8cjgVgVcrv5vVD0FRay0sN6EPBCKa0bDi1/KmVDAjfgSIn7zQnjtc4VojcGrkgQ==
 
 react-icons@^4.11.0:
   version "4.11.0"
@@ -5411,6 +5425,14 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-multi-date-picker@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/react-multi-date-picker/-/react-multi-date-picker-4.3.3.tgz#c872f8ba5f5980f6dc9b9ab89faa1581ec25442f"
+  integrity sha512-C/AcCx3sH1mrkj0C7Me7rU/8MWHf8KQSVKuKVO7mN+MlWaoQkhvB2PVYHMUKewH6oSobS85XY+7Ta5PfDUsfoQ==
+  dependencies:
+    react-date-object "^2.1.5"
+    react-element-popper "^2.1.6"
 
 react-remove-scroll-bar@^2.3.3:
   version "2.3.4"
