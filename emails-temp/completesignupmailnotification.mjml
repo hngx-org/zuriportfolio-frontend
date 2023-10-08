@@ -1,7 +1,11 @@
 <mjml>
   <mj-head>
+   <mj-font
+      name="Manrope"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+    />
     <mj-title>Guest Complete SignUp Mail Notification</mj-title>
-    <mj-title>Guest Complete SignUp Mail Notification</mj-title>
+     <mj-text font-family="Manrope"  />
     <!-- Define the font-family -->
     <mj-style>
 
