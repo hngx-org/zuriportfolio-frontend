@@ -17,10 +17,12 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   const router = useRouter()
   
   useEffect(() => {
+
     const {badge:level} = router.query
     if(typeof level === "string") {
       setBadgeType(level)
     } 
+    
   }, [router.query])
 
   let badgeImage, badgeTitle, badgeDescription
