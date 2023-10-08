@@ -360,3 +360,10 @@ export type SectionModalProps = {
   primaryText: string;
   onClickAction: () => void;
 };
+
+export interface SettingOptionTypes {
+  accountManagement: boolean;
+  notificationSettings: boolean;
+  deleteAccount: boolean;
+  refer: boolean;
+}
