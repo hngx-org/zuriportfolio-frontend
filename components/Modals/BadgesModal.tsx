@@ -4,13 +4,16 @@ import Image from 'next/image';
 import badge from '../../public/assets/images/CATAYST.png';
 import peaceIcon from '../../public/assets/images/peace-icon.png';
 import Button from '@ui/Button';
+import { useRouter } from 'next/router';
 
 function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [isShown, setIsShown] = useState(false);
   const [hasSelected, setHasSelected] = useState(false);
   const [selection, setSelection] = useState<null | string>(null);
 
-  const toggleSelection = () => {
+  const router = useRouter();
+
+  const toggleSelection = (event: React.MouseEvent) => {
     setIsShown((prev) => !prev);
   };
 
@@ -18,6 +21,15 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
     setHasSelected(true);
     setIsShown((prev) => !prev);
     setSelection(event.currentTarget.textContent);
+  };
+
+  const handleDownload = () => {
+    if (!hasSelected) {
+      setIsShown((prev) => !prev);
+
+      return;
+    }
+    router.push(`/badges/badge/${router.query.badge}/certificate?type=${selection?.toLocaleLowerCase()}`);
   };
 
   return (
@@ -38,7 +50,7 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
         <div className={`flex flex-col gap-2 overflow-y-hidden duration-300 ${isShown ? 'h-[11rem]' : 'h-14'}`}>
           <Button
             className="mt-2 px-6 py-3 text-white text-sm w-fit flex items-center gap-4 bg-[#009254] rounded-2xl"
-            onClick={() => toggleSelection()}
+            onClick={handleDownload}
           >
             <span className="text-white-100">Download</span>
             {hasSelected ? (
