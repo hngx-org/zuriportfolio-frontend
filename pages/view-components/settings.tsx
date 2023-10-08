@@ -61,7 +61,7 @@ export default function SettingPage() {
         }));
       }
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (loading) {
@@ -78,7 +78,7 @@ export default function SettingPage() {
           className="hidden lg:flex lg:border-b-[1px]  cursor-auto  lg:border-white-500 relative min-h-[90vh]   items-start before:bg-white-500 before:w-full before:absolute before:top-[5rem] before:h-[1px]
                      pb-0   py-[3rem]  "
         >
-          <div className="font-manropeEB  relative  min-w-[26%]    font-normal">
+          <div className="font-manropeEB  relative  min-w-[26%]  text-[#737876]   font-normal">
             <ul className="flex gap-6  text-sm font-manropeB font-semibold mb-6 justify-center w-full relative ">
               <li
                 onClick={() => setShowReferInfo(false)}
@@ -101,7 +101,7 @@ export default function SettingPage() {
             <div className="flex py-1 font-manropeB text-dark-110  relative w-full  gap-10">
               <div className="w-full text-center">
                 <ul
-                  className={`text-semibold font-manropeB text-sm text-dark-100 py-2 bg-brand-green-shade95 ${
+                  className={`text-semibold   font-manropeB text-sm text-dark-110 py-2 bg-brand-green-shade95 ${
                     !showReferInfo && 'hidden'
                   }`}
                 >
@@ -170,7 +170,7 @@ export default function SettingPage() {
         <div className="flex flex-col items-start min-h-[50vh] font-manropeEB  px-6 md:items-center lg:hidden py-4 gap-6 justify-start">
           {!openEachSeting ? (
             <>
-              <ul className="flex gap-6 md:justify-center justify-start text-md text-semibold">
+              <ul className="flex gap-6 text-[#737876] md:justify-center justify-start text-md text-semibold">
                 <li
                   onClick={() => setShowReferInfo(false)}
                   className={`hover:text-brand-green-hover   ${
@@ -202,7 +202,7 @@ export default function SettingPage() {
                   </li>
                 </ul>
               ) : (
-                <ul className="flex flex-col w-full md:w-fit md:text-center md:items-center items-start py-6">
+                <ul className="flex flex-col text-[#444846] w-full md:w-fit md:text-center md:items-center items-start py-6">
                   <li
                     onClick={() => {
                       toggleShow(setShowNotInfo);

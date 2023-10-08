@@ -68,10 +68,10 @@ export default function InviteLink() {
             share your referal link to help us grow the community
           </p>
           <div className="flex  w-[90%] justify-between">
-            <Image src={Social} height={30} width={30} alt="so" />
-            <Image src={Social1} height={30} width={30} alt="so" />
-            <Image src={Social2} height={30} width={30} alt="so" />
-            <Image src={Social3} height={30} width={30} alt="so" />
+            <Image src={Social} height={30} width={30} alt="social" />
+            <Image src={Social1} height={30} width={30} alt="social1" />
+            <Image src={Social2} height={30} width={30} alt="social2" />
+            <Image src={Social3} height={30} width={30} alt="social3" />
           </div>
         </div>
       </Modal>
