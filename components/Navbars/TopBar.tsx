@@ -369,13 +369,13 @@ function MenuUI({
           <>
             <Button
               href="/auth/login"
-              className="rounded-lg border-0 bg-green-50 bg-opacity-50 w-[100%] max-w-sm"
+              className="rounded-lg border-0 bg-green-50 bg-opacity-50  max-w-sm"
               intent={'secondary'}
               size={'md'}
             >
               Sign In
             </Button>
-            <Button href="/auth/signup" className="rounded-lg w-[100%] max-w-sm" intent={'primary'} size={'md'}>
+            <Button href="/auth/signup" className="rounded-lg  max-w-sm" intent={'primary'} size={'md'}>
               Sign Up
             </Button>
           </>
