@@ -4,7 +4,7 @@ import photo1 from '../../../public/assets/images/explore_img/photo1.svg';
 import bg1 from '../../../public/assets/images/explore_img/bg1.svg';
 import total_projects from '../../../public/assets/images/explore_img/total-projects.svg';
 import badge_beginner from '../../../public/assets/images/explore_img/badge-beginner.svg';
-import Location from '../../../public/assets/images/explore_img/Location.svg';
+import Location from '../../../public/assets/images/explore_img/location.svg';
 import bg2 from '../../../public/assets/images/explore_img/bg2.png';
 import bg3 from '../../../public/assets/images/explore_img/bg3.png';
 import bg4 from '../../../public/assets/images/explore_img/bg4.png';
