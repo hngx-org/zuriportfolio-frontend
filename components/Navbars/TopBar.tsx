@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -15,7 +15,7 @@ import { SearchNormal1 } from 'iconsax-react';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [auth, setAuth] = useState(true);
-  const authMenuRef = useRef(null);
+  const authMenuRef = useRef<HTMLDivElement | null>(null);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
   const handleAuthMenu = () => {
@@ -31,6 +31,25 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     router.pathname === path
       ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
       : 'text-gray-600 text-base font-semibold  leading-normal tracking-tight';
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const targetNode = event.target as Node | null;
+      if (authMenuRef.current && !authMenuRef.current.contains(targetNode)) {
+        setAuthMenu(false);
+      }
+    }
+
+    if (authMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [authMenu]);
   return (
     <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[1] relative ">
       <div className="max-w-[1240px] mx-auto flex items-center justify-between  relative gap-1">
