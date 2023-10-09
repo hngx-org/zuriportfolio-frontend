@@ -7,7 +7,11 @@
     <mj-wrapper border="1px solid #E1E3E2" padding="0px" full-width="full-width">
       <mj-section background-color="#ffffff">
         <mj-column>
-          <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo.png" alt="zuri portfolio logo" width="126px" />
+          <mj-image
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo.png"
+            alt="zuri portfolio logo"
+            width="126px"
+          />
         </mj-column>
       </mj-section>
     </mj-wrapper>
@@ -83,13 +87,29 @@
       </mj-column>
     </mj-section>
     <mj-section border="1px solid #E1E3E2" background-color="#009254">
-    <mj-column>
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo2.png" alt="zuriportfolio logo" width="125px" />
+      <mj-column>
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo2.png"
+          alt="zuriportfolio logo"
+          width="125px"
+        />
         <mj-social align="center" mode="horizontal">
-            <mj-social-element name="Instagram" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/instagram.png"></mj-social-element>
-            <mj-social-element name="Facebook" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/facebook.png"></mj-social-element>
-            <mj-social-element name="Twitter" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/twitter.png"></mj-social-element>
-            <mj-social-element name="Linkedin" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/linkedin.png"></mj-social-element>
+          <mj-social-element
+            name="Instagram"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/instagram.png"
+          ></mj-social-element>
+          <mj-social-element
+            name="Facebook"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/facebook.png"
+          ></mj-social-element>
+          <mj-social-element
+            name="Twitter"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/twitter.png"
+          ></mj-social-element>
+          <mj-social-element
+            name="Linkedin"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/linkedin.png"
+          ></mj-social-element>
         </mj-social>
         <mj-text color="#fff" font-family="Manrope" font-size="12px" letter-spacing="0.048px" align="center">
           Beaverton, Oregon, Washington County, USA
