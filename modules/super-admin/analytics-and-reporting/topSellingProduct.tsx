@@ -20,7 +20,7 @@ const TopSellingProducts: React.FC = () => {
       order: 123456,
       price: '$20',
       sales: '$1558767',
-      action: '/assets/images/svg.svg',
+      action: '/assets/images/reports/svg.svg',
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ const TopSellingProducts: React.FC = () => {
       order: 113456,
       price: '$22',
       sales: '$1262621',
-      action: '/assets/images/red.svg',
+      action: '/assets/images/reports/red.svg',
     },
     {
       id: 3,
@@ -40,7 +40,7 @@ const TopSellingProducts: React.FC = () => {
       order: 103456,
       price: '$17',
       sales: '$1178882',
-      action: '/assets/images/svg.svg',
+      action: '/assets/images/reports/svg.svg',
     },
     {
       id: 4,
@@ -50,7 +50,7 @@ const TopSellingProducts: React.FC = () => {
       order: 93456,
       price: '$19',
       sales: '$1287873',
-      action: '/assets/images/ruby.svg',
+      action: '/assets/images/reports/ruby.svg',
     },
     {
       id: 5,
@@ -60,7 +60,7 @@ const TopSellingProducts: React.FC = () => {
       order: 92456,
       price: '$28',
       sales: '$1287873',
-      action: '/assets/images/red.svg',
+      action: '/assets/images/reports/red.svg',
     },
     {
       id: 6,
@@ -70,7 +70,7 @@ const TopSellingProducts: React.FC = () => {
       order: 89456,
       price: '$34',
       sales: '$1977637',
-      action: '/assets/images/ruby.svg',
+      action: '/assets/images/reports/ruby.svg',
     },
     {
       id: 7,
@@ -80,7 +80,7 @@ const TopSellingProducts: React.FC = () => {
       order: 86456,
       price: '$26',
       sales: '$1456421',
-      action: '/assets/images/svg.svg',
+      action: '/assets/images/reports/svg.svg',
     },
   ];
 
@@ -90,7 +90,7 @@ const TopSellingProducts: React.FC = () => {
         <div className="max-w-[77.5rem] w-full mt-[3rem] flex flex-col gap-[0.9375rem] rounded-[0.5rem] border border-[#E1E3E2] bg-[#FFF] mx-auto max-[730px]:max-w-[100%] max-[800px]:rounded-tr-none max-[800px]:rounded-br-none max-[800px]:border-r-0">
           <div className="px-[1rem] py-[0.75rem] max-w-[77.5rem] w-full border-b-[0.0625rem] border-[#EAECF0]">
             <p className="font-manropeL font-medium leading-[1.75rem] text-[1.25rem] text-gray-900 max-[834px]:text-[1.125rem] max-[880px]:text-[1.125rem] max-[834px]:max-w-none">
-              PortFolio Creation
+              Top Selling Products
             </p>
           </div>
           <div className="w-full">
