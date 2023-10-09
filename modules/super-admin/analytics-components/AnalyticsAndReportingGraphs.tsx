@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, ReferenceLine, ResponsiveContainer } from 'recharts';
 import { Graph, activity } from '../../../@types';
+import Link from 'next/link';
 
 
 
@@ -148,9 +149,8 @@ const AnalyticsAndReportingGraphs = () => {
     { name: 'Nov', uv: 4060, pv: 2398 },
     { name: 'Dec', uv: 3060, pv: 3398 },
   ];
+  const reportRoute = "/super-admin/analytics-and-reporting/reports";
   
-  
-
   return (
     <>
       <section className="my-10 mx-auto px-6 font-manropeL gap-2 space-y-6  md:max-w-[1270px] md:space-y-0 lg:flex lg:justify-between lg:items-center lg:max-w-[1100px] xl:max-w-[1270px] ">
@@ -160,9 +160,11 @@ const AnalyticsAndReportingGraphs = () => {
               <div className=" shadow-sm rounded-sm border border-white-200 bg-white-100">
                 <div className="flex justify-between items-center px-6 mt-5 text-custom-color15">
                   <h3 className="text-[18px] font-light">{item.title}</h3>
+                  <Link href={reportRoute}>
                   <button className="font-light rounded-lg border border-white-100 py-2.5 px-4 text-[15px] md:bg-brand-green-primary md:text-white-100 md:border-0">
                     {item.btn}
                   </button>
+                  </Link>
                 </div>
                 <div className="flex justify-center items-center whitespace-nowrap font-light text-custom-color27 px-6 mt-8 md:justify-between">
                   <div className="flex justify-center items-center text-center  gap-3 text-[13px] sm:text-[15px] md:gap-5">
@@ -222,9 +224,9 @@ const AnalyticsAndReportingGraphs = () => {
             <div className="space-y-5 md:space-y-[15.5px]">
               {activityDetails.map((item) => (
                 <div key={item.id}>
-                  <h3 className="text-custom-color15 text-[17px]">{item.name}</h3>
+                  <h3 className="text-custom-color15 text-[16px]">{item.name}</h3>
                   <div className="flex gap-1.5">
-                    <p className="text-custom-color22 font-light">{item.purchased}</p>
+                    <p className="text-custom-color22 font-light text-[15px]">{item.purchased}</p>
                     <span className="text-orange-110 text-[15px]">{item.pItem}</span>
                   </div>
                 </div>
