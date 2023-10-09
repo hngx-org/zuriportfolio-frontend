@@ -223,13 +223,74 @@ const ProductCard = ({
       <p className=" mt-[10px] font-normal font-manropeL max-sm:text-[12px] md:text-[14px] lg:text-[14px] leading-[20px] tracking-[0.25%] text-gray-400">
         By: <span className=" underline">{AllCategoryDetails.author}</span>
       </p>
-      <Image
-        className=" max-sm:mt-[15px] md:mt-[17px] lg:mt-[20px]"
-        src={'/assets/images/categories-details-assets/Rating.png'}
-        alt="rating"
-        width={100}
-        height={20}
-      />
+      <div className="w-full flex content-center items-center gap-[2px] mt-[15px] ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <g clipPath="url(#clip0_5203_12755)">
+            <path
+              d="M8.0002 11.5133L11.4469 13.5933C11.7002 13.7466 12.0135 13.52 11.9469 13.2333L11.0335 9.31331L14.0735 6.67998C14.2935 6.48665 14.1802 6.11998 13.8802 6.09331L9.87353 5.75331L8.30687 2.05998C8.19353 1.78665 7.80687 1.78665 7.69353 2.05998L6.12687 5.75331L2.1202 6.09331C1.82687 6.11998 1.70687 6.48665 1.93353 6.67998L4.97353 9.31331L4.0602 13.2333C3.99353 13.52 4.30687 13.7466 4.5602 13.5933L8.0002 11.5133Z"
+              fill="#E5B800"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_5203_12755">
+              <rect width="16" height="16" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <g clipPath="url(#clip0_5203_12755)">
+            <path
+              d="M8.0002 11.5133L11.4469 13.5933C11.7002 13.7466 12.0135 13.52 11.9469 13.2333L11.0335 9.31331L14.0735 6.67998C14.2935 6.48665 14.1802 6.11998 13.8802 6.09331L9.87353 5.75331L8.30687 2.05998C8.19353 1.78665 7.80687 1.78665 7.69353 2.05998L6.12687 5.75331L2.1202 6.09331C1.82687 6.11998 1.70687 6.48665 1.93353 6.67998L4.97353 9.31331L4.0602 13.2333C3.99353 13.52 4.30687 13.7466 4.5602 13.5933L8.0002 11.5133Z"
+              fill="#E5B800"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_5203_12755">
+              <rect width="16" height="16" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <g clipPath="url(#clip0_5203_12755)">
+            <path
+              d="M8.0002 11.5133L11.4469 13.5933C11.7002 13.7466 12.0135 13.52 11.9469 13.2333L11.0335 9.31331L14.0735 6.67998C14.2935 6.48665 14.1802 6.11998 13.8802 6.09331L9.87353 5.75331L8.30687 2.05998C8.19353 1.78665 7.80687 1.78665 7.69353 2.05998L6.12687 5.75331L2.1202 6.09331C1.82687 6.11998 1.70687 6.48665 1.93353 6.67998L4.97353 9.31331L4.0602 13.2333C3.99353 13.52 4.30687 13.7466 4.5602 13.5933L8.0002 11.5133Z"
+              fill="#E5B800"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_5203_12755">
+              <rect width="16" height="16" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <g clipPath="url(#clip0_5203_12758)">
+            <path
+              d="M14.6663 6.16004L9.87301 5.74671L7.99967 1.33337L6.12634 5.75337L1.33301 6.16004L4.97301 9.31337L3.87967 14L7.99967 11.5134L12.1197 14L11.033 9.31337L14.6663 6.16004ZM7.99967 10.2667L5.49301 11.78L6.15967 8.92671L3.94634 7.00671L6.86634 6.75337L7.99967 4.06671L9.13967 6.76004L12.0597 7.01337L9.84634 8.93337L10.513 11.7867L7.99967 10.2667Z"
+              fill="#E5B800"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_5203_12758">
+              <rect width="16" height="16" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <g clipPath="url(#clip0_5203_12758)">
+            <path
+              d="M14.6663 6.16004L9.87301 5.74671L7.99967 1.33337L6.12634 5.75337L1.33301 6.16004L4.97301 9.31337L3.87967 14L7.99967 11.5134L12.1197 14L11.033 9.31337L14.6663 6.16004ZM7.99967 10.2667L5.49301 11.78L6.15967 8.92671L3.94634 7.00671L6.86634 6.75337L7.99967 4.06671L9.13967 6.76004L12.0597 7.01337L9.84634 8.93337L10.513 11.7867L7.99967 10.2667Z"
+              fill="#E5B800"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_5203_12758">
+              <rect width="16" height="16" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+        <p className=" text-[14px] font-semibold font-manropeL leading-[20px] tracking-[0.035px]">(3)</p>
+      </div>
     </div>
   );
 };
@@ -284,7 +345,7 @@ const CategoryAllDetails: React.FC<CategoryAllDetailsProps> = ({ category }) => 
 
   return (
     <>
-      <div className="w-full px-4 lg:max-w-[1240px] mx-auto relative  h-auto flex flex-col items-center justify-center gap-[80px] py-[50px] ">
+      <div className="w-full max-sm:px-4 md:px-4 lg:px-0 lg:max-w-[1240px] mx-auto relative h-auto flex flex-col items-center justify-center gap-[80px] py-[50px] ">
         <section className="w-full h-auto flex flex-col content-center max-sm:gap-[20px] md:gap-[25px] lg:gap-[30px]">
           <div className="w-full flex flex-row content-center items-center justify-between">
             <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-dark-500">
