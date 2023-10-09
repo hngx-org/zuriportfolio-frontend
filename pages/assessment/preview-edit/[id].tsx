@@ -2,14 +2,10 @@ import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
-import { useState } from 'react';
-import PreviewQuests from '@modules/assessment/component/previewQuests';
-import ScoringScreen from '@modules/assessment/scoringScreen';
-const Previewedit: React.FC = () => {
-  //demo-question-...
-  // eslint-disable-next-line react/no-unescaped-entities
-  const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
-
+import React, { useState } from 'react';
+import EditLayout from '@modules/assessment/component/editLayout';
+import ScoreDropdown from '@modules/assessment/component/scoreDropdown';
+const EditAssesment = () => {
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {
@@ -25,7 +21,12 @@ const Previewedit: React.FC = () => {
           bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
         />
         <div className="pt-10 pb-10 flex justify-between flex-wrap px-[24px] md:px-[40px] lg:px-[100px] gap-y-4 :">
-          <div className="flex space-x-1 items-center cursor-pointer">
+          <div
+            className="flex space-x-1 items-center cursor-pointer"
+            onClick={() => {
+              window.history.back();
+            }}
+          >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M12.4984 17.225C12.3401 17.225 12.1818 17.1667 12.0568 17.0417L6.62344 11.6084C5.7401 10.725 5.7401 9.27502 6.62344 8.39168L12.0568 2.95835C12.2984 2.71668 12.6984 2.71668 12.9401 2.95835C13.1818 3.20002 13.1818 3.60002 12.9401 3.84168L7.50677 9.27502C7.10677 9.67502 7.10677 10.325 7.50677 10.725L12.9401 16.1583C13.1818 16.4 13.1818 16.8 12.9401 17.0417C12.8151 17.1584 12.6568 17.225 12.4984 17.225Z"
@@ -66,11 +67,11 @@ const Previewedit: React.FC = () => {
             <>
               <Edithead />
               <div className="pt-4">
-                <PreviewQuests questNo={1} question={quest} />
+                <EditLayout />
               </div>
             </>
           ) : (
-            <ScoringScreen />
+            <ScoreDropdown />
           )}
         </div>
       </main>
@@ -78,4 +79,4 @@ const Previewedit: React.FC = () => {
   );
 };
 
-export default Previewedit;
+export default EditAssesment;
