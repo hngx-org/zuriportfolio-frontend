@@ -6,6 +6,7 @@ import Explore from '@modules/portfolio/component/explorePage';
 function dashboard() {
   return (
     <MainLayout showTopbar={true} showDashboardSidebar={false} activePage="explore">
+
       <div>
         <SearchAndFilter />
         <Explore />

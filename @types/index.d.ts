@@ -438,3 +438,9 @@ type cardinfo = {
   arUp: string;
   id: number;
 };
+
+export type inputErrorMessage = {
+  errorMessage: string;
+  inputName: string;
+  isValid: boolean;
+};
