@@ -38,7 +38,7 @@ export default function UserReview() {
                   <div className="w-max">
                     <Filter review={76} rating={195} />
                   </div>
-                  <div className="mt-6 mx-1">
+                  <div className="mt-2 md:mt-6 mx-1">
                     {reviewData.map((data, index) => (
                       <SellerReview
                         key={index}
