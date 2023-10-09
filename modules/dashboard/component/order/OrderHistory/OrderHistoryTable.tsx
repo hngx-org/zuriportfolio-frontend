@@ -45,7 +45,7 @@ const OrderHistoryTable: React.FC<{
         <tr className="border border-custom-color1 font-manropeL font-medium text-custom-color2 bg-custom-color3 [&>*]:px-6 [&>*]:py-3 ">
           {tableHeaders.map((header, i) => (
             <th
-              className={`${i === 0 || i === 4 ? 'text-center' : 'text-start'} cursor-pointer`}
+              className={`${i === 0 || i === 4 ? 'text-center' : 'text-start'} whitespace-nowrap cursor-pointer`}
               key={header.id}
               onClick={() => OnCLick(header.id)}
             >

@@ -15,37 +15,36 @@ type Complains = {
   date: string;
   status: string;
 };
-
+const complaintsArray = [
+  {
+    id: 1,
+    name: 'Jeffery Dahmer',
+    email: 'dahmerbones@gmail.com',
+    complaintDescription: 'Order Eaten',
+    image: VendorComplaint,
+    date: '07-09-99',
+    status: 'Pending',
+  },
+  {
+    id: 2,
+    name: 'Mark Essien',
+    email: 'markessien@gmail.com',
+    image: VendorComplaint,
+    complaintDescription: 'Bad Product',
+    date: '09-07-23',
+    status: 'Resolved',
+  },
+  {
+    id: 3,
+    name: 'John Kennedy',
+    email: 'ken006john@yahoo.com',
+    image: VendorComplaint,
+    complaintDescription: 'Order not recieved',
+    date: '09-07-23',
+    status: 'InProgress',
+  },
+];
 export default function GeneralComplaints() {
-  const complaintsArray = [
-    {
-      id: 1,
-      name: 'Jeffery Dahmer',
-      email: 'dahmerbones@gmail.com',
-      complaintDescription: 'Order Eaten',
-      image: VendorComplaint,
-      date: '07-09-99',
-      status: 'Pending',
-    },
-    {
-      id: 2,
-      name: 'Mark Essien',
-      email: 'markessien@gmail.com',
-      image: VendorComplaint,
-      complaintDescription: 'Bad Product',
-      date: '09-07-23',
-      status: 'Resolved',
-    },
-    {
-      id: 3,
-      name: 'John Kennedy',
-      email: 'ken006john@yahoo.com',
-      image: VendorComplaint,
-      complaintDescription: 'Order not recieved',
-      date: '09-07-23',
-      status: 'InProgress',
-    },
-  ];
   const [filteredComplaintsArray, setFilteredComplaintsArray] = React.useState<Complains[]>([]);
   const [filteredState, setFilteredState] = React.useState('Filter');
   React.useEffect(() => {
