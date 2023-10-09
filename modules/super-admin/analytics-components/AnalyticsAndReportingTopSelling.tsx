@@ -3,8 +3,6 @@ import Image from 'next/image';
 import SuperAdminPagination from '../components/pagination';
 import { topListingProduct } from '../../../@types';
 
-
-
 const AnalyticsAndReportingTopSelling = () => {
   const products: topListingProduct[] = [
     {
@@ -77,24 +75,37 @@ const AnalyticsAndReportingTopSelling = () => {
       topSales: '$1456421',
       vendor: '/assets/tsImages/more.png',
     },
- 
   ];
 
-  const productName =  <div className='flex items-center gap-1'>
-  <span>Product Name </span>
-   <Image src="/assets/tsImages/arrow-down.png" alt='Product Icon' width={20}  height={20} className='object-contain'/>
-   </div>;
+  const productName = (
+    <div className="flex items-center gap-1">
+      <span>Product Name </span>
+      <Image
+        src="/assets/tsImages/arrow-down.png"
+        alt="Product Icon"
+        width={20}
+        height={20}
+        className="object-contain"
+      />
+    </div>
+  );
 
-const currentPage = 1;
-const totalPages = 10;
+  const currentPage = 1;
+  const totalPages = 10;
 
-   return (
+  return (
     <section className=" px-6 mb-10 font-manropeL">
       <div className="max-w-[1220px] mx-auto py-4 border border-white-200 rounded-lg shadow-md overflow-x-auto lg:max-w-[1050px] xl:max-w-[1220px]">
         <div className="grid grid-cols-2 min-w-[1000px] items-center text-custom-color2 border-b border-white-200 px-4 py-3 bord">
           <div className="flex items-center gap-1">
             <span className="md:pl-8">Product Name </span>
-            <Image src="/assets/tsImages/arrow-down.png" alt="Product Icon" width={20} height={20} className="object-contain" />
+            <Image
+              src="/assets/tsImages/arrow-down.png"
+              alt="Product Icon"
+              width={20}
+              height={20}
+              className="object-contain"
+            />
           </div>
           <div className="grid grid-cols-5 text-center min-w-[100px]">
             <span>Category</span>
@@ -106,7 +117,10 @@ const totalPages = 10;
         </div>
         <div className="min-w-[1000px]">
           {products.map((product) => (
-            <div key={product.id} className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap">
+            <div
+              key={product.id}
+              className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap"
+            >
               <div className="flex items-center md:pl-8 ">
                 <Image src={product.productImage} alt={product.productName} width={50} height={50} />
                 <span className="ml-4 text-md md:text-lg">{product.productName}</span>
@@ -116,12 +130,12 @@ const totalPages = 10;
                 <p>{product.order}</p>
                 <p>{product.price}</p>
                 <p>{product.topSales}</p>
-                <Image src={product.vendor} alt={product.productName} width={20} height={20} className='ml-12' />
+                <Image src={product.vendor} alt={product.productName} width={20} height={20} className="ml-12" />
               </div>
             </div>
           ))}
         </div>
-        <SuperAdminPagination  currentPage={currentPage} totalPages={totalPages} onPageChange={() => {}} />
+        <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={() => {}} />
       </div>
     </section>
   );
