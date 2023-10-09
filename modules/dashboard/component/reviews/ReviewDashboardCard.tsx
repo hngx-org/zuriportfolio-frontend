@@ -1,23 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 import { ReviewCardProps } from '../../../../@types';
 import star1 from '../../../../public/assets/star1.svg';
 import star2 from '../../../../public/assets/star2.svg';
 
 function ReviewDashboardCard({ id, className, imageSrc, title, author, avgRating, ratingNo, price }: ReviewCardProps) {
-  function formatPrice(price: number) {
-    let strPrice = price.toString().split('');
-    let formattedPrice = '';
-    for (let i = 0; i < strPrice.length; i++) {
-      if ((strPrice.length - i) % 3 === 0 && i !== 0) {
-        formattedPrice += ',';
-      }
-      formattedPrice += strPrice[i];
-    }
-    return formattedPrice;
-  }
-
   function getStars(avgRating: number) {
     let stars = [];
     for (let i = 0; i < 5; i++) {
@@ -48,7 +37,7 @@ function ReviewDashboardCard({ id, className, imageSrc, title, author, avgRating
               <span className="flex flex-row">{getStars(avgRating)}</span>
               <span>({ratingNo}) Ratings</span>
             </span>
-            <div className="font-manropeB text-brand-green-pressed text-sm">&#8358;{formatPrice(price)}</div>
+            <div className="font-manropeB text-brand-green-pressed text-sm">{formatToNigerianNaira(price)}</div>
           </div>
         </div>
         <Link href={`/dashboard/reviews/${id}`} className="flex text-base font-manropeB text-brand-green-pressed h-0">
