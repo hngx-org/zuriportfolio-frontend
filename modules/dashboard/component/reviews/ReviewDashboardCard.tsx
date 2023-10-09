@@ -24,23 +24,28 @@ function ReviewDashboardCard({ id, className, imageSrc, title, author, avgRating
 
   return (
     <div className={className}>
-      <div className="flex flex-row justify-between w-full font-manropeL text-dark-100 tracking-wide border-b border-brand-disabled pb-10">
+      <div className="flex md:flex-row gap-6 flex-col justify-between w-full font-manropeL text-dark-100 tracking-wide border-b border-brand-disabled pb-10">
         <div className="flex gap-6">
           <div>
             <Image src={imageSrc} alt={title} width={162.5} height={100} />
           </div>
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col gap-2 justify-between">
             <h4 className="font-manropeEB text-base">{title}</h4>
             <div className="text-sm">By {author}</div>
-            <span className="flex flex-row gap-6 text-sm">
-              <span className="font-manropeB">{avgRating}</span>
-              <span className="flex flex-row">{getStars(avgRating)}</span>
+            <span className="flex lg:flex-row flex-col lg:gap-6 gap-2 text-sm">
+              <span className="flex flex-row lg:gap-6 gap-2">
+                <span className="font-manropeB">{avgRating}</span>
+                <span className="flex flex-row">{getStars(avgRating)}</span>
+              </span>
               <span>({ratingNo}) Ratings</span>
             </span>
             <div className="font-manropeB text-brand-green-pressed text-sm">{formatToNigerianNaira(price)}</div>
           </div>
         </div>
-        <Link href={`/dashboard/reviews/${id}`} className="flex text-base font-manropeB text-brand-green-pressed h-0">
+        <Link
+          href={`/dashboard/reviews/${id}`}
+          className="flex justify-end text-base font-manropeB text-brand-green-pressed h-0"
+        >
           View reviews
         </Link>
       </div>
