@@ -37,6 +37,7 @@ const MultiCalender: React.FC = () => {
             border: 'none',
             color: '#A8ACAB',
             outline: 'none',
+            cursor: 'pointer',
           }}
         />
         <Image src="/assets/images/sel.svg" alt="Calender-Icon" width={24} height={24} />
