@@ -78,7 +78,7 @@ const AnalysisCards: React.FC = () => {
     },
   ];
 
-  const percentile = '/assets/images/reports/icon.svg';
+  const percentile = '/assets/images/reports/crack.svg';
 
   return (
     <>
