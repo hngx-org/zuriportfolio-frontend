@@ -23,7 +23,7 @@ const MultiCalender: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-between w-[18.275rem] border border-[#C4C7C6] rounded-[0.25rem] px-[1rem] py-[0.62rem] max-[375px]:max-w-100% max-[375px]:w-full">
+      <div className="flex justify-between max-w-[18.275rem] border border-[#C4C7C6] rounded-[0.25rem] px-[1rem] py-[0.62rem] max-[375px]:max-w-100% max-[375px]:w-full">
         <Image src="/assets/images/reports/cal.svg" alt="Calender-Icon" width={24} height={24} />
         <DatePicker
           value={values}
