@@ -38,6 +38,7 @@ function LoginForm() {
                 name="email"
                 className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
                 type="email"
+                required
               />
               <InputError inputError={inputErrors} inputName="email" />
             </div>
@@ -58,6 +59,7 @@ function LoginForm() {
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
                   )
                 }
+                required
               />
               <InputError inputError={inputErrors} inputName="password" />
             </div>
