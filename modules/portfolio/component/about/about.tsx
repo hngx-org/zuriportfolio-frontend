@@ -50,7 +50,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAb
         setErrorBorder('[#E1E3E2]');
         setError('');
       } else {
-        alert('Submit about');
+        console.log('successfully loaded!');
       }
     } else {
       setErrorBorder('brand-red-primary');
