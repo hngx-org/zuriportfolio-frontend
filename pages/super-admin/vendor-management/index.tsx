@@ -8,7 +8,6 @@ import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import SearchProduct from '@modules/super-admin/components/vendormanagement/SearchProduct';
 import FilterProduct from '@modules/super-admin/components/vendormanagement/FilterProduct';
 import Button from '@ui/Button';
-
 const Index = () => {
   const vendorsList = [
     {
@@ -152,33 +151,24 @@ const Index = () => {
       statusText: 'Active',
     },
   ];
-
   //Variables for the pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [showBanned, setShowBanned] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
   const [searchVal, setSearchVal] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(vendorsList);
-
   const itemsPerPage = 10; // Number of items to display per page
-
   //Range of items to display on the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-
   const visibleVendors = filteredProducts.slice(startIndex, endIndex);
-
   const totalItems = 1000;
-
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-
   const bannedVendors = filteredProducts.filter((vendor) => vendor.statusText === 'Banned');
   const deletedVendors = filteredProducts.filter((vendor) => vendor.statusText === 'Deleted');
-
   const handleSearch = (searchText: string) => {
     const filteredProduct: Array<{
       vendorImgSrc: string;
@@ -193,10 +183,8 @@ const Index = () => {
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
-
   const handleFilter = (status: string) => {
     let filteredProducts = [...vendorsList];
-
     if (status === 'oldest') {
       filteredProducts = filteredProducts.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     } else if (status === 'highest') {
@@ -208,31 +196,25 @@ const Index = () => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       });
     }
-
     setFilteredProducts(filteredProducts);
   };
-
   return (
     <main>
       <SuperAdminNavbar />
-
       <VendorsStat
         showBanned={showBanned}
         setShowBanned={setShowBanned}
         showDeleted={showDeleted}
         setShowDeleted={setShowDeleted}
       />
-
       <section className="border-white-115 border-2 py-4 rounded-md mx-5 md:mx-10 mb-10">
         <div className=" border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
           <div className="mb-4 md:mb-0">
             <p className="text-lg font-bold">Vendor Management</p>
             <p className="text-gray-500 text-sm">List of all vendors and their details</p>
           </div>
-
           <div className="flex items-center justify-left md:justify-between gap-4">
             <SearchProduct handleSearchChange={handleSearch} />
-
             <div className="md:block hidden">
               <FilterProduct handleFilter={handleFilter} />
             </div>
@@ -243,7 +225,6 @@ const Index = () => {
             </div>
           </div>
         </div>
-
         <div className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-6 md:grid-cols-4 grid-cols-1 text-gray-500 text-center text-sm overflow-x-auto">
           <div className="flex items-center">
             <input type="checkbox" name="" id="" />
@@ -256,7 +237,6 @@ const Index = () => {
           <p className="hidden lg:block">Status</p>
           <p className="hidden lg:block">Action</p>
         </div>
-
         <div>
           {showBanned
             ? bannedVendors.map((data, index) => <VendorLists key={index} {...data} />)
@@ -264,11 +244,9 @@ const Index = () => {
             ? deletedVendors.map((data, index) => <VendorLists key={index} {...data} />)
             : visibleVendors.map((data, index) => <VendorLists key={index} {...data} />)}
         </div>
-
         <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </section>
     </main>
   );
 };
-
 export default Index;
