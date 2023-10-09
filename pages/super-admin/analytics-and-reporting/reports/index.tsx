@@ -1,10 +1,10 @@
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
-import ReportRedirect from '@modules/super-admin/analytics-and-reports/reportRedirect';
-import AnalysisCards from '@modules/super-admin/analytics-and-reports/analysisCards';
-import BusinessOveriview from '@modules/super-admin/analytics-and-reports/businessOverview';
-import PerformanceData from '@modules/super-admin/analytics-and-reports/performanceData';
-import PortfolioCreation from '@modules/super-admin/analytics-and-reports/portfolioCreation';
-import TopSellingProducts from '@modules/super-admin/analytics-and-reports/topSellingProduct';
+import ReportRedirect from '@modules/super-admin/analytics-and-reporting/reportRedirect';
+import AnalysisCards from '@modules/super-admin/analytics-and-reporting/analysisCards';
+import BusinessOveriview from '@modules/super-admin/analytics-and-reporting/businessOverview';
+import PerformanceData from '@modules/super-admin/analytics-and-reporting/performanceData';
+import PortfolioCreation from '@modules/super-admin/analytics-and-reporting/portfolioCreation';
+import TopSellingProducts from '@modules/super-admin/analytics-and-reporting/topSellingProduct';
 import { useEffect, useState } from 'react';
 
 const AnalyticsAndReport: React.FC = () => {

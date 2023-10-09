@@ -18,7 +18,7 @@ const ReportRedirect: React.FC = () => {
   return (
     <>
       <div className="mx-auto max-[1300px]:mx-0 max-[1300px]:px-[1rem] max-w-[77.5rem] max-[768px]:px-[1.5rem] w-full max-[500px]:px-[1.5rem]">
-        <div className="flex gap-[1rem] mt-[3.37rem]">
+        <div className="flex gap-[1rem] mt-[3.37rem] max-[500px]:mt-[1.5rem]">
           <Image src="/assets/images/reports/arrow-back.svg" width={20} height={20} alt="Go back" />
           <p className="text-[1.125rem] text-[#101828] font-medium leading-[1.75rem] font-manropeL">Report</p>
         </div>
