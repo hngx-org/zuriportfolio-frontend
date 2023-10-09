@@ -10,7 +10,7 @@ const OrderDetailsRow = (props: OrderHistory) => {
       <td className="hidden lg:table-cell">{props.productName}</td>
       <td className={`text-custom-color10 font-manropeB`}>{props.productType}</td>
       <td>#{formatNum(props.price)}</td>
-      <td>#{props.sales}</td>
+      <td className="text-center">{props.sales}</td>
       <td>#{formatNum(props.revenue)}</td>
     </tr>
   );
