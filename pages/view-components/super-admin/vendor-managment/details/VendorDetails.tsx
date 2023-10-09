@@ -304,7 +304,7 @@ function VendorDetails(): React.ReactElement {
   const convertToArray = (number: number) => Array.from({ length: number }, (value, index) => index + 1);
   const numbers: number[] = convertToArray(pages);
 
-  // Pagination functions
+  // Pagination functions to handle page navigation
   function nextPage() {
     if (currentPage !== pages) {
       setCurrentPage(currentPage + 1);
