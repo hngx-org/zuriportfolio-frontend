@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import ReviewNavbar from '@modules/dashboard/component/reviews/review-page/ReviewNavbar';
-import ReviewFooter from '@modules/dashboard/component/reviews/review-page/ReviewFooter';
+import ShopNavbar from '@modules/shop/component/header-footer/shopNavbar';
+import ShopFooter from '@modules/shop/component/header-footer/shopFooter';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import SellerReview from '@modules/dashboard/component/reviews/review-page/SellersReview';
@@ -14,7 +14,7 @@ export default function UserReview() {
   return (
     <div>
       <div className="pb-8">
-        <ReviewNavbar />
+        <ShopNavbar activePage="Explore" showDashBorad={true} />
       </div>
       <div className="flex flex-col">
         <div className=" flex items-center justify-center">
@@ -57,7 +57,7 @@ export default function UserReview() {
         </div>
         <PaginationBar pageLength={5} currentPage={0} changeCurrentPage={() => 1} />
       </div>
-      <ReviewFooter />
+      <ShopFooter />
     </div>
   );
 }
