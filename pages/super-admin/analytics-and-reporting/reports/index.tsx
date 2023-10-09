@@ -5,17 +5,32 @@ import BusinessOveriview from '@modules/super-admin/analytics-and-reports/busine
 import PerformanceData from '@modules/super-admin/analytics-and-reports/performanceData';
 import PortfolioCreation from '@modules/super-admin/analytics-and-reports/portfolioCreation';
 import TopSellingProducts from '@modules/super-admin/analytics-and-reports/topSellingProduct';
+import { useEffect, useState } from 'react';
 
 const AnalyticsAndReport: React.FC = () => {
+  const [loading, setLoading] = useState<Boolean>(true);
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setLoading(false);
+      clearTimeout(delay);
+    }, 3000);
+  }, []);
   return (
     <>
-      <SuperAdminNavbar />
-      <ReportRedirect />
-      <AnalysisCards />
-      <BusinessOveriview />
-      <PerformanceData />
-      <PortfolioCreation />
-      <TopSellingProducts />
+      {loading ? (
+        <div className="mx-auto mt-[20rem] w-10 h-10 border-[0.25rem] border-b-transparent border-[#009254] border-t-[0.25rem] rounded-[50%] animate-spin"></div>
+      ) : (
+        <>
+          <SuperAdminNavbar />
+          <ReportRedirect />
+          <AnalysisCards />
+          <BusinessOveriview />
+          <PerformanceData />
+          <PortfolioCreation />
+          <TopSellingProducts />
+        </>
+      )}
     </>
   );
 };
