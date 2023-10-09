@@ -1,6 +1,14 @@
 <mjml>
   <mj-head>
     <mj-title>Buyer Notification</mj-title>
+    <mj-font
+      name="Manrope"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+    />
+
+    <mj-attributes>
+      <mj-text font-family="Manrope" font-size="16px" />
+    </mj-attributes>
     <mj-style>
       .set-nposition{position:relative} .center-group { margin: 0 auto; } .set-position{position: absolute}
       .set-width{width: 80%} .text-center { text-align: center; } .set-display{display: flex} .img-responsive
@@ -13,7 +21,12 @@
   <mj-body background-color="#f4fbf6" width="1500px">
     <mj-section background-color="#33a467" css-class="set-nposition">
       <mj-column width="100%" padding="20px 0px 250px 0px">
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Logo.png" alt="Logo" width="337px" height="64px" />
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Logo.png"
+          alt="Logo"
+          width="337px"
+          height="64px"
+        />
       </mj-column>
     </mj-section>
 
@@ -24,14 +37,18 @@
       padding="0px 0 80px 0"
     >
       <mj-group background-color="#f4fef6" vertical-align="middle" width="100%" css-class="border-radius-top">
-        <mj-column vertical-align="middle" css-class="mobile-hidden" width="33%">
-          <mj-image width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
+        <mj-column width="20%" vertical-align="middle">
+          <mj-image
+            width="120px"
+            height="120px"
+            padding="0"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png"
+          />
         </mj-column>
 
-        <mj-column css-class="n-width" vertical-align="middle">
+        <mj-column css-class="n-width" width="60%" vertical-align="middle">
           <mj-text
             background-color="#f4fbf6"
-            font-family="sans-serif"
             align="center"
             font-size="18px"
             color="#33a467"
@@ -42,17 +59,26 @@
             <p>Review PHP Test Results</p>
           </mj-text>
         </mj-column>
-        <mj-column css-class="mobile-hidden" vertical-align="middle">
-          <mj-image width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
+        <mj-column width="20%" vertical-align="middle">
+          <mj-image
+            width="120px"
+            height="120px"
+            padding="0"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png"
+          />
         </mj-column>
       </mj-group>
 
       <mj-column width="500px">
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/bro.png" alt="bro" width="160px" />
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/bro.png"
+          alt="bro"
+          width="160px"
+        />
       </mj-column>
 
       <mj-column width="100%">
-        <mj-text font-family="sans-serif" font-size="18px" line-height="24px">
+        <mj-text font-size="18px" line-height="24px">
           <p>Hi <span style="font-weight: bold">{{ $username }}</span>,</p>
           <p>
             This is to notify you that
@@ -81,7 +107,7 @@
       </mj-column>
 
       <mj-column width="100%">
-        <mj-text font-family="sans-serif" font-size="18px" line-height="24px">
+        <mj-text font-size="18px" line-height="24px">
           <p>
             If you have any questions or need any assistance, please contact our support group at
             <a href="mailto:zurisupport@gmail.com" style="font-weight: bold; color: #000">zurisupport@gmail.com</a>
@@ -97,7 +123,12 @@
 
     <mj-section background-color="#33a467">
       <mj-column width="600px">
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png" alt="Logo" width="150px" height="32px" />
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png"
+          alt="Logo"
+          width="150px"
+          height="32px"
+        />
       </mj-column>
 
       <mj-column width="100%">
@@ -110,7 +141,7 @@
 
         <mj-text color="#fff" align="center">Beaverto, Oregon, Washington County, USA</mj-text>
         <mj-text color="#fff" align="center">Copyright © 2023 Zuriportfolio, All rights reserved.</mj-text>
-        <mj-text align="center"><a href="#">Unsubscribe</a></mj-text>
+        <mj-text align="center" color="#fff"><a href="#">Unsubscribe</a></mj-text>
       </mj-column>
     </mj-section>
   </mj-body>
