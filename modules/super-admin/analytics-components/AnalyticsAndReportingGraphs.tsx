@@ -161,7 +161,7 @@ const AnalyticsAndReportingGraphs = () => {
                 <div className="flex justify-between items-center px-6 mt-5 text-custom-color15">
                   <h3 className="text-[18px] font-light">{item.title}</h3>
                   <Link href={reportRoute}>
-                  <button className="font-light rounded-lg border border-white-100 py-2.5 px-4 text-[15px] md:bg-brand-green-primary md:text-white-100 md:border-0">
+                  <button className="font-light rounded-lg border border-white-300 py-2.5 px-4  text-[14px] md:bg-brand-green-primary md:text-[15px] md:text-white-100 md:border-0">
                     {item.btn}
                   </button>
                   </Link>
