@@ -1,7 +1,6 @@
-import MainLayout from '../../components/Layout/MainLayout';
-// import withAuth from '../helpers/withAuth';
-import NavDashBoard from '../../modules/dashboard/component/Navbar';
-import OrderHistory from '../../modules/dashboard/component/order/OrderHistory/OrderHistory';
+import MainLayout from '../../../components/Layout/MainLayout';
+
+import OrderHistory from '../../../modules/dashboard/component/order/OrderHistory/OrderHistory';
 
 const Orders: React.FC = () => {
   return (
