@@ -55,21 +55,24 @@ function Assessmentresponses() {
       {list?.map((child: any) => {
         return (
           <div
-            className="w-full flex items-center justify-between border-[1px] rounded p-4 md:p-6  border-brand-disabled2"
+            className="w-full flex items-center justify-between border-[1px] rounded p-4 md:p-6 gap-2  border-brand-disabled2"
             key={child?.id}
           >
             <div>
-              <div className="text-custom-color11 text-base md:text-[18px] font-manropeB font-bold mb-[4px]">
+              <div className="text-custom-color11 text-sm md:text-base lg:text-[18px] font-manropeB font-bold mb-[4px]">
                 {child?.trackname}
               </div>
-              <div className="my-[6px] md:my-[10px] text-white-650"> Created {child?.createddate}</div>
-              <div className="text-white-650">Modified {child?.modifieddate}</div>
+              <div className="my-[6px] md:my-[10px] text-xs md:text-base text-white-650">
+                {' '}
+                Created {child?.createddate}
+              </div>
+              <div className="text-white-650 text-xs md:text-base text">Modified {child?.modifieddate}</div>
             </div>
             <div className="flex gap-2 md:gap-8">
               <div className="flex flex-col items-center cursor-pointer">
-                <Image src={editmessage} height="24" width="24" alt="edit message" />
-                <Link href="/assessment/preview-edit/" className="text-xs md:text-base pt-[6px]">
-                  Edit
+                <Link href="/assessment/preview-edit/">
+                  <Image src={editmessage} height="24" width="24" alt="edit message" />
+                  <p className="text-xs md:text-base pt-[6px]">Edit</p>
                 </Link>
               </div>
               <div

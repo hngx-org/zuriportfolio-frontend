@@ -37,11 +37,13 @@ function Index() {
       <div className="w-full items-start justify-start">
         <Header heading={'Admin Assessment Board'} body={'For the general creation and management of assessments'} />
         <div className="assessment-body text-Manrope mx-[16px] lg:mx-[104px]">
-          <div className="assessment-links mt-[50px] md:mt-[95px] flex px:[12px] md:px-[50px] lg:px-[100px] gap-4 md:gap-[13vw]">
-            <div className="flex-1 border-[1px] border-white-400 p-2 md:p-6 rounded-lg hover:text-brand-green-shade40">
+          <div className="assessment-links mt-[50px] md:mt-[95px] flex px:[12px] md:px-[50px] lg:px-[100px] gap-3 md:gap-[13vw]">
+            <div className="flex-1 border-[1px] border-white-400 p-1 md:p-6 rounded-lg hover:text-brand-green-shade40">
               <Link className="w-full grid place-items-center" href="/assessment/new">
                 <Image src={addmessage} width="33" height="33" alt="add message" />
-                <div className="text-sm md:text-base font-semibold font-ManropeB pt-[9px]">Create new assesment</div>
+                <div className="text-sm md:text-base font-semibold font-ManropeB pt-[9px] text-center">
+                  Create new assessment
+                </div>
               </Link>
             </div>
             <div className="flex-1 center border-[1px] border-[#A8ACAB] p-2 md:p-6 rounded-lg hover:text-brand-green-shade40">
