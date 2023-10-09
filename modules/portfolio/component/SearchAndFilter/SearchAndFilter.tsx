@@ -150,9 +150,9 @@ const SearchAndFilter: React.FC = () => {
           {sectionsData.map((section, index) => (
             <div
               key={index}
-              className={`px-4 py-3 mx-4 rounded-2xl border justify-center items-center gap-4 flex cursor-pointer ${
+              className={`px-4 py-3 mx-4 rounded-2xl justify-center items-center gap-4 flex cursor-pointer ${
                 activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-              }`}
+              } ${section.text === 'All_Filter'? 'border':""}`}
               onClick={() => {
                 setActiveSection(index);
                 setShowFilterComponent(section.text === 'All_Filter');
