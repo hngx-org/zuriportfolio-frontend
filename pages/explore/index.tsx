@@ -5,7 +5,7 @@ import MainLayout from '../../components/Layout/MainLayout';
 function dashboard() {
   return (
     <MainLayout showTopbar={true} showDashboardSidebar={false} activePage="explore">
-      <div>
+      <div className="mt-24">
         <Explore />
       </div>
     </MainLayout>
