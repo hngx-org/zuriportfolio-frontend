@@ -28,7 +28,7 @@ export default function ProductCard({
 
   return (
     <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[286px] max-w-full">
-      <Link href="">
+      <Link href="/marketplace/product-details">
         <div className="flex flex-col items-start">
           {/* Product Image */}
           <div>
