@@ -12,6 +12,7 @@ interface DynamicInputProps {
   required: boolean;
   leftIcon?: any;
   pattern?: any;
+  error?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -27,6 +28,7 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
   required,
   leftIcon,
   pattern,
+  error,
 }) => {
   return (
     <div>
@@ -45,15 +47,7 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
         leftIcon={leftIcon}
         pattern={pattern}
       />
-      {/* <input 
-            type={type} 
-            onChange={onChange}
-            name={name}
-            value={value}
-            placeholder={placeholder}
-            key={InputId}
-            className='w-full'
-        /> */}
+      <span className="text-brand-red-primary mt-1 inline-block">{error}</span>
     </div>
   );
 };
