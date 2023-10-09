@@ -341,7 +341,6 @@ export default function AllCategoriesPage() {
             <div className="text-neutral-400 text-base font-semibold font-Manrope md:mb-8 leading-normal tracking-tight pt-2">
               {labelTExt[index]}
             </div>
-           
           </div>
           <ProductCardWrapper productsList={row} title={''} />
         
