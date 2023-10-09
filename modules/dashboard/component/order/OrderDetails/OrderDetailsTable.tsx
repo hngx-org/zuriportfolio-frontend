@@ -1,4 +1,5 @@
 import { OrderHistory } from '../../../../../@types';
+import React from 'react';
 const tableHeaders: {
   id: keyof OrderHistory;
   title: string;
@@ -29,7 +30,19 @@ const tableHeaders: {
   },
 ];
 
-const OrderDetailsTable = () => {
+const OrderDetailsTable: React.FC<{
+  pageItem: any[];
+  changeSort: (val: keyof OrderHistory) => void;
+  toggleSort: () => void;
+  currentSort: string;
+}> = ({ changeSort, pageItem, toggleSort, currentSort }) => {
+  const OnCLick = (val: keyof OrderHistory) => {
+    if (val === currentSort) {
+      toggleSort();
+    } else {
+      changeSort(val);
+    }
+  };
   return (
     <table className="w-full mb-10 hidden md:table">
       <thead>
@@ -38,7 +51,7 @@ const OrderDetailsTable = () => {
             <th
               className={`${i === 0 || i === 4 ? 'text-center' : 'text-start'} whitespace-nowrap cursor-pointer`}
               key={header.id}
-              //   onClick={() => OnCLick(header.id)}
+              onClick={() => OnCLick(header.id)}
             >
               {header.title}
             </th>
