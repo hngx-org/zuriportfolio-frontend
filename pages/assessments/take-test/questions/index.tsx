@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { Timer1 } from 'iconsax-react';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import QuestionsList from '../../../../modules/assessment/component/QuestionsList';
+import Link from 'next/link';
+import Button from '@ui/Button';
 
 const Questions: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>('');
-
+  const [timeLeft, setTimeLeft] = useState<number>(45);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
   };
+  useEffect(() => {
+    const countDown = setInterval(() => {
+      setTimeLeft(timeLeft - 1);
+    }, 1000);
+    if (timeLeft === 0) {
+      clearInterval(countDown);
+    }
+  }, [timeLeft]);
   return (
     <>
       <Head>
@@ -110,6 +120,17 @@ const Questions: React.FC = () => {
               </li>
             ))}
           </ul>
+          <Link href="/assessments/overview">
+            <Button
+              intent={'primary'}
+              size={'md'}
+              isLoading={false}
+              spinnerColor="#000"
+              className="px-5 py-0 md:py-2 md:px-10 text-sm md:text-base font-manropeL"
+            >
+              Submit
+            </Button>
+          </Link>
         </div>
       </MainLayout>
     </>
