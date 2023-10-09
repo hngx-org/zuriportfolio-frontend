@@ -22,6 +22,7 @@ function SearchProduct({ handleSearchChange }: searchProp) {
         intent={'default'}
         disabled={false}
         className=""
+        placeHolder="Search"
       />
     </div>
   );
