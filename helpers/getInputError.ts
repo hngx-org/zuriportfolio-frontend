@@ -4,11 +4,11 @@ const getInputError = (inputName: string, value: string) => {
   switch (inputName) {
     case 'firstName':
       pattern = /^[A-Za-z]$/;
-      errorMessage = 'Please enter your first name and last name separated by a space.';
+      errorMessage = 'Please enter your first name.';
       break;
     case 'lastName':
       pattern = /^[A-Za-z]$/;
-      errorMessage = 'Please enter your first name and last name separated by a space.';
+      errorMessage = 'Please enter your last name.';
       break;
     case 'email':
       pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
