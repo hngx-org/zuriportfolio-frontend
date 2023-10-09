@@ -14,7 +14,7 @@ export const WishlistProductCard = ({
   return (
     <>
       <div className="flex items-center justify-between gap-4">
-        <div className="flex gap-3 md:gap-9  md:max-w-[440px] lg:max-w-[450px]">
+        <div className="flex gap-3 md:gap-9  md:max-w-[500px] lg:max-w-[550px]">
           <div className="">
             <Image
               src={product.productImage}
@@ -24,7 +24,7 @@ export const WishlistProductCard = ({
           </div>
           <div className="flex flex-col gap-2 md:gap-3">
             <div className="flex flex-col gap-2 md:gap-3">
-              <div className="flex gap-1 md:gap-2 items-center">
+              <div className="flex gap-2 md:gap-3 items-center">
                 <div className="flex flex-col gap-2">
                   <p className="text-[10px] md:text-xs text-custom-color16">{product.productCategory}</p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
@@ -36,13 +36,23 @@ export const WishlistProductCard = ({
                   $<span>{product.productPrice}</span>
                 </p>
               </div>
-              <div className="flex gap-1 self-start">
+              
+              <div className="gap-1 self-start hidden md:flex">
                 <RatingCard rating={product.productRating} size={22} />
                 <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
-              </div>
+           
+                </div>
+                <div
+                className='md:hidden flex gap-1 self-start'
+                >
+                <RatingCard rating={product.productRating} size={12} />
+                <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
+           
+                </div>
+               
               <div className="md:hidden">
                 <p
-                  className={`text-xs font-medium ${
+                  className={`text-[10px] md:text-xs font-medium ${
                     product.inStock ? 'text-brand-green-primary' : 'text-brand-red-primary'
                   } `}
                 >
@@ -51,12 +61,17 @@ export const WishlistProductCard = ({
               </div>
               <div className="md:hidden">
                 <Button
-                  className="bg-white-100 rounded-md h-[40px] border border-custom-color17 text-brand-green-shade50"
+                  className="bg-white-100 rounded-md h-[40px] border border-custom-color17 text-brand-green-shade50 px-3 py-1"
                   size={'sm'}
                   intent={'tertiary'}
                   spinnerColor="#00894C px-3 py-1"
                 >
+                  <span
+                  className='text-[12px] md:text-lg '
+                  >
                   {product.inCart ? 'Explore Similar' : 'Move To Cart'}
+                
+                  </span>
                 </Button>
               </div>
             </div>
@@ -87,7 +102,7 @@ export const WishlistProductCard = ({
         </div>
 
         <div className="md:hidden self-start mt-1" onClick={() => removeProductFromWishlist(product.productId)}>
-          <Image src={deleteIcon} alt="delete" width={40} height={40} />
+          <Image src={deleteIcon} alt="delete" width={35} height={35} />
         </div>
         <div className="hidden md:block">
           <Button
