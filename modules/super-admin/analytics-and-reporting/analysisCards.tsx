@@ -78,6 +78,8 @@ const AnalysisCards: React.FC = () => {
     },
   ];
 
+  const percentile = '/assets/images/reports/crack.svg';
+
   return (
     <>
       <div className="max-w-[77.5rem] w-full mx-auto mt-[1.75rem] max-[1300px]:px-[1.2rem] max-[1300px]:py-0 max-[834px]:hidden">
@@ -92,7 +94,7 @@ const AnalysisCards: React.FC = () => {
                   {hero.CardName}
                 </p>
                 <Image
-                  src="/assets/images/more.svg"
+                  src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
@@ -105,7 +107,7 @@ const AnalysisCards: React.FC = () => {
                 </p>
                 <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
                   <Image
-                    src="/assets/images/icon-left.svg"
+                    src={percentile}
                     alt="Percentage-rate"
                     width={16}
                     height={16}
@@ -126,7 +128,7 @@ const AnalysisCards: React.FC = () => {
                 Total Sales
               </p>
               <Image
-                src="/assets/images/more.svg"
+                src="/assets/images/reports/more.svg"
                 alt="More options"
                 width={20}
                 height={20}
@@ -139,7 +141,7 @@ const AnalysisCards: React.FC = () => {
               </p>
               <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
                 <Image
-                  src="/assets/images/icon-left.svg"
+                  src={percentile}
                   alt="Percentage-rate"
                   width={16}
                   height={16}
@@ -157,7 +159,7 @@ const AnalysisCards: React.FC = () => {
                 Total Order
               </p>
               <Image
-                src="/assets/images/more.svg"
+                src="/assets/images/reports/more.svg"
                 alt="More options"
                 width={20}
                 height={20}
@@ -170,7 +172,7 @@ const AnalysisCards: React.FC = () => {
               </p>
               <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
                 <Image
-                  src="/assets/images/icon-left.svg"
+                  src={percentile}
                   alt="Percentage-rate"
                   width={16}
                   height={16}
@@ -196,7 +198,7 @@ const AnalysisCards: React.FC = () => {
                   {hero.CardName}
                 </p>
                 <Image
-                  src="/assets/images/more.svg"
+                  src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
@@ -206,13 +208,7 @@ const AnalysisCards: React.FC = () => {
               <div className="flex w-full justify-between gap-[1rem] items-center">
                 <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero.TotalAmount}</p>
                 <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                  <Image
-                    src="/assets/images/icon-left.svg"
-                    alt="Percentage-rate"
-                    width={16}
-                    height={16}
-                    className="w-[1rem] h-[1rem]"
-                  />
+                  <Image src={percentile} alt="Percentage-rate" width={16} height={16} className="w-[1rem] h-[1rem]" />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] tracking-[0.00219rem] text-[#009254] text-center">
                     {hero.percentage}%
                   </p>
@@ -234,7 +230,7 @@ const AnalysisCards: React.FC = () => {
                   {hero.CardName}
                 </p>
                 <Image
-                  src="/assets/images/more.svg"
+                  src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
@@ -244,13 +240,7 @@ const AnalysisCards: React.FC = () => {
               <div className="flex w-full justify-between gap-[1rem] items-center">
                 <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero.TotalAmount}</p>
                 <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                  <Image
-                    src="/assets/images/icon-left.svg"
-                    alt="Percentage-rate"
-                    width={16}
-                    height={16}
-                    className="w-[1rem] h-[1rem]"
-                  />
+                  <Image src={percentile} alt="Percentage-rate" width={16} height={16} className="w-[1rem] h-[1rem]" />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] tracking-[0.00219rem] text-[#009254] text-center">
                     {hero.percentage}%
                   </p>
