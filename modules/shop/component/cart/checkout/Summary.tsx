@@ -61,7 +61,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
       <div className="cart-summary_wrapper flex flex-col space-y-6">
         <div className="cart-summary__header border border-gray-300 rounded-md shadow-sm">
           <h1 className="font-bold capitalize text-xl px-4 py-4 ">cart summary</h1>
-          <hr className='border-b-1 border-gray-500' />
+          <hr className="border-b-1 border-gray-500" />
           <div className="coupon flex flex-col py-4 px-4">
             <span></span> <span className="text-sm">Have a coupon?</span>
             <div className="coupon w-full py-0 flex items-center">
@@ -135,7 +135,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
           </div>
 
           {/* <div className="line bg-gray-300 h-0.5 w-full my-6"></div> */}
-          <hr className='border-b-5 border-gray-300 my-4 mx-3' />
+          <hr className="border-b-5 border-gray-300 my-4 mx-3" />
 
           <div className="cart-total">
             <div className="sum flex justify-between">
