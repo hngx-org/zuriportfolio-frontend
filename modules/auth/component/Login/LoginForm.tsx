@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -7,12 +7,13 @@ import github from '../../../../public/assets/loginPageAssets/github.svg';
 import facebook from '../../../../public/assets/loginPageAssets/facebook.svg';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
-import { Eye } from 'iconsax-react';
+import { Eye, EyeSlash } from 'iconsax-react';
 
 import InputError from '../InputError';
 import useInputError from '../../../../hooks/useInputError';
 
 function LoginForm() {
+  const [isPasswordShown, setIsPassowordShwon] = useState(false);
   const { handleSubmit, inputErrors } = useInputError();
 
   return (
@@ -49,8 +50,14 @@ function LoginForm() {
                 id="password"
                 name="password"
                 className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
-                type="password"
-                rightIcon={<Eye />}
+                type={isPasswordShown ? 'text' : 'password'}
+                rightIcon={
+                  isPasswordShown ? (
+                    <Eye className="cursor-pointer" onClick={() => setIsPassowordShwon(false)} />
+                  ) : (
+                    <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
+                  )
+                }
               />
               <InputError inputError={inputErrors} inputName="password" />
             </div>
