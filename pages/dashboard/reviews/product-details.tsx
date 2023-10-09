@@ -55,7 +55,7 @@ export default function UserReview() {
               </div>
             </div>
           </div>
-          <PaginationBar pageLength={5} currentPage={0} changeCurrentPage={() => 1} />
+          <PaginationBar pageLength={1} currentPage={0} changeCurrentPage={() => 1} />
         </div>
       </Container>
       <ShopFooter />
