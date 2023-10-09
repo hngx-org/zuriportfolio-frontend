@@ -16,6 +16,118 @@ function VendorDetails(): React.ReactElement {
       productName: 'Webinar and Course Slide Template',
       productPrice: 100,
       productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 245,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 333,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 222,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 908,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 786,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 576,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 334,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 508,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 29,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 31,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 27,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 30,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 28,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 26,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 32,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 25,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
       productImage: Aff,
       id: 1,
     },
@@ -230,8 +342,8 @@ function VendorDetails(): React.ReactElement {
       </div>
       <hr className="border-custom-color1 mb-10" />
       <nav className="flex justify-center items-center mb-32">
-        <ul className="flex gap-5 items-center">
-          <li className="mr-5 cursor-pointer font-manropeB" onClick={prevPage}>
+        <ul className="flex gap-2 md:gap-5 lg:gap-5 items-center">
+          <li className="mr-5 cursor-pointer text-slate-300 font-manropeEL" onClick={prevPage}>
             Previous
           </li>
           <li onClick={prevPage} className="cursor-pointer">
@@ -239,8 +351,8 @@ function VendorDetails(): React.ReactElement {
           </li>
           {numbers.map((n, i) => (
             <li
-              className={`py-[8px] px-[14px] rounded-lg text-[14px] cursor-pointer font-semibold ${
-                currentPage === n ? 'bg-green-600 text-white-100 ' : 'text-custom-color-27'
+              className={`py-[8px] px-[14px] rounded-lg text-[14px] cursor-pointer font-ppReg font-normal ${
+                currentPage === n ? 'bg-green-600 text-white-100 ' : 'text-custom-color27'
               }`}
               key={i}
               onClick={() => changeCPage(n)}
@@ -251,7 +363,7 @@ function VendorDetails(): React.ReactElement {
           <li onClick={nextPage} className="cursor-pointer">
             <ArrowRight2 size={15} color="#767676" />
           </li>
-          <li className="ml-5 cursor-pointer font-manropeB" onClick={nextPage}>
+          <li className="ml-5 text-slate-300 cursor-pointer font-manropeEL" onClick={nextPage}>
             Next
           </li>
         </ul>
