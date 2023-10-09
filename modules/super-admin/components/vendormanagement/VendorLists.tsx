@@ -3,7 +3,6 @@ import { Vendor } from '../../../../@types';
 import { More } from 'iconsax-react';
 import Image from 'next/image';
 import Link from 'next/link';
-
 const VendorLists: React.FC<Vendor> = ({
   vendorImgSrc,
   name,
@@ -17,7 +16,6 @@ const VendorLists: React.FC<Vendor> = ({
   // Determine the background color and text color based on the statusText
   let backgroundColorClass = '';
   let textColorClass = '';
-
   if (statusText === 'Active') {
     backgroundColorClass = 'bg-green-20';
     textColorClass = 'text-brand-green-primary';
@@ -28,12 +26,10 @@ const VendorLists: React.FC<Vendor> = ({
     backgroundColorClass = 'bg-yellow-50';
     textColorClass = 'text-yellow-600';
   }
-
   return (
     <div className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-6 md:grid-cols-4 grid-cols-1 items-center text-gray-500 text-center text-sm">
       <div className="flex items-center">
         <input type="checkbox" name="" id="" />
-
         <Link
           href={{
             pathname: '/super-admin/vendor-management/vendor-details',
@@ -73,5 +69,4 @@ const VendorLists: React.FC<Vendor> = ({
     </div>
   );
 };
-
 export default VendorLists;
