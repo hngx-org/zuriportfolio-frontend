@@ -20,7 +20,7 @@ export default function UserReview() {
               ))}
             </div>
           </div>
-          <div className="w-[50vw] h-auto">
+          <div className="flex flex-col w-[100%] items-center justify-center">
             <ReviewForm />
           </div>
         </div>
