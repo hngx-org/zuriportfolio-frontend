@@ -105,6 +105,7 @@ const SearchAndFilter: React.FC = () => {
   ];
 
   return (
+    <div>
     <div className="md:container margin-auto mt-10 md:px-10 mb-10 px-3 py-8">
       <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-6">
         <div className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
