@@ -4,9 +4,9 @@ import LandingPage from '../../modules/marketplace/component/landingpage/landing
 
 function Home() {
   return (
-    <div>
+    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
       <LandingPage />
-    </div>
+    </MainLayout>
   );
 }
 

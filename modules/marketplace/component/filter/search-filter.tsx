@@ -4,8 +4,10 @@ import FilterSection from './filter-section';
 import Button from '@ui/Button';
 import { CancelIcon } from './icons';
 import Badge from './Badge';
+import useSearchFilter from './hooks/useSearchFilter';
 
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
+  const {resetFilter, handleSearch, loading} = useSearchFilter()
   return (
     <Fragment>
       {isOpen ? (
@@ -28,10 +30,11 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <Button
                 type="reset"
                 className="rounded-lg px-7 text-sm bg-white-100  focus:bg-white-100 border-brand-green-primary hover:bg-white-100 text-brand-green-primary border-2"
+                // onClick={resetFilter}
               >
                 Reset
               </Button>
-              <Button className="rounded-lg px-7 text-sm">Apply</Button>
+              <Button className="rounded-lg px-7 text-sm" onClick={handleSearch} isLoading={loading}>Apply</Button>
             </div>
           </div>
         </div>
