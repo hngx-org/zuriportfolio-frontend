@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Pagination from '../../../../pages/view-components/super-admin/pagination';
+import Pagination from '../../../pages/view-components/super-admin/pagination';
 
 const TopSellingProducts: React.FC = () => {
   const CardDataOne: {
