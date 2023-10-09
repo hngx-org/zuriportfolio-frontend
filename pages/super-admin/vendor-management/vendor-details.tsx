@@ -276,7 +276,7 @@ function VendorDetails() {
         }}
       >
         <h1 className="text-center text-black font-bold">Are you sure you want to delete this vendor?</h1>
-        <p className="text-center">Vendor will be permanently deleted from list.</p>
+        <p className="text-center">Vendor will be permanently deleted from list</p>
         <div className="buttons flex flex-col items-center mt-6 w-full justify-between p-5">
           <Button
             intent={'error'}
