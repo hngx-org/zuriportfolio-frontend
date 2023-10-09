@@ -205,6 +205,7 @@ function Signup() {
             `}</style>
 
             <Button
+              href="/auth/verification"
               intent={'primary'}
               size={'sm'}
               className="w-full h-[44px] md:h-[60px] rounded-lg mt-3"
@@ -216,7 +217,7 @@ function Signup() {
           <div className="mt-8">
             <p className="text-center text-gray-200">
               Already have an account?{' '}
-              <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+              <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
                 Sign in
               </Link>
             </p>
