@@ -48,7 +48,7 @@ const AnalyticsAndReportingCards = () => {
                 <h1 className='text-[30px] font-bold'>{items.price}</h1>
                 <div className='flex items-center gap-2 rounded-full py-0.5 px-2 bg-green-300 bg-opacity-20'>
                   <Image src={items.arUp} alt='kmenu' width={17} height={17} className='object-contain' />
-                  <p className='text-[14px] text-green-900'>10%</p>
+                  <p className='text-[14px] text-green-700'>10%</p>
                 </div>
               </div>
             </div>
