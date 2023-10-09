@@ -10,24 +10,29 @@ const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
 
-const SelectTrigger = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Trigger
-    ref={ref}
-    className={twMerge(
-      'flex h-10 w-full items-center justify-between rounded-md border border-white-300 bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-      className,
-    )}
-    {...props}
-  >
-    {children}
-    <SelectPrimitive.Icon asChild>
-      <ArrowDown2 color="#7777" />
-    </SelectPrimitive.Icon>
-  </SelectPrimitive.Trigger>
-));
+// Define an interface for the custom props
+interface SelectTriggerProps {
+  rightIcon?: React.ReactNode;
+}
+
+// Use React.ComponentPropsWithRef to merge custom props with existing props
+type MergedSelectTriggerProps = React.ComponentPropsWithRef<typeof SelectPrimitive.Trigger> & SelectTriggerProps;
+
+const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Trigger>, MergedSelectTriggerProps>(
+  ({ className, rightIcon, children, ...props }, ref) => (
+    <SelectPrimitive.Trigger
+      ref={ref}
+      className={twMerge(
+        'flex h-10 w-full items-center justify-between rounded-md border-white-300 bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground border-[2px] focus:border-brand-green-primary disabled:cursor-not-allowed disabled:opacity-50',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      <SelectPrimitive.Icon asChild>{rightIcon ? rightIcon : <ArrowDown2 color="#7777" />}</SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+  ),
+);
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const SelectContent = React.forwardRef<
