@@ -283,9 +283,9 @@ const SpecificSubCategory: FC = () => {
           {/* nav component */}
           
           {/* BreadCrum Area */}
-          <div className='mt-[1rem] md:mt-[1.5rem] lg:mt-[53px] mb-[] md:mb-[] lg:mb-[32px]'>
+          {/* <div className='mt-[1rem] md:mt-[1.5rem] lg:mt-[53px] mb-[] md:mb-[] lg:mb-[32px]'>
           <Breadcrumbs />
-          </div>
+          </div> */}
 
           <header
             className={`flex flex-col items-center space-y-[0.5rem] mt-[2.5rem] text-center md:mt-[3.5rem] md:space-y-[0.75rem] lg:mt-[5rem] lg:space-y-[1rem]`}

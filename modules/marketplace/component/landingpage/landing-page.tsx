@@ -12,8 +12,6 @@ import AllCategorySlider from '../AllCategorySlider';
 import CategoriesNav from '../CategoriesNav/CategoriesNav';
 import { handPicked, limitedOffers, recentlyViewed, routeLinks } from '../categories/data/landingpage';
 
-
-
 function LandingPage() {
   return (
     <Fragment>
