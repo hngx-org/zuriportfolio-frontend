@@ -10,9 +10,9 @@ import usePassword from '../../hooks/usePassword';
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [isPasswordSame, setIsPasswordSame] = useState(false);
   const {handleSubmit, inputErrors} = useInputError();
   const {password, confirmPassword, handleConfirmPasswordChange, handlePasswordChange, arePasswordSame} = usePassword();
-  const [isPasswordSame, setIsPasswordSame] = useState(false);
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -179,7 +179,7 @@ function Signup() {
                 onChange={handleConfirmPasswordChange}
                 required
               />
-              {isPasswordSame && (
+              {!isPasswordSame && (
                 <p className="text-brand-red-primary text-xs md:text-sm mt-2">Passwords do not match. Please re-enter the same passwords in both fields</p>
               )}
             </div>

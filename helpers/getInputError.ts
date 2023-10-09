@@ -3,11 +3,11 @@ const getInputError = (inputName: string, value: string) => {
   let pattern: RegExp;
   switch (inputName) {
     case 'firstName':
-      pattern = /^[A-Za-z]$/;
+      pattern = /^[A-Za-z]+$/;
       errorMessage = 'Please enter your first name.';
       break;
     case 'lastName':
-      pattern = /^[A-Za-z]$/;
+      pattern = /^[A-Za-z]+$/;
       errorMessage = 'Please enter your last name.';
       break;
     case 'email':
