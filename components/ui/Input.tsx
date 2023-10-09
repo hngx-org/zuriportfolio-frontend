@@ -81,7 +81,7 @@ export function SelectInput({
       <select
         onChange={onChange}
         className={twMerge(
-          'pr-2 border-none outline-none bg-transparent hide-caret mr-3',
+          'w-full pr-2 border-none outline-none bg-transparent hide-caret mr-3',
           leftIcon && 'pl-7',
           disabled ? 'cursor-not-allowed' : '',
         )}
