@@ -84,7 +84,7 @@ function Code2FA() {
         </div>
 
         <Button
-          href="/auth/verification"
+          href="/dashboard"
           className={`w-full md:w-10/12 lg:w-11/12 m-auto md:m-0 h-14
           lg:self-start rounded-lg text-base
           ${isContinueDisabled ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900' : ''}`}

@@ -48,7 +48,7 @@ function LoginForm() {
               />
             </div>
 
-            <Link href="/auth/forgotPassword">
+            <Link href="/auth/forgot-password">
               <p className=" font-manrope text-brand-green-primary text-right  text-[1.18313rem] mt-[0.62rem]">
                 Forgot Password ?
               </p>

@@ -32,6 +32,7 @@ const ForgotPassword = () => {
                 />
               </div>
               <Button
+                href="/auth/reset_password"
                 intent={'primary'}
                 className="flex justify-center items-center gap-4 md:pl-[15.0625rem] md:pr-[15.0625rem] py-3 md:px-60 md:w-[100%] w-[100%] h-14 rounded-lg button text-white-100 text-center mt-[1rem]"
               >

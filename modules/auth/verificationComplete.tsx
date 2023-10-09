@@ -13,7 +13,7 @@ function VerificationComplete() {
         height={218}
       />
       <div className=" sm:bg-brand-green-ttr px-4 max-w-[712px] sm:px-[40px] md:px-[58px] lg:px-[120px] py-5 sm:border sm:border-brand-disabled rounded-[32px] z-10">
-        <h1 className=" font-manropeEB text-[24px] md:text-[36px] text-center">Verification Link Sent</h1>
+        <h1 className=" font-manropeEB text-[24px] md:text-[36px] text-center">Verification Complete</h1>
         <p className=" font-manropeL text-[16px] text-center text-[#737876] md:text-[#000] py-[16px] ">
           Account verification complete. You will be redirected to a login page.
         </p>

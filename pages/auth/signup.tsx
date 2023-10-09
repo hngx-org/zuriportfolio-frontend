@@ -205,7 +205,7 @@ function Signup() {
             `}</style>
 
             <Button
-              href="/dashboard"
+              href="/auth/verification"
               intent={'primary'}
               size={'sm'}
               className="w-full h-[44px] md:h-[60px] rounded-lg mt-3"
