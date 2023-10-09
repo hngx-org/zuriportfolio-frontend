@@ -143,19 +143,20 @@ const OrderHistory: React.FC = () => {
                 </button>
               </div>
             </div>
+            {pageItem.length === 0 ? (
+              <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                No Order to Show
+              </p>
+            ) : (
+              <OrderHistoryTable
+                pageItem={pageItem}
+                changeSort={changeSortBy}
+                toggleSort={toggleSortOrder}
+                currentSort={sortBy}
+              />
+            )}
           </section>
-          {pageItem.length === 0 ? (
-            <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-              No Order to Show
-            </p>
-          ) : (
-            <OrderHistoryTable
-              pageItem={pageItem}
-              changeSort={changeSortBy}
-              toggleSort={toggleSortOrder}
-              currentSort={sortBy}
-            />
-          )}
+
           <div className="md:hidden flex flex-col gap-4">
             {pageItem.map((item) => (
               <OrderHistoryMobile key={item.id} {...item} />
