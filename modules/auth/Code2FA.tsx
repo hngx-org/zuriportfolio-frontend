@@ -2,6 +2,7 @@
 import React, { ChangeEvent, useState, useRef } from 'react';
 import { KeyboardEvent } from 'react';
 import Button from '../../components/ui/Button';
+import Link from 'next/link';
 
 function Code2FA() {
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
@@ -81,8 +82,9 @@ function Code2FA() {
           ))}
           <span className="text-gray-500 absolute top-2 md:top-5 left-1/2 ml-[-0.7%]">-</span>
         </div>
+
         <Button
-          href=""
+          href="/auth/verification"
           className={`w-full md:w-10/12 lg:w-11/12 m-auto md:m-0 h-14
           lg:self-start rounded-lg text-base
           ${isContinueDisabled ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900' : ''}`}
