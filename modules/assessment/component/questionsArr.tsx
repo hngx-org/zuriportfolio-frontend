@@ -2,7 +2,7 @@ export const questionArr = [
   {
     id: 1,
     click: 'first',
-    question: 'What is the primary goal of a &apos;landing page in digital marketing?',
+    question: "What is the primary goal of a 'landing' page in digital marketing?",
     tip: 'Pick only one correct answer',
     options: [
       'To provide customer support',
