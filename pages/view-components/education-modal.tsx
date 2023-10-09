@@ -8,7 +8,7 @@ function EducationPage() {
   return (
     <EducationProvider>
       <EducationSection
-        isOpen={false}
+        isOpen={true}
         onClose={function (): void {
           throw new Error('Function not implemented.');
         }}
