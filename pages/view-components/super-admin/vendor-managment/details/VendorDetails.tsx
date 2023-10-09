@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowLeft2, ArrowRight2, Star1, StarSlash } from 'iconsax-react';
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
+import Link from 'next/link';
 import { useState } from 'react';
 import { VendorProduct } from '../../../../../@types';
 import Aff from '../../../../../public/assets/images/vendors/afflate.png';
@@ -12,6 +13,118 @@ import VendorCard from '../../../../../modules/super-admin/components/VendorCard
 
 function VendorDetails(): React.ReactElement {
   const cards: VendorProduct[] = [
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 245,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 333,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 222,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 908,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 786,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 576,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 334,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 508,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 29,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 31,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 27,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 30,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 28,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 26,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Aff,
+      id: 32,
+    },
+    {
+      productName: 'Webinar and Course Slide Template',
+      productPrice: 100,
+      productAuthor: 'Mark Essien',
+      productImage: Web,
+      id: 25,
+    },
     {
       productName: 'Webinar and Course Slide Template',
       productPrice: 100,
@@ -209,10 +322,12 @@ function VendorDetails(): React.ReactElement {
 
   return (
     <div className="mt-2 px-6 w-[100%] overflow-x-hidden">
-      <div className="flex items-center mb-4">
-        <ArrowLeft size="18" />
-        <p className="ml-3">Products by Gustavo Silas</p>
-      </div>
+      <Link href={'/super-admin/vendor-management/vendor-details'}>
+        <div className="flex items-center mb-4">
+          <ArrowLeft size="18" />
+          <p className="ml-3">Products by Gustavo Silas</p>
+        </div>
+      </Link>
       <hr className="border-custom-color1" />
       <div className="mt-4 mb-10  lg:grid-cols-4 md:grid-cols-3 px-2 grid grid-cols-2 gap-5">
         {records.map((card) => {
@@ -229,9 +344,12 @@ function VendorDetails(): React.ReactElement {
         })}
       </div>
       <hr className="border-custom-color1 mb-10" />
-      <nav className="flex justify-center items-center mb-32">
-        <ul className="flex gap-5 items-center">
-          <li className="mr-5 cursor-pointer font-manropeB" onClick={prevPage}>
+      <nav className="flex justify-center items-center mb-16">
+        <ul className="flex gap-1.5 md:gap-5 lg:gap-5 items-center">
+          <li
+            className="md:mr-5 lg:mr-5 mr-1 text-[0.6rem] md:text-[0.75rem] lg:text-[0.85rem] cursor-pointer text-slate-300 font-manropeEL"
+            onClick={prevPage}
+          >
             Previous
           </li>
           <li onClick={prevPage} className="cursor-pointer">
@@ -239,8 +357,8 @@ function VendorDetails(): React.ReactElement {
           </li>
           {numbers.map((n, i) => (
             <li
-              className={`py-[8px] px-[14px] rounded-lg text-[14px] cursor-pointer font-semibold ${
-                currentPage === n ? 'bg-green-600 text-white-100 ' : 'text-custom-color-27'
+              className={`py-[5px] px-[8.75px] md:py-[8px] md:px-[14px] lg:py-[8px] lg:px-[14px] rounded-lg text-[0.6rem] md:text-[0.75rem] lg:text-[0.85rem] cursor-pointer font-ppReg font-normal ${
+                currentPage === n ? 'bg-green-600 text-white-100 ' : 'text-custom-color27'
               }`}
               key={i}
               onClick={() => changeCPage(n)}
@@ -251,7 +369,10 @@ function VendorDetails(): React.ReactElement {
           <li onClick={nextPage} className="cursor-pointer">
             <ArrowRight2 size={15} color="#767676" />
           </li>
-          <li className="ml-5 cursor-pointer font-manropeB" onClick={nextPage}>
+          <li
+            className="md:ml-5 lg:ml-5 ml-1 text-slate-300 text-[0.6rem] md:text-[0.75rem] lg:text-[0.85rem] cursor-pointer font-manropeEL"
+            onClick={nextPage}
+          >
             Next
           </li>
         </ul>
