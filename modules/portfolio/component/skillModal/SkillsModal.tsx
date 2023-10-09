@@ -5,11 +5,10 @@ import Modal from '@ui/Modal';
 import { useEffect, useState } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 
-
 type skillModalProps = {
-  handleCloseSkillModal: () => void
-  isSkillModalOpen: boolean
-}
+  handleCloseSkillModal: () => void;
+  isSkillModalOpen: boolean;
+};
 
 const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
@@ -32,16 +31,14 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
   useEffect(() => {
     const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
     setArrayTwo(storedArrayTwo);
-    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo])); 
+    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
-
-  
+  }, []);
 
   const handleMoveToTwo = (item: string) => {
-   setArrayOne(arrayOne.filter((el: string) => el !== item));
-   setArrayTwo(prevArrayTwo => [...prevArrayTwo, item]);  // Use the callback
-   localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, item]));  
+    setArrayOne(arrayOne.filter((el: string) => el !== item));
+    setArrayTwo((prevArrayTwo) => [...prevArrayTwo, item]); // Use the callback
+    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, item]));
   };
 
   const handleMoveToOne = (item: string) => {
@@ -58,23 +55,22 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
 
       if (trimmedValue !== '') {
         setArrayTwo((prevArray) => [...prevArray, trimmedValue]);
-       setToLocalStorage(trimmedValue) 
-      } 
-
-    } 
+        setToLocalStorage(trimmedValue);
+      }
+    }
     setInputValue(''); // Clear the input field after pushing the value
   };
 
   const cancelBtnFn = () => {
-    arrayTwo.map(el => {
-      localStorage.removeItem("arrayTwo")
-    })
-    setArrayTwo([])
-  }
+    arrayTwo.map((el) => {
+      localStorage.removeItem('arrayTwo');
+    });
+    setArrayTwo([]);
+  };
 
   const setToLocalStorage = (trimmedValue: string) => {
     localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, trimmedValue]));
-  }
+  };
 
   return (
     <section className="w-full flex items-center justify-center fontFamily-manropeEL">
@@ -148,10 +144,12 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
             )}
           </div>
           <div className="flex justify-end gap-4 pb-4 max-sm:flex-col max-sm:items-center pt-12">
-            <Button className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
-              onClick={()=> {
-                handleCloseSkillModal()
-                cancelBtnFn()}}
+            <Button
+              className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
+              onClick={() => {
+                handleCloseSkillModal();
+                cancelBtnFn();
+              }}
             >
               Cancel
             </Button>
@@ -169,4 +167,3 @@ export default SkillModal;
 function setItems(arg0: any) {
   throw new Error('Function not implemented.');
 }
-

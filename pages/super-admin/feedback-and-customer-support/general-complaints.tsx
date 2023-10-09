@@ -62,7 +62,7 @@ export default function GeneralComplaints() {
       let inProgressArray = complaintsArray.filter((complains) => complains.status === 'InProgress');
       setFilteredComplaintsArray(inProgressArray);
     }
-  }, [filteredState]);
+  }, [filteredState, complaintsArray]);
   const [searchedItem, setSearchedItem] = React.useState('');
   return (
     <>
