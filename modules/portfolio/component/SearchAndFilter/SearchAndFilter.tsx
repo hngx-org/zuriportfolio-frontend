@@ -106,7 +106,7 @@ const SearchAndFilter: React.FC = () => {
 
   return (
     <div className="md:container margin-auto mt-10 md:px-10 mb-10 px-2 py-6">
-      <div className="flex-col justify-start items-start gap-3 flex mb-10">
+      <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-8">
         <div className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
           Filter
         </div>
@@ -142,15 +142,15 @@ const SearchAndFilter: React.FC = () => {
       </div>
 
       <div
-        className=" w-full h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-none"
+        className=" w-[90vw] h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-none px-1 sm:px-4"
         ref={sliderRef}
         onScroll={handleScroll}
       >
-        <div className="justify-start items-start gap-6 inline-flex mt-8">
+        <div className="justify-start items-center gap-2 inline-flex mt-8">
           {sectionsData.map((section, index) => (
             <div
               key={index}
-              className={`px-4 py-3 rounded-2xl border justify-center items-center gap-4 flex cursor-pointer ${
+              className={`px-4 py-3 mx-4 rounded-2xl border justify-center items-center gap-4 flex cursor-pointer ${
                 activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
               }`}
               onClick={() => {
@@ -164,15 +164,10 @@ const SearchAndFilter: React.FC = () => {
           ))}
         </div>
       </div>
-      <div
-        className=" relative"
-        style={{
-          transition: 'max-height 0.25s ease-out',
-        }}
-      >
+      <div className="relative -right-1 w-[91vw]">
         {showRightButton && (
           <div
-            className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-4 inline-flex absolute -right-[2px] -top-[3.05rem] z-10 bg-white-100"
+            className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
             onClick={slideRight}
           >
             <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
