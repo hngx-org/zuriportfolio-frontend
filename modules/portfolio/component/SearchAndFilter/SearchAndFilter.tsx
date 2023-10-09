@@ -126,7 +126,7 @@ const SearchAndFilter: React.FC = () => {
             />
           </div>
         </div>
-        <div className="flex gap-6 flex-col md:flex-row">
+         <div className="flex gap-6 md:flex-row">
           <CustomDropdown
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
