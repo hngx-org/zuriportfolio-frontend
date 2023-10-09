@@ -47,7 +47,7 @@ function VendorDetails() {
     <>
       <SuperAdminNavbar />
       <Link href="/super-admin/vendor-management/index">
-        <div className="top flex items-center mr-5 border-b border-gray-100 ml-10 mt-5 mb-5">
+        <div className="top flex items-center mr-5 border-b border-white-110 ml-10 mt-5 mb-5">
           <Image src={right} alt="back" className="mr-2 pb-3"></Image>
           <p className="pb-3">Vendor Profile Details</p>
         </div>
@@ -56,21 +56,21 @@ function VendorDetails() {
       {/* Vendor Products */}
       <section className="vendor-dash mr-5 ml-5 lg:flex items-center lg:mr-0 lg:ml-0 font-manropeL">
         <div className="sales flex flex-col items-center justify-center lg:w-1/2 lg:ml-10">
-          <div className="revenue border border-gray-300 p-2 mb-5 w-full lg:w-full">
+          <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
             <p>Total Products</p>
-            <h1 className="text-lg font-bold">12</h1>
+            <h1 className="text-xl font-bold">12</h1>
           </div>
-          <div className="revenue border border-gray-300 p-2 mb-5 w-full lg:w-full">
+          <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
             <p>{quantity ? quantity : 'Total Order'}</p>
             <div className="badge flex items-center justify-between">
-              <h1 className="text-lg font-bold">7890</h1>
+              <h1 className="text-xl font-bold">7890</h1>
               <Image src={badge} alt="Price Badge" />
             </div>
           </div>
-          <div className="revenue border border-gray-300  p-2 w-full lg:w-full">
+          <div className="revenue border border-white-200  p-2 w-full lg:w-full">
             <p>Total Sales</p>
             <div className="badge flex items-center justify-between">
-              <h1 className="text-lg font-bold">{amount ? amount : '$430600'}</h1>
+              <h1 className="text-xl font-bold">{amount ? amount : '$430600'}</h1>
               <Image src={badge} alt="Price Badge" />
             </div>
           </div>
@@ -110,10 +110,11 @@ function VendorDetails() {
             {/* Toggle the modal for deleting or banning vendors */}
             <div className="buttons w-full flex items-center justify-between mt-6">
               <Button
+                intent={'error'}
                 size={'md'}
                 isLoading={false}
                 spinnerColor="#000"
-                className="text-red-200 bg-transparent border border-red-200 p-3 w-1/3 rounded-sm ml-5 lg:ml-0 z-0"
+                className="text-red-200 bg-transparent border border-red-200 p-3 pr-4 pl-4 w-3/4 rounded-md mr-5 lg:ml-0 z-0 hover:bg-red-200 hover:text-white-100"
                 onClick={openModal}
               >
                 Delete
@@ -123,7 +124,7 @@ function VendorDetails() {
                 size={'md'}
                 isLoading={false}
                 spinnerColor="#000"
-                className="text-black bg-transparent border border-black p-3 w-1/3 rounded-md mr-5 lg:mr-0 z-0"
+                className="text-black bg-transparent border border-black p-3 pr-4 pl-4 w-3/4 rounded-md ml-5 lg:mr-0 z-0"
                 onClick={openModal}
               >
                 Ban
@@ -225,31 +226,38 @@ function VendorDetails() {
           <span className="font-bold">Gustavo Silas</span> will be deleted as a vendor from Zuri Marketplace and all
           their products as well. They will get a notification email.
         </p>
-        <p className="mt-5 mb-5">Reasons for deleting</p>
+        <h1 className="mt-5 mb-2">Reasons for deleting</h1>
         <ul className="p-3">
-          <li className="m-3 p-3">Policy Violation</li>
-          <li className="m-3 p-3">Offensive words</li>
-          <li className="m-3 p-3">Just feel like it</li>
-          <li className="m-3 p-3">Other</li>
+          <li className="m-3 p-3">
+            <input type="checkbox" className="mr-5"></input>Policy Violation
+          </li>
+          <li className="m-3 p-3">
+            <input type="checkbox" className="mr-5"></input>Offensive words
+          </li>
+          <li className="m-3 p-3">
+            <input type="checkbox" className="mr-5"></input>Just feel like it
+          </li>
+          <li className="m-3 p-3">
+            <input type="checkbox" className="mr-5"></input>Other
+          </li>
         </ul>
         <div className="buttons flex items-center mt-6  w-1/2 ml-auto justify-between">
           <Button
-            intent={'primary'}
+            intent={'secondary'}
             size={'md'}
             isLoading={false}
             spinnerColor="#000"
-            className="text-black bg-transparent border border-green-100 p-3 w-1/2 rounded-md mr-5 lg:mr-0 z-0 ml-auto"
+            className="text-black bg-white-100 p-3 w-1/2 rounded-md mr-5 z-0 ml-auto"
             onClick={closeModal}
           >
             Cancel
           </Button>
 
           <Button
-            intent={'primary'}
             size={'md'}
             isLoading={false}
             spinnerColor="#000"
-            className="p-3 w-1/2  ml-5 lg:ml-0 rounded-md"
+            className="p-3 w-1/2  ml-5 rounded-md"
             onClick={deleteModal}
           >
             Delete
