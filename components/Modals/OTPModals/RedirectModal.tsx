@@ -28,7 +28,7 @@ const RedirectModal = ({ setOpenOTP }: OTPModal) => {
         <button
           className="flex w-[197px] px-[24px] py-[19px] font-manropeL justify-center items-center gap-[10px] flex-shrink-0 self-stretch
                rounded-[10px] text-center  text-[14px] font-bold tracking-[0.035px] opacity-50 
-               [@media(max-width:650px)]:w-full width:650px)]:text-[12px]
+               [@media(max-width:650px)]:w-full [@media(max-width:650px)]:text-[11px]
                "
         >
           Try another method
@@ -37,7 +37,7 @@ const RedirectModal = ({ setOpenOTP }: OTPModal) => {
           id="continue"
           className="w-[204px] h-[56px] flex-shrink-0 rounded-[10px] bg-[var(--primary-color-primary-50,_#00894C)] text-[#FFF] 
                text-[14px] font-bold leading-[20px] tracking-[0.035px]
-               [@media(max-width:650px)]:w-full width:650px)]:text-[12px]"
+               [@media(max-width:650px)]:w-full [@media(max-width:650px)]:text-[11px]"
           onClick={() => setOpenOTP(true)}
         >
           Continue
