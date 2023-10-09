@@ -75,7 +75,7 @@ const PortfolioCreation: React.FC = () => {
                   <h6 className="text-[0.875rem] font-manropeL text-[#444846] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[880px]:text-[0.75rem] ">
                     Total Portfolio created
                   </h6>
-                  <Image src="/assets/images/arrow-down.svg" alt="Down Arrow" width={16} height={16} />
+                  <Image src="/assets/images/reports/arrow-down.svg" alt="Down Arrow" width={16} height={16} />
                 </div>
                 <div className="max-w-[19.8rem] w-full max-[730px]:ml-0 max-[778px]:min-w-[9.8rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem]">
