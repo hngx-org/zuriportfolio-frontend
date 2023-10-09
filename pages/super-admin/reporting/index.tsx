@@ -1,4 +1,4 @@
-import Nav from '../../view-components/super-admin/navbar';
+import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import ReportRedirect from '@modules/super-admin/analytics-and-reports/reportRedirect';
 import AnalysisCards from '@modules/super-admin/analytics-and-reports/analysisCards';
 import BusinessOveriview from '@modules/super-admin/analytics-and-reports/businessOverview';
@@ -9,7 +9,7 @@ import TopSellingProducts from '@modules/super-admin/analytics-and-reports/topSe
 const AnalyticsAndReport: React.FC = () => {
   return (
     <>
-      <Nav />
+      <SuperAdminNavbar />
       <ReportRedirect />
       <AnalysisCards />
       <BusinessOveriview />
