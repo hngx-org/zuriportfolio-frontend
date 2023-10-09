@@ -3,6 +3,7 @@ import Image from 'next/image';
 import SkillsModal from './skillModal/SkillsModal';
 
 
+
 const LandingPageFilled: React.FC = () => {
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
 

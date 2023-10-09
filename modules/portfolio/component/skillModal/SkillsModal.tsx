@@ -85,7 +85,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
         isCloseIconPresent={false}
         size="xl"
       >
-        <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL ">
+        <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL max-sm:px-2 ">
           <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
             <h1 className="font-bold text-2xl ">Skill</h1>
             <button
@@ -120,7 +120,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
             <Input
               type="text"
               placeHolder='Enter your skill and press "ENTER'
-              className="w-full rounded-lg p-4 mb-6 border-2 border-[#C4C7C6]"
+              className="w-full rounded-lg p-4 mb-6 border-2 border-[#C4C7C6] max-sm:p-2"
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyPress}
             />
@@ -129,7 +129,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
           <div className="w-full">
             <h2 className="text-brand-green-primary text-base font-bold">Suggestions</h2>
             {arrayOne.length > 0 && (
-              <ul className=" p-4  flex gap-6 rounded-lg flex-wrap w-full ">
+              <ul className=" p-4  flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">
                 {arrayOne.map((item) => (
                   <li key={item}>
                     <Button
@@ -148,10 +148,12 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
             )}
           </div>
           <div className="flex justify-end gap-4 pb-4 max-sm:flex-col max-sm:items-center pt-12">
-            <Button className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
-              onClick={()=> {
-                handleCloseSkillModal()
-                cancelBtnFn()}}
+            <Button
+              className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
+              onClick={() => {
+                handleCloseSkillModal();
+                cancelBtnFn();
+              }}
             >
               Cancel
             </Button>
