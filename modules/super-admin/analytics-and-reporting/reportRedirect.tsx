@@ -32,6 +32,7 @@ const ReportRedirect: React.FC = () => {
             width={20}
             height={20}
             alt="Go back"
+            className="cursor-pointer"
           />
           <p className="text-[1.125rem] text-[#101828] font-medium leading-[1.75rem] font-manropeL">Report</p>
         </div>
