@@ -78,7 +78,7 @@ const AnalysisCards: React.FC = () => {
     },
   ];
 
-  const percentile = '/assets/images/icon-left.svg';
+  const percentile = '/assets/images/reports/icon.svg';
 
   return (
     <>
@@ -94,7 +94,7 @@ const AnalysisCards: React.FC = () => {
                   {hero.CardName}
                 </p>
                 <Image
-                  src="/assets/images/more.svg"
+                  src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
@@ -128,7 +128,7 @@ const AnalysisCards: React.FC = () => {
                 Total Sales
               </p>
               <Image
-                src="/assets/images/more.svg"
+                src="/assets/images/reports/more.svg"
                 alt="More options"
                 width={20}
                 height={20}
@@ -159,7 +159,7 @@ const AnalysisCards: React.FC = () => {
                 Total Order
               </p>
               <Image
-                src="/assets/images/more.svg"
+                src="/assets/images/reports/more.svg"
                 alt="More options"
                 width={20}
                 height={20}
@@ -198,7 +198,7 @@ const AnalysisCards: React.FC = () => {
                   {hero.CardName}
                 </p>
                 <Image
-                  src="/assets/images/more.svg"
+                  src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
@@ -230,7 +230,7 @@ const AnalysisCards: React.FC = () => {
                   {hero.CardName}
                 </p>
                 <Image
-                  src="/assets/images/more.svg"
+                  src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}

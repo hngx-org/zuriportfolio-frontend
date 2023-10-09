@@ -20,7 +20,7 @@ const TopSellingProducts: React.FC = () => {
       order: 123456,
       price: '$20',
       sales: '$1558767',
-      action: '/assets/images/svg.svg',
+      action: '/assets/images/reports/svg.svg',
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ const TopSellingProducts: React.FC = () => {
       order: 113456,
       price: '$22',
       sales: '$1262621',
-      action: '/assets/images/red.svg',
+      action: '/assets/images/reports/red.svg',
     },
     {
       id: 3,
@@ -40,7 +40,7 @@ const TopSellingProducts: React.FC = () => {
       order: 103456,
       price: '$17',
       sales: '$1178882',
-      action: '/assets/images/svg.svg',
+      action: '/assets/images/reports/svg.svg',
     },
     {
       id: 4,
@@ -50,7 +50,7 @@ const TopSellingProducts: React.FC = () => {
       order: 93456,
       price: '$19',
       sales: '$1287873',
-      action: '/assets/images/ruby.svg',
+      action: '/assets/images/reports/ruby.svg',
     },
     {
       id: 5,
@@ -60,7 +60,7 @@ const TopSellingProducts: React.FC = () => {
       order: 92456,
       price: '$28',
       sales: '$1287873',
-      action: '/assets/images/red.svg',
+      action: '/assets/images/reports/red.svg',
     },
     {
       id: 6,
@@ -70,7 +70,7 @@ const TopSellingProducts: React.FC = () => {
       order: 89456,
       price: '$34',
       sales: '$1977637',
-      action: '/assets/images/ruby.svg',
+      action: '/assets/images/reports/ruby.svg',
     },
     {
       id: 7,
@@ -80,7 +80,7 @@ const TopSellingProducts: React.FC = () => {
       order: 86456,
       price: '$26',
       sales: '$1456421',
-      action: '/assets/images/svg.svg',
+      action: '/assets/images/reports/svg.svg',
     },
   ];
 
