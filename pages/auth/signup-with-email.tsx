@@ -34,15 +34,17 @@ function SignUpWithEmail() {
             />
             <InputError inputError={inputErrors} inputName='email'/>
           </div>
-          <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
-            Continue
-          </Button>
+          <Link href="/auth/signup">
+            <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
+              Continue
+            </Button>
+          </Link>
         </form>
 
         <div className="mt-8">
           <p className="text-center text-gray-200 font-manropeL">
             Already have an account?{' '}
-            <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+            <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
               Sign in
             </Link>
           </p>
