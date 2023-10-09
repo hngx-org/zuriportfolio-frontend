@@ -127,48 +127,51 @@ const History: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="border border-gray-300 rounded-lg overflow-x-auto">
-          <table className="w-full border-collapse table-fixed">
+        <div className=" border-gray-300 rounded-lg overflow-clip">
+          <table className="min-w-full border-collapse">
             <thead>
-              <tr className="bg-brand-green-shade50 text-white-100">
-                <th className="border border-gray-300 py-2 px-4 text-left">Assessment Taken</th>
-                <th className="border border-gray-300 py-2 px-4 text-left">Date</th>
-                <th className="border border-gray-300 py-2 px-4 text-left">Badge Level</th>
-                <th className="border border-gray-300 py-2 px-4 text-left">Score</th>
-                <th className="border border-gray-300 py-2 px-4 text-left">Actions</th>
+              <tr className="bg-brand-green-shade50 text-white-100 w-full ">
+                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">Assessment Taken</th>
+                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">Badge Level</th>
+                <th scope="col" className="border w-fit hidden sm:visible border-gray-300 py-2 px-4 text-left ">Date</th>
+                <th scope="col" className="border w-fit border-gray-300 hidden sm:visible py-2 px-4 text-left ">Score</th>
+                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left hidden sm:visible ">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredAssessments.map((assessment) => (
                 <React.Fragment key={assessment.id}>
-                  <tr className="bg-white">
+                  <tr className="bg-white border ">
                     <td
-                      className="border border-l-[0] border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer"
+                      className="border-r whitespace-nowrap  border-l-[0] border-b-0 border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer"
                       onClick={() => toggleExpand(assessment.id)}
                     >
                       <FaClipboardList className="text-green-200 text-[2em] " />
                       {assessment.assessment}
                     </td>
-                    <td className="border border-gray-300 py-2 px-4">{formatDate(assessment.date)}</td>
-                    <td className="border border-gray-300 py-2 px-4">
+                    <td className="whitespace-nowrap border-r border-b-0 border-gray-300 py-2 px-4">
                       {assessment.badgeName === 'Beginner' && (
                         <span className="flex items-center">
-                          <FaUser className="mr-1 text-blue-500" /> Beginner
+                          {/* <FaUser className="mr-1 text-blue-500" />  */}
+                          Beginner
                         </span>
                       )}
                       {assessment.badgeName === 'Intermediate' && (
                         <span className="flex items-center">
-                          <FaUserTie className="mr-1 text-green-200" /> Intermediate
+                          {/* <FaUserTie className="mr-1 text-green-200" /> */}
+                           Intermediate
                         </span>
                       )}
                       {assessment.badgeName === 'Expert' && (
                         <span className="flex items-center">
-                          <FaStar className="mr-1 text-[#f8eb3b]" /> Expert
+                          {/* <FaStar className="mr-1 text-[#f8eb3b]" /> */}
+                           Expert
                         </span>
                       )}
                     </td>
-                    <td className="border border-gray-300 py-2 px-4">{assessment.score}/100</td>
-                    <td className="border border-gray-300 py-2 px-4">
+                    <td className="whitespace-nowrap border-r hidden sm:visible border-gray-300 border-b-0 py-2 px-4">{formatDate(assessment.date)}</td>
+                    <td className="whitespace-nowrap border-r hidden sm:visible border-b-0 border-gray-300 py-2 px-4">{assessment.score}/100</td>
+                    <td className="whitespace-nowrap hidden sm:visible border border-b-0 border-gray-300 py-2 px-4">
                       <a
                         href={assessment.downloadLink}
                         target="_blank"
@@ -180,13 +183,21 @@ const History: React.FC = () => {
                     </td>
                   </tr>
                   {expandedAssessment === assessment.id && (
-                    <tr className="bg-white">
-                      <td colSpan={5} className="border border-gray-300 p-4">
-                        {/* Additional Details Here */}
-                        {/* Example:
-                          <div>Date: {formatDate(assessment.date)}</div>
-                          <div>Score: {assessment.score}/100</div>
-                        */}
+                    <tr className=" w-full col-span-2 p-4" aria-colspan={2}>
+                      <td  className=" p-4  gap-4 " colSpan={2}>
+                        
+                          <div className='p-2'>Date: {formatDate(assessment.date)}</div>
+                          <div className='p-2'>Score: {assessment.score}/100</div>
+                          
+                      <a
+                        href={assessment.downloadLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center p-2 text-brand-green-primary hover:text-brand-green-hover"
+                      >
+                        <FaDownload className="mr-1" /> Download
+                      </a>
+                    
                       </td>
                     </tr>
                   )}
