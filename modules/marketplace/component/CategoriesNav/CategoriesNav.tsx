@@ -26,7 +26,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
 
   return (
     <div className=" font-ppReg lg:pt-5  px-4">
-      <div className="max-w-[1240px] absolute  z-40 bg-white-100 right-0 left-0   mx-auto bg-whte-100 lg:hidden text-sm xl:text-base">
+      <div className="max-w-[1240px] absolute  z-30 bg-white-100 right-0 left-0   mx-auto bg-whte-100 lg:hidden text-sm xl:text-base">
         <aside className="flex justify-between py-5 px-4  ">
           <h3 className="text-xl">All Categories</h3>
           <Image
@@ -44,7 +44,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
           ))}
         </ul>
       </div>
-      <ul className="hidden whitespace-nowrap lg:flex gap-5 xl:gap-8 py-5   xl:mb-[52px] relative max-w-[1240px] mx-auto z-50 text-sm xl:text-base">
+      <ul className="hidden whitespace-nowrap lg:flex gap-5 xl:gap-8 py-5   xl:mb-[52px] relative max-w-[1240px] mx-auto z-30 text-sm xl:text-base">
         <li
           className={`${allCatActive ? 'text-brand-green-shade50' : ''}`}
           onClick={() => {
@@ -67,7 +67,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
             <div
               className={`border-[2px] border-slate-50 flex flex-col gap-3 ${
                 popupClass ? 'visible opacity-100' : 'invisible opacity-0'
-              } text-start rounded-lg absolute transition-all duration-500 w-[286px] z-50 translate-y-4 -translate-x-1/4 bg-white-100`}
+              } text-start rounded-lg absolute transition-all duration-500 w-[286px] z-30 translate-y-4 -translate-x-1/4 bg-white-100`}
             >
               {[
                 'Writing & Copywriting',
