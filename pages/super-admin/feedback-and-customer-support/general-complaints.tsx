@@ -68,7 +68,7 @@ export default function GeneralComplaints() {
     <>
       <Nav />
       <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-5/6 flex justify-center items-start flex-col">
+        <div className="w-11/12 flex justify-center items-start flex-col">
           {/* complaints overview */}
           <div className="w-full flex flex-col items-start justify-between h-42 ">
             <h1 className="font-manropeL text-2xl mb-2.5 mt-2.5  font-semibold">Complaints Overview</h1>
@@ -342,9 +342,9 @@ export default function GeneralComplaints() {
                   <p className=" w-36 font-manropeL flex items-center justify-center font-medium text-base text-slate-500  min-w-[120px]">
                     Status
                   </p>
-                  <div className="action w-20 cursor-pointer flex items-center justify-center min-w-max font-manropeL font-medium text-base text-slate-500 ">
+                  <p className=" flex items-center justify-center font-manropeL min-w-[80px] font-medium text-base text-slate-500 ">
                     Action
-                  </div>
+                  </p>
                 </div>
               </div>
               {searchedItem
@@ -376,7 +376,7 @@ export default function GeneralComplaints() {
                             </Link>
                           </div>
                           <div className="description w-40  min-w-[120px] flex items-center justify-center">
-                            <p className="font-manropeL font-medium text-base text-slate-500">
+                            <p className="font-manropeL font-medium max-md:text-xs text-base text-slate-500">
                               {complains.complaintDescription}
                             </p>
                           </div>
@@ -493,7 +493,7 @@ export default function GeneralComplaints() {
                           </Link>
                         </div>
                         <div className="description w-40  min-w-[120px] flex items-center justify-center">
-                          <p className="font-manropeL font-medium text-base text-slate-500">
+                          <p className="font-manropeL font-medium text-base max-md:text-xs text-slate-500">
                             {complains.complaintDescription}
                           </p>
                         </div>
