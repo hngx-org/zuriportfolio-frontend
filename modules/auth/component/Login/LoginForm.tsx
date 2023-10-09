@@ -48,19 +48,28 @@ function LoginForm() {
               />
             </div>
 
-            <Link href={'/auth/2fa'}>
+            <Link href="/auth/forgot-password">
               <p className=" font-manrope text-brand-green-primary text-right  text-[1.18313rem] mt-[0.62rem]">
                 Forgot Password ?
               </p>
             </Link>
 
-            <Button intent={'primary'} type="submit" size={'md'} className="w-full rounded-lg mt-[1rem]">
+            <Button
+              href="/auth/2fa"
+              intent={'primary'}
+              type="submit"
+              size={'md'}
+              className="w-full rounded-lg mt-[1rem]"
+            >
               Continue
             </Button>
           </form>
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-              Already have an account? <span className="text-brand-green-primary">Sign in</span>
+              Already have an account?{' '}
+              <Link href="/auth/login">
+                <span className="text-brand-green-primary">Sign in</span>
+              </Link>
             </p>
           </div>
 
