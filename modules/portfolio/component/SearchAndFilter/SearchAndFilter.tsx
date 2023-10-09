@@ -177,7 +177,6 @@ const SearchAndFilter: React.FC = () => {
           </div>
         )}
       </div>
-
       {showFilterComponent && <FilterComponent />}
     </div>
   );
