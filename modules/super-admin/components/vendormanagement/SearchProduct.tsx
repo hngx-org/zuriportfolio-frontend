@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1, Sort } from 'iconsax-react';
 import { searchProp } from '../../../../@types';
-
 function SearchProduct({ handleSearchChange }: searchProp) {
   const [searchVal, setSearchVal] = useState('');
-
   useEffect(() => {
     handleSearchChange(searchVal);
   }, [searchVal]);
@@ -22,9 +20,9 @@ function SearchProduct({ handleSearchChange }: searchProp) {
         intent={'default'}
         disabled={false}
         className=""
+        placeHolder="Search"
       />
     </div>
   );
 }
-
 export default SearchProduct;

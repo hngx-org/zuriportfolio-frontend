@@ -2,7 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import { ArrowUp } from 'iconsax-react';
 import { BannedDeletedVendorsProps } from '../../../../@types';
-
 const VendorsStat = ({ showBanned, setShowBanned, showDeleted, setShowDeleted }: BannedDeletedVendorsProps) => {
   return (
     <>
@@ -20,7 +19,6 @@ const VendorsStat = ({ showBanned, setShowBanned, showDeleted, setShowDeleted }:
             </div>
           </div>
         </div>
-
         <div className=" p-4 border-solid rounded-md border-white-115 border-2">
           <div className="flex items-center justify-between text-brand-green-primary">
             <p className="text-lg">Banned Vendors</p>
@@ -36,7 +34,6 @@ const VendorsStat = ({ showBanned, setShowBanned, showDeleted, setShowDeleted }:
             </button>
           </div>
         </div>
-
         <div className=" p-4 border-solid rounded-md border-white-115 border-2">
           <div className="flex items-center justify-between text-brand-green-primary">
             <p className="text-lg">Deleted Vendors</p>
@@ -56,5 +53,4 @@ const VendorsStat = ({ showBanned, setShowBanned, showDeleted, setShowDeleted }:
     </>
   );
 };
-
 export default VendorsStat;
