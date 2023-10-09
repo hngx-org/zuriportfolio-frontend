@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Pagination from '../../../../pages/view-components/super-admin/pagination';
+import Pagination from '../../../pages/view-components/super-admin/pagination';
 
 const TopSellingProducts: React.FC = () => {
   const CardDataOne: {
@@ -136,7 +136,7 @@ const TopSellingProducts: React.FC = () => {
               {CardDataOne.map((last) => (
                 <>
                   <div
-                    className="flex items-center justify-between px-[1.5rem] py-[1rem] border-b-[0.0625rem] border-[#EAECF0] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0"
+                    className="flex items-center justify-between px-[1.5rem] py-[1rem] border-b-[0.0625rem] border-[#EAECF0] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[768px]:w-fit"
                     key={last.id}
                   >
                     <div className="flex items-center gap-[1.5rem] max-w-[18.9rem] max-[1000px]:max-w-[16.3rem] w-full max-[778px]:min-w-[18.9rem] max-[500px]:min-w-[17.5rem]">
