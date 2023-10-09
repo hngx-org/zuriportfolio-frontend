@@ -8,6 +8,7 @@ import { Eye, EyeSlash } from 'iconsax-react';
 function ResetPassword() {
   const [showPassword, setShowPassword] = useState([false, false]); // an array of states to manage the visibility of each password (new password, confirm password).
   const [passwordChanged, setPasswordChanged] = useState(false); // state to manage the success of passsword reset
+
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
       <div className="">

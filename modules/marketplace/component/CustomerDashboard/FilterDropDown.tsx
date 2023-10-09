@@ -31,9 +31,9 @@ const FilterDropDown = ({ onChooseFilter }: { onChooseFilter: (filter: string) =
   return (
     <div className="w-max">
       <Menu>
-        <Menu.Button as={React.Fragment} >
+        <Menu.Button as={React.Fragment}>
           <Button className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-max sm:w-[6.25rem] rounded text-black-600 bg-white-100 hover:bg-white-100 active:bg-white-100 text-[0.88rem] ">
-            <Sort size="16" /> <span className='hidden sm:block'>Filters</span>
+            <Sort size="16" /> <span className="hidden sm:block">Filters</span>
           </Button>
         </Menu.Button>
         <Transition
@@ -49,7 +49,9 @@ const FilterDropDown = ({ onChooseFilter }: { onChooseFilter: (filter: string) =
               <Menu.Item key={item.id}>
                 {({ active }) => (
                   <span
-                    className={`block cursor-pointer px-4 py-2 capitalize ${active ? 'bg-white-200 text-white' : 'text-gray-700'}`}
+                    className={`block cursor-pointer px-4 py-2 capitalize ${
+                      active ? 'bg-white-200 text-white' : 'text-gray-700'
+                    }`}
                     onClick={() => onChooseFilter(item.name)}
                   >
                     {item.name}
