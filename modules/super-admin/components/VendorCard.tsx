@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 function VendorCard({ vendorname, pic, name, price }: VendorCardProps): React.ReactElement {
   return (
-    <div className="rounded-md p-2 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL max-w-[280px]">
+    <div className="rounded-md p-1.5 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL">
       <Image className="mb-4 rounded-lg max-h-[100%] min-w-[100%]" src={pic} alt="coursepic" />
       <div className="flex flex-col w-[230px] max-w-[100%] content-start">
         <p className="text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%] text-green-850">

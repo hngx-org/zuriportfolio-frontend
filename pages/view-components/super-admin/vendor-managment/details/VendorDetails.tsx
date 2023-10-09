@@ -321,7 +321,7 @@ function VendorDetails(): React.ReactElement {
   }
 
   return (
-    <div className="mt-2 px-6 w-[100%] overflow-x-hidden">
+    <div className="mt-2 md:px-5 lg:px-5 sm:px-5 px-1 w-[100%] overflow-x-hidden">
       <Link href={'/super-admin/vendor-management/vendor-details'}>
         <div className="flex items-center mb-4">
           <ArrowLeft size="18" />
@@ -329,7 +329,7 @@ function VendorDetails(): React.ReactElement {
         </div>
       </Link>
       <hr className="border-custom-color1" />
-      <div className="mt-4 mb-10  lg:grid-cols-4 md:grid-cols-3 px-2 grid grid-cols-2 gap-5">
+      <div className="mt-4 mb-10  lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-5 lg:gap5">
         {records.map((card) => {
           const { productAuthor, productImage, productName, productPrice, id } = card;
           return (
