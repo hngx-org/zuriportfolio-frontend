@@ -315,14 +315,7 @@ export default function AllCategoriesPage() {
     
   ];
 
-  const labelTExt = [
-    '+5,000,000',
-    '+2,050,000',
-    '+550,000',
-    '+150,000',
-    '+50,000',
-    '+25,000',
-  ];
+  const labelTExt = ['+5,000,000', '+2,050,000', '+550,000', '+150,000', '+50,000', '+25,000'];
 
   // Function to group products into rows
   const groupProductsIntoRows = (products: ProductData[], itemsPerRow: number) => {

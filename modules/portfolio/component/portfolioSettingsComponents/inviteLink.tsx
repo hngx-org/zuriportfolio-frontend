@@ -56,8 +56,8 @@ export default function InviteLink() {
           share
         </button>
       </div>
-      <Modal isOpen={openModal} closeModal={toggleModal} size={'sm'} isCloseIconPresent={false}>
-        <div className="block  font-manropeB space-y-4 p-6">
+      <Modal isOpen={openModal} closeModal={toggleModal} size={'lg'} isCloseIconPresent={false}>
+        <div className="block  font-manropeB space-y-4  p-6">
           <div className="w-full flex justify-between items-center text-brand-green-primary text-md">
             <p className=" font-semibold">share</p>
             <span onClick={toggleModal}>
