@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import MultiCalender from './datePicker';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Modal from '@ui/Modal';
 
@@ -15,11 +16,24 @@ const ReportRedirect: React.FC = () => {
     }, 2000);
   };
 
+  const router = useRouter();
+
+  const redirectToAnotherPage = () => {
+    router.push('/super-admin/analytics-and-reporting');
+  };
+
   return (
     <>
       <div className="mx-auto max-[1300px]:mx-0 max-[1300px]:px-[1rem] max-w-[77.5rem] max-[768px]:px-[1.5rem] w-full max-[500px]:px-[1.5rem]">
-        <div className="flex gap-[1rem] mt-[3.37rem]">
-          <Image src="/assets/images/arrow-back.svg" width={20} height={20} alt="Go back" />
+        <div className="flex gap-[1rem] mt-[3.37rem] max-[500px]:mt-[1.5rem]">
+          <Image
+            onClick={redirectToAnotherPage}
+            src="/assets/images/reports/arrow-back.svg"
+            width={20}
+            height={20}
+            alt="Go back"
+            className="cursor-pointer"
+          />
           <p className="text-[1.125rem] text-[#101828] font-medium leading-[1.75rem] font-manropeL">Report</p>
         </div>
         <div className="flex gap-[1.5rem] items-center max-[768px]:flex-col max-[768px]:items-stretch mt-[1.25rem] max-[834px]:gap-0 max-[768px]:gap-[1.5rem]">
@@ -29,7 +43,7 @@ const ReportRedirect: React.FC = () => {
           <div>
             <MultiCalender />
           </div>
-          <div className="flex gap-[1.5rem] max-[375px]:justify-between max-[834px]:pl-[1.5rem] max-[834px]:gap-[1.5rem] max-[800px]:pl-[1rem] max-[800px]:gap-[1rem] max-[768px]:gap-[1.5rem] max-[768px]:pl-0">
+          <div className="flex gap-[1.5rem] max-[834px]:pl-[1.5rem] max-[834px]:gap-[1.5rem] max-[800px]:pl-[1rem] max-[800px]:gap-[1rem] max-[768px]:gap-[1.5rem] max-[768px]:pl-0">
             <div className="w-[9.6875rem] p-[0.75rem] flex justify-center items-center rounded-[0.5rem] bg-[#009254] tracking-[0.005rem] text-[1rem] leading-[1.5rem] font-manropeL text-[#FFF] font-normal max-[850px]:w-[8.375rem] max-[500px]:py-[0.5rem] max-[375px]:text-[0.875rem]">
               Get Report
             </div>

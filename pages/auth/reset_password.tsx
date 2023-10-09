@@ -8,6 +8,7 @@ import { Eye, EyeSlash } from 'iconsax-react';
 function ResetPassword() {
   const [showPassword, setShowPassword] = useState([false, false]); // an array of states to manage the visibility of each password (new password, confirm password).
   const [passwordChanged, setPasswordChanged] = useState(false); // state to manage the success of passsword reset
+
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
       <div className="">
@@ -20,10 +21,7 @@ function ResetPassword() {
                 Enter your new password below.
               </p>
             </div>
-            <form
-              className="flex flex-col gap-4 lg:mb-16 2xl:mb-0"
-              onSubmit={(e) => (e.preventDefault(), setPasswordChanged(true))}
-            >
+            <form className="flex flex-col gap-4" onSubmit={(e) => (e.preventDefault(), setPasswordChanged(true))}>
               <div className="flex flex-col gap-3">
                 <label htmlFor="reset_new_password" className="font-manropeB text-base font-semibold text-slate-300">
                   New password
@@ -67,7 +65,10 @@ function ResetPassword() {
                   required
                 />
               </div>
-              <Button className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-5 font-manropeB text-base text-white-100">
+              <Button
+                className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-5 font-manropeB text-base text-white-100"
+                type="submit"
+              >
                 Change password
               </Button>
             </form>
@@ -86,7 +87,10 @@ function ResetPassword() {
             <p className="font-manropeL lg:font-manropeB text-sm lg:text-[1.375rem] text-custom-color20 w-[80%] md:w-[40%] lg:w-full">
               Your password has been successfully changed
             </p>
-            <Button className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-8 font-manropeB text-base text-white-100">
+            <Button
+              href="/auth/login" // redirect the user to the login page after successful password reset
+              className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-8 font-manropeB text-base text-white-100"
+            >
               Login to account
             </Button>
           </div>
