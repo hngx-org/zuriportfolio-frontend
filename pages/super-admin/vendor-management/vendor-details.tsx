@@ -87,11 +87,13 @@ function VendorDetails() {
             </div>
           </div>
           <div className="bio-text mt-3 ml-5 lg:ml-0">
-            <h1 className="w-full">A UX Designer loves to make UX and the career easier for others, no fancy stuff.</h1>
+            <h1 className="w-full mb-2">
+              A UX Designer loves to make UX and the career easier for others, no fancy stuff.
+            </h1>
           </div>
           <div className="bio">
-            <div className="rating flex items-center justify-between mr-3">
-              <aside className="left flex items-center">
+            <div className="rating flex items-center justify-between mr-3 mb-3">
+              <aside className="left flex items-center ">
                 <p className="ml-5 lg:ml-0">3.3/5</p>
                 <Image src={star} alt="star"></Image>
                 <Image src={star} alt="star"></Image>
@@ -102,7 +104,7 @@ function VendorDetails() {
               <p className="text-xs mr-5 lg:mr-0 sm:ml-auto">{date ? date : 'Date Added 08-01-23'}</p>
             </div>
 
-            <div className="status flex items-center justify-between">
+            <div className="status flex items-center justify-between mb-3">
               <p className="ml-5 lg:ml-0">(50 Customers)</p>
               {statusText ? statusText : <Image src={active} alt="active" className="mr-5 lg:mr-0"></Image>}
             </div>
@@ -139,7 +141,7 @@ function VendorDetails() {
       <section className=" mt-10 font-manropeL pb-5">
         <h1 className="ml-10 text-xl font-bold mt-6">Products by Gustavo Silas</h1>
         <div className="products flex items-center justify-evenly mt-6">
-          <div className="product border border-gray-300 p-3 rounded-md cursor-pointer">
+          <div className="product border border-gray-300 p-3 rounded-md cursor-pointer m-3">
             <Image src={product_one} alt="product"></Image>
             <p>Webinar and Course Slide Template</p>
             <p className="font-bold">$100</p>
@@ -153,7 +155,7 @@ function VendorDetails() {
               <p>(3)</p>
             </aside>
           </div>
-          <div className="product border border-gray-300 p-3 rounded-md cursor-pointer">
+          <div className="product border border-gray-300 p-3 rounded-md cursor-pointer m-3">
             <Image src={product_two} alt="product"></Image>
             <p>Webinar and Course Slide Template</p>
             <p className="font-bold">$100</p>
@@ -167,7 +169,7 @@ function VendorDetails() {
               <p>(3)</p>
             </aside>
           </div>
-          <div className="product border border-gray-300 p-3 rounded-md hidden md:block cursor-pointer">
+          <div className="product border border-gray-300 p-3 rounded-md hidden md:block cursor-pointer m-3">
             <Image src={product_one} alt="product"></Image>
             <p>Webinar and Course Slide Template</p>
             <p className="font-bold">$100</p>
@@ -181,7 +183,7 @@ function VendorDetails() {
               <p>(3)</p>
             </aside>
           </div>
-          <div className="product border border-gray-300 p-3 rounded-md hidden lg:block cursor-pointer">
+          <div className="product border border-gray-300 p-3 rounded-md hidden lg:block cursor-pointer m-3">
             <Image src={product_two} alt="product"></Image>
             <p>Webinar and Course Slide Template</p>
             <p className="font-bold">$100</p>
@@ -292,7 +294,7 @@ function VendorDetails() {
             isLoading={false}
             spinnerColor="#000"
             onClick={closeDeleteModal}
-            className="p-3 mb-5 w-full text-green-500 lg:ml-0 ml-auto rounded-md bg-transparent border border-green-500"
+            className="p-3 mb-5 w-full text-green-500 lg:ml-0 ml-auto rounded-md bg-transparent border border-green-500 hover:text-white-100"
           >
             Cancel
           </Button>
