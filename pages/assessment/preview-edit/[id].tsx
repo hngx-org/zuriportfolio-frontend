@@ -4,6 +4,7 @@ import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import React, { useState } from 'react';
 import EditLayout from '@modules/assessment/component/editLayout';
+import ScoreDropdown from '@modules/assessment/component/scoreDropdown';
 const EditAssesment = () => {
   const [active, setActive] = useState<null | string>('button1');
 
@@ -70,7 +71,7 @@ const EditAssesment = () => {
               </div>
             </>
           ) : (
-            <p>Scoring...</p>
+            <ScoreDropdown />
           )}
         </div>
       </main>
