@@ -10,13 +10,13 @@ import Cancel from '../../../../public/assets/recentlyviewed/cancel.svg';
 import styles from './productCardWrapper/product-card-wrapper.module.css';
 import AllCategorySlider from '../AllCategorySlider';
 import CategoriesNav from '../CategoriesNav/CategoriesNav';
-import { handPicked, limitedOffers, recentlyViewed, routeLinks } from '../categories/data/landingpage';
+import { categoriesMenu, handPicked, limitedOffers, recentlyViewed,  } from '../categories/data/landingpage';
 
 function LandingPage() {
   return (
     <Fragment>
       <CategoriesNav
-        navItems={routeLinks}
+        navItems={categoriesMenu}
       />
 
       <div className="py-6 px-4 overflow-hidden w-full">

@@ -240,7 +240,7 @@ export const handPicked: ProductCardProps[] = [
     'wishlist'
   ]
   
-  const oldList= [
+  export const categoriesMenu = [
     ' Design & Graphics',
     ' Development & Programming',
     ' Content Creation',
