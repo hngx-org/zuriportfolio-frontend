@@ -86,7 +86,10 @@ function ResetPassword() {
             <p className="font-manropeL lg:font-manropeB text-sm lg:text-[1.375rem] text-custom-color20 w-[80%] md:w-[40%] lg:w-full">
               Your password has been successfully changed
             </p>
-            <Button className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-8 font-manropeB text-base text-white-100">
+            <Button
+              href="/auth/login"
+              className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-8 font-manropeB text-base text-white-100"
+            >
               Login to account
             </Button>
           </div>
