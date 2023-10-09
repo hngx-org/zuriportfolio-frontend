@@ -349,6 +349,13 @@ export interface filterProp {
   handleFilter: (status: string) => void;
 }
 
+export interface ProductInfo {
+  productName: string;
+  vendor: string;
+  id: number;
+  dateAdded: string;
+  status: string;
+}
 export type SectionModalProps = {
   openButtonText: string;
   heading: string;
