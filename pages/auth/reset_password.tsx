@@ -4,13 +4,10 @@ import AuthLayout from '../../modules/auth/component/AuthLayout';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Eye, EyeSlash } from 'iconsax-react';
-import { useRouter } from 'next/navigation';
 
 function ResetPassword() {
   const [showPassword, setShowPassword] = useState([false, false]); // an array of states to manage the visibility of each password (new password, confirm password).
   const [passwordChanged, setPasswordChanged] = useState(false); // state to manage the success of passsword reset
-
-  const router = useRouter(); // create an instance of useRouter hook and assigns it to the variable `router`
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
@@ -91,8 +88,8 @@ function ResetPassword() {
               Your password has been successfully changed
             </p>
             <Button
+              href="/auth/login" // redirect the user to the login page after successful password reset
               className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-8 font-manropeB text-base text-white-100"
-              onClick={() => router.push('/dashboard')} // redirect the user to the dashboard page
             >
               Login to account
             </Button>
