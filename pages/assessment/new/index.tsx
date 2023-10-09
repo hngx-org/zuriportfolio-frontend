@@ -3,6 +3,7 @@ import Button from '@ui/Button';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Edithead from '@modules/assessment/component/edittitleHead';
+import CreateTemplate from '@modules/assessment/component/createnewassessments';
 const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
 
@@ -64,11 +65,11 @@ const CreateAssessment = () => {
             <>
               <Edithead />
               <div className="pt-4">
-                <p>New</p>
+                <CreateTemplate />
               </div>
             </>
           ) : (
-            <p>Hell</p>
+            <div>Score</div>
           )}
         </div>
       </main>
