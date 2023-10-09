@@ -6,6 +6,7 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { DATA } from '@modules/assessment/mock-data';
 import Link from 'next/link';
 import Button from '@ui/Button';
+import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 
 const Questions: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>('');
@@ -39,7 +40,9 @@ const Questions: React.FC = () => {
         />
         <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
           <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary">
-            <span className="text-white-100 text-2xl font-bold">05:00</span>
+            <span className="text-white-100 text-2xl font-bold">
+              <CountdownTimer minutes={2} seconds={0} />
+            </span>
             <span>
               <Timer1 color="#fff" />
             </span>
