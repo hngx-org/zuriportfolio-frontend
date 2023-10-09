@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import useDisclosure from '../../../hooks/useDisclosure';
+import { useState } from 'react';
 import Modal from '@ui/Modal';
 import { Add, CloseSquare } from 'iconsax-react';
 import { Input } from '@ui/Input';
@@ -7,8 +6,12 @@ import Button from '@ui/Button';
 import { WorkExperience } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
-const WorkExperienceSection = () => {
-  const { isOpen, onClose, onOpen } = useDisclosure();
+type WorkExperienceModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
+
+const WorkExperienceSection: React.FC<WorkExperienceModalProps> = ({ isOpen, onClose }) => {
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[]>([]);
   const [role, setRole] = useState('');
   const [company, setCompany] = useState('');
@@ -432,9 +435,6 @@ const WorkExperienceSection = () => {
           </>
         </div>
       </Modal>
-      <Button onClick={onOpen} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        Open Modal
-      </Button>
     </>
   );
 };
