@@ -1,6 +1,7 @@
 import React from 'react';
 import ProductCardWrapper from '@modules/marketplace/component/landingpage/productCardWrapper/product-card-wrapper';
 import { ProductCardProps } from '../../../../@types';
+import Breadcrumbs from '../../../../components/Breadcrumbs';
 
 const handPicked: ProductCardProps[] = [
   {
@@ -52,6 +53,7 @@ const handPicked: ProductCardProps[] = [
 const CategoriesPage = () => {
   return (
     <>
+
       <ProductCardWrapper title="Graphics Design Template" productsList={handPicked} />
       <ProductCardWrapper title="Illustration" productsList={handPicked} />
       <ProductCardWrapper title="Logo Design" productsList={handPicked} />
