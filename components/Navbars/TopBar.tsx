@@ -369,7 +369,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
       </nav>
-      <div className="mb-24"></div>
+      <div className="mb-32"></div>
     </>
   );
 
