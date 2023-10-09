@@ -5,6 +5,7 @@ import useDisclosure from '../../../hooks/useDisclosure';
 import WorkExperienceSection from './work-experience-modal';
 import PortfolioAbout from './about/about';
 import PortfolioReference from './reference/reference';
+import EducationSection from './Education/education-modal';
 
 const LandingPageFilled: React.FC = () => {
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
@@ -401,7 +402,13 @@ const LandingPageFilled: React.FC = () => {
           <div className="flex flex-col mt-5 gap-6 w-1/2 items-end">
             <div className="flex flex-row mb-5 gap-6 items-start">
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                <a href="#">Edit</a>
+                <button
+                  className="hover:text-brand-green-hover outline-none border-none bg-transparent"
+                  onClick={onOpen}
+                  type="button"
+                >
+                  Edit
+                </button>
               </div>
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
                 <a href="#">Delete</a>
@@ -757,6 +764,8 @@ const LandingPageFilled: React.FC = () => {
         <SkillsModal handleCloseSkillModal={handleCloseSkillModal} isSkillModalOpen={isSkillModalOpen} />
       )}
       <>{isOpen && <WorkExperienceSection isOpen={isOpen} onClose={onClose} />}</>
+      <>{isOpen && <EducationSection isOpen={isOpen} onClose={onClose} />}</>
+
       <>
         {isAboutModalOpen && (
           <PortfolioAbout

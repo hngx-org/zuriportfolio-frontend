@@ -7,7 +7,12 @@ import EducationSection from '../../modules/portfolio/component/Education/educat
 function EducationPage() {
   return (
     <EducationProvider>
-      <EducationSection />
+      <EducationSection
+        isOpen={false}
+        onClose={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
     </EducationProvider>
   );
 }

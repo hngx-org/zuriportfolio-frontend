@@ -7,6 +7,10 @@ import { CloseSquare } from 'iconsax-react';
 import { Input, SelectInput } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
+type educationModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 interface EducationData {
   degree: string;
   fieldOfStudy: string;
@@ -15,8 +19,8 @@ interface EducationData {
   dateFrom: string;
   dateTo: string;
 }
-function EducationSection() {
-  const { isOpen, onClose, onOpen } = useDisclosure();
+
+const EducationSection = ({ isOpen, onClose }: educationModalProps) => {
   const { educationList, addEducation, deleteEducation } = useEducation();
   const [educationData, setEducationData] = useState<EducationData>({
     degree: '',
@@ -31,7 +35,6 @@ function EducationSection() {
   const [editMode, setEditMode] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [formChanged, setFormChanged] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const initialEducationData: EducationData = {
     degree: '',
     fieldOfStudy: '',
@@ -111,24 +114,12 @@ function EducationSection() {
 
   return (
     <>
-      <Button onClick={() => setShowModal((p) => !p)}>openModal</Button>
-      <Modal
-        closeOnOverlayClick
-        isOpen={showModal}
-        closeModal={() => setShowModal(false)}
-        isCloseIconPresent={false}
-        size="sm"
-      >
+      {/* <Button onClick={() => setShowModal((p) => !p)}>openModal</Button> */}
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
         <div className="education-section p-4 w-full">
           <div className="flex justify-between items-center border-b-4 border-green-600 mb-11 ">
             <h2 className="text-3xl font-[24px] font-Manrope font-semibold pb-2">Education</h2>
-            <CloseSquare
-              size="32"
-              color="#009254"
-              variant="Bold"
-              onClick={() => setShowModal(false)}
-              className="cursor-pointer"
-            />
+            <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
           </div>
           {showForm ? (
             <div className="w-full">
@@ -310,6 +301,6 @@ function EducationSection() {
       </Modal>
     </>
   );
-}
+};
 
 export default EducationSection;
