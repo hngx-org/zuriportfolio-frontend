@@ -1,43 +1,30 @@
-import { SelectInput } from '@ui/Input';
-import { Sort } from 'iconsax-react';
 import React, { useEffect, useState } from 'react';
 import { filterProp } from '../../../../@types';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 const FilterProduct = ({ handleFilter }: filterProp) => {
   const [filterStatus, setFilterStatus] = useState('all');
-  const [searchVal, setSearchVal] = useState('');
 
   useEffect(() => {
     handleFilter(filterStatus);
   }, [filterStatus]);
   return (
     <div>
-      <SelectInput
-        leftIcon={<Sort />}
-        inputSize={'sm'}
-        options={[
-          {
-            value: 'all',
-            label: 'Filters',
-          },
-          {
-            value: 'newest',
-            label: 'Newest to oldest',
-          },
-          {
-            value: 'oldest',
-            label: 'Oldest to newest',
-          },
-        ]}
-        disabled={false}
-        intent="default"
-        onChange={(e) => {
-          setFilterStatus(e.target.value);
-          handleFilter(e.target.value);
-          console.log(e.target.value);
+      <Select
+        onValueChange={(value) => {
+          setFilterStatus(value);
+          handleFilter(value);
+          console.log(value);
         }}
-        className="md:w-[150px] w-[100px]"
-      />
+      >
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Filter" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="oldest">Oldest Products</SelectItem>
+          <SelectItem value="newest">Newest Products</SelectItem>
+        </SelectContent>
+      </Select>
     </div>
   );
 };
