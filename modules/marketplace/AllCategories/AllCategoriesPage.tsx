@@ -309,14 +309,7 @@ export default function AllCategoriesPage() {
     'Photography',
   ];
 
-  const labelTExt = [
-    '+5,000,000',
-    '+2,050,000',
-    '+550,000',
-    '+150,000',
-    '+50,000',
-    '+25,000',
-  ];
+  const labelTExt = ['+5,000,000', '+2,050,000', '+550,000', '+150,000', '+50,000', '+25,000'];
 
   // Function to group products into rows
   const groupProductsIntoRows = (products: ProductData[], itemsPerRow: number) => {
@@ -333,7 +326,7 @@ export default function AllCategoriesPage() {
   return (
     <div className="category">
       {productRows.map((row, index) => (
-         <div key={index} className="">
+        <div key={index} className="">
           <ProductCardWrapper productsList={row} title={paragraphTexts[index]} />
         </div>
       ))}

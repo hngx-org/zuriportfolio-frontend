@@ -45,7 +45,9 @@ export default function CartItem({
             onClick={removeItem}
             className="bg-[#fff] text-gray-300 hover:text-[#fff] font-manropeB md:mr-0 flex border gap-1 items-center justify-center shadow-md w-[100px] h-[40px] border-[#d5dbdd] rounded-md cursor-pointer"
             leftIcon={<Image src="/assets/icons/trash.svg" width={20} height={20} alt="star-fill"></Image>}
-          >Remove</Button>
+          >
+            Remove
+          </Button>
         </div>
       </div>
     </>
