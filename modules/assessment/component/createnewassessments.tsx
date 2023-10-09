@@ -6,8 +6,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 const CreateTemplate = () => {
   const [mockArr, setMcokarr] = useState(new Array(1).fill(null));
   const [mockData, setMockData] = useState(new Array(1).fill(null));
-  const handleDelete = () => {};
-  const handleIncreaseLength = () => {};
+  const handleDelete = (indexToDelete: number) => {
+    const updatedData = mockData.filter((item, index) => index !== indexToDelete);
+    setMockData(updatedData);
+  };
+
+  const handleIncreaseLength = () => {
+    if (mockData.length > 0) {
+      const lastElement = mockData[mockData.length - 1];
+      const updatedData = [...mockData, lastElement];
+      setMockData(updatedData);
+    }
+  };
   return (
     <>
       <div className="flex flex-col gap-y-1">
@@ -73,9 +83,9 @@ const CreateTemplate = () => {
                         viewBox="0 0 28 29"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        // onClick={() => {
-                        //   handleDelete(index);
-                        // }}
+                        onClick={() => {
+                          handleDelete(index);
+                        }}
                         className="cursor-pointer"
                       >
                         <path
