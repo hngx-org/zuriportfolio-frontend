@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 const EditLayout = () => {
-  const { id } = useParams();
+  const router = useRouter();
+  const id = router.query.id;
+  console.log(id);
   const [mockArr, setMcokarr] = useState(new Array(4).fill(null));
 
   const handleDelete = (indexToDelete: number) => {
