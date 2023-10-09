@@ -29,8 +29,21 @@ const AnalyticsAndReportingCards = () => {
       arUp: "/assets/tsImages/arrow-up.png",
       id: 3
     },
+<<<<<<< HEAD
   ]
 
+=======
+    
+  ]
+
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+
+ 
+  
+
+  
+
+>>>>>>> origin/SUP2-5/feat/analytics-aand-reporting
   return (
     <div>
       <section className='max-w-[1270px] mx-auto mt-10 font-manropeL lg:max-w-[1100px] xl:max-w-[1270px]'>
@@ -56,7 +69,11 @@ const AnalyticsAndReportingCards = () => {
         </div>
       </section>
       <section className='max-w-[1270px] mx-auto mt-5 font-manropeL lg:max-w-[1100px] xl:max-w-[1270px]'>
+<<<<<<< HEAD
         <div className='flex overflow-x-auto over px-4 sm:grid gap-2 sm:grid-cols-3 md:grid-cols-3 no-scrollbar'>
+=======
+        <div ref={cardsContainerRef} className='flex overflow-x-auto over px-4 sm:grid gap-2 sm:grid-cols-3 md:grid-cols-3'>
+>>>>>>> origin/SUP2-5/feat/analytics-aand-reporting
           {cardDetails.map((items, index) => (
             <div key={items.id} className='px-5 border border-white-200 bg-white-100 shadow-sm rounded-lg py-6 mx-2 min-w-[300px] sm:min-w-0'>
               <div className='flex justify-between items-center'>
