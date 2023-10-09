@@ -63,7 +63,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   return (
     <>
-      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[80] isolate fixed  ">
+      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40] isolate fixed  ">
         <div className="max-w-[1240px] mx-auto flex items-center justify-between  relative gap-1">
           <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] gap-14">
             <div className="flex items-center gap-1">
