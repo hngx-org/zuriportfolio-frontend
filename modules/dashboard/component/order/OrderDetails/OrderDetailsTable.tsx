@@ -1,5 +1,6 @@
 import { OrderHistory } from '../../../../../@types';
 import React from 'react';
+import OrderDetailsRow from './OrderDetailsRow';
 const tableHeaders: {
   id: keyof OrderHistory;
   title: string;
@@ -44,12 +45,14 @@ const OrderDetailsTable: React.FC<{
     }
   };
   return (
-    <table className="w-full mb-10 hidden md:table">
+    <table className="w-full   mb-10 hidden md:table overflow-scroll">
       <thead>
         <tr className="border border-custom-color1 font-manropeL font-medium text-custom-color2 bg-custom-color3 [&>*]:px-6 [&>*]:py-3 ">
           {tableHeaders.map((header, i) => (
             <th
-              className={`${i === 0 || i === 4 ? 'text-center' : 'text-start'} whitespace-nowrap cursor-pointer`}
+              className={`${i === 0 || i === 4 ? 'text-center' : 'text-start'} ${
+                header.id === 'productName' && 'hidden lg:table-cell'
+              } whitespace-nowrap cursor-pointer`}
               key={header.id}
               onClick={() => OnCLick(header.id)}
             >
@@ -58,11 +61,11 @@ const OrderDetailsTable: React.FC<{
           ))}
         </tr>
       </thead>
-      {/* <tbody>
+      <tbody>
         {pageItem.map((order) => (
-          <OrderHistoryRow key={order.id} {...order} />
+          <OrderDetailsRow key={order.id} {...order} />
         ))}
-      </tbody> */}
+      </tbody>
     </table>
   );
 };
