@@ -69,12 +69,15 @@ export default function ProductDetails() {
   const product = staticProducts.find((p) => p.id === Number(id));
 
   if (!product) {
-    return(
+    return (
       <div className="text-center flex justify-center items-center flex-col w-full h-screen">
-        <p className='text-red-500 text-3xl pb-[2rem]'>Product Not Found</p>
-        <Link href={`/shop`} passHref className='text-base bg-green-200 rounded-lg p-4 text-white-100'> Go Back To Shop</Link>
+        <p className="text-red-500 text-3xl pb-[2rem]">Product Not Found</p>
+        <Link href={`/shop`} passHref className="text-base bg-green-200 rounded-lg p-4 text-white-100">
+          {' '}
+          Go Back To Shop
+        </Link>
       </div>
-    ) 
+    );
   }
 
   const [image, setImage] = useState(product?.image);
@@ -140,19 +143,15 @@ export default function ProductDetails() {
   }
 
   var cartItemCount = 0;
-  const handleAddToCart = function() {
-     cartItemCount = cartItemCount + 1;
-     console.log(cartItemCount);
-  }
-  
+  const handleAddToCart = function () {
+    cartItemCount = cartItemCount + 1;
+    console.log(cartItemCount);
+  };
+
   const [selectedCategory, setSelectedCategory] = useState(product.category);
   const [searchQuery, setSearchQuery] = useState('');
 
-
-  const handleCategoryChange = () => {
-
-  };
-
+  const handleCategoryChange = () => {};
 
   return (
     <>
@@ -166,7 +165,6 @@ export default function ProductDetails() {
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       />{' '}
-
       {/* Main */}
       <main className={`flex flex-col items-center lg:px-12 md:px-10 px-6 lg:pt-6 pt-4`}>
         <span className="self-start mb-[0.75rem] ml-4">
@@ -196,11 +194,17 @@ export default function ProductDetails() {
                   className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
                 />
               </div>
-              <div
-                className='absolute w-2/4 h-[65vh] left-[50%] top-32 overflow-hidden rounded-3xl hidden md:peer-hover:block'
-              >
-                <Image ref={secondRef}
-                style={secondStyle} src={image} alt={'Zoom Image'} width={500} height={500} className="w-[600%] h-[600%] object-cover" id="second"/>
+              <div className="absolute w-2/4 h-[65vh] left-[50%] top-32 overflow-hidden rounded-3xl hidden md:peer-hover:block">
+                <Image
+                  ref={secondRef}
+                  style={secondStyle}
+                  src={image}
+                  alt={'Zoom Image'}
+                  width={500}
+                  height={500}
+                  className="w-[600%] h-[600%] object-cover"
+                  id="second"
+                />
               </div>
             </div>
             <Slider updateImage={updateImage} />
