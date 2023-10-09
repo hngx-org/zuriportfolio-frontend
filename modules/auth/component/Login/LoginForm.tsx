@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -7,9 +7,15 @@ import github from '../../../../public/assets/loginPageAssets/github.svg';
 import facebook from '../../../../public/assets/loginPageAssets/facebook.svg';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
-import { Eye } from 'iconsax-react';
+import { Eye, EyeSlash } from 'iconsax-react';
+
+import InputError from '../InputError';
+import useInputError from '../../../../hooks/useInputError';
 
 function LoginForm() {
+  const [isPasswordShown, setIsPassowordShwon] = useState(false);
+  const { handleSubmit, inputErrors } = useInputError();
+
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
       <div className="md:mx-auto h-[90%]  font-manropeL">
@@ -21,7 +27,7 @@ function LoginForm() {
         </div>
 
         <div className="pt-[2.25rem]">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
@@ -32,7 +38,9 @@ function LoginForm() {
                 name="email"
                 className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
                 type="email"
+                required
               />
+              <InputError inputError={inputErrors} inputName="email" />
             </div>
             <div className="mt-[1rem]">
               <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
@@ -43,9 +51,17 @@ function LoginForm() {
                 id="password"
                 name="password"
                 className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
-                type="password"
-                rightIcon={<Eye />}
+                type={isPasswordShown ? 'text' : 'password'}
+                rightIcon={
+                  isPasswordShown ? (
+                    <Eye className="cursor-pointer" onClick={() => setIsPassowordShwon(false)} />
+                  ) : (
+                    <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
+                  )
+                }
+                required
               />
+              <InputError inputError={inputErrors} inputName="password" />
             </div>
 
             <Link href="/auth/forgot-password">
