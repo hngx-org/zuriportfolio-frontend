@@ -4,7 +4,7 @@ interface ScoreDropdownProps {
   item: string; // Specify the type for the 'item' prop
 }
 
-const ScoreDropdown = (props: { item: string }) => {
+const ScoreDropdown = (props: { item?: string }) => {
   return (
     <div>
       <div className="flex items-center">

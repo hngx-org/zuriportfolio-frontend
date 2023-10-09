@@ -210,6 +210,10 @@ export interface OrderHistory {
   customerName: string;
   date: Date;
   status: 'completed' | 'cancelled' | 'pending';
+  productType: string;
+  price: number;
+  sales: number;
+  revenue: number;
 }
 export interface Product {
   productId: string;
@@ -351,10 +355,28 @@ export type SectionModalProps = {
   paragraph: string;
   primaryText: string;
   onClickAction: () => void;
-}
+};
 
 export interface PaymentStatusModalProps {
   children: React.ReactNode;
+}
+
+export interface Vendor {
+  vendorImgSrc: string;
+  name: string;
+  email: string;
+  amount: string;
+  quantity: number;
+  date: string;
+  statusIndicatorSrc: string;
+  statusText: string;
+}
+
+export type BannedDeletedVendorsProps = {
+  showBanned: boolean;
+  setShowBanned: (any: boolean) => void;
+  showDeleted: boolean;
+  setShowDeleted: (any: boolean) => void;
 };
 
 export interface SettingOptionTypes {
@@ -377,7 +399,7 @@ export type cardinfo = {
   price: number;
   arUp: string;
   id: number;
-}
+};
 export type Graph = {
   id: number;
   title: string;
@@ -390,7 +412,7 @@ export type Graph = {
     twentyFourH: string;
     md: boolean;
   };
-}
+};
 
 export type topListingProduct = {
   id: number;
@@ -401,19 +423,18 @@ export type topListingProduct = {
   price: string;
   topSales: string;
   vendor: string;
-}
+};
 
 export type activity = {
   name: string;
   purchased: string;
   pItem: string;
   id: number;
-}
+};
 type cardinfo = {
   title: string;
   kMenu: string;
   price: number;
   arUp: string;
   id: number;
-}
-
+};

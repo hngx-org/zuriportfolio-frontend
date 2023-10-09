@@ -2,6 +2,7 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import useDisclosure from '../../../hooks/useDisclosure';
 import { SectionModalProps } from '../../../@types';
+import Image from 'next/image';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({ openButtonText, heading, paragraph, primaryText, onClickAction }: SectionModalProps) {
@@ -15,7 +16,16 @@ function SectionModal({ openButtonText, heading, paragraph, primaryText, onClick
         {openButtonText}
       </Button>
 
-      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={true} size="sm">
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
+        <Image
+          src="/assets/icons/close1.svg"
+          width={0}
+          height={0}
+          alt="cover"
+          className="w-7 h-7 absolute top-6 right-6 cursor-pointer"
+          onClick={onClose}
+        />
+
         <div className="box-border h-full w-full my-14 text-center font-normal flex justify-center items-center flex-col gap-6 py-8 px-1">
           <h1 className="text-red-200 text-xl font-manropeL">{heading}</h1>
 
