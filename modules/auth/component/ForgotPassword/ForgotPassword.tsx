@@ -7,7 +7,7 @@ import InputError from '../InputError';
 import useInputError from '../../../../hooks/useInputError';
 
 const ForgotPassword = () => {
-  const {handleSubmit, inputErrors} = useInputError();
+  const { handleSubmit, inputErrors } = useInputError();
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
@@ -36,7 +36,7 @@ const ForgotPassword = () => {
                   required
                   className="w-full px-[18px] py-[13.5px] font-manropeL font-light text-custom-color2  rounded-md border-[1.35px]  border-slate-50"
                 />
-                <InputError inputName='email' inputError={inputErrors}/>
+                <InputError inputName="email" inputError={inputErrors} />
               </div>
               <Button
                 href="/auth/success"

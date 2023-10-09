@@ -32,7 +32,7 @@ function SignUpWithEmail() {
               type="email"
               required={true}
             />
-            <InputError inputError={inputErrors} inputName='email'/>
+            <InputError inputError={inputErrors} inputName="email" />
           </div>
           <Link href="/auth/signup">
             <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">

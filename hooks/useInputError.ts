@@ -1,6 +1,6 @@
-import { useState, FormEvent } from "react";
-import { inputErrorMessage } from "../@types";
-import getInputError from "../helpers/getInputError";
+import { useState, FormEvent } from 'react';
+import { inputErrorMessage } from '../@types';
+import getInputError from '../helpers/getInputError';
 
 const useInputError = () => {
   const [inputErrors, setInputErrors] = useState<inputErrorMessage[]>();
@@ -19,7 +19,7 @@ const useInputError = () => {
     console.log(validFormValues);
   };
 
-  return {inputErrors, handleSubmit};
+  return { inputErrors, handleSubmit };
 };
 
 export default useInputError;

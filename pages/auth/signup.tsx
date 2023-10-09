@@ -11,8 +11,9 @@ function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [isPasswordSame, setIsPasswordSame] = useState(false);
-  const {handleSubmit, inputErrors} = useInputError();
-  const {password, confirmPassword, handleConfirmPasswordChange, handlePasswordChange, arePasswordSame} = usePassword();
+  const { handleSubmit, inputErrors } = useInputError();
+  const { password, confirmPassword, handleConfirmPasswordChange, handlePasswordChange, arePasswordSame } =
+    usePassword();
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -32,7 +33,13 @@ function Signup() {
           <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
         </div>
         <div className="mt-6 md:mt-12">
-          <form className="flex flex-col" onSubmit={(e) => {handleSubmit(e); setIsPasswordSame(arePasswordSame())}}>
+          <form
+            className="flex flex-col"
+            onSubmit={(e) => {
+              handleSubmit(e);
+              setIsPasswordSame(arePasswordSame());
+            }}
+          >
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="firstname" className="leading-[27.04px] font-semibold text-gray-700">
                 First name
@@ -180,7 +187,9 @@ function Signup() {
                 required
               />
               {!isPasswordSame && (
-                <p className="text-brand-red-primary text-xs md:text-sm mt-2">Passwords do not match. Please re-enter the same passwords in both fields</p>
+                <p className="text-brand-red-primary text-xs md:text-sm mt-2">
+                  Passwords do not match. Please re-enter the same passwords in both fields
+                </p>
               )}
             </div>
 
