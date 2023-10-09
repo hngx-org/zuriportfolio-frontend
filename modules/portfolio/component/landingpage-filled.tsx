@@ -1,9 +1,16 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import SkillsModal from './skillModal/SkillsModal';
+import useDisclosure from '../../../hooks/useDisclosure';
+import WorkExperienceSection from './work-experience-modal';
+import PortfolioAbout from './about/about';
+import PortfolioReference from './reference/reference';
 
 const LandingPageFilled: React.FC = () => {
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [isReferenceModalOpen, setIsReferenceModalOpen] = useState(false);
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   const handleOpenSkillModal = () => {
     setIsSkillModalOpen(true);
@@ -728,6 +735,27 @@ const LandingPageFilled: React.FC = () => {
       {isSkillModalOpen && (
         <SkillsModal handleCloseSkillModal={handleCloseSkillModal} isSkillModalOpen={isSkillModalOpen} />
       )}
+      <>{isOpen && <WorkExperienceSection isOpen={isOpen} onClose={onClose} />}</>
+      <>
+        {isAboutModalOpen && (
+          <PortfolioAbout
+            isAboutModalOpen={isAboutModalOpen}
+            handleCloseAboutModal={() => {
+              setIsAboutModalOpen(!isAboutModalOpen);
+            }}
+          />
+        )}
+      </>
+      <>
+        {isReferenceModalOpen && (
+          <PortfolioReference
+            isReferenceModalOpen={isReferenceModalOpen}
+            handleCloseReferenceModal={() => {
+              setIsReferenceModalOpen(!isReferenceModalOpen);
+            }}
+          />
+        )}
+      </>
     </div>
   );
 };
