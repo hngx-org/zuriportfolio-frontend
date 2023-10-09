@@ -2,7 +2,9 @@ import React from 'react';
 import ProductCard from '../component/ProductCard';
 import { ProductCardProps } from '../../../@types';
 import ProductCardWrapper from '../component/landingpage/productCardWrapper/product-card-wrapper';
-import MainLayout from '../../../components/Layout/MainLayout';
+import Link from 'next/link'; 
+import ProductDetails from '../../../pages/marketplace/product-details';
+
 
 interface ProductCardWrapperProps {
   productsList: ProductData[];
@@ -26,7 +28,7 @@ interface ProductData {
 export default function AllCategoriesPage() {
   // Sample product data (you can replace this with your actual data)
   const products: ProductData[] =  [
-    // Product 1
+    
     {
       image:'/assets/products-banner/Image-1.png',
       productName: 'Webinar and Course Slide Templa...',
@@ -38,7 +40,7 @@ export default function AllCategoriesPage() {
       showDiscount: false,
       discount: 60,
     },
-    // Product 2
+    
     {
       image: '/assets/products-banner/Image-2.png',
       productName: 'Webinar and Course Slide Templa...',
@@ -339,7 +341,7 @@ export default function AllCategoriesPage() {
     <div className="category">
       {productRows.map((row, index) => (
         <div key={index} className="">
-         <div className="flex gap-6 mt-9">
+         <div className="flex gap-6">
             <div className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal ">
               {paragraphTexts[index]}
             </div>
@@ -348,7 +350,9 @@ export default function AllCategoriesPage() {
             </div>
            
           </div>
+          <Link href= {`${ProductDetails}`}>
           <ProductCardWrapper productsList={row} title={''} />
+          </Link>
         </div>
       ))}
     </div>
