@@ -1,6 +1,6 @@
 import React from 'react';
 import PaginationBar from '../PaginationBar';
-import Footer from '../../../../../components/Footer';
+
 import { OrderHistoryMobile } from './OrderHistoryRow';
 import OrderHistoryTable from './OrderHistoryTable';
 import { SearchNormal1 } from 'iconsax-react';
@@ -38,6 +38,19 @@ const OrderHistory: React.FC = () => {
     <>
       <main className="max-w-[1240px] mx-auto md:px-10 px-4">
         <section className="font-manropeB font-semibold mt-4">
+          <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
+            <span>Order manegement</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path
+                d="M4.50002 2.03996L7.76002 5.29996C8.14502 5.68496 8.14502 6.31496 7.76002 6.69996L4.50002 9.95996"
+                stroke="#8D9290"
+                strokeMiterlimit="10"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="text-orange-110">Order History</span>
+          </div>
           <h1 className="text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order History</h1>
           <div className="justify-between items-center mb-[25px] gap-[35px] flex md:hidden">
             <div
@@ -128,53 +141,22 @@ const OrderHistory: React.FC = () => {
                   </svg>
                   <span>Filters</span>
                 </button>
-                <button
-                  className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
-                  style={{
-                    boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path
-                      d="M10.8335 9.16683L17.6668 2.3335"
-                      stroke="#464646"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M18.3335 5.6665V1.6665H14.3335"
-                      stroke="#464646"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M9.1665 1.6665H7.49984C3.33317 1.6665 1.6665 3.33317 1.6665 7.49984V12.4998C1.6665 16.6665 3.33317 18.3332 7.49984 18.3332H12.4998C16.6665 18.3332 18.3332 16.6665 18.3332 12.4998V10.8332"
-                      stroke="#464646"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <span>Export</span>
-                </button>
               </div>
             </div>
-            {/*commented out*/}
+            {pageItem.length === 0 ? (
+              <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                No Order to Show
+              </p>
+            ) : (
+              <OrderHistoryTable
+                pageItem={pageItem}
+                changeSort={changeSortBy}
+                toggleSort={toggleSortOrder}
+                currentSort={sortBy}
+              />
+            )}
           </section>
-          {pageItem.length === 0 ? (
-            <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-              No Order to Show
-            </p>
-          ) : (
-            <OrderHistoryTable
-              pageItem={pageItem}
-              changeSort={changeSortBy}
-              toggleSort={toggleSortOrder}
-              currentSort={sortBy}
-            />
-          )}
+
           <div className="md:hidden flex flex-col gap-4">
             {pageItem.map((item) => (
               <OrderHistoryMobile key={item.id} {...item} />
