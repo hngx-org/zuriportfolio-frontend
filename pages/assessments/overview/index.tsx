@@ -11,7 +11,13 @@ import { DATA, QuestionType } from '@modules/assessment/mock-data';
 
 function AssessmentOverview() {
   const [questions, setQuestions] = useState(DATA.questions);
+
+
+
+
   const [selectedQuestion, setSelectedQuestion] = useState<QuestionType>();
+
+
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccessConfirm, setShowSuccessConfirm] = useState(false);
