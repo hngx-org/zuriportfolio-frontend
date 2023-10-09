@@ -36,20 +36,16 @@ export const WishlistProductCard = ({
                   $<span>{product.productPrice}</span>
                 </p>
               </div>
-              
+
               <div className="gap-1 self-start hidden md:flex">
                 <RatingCard rating={product.productRating} size={22} />
                 <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
-           
-                </div>
-                <div
-                className='md:hidden flex gap-1 self-start'
-                >
+              </div>
+              <div className="md:hidden flex gap-1 self-start">
                 <RatingCard rating={product.productRating} size={12} />
                 <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
-           
-                </div>
-               
+              </div>
+
               <div className="md:hidden">
                 <p
                   className={`text-[10px] md:text-xs font-medium ${
@@ -66,12 +62,7 @@ export const WishlistProductCard = ({
                   intent={'tertiary'}
                   spinnerColor="#00894C px-3 py-1"
                 >
-                  <span
-                  className='text-[12px] md:text-lg '
-                  >
-                  {product.inCart ? 'Explore Similar' : 'Move To Cart'}
-                
-                  </span>
+                  <span className="text-[12px] md:text-lg ">{product.inCart ? 'Explore Similar' : 'Move To Cart'}</span>
                 </Button>
               </div>
             </div>
