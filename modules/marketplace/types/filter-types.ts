@@ -14,4 +14,5 @@ export type GenericProp<T> = {
     data: unknown[];
     action?: () => void;
     sectionTitle: string;
+    children?: React.ReactNode;
   }
