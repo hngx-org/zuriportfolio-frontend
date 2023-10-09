@@ -9,6 +9,7 @@ import ExperienceCard from './experience-cards/experience-card';
 import Cancel from '../../../../public/assets/recentlyviewed/cancel.svg';
 import styles from './productCardWrapper/product-card-wrapper.module.css';
 import AllCategorySlider from '../AllCategorySlider';
+import CategoriesNav from '../CategoriesNav/CategoriesNav';
 
 const handPicked: ProductCardProps[] = [
   {
@@ -242,6 +243,25 @@ const recentlyViewed: ProductCardProps[] = [
 function LandingPage() {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+      <CategoriesNav
+        navItems={[
+          ' Design & Graphics',
+          ' Development & Programming',
+          ' Content Creation',
+          ' Digital Arts & Media',
+          ' Audio & Sound',
+          ' Photography',
+          'Writing & Copywriting',
+          'Video & motion',
+          'Data & Analytics',
+          'Marketing & Advertising',
+          'eCommerce & Business',
+          'Gaming & Entertainment',
+          'Virtual Reality & Augmented Reality',
+          'e-Books',
+        ]}
+      />
+
       <div className="py-6 px-4 overflow-hidden w-full">
         <div className="max-w-[1240px] mx-auto">
           <ProductCardWrapper title="Handpicked For You" productsList={handPicked} />

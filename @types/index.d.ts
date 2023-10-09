@@ -23,14 +23,13 @@ export interface AllCategoryDetails {
   showLimitedOffer: boolean;
   discount: number;
 }
-
-export interface AdminTablePagination {
-  handleClick?: any;
-  disabledFn?: any;
-  title: any;
-  currentPage: any;
-  totalPages: any;
-  onPageChange: any;
+export interface Products {
+  id: number;
+  name: string;
+  image: string;
+  shopOwner: string;
+  price: number;
+  category: string;
 }
 
 export interface SuperAdminPagination {
@@ -116,6 +115,7 @@ export interface ModalProps {
   title?: string;
   size?: 'lg' | 'md' | 'sm' | 'xl';
   isCloseIconPresent?: boolean;
+  closeBtnClass?: string;
 }
 
 export interface PriceData {
@@ -277,6 +277,26 @@ export interface ReviewCardProps {
   price: number;
 }
 
+export interface VendorCardProps {
+  vendorname: string;
+  pic: StaticImageData;
+  name: string;
+  price: number;
+}
+
+export interface VendorProduct {
+  productName: string;
+  productPrice: number;
+  productAuthor: string;
+  productImage: StaticImageData;
+  id: number;
+}
+
+export interface PageProps {
+  cards: Product[];
+  record: number;
+}
+
 export interface ProjectModalProps {
   title: string;
   tags: string[];
@@ -314,6 +334,7 @@ export interface reviewProps {
   noOfStars: number;
   shopName?: string;
   shopReply?: string;
+  help?: number;
 }
 
 export interface searchProp {
@@ -323,3 +344,76 @@ export interface searchProp {
 export interface filterProp {
   handleFilter: (status: string) => void;
 }
+
+export type SectionModalProps = {
+  openButtonText: string;
+  heading: string;
+  paragraph: string;
+  primaryText: string;
+  onClickAction: () => void;
+}
+
+export interface PaymentStatusModalProps {
+  children: React.ReactNode;
+};
+
+export interface SettingOptionTypes {
+  accountManagement: boolean;
+  notificationSettings: boolean;
+  deleteAccount: boolean;
+  refer: boolean;
+}
+export interface NotificationCheckboxType {
+  receiveEmail: boolean;
+  specialOffers: boolean;
+  getNotification: boolean;
+  notifyFollow: boolean;
+  notifyMessages: boolean;
+}
+
+export type cardinfo = {
+  title: string;
+  kMenu: string;
+  price: number;
+  arUp: string;
+  id: number;
+}
+export type Graph = {
+  id: number;
+  title: string;
+  btn: string;
+  calender: {
+    twelveM: string;
+    threeM: string;
+    thirtyD: string;
+    sevenD: string;
+    twentyFourH: string;
+    md: boolean;
+  };
+}
+
+export type topListingProduct = {
+  id: number;
+  productName: string;
+  productImage: string;
+  category: string;
+  order: string;
+  price: string;
+  topSales: string;
+  vendor: string;
+}
+
+export type activity = {
+  name: string;
+  purchased: string;
+  pItem: string;
+  id: number;
+}
+type cardinfo = {
+  title: string;
+  kMenu: string;
+  price: number;
+  arUp: string;
+  id: number;
+}
+

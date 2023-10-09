@@ -2,7 +2,6 @@ import { Fragment, useState } from 'react';
 import Badge from './Badge';
 import { GenericProp, VariantType } from '@modules/marketplace/types/filter-types';
 
-
 const BadgeItems = <T,>({ data }: GenericProp<T>) => {
   return (
     <Fragment>
@@ -13,7 +12,7 @@ const BadgeItems = <T,>({ data }: GenericProp<T>) => {
   );
 };
 
-export default BadgeItems
+export default BadgeItems;
 
 const BadgeItem = ({ value }: { value: unknown }) => {
   const [selected, setSelected] = useState<VariantType>('outline');
