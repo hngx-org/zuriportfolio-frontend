@@ -220,8 +220,8 @@ const WorkExperienceSection = () => {
           <>
             {isForm && (
               <form onSubmit={handleSaveExperience} className="flex flex-col gap-y-7">
-                <div className="flex items-center gap-4">
-                  <div className="flex flex-col gap-[.5rem] w-[90%]">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <div className="flex flex-col gap-[.5rem] w-full sm:w-[90%]">
                     <label className="font-semibold text-[#444846] text-[1rem]">Role</label>
                     <Input
                       placeHolder=""
@@ -233,7 +233,7 @@ const WorkExperienceSection = () => {
                       value={role}
                     />
                   </div>
-                  <div className="flex flex-col gap-[.5rem] w-[90%]">
+                  <div className="flex flex-col gap-[.5rem] w-full sm:w-[90%]">
                     <label className="font-semibold text-[#444846] text-[1rem]">Company</label>
                     <Input
                       placeHolder=""
