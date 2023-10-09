@@ -242,7 +242,7 @@ function StyleGuide() {
               console.log(value);
             }}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger rightIcon={<I24Support />} className="w-[180px]">
               <SelectValue placeholder="Theme" />
             </SelectTrigger>
             <SelectContent>
