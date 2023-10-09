@@ -132,6 +132,17 @@ const CreateTemplate = () => {
           );
         })}
       </div>
+      <div className="pt-10 text-center flex justify-center">
+        <Button
+          onClick={() => {}}
+          leftIcon={<Add color="black" />}
+          intent={'primary'}
+          size={'md'}
+          className="bg-[transparent] text-dark-100 border-2 border-[#009444]"
+        >
+          Add Question
+        </Button>
+      </div>
     </>
   );
 };
