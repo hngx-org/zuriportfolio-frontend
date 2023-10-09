@@ -3,10 +3,13 @@ import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Link from 'next/link';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
+import useInputError from '../../hooks/useInputError';
+import InputError from '@modules/auth/component/InputError';
 
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const {handleSubmit, inputErrors} = useInputError();
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -34,10 +37,11 @@ function Signup() {
               <Input
                 placeHolder="Aliu"
                 id="firstname"
-                name="firstname"
+                name="firstName"
                 className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type="text"
               />
+              <InputError inputError={inputErrors} inputName="firstName" />
             </div>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="lastname" className="leading-[27.04px] font-semibold text-gray-700">
@@ -46,10 +50,11 @@ function Signup() {
               <Input
                 placeHolder="Sugar"
                 id="lastname"
-                name="lastname"
+                name="lastName"
                 className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type="text"
               />
+              <InputError inputError={inputErrors} inputName="lastName" />
             </div>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="password" className="leading-[27.04px] font-semibold text-gray-700">
@@ -106,6 +111,7 @@ function Signup() {
                   </button>
                 }
               />
+              <InputError inputError={inputErrors} inputName="password" />
             </div>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="confirmPassword" className="leading-[27.04px] font-semibold text-gray-700">
