@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { Products } from '../../../../../@types';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
+import Link from 'next/link';
+
 interface ProductCardProps {
   product: Products;
 }
@@ -13,7 +15,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="p-4 shadow border h-auto rounded-md bg-[#ffffff]">
       <div className="relative w-full h-52">
-        <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" className="rounded-md  h-52" />
+        <Link href={`/shop/product?id=${product.id}`} passHref>
+          <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" className="rounded-md h-52" />
+        </Link>{' '}
       </div>
       <div className="flex flex-col gap-2 flex-grow">
         <div>
