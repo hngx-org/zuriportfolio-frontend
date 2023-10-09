@@ -4,22 +4,7 @@ import CategoriesNav from '../modules/marketplace/component/CategoriesNav/Catego
 import ProductDetailsDescription from '../modules/marketplace/productDetailsDescription';
 
 function Home() {
-  const navItems: string[] = [
-    'All Categories',
-    ' Design & Graphics',
-    ' Development & Programming',
-    ' Content Creation',
-    ' Digital Arts & Media',
-    ' Audio & Sound',
-    ' Photography',
-    ' More...',
-  ];
-
-  return (
-    <MainLayout activePage="home" showDashboardSidebar showTopbar>
-      <CategoriesNav navItems={navItems} />
-    </MainLayout>
-  );
+  return <MainLayout activePage="home" showDashboardSidebar showTopbar></MainLayout>;
 }
 
 export default Home;
