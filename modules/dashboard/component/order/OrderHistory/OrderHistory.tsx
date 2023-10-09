@@ -6,6 +6,7 @@ import OrderHistoryTable from './OrderHistoryTable';
 import { SearchNormal1 } from 'iconsax-react';
 import usePaginate from '../../../../../hooks/usePaginate';
 import useOrders from '../../../../../hooks/useOrders';
+import Link from 'next/link';
 
 const orderNavs: {
   id: string;
@@ -100,9 +101,12 @@ const OrderHistory: React.FC = () => {
                 </li>
               ))}
             </ul>
-            <button className="text-brand-green-primary md:text-[22px] text-[14px] leading-[127.273%] text-end w-fit ml-auto self-end mb-[22px]">
+            <Link
+              href={'/dashboard/orders/details'}
+              className="text-brand-green-primary md:text-[22px] text-[14px] leading-[127.273%] text-end w-fit ml-auto self-end mb-[22px]"
+            >
               View Order Details
-            </button>
+            </Link>
           </nav>
           <section
             className="rounded-2xl pt-5 hidden md:block"
