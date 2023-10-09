@@ -350,9 +350,8 @@ export default function AllCategoriesPage() {
             </div>
            
           </div>
-          <Link href= {`${ProductDetails}`}>
           <ProductCardWrapper productsList={row} title={''} />
-          </Link>
+        
         </div>
       ))}
     </div>
