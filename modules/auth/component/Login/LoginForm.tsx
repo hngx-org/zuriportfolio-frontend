@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -8,21 +8,12 @@ import facebook from '../../../../public/assets/loginPageAssets/facebook.svg';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
 import { Eye } from 'iconsax-react';
-import getInputError from '../../../../helpers/getInputError';
-import { inputErrorMessage } from '../../../../@types';
+
+import InputError from '../InputError';
+import useInputError from '../../../../hooks/useInputError';
 
 function LoginForm() {
-  const [inputErrors, setInputErrors] = useState<inputErrorMessage[]>();
-
-  const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const formValuesObj = Object.fromEntries(formData.entries());
-    const formValuesArray = Object.entries(formValuesObj);
-    const validFormValues = formValuesArray.map((value) => getInputError(value[0], value[1] as string))
-    setInputErrors(validFormValues);
-    console.log(validFormValues);
-  }
+  const { handleSubmit, inputErrors } = useInputError();
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
@@ -47,7 +38,7 @@ function LoginForm() {
                 className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
                 type="email"
               />
-              {inputErrors?.find((error) => error.inputName === "email")?.isValid === true && <p>Email is not allowed</p>}
+              <InputError inputError={inputErrors} inputName="email" />
             </div>
             <div className="mt-[1rem]">
               <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
@@ -61,6 +52,7 @@ function LoginForm() {
                 type="password"
                 rightIcon={<Eye />}
               />
+              <InputError inputError={inputErrors} inputName="password" />
             </div>
 
             <Link href={'/auth/2fa'}>
