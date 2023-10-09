@@ -40,6 +40,13 @@ export default function CartItem({
           </p>
           <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">${productPrice}</p>
         </div>
+        <div className="md:mt-3 md:ml-auto md:flex md:items-center">
+          <Button
+            onClick={removeItem}
+            className="bg-[#fff] text-gray-300 hover:text-[#fff] font-manropeB md:mr-0 flex border gap-1 items-center justify-center shadow-md w-[100px] h-[40px] border-[#d5dbdd] rounded-md cursor-pointer"
+            leftIcon={<Image src="/assets/icons/trash.svg" width={20} height={20} alt="star-fill"></Image>}
+          >Remove</Button>
+        </div>
       </div>
     </>
   );
