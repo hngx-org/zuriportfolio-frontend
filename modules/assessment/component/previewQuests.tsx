@@ -2,12 +2,8 @@ import React, { useState } from 'react';
 import Button from '@ui/Button';
 import Link from 'next/link';
 import { questionArr } from './questionsArr';
-type questionTypes = {
-  questNo: number;
-  question: string;
-};
-const PreviewQuests = (props: questionTypes) => {
-  const { questNo, question } = props;
+
+const PreviewQuests = () => {
   const [currentSection, setCurrentSection] = useState(0);
 
   const handleNext = () => {
@@ -31,9 +27,10 @@ const PreviewQuests = (props: questionTypes) => {
               }`}
             >
               <div className=" text-[20px] text-[#009254]">{`Question ${items.id} out of 10`}</div>
-              <Link href="edit-assesment" className="absolute top-2 right-10 cursor-pointer">
+              <Link href={`/assessment/preview-edit/${items.id}`} className="absolute top-2 right-10 cursor-pointer">
                 Edit
               </Link>
+
               <div className="pt-4 text-[14px]">{items.question}</div>
               <p className=" text-blue-100 pt-2">{items.tip}</p>
 
