@@ -105,8 +105,8 @@ const SearchAndFilter: React.FC = () => {
   ];
 
   return (
-    <div className="md:container margin-auto mt-10 md:px-10 mb-10 px-2 py-6">
-      <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-8">
+    <div className="md:container margin-auto mt-10 md:px-10 mb-10 px-3 py-8">
+      <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-6">
         <div className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
           Filter
         </div>
@@ -115,14 +115,14 @@ const SearchAndFilter: React.FC = () => {
         </div>
       </div>
       <div className="md:justify-between w-[90vw] justify-center items-center md:items-start gap-3 md:gap-[24px] flex flex-col md:flex-row mb-8">
-        <div className="w-full md:w-[600px] h-[48px] md:h-[60px] justify-center items-center flex relative mr-8">
+        <div className="w-full md:w-[600px] h-[45px] md:h-[60px] justify-center items-center flex relative pr-4">
           <div className="flex justify-start items-center gap-3 flex-grow w-full h-12 md:h-14">
             <div className="w-6 h-6 relative left-12 md:left-10 sm:left-12">
               <SearchNormal1 color="#737373" />
             </div>
             <input
               type="text"
-              className="flex-grow h-full px-4 py-2 pl-9 md:pl-12 sm:pl-14 rounded-2xl border border-stone-300 focus:outline-none w-full md:w-[200px]"
+              className="flex-grow h-[55px] px-4 py-4 pl-9 md:pl-12 sm:pl-14 rounded-2xl border border-stone-300 focus:outline-none w-full md:w-[200px]"
               placeholder="Search by name or role"
             />
           </div>
@@ -142,7 +142,7 @@ const SearchAndFilter: React.FC = () => {
       </div>
 
       <div
-        className=" w-[90vw] h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-none px-1 sm:px-4"
+        className=" w-[90vw] h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-none px-1 sm:px-2"
         ref={sliderRef}
         onScroll={handleScroll}
       >

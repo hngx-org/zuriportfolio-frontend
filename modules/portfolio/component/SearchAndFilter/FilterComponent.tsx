@@ -37,7 +37,7 @@ const FilterComponent: React.FC = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-[90vw] mx-auto lg:px-6 pl-8 my-8 lg:grid-cols-6 sm:grid-cols-2 md:mx-auto lg:flex lg:justify-between lg:w-[90vw]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-[90vw] mx-auto lg:px-6 my-8 lg:grid-cols-6 sm:grid-cols-2 md:mx-auto lg:flex lg:justify-between lg:w-[90vw]">
         <CustomDropdown
           options={['Location', 'Ibadan', 'Lagos', 'Abuja', 'Portharcourt', 'Abeokuta', 'Kaduna']}
           selectedValue={selectedOption}
