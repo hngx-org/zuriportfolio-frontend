@@ -28,7 +28,7 @@ export default function reviewDashboard() {
                 />
               ))}
             </div>
-            <PaginationBar pageLength={5} currentPage={0} changeCurrentPage={() => 1} />
+            <PaginationBar pageLength={1} currentPage={0} changeCurrentPage={() => 1} />
           </div>
         </div>
       </Container>
