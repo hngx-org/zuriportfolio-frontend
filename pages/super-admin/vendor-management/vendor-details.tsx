@@ -286,7 +286,7 @@ function VendorDetails() {
             className=" p-3 w-full rounded-md lg:mr-0 z-0  mb-5"
             onClick={closeDeleteModal}
           >
-            Delete Permanently
+            Delete Permanently.
           </Button>
           <Button
             intent={'primary'}
