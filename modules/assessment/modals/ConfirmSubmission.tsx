@@ -8,8 +8,8 @@ interface ConfirmSubmissionProps {
 
 const ConfirmSubmission: React.FC<ConfirmSubmissionProps> = ({ onCancel, onConfirm }) => {
   return (
-    <div className="w-[50%] m-auto items-center font-manropeB justify-center bg-white-100 rounded-[16px] p-4 gap-3 flex flex-col">
-      <div className="flex flex-col gap-8">
+    <div className="w-fit m-auto items-center font-manropeB justify-center bg-white-100 rounded-[16px] p-4 gap-3 flex flex-col">
+      <div className="flex flex-col gap-8 m-auto text-center">
         <p className="font-manropeEB font-[600] align-middle">Are you certain you want to submit now?</p>
         <div className="flex w-full justify-between gap-12">
           <button

@@ -201,9 +201,16 @@ module.exports = {
           color31: '#101928',
           color32: '#d5dbdd',
           color33: '#F9F9FA',
-          color34: '#E53535', 
+          color34: '#E53535',
           color35: '#05A660',
-          color36: ':#E5B800'
+          color36: ':#E5B800',
+          color37: ':#008080',
+          color38: '#F9F9F9',
+          color39: '#A1ADB2',
+          color40: '#FFFBDE',
+          color41: '#E0FFF0',
+          color42: '#FCFCFD',
+          color43: '#444846',
         },
       },
       fontFamily: {
@@ -220,5 +227,17 @@ module.exports = {
   },
   plugins: [
     require('tailwind-scrollbar'),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.no-scrollbar::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+        },
+      };
+      addUtilities(newUtilities);
+    },
   ],
 };
