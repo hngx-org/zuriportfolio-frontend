@@ -13,4 +13,5 @@ export interface SectionProps extends React.ComponentPropsWithoutRef<'article'> 
   data: unknown[];
   action?: () => void;
   sectionTitle: string;
+  children?: React.ReactNode;
 }

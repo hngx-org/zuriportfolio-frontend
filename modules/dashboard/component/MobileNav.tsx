@@ -37,13 +37,13 @@ const MobileNav: React.FC<{ active: string }> = (props) => {
   return (
     <div>
       <nav className={'lg:hidden'}>
-        <ul className="gap-4 my-4 flex-col font-manropeL font-normal text-gray-600 text-base text-center flex">
+        <ul className="gap-4 my-1 flex-col font-manropeL font-normal text-gray-600 text-base text-start flex">
           {navLinks.map((nav) => (
             <li key={nav.link}>
               <Link
                 className={`${
                   nav.active === props.active && 'font-medium border-b-2 border-b-brand-green-primary '
-                } pb-1  whitespace-nowrap  cursor-pointer transition`}
+                } pb-1 text-gray-600 text-base font-semibold  leading-normal tracking-tight  whitespace-nowrap  cursor-pointer transition`}
                 href={`${nav.link === '/' ? '/dashboard' : `/dashboard${nav.link}`}`}
               >
                 {nav.title}
