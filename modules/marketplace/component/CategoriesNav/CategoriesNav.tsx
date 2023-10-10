@@ -29,9 +29,9 @@ const CategoriesNav = (props: CategoriesNavProps) => {
       <div
         className={` ${
           showCategories ? 'absolute right-0 left-0 z-30' : ''
-        } bg-white-100 bg-whte-100 mb-5 lg:m-0 lg:hidden text-sm xl:text-base`}
+        } bg-white-100 bg-whte-100 mb-5 lg:mb-10 xl:hidden text-sm xl:text-base`}
       >
-        <aside className={`${showCategories ? 'px-4' : ''} flex justify-between pb-5 w-full`}>
+        <aside className={`${showCategories ? 'px-4' : ''} flex justify-between pb-5 lg:pt-5  w-full`}>
           <h3 className="text-lg md:text-xl">All Categories</h3>
           <Image
             onClick={() => setShowCategories((prev) => !prev)}
@@ -40,7 +40,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
             alt="drop icon"
           />
         </aside>
-        <div className="border-b-[1px] absolute right-0 left-0 border-slate-50 lg:hidden"></div>
+        <div className="border-b-[1px] absolute right-0 left-0 border-slate-50 xl:hidden"></div>
         <ul className={` flex-col pb-5 gap-8 mt-8 px-4 ${showCategories ? 'flex' : 'hidden'}`}>
           <li className="">
             <Link onClick={() => setShowCategories(false)} href="/marketplace/allcategories">
@@ -56,7 +56,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
           ))}
         </ul>
       </div>
-      <ul className="hidden whitespace-nowrap lg:flex gap-3 xl:gap-6 py-5  xl:mb-[52px] relative z-30 lg:text-sm xl:text-base pr-5">
+      <ul className="hidden whitespace-nowrap xl:flex gap-3 xl:gap-6 py-5  xl:mb-[52px] relative z-30 lg:text-sm xl:text-base pr-5">
         <li
           className={`${allCatActive ? 'text-brand-green-shade50' : ''}`}
           onClick={() => {
@@ -81,16 +81,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
                 popupClass ? 'visible opacity-100' : 'invisible opacity-0'
               } text-start rounded-lg absolute transition-all duration-500 w-[350px] z-30 translate-y-4 -translate-x-[75%] bg-white-100`}
             >
-              {[
-                'Writing & Copywriting',
-                'Video & motion',
-                'Data & Analytics',
-                'Marketing & Advertising',
-                'eCommerce & Business',
-                'Gaming & Entertainment',
-                'Virtual Reality & Augmented Reality',
-                'e-Books',
-              ].map((item, i) => (
+              {navItems.slice(6, 14).map((item, i) => (
                 <SubCategories key={i + 1} item={item} />
               ))}
             </div>

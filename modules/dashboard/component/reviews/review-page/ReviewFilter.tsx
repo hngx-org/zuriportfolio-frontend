@@ -4,9 +4,9 @@ import { filterProps } from '../../../../../@types';
 
 export default function Filter(props: filterProps) {
   return (
-    <div className=" w-max">
-      <p className=" text-sm font-semibold mb-2">SORT BY</p>
-      <div className="flex flex-col sm:flex-row gap-4">
+    <div className="w-max">
+      <p className="text-sm font-semibold mb-2">SORT BY</p>
+      <div className="flex flex-row">
         <div className="viewSort">
           <SelectInput
             size={1}
@@ -63,10 +63,9 @@ export default function Filter(props: filterProps) {
           />
         </div>
       </div>
-      <div className=" text-base mt-3">
+      <div className=" text-base mt-8">
         {props.rating} total ratings, {props.review} with reviews
       </div>
     </div>
   );
 }
-//I'm not sure how we will add the stars to this without creating our own dropdown components
