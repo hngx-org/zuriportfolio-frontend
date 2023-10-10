@@ -88,7 +88,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isReferenceModalOpe
   return (
     <Modal isOpen={isReferenceModalOpen} closeModal={() => {}} size="lg" isCloseIconPresent={false}>
       <div className="mx-auto bg-white-100 rounded-md p-3 py-5">
-        <div className="flex justify-between items-center border-b-[4px] border-brand-green-primary pb-1">
+        <div className="flex justify-between items-center border-b-[3.6px]  border-brand-green-primary pb-1">
           <div className="flex gap-4 items-center">
             <div className="cursor-pointer hover:bg-brand-green-shade95 p-3 rounded-full">
               <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,7 +111,10 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isReferenceModalOpe
             x
           </div>
         </div>
-        <form onSubmit={handleSubmit} className="p-4 mt-10 border flex flex-col gap-4 rounded-lg border-brand-disabled">
+        <form
+          onSubmit={handleSubmit}
+          className="p-4 mt-10 border-[.4px] flex flex-col gap-2 rounded-lg border-brand-disabled"
+        >
           <DynamicInput
             onChange={handleInputChange}
             type="text"
@@ -124,7 +127,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isReferenceModalOpe
             required={true}
             error={errors.fullname}
           />
-          <div className="w-full flex flex-col md:flex-row gap-4 justify-between">
+          <div className="w-full flex flex-col md:flex-row gap-2 justify-between">
             <div className="w-full md:w-[47%]">
               <DynamicInput
                 onChange={handleInputChange}
@@ -178,11 +181,11 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isReferenceModalOpe
             leftIcon={<span>+234</span>}
             pattern={'[0-9]{3}-[0-9]{2}-[0-9]{3}'}
           />
-          <div className="flex gap-2 justify-end mt-5">
-            <Button intent={'secondary'} size={'sm'} className="w-24 rounded-lg" type="button">
+          <div className="flex gap-2 justify-end">
+            <Button intent={'secondary'} size={'sm'} className="w-24 rounded-2xl" type="button">
               Close
             </Button>
-            <Button intent={'primary'} size={'sm'} className="w-24 rounded-lg" type="button" onClick={handleSubmit}>
+            <Button intent={'primary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={handleSubmit}>
               Save
             </Button>
           </div>

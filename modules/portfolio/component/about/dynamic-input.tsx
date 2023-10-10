@@ -32,7 +32,7 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
 }) => {
   return (
     <div>
-      <label htmlFor={labelFor} className="block mb-2">
+      <label htmlFor={labelFor} className="block mb-2 font-medium text-[#444846]">
         {label}
       </label>
       <Input
@@ -42,7 +42,7 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
         value={value}
         placeHolder={placeholder}
         key={InputId}
-        className="w-full"
+        className="w-full border"
         required={required}
         leftIcon={leftIcon}
         pattern={pattern}
