@@ -468,3 +468,14 @@ export interface DeletedProducts {
   dateDeleted: Date;
   status: string;
 }
+export interface CardData {
+  id: number;
+  bgImage: string;
+  photoImage: string;
+  name: string;
+  role: string;
+  skills: string[];
+  totalProjects: number;
+  badge: string;
+  location: string;
+}
