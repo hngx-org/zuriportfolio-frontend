@@ -25,10 +25,14 @@ const CategoriesNav = (props: CategoriesNavProps) => {
   };
 
   return (
-    <div className=" font-ppReg lg:pt-5  px-4">
-      <div className="max-w-[1240px] absolute  z-30 bg-white-100 right-0 left-0   mx-auto bg-whte-100 lg:hidden text-sm xl:text-base">
-        <aside className="flex justify-between py-5 px-4  ">
-          <h3 className="text-xl">All Categories</h3>
+    <div className=" font-ppReg ">
+      <div
+        className={` ${
+          showCategories ? 'absolute right-0 left-0 z-30' : ''
+        } bg-white-100 bg-whte-100 mb-5 lg:m-0 lg:hidden text-sm xl:text-base`}
+      >
+        <aside className={`${showCategories ? 'px-4' : ''} flex justify-between pb-5 w-full`}>
+          <h3 className="text-lg md:text-xl">All Categories</h3>
           <Image
             onClick={() => setShowCategories((prev) => !prev)}
             className={`${showCategories ? '-rotate-90' : 'rotate-90'}  z-50`}
@@ -36,15 +40,23 @@ const CategoriesNav = (props: CategoriesNavProps) => {
             alt="drop icon"
           />
         </aside>
-        <div className="border-b-[1px]  border-slate-50 w-full lg:hidden"></div>
+        <div className="border-b-[1px] absolute right-0 left-0 border-slate-50 lg:hidden"></div>
         <ul className={` flex-col pb-5 gap-8 mt-8 px-4 ${showCategories ? 'flex' : 'hidden'}`}>
-          <li>All</li>
+          <li className="">
+            <Link onClick={() => setShowCategories(false)} href="/marketplace/allcategories">
+              All
+            </Link>
+          </li>
           {navItems.map((item, i) => (
-            <li key={i + 1}>{item}</li>
+            <li key={i + 1}>
+              <Link onClick={() => setShowCategories(false)} href="/marketplace/categories">
+                {item}
+              </Link>
+            </li>
           ))}
         </ul>
       </div>
-      <ul className="hidden whitespace-nowrap lg:flex gap-5 xl:gap-8 py-5   xl:mb-[52px] relative max-w-[1240px] mx-auto z-30 text-sm xl:text-base">
+      <ul className="hidden whitespace-nowrap lg:flex gap-3 xl:gap-6 py-5  xl:mb-[52px] relative z-30 lg:text-sm xl:text-base pr-5">
         <li
           className={`${allCatActive ? 'text-brand-green-shade50' : ''}`}
           onClick={() => {
@@ -52,7 +64,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
             setActive(-1);
           }}
         >
-          <Link href="allcategories">All Categories</Link>
+          <Link href="/marketplace/allcategories">All Categories</Link>
         </li>
         {navItems.slice(0, 6).map((category, i) => {
           return (
@@ -67,7 +79,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
             <div
               className={`border-[2px] border-slate-50 flex flex-col gap-3 ${
                 popupClass ? 'visible opacity-100' : 'invisible opacity-0'
-              } text-start rounded-lg absolute transition-all duration-500 w-[286px] z-30 translate-y-4 -translate-x-1/4 bg-white-100`}
+              } text-start rounded-lg absolute transition-all duration-500 w-[350px] z-30 translate-y-4 -translate-x-[75%] bg-white-100`}
             >
               {[
                 'Writing & Copywriting',
