@@ -8,6 +8,7 @@ import PortfolioReference from './reference/reference';
 import EducationSection from './education-modal';
 // import { EducationProvider } from './Education/EducationContext';
 
+
 const LandingPageFilled: React.FC = () => {
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
   const [isEducationModalOpen, setIsEducationModalOpen] = useState(false);
