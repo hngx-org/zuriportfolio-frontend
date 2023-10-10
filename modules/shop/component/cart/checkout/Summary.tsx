@@ -57,7 +57,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
   };
 
   return (
-    <section className="flex flex-grow px-10 py-8">
+    <section className="flex flex-grow lg:px-10 py-8">
       <div className="cart-summary_wrapper flex flex-col space-y-6">
         <div className="cart-summary__header border border-gray-300 rounded-md shadow-sm">
           <h1 className="font-bold capitalize text-xl px-4 py-4 ">cart summary</h1>
