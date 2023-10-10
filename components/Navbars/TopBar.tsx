@@ -514,7 +514,7 @@ function MenuUI({
         </li>
         {children}
         {auth && (
-          <div className="mt-8 flex flex-col gap-6 w-[100%]">
+          <div className="mt-4 flex flex-col align-baseline gap-6 w-[100%]">
             <div className=" group flex flex-col ali justify-center  gap-1 ">
               <Link className={activeLink('/profile')} href={'/View Live Profile'}>
                 View Live Profile
@@ -552,7 +552,7 @@ function MenuUI({
               {router.pathname === '/settings' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
             <Link
-              className="rounded-lg relative px-4 flex items-center justify-center gap-5 h-[48px] font-manropeB hover:bg-[#F4FBF6] focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled border-solid border-brand-green-primary text-base py-3  border-0  bg-opacity-50  bg-[#FFF7F7] text-red-500 w-[100%]"
+              className="rounded-lg relative px-4 flex items-center justify-center gap-5 h-[48px] font-manropeB focus:shadow-brand-green-shd   border-solid text-base py-3  border-0 bg-pink-50 text-[#FF2E2E] w-[100%]"
               href="/"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" fill="none" viewBox="0 0 25 24">
