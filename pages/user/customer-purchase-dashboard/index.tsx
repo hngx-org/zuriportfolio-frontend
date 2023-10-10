@@ -132,11 +132,11 @@ const MyPage: React.FC = () => {
     onClose();
   };
 
-   // handle filter dropdown
-   const [ filterBy, setFilterBy ] = useState<string>("item")
-   const onChooseFilter = (filter: string) => {
-       setFilterBy(filter)
-   }
+  // handle filter dropdown
+  const [filterBy, setFilterBy] = useState<string>('item');
+  const onChooseFilter = (filter: string) => {
+    setFilterBy(filter);
+  };
 
   // Calculate counts for each category
   const allPurchasesCount = data.length;
@@ -163,8 +163,8 @@ const MyPage: React.FC = () => {
   };
 
   return (
-    <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage=''>
-      <div className="px-5 sm:px-16 max-w-screen md:mx-auto md:w-[80%] overflow-hidden">
+    <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
+      <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
         <div className="mt-9 mb-12 hidden sm:block">
           <div className="flex items-center">
             <p className="text-base text-brand-green-primary">Settings</p>
@@ -228,14 +228,14 @@ const MyPage: React.FC = () => {
         </div>
 
         <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
-          <div className="hidden sm:flex items-center justify-between h-[2.5rem] gap-10 mt-[3rem] ">
+          <div className="hidden sm:flex items-center h-[2.5rem] gap-10 mt-[3rem] ">
             <Input
               leftIcon={<SearchNormal1 color="#777" />}
-              className="border-2 border-solid border-white-200 pl-6 w-[62.5rem] h-[2.5rem] pr-[1rem] rounded"
+              className="border-2 border-solid border-white-200 pl-6 w-[62.5rem] h-[2.5rem] pr-[1rem] rounded flex-1"
               placeholder="Search by items, status, seller etc"
             />
 
-            <FilterDropDown onChooseFilter={onChooseFilter}/>
+            <FilterDropDown onChooseFilter={onChooseFilter} />
 
             <Button
               onClick={onOpen}
@@ -287,7 +287,9 @@ const MyPage: React.FC = () => {
                               getStatusBackgroundColor(item.status)[0]
                             }`}
                           >
-                            <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>{item.status}</p>
+                            <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>
+                              {item.status}
+                            </p>
                           </span>
                         </td>
                       </tr>

@@ -20,6 +20,7 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
   const inputRefs = useRef<HTMLInputElement[]>(Array(4).fill(null));
 
   const isActive = false;
+  const correctOTP: string = '1234';
 
   const maskPhoneNumber = (phoneNumber: any) => {
     const num = String(phoneNumber);
@@ -88,8 +89,18 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
     }
   };
 
-  const showPaymentStatusModal = () => {
-    setPaymentStatus(true);
+  const handleContinueClick = () => {
+    // Join the OTP array to get the entered OTP
+    const enteredOTP = otp.join('');
+
+    // Check if the entered OTP matches the correct OTP
+    if (enteredOTP === correctOTP) {
+      // Correct OTP, allow the user to advance
+      setPaymentStatus(true);
+    } else {
+      // Incorrect OTP, set error state to show red borders
+      setOtpError(true);
+    }
   };
 
   const goBackHome = () => {
@@ -165,7 +176,7 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
       <div className={otpError ? otpErrorTextClasses : otpTextClasses}>
         <p>A one-time password has been sent to {maskedNumber}. Kindly check and enter below.</p>
       </div>
-      <div className="inline-flex flex-col items-start gap-[16px] max-w-[400px] w-4/5 [@media(max-width:520px)]:items-center">
+      <div className="inline-flex flex-col items-start gap-[16px] max-w-[400px] w-[88%] [@media(max-width:520px)]:items-center">
         <p className="flex items-start font-manropeL text-[16px] not-italic font-semibold leading-[24px] [@media(max-width:400px)]:mt-[20px]">
           Enter OTP
         </p>
@@ -183,7 +194,7 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
       </div>
       <Button
         className="flex w-[313px] h-[56px] px-[16.923px] py-[10.154px] justify-center items-center gap-[13.538px] rounded-[10px] bg-brand-green-primary [@media(max-width:520px)]:w-[200px]"
-        onClick={showPaymentStatusModal}
+        onClick={handleContinueClick}
       >
         <p className="text-center font-manropeL text-[22px] not-italic font-semibold text-white leading-[28px]">
           Continue
