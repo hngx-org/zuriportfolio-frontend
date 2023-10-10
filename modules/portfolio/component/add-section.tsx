@@ -4,7 +4,13 @@ import useDisclosure from '../../../hooks/useDisclosure';
 import { Add, Award, Briefcase, CloseSquare, Global, Menu, Teacher } from 'iconsax-react';
 import Button from '@ui/Button';
 
-function Home() {
+// type HomeProps = {
+//   closeModal: () => void;
+//   openModal: boolean
+// };
+
+// function Home({openModal, closeModal }: HomeProps ) {
+  function Home() {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isCustomSectionModalOpen, setCustomSectionModalOpen] = useState(false);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
@@ -111,22 +117,25 @@ function Home() {
 
   return (
     <>
+      {/* <Modal isOpen={openModal} closeModal={closeModal} isCloseIconPresent={false} size="xl"> */}
       <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
-        <div className=" bg-white-100 p-3 py-5 rounded-lg">
+        <div className=" bg-white-100 p-2 rounded-lg shadow-slate-50 items-start gap-8 shrink-0 w-full">
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
-              <p className="text-4xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold leading-10">Add a section</p>
+              <p className="text-4xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold leading-10">
+                Add a section
+              </p>
               <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
             {sections.map(
               (section, index) =>
                 !isSectionSelected(section.title) && (
                   <div
                     key={index}
-                    className="bg-[#F4FBF6] p-4 rounded-lg cursor-pointer hover:border-2 hover:border-green-500"
+                    className="bg-[#F4FBF6] rounded-lg cursor-pointer hover:border-2 hover:border-green-500 py-4 px-6 add border-2 border-transparent"
                     onClick={() => handleSectionClick(section.title)}
                   >
                     <div className="flex gap-2 items-center text-green-500">
@@ -189,6 +198,13 @@ function Home() {
             </div>
           </div>
         ))}
+        <Button
+          onClick={onOpen}
+          className="p-2 ml-6 mt-4 bg-[#ffffff] hover:text-[#ffffff] rounded-lg shadow-md flex items-center cursor-pointer border border-green-500 text-[#009254] "
+        >
+          <Add size="16" className="hover:text-[#ffffff] text-[#009254]" />
+          Add section
+        </Button>
       </div>
 
       {/* Edit Modal */}
@@ -227,13 +243,12 @@ function Home() {
           <p className="font-semibold">Placeholder for Custom Section</p>
         </div>
       </Modal>
-      <Button
+      {/* <Button
         onClick={onOpen}
         className="p-2 ml-6 mt-4 bg-[#ffffff] hover:text-[#ffffff] rounded-lg shadow-md flex items-center cursor-pointer border border-green-500 text-[#009254] "
       >
-        <Add size="16" className="hover:text-[#ffffff] text-[#009254]" />
-        Add section
-      </Button>
+        BuildPortfolio
+      </Button> */}
     </>
   );
 }
