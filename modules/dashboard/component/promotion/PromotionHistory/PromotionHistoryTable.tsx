@@ -49,9 +49,9 @@ const PromotionHistoryTable: React.FC<{
     }
   };
   return (
-    <table className="w-full mb-10 hidden md:table border rounded-lg">
+    <table className="w-full md:table border rounded-lg">
       <thead>
-        <tr className="border border-slate-50 font-manropeL text-left font-medium text-white-700 bg-white-220 [&>*]:px-6 [&>*]:py-3 ">
+        <tr className="border border-custom-color1 font-manropeL font-medium text-custom-color2 bg-custom-color3 [&>*]:px-6 [&>*]:py-3 ">
           {tableHeaders.map((header, i) => (
             <th
               className={`${i === 0 || i === 4 ? 'text-start' : 'text-center'} cursor-pointer`}
