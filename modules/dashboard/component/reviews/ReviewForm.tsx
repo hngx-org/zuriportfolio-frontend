@@ -31,12 +31,12 @@ function ReviewForms() {
   };
 
   return (
-    <div className=" flex flex-col h-full w-full justify-center items-center">
-      <div className="m-5 flex flex-col w-full justify-center ">
+    <div className="flex flex-col h-full w-full justify-center items-center">
+      <div className="m-5 flex flex-col w-full justify-center">
         <div className="flex space-x-2">{renderStarImages()}</div>
         <div></div>
         <div className="mx-2">
-          <h2 className="font-semibold text-2xl text-[#8D9290] font-manropeEL py-3">Name</h2>
+          <h2 className="font-semibold text-lg md:text-2xl text-[#8D9290] font-manropeEL py-3">Name</h2>
           <Input
             onChange={(e) => {
               console.log(e.target.value);
@@ -49,7 +49,7 @@ function ReviewForms() {
           />
         </div>
         <div className="m-2">
-          <h2 className="font-semibold text-2xl text-[#8D9290] font-manropeEL py-3">
+          <h2 className="font-semibold text-lg md:text-2xl text-[#8D9290] font-manropeEL py-3">
             Describe your experience(optional)
           </h2>
           <Input

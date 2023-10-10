@@ -12,6 +12,7 @@ import likesIcon from './assets/like-shapes.svg';
 import settingsIcon from './assets/setting-2.svg';
 import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
+import MobileNav from '@modules/dashboard/component/MobileNav';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -311,7 +312,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           toggler={handleToggle}
           handleAuthMenu={handleAuthMenu}
           auth={auth}
-        />
+        >
+          {props.showDashBorad && <MobileNav active={props.activePage} />}
+        </MenuUI>
         {/* Search Mobile Nav */}
         {searchMobile && (
           <div className="absolute min-h-screen lg:hidden bg-white-610 right-0 left-0 top-20">
@@ -461,6 +464,7 @@ function MenuUI({
   auth,
   handleAuthMenu,
   authMenu,
+  children,
 }: {
   toggle?: boolean;
   toggler: () => void;
@@ -469,6 +473,7 @@ function MenuUI({
   auth?: boolean;
   handleAuthMenu: () => void;
   authMenu?: boolean;
+  children: React.ReactNode;
 }) {
   const router = useRouter();
   const activeLink = (path: string) =>
@@ -507,6 +512,7 @@ function MenuUI({
             {router.pathname === '/marketplace' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
         </li>
+        {children}
         {auth && (
           <div className="mt-8 flex flex-col gap-6 w-[100%]">
             <div className=" group flex flex-col ali justify-center  gap-1 ">

@@ -45,7 +45,7 @@ const BusinessOveriview: React.FC = () => {
                   <h6 className="text-[0.875rem] font-manropeL text-[#444846] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[730px]:w-[6rem]">
                     Total Users
                   </h6>
-                  <Image src="/assets/images/arrow-down.svg" alt="Down Arrow" width={16} height={16} />
+                  <Image src="/assets/images/reports/arrow-down.svg" alt="Down Arrow" width={16} height={16} />
                 </div>
                 <div className="max-w-[10.3rem] w-full max-[834px]:max-w-[5rem] max-[778px]:min-w-[5rem] max-[730px]:ml-0">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[730px]:w-[5rem]">
