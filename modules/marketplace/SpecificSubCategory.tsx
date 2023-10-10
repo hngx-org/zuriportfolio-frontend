@@ -5,8 +5,7 @@ import Button from '@ui/Button';
 import { ProductCardProps } from '../../@types';
 import ProductCard from './component/ProductCard';
 import { formatNumberWithCommas } from '../../helpers';
-import SearchFilter from './component/filter/search-filter';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import CategoriesNav from './component/CategoriesNav/CategoriesNav';
 
 const dummyHandPickedData: ProductCardProps[] = [
   {
@@ -275,6 +274,26 @@ const SpecificSubCategory: FC = () => {
   return (
     <div>
       <MainLayout showDashboardSidebar={false} showFooter={true} showTopbar={true} activePage="marketplace">
+        <div className="max-w-[1240px] mx-auto pt-6">
+          <CategoriesNav
+            navItems={[
+              ' Design & Graphics',
+              ' Development & Programming',
+              ' Content Creation',
+              ' Digital Arts & Media',
+              ' Audio & Sound',
+              ' Photography',
+              'Writing & Copywriting',
+              'Video & motion',
+              'Data & Analytics',
+              'Marketing & Advertising',
+              'eCommerce & Business',
+              'Gaming & Entertainment',
+              'Virtual Reality & Augmented Reality',
+              'e-Books',
+            ]}
+          />
+        </div>
         <div
           className={`${manropeL.className} w-[100%] flex flex-col px-[1rem] mb-[2rem] md:px-[1.5rem] lg:px-[4rem] lg:max-w-[1350px] mx-auto`}
         >
@@ -348,7 +367,6 @@ const SpecificSubCategory: FC = () => {
           {/*  */}
         </div>
       </MainLayout>
-      <SearchFilter isOpen={isOpen} toggle={toggle} />
     </div>
   );
 };
