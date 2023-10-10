@@ -14,6 +14,11 @@ import { useState } from 'react';
 import CategoriesNav from './component/CategoriesNav/CategoriesNav';
 
 export default function ProductDetailsDescription() {
+  const [image, setImage] = useState(mainImage);
+
+  const updateImage = (newImage: any) => {
+    setImage(newImage);
+  };
   const [showAll, setShowAll] = useState(false);
   const router = useRouter();
   const specificationData = [
@@ -47,21 +52,21 @@ export default function ProductDetailsDescription() {
 
   return (
     <MainLayout activePage="product-details" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="whitespace-nowrap overflow-hidden">
+      <div className="whitespace-nowrap overflow-hidden ml-[70px]">
         <CategoriesNav navItems={navItems} />
       </div>
       {/* lg:px-[100px] md:px-10*/}
       <main className={`flex flex-col items-center max-w-[1240px] mx-auto  px-6 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
         {/* Product Details  */}
-        <div className="flex lg:flex-row flex-col items-center lg:justify-between justify-center gap-y-3 xl:gap-x-0 lg:gap-x-10 gap-x-0 w-full">
+        <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
           {/* Product Detail Images  */}
-          <div className="flex flex-col w-full item-center lg:gap-y-4">
+          <div className="flex flex-col w-full item-center lg:gap-y-4 gap-x-10 mx-auto">
             <Image
-              src={mainImage}
+              src={image}
               alt="Main Image"
-              className="lg:w-[520px] md:w-[750px] w-[350px] lg:h-[520px] md:h-[600px] h-[340px] lg:object-cover object-contain rounded-3xl"
+              className="w-full lg:h-[520px] md:h-[600px] h-[340px] lg:object-cover object-contain rounded-3xl"
             />
-            <Slider />
+            <Slider updateImage={updateImage} />
           </div>
 
           {/* Product Detail Data */}
