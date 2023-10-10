@@ -28,11 +28,10 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
   const [arrayTwo, setArrayTwo] = useState<Array<string>>([]);
 
   useEffect(() => {
-    // const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
-    // setArrayTwo(storedArrayTwo);
-    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo]));
+    const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
+    setArrayTwo(storedArrayTwo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [arrayTwo]);
 
   const handleMoveToTwo = (item: string) => {
     setArrayOne(arrayOne.filter((el: string) => el !== item));
@@ -60,16 +59,14 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
     setInputValue(''); // Clear the input field after pushing the value
   };
 
-  // const cancelBtnFn = () => {
-  //   arrayTwo.map((el) => {
-  //     localStorage.removeItem('arrayTwo');
-  //   });
-  //   setArrayTwo([]);
-  // };
-
   const  cancelBtnFn = () =>{
     localStorage.removeItem('arrayTwo')
     setArrayTwo([])
+  }
+
+  const saveBtn = () => {
+    handleCloseSkillModal()
+    console.log("me")
   }
 
   const setToLocalStorage = (trimmedValue: string) => {
@@ -157,7 +154,9 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
             >
               Cancel
             </Button>
-            <Button className="border-2 p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary">
+            <Button className="border-2 p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
+            onClick={()=> {saveBtn()}}
+            >
               Save
             </Button>
           </div>
