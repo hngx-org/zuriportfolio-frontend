@@ -166,7 +166,7 @@ function ComplaintsDetails() {
               <div className="flex justify-center my-8">
                 <Image src="/assets/complaintsassets/Group 765.png" alt="done" width={120} height={120} />
               </div>
-              {<p className="text-center text-4xl">Complaint Resolved</p>}
+              {<p className="text-center text-4xl">Complaint Resolved </p>}
               <div className="flex justify-center my-7">
                 <Button
                   onClick={() => {
