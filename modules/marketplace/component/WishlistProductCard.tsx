@@ -3,6 +3,8 @@ import { WishlistProduct } from '../../../@types';
 import { RatingCard } from './RatingCard';
 import Button from '@ui/Button';
 import deleteIcon from '../../../public/assets/wishlistAssets/delete.svg';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+import Link from 'next/link';
 
 export const WishlistProductCard = ({
   product,
@@ -28,7 +30,7 @@ export const WishlistProductCard = ({
                 <div className="flex flex-col gap-2">
                   <p className="text-[10px] md:text-xs text-custom-color16">{product.productCategory}</p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
-                    {product.productName}
+                    <Link href={`/marketplace/product-details`}>{product.productName}</Link>
                   </p>
                 </div>
 
@@ -36,20 +38,16 @@ export const WishlistProductCard = ({
                   $<span>{product.productPrice}</span>
                 </p>
               </div>
-              
+
               <div className="gap-1 self-start hidden md:flex">
                 <RatingCard rating={product.productRating} size={22} />
                 <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
-           
-                </div>
-                <div
-                className='md:hidden flex gap-1 self-start'
-                >
+              </div>
+              <div className="md:hidden flex gap-1 self-start">
                 <RatingCard rating={product.productRating} size={12} />
                 <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
-           
-                </div>
-               
+              </div>
+
               <div className="md:hidden">
                 <p
                   className={`text-[10px] md:text-xs font-medium ${
@@ -66,26 +64,19 @@ export const WishlistProductCard = ({
                   intent={'tertiary'}
                   spinnerColor="#00894C px-3 py-1"
                 >
-                  <span
-                  className='text-[12px] md:text-lg '
-                  >
-                  {product.inCart ? 'Explore Similar' : 'Move To Cart'}
-                
-                  </span>
+                  <span className="text-[12px] md:text-lg ">{product.inCart ? 'Explore Similar' : 'Move To Cart'}</span>
                 </Button>
               </div>
             </div>
 
             <div className="hidden md:flex gap-3 self-start">
               <Button
-                className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md  border border-custom-color17 text-white-650 "
+                className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 focus:outline-none  focus:bg-red-200 focus:text-white-100 active:bg-red-200 active:text-white-100"
                 size={'sm'}
                 spinnerColor="#D5DBDB"
                 onClick={() => removeProductFromWishlist(product.productId)}
               >
-                <div>
-                  <Image src={deleteIcon} alt="delete" />
-                </div>
+                <RiDeleteBin6Line className="text-[18px] text-white-650 group-hover:fill-white-100" />
                 Remove
               </Button>
               <Button
@@ -101,7 +92,10 @@ export const WishlistProductCard = ({
           </div>
         </div>
 
-        <div className="md:hidden self-start mt-1" onClick={() => removeProductFromWishlist(product.productId)}>
+        <div
+          className="md:hidden self-start mt-1 cursor-pointer"
+          onClick={() => removeProductFromWishlist(product.productId)}
+        >
           <Image src={deleteIcon} alt="delete" width={35} height={35} />
         </div>
         <div className="hidden md:block">
@@ -115,6 +109,7 @@ export const WishlistProductCard = ({
           </Button>
         </div>
       </div>
+
       <div
         className="
               h-[1px] w-full bg-custom-color19

@@ -7,8 +7,11 @@ import AuthLayout from '../../modules/auth/component/AuthLayout';
 import googleLogo from '../../public/assets/images/logo/google-logo.svg';
 import facebookLogo from '../../public/assets/images/logo/facebook-logo.svg';
 import githubLogo from '../../public/assets/images/logo/github-logo.svg';
+import useInputError from '../../hooks/useInputError';
+import InputError from '@modules/auth/component/InputError';
 
 function SignUpWithEmail() {
+  const { handleSubmit, inputErrors } = useInputError();
   return (
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
       <div className="text-center lg:text-left">
@@ -16,7 +19,7 @@ function SignUpWithEmail() {
         <p className="md:text-[22px] text-custom-color20 font-manropeB">Let&apos;s get you started</p>
       </div>
       <div className="mt-6 md:my-12">
-        <form className="flex flex-col gap-8">
+        <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="font-manropeB">
               Email Address
@@ -29,16 +32,19 @@ function SignUpWithEmail() {
               type="email"
               required={true}
             />
+            <InputError inputError={inputErrors} inputName="email" />
           </div>
-          <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
-            Continue
-          </Button>
+          <Link href="/auth/signup">
+            <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
+              Continue
+            </Button>
+          </Link>
         </form>
 
         <div className="mt-8">
           <p className="text-center text-gray-200 font-manropeL">
             Already have an account?{' '}
-            <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+            <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
               Sign in
             </Link>
           </p>

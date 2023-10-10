@@ -127,25 +127,31 @@ const History: React.FC = () => {
             </button>
           </div>
         </div>
+
         <div className=" border-gray-300 rounded-lg overflow-x-scroll scrollbar-hide">
           <table className="min-w-full border-collapse table-auto">
+
             <thead>
               <tr className="bg-brand-green-shade50 text-white-100 w-full ">
                 <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">Assessment Taken</th>
                 <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">Badge Level</th>
+
                 <th scope="col" className="border w-fit hidden sm:table-cell border-gray-300 py-2 px-4 text-left ">Date</th>
                 <th scope="col" className="border w-fit border-gray-300 hidden sm:table-cell py-2 px-4 text-left ">Score</th>
                 <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left hidden sm:table-cell ">Actions</th>
+
               </tr>
             </thead>
             <tbody>
               {filteredAssessments.map((assessment) => (
                 <React.Fragment key={assessment.id}>
+
                   <tr 
                     onClick={() => toggleExpand(assessment.id)}
                   className="bg-white border ">
                     <td
                       className="border-r whitespace-nowrap  border-l-[0] border-b-0 border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer"
+
                     >
                       <FaClipboardList className="text-green-200 text-[2em] " />
                       {assessment.assessment}
@@ -170,9 +176,11 @@ const History: React.FC = () => {
                         </span>
                       )}
                     </td>
+
                     <td className="whitespace-nowrap border-r hidden sm:table-cell  border-gray-300 border-b-0 py-2 px-4">{formatDate(assessment.date)}</td>
                     <td className="whitespace-nowrap border-r hidden sm:table-cell  border-b-0 border-gray-300 py-2 px-4">{assessment.score}/100</td>
                     <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
+
                       <a
                         href={assessment.downloadLink}
                         target="_blank"
@@ -184,7 +192,9 @@ const History: React.FC = () => {
                     </td>
                   </tr>
                   {expandedAssessment === assessment.id && (
+
                     <tr className="sm:hidden w-full col-span-2 p-4" aria-colspan={2}>
+
                       <td  className=" p-4  gap-4 " colSpan={2}>
                         
                           <div className='p-2'>Date: {formatDate(assessment.date)}</div>

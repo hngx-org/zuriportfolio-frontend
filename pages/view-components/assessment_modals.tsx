@@ -62,7 +62,7 @@ const ViewModals: React.FC = () => {
 
   return (
     <div className="bg-white-300 min-h-screen w-full flex flex-col">
-      <div className="flex gap-3 mb-4 w-full">
+      <div className="flex gap-3 mb-4 w-full flex-col sm:flex-row">
         <button
           className="rounded-[16px] p-2 text-white-100 items-center justify-center bg-brand-green-primary w-fit flex hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed"
           onClick={openModal}
