@@ -5,6 +5,8 @@ import Button from '@ui/Button';
 import { ProductCardProps } from '../../@types';
 import ProductCard from './component/ProductCard';
 import { formatNumberWithCommas } from '../../helpers';
+import SearchFilter from './component/filter/search-filter';
+import useSearchFilter from './component/filter/hooks/useSearchFilter';
 
 const dummyHandPickedData: ProductCardProps[] = [
   {
@@ -206,6 +208,8 @@ const SpecificSubCategory: FC = () => {
   const totalPages = Math.ceil(productCards.length / usersPerPage);
   const pagesPerSet = 4;
 
+  const { isOpen, toggle} = useSearchFilter()
+
   useEffect(() => {
     setCurrentPageSet(Math.floor(pageNumber / pagesPerSet));
   }, [pageNumber]);
@@ -295,7 +299,7 @@ const SpecificSubCategory: FC = () => {
               >
                 {formatNumberWithCommas(57098)} Products
               </div>
-              <Button className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-white-100 w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem] hover:text-white-100">
+              <Button className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-white-100 w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem] hover:text-white-100" onClick={toggle}>
                 Filter
               </Button>
             </div>
@@ -334,6 +338,7 @@ const SpecificSubCategory: FC = () => {
           {/*  */}
         </div>
       </MainLayout>
+      <SearchFilter isOpen={isOpen} toggle={toggle} />
     </div>
   );
 };
