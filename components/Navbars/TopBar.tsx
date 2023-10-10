@@ -517,8 +517,8 @@ function MenuUI({
         </li>
         {children}
         {auth && (
-          <div className="mt-4 flex flex-col align-baseline gap-6 w-[100%]">
-            <div className=" group flex flex-col ali justify-center  gap-1 ">
+          <div className="mt-4 flex flex-col items-baseline gap-6 w-[100%]">
+            <div className=" group flex flex-col  justify-center  gap-1 ">
               <Link className={activeLink('/profile')} href={'/View Live Profile'}>
                 View Live Profile
               </Link>
