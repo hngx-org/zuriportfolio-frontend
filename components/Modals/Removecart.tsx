@@ -67,9 +67,7 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem }) => 
             <button
               className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[14px] flex items-center gap-2 rounded-md"
               onClick={() => {
-                if (closeModal) {
-                  closeModal(); // Close the modal if closeModal is defined
-                }
+                onRemoveItem;
               }}
             >
               {/* Remove Item icon */}
