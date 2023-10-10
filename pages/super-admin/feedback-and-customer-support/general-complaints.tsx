@@ -112,7 +112,7 @@ export default function GeneralComplaints() {
     <>
       <Nav />
       <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-4/5 flex justify-center items-start flex-col">
+        <div className="w-full px-16 flex justify-center items-start flex-col">
           {/* complaints overview */}
           <div className="w-full flex flex-col items-start justify-between h-42 ">
             <h1 className="font-manropeL text-2xl mb-2.5 mt-2.5  font-semibold">Complaints Overview</h1>
@@ -305,7 +305,7 @@ export default function GeneralComplaints() {
           </div>
           {/* general complaints */}
           <div className="mt-8 w-full h-auto border-2 border-zinc-200 max-md:overflow-x-scroll rounded-xl overflow-x-scroll">
-            <div className="complaintHeading h-18 p-3 flex flex-row items-center max-md:flex-col max-md:items-start justify-between border-b-2 border-zinc-200">
+            <div className="complaintHeading h-18 p-3 flex flex-row items-center max-md:flex-col max-md:items-start justify-between ">
               <div className="headerText min-w-[300px] mr-2">
                 <h2 className="font-manropeL text-xl font-semibold">My Complaint</h2>
                 <h3 className="font-manropeL text-base font-normal text-slate-600">
@@ -355,7 +355,7 @@ export default function GeneralComplaints() {
               </div>
             </div>
             <div className="complaintList">
-              <div className="tableHead border-solid border-b-2 border-zinc-200">
+              <div className="tableHead border-solid border-b-2 border-t-2 max-md:w-max max-lg:w-max border-zinc-200">
                 <div className="vendorComplaints p-3 flex flex-row items-center justify-between ">
                   <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
                   <div className="w-80 name flex flex-row items-center justify-start min-w-[250px]">
@@ -398,9 +398,14 @@ export default function GeneralComplaints() {
                       return (
                         <div
                           key={complains.id}
-                          className="vendorComplaints p-3 flex flex-row items-center justify-between border-solid border-b-2 border-zinc-200"
+                          className="vendorComplaints p-3 flex max-md:w-max max-lg:w-max flex-row items-center justify-between border-solid border-b-2 border-zinc-200"
                         >
-                          <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
+                          <input
+                            className="w-6 h-5 cursor-pointer min-w-[32px] border-zinc-200 px"
+                            type="checkbox"
+                            name=""
+                            id=""
+                          />
                           <div className="name w-80 flex flex-row items-center min-w-[250px]">
                             <div className="displayPicture">
                               <Image
@@ -515,9 +520,14 @@ export default function GeneralComplaints() {
                     return (
                       <div
                         key={complains.id}
-                        className="vendorComplaints p-3 flex flex-row items-center justify-between border-solid border-b-2 border-zinc-200"
+                        className="vendorComplaints max-md:w-max p-3 flex flex-row max-lg:w-max items-center justify-between border-solid border-b-2 border-zinc-200"
                       >
-                        <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
+                        <input
+                          className="w-6 h-5 cursor-pointer min-w-[32px] border-zinc-200 px"
+                          type="checkbox"
+                          name=""
+                          id=""
+                        />
                         <div className="name w-80 flex flex-row items-center min-w-[250px]">
                           <div className="displayPicture">
                             <Image
