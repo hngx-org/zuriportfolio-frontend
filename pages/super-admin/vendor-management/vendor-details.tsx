@@ -53,7 +53,7 @@ function VendorDetails() {
   return (
     <>
       <SuperAdminNavbar />
-      <Link href="/super-admin/vendor-management/index">
+      <Link href="/super-admin/vendor-management/">
         <div className="top flex items-center mr-5 border-b border-white-110 ml-10 mt-5 mb-5">
           <Image src={right} alt="back" className="mr-2 pb-3"></Image>
           <p className="pb-3">Vendor Profile Details</p>
