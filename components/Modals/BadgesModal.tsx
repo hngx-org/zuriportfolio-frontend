@@ -51,6 +51,15 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
     setSelection(event.currentTarget.textContent);
   };
 
+  const handleDownload = () => {
+    if (!hasSelected) {
+      setIsShown((prev) => !prev);
+
+      return;
+    }
+    router.push(`/badges/badge/${router.query.badge}/certificate?type=${selection?.toLocaleLowerCase()}`);
+  };
+
   return (
     <Modal isOpen={isOpen} closeModal={onClose} closeOnOverlayClick isCloseIconPresent={false}>
       <div className="bg-white rounded-lg pt-[110px] mx-auto flex flex-col gap-[22px] items-center">
@@ -67,7 +76,7 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
         <div className={`flex flex-col gap-2 overflow-y-hidden duration-300 ${isShown ? 'h-[11rem]' : 'h-14'}`}>
           <Button
             className="mt-2 px-6 py-3 text-white text-sm w-fit flex items-center gap-4 bg-[#009254] rounded-2xl"
-            onClick={() => toggleSelection()}
+            onClick={handleDownload}
           >
             <span className="text-white-100">Download</span>
             {hasSelected ? (
