@@ -1,6 +1,7 @@
 import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import Link from 'next/link';
+import Nav from '../../view-components/super-admin/navbar';
 
 import Image from 'next/image';
 // /assets/myfolder/Icon.png
@@ -54,6 +55,7 @@ function ComplaintsDetails() {
 
   return (
     <>
+      <Nav />
       <div className="p-10 container mx-auto">
         <div className="flex items-center gap-3">
           <Link href="/super-admin/feedback-and-customer-support/general-complaints">
@@ -102,7 +104,7 @@ function ComplaintsDetails() {
                 for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to
                 navigate. The product&apos;s functionality is top-notch, and it has exceeded my expectations. It&apos;s
                 incredibly fast and efficient, saving me both time and frustration. Customer support has been
-                exceptional.
+                exceptional
               </p>
 
               <div className="mt-5">
