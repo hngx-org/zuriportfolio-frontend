@@ -174,7 +174,7 @@ export default function SettingPage() {
 
         <div
           className="flex flex-col items-start min-h-[50vh] font-manropeEB 
-         px-6 md:items-center lg:hidden mt-8 gap-8 justify-start"
+         px-6 md:items-center lg:hidden mt-4 gap-8 justify-start"
         >
           {!openEachSeting ? (
             <>
@@ -248,11 +248,14 @@ export default function SettingPage() {
             </>
           ) : (
             <div className=" relative w-full">
-              <p className="py-2 mb-5 md:w-[80%] w-full flex gap-1 text-md items-center justify-start border-b-[1px] border-slate-500 text-md">
+              <p
+                className="py-2 mb-5 md:w-[80%] w-full flex gap-1 
+              text-md items-center justify-start border-b-[1px] border-slate-500 text-md"
+              >
                 <button onClick={resetSettingOption} className=" flex  text-md items-center justify-start">
                   <ArrowLeft2 />
                 </button>{' '}
-                Settings
+                {!showReferInfo ? ' Settings' : 'Invite a friend'}
               </p>
               <div className=" w-full relative ">
                 {settingOption.notificationSettings && <NotificationSettings />}
