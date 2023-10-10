@@ -5,13 +5,14 @@ import Button from '@ui/Button';
 import { CancelIcon } from './icons';
 import Badge from './Badge';
 import useSearchFilter from './hooks/useSearchFilter';
+import { manropeL } from '../../../../config/font';
 
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
   const {resetFilter, handleSearch, loading} = useSearchFilter()
   return (
     <Fragment>
       {isOpen ? (
-        <div className="flex items-center justify-center absolute z-50  w-full top-0 min-h-screen bg-black bg-opacity-50 py-10 px-5 backdrop-blur-sm transition duration-300 ease-in-out">
+        <div className={`flex items-center justify-center absolute z-50  w-full top-0 min-h-screen bg-black bg-opacity-50 py-10 px-5 backdrop-blur-sm transition duration-300 ease-in-out ${manropeL.className}`}>
           <div className="bg-white-100 md:max-w-2xl w-full py-5 px-7 rounded-md shadow-sm transition delay-500 ease-in-out">
             <section className="flex justify-between">
               <h3 className="text-xl font-medium">Filter Content Just for You</h3>
