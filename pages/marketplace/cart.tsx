@@ -6,6 +6,7 @@ import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartProductCardProps } from '../../@types';
 
 export default function Cart() {
+  
   const cartProducts: CartProductCardProps[] = [
     {
       id: "1",
