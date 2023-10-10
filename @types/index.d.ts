@@ -12,7 +12,15 @@ export interface MainLayoutProps {
   showTopbar?: boolean;
   showFooter?: boolean;
 }
-
+export interface Education {
+  id: number;
+  degree: string;
+  fieldOfStudy: string;
+  school: string;
+  description: string;
+  dateFrom: string;
+  dateTo: string;
+}
 export interface AllCategoryDetails {
   price: string;
   name: string;
@@ -444,3 +452,19 @@ export type inputErrorMessage = {
   inputName: string;
   isValid: boolean;
 };
+// product listing types
+export interface ProductInfo {
+  productName: string;
+  vendor: string;
+  id: number;
+  dateAdded: string;
+  status: string;
+}
+export interface DeletedProducts {
+  name: string;
+  vendor: string;
+  id: number;
+  dateAdded: Date;
+  dateDeleted: Date;
+  status: string;
+}
