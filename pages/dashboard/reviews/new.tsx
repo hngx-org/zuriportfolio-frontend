@@ -12,7 +12,7 @@ export default function UserReview() {
       <Container>
         <div className="pb-8"></div>
         <div className="flex flex-col w-[100%] md:flex-row md:items-start items-center justify-center">
-          <div className=" flex flex-col min-w-[194px] w-[28%] min-h-[210px] max-h-[474px] mr-[40px] xl p-4 ">
+          <div className=" flex flex-col min-w-[194px] w-[90%] md:w-[28%] min-h-[210px] max-h-[474px] md:mr-[40px] py-4 ">
             <RatingBar avgRating={4.2} />
             <div className=" mt-7">
               {ratingData.map((data, index) => (
