@@ -30,13 +30,13 @@ export default function InviteLink() {
       <p className="text-white-650 leading-[20px]  font-manropeEB font-normal text-sm">
         Use your referral link to help us grow the community and get rewards.{' '}
       </p>
-      <div className="w-fit flex flex-wrap  ">
+      <div className="w-full flex  ">
         <input
           type="text"
           id="invite"
           ref={copyInvite}
           className=" appearance-none font-manropeEL font-extralight
-           outline-none px-[8px] border-[1px] leading-6 min-w-[232px] border-[#D0D5DD]
+           outline-none px-[8px] border-[1px] leading-6 grow border-[#D0D5DD]
              lg:px-[12px] py-[10px] text-[12px] rounded-l-md text-[#667085]"
           value="portfolio.zuri/invite?=pleroma"
           readOnly
