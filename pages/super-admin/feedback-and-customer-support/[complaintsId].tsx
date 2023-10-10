@@ -18,6 +18,12 @@ function ComplaintsDetails() {
 
   const [resolve, setResolve] = useState(false);
 
+  const [resolveButton, setResolveButton] = useState(true);
+
+  const showResolveButton = () => {
+    setResolveButton(false);
+  };
+
   const onResolve = () => {
     setResolve(true);
   };
@@ -132,7 +138,7 @@ function ComplaintsDetails() {
               </div>
             </div>
 
-            <Button onClick={() => setmodalOpen(true)}>Set as Resolved</Button>
+            {resolveButton && <Button onClick={() => setmodalOpen(true)}>Set as Resolved</Button>}
 
             <Modal isOpen={modalOpen} closeModal={() => setmodalOpen(false)}>
               {
@@ -167,6 +173,7 @@ function ComplaintsDetails() {
                     setconfirmModal(false);
                     setmodalOpen(false);
                     setResolve(true);
+                    setResolveButton(false);
                   }}
                 >
                   Done
