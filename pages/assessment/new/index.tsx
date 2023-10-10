@@ -4,6 +4,7 @@ import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
+import ScoringScreen from '@modules/assessment/scoringScreen';
 const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
 
@@ -69,7 +70,7 @@ const CreateAssessment = () => {
               </div>
             </>
           ) : (
-            <div>Score</div>
+            <ScoringScreen />
           )}
         </div>
       </main>
