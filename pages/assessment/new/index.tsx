@@ -1,24 +1,22 @@
+import React, { useState } from 'react';
+import Button from '@ui/Button';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
-import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
-import React, { useState } from 'react';
-import EditLayout from '@modules/assessment/component/editLayout';
-// import ScoringS from '@modules/assessment/component/scoreDropdown';
+import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
-const EditAssesment = () => {
+const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {
     setActive(button);
   };
-
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
         <AssessmentBanner
-          title="Preview/Edit"
-          subtitle="An overview of all questions and answers."
+          title="Create New Assessment"
+          subtitle="Create single choice quiz with scoring conditions"
           bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
         />
         <div className="pt-10 pb-10 flex justify-between flex-wrap px-[24px] md:px-[40px] lg:px-[100px] gap-y-4 :">
@@ -68,7 +66,7 @@ const EditAssesment = () => {
             <>
               <Edithead />
               <div className="pt-4">
-                <EditLayout />
+                <CreateTemplate />
               </div>
             </>
           ) : (
@@ -80,4 +78,4 @@ const EditAssesment = () => {
   );
 };
 
-export default EditAssesment;
+export default CreateAssessment;

@@ -453,3 +453,30 @@ export type inputErrorMessage = {
   inputName: string;
   isValid: boolean;
 };
+// product listing types
+export interface ProductInfo {
+  productName: string;
+  vendor: string;
+  id: number;
+  dateAdded: string;
+  status: string;
+}
+export interface DeletedProducts {
+  name: string;
+  vendor: string;
+  id: number;
+  dateAdded: Date;
+  dateDeleted: Date;
+  status: string;
+}
+export interface CardData {
+  id: number;
+  bgImage: string;
+  photoImage: string;
+  name: string;
+  role: string;
+  skills: string[];
+  totalProjects: number;
+  badge: string;
+  location: string;
+}

@@ -5,7 +5,7 @@ import { BannedDeletedVendorsProps } from '../../../../@types';
 const VendorsStat = ({ showBanned, setShowBanned, showDeleted, setShowDeleted }: BannedDeletedVendorsProps) => {
   return (
     <>
-      <section className="my-5 grid md:grid-cols-3 sm:grid-cols-1 gap-4 md:px-10 px-5">
+      <section className="my-5 grid md:grid-cols-3 sm:grid-cols-1 gap-4 container mx-auto">
         <div className=" p-4 border-solid rounded-md border-white-115 border-2">
           <div className="flex items-center justify-between text-gray-500">
             <p className="text-lg">Total Vendors</p>
