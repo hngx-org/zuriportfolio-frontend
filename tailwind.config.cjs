@@ -224,6 +224,9 @@ module.exports = {
         manropeEB: ['var(--font-manropeEB)'],
       },
     },
+    container: {
+      center: true,
+   }
   },
   plugins: [
     require('tailwind-scrollbar'),
