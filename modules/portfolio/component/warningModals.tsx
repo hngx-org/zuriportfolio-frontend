@@ -2,7 +2,7 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import useDisclosure from '../../../hooks/useDisclosure';
 import { SectionModalProps } from '../../../@types';
-import Image from 'next/image';
+import { CloseSquare } from 'iconsax-react';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({ openButtonText, heading, paragraph, primaryText, onClickAction }: SectionModalProps) {
@@ -17,13 +17,12 @@ function SectionModal({ openButtonText, heading, paragraph, primaryText, onClick
       </Button>
 
       <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
-        <Image
-          src="/assets/icons/close1.svg"
-          width={0}
-          height={0}
-          alt="cover"
-          className="w-7 h-7 absolute top-6 right-6 cursor-pointer"
+        <CloseSquare
+          size="32"
+          color="#009254"
+          variant="Bold"
           onClick={onClose}
+          className="absolute top-6 right-6 cursor-pointer"
         />
 
         <div className="box-border h-full w-full my-14 text-center font-normal flex justify-center items-center flex-col gap-6 py-8 px-1">
