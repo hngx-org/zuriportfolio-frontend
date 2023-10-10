@@ -5,15 +5,13 @@ import Modal from '@ui/Modal';
 import { useEffect, useState } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 
-
 type skillModalProps = {
-  handleCloseSkillModal: () => void
-  isSkillModalOpen: boolean
-}
+  handleCloseSkillModal: () => void;
+  isSkillModalOpen: boolean;
+};
 
 const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
-
   const [arrayOne, setArrayOne] = useState<Array<string>>([
     'Version Control',
     'DevOps',
@@ -30,18 +28,16 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
   const [arrayTwo, setArrayTwo] = useState<Array<string>>([]);
 
   useEffect(() => {
-    const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
-    setArrayTwo(storedArrayTwo);
-    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo])); 
+    // const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
+    // setArrayTwo(storedArrayTwo);
+    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
-
-  
+  }, []);
 
   const handleMoveToTwo = (item: string) => {
-   setArrayOne(arrayOne.filter((el: string) => el !== item));
-   setArrayTwo(prevArrayTwo => [...prevArrayTwo, item]);  // Use the callback
-   localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, item]));  
+    setArrayOne(arrayOne.filter((el: string) => el !== item));
+    setArrayTwo((prevArrayTwo) => [...prevArrayTwo, item]); // Use the callback
+    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, item]));
   };
 
   const handleMoveToOne = (item: string) => {
@@ -58,23 +54,27 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
 
       if (trimmedValue !== '') {
         setArrayTwo((prevArray) => [...prevArray, trimmedValue]);
-       setToLocalStorage(trimmedValue) 
-      } 
-
-    } 
+        setToLocalStorage(trimmedValue);
+      }
+    }
     setInputValue(''); // Clear the input field after pushing the value
   };
 
-  const cancelBtnFn = () => {
-    arrayTwo.map(el => {
-      localStorage.removeItem("arrayTwo")
-    })
+  // const cancelBtnFn = () => {
+  //   arrayTwo.map((el) => {
+  //     localStorage.removeItem('arrayTwo');
+  //   });
+  //   setArrayTwo([]);
+  // };
+
+  const  cancelBtnFn = () =>{
+    localStorage.removeItem('arrayTwo')
     setArrayTwo([])
   }
 
   const setToLocalStorage = (trimmedValue: string) => {
     localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, trimmedValue]));
-  }
+  };
 
   return (
     <section className="w-full flex items-center justify-center fontFamily-manropeEL">
@@ -171,4 +171,3 @@ export default SkillModal;
 function setItems(arg0: any) {
   throw new Error('Function not implemented.');
 }
-
