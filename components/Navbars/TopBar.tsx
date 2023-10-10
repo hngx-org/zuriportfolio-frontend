@@ -190,7 +190,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           {authMenu && (
             <div
               ref={authMenuRef}
-              className="absolute flex flex-col right-0 lg:top-[71px] top-[60px] bg-white-100 shadow-lg z-[60]"
+              className="absolute hidden lg:flex flex-col right-0 lg:top-[71px] top-[60px] bg-white-100 shadow-lg z-[60]"
             >
               <ul>
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
