@@ -16,7 +16,7 @@ import MobileNav from '@modules/dashboard/component/MobileNav';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
-  const [auth, setAuth] = useState(true);
+  const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
   const searchRef2 = useRef<HTMLDivElement | null>(null);
@@ -47,11 +47,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         setSearchMobile(false);
       }
       if (searchRef2.current && !searchRef2.current.contains(targetNode)) {
-        setSearchMobile(false);
+        console.log(searchRef2.current);
+        setToggle(false);
       }
     }
 
-    if (authMenu || searchMobile) {
+    if (authMenu || searchMobile || toggle) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -60,7 +61,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [authMenu, searchMobile]);
+  }, [authMenu, searchMobile, toggle]);
 
   return (
     <>
@@ -312,6 +313,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           toggler={handleToggle}
           handleAuthMenu={handleAuthMenu}
           auth={auth}
+          refMenu={searchRef2}
         >
           {props.showDashBorad && <MobileNav active={props.activePage} />}
         </MenuUI>
@@ -474,6 +476,7 @@ function MenuUI({
   handleAuthMenu: () => void;
   authMenu?: boolean;
   children: React.ReactNode;
+  refMenu?: any;
 }) {
   const router = useRouter();
   const activeLink = (path: string) =>
@@ -484,11 +487,11 @@ function MenuUI({
   // JSX Return
   return (
     <nav
-      className={`menu lg:hidden bg-white-100 min-h-[100dvh] absolute top-0 left-0 right-0 ${
+      className={`menu lg:hidden bg-white-610 min-h-[100dvh] absolute top-0 left-0 right-0 ${
         toggle ? 'left-0' : 'left-[-300dvw] hidden'
       }`}
     >
-      <div className="flex justify-between px-4 py-6 border-[#EBEEEF] border-b-[1px] ">
+      <div className="flex justify-between px-4 py-6 bg-white-100 border-[#EBEEEF] border-b-[1px] ">
         <svg xmlns="http://www.w3.org/2000/svg" width="126" height="24" fill="none" viewBox="0 0 126 24">
           <path
             fill="#009254"
@@ -497,7 +500,7 @@ function MenuUI({
         </svg>
         <MenuIcon toggle={toggle} style="lg:hidden" toggler={toggler} />
       </div>
-      <ul className="p-6 flex gap-6 flex-col place-items-start">
+      <ul className="p-6 flex gap-6 flex-col place-items-start bg-white-100">
         <li className=" flex flex-col lg:hidden gap-5 ">
           <div className="group h flex flex-col ali justify-center gap-1">
             <Link className={activeLink('/')} href={'/'}>
