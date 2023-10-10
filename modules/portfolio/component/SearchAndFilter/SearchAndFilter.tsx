@@ -106,17 +106,17 @@ const SearchAndFilter: React.FC = () => {
 
   return (
     <div>
-    <div className="md:container margin-auto mt-10 md:px-10 mb-10 px-3 py-8">
-      <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-6">
-        <div className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
-          Filter
+      <div className="md:container margin-auto mt-10 md:px-10 mb-10 px-3 py-8">
+        <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-6">
+          <div className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
+            Filter
+          </div>
+          <div className="text-neutral-500 text-[14px] md:text-[22px] font-normal font-manropeBL leading-5 md:leading-7">
+            Customize and refine your search results to suit your specific preferences
+          </div>
         </div>
-        <div className="text-neutral-500 text-[14px] md:text-[22px] font-normal font-manropeBL leading-5 md:leading-7">
-          Customize and refine your search results to suit your specific preferences
-        </div>
-      </div>
-      <div className="md:justify-between w-[90vw] justify-center items-center md:items-start gap-3 md:gap-[24px] flex flex-col md:flex-row mb-8">
-     <div className="flex justify-start items-center gap-3 flex-grow w-[100vw] h-12 md:h-14 pl-3">
+        <div className="md:justify-between w-[90vw] justify-center items-center md:items-start gap-3 md:gap-[24px] flex flex-col md:flex-row mb-8">
+          <div className="flex justify-start items-center gap-3 flex-grow w-[100vw] h-12 md:h-14 pl-3">
             <div className="h-6 absolute md:left-10 sm:left-7 mx-3 md:mx-0 bottom-5 md:bottom-7">
               <SearchNormal1 color="#737373" />
             </div>
@@ -127,7 +127,7 @@ const SearchAndFilter: React.FC = () => {
             />
           </div>
         </div>
-         <div className="flex gap-6 md:flex-row">
+        <div className="flex gap-6 md:flex-row">
           <CustomDropdown
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
@@ -152,7 +152,7 @@ const SearchAndFilter: React.FC = () => {
               key={index}
               className={`px-4 py-3 mx-4 rounded-2xl justify-center items-center gap-4 flex cursor-pointer ${
                 activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-              } ${section.text === 'All_Filter'? 'border':""}`}
+              } ${section.text === 'All_Filter' ? 'border' : ''}`}
               onClick={() => {
                 setActiveSection(index);
                 setShowFilterComponent(section.text === 'All_Filter');
