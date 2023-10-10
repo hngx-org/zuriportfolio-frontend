@@ -129,16 +129,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isShowOpen, handleSho
                         {education.description}
                       </p>
                     </div>
-                    {/* <p
-                        style={{
-                          whiteSpace: 'normal',
-                          overflowWrap: 'break-word',
-                        }}
-                        className="font-semibold font-manropeEB text-[12px] max-w-full sm:pl-[3rem] text-ellipsis text-[#737876] "
-                      >
-                        {education.description}
-                      </p> */}
-                    {/* </div> */}
                     <div className="self-end flex gap-4 font-manropeL">
                       <span
                         onClick={() => handleEditEducation(education.id)}
@@ -170,7 +160,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isShowOpen, handleSho
                       }}
                       value={degree}
                     >
-                      <SelectTrigger className="w-full focus:outline-none border focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-400 ">
+                      <SelectTrigger className="w-full focus:outline-none border focus:ring-0  border-solid border-[1px] border-white-120 outline-[#737876] ">
                         <SelectValue placeholder="Select a degree" />
                       </SelectTrigger>
                       <SelectContent>
@@ -178,7 +168,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isShowOpen, handleSho
                           <SelectItem
                             key={index}
                             value={option.value}
-                            className="hover:text-[#009254] hover:bg-[#F4FBF6]"
+                            className="hover:text-[#009254] hover:bg-[#F4FBF6] "
                           >
                             {option.label}
                           </SelectItem>
@@ -196,7 +186,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isShowOpen, handleSho
                       placeHolder="Enter field of study"
                       value={fieldOfStudy}
                       onChange={(e) => setFieldOfStudy(e.target.value)}
-                      className="w-full"
+                      className="w-full border-white-120"
                     />
                   </div>
                   <div className="mb-4 w-full">
@@ -209,7 +199,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isShowOpen, handleSho
                       placeHolder="Enter name of school"
                       value={school}
                       onChange={(e) => setSchool(e.target.value)}
-                      className="w-full"
+                      className="w-full border-white-120"
                     />
                   </div>
                   <div className="mb-4 w-full">
@@ -222,7 +212,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isShowOpen, handleSho
                       placeHolder="Add more Details"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      className="w-full"
+                      className="w-full border-white-120"
                     />
                   </div>
                   <div className="mb-4 flex gap-4">
@@ -236,7 +226,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isShowOpen, handleSho
                         placeHolder="2023"
                         value={dateFrom}
                         onChange={(e) => setDateFrom(e.target.value)}
-                        className="w-full"
+                        className="w-full border-white-120"
                       />
                     </div>
                     <div className="w-1/2">
@@ -249,7 +239,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isShowOpen, handleSho
                         placeHolder="Present"
                         value={dateTo}
                         onChange={(e) => setDateTo(e.target.value)}
-                        className="w-full"
+                        className="w-full border-white-120"
                       />
                     </div>
                   </div>
