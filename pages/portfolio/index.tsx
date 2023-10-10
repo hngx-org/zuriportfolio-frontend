@@ -1,6 +1,6 @@
 import Landing from '@modules/portfolio/component/landing-page';
 import MainLayout from '../../components/Layout/MainLayout';
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import LandingPageFilled from '@modules/portfolio/component/landingpage-filled';
 
 const Portfolio = () => {
