@@ -137,7 +137,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
           <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start">
             Product design Badges
           </h1>
-          <div className="badgecomponents flex flex-col md:flex-row  items-center justify-between gap-[94px]  sm:gap-[20px] ">
+          <div className="badgecomponents flex flex-col md:flex-row  items-center justify-between gap-[94px]  sm:gap-[20px]">
             {/* beginner badge component */}
 
             <BadgeComponent
