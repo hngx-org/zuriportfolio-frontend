@@ -6,11 +6,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 const CreateTemplate = () => {
   const [mockArr, setMcokarr] = useState(new Array(1).fill(null));
   const [mockData, setMockData] = useState(new Array(1).fill(null));
+
+  //deleting options
   const handleDelete = (indexToDelete: number) => {
     const updatedData = mockData.filter((item, index) => index !== indexToDelete);
     setMockData(updatedData);
   };
-
+  //adding options
   const handleIncreaseLength = () => {
     if (mockData.length > 0) {
       const lastElement = mockData[mockData.length - 1];
@@ -18,9 +20,20 @@ const CreateTemplate = () => {
       setMockData(updatedData);
     }
   };
+
+  //handlicng Adding questions
+  const handleAddquestion = () => {
+    console.log('adding');
+    if (mockArr.length > 0) {
+      const lastElement = mockArr[mockArr.length - 1];
+      const updatedArr = [...mockArr, lastElement];
+      setMcokarr(updatedArr);
+    }
+  };
+
   return (
     <>
-      <div className="flex flex-col gap-y-1">
+      <div className="flex flex-col gap-y-8">
         {mockArr.map((item, index) => {
           return (
             <div
@@ -144,7 +157,7 @@ const CreateTemplate = () => {
       </div>
       <div className="pt-10 text-center flex justify-center">
         <Button
-          onClick={() => {}}
+          onClick={handleAddquestion}
           leftIcon={<Add color="black" />}
           intent={'primary'}
           size={'md'}
