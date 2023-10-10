@@ -7,10 +7,10 @@ import SubmissionSuccess from '@modules/assessment/modals/SubmissionSuccess';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 
 const ViewModals: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-  const [isOutOftimeOpen, setIsOutOftimeOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(true);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(true);
+  const [isOutOftimeOpen, setIsOutOftimeOpen] = useState(true);
 
   const openModal = () => {
     setIsModalOpen(!isModalOpen);
