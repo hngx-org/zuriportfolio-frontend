@@ -7,6 +7,7 @@ import { SearchNormal1 } from 'iconsax-react';
 import usePaginate from '../../../../../hooks/usePaginate';
 import useOrders from '../../../../../hooks/useOrders';
 import Link from 'next/link';
+import Filters from '../Filters';
 
 const orderNavs: {
   id: string;
@@ -127,7 +128,7 @@ const OrderHistory: React.FC = () => {
                   placeholder="Search"
                 />
               </div>
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 relative">
                 <button
                   className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
                   style={{
@@ -145,6 +146,7 @@ const OrderHistory: React.FC = () => {
                   </svg>
                   <span>Filters</span>
                 </button>
+                <Filters />
               </div>
             </div>
             {pageItem.length === 0 ? (
@@ -161,7 +163,7 @@ const OrderHistory: React.FC = () => {
             )}
           </section>
 
-          <div className="md:hidden flex flex-col gap-4">
+          <div className="md:hidden flex flex-col gap-4 mb-4">
             {pageItem.map((item) => (
               <OrderHistoryMobile key={item.id} {...item} />
             ))}
