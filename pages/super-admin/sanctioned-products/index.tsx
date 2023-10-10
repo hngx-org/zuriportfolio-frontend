@@ -1,13 +1,14 @@
 import { ArrowDown, More } from 'iconsax-react';
-import products from './sanctionedProducts';
+
 import Pagination from '../../view-components/super-admin/pagination';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import { useState } from 'react';
+import { sanctionedProducts } from '../../../helpers/sanctionedProducts';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
-  const [filteredProduct, setFilteredProducts] = useState(products);
+  const [filteredProduct, setFilteredProducts] = useState(sanctionedProducts);
 
   const handleSubmit = (searchText: string) => {
     const filteredProduct: Array<{
@@ -17,7 +18,7 @@ const SanctionedProducts = () => {
       dateAdded: Date;
       dateDeleted: Date;
       status: string;
-    }> = products.filter((product) => product.name.toLowerCase().includes(searchText.toLowerCase()));
+    }> = sanctionedProducts.filter((product) => product.name.toLowerCase().includes(searchText.toLowerCase()));
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
@@ -67,7 +68,7 @@ const SanctionedProducts = () => {
           </thead>
           <tbody>
             {/* Listed Products */}
-            {products.map((product, index) => (
+            {sanctionedProducts.map((product, index) => (
               <tr className="border-t  border-custom-color1  py-4" key={index}>
                 <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 items-center gap-6 self-stretch flex">
                   <input type="checkbox" />

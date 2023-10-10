@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { ArrowDown, More } from 'iconsax-react';
-import products from './deletedProducts';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import Pagination from '../../view-components/super-admin/pagination';
+import { deletedProducts } from '../../../helpers/sanctionedProducts';
 
 const DeletedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
-  const [filteredProduct, setFilteredProducts] = useState(products);
+  const [filteredProduct, setFilteredProducts] = useState(deletedProducts);
 
   const handleSubmit = (searchText: string) => {
     const filteredProduct: Array<{
@@ -17,7 +17,7 @@ const DeletedProducts = () => {
       dateAdded: Date;
       dateDeleted: Date;
       status: string;
-    }> = products.filter((product) => product.name.toLowerCase().includes(searchText.toLowerCase()));
+    }> = deletedProducts.filter((product) => product.name.toLowerCase().includes(searchText.toLowerCase()));
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
@@ -68,7 +68,7 @@ const DeletedProducts = () => {
           </thead>
           <tbody>
             {/* Listed Products */}
-            {products.map((product, index) => (
+            {deletedProducts.map((product, index) => (
               <tr className="border-t border-custom-color1" key={index}>
                 <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color10 px-6 py-4 items-center gap-6 self-stretch flex">
                   <input type="checkbox" />

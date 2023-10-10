@@ -9,7 +9,6 @@ import SearchProduct from '@modules/super-admin/components/product-listing/searc
 import FilterProduct from '@modules/super-admin/components/product-listing/filterProduct';
 import Button from '@ui/Button';
 import Link from 'next/link';
-import Paginated from '../../../../pages/view-components/pagination';
 import Pagination from '../../../../pages/view-components/super-admin/pagination';
 
 const ProductListingTable = () => {
@@ -114,7 +113,7 @@ const ProductListingTable = () => {
               <FilterProduct handleFilter={handleFilter} />
             </div>
             <div className="md:hidden block">
-              <Button intent={'primary'} size={'sm'}>
+              <Button>
                 <Sort />
               </Button>
             </div>
