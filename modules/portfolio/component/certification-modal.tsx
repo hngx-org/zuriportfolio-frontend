@@ -43,8 +43,10 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         </div>
       </div>
       <div className="flex justify-end items-center">
-        <Button className="border-none outline-none text-[#5B8DEF] bg-transparent hover:bg-transparent">Edit</Button>{' '}
-        <Button className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-transparent">
+        <Button className="border-none outline-none text-[#5B8DEF] bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300">
+          Edit
+        </Button>{' '}
+        <Button className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300">
           Delete
         </Button>
       </div>
@@ -97,7 +99,7 @@ const CertificationRead = ({
           <div className="flex gap-4 justify-start items-center">
             <Button
               onClick={onClose}
-              className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover:bg-brand-disabled"
+              className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover:bg-zinc-100"
             >
               Cancel
             </Button>{' '}
@@ -203,7 +205,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                 <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
               </div>
             </div>
-            <form className="flex flex-col gap-6 px-6" onSubmit={openModal}>
+            <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={openModal}>
               <div className="flex flex-col sm:flex-row w-full gap-[10px]">
                 <div className="flex  flex-col gap-2 flex-1">
                   <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
@@ -219,14 +221,14 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="flex  flex-col gap-[10px] flex-1">
+                <div className="flex  flex-col gap-2 flex-1">
                   <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                     Year
                   </label>
                   <select
                     id="year"
                     name="year"
-                    className="p-4 border-brand-disabled rounded-lg border-[1px]"
+                    className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px] "
                     value={formData.year}
                     onChange={(e) => {
                       const selectedYear = e.target.value;
@@ -292,14 +294,14 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                   type="text"
                   id="description"
                   name="description"
-                  placeholder=""
+                  placeholder="Certificate ID & details "
                   className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-white-650   rounded-lg border-[1px]"
                   value={formData.description}
                   onChange={handleInputChange}
                 />
               </div>
               <div className="flex gap-4 justify-end items-center">
-                <Button className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover:bg-brand-disabled">
+                <Button className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover:bg-zinc-100">
                   Cancel
                 </Button>{' '}
                 <Button

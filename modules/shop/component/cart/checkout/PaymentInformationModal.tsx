@@ -11,10 +11,9 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
   if (modalOpen) {
     return (
       <>
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-          <div className="bg-white-100 p-12 rounded-lg w-sm   ">
+        <div className=" fixed  inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
+          <div className="bg-white-100 p-12 rounded-lg   w-[85%] md:w-[35%]">
             <svg
-              // onClick={() => setModalOpen(false)}
               onClick={closeModal}
               className="ml-auto"
               xmlns="http://www.w3.org/2000/svg"

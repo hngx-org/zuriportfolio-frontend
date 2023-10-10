@@ -1,4 +1,5 @@
 import { Dispatch, FC, SetStateAction } from 'react';
+import { useRouter } from 'next/router';
 
 import Modal from '@ui/Modal';
 
@@ -8,6 +9,8 @@ export interface SuccessFeedbackModalProps {
 }
 
 export const SuccessFeedbackModal: FC<SuccessFeedbackModalProps> = ({ showModal, setShowModal }) => {
+  const router = useRouter();
+
   return (
     <Modal isOpen={showModal} closeModal={() => setShowModal(false)} isCloseIconPresent={false}>
       <div className="flex flex-col items-center justify-center gap-6 py-20">
@@ -18,7 +21,10 @@ export const SuccessFeedbackModal: FC<SuccessFeedbackModalProps> = ({ showModal,
         </p>
 
         <div className="flex gap-2 items-center">
-          <button className="lg:px-[55px] md:px-[45px] px-[35px] py-[12px] border border-[#009254] rounded-xl bg-[#009254] text-white-100 text-base flex items-center gap-2">
+          <button
+            onClick={() => router.push('/assessments/feedback')}
+            className="lg:px-[55px] md:px-[45px] px-[35px] py-[12px] border border-[#009254] rounded-xl bg-[#009254] text-white-100 text-base flex items-center gap-2"
+          >
             Check My Score
             <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
