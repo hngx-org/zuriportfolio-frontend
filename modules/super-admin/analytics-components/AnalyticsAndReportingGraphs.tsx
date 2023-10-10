@@ -165,7 +165,7 @@ const AnalyticsAndReportingGraphs = () => {
                 </div>
                 <div className="flex justify-center items-center whitespace-nowrap font-light text-custom-color27 px-6 mt-8 md:justify-between">
                   <div className="flex justify-center items-center text-center  gap-3 text-[13px] sm:text-[15px] md:gap-5">
-                    <p className="rounded-md bg-green-300 bg-opacity-20 py-1.5 px-2 text-green-900">
+                    <p className="rounded-md bg-[#E6F5EA] py-1.5 px-2 text-brand-green-focused">
                       {isGraph ? '12 months' : item.calender.twelveM}
                     </p>
                     <p>{isGraph ? '3 months' : item.calender.threeM}</p>
