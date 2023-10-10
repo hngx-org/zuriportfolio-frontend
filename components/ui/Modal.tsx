@@ -58,9 +58,9 @@ function Modal({
                   {/* Close button */}
                   {isCloseIconPresent ? (
                     <div className="absolute right-1 top-2">
-                      <Button onClick={closeModal} className={closeBtnClass}>
+                      {/* <Button onClick={closeModal} className="bg-none">
                         <CloseCircle />
-                      </Button>
+                      </Button> */}
                     </div>
                   ) : null}
                   {children}
