@@ -6,6 +6,7 @@ import WorkExperienceSection from './work-experience-modal';
 import PortfolioAbout from './about/about';
 import PortfolioReference from './reference/reference';
 
+
 const LandingPageFilled: React.FC = () => {
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
