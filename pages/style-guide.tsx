@@ -168,7 +168,7 @@ function StyleGuide() {
           <Button
             leftIcon={<I24Support color="#fff" />}
             intent={'primary'}
-            // onClick={() => handleClick(0)}
+            onClick={(e) => handleClick(1)}
             size={'md'}
             isLoading={loading}
             spinnerColor="#000"
