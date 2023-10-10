@@ -132,11 +132,11 @@ const MyPage: React.FC = () => {
     onClose();
   };
 
-   // handle filter dropdown
-   const [ filterBy, setFilterBy ] = useState<string>("item")
-   const onChooseFilter = (filter: string) => {
-       setFilterBy(filter)
-   }
+  // handle filter dropdown
+  const [filterBy, setFilterBy] = useState<string>('item');
+  const onChooseFilter = (filter: string) => {
+    setFilterBy(filter);
+  };
 
   // Calculate counts for each category
   const allPurchasesCount = data.length;
@@ -163,7 +163,7 @@ const MyPage: React.FC = () => {
   };
 
   return (
-    <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage=''>
+    <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
       <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
         <div className="mt-9 mb-12 hidden sm:block">
           <div className="flex items-center">
@@ -235,7 +235,7 @@ const MyPage: React.FC = () => {
               placeholder="Search by items, status, seller etc"
             />
 
-            <FilterDropDown onChooseFilter={onChooseFilter}/>
+            <FilterDropDown onChooseFilter={onChooseFilter} />
 
             <Button
               onClick={onOpen}
@@ -287,7 +287,9 @@ const MyPage: React.FC = () => {
                               getStatusBackgroundColor(item.status)[0]
                             }`}
                           >
-                            <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>{item.status}</p>
+                            <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>
+                              {item.status}
+                            </p>
                           </span>
                         </td>
                       </tr>

@@ -14,6 +14,11 @@ import { useState } from 'react';
 import CategoriesNav from './component/CategoriesNav/CategoriesNav';
 
 export default function ProductDetailsDescription() {
+  const [image, setImage] = useState(mainImage);
+
+  const updateImage = (newImage: any) => {
+    setImage(newImage);
+  };
   const [showAll, setShowAll] = useState(false);
   const router = useRouter();
   const specificationData = [
@@ -47,21 +52,21 @@ export default function ProductDetailsDescription() {
 
   return (
     <MainLayout activePage="product-details" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="whitespace-nowrap overflow-hidden">
+      <div className="whitespace-nowrap overflow-hidden ml-[70px]">
         <CategoriesNav navItems={navItems} />
       </div>
       {/* lg:px-[100px] md:px-10*/}
       <main className={`flex flex-col items-center max-w-[1240px] mx-auto  px-6 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
         {/* Product Details  */}
-        <div className="flex lg:flex-row flex-col items-center lg:justify-between justify-center gap-y-3 xl:gap-x-0 lg:gap-x-10 gap-x-0 w-full">
+        <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
           {/* Product Detail Images  */}
-          <div className="flex flex-col w-full item-center lg:gap-y-4">
+          <div className="flex flex-col w-full item-center lg:gap-y-4 gap-x-10 mx-auto">
             <Image
-              src={mainImage}
+              src={image}
               alt="Main Image"
-              className="lg:w-[520px] md:w-[750px] w-[350px] lg:h-[520px] md:h-[600px] h-[340px] lg:object-cover object-contain rounded-3xl"
+              className="w-full lg:h-[520px] md:h-[600px] h-[340px] lg:object-cover object-contain rounded-3xl"
             />
-            <Slider />
+            <Slider updateImage={updateImage} />
           </div>
 
           {/* Product Detail Data */}
@@ -104,7 +109,7 @@ export default function ProductDetailsDescription() {
               </p>
             </div>
 
-            <Button intent={'primary'} size={'lg'} className="lg:px-5 md:px-14 md:w-fit w-full">
+            <Button intent={'primary'} size={'lg'} className="lg:px-5 md:px-14 sm:w-fit  w-full">
               Add to cart
             </Button>
           </div>
@@ -225,7 +230,7 @@ export default function ProductDetailsDescription() {
 
                 <button
                   type="button"
-                  className="hidden sm:flex text-base font-semibold leading-6 mt-7 text-base font-manropeB font-bold text-brand-green-primary mx-auto"
+                  className="hidden sm:flex text-base leading-6 mt-7  font-manropeB font-bold text-brand-green-primary mx-auto"
                 >
                   See more reviews
                 </button>
@@ -300,7 +305,7 @@ export default function ProductDetailsDescription() {
 
                 <button
                   type="button"
-                  className="flex text-base font-semibold leading-6 mt-7 text-base font-manropeB font-bold text-brand-green-primary"
+                  className="flex  leading-6 mt-7 text-base font-manropeB font-bold text-brand-green-primary"
                 >
                   See more reviews
                 </button>
@@ -311,7 +316,7 @@ export default function ProductDetailsDescription() {
                   id="about"
                   name="about"
                   rows={3}
-                  className="block w-full rounded-xl text-custom-color39 border-0 border-custom-color32 text-base font-bold py-2  shadow-sm ring-1 ring-inset ring-gray-300 pl-2 min-h-[116px] placeholder:text-custom-color39  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
+                  className="block w-full rounded-xl text-custom-color39 border-0 border-custom-color32  py-2  shadow-sm ring-1 ring-inset ring-gray-300  min-h-[116px] placeholder:text-custom-color39  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
                   placeholder="Write a customer review"
                   required
                 ></textarea>

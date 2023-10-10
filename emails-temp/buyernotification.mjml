@@ -10,12 +10,15 @@
       <mj-text font-family="Manrope" font-size="16px" />
     </mj-attributes>
     <mj-style>
-      .set-nposition{position:relative} .center-group { margin: 0 auto; } .set-position{position: absolute}
-      .set-width{width: 80%} .text-center { text-align: center; } .set-display{display: flex} .img-responsive
-      .text-primary { color: #33a467; } .text-secondary { color: #f4fbf6; } .text-white { color: #fff; }
-      .section-position { position: relative; top: 50%; transform: translateY(-25%); } .border-radius-top {
-      border-radius: 10px 10px 0 0; } .width{width: 100%} .center-text { text-align: center; } @media (max-width: 480px)
-      { .mobile-hidden { display: none !important; } .n-width { width: 100% !important; } } .new-width {width: 4rem; height: 4rem}
+      .text-center { text-align: center; } .set-display{display: flex} .img-responsive .text-primary { color: #33a467; }
+      .text-secondary { color: #f4fbf6; } .text-white { color: #fff; } .section-position {width: 80%; position:
+      relative; top: 50%; transform: translateY(-22%); } .border-radius-top { border-radius: 10px 10px 0 0; }
+      .width{width: 100%} .center-text { text-align: center; } @media (max-width: 480px) { .mobile-hidden { display:
+      none !important; } .n-width { width: 100% !important; } } .confetti-bg { position: relative; background-color:
+      #f4fef6; } .confetti-bg:before, .confetti-bg:after { content: ""; background-image:
+      url('https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png');
+      background-repeat: repeat-y; background-size: contain; position: absolute; top: 0; bottom: 0; width: 50%; }
+      .confetti-bg:before { left: 0; } .confetti-bg:after { right: 0; transform: scaleX(-1); }
     </mj-style>
   </mj-head>
   <mj-body background-color="#f4fbf6" width="1500px">
@@ -26,34 +29,30 @@
     </mj-section>
 
     <mj-section
-      css-class="set-width section-position"
+      css-class="section-position"
       border-radius="10px"
       background-color="#fff"
       padding="0px 0 80px 0"
     >
-      <mj-group background-color="#f4fef6" vertical-align="middle" width="100%" css-class="border-radius-top">
-
-        <mj-column css-class="mobile-hidden" vertical-align="middle"   width="20%">
-          <mj-image  width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
-        </mj-column>
-
-        <mj-column css-class="n-width" width="60%" vertical-align="middle">
+       <mj-group
+        vertical-align="middle"
+        width="100%"
+        css-class="border-radius-top confetti-bg"
+        background-color="#f4fef6"
+      >
+        <mj-column css-class="n-width" width="100%" vertical-align="middle">
           <mj-text
             background-color="#f4fbf6"
             align="center"
-            font-size="18px"
             color="#33a467"
-            font-weight="700"
+            font-weight="900"
+            font-size="18px"
             line-height="32px"
-            css-class="center-text"
+            css-class="center-text  banner-text"
           >
-            <p>Review PHP Test Results</p>
+            <p>PHP TEST BASICS ASSESSMENT</p>
           </mj-text>
         </mj-column>
-        <mj-column  width="20%" css-class="mobile-hidden"  vertical-align="middle">
-          <mj-image  width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
-        </mj-column>
-
       </mj-group>
 
       <mj-column width="500px">
@@ -66,11 +65,11 @@
 
 
       <mj-column width="100%">
-        <mj-text  font-size="18px" line-height="24px">
-          <p>Hi <span style="font-weight: bold">Mark</span>,</p>
+        <mj-text  font-size="16px" line-height="24px">
+          <p>Hi <span style="font-weight: bold">{{$name}}</span>,</p>
           <p>
             Congratulations on completing your internal assessment for
-            <span style="font-weight: bold">PHP Basics Test!</span>
+            <span style="font-weight: bold">{{$service}}</span>
           </p>
 
           <p>
@@ -93,7 +92,7 @@
       </mj-column>
 
       <mj-column width="100%">
-        <mj-text  font-size="18px" line-height="24px">
+        <mj-text  font-size="16px" line-height="24px">
           <p>
             If you have any questions about your results, please contact our support group at
             <a href="mailto:zurisupport@gmail.com" style="font-weight: bold; color: #000">zurisupport@gmail.com</a>
@@ -114,12 +113,13 @@
       </mj-column>
 
       <mj-column width="100%">
-        <mj-social font-size="24px" align="center">
-          <mj-social-element name="instagram" href="#" />
-          <mj-social-element name="facebook" href="#"></mj-social-element>
-          <mj-social-element name="twitter" href="#" />
-          <mj-social-element name="linkedin" href="#" />
-        </mj-social>
+      <mj-social font-size="24px" align="center">
+  <mj-social-element name="instagram" href="https://www.instagram.com/hnginternship/" />
+  <mj-social-element name="facebook" href="https://facebook.com/Hnginternship/" />
+  <mj-social-element name="twitter" href="https://twitter.com/hnginternship" />
+  <mj-social-element name="linkedin" href="https://www.linkedin.com/company/hng-internship/" />
+</mj-social>
+
 
         <mj-text align="center" color="#fff">Beaverto, Oregon, Washington County, USA</mj-text>
         <mj-text align="center" color="#fff">Copyright © 2023 Zuriportfolio, All rights reserved.</mj-text>

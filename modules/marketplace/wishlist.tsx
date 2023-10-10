@@ -29,6 +29,8 @@ import { FavoriteproductCard } from './component/FavoriteProductCard';
 
 import MainLayout from '../../components/Layout/MainLayout';
 
+import Container from '@modules/auth/component/Container/Container';
+
 function Wishlist() {
   const [showEmptyWishlistModal, setShowEmptyWishlistModal] = useState(false);
 
@@ -50,41 +52,40 @@ function Wishlist() {
     }
   }, [wishlistProducts]);
 
+  useEffect(() => {
+    document.body.style.overflow = showEmptyWishlistModal ? 'hidden' : 'unset';
+  }, [showEmptyWishlistModal]);
+
   return (
-    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div>
-        <main className="w-full mx-auto">
-          {showEmptyWishlistModal && (
-            <div className="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
-              {/* close button */}
+    <>
+      {showEmptyWishlistModal && (
+        <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
+          <div className="absolute top-0 right-0 mr-5 mt-5">
+            <Button
+              leftIcon={<CloseCircle color="#06C270" />}
+              intent={'secondary'}
+              size={'sm'}
+              onClick={() => removeEmptyWishlistModal()}
+            >
+              Close
+            </Button>
+          </div>
 
-              <div className="absolute top-0 right-0 mr-5 mt-5">
-                <Button
-                  leftIcon={<CloseCircle color="#06C270" />}
-                  intent={'secondary'}
-                  size={'sm'}
-                  onClick={() => removeEmptyWishlistModal()}
-                >
-                  Close
-                </Button>
-              </div>
+          <div className="bg-white-100 py-3 md:py-4 flex flex-col justify-center items-center gap-5 rounded-md w-9/12 md:w-[485px]">
+            <Image src={loadingIllustration} alt="loading" width={100} height={100} />
 
-              <div className="bg-white-100 py-3 md:py-4 flex flex-col justify-center items-center gap-5 rounded-md w-9/12 md:w-[485px]">
-                <Image src={loadingIllustration} alt="loading" width={100} height={100} />
-
-                <div className="flex flex-col gap-2 items-center">
-                  <h3 className="text-custom-color10 text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
-                  <p className="text-custom-color14 text-xs md:text-sm">
-                    Looks like you have no items in your wishlist.
-                  </p>
-                </div>
-                <Button intent={'primary'} size={'sm'} className="h-[44px] rounded-md mb-4">
-                  Start Shopping
-                </Button>
-              </div>
+            <div className="flex flex-col gap-2 items-center">
+              <h3 className="text-custom-color10 text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
+              <p className="text-custom-color14 text-xs md:text-sm">Looks like you have no items in your wishlist.</p>
             </div>
-          )}
-
+            <Button intent={'primary'} size={'sm'} className="h-[44px] rounded-md mb-4">
+              Start Shopping
+            </Button>
+          </div>
+        </div>
+      )}
+      <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+       <Container>
           <CategoriesNav
             navItems={[
               ' Design & Graphics',
@@ -140,9 +141,10 @@ function Wishlist() {
               </div>
             </section>
           </div>
-        </main>
-      </div>
-    </MainLayout>
+        </Container>
+
+      </MainLayout>
+    </>
   );
 }
 
