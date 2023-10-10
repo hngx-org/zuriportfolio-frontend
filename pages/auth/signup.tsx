@@ -3,10 +3,17 @@ import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Link from 'next/link';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
+import useInputError from '../../hooks/useInputError';
+import InputError from '@modules/auth/component/InputError';
+import usePassword from '../../hooks/usePassword';
 
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [isPasswordSame, setIsPasswordSame] = useState(false);
+  const { handleSubmit, inputErrors } = useInputError();
+  const { password, confirmPassword, handleConfirmPasswordChange, handlePasswordChange, arePasswordSame } =
+    usePassword();
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -26,7 +33,13 @@ function Signup() {
           <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
         </div>
         <div className="mt-6 md:mt-12">
-          <form className="flex flex-col">
+          <form
+            className="flex flex-col"
+            onSubmit={(e) => {
+              handleSubmit(e);
+              setIsPasswordSame(arePasswordSame());
+            }}
+          >
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="firstname" className="leading-[27.04px] font-semibold text-gray-700">
                 First name
@@ -34,10 +47,12 @@ function Signup() {
               <Input
                 placeHolder="Aliu"
                 id="firstname"
-                name="firstname"
+                name="firstName"
                 className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type="text"
+                required
               />
+              <InputError inputError={inputErrors} inputName="firstName" />
             </div>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="lastname" className="leading-[27.04px] font-semibold text-gray-700">
@@ -46,10 +61,12 @@ function Signup() {
               <Input
                 placeHolder="Sugar"
                 id="lastname"
-                name="lastname"
+                name="lastName"
                 className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type="text"
+                required
               />
+              <InputError inputError={inputErrors} inputName="lastName" />
             </div>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="password" className="leading-[27.04px] font-semibold text-gray-700">
@@ -105,7 +122,11 @@ function Signup() {
                     )}
                   </button>
                 }
+                value={password}
+                onChange={handlePasswordChange}
+                required
               />
+              <InputError inputError={inputErrors} inputName="password" />
             </div>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="confirmPassword" className="leading-[27.04px] font-semibold text-gray-700">
@@ -161,7 +182,15 @@ function Signup() {
                     )}
                   </button>
                 }
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                required
               />
+              {!isPasswordSame && (
+                <p className="text-brand-red-primary text-xs md:text-sm mt-2">
+                  Passwords do not match. Please re-enter the same passwords in both fields
+                </p>
+              )}
             </div>
 
             <div className="flex items-center leading-[27.04px] my-4 h-5">
@@ -205,6 +234,7 @@ function Signup() {
             `}</style>
 
             <Button
+              href="/auth/verification"
               intent={'primary'}
               size={'sm'}
               className="w-full h-[44px] md:h-[60px] rounded-lg mt-3"
@@ -216,7 +246,7 @@ function Signup() {
           <div className="mt-8">
             <p className="text-center text-gray-200">
               Already have an account?{' '}
-              <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+              <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
                 Sign in
               </Link>
             </p>

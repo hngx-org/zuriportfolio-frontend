@@ -1,17 +1,19 @@
 import Image from 'next/image';
 import { CartProductCardProps } from '../../../../../@types';
+import { MouseEvent } from 'react';
 
 export default function ProductCard({
+  id,
   productImage,
   productTitle,
-  cardStyle,
   productPrice,
   productRating,
   productSeller,
   discountPercentage,
   tag,
   tagBackground,
-}: CartProductCardProps) {
+  closeHandler
+}: CartProductCardProps & {closeHandler: (event: MouseEvent<HTMLElement>) => void}) {
   let tagStyle = ` absolute py-2 px-3 top-0 left-0 rounded-md text-[#fff] font-manropeB ${tagBackground} `;
 
   const getRating = () => {
@@ -33,14 +35,15 @@ export default function ProductCard({
   };
 
   return (
-    <div className={cardStyle}>
+    <div className="border border-[#d5dbdd] hover:border-2 hover:shadow-md cursor-pointer rounded-md lg:w-1/4 md:w-1/2 md:max-w-[290px] flex flex-col p-3 ">
       <div className="relative w-full mb-3 overflow-hidden">
         <Image width={254} height={209} src={productImage} alt={productTitle}></Image>
         {discountPercentage && (
           <span className="absolute py-2 px-3 top-0 left-0 bg-[#e6f5ea] rounded-md">{discountPercentage}% off</span>
         )}
         {tag && <span className={tagStyle}>{tag}</span>}
-        <Image
+        <Image onClick={closeHandler}
+        id={id}
           className="absolute top-0 right-3"
           width={25}
           height={25}
