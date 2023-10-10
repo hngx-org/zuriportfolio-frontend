@@ -2,7 +2,7 @@
 import Button from '@ui/Button';
 import { CartItemProps } from '../../../../../@types';
 import Image from 'next/image';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import RemoveCart from '../../../../../components/Modals/Removecart';
 import { BiTrash } from 'react-icons/bi';
 
@@ -44,8 +44,7 @@ export default function CartItem({
         <div className="md:mt-3 md:ml-auto md:flex md:items-center">
           <Button
             onClick={removeItem}
-            className="bg-[#fff] text-gray-300 hover:text-[#fff] font-manropeB md:mr-0 flex border gap-1 items-center justify-center shadow-md w-[100px] h-[40px] border-[#d5dbdd] rounded-md cursor-pointer"
-            // leftIcon={<Image src="/assets/icons/trash.svg" width={20} height={20} alt="star-fill"></Image>}
+            className="bg-[#fff] text-gray-300 hover:text-[#fff] font-manropeB md:mr-0 flex border gap-1 items-center justify-center shadow-sm w-[100px] h-[40px] border-[#d5dbdd] rounded-md cursor-pointer"
           >
             <BiTrash />
             Remove
