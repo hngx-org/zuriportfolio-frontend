@@ -56,9 +56,10 @@ export interface MainLayoutContextProps {
 }
 
 export interface CartProductCardProps {
+  id: string,
   productImage: string;
   productTitle: string;
-  cardStyle: string;
+  // cardStyle: string;
   productPrice: number;
   productRating: number;
   productSeller: string;
@@ -467,4 +468,15 @@ export interface DeletedProducts {
   dateAdded: Date;
   dateDeleted: Date;
   status: string;
+}
+export interface CardData {
+  id: number;
+  bgImage: string;
+  photoImage: string;
+  name: string;
+  role: string;
+  skills: string[];
+  totalProjects: number;
+  badge: string;
+  location: string;
 }

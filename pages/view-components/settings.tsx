@@ -75,18 +75,20 @@ export default function SettingPage() {
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
       <div className="w-full relative font-manropeEB mb-4  lg:mb-2  pt-4rem flex flex-col  ">
         <div
-          className="hidden lg:flex lg:border-b-[1px]  cursor-auto  lg:border-white-500 relative min-h-[90vh]   items-start before:bg-white-500 before:w-full before:absolute before:top-[5rem] before:h-[1px]
+          className="hidden lg:flex lg:border-b-[1px]  cursor-auto
+            lg:border-white-500 relative min-h-[90vh]   items-start before:bg-white-500 
+            before:w-full before:absolute before:top-[5.3rem] before:h-[0.5px]
                      pb-0   py-[3rem]  "
         >
-          <div className="font-manropeEB  relative cursor-pointer  min-w-[23%]  text-[#737876]   font-normal">
+          <div className="font-manropeEB  relative cursor-pointer  min-w-[408px]  text-[#737876]   font-normal">
             <ul
               className="flex gap-5
-             text-sm font-manropeB font-semibold mb-[8px]  justify-center w-full relative "
+             text-sm font-manropeB font-semibold p  justify-center w-full relative "
             >
               <li
                 onClick={() => setShowReferInfo(false)}
                 className={`hover:text-brand-green-hover ${
-                  !showReferInfo ? 'border-b-2 text-brand-green-primary border-brand-green-primary' : ''
+                  !showReferInfo ? 'border-b-2 pb-[8px] text-brand-green-primary border-brand-green-primary' : ''
                 }`}
               >
                 Settings
@@ -94,7 +96,7 @@ export default function SettingPage() {
               <li
                 onClick={() => setShowReferInfo(true)}
                 className={`hover:text-brand-green-hover   ${
-                  showReferInfo ? 'border-b-2 text-brand-green-primary  border-brand-green-primary' : ''
+                  showReferInfo ? 'border-b-2 text-brand-green-primary pb-[8px] border-brand-green-primary' : ''
                 }`}
               >
                 Invite a friend
@@ -104,18 +106,18 @@ export default function SettingPage() {
             <div className="flex  font-manropeB text-dark-110 mt-[24px]  relative w-full  gap-10">
               <div className="w-full text-center">
                 <ul
-                  className={`text-semibold   font-manropeB text-sm text-dark-110 
+                  className={`text-semibold    font-manropeB text-sm text-dark-110 
                    bg-brand-green-shade95 ${!showReferInfo && 'hidden'}`}
                 >
                   <li
-                    className={`py-3  hover:bg-brand-green-shade95  
+                    className={`py-3 flex justify-center  hover:bg-brand-green-shade95  
                   ${showReferInfo && 'w-full bg-[#E6F5EA]'}`}
                   >
-                    Refer your friends
+                    <p className="min-w-[170px] text-start">Refer your friends</p>
                   </li>
                 </ul>
                 <ul
-                  className={`  flex-col gap-1  font-manropeEL ${
+                  className={`   flex-col gap-1  font-manropeEL ${
                     showReferInfo ? 'hidden' : 'flex'
                   } font-semilbold text-sm`}
                 >
@@ -123,24 +125,24 @@ export default function SettingPage() {
                     onClick={() => {
                       changeSettingOptions('accountManagement');
                     }}
-                    className={`   py-3 hover:bg-brand-green-shade95 w-full ${
+                    className={`flex justify-center    py-3 hover:bg-brand-green-shade95 w-full ${
                       settingOption.accountManagement && 'w-full bg-[#E6F5EA]'
                     }`}
                   >
-                    Account Management
+                    <span className="min-w-[170px] text-start">Account Management</span>
                   </li>
                   <li
-                    className={`py-3 hover:bg-brand-green-shade95 w-full ${
+                    className={` flex justify-center py-3 hover:bg-brand-green-shade95 w-full ${
                       settingOption.notificationSettings && ' bg-[#E6F5EA]'
                     }`}
                     onClick={() => {
                       changeSettingOptions('notificationSettings');
                     }}
                   >
-                    Notification Settings
+                    <span className="min-w-[170px] text-start">Notification Settings</span>
                   </li>
                   <li
-                    className={` py-3 hover:bg-brand-green-shade95 w-full ${
+                    className={`flex justify-center    py-3 hover:bg-brand-green-shade95 w-full ${
                       settingOption.deleteAccount && 'w-full bg-[#E6F5EA]'
                     }`}
                     onClick={() => {
@@ -148,7 +150,7 @@ export default function SettingPage() {
                       changeSettingOptions('deleteAccount');
                     }}
                   >
-                    Delete Account
+                    <span className="min-w-[170px] text-start">Delete Account</span>
                   </li>
                 </ul>
               </div>
@@ -158,7 +160,7 @@ export default function SettingPage() {
             <ul className="flex gap-6   cursor-pointer font-manropeB justify-between w-full  relative">
               <li className={`text-md text-dark-110 `}> {showReferInfo ? 'Invite your friend' : 'Settings'}</li>
             </ul>
-            <div className="mt-[26px]">
+            <div className="mt-[42px] ">
               {showReferInfo ? (
                 <InviteLink />
               ) : (
