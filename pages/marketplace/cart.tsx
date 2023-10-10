@@ -5,7 +5,8 @@ import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartProductCardProps } from '../../@types';
 
-export default function cart() {
+export default function Cart() {
+  
   const cartProducts: CartProductCardProps[] = [
     {
       id: "1",
