@@ -25,8 +25,8 @@ export default function UserReview() {
                   <p className=" m-0 ml-1">The Complete Ruby on Rails Developer Course</p>
                 </Link>
               </div>
-              <div className="flex flex-col w-[100%] mt-14 md:flex-row md:items-start items-center justify-center">
-                <div className=" flex flex-col min-w-[194px] w-[28%] min-h-[210px] max-h-[474px] mr-[40px] xl p-4 ">
+              <div className="flex flex-col w-[100%] mt-14 sm:flex-row sm:items-start items-center justify-center">
+                <div className=" flex flex-col min-w-[194px] w-[90%] sm:w-[28%] min-h-[210px] max-h-[474px] sm:mr-[40px] py-4 ">
                   <RatingBar avgRating={4.2} />
                   <div className=" mt-7">
                     {ratingData.map((data, index) => (
@@ -34,11 +34,11 @@ export default function UserReview() {
                     ))}
                   </div>
                 </div>
-                <div className="min-w-[150px] max-w-[74%] flex flex-col">
-                  <div className="w-max">
+                <div className="min-w-[150px] max-w-[90%] sm:max-w-[74%] flex flex-col ">
+                  <div className="w-full justify-start mt-2 md:mt-6 mx-1">
                     <Filter review={76} rating={195} />
                   </div>
-                  <div className="mt-6 mx-1">
+                  <div className="mt-4 mx-1">
                     {reviewData.map((data, index) => (
                       <SellerReview
                         key={index}
@@ -55,7 +55,7 @@ export default function UserReview() {
               </div>
             </div>
           </div>
-          <PaginationBar pageLength={5} currentPage={0} changeCurrentPage={() => 1} />
+          <PaginationBar pageLength={1} currentPage={0} changeCurrentPage={() => 1} />
         </div>
       </Container>
     </MainLayout>
