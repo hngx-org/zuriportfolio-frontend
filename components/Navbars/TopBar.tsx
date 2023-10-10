@@ -142,7 +142,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 >
                   <select
                     id="explore"
-                    className="text-zinc-900 text-base font-normal background-transparent pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
+                    className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
                   bg-opacity-0 hover:cursor-pointer "
                   >
                     <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
@@ -274,7 +274,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <Cart items={7} />
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
-                  <div className="details ">
+                  <div className="details hidden ">
                     <p className=" font-bold ">John Doe</p>
                     <p className="text-sm ">Zuri Team</p>
                   </div>
@@ -345,8 +345,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   >
                     <select
                       id="explore"
-                      className="text-zinc-900 text-base font-normal background-transparent pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
-                  bg-opacity-0 hover:cursor-pointer "
+                      className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
+                  bg-opacity-0 hover:cursor-pointer  "
                     >
                       <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
                       <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
