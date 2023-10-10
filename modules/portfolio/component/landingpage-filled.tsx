@@ -5,10 +5,13 @@ import useDisclosure from '../../../hooks/useDisclosure';
 import WorkExperienceSection from './work-experience-modal';
 import PortfolioAbout from './about/about';
 import PortfolioReference from './reference/reference';
+import EducationSection from './education-modal';
+// import { EducationProvider } from './Education/EducationContext';
 
 
 const LandingPageFilled: React.FC = () => {
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
+  const [isEducationModalOpen, setIsEducationModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [isReferenceModalOpen, setIsReferenceModalOpen] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -19,6 +22,14 @@ const LandingPageFilled: React.FC = () => {
   const handleCloseSkillModal = () => {
     setIsSkillModalOpen(false);
   };
+
+  const handleOpenEducationModal = () => {
+    setIsEducationModalOpen(true);
+  };
+  const handleCloseEducationModal = () => {
+    setIsEducationModalOpen(false);
+  };
+
   return (
     <div className="flex flex-col gap-20 w-full">
       <div className="flex flex-col gap-6">
@@ -402,7 +413,9 @@ const LandingPageFilled: React.FC = () => {
           <div className="flex flex-col mt-5 gap-6 w-1/2 items-end">
             <div className="flex flex-row mb-5 gap-6 items-start">
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                <a href="#">Edit</a>
+                <a href="#" onClick={onOpen}>
+                  Edit
+                </a>
               </div>
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
                 <a href="#">Delete</a>
@@ -758,6 +771,7 @@ const LandingPageFilled: React.FC = () => {
         <SkillsModal handleCloseSkillModal={handleCloseSkillModal} isSkillModalOpen={isSkillModalOpen} />
       )}
       <>{isOpen && <WorkExperienceSection isOpen={isOpen} onClose={onClose} />}</>
+      <>{isOpen && <EducationSection isOpen={isOpen} onClose={onClose} />}</>
       <>
         {isAboutModalOpen && (
           <PortfolioAbout

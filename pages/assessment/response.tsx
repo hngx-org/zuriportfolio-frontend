@@ -18,7 +18,7 @@ export default function AssessmentResponse() {
 
   return (
     <MainLayout showTopbar={true} showDashboardSidebar={false} activePage="dashboard">
-      <>
+      <div className="mb-32">
         <Image
           src="/assets/header-image/header-body.png"
           width={1440}
@@ -427,7 +427,7 @@ export default function AssessmentResponse() {
             </div>
           </div>
         </div>
-      </>
+      </div>
     </MainLayout>
   );
 }
