@@ -11,7 +11,7 @@ import Button from '@ui/Button';
 import MainLayout from '../../components/Layout/MainLayout';
 import TabContainer from './component/Tabbed';
 import { useState } from 'react';
-import CategoriesNav from './component/CategoriesNav/CategoriesNav';
+import CategoriesDetailsNav from './component/CategoriesNav/CategoriesDetailNav';
 
 export default function ProductDetailsDescription() {
   const [image, setImage] = useState(mainImage);
@@ -40,21 +40,20 @@ export default function ProductDetailsDescription() {
   };
 
   const navItems: string[] = [
-    'All Categories',
-    ' Design & Graphics',
-    ' Development & Programming',
-    ' Content Creation',
-    ' Digital Arts & Media',
-    ' Audio & Sound',
-    ' Photography',
-    ' More...',
+    'Wish-list',
+    ' UI/UX Designers',
+    'Software Devs',
+    'Video Editors',
+    'Content Creators',
+    'Writers',
+    'SEO Expert',
+    'Devops Engi...',
   ];
 
   return (
     <MainLayout activePage="product-details" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="whitespace-nowrap overflow-hidden ml-[70px]">
-        <CategoriesNav navItems={navItems} />
-      </div>
+      <CategoriesDetailsNav navItems={navItems} />
+      <div className="whitespace-nowrap overflow-hidden ml-[70px]"></div>
       {/* lg:px-[100px] md:px-10*/}
       <main className={`flex flex-col items-center max-w-[1240px] mx-auto lg:pt-6 pt-4 lg:pb-6 pb-4`}>
         {/* Product Details  */}
