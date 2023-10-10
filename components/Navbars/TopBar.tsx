@@ -507,6 +507,58 @@ function MenuUI({
             {router.pathname === '/marketplace' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
         </li>
+        {auth && (
+          <div className="mt-8 flex flex-col gap-6 w-[100%]">
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/profile')} href={'/View Live Profile'}>
+                View Live Profile
+              </Link>
+              {router.pathname === '/profile' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/shop')} href={'/shop'}>
+                Your Shop
+              </Link>
+              {router.pathname === '/shop' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/dashboard')} href={'/dashboard'}>
+                Customer Dashboard
+              </Link>
+              {router.pathname === '/dashboard' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/portfolio')} href={'/portfolio'}>
+                Manage Portfolio
+              </Link>
+              {router.pathname === '/portfolio' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/assessments')} href={'/assessments'}>
+                Assessments & Badges
+              </Link>
+              {router.pathname === '/assessments' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/settings')} href={'/settings'}>
+                Settings
+              </Link>
+              {router.pathname === '/settings' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <Link
+              className="rounded-lg relative px-4 flex items-center justify-center gap-5 h-[48px] font-manropeB hover:bg-[#F4FBF6] focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled border-solid border-brand-green-primary text-base py-3  border-0  bg-opacity-50  bg-[#FFF7F7] text-red-500 w-[100%]"
+              href="/"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" fill="none" viewBox="0 0 25 24">
+                <g fill="#FF2E2E">
+                  <path d="M11.5 7h2v7h-2V7zm0 8h2v2h-2v-2z"></path>
+                  <path d="M22.207 7.293l-5-5A.996.996 0 0016.5 2h-8a.996.996 0 00-.707.293l-5 5A.996.996 0 002.5 8v8c0 .266.105.52.293.707l5 5A.997.997 0 008.5 22h8c.266 0 .52-.105.707-.293l5-5A.997.997 0 0022.5 16V8a.996.996 0 00-.293-.707zM20.5 15.586L16.086 20H8.914L4.5 15.586V8.414L8.914 4h7.172L20.5 8.414v7.172z"></path>
+                </g>
+              </svg>
+              Sign Out
+            </Link>
+          </div>
+        )}
         {!auth && (
           <>
             <Button
