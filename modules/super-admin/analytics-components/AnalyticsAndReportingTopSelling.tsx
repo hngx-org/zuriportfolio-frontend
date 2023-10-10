@@ -90,7 +90,7 @@ const totalPages = 10;
 
    return (
     <section className=" px-6 mb-10 font-manropeL">
-      <div className="max-w-[1220px] mx-auto py-4 border border-white-200 rounded-lg shadow-md overflow-x-auto lg:max-w-[1050px] xl:max-w-[1220px] no-scrollbar">
+      <div className="max-w-[1220px] mx-auto py-4 border border-white-200 rounded-lg overflow-x-auto lg:max-w-[1050px] xl:max-w-[1220px] no-scrollbar">
         <div className="grid grid-cols-2 min-w-[1000px] items-center text-custom-color2 border-b border-white-200 px-4 py-3 bord no-scrollbar">
           <div className="flex items-center gap-1">
             <span className="md:pl-8">Product Name </span>
@@ -106,7 +106,7 @@ const totalPages = 10;
         </div>
         <div className="min-w-[1000px]">
           {products.map((product) => (
-            <div key={product.id} className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap">
+            <div key={product.id} className="grid grid-cols-2 items-center border-b border-white-200 bg-white-100 py-4 px-4 whitespace-nowrap">
               <div className="flex items-center md:pl-8 ">
                 <Image src={product.productImage} alt={product.productName} width={50} height={50} />
                 <span className="ml-4 text-[15px]">{product.productName}</span>

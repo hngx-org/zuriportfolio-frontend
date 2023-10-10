@@ -157,7 +157,7 @@ const AnalyticsAndReportingGraphs = () => {
         <div className="space-y-6 md:space-y-0  md:flex-grow">
           {graphDetails.map((item, index) => (
             <div key={item.id} className="mb-8 lg:w-[98%]">
-              <div className=" shadow-sm rounded-sm border border-white-200 bg-white-100">
+              <div className="  rounded-sm border border-white-200 bg-white-100">
                 <div className="flex justify-between items-center px-6 mt-5 text-custom-color15">
                   <h3 className="text-[18px] font-light">{item.title}</h3>
                   <Link href={reportRoute}>
@@ -216,7 +216,7 @@ const AnalyticsAndReportingGraphs = () => {
           ))}
         </div>
         <section className="lg:w-[25%]">
-          <div className="py-7 px-5  whitespace-nowrap lg:shadow-sm bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:px-10 xl:max-w-[1270px]">
+          <div className="py-7 px-5  whitespace-nowrap  bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:px-10 xl:max-w-[1270px]">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-[19px]">Activity</h3>
               <p className="text-custom-color15 text-[15px]">View All</p>
