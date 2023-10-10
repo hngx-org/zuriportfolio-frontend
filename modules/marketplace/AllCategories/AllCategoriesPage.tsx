@@ -2,9 +2,8 @@ import React from 'react';
 import ProductCard from '../component/ProductCard';
 import { ProductCardProps } from '../../../@types';
 import ProductCardWrapper from '../component/landingpage/productCardWrapper/product-card-wrapper';
-import Link from 'next/link'; 
+import Link from 'next/link';
 import ProductDetails from '../../../pages/marketplace/product-details';
-
 
 interface ProductCardWrapperProps {
   productsList: ProductData[];
@@ -24,13 +23,11 @@ interface ProductData {
   discount: number;
 }
 
-
 export default function AllCategoriesPage() {
   // Sample product data (you can replace this with your actual data)
-  const products: ProductData[] =  [
-    
+  const products: ProductData[] = [
     {
-      image:'/assets/products-banner/Image-1.png',
+      image: '/assets/products-banner/Image-1.png',
       productName: 'Webinar and Course Slide Templa...',
       productPrice: '100.0',
       productOwner: 'Mark Essien',
@@ -40,7 +37,7 @@ export default function AllCategoriesPage() {
       showDiscount: false,
       discount: 60,
     },
-    
+
     {
       image: '/assets/products-banner/Image-2.png',
       productName: 'Webinar and Course Slide Templa...',
@@ -91,7 +88,7 @@ export default function AllCategoriesPage() {
       productPrice: '120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
-      showLimitedOffer:  false,
+      showLimitedOffer: false,
       showTopPicks: false,
       showDiscount: true,
       discount: 60,
@@ -102,7 +99,7 @@ export default function AllCategoriesPage() {
       productPrice: '120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
-      showLimitedOffer:  false,
+      showLimitedOffer: false,
       showTopPicks: false,
       showDiscount: false,
       discount: 60,
@@ -113,7 +110,7 @@ export default function AllCategoriesPage() {
       productPrice: '120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
-      showLimitedOffer:  false,
+      showLimitedOffer: false,
       showTopPicks: false,
       showDiscount: true,
       discount: 60,
@@ -212,7 +209,7 @@ export default function AllCategoriesPage() {
     {
       image: '/assets/products-banner/Image-5.png',
       productName: 'Webinar and Course Slide Templa...',
-      productPrice:' 120.0',
+      productPrice: ' 120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
       showLimitedOffer: false,
@@ -259,7 +256,7 @@ export default function AllCategoriesPage() {
     {
       image: '/assets/products-banner/Image-9.png',
       productName: 'Webinar and Course Slide Templa...',
-      productPrice:' 120.0',
+      productPrice: ' 120.0',
       productOwner: 'Mark Essien',
       productRating: 3,
       showLimitedOffer: false,
@@ -299,9 +296,7 @@ export default function AllCategoriesPage() {
       showTopPicks: true,
       showDiscount: false,
       discount: 60,
-    }
-
-   
+    },
   ];
 
   // Array of paragraph texts for each row
@@ -311,8 +306,7 @@ export default function AllCategoriesPage() {
     'Content Creation & Education',
     'Degital Arts & Media',
     'Audio & Sound',
-    'Photography'
-    
+    'Photography',
   ];
 
   const labelTExt = ['+5,000,000', '+2,050,000', '+550,000', '+150,000', '+50,000', '+25,000'];
@@ -330,11 +324,10 @@ export default function AllCategoriesPage() {
   const productRows: ProductData[][] = groupProductsIntoRows(products, itemsPerRow);
 
   return (
-   
     <div className="category">
       {productRows.map((row, index) => (
         <div key={index} className="">
-         <div className="flex gap-6">
+          <div className="flex gap-6">
             <div className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal ">
               {paragraphTexts[index]}
             </div>
@@ -343,21 +336,8 @@ export default function AllCategoriesPage() {
             </div>
           </div>
           <ProductCardWrapper productsList={row} title={''} />
-        
         </div>
       ))}
     </div>
- 
   );
 }
-
-
-
-
-
-
-
-
-
-
-
