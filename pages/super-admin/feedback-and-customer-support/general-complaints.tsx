@@ -330,7 +330,7 @@ export default function GeneralComplaints() {
                     className="  border-none focus:outline-none ml-1.5 h-6 w-96"
                   />
                 </div>
-                <div className="filter cursor-pointer rounded-lg ml-2 w-28 p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-zinc-200 border-2">
+                <div className="filter cursor-pointer rounded-lg ml-2 p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-zinc-200 border-2">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M5 10H15M2.5 5H17.5M7.5 15H12.5"

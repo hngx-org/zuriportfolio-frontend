@@ -63,7 +63,7 @@ function ComplaintsDetails() {
           </Link>
 
           <div>
-            <h3 className="text-lg">Complaint Details</h3>
+            <h3 className="text-lg">Complaint Details </h3>
             <p className="text-sm text-gray-500">Basic vendor details</p>
           </div>
         </div>
@@ -75,7 +75,7 @@ function ComplaintsDetails() {
               </div>
               <div>
                 <h1 className="text-3xl">Gustavo Silas</h1>
-                <p className="text-base text-gray-500">gustavosilas@gmail.com</p>
+                <p className="text-base text-gray-500">gustavosilass@gmail.com</p>
               </div>
 
               {resolve && (
