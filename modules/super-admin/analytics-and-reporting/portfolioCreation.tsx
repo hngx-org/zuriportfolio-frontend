@@ -61,7 +61,7 @@ const PortfolioCreation: React.FC = () => {
   //   ];
   return (
     <>
-      <div className="max-[1310px]:px-[1rem] max-[834px]:px-[2.5rem] max-[800px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem]">
+      <div className="max-[1310px]:px-[1rem] max-[834px]:px-[2.5rem] max-[800px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0">
         <div className="max-w-[77.5rem] w-full mt-[3rem] flex flex-col gap-[0.9375rem] rounded-[0.5rem] border border-[#E1E3E2] bg-[#FFF] mx-auto max-[730px]:max-w-[100%] max-[800px]:rounded-tr-none max-[800px]:rounded-br-none max-[800px]:border-r-0">
           <div className="px-[1rem] py-[0.75rem] max-w-[77.5rem] w-full border-b-[0.0625rem] border-[#EAECF0]">
             <p className="font-manropeL font-medium leading-[1.75rem] text-[1.25rem] text-gray-900 max-[834px]:text-[1.125rem] max-[880px]:text-[1.125rem] max-[834px]:max-w-none">
