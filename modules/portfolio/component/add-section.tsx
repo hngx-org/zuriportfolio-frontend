@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '@ui/Modal';
 import useDisclosure from '../../../hooks/useDisclosure';
-import { Add, Award, Briefcase, CloseSquare, Global, Menu } from 'iconsax-react';
+import { Add, Award, Briefcase, CloseSquare, Global, Menu, Teacher } from 'iconsax-react';
 import Button from '@ui/Button';
 
 function Home() {
@@ -26,7 +26,7 @@ function Home() {
     {
       title: 'Education',
       description: 'Show off your  academic qualification  degrees, and also relevant certification.',
-      icon: <Briefcase />,
+      icon: <Teacher />,
     },
     {
       title: 'Skill',
@@ -56,7 +56,7 @@ function Home() {
     {
       title: 'Language',
       description: 'A place to highlight your professional experience A place to highlight your professional ',
-      icon: <Global/>,
+      icon: <Global />,
     },
     {
       title: 'Awards',
@@ -78,7 +78,6 @@ function Home() {
       description: 'A place to highlight your professional experience A place to highlight your professional ',
       icon: <Briefcase />,
     },
-
   ];
 
   const isSectionSelected = (title: string) => selectedSections.includes(title);
@@ -113,21 +112,23 @@ function Home() {
   return (
     <>
       <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
-        <div className="space-y-6 bg-white-100 p-4 py-5">
+        <div className=" bg-white-100 p-3 py-5 rounded-lg">
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
-              <p className="text-2xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold">Add a section</p>
+              <p className="text-4xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold leading-10">
+                Add a section
+              </p>
               <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
             {sections.map(
               (section, index) =>
                 !isSectionSelected(section.title) && (
                   <div
                     key={index}
-                    className="bg-[#F4FBF6] p-4 rounded-lg shadow-md cursor-pointer hover:border-2 hover:border-green-500"
+                    className="bg-[#F4FBF6] p-4 rounded-lg cursor-pointer hover:border-2 hover:border-green-500"
                     onClick={() => handleSectionClick(section.title)}
                   >
                     <div className="flex gap-2 items-center text-green-500">
@@ -135,13 +136,13 @@ function Home() {
                       <h2 className="text-black leading-6 text-base font-medium">{section.title}</h2>
                     </div>
                     <div>
-                      <p className="text-[#444846]">{section.description}</p>
+                      <p className="text-[#444846] mt-2">{section.description}</p>
                     </div>
                   </div>
                 ),
             )}
             <div
-              className="bg-[#ffffff] p-4 rounded-lg shadow-md flex items-center cursor-pointer border border-green-500 border-dashed hover:border-2 hover:border-green-500"
+              className="bg-[#ffffff] p-4 rounded-lg flex items-center cursor-pointer border border-green-500 border-dashed hover:border-2 hover:border-green-500"
               onClick={() => handleSectionClick('Custom')}
             >
               <div>
@@ -156,15 +157,11 @@ function Home() {
         </div>
       </Modal>
 
-       {/* after adding section */}
+      {/* after adding section */}
 
       <div className="p-4">
         {selectedSections.map((section) => (
-          <div
-            key={section}
-            className="p-4  mt-4 cursor-pointer"
-            onClick={() => setSelectedSection(section)}
-          >
+          <div key={section} className="p-4  mt-4 cursor-pointer" onClick={() => setSelectedSection(section)}>
             <div className="flex items-center justify-between">
               <div className="flex gap-2 items-center">
                 <Menu className="text-sm font-thin" />
@@ -183,14 +180,12 @@ function Home() {
               </div>
             </div>
 
-           
             <div className="p-4 flex flex-col sm:flex-row text-gray-500  gap-4">
               <div className="p-4 font-light text-sm sm:text-left sm:w-1/3">mm/yyyy - mm/yyyy</div>
 
               <div className="w-full sm:w-2/3 sm:pl-4 text-gray-500 ">
                 <div className=" font-medium text-gray-500 ]">Company</div>
                 <div className="font-light text-sm">role</div>
-                
               </div>
               <div className="mt-0 text-sm sm:mt-2 font-normal">Description</div>
             </div>
