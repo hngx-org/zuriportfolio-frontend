@@ -50,12 +50,14 @@ function Wishlist() {
     }
   }, [wishlistProducts]);
 
+  useEffect(() => {
+    document.body.style.overflow = showEmptyWishlistModal ? "hidden" : "unset";
+  }, [showEmptyWishlistModal]);
+
   return (
-    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div>
-        <main className="w-full mx-auto">
-          {showEmptyWishlistModal && (
-            <div className="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
+    <>
+     {showEmptyWishlistModal && (
+            <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
               {/* close button */}
 
               <div className="absolute top-0 right-0 mr-5 mt-5">
@@ -84,6 +86,9 @@ function Wishlist() {
               </div>
             </div>
           )}
+    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+        <main className="w-full mx-auto">
+          
 
           <CategoriesNav
             navItems={[
@@ -141,8 +146,8 @@ function Wishlist() {
             </section>
           </div>
         </main>
-      </div>
     </MainLayout>
+    </>
   );
 }
 
