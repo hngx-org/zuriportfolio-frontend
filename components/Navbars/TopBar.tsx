@@ -314,9 +314,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           handleAuthMenu={handleAuthMenu}
           auth={auth}
           refMenu={searchRef2}
-        >
-          {auth && <MobileNav active={props.activePage} />}
-        </MenuUI>
+        />
+
         {/* Search Mobile Nav */}
         {searchMobile && (
           <div className="absolute min-h-screen lg:hidden bg-white-610 right-0 left-0 top-20">
@@ -466,7 +465,6 @@ function MenuUI({
   auth,
   handleAuthMenu,
   authMenu,
-  children,
 }: {
   toggle?: boolean;
   toggler: () => void;
@@ -475,7 +473,6 @@ function MenuUI({
   auth?: boolean;
   handleAuthMenu: () => void;
   authMenu?: boolean;
-  children: React.ReactNode;
   refMenu?: any;
 }) {
   const router = useRouter();
@@ -515,7 +512,7 @@ function MenuUI({
             {router.pathname === '/marketplace' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
         </li>
-        {children}
+
         {auth && (
           <div className="mt-4 flex flex-col items-baseline gap-6 w-[100%]">
             <div className=" group flex flex-col  justify-center  gap-1 ">
