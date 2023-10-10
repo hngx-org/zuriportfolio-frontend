@@ -225,7 +225,7 @@ export default function ProductDetailsDescription() {
 
                 <button
                   type="button"
-                  className="hidden sm:flex text-base font-semibold leading-6 mt-7 text-base font-manropeB font-bold text-brand-green-primary mx-auto"
+                  className="hidden sm:flex text-base leading-6 mt-7  font-manropeB font-bold text-brand-green-primary mx-auto"
                 >
                   See more reviews
                 </button>
@@ -300,7 +300,7 @@ export default function ProductDetailsDescription() {
 
                 <button
                   type="button"
-                  className="flex text-base font-semibold leading-6 mt-7 text-base font-manropeB font-bold text-brand-green-primary"
+                  className="flex  leading-6 mt-7 text-base font-manropeB font-bold text-brand-green-primary"
                 >
                   See more reviews
                 </button>
@@ -311,7 +311,7 @@ export default function ProductDetailsDescription() {
                   id="about"
                   name="about"
                   rows={3}
-                  className="block w-full rounded-xl text-custom-color39 border-0 border-custom-color32 text-base font-bold py-2  shadow-sm ring-1 ring-inset ring-gray-300 pl-2 min-h-[116px] placeholder:text-custom-color39  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
+                  className="block w-full rounded-xl text-custom-color39 border-0 border-custom-color32  py-2  shadow-sm ring-1 ring-inset ring-gray-300  min-h-[116px] placeholder:text-custom-color39  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
                   placeholder="Write a customer review"
                   required
                 ></textarea>
