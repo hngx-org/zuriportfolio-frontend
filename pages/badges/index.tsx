@@ -30,7 +30,7 @@ const BadgeComponent: React.FC<BadgeComponentProps> = ({
       href="/badges/badge/[badge]"
       as={`/badges/badge/${badgelabel}`}
       passHref
-      className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[236px] lg:min-w-[330px] lg:h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
+      className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[236px] lg:w-[300px] lg:h-[300px] xl:min-w-[330px] xl:h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
     >
       {isLocked && (
         <div className="badgelockoverlay absolute w-full h-full top-0 bg-opacity-60 bg-black flex items-center justify-center z-10 ">
@@ -64,7 +64,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
       <div className="w-full h-auto font-manropeL">
-        <div className="w-full h-[130px] bg-[#005427] px-[15px] sm:px-[68px] xl:px-[230px] flex items-center sm:justify-start  relative ">
+        <div className="w-full h-[130px] bg-[#005427] px-[15px] sm:px-[68px] lg:px-[130px] flex items-center sm:justify-start  relative ">
           <div className="gap-[8px] flex flex-col ">
             <h1 className="text-[22px] sm:text-[32px] font-[600] text-white-100 leading-[36px] md:leading-[40px] tracking-normal lg:pr-[100px]">
               Keep tabs on all yours badges
@@ -133,11 +133,11 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
             />
           </div>
         </div>
-        <div className="h-full lg:px-[60px] xl:px-[150px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px] overflow-x-hidden">
+        <div className="h-full lg:px-[60px] px-[40px] xl:px-[150px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px] overflow-x-hidden">
           <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start">
             Product design Badges
           </h1>
-          <div className="badgecomponents flex flex-col md:flex-row  items-center justify-between gap-[94px]  md:gap-[24px] lg:gap-[40px] xl:gap-[94px] ">
+          <div className="badgecomponents flex flex-col md:flex-row  items-center justify-between gap-[94px]  sm:gap-[20px] ">
             {/* beginner badge component */}
 
             <BadgeComponent
