@@ -33,7 +33,7 @@ const CreateTemplate = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-y-8">
+      <div className="flex flex-col gap-y-8 ">
         {mockArr.map((item, index) => {
           return (
             <div
