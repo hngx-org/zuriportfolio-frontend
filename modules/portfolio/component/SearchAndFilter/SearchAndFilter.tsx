@@ -105,7 +105,6 @@ const SearchAndFilter: React.FC = () => {
   ];
 
   return (
-    <div>
     <div className="md:container margin-auto mt-10 md:px-10 mb-10 px-3 py-8">
       <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-6">
         <div className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
@@ -116,18 +115,19 @@ const SearchAndFilter: React.FC = () => {
         </div>
       </div>
       <div className="md:justify-between w-[90vw] justify-center items-center md:items-start gap-3 md:gap-[24px] flex flex-col md:flex-row mb-8">
-     <div className="flex justify-start items-center gap-3 flex-grow w-[100vw] h-12 md:h-14 pl-3">
-            <div className="h-6 absolute md:left-10 sm:left-7 mx-3 md:mx-0 bottom-5 md:bottom-7">
+        <div className="w-full md:w-[600px] h-[45px] md:h-[60px] justify-center items-center flex relative pr-4">
+          <div className="flex justify-start items-center gap-3 flex-grow w-full h-12 md:h-14">
+            <div className="w-6 h-6 relative left-12 md:left-10 sm:left-12">
               <SearchNormal1 color="#737373" />
             </div>
             <input
               type="text"
-              className="flex-grow h-[60px] sm:w-full ml-1 md:mx-3 mb-6 pl-9 md:pl-12 sm:pl-14 rounded-2xl border border-stone-300 focus:outline-none w-[95vw] md:w-[200px] mt-4"
+              className="flex-grow h-[55px] px-4 py-4 pl-9 md:pl-12 sm:pl-14 rounded-2xl border border-stone-300 focus:outline-none w-full md:w-[200px]"
               placeholder="Search by name or role"
             />
           </div>
         </div>
-         <div className="flex gap-6 md:flex-row">
+        <div className="flex gap-6 flex-col md:flex-row">
           <CustomDropdown
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
@@ -150,9 +150,9 @@ const SearchAndFilter: React.FC = () => {
           {sectionsData.map((section, index) => (
             <div
               key={index}
-              className={`px-4 py-3 mx-4 rounded-2xl justify-center items-center gap-4 flex cursor-pointer ${
+              className={`px-4 py-3 mx-4 rounded-2xl border justify-center items-center gap-4 flex cursor-pointer ${
                 activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-              } ${section.text === 'All_Filter'? 'border':""}`}
+              }`}
               onClick={() => {
                 setActiveSection(index);
                 setShowFilterComponent(section.text === 'All_Filter');
@@ -178,6 +178,7 @@ const SearchAndFilter: React.FC = () => {
           </div>
         )}
       </div>
+
       {showFilterComponent && <FilterComponent />}
     </div>
   );
