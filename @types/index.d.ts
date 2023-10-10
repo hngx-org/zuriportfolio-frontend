@@ -438,3 +438,20 @@ type cardinfo = {
   arUp: string;
   id: number;
 };
+
+// product listing types
+export interface ProductInfo {
+  productName: string;
+  vendor: string;
+  id: number;
+  dateAdded: string;
+  status: string;
+}
+export interface DeletedProducts {
+  name: string;
+  vendor: string;
+  id: number;
+  dateAdded: Date;
+  dateDeleted: Date;
+  status: string;
+}
