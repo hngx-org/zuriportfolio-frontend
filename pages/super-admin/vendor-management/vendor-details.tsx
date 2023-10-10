@@ -108,7 +108,7 @@ function VendorDetails() {
                 <Image src={star_outline} alt="star"></Image>
                 <Image src={star_outline} alt="star"></Image>
               </aside>
-              <p className="text-xs mr-5 lg:mr-0 sm:ml-auto">{date ? date : 'Date Added 08-01-23'}</p>
+              <p className="text-xs mr-5 lg:mr-0 sm:ml-auto">{date ? date : 'Date Added 08-01-23.'}</p>
             </div>
 
             <div className="status flex items-center justify-between mb-3">
