@@ -104,7 +104,7 @@ export default function ProductDetailsDescription() {
               </p>
             </div>
 
-            <Button intent={'primary'} size={'lg'} className="lg:px-5 md:px-14 md:w-fit w-full">
+            <Button intent={'primary'} size={'lg'} className="lg:px-5 md:px-14 sm:w-fit  w-full">
               Add to cart
             </Button>
           </div>
