@@ -150,7 +150,7 @@ const AnalyticsAndReportingGraphs = () => {
   
   return (
     <>
-      <section className="my-10 mx-auto px-6 font-manropeL gap-2 space-y-6  md:max-w-[1270px] md:space-y-0 lg:flex lg:justify-between lg:items-center lg:max-w-[1100px] xl:max-w-[1270px] ">
+      <section className="my-10 mx-auto px-6 font-manropeL gap-2 space-y-6  md:max-w-[1270px] md:space-y-0 lg:flex lg:justify-between lg:items-center lg:max-w-[1100px] xl:max-w-[1270px] 2xl:max-w-[1520px] ">
         <div className="space-y-6 md:space-y-0  md:flex-grow">
           {graphDetails.map((item, index) => (
             <div key={item.id} className="mb-8 lg:w-[98%]">
@@ -211,7 +211,7 @@ const AnalyticsAndReportingGraphs = () => {
           ))}
         </div>
         <section className="lg:w-[25%]">
-          <div className="py-7 px-5  whitespace-nowrap  bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:px-10 xl:max-w-[1270px]">
+          <div className="py-11 px-5  whitespace-nowrap  bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:px-10 xl:max-w-[1270px]">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-[19px]">Activity</h3>
               <p className="text-custom-color15 text-[15px]">View All</p>

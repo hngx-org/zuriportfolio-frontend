@@ -95,7 +95,7 @@ const AnalyticsAndReportingTopSelling = () => {
 
   return (
     <section className=" px-6 mb-10 font-manropeL">
-      <div className="max-w-[1220px] mx-auto py-4 border border-white-200 rounded-lg overflow-x-auto lg:max-w-[1050px] xl:max-w-[1220px] no-scrollbar">
+      <div className="max-w-[1220px] mx-auto py-4 border border-white-200 rounded-lg overflow-x-auto no-scrollbar lg:max-w-[1050px] xl:max-w-[1220px] 2xl:max-w-[1470px] ">
         <div className="grid grid-cols-2 min-w-[1000px] items-center text-custom-color2 border-b border-white-200 px-4 py-3 bord no-scrollbar">
           <div className="flex items-center gap-1">
             <span className="md:pl-8">Product Name </span>
