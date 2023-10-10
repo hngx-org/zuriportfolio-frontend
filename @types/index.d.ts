@@ -444,3 +444,15 @@ export type inputErrorMessage = {
   inputName: string;
   isValid: boolean;
 };
+
+export interface CardData {
+  id: number;
+  bgImage: string;
+  photoImage: string;
+  name: string;
+  role: string;
+  skills: string[];
+  totalProjects: number;
+  badge: string;
+  location: string;
+}
