@@ -6,7 +6,7 @@ export default function Filter(props: filterProps) {
   return (
     <div className=" w-max">
       <p className=" text-sm font-semibold mb-2">SORT BY</p>
-      <div className="flex">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="viewSort">
           <SelectInput
             size={1}

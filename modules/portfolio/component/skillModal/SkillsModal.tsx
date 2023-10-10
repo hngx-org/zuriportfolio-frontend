@@ -31,7 +31,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
     const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
     setArrayTwo(storedArrayTwo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [arrayTwo]);
+  }, []);
 
   const handleMoveToTwo = (item: string) => {
     setArrayOne(arrayOne.filter((el: string) => el !== item));
@@ -58,7 +58,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
     }
     setInputValue(''); // Clear the input field after pushing the value
   };
-
+      
   const  cancelBtnFn = () =>{
     localStorage.removeItem('arrayTwo')
     setArrayTwo([])

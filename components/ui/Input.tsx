@@ -81,7 +81,7 @@ export function SelectInput({
       <select
         onChange={onChange}
         className={twMerge(
-          'pr-2 border-none outline-none bg-transparent hide-caret mr-3',
+          'w-full pr-2 border-none outline-none bg-transparent hide-caret mr-3',
           leftIcon && 'pl-7',
           disabled ? 'cursor-not-allowed' : '',
         )}
@@ -105,7 +105,7 @@ export function SelectInput({
           fill={caretColor ?? '#7777'}
           fillRule="evenodd"
           d="M16.53 8.97a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 0 1-1.06 0l-4-4a.75.75 0 1 1 1.06-1.06L12 12.44l3.47-3.47a.75.75 0 0 1 1.06 0Z"
-          clip-rule="evenodd"
+          clipRule="evenodd"
         />
       </svg>
     </div>

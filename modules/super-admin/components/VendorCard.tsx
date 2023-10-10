@@ -7,13 +7,13 @@ import Link from 'next/link';
 
 function VendorCard({ vendorname, pic, name, price }: VendorCardProps): React.ReactElement {
   return (
-    <div className="rounded-md p-4 border-custom-color32 border border-solid font-manropeA max-w-[250px]">
+    <div className="rounded-md p-1.5 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL">
       <Image className="mb-4 rounded-lg max-h-[100%] min-w-[100%]" src={pic} alt="coursepic" />
       <div className="flex flex-col w-[230px] max-w-[100%] content-start">
-        <p className="text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] break-words w-[100%] max-w-[100%] text-green-850">
+        <p className="text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%] text-green-850">
           {name}
         </p>
-        <h2 className="font-bold text-green-850">{`$${price}`}</h2>
+        <h2 className="font-bold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-green-850">{`$${price}`}</h2>
         <p className="text-custom-color15 font-semibold text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] break-words w-[100%] max-w-[100%]">
           By:{' '}
           <Link href={'/'} className="underline">
@@ -21,13 +21,33 @@ function VendorCard({ vendorname, pic, name, price }: VendorCardProps): React.Re
           </Link>{' '}
         </p>
       </div>
-      <div className="rating flex items-center gap-[2px] mt-6 w-[230px]">
-        <Image src={Starfill} alt="star" className="w-[16px] h-[14px]" />
-        <Image src={Starfill} alt="star" className="w-[16px] h-[14px]" />
-        <Image src={Starfill} alt="star" className="w-[16px] h-[14px]" />
-        <Image src={Starempty} alt="star" className="w-[16px] h-[14px]" />
-        <Image src={Starempty} alt="star" className="w-[16px] h-[14px]" />
-        <span className="font-bold text-custom-color15">(3)</span>
+      <div className="flex items-center gap-[1px] w-[100px] md:gap-[2px] lg:gap-[2px] mt-6 lg:w-[230px]">
+        <Image
+          src={Starfill}
+          alt="star"
+          className="md:w-[16px] w-[12px] lg:w-[16px] md:h-[14px] h-[10px] lg:h-[14px]"
+        />
+        <Image
+          src={Starfill}
+          alt="star"
+          className="md:w-[16px] w-[12px] lg:w-[16px] md:h-[14px] h-[10px] lg:h-[14px]"
+        />
+        <Image
+          src={Starfill}
+          alt="star"
+          className="md:w-[16px] w-[12px] lg:w-[16px] md:h-[14px] h-[10px] lg:h-[14px]"
+        />
+        <Image
+          src={Starempty}
+          alt="star"
+          className="md:w-[16px] w-[12px] lg:w-[16px] md:h-[14px] h-[10px] lg:h-[14px]"
+        />
+        <Image
+          src={Starempty}
+          alt="star"
+          className="md:w-[16px] w-[12px] lg:w-[16px] md:h-[14px] h-[10px] lg:h-[14px]"
+        />
+        <span className="font-bold text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] text-custom-color15">(3)</span>
       </div>
     </div>
   );
