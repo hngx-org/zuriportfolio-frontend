@@ -244,17 +244,25 @@ function LandingPage() {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
       <div className="py-6 px-4 overflow-hidden w-full">
-        <CategoriesNav
-          navItems={[
-            ' Design & Graphics',
-            ' Development & Programming',
-            ' Content Creation',
-            ' Digital Arts & Media',
-            ' Audio & Sound',
-            ' Photography',
-          ]}
-        />
         <div className="max-w-[1240px] mx-auto">
+          <CategoriesNav
+            navItems={[
+              ' Design & Graphics',
+              ' Development & Programming',
+              ' Content Creation',
+              ' Digital Arts & Media',
+              ' Audio & Sound',
+              ' Photography',
+              'Writing & Copywriting',
+              'Video & motion',
+              'Data & Analytics',
+              'Marketing & Advertising',
+              'eCommerce & Business',
+              'Gaming & Entertainment',
+              'Virtual Reality & Augmented Reality',
+              'e-Books',
+            ]}
+          />
           <ProductCardWrapper title="Handpicked For You" productsList={handPicked} />
 
           <ProductCardWrapper title="Limited Offers" productsList={limitedOffers} />
