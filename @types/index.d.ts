@@ -56,9 +56,10 @@ export interface MainLayoutContextProps {
 }
 
 export interface CartProductCardProps {
+  id: string,
   productImage: string;
   productTitle: string;
-  cardStyle: string;
+  // cardStyle: string;
   productPrice: number;
   productRating: number;
   productSeller: string;
