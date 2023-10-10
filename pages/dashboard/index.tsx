@@ -6,7 +6,7 @@ import ShopOwnerDashboard from '@modules/dashboard/component/dashboard';
 function dashboard() {
   return (
     <MainLayout showTopbar={true} showDashboardSidebar={true} activePage="dashboard">
-      <div className="px-[25px] md:px-[50px] lg:px-[75px] xl:px-[101px] min-h-[100svh]">
+      <div className="px-[25px] md:px-[50px] lg:px-[75px] xl:px-[101px] min-h-[100vh]">
         <ShopOwnerDashboard />
       </div>
     </MainLayout>
