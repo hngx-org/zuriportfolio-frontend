@@ -18,7 +18,6 @@ export default function Slider() {
           <Image src={slider5} alt="slider image 1" className="object-contain  md:w-[94.4px]" />
         </div>
       </div>
-
       <Image
         src={arrownext}
         alt="arrownext"
