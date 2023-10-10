@@ -36,7 +36,7 @@ export default function InviteLink() {
           id="invite"
           ref={copyInvite}
           className=" appearance-none font-manropeEL font-extralight
-           outline-none px-[8px] border-[1px] leading-6 grow border-[#D0D5DD]
+           outline-none px-[8px] border-[1px] leading-6 grow max-w-[232px] border-[#D0D5DD]
              lg:px-[12px] py-[10px] text-[12px] rounded-l-md text-[#667085]"
           value="portfolio.zuri/invite?=pleroma"
           readOnly
