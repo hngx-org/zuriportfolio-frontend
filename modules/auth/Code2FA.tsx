@@ -98,7 +98,7 @@ function Code2FA() {
         mx-auto p-0 justtify-self-center self-center font-base text-center
         active:bg-transparent focus:bg-transparent"
       >
-        Didn’t receive code? <span className="text-green-600 ml-[-4px]">Resend</span>
+        Didn&apos;t receive code? <span className="text-green-600 ml-[-4px]">Resend</span>
       </Button>
     </>
   );
