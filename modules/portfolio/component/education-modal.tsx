@@ -7,11 +7,11 @@ import { Education } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 type EducationModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
+  isShowOpen: boolean;
+  handleShowOpen: () => void;
 };
 
-const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) => {
+const EducationSection: React.FC<EducationModalProps> = ({ isShowOpen, handleShowOpen }) => {
   const [Educations, setEducations] = useState<Education[]>([]);
   const [degree, setDegree] = useState('');
   const [fieldOfStudy, setFieldOfStudy] = useState('');
@@ -87,12 +87,18 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
 
   return (
     <>
-      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      <Modal isOpen={isShowOpen} closeModal={handleShowOpen} isCloseIconPresent={false} size="xl">
         <div className="space-y-6 bg-white-100 p-4 py-5">
           <div className="flex flex-col gap-3 px-12 mb-6">
             <div className="flex justify-between items-center">
               <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Education</p>
-              <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+              <CloseSquare
+                size="32"
+                color="#009254"
+                variant="Bold"
+                onClick={handleShowOpen}
+                className="cursor-pointer"
+              />
             </div>
             <div className="bg-brand-green-primary h-1 rounded-sm"></div>
           </div>
@@ -213,7 +219,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     <Input
                       type="text"
                       intent={'default'}
-                      placeHolder="Enter field of study"
+                      placeHolder="Add more Details"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full"
@@ -251,7 +257,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                 <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end mt-12">
                   <Button
                     type="button"
-                    onClick={onClose}
+                    onClick={handleShowOpen}
                     intent={'secondary'}
                     className="w-full rounded-md sm:w-[6rem]"
                     size={'lg'}
@@ -277,7 +283,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button
                     type="button"
-                    onClick={onClose}
+                    onClick={handleShowOpen}
                     intent={'secondary'}
                     className="w-full rounded-md sm:w-[6rem]"
                     size={'lg'}
