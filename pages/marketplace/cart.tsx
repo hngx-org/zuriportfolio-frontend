@@ -1,10 +1,73 @@
-import React from 'react';
+import React, { MouseEvent, useState } from 'react';
 import MainLayout from '../../components/Layout/MainLayout';
 import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard';
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
+import { CartProductCardProps } from '../../@types';
 
 export default function cart() {
+  const cartProducts: CartProductCardProps[] = [
+    {
+      id: "1",
+      productImage: "/assets/images/image-zuri-7.png",
+      productPrice: 100,
+      discountPercentage: 60,
+      productRating: 3,
+      productSeller: "Mark Essien",
+      productTitle: "Webinar and Course Slide Template....",
+    },{
+      id: "2",
+      productImage: "/assets/images/image-zuri-8.png",
+      productPrice: 100,
+      productRating: 4,
+      productSeller: "Mark Essien",
+      productTitle: "Webinar and Course Slide Template....",
+    },{
+      id: "3",
+      productImage: "/assets/images/image-zuri-9.png",
+      productPrice: 100,
+      discountPercentage: 60,
+      productRating: 3,
+      productSeller: "Mark Essien",
+      productTitle: "Webinar and Course Slide Template....",
+    },{
+      id: "4",
+      productImage: "/assets/images/image-zuri-10.png",
+      productPrice: 100,
+      productRating: 3,
+      productSeller: "Mark Essien",
+      productTitle: "Webinar and Course Slide Template....",
+      tag: "Top Picks",
+      tagBackground: "bg-[#515b63]"
+    },
+  ]
+
+  const [productCards,setProductCards] = useState(cartProducts);
+  const closeHandler = (event: MouseEvent<HTMLElement>) => {
+    let id = event.currentTarget.id
+    console.log(id);
+    
+    let recentlyViewedProducts = productCards.filter((product) => product.id != id)
+    console.log(recentlyViewedProducts);
+    
+    setProductCards(recentlyViewedProducts)
+  }
+
+  const recentlyViewed = productCards.map((product) => (<ProductCard
+              key={product.id}
+              id={product.id}
+              productImage={product.productImage}
+              productPrice={product.productPrice}
+              discountPercentage={product.discountPercentage}
+              productRating={product.productRating}
+              productSeller={product.productSeller}
+              productTitle={product.productTitle}
+              tag={product.tag}
+              tagBackground={product.tagBackground}
+              closeHandler={closeHandler}
+            />) )
+
+  
   return (
     <MainLayout activePage="home" showDashboardSidebar={false} showTopbar>
       <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
@@ -68,50 +131,11 @@ export default function cart() {
 
         <section className="w-full flex flex-col mt-[50px] mb-[10%]">
           <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
-
           <div
-            className="w-full flex flex-row overflow-scroll gap-x-3 md:overflow-hidden items-center md:flex-row md:justify-center md:flex-wrap 
-                            md:gap-x-4 gap-y-4 lg:justify-between lg:gap-x-2 mt-4 "
-          >
-            <ProductCard
-              productImage="/assets/images/image-zuri-7.png"
-              productPrice={100}
-              discountPercentage={60}
-              productRating={3}
-              productSeller="Mark Essien"
-              productTitle="Webinar and Course Slide Template...."
-              cardStyle="border border-[#d5dbdd] rounded-md lg:w-1/4 md:w-1/2 md:max-w-[290px] flex flex-col p-3 "
-            />
-
-            <ProductCard
-              productImage="/assets/images/image-zuri-8.png"
-              productPrice={100}
-              productRating={3}
-              productSeller="Mark Essien"
-              productTitle="Webinar and Course Slide Template...."
-              cardStyle="border border-[#d5dbdd] rounded-md lg:w-1/4 md:w-1/2 md:max-w-[290px] flex flex-col p-3 "
-            />
-
-            <ProductCard
-              productImage="/assets/images/image-zuri-9.png"
-              productPrice={100}
-              discountPercentage={60}
-              productRating={3}
-              productSeller="Mark Essien"
-              productTitle="Webinar and Course Slide Template...."
-              cardStyle="border border-[#d5dbdd] rounded-md lg:w-1/4 md:w-1/2 md:max-w-[290px] flex flex-col p-3 "
-            />
-
-            <ProductCard
-              productImage="/assets/images/image-zuri-10.png"
-              productPrice={100}
-              tag="Top Picks"
-              productRating={3}
-              productSeller="Mark Essien"
-              productTitle="Webinar and Course Slide Template...."
-              cardStyle="border border-[#d5dbdd] rounded-md lg:w-1/4 md:w-1/2 md:max-w-[290px] flex flex-col p-3 "
-              tagBackground="bg-[#515b63]"
-            />
+            className="w-full flex flex-row overflow-scroll gap-x-3 md:overflow-hidden items-center lg:items-start lg:justify-normal md:flex-row md:justify-center md:flex-wrap 
+                            md:gap-x-4 gap-y-4  lg:gap-x-2 mt-4 "
+          >{recentlyViewed}
+          
           </div>
         </section>
       </main>
