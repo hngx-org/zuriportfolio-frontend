@@ -88,7 +88,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isReferenceModalOpe
   return (
     <Modal isOpen={isReferenceModalOpen} closeModal={() => {}} size="lg" isCloseIconPresent={false}>
       <div className="mx-auto bg-white-100 rounded-md p-3 py-5">
-        <div className="flex justify-between items-center border-b-[4px] border-brand-green-primary pb-1">
+        <div className="flex justify-between items-center border-b-[3.6px]  border-brand-green-primary pb-1">
           <div className="flex gap-4 items-center">
             <div className="cursor-pointer hover:bg-brand-green-shade95 p-3 rounded-full">
               <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">

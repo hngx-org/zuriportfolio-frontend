@@ -68,7 +68,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAb
       size="lg"
     >
       <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
-        <div className="flex justify-between border-b-[3px] border-brand-green-primary pb-1">
+        <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">
           <span className="font-semibold text-lg">About</span>
           <div
             className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"
