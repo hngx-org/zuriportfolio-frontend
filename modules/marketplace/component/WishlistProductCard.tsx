@@ -70,12 +70,12 @@ export const WishlistProductCard = ({
 
             <div className="hidden md:flex gap-3 self-start">
               <Button
-                className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 "
+                className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 focus:outline-none  focus:bg-red-200 focus:text-white-100 active:bg-red-200 active:text-white-100"
                 size={'sm'}
                 spinnerColor="#D5DBDB"
                 onClick={() => removeProductFromWishlist(product.productId)}
               >
-                <RiDeleteBin6Line className="text-[20px] md:text-[25px] text-white-650 group-hover:fill-white-100" />
+                <RiDeleteBin6Line className="text-[18px] text-white-650 group-hover:fill-white-100" />
                 Remove
               </Button>
               <Button
