@@ -157,10 +157,10 @@ const MyPage: React.FC = () => {
   };
 
   // handle filter dropdown
-  const [ filterBy, setFilterBy ] = useState<string>("item")
+  const [filterBy, setFilterBy] = useState<string>('item');
   const onChooseFilter = (filter: string) => {
-      setFilterBy(filter)
-  }
+    setFilterBy(filter);
+  };
 
   const [page, setPage] = useState(1);
 
@@ -189,7 +189,7 @@ const MyPage: React.FC = () => {
           />
 
           <div className="flex gap-4">
-            <FilterDropDown onChooseFilter={onChooseFilter}/>
+            <FilterDropDown onChooseFilter={onChooseFilter} />
 
             <Button
               onClick={onOpen}

@@ -129,12 +129,14 @@ const Guestsignupform: React.FC = () => {
               error={formErrors.agreed}
             />
           </div>
+          {/* <Link href="/auth/verification"> */}
           <SubmitButton label="Continue" />
+          {/* </Link> */}
         </form>
         <div className="mt-7">
           <p className="text-center text-gray-200 text-base">
             Already have an account?{' '}
-            <Link href="#" className="text-brand-green-primary hover:text-brand-green-hover">
+            <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
               Sign in
             </Link>
           </p>
@@ -172,6 +174,7 @@ const FormField: React.FC<FormFieldProps> = ({ label, placeholder, id, type }) =
       </label>
       <Input
         placeHolder={placeholder}
+        required
         id={id}
         name={id}
         className="w-full font-bold rounded-lg text-base bg-transparent"
@@ -207,6 +210,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
       </label>
       <Input
         placeHolder={placeholder}
+        required
         id={id}
         name={id}
         className="w-full font-bold rounded-lg text-base	"

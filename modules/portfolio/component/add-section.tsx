@@ -115,7 +115,9 @@ function Home() {
         <div className=" bg-white-100 p-3 py-5 rounded-lg">
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
-              <p className="text-4xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold leading-10">Add a section</p>
+              <p className="text-4xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold leading-10">
+                Add a section
+              </p>
               <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
             </div>
           </div>
