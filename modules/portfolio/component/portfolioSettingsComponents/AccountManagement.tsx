@@ -49,7 +49,7 @@ function AccountManagement() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-y-[0.5rem]">
+        <div className="flex flex-col gap-y-[1.2rem]">
           <label
             htmlFor="currentPassword"
             className=" font-manropeEB text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#344054]"
