@@ -4,9 +4,6 @@ import { ArrowLeft2 } from 'iconsax-react';
 import MainLayout from '../../components/Layout/MainLayout';
 import InviteLink from '../../modules/portfolio/component/portfolioSettingsComponents/inviteLink';
 import NotificationSettings from '../../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
-//import DeleteAccount from '../../modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
-//import AccountManagement from '../../modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
-//import AccountManagementMobile from '../../modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
 import { SettingOptionTypes } from '../../@types';
 import DeleteAccount from '@modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
 import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
@@ -81,7 +78,7 @@ export default function SettingPage() {
           className="hidden lg:flex lg:border-b-[1px]  cursor-auto  lg:border-white-500 relative min-h-[90vh]   items-start before:bg-white-500 before:w-full before:absolute before:top-[5rem] before:h-[1px]
                      pb-0   py-[3rem]  "
         >
-          <div className="font-manropeEB  relative  min-w-[26%]  text-[#737876]   font-normal">
+          <div className="font-manropeEB  relative cursor-pointer  min-w-[26%]  text-[#737876]   font-normal">
             <ul className="flex gap-6  text-sm font-manropeB font-semibold mb-6 justify-center w-full relative ">
               <li
                 onClick={() => setShowReferInfo(false)}
@@ -153,7 +150,7 @@ export default function SettingPage() {
             </div>
           </div>
           <div className="grow min-h-[100vh] relative lg:border-l-[1px] lg:border-white-500 pl-8 ">
-            <ul className="flex gap-6 mb-6  py-1 font-manropeB justify-between w-full relative">
+            <ul className="flex gap-6 mb-6  py-1 cursor-pointer font-manropeB justify-between w-full relative">
               <li className={`text-md text-dark-110 `}> {showReferInfo ? 'Invite your friend' : 'Settings'}</li>
             </ul>
             <div>
@@ -262,10 +259,13 @@ export default function SettingPage() {
           size={'sm'}
           isLoading={loading}
           spinnerColor="#000"
-          className=" m-6 self-end 
-          relative text-brand-green-primary hover:bg-brand-green-hover hover:text-white-100 "
+          className={` m-6 self-end 
+          relative text-brand-green-primary ${
+            settingOption.accountManagement || settingOption.deleteAccount ? 'hidden lg:block' : ''
+          }
+           hover:bg-brand-green-hover hover:text-white-100 `}
         >
-          save <span className="hidden md:inline">& copy </span>
+          Save <span className={`hidden md:inline  'hidden' }`}>& Copy </span>
         </Button>
       </div>
     </MainLayout>

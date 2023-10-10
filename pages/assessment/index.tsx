@@ -31,7 +31,7 @@ function Index() {
         }
       }),
     );
-  }, [filterParam]);
+  }, [filterParam, list]);
   return (
     <MainLayout activePage="/assessment/" className="assessmentheader" showTopbar showDashboardSidebar={false}>
       <div className="w-full items-start justify-start">
