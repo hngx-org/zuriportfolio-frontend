@@ -18,8 +18,8 @@ export default function NotificationsSettings() {
   };
 
   return (
-    <div className=" flex flex-col items-start">
-      <h1 className="font-semibold text-lg font-manropeB text-dark-105">Notification Setting</h1>
+    <div className=" flex flex-col space-y-[16px] items-start">
+      <h1 className="font-semibold md:text-[22px] texy-sm font-manropeB text-dark-105">Notification Setting</h1>
       <p className="text-sm text-[#444846]">Email Notification</p>
       <div className="text-sm font-manropeB text-white-650 space-y-4 mt-4">
         <div className="flex items-center gap-2">
@@ -35,7 +35,7 @@ export default function NotificationsSettings() {
             className=" flex gap-2 items-center justify-start"
             onClick={() => handleLabelClick('receiveEmail')}
           >
-            <p className="border-[1.6px] relative flex items-center justify-center border-white-650">
+            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={`border-[1px] top-[1px] relative ${
                   checkboxState.receiveEmail && 'bg-brand-green-hover'
@@ -58,11 +58,12 @@ export default function NotificationsSettings() {
             className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('specialOffers')}
           >
-            <p className="border-[1.6px] relative flex items-center justify-center border-white-650">
+            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={`border-[1px] top-[1px] relative ${
+                className={`border-[1px]  top-[1px] relative ${
                   checkboxState.specialOffers && 'bg-brand-green-hover'
-                }  border-brand-green-primary w-[16px] [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
+                }  border-brand-green-primary w-[16px] 
+                [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
               ></p>{' '}
             </p>
             Announcement on special offers
@@ -81,11 +82,12 @@ export default function NotificationsSettings() {
             className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('getNotification')}
           >
-            <p className="border-[1.6px] relative flex items-center justify-center border-white-650">
+            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={`border-[1px] top-[1px] relative ${
+                className={`border-[1px]  top-[1px] relative ${
                   checkboxState.getNotification && 'bg-brand-green-hover'
-                }  border-brand-green-primary w-[16px] [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
+                }  border-brand-green-primary  rounded-md w-[16px] 
+                [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
               ></p>{' '}
             </p>
             Get Notification to stay up-to-date with Zuri portfolio community
@@ -104,11 +106,11 @@ export default function NotificationsSettings() {
             className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('notifyFollow')}
           >
-            <p className="border-[1.6px] relative flex items-center justify-center border-white-650">
+            <p className="border-[1.6px]   rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={`border-[1px] top-[1px] relative ${
                   checkboxState.notifyFollow && 'bg-brand-green-hover'
-                }  border-brand-green-primary w-[16px] [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
+                }  border-brand-green-primary  rounded-md w-[16px] [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
               ></p>{' '}
             </p>
             Notify when someone follows you
@@ -127,11 +129,11 @@ export default function NotificationsSettings() {
             className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('notifyMessages')}
           >
-            <p className="border-[1.6px] relative flex items-center justify-center border-white-650">
+            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={`border-[1px] top-[1px] relative ${
                   checkboxState.notifyMessages && 'bg-brand-green-hover'
-                }  border-brand-green-primary w-[16px] [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
+                }  border-brand-green-primary  rounded-md w-[16px] [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
               ></p>{' '}
             </p>
             Notify about new messages or interactions

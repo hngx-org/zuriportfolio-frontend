@@ -14,7 +14,7 @@ function DeleteAccount() {
     </p>
   );
   return (
-    <div className="w-full sm:w-[465px] mt-[2rem] sm:mt-0 mx[24px] smmx-[40px] ">
+    <div className="w-full sm:w-[465px] mt-[2rem] sm:mt-0 mx[24px] smmx-[40px] mb-[554px]">
       <div className="flex flex-col gap-y-[1rem]">
         <h3 className=" font-manropeB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
           Delete Account
