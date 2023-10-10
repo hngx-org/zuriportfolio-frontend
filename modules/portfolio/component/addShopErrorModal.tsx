@@ -1,7 +1,7 @@
 import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import useDisclosure from '../../../hooks/useDisclosure';
-import Image from 'next/image';
+import { CloseSquare } from 'iconsax-react';
 
 function AddShopErrorModal() {
   const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
@@ -13,13 +13,12 @@ function AddShopErrorModal() {
       </Button>
 
       <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="lg" title="Shop">
-        <Image
-          src="/assets/icons/close1.svg"
-          width={0}
-          height={0}
-          alt="cover"
-          className="w-7 h-7 absolute top-3 right-4 cursor-pointer"
+        <CloseSquare
+          size="32"
+          color="#009254"
+          variant="Bold"
           onClick={onClose}
+          className="absolute top-3 right-4 cursor-pointer"
         />
 
         <hr className="mt-2 bg-green-600 border-t-2 border-green-600" />

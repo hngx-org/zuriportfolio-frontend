@@ -34,7 +34,7 @@ const navLinks: {
 
 const NavDashBoard: React.FC<{ active: string }> = (props) => {
   return (
-    <nav className={'max-w-[1240px] mx-auto pt-[22px] mt-[22px] mb-16 hidden lg:block px-4 '}>
+    <nav className={'max-w-[1240px] mx-auto pt-[52px] mb-16 hidden lg:block px-4 '}>
       <ul className="gap-[72px] font-manropeB font-semibold text-[#737876] text-base text-center flex">
         {navLinks.map((nav) => (
           <li
