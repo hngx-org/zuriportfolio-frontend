@@ -4,6 +4,7 @@ import { RatingCard } from './RatingCard';
 import Button from '@ui/Button';
 import deleteIcon from '../../../public/assets/wishlistAssets/delete.svg';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import Link from 'next/link';
 
 export const WishlistProductCard = ({
   product,
@@ -29,7 +30,7 @@ export const WishlistProductCard = ({
                 <div className="flex flex-col gap-2">
                   <p className="text-[10px] md:text-xs text-custom-color16">{product.productCategory}</p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
-                    {product.productName}
+                    <Link href={`/marketplace/product-details`}>{product.productName}</Link>
                   </p>
                 </div>
 
@@ -108,6 +109,7 @@ export const WishlistProductCard = ({
           </Button>
         </div>
       </div>
+
       <div
         className="
               h-[1px] w-full bg-custom-color19
