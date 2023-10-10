@@ -455,3 +455,8 @@ export interface DeletedProducts {
   dateDeleted: Date;
   status: string;
 }
+export type inputErrorMessage = {
+  errorMessage: string;
+  inputName: string;
+  isValid: boolean;
+};
