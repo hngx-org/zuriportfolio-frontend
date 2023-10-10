@@ -23,6 +23,13 @@ function VendorDetails() {
   //States for opening and closing the modaals
   const [isModal, setIsModal] = React.useState(false);
   const [isDeleteModal, setDeleteModal] = React.useState(false);
+  const [action, setAction] = React.useState('');
+  if (statusText && statusText === 'Banned') {
+    setAction('Delete Permanently');
+  }
+  if (statusText && statusText === 'Deleted') {
+    setAction('Recover');
+  }
 
   function openModal() {
     setIsModal(true);
@@ -119,7 +126,7 @@ function VendorDetails() {
                 className="text-red-200 bg-transparent border border-red-200 p-3 pr-4 pl-4 w-3/4 rounded-md mr-5 lg:ml-0 z-0 hover:bg-red-200 hover:text-white-100"
                 onClick={openModal}
               >
-                Delete
+                {action === '' ? 'Delete' : action}
               </Button>
 
               <Button
