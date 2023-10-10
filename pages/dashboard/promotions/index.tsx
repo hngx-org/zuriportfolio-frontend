@@ -5,7 +5,7 @@ const Promotions: React.FC = () => {
   return (
     <>
       <MainLayout activePage="promotions" showDashboardSidebar={true} showTopbar={true}>
-        <div className="w-full md:w-[80%] ml-[0%] md:ml-[10%] items-center flex justify-center">
+        <div className="w-full">
           <PromotionHistory />
         </div>
       </MainLayout>

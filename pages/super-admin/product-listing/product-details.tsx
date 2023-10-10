@@ -98,7 +98,7 @@ const productsDetail = () => {
                 </div>
               </div>
 
-              <div className="flex py-8 space-x-9">
+              <div className="flex py-8 justify-center space-x-9">
                 <Button
                   intent={'secondary'}
                   className="text-brand-red-primary border-brand-red-primary lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px] "
