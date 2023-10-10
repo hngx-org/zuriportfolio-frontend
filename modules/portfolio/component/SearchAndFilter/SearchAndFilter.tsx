@@ -45,17 +45,13 @@ const SearchAndFilter: React.FC = () => {
   const handleCustomDropdownChange2 = (option: string) => {
     setSelectedOption2(option);
   };
-  const scrollToSection = (index: any) => {
-    const section = document.getElementById(`section-${index}`);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+
   const sectionsData = [
     {
       icon: <Filter size={26} color="white" />,
       activeIcon: <Filter size={26} color="black" />,
       text: 'All_Filter',
+      id: 1,
     },
     {
       icon: <Category size={26} color="white" />,
@@ -105,7 +101,7 @@ const SearchAndFilter: React.FC = () => {
   ];
 
   return (
-    <div className="md:container margin-auto mt-10 md:px-10 mb-10 px-3 py-8">
+    <div className="md:container margin-auto pt-20 md:px-10 mb-2 px-3 py-8">
       <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-6">
         <div className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
           Filter
@@ -114,20 +110,35 @@ const SearchAndFilter: React.FC = () => {
           Customize and refine your search results to suit your specific preferences
         </div>
       </div>
-      <div className="md:justify-between w-[90vw] justify-center items-center md:items-start gap-3 md:gap-[24px] flex flex-col md:flex-row mb-8">
-        <div className="w-full md:w-[600px] h-[45px] md:h-[60px] justify-center items-center flex relative pr-4">
-          <div className="flex justify-start items-center gap-3 flex-grow w-full h-12 md:h-14">
-            <div className="w-6 h-6 relative left-12 md:left-10 sm:left-12">
-              <SearchNormal1 color="#737373" />
+      <div className="md:justify-between w-[90vw] justify-center items-center md:items-start gap-[24px] flex flex-col md:flex-row">
+        <div className="w-full md:w-[55vw] h-[45px] md:h-[60px] justify-center items-center flex relative">
+          <div className="flex justify-start items-center gap-3 flex-grow w-[100vw] h-12 md:h-14 pl-3">
+            <div className="flex justify-between min-w-full gap-1">
+              <div>
+                <div className="h-6 absolute md:left-3 sm:left-7 mx-3 md:mx-0 bottom-3 md:bottom-5 cursor-pointer">
+                  <SearchNormal1 color="#737373" />
+                </div>
+                <input
+                  type="text"
+                  className="flex-grow h-[50px] sm:w-full ml-1 md:-mx-2 mb-6 pl-9 md:pl-12 sm:pl-14 rounded-2xl border border-stone-300 focus:outline-none w-[83vw] md:max-w-[50vw] md:w-[50vw] mt-4 focus:border-brand-green-focused focus:border-2 outline-none"
+                  placeholder="Search by name or role"
+                />
+              </div>
+              <div
+                className={`md:hidden mt-4 p-2 pt-3  h-14 bg-white rounded-xl border border-stone-300 justify-center items-center ${
+                  activeSection === 0 ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
+                }`}
+                onClick={() => {
+                  setActiveSection(0);
+                  setShowFilterComponent(!false);
+                }}
+              >
+                {activeSection === 0 ? sectionsData[0].icon : sectionsData[0].activeIcon}
+              </div>
             </div>
-            <input
-              type="text"
-              className="flex-grow h-[55px] px-4 py-4 pl-9 md:pl-12 sm:pl-14 rounded-2xl border border-stone-300 focus:outline-none w-full md:w-[200px]"
-              placeholder="Search by name or role"
-            />
           </div>
         </div>
-        <div className="flex gap-6 flex-col md:flex-row">
+        <div className="flex gap-6 md:flex-row">
           <CustomDropdown
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
@@ -146,13 +157,13 @@ const SearchAndFilter: React.FC = () => {
         ref={sliderRef}
         onScroll={handleScroll}
       >
-        <div className="justify-start items-center gap-2 inline-flex mt-8">
+        <div className="justify-start items-center gap-2 inline-flex mt-4">
           {sectionsData.map((section, index) => (
             <div
               key={index}
-              className={`px-4 py-3 mx-4 rounded-2xl border justify-center items-center gap-4 flex cursor-pointer ${
+              className={`px-[20px] py-[10px] mx-4 rounded-2xl justify-center items-center gap-4 flex cursor-pointer ${
                 activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-              }`}
+              } ${section.text === 'All_Filter' ? 'border hidden sm:flex' : ''}`}
               onClick={() => {
                 setActiveSection(index);
                 setShowFilterComponent(section.text === 'All_Filter');

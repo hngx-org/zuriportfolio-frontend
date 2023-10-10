@@ -22,7 +22,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue,
   return (
     <div className="relative">
       <div
-        className={`w-[90vw] sm:w-fit h-[60px] px-5 py-3 bg-white rounded-2xl border border-stone-300 justify-center items-start sm:items-center gap-4 flex cursor-pointer ${
+        className={`min-w-[37vw] md:min-w-[13.5vw] h-[50px] px-5 py-3 bg-white rounded-2xl border border-stone-300 justify-center items-start sm:items-center gap-2 flex cursor-pointer ${
           isOpen ? 'bg-white' : ''
         }`}
         onClick={toggleDropdown}
