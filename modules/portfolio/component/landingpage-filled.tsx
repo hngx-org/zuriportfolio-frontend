@@ -3,9 +3,17 @@ import Image from 'next/image';
 import SkillsModal from './skillModal/SkillsModal';
 import useDisclosure from '../../../hooks/useDisclosure';
 import WorkExperienceSection from './work-experience-modal';
+import PortfolioAbout from './about/about';
+import PortfolioReference from './reference/reference';
+import EducationSection from './education-modal';
+// import { EducationProvider } from './Education/EducationContext';
+
 
 const LandingPageFilled: React.FC = () => {
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
+  const [isEducationModalOpen, setIsEducationModalOpen] = useState(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [isReferenceModalOpen, setIsReferenceModalOpen] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const handleOpenSkillModal = () => {
@@ -14,6 +22,14 @@ const LandingPageFilled: React.FC = () => {
   const handleCloseSkillModal = () => {
     setIsSkillModalOpen(false);
   };
+
+  const handleOpenEducationModal = () => {
+    setIsEducationModalOpen(true);
+  };
+  const handleCloseEducationModal = () => {
+    setIsEducationModalOpen(false);
+  };
+
   return (
     <div className="flex flex-col gap-20 w-full">
       <div className="flex flex-col gap-6">
@@ -87,7 +103,49 @@ const LandingPageFilled: React.FC = () => {
           </div>
           <div className="flex flex-row gap-6 items-center ml-[920px]">
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-              <a href="#">Edit</a>
+              <a
+                href="#"
+                onClick={() => {
+                  setIsAboutModalOpen(!isAboutModalOpen);
+                }}
+                type="button"
+              >
+                Edit
+              </a>
+            </div>
+            <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
+              <a href="#">Delete</a>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-row justify-between mb-2 items-center relative">
+          <div className="flex flex-row gap-3 items-start">
+            <Image
+              src="/assets/images/landingPageFilled/menu.svg"
+              id="Vuesaxboldmenu"
+              width={0}
+              height={0}
+              alt="cover"
+              className="w-6 shrink-0"
+            />
+            <div
+              id="Experience"
+              className="border-solid border-[#009254] flex flex-col justify-center w-16 shrink-0 h-16 items-start border-t-0 border-b-4 border-x-0"
+            >
+              <div className="text-2xl font-['Manrope'] font-bold leading-[32px] text-[#2e3130]">References</div>
+            </div>
+          </div>
+          <div className="flex flex-row gap-6 items-center ml-[920px]">
+            <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
+              <a
+                href="#"
+                onClick={() => {
+                  setIsReferenceModalOpen(!isReferenceModalOpen);
+                }}
+                type="button"
+              >
+                Edit
+              </a>
             </div>
             <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
               <a href="#">Delete</a>
@@ -355,7 +413,9 @@ const LandingPageFilled: React.FC = () => {
           <div className="flex flex-col mt-5 gap-6 w-1/2 items-end">
             <div className="flex flex-row mb-5 gap-6 items-start">
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#5b8def]">
-                <a href="#">Edit</a>
+                <a href="#" onClick={onOpen}>
+                  Edit
+                </a>
               </div>
               <div className="font-['Manrope'] font-semibold tracking-[0.08] leading-[24px] text-[#ff5c5c]">
                 <a href="#">Delete</a>
@@ -711,6 +771,27 @@ const LandingPageFilled: React.FC = () => {
         <SkillsModal handleCloseSkillModal={handleCloseSkillModal} isSkillModalOpen={isSkillModalOpen} />
       )}
       <>{isOpen && <WorkExperienceSection isOpen={isOpen} onClose={onClose} />}</>
+      <>{isOpen && <EducationSection isOpen={isOpen} onClose={onClose} />}</>
+      <>
+        {isAboutModalOpen && (
+          <PortfolioAbout
+            isAboutModalOpen={isAboutModalOpen}
+            handleCloseAboutModal={() => {
+              setIsAboutModalOpen(!isAboutModalOpen);
+            }}
+          />
+        )}
+      </>
+      <>
+        {isReferenceModalOpen && (
+          <PortfolioReference
+            isReferenceModalOpen={isReferenceModalOpen}
+            handleCloseReferenceModal={() => {
+              setIsReferenceModalOpen(!isReferenceModalOpen);
+            }}
+          />
+        )}
+      </>
     </div>
   );
 };

@@ -12,7 +12,15 @@ export interface MainLayoutProps {
   showTopbar?: boolean;
   showFooter?: boolean;
 }
-
+export interface Education {
+  id: number;
+  degree: string;
+  fieldOfStudy: string;
+  school: string;
+  description: string;
+  dateFrom: string;
+  dateTo: string;
+}
 export interface AllCategoryDetails {
   price: string;
   name: string;
@@ -437,4 +445,10 @@ type cardinfo = {
   price: number;
   arUp: string;
   id: number;
+};
+
+export type inputErrorMessage = {
+  errorMessage: string;
+  inputName: string;
+  isValid: boolean;
 };

@@ -6,6 +6,13 @@ import Modal from '@ui/Modal';
 import { Add, CloseSquare } from 'iconsax-react';
 import useDisclosure from '../../../hooks/useDisclosure';
 
+// type contactModalProps = {
+//   handleCloseContactModal: () => void;
+//   isContactModalOpen: boolean;
+// };
+
+// { handleCloseContactModal, isContactModalOpen }: contactModalProps
+
 function ContactModal() {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [email, setEmail] = useState('');
@@ -15,8 +22,8 @@ function ContactModal() {
   return (
     <>
       <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
-        <div className="space-y-6 bg-white-100 p-4 py-5">
-          <form className="flex flex-col gap-y-7">
+        <div className="space-y bg-white-100 sm:p-10">
+          <form className="flex flex-col gap-y-5">
             <div className="flex flex-col gap-3 my-19">
               <div className="flex justify-between items-center">
                 <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Contact</p>
@@ -25,27 +32,27 @@ function ContactModal() {
               <div className="bg-brand-green-primary h-1 rounded-sm"></div>
             </div>
 
-            <div className="flex flex-col gap-[.5rem] w-[100%]">
-              <label className="font-semibold text-[#444846] text-[1rem]">Email</label>
+            <div className="flex mx-auto flex-col gap-[.5rem] w-full sm:w-[90%]">
+              <label className="font-semibold text-[#444846] text-[.9rem]">Email</label>
               <Input
                 placeHolder="Enter email"
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                className="border-[#E1E3E2] w-[100%]"
-                inputSize={'lg'}
+                className="border-[#E1E3E2] border w-[100%] font-manropeL rounded-md"
+                inputSize={'sm'}
               />
             </div>
 
-            <div className="flex items-center justify-between w-[100%] my-3">
-              <div className=" w-[35%]">
-                <label className="font-semibold text-[#444846] text-[1rem] mb-10">Select social</label>
+            <div className="flex flex-col sm:flex-row items-center justify-between mx-auto w-full sm:w-[90%]  sm:gap-2 gap-5">
+              <div className="w-full">
+                <label className="font-semibold text-[#444846] text-[.9rem] mb-10">Select social</label>
                 <Select
                   onValueChange={(value: string) => {
                     setSocial(value);
                   }}
                 >
-                  <SelectTrigger className="border-[#E1E3E2] w-[100%]">
+                  <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
                     <SelectValue placeholder="Select Social" />
                   </SelectTrigger>
                   <SelectContent className="border-[#E1E3E2]">
@@ -58,26 +65,32 @@ function ContactModal() {
                 </Select>
                 <p></p>
               </div>
-              <div className="flex items-center gap-4 w-[60%]">
-                <div className="flex flex-col gap-[.5rem] w-[100%]">
-                  <label className="font-semibold text-[#444846] text-[1rem]">Link to social</label>
+
+              <div className="flex flex-col justify-center w-[100%] h-full">
+                <label className="font-semibold text-[#444846] text-[.9rem] mb-[.1rem]">Link to social</label>
+                <div className="flex rounded-md justify-center items-center border h-[2.5rem] border-[#E1E3E2]">
+                  <span className="font-manropeL w-1/3 text-xs text-center">Type link</span>
                   <Input
                     placeHolder="Enter social link"
                     onChange={(e) => {
                       setSocialLink(e.target.value);
                     }}
-                    className="border-[#E1E3E2] w-[100%]"
-                    inputSize={'lg'}
+                    className="border-[#E1E3E2] w-[100%] rounded-none border-0 border-s h-full text-xs font-manropeL"
+                    inputSize={'sm'}
                   />
                 </div>
               </div>
             </div>
-            <div className="self-end flex font-manropeL my-2">
+
+            <div className="mb-3 font-manropeL mx-auto w-full sm:w-[90%] text-right">
               <span className="font-semibold cursor-pointer text-brand-red-hover">Delete</span>
             </div>
           </form>
-          <div className="px-3  flex justify-between flex-col sm:flex-row">
-            <button className="text-brand-green-primary self-center text-[12px] sm:text-[15px] flex items-center gap-1 font-semibold font-manropeB">
+
+          <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
+
+          <div className="flex justify-between flex-col sm:flex-row mt-3 gap-3 sm:w-[90%] mx-auto">
+            <button className="text-brand-green-primary sm:self-center text-[14px] sm:text-[13px] flex items-center gap-1 font-semibold font-manropeB">
               <Add size="16" color="#009254" /> Add new social
             </button>
             <div className="flex flex-col sm:flex-row gap-3">
@@ -85,12 +98,12 @@ function ContactModal() {
                 type="button"
                 onClick={onClose}
                 intent={'secondary'}
-                className="w-full rounded-md sm:w-[6rem]"
-                size={'lg'}
+                className="border w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]"
+                size={'sm'}
               >
                 Cancel
               </Button>
-              <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+              <Button type="submit" className="w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]" size={'sm'}>
                 Save
               </Button>
             </div>
