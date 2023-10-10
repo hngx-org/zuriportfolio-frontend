@@ -85,7 +85,7 @@ function Wishlist() {
         </div>
       )}
       <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-        <Container>
+       <Container>
           <CategoriesNav
             navItems={[
               ' Design & Graphics',
@@ -142,6 +142,7 @@ function Wishlist() {
             </section>
           </div>
         </Container>
+
       </MainLayout>
     </>
   );
