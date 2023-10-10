@@ -73,7 +73,7 @@ export default function SettingPage() {
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
-      <div className="w-full relative font-manropeEB  lg:mb-2  pt-4rem flex flex-col  ">
+      <div className="w-full relative font-manropeEB mb-4  lg:mb-2  pt-4rem flex flex-col  ">
         <div
           className="hidden lg:flex lg:border-b-[1px]  cursor-auto  lg:border-white-500 relative min-h-[90vh]   items-start before:bg-white-500 before:w-full before:absolute before:top-[5rem] before:h-[1px]
                      pb-0   py-[3rem]  "

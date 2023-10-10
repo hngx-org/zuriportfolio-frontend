@@ -26,7 +26,7 @@ export default function InviteLink() {
   };
   return (
     <div className={` space-y-4 font-manropeEB  `}>
-      <p className="  text-dark-110 text-[22px]">Invite your friends! </p>
+      <p className="  text-dark-110 text-sm md:text-[22px]">Invite your friends! </p>
       <p className="text-white-650 leading-[20px]  font-manropeEB font-normal text-sm">
         Use your referral link to help us grow the community and get rewards.{' '}
       </p>
