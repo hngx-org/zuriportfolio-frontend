@@ -19,6 +19,8 @@ import { FavoriteProduct } from '../../@types';
 import { CloseCircle, ArrowRight2 } from 'iconsax-react';
 import { useState, useEffect } from 'react';
 
+import CategoriesNav from './component/CategoriesNav/CategoriesNav';
+
 import Button from '@ui/Button';
 import Image from 'next/image';
 
@@ -48,12 +50,14 @@ function Wishlist() {
     }
   }, [wishlistProducts]);
 
+  useEffect(() => {
+    document.body.style.overflow = showEmptyWishlistModal ? "hidden" : "unset";
+  }, [showEmptyWishlistModal]);
+
   return (
-    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div>
-        <main className="w-full container">
-          {showEmptyWishlistModal && (
-            <div className="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-50 backdrop-blur-5 z-10 flex justify-center items-center ">
+    <>
+     {showEmptyWishlistModal && (
+            <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
               {/* close button */}
 
               <div className="absolute top-0 right-0 mr-5 mt-5">
@@ -82,47 +86,68 @@ function Wishlist() {
               </div>
             </div>
           )}
-        </main>
+    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+        <main className="w-full mx-auto">
+          
 
-        <div className="font-manropeL max-w-[1240px] mx-auto my-8 ">
-          <section className="px-3 lg:px-0 flex flex-col gap-6 my-4">
-            <div className="flex justify-between items-center">
-              <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">
-                My Wishlist (<span>{wishlistProducts.length}</span> items)
-              </h2>
-            </div>
-            <div className="flex flex-col gap-6 lg:px-[100px]">
-              {wishlistProducts.map((product) => (
-                <WishlistProductCard
-                  key={product.productId}
-                  product={product}
-                  removeProductFromWishlist={removeProductFromWishlist}
-                />
-              ))}
-            </div>
-          </section>
-          <section className="px-3 lg:px-0 py-5 flex flex-col gap-6 my-4">
-            <div className="flex justify-between items-center">
-              <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">My Favorites</h2>
-              <Button
-                rightIcon={<ArrowRight2 color="#06C270" />}
-                intent={'secondary'}
-                size={'md'}
-                spinnerColor="#000"
-                className="border-none bg-white-100 text-brand-success-primary font-semibold"
-              >
-                View All
-              </Button>
-            </div>
-            <div className="gap-2 sm:gap-6 md:gap-8  gap-y-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {favoriteProducts.map((product) => (
-                <FavoriteproductCard product={product} key={product.productId} />
-              ))}
-            </div>
-          </section>
-        </div>
-      </div>
+          <CategoriesNav
+            navItems={[
+              ' Design & Graphics',
+              ' Development & Programming',
+              ' Content Creation',
+              ' Digital Arts & Media',
+              ' Audio & Sound',
+              ' Photography',
+              'Writing & Copywriting',
+              'Video & motion',
+              'Data & Analytics',
+              'Marketing & Advertising',
+              'eCommerce & Business',
+              'Gaming & Entertainment',
+              'Virtual Reality & Augmented Reality',
+              'e-Books',
+            ]}
+          />
+          <div className="font-manropeL max-w-[1240px] mx-auto my-8 pt-2">
+            <section className="px-3 xl:px-0 flex flex-col gap-6 my-4">
+              <div className="flex justify-between items-center">
+                <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">
+                  My Wishlist (<span>{wishlistProducts.length}</span> items)
+                </h2>
+              </div>
+              <div className="flex flex-col gap-6  lg:px-[100px]">
+                {wishlistProducts.map((product) => (
+                  <WishlistProductCard
+                    key={product.productId}
+                    product={product}
+                    removeProductFromWishlist={removeProductFromWishlist}
+                  />
+                ))}
+              </div>
+            </section>
+            <section className="px-3 lg:px-0 py-5 flex flex-col gap-6 my-4">
+              <div className="flex justify-between items-center">
+                <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">My Favorites</h2>
+                <Button
+                  rightIcon={<ArrowRight2 color="#06C270" />}
+                  intent={'secondary'}
+                  size={'md'}
+                  spinnerColor="#000"
+                  className="border-none bg-white-100 text-brand-success-primary font-semibold"
+                >
+                  View All
+                </Button>
+              </div>
+              <div className="gap-2 sm:gap-6 md:gap-8  gap-y-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {favoriteProducts.map((product) => (
+                  <FavoriteproductCard product={product} key={product.productId} />
+                ))}
+              </div>
+            </section>
+          </div>
+        </main>
     </MainLayout>
+    </>
   );
 }
 

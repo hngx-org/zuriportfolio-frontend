@@ -26,6 +26,7 @@ function SearchProduct({ handleSearchChange }: searchProp) {
         intent={'default'}
         disabled={false}
         className="md:min-w-[350px] "
+        placeHolder="search"
       />
     </div>
   );

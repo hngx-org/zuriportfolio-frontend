@@ -3,8 +3,6 @@ import { LineChart, Line, BarChart, Bar, XAxis, ReferenceLine, ResponsiveContain
 import { Graph, activity } from '../../../@types';
 import Link from 'next/link';
 
-
-
 const AnalyticsAndReportingGraphs = () => {
   const [isGraph, setIsGraph] = useState(false);
 
@@ -20,7 +18,6 @@ const AnalyticsAndReportingGraphs = () => {
       window.removeEventListener('resize', updateIsGraph);
     };
   }, []);
-
 
   const graphDetails: Graph[] = [
     {
@@ -149,8 +146,12 @@ const AnalyticsAndReportingGraphs = () => {
     { name: 'Nov', uv: 4060, pv: 2398 },
     { name: 'Dec', uv: 3060, pv: 3398 },
   ];
+<<<<<<< HEAD
   const reportRoute = "/super-admin/analytics-and-reporting/reports";
   
+=======
+
+>>>>>>> origin/dev
   return (
     <>
       <section className="my-10 mx-auto px-6 font-manropeL gap-2 space-y-6  md:max-w-[1270px] md:space-y-0 lg:flex lg:justify-between lg:items-center lg:max-w-[1100px] xl:max-w-[1270px] ">
@@ -188,17 +189,15 @@ const AnalyticsAndReportingGraphs = () => {
                   <ResponsiveContainer height={230} className="mx-auto mt-8 ">
                     {index === 0 ? (
                       <LineChart data={snakeLineData}>
-                      <XAxis dataKey="name" />
-                      <ReferenceLine y={1000} stroke="#F2F4F7" />
-                      <ReferenceLine y={3200} stroke="#F2F4F7" />
-                      <ReferenceLine y={5200} stroke="#F2F4F7" />
-                      <ReferenceLine y={7200} stroke="#F2F4F7" />
-                      <ReferenceLine y={9200} stroke="#F2F4F7" />
-                      <Line type="natural" dataKey="uv" stroke="#EABE95" strokeWidth={3} dot={false} />
-                      <Line type="natural" dataKey="pv" stroke="#D7A068" strokeWidth={3} dot={false}/>
-                    </LineChart>
-                    
-                    
+                        <XAxis dataKey="name" />
+                        <ReferenceLine y={1000} stroke="#F2F4F7" />
+                        <ReferenceLine y={3200} stroke="#F2F4F7" />
+                        <ReferenceLine y={5200} stroke="#F2F4F7" />
+                        <ReferenceLine y={7200} stroke="#F2F4F7" />
+                        <ReferenceLine y={9200} stroke="#F2F4F7" />
+                        <Line type="natural" dataKey="uv" stroke="#EABE95" strokeWidth={3} dot={false} />
+                        <Line type="natural" dataKey="pv" stroke="#D7A068" strokeWidth={3} dot={false} />
+                      </LineChart>
                     ) : (
                       <BarChart data={barChartData}>
                         <XAxis dataKey="name" />

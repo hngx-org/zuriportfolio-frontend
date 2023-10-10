@@ -12,6 +12,7 @@ import likesIcon from './assets/like-shapes.svg';
 import settingsIcon from './assets/setting-2.svg';
 import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
+import MobileNav from '@modules/dashboard/component/MobileNav';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -63,7 +64,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   return (
     <>
-      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[80] isolate fixed  ">
+      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40] isolate fixed  ">
         <div className="max-w-[1240px] mx-auto flex items-center justify-between  relative gap-1">
           <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] gap-14">
             <div className="flex items-center gap-1">
@@ -311,7 +312,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           toggler={handleToggle}
           handleAuthMenu={handleAuthMenu}
           auth={auth}
-        />
+        >
+          {props.showDashBorad && <MobileNav active={props.activePage} />}
+        </MenuUI>
         {/* Search Mobile Nav */}
         {searchMobile && (
           <div className="absolute min-h-screen lg:hidden bg-white-610 right-0 left-0 top-20">
@@ -461,6 +464,7 @@ function MenuUI({
   auth,
   handleAuthMenu,
   authMenu,
+  children,
 }: {
   toggle?: boolean;
   toggler: () => void;
@@ -469,6 +473,7 @@ function MenuUI({
   auth?: boolean;
   handleAuthMenu: () => void;
   authMenu?: boolean;
+  children: React.ReactNode;
 }) {
   const router = useRouter();
   const activeLink = (path: string) =>
@@ -507,6 +512,7 @@ function MenuUI({
             {router.pathname === '/marketplace' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
         </li>
+        {children}
         {!auth && (
           <>
             <Button
