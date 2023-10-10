@@ -146,12 +146,8 @@ const AnalyticsAndReportingGraphs = () => {
     { name: 'Nov', uv: 4060, pv: 2398 },
     { name: 'Dec', uv: 3060, pv: 3398 },
   ];
-<<<<<<< HEAD
   const reportRoute = "/super-admin/analytics-and-reporting/reports";
   
-=======
-
->>>>>>> origin/dev
   return (
     <>
       <section className="my-10 mx-auto px-6 font-manropeL gap-2 space-y-6  md:max-w-[1270px] md:space-y-0 lg:flex lg:justify-between lg:items-center lg:max-w-[1100px] xl:max-w-[1270px] ">
