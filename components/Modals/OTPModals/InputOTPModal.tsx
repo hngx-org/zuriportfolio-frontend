@@ -176,7 +176,7 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
       <div className={otpError ? otpErrorTextClasses : otpTextClasses}>
         <p>A one-time password has been sent to {maskedNumber}. Kindly check and enter below.</p>
       </div>
-      <div className="inline-flex flex-col items-start gap-[16px] max-w-[400px] w-4/5 [@media(max-width:520px)]:items-center">
+      <div className="inline-flex flex-col items-start gap-[16px] max-w-[400px] w-[88%] [@media(max-width:520px)]:items-center">
         <p className="flex items-start font-manropeL text-[16px] not-italic font-semibold leading-[24px] [@media(max-width:400px)]:mt-[20px]">
           Enter OTP
         </p>
