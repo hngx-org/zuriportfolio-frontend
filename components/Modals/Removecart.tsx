@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import group from '../../public/assets/removecart/Group.png';
 import trash from '../../public/assets/removecart/delete.svg';
+import { MouseEvent } from 'react';
 
 interface RemoveCartProps {
   closeModal: () => void;
-  onRemoveItem?: () => void; // Make onRemoveItem optional
+  onRemoveItem?: (event: MouseEvent<HTMLButtonElement>) => void; // Make onRemoveItem optional
+  productId: string;
 }
 
 const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem }) => {
@@ -67,9 +69,6 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem }) => 
               onClick={() => {
                 if (closeModal) {
                   closeModal(); // Close the modal if closeModal is defined
-                }
-                if (onRemoveItem) {
-                  onRemoveItem(); // Call onRemoveItem if it's defined
                 }
               }}
             >
