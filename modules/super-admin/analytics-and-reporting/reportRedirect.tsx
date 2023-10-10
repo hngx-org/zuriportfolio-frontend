@@ -24,8 +24,8 @@ const ReportRedirect: React.FC = () => {
 
   return (
     <>
-      <div className="mx-auto max-[1300px]:mx-0 max-[1300px]:px-[1rem] max-w-[77.5rem] max-[768px]:px-[1.5rem] w-full max-[500px]:px-[1.5rem]">
-        <div className="flex gap-[1rem] mt-[3.37rem] max-[500px]:mt-[1.5rem]">
+      <div className="mx-auto max-[1300px]:mx-0 max-[1300px]:px-[1.5rem] max-[768px]:max-w-[46.3rem] max-[768px]:pl-[2.5rem] max-[768px]:px-0 max-w-[77.5rem] w-full max-[500px]:px-[1.5rem] max-[834px]:px-[2.5rem]">
+        <div className="flex gap-[1rem] py-[0.75rem] mt-[2.63rem] max-[834px]:mt-[1rem] max-[500px]:mt-[1.5rem]">
           <Image
             onClick={redirectToAnotherPage}
             src="/assets/images/reports/arrow-back.svg"
@@ -36,7 +36,7 @@ const ReportRedirect: React.FC = () => {
           />
           <p className="text-[1.125rem] text-[#101828] font-medium leading-[1.75rem] font-manropeL">Report</p>
         </div>
-        <div className="flex gap-[1.5rem] items-center max-[768px]:flex-col max-[768px]:items-stretch mt-[1.25rem] max-[834px]:gap-0 max-[768px]:gap-[1.5rem]">
+        <div className="flex gap-[1.5rem] items-center max-[768px]:flex-col max-[768px]:items-stretch mt-[0.5rem] max-[834px]:gap-0 max-[768px]:gap-[1.5rem]">
           <p className="text-[1rem] leading-[1.5rem] font-manropeL font-normal tracking-[0.005rem] text-[#000] max-[850px]:text-[0.875rem] max-[834px]:pr-[0.2rem]">
             Select Time Frame
           </p>

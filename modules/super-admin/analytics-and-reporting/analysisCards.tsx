@@ -186,7 +186,7 @@ const AnalysisCards: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] max-[834px]:block max-[800px]:px-[1.5rem]">
+      <div className="hidden max-w-[47.125rem] w-full mx-0 mt-[1.75rem] max-[834px]:block max-[834px]:max-w-[46.3rem] max-[834px]:mx-auto max-[800px]:px-[1.5rem]">
         <div className="grid grid-cols-3 gap-[1rem] max-[800px]:grid-cols-2 max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
           {CardDataTwo.map((hero) => (
             <div
