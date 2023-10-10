@@ -18,7 +18,7 @@ export default function NotificationsSettings() {
   };
 
   return (
-    <div className=" flex flex-col space-y-[16px] items-start">
+    <div className=" flex flex-col space-y-[16px] items-start container mx-auto">
       <h1 className="font-semibold md:text-[22px] text-sm font-manropeB text-dark-105">Notification Setting</h1>
       <p className="text-sm text-[#444846]">Email Notification</p>
       <div className="text-sm font-manropeB text-white-650 space-y-4 mt-4">
