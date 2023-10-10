@@ -59,26 +59,30 @@ export default function ProductDetailsDescription() {
         {/* Product Details  */}
         <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
           {/* Product Detail Images  */}
-          <div className="flex flex-col w-full item-center lg:gap-y-4 gap-x-10 mx-auto">
+          <div className="flex flex-col w-full item-center gap-y-4 gap-x-10 mx-auto pb-6">
             <Image
               src={image}
               alt="Main Image"
-              className="w-full lg:h-[520px] md:h-[600px] h-[340px] lg:object-cover object-contain rounded-3xl"
+              className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
             />
             <Slider updateImage={updateImage} />
           </div>
 
           {/* Product Detail Data */}
           <div className="space-y-6 w-full">
-            <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] gap-x-">
+            <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px]">
               Webinar and Course Slide
               <span> Templates by Sarah Rino (Soft Copy)</span>
             </h1>
-            <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
-              Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
-              experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
-              to enrich <b className="text-green-600 lg:hidden flex">Read More...</b>
-            </p>
+
+            <div>
+              <p className="lg:hidden block sm:text-2xl text-sm sm:leading-8 leading-5 font-semibold">Description</p>
+              <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
+                Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
+                experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
+                to enrich <b className="text-green-600 lg:hidden flex">Read More...</b>
+              </p>
+            </div>
 
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-1">
