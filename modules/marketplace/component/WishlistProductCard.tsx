@@ -3,7 +3,7 @@ import { WishlistProduct } from '../../../@types';
 import { RatingCard } from './RatingCard';
 import Button from '@ui/Button';
 import deleteIcon from '../../../public/assets/wishlistAssets/delete.svg';
-import {RiDeleteBin6Line} from 'react-icons/ri'
+import { RiDeleteBin6Line } from 'react-icons/ri';
 
 export const WishlistProductCard = ({
   product,
@@ -75,9 +75,7 @@ export const WishlistProductCard = ({
                 spinnerColor="#D5DBDB"
                 onClick={() => removeProductFromWishlist(product.productId)}
               >
-               
-                  <RiDeleteBin6Line className='text-[20px] md:text-[25px] text-white-650 group-hover:fill-white-100' />
-               
+                <RiDeleteBin6Line className="text-[20px] md:text-[25px] text-white-650 group-hover:fill-white-100" />
                 Remove
               </Button>
               <Button
@@ -93,7 +91,10 @@ export const WishlistProductCard = ({
           </div>
         </div>
 
-        <div className="md:hidden self-start mt-1 cursor-pointer" onClick={() => removeProductFromWishlist(product.productId)}>
+        <div
+          className="md:hidden self-start mt-1 cursor-pointer"
+          onClick={() => removeProductFromWishlist(product.productId)}
+        >
           <Image src={deleteIcon} alt="delete" width={35} height={35} />
         </div>
         <div className="hidden md:block">
