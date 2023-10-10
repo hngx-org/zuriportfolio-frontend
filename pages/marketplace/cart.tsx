@@ -110,8 +110,8 @@ export default function Cart() {
   }
 
 
-  function removeProductHandler(event: MouseEvent<HTMLButtonElement>) {
-    let productId = event.currentTarget.id;
+  function removeProductHandler(productId: string) {
+    // let productId = event.currentTarget.id;
     console.log(productId)
     let cartProductsItems = cartItems.filter((product) => (product.productId != productId))
     setCartItems(cartProductsItems);

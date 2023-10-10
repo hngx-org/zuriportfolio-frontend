@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import group from '../../public/assets/removecart/Group.png';
 import trash from '../../public/assets/removecart/delete.svg';

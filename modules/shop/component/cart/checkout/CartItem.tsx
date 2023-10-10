@@ -15,7 +15,7 @@ export default function CartItem({
   productSeller,
   productPrice,
   removeHandler
-}: CartItemProps & {removeHandler: (event: MouseEvent<HTMLButtonElement>) => void}) {
+}: CartItemProps & {removeHandler: (productId: string) => void}) {
   const [modalClosed, setModalClosed] = useState('hidden');
   const removeItem = () => {
     setModalClosed('block');
@@ -25,9 +25,7 @@ export default function CartItem({
     setModalClosed('hidden');
   };
 
-  // function removeProduct() {
-  //   removeHandler()
-  // }
+
 
   return (
     <>
