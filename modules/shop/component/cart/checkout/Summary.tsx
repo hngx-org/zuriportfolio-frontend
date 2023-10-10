@@ -68,7 +68,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
               <input
                 type="text"
                 placeholder="50 SALE"
-                className={`border border-green-300 my-0 border-r-0 h-[100%] placeholder-green-400 outline-none py-2 px-4 my-1 rounded-l-lg ${
+                className={`border border-green-300 my-0 border-r-0 h-[100%] placeholder-green-400 outline-none py-2 px-4  rounded-l-lg ${
                   couponErrorState ? 'border-brand-red-primary' : ''
                 }`}
                 onFocus={() => {
@@ -80,7 +80,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
 
               <button
                 type="submit"
-                className={`bg-green-300 text-white-100 py-2 px-6 rounded-r-md capitalize h-full hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ${
+                className={`bg-green-300 text-white-100 py-2 px-6 rounded-r-md capitalize hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ${
                   couponErrorState ? 'bg-gray-200' : ''
                 }`}
                 onClick={couponHandler}
@@ -134,7 +134,6 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
             </div>
           </div>
 
-          {/* <div className="line bg-gray-300 h-0.5 w-full my-6"></div> */}
           <hr className="border-b-5 border-gray-300 my-4 mx-3" />
 
           <div className="cart-total">

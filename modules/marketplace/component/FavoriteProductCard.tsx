@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { FavoriteProduct } from '../../../@types';
 import { RatingCard } from './RatingCard';
+import Link from 'next/link';
 
 export const FavoriteproductCard = ({ product }: { product: FavoriteProduct }) => {
   return (
@@ -8,7 +9,9 @@ export const FavoriteproductCard = ({ product }: { product: FavoriteProduct }) =
       <div className="flex flex-col  gap-1 md:gap-2">
         <Image src={product.productImage} alt={product.productName} className="" />
         <div className="text-brand-green-shade10 flex flex-col gap-1 md:gap-2">
-          <p className="line-clamp-1 overflow-ellipsis font-normal text-sm">{product.productName}</p>
+          <p className="line-clamp-1 overflow-ellipsis font-normal text-sm">
+            <Link href={`/marketplace/product-details`}>{product.productName}</Link>
+          </p>
           <p className="font-bold text-lg">
             $<span>{product.productPrice}</span>
           </p>

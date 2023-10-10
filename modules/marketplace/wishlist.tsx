@@ -29,6 +29,8 @@ import { FavoriteproductCard } from './component/FavoriteProductCard';
 
 import MainLayout from '../../components/Layout/MainLayout';
 
+import Container from '@modules/auth/component/Container/Container';
+
 function Wishlist() {
   const [showEmptyWishlistModal, setShowEmptyWishlistModal] = useState(false);
 
@@ -58,8 +60,6 @@ function Wishlist() {
     <>
       {showEmptyWishlistModal && (
         <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
-          {/* close button */}
-
           <div className="absolute top-0 right-0 mr-5 mt-5">
             <Button
               leftIcon={<CloseCircle color="#06C270" />}
@@ -85,7 +85,7 @@ function Wishlist() {
         </div>
       )}
       <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-        <main className="w-full mx-auto">
+       <Container>
           <CategoriesNav
             navItems={[
               ' Design & Graphics',
@@ -141,7 +141,8 @@ function Wishlist() {
               </div>
             </section>
           </div>
-        </main>
+        </Container>
+
       </MainLayout>
     </>
   );

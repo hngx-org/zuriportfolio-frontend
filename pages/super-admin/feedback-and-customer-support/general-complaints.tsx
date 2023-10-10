@@ -377,7 +377,7 @@ export default function GeneralComplaints() {
                       />
                     </svg>
                   </div>
-                  <p className="w-40 font-manropeL flex items-center justify-center font-medium text-base text-slate-500  min-w-[120px]">
+                  <p className="w-40 font-manropeL flex items-center justify-center font-medium text-base text-slate-500 max-lg:min-w-[160px] min-w-[120px]">
                     Description
                   </p>
                   <p className="w-40 font-manropeL flex items-center justify-center font-medium text-base text-slate-500  min-w-[120px]">
@@ -419,7 +419,7 @@ export default function GeneralComplaints() {
                               </div>
                             </Link>
                           </div>
-                          <div className="description w-40  min-w-[120px] flex items-center justify-center">
+                          <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
                             <p className="font-manropeL font-medium max-md:text-xs text-base text-slate-500">
                               {complains.complaintDescription}
                             </p>
@@ -536,7 +536,7 @@ export default function GeneralComplaints() {
                             </div>
                           </Link>
                         </div>
-                        <div className="description w-40  min-w-[120px] flex items-center justify-center">
+                        <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
                           <p className="font-manropeL font-medium text-base max-md:text-xs text-slate-500">
                             {complains.complaintDescription}
                           </p>
