@@ -43,6 +43,51 @@ const complaintsArray = [
     date: '09-07-23',
     status: 'InProgress',
   },
+  {
+    id: 4,
+    name: 'Wesly John',
+    email: 'wes24john@yahoo.com',
+    image: VendorComplaint,
+    complaintDescription: 'Order not recieved',
+    date: '09-07-23',
+    status: 'Resolved',
+  },
+  {
+    id: 5,
+    name: 'David Doe',
+    email: 'dav4doe@gmail.com',
+    image: VendorComplaint,
+    complaintDescription: 'Order not recieved',
+    date: '09-07-23',
+    status: 'Resolved',
+  },
+  {
+    id: 6,
+    name: 'Shakira Madders',
+    email: 'shakimad@gmail.com',
+    image: VendorComplaint,
+    complaintDescription: 'Bad Order',
+    date: '09-07-23',
+    status: 'Pending',
+  },
+  {
+    id: 7,
+    name: 'Timmy John',
+    email: 'tmjohn@yahoo.com',
+    image: VendorComplaint,
+    complaintDescription: 'Order not available',
+    date: '09-07-23',
+    status: 'InProgress',
+  },
+  {
+    id: 8,
+    name: 'Wjinaldum David',
+    email: 'wijdavid@ygmail.com',
+    image: VendorComplaint,
+    complaintDescription: 'Bad Order',
+    date: '09-07-23',
+    status: 'Resolved',
+  },
 ];
 export default function GeneralComplaints() {
   const [filteredComplaintsArray, setFilteredComplaintsArray] = React.useState<Complains[]>([]);
@@ -67,12 +112,12 @@ export default function GeneralComplaints() {
     <>
       <Nav />
       <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-11/12 flex justify-center items-start flex-col">
+        <div className="w-4/5 flex justify-center items-start flex-col">
           {/* complaints overview */}
           <div className="w-full flex flex-col items-start justify-between h-42 ">
             <h1 className="font-manropeL text-2xl mb-2.5 mt-2.5  font-semibold">Complaints Overview</h1>
             <div className="w-full flex flex-row justify-between max-md:flex max-md:flex-col">
-              <div className="w-80 flex flex-col justify-between p-6 items-start h-28 shadow-lg rounded-lg max-lg:w-60 max-md:w-full">
+              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 shadow-md rounded-lg max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
                   <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">Resolved</h2>
                   <svg
@@ -132,7 +177,7 @@ export default function GeneralComplaints() {
                   </div>
                 </div>
               </div>
-              <div className="w-80 flex flex-col justify-between p-6 items-start h-28 shadow-md rounded-lg max-lg:w-60 max-md:w-full">
+              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 shadow-md rounded-lg max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
                   <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">Pending</h2>
                   <svg
@@ -192,7 +237,7 @@ export default function GeneralComplaints() {
                   </div>
                 </div>
               </div>
-              <div className="w-80 flex flex-col justify-between p-6 items-start h-28 shadow-md rounded-lg max-lg:w-60 max-md:w-full">
+              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 shadow-md rounded-lg max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
                   <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">In Progress</h2>
                   <div className="relative flex flex-row">
@@ -259,8 +304,8 @@ export default function GeneralComplaints() {
             </div>
           </div>
           {/* general complaints */}
-          <div className="mt-8 w-full h-auto border-2 border-slate-100 max-md:overflow-x-scroll overflow-x-scroll">
-            <div className="complaintHeading h-18 p-3 flex flex-row items-center justify-between border-b-2 border-slate-100">
+          <div className="mt-8 w-full h-auto border-2 border-zinc-200 max-md:overflow-x-scroll rounded-xl overflow-x-scroll">
+            <div className="complaintHeading h-18 p-3 flex flex-row items-center justify-between border-b-2 border-zinc-200">
               <div className="headerText min-w-[190px] mr-2">
                 <h2 className="font-manropeL text-xl font-semibold">My Complaint</h2>
                 <h3 className="font-manropeL text-base font-normal text-slate-600">
@@ -268,7 +313,7 @@ export default function GeneralComplaints() {
                 </h3>
               </div>
               <div className="searchFunc flex flex-row items-center ">
-                <div className="search h-11 rounded-lg border-solid border-2 border-slate-200 px-2 w-auto flex flex-row justify-evenly items-center">
+                <div className="search h-11 rounded-lg border-solid border-2 border-zinc-200 px-2 w-auto flex flex-row justify-evenly items-center">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z"
@@ -285,7 +330,7 @@ export default function GeneralComplaints() {
                     className="  border-none focus:outline-none ml-1.5 h-6 w-96"
                   />
                 </div>
-                <div className="filter cursor-pointer rounded-lg ml-2 w-28 p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-slate-200 border-2">
+                <div className="filter cursor-pointer rounded-lg ml-2 w-28 p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-zinc-200 border-2">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
@@ -310,7 +355,7 @@ export default function GeneralComplaints() {
               </div>
             </div>
             <div className="complaintList">
-              <div className="tableHead">
+              <div className="tableHead border-solid border-b-2 border-zinc-200">
                 <div className="vendorComplaints p-3 flex flex-row items-center justify-between ">
                   <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
                   <div className="w-80 name flex flex-row items-center justify-start min-w-[250px]">
@@ -353,7 +398,7 @@ export default function GeneralComplaints() {
                       return (
                         <div
                           key={complains.id}
-                          className="vendorComplaints p-3 flex flex-row items-center justify-between "
+                          className="vendorComplaints p-3 flex flex-row items-center justify-between border-solid border-b-2 border-zinc-200"
                         >
                           <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
                           <div className="name w-80 flex flex-row items-center min-w-[250px]">
@@ -470,7 +515,7 @@ export default function GeneralComplaints() {
                     return (
                       <div
                         key={complains.id}
-                        className="vendorComplaints p-3 flex flex-row items-center justify-between "
+                        className="vendorComplaints p-3 flex flex-row items-center justify-between border-solid border-b-2 border-zinc-200"
                       >
                         <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
                         <div className="name w-80 flex flex-row items-center min-w-[250px]">
@@ -583,7 +628,7 @@ export default function GeneralComplaints() {
                       </div>
                     );
                   })}
-              <Pagination />
+              {/* <Pagination /> */}
             </div>
           </div>
         </div>
