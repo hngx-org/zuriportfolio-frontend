@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import SkillsModal from './skillModal/SkillsModal';
+{/*import SkillsModal from './skillModal/SkillsModal';
 import useDisclosure from '../../../hooks/useDisclosure';
 import WorkExperienceSection from './work-experience-modal';
 import PortfolioAbout from './about/about';
-import PortfolioReference from './reference/reference';
+import PortfolioReference from './reference/reference';*/}
 
 const LandingPageFilled: React.FC = () => {
-  const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
+  {/*const [isSkillModalOpen, setIsSkillModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [isReferenceModalOpen, setIsReferenceModalOpen] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -17,7 +17,7 @@ const LandingPageFilled: React.FC = () => {
   };
   const handleCloseSkillModal = () => {
     setIsSkillModalOpen(false);
-  };
+  };*/}
   return (
     <div className="flex flex-col text-Manrope gap-20 w-[100%] overflow-hidden">
       <div className="flex flex-col text-Manrope">
@@ -448,7 +448,6 @@ const LandingPageFilled: React.FC = () => {
                 {/* <a href="#">Edit</a> */}
                 <button
                   className="hover:text-brand-green-hover outline-none border-none bg-transparent"
-                  onClick={handleOpenSkillModal}
                   type="button"
                 >
                   Edit
@@ -732,7 +731,7 @@ const LandingPageFilled: React.FC = () => {
           </button>
         </button>
       </div>
-      {isSkillModalOpen && (
+      {/*{isSkillModalOpen && (
         <SkillsModal handleCloseSkillModal={handleCloseSkillModal} isSkillModalOpen={isSkillModalOpen} />
       )}
       <>{isOpen && <WorkExperienceSection isOpen={isOpen} onClose={onClose} />}</>
@@ -755,7 +754,7 @@ const LandingPageFilled: React.FC = () => {
             }}
           />
         )}
-      </>
+          </>*/}
     </div>
   );
 };
