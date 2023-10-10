@@ -18,12 +18,12 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
       onMouseOver={() => setPopupClass(true)}
       onMouseLeave={() => setPopupClass(false)}
     >
-      <Link href={`marketplace/${category.toLowerCase().replaceAll(' ', '')}`}>{category}</Link>
+      <Link href="/marketplace/categories">{category}</Link>
 
       <div
         className={`border-[2px]  border-slate-50 flex flex-col gap-3 ${
           popupClass ? 'visible opacity-100' : 'invisible opacity-0'
-        }  rounded-lg absolute translate-y-4 transition-all duration-500 w-[286px] bg-white-100`}
+        }  rounded-lg absolute translate-y-4 -translate-x-1/4 transition-all duration-500 w-[286px] bg-white-100`}
       >
         {['Graphics Design Templates', 'Illustrations', 'Logos', 'Branding Assets', 'Ui/Ux Design Elements'].map(
           (item, i) => (
@@ -31,9 +31,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
               onClick={() => handleActiveNav(index)}
               className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
               key={i + 1}
-              href={`/marketplace/${category.toLowerCase().replaceAll(' ', '')}/${item
-                .toLowerCase()
-                .replaceAll(' ', '')}`}
+              href="/marketplace/specific-sub-category"
             >
               {item}
             </Link>
