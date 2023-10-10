@@ -80,7 +80,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAb
         <form className="py-3 md:pt-7" onSubmit={submitAbout}>
           {!isEditing ? (
             <div className="w-full">
-              <div className="w-full px-2">
+              <div className="w-full px-3">
                 <label htmlFor="about" className="block font-medium mb-2 text-[#444846]">
                   Description
                 </label>
@@ -107,9 +107,9 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAb
               <span className="text-[#737876] inline-block font-normal">{text}</span>
             </>
           )}
-          <div className={`flex gap-2 flex-col justify-end mt-10 ${!isEditing ? 'px-3' : 'px-0'}`}>
+          <div className={`flex gap-2 flex-col justify-end mt-8 ${!isEditing ? 'px-3' : 'px-0'}`}>
             {isEditing ? (
-              <div className="flex gap-3 justify-end mb-2 font-medium">
+              <div className="flex gap-3 justify-end mb-5 font-medium">
                 <p onClick={handleEditClick} className="text-blue-300 cursor-pointer">
                   Edit
                 </p>
