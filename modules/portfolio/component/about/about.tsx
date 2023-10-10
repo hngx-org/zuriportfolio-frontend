@@ -1,14 +1,20 @@
 'use client';
-import { Input } from '@ui/Input';
 import React, { useState, useRef, useEffect } from 'react';
 import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 
-function PortfolioAbout() {
+type aboutModalProps = {
+  handleCloseAboutModal: () => void;
+  isAboutModalOpen: boolean;
+};
+
+const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAboutModalOpen }) => {
   const [text, setText] = useState<string>('');
   const [isEditing, setIsEditing] = useState(false);
-  const [hide, setHide] = useState('block');
+  const [hide, setHide] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [error, setError] = useState('');
+  const [errorBorder, setErrorBorder] = useState('[#E1E3E2]');
 
   useEffect(() => {
     if (isEditing && inputRef.current) {
@@ -41,43 +47,69 @@ function PortfolioAbout() {
     if (text !== '') {
       if (!isEditing) {
         setIsEditing(!isEditing);
+        setErrorBorder('[#E1E3E2]');
+        setError('');
       } else {
-        alert('here is not editing');
+        console.log('successfully loaded!');
       }
     } else {
-      alert('Input is required');
+      setErrorBorder('brand-red-primary');
+      setError('This field is required');
     }
   };
 
   return (
-    <Modal isOpen={true} closeModal={() => {}} size="lg">
-      <div className="mx-auto bg-white-100 rounded-md">
-        <div className="flex justify-between border-b-8 border-brand-green-primary pb-1">
+    <Modal
+      isOpen={isAboutModalOpen}
+      closeModal={() => {
+        setHide(!hide);
+      }}
+      isCloseIconPresent={false}
+      size="lg"
+    >
+      <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-5 md:px-10">
+        <div className="flex justify-between border-b-[3px] md:border-b-8 border-brand-green-primary pb-1">
           <span className="font-semibold text-lg">About</span>
+          <div
+            className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"
+            onClick={handleCloseAboutModal}
+          >
+            x
+          </div>
         </div>
-        <form className="p-6" onSubmit={submitAbout}>
+        <form className="py-3 px-2 md:p-6" onSubmit={submitAbout}>
           {!isEditing ? (
             <div className="w-full">
               <div className="w-full">
                 <label htmlFor="about" className="block mb-2">
                   Description
                 </label>
-                <Input
+                <textarea
+                  className={`resize-none overflow-auto border-2 border-solid border-${errorBorder} pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary w-full`}
+                  name="about"
+                  id=""
+                  rows={4}
                   value={text}
+                  placeholder="Bio"
                   onChange={(e) => {
                     setText(e.target.value);
+                    if (e.target.value !== '') {
+                      setError('');
+                      setErrorBorder('[#E1E3E2]');
+                    }
                   }}
-                  type="text"
-                  placeHolder="Bio"
-                  className="w-full"
-                  name="about"
-                />
+                ></textarea>
+                <span className="text-brand-red-primary">{error}</span>
               </div>
             </div>
           ) : (
             <>
-              <span className="text-dark-900 inline-block">{text}</span>
-              <div className="flex justify-end font-medium gap-4 mt-2">
+              <span className="text-[#737876] inline-block">{text}</span>
+            </>
+          )}
+          <div className="flex gap-2 flex-col justify-end mt-10">
+            {isEditing ? (
+              <div className="flex gap-3 justify-end mb-2 font-medium">
                 <p onClick={handleEditClick} className="text-blue-300 cursor-pointer">
                   Edit
                 </p>
@@ -85,20 +117,28 @@ function PortfolioAbout() {
                   Delete
                 </p>
               </div>
-            </>
-          )}
-          <div className="flex gap-2 justify-end mt-10">
-            <Button intent={'secondary'} size={'sm'} className="w-24" type="button">
-              Close
-            </Button>
-            <Button intent={'primary'} size={'sm'} className="w-24" type="button" onClick={handleClick}>
-              Save
-            </Button>
+            ) : (
+              ''
+            )}
+            <div className="flex justify-end font-medium gap-4 mt-2">
+              <Button intent={'secondary'} size={'sm'} className="w-24 rounded-lg" type="button">
+                Close
+              </Button>
+              <Button
+                intent={'primary'}
+                size={'sm'}
+                className="w-24 rounded-lg border-[2px] border-brand-green-primary hover:border-brand-green-hover"
+                type="button"
+                onClick={handleClick}
+              >
+                Save
+              </Button>
+            </div>
           </div>
         </form>
       </div>
     </Modal>
   );
-}
+};
 
 export default PortfolioAbout;

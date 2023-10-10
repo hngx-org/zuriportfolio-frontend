@@ -3,6 +3,7 @@ import { WishlistProduct } from '../../../@types';
 import { RatingCard } from './RatingCard';
 import Button from '@ui/Button';
 import deleteIcon from '../../../public/assets/wishlistAssets/delete.svg';
+import { RiDeleteBin6Line } from 'react-icons/ri';
 
 export const WishlistProductCard = ({
   product,
@@ -36,20 +37,16 @@ export const WishlistProductCard = ({
                   $<span>{product.productPrice}</span>
                 </p>
               </div>
-              
+
               <div className="gap-1 self-start hidden md:flex">
                 <RatingCard rating={product.productRating} size={22} />
                 <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
-           
-                </div>
-                <div
-                className='md:hidden flex gap-1 self-start'
-                >
+              </div>
+              <div className="md:hidden flex gap-1 self-start">
                 <RatingCard rating={product.productRating} size={12} />
                 <span className="text-[12px] md:text-lg text-custom-color15">({product.numReviews})</span>
-           
-                </div>
-               
+              </div>
+
               <div className="md:hidden">
                 <p
                   className={`text-[10px] md:text-xs font-medium ${
@@ -66,26 +63,19 @@ export const WishlistProductCard = ({
                   intent={'tertiary'}
                   spinnerColor="#00894C px-3 py-1"
                 >
-                  <span
-                  className='text-[12px] md:text-lg '
-                  >
-                  {product.inCart ? 'Explore Similar' : 'Move To Cart'}
-                
-                  </span>
+                  <span className="text-[12px] md:text-lg ">{product.inCart ? 'Explore Similar' : 'Move To Cart'}</span>
                 </Button>
               </div>
             </div>
 
             <div className="hidden md:flex gap-3 self-start">
               <Button
-                className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md  border border-custom-color17 text-white-650 "
+                className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 "
                 size={'sm'}
                 spinnerColor="#D5DBDB"
                 onClick={() => removeProductFromWishlist(product.productId)}
               >
-                <div>
-                  <Image src={deleteIcon} alt="delete" />
-                </div>
+                <RiDeleteBin6Line className="text-[20px] md:text-[25px] text-white-650 group-hover:fill-white-100" />
                 Remove
               </Button>
               <Button
@@ -101,7 +91,10 @@ export const WishlistProductCard = ({
           </div>
         </div>
 
-        <div className="md:hidden self-start mt-1" onClick={() => removeProductFromWishlist(product.productId)}>
+        <div
+          className="md:hidden self-start mt-1 cursor-pointer"
+          onClick={() => removeProductFromWishlist(product.productId)}
+        >
           <Image src={deleteIcon} alt="delete" width={35} height={35} />
         </div>
         <div className="hidden md:block">
