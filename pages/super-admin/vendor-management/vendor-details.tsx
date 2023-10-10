@@ -243,13 +243,13 @@ function VendorDetails() {
             <input type="checkbox" className="mr-5"></input>Other
           </li>
         </ul>
-        <div className="buttons flex items-center mt-6  w-1/2 ml-auto justify-between">
+        <div className="buttons flex items-center mt-6  w-1/2 ml-auto justify-between mr-3">
           <Button
             intent={'secondary'}
             size={'md'}
             isLoading={false}
             spinnerColor="#000"
-            className="text-black bg-white-100 p-3 w-1/2 rounded-md mr-5 z-0 ml-auto"
+            className="text-black bg-white-100 p-3 w-1/2 rounded-md z-0"
             onClick={closeModal}
           >
             Cancel
@@ -259,7 +259,7 @@ function VendorDetails() {
             size={'md'}
             isLoading={false}
             spinnerColor="#000"
-            className="p-3 w-1/2  ml-5 rounded-md"
+            className="p-3 w-1/2  ml-5 rounded-md mr-6"
             onClick={deleteModal}
           >
             Delete
