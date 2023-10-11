@@ -13,20 +13,23 @@ import InputError from '../InputError';
 import useInputError from '../../../../hooks/useInputError';
 import { loginUser } from '../../../../http';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
+import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
+import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
+import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
   const { handleSubmit, inputErrors } = useInputError();
-  const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data)});
+  const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data) });
 
-  const handleLogin = (e:FormEvent<HTMLFormElement>) => {
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(email.length !== 0 && password.length !== 0) {
-      loginFn.mutate({email: email as string, password: password as string});
+    if (email.length !== 0 && password.length !== 0) {
+      loginFn.mutate({ email: email as string, password: password as string });
     }
-  }
+  };
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
@@ -112,27 +115,9 @@ function LoginForm() {
             <div className="w-1/2 h-[0.0625rem] bg-white-650 "></div>
           </div>
           <div className="mt-[1.6rem] flex flex-col gap-[1rem] relative">
-            <Button
-              intent={'secondary'}
-              className="flex justify-center items-center gap-2.5 pr-[3rem] py-2  text-custom-color20  w-full h-14 rounded-[0.3125rem] border border-custom-color21"
-              leftIcon={<Image src={google} alt="Google" className="mr-[0.62rem]" />}
-            >
-              Contunue with Google
-            </Button>
-            <Button
-              intent={'secondary'}
-              className="flex justify-center items-center gap-2.5 pr-[3.625rem]  py-2 pl-6 text-custom-color20  w-full h-14 rounded-[0.3125rem] border  border-custom-color21"
-              leftIcon={<Image src={github} alt="Google" className="mr-[0.62rem]" />}
-            >
-              Continue with Github
-            </Button>
-            <Button
-              intent={'secondary'}
-              className="flex justify-center items-center gap-2.5 pr-[2.625rem]  py-2 pl-6 text-custom-color20  w-full h-14 rounded-[0.3125rem] border  border-custom-color21"
-              leftIcon={<Image src={facebook} alt="Google" className="mr-[0.62rem]" />}
-            >
-              Continue with Facebook
-            </Button>
+            <SignUpWithGoogle />
+            <SignUpWithGithub />
+            <SignUpWithFacebook />
           </div>
         </div>
       </div>

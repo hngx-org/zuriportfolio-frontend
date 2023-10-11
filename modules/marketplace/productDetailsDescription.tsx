@@ -55,7 +55,7 @@ export default function ProductDetailsDescription() {
       <CategoriesDetailsNav navItems={navItems} />
       <div className="whitespace-nowrap overflow-hidden ml-[70px]"></div>
       {/* lg:px-[100px] md:px-10*/}
-      <main className={`flex flex-col items-center max-w-[1240px] mx-auto  px-6 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
+      <main className={`flex flex-col items-center max-w-[1240px] mx-auto lg:pt-6 pt-4 lg:pb-6 pb-4`}>
         {/* Product Details  */}
         <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
           {/* Product Detail Images  */}

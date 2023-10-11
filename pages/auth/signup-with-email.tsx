@@ -3,14 +3,28 @@ import { Input } from '@ui/Input';
 import Link from 'next/link';
 import React from 'react';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
-import useInputError from '../../hooks/useInputError';
-import InputError from '@modules/auth/component/InputError';
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
 import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 
 function SignUpWithEmail() {
-  const { handleSubmit, inputErrors } = useInputError();
+  const schema = z.object({
+    email: z.string().email(),
+  });
+
+  const form = useForm({
+    validate: zodResolver(schema),
+    initialValues: {
+      email: '',
+    },
+  });
+
+  const handleSignUpWithEmail = (values: any) => {
+    console.log('email', values.email);
+  };
+
   return (
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
       <div className="text-center lg:text-left">
@@ -18,7 +32,7 @@ function SignUpWithEmail() {
         <p className="md:text-[22px] text-custom-color20 font-manropeB">Let&apos;s get you started</p>
       </div>
       <div className="mt-6 md:my-12">
-        <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-8" onSubmit={form.onSubmit((values) => handleSignUpWithEmail(values))}>
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="font-manropeB">
               Email Address
@@ -26,18 +40,18 @@ function SignUpWithEmail() {
             <Input
               placeHolder="Allusugar@gmail.com"
               id="email"
-              name="email"
-              className="w-full border border-slate-50 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]"
+              {...form.getInputProps('email')}
+              className={`w-full border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                form.errors.email ? 'border-red-200' : 'border-slate-50'
+              }`}
               type="email"
-              required={true}
             />
-            <InputError inputError={inputErrors} inputName="email" />
+            <p className="text-[red] text-xs">{form.errors.email && form.errors.email}</p>
           </div>
-          <Link href="/auth/signup">
-            <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
-              Continue
-            </Button>
-          </Link>
+          <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
+            Continue
+          </Button>
+          {/* </Link> */}
         </form>
 
         <div className="mt-8">
