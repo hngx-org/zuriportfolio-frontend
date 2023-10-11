@@ -15,7 +15,7 @@
   <mj-body background-color="#ffff">
     <!-- Logo Image -->
     <mj-section>
-      <mj-column>
+      <mj-column> 
         <mj-image
           src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/muees/zurilogo.png"
           alt="Logo"
