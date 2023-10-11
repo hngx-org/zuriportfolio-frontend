@@ -21,20 +21,36 @@ const grades = [
   },
 ];
 
+type MyScoreRangeType = {
+  minScore: string;
+  maxScore: string;
+  // Add more properties as needed
+};
+
 const ScoreDropdown = (props: { item?: string }) => {
   const [selectedValue, setSelectedValue] = useState(''); // State to store the selected value
-  const [inputValue, setInputValue] = useState<string>(''); // Explicitly specify the type as string
+  const [inputValue, setInputValue] = useState<MyScoreRangeType>({
+    minScore: '',
+    maxScore: '',
+  }); // Explicitly specify the type as string
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
+    const name = e.target.name;
 
     // Check if the new value is an empty string (no characters entered)
     if (newValue === '') {
-      setInputValue(''); // Reset the input to an empty string
+      setInputValue({
+        minScore: '',
+        maxScore: '',
+      }); // Reset the input to an empty string
     } else {
       const numericValue = parseInt(newValue, 10);
       if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 100) {
-        setInputValue(numericValue.toString());
+        setInputValue({
+          ...inputValue,
+          [name]: numericValue.toString(),
+        });
       }
       // You can add additional validation or error handling here if needed
     }
@@ -50,7 +66,9 @@ const ScoreDropdown = (props: { item?: string }) => {
             </label>
             <Input
               type="text"
-              value={inputValue}
+              value={inputValue.minScore}
+              name="minScore"
+              id="min-score"
               onChange={handleInputChange}
               placeHolder=""
               className="h-8 w-20 rounded-md border"
@@ -58,12 +76,14 @@ const ScoreDropdown = (props: { item?: string }) => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="min-score" className="text-xs text-gray-400">
+            <label htmlFor="max-score" className="text-xs text-gray-400">
               Max Score
             </label>
             <Input
               type="text"
-              value={inputValue}
+              value={inputValue.maxScore}
+              name="maxScore"
+              id="max-score"
               onChange={handleInputChange}
               placeHolder=""
               className="h-8 w-20 rounded-md border"
