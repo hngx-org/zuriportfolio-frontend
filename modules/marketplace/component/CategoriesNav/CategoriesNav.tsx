@@ -43,13 +43,13 @@ const CategoriesNav = (props: CategoriesNavProps) => {
         <div className="border-b-[1px] absolute right-0 left-0 border-slate-50 xl:hidden"></div>
         <ul className={` flex-col pb-5 gap-8 mt-8 px-4 ${showCategories ? 'flex' : 'hidden'}`}>
           <li className="">
-            <Link onClick={() => setShowCategories(false)} href="/marketplace/allcategories">
+            <Link onClick={() => setShowCategories(false)} href="/marketplace/categories/all">
               All
             </Link>
           </li>
           {navItems.map((item, i) => (
             <li key={i + 1}>
-              <Link onClick={() => setShowCategories(false)} href="/marketplace/categories">
+              <Link onClick={() => setShowCategories(false)} href={`/marketplace/categories/${item}`}>
                 {item}
               </Link>
             </li>
@@ -64,7 +64,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
             setActive(-1);
           }}
         >
-          <Link href="/marketplace/allcategories">All Categories</Link>
+          <Link href="/marketplace/categories/all">All Categories</Link>
         </li>
         {navItems.slice(0, 6).map((category, i) => {
           return (

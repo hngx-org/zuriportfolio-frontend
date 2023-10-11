@@ -18,7 +18,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
       onMouseOver={() => setPopupClass(true)}
       onMouseLeave={() => setPopupClass(false)}
     >
-      <Link href="/marketplace/categories">{category}</Link>
+      <Link href={`/marketplace/categories/${category}`}>{category}</Link>
 
       <div
         className={`border-[2px]  border-slate-50 flex flex-col gap-3 ${
@@ -31,7 +31,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
               onClick={() => handleActiveNav(index)}
               className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
               key={i + 1}
-              href="/marketplace/specific-sub-category"
+              href={`/marketplace/categories/${category}/${item}`}
             >
               {item}
             </Link>
