@@ -52,8 +52,12 @@ function Signup() {
     },
   });
 
-  const handleSignUp = (e: any) => {
-    console.log(e);
+  const handleSignUp = (values: any) => {
+    console.log('firstname', values.firstname);
+    console.log('lastname', values.lastname);
+    console.log('password', values.password);
+    console.log('confirmPassword', values.confirmPassword);
+    console.log('agree', values.agree);
   };
 
   return (
