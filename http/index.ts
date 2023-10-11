@@ -33,6 +33,17 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
+export const signUpUserWithEmail = async (props: { email: string }) => {
+  try {
+    const res = await $http.post('https://hngx-authentication-service-api.onrender.com/api/auth/check-email', props);
+    console.log(res?.data);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    return e.response.data ?? { message: e.message };
+  }
+};
+
 // export const loginUser = async () => {
 //   const $http = axios.create({
 //     baseURL: 'https://reqres.in/',
