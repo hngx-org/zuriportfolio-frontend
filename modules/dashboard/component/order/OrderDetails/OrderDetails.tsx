@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useOrders from '../../../../../hooks/useOrders';
 import OrderDetailsTable from './OrderDetailsTable';
 import usePaginate from '../../../../../hooks/usePaginate';
@@ -8,6 +8,7 @@ import PaginationBar from '../PaginationBar';
 import { OrderDetailsMobile } from './OrderDetailsRow';
 import { OrderHistory } from '../../../../../@types';
 import Filters from '../Filters';
+import Pagination from '@ui/Pagination';
 const filters: {
   id: keyof OrderHistory;
   title: string;
@@ -39,12 +40,13 @@ const filters: {
 ];
 const OrderDetails = () => {
   const { orders, changeSortBy, toggleSortOrder, sortBy, changeSearchQuery, searchQuery, orderFilter } = useOrders();
-  const { pageItem, changeCurrentPage, pageLength, currentPage } = usePaginate(orders, 7);
   const [showFilters, setShowFilters] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const closeFilter = () => {
     setShowFilters(false);
   };
-
+  useEffect(() => {}, [currentPage]);
   return (
     <main className="max-w-[1240px] mx-auto md:px-10 px-6">
       <section className="font-manropeB font-semibold mt-4">
@@ -219,13 +221,13 @@ const OrderDetails = () => {
             </button>
           </div>
         </div>
-        {pageItem.length === 0 ? (
+        {orders.length === 0 ? (
           <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
             No Order to Show
           </p>
         ) : (
           <OrderDetailsTable
-            pageItem={pageItem}
+            pageItem={orders}
             changeSort={changeSortBy}
             toggleSort={toggleSortOrder}
             currentSort={sortBy}
@@ -233,15 +235,23 @@ const OrderDetails = () => {
         )}
       </section>
       <div className="md:hidden flex flex-col gap-4 mb-4">
-        {pageItem.length > 0 ? (
-          pageItem.map((item) => <OrderDetailsMobile key={item.id} {...item} />)
+        {orders.length > 0 ? (
+          orders.map((item) => <OrderDetailsMobile key={item.id} {...item} />)
         ) : (
           <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
             No Order to Show
           </p>
         )}
       </div>
-      {pageItem.length > 0 && <PaginationBar {...{ changeCurrentPage, currentPage, pageLength }} />}
+      <div className="flex justify-center my-6">
+        <Pagination
+          activePage={currentPage}
+          page={currentPage}
+          pages={3}
+          visiblePaginatedBtn={3}
+          setPage={setCurrentPage}
+        />
+      </div>
     </main>
   );
 };

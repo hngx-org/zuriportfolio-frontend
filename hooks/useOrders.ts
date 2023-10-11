@@ -19,7 +19,7 @@ const dummyOrders: OrderHistory[] = [
     productName: 'Your Soul Is a River Ebook',
     customerName: 'Jane Cooper',
     date: new Date(2023, 9, 11),
-    status: 'pending',
+    status: 'cancelled',
     productType: 'Ebook',
     price: 45000,
     sales: 64,
@@ -61,7 +61,7 @@ const dummyOrders: OrderHistory[] = [
   {
     id: 3061,
     productName: 'Artistic Sketchbook',
-    status: 'pending',
+    status: 'cancelled',
     date: new Date(2023, 9, 18),
     customerName: 'Bello Akim',
     productType: 'Arts',
@@ -96,6 +96,7 @@ const useOrders = (initialOrders = dummyOrders) => {
     if (filter !== 'all') {
       filteredOrders = initialOrders.filter((order) => order.status === filter);
     }
+    console.log(filteredOrders);
     setOrders(filteredOrders);
     // Change sort to default
     if (shouldChangeSort) {
@@ -106,6 +107,7 @@ const useOrders = (initialOrders = dummyOrders) => {
   const changeFilter = (val: string) => {
     // show orders by status which is either all | completed | cancelled or pending
     setOrderFilter(val);
+
     filterFunc(val);
   };
 

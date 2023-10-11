@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PaginationBar from '../PaginationBar';
 
 import { OrderHistoryMobile } from './OrderHistoryRow';
@@ -9,6 +9,7 @@ import useOrders from '../../../../../hooks/useOrders';
 import Link from 'next/link';
 import Filters from '../Filters';
 import { OrderHistory } from '../../../../../@types';
+import Pagination from '@ui/Pagination';
 
 const orderNavs: {
   id: string;
@@ -25,10 +26,6 @@ const orderNavs: {
   {
     id: 'cancelled',
     title: 'Cancelled',
-  },
-  {
-    id: 'pending',
-    title: 'Pending',
   },
 ];
 const filters: {
@@ -56,12 +53,12 @@ const OrderHistory: React.FC = () => {
   const { orders, orderFilter, changeFilter, changeSortBy, sortBy, toggleSortOrder, searchQuery, changeSearchQuery } =
     useOrders();
 
-  const { changeCurrentPage, pageItem, currentPage, pageLength } = usePaginate(orders, 5);
+  const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
   const closeFilter = () => {
     setShowFilters(false);
   };
-
+  useEffect(() => {}, [currentPage]);
   return (
     <>
       <main className="max-w-[1240px] mx-auto md:px-10 px-4">
@@ -136,7 +133,6 @@ const OrderHistory: React.FC = () => {
                   } cursor-pointer whitespace-nowrap`}
                   onClick={() => {
                     changeFilter(orderNav.id);
-                    changeCurrentPage(0);
                     changeSearchQuery('', orderNav.id);
                   }}
                 >
@@ -201,13 +197,13 @@ const OrderHistory: React.FC = () => {
                 )}
               </div>
             </div>
-            {pageItem.length === 0 ? (
+            {orders.length === 0 ? (
               <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
                 No Order to Show
               </p>
             ) : (
               <OrderHistoryTable
-                pageItem={pageItem}
+                pageItem={orders}
                 changeSort={changeSortBy}
                 toggleSort={toggleSortOrder}
                 currentSort={sortBy}
@@ -216,16 +212,24 @@ const OrderHistory: React.FC = () => {
           </section>
 
           <div className="md:hidden flex flex-col gap-4 mb-4">
-            {pageItem.length > 0 ? (
-              pageItem.map((item) => <OrderHistoryMobile key={item.id} {...item} />)
+            {orders.length > 0 ? (
+              orders.map((item) => <OrderHistoryMobile key={item.id} {...item} />)
             ) : (
               <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
                 No Order to Show
               </p>
             )}
           </div>
-          {pageItem.length > 0 && <PaginationBar {...{ changeCurrentPage, currentPage, pageLength }} />}
         </section>
+        <div className="flex justify-center my-6">
+          <Pagination
+            activePage={currentPage}
+            page={currentPage}
+            pages={3}
+            visiblePaginatedBtn={3}
+            setPage={setCurrentPage}
+          />
+        </div>
       </main>
       {/* Add a footer component */}
     </>
