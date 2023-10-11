@@ -2,7 +2,8 @@ import React from 'react';
 import ProductCard from '../component/ProductCard';
 import { ProductCardProps } from '../../../@types';
 import ProductCardWrapper from '../component/landingpage/productCardWrapper/product-card-wrapper';
-import MainLayout from '../../../components/Layout/MainLayout';
+import Link from 'next/link';
+import ProductDetails from '../../../pages/marketplace/product-details';
 
 interface ProductCardWrapperProps {
   productsList: ProductData[];
@@ -25,7 +26,6 @@ interface ProductData {
 export default function AllCategoriesPage() {
   // Sample product data (you can replace this with your actual data)
   const products: ProductData[] = [
-    // Product 1
     {
       image: '/assets/products-banner/Image-1.png',
       productName: 'Webinar and Course Slide Templa...',
@@ -37,7 +37,7 @@ export default function AllCategoriesPage() {
       showDiscount: false,
       discount: 60,
     },
-    // Product 2
+
     {
       image: '/assets/products-banner/Image-2.png',
       productName: 'Webinar and Course Slide Templa...',
@@ -309,6 +309,8 @@ export default function AllCategoriesPage() {
     'Photography',
   ];
 
+  const labelTExt = ['+5,000,000', '+2,050,000', '+550,000', '+150,000', '+50,000', '+25,000'];
+
   // Function to group products into rows
   const groupProductsIntoRows = (products: ProductData[], itemsPerRow: number) => {
     const rows: ProductData[][] = [];
@@ -325,7 +327,15 @@ export default function AllCategoriesPage() {
     <div className="category">
       {productRows.map((row, index) => (
         <div key={index} className="">
-          <ProductCardWrapper productsList={row} title={paragraphTexts[index]} />
+          <div className="flex gap-6">
+            <div className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal ">
+              {paragraphTexts[index]}
+            </div>
+            <div className="text-neutral-400 text-base font-semibold font-Manrope md:mb-8 leading-normal tracking-tight pt-2">
+              {labelTExt[index]}
+            </div>
+          </div>
+          <ProductCardWrapper productsList={row} title={''} />
         </div>
       ))}
     </div>

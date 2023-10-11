@@ -345,7 +345,7 @@ const CategoryAllDetails: React.FC<CategoryAllDetailsProps> = ({ category }) => 
 
   return (
     <>
-      <div className="w-full max-sm:px-4 md:px-4 md:max-w-full lg:max-w-[1240px] mx-auto relative h-auto flex flex-col items-center justify-center gap-[80px] py-[50px] ">
+      <div className="w-full max-sm:px-4 md:px-4 lg:px-0 lg:max-w-[1240px] mx-auto relative h-auto flex flex-col items-center justify-center gap-[80px] py-[50px] ">
         <section className="w-full h-auto flex flex-col content-center max-sm:gap-[20px] md:gap-[25px] lg:gap-[30px]">
           <div className="w-full flex flex-row content-center items-center justify-between">
             <h1 className=" sm:text-[20px] md:text-[24px] lg:text-[28px] font-semibold font-manropeL leading-[30px] text-dark-500">

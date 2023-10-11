@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import Button from '@ui/Button';
 import accessDeniedImage from '../public/assets/deniedAssets/denied-image.svg';
 import Container from '@modules/auth/component/Container/Container';

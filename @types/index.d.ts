@@ -12,7 +12,15 @@ export interface MainLayoutProps {
   showTopbar?: boolean;
   showFooter?: boolean;
 }
-
+export interface Education {
+  id: number;
+  degree: string;
+  fieldOfStudy: string;
+  school: string;
+  description: string;
+  dateFrom: string;
+  dateTo: string;
+}
 export interface AllCategoryDetails {
   price: string;
   name: string;
@@ -48,9 +56,10 @@ export interface MainLayoutContextProps {
 }
 
 export interface CartProductCardProps {
+  id: string,
   productImage: string;
   productTitle: string;
-  cardStyle: string;
+  // cardStyle: string;
   productPrice: number;
   productRating: number;
   productSeller: string;
@@ -165,6 +174,7 @@ export type ProductCardProps = {
 };
 
 export type CartItemProps = {
+  productId: string;
   productImage: string;
   productTitle: string;
   productSize: string;
@@ -172,6 +182,18 @@ export type CartItemProps = {
   productSeller: string;
   productPrice: number;
 };
+
+export type ViewedProductCardProps = {
+    id: string;
+    productImage: string;
+    productPrice: number;
+    discountPercentage?: number;
+    productRating: number;
+    productSeller: string;
+    productTitle: string;
+    tag?: string;
+    tagBackground?: string;
+}
 
 // In a file like '@types/index.ts' or a similar location
 
@@ -210,6 +232,10 @@ export interface OrderHistory {
   customerName: string;
   date: Date;
   status: 'completed' | 'cancelled' | 'pending';
+  productType: string;
+  price: number;
+  sales: number;
+  revenue: number;
 }
 export interface Product {
   productId: string;
@@ -352,3 +378,118 @@ export type SectionModalProps = {
   primaryText: string;
   onClickAction: () => void;
 };
+
+export interface PaymentStatusModalProps {
+  children: React.ReactNode;
+}
+
+export interface Vendor {
+  vendorImgSrc: string;
+  name: string;
+  email: string;
+  amount: string;
+  quantity: number;
+  date: string;
+  statusIndicatorSrc: string;
+  statusText: string;
+}
+
+export type BannedDeletedVendorsProps = {
+  showBanned: boolean;
+  setShowBanned: (any: boolean) => void;
+  showDeleted: boolean;
+  setShowDeleted: (any: boolean) => void;
+};
+
+export interface SettingOptionTypes {
+  accountManagement: boolean;
+  notificationSettings: boolean;
+  deleteAccount: boolean;
+  refer: boolean;
+}
+export interface NotificationCheckboxType {
+  receiveEmail: boolean;
+  specialOffers: boolean;
+  getNotification: boolean;
+  notifyFollow: boolean;
+  notifyMessages: boolean;
+}
+
+export type cardinfo = {
+  title: string;
+  kMenu: string;
+  price: number;
+  arUp: string;
+  id: number;
+};
+export type Graph = {
+  id: number;
+  title: string;
+  btn: string;
+  calender: {
+    twelveM: string;
+    threeM: string;
+    thirtyD: string;
+    sevenD: string;
+    twentyFourH: string;
+    md: boolean;
+  };
+};
+
+export type topListingProduct = {
+  id: number;
+  productName: string;
+  productImage: string;
+  category: string;
+  order: string;
+  price: string;
+  topSales: string;
+  vendor: string;
+};
+
+export type activity = {
+  name: string;
+  purchased: string;
+  pItem: string;
+  id: number;
+};
+type cardinfo = {
+  title: string;
+  kMenu: string;
+  price: number;
+  arUp: string;
+  id: number;
+};
+
+export type inputErrorMessage = {
+  errorMessage: string;
+  inputName: string;
+  isValid: boolean;
+};
+// product listing types
+export interface ProductInfo {
+  productName: string;
+  vendor: string;
+  id: number;
+  dateAdded: string;
+  status: string;
+}
+export interface DeletedProducts {
+  name: string;
+  vendor: string;
+  id: number;
+  dateAdded: Date;
+  dateDeleted: Date;
+  status: string;
+}
+export interface CardData {
+  id: number;
+  bgImage: string;
+  photoImage: string;
+  name: string;
+  role: string;
+  skills: string[];
+  totalProjects: number;
+  badge: string;
+  location: string;
+}
