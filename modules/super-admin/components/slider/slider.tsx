@@ -11,11 +11,11 @@ export default function Slider() {
     <div className="relative max-w-fit ">
       <div className="overflow-scroll no-scrollbar max-h-fit h-auto ">
         <div className="flex gap-x-3">
-          <Image src={slider1} alt="slider image 1" className="object-contain w-1/6  md:w-[94.4px]" />
-          <Image src={slider2} alt="slider image 2" className="object-contain w-1/6  md:w-[94.4px] " />
-          <Image src={slider3} alt="slider image 3" className="object-contain w-1/6  md:w-[94.4px]  " />
-          <Image src={slider4} alt="slider image 4" className="object-contain w-1/6  md:w-[94.4px] " />
-          <Image src={slider5} alt="slider image 5" className="object-contain w-1/6  md:w-[94.4px]" />
+          <Image src={slider1} alt="slider image 1" className="object-contain   md:w-[94.4px]" />
+          <Image src={slider2} alt="slider image 2" className="object-contain   md:w-[94.4px] " />
+          <Image src={slider3} alt="slider image 3" className="object-contain   md:w-[94.4px]  " />
+          <Image src={slider4} alt="slider image 4" className="object-contain   md:w-[94.4px] " />
+          <Image src={slider5} alt="slider image 5" className="object-contain   md:w-[94.4px]" />
         </div>
       </div>
       <Image
