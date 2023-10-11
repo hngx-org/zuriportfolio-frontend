@@ -1,14 +1,13 @@
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
-import googleLogo from '../../public/assets/images/logo/google-logo.svg';
-import facebookLogo from '../../public/assets/images/logo/facebook-logo.svg';
-import githubLogo from '../../public/assets/images/logo/github-logo.svg';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
+import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
+import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
+import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 
 function SignUpWithEmail() {
   const schema = z.object({
@@ -49,7 +48,6 @@ function SignUpWithEmail() {
             />
             <p className="text-[red] text-xs">{form.errors.email && form.errors.email}</p>
           </div>
-          {/* <Link href="/auth/signup"> */}
           <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
             Continue
           </Button>
@@ -70,31 +68,9 @@ function SignUpWithEmail() {
           <span className="w-[40%] lg:w-[45%] h-[1px] bg-white-650"></span>
         </div>
         <div className="flex flex-col gap-y-4">
-          <Button
-            intent={'tertiary'}
-            size={'sm'}
-            className="w-full bg-white-100 text-custom-color20 border-custom-color21 border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
-            // the google logo has white space around it, so i am reducing the margin on the right so all the buttons look similar
-            leftIcon={<Image src={googleLogo} alt="Google logo" className="w-8 h-8 -mr-1.5" />}
-          >
-            Continue with Google
-          </Button>
-          <Button
-            intent={'tertiary'}
-            size={'sm'}
-            className="w-full bg-white-100 text-custom-color20 border-custom-color21 border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
-            leftIcon={<Image src={githubLogo} alt="Github logo" className="w-5 h-5" />}
-          >
-            Continue with Github
-          </Button>
-          <Button
-            intent={'tertiary'}
-            size={'sm'}
-            className="w-full bg-white-100 text-custom-color20 border-custom-color21 border rounded-md hover:bg-white-100 hover:border-brand-green-primary sm:text-base"
-            leftIcon={<Image src={facebookLogo} alt="Facebook logo" className="w-5 h-5" />}
-          >
-            Continue with Facebook
-          </Button>
+          <SignUpWithGoogle />
+          <SignUpWithGithub />
+          <SignUpWithFacebook />
         </div>
       </div>
     </AuthLayout>
