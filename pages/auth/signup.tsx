@@ -6,6 +6,7 @@ import AuthLayout from '../../modules/auth/component/AuthLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
+import axios from 'axios';
 
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -23,8 +24,8 @@ function Signup() {
 
   const schema = z
     .object({
-      firstname: z.string().min(1, { message: 'First name is required' }),
-      lastname: z.string().min(1, { message: 'Last name is required' }),
+      firstName: z.string().min(1, { message: 'First name is required' }),
+      lastName: z.string().min(1, { message: 'Last name is required' }),
       password: z.string().regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/, { message: 'Please match requirements' }),
       confirmPassword: z.string().min(2, { message: 'Confirm password is required' }),
     })
@@ -41,20 +42,40 @@ function Signup() {
   const form = useForm({
     validate: zodResolver(schema),
     initialValues: {
-      firstname: '',
-      lastname: '',
+      firstName: '',
+      lastName: '',
       password: '',
       confirmPassword: '',
       agree: false,
     },
   });
 
-  const handleSignUp = (values: any) => {
-    console.log('firstname', values.firstname);
-    console.log('lastname', values.lastname);
-    console.log('password', values.password);
-    console.log('confirmPassword', values.confirmPassword);
-    console.log('agree', values.agree);
+  const handleSignUp = async (values: any) => {
+    try {
+      const userData = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: 'emmanuelagbeniga@gmail.com',
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+      };
+
+      const response = await axios.post('https://auth.akuya.tech/api/auth/signup', userData);
+      console.log('firstName', values.firstName);
+      console.log('lastName', values.lastName);
+      console.log('password', values.password);
+      console.log('confirmPassword', values.confirmPassword);
+      console.log('agree', values.agree);
+
+      if (response.status === 200) {
+        // redirect to verification page
+      } else {
+        // Handle signup error, e.g., display an error message
+      }
+    } catch (error) {
+      // Handle any exceptions or errors here
+      console.error('Error during signup:', error);
+    }
   };
 
   return (
@@ -68,32 +89,32 @@ function Signup() {
           <form className="flex flex-col" onSubmit={form.onSubmit((values) => handleSignUp(values))}>
             {/* First name */}
             <div className="flex flex-col gap-2 mb-2">
-              <label htmlFor="firstname" className="leading-[27.04px] font-semibold text-gray-700">
+              <label htmlFor="firstName" className="leading-[27.04px] font-semibold text-gray-700">
                 First name
               </label>
               <Input
                 placeHolder="Aliu"
-                id="firstname"
-                {...form.getInputProps('firstname')}
-                className={`w-full h-[44px] md:h-[60px] ${form.errors.firstname ? 'border-[red]' : 'border-[#D0D5DD]'}`}
+                id="firstName"
+                {...form.getInputProps('firstName')}
+                className={`w-full h-[44px] md:h-[60px] ${form.errors.firstName ? 'border-[red]' : 'border-[#D0D5DD]'}`}
                 type="text"
               />
-              <p className="text-[red] text-xs">{form.errors.firstname && form.errors.firstname}</p>
+              <p className="text-[red] text-xs">{form.errors.firstName && form.errors.firstName}</p>
             </div>
 
             {/* last Name */}
             <div className="flex flex-col gap-2 mb-2">
-              <label htmlFor="lastname" className="leading-[27.04px] font-semibold text-gray-700">
+              <label htmlFor="lastName" className="leading-[27.04px] font-semibold text-gray-700">
                 Last name
               </label>
               <Input
                 placeHolder="Sugar"
-                id="lastname"
-                {...form.getInputProps('lastname')}
-                className={`w-full h-[44px] md:h-[60px] ${form.errors.lastname ? 'border-[red]' : 'border-[#D0D5DD]'}`}
+                id="lastName"
+                {...form.getInputProps('lastName')}
+                className={`w-full h-[44px] md:h-[60px] ${form.errors.lastName ? 'border-[red]' : 'border-[#D0D5DD]'}`}
                 type="text"
               />
-              <p className="text-[red] text-xs">{form.errors.lastname && form.errors.lastname}</p>
+              <p className="text-[red] text-xs">{form.errors.lastName && form.errors.lastName}</p>
             </div>
 
             {/* Password */}
