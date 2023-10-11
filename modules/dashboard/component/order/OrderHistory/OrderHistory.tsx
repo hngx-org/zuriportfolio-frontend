@@ -8,6 +8,7 @@ import usePaginate from '../../../../../hooks/usePaginate';
 import useOrders from '../../../../../hooks/useOrders';
 import Link from 'next/link';
 import Filters from '../Filters';
+import { OrderHistory } from '../../../../../@types';
 
 const orderNavs: {
   id: string;
@@ -30,7 +31,27 @@ const orderNavs: {
     title: 'Pending',
   },
 ];
-
+const filters: {
+  id: keyof OrderHistory;
+  title: string;
+}[] = [
+  {
+    id: 'id',
+    title: 'Order iD',
+  },
+  {
+    id: 'productName',
+    title: 'Product Name',
+  },
+  {
+    id: 'customerName',
+    title: 'Customer Name',
+  },
+  {
+    id: 'date',
+    title: 'Date',
+  },
+];
 const OrderHistory: React.FC = () => {
   const { orders, orderFilter, changeFilter, changeSortBy, sortBy, toggleSortOrder } = useOrders();
 
@@ -146,7 +167,6 @@ const OrderHistory: React.FC = () => {
                   </svg>
                   <span>Filters</span>
                 </button>
-                <Filters />
               </div>
             </div>
             {pageItem.length === 0 ? (
