@@ -54,20 +54,21 @@ function ResetPassword() {
               </p>
             </div>
             <form className="flex flex-col gap-4" onSubmit={form.onSubmit((values) => handleResetPassword(values))}>
-              <div className="flex flex-col gap-3">
-                <label htmlFor="reset_new_password" className="font-manropeB text-base font-semibold text-slate-300">
+              {/* Password */}
+              <div className="space-y-3">
+                <label htmlFor="password" className="font-manropeB text-base font-semibold text-slate-300">
                   New password
                 </label>
                 <PasswordPopover password={form.values.password}>
                   <Input
-                    id="reset_new_password"
+                    id="password"
                     {...form.getInputProps('password')}
                     type={showPassword[0] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
                     // isPasswordVisible={showPassword[0]} // Pass the visibility state as a prop
-                    className={`h-[2.75rem] md:h-[3.75rem] w-full bg-transparent rounded-lg border shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-custom-color2 text-base font-manropeEL font-light ${
-                      form.errors.password ? 'border-[red]' : 'border-gray-300'
+                    className={`h-[2.75rem] md:h-[3.75rem] w-full shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05) ${
+                      form.errors.password ? 'border-red-200' : ''
                     }`}
-                    placeHolder="new password"
+                    placeHolder="Daniel345"
                     rightIcon={
                       <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
                         {/* Update the icon based on the visibility state of the password. */}
@@ -78,20 +79,20 @@ function ResetPassword() {
                 </PasswordPopover>
                 <p className="text-[red] text-xs">{form.errors.password && form.errors.password}</p>
               </div>
-              <div className="flex flex-col gap-3">
-                <label
-                  htmlFor="reset_confirm_password"
-                  className="font-manropeB text-base font-semibold text-slate-300"
-                >
+              {/* Confirm Password */}
+              <div className="space-y-3">
+                <label htmlFor="confirmPassword" className="font-manropeB text-base font-semibold text-slate-300">
                   Confirm password
                 </label>
                 <Input
-                  id="reset_confirm_password"
-                  name="reset_confirm_password"
+                  id="confirmPassword"
+                  {...form.getInputProps('confirmPassword')}
                   type={showPassword[1] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
                   // isPasswordVisible={showPassword[1]} // Pass the visibility state as a prop
-                  className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-custom-color2 text-base font-manropeEL font-light"
-                  placeHolder="confirm password"
+                  className={`h-[2.75rem] md:h-[3.75rem] w-full shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] ${
+                    form.errors.confirmPassword ? 'border-red-200' : ''
+                  }`}
+                  placeHolder="Daniel345"
                   rightIcon={
                     <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
                       {/* Update the icon based on the visibility state of the password. */}
@@ -102,10 +103,7 @@ function ResetPassword() {
                 />
                 <p className="text-[red] text-xs">{form.errors.confirmPassword && form.errors.confirmPassword}</p>
               </div>
-              <Button
-                className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-5 font-manropeB text-base text-white-100"
-                type="submit"
-              >
+              <Button intent={'primary'} className="w-full h-[3.25rem] md:h-[3.75rem] mt-5 rounded-lg" type="submit">
                 Change password
               </Button>
             </form>
@@ -121,12 +119,13 @@ function ResetPassword() {
               />
             </div>
             <h2 className="font-manropeEB text-2xl md:text-4xl">Password changed</h2>
-            <p className="font-manropeL lg:font-manropeB text-sm lg:text-[1.375rem] text-custom-color20 w-[80%] md:w-[40%] lg:w-full">
+            <p className="font-manropeL lg:font-manropeB text-sm lg:text-[1.375rem] text-custom-color20 w-[80%] md:w-[40%] lg:w-full mt-2 leading-7">
               Your password has been successfully changed
             </p>
             <Button
               href="/auth/login" // redirect the user to the login page after successful password reset
-              className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-8 font-manropeB text-base text-white-100"
+              intent={'primary'}
+              className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg mt-8"
             >
               Login to account
             </Button>
