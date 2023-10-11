@@ -3,6 +3,7 @@ import { ListContext } from '../../../pages/assessment';
 import Image from 'next/image';
 import trash from '../../../public/assets/assessment/trash.png';
 import editmessage from '../../../public/assets/assessment/message-edit.png';
+import Link from 'next/link';
 
 function Assessmentresponses() {
   //Uses and updates the list from the index page
@@ -67,7 +68,9 @@ function Assessmentresponses() {
             <div className="flex gap-2 md:gap-8">
               <div className="flex flex-col items-center cursor-pointer">
                 <Image src={editmessage} height="24" width="24" alt="edit message" />
-                <p className="text-xs md:text-base pt-[6px]">Edit</p>
+                <Link href="/assessment/preview-edit/" className="text-xs md:text-base pt-[6px]">
+                  Edit
+                </Link>
               </div>
               <div
                 className="flex flex-col items-center cursor-pointer"

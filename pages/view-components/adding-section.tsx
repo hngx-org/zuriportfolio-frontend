@@ -1,11 +1,8 @@
 import React from 'react';
 import Home from '../../modules/portfolio/component/add-section';
 
-
 const Addingsection = () => {
-  return (
-   <Home/>
-  )
+  return <Home />;
 };
 
-export default Addingsection
+export default Addingsection;

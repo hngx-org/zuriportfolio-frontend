@@ -3,6 +3,8 @@ import Image from 'next/image';
 import cancel from '../../../public/assets/images/logo/otp-modal-cancel.svg';
 import Link from 'next/link';
 import Button from '@ui/Button';
+import PaymentStatusModal from './PaymentStatusModal';
+import checkedPayment from '../../../public/assets/images/check-1.png';
 
 interface OTPModal {
   onClose: () => void;
@@ -14,9 +16,11 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
 
   const [activeOTPIndexes, setActiveOTPIndexes] = useState<number[]>(Array(4).fill(0));
 
+  const [paymentStatus, setPaymentStatus] = useState(false);
   const inputRefs = useRef<HTMLInputElement[]>(Array(4).fill(null));
 
   const isActive = false;
+  const correctOTP: string = '1234';
 
   const maskPhoneNumber = (phoneNumber: any) => {
     const num = String(phoneNumber);
@@ -85,6 +89,24 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
     }
   };
 
+  const handleContinueClick = () => {
+    // Join the OTP array to get the entered OTP
+    const enteredOTP = otp.join('');
+
+    // Check if the entered OTP matches the correct OTP
+    if (enteredOTP === correctOTP) {
+      // Correct OTP, allow the user to advance
+      setPaymentStatus(true);
+    } else {
+      // Incorrect OTP, set error state to show red borders
+      setOtpError(true);
+    }
+  };
+
+  const goBackHome = () => {
+    window.location.href = '/marketplace';
+  };
+
   useEffect(() => {
     activeOTPIndexes.forEach((index) => {
       const inputRef = inputRefs.current[index];
@@ -128,7 +150,22 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
     );
   });
 
-  return (
+  return paymentStatus ? (
+    <PaymentStatusModal>
+      <div className="bg-white-100 py-6 rounded text-center w-full h-full">
+        <div className="flex justify-center">
+          <Image src={checkedPayment} alt="checked" />
+        </div>
+        <h3 className="text-sm w-20 mx-auto font-bold my-4">Payment Successful!</h3>
+        <button
+          className="bg-green-700 hover:bg-green-600 rounded text-white-100 text-sm w-1/2 h-9 px-3"
+          onClick={goBackHome}
+        >
+          Back to Home
+        </button>
+      </div>
+    </PaymentStatusModal>
+  ) : (
     <div className="flex justify-center items-center m-auto  flex-col rounded-[20px] w-full h-[475px] gap-[34px]">
       <div className="flex justify-center items-center gap-[264px] [@media(max-width:520px)]:gap-[120px]">
         <p className="text-center font-manropeL text-[24px] not-italic font-bold leading-[32px] [@media(max-width:520px)]:text-[18px]">
@@ -139,7 +176,7 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
       <div className={otpError ? otpErrorTextClasses : otpTextClasses}>
         <p>A one-time password has been sent to {maskedNumber}. Kindly check and enter below.</p>
       </div>
-      <div className="inline-flex flex-col items-start gap-[16px] max-w-[400px] w-4/5 [@media(max-width:520px)]:items-center">
+      <div className="inline-flex flex-col items-start gap-[16px] max-w-[400px] w-[88%] [@media(max-width:520px)]:items-center">
         <p className="flex items-start font-manropeL text-[16px] not-italic font-semibold leading-[24px] [@media(max-width:400px)]:mt-[20px]">
           Enter OTP
         </p>
@@ -155,7 +192,10 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
           </Link>
         </p>
       </div>
-      <Button className="flex w-[313px] h-[56px] px-[16.923px] py-[10.154px] justify-center items-center gap-[13.538px] rounded-[10px] bg-brand-green-primary [@media(max-width:520px)]:w-[200px]">
+      <Button
+        className="flex w-[313px] h-[56px] px-[16.923px] py-[10.154px] justify-center items-center gap-[13.538px] rounded-[10px] bg-brand-green-primary [@media(max-width:520px)]:w-[200px]"
+        onClick={handleContinueClick}
+      >
         <p className="text-center font-manropeL text-[22px] not-italic font-semibold text-white leading-[28px]">
           Continue
         </p>

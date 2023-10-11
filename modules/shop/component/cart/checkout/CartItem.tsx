@@ -2,8 +2,9 @@
 import Button from '@ui/Button';
 import { CartItemProps } from '../../../../../@types';
 import Image from 'next/image';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import RemoveCart from '../../../../../components/Modals/Removecart';
+import { BiTrash } from 'react-icons/bi';
 
 export default function CartItem({
   productImage,
@@ -33,7 +34,7 @@ export default function CartItem({
         <div className="">
           <Image src={productImage} width={250} height={140} alt={productTitle}></Image>
         </div>
-        <div className="flex flex-col md:w-3/5">
+        <div className="flex flex-col md:w-2/4">
           <h3 className="text-2xl font-manropeEB">{productTitle}</h3>
           <p className="text-[#6c7983] lg:w-[350px] lg:mt-4 leading-6 font-manropeL">
             Size: {productSize}, Color: {productColor}, Material: Plastic Seller: {productSeller}
@@ -43,11 +44,10 @@ export default function CartItem({
         <div className="md:mt-3 md:ml-auto md:flex md:items-center">
           <Button
             onClick={removeItem}
-            className="bg-[#fff] ml-auto md:mr-0 flex border px-5 gap-1 items-center justify-center shadow-md w-[100px] h-[40px] border-[#d5dbdd] rounded-md cursor-pointer"
-            rightIcon={<p className="text-[#555757] font-manropeB">Remove</p>}
-            leftIcon={<Image src="/assets/icons/trash.svg" width={20} height={20} alt="star-fill"></Image>}
+            className="bg-[#fff] text-gray-300 hover:text-[#fff] font-manropeB md:mr-0 flex border gap-1 items-center justify-center shadow-sm w-[100px] h-[40px] border-[#d5dbdd] rounded-md cursor-pointer"
           >
-            {' '}
+            <BiTrash />
+            Remove
           </Button>
         </div>
       </div>

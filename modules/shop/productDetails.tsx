@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import mainImage from '../../public/assets/mainImage.png';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
 import Slider from './component/slider';
@@ -11,8 +10,10 @@ import { ProductCardProps } from '../../@types';
 import ProductCardWrapper from '../marketplace/component/landingpage/productCardWrapper/product-card-wrapper';
 import { useRouter } from 'next/router';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import ShopNavbar from './component/header-footer/shopNavbar';
-import ShopFooter from './component/header-footer/shopFooter';
+import Header from './component/productPage/Header';
+import Footer from './component/productPage/Footer';
+import { staticProducts } from './ZuriLandingPage';
+import Link from 'next/link';
 
 const otherProducts: ProductCardProps[] = [
   {
@@ -33,7 +34,7 @@ const otherProducts: ProductCardProps[] = [
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
-    showTopPicks: true,
+    showTopPicks: false,
     showDiscount: false,
     discount: 0,
   },
@@ -44,7 +45,7 @@ const otherProducts: ProductCardProps[] = [
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
-    showTopPicks: true,
+    showTopPicks: false,
     showDiscount: false,
     discount: 0,
   },
@@ -55,7 +56,7 @@ const otherProducts: ProductCardProps[] = [
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
-    showTopPicks: true,
+    showTopPicks: false,
     showDiscount: false,
     discount: 0,
   },
@@ -64,7 +65,22 @@ const otherProducts: ProductCardProps[] = [
 export default function ProductDetails() {
   const router = useRouter();
 
-  const [image, setImage] = useState(mainImage);
+  const { id } = router.query;
+  const product = staticProducts.find((p) => p.id === Number(id));
+
+  if (!product) {
+    return (
+      <div className="text-center flex justify-center items-center flex-col w-full h-screen">
+        <p className="text-red-500 text-3xl pb-[2rem]">Product Not Found</p>
+        <Link href={`/shop`} passHref className="text-base bg-green-200 rounded-lg p-4 text-white-100">
+          {' '}
+          Go Back To Shop
+        </Link>
+      </div>
+    );
+  }
+
+  const [image, setImage] = useState(product?.image);
 
   const updateImage = (newImage: any) => {
     setImage(newImage);
@@ -93,7 +109,7 @@ export default function ProductDetails() {
   };
 
   const lensRef = useRef<HTMLDivElement | null>(null);
-  const secondRef = useRef<HTMLDivElement | null>(null);
+  const secondRef = useRef<HTMLImageElement | null>(null);
 
   const [lensStyle, setLensStyle] = useState<React.CSSProperties>({ display: 'none' });
   const [secondStyle, setSecondStyle] = useState<React.CSSProperties>({});
@@ -115,7 +131,7 @@ export default function ProductDetails() {
 
     setSecondStyle({
       ...secondStyle,
-      backgroundPosition: (x - 500 / 2 / 6) * -6 + 'px ' + (y - 500 / 2 / 6 + 20) * -6 + 'px',
+      objectPosition: (x - 500 / 2 / 6) * -6 + 'px ' + (y - 500 / 2 / 6 + 20) * -6 + 'px',
     });
   }
 
@@ -126,11 +142,29 @@ export default function ProductDetails() {
     });
   }
 
+  var cartItemCount = 0;
+  const handleAddToCart = function () {
+    cartItemCount = cartItemCount + 1;
+    console.log(cartItemCount);
+  };
+
+  const [selectedCategory, setSelectedCategory] = useState(product.category);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleCategoryChange = () => {};
+
   return (
     <>
       {/* Navbar */}
-      <ShopNavbar activePage={router.pathname} showDashBorad={false} />
-
+      {/* <ShopNavbar activePage={router.pathname} showDashBorad={false} /> */}
+      <Header
+        setSearchQuery={setSearchQuery}
+        cartItemCount={cartItemCount}
+        categories={[]}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        handleCategoryChange={handleCategoryChange}
+      />{' '}
       {/* Main */}
       <main className={`flex flex-col items-center lg:px-12 md:px-10 px-6 lg:pt-6 pt-4`}>
         <span className="self-start mb-[0.75rem] ml-4">
@@ -155,15 +189,23 @@ export default function ProductDetails() {
                 <Image
                   src={image}
                   alt="Main Image"
+                  width={500}
+                  height={500}
                   className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
                 />
               </div>
-              <div
-                ref={secondRef}
-                style={secondStyle}
-                className='absolute w-2/4 h-[65vh] left-[50%] top-32 overflow-hidden bg-black bg-[size:600%_600%] bg-[url("../public/assets/mainImage.png")] rounded-3xl hidden peer-hover:block'
-                id="second"
-              ></div>
+              <div className="absolute w-2/4 h-[65vh] left-[50%] top-32 overflow-hidden rounded-3xl hidden md:peer-hover:block">
+                <Image
+                  ref={secondRef}
+                  style={secondStyle}
+                  src={image}
+                  alt={'Zoom Image'}
+                  width={500}
+                  height={500}
+                  className="w-[600%] h-[600%] object-cover"
+                  id="second"
+                />
+              </div>
             </div>
             <Slider updateImage={updateImage} />
           </div>
@@ -171,11 +213,11 @@ export default function ProductDetails() {
           {/* Product Detail Data */}
           <div className="space-y-6 w-full self-start">
             <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] mt-8 lg:mt-0">
-              Webinar and Course Slide (Soft Copy)
+              {product.name}
             </h1>
             <div className="flex items-center">
               <ProfileCircle size="32" color="#464646" variant="Bulk" />
-              <p className="w-fit ml-2">Fola Kingsley</p>
+              <p className="w-fit ml-2">{product.shopOwner}</p>
             </div>
             <p className="text-lg font-normal font-manropeL leading-normal tracking-tight flex flex-col">
               <span>Empower your educational endeavors with our Webinar and Course Template.</span>
@@ -213,7 +255,7 @@ export default function ProductDetails() {
               </p>
             </div>
 
-            <Button intent={'primary'} size={'lg'} className="w-5/12 text-xs">
+            <Button intent={'primary'} size={'lg'} className="w-5/12 text-xs" onClick={handleAddToCart}>
               Add to cart
             </Button>
           </div>
@@ -255,7 +297,7 @@ export default function ProductDetails() {
               Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
               experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
               to enrich the learning journey. Tailor the template to your brand with customizable design options. Track
-              learner progress, foster collaboration, and gain insights through built-in analytics. Whether you&apos;re
+              learner progress, foster collaboration, and gain insights through built-in analytics. Whether you{"'"}re
               an educator or a business, this template streamlines course creation, webinar hosting, and community
               building. Elevate your online education with a user-friendly, responsive, and feature-rich solution that
               engages and enlightens learners.
@@ -265,9 +307,9 @@ export default function ProductDetails() {
 
         {/* favorite products  */}
         <div className="mt-10"></div>
-        <ProductCardWrapper title="Other Products by Fola Kingsley" productsList={otherProducts} />
+        <ProductCardWrapper title={`Other Products by ${product.shopOwner}`} productsList={otherProducts} />
       </main>
-      <ShopFooter />
+      <Footer />
     </>
   );
 }

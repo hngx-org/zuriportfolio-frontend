@@ -8,7 +8,7 @@
       <mj-class name="light" color="#fff" />
       <mj-class name="dark" color="#000" />
       <mj-class name="rounded" border-radius="0.63rem" />
-      <mj-text font-family="Manrope" font-size="16px" line-height="24px" letter-spacing="0.08px" />
+      <mj-text font-family="Manrope" font-size="16px" line-height="26px" letter-spacing="0.08px" />
     </mj-attributes>
     <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
     <mj-style>
@@ -31,7 +31,10 @@
   <mj-body mj-class="secondary-color" width="1024px" css-class="container">
     <mj-section css-class="header">
       <mj-column>
-        <mj-image width="350px" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_green.svg" />
+        <mj-image
+          width="350px"
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_green.svg"
+        />
       </mj-column>
     </mj-section>
 
@@ -42,7 +45,11 @@
             <div class="title">
               <h1>PURCHASE CONFIRMATION</h1>
               <div>
-                <img width="150px" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/card_payments.svg" alt="" />
+                <img
+                  width="150px"
+                  src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/card_payments.svg"
+                  alt=""
+                />
               </div>
             </div>
           </mj-text>
@@ -99,7 +106,10 @@
           <mj-text>
             <div class="order-summary">
               <div class="order-image">
-                <img src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png" alt="" />
+                <img
+                  src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png"
+                  alt=""
+                />
               </div>
               <div>
                 <div>
@@ -209,7 +219,10 @@
     </mj-wrapper>
     <mj-section background-color="#009254" mj-class="rounded">
       <mj-column width="100%">
-        <mj-image width="200px" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_white.svg" />
+        <mj-image
+          width="200px"
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_white.svg"
+        />
       </mj-column>
       <mj-column width="100%">
         <mj-social inner-padding="12px">
