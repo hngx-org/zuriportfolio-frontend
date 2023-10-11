@@ -1,7 +1,7 @@
 import axios from 'axios';
 // http://localhost:8080/api
 // axios config for server
-const API_URL = process.env.NODE_ENV === 'development' ? 'https://zuri-cart-checkout.onrender.com/api' : 'https://zuri-cart-checkout.onrender.com/api';
+const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
 const $http = axios.create({
   baseURL: API_URL,
   timeout: 30000,
