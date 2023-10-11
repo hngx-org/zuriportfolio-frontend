@@ -4,14 +4,20 @@ import total_projects from '../../../public/assets/images/explore_img/total-proj
 import Image from 'next/image';
 import badge_beginner from '../../../public/assets/images/explore_img/badge-beginner.svg';
 import Location from '../../../public/assets/images/explore_img/location.svg';
+import CardHover from '../../../pages/view-components';
+import { useState } from 'react';
 
 interface CardProps {
   data: CardData;
 }
 
 const Card: React.FC<CardProps> = ({ data }) => {
+  const [isOpen,setIsOpen] = useState<boolean>(false);
+
+
   return (
-    <div className="p-2 border-1 border m-auto mb-10  border-gray-500 w-full sm:w-auto  rounded-2xl justify-center items-center">
+    <article  className='relative' onMouseEnter={()=> setIsOpen(true)} onMouseLeave={()=> setIsOpen(false)}><CardHover openCard={isOpen}  />
+    <div className=" relative p-2 border-1 border m-auto mb-10   w-full sm:w-auto  rounded-2xl justify-center items-center">
       <Image className="w-full h-20 object-cover" src={data.bgImage} alt="Card Header" width={100} height={20} />
       <Image
         className="h-100 w-100 relevant z-40 -mt-14 rounded-full mx-auto object-cover"
@@ -57,7 +63,7 @@ const Card: React.FC<CardProps> = ({ data }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div></article>
   );
 };
 

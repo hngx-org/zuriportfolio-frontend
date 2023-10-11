@@ -7,6 +7,8 @@ import { SearchNormal1 } from 'iconsax-react';
 import usePaginate from '../../../../../hooks/usePaginate';
 import useOrders from '../../../../../hooks/useOrders';
 import Link from 'next/link';
+import Filters from '../Filters';
+import { OrderHistory } from '../../../../../@types';
 
 const orderNavs: {
   id: string;
@@ -29,7 +31,27 @@ const orderNavs: {
     title: 'Pending',
   },
 ];
-
+const filters: {
+  id: keyof OrderHistory;
+  title: string;
+}[] = [
+  {
+    id: 'id',
+    title: 'Order iD',
+  },
+  {
+    id: 'productName',
+    title: 'Product Name',
+  },
+  {
+    id: 'customerName',
+    title: 'Customer Name',
+  },
+  {
+    id: 'date',
+    title: 'Date',
+  },
+];
 const OrderHistory: React.FC = () => {
   const { orders, orderFilter, changeFilter, changeSortBy, sortBy, toggleSortOrder } = useOrders();
 
@@ -127,7 +149,7 @@ const OrderHistory: React.FC = () => {
                   placeholder="Search"
                 />
               </div>
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 relative">
                 <button
                   className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
                   style={{
@@ -161,7 +183,7 @@ const OrderHistory: React.FC = () => {
             )}
           </section>
 
-          <div className="md:hidden flex flex-col gap-4">
+          <div className="md:hidden flex flex-col gap-4 mb-4">
             {pageItem.map((item) => (
               <OrderHistoryMobile key={item.id} {...item} />
             ))}

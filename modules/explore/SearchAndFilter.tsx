@@ -14,8 +14,8 @@ import {
   Radar,
   SearchNormal1,
 } from 'iconsax-react';
-import FilterComponent from './FilterComponent';
-import CustomDropdown from './CustomDropdown';
+import FilterComponent from './components/FilterComponent';
+import CustomDropdown from './components/CustomDropdown';
 
 const SearchAndFilter: React.FC = () => {
   const [activeSection, setActiveSection] = useState(0);
