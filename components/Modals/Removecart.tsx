@@ -16,7 +16,7 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem,produc
   if (modalOpen) {
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-        <div className="bg-white-100 p-4 rounded-lg w-488 h-415 text-center">
+        <div id='modal' className="bg-white-100 p-4 rounded-lg w-488 h-415 text-center">
           <svg
             onClick={closeModal}
             className="ml-auto mr-1 mt-1"
@@ -30,9 +30,9 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem,produc
             <path
               d="M18 6.5L6 18.5M6 6.5L18 18.5"
               stroke="#667085"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
 
