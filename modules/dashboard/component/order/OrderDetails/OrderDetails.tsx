@@ -44,7 +44,7 @@ const OrderDetails = () => {
   const closeFilter = () => {
     setShowFilters(false);
   };
-  console.log(pageItem.length === 0);
+
   return (
     <main className="max-w-[1240px] mx-auto md:px-10 px-6">
       <section className="font-manropeB font-semibold mt-4">
