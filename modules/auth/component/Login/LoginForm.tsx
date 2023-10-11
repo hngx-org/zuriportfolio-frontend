@@ -112,7 +112,7 @@ function LoginForm() {
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
-      <div className="md:mx-auto h-[90%]  font-manropeL">
+      <div className="md:mx-auto lg:mb-10 font-manropeL">
         <div className="md:flex sm:flex flex-col items-center justify-center lg:items-start">
           <p className=" md:text-4xl text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
           <p className="text-custom-color30  mt-[1rem] md:text-[1.375rem]  lg:font-semibold sm:tracking-[0.00375rem] text-center md:text-left">

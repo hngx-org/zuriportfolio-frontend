@@ -195,6 +195,15 @@ const Index = () => {
       filteredProducts = filteredProducts.sort((a, b) => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       });
+    } else if (status === 'status') {
+      filteredProducts = filteredProducts.sort((a, b) => {
+        const statusOrder: { [key: string]: number } = {
+          Active: 1,
+          Banned: 2,
+          Deleted: 3,
+        };
+        return statusOrder[a.statusText] - statusOrder[b.statusText];
+      });
     }
     setFilteredProducts(filteredProducts);
   };

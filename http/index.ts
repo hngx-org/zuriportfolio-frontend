@@ -25,6 +25,7 @@ type LoginResponse = {
   };
   statusCode: number;
 };
+const AUTH_HTTP_URL = 'https://hng-stage-six.onrender.com/';
 
 // test
 export const getUserByName = async (props: { name: string }) => {
@@ -37,9 +38,9 @@ export const getUserByName = async (props: { name: string }) => {
   }
 };
 
-export const loginUser = async (props: { email: string; password: string }): Promise<LoginResponse> => {
+export const loginUser = async (props: { email: string; password: string }) => {
   const $http = axios.create({
-    baseURL: 'https://hng-stage-six.onrender.com/api/auth',
+    baseURL: AUTH_HTTP_URL,
     timeout: 30000,
     headers: {
       'Content-Type': 'application/json',
@@ -47,7 +48,8 @@ export const loginUser = async (props: { email: string; password: string }): Pro
   });
 
   try {
-    const res = await $http.post('/login', props);
+    const res = await $http.post('/api/auth/login', props);
+    console.log(res?.data);
     return res?.data;
   } catch (e: any) {
     console.log(e);
