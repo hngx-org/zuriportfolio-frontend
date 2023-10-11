@@ -10,23 +10,34 @@ import AuthLayout from '../AuthLayout';
 import { Eye, EyeSlash } from 'iconsax-react';
 
 import InputError from '../InputError';
-import useInputError from '../../../../hooks/useInputError';
 import { loginUser } from '../../../../http';
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
-  const { handleSubmit, inputErrors } = useInputError();
-  const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data)});
+  const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data) });
 
-  const handleLogin = (e:FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if(email.length !== 0 && password.length !== 0) {
-      loginFn.mutate({email: email as string, password: password as string});
-    }
-  }
+  const schema = z.object({
+    email: z.string().email(),
+    password: z.string().min(1, { message: 'Password required' }),
+  });
+
+  const form = useForm({
+    validate: zodResolver(schema),
+    initialValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const handleLogin = (values: any) => {
+    console.log('email', values.email);
+    console.log('password', values.password);
+  };
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
@@ -39,7 +50,7 @@ function LoginForm() {
         </div>
 
         <div className="pt-[2.25rem]">
-          <form onSubmit={handleLogin}>
+          <form onSubmit={form.onSubmit((values) => handleLogin(values))}>
             <div>
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
@@ -47,14 +58,13 @@ function LoginForm() {
               <Input
                 placeHolder="Allusugar@gmail.com"
                 id="email"
-                name="email"
-                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
+                {...form.getInputProps('email')}
+                className={`w-full ${
+                  form.errors.email ? 'border-[red]' : 'border-slate-50'
+                } mt-[0.5rem] py-[0.84rem] bg-transparent`}
                 type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
-              <InputError inputError={inputErrors} inputName="email" />
+              <p className="text-[red] text-xs pt-1">{form.errors.email && form.errors.email}</p>
             </div>
             <div className="mt-[1rem]">
               <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
@@ -63,8 +73,10 @@ function LoginForm() {
               <Input
                 placeHolder="Gbemi345"
                 id="password"
-                name="password"
-                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
+                {...form.getInputProps('password')}
+                className={`w-full ${
+                  form.errors.password ? 'border-[red]' : 'border-slate-50'
+                } mt-[0.5rem] py-[0.84rem] bg-transparent`}
                 type={isPasswordShown ? 'text' : 'password'}
                 rightIcon={
                   isPasswordShown ? (
@@ -73,11 +85,8 @@ function LoginForm() {
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
                   )
                 }
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
-              <InputError inputError={inputErrors} inputName="password" />
+              <p className="text-[red] text-xs pt-1">{form.errors.password && form.errors.password}</p>
             </div>
 
             <Link href="/auth/forgot-password">
@@ -87,7 +96,6 @@ function LoginForm() {
             </Link>
 
             <Button
-              // href="/auth/2fa"
               isLoading={loginFn.isLoading}
               intent={'primary'}
               type="submit"
@@ -99,9 +107,9 @@ function LoginForm() {
           </form>
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-              Already have an account?{' '}
-              <Link href="/auth/login">
-                <span className="text-brand-green-primary">Sign in</span>
+              Don&lsquo;t have an account?{' '}
+              <Link href="/auth/signup">
+                <span className="text-brand-green-primary">Sign Up</span>
               </Link>
             </p>
           </div>
