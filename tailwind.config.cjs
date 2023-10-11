@@ -226,7 +226,7 @@ module.exports = {
     },
     container: {
       center: true,
-   }
+    },
   },
   plugins: [
     require('tailwind-scrollbar'),

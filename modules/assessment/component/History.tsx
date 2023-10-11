@@ -69,7 +69,7 @@ const History: React.FC = () => {
     .filter(
       (assessment) =>
         assessment.assessment.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (selectedLevel === 'All' ? true : assessment.badgeName === selectedLevel)
+        (selectedLevel === 'All' ? true : assessment.badgeName === selectedLevel),
     )
     .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -83,9 +83,12 @@ const History: React.FC = () => {
             <h2 className="text-3xl mb-2 text-brand-green-primary">Assessments History</h2>
             <p className="text-gray-600">View and Download previously taken assessments</p>
           </div>
-       
         </div>
-        <div className={`flex items-center sm:flex-row flex-col mb-4 justify-between ${showFilters ? 'flex-col' : 'sm:flex'}`}>
+        <div
+          className={`flex items-center sm:flex-row flex-col mb-4 justify-between ${
+            showFilters ? 'flex-col' : 'sm:flex'
+          }`}
+        >
           {!showFilters && (
             <div className="relative w-fit sm:flex-col flex">
               <input
@@ -102,25 +105,41 @@ const History: React.FC = () => {
           )}
           <div className="flex space-x-2 mt-4 lg:mt-0">
             <button
-              className={selectedLevel === 'All' ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1' : 'text-brand-green-primary'}
+              className={
+                selectedLevel === 'All'
+                  ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
+                  : 'text-brand-green-primary'
+              }
               onClick={() => handleLevelFilter('All')}
             >
               All Levels
             </button>
             <button
-              className={selectedLevel === 'Beginner' ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1' : 'text-brand-green-primary'}
+              className={
+                selectedLevel === 'Beginner'
+                  ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
+                  : 'text-brand-green-primary'
+              }
               onClick={() => handleLevelFilter('Beginner')}
             >
               Beginner
             </button>
             <button
-              className={selectedLevel === 'Intermediate' ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1' : 'text-brand-green-primary'}
+              className={
+                selectedLevel === 'Intermediate'
+                  ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
+                  : 'text-brand-green-primary'
+              }
               onClick={() => handleLevelFilter('Intermediate')}
             >
               Intermediate
             </button>
             <button
-              className={selectedLevel === 'Expert' ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1' : 'text-brand-green-primary'}
+              className={
+                selectedLevel === 'Expert'
+                  ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
+                  : 'text-brand-green-primary'
+              }
               onClick={() => handleLevelFilter('Expert')}
             >
               Expert
@@ -130,29 +149,31 @@ const History: React.FC = () => {
 
         <div className=" border-gray-300 rounded-lg overflow-x-scroll scrollbar-hide">
           <table className="min-w-full border-collapse table-auto">
-
             <thead>
               <tr className="bg-brand-green-shade50 text-white-100 w-full ">
-                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">Assessment Taken</th>
-                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">Badge Level</th>
+                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">
+                  Assessment Taken
+                </th>
+                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">
+                  Badge Level
+                </th>
 
-                <th scope="col" className="border w-fit hidden sm:table-cell border-gray-300 py-2 px-4 text-left ">Date</th>
-                <th scope="col" className="border w-fit border-gray-300 hidden sm:table-cell py-2 px-4 text-left ">Score</th>
-                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left hidden sm:table-cell ">Actions</th>
-
+                <th scope="col" className="border w-fit hidden sm:table-cell border-gray-300 py-2 px-4 text-left ">
+                  Date
+                </th>
+                <th scope="col" className="border w-fit border-gray-300 hidden sm:table-cell py-2 px-4 text-left ">
+                  Score
+                </th>
+                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left hidden sm:table-cell ">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {filteredAssessments.map((assessment) => (
                 <React.Fragment key={assessment.id}>
-
-                  <tr 
-                    onClick={() => toggleExpand(assessment.id)}
-                  className="bg-white border ">
-                    <td
-                      className="border-r whitespace-nowrap  border-l-[0] border-b-0 border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer"
-
-                    >
+                  <tr onClick={() => toggleExpand(assessment.id)} className="bg-white border ">
+                    <td className="border-r whitespace-nowrap  border-l-[0] border-b-0 border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer">
                       <FaClipboardList className="text-green-200 text-[2em] " />
                       {assessment.assessment}
                     </td>
@@ -166,21 +187,24 @@ const History: React.FC = () => {
                       {assessment.badgeName === 'Intermediate' && (
                         <span className="flex items-center">
                           {/* <FaUserTie className="mr-1 text-green-200" /> */}
-                           Intermediate
+                          Intermediate
                         </span>
                       )}
                       {assessment.badgeName === 'Expert' && (
                         <span className="flex items-center">
                           {/* <FaStar className="mr-1 text-[#f8eb3b]" /> */}
-                           Expert
+                          Expert
                         </span>
                       )}
                     </td>
 
-                    <td className="whitespace-nowrap border-r hidden sm:table-cell  border-gray-300 border-b-0 py-2 px-4">{formatDate(assessment.date)}</td>
-                    <td className="whitespace-nowrap border-r hidden sm:table-cell  border-b-0 border-gray-300 py-2 px-4">{assessment.score}/100</td>
+                    <td className="whitespace-nowrap border-r hidden sm:table-cell  border-gray-300 border-b-0 py-2 px-4">
+                      {formatDate(assessment.date)}
+                    </td>
+                    <td className="whitespace-nowrap border-r hidden sm:table-cell  border-b-0 border-gray-300 py-2 px-4">
+                      {assessment.score}/100
+                    </td>
                     <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
-
                       <a
                         href={assessment.downloadLink}
                         target="_blank"
@@ -192,23 +216,19 @@ const History: React.FC = () => {
                     </td>
                   </tr>
                   {expandedAssessment === assessment.id && (
-
                     <tr className="sm:hidden w-full col-span-2 p-4" aria-colspan={2}>
+                      <td className=" p-4  gap-4 " colSpan={2}>
+                        <div className="p-2">Date: {formatDate(assessment.date)}</div>
+                        <div className="p-2">Score: {assessment.score}/100</div>
 
-                      <td  className=" p-4  gap-4 " colSpan={2}>
-                        
-                          <div className='p-2'>Date: {formatDate(assessment.date)}</div>
-                          <div className='p-2'>Score: {assessment.score}/100</div>
-                          
-                      <a
-                        href={assessment.downloadLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center p-2 text-brand-green-primary hover:text-brand-green-hover"
-                      >
-                        <FaDownload className="mr-1" /> Download
-                      </a>
-                    
+                        <a
+                          href={assessment.downloadLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center p-2 text-brand-green-primary hover:text-brand-green-hover"
+                        >
+                          <FaDownload className="mr-1" /> Download
+                        </a>
                       </td>
                     </tr>
                   )}

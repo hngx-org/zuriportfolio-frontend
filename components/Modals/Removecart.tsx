@@ -3,14 +3,13 @@ import Image from 'next/image';
 import group from '../../public/assets/removecart/Group.png';
 import trash from '../../public/assets/removecart/delete.svg';
 
-
 interface RemoveCartProps {
   closeModal: () => void;
   onRemoveItem: (productId: string) => void; // Make onRemoveItem optional
   productId: string;
 }
 
-const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem,productId }) => {
+const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, productId }) => {
   const [modalOpen, setModalOpen] = useState(true);
 
   if (modalOpen) {

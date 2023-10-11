@@ -14,8 +14,8 @@ export default function CartItem({
   productColor,
   productSeller,
   productPrice,
-  removeHandler
-}: CartItemProps & {removeHandler: (productId: string) => void}) {
+  removeHandler,
+}: CartItemProps & { removeHandler: (productId: string) => void }) {
   const [modalClosed, setModalClosed] = useState('hidden');
   const removeItem = () => {
     setModalClosed('block transition delay-700 duration-300 ease-in-out');
@@ -24,8 +24,6 @@ export default function CartItem({
   const closeModal = () => {
     setModalClosed('hidden');
   };
-
-
 
   return (
     <>

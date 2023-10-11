@@ -5,7 +5,7 @@ import ProductDetailsDescription from '../modules/marketplace/productDetailsDesc
 import Landing from '@modules/portfolio/component/landing-page';
 
 function Home() {
-  return <Landing />;
+  return <MainLayout activePage="home" showDashboardSidebar showTopbar></MainLayout>;
 }
 
 export default Home;
