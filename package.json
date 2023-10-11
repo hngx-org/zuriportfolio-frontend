@@ -24,6 +24,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@mantine/form": "^7.1.2",
+    "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-select": "^2.0.0",
     "@tanstack/react-query": "^4.36.1",
     "axios": "^1.5.1",
