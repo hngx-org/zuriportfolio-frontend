@@ -1,12 +1,16 @@
 
-import React, { MouseEvent, useState,useEffect } from 'react';
+import React, { MouseEvent, useState,useEffect, ReactElement } from 'react';
 import MainLayout from '../../components/Layout/MainLayout';
 import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard';
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, ViewedProductCardProps } from '../../@types';
 
+
+
 export default function Cart() {
+
+
 
   const [isLoading,setIsLoading] = useState(true)
   const ViewedProducts: ViewedProductCardProps[] = [
@@ -44,6 +48,7 @@ export default function Cart() {
       tagBackground: "bg-[#515b63]"
     },
   ]
+  const [cartItems,setCartItems] = useState([])
 
   const CartProducts: CartItemProps[] = [
     {
@@ -101,11 +106,9 @@ export default function Cart() {
     }
   ]
 
-  useEffect(() => {setIsLoading(false);console.log('loaded');
-  },[])
 
   const [productCards,setProductCards] = useState(ViewedProducts);
-  const [cartItems,setCartItems] = useState(CartProducts);
+  const [cartProducts,setcartProducts] = useState(CartProducts);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
     let id = event.currentTarget.id
@@ -115,12 +118,12 @@ export default function Cart() {
 
 
   function removeProductHandler(productId: string) {    
-    let cartProductsItems = cartItems.filter((product) => (product.productId != productId))
-    setCartItems(cartProductsItems);
+    let cartProductsItems = cartProducts.filter((product) => (product.productId != productId))
+    setcartProducts(cartProductsItems);
   }
 
 
-  const cartProductItems = cartItems.map((cartItem) => (<CartItem
+  const cartProductItems = cartProducts.map((cartItem) => (<CartItem
     key={cartItem.productId}
     productId={cartItem.productId}
     productColor={cartItem.productColor}
@@ -154,7 +157,7 @@ export default function Cart() {
       <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
         <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
           <div className="w-full flex flex-col justify-center md:w-full lg:w-4/5 ">
-            <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
+            <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartProducts.length}) </h1>
             {cartProductItems}
            
           </div>
@@ -166,7 +169,7 @@ export default function Cart() {
         <section className="w-full flex flex-col mt-[50px] mb-[10%]">
           <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
           <div
-            className="w-full flex flex-row overflow-scroll gap-x-3 md:overflow-hidden items-center lg:items-start lg:justify-normal md:flex-row md:justify-center md:flex-wrap 
+            className="w-full flex flex-row overflow-scroll gap-x-8 md:overflow-hidden items-center lg:items-start lg:justify-between md:flex-row md:justify-center md:flex-wrap 
                             md:gap-x-4 gap-y-4  lg:gap-x-2 mt-4 "
           >{recentlyViewed}
           

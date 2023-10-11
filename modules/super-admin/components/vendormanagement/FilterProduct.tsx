@@ -27,6 +27,7 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
           <SelectItem value="lowest">Lowest quantity</SelectItem>
           <SelectItem value="oldest">Oldest Products</SelectItem>
           <SelectItem value="newest">Newest Products</SelectItem>
+          <SelectItem value="status">Status</SelectItem>
         </SelectContent>
       </Select>
     </div>
