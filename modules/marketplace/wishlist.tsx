@@ -19,7 +19,7 @@ import { FavoriteProduct } from '../../@types';
 import { CloseCircle, ArrowRight2 } from 'iconsax-react';
 import { useState, useEffect } from 'react';
 
-import CategoriesNav from './component/CategoriesNav/CategoriesNav';
+import CategoriesDetailsNav from './component/CategoriesNav/CategoriesDetailNav';
 
 import Button from '@ui/Button';
 import Image from 'next/image';
@@ -28,6 +28,8 @@ import { WishlistProductCard } from './component/WishlistProductCard';
 import { FavoriteproductCard } from './component/FavoriteProductCard';
 
 import MainLayout from '../../components/Layout/MainLayout';
+
+import Container from '@modules/auth/component/Container/Container';
 
 function Wishlist() {
   const [showEmptyWishlistModal, setShowEmptyWishlistModal] = useState(false);
@@ -51,63 +53,51 @@ function Wishlist() {
   }, [wishlistProducts]);
 
   useEffect(() => {
-    document.body.style.overflow = showEmptyWishlistModal ? "hidden" : "unset";
+    document.body.style.overflow = showEmptyWishlistModal ? 'hidden' : 'unset';
   }, [showEmptyWishlistModal]);
 
   return (
     <>
-     {showEmptyWishlistModal && (
-            <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
-              {/* close button */}
+      {showEmptyWishlistModal && (
+        <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
+          <div className="absolute top-0 right-0 mr-5 mt-5">
+            <Button
+              leftIcon={<CloseCircle color="#06C270" />}
+              intent={'secondary'}
+              size={'sm'}
+              onClick={() => removeEmptyWishlistModal()}
+            >
+              Close
+            </Button>
+          </div>
 
-              <div className="absolute top-0 right-0 mr-5 mt-5">
-                <Button
-                  leftIcon={<CloseCircle color="#06C270" />}
-                  intent={'secondary'}
-                  size={'sm'}
-                  onClick={() => removeEmptyWishlistModal()}
-                >
-                  Close
-                </Button>
-              </div>
+          <div className="bg-white-100 py-3 md:py-4 flex flex-col justify-center items-center gap-5 rounded-md w-9/12 md:w-[485px]">
+            <Image src={loadingIllustration} alt="loading" width={100} height={100} />
 
-              <div className="bg-white-100 py-3 md:py-4 flex flex-col justify-center items-center gap-5 rounded-md w-9/12 md:w-[485px]">
-                <Image src={loadingIllustration} alt="loading" width={100} height={100} />
-
-                <div className="flex flex-col gap-2 items-center">
-                  <h3 className="text-custom-color10 text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
-                  <p className="text-custom-color14 text-xs md:text-sm">
-                    Looks like you have no items in your wishlist.
-                  </p>
-                </div>
-                <Button intent={'primary'} size={'sm'} className="h-[44px] rounded-md mb-4">
-                  Start Shopping
-                </Button>
-              </div>
+            <div className="flex flex-col gap-2 items-center">
+              <h3 className="text-custom-color10 text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
+              <p className="text-custom-color14 text-xs md:text-sm">Looks like you have no items in your wishlist.</p>
             </div>
-          )}
-    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-        <main className="w-full mx-auto">
-          
-
-          <CategoriesNav
-            navItems={[
-              ' Design & Graphics',
-              ' Development & Programming',
-              ' Content Creation',
-              ' Digital Arts & Media',
-              ' Audio & Sound',
-              ' Photography',
-              'Writing & Copywriting',
-              'Video & motion',
-              'Data & Analytics',
-              'Marketing & Advertising',
-              'eCommerce & Business',
-              'Gaming & Entertainment',
-              'Virtual Reality & Augmented Reality',
-              'e-Books',
-            ]}
-          />
+            <Button intent={'primary'} size={'sm'} className="h-[44px] rounded-md mb-4">
+              Start Shopping
+            </Button>
+          </div>
+        </div>
+      )}
+      <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+        <CategoriesDetailsNav
+          navItems={[
+            'Wish-list',
+            ' UI/UX Designers',
+            'Software Devs',
+            'Video Editors',
+            'Content Creators',
+            'Writers',
+            'SEO Expert',
+            'Devops Engi...',
+          ]}
+        />
+        <Container>
           <div className="font-manropeL max-w-[1240px] mx-auto my-8 pt-2">
             <section className="px-3 xl:px-0 flex flex-col gap-6 my-4">
               <div className="flex justify-between items-center">
@@ -145,8 +135,8 @@ function Wishlist() {
               </div>
             </section>
           </div>
-        </main>
-    </MainLayout>
+        </Container>
+      </MainLayout>
     </>
   );
 }

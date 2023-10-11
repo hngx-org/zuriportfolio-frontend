@@ -11,9 +11,14 @@ import Button from '@ui/Button';
 import MainLayout from '../../components/Layout/MainLayout';
 import TabContainer from './component/Tabbed';
 import { useState } from 'react';
-import CategoriesNav from './component/CategoriesNav/CategoriesNav';
+import CategoriesDetailsNav from './component/CategoriesNav/CategoriesDetailNav';
 
 export default function ProductDetailsDescription() {
+  const [image, setImage] = useState(mainImage);
+
+  const updateImage = (newImage: any) => {
+    setImage(newImage);
+  };
   const [showAll, setShowAll] = useState(false);
   const router = useRouter();
   const specificationData = [
@@ -35,46 +40,49 @@ export default function ProductDetailsDescription() {
   };
 
   const navItems: string[] = [
-    'All Categories',
-    ' Design & Graphics',
-    ' Development & Programming',
-    ' Content Creation',
-    ' Digital Arts & Media',
-    ' Audio & Sound',
-    ' Photography',
-    ' More...',
+    'Wish-list',
+    ' UI/UX Designers',
+    'Software Devs',
+    'Video Editors',
+    'Content Creators',
+    'Writers',
+    'SEO Expert',
+    'Devops Engi...',
   ];
 
   return (
     <MainLayout activePage="product-details" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="whitespace-nowrap overflow-hidden">
-        <CategoriesNav navItems={navItems} />
-      </div>
+      <CategoriesDetailsNav navItems={navItems} />
+      <div className="whitespace-nowrap overflow-hidden ml-[70px]"></div>
       {/* lg:px-[100px] md:px-10*/}
       <main className={`flex flex-col items-center max-w-[1240px] mx-auto  px-6 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
         {/* Product Details  */}
-        <div className="flex lg:flex-row flex-col items-center lg:justify-between justify-center gap-y-3 xl:gap-x-0 lg:gap-x-10 gap-x-0 w-full">
+        <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
           {/* Product Detail Images  */}
-          <div className="flex flex-col w-full item-center lg:gap-y-4">
+          <div className="flex flex-col w-full item-center gap-y-4 gap-x-10 mx-auto pb-6">
             <Image
-              src={mainImage}
+              src={image}
               alt="Main Image"
-              className="lg:w-[520px] md:w-[750px] w-[350px] lg:h-[520px] md:h-[600px] h-[340px] lg:object-cover object-contain rounded-3xl"
+              className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
             />
-            <Slider />
+            <Slider updateImage={updateImage} />
           </div>
 
           {/* Product Detail Data */}
           <div className="space-y-6 w-full">
-            <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] gap-x-">
+            <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px]">
               Webinar and Course Slide
               <span> Templates by Sarah Rino (Soft Copy)</span>
             </h1>
-            <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
-              Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
-              experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
-              to enrich <b className="text-green-600 lg:hidden flex">Read More...</b>
-            </p>
+
+            <div>
+              <p className="lg:hidden block sm:text-2xl text-sm sm:leading-8 leading-5 font-semibold">Description</p>
+              <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
+                Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
+                experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
+                to enrich <b className="text-green-600 lg:hidden flex">Read More...</b>
+              </p>
+            </div>
 
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-1">
@@ -104,7 +112,7 @@ export default function ProductDetailsDescription() {
               </p>
             </div>
 
-            <Button intent={'primary'} size={'lg'} className="lg:px-5 md:px-14 md:w-fit w-full">
+            <Button intent={'primary'} size={'lg'} className="lg:px-5 md:px-14 sm:w-fit  w-full">
               Add to cart
             </Button>
           </div>

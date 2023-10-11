@@ -112,7 +112,7 @@ export default function GeneralComplaints() {
     <>
       <Nav />
       <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-4/5 flex justify-center items-start flex-col">
+        <div className="w-full px-16 flex justify-center items-start flex-col">
           {/* complaints overview */}
           <div className="w-full flex flex-col items-start justify-between h-42 ">
             <h1 className="font-manropeL text-2xl mb-2.5 mt-2.5  font-semibold">Complaints Overview</h1>
@@ -305,14 +305,14 @@ export default function GeneralComplaints() {
           </div>
           {/* general complaints */}
           <div className="mt-8 w-full h-auto border-2 border-zinc-200 max-md:overflow-x-scroll rounded-xl overflow-x-scroll">
-            <div className="complaintHeading h-18 p-3 flex flex-row items-center justify-between border-b-2 border-zinc-200">
-              <div className="headerText min-w-[190px] mr-2">
+            <div className="complaintHeading h-18 p-3 flex flex-row items-center max-md:flex-col max-md:items-start justify-between ">
+              <div className="headerText min-w-[300px] mr-2">
                 <h2 className="font-manropeL text-xl font-semibold">My Complaint</h2>
                 <h3 className="font-manropeL text-base font-normal text-slate-600">
                   List of all complaint and their details
                 </h3>
               </div>
-              <div className="searchFunc flex flex-row items-center ">
+              <div className="searchFunc flex flex-row max-md:mt-1.5 items-center ">
                 <div className="search h-11 rounded-lg border-solid border-2 border-zinc-200 px-2 w-auto flex flex-row justify-evenly items-center">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -327,7 +327,7 @@ export default function GeneralComplaints() {
                     type="search"
                     onChange={(e) => setSearchedItem(e.target.value)}
                     placeholder="Search"
-                    className="  border-none focus:outline-none ml-1.5 h-6 w-96"
+                    className="  border-none focus:outline-none ml-1 h-6 w-96 max-md:w-56"
                   />
                 </div>
                 <div className="filter cursor-pointer rounded-lg ml-2 w-28 p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-zinc-200 border-2">
@@ -355,7 +355,7 @@ export default function GeneralComplaints() {
               </div>
             </div>
             <div className="complaintList">
-              <div className="tableHead border-solid border-b-2 border-zinc-200">
+              <div className="tableHead border-solid border-b-2 border-t-2 max-md:w-max max-lg:w-max border-zinc-200">
                 <div className="vendorComplaints p-3 flex flex-row items-center justify-between ">
                   <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
                   <div className="w-80 name flex flex-row items-center justify-start min-w-[250px]">
@@ -377,7 +377,7 @@ export default function GeneralComplaints() {
                       />
                     </svg>
                   </div>
-                  <p className="w-40 font-manropeL flex items-center justify-center font-medium text-base text-slate-500  min-w-[120px]">
+                  <p className="w-40 font-manropeL flex items-center justify-center font-medium text-base text-slate-500 max-lg:min-w-[160px] min-w-[120px]">
                     Description
                   </p>
                   <p className="w-40 font-manropeL flex items-center justify-center font-medium text-base text-slate-500  min-w-[120px]">
@@ -398,9 +398,14 @@ export default function GeneralComplaints() {
                       return (
                         <div
                           key={complains.id}
-                          className="vendorComplaints p-3 flex flex-row items-center justify-between border-solid border-b-2 border-zinc-200"
+                          className="vendorComplaints p-3 flex max-md:w-max max-lg:w-max flex-row items-center justify-between border-solid border-b-2 border-zinc-200"
                         >
-                          <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
+                          <input
+                            className="w-6 h-5 cursor-pointer min-w-[32px] border-zinc-200 px"
+                            type="checkbox"
+                            name=""
+                            id=""
+                          />
                           <div className="name w-80 flex flex-row items-center min-w-[250px]">
                             <div className="displayPicture">
                               <Image
@@ -419,7 +424,7 @@ export default function GeneralComplaints() {
                               </div>
                             </Link>
                           </div>
-                          <div className="description w-40  min-w-[120px] flex items-center justify-center">
+                          <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
                             <p className="font-manropeL font-medium max-md:text-xs text-base text-slate-500">
                               {complains.complaintDescription}
                             </p>
@@ -515,9 +520,14 @@ export default function GeneralComplaints() {
                     return (
                       <div
                         key={complains.id}
-                        className="vendorComplaints p-3 flex flex-row items-center justify-between border-solid border-b-2 border-zinc-200"
+                        className="vendorComplaints max-md:w-max p-3 flex flex-row max-lg:w-max items-center justify-between border-solid border-b-2 border-zinc-200"
                       >
-                        <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
+                        <input
+                          className="w-6 h-5 cursor-pointer min-w-[32px] border-zinc-200 px"
+                          type="checkbox"
+                          name=""
+                          id=""
+                        />
                         <div className="name w-80 flex flex-row items-center min-w-[250px]">
                           <div className="displayPicture">
                             <Image
@@ -536,7 +546,7 @@ export default function GeneralComplaints() {
                             </div>
                           </Link>
                         </div>
-                        <div className="description w-40  min-w-[120px] flex items-center justify-center">
+                        <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
                           <p className="font-manropeL font-medium text-base max-md:text-xs text-slate-500">
                             {complains.complaintDescription}
                           </p>
