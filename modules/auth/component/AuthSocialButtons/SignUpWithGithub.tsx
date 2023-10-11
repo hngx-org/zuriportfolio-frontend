@@ -5,7 +5,7 @@ import githubLogo from '../../../../public/assets/images/logo/github-logo.svg';
 
 const SignUpWithGithub = () => {
   return (
-    <SignUpWithSocialsButton leftIcon={<Image src={githubLogo} alt="Google logo" className="w-8 h-8" />}>
+    <SignUpWithSocialsButton leftIcon={<Image src={githubLogo} alt="Google logo" className="w-5 h-5" />}>
       Continue with Github
     </SignUpWithSocialsButton>
   );
