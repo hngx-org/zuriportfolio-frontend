@@ -5,12 +5,11 @@ import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard'
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, ViewedProductCardProps } from '../../@types';
+import { getUserCart } from '../../http';
 
 
 
 export default function Cart() {
-
-
 
   const [isLoading,setIsLoading] = useState(true)
   const ViewedProducts: ViewedProductCardProps[] = [
@@ -106,9 +105,18 @@ export default function Cart() {
     }
   ]
 
-
   const [productCards,setProductCards] = useState(ViewedProducts);
   const [cartProducts,setcartProducts] = useState(CartProducts);
+
+  useEffect(() => {
+      async function cartFetch() {
+        const carts = await getUserCart()
+        console.log(carts);
+        
+        setCartItems(carts)
+      }
+      cartFetch()
+  },[])
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
     let id = event.currentTarget.id

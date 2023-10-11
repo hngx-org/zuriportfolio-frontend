@@ -30,6 +30,20 @@ export const loginUser = async (props: {email: string; password: string}) => {
   }
 }
 
+export const getUserCart = async () => {
+  
+  // console.log(API_URL);
+
+  
+  try {
+    const response = await $http.get("/carts")
+    return response.data  
+  } catch (error) {
+    console.log(error);
+  }
+  
+}
+
 // export const loginUser = async () => {
 //   const $http = axios.create({
 //     baseURL: 'https://reqres.in/',
