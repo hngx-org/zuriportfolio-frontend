@@ -61,17 +61,19 @@ const CreateAssessment = () => {
         </div>
         <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
         {/* Actual layouts */}
-        <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
-          {active === 'button1' ? (
-            <>
-              <Edithead />
-              <div className="pt-4">
-                <CreateTemplate />
-              </div>
-            </>
-          ) : (
-            <ScoringScreen />
-          )}
+        <div className="">
+          <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0] ">
+            {active === 'button1' ? (
+              <>
+                <Edithead />
+                <div className="pt-4 ">
+                  <CreateTemplate />
+                </div>
+              </>
+            ) : (
+              <ScoringScreen />
+            )}
+          </div>
         </div>
       </main>
     </MainLayout>

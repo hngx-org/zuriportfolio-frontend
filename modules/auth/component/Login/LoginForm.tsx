@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -11,10 +11,22 @@ import { Eye, EyeSlash } from 'iconsax-react';
 
 import InputError from '../InputError';
 import useInputError from '../../../../hooks/useInputError';
+import { loginUser } from '../../../../http';
+import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 
 function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
   const { handleSubmit, inputErrors } = useInputError();
+  const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data)});
+
+  const handleLogin = (e:FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(email.length !== 0 && password.length !== 0) {
+      loginFn.mutate({email: email as string, password: password as string});
+    }
+  }
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
@@ -27,7 +39,7 @@ function LoginForm() {
         </div>
 
         <div className="pt-[2.25rem]">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLogin}>
             <div>
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
@@ -39,6 +51,8 @@ function LoginForm() {
                 className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
                 type="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <InputError inputError={inputErrors} inputName="email" />
             </div>
@@ -60,6 +74,8 @@ function LoginForm() {
                   )
                 }
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <InputError inputError={inputErrors} inputName="password" />
             </div>
@@ -71,7 +87,8 @@ function LoginForm() {
             </Link>
 
             <Button
-              href="/auth/2fa"
+              // href="/auth/2fa"
+              isLoading={loginFn.isLoading}
               intent={'primary'}
               type="submit"
               size={'md'}
