@@ -25,6 +25,7 @@
     "@headlessui/react": "^1.7.17",
     "@mantine/form": "^7.1.2",
     "@radix-ui/react-select": "^2.0.0",
+    "@tanstack/react-query": "^4.36.1",
     "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
     "eslint": "8.31.0",
@@ -48,6 +49,7 @@
   },
   "description": "zuriportfolio frontend",
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.36.1",
     "@types/hast": "^3.0.1",
     "@types/mjml": "^4.7.2",
     "@types/node": "18.11.18",
