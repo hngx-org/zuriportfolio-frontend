@@ -176,7 +176,7 @@ const cardData: CardData[] = [
 const HomePage: React.FC = () => {
   return (
     <div className="m-auto p-6">
-      <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:mx-3 lg:grid-cols-3 sm:px-0 lg:gap-6 xl:max-w-[77.5rem] xl:mx-auto">
+      <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
         {cardData.map((card) => (
           <Card key={card.id} data={card} />
         ))}
