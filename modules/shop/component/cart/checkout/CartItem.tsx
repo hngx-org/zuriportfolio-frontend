@@ -14,10 +14,9 @@ export default function CartItem({
   productColor,
   productSeller,
   productPrice,
-  removeHandler
-}: CartItemProps & {removeHandler: (productId: string) => void}) {
+  removeHandler,
+}: CartItemProps & { removeHandler: (productId: string) => void }) {
   const [modalClosed, setModalClosed] = useState('hidden');
-
 
   const removeItem = () => {
     setModalClosed('block');
@@ -25,13 +24,11 @@ export default function CartItem({
 
   const closeModal = () => {
     setModalClosed('hidden');
-    
   };
-
 
   return (
     <>
-      <div className={modalClosed} >
+      <div className={modalClosed}>
         <RemoveCart productId={productId} closeModal={closeModal} onRemoveItem={removeHandler} />
       </div>
       <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5 cart-item">
@@ -46,14 +43,13 @@ export default function CartItem({
           <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">${productPrice}</p>
         </div>
         <div className="md:mt-3 md:ml-auto md:flex md:items-center">
-          <Button
-            id={productId}
-            onClick={removeItem}
-            className="bg-[#fff] text-gray-300 hover:text-[#fff] font-manropeB md:mr-0 flex border gap-1 items-center justify-center shadow-sm w-[100px] h-[40px] border-[#d5dbdd] rounded-md cursor-pointer"
-          >
-            <BiTrash />
-            Remove
-          </Button>
+          <button id={productId} onClick={removeItem} className="group relative h-12 w-[100px] h-[40px] overflow-hidden border border-[#d5dbdd] rounded-md cursor-pointer bg-white font-manropeB">
+            <div className="absolute inset-0 w-[0px] bg-brand-green-hover transition-all duration-[250ms] ease-out group-hover:w-full"></div>
+            <div className="relative w-full flex items-center justify-center text-gray-300 group-hover:text-[#fff]">
+              <BiTrash /> 
+              <span>Remove</span>
+            </div>
+          </button>
         </div>
       </div>
     </>
