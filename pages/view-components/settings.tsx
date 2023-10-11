@@ -81,10 +81,10 @@ export default function SettingPage() {
             before:w-full before:absolute before:top-[5.3rem] before:h-[0.5px]
                      pb-0   py-[3rem]  "
         >
-          <div className="font-manropeEB  relative cursor-pointer  min-w-[408px]  text-[#737876]   font-normal">
+          <div className="font-manropeB  relative cursor-pointer  min-w-[408px]  text-[#737876]   font-normal">
             <ul
               className="flex gap-5
-             text-sm font-manropeB font-semibold p  justify-center w-full relative "
+             text-sm font-manropeB font-semibold  justify-center w-full relative "
             >
               <li
                 onClick={() => setShowReferInfo(false)}
@@ -118,7 +118,7 @@ export default function SettingPage() {
                   </li>
                 </ul>
                 <ul
-                  className={`   flex-col gap-1  font-manropeEL ${
+                  className={`   flex-col gap-1  font-manropeB ${
                     showReferInfo ? 'hidden' : 'flex'
                   } font-semilbold text-sm`}
                 >
@@ -157,8 +157,11 @@ export default function SettingPage() {
               </div>
             </div>
           </div>
-          <div className="grow min-h-[100vh] relative lg:border-l-[1px] lg:border-white-500  lg:px-[52px]  ">
-            <ul className="flex gap-6   cursor-pointer font-manropeB justify-between w-full  relative">
+          <div
+            className="grow min-h-[100vh] relative lg:border-l-[1px] lg:border-white-500 
+            lg:px-[52px]  "
+          >
+            <ul className="flex gap-6   cursor-pointer  font-manropeL justify-between w-full  relative">
               <li className={`text-md text-dark-110 `}> {showReferInfo ? 'Invite your friend' : 'Settings'}</li>
             </ul>
             <div className="mt-[42px] ">
@@ -183,7 +186,10 @@ export default function SettingPage() {
           >
             {!openEachSeting ? (
               <>
-                <ul className="flex gap-6  justify-start  md:justify-center text-[#737876]   text-md text-semibold">
+                <ul
+                  className="flex gap-6 font-manropeL md:font-manropeB 
+                 justify-start  md:justify-center text-[#737876]   text-[14px] md:text-[16px] text-semibold"
+                >
                   <li
                     onClick={() => setShowReferInfo(false)}
                     className={`hover:text-brand-green-hover py-2 px-2  ${
@@ -209,7 +215,7 @@ export default function SettingPage() {
                         toggleShow(setShowNotInfo);
                         changeSettingOptions('refer');
                       }}
-                      className="py-4 w-full min-w-[50vw] hover:bg-brand-green-shade95 
+                      className="py-4 w-full min-w-[50vw] text-[14px] md:text-[16px] hover:bg-brand-green-shade95 
                       border-b-[1px] border-white-500 text-[#444846] "
                     >
                       Refer your friends
@@ -217,7 +223,7 @@ export default function SettingPage() {
                   </ul>
                 ) : (
                   <ul
-                    className="flex flex-col text-[#444846] w-full md:w-fit md:text-center 
+                    className="flex flex-col text-[14px] md:text-[16px] font-manropeL md:font-manropeB md:text-[#444846]  text-dark-110 w-full md:w-fit md:text-center 
                 md:items-center items-start "
                   >
                     <li
@@ -280,15 +286,16 @@ export default function SettingPage() {
           size={'sm'}
           isLoading={loading}
           spinnerColor="#000"
-          className={` m-6 self-end 
-          relative text-brand-green-primary rounded-lg p-4 grow lg:block md:hidden border-brand-green-primary ${
-            settingOption.accountManagement ||
-            settingOption.deleteAccount ||
-            settingOption.refer ||
-            settingOption.notificationSettings
-              ? 'md:block lg:block hidden'
-              : ''
-          }
+          className={` text-[ 16px] my-[46px] mr-[100px] border-[1px] border-[#009444] py-[16.5px] px-[20px] self-end 
+          relative text-[#009444] rounded-[8px] 
+           w-[139px] h-[52px] grow lg:block md:hidden  ${
+             settingOption.accountManagement ||
+             settingOption.deleteAccount ||
+             settingOption.refer ||
+             settingOption.notificationSettings
+               ? 'md:block lg:block hidden'
+               : ''
+           }
            hover:bg-brand-green-hover hover:text-white-100 `}
         >
           Save <span className={` ${showReferInfo && 'hidden md:inline'}`}>& Close </span>
