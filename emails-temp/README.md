@@ -18,7 +18,7 @@ Before you begin, make sure you have the following installed:
 3. Search for "MJML" in the Extensions marketplace.
 
 4. Click the "Install" button for the "MJML" extension provided by Attila Buti.
-   ![Extension](./assets/assessment/extension.png)
+   ![Extension](https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/extension.png)
 
 ## Creating an MJML File
 
@@ -32,7 +32,7 @@ Before you begin, make sure you have the following installed:
 
 2. In the top right corner of the VS Code window, you will see an MJML icon (a pink "M" in a blue rectangle).
 
-   ![MJML Icon](./assets/assessment/image.png)
+   ![MJML Icon](https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/image.png)
 
 3. Click on the MJML icon to open the MJML Preview panel.
 
