@@ -31,12 +31,11 @@ export const loginUser = async (props: {email: string; password: string}) => {
 }
 
 export const getUserCart = async () => {
-  
-  // console.log(API_URL);
-
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
+  console.log(API_URL);
   
   try {
-    const response = await $http.get("/carts")
+    const response = await $http.get(`${API_URL}/carts`)
     return response.data  
   } catch (error) {
     console.log(error);

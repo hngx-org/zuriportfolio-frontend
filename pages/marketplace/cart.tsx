@@ -111,8 +111,6 @@ export default function Cart() {
   useEffect(() => {
       async function cartFetch() {
         const carts = await getUserCart()
-        console.log(carts);
-        
         setCartItems(carts)
       }
       cartFetch()
