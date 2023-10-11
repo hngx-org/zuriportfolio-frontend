@@ -1,20 +1,55 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import useOrders from '../../../../../hooks/useOrders';
 import OrderDetailsTable from './OrderDetailsTable';
 import usePaginate from '../../../../../hooks/usePaginate';
 import { SearchNormal1 } from 'iconsax-react';
 import PaginationBar from '../PaginationBar';
 import { OrderDetailsMobile } from './OrderDetailsRow';
-
+import { OrderHistory } from '../../../../../@types';
+import Filters from '../Filters';
+const filters: {
+  id: keyof OrderHistory;
+  title: string;
+}[] = [
+  {
+    id: 'id',
+    title: 'Order iD',
+  },
+  {
+    id: 'productName',
+    title: 'Product Name',
+  },
+  {
+    id: 'productType',
+    title: 'Product Type',
+  },
+  {
+    id: 'price',
+    title: 'Price/unit',
+  },
+  {
+    id: 'sales',
+    title: 'No. of sales',
+  },
+  {
+    id: 'revenue',
+    title: 'Total Revenue',
+  },
+];
 const OrderDetails = () => {
-  const { orders, changeSortBy, toggleSortOrder, sortBy } = useOrders();
+  const { orders, changeSortBy, toggleSortOrder, sortBy, changeSearchQuery, searchQuery, orderFilter } = useOrders();
   const { pageItem, changeCurrentPage, pageLength, currentPage } = usePaginate(orders, 7);
+  const [showFilters, setShowFilters] = useState(false);
+  const closeFilter = () => {
+    setShowFilters(false);
+  };
+  console.log(pageItem.length === 0);
   return (
     <main className="max-w-[1240px] mx-auto md:px-10 px-6">
       <section className="font-manropeB font-semibold mt-4">
         <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
-          <span>Order manegement</span>
+          <Link href={'/dashboard/orders'}>Order manegement</Link>
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path
               d="M4.50002 2.03996L7.76002 5.29996C8.14502 5.68496 8.14502 6.31496 7.76002 6.69996L4.50002 9.95996"
@@ -24,7 +59,9 @@ const OrderDetails = () => {
               strokeLinejoin="round"
             />
           </svg>
-          <span className="text-orange-110">Order Details</span>
+          <Link href={'/dashboard/orders/details'} className="text-orange-110">
+            Order Details
+          </Link>
         </div>
         <div className="flex flex-col gap-[60px]">
           <h1 className=" text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order Details</h1>
@@ -39,25 +76,38 @@ const OrderDetails = () => {
               <input
                 className=" bg-transparent focus-within:outline-none flex-1  text-[1rem] leading-[150%] min-w-0"
                 placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
               />
             </div>
-            <button
-              className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
-              style={{
-                boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-              }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
-                  stroke="#344054"
-                  strokeWidth="1.67"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+            <div className="relative">
+              <button
+                className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
+                style={{
+                  boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
+                }}
+                onClick={() => setShowFilters((prev) => !prev)}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
+                    stroke="#344054"
+                    strokeWidth="1.67"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span>Filters</span>
+              </button>
+              {showFilters && (
+                <Filters
+                  filters={filters}
+                  changeFilter={changeSortBy}
+                  currentFilter={sortBy}
+                  closeFilter={closeFilter}
                 />
-              </svg>
-              <span>Filters</span>
-            </button>
+              )}
+            </div>
           </div>
           <Link
             href={'/dashboard/orders'}
@@ -102,26 +152,40 @@ const OrderDetails = () => {
             <input
               className=" bg-transparent focus-within:outline-none flex-1 text-[1rem] leading-[150%]"
               placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
             />
           </div>
           <div className="flex items-center gap-6">
-            <button
-              className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
-              style={{
-                boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-              }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
-                  stroke="#344054"
-                  strokeWidth="1.67"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+            <div className="relative">
+              <button
+                className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
+                style={{
+                  boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
+                }}
+                onClick={() => setShowFilters((prev) => !prev)}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
+                    stroke="#344054"
+                    strokeWidth="1.67"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span>Filters</span>
+              </button>
+
+              {showFilters && (
+                <Filters
+                  filters={filters}
+                  changeFilter={changeSortBy}
+                  currentFilter={sortBy}
+                  closeFilter={closeFilter}
                 />
-              </svg>
-              <span>Filters</span>
-            </button>
+              )}
+            </div>
             <button
               className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
               style={{
@@ -169,9 +233,13 @@ const OrderDetails = () => {
         )}
       </section>
       <div className="md:hidden flex flex-col gap-4 mb-4">
-        {pageItem.map((item) => (
-          <OrderDetailsMobile key={item.id} {...item} />
-        ))}
+        {pageItem.length > 0 ? (
+          pageItem.map((item) => <OrderDetailsMobile key={item.id} {...item} />)
+        ) : (
+          <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+            No Order to Show
+          </p>
+        )}
       </div>
       {pageItem.length > 0 && <PaginationBar {...{ changeCurrentPage, currentPage, pageLength }} />}
     </main>
