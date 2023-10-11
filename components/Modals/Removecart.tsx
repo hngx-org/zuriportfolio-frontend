@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import Image from 'next/image';
 import group from '../../public/assets/removecart/Group.png';
 import trash from '../../public/assets/removecart/delete.svg';
 
+
 interface RemoveCartProps {
   closeModal: () => void;
-  onRemoveItem?: () => void; // Make onRemoveItem optional
+  onRemoveItem: (productId: string) => void; // Make onRemoveItem optional
+  productId: string;
 }
 
-const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem }) => {
+const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem,productId }) => {
   const [modalOpen, setModalOpen] = useState(true);
 
   if (modalOpen) {
@@ -65,12 +67,7 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem }) => 
             <button
               className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[14px] flex items-center gap-2 rounded-md"
               onClick={() => {
-                if (closeModal) {
-                  closeModal(); // Close the modal if closeModal is defined
-                }
-                if (onRemoveItem) {
-                  onRemoveItem(); // Call onRemoveItem if it's defined
-                }
+                onRemoveItem(productId);
               }}
             >
               {/* Remove Item icon */}
@@ -86,29 +83,3 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem }) => 
 };
 
 export default RemoveCart;
-
-{
-  /* import React, { useState } from 'react';
-import RemoveCart from './RemoveCart';
-
-function ParentComponent() {
-  const handleRemoveItem = () => {
-    // Implement the logic to remove the item from the cart here
-    console.log('Item removed from the cart');
-  };
-
-  const handleCloseModal = () => {
-    // Implement your close modal logic here
-    console.log('Modal closed');
-  };
-
-  return (
-    // ...other JSX
-    <RemoveCart closeModal={handleCloseModal} onRemoveItem={handleRemoveItem} />
-    // ...other JSX
-  );
-}
-
-export default ParentComponent;
-*/
-}

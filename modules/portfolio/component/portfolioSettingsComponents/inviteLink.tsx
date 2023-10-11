@@ -25,7 +25,7 @@ export default function InviteLink() {
     setOPenModal((prev: boolean) => !prev);
   };
   return (
-    <div className={` space-y-4 font-manropeEB  `}>
+    <div className={`  space-y-4 font-manropeEB container mx-auto  `}>
       <p className="  text-dark-110 text-sm md:text-[22px]">Invite your friends! </p>
       <p className="text-white-650 leading-[20px]  font-manropeEB font-normal text-sm">
         Use your referral link to help us grow the community and get rewards.{' '}
@@ -35,7 +35,7 @@ export default function InviteLink() {
           type="text"
           id="invite"
           ref={copyInvite}
-          className=" appearance-none font-manropeEL font-extralight
+          className=" shrink appearance-none font-manropeEL font-extralight
            outline-none px-[8px] border-[1px] leading-6 grow max-w-[232px] border-[#D0D5DD]
              lg:px-[12px] py-[10px] text-[12px] rounded-l-md text-[#667085]"
           value="portfolio.zuri/invite?=pleroma"
@@ -43,7 +43,7 @@ export default function InviteLink() {
         />
         <button
           onClick={handleCopyToClipboard}
-          className="py-1 px-2 border-[1px] border-l-0    border-[#D0D5DD] text-[12px]
+          className="py-1  px-2 border-[1px] border-l-0    border-[#D0D5DD] text-[12px]
           w-fit flex rounded-r-md items-center gap-1 text-[#344054]"
         >
           <Copy size={12} />
@@ -53,7 +53,7 @@ export default function InviteLink() {
       <div>
         <button
           onClick={() => toggleModal()}
-          className="text-brand-green-primary appearance-none w-fit font-normal flex items-center gap-1 text-sm"
+          className="text-brand-green-primary  appearance-none w-fit font-normal flex items-center gap-1 text-sm"
         >
           <Image src={Share} height={16} width={16} alt="share" />
           share

@@ -73,9 +73,10 @@ export default function SettingPage() {
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
-      <div className="w-full relative font-manropeEB mb-4  lg:mb-2  pt-4rem flex flex-col  ">
+      <div className="w-full   relative font-manropeEB mb-4  lg:mb-2  pt-4rem flex flex-col  ">
+        {/*  Laptop View*/}
         <div
-          className="hidden lg:flex lg:border-b-[1px]  cursor-auto
+          className="md:hidden hidden lg:flex lg:border-b-[1px]  cursor-auto
             lg:border-white-500 relative min-h-[90vh]   items-start before:bg-white-500 
             before:w-full before:absolute before:top-[5.3rem] before:h-[0.5px]
                      pb-0   py-[3rem]  "
@@ -174,99 +175,102 @@ export default function SettingPage() {
           </div>
         </div>
 
-        <div
-          className="flex flex-col items-start min-h-[50vh] font-manropeEB 
+        {/*  Mobile and Desktop View*/}
+        <div className="lg:hidden container mx-auto">
+          <div
+            className="flex   flex-col items-start min-h-[50vh] font-manropeEB 
          px-6 md:items-center lg:hidden mt-4 gap-8 justify-start"
-        >
-          {!openEachSeting ? (
-            <>
-              <ul className="flex gap-6 text-[#737876] md:justify-center justify-start text-md text-semibold">
-                <li
-                  onClick={() => setShowReferInfo(false)}
-                  className={`hover:text-brand-green-hover py-2 px-2  ${
-                    !showReferInfo ? 'border-b-2 text-brand-green-primary   border-brand-green-primary' : ''
-                  }`}
-                >
-                  Settings
-                </li>
-                <li
-                  onClick={() => setShowReferInfo(true)}
-                  className={`hover:text-brand-green-hover px-2 py-2 ${
-                    showReferInfo ? 'border-b-2 text-brand-green-primary  border-brand-green-primary' : ''
-                  }`}
-                >
-                  Invite a friend
-                </li>
-              </ul>
+          >
+            {!openEachSeting ? (
+              <>
+                <ul className="flex gap-6  justify-start  md:justify-center text-[#737876]   text-md text-semibold">
+                  <li
+                    onClick={() => setShowReferInfo(false)}
+                    className={`hover:text-brand-green-hover py-2 px-2  ${
+                      !showReferInfo ? 'border-b-2 text-brand-green-primary   border-brand-green-primary' : ''
+                    }`}
+                  >
+                    Settings
+                  </li>
+                  <li
+                    onClick={() => setShowReferInfo(true)}
+                    className={`hover:text-brand-green-hover px-2 py-2 ${
+                      showReferInfo ? 'border-b-2 text-brand-green-primary  border-brand-green-primary' : ''
+                    }`}
+                  >
+                    Invite a friend
+                  </li>
+                </ul>
 
-              {showReferInfo ? (
-                <ul className="flex flex-col w-full md:w-fit md:text-center md:items-center items-start m">
-                  <li
-                    onClick={() => {
-                      toggleShow(setShowNotInfo);
-                      changeSettingOptions('refer');
-                    }}
-                    className="py-4 w-full min-w-[50vw] hover:bg-brand-green-shade95 
+                {showReferInfo ? (
+                  <ul className="flex flex-col w-full md:w-fit md:text-center md:items-center items-start m">
+                    <li
+                      onClick={() => {
+                        toggleShow(setShowNotInfo);
+                        changeSettingOptions('refer');
+                      }}
+                      className="py-4 w-full min-w-[50vw] hover:bg-brand-green-shade95 
                       border-b-[1px] border-white-500 text-[#444846] "
-                  >
-                    Refer your friends
-                  </li>
-                </ul>
-              ) : (
-                <ul
-                  className="flex flex-col text-[#444846] w-full md:w-fit md:text-center 
+                    >
+                      Refer your friends
+                    </li>
+                  </ul>
+                ) : (
+                  <ul
+                    className="flex flex-col text-[#444846] w-full md:w-fit md:text-center 
                 md:items-center items-start "
-                >
-                  <li
-                    onClick={() => {
-                      toggleShow(setShowNotInfo);
-                      changeSettingOptions('accountManagement');
-                    }}
-                    className="py-4 w-full   hover:bg-brand-green-shade95 min-w-[50vw]  border-b-[1px] border-white-500 "
                   >
-                    Account Management
-                  </li>
-                  <li
-                    onClick={() => {
-                      toggleShow(setShowNotInfo);
-                      changeSettingOptions('notificationSettings');
-                    }}
-                    className="py-4 w-full hover:bg-brand-green-shade95 min-w-[50vw] border-b-[1px] border-white-500 "
-                  >
-                    Notification Settings
-                  </li>
-                  <li
-                    onClick={() => {
-                      toggleShow(setShowNotInfo);
-                      changeSettingOptions('deleteAccount');
-                    }}
-                    className="py-4 w-full border-b-[1px] md:border-none hover:bg-brand-green-shade95 min-w-[50vw] border-white-500 
+                    <li
+                      onClick={() => {
+                        toggleShow(setShowNotInfo);
+                        changeSettingOptions('accountManagement');
+                      }}
+                      className="py-4 w-full   hover:bg-brand-green-shade95 min-w-[50vw]  border-b-[1px] border-white-500 "
+                    >
+                      Account Management
+                    </li>
+                    <li
+                      onClick={() => {
+                        toggleShow(setShowNotInfo);
+                        changeSettingOptions('notificationSettings');
+                      }}
+                      className="py-4 w-full hover:bg-brand-green-shade95 min-w-[50vw] border-b-[1px] border-white-500 "
+                    >
+                      Notification Settings
+                    </li>
+                    <li
+                      onClick={() => {
+                        toggleShow(setShowNotInfo);
+                        changeSettingOptions('deleteAccount');
+                      }}
+                      className="py-4 w-full border-b-[1px] md:border-none hover:bg-brand-green-shade95 min-w-[50vw] border-white-500 
                   "
-                  >
-                    Delete Account
-                  </li>
-                </ul>
-              )}
-            </>
-          ) : (
-            <div className=" relative w-full">
-              <p
-                className="py-2 mb-5 md:w-[80%] w-full flex gap-1 
+                    >
+                      Delete Account
+                    </li>
+                  </ul>
+                )}
+              </>
+            ) : (
+              <div className=" relative w-full">
+                <p
+                  className="py-2 mb-5 md:w-[80%] w-full flex gap-1 
               text-md items-center justify-start border-b-[1px] border-slate-500 text-md"
-              >
-                <button onClick={resetSettingOption} className=" flex  text-md items-center justify-start">
-                  <ArrowLeft2 />
-                </button>{' '}
-                {!showReferInfo ? ' Settings' : 'Invite a friend'}
-              </p>
-              <div className=" w-full relative ">
-                {settingOption.notificationSettings && <NotificationSettings />}
-                {settingOption.deleteAccount && <DeleteAccount />}
-                {settingOption.accountManagement && <AccountManagementMobile />}
-                {settingOption.refer && <InviteLink />}
+                >
+                  <button onClick={resetSettingOption} className=" flex  text-md items-center justify-start">
+                    <ArrowLeft2 />
+                  </button>{' '}
+                  {!showReferInfo ? ' Settings' : 'Invite a friend'}
+                </p>
+                <div className=" w-full relative ">
+                  {settingOption.notificationSettings && <NotificationSettings />}
+                  {settingOption.deleteAccount && <DeleteAccount />}
+                  {settingOption.accountManagement && <AccountManagementMobile />}
+                  {settingOption.refer && <InviteLink />}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         <Button
