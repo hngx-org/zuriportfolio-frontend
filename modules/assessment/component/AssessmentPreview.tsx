@@ -5,7 +5,7 @@ import { ArrowLeft2 } from 'iconsax-react';
 
 export default function Preview() {
   return (
-    <div className="mb-32">
+    <div className="mb-32 mt-[-8%] md:mt-[-3%]">
       <Image
         src="/assets/header-image/header-body.png"
         width={1440}
@@ -13,9 +13,9 @@ export default function Preview() {
         style={{ width: '100%' }}
         alt="header-image"
       />
-      <div className="flex items-center justify-between px-12 py-6 md:px-24 md:py-8">
+      <div className="flex items-center justify-between px-12 pb-1 pt-7 md:px-24">
         <div>
-          <Link href={'/'} className="hover:underline flex         items-center gap-1">
+          <Link href={'/'} className="hover:underline flex items-center gap-1">
             <ArrowLeft2 size="20" color="#000" />
             Go back
           </Link>

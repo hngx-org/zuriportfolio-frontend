@@ -34,8 +34,8 @@ export default function Slider({ updateImage }: any) {
     updateImage(slides[5]);
   };
   return (
-    <div className="relative">
-      <div className="flex w-full max-w-[700px]  justify-between md:gap-x-0 gap-x-9 mx-auto overflow-hidden">
+    <div className="relative w-full mx-auto">
+      <div className="flex w-full max-w-[700px]  md:justify-between justify-around md:gap-x-2 gap-x-2 mx-auto overflow-hidden">
         <Image
           src={slides[0]}
           onClick={handleUpdateImage1}
@@ -58,13 +58,13 @@ export default function Slider({ updateImage }: any) {
           src={slides[3]}
           onClick={handleUpdateImage4}
           alt="slider image 4"
-          className="object-cover lg:w-[105px] md:w-[180px] w-[90px] lg:h-[94px] md:h-[131px] h-[95px] rounded-lg md:block hidden"
+          className="object-cover lg:w-[105px] md:w-[180px] lg:h-[94px] md:h-[131px]  rounded-lg md:block hidden"
         />
         <Image
           src={slides[4]}
           onClick={handleUpdateImage5}
           alt="slider image 5"
-          className="object-cover lg:w-[105px] md:w-[180px] w-[90px] lg:h-[94px] md:h-[131px] h-[95px] rounded-lg lg:block hidden"
+          className="object-cover lg:w-[105px] md:w-[180px] h-[94px] rounded-lg lg:block hidden"
         />
       </div>
       <div className="px-2.5 py-2 rounded-full shadow-lg w-fit absolute bg-white-100 top-8 -right-[10px] lg:block hidden">

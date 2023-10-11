@@ -27,8 +27,8 @@ const RedirectModal = ({ setOpenOTP }: OTPModal) => {
       >
         <button
           className="flex w-[197px] px-[24px] py-[19px] font-manropeL justify-center items-center gap-[10px] flex-shrink-0 self-stretch
-               rounded-[10px] text-center  text-[14px] font-bold tracking-[0.035px] opacity-50 
-               [@media(max-width:650px)]:w-full [@media(max-width:650px)]:text-[11px]
+               rounded-[10px] text-center  text-[14px] font-bold tracking-[0.035px] opacity-50 text-[#fff]
+               [@media(max-width:650px)]:w-full [@media(max-width:650px)]:text-[11px] bg-[var(--secondary-colour-secondary-base-color,_#f08b1f)]
                "
         >
           Try another method

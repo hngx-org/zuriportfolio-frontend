@@ -1,3 +1,4 @@
+import React from 'react';
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
 
@@ -56,9 +57,10 @@ export interface MainLayoutContextProps {
 }
 
 export interface CartProductCardProps {
+  id: string;
   productImage: string;
   productTitle: string;
-  cardStyle: string;
+  // cardStyle: string;
   productPrice: number;
   productRating: number;
   productSeller: string;
@@ -143,6 +145,23 @@ export interface AuthLayoutProps {
   isTopRightBlobShown?: boolean;
   isBottomLeftPadlockShown?: boolean;
 }
+
+// Password interface
+export interface PasswordPopoverProps {
+  password: string;
+  children: React.ReactNode;
+}
+
+export interface PasswordRequirementProps {
+  meets: boolean;
+  label: string;
+}
+
+export interface ProgressBarProps {
+  color: string;
+  value: number;
+}
+
 // export all interfaces and type s
 declare module 'nprogress';
 
@@ -173,12 +192,25 @@ export type ProductCardProps = {
 };
 
 export type CartItemProps = {
+  productId: string;
   productImage: string;
   productTitle: string;
   productSize: string;
   productColor: string;
   productSeller: string;
   productPrice: number;
+};
+
+export type ViewedProductCardProps = {
+  id: string;
+  productImage: string;
+  productPrice: number;
+  discountPercentage?: number;
+  productRating: number;
+  productSeller: string;
+  productTitle: string;
+  tag?: string;
+  tagBackground?: string;
 };
 
 // In a file like '@types/index.ts' or a similar location
@@ -452,3 +484,30 @@ export type inputErrorMessage = {
   inputName: string;
   isValid: boolean;
 };
+// product listing types
+export interface ProductInfo {
+  productName: string;
+  vendor: string;
+  id: number;
+  dateAdded: string;
+  status: string;
+}
+export interface DeletedProducts {
+  name: string;
+  vendor: string;
+  id: number;
+  dateAdded: Date;
+  dateDeleted: Date;
+  status: string;
+}
+export interface CardData {
+  id: number;
+  bgImage: string;
+  photoImage: string;
+  name: string;
+  role: string;
+  skills: string[];
+  totalProjects: number;
+  badge: string;
+  location: string;
+}
