@@ -32,7 +32,7 @@
     </mj-attributes>
     <mj-style inline>
       /* tablet */
-      @media (max-width: 960px) {
+      /*@media (max-width: 960px) {
         .container > table > tbody > tr > td {
           padding: 84px 32px !important ;
         }
@@ -112,7 +112,7 @@
         .container > * {
           background: linear-gradient(#E6F5EA 7.75rem, #F0F1F0 7.75rem) !important;
         }
-      }
+      }*/
       .header img {
         max-width: 50%;
         margin: auto;
@@ -123,7 +123,7 @@
       .hero {
         position: relative;
       }
-      .hero .hero_img{
+      /*.hero .hero_img{
         position: absolute;
         width: 10.72744rem;
         height: 5.02138rem;
@@ -131,20 +131,27 @@
         padding-right: 40px;
         right: 0;
         top: 1rem;
-      }
-      .hero .hero_text{
-        padding-right: 10.72744rem;
-      }
-      .body {
-        padding-block: 56px 90px;
+      }*/
+      .hero_img {
+
       }
       .container > * {
         background: linear-gradient(#E6F5EA 20rem, #F0F1F0 20rem) !important;
       }
-    </mj-style>
+      .box > table {
+        width: 150px !important;
+        margin: auto !important;
+      }
+      /*.container > table > tbody > tr > td {
+        padding: 95px 96px 72px !important ;
+      }
+      .hero > table > tbody > tr > td {
+        padding: 60px 45px 100px 60px !important;
+      }*/
+  </mj-style> 
   </mj-head>
-  <mj-body background-color="white" width="960px" css-class="body">
-    <mj-wrapper mj-class="bg-grey" padding="95px 96px 72px" css-class="container">
+  <mj-body width="640px" background-color="white" css-class="body">
+    <mj-wrapper mj-class="bg-grey" padding="84px 32px" css-class="container">
       <mj-section padding-bottom="60px" css-class="header">
         <mj-column width="100%">
           <mj-image
@@ -152,17 +159,18 @@
           />
         </mj-column>
       </mj-section>
-      <mj-section mj-class="bg-white" padding="60px 45px 100px 60px" css-class="hero">
+      <mj-section mj-class="bg-white" padding="40px 30px 80px 40px" css-class="hero">
         <mj-column width="100%" css-class="hero_text">
-          <mj-text mj-class="h-1">
+          <mj-text mj-class="h-1" align="center" padding-bottom="10px">
             PURCHASE CONFIRMATION
           </mj-text>
         </mj-column>
-        <mj-column width="100%">
+        <mj-column width="150px" css-class="box">
           <mj-raw>
             <img
+              width="100%"
               class="hero_img"
-              width="150px"
+              style="max-width: 150px; margin:auto;"
               src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/card_payments.png"
               alt=""
             />
@@ -214,16 +222,22 @@
           <mj-text mj-class="h-2" padding-bottom="8px">
             Order Details
           </mj-text>
+        </mj-column>
+        <mj-column width="35%" padding-right="8px" padding-bottom="8px">
+          <mj-raw>
+            <div style="min-width: 7rem;width: 100%; max-width: 9rem; height: 8.56319rem; border-radius: 0.32113rem; overflow: hidden" class="order_img">
+              <img
+                style="margin:auto;width: 100%; height: 100%; vertical-align:bottom; object-fit: cover;"
+                src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png"
+                alt=""
+              />
+            </div>
+          </mj-raw>
+        </mj-column>
+        <mj-column width="65%">
           <mj-text mj-class="p-1">
             <div class="order_wrapper" style="display: flex">
-              <div style="width: 9.3125rem; height: 8.56319rem; border-radius: 0.32113rem; overflow: hidden" class="order_img">
-                  <img
-                    style="width: 100%; height: 100%; vertical-align:bottom; object-fit: cover;"
-                    src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png"
-                    alt=""
-                  />
-              </div>
-              <div style="margin-left: 16px">
+              <div>
                 <div>
                   <span>Online Course:</span>
                   <span class="bold">Introduction</span>
