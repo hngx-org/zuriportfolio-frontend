@@ -164,7 +164,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                       }}
                       value={degree}
                     >
-                      <SelectTrigger className="w-full focus:outline-none border focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-400 ">
+                      <SelectTrigger className="w-full focus:outline-none border focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-120">
                         <SelectValue placeholder="Select a degree" />
                       </SelectTrigger>
                       <SelectContent>
@@ -190,7 +190,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                       placeHolder="Enter field of study"
                       value={fieldOfStudy}
                       onChange={(e) => setFieldOfStudy(e.target.value)}
-                      className="w-full"
+                      className="w-full border-white-120"
                     />
                   </div>
                   <div className="mb-4 w-full">
@@ -203,7 +203,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                       placeHolder="Enter name of school"
                       value={school}
                       onChange={(e) => setSchool(e.target.value)}
-                      className="w-full"
+                      className="w-full border-white-120"
                     />
                   </div>
                   <div className="mb-4 w-full">
@@ -216,7 +216,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                       placeHolder="Enter field of study"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      className="w-full"
+                      className="w-full border-white-120"
                     />
                   </div>
                   <div className="mb-4 flex gap-4">
@@ -230,7 +230,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                         placeHolder="2023"
                         value={dateFrom}
                         onChange={(e) => setDateFrom(e.target.value)}
-                        className="w-full"
+                        className="w-full border-white-120"
                       />
                     </div>
                     <div className="w-1/2">
@@ -243,7 +243,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                         placeHolder="Present"
                         value={dateTo}
                         onChange={(e) => setDateTo(e.target.value)}
-                        className="w-full"
+                        className="w-full border-white-120"
                       />
                     </div>
                   </div>
