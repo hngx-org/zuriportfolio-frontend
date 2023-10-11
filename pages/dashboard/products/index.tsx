@@ -3,19 +3,22 @@ import MainLayout from '../../../components/Layout/MainLayout';
 import { SearchNormal1 } from 'iconsax-react';
 import Button from '@ui/Button';
 import ProductCard from '@modules/dashboard/component/products/ProductCard';
+import Link from 'next/link';
 
 const Products = () => {
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
       <div className="max-w-[1240px] mx-auto my-4 px-6">
         <div className="flex md:justify-end my-12 justify-center">
-          <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-              <path d="M6.5 12H18.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M12.5 18V6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <span>Add New Product</span>
-          </Button>
+          <Link href="/dashboard/products/add-product">
+            <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                <path d="M6.5 12H18.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M12.5 18V6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span>Add New Product</span>
+            </Button>
+          </Link>
         </div>
         <div className="max-w-[1226px] mx-auto shadow-none md:shadow md:rounded-2xl md:px-[15px] md:py-[13px]">
           <div className="flex gap-5 justify-between mb-[37px]">
