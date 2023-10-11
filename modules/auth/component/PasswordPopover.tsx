@@ -4,14 +4,14 @@ import { PasswordPopoverProps, PasswordRequirementProps, ProgressBarProps } from
 
 function PasswordRequirement({ meets, label }: PasswordRequirementProps) {
   return (
-    <div className={`flex items-center mt-7 text-sm ${meets ? 'text-teal-500' : 'text-red-500'}`}>
+    <div className={`flex items-center mt-7 text-sm ${meets ? 'text-green-600' : 'text-red-300'}`}>
       {meets ? <Check size={14} /> : <CloseCircle size={14} />} <div className="ml-2.5">{label}</div>
     </div>
   );
 }
 
 function ProgressBar({ color, value }: ProgressBarProps) {
-  const bgColor = color === 'teal' ? 'bg-teal-500' : color === 'yellow' ? 'bg-yellow-500' : 'bg-red-500';
+  const bgColor = color === 'teal' ? 'bg-brand-green-primary' : color === 'yellow' ? 'bg-yellow-500' : 'bg-red-300';
 
   return (
     <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2.5 mb-2.5">
@@ -46,7 +46,7 @@ const PasswordPopover: React.FC<PasswordPopoverProps> = ({ password, children })
     { re: /[0-9]/, label: 'Includes number' },
     { re: /[a-z]/, label: 'Includes lowercase letter' },
     { re: /[A-Z]/, label: 'Includes uppercase letter' },
-    { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: 'Includes special symbol' },
+    // { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: 'Includes special symbol' },
   ];
 
   function getStrength(password: string) {

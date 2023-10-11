@@ -3,11 +3,23 @@ import Button from '@ui/Button';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
 import { Input } from '@ui/Input';
-import InputError from '../InputError';
-import useInputError from '../../../../hooks/useInputError';
-
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
 const ForgotPassword = () => {
-  const { handleSubmit, inputErrors } = useInputError();
+  const schema = z.object({
+    email: z.string().email(),
+  });
+
+  const form = useForm({
+    validate: zodResolver(schema),
+    initialValues: {
+      email: '',
+    },
+  });
+
+  const handleForgotPassword = (values: any) => {
+    console.log('email', values.email);
+  };
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
@@ -20,7 +32,10 @@ const ForgotPassword = () => {
             <p className=" lg:text-[16px] md:text-[22px] text-[14px] font-semibold max-w-[296px] md:max-w-[503px] mx-auto lg:max-w-none lg:mx-0 leading-[150%] tracking-[0.024px] text-custom-color20 md:mb-[70px] mb-10 ">
               Enter your registered email below to receive reset instructions.
             </p>
-            <form className="flex flex-col md:gap-12 gap-[30px] md:mb-12 mb-[30px]" onSubmit={handleSubmit}>
+            <form
+              className="flex flex-col md:gap-12 gap-[30px] md:mb-12 mb-[30px]"
+              onSubmit={form.onSubmit((values) => handleForgotPassword(values))}
+            >
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="email"
@@ -30,16 +45,16 @@ const ForgotPassword = () => {
                 </label>
                 <Input
                   id="email"
-                  name="email"
+                  {...form.getInputProps('email')}
                   type="email"
                   placeholder="Aliusugar@gmail.com"
-                  required
-                  className="w-full px-[18px] py-[13.5px] font-manropeL font-light text-custom-color2  rounded-md border-[1.35px]  border-slate-50"
+                  className={`w-full px-[18px] py-[13.5px] font-manropeL font-light text-custom-color2  rounded-md border-[1.35px] ${
+                    form.errors.email ? 'border-[red]' : 'border-slate-50'
+                  }`}
                 />
-                <InputError inputName="email" inputError={inputErrors} />
+                <p className="text-[red] text-xs">{form.errors.email && form.errors.email}</p>
               </div>
               <Button
-                href="/auth/success"
                 intent={'primary'}
                 className="flex justify-center items-center gap-4 md:pl-[15.0625rem] md:pr-[15.0625rem] py-3 md:px-60 md:w-[100%] w-[100%] h-14 rounded-lg button text-white-100 text-center mt-[1rem]"
               >

@@ -25,9 +25,7 @@ function Signup() {
     .object({
       firstname: z.string().min(1, { message: 'First name is required' }),
       lastname: z.string().min(1, { message: 'Last name is required' }),
-      password: z
-        .string()
-        .regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$/, { message: 'Please match requirements' }),
+      password: z.string().regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/, { message: 'Please match requirements' }),
       confirmPassword: z.string().min(2, { message: 'Confirm password is required' }),
     })
     .superRefine(({ confirmPassword, password }, ctx) => {
@@ -80,7 +78,7 @@ function Signup() {
                 className={`w-full h-[44px] md:h-[60px] ${form.errors.firstname ? 'border-[red]' : 'border-[#D0D5DD]'}`}
                 type="text"
               />
-              <p className="text-[red]">{form.errors.firstname && form.errors.firstname}</p>
+              <p className="text-[red] text-xs">{form.errors.firstname && form.errors.firstname}</p>
             </div>
 
             {/* last Name */}
@@ -95,7 +93,7 @@ function Signup() {
                 className={`w-full h-[44px] md:h-[60px] ${form.errors.lastname ? 'border-[red]' : 'border-[#D0D5DD]'}`}
                 type="text"
               />
-              <p className="text-[red]">{form.errors.lastname && form.errors.lastname}</p>
+              <p className="text-[red] text-xs">{form.errors.lastname && form.errors.lastname}</p>
             </div>
 
             {/* Password */}
@@ -158,7 +156,7 @@ function Signup() {
                   }
                 />
               </PasswordPopover>
-              <p className="text-[red]">{form.errors.password && form.errors.password}</p>
+              <p className="text-[red] text-xs">{form.errors.password && form.errors.password}</p>
             </div>
 
             {/* Confirm Password */}
@@ -219,7 +217,7 @@ function Signup() {
                   </button>
                 }
               />
-              <p className="text-[red]">{form.errors.confirmPassword && form.errors.confirmPassword}</p>
+              <p className="text-[red] text-xs">{form.errors.confirmPassword && form.errors.confirmPassword}</p>
             </div>
 
             <div className="flex items-center leading-[27.04px] my-4 h-5">
