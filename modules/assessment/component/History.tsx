@@ -169,6 +169,7 @@ const History: React.FC = () => {
                     >
                       <FaClipboardList className="text-green-200 text-[2em] " />
                       {assessment.assessment}
+                      <Image src='/assets/expand.svg' width={20} height={20} alt='icon' className='ml-2 sm:hidden' />
                     </td>
                     <td 
                     onClick={() => toggleExpand(assessment.id)}
@@ -192,7 +193,7 @@ const History: React.FC = () => {
                         </span>
                       )}
 
-
+                        
                     </td>
 
                     <td className="whitespace-nowrap border-r hidden sm:table-cell  border-gray-300 border-b-0 py-2 px-4">{formatDate(assessment.date)}</td>
