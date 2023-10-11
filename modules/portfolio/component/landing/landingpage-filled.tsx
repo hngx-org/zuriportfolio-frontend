@@ -78,10 +78,10 @@ const LandingPageFilled: React.FC = () => {
     //   id: 'project',
     //   modal: <ProjectModal isOpen={modalStates['project']} onClose={() => onCloseModal('project')} />,
     // },
-    // {
-    //   id: 'shop',
-    //   modal: <EducationSection isOpen={modalStates['shop']} onClose={() => onCloseModal('shop')} />,
-    // },
+    {
+      id: 'education',
+      modal: <EducationSection isOpen={modalStates['education']} onClose={() => onCloseModal('education')} />,
+    },
     // {
     //   id: 'contact',
     //   modal: <ContactModal isOpen={modalStates['contact']} onClose={() => onCloseModal('contact')} />,

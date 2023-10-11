@@ -168,7 +168,7 @@ const OrderDetails = () => {
           />
         )}
       </section>
-      <div className="md:hidden flex flex-col gap-4">
+      <div className="md:hidden flex flex-col gap-4 mb-4">
         {pageItem.map((item) => (
           <OrderDetailsMobile key={item.id} {...item} />
         ))}
