@@ -1,30 +1,30 @@
 // pages/index.tsx
-import { CardData } from '../../../@types';
-import Card from './Card';
-import photoImage1 from '../../../public/assets/images/explore_img/photo1.svg';
-import bg1 from '../../../public/assets/images/explore_img/bg1.svg';
-import bg2 from '../../../public/assets/images/explore_img/bg2.png';
-import bg3 from '../../../public/assets/images/explore_img/bg3.png';
-import bg4 from '../../../public/assets/images/explore_img/bg4.png';
-import bg5 from '../../../public/assets/images/explore_img/bg5.png';
-import bg6 from '../../../public/assets/images/explore_img/bg6.png';
-import bg7 from '../../../public/assets/images/explore_img/bg7.png';
-import bg8 from '../../../public/assets/images/explore_img/bg8.png';
-import bg9 from '../../../public/assets/images/explore_img/bg9.png';
-import bg10 from '../../../public/assets/images/explore_img/bg10.png';
-import bg11 from '../../../public/assets/images/explore_img/bg11.png';
-import bg12 from '../../../public/assets/images/explore_img/bg12.png';
-import photo2 from '../../../public/assets/images/explore_img/photo2.png';
-import photo3 from '../../../public/assets/images/explore_img/photo3.png';
-import photo4 from '../../../public/assets/images/explore_img/photo4.png';
-import photo5 from '../../../public/assets/images/explore_img/photo5.png';
-import photo6 from '../../../public/assets/images/explore_img/photo6.png';
-import photo7 from '../../../public/assets/images/explore_img/photo7.png';
-import photo8 from '../../../public/assets/images/explore_img/photo8.png';
-import photo9 from '../../../public/assets/images/explore_img/photo9.png';
-import photo10 from '../../../public/assets/images/explore_img/photo10.png';
-import photo11 from '../../../public/assets/images/explore_img/photo11.png';
-import photo12 from '../../../public/assets/images/explore_img/photo12.png';
+import { CardData } from '../../@types';
+import Card from './components/Card';
+import photoImage1 from '../../public/assets/images/explore_img/photo1.svg';
+import bg1 from '../../public/assets/images/explore_img/bg1.svg';
+import bg2 from '../../public/assets/images/explore_img/bg2.png';
+import bg3 from '../../public/assets/images/explore_img/bg3.png';
+import bg4 from '../../public/assets/images/explore_img/bg4.png';
+import bg5 from '../../public/assets/images/explore_img/bg5.png';
+import bg6 from '../../public/assets/images/explore_img/bg6.png';
+import bg7 from '../../public/assets/images/explore_img/bg7.png';
+import bg8 from '../../public/assets/images/explore_img/bg8.png';
+import bg9 from '../../public/assets/images/explore_img/bg9.png';
+import bg10 from '../../public/assets/images/explore_img/bg10.png';
+import bg11 from '../../public/assets/images/explore_img/bg11.png';
+import bg12 from '../../public/assets/images/explore_img/bg12.png';
+import photo2 from '../../public/assets/images/explore_img/photo2.png';
+import photo3 from '../../public/assets/images/explore_img/photo3.png';
+import photo4 from '../../public/assets/images/explore_img/photo4.png';
+import photo5 from '../../public/assets/images/explore_img/photo5.png';
+import photo6 from '../../public/assets/images/explore_img/photo6.png';
+import photo7 from '../../public/assets/images/explore_img/photo7.png';
+import photo8 from '../../public/assets/images/explore_img/photo8.png';
+import photo9 from '../../public/assets/images/explore_img/photo9.png';
+import photo10 from '../../public/assets/images/explore_img/photo10.png';
+import photo11 from '../../public/assets/images/explore_img/photo11.png';
+import photo12 from '../../public/assets/images/explore_img/photo12.png';
 
 // Interface
 
@@ -174,12 +174,9 @@ const cardData: CardData[] = [
 ];
 
 const HomePage: React.FC = () => {
-  const customStyles = {
-    maxWidth: '1240px',
-  };
   return (
-    <div style={customStyles} className="container  m-auto w-1240px">
-      <div className="sm:grid  sm:grid-cols-2 h-full sm:gap-6 lg:grid-cols-3 sm:mx-3 sm:px-0 2xl:grid-cols-4 gap-12 lg:gap-6 m-auto justify-between  ">
+    <div className="m-auto p-6">
+      <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
         {cardData.map((card) => (
           <Card key={card.id} data={card} />
         ))}
