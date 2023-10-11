@@ -1,6 +1,8 @@
 import axios from 'axios';
 import $http from './axios';
 
+const AUTH_HTTP_URL = 'https://auth.akuya.tech';
+
 // test
 export const getUserByName = async (props: { name: string }) => {
   try {
@@ -14,7 +16,7 @@ export const getUserByName = async (props: { name: string }) => {
 
 export const loginUser = async (props: { email: string; password: string }) => {
   const $http = axios.create({
-    baseURL: 'https://reqres.in/',
+    baseURL: AUTH_HTTP_URL,
     timeout: 30000,
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -22,7 +24,8 @@ export const loginUser = async (props: { email: string; password: string }) => {
   });
 
   try {
-    const res = await $http.post('/api/users', props);
+    const res = await $http.post('/api/auth/login', props);
+    console.log(res?.data);
     return res?.data;
   } catch (e: any) {
     console.log(e);
