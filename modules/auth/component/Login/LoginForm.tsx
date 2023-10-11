@@ -71,7 +71,7 @@ function LoginForm() {
             </Link>
 
             <Button
-              href="/auth/2fa"
+              // href="/auth/2fa"
               intent={'primary'}
               type="submit"
               size={'md'}
@@ -82,9 +82,9 @@ function LoginForm() {
           </form>
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-              Already have an account?{' '}
-              <Link href="/auth/login">
-                <span className="text-brand-green-primary">Sign in</span>
+              Don&lsquo;t have an account?{' '}
+              <Link href="/auth/signup">
+                <span className="text-brand-green-primary">Sign Up</span>
               </Link>
             </p>
           </div>

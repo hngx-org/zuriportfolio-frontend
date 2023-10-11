@@ -6,14 +6,24 @@ import AuthLayout from '../../modules/auth/component/AuthLayout';
 import useInputError from '../../hooks/useInputError';
 import InputError from '@modules/auth/component/InputError';
 import usePassword from '../../hooks/usePassword';
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
+import { Console } from 'console';
 
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [isPasswordSame, setIsPasswordSame] = useState(false);
-  const { handleSubmit, inputErrors } = useInputError();
-  const { password, confirmPassword, handleConfirmPasswordChange, handlePasswordChange, arePasswordSame } =
-    usePassword();
+  const {
+    // handleSubmit,
+    inputErrors,
+  } = useInputError();
+  const {
+    // password, confirmPassword,
+    handleConfirmPasswordChange,
+    handlePasswordChange,
+    arePasswordSame,
+  } = usePassword();
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -25,6 +35,27 @@ function Signup() {
     setConfirmPasswordVisible((prevVisible) => !prevVisible);
   };
 
+  const schema = z.object({
+    firstname: z.string().min(1, { message: 'First name is required' }),
+    lastname: z.string().min(1, { message: 'Last name is required' }),
+    password: z.string().min(2, { message: 'password is required' }),
+    confirmPassword: z.string().min(2, { message: 'Name should have at least 2 letters' }),
+  });
+
+  const form = useForm({
+    validate: zodResolver(schema),
+    initialValues: {
+      firstname: '',
+      lastname: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const handleSignUp = (e: any) => {
+    console.log(e);
+  };
+
   return (
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
       <div className="md:max-w-[517px] mx-auto md:max-xl max-w-[390px] ">
@@ -33,13 +64,7 @@ function Signup() {
           <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
         </div>
         <div className="mt-6 md:mt-12">
-          <form
-            className="flex flex-col"
-            onSubmit={(e) => {
-              handleSubmit(e);
-              setIsPasswordSame(arePasswordSame());
-            }}
-          >
+          <form className="flex flex-col" onSubmit={form.onSubmit((values) => handleSignUp(values))}>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="firstname" className="leading-[27.04px] font-semibold text-gray-700">
                 First name
@@ -47,12 +72,12 @@ function Signup() {
               <Input
                 placeHolder="Aliu"
                 id="firstname"
-                name="firstName"
-                className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
+                {...form.getInputProps('firstname')}
+                className={`w-full h-[44px] md:h-[60px] ${form.errors.firstname ? 'border-[red]' : 'border-[#D0D5DD]'}`}
                 type="text"
-                required
+                // required
               />
-              <InputError inputError={inputErrors} inputName="firstName" />
+              <p className="text-[red]">{form.errors.firstname && form.errors.firstname}</p>
             </div>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="lastname" className="leading-[27.04px] font-semibold text-gray-700">
@@ -61,12 +86,12 @@ function Signup() {
               <Input
                 placeHolder="Sugar"
                 id="lastname"
-                name="lastName"
-                className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
+                {...form.getInputProps('lastname')}
+                className={`w-full h-[44px] md:h-[60px] ${form.errors.lastname ? 'border-[red]' : 'border-[#D0D5DD]'}`}
                 type="text"
-                required
+                // required
               />
-              <InputError inputError={inputErrors} inputName="lastName" />
+              <p className="text-[red]">{form.errors.lastname && form.errors.lastname}</p>
             </div>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="password" className="leading-[27.04px] font-semibold text-gray-700">
@@ -75,7 +100,7 @@ function Signup() {
               <Input
                 placeHolder="Gbemi345"
                 id="password"
-                name="password"
+                {...form.getInputProps('password')}
                 className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type={passwordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
                 isPasswordVisible={passwordVisible} // Pass the visibility state as a prop
@@ -122,11 +147,7 @@ function Signup() {
                     )}
                   </button>
                 }
-                value={password}
-                onChange={handlePasswordChange}
-                required
               />
-              <InputError inputError={inputErrors} inputName="password" />
             </div>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="confirmPassword" className="leading-[27.04px] font-semibold text-gray-700">
@@ -135,7 +156,7 @@ function Signup() {
               <Input
                 placeHolder="Gbemi345"
                 id="confirmPassword"
-                name="confirmPassword"
+                {...form.getInputProps('confirmPassword')}
                 className="w-full h-[44px] md:h-[60px] border-[#D0D5DD]"
                 type={confirmPasswordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
                 isPasswordVisible={confirmPasswordVisible} // Pass the visibility state as a prop
@@ -182,15 +203,15 @@ function Signup() {
                     )}
                   </button>
                 }
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                required
+                // value={confirmPassword}
+                // onChange={handleConfirmPasswordChange}
+                // required
               />
-              {!isPasswordSame && (
+              {/* {!isPasswordSame && (
                 <p className="text-brand-red-primary text-xs md:text-sm mt-2">
                   Passwords do not match. Please re-enter the same passwords in both fields
                 </p>
-              )}
+              )} */}
             </div>
 
             <div className="flex items-center leading-[27.04px] my-4 h-5">
@@ -234,7 +255,7 @@ function Signup() {
             `}</style>
 
             <Button
-              href="/auth/verification"
+              // href="/auth/verification"
               intent={'primary'}
               size={'sm'}
               className="w-full h-[44px] md:h-[60px] rounded-lg mt-3"

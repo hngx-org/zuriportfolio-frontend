@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@mantine/form": "^7.1.2",
     "@radix-ui/react-select": "^2.0.0",
     "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
@@ -42,7 +43,8 @@
     "react-to-pdf": "^1.0.1",
     "recharts": "^2.8.0",
     "tailwind-merge": "^1.14.0",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "zod": "^3.22.4"
   },
   "description": "zuriportfolio frontend",
   "devDependencies": {
