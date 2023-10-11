@@ -56,9 +56,10 @@ export interface MainLayoutContextProps {
 }
 
 export interface CartProductCardProps {
+  id: string,
   productImage: string;
   productTitle: string;
-  cardStyle: string;
+  // cardStyle: string;
   productPrice: number;
   productRating: number;
   productSeller: string;
@@ -173,6 +174,7 @@ export type ProductCardProps = {
 };
 
 export type CartItemProps = {
+  productId: string;
   productImage: string;
   productTitle: string;
   productSize: string;
@@ -180,6 +182,18 @@ export type CartItemProps = {
   productSeller: string;
   productPrice: number;
 };
+
+export type ViewedProductCardProps = {
+    id: string;
+    productImage: string;
+    productPrice: number;
+    discountPercentage?: number;
+    productRating: number;
+    productSeller: string;
+    productTitle: string;
+    tag?: string;
+    tagBackground?: string;
+}
 
 // In a file like '@types/index.ts' or a similar location
 
@@ -467,4 +481,15 @@ export interface DeletedProducts {
   dateAdded: Date;
   dateDeleted: Date;
   status: string;
+}
+export interface CardData {
+  id: number;
+  bgImage: string;
+  photoImage: string;
+  name: string;
+  role: string;
+  skills: string[];
+  totalProjects: number;
+  badge: string;
+  location: string;
 }

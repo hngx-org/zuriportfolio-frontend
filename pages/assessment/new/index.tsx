@@ -1,27 +1,22 @@
+import React, { useState } from 'react';
+import Button from '@ui/Button';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
-import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
-import { useState } from 'react';
-import PreviewQuests from '@modules/assessment/component/previewQuests';
+import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
-const Previewedit: React.FC = () => {
-  //demo-question-...
-  // eslint-disable-next-line react/no-unescaped-entities
-  const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
-
+const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {
     setActive(button);
   };
-
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
         <AssessmentBanner
-          title="Preview/Edit"
-          subtitle="An overview of all questions and answers."
+          title="Create New Assessment"
+          subtitle="Create single choice quiz with scoring conditions"
           bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
         />
         <div className="pt-10 pb-10 flex justify-between flex-wrap px-[24px] md:px-[40px] lg:px-[100px] gap-y-4 :">
@@ -66,21 +61,23 @@ const Previewedit: React.FC = () => {
         </div>
         <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
         {/* Actual layouts */}
-        <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0]">
-          {active === 'button1' ? (
-            <>
-              <Edithead />
-              <div className="pt-4">
-                <PreviewQuests />
-              </div>
-            </>
-          ) : (
-            <ScoringScreen />
-          )}
+        <div className="">
+          <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0] ">
+            {active === 'button1' ? (
+              <>
+                <Edithead />
+                <div className="pt-4 ">
+                  <CreateTemplate />
+                </div>
+              </>
+            ) : (
+              <ScoringScreen />
+            )}
+          </div>
         </div>
       </main>
     </MainLayout>
   );
 };
 
-export default Previewedit;
+export default CreateAssessment;

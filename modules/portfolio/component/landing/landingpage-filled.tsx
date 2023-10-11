@@ -1,9 +1,140 @@
 'use-client';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import useDisclosure from '../../../hooks/useDisclosure';
-import Modal from '@ui/Modal';
-import img from '../../../public/assets/images/image-zuri-9.png';
+import img from '../../../../public/assets/images/image-zuri-9.png';
+import WorkExperienceSection from '../work-experience-modal';
+import Certifications from '../certification-modal';
+import SkillModal from '../skillModal/SkillsModal';
+import PortfolioAbout from '../about/about';
+import EducationSection from '../education-modal';
+import ProjectModal from '../ProjectModal';
+import ContactModal from '../contact-modal';
+
+const LandingPageFilled: React.FC = () => {
+  const [sections, setSections] = useState<Array<any>>([]);
+  const btns = [
+    { id: 1, title: 'About' },
+    { id: 2, title: 'Work Experience' },
+    { id: 3, title: 'Project' },
+    { id: 4, title: 'Education' },
+    { id: 5, title: 'Skill' },
+    { id: 6, title: 'Shop' },
+    { id: 7, title: 'Contact' },
+  ];
+
+  const addSection = (clickedButtonTitle: string) => {
+    const matchingPlaceHolder = placeHolders.find((placeHolder) => {
+      return placeHolder.title === clickedButtonTitle;
+    });
+
+    if (matchingPlaceHolder) {
+      if (!sections.some((section) => section.title === clickedButtonTitle)) {
+        setSections([...sections, matchingPlaceHolder]);
+      }
+    }
+  };
+
+  const deleteSection = (titleToDelete: string) => {
+    const updatedSections = sections.filter((section) => section.id !== titleToDelete);
+    setSections(updatedSections);
+  };
+
+  const [modalStates, setModalStates] = useState<{ [key: string]: boolean }>({});
+
+  const onCloseModal = (modalToClose: string) => {
+    setModalStates((prevModalStates) => ({
+      ...prevModalStates,
+      [modalToClose]: false,
+    }));
+  };
+
+  /*
+
+  Uncomment you modal here to enable it to popUP on click. ONLY IF YOU ACCEPT ISOPEN AND ONCLOSE AS PROPS!!!
+  
+  PROP TYPE
+  type aboutModalProps = {
+  onClose: () => void;
+  isOpen: boolean;
+  };
+
+  const WorkExperienceSection: React.FC<WorkExperienceModalProps> = ({ isOpen, onClose }) => {}
+
+  */
+
+  const modals: any[] = [
+    // {
+    //   id: 'about',
+    //   modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => onCloseModal('about')} />,
+    // },
+    // {
+    //   id: 'workexperience',
+    //   modal: (
+    //     <WorkExperienceSection isOpen={modalStates['workexperience']} onClose={() => onCloseModal('workexperience')} />
+    //   ),
+    // },
+    // { id: 'skill', modal: <SkillModal isOpen={modalStates['skill']} onClose={() => onCloseModal('skill')} /> },
+    // {
+    //   id: 'project',
+    //   modal: <ProjectModal isOpen={modalStates['project']} onClose={() => onCloseModal('project')} />,
+    // },
+    // {
+    //   id: 'shop',
+    //   modal: <EducationSection isOpen={modalStates['shop']} onClose={() => onCloseModal('shop')} />,
+    // },
+    // {
+    //   id: 'contact',
+    //   modal: <ContactModal isOpen={modalStates['contact']} onClose={() => onCloseModal('contact')} />,
+    // },
+  ];
+
+  const editSection = (modalToOpen: string) => {
+    const updatedModalStates = { ...modalStates };
+    updatedModalStates[modalToOpen] = true;
+    setModalStates(updatedModalStates);
+  };
+
+  return (
+    <>
+      {modals?.map((modalItem) => {
+        const { id, modal } = modalItem;
+        return <React.Fragment key={id}>{modalStates[id] && modal}</React.Fragment>;
+      })}
+
+      <>
+        <div className="w-full flex flex-wrap gap-5 mb-5 mt-14">
+          {btns.map((btn) => (
+            <button
+              onClick={() => addSection(btn.title)}
+              className="border-[1px] border-gray-100 py-1 px-3"
+              key={btn.id}
+            >
+              {btn.title}
+            </button>
+          ))}
+        </div>
+
+        <div className="w-full flex flex-col justify-start items-start gap-12">
+          {sections?.map((section) => (
+            <React.Fragment key={section.id}>
+              <Wrapper
+                id={section.id}
+                title={section.title}
+                edit={() => editSection(section.id)}
+                remove={() => deleteSection(section.id)}
+              >
+                {section.content}
+              </Wrapper>
+              <Line />
+            </React.Fragment>
+          ))}
+        </div>
+      </>
+    </>
+  );
+};
+
+export default LandingPageFilled;
 
 type WrapperProps = {
   id: string;
@@ -201,81 +332,6 @@ const Line = () => {
   return <hr className="-mt-2 mb-3 w-full border-gray-200 opacity-10" />;
 };
 
-const LandingPageFilled: React.FC = () => {
-  const [sections, setSections] = useState<Array<any>>([]);
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
-  const btns = [
-    { id: 1, title: 'About' },
-    { id: 2, title: 'Work Experience' },
-    { id: 3, title: 'Project' },
-    { id: 4, title: 'Education' },
-    { id: 5, title: 'Skill' },
-    { id: 6, title: 'Shop' },
-    { id: 7, title: 'Contact' },
-  ];
-
-  const addSection = (clickedButtonTitle: string) => {
-    const matchingPlaceHolder = placeHolders.find((placeHolder) => {
-      return placeHolder.title === clickedButtonTitle;
-    });
-
-    if (matchingPlaceHolder) {
-      if (!sections.some((section) => section.title === clickedButtonTitle)) {
-        setSections([...sections, matchingPlaceHolder]);
-      }
-    }
-  };
-
-  const deleteSection = (titleToDelete: string) => {
-    const updatedSections = sections.filter((section) => section.id !== titleToDelete);
-    setSections(updatedSections);
-  };
-
-  const edit = (sectionTodelete: any) => {
-    onOpen();
-  };
-
-  return (
-    <>
-      {isOpen && (
-        <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl"></Modal>
-      )}
-
-      <div className="mx-auto w-[min(90vw,1200px)] mt-[200px]">
-        <div className="w-full flex flex-wrap gap-5 mb-5">
-          {btns.map((btn) => (
-            <button
-              onClick={() => addSection(btn.title)}
-              className="border-[1px] border-gray-100 py-1 px-3"
-              key={btn.id}
-            >
-              {btn.title}
-            </button>
-          ))}
-        </div>
-
-        <div className="w-full flex flex-col justify-start items-start gap-12">
-          {sections?.map((section) => (
-            <React.Fragment key={section.id}>
-              <Wrapper
-                id={section.id}
-                title={section.title}
-                edit={() => edit(section.id)}
-                remove={() => deleteSection(section.id)}
-              >
-                {section.content}
-              </Wrapper>
-              <Line />
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default LandingPageFilled;
-
 const placeHolders = [
   {
     id: 'about',
@@ -293,7 +349,7 @@ court. I also nurture my creativity through music, language learning, and explor
     ),
   },
   {
-    id: 'workEexperience',
+    id: 'workexperience',
     title: 'Work Experience',
     content: (
       <>
