@@ -18,7 +18,7 @@ export default function CartItem({
 }: CartItemProps & {removeHandler: (productId: string) => void}) {
   const [modalClosed, setModalClosed] = useState('hidden');
   const removeItem = () => {
-    setModalClosed('block');
+    setModalClosed('block transition delay-700 duration-300 ease-in-out');
   };
 
   const closeModal = () => {
@@ -30,7 +30,7 @@ export default function CartItem({
   return (
     <>
       <div className={modalClosed}>
-        <RemoveCart productid={productId} closeModal={closeModal} onRemoveItem={removeHandler} />
+        <RemoveCart productId={productId} closeModal={closeModal} onRemoveItem={removeHandler} />
       </div>
       <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5">
         <div className="">
@@ -38,7 +38,7 @@ export default function CartItem({
         </div>
         <div className="flex flex-col md:w-2/4">
           <h3 className="text-2xl font-manropeEB">{productTitle}</h3>
-          <p className="text-[#6c7983] lg:w-[350px] lg:mt-4 leading-6 font-manropeL">
+          <p className="text-[#6c7983] lg:w-[350px] md:mt-4 leading-6 font-manropeL">
             Size: {productSize}, Color: {productColor}, Material: Plastic Seller: {productSeller}
           </p>
           <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">${productPrice}</p>

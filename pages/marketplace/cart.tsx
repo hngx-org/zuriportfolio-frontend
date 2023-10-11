@@ -1,4 +1,5 @@
-import React, { MouseEvent, useState } from 'react';
+
+import React, { MouseEvent, useState,useEffect } from 'react';
 import MainLayout from '../../components/Layout/MainLayout';
 import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard';
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
@@ -7,6 +8,7 @@ import { CartItemProps, ViewedProductCardProps } from '../../@types';
 
 export default function Cart() {
 
+  const [isLoading,setIsLoading] = useState(true)
   const ViewedProducts: ViewedProductCardProps[] = [
     {
       id: "1",
@@ -56,7 +58,7 @@ export default function Cart() {
     {
       productId: "2",
       productImage: "/assets/images/image-zuri-2.png",
-      productTitle: "Moodring: Cute Shop",
+      productTitle: "Jelly Bean: Fun Shop",
       productSize: "medium",
       productColor: "blue",
       productSeller: "Artel Market",
@@ -65,7 +67,7 @@ export default function Cart() {
     {
       productId: "3",
       productImage: "/assets/images/image-zuri-3.png",
-      productTitle: "Moodring: Cute Shop",
+      productTitle: "Webinar and Course",
       productSize: "medium",
       productColor: "blue",
       productSeller: "Artel Market",
@@ -73,7 +75,7 @@ export default function Cart() {
     },{
       productId: "4",
       productImage: "/assets/images/image-zuri-4.png",
-      productTitle: "Moodring: Cute Shop",
+      productTitle: "4in1 Big Bundle",
       productSize: "medium",
       productColor: "blue",
       productSeller: "Artel Market",
@@ -82,7 +84,7 @@ export default function Cart() {
     {
       productId: "5",
       productImage: "/assets/images/image-zuri-5.png",
-      productTitle: "Moodring: Cute Shop",
+      productTitle: "Square Space 7.1",
       productSize: "medium",
       productColor: "blue",
       productSeller: "Artel Market",
@@ -91,7 +93,7 @@ export default function Cart() {
     {
       productId: "6",
       productImage: "/assets/images/image-zuri-6.png",
-      productTitle: "Moodring: Cute Shop",
+      productTitle: "Digital illustration",
       productSize: "medium",
       productColor: "blue",
       productSeller: "Artel Market",
@@ -99,20 +101,20 @@ export default function Cart() {
     }
   ]
 
+  useEffect(() => {setIsLoading(false);console.log('loaded');
+  },[])
+
   const [productCards,setProductCards] = useState(ViewedProducts);
   const [cartItems,setCartItems] = useState(CartProducts);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
-    
     let id = event.currentTarget.id
     let recentlyViewedProducts = productCards.filter((product) => product.id != id)
     setProductCards(recentlyViewedProducts)
   }
 
 
-  function removeProductHandler(productId: string) {
-    // let productId = event.currentTarget.id;
-    console.log(productId)
+  function removeProductHandler(productId: string) {    
     let cartProductsItems = cartItems.filter((product) => (product.productId != productId))
     setCartItems(cartProductsItems);
   }
@@ -147,11 +149,12 @@ export default function Cart() {
 
   
   return (
+
     <MainLayout activePage="home" showDashboardSidebar={false} showTopbar>
       <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
-        <section className="w-full mt-[3%] flex flex-col md:flex-col lg:flex-row lg:gap-5 ">
+        <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
           <div className="w-full flex flex-col justify-center md:w-full lg:w-4/5 ">
-            <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length})</h1>
+            <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
             {cartProductItems}
            
           </div>
@@ -171,5 +174,6 @@ export default function Cart() {
         </section>
       </main>
     </MainLayout>
+  
   );
 }
