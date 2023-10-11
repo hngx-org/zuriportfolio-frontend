@@ -115,7 +115,9 @@ function Home() {
         <div className=" bg-white-100 p-3 py-5 rounded-lg">
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
-              <p className="text-4xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold leading-10">Add a section</p>
+              <p className="text-4xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold leading-10">
+                Add a section
+              </p>
               <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
             </div>
           </div>
@@ -126,7 +128,7 @@ function Home() {
                 !isSectionSelected(section.title) && (
                   <div
                     key={index}
-                    className="bg-[#F4FBF6] p-4 rounded-lg cursor-pointer hover:border-2 hover:border-green-500"
+                    className="bg-[#F4FBF6] p-4 rounded-lg cursor-pointer hover:border-2 hover:border-green-500 border-2 border-transparent"
                     onClick={() => handleSectionClick(section.title)}
                   >
                     <div className="flex gap-2 items-center text-green-500">
@@ -189,6 +191,13 @@ function Home() {
             </div>
           </div>
         ))}
+        <Button
+          onClick={onOpen}
+          className="p-2 ml-6 mt-4 bg-[#ffffff] hover:text-[#ffffff] rounded-lg shadow-md flex items-center cursor-pointer border border-green-500 text-[#009254] "
+        >
+          <Add size="16" className="hover:text-[#ffffff] text-[#009254]" />
+          Add section
+        </Button>
       </div>
 
       {/* Edit Modal */}
@@ -227,13 +236,6 @@ function Home() {
           <p className="font-semibold">Placeholder for Custom Section</p>
         </div>
       </Modal>
-      <Button
-        onClick={onOpen}
-        className="p-2 ml-6 mt-4 bg-[#ffffff] hover:text-[#ffffff] rounded-lg shadow-md flex items-center cursor-pointer border border-green-500 text-[#009254] "
-      >
-        <Add size="16" className="hover:text-[#ffffff] text-[#009254]" />
-        Add section
-      </Button>
     </>
   );
 }

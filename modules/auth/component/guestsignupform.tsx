@@ -176,6 +176,7 @@ const FormField: React.FC<FormFieldProps> = ({ label, placeholder, id, type }) =
       </label>
       <Input
         placeHolder={placeholder}
+        required
         id={id}
         name={id}
         className="w-full font-bold rounded-lg text-base bg-transparent"
@@ -211,6 +212,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
       </label>
       <Input
         placeHolder={placeholder}
+        required
         id={id}
         name={id}
         className="w-full font-bold rounded-lg text-base	"

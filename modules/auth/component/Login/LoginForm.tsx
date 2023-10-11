@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -7,9 +7,30 @@ import github from '../../../../public/assets/loginPageAssets/github.svg';
 import facebook from '../../../../public/assets/loginPageAssets/facebook.svg';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
-import { Eye } from 'iconsax-react';
+import { Eye, EyeSlash } from 'iconsax-react';
+
+import InputError from '../InputError';
+import useInputError from '../../../../hooks/useInputError';
+import { loginUser } from '../../../../http';
+import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
+import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
+import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
+import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 
 function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isPasswordShown, setIsPassowordShwon] = useState(false);
+  const { handleSubmit, inputErrors } = useInputError();
+  const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data) });
+
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (email.length !== 0 && password.length !== 0) {
+      loginFn.mutate({ email: email as string, password: password as string });
+    }
+  };
+
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
       <div className="md:mx-auto lg:mb-10 font-manropeL">
@@ -21,7 +42,7 @@ function LoginForm() {
         </div>
 
         <div className="pt-[2.25rem]">
-          <form>
+          <form onSubmit={handleLogin}>
             <div>
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
@@ -32,7 +53,11 @@ function LoginForm() {
                 name="email"
                 className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
                 type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
+              <InputError inputError={inputErrors} inputName="email" />
             </div>
             <div className="mt-[1rem]">
               <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
@@ -43,9 +68,19 @@ function LoginForm() {
                 id="password"
                 name="password"
                 className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
-                type="password"
-                rightIcon={<Eye />}
+                type={isPasswordShown ? 'text' : 'password'}
+                rightIcon={
+                  isPasswordShown ? (
+                    <Eye className="cursor-pointer" onClick={() => setIsPassowordShwon(false)} />
+                  ) : (
+                    <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
+                  )
+                }
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
+              <InputError inputError={inputErrors} inputName="password" />
             </div>
 
             <Link href="/auth/forgot-password">
@@ -55,7 +90,8 @@ function LoginForm() {
             </Link>
 
             <Button
-              href="/auth/2fa"
+              // href="/auth/2fa"
+              isLoading={loginFn.isLoading}
               intent={'primary'}
               type="submit"
               size={'md'}
@@ -79,27 +115,9 @@ function LoginForm() {
             <div className="w-1/2 h-[0.0625rem] bg-white-650 "></div>
           </div>
           <div className="mt-[1.6rem] flex flex-col gap-[1rem] relative">
-            <Button
-              intent={'secondary'}
-              className="flex justify-center items-center gap-2.5 pr-[3rem] py-2  text-custom-color20  w-full h-14 rounded-[0.3125rem] border border-custom-color21"
-              leftIcon={<Image src={google} alt="Google" className="mr-[0.62rem]" />}
-            >
-              Contunue with Google
-            </Button>
-            <Button
-              intent={'secondary'}
-              className="flex justify-center items-center gap-2.5 pr-[3.625rem]  py-2 pl-6 text-custom-color20  w-full h-14 rounded-[0.3125rem] border  border-custom-color21"
-              leftIcon={<Image src={github} alt="Google" className="mr-[0.62rem]" />}
-            >
-              Continue with Github
-            </Button>
-            <Button
-              intent={'secondary'}
-              className="flex justify-center items-center gap-2.5 pr-[2.625rem]  py-2 pl-6 text-custom-color20  w-full h-14 rounded-[0.3125rem] border  border-custom-color21"
-              leftIcon={<Image src={facebook} alt="Google" className="mr-[0.62rem]" />}
-            >
-              Continue with Facebook
-            </Button>
+            <SignUpWithGoogle />
+            <SignUpWithGithub />
+            <SignUpWithFacebook />
           </div>
         </div>
       </div>
