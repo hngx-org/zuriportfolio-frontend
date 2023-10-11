@@ -1,12 +1,12 @@
-import React from 'react'
-import History from '@modules/assessment/component/History'
+import React from 'react';
+import History from '@modules/assessment/component/History';
 
 const Assessmenthistory = () => {
   return (
     <div>
-        <History />
+      <History />
     </div>
-  )
-}
+  );
+};
 
-export default Assessmenthistory
+export default Assessmenthistory;
