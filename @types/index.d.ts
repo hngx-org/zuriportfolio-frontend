@@ -511,3 +511,7 @@ export interface CardData {
   badge: string;
   location: string;
 }
+
+export interface AuthContextProps {
+  [key]: any;
+}

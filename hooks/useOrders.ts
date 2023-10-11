@@ -96,7 +96,7 @@ const useOrders = (initialOrders = dummyOrders) => {
     if (filter !== 'all') {
       filteredOrders = initialOrders.filter((order) => order.status === filter);
     }
-    console.log(filteredOrders);
+
     setOrders(filteredOrders);
     // Change sort to default
     if (shouldChangeSort) {
