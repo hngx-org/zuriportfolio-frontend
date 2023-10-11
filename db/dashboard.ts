@@ -12,7 +12,7 @@ export const metricsCardData = [
     value: 14,
   },
   {
-    title: "Today's revenue",
+    title: 'Average order value',
     percentage: -2,
     isCurrency: true,
     value: 91.42,

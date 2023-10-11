@@ -1,9 +1,18 @@
 import { activityData, metricsCardData, metricsChartData } from '../../../../db/dashboard';
+import { useQuery } from '@tanstack/react-query';
 import { MetricCard } from './card';
 import { MetricChart } from './charts';
 import { ActivityCard } from './sidebar';
+import { fetchSalesReports } from '../../../../lib/dashboard/requests';
 
 const ShopOwnerDashboard = () => {
+  const { reports, isFetched, isFetching } = useQuery({
+    queryFn: () => fetchSalesReports(),
+    queryKey: ['sales-reports'],
+    enabled: true,
+  });
+  console.log(reports);
+
   return (
     <div className="grid grid-cols-1 pb-[50px] gap-x-6 space-y-6 md:pb-[50px] lg:grid-cols-4 lg:space-y-0 pt-5 lg:pt-0 font-manropeL">
       {/* Main */}
