@@ -213,7 +213,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     <Input
                       type="text"
                       intent={'default'}
-                      placeHolder="Enter field of study"
+                      placeHolder="Add more details"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full border-white-120"
