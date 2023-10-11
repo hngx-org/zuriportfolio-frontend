@@ -1,8 +1,5 @@
-import Image from 'next/image';
 import React from 'react';
 import ScoreDropdown from './component/scoreDropdown';
-import Header from './component/Header';
-import Link from 'next/link';
 
 const ScoringScreen = () => {
   const arr = ['Beginner', 'Intermediate', 'Expert'];
@@ -23,7 +20,7 @@ const ScoringScreen = () => {
                   type="radio"
                   name="badge-option"
                   id="on-completion"
-                  value="on-completion"
+                  value="Later, Upon course completion"
                   className="sm:w-5 sm:h-5"
                 />
                 <label htmlFor="on-completion" className="text-gray-500 text-sm">
@@ -35,7 +32,7 @@ const ScoringScreen = () => {
                   type="radio"
                   name="badge-option"
                   id="average-performance"
-                  value="average-performance"
+                  value="Instantly based on the students assessment performance"
                   className="sm:w-5 sm:h-5"
                 />
                 <label htmlFor="average-performance" className="text-gray-500 text-sm">
