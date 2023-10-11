@@ -3,7 +3,7 @@ import Image from 'next/image';
 import SignUpWithSocialsButton from './SignUpWithSocialsButton';
 import facebookLogo from '../../../../public/assets/images/logo/facebook-logo.svg';
 
-const SignUpWithfacebook = () => {
+const SignUpWithFacebook = () => {
   return (
     <SignUpWithSocialsButton leftIcon={<Image src={facebookLogo} alt="Google logo" className="w-5 h-5" />}>
       Continue with Facebook
@@ -11,4 +11,4 @@ const SignUpWithfacebook = () => {
   );
 };
 
-export default SignUpWithfacebook;
+export default SignUpWithFacebook;
