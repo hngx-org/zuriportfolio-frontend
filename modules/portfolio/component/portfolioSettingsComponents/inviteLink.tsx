@@ -25,8 +25,8 @@ export default function InviteLink() {
     setOPenModal((prev: boolean) => !prev);
   };
   return (
-    <div className={`  space-y-4 font-manropeEB container mx-auto  `}>
-      <p className="  text-dark-110 text-sm md:text-[22px]">Invite your friends! </p>
+    <div className={`  space-y-4 font-manropeB container mx-auto  `}>
+      <p className="  text-dark-110  font-manropeB text-sm md:text-[22px]">Invite your friends! </p>
       <p className="text-white-650 leading-[20px]  font-manropeL  text-sm">
         Use your referral link to help us grow the community and get rewards.{' '}
       </p>
@@ -35,8 +35,9 @@ export default function InviteLink() {
           type="text"
           id="invite"
           ref={copyInvite}
-          className=" shrink appearance-none font-manropeL
-           outline-none px-[8px] border-[1px] leading-6 grow max-w-[232px] md:max-w-[268px] height-[24px] border-[#D0D5DD]
+          className="  appearance-none font-manropeL
+           outline-none px-[8px] border-[1px] leading-6 grow max-w-[232px]
+            md:max-w-[268px] height-[24px] border-[#D0D5DD]
              lg:px-[12px] py-[10px] text-[16px]  rounded-l-md text-[#667085]"
           value="portfolio.zuri/invite?=pleroma"
           readOnly
