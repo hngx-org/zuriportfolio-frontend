@@ -70,76 +70,78 @@ const Guestsignupform: React.FC = () => {
 
   return (
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
-      <div className="text-center lg:text-left">
-        <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] leading-[44px] font-semibold text-dark-100">
-          Finish setting up your account
-        </h1>
-        <p className="md:text-[22px] text-[#6b797f] leading-7">Femiadesina@gmail.com</p>
-      </div>
-      <div className="mt-6 md:mt-12">
-        <form className="flex flex-col" onSubmit={handleSubmit}>
-          <FormField
-            label="First name"
-            placeholder="Enter first name"
-            id="firstName"
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            error={formErrors.firstName}
-          />
-          <FormField
-            label="Last name"
-            placeholder="Enter last name"
-            id="lastName"
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            error={formErrors.lastName}
-          />
-          <PasswordField
-            label="Password"
-            placeholder="Enter password"
-            id="password"
-            passwordVisible={passwordVisible}
-            togglePasswordVisibility={togglePasswordVisibility}
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            error={formErrors.password}
-          />
-          <PasswordField
-            label="Confirm password"
-            placeholder="Enter confirm password"
-            id="confirmPassword"
-            passwordVisible={confirmPasswordVisible}
-            togglePasswordVisibility={toggleConfirmPasswordVisibility}
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            error={formErrors.confirmPassword}
-          />
-          <div className="flex items-center leading-[27.04px] my-4 mb-8 h-5">
-            <Checkbox
-              label="I agree with Zuri stores"
-              name="agreed"
-              checked={formData.agreed}
+      <div className="lg:pb-16">
+        <div className="text-center lg:text-left">
+          <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] leading-[44px] font-semibold text-dark-100">
+            Finish setting up your account
+          </h1>
+          <p className="md:text-[22px] text-[#6b797f] leading-7">Femiadesina@gmail.com</p>
+        </div>
+        <div className="mt-6 md:mt-12">
+          <form className="flex flex-col" onSubmit={handleSubmit}>
+            <FormField
+              label="First name"
+              placeholder="Enter first name"
+              id="firstName"
+              type="text"
+              name="firstName"
+              value={formData.firstName}
               onChange={handleChange}
-              error={formErrors.agreed}
+              error={formErrors.firstName}
             />
+            <FormField
+              label="Last name"
+              placeholder="Enter last name"
+              id="lastName"
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              error={formErrors.lastName}
+            />
+            <PasswordField
+              label="Password"
+              placeholder="Enter password"
+              id="password"
+              passwordVisible={passwordVisible}
+              togglePasswordVisibility={togglePasswordVisibility}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              error={formErrors.password}
+            />
+            <PasswordField
+              label="Confirm password"
+              placeholder="Enter confirm password"
+              id="confirmPassword"
+              passwordVisible={confirmPasswordVisible}
+              togglePasswordVisibility={toggleConfirmPasswordVisibility}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              error={formErrors.confirmPassword}
+            />
+            <div className="flex items-center leading-[27.04px] my-4 mb-8 h-5">
+              <Checkbox
+                label="I agree with Zuri stores"
+                name="agreed"
+                checked={formData.agreed}
+                onChange={handleChange}
+                error={formErrors.agreed}
+              />
+            </div>
+            {/* <Link href="/auth/verification"> */}
+            <SubmitButton label="Continue" />
+            {/* </Link> */}
+          </form>
+          <div className="mt-7">
+            <p className="text-center text-gray-200 text-base">
+              Already have an account?{' '}
+              <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
+                Sign in
+              </Link>
+            </p>
           </div>
-          {/* <Link href="/auth/verification"> */}
-          <SubmitButton label="Continue" />
-          {/* </Link> */}
-        </form>
-        <div className="mt-7">
-          <p className="text-center text-gray-200 text-base">
-            Already have an account?{' '}
-            <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
-              Sign in
-            </Link>
-          </p>
         </div>
       </div>
     </AuthLayout>
