@@ -1,4 +1,4 @@
-import { MutationFunction, useMutation, UseQueryOptions, useQuery, QueryKey } from '@tanstack/react-query';
+import { UseQueryOptions, useQuery, QueryKey } from '@tanstack/react-query';
 
 /**
  * @template TQueryFnData - shape of the data returned from endpoint
@@ -8,7 +8,6 @@ import { MutationFunction, useMutation, UseQueryOptions, useQuery, QueryKey } fr
  *
  * @param {TQueryKey} querykey - the query key
  * @param {Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'initialData'> & { initialData?: () => undefined; }} options - the options for the query
- * @returns {UseQueryResult<TData, TError>} - the result of the query
  */
 
 const useAuthQuery = <
