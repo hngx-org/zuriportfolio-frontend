@@ -44,7 +44,7 @@ function SignUpWithEmail() {
               className={`w-full border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                 form.errors.email ? 'border-red-200' : 'border-slate-50'
               }`}
-              type="email"
+              type="text"
             />
             <p className="text-[red] text-xs">{form.errors.email && form.errors.email}</p>
           </div>
