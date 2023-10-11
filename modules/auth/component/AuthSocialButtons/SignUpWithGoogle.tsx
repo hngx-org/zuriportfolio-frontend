@@ -1,8 +1,7 @@
-import React from 'react'
+import React from 'react';
 import Image from 'next/image';
 import SignUpWithSocialsButton from './SignUpWithSocialsButton';
 import googleLogo from '../../../../public/assets/images/logo/google-logo.svg';
-
 
 const SignUpWithGoogle = () => {
   return (
@@ -11,6 +10,6 @@ const SignUpWithGoogle = () => {
       Continue with Google
     </SignUpWithSocialsButton>
   );
-}
+};
 
-export default SignUpWithGoogle
+export default SignUpWithGoogle;
