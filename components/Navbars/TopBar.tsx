@@ -146,8 +146,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
                   bg-opacity-0 hover:cursor-pointer "
                   >
-                    <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
-                    <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
+                    <option className="hover:cursor-pointer bg-white-100">Explore</option>
+                    <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
                   </select>
                   <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                     <div className="w-6 h-6  ">
@@ -349,8 +349,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
                   bg-opacity-0 hover:cursor-pointer  "
                     >
-                      <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
-                      <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
+                      <option className="hover:cursor-pointer bg-white-100 ">Explore</option>
+                      <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
                     </select>
                     <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                       <div className="w-6 h-6  ">
