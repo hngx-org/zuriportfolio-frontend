@@ -12,7 +12,7 @@ export const getUserByName = async (props: { name: string }) => {
   }
 };
 
-export const loginUser = async (props: {email: string; password: string}) => {
+export const loginUser = async (props: { email: string; password: string }) => {
   const $http = axios.create({
     baseURL: 'https://reqres.in/',
     timeout: 30000,
@@ -28,7 +28,7 @@ export const loginUser = async (props: {email: string; password: string}) => {
     console.log(e);
     return e.response.data ?? { message: e.message };
   }
-}
+};
 
 // export const loginUser = async () => {
 //   const $http = axios.create({
@@ -49,4 +49,3 @@ export const loginUser = async (props: {email: string; password: string}) => {
 //     return e.response.data ?? { message: e.message };
 //   }
 // }
-
