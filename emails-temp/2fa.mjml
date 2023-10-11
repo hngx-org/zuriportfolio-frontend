@@ -67,9 +67,7 @@
         <mj-column width="100%">
           <mj-text line-height="25px">
             If you have any issues with this code, please contact support at
-            <mj-text>
-                support@zuriportfolio.com
-            </mj-text>
+            <a href="mailto:zurisupport@gmail.com" style="font-weight: bold; color: #009254">zurisupport@gmail.com</a>.
           </mj-text>
         </mj-column>
 
