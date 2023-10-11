@@ -19,7 +19,7 @@ import { FavoriteProduct } from '../../@types';
 import { CloseCircle, ArrowRight2 } from 'iconsax-react';
 import { useState, useEffect } from 'react';
 
-import CategoriesNav from './component/CategoriesNav/CategoriesNav';
+import CategoriesDetailsNav from './component/CategoriesNav/CategoriesDetailNav';
 
 import Button from '@ui/Button';
 import Image from 'next/image';
@@ -28,6 +28,8 @@ import { WishlistProductCard } from './component/WishlistProductCard';
 import { FavoriteproductCard } from './component/FavoriteProductCard';
 
 import MainLayout from '../../components/Layout/MainLayout';
+
+import Container from '@modules/auth/component/Container/Container';
 
 function Wishlist() {
   const [showEmptyWishlistModal, setShowEmptyWishlistModal] = useState(false);
@@ -58,8 +60,6 @@ function Wishlist() {
     <>
       {showEmptyWishlistModal && (
         <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
-          {/* close button */}
-
           <div className="absolute top-0 right-0 mr-5 mt-5">
             <Button
               leftIcon={<CloseCircle color="#06C270" />}
@@ -85,25 +85,19 @@ function Wishlist() {
         </div>
       )}
       <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-        <main className="w-full mx-auto">
-          <CategoriesNav
-            navItems={[
-              ' Design & Graphics',
-              ' Development & Programming',
-              ' Content Creation',
-              ' Digital Arts & Media',
-              ' Audio & Sound',
-              ' Photography',
-              'Writing & Copywriting',
-              'Video & motion',
-              'Data & Analytics',
-              'Marketing & Advertising',
-              'eCommerce & Business',
-              'Gaming & Entertainment',
-              'Virtual Reality & Augmented Reality',
-              'e-Books',
-            ]}
-          />
+        <CategoriesDetailsNav
+          navItems={[
+            'Wish-list',
+            ' UI/UX Designers',
+            'Software Devs',
+            'Video Editors',
+            'Content Creators',
+            'Writers',
+            'SEO Expert',
+            'Devops Engi...',
+          ]}
+        />
+        <Container>
           <div className="font-manropeL max-w-[1240px] mx-auto my-8 pt-2">
             <section className="px-3 xl:px-0 flex flex-col gap-6 my-4">
               <div className="flex justify-between items-center">
@@ -141,7 +135,7 @@ function Wishlist() {
               </div>
             </section>
           </div>
-        </main>
+        </Container>
       </MainLayout>
     </>
   );
