@@ -1,14 +1,12 @@
 import Image from 'next/image';
 import Button from '@ui/Button';
+import useDisclosure from '../../../../hooks/useDisclosure';
+import { useContext } from 'react';
+import Portfolio from '../../../../context/PortfolioLandingContext';
 
-type CoverProps = {
-  avatarImage: string;
-  profileUpdate: () => void;
-  hasData: boolean;
-  handleUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+const Cover = () => {
+  const { handleUploadCover, profileUpdate, hasData, avatarImage } = useContext(Portfolio);
 
-const Cover = ({ avatarImage, profileUpdate, hasData, handleUpload }: CoverProps) => {
   return (
     <div className="relative h-full flex flex-col items-end justify-between py-5 md:py-10 -mt-[40px] lg:-mt-[35px]">
       {hasData ? (
@@ -21,10 +19,7 @@ const Cover = ({ avatarImage, profileUpdate, hasData, handleUpload }: CoverProps
           className="absolute w-[120px] md:w-[170px] object-fill object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full bg-gray-400 bg-opacity-60 border-2 border-brand-green-primary"
         />
       ) : (
-        <div
-          onClick={profileUpdate}
-          className="grid place-content-center absolute w-[120px] md:w-[170px] object-fill object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full bg-emerald-50"
-        >
+        <div className="grid place-content-center absolute w-[120px] md:w-[170px] object-fill object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full bg-emerald-50">
           <svg width="57" height="56" viewBox="0 0 57 56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M28.4189 25.3637C28.1855 25.3403 27.9055 25.3403 27.6489 25.3637C22.0955 25.177 17.6855 20.627 17.6855 15.027C17.6855 9.31033 22.3055 4.66699 28.0455 4.66699C33.7622 4.66699 38.4055 9.31033 38.4055 15.027C38.3822 20.627 33.9722 25.177 28.4189 25.3637Z"
@@ -42,7 +37,10 @@ const Cover = ({ avatarImage, profileUpdate, hasData, handleUpload }: CoverProps
             />
           </svg>
 
-          <label className="absolute md:bottom-4 bottom-1 -right-2 w-[33%] md:w-[30%] bg-brand-green-primary aspect-square rounded-full grid place-content-center cursor-pointer">
+          <label
+            className="absolute md:bottom-4 bottom-1 -right-2 w-[33%] md:w-[30%] bg-brand-green-primary aspect-square rounded-full grid place-content-center cursor-pointer"
+            onClick={() => profileUpdate()}
+          >
             <svg
               className="w-[30px] md:w-[25px] md:h-25px h-[30px]"
               viewBox="0 0 25 25"
@@ -103,7 +101,13 @@ const Cover = ({ avatarImage, profileUpdate, hasData, handleUpload }: CoverProps
           />
         </svg>
       </label>
-      <input id="coverUpload" type="file" onChange={handleUpload} className="hidden" accept="image/png, image/jpeg" />
+      <input
+        id="coverUpload"
+        type="file"
+        onChange={(e) => handleUploadCover(e)}
+        className="hidden"
+        accept="image/png, image/jpeg"
+      />
       {hasData && <Button className="rounded-lg">Take Assesment</Button>}
     </div>
   );
