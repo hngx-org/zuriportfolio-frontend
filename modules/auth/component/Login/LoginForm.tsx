@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -11,10 +11,23 @@ import { Eye, EyeSlash } from 'iconsax-react';
 
 import InputError from '../InputError';
 import useInputError from '../../../../hooks/useInputError';
+import { loginUser } from '../../../../http';
+import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 
 function LoginForm() {
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
   const { handleSubmit, inputErrors } = useInputError();
+  const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data)});
+
+  const handleLogin = (e:FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    if(email && password) {
+      loginFn.mutate({email: email as string, password: password as string});
+    }
+  }
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
@@ -27,7 +40,7 @@ function LoginForm() {
         </div>
 
         <div className="pt-[2.25rem]">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLogin}>
             <div>
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
@@ -71,7 +84,8 @@ function LoginForm() {
             </Link>
 
             <Button
-              href="/auth/2fa"
+              // href="/auth/2fa"
+              isLoading={loginFn.isLoading}
               intent={'primary'}
               type="submit"
               size={'md'}
