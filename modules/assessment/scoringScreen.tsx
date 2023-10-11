@@ -43,7 +43,7 @@ const ScoringScreen = () => {
           </div>
 
           {/* Grading System */}
-          <div className="w-full rounded-tr-2xl rounded-tl-2xl overflow-hidden h-[412px] sm:w-[604px] border border-[#DFE3E6] border-solid">
+          <div className="w-full rounded-tr-2xl rounded-tl-2xl overflow-hidden min-h-[412px] sm:w-[604px] border border-[#DFE3E6] border-solid">
             <div className="w-full h-5 bg-[#BF8443]"></div>
             <div className="mt-5 mb-7 px-3 sm:px-14">
               <h3 className="text-2xl text-[#191C1E] font-manropeB mb-8">Grading System</h3>
