@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Button from '../../components/ui/Button';
-import Logic2FA from "../../modules/auth/Logic2FA"
+import Logic2FA from '../../modules/auth/Logic2FA';
 
 function Code2FAUI() {
   const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange } = Logic2FA();
@@ -37,7 +37,9 @@ function Code2FAUI() {
         <Button
           className={`w-full md:w-10/12 lg:w-11/12 m-auto md:m-0 h-14
           lg:self-start rounded-lg text-base
-          ${digits.some((digit) => !digit) ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900' : ''}`}
+          ${
+            digits.some((digit) => !digit) ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900' : ''
+          }`}
         >
           Continue
         </Button>

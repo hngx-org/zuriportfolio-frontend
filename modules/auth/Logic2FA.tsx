@@ -4,27 +4,20 @@ type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the inpu
 
 function Code2FALogic() {
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
-  const inputRefs: InputRef[] = [
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-  ];
+  const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
 
   function handlePaste(e: React.ClipboardEvent<HTMLInputElement>, index: number) {
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text');
     const pastedDigits = pastedData.replace(/\D/g, ''); // Remove non-digits
 
-    if (digits.every(digit => !digit)) {
+    if (digits.every((digit) => !digit)) {
       // If all input fields are empty, distribute the pasted digits
       const newDigits = pastedDigits.split('').slice(0, 6);
       setDigits([...newDigits, ...new Array(6 - newDigits.length).fill('')]);
 
       // Find the next empty field and focus it
-      const nextEmptyFieldIndex = newDigits.findIndex(digit => !digit);
+      const nextEmptyFieldIndex = newDigits.findIndex((digit) => !digit);
       if (nextEmptyFieldIndex !== -1 && inputRefs[nextEmptyFieldIndex].current) {
         inputRefs[nextEmptyFieldIndex]?.current?.focus();
       }
@@ -81,4 +74,3 @@ function Code2FALogic() {
 }
 
 export default Code2FALogic;
-
