@@ -15,16 +15,15 @@ import { loginUser } from '../../../../http';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 
 function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
   const { handleSubmit, inputErrors } = useInputError();
   const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data)});
 
   const handleLogin = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
-    const password = formData.get("password");
-    if(email && password) {
+    if(email.length !== 0 && password.length !== 0) {
       loginFn.mutate({email: email as string, password: password as string});
     }
   }
@@ -52,6 +51,8 @@ function LoginForm() {
                 className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
                 type="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <InputError inputError={inputErrors} inputName="email" />
             </div>
@@ -73,6 +74,8 @@ function LoginForm() {
                   )
                 }
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <InputError inputError={inputErrors} inputName="password" />
             </div>
