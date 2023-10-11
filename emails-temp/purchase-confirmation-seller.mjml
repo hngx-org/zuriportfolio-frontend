@@ -22,7 +22,7 @@
       <mj-class name="sp-xl" height="24px" />
 
       /* MJML Attributes */
-      <mj-text font-family="Manrope,Open Sans, Roboto, Helvetica" padding="0"/>
+      <mj-text font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" padding="0"/>
       <!-- <mj-button background-color="#006853" color="#FFFFFF" font-size="12px" line-height="15px" font-weight="bold" border-radius="45px" inner-padding="18px" padding="0"/> -->
       <mj-image padding="0"/>
       <mj-divider border-color="#E1E3E2" width="100%" border-width="2px" padding="20px 0" />
@@ -32,7 +32,7 @@
     </mj-attributes>
     <mj-style inline>
       /* tablet */
-      @media screen and (max-width: 960px) {
+      @media (max-width: 960px) {
         .container > table > tbody > tr > td {
           padding: 84px 32px !important ;
         }
@@ -59,7 +59,7 @@
           background: linear-gradient(#E6F5EA 13.625rem, #F0F1F0 13.625rem) !important;
         }
       }
-      @media screen and (max-width: 600px) {
+      @media (max-width: 600px) {
         .hero .hero_img{
           margin: 8px 0 0 !important;
           position: static !important;
@@ -75,7 +75,7 @@
           text-align: center !important;
         }
       }
-      @media screen and (max-width: 500px) {
+      @media (max-width: 500px) {
         .body {
           padding-block: 0 !important;
         }
