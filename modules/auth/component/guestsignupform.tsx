@@ -50,6 +50,7 @@ const Guestsignupform: React.FC = () => {
 
   return (
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
+
       <div className="text-center lg:text-left">
         <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] leading-[44px] font-semibold text-dark-100">
           Finish setting up your account
