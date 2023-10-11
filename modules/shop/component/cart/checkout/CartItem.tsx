@@ -43,10 +43,14 @@ export default function CartItem({
           <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">${productPrice}</p>
         </div>
         <div className="md:mt-3 md:ml-auto md:flex md:items-center">
-          <button id={productId} onClick={removeItem} className="group relative h-12 w-[100px] h-[40px] overflow-hidden border border-[#d5dbdd] rounded-md cursor-pointer bg-white font-manropeB">
+          <button
+            id={productId}
+            onClick={removeItem}
+            className="group relative h-12 w-[100px] h-[40px] overflow-hidden border border-[#d5dbdd] rounded-md cursor-pointer bg-white font-manropeB"
+          >
             <div className="absolute inset-0 w-[0px] bg-brand-green-hover transition-all duration-[250ms] ease-out group-hover:w-full"></div>
             <div className="relative w-full flex items-center justify-center text-gray-300 group-hover:text-[#fff]">
-              <BiTrash /> 
+              <BiTrash />
               <span>Remove</span>
             </div>
           </button>

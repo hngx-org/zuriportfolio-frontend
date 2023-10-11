@@ -11,7 +11,7 @@ const Dashboard = () => {
     <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
       <div className="w-[100%] mb-[3rem]">
         <div className="w-full bg-brand-green-shade40">
-          <div className='2xl:max-w-[1240px] 2xl:mx-auto h-[3.5rem] grow md:h-[5.6rem] lg:h-[8rem] font-manropeL text-white-100 flex items-center justify-between pl-[1.5rem] md:pl-[2.5rem] lg:pl-[3rem] xl:pl-[5rem] 2xl:pl-0'>
+          <div className="2xl:max-w-[1240px] 2xl:mx-auto h-[3.5rem] grow md:h-[5.6rem] lg:h-[8rem] font-manropeL text-white-100 flex items-center justify-between pl-[1.5rem] md:pl-[2.5rem] lg:pl-[3rem] xl:pl-[5rem] 2xl:pl-0">
             <div className="md:w-[70%]">
               <h1 className="text-[.75rem] md:text-[1.25rem] mb-[.1rem] lg:text-[1.5rem] xl:text-[2rem] font-bold leading-1">
                 My Dashboard
