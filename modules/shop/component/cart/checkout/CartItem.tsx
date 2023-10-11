@@ -2,7 +2,7 @@
 import Button from '@ui/Button';
 import { CartItemProps } from '../../../../../@types';
 import Image from 'next/image';
-import { MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import RemoveCart from '../../../../../components/Modals/Removecart';
 import { BiTrash } from 'react-icons/bi';
 
@@ -17,22 +17,24 @@ export default function CartItem({
   removeHandler
 }: CartItemProps & {removeHandler: (productId: string) => void}) {
   const [modalClosed, setModalClosed] = useState('hidden');
+
+
   const removeItem = () => {
-    setModalClosed('block transition delay-700 duration-300 ease-in-out');
+    setModalClosed('block');
   };
 
   const closeModal = () => {
     setModalClosed('hidden');
+    
   };
-
 
 
   return (
     <>
-      <div className={modalClosed}>
+      <div className={modalClosed} >
         <RemoveCart productId={productId} closeModal={closeModal} onRemoveItem={removeHandler} />
       </div>
-      <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5">
+      <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5 cart-item">
         <div className="">
           <Image src={productImage} width={250} height={140} alt={productTitle}></Image>
         </div>

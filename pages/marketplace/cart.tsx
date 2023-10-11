@@ -1,10 +1,11 @@
 
-import React, { MouseEvent, useState,useEffect } from 'react';
+import React, { MouseEvent, useState,useEffect, ReactElement } from 'react';
 import MainLayout from '../../components/Layout/MainLayout';
 import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard';
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, ViewedProductCardProps } from '../../@types';
+
 
 export default function Cart() {
 
@@ -101,7 +102,10 @@ export default function Cart() {
     }
   ]
 
-  useEffect(() => {setIsLoading(false);console.log('loaded');
+
+  useEffect(() => {
+    setIsLoading(false);
+    console.log('loaded');
   },[])
 
   const [productCards,setProductCards] = useState(ViewedProducts);
