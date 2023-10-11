@@ -10,7 +10,6 @@ import PasswordPopover from '@modules/auth/component/PasswordPopover';
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-  const [popoverOpened, setPopoverOpened] = useState(false);
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -100,11 +99,7 @@ function Signup() {
             </div>
 
             {/* Password */}
-            <div
-              className="flex flex-col gap-2 mb-2"
-              onFocusCapture={() => setPopoverOpened(true)}
-              onBlurCapture={() => setPopoverOpened(false)}
-            >
+            <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="password" className="leading-[27.04px] font-semibold text-gray-700">
                 Password
               </label>
