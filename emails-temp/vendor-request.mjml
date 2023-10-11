@@ -1,26 +1,25 @@
 <mjml>
  <mj-head>
-    <!-- <mj-attributes>
-        <mj-class name="mjtext" padding-top="0" />
-    </mj-attributes> -->
+    <mj-title> Order Confirmation </mj-title>
+    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope" />
   </mj-head>
   <mj-body background-color="white">
     <mj-section>
       <mj-column width="100%">
         <!-- Header -->
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/logo.svg" alt="" width="200px" align="left" />
+        <mj-image src="assets/order/logo.svg" alt="" width="200px" align="left" />
 
         <!-- Main Content -->
-        <mj-text color="#000" padding-top="50px" font-weight="600" font-family="ManropeEB" font-size="22px">
+        <mj-text color="#000" padding-top="50px" font-weight="600" font-family="Manrope" font-size="22px">
        Order request
         </mj-text>
-        <mj-text font-size="16px" font-weight="400">
+        <mj-text font-size="16px" font-weight="400" font-family="Manrope">
              Hi Vendor,
         </mj-text>      
-         <mj-text font-size="16px" font-weight="400">
+         <mj-text font-size="16px" font-weight="400" font-family="Manrope">
             A client has placed an order on your website, click on the button below in order to confirm the client’s order.
         </mj-text>
-         <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px">
+         <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px" font-family="Manrope">
             Confirm request
         </mj-button>
         <mj-divider border-color="#F0F1F0" padding-top="20px" />
@@ -29,62 +28,149 @@
       <mj-section>
       <mj-group>
         <mj-column > 
-             <mj-text font-weight="700" font-family="ManropeB" font-size="16px" padding-top="2px" color="#000">
+             <mj-text font-weight="700" font-family="Manrope" font-size="16px" padding-top="2px" color="#000">
           Product Details:
         </mj-text>
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="400" font-family="ManropeEB" font-size="14px" padding-top="8px" color="#737876" align="right">Order #2424352345
+             <mj-text font-weight="400" font-family="Manrope" font-size="14px" padding-top="8px" color="#737876" align="right">Order #2424352345
              </mj-text>
         </mj-column>
     </mj-group>
      </mj-section>
      <mj-section>
-     <mj-group>
-        <mj-column>
-            <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product2.svg" alt="" width="90px" align="left"/>
-            <mj-raw>
-                <div></div>
-            </mj-raw>
-            <mj-text font-size="12px" color="#737876">
-              ITEM
-            </mj-text>
-            <mj-text color="#000" padding-top="0" font-size="12px">
-           Brown nylon jacket         
-            </mj-text>
-        </mj-column>
-        <mj-column>
-            <mj-text font-weight="700" font-family="ManropeB" align="right" font-size="14px">$400.00</mj-text>
-        </mj-column>
-     </mj-group>    
-     </mj-section>
-      <mj-section>
-     <mj-group>
-        <mj-column>
-            <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product.svg" alt="" width="90px" align="left"/>
-            <mj-text font-size="12px" color="#737876">
-              ITEM
-            </mj-text>
-            <mj-text color="#000" padding-top="0" font-size="12px">
-           Brown nylon jacket         
-            </mj-text>
-        </mj-column>
-        <mj-column>
-            <mj-text font-weight="700" font-family="ManropeB" align="right" font-size="14px">$400.00</mj-text>
-        </mj-column>
-     </mj-group>    
-     </mj-section>
+    <mj-group>
+      <mj-column width="50%">
+        <mj-text>
+          <mj-raw>
+            <style>
+              @media screen and (min-width: 768px) {
+                .custom-flex {
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between; 
+                  align-items: center; 
+                }
+                .custom-flex img {
+                  width: 90px; 
+                }
+                 .grey {
+                  color: #737876;
+                }
+                .bold {
+                  font-family: Manrope;
+                   font-size: 12px;
+                }
+              }
+
+              @media screen and (max-width: 767px) {
+                .custom-flex {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start; 
+                }
+                .custom-flex img {
+                  width: 90px; 
+                  margin-bottom: 10px; 
+                }
+                 .grey {
+                  color: #737876;
+                }
+                .bold {
+                  font-family: Manrope;
+                   font-size: 12px;
+                }
+              }
+            </style>
+          </mj-raw>
+          <div class="custom-flex">
+            <div>
+              <img src="assets/order/product2.svg" alt="" width="90px" align="left" />
+            </div>
+            <div>
+              <p class="bold grey">ITEM</p>
+              <p class="bold">Brown nylon jacket</p>
+            </div>
+          </div>
+        </mj-text>
+      </mj-column>
+      <mj-column>
+        <mj-text font-weight="700" font-family="ManropeB" align="right" font-size="14px" font-family="Manrope">$400.00</mj-text>
+      </mj-column>
+    </mj-group>
+  </mj-section>
+  <mj-section>
+    <mj-group>
+      <mj-column width="50%">
+        <mj-text>
+          <mj-raw>
+            <style>
+              @media screen and (min-width: 768px) {
+                .custom-flex {
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between; 
+                  align-items: center; 
+                }
+                .custom-flex img {
+                  width: 90px; 
+                }
+                .grey {
+                  color: #737876;
+                }
+                .bold {
+                  font-family: Manrope;
+                   font-size: 12px;
+                }
+              }
+
+              @media screen and (max-width: 767px) {
+                .custom-flex {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start; 
+                }
+                .custom-flex img {
+                  width: 90px; 
+                  margin-bottom: 10px; 
+                }
+                 .grey {
+                  color: #737876;
+                }
+                .bold {
+                  font-family: Manrope;
+                   font-size: 12px;
+                }
+              }
+            </style>
+          </mj-raw>
+          <div class="custom-flex">
+            <div>
+              <img src="assets/order/product.svg" alt="" width="90px" align="left" />
+            </div>
+            <div>
+              <p class="bold grey">ITEM</p>
+              <p class="bold">Brown nylon jacket</p>
+            </div>
+          </div>
+        </mj-text>
+      </mj-column>
+      <mj-column>
+        <mj-text font-weight="700" font-family="ManropeB" align="right" font-size="14px" font-family="Manrope">$400.00</mj-text>
+      </mj-column>
+    </mj-group>
+  </mj-section>
       <mj-section>
         <mj-group>
         <mj-column > 
-             <mj-text font-weight="400" font-family="ManropeB" font-size="12px" color="#737876">
+             <mj-text font-weight="400" font-family="Manrope" font-size="12px" color="#737876">
           Subtotal
         </mj-text>
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="400" font-family="ManropeEB" font-size="14px" align="right">$800.00
+             <mj-text font-weight="400" font-family="Manrope" font-size="14px" align="right">$800.00
              </mj-text>
         </mj-column>
         </mj-group>
@@ -92,13 +178,13 @@
     <mj-section>
     <mj-group>
         <mj-column > 
-             <mj-text font-weight="400" font-family="ManropeB" font-size="12px"  color="#737876">
+             <mj-text font-weight="400" font-family="Manrope" font-size="12px"  color="#737876">
           Discount
         </mj-text>
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="400" font-family="ManropeEB" font-size="14px" padding-top="8px" align="right" color="green">- 10% ($80.00)
+             <mj-text font-weight="400" font-family="Manrope" font-size="14px" padding-top="8px" align="right" color="green">- 10% ($80.00)
              </mj-text>
         </mj-column>
      </mj-group>
@@ -106,13 +192,13 @@
       <mj-section>
       <mj-group>
         <mj-column > 
-             <mj-text font-weight="400" font-family="ManropeB" font-size="12px" padding-top="8px" color="#737876">
+             <mj-text font-weight="400" font-family="Manrope" font-size="12px" padding-top="8px" color="#737876">
           Shipping
         </mj-text>
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="400" font-family="ManropeEB" font-size="14px" padding-top="8px" align="right">$10.00
+             <mj-text font-weight="400" font-family="Manrope" font-size="14px" padding-top="8px" align="right">$10.00
              </mj-text>
         </mj-column>
     </mj-group>
@@ -125,42 +211,42 @@
      <mj-section padding-top="0">
      <mj-group>
         <mj-column > 
-             <mj-text font-weight="700" font-family="ManropeEB" font-size="12px" padding-top="8px">
+             <mj-text font-weight="700" font-family="Manrope" font-size="12px" padding-top="8px">
           Total 
         </mj-text>
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="700" font-family="ManropeEB" font-size="16px" padding-top="8px" align="right">$730.00
+             <mj-text font-weight="700" font-family="Manrope" font-size="16px" padding-top="8px" align="right">$730.00
              </mj-text>
         </mj-column>
     </mj-group>
      </mj-section>
      <mj-section padding-bottom="200px">
         <mj-column>
-            <mj-text font-weight="700" font-family="ManropeEB" font-size="16px" padding-top="24px" padding-bottom="14px">
+            <mj-text font-weight="700" font-family="Manrope" font-size="16px" padding-top="24px" padding-bottom="14px">
           Customer Details
         </mj-text>
-        <mj-text font-weight="500" font-family="ManropeB" font-size="16px" padding-top="6px" font-size="14px">
+        <mj-text font-weight="500" font-family="Manrope" font-size="16px" padding-top="6px" font-size="14px">
           Billing information
         </mj-text>
-        <mj-text color="#737876" padding-top="2px" font-size="12px">Mirabel Offiong</mj-text>
-        <mj-text color="#737876" padding-top="2px" font-size="12px">Mirabeloffiong34@gmail.com</mj-text>
+        <mj-text color="#737876" padding-top="2px" font-size="12px" font-family="Manrope">Mirabel Offiong</mj-text>
+        <mj-text color="#737876" padding-top="2px" font-size="12px" font-family="Manrope">Mirabeloffiong34@gmail.com</mj-text>
         </mj-column>
      </mj-section>
      
-       <mj-section background-color="#009254">
+        <mj-section background-color="#009254">
         <mj-column width="90%">
-             <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/footer-logo.svg" alt="" width="100px" align="center" />
+             <mj-image src="assets/order/footer-logo.svg" alt="" width="100px" align="center" />
         <mj-social font-size="14px" icon-size="24px" mode="horizontal" padding-top="8px">
-          <mj-social-element src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/linkedin.svg" href="#" />
-          <mj-social-element src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/instagram.svg" href="#" />
-          <mj-social-element src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/facebook.svg" href="#" />
-          <mj-social-element src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/twitter.svg" href="#" />
+          <mj-social-element src="assets/order/linkedin.svg" href="https://www.linkedin.com/company/hng-internship/" />
+          <mj-social-element src="assets/order/instagram.svg" href="https://www.instagram.com/hnginternship/" />
+          <mj-social-element src="assets/order/facebook.svg" href="https://www.facebook.com/Hnginternship/" />
+          <mj-social-element src="assets/order/twitter.svg" href="https://www.twitter.com/hnginternship/" />
         </mj-social>
-        <mj-text color="#fff" padding-top="4px" align="center" font-size="14px">Beaverto, Oregon, Washington County, USA</mj-text>
-        <mj-text color="#fff" align="center" font-size="14px">Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text>
-        <mj-text color="#C4C7C6" padding-top="4px" align="center" font-size="12px">Unsubscribe</mj-text>     
+        <mj-text color="#fff" padding-top="4px" align="center" font-size="14px" font-family="Manrope">Beaverto, Oregon, Washington County, USA</mj-text>
+        <mj-text color="#fff" align="center" font-size="14px" font-family="Manrope">Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text>
+        <mj-text color="#C4C7C6" padding-top="4px" align="center" font-size="12px" font-family="Manrope">Unsubscribe</mj-text>     
         </mj-column>
        </mj-section>
   </mj-body>

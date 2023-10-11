@@ -132,11 +132,11 @@ const MyPage: React.FC = () => {
     onClose();
   };
 
-   // handle filter dropdown
-   const [ filterBy, setFilterBy ] = useState<string>("item")
-   const onChooseFilter = (filter: string) => {
-       setFilterBy(filter)
-   }
+  // handle filter dropdown
+  const [filterBy, setFilterBy] = useState<string>('item');
+  const onChooseFilter = (filter: string) => {
+    setFilterBy(filter);
+  };
 
   // Calculate counts for each category
   const allPurchasesCount = data.length;
@@ -163,18 +163,18 @@ const MyPage: React.FC = () => {
   };
 
   return (
-      <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage=''>
-        <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
-          <div className="mt-9 mb-12 hidden sm:block">
-            <div className="flex items-center">
-              <p className="text-base text-brand-green-primary">Settings</p>
-              <span className="mx-[5px]">
-                <ArrowRight2 size="16" color="green" />
-              </span>
-              <p className="text-base text-gray-100">Dashboard</p>
-            </div>
+    <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
+      <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
+        <div className="mt-9 mb-12 hidden sm:block">
+          <div className="flex items-center">
+            <p className="text-base text-brand-green-primary">Settings</p>
+            <span className="mx-[5px]">
+              <ArrowRight2 size="16" color="green" />
+            </span>
+            <p className="text-base text-gray-100">Dashboard</p>
           </div>
-          <h3 className="font-semibold text-3xl hidden sm:block">Customer Purchase Dashboard</h3>
+        </div>
+        <h3 className="font-semibold text-3xl hidden sm:block">Customer Purchase Dashboard</h3>
 
           <div className="hidden sm:flex sm:align-center sm:justify-between w-full lg:w-4/5 mt-9">
             <div
@@ -235,7 +235,7 @@ const MyPage: React.FC = () => {
                 placeholder="Search by items, status, seller etc"
               />
 
-              <FilterDropDown onChooseFilter={onChooseFilter}/>
+            <FilterDropDown onChooseFilter={onChooseFilter} />
 
               <Button
                 onClick={onOpen}
@@ -265,45 +265,45 @@ const MyPage: React.FC = () => {
                     </tr>
                   </thead>
 
-                  <tbody>
-                    {data
-                      .filter((item) => (filter ? item.status.toLowerCase() === filter.toLowerCase() : true))
-                      .map((item) => (
-                        <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
-                          <td className="text-[0.75rem] flex items-center mt-5">
-                            <span className="px-4 ml-[1rem]">
-                              {' '}
-                              <input type="checkbox" />
-                            </span>
-                            {item.item}
-                          </td>
-                          <td className="text-[0.75rem] px-4 py-2">{item.orderID}</td>
-                          <td className="text-[0.75rem] px-4 py-2">{item.price}</td>
-                          <td className="text-[0.75rem] px-4 py-2">{item.date}</td>
-                          <td className="text-[0.75rem] px-4 py-2">{item.sellerName}</td>
-                          <td className="text-[0.75rem] px-4 py-2">
-                            <span
-                              className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
-                                getStatusBackgroundColor(item.status)[0]
-                              }`}
-                            >
-                              <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>{item.status}</p>
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-            <MobileCustomerDashboard />
-            {/* error page */}
-            {data.length === 0 && <PurchaseNotFound />}
-          </div>
-          {/* delete modal */}
-          <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
+                <tbody>
+                  {data
+                    .filter((item) => (filter ? item.status.toLowerCase() === filter.toLowerCase() : true))
+                    .map((item) => (
+                      <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
+                        <td className="text-[0.75rem] flex items-center mt-5">
+                          <span className="px-4 ml-[1rem]">
+                            {' '}
+                            <input type="checkbox" />
+                          </span>
+                          {item.item}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2">{item.orderID}</td>
+                        <td className="text-[0.75rem] px-4 py-2">{item.price}</td>
+                        <td className="text-[0.75rem] px-4 py-2">{item.date}</td>
+                        <td className="text-[0.75rem] px-4 py-2">{item.sellerName}</td>
+                        <td className="text-[0.75rem] px-4 py-2">
+                          <span
+                            className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
+                              getStatusBackgroundColor(item.status)[0]
+                            }`}
+                          >
+                            <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>{item.status}</p>
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          <MobileCustomerDashboard />
+          {/* error page */}
+          {data.length === 0 && <PurchaseNotFound />}
         </div>
-      </MainLayout>
+        {/* delete modal */}
+        <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
+      </div>
+    </MainLayout>
   );
 };
 

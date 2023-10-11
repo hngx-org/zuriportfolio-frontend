@@ -71,8 +71,8 @@ const PromotionHistoryRow = (props: PromotionHistory) => {
       </tr>
       {isDeleteModalOpen && (
         <Modal isCloseIconPresent={false} isOpen={isDeleteModalOpen} size="lg" closeModal={toggleDeleteModal} title="">
-          <div className="flex flex-col text-center p-10">
-            <h2 className="text-dark-300 text-[24px] font-manropeEB px-20 leading-8 mt-2">
+          <div className="flex flex-col text-center p-0 md:p-10">
+            <h2 className="text-dark-300 text-[24px] font-manropeEB px-5 md:px-20 leading-8 mt-2">
               Are you sure you want to delete this coupon?
             </h2>
             <p className="text-dark font-manropeL text-[16px] mt-2">
@@ -109,50 +109,47 @@ export const PromotionHistoryMobile = (props: PromotionHistory) => {
   };
   return (
     <>
-      <div
-        className="font-manropeB font-semibold px-[10px]  py-4 rounded-2xl flex justify-between items-center"
-        style={{
-          boxShadow: `0px 0px 2px 0px rgba(0, 0, 0, 0.14)`,
-        }}
-      >
-        <div className="flex flex-col">
-          <h2 className=" text-[14px] font-semibold mb-2 text-dark-100  tracking-[0.014px] leading-[144%]">
-            {props.productName}
-          </h2>
-          <p className="text-[12px] mb-3  text-dark-100">{props.type}</p>
-        </div>
-        <div className="flex flex-col">
-          <div className={`text-dark-100 ${manropeMD.className}`}>
-            <button onClick={toggleDeleteModal}>
-              <Image src="/assets/images/clip.png" width={30} height={20} alt="action-button" />
+      <tr className="font-manropeL border-slate-50 border rounded-lg text-center text-[16px] font-normal text-[#667085] [&>*]:px-6  [&>*]:py-4">
+        <td className="text-left">{props.productName}</td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>{props.type}</td>
+        <td>
+          {props.status === 'active' && <ActivePromo />}
+          {props.status === 'expired' && <ExpiredPromo />}
+          {props.status === 'deactivated' && <DeactivatedPromo />}
+        </td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>{props.discount}</td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>{props.quantity}</td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>{props.sales}</td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>
+          <button onClick={toggleDeleteModal}>
+            <Image src="/assets/images/clip.png" width={30} height={20} alt="action-button" />
+          </button>
+        </td>
+      </tr>
+      {isDeleteModalOpen && (
+        <Modal isOpen={isDeleteModalOpen} closeModal={toggleDeleteModal} title="">
+          <div className="flex flex-col text-center p-10">
+            <h2 className="text-dark text-[24px] font-manropeEB px-2 leading-8 mt-2">
+              Are you sure you want to delete this coupon?
+            </h2>
+            <p className="text-dark font-manropeL text-[16px] mt-2">
+              Coupon wil be permanently deleted from your store.
+            </p>
+            <button
+              className="bg-brand-red-primary text-white-100 font-manropeL p-2 rounded-lg mt-5"
+              onClick={handleDelete}
+            >
+              Delete Coupon
+            </button>
+            <button
+              className="border border-brand-green-primary p-2 text-brand-green-primary rounded-lg mt-3"
+              onClick={toggleDeleteModal}
+            >
+              Cancel
             </button>
           </div>
-        </div>
-        {isDeleteModalOpen && (
-          <Modal isOpen={isDeleteModalOpen} closeModal={toggleDeleteModal} title="">
-            <div className="flex flex-col text-center p-10">
-              <h2 className="text-dark text-[24px] font-manropeEB px-2 leading-8 mt-2">
-                Are you sure you want to delete this coupon?
-              </h2>
-              <p className="text-dark font-manropeL text-[16px] mt-2">
-                Coupon wil be permanently deleted from your store.
-              </p>
-              <button
-                className="bg-brand-red-primary text-white-100 font-manropeL p-2 rounded-lg mt-5"
-                onClick={handleDelete}
-              >
-                Delete Coupon
-              </button>
-              <button
-                className="border border-brand-green-primary p-2 text-brand-green-primary rounded-lg mt-3"
-                onClick={toggleDeleteModal}
-              >
-                Cancel
-              </button>
-            </div>
-          </Modal>
-        )}
-      </div>
+        </Modal>
+      )}
     </>
   );
 };
