@@ -1242,14 +1242,6 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mantine/form@^7.1.2":
-  version "7.1.2"
-  resolved "https://registry.npmjs.org/@mantine/form/-/form-7.1.2.tgz"
-  integrity sha512-FnUu5XNmRM265G0wy19qSRiItG/2eQ0GQCctnokw6ws9ZnCU1NqvsmpuDE/UiV4YCAOhAVHfqnjG/8tsrlw7ug==
-  dependencies:
-    fast-deep-equal "^3.1.3"
-    klona "^2.0.5"
-
 "@jridgewell/trace-mapping@^0.3.17", "@jridgewell/trace-mapping@^0.3.9":
   version "0.3.19"
   resolved "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.19.tgz"
@@ -1257,6 +1249,14 @@
   dependencies:
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
+
+"@mantine/form@^7.1.2":
+  version "7.1.2"
+  resolved "https://registry.npmjs.org/@mantine/form/-/form-7.1.2.tgz"
+  integrity sha512-FnUu5XNmRM265G0wy19qSRiItG/2eQ0GQCctnokw6ws9ZnCU1NqvsmpuDE/UiV4YCAOhAVHfqnjG/8tsrlw7ug==
+  dependencies:
+    fast-deep-equal "^3.1.3"
+    klona "^2.0.5"
 
 "@next/env@13.5.4":
   version "13.5.4"
@@ -3641,7 +3641,6 @@ glob@7.1.7:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-
 glob@7.2.3, glob@^7.1.1, glob@^7.1.3, glob@^7.2.0:
   version "7.2.3"
   resolved "https://registry.npmjs.org/glob/-/glob-7.2.3.tgz"
@@ -3653,7 +3652,6 @@ glob@7.2.3, glob@^7.1.1, glob@^7.1.3, glob@^7.2.0:
     minimatch "^3.1.1"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
-
 
 glob@^8.1.0:
   version "8.1.0"
@@ -5468,7 +5466,7 @@ react-date-object@^2.1.5:
   resolved "https://registry.npmjs.org/react-date-object/-/react-date-object-2.1.7.tgz"
   integrity sha512-810eaGk/xvQBJNncPvhwXaKcSwPRKX48jtY/5U5T1bSUnGFqmBdMvl4EVl76cyzQ8U3KX6hpF6xZ1c0eY9vvJA==
 
-"react-dom@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16 || ^17 || ^18", "react-dom@^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", react-dom@^18.2.0, "react-dom@>= 16.8.0", react-dom@>=15.0.0, react-dom@>=16.8, react-dom@>=16.8.0, react-dom@18.2.0:
+react-dom@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
