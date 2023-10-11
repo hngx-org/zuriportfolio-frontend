@@ -1,12 +1,8 @@
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
-import googleLogo from '../../public/assets/images/logo/google-logo.svg';
-import facebookLogo from '../../public/assets/images/logo/facebook-logo.svg';
-import githubLogo from '../../public/assets/images/logo/github-logo.svg';
 import useInputError from '../../hooks/useInputError';
 import InputError from '@modules/auth/component/InputError';
 import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
