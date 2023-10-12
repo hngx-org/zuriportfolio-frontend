@@ -1,4 +1,12 @@
 <mjml>
+<mj-head>
+ <mj-style>
+      body {
+        margin: initial;
+        padding: 24px 24px 48px 24px;
+      }
+    </mj-style>
+</mj-head>
   <mj-body background-color="#f0ece6">
     <mj-section background-repeat="repeat" padding="20px 0" text-align="center">
       <mj-column>
@@ -37,6 +45,57 @@
             Your product was found to violate our terms concerning copyright infringement.
           </span>
         </mj-text>
+      </mj-column>
+    </mj-section>
+
+
+<mj-wrapper padding="20px 40px" background-color="#ffffff">
+<mj-section padding="20px 10px" border="1px solid #E1E3E2"  border-radius="15px" background-color="#ffffff"  text-align="center">
+
+      <mj-column width="35%" padding-right="8px" padding-bottom="8px">
+        <mj-raw>
+          <div
+            style="
+              min-width: 7rem;
+              width: 100%;
+              max-width: 9rem;
+              height: 8.56319rem;
+              border-radius: 0.32113rem;
+              overflow: hidden;
+            "
+          >
+            <img
+              style="margin: auto; width: 100%; height: 100%; vertical-align: bottom; object-fit: cover"
+              src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png"
+              alt=""
+            />
+          </div>
+        </mj-raw>
+      </mj-column>
+      <mj-column width="65%">
+        <mj-text font-size="20px" color="#737876"  font-weight="bold">
+            <span >Guide to Marketing 101</span>
+        </mj-text>
+
+        <mj-text color="#737876" font-size="18px" >
+            <span >21 courses sold</span>
+          </div>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    </mj-wrapper>
+
+    <mj-section background-color="#ffffff" background-repeat="repeat" padding="20px 20px" text-align="center">
+      <mj-column>
+        <mj-button
+          href="https://zuriportfolio.com/login"
+          border-radius="10px"
+          background-color="#33a467"
+          height="30px"
+          width="200px"
+          font-size="16px"
+          >Go to your store</mj-button
+        >
 
         <mj-text padding-top="30px" font-weight="400" color="#000" font-size="18px" font-family="Century Gothic">
           We understand that this decision may come as a surprise, and we apologize for any inconvenience it may cause.
