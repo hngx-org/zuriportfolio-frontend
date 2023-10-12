@@ -9,15 +9,15 @@ import axios from 'axios';
 type skillModalProps = {
   onClose: () => void;
   isOpen: boolean;
+  userId: string
 };
 
 type PostSkillResponse = {
   skills: Array<string>;
   sectionId: number;
-  usetId: string;
 };
 
-const SkillModal = ({ onClose, isOpen }: skillModalProps) => {
+const SkillModal = ({ onClose, isOpen, userId}: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<string>>([
     'Version Control',
@@ -34,6 +34,30 @@ const SkillModal = ({ onClose, isOpen }: skillModalProps) => {
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<string>>([]);
   const [response, setResponse] = useState([]);
+  const [skillData, setSkillData] = useState(null);
+
+
+
+
+  useEffect(() => {
+    const fetchSkillData = async () => {
+      try {
+        // Make a GET request to the API
+        const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
+        // Set the data in the state
+        setSkillData(response.data);
+        
+      } catch (error) {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Call the fetchData function
+    fetchSkillData();
+  }, []);
+
+  console.log(skillData)
 
   useEffect(() => {
     const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
@@ -76,26 +100,6 @@ const SkillModal = ({ onClose, isOpen }: skillModalProps) => {
     localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, trimmedValue]));
   };
 
-  // const addSkills = async (): Promise<PostSkillResponse> => {
-  //   try {
-  //     const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
-  //     const requestData = {
-  //       skills: arrayTwo,
-  //       sectionId: 5,
-  //       userId: '550e8400-e29b-41d4-a716-446655440000',
-  //     };
-
-  //     const response = await axios.post(apiUrl, requestData);
-  //     setResponse(response?.data);
-
-  //     return response?.data;
-  //   } catch (error) {
-
-  //     console.error('Error:', error);
-  //   }
-  //   return
-  // };
-
   const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
   // const customHeaders = {
   //   Authorization: `Bearer ${token}`,
@@ -106,7 +110,7 @@ const SkillModal = ({ onClose, isOpen }: skillModalProps) => {
   const requestData = {
     skills: arrayTwo,
     sectionId: 5,
-    userId: '550e8400-e29b-41d4-a716-446655440000',
+    userId: userId,
   };
 
   async function postSkillData(): Promise<PostSkillResponse> {
@@ -172,7 +176,7 @@ const SkillModal = ({ onClose, isOpen }: skillModalProps) => {
           <div className="w-full">
             <h2 className="text-brand-green-primary text-base font-bold">Suggestions</h2>
             {arrayOne.length > 0 && (
-              <ul className=" p-4  flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">
+              <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">
                 {arrayOne.map((item) => (
                   <li key={item}>
                     <Button
