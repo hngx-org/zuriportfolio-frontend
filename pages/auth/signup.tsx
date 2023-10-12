@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -64,7 +65,7 @@ function Signup() {
         confirmPassword: values.confirmPassword,
       };
 
-      const response = await axios.post('https://hng-stage-six.onrender.com/api/auth/signup ', userData);
+      const response = await axios.post(' https://auth.akuya.tech/api/auth/signup ', userData);
       console.log('firstName', values.firstName);
       console.log('lastName', values.lastName);
       console.log('password', values.password);
@@ -76,9 +77,14 @@ function Signup() {
       } else {
         // Handle signup error, e.g., display an error message
       }
-    } catch (error) {
+    } catch (error: any) {
       // Handle any exceptions or errors here
       console.error('Error during signup:', error);
+      if (error.response && error.response.data && error.response.data.code === 'EXISTING_USER_EMAIL') {
+        setError('Email already exists. Please use a different email address.');
+      } else {
+        setError('An error occurred during signup. Please try again later.');
+      }
     }
   };
 
@@ -294,6 +300,8 @@ function Signup() {
             >
               Continue
             </Button>
+            {/* server side error handling */}
+            {error && <p className="text-[red] text-xs mt-2">{error}</p>}
           </form>
           <div className="mt-8">
             <p className="text-center text-gray-200">
