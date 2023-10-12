@@ -109,8 +109,8 @@
           </mj-text>
         </mj-column>
         <mj-column width="100%">
-          <mj-button>
-            Contact support
+          <mj-button href="https://zuriportfolio-frontend-pw1h.vercel.app">
+            Go to your store
           </mj-button>
         </mj-column>
         <mj-column width="100%">

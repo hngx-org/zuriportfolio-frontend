@@ -2,15 +2,28 @@ import { Item } from '@radix-ui/react-select';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent} from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
+import axios from 'axios';
+import { number } from 'zod';
 
 type skillModalProps = {
-  handleCloseSkillModal: () => void;
-  isSkillModalOpen: boolean;
+  onClose: () => void;
+  isOpen: boolean;
+  userId: string
 };
 
-const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps) => {
+type PostSkillResponse = {
+  skills: Array<string>;
+  sectionId: number;
+};
+
+type skillListRes = {
+  skillId : number,
+  skill: string
+}
+
+const SkillModal = ({ onClose, isOpen, userId}: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<string>>([
     'Version Control',
@@ -26,26 +39,46 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
     'API Intergration',
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<string>>([]);
+  const [response, setResponse] = useState([]);
+  const [skillData, setSkillData] = useState<Array<skillListRes>>([]);
+
+
+const fetchSkillData = async () => {
+  try {
+    // Make a GET request to the API
+    const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
+    // const suggestionRes = await axios.get('https://piranha-assessment.onrender.com/api/admin/skills/');
+    const data = response.data.data;
+    // const skillList = data.map((item:skillListRes) => item.skill)
+    // Set the data in the state
+    setSkillData(data);
+  } catch (error) {
+    // Handle errors
+    console.error('Error fetching data:', error);
+  }
+};
 
   useEffect(() => {
-    const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
-    setArrayTwo(storedArrayTwo);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Call the fetchData function
+    fetchSkillData();
   }, []);
 
   const handleMoveToTwo = (item: string) => {
     setArrayOne(arrayOne.filter((el: string) => el !== item));
-    setArrayTwo((prevArrayTwo) => [...prevArrayTwo, item]); // Use the callback
-    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, item]));
+    setArrayTwo((prevArrayTwo) => [...prevArrayTwo, item]);
   };
+    const handleSetSkillData = (item: skillListRes) => {
+      setSkillData((prevArray) => [...prevArray, item]); // Use the callback
+    };
 
   const handleMoveToOne = (item: string) => {
-    setArrayTwo((prevArrayTwo) => prevArrayTwo.filter((el) => el !== item));
+    setArrayTwo((prevArrayTwo) => prevArrayTwo.filter((el) => el !== item));  
     setArrayOne([...arrayOne, item]);
-
-    // Update local storage with the modified arrayTwo (removed the selected item)
-    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo.filter((el) => el !== item)]));
   };
+
+   const handleArrayOneSetSkill = (item: skillListRes) => {
+     setSkillData((prevArray) => prevArray.filter((el) => el !== item)); 
+   };
 
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
@@ -64,45 +97,84 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
     setArrayTwo([]);
   };
 
-  const saveBtn = () => {
-    handleCloseSkillModal();
-    console.log('me');
-  };
-
   const setToLocalStorage = (trimmedValue: string) => {
     localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, trimmedValue]));
   };
 
+  const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
+  // const customHeaders = {
+  //   Authorization: `Bearer ${token}`,
+  //   'Content-Type': 'application/json',
+  // { headers: customHeaders }
+  // };
+
+  const requestData = {
+    skills: arrayTwo,
+    sectionId: 5,
+    userId: userId,
+  };
+
+  async function postSkillData(): Promise<PostSkillResponse> {
+    try {
+      const response = await axios.post(apiUrl, requestData);
+       console.log(response.data.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error; // You can handle the error further if needed
+    }
+    
+  }
+
+
+  async function deleteSkillsData(id:number){
+    try {
+      const response = await axios.delete(`https://hng6-r5y3.onrender.com/api/delete-skills/${id}`);
+      if (response.data.successful){
+        fetchSkillData()
+      }
+      console.log(response.data.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error; // You can handle the error further if needed
+    }
+  }
+
+console.log(skillData);
+
+  function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
+    postSkillData();
+    onClose();
+  }
+
   return (
     <section className="w-full flex items-center justify-center fontFamily-manropeEL">
-      <Modal
-        closeOnOverlayClick
-        isOpen={isSkillModalOpen}
-        closeModal={handleCloseSkillModal}
-        isCloseIconPresent={false}
-        size="xl"
-      >
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
         <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL max-sm:px-2 ">
           <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
             <h1 className="font-bold text-2xl ">Skill</h1>
             <button
               className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
-              onClick={handleCloseSkillModal}
+              onClick={onClose}
             >
               <AiOutlineClose />
             </button>
           </div>
           <div className="w-full">
-            {arrayTwo.length > 0 && (
+            {skillData?.length > 0 && (
               <ul className="w-full flex flex-wrap gap-4 my-12">
-                {arrayTwo.map((item) => (
-                  <li key={item}>
+                {skillData?.map((item: skillListRes) => (
+                  <li key={item.skillId}>
                     <Button
                       className=" group/skillsbtn text-brand-green-shade20 h-10 bg-brand-green-shade95  hover:text-white-100 hover: text-sm font-semibold leading-5 rounded-lg px-2 py-4 flex items-center gap-4"
-                      onClick={() => handleMoveToOne(item)}
+                      onClick={() => {
+                        handleMoveToOne(item.skill);
+                        deleteSkillsData(item.skillId);
+                      }}
                       type="button"
                     >
-                      {item}
+                      {item.skill}
                       <span className="text-base rounded-full m-auto ml-4 flex items-center justify-center  group-hover/skillsbtn:border-white-100">
                         <AiOutlineCloseCircle />
                       </span>
@@ -126,12 +198,15 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
           <div className="w-full">
             <h2 className="text-brand-green-primary text-base font-bold">Suggestions</h2>
             {arrayOne.length > 0 && (
-              <ul className=" p-4  flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">
+              <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">
                 {arrayOne.map((item) => (
                   <li key={item}>
                     <Button
                       className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100"
-                      onClick={() => handleMoveToTwo(item)}
+                      onClick={() => {
+                        handleMoveToTwo(item);
+                        handleSetSkillData({ skillId: Math.random(), skill: item });
+                      }}
                       type="button"
                     >
                       {item}
@@ -148,7 +223,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
             <Button
               className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
               onClick={() => {
-                handleCloseSkillModal();
+                onClose();
                 cancelBtnFn();
               }}
             >
@@ -156,9 +231,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
             </Button>
             <Button
               className="border-2 p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
-              onClick={() => {
-                saveBtn();
-              }}
+              onClick={handleAddSkills}
             >
               Save
             </Button>
