@@ -104,7 +104,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
 
               <button
                 type="submit"
-                className={`bg-green-300 text-white-100 py-2 px-6 rounded-r-md capitalize hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ${
+                className={`bg-green-300 text-white-100 py-1.5 px-6 rounded-r-md capitalize hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ${
                   couponErrorState ? 'bg-gray-200' : ''
                 }`}
                 onClick={couponHandler}
