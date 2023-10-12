@@ -5,78 +5,146 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+import Backarrow from '../../../public/assets/assessment/backarrow';
+export const ToPushContext = React.createContext({});
+export const UpdateContext: any = React.createContext({});
 const CreateAssessment = () => {
-  const [active, setActive] = useState<null | string>('button1');
+  const [newobject, setObject] = useState({
+    skill_id: 0,
+    questions_and_answers: [
+      {
+        question_no: 0,
+        question_text: '',
+        options: [''],
+        correct_option: 0,
+      },
+    ],
+    is_published: false,
+    assessment_name: '',
+    assessment_duration: 0,
+  });
 
+  const [active, setActive] = useState<null | string>('button1');
+  const [listupdate, setListupdate] = useState(false);
   const handleClick = (button: string) => {
     setActive(button);
   };
+  const savetodrafts = () => {
+    console.log('tugytf');
+  };
+  const publishClick = () => {
+    const newt = { ...newobject };
+    newt.is_published = true;
+    setObject(newt);
+    setListupdate(true);
+  };
+  const draftsClick = () => {
+    newobject.is_published = false;
+    setListupdate(true);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('https://piranha-assessment.onrender.com/api/admin/assessments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newobject),
+      });
+      console.log(response);
+      if (response.ok) {
+        console.log('data submitted successfully.');
+      } else {
+        console.error('Failed to submit data.');
+        console.log(JSON.stringify(newobject));
+      }
+    } catch (error) {
+      console.error('An error occurred while submitting data:', error);
+    }
+  };
+
+  if (listupdate === true) {
+    handleSubmit();
+  }
+
   return (
-    <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
-      <main className="w-full">
-        <AssessmentBanner
-          title="Create New Assessment"
-          subtitle="Create single choice quiz with scoring conditions"
-          bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
-        />
-        <div className="pt-10 pb-10 flex justify-between flex-wrap px-[24px] md:px-[40px] lg:px-[100px] gap-y-4 :">
-          <div
-            className="flex space-x-1 items-center cursor-pointer"
-            onClick={() => {
-              window.history.back();
-            }}
-          >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12.4984 17.225C12.3401 17.225 12.1818 17.1667 12.0568 17.0417L6.62344 11.6084C5.7401 10.725 5.7401 9.27502 6.62344 8.39168L12.0568 2.95835C12.2984 2.71668 12.6984 2.71668 12.9401 2.95835C13.1818 3.20002 13.1818 3.60002 12.9401 3.84168L7.50677 9.27502C7.10677 9.67502 7.10677 10.325 7.50677 10.725L12.9401 16.1583C13.1818 16.4 13.1818 16.8 12.9401 17.0417C12.8151 17.1584 12.6568 17.225 12.4984 17.225Z"
-                fill="#1A1C1B"
-              />
-            </svg>
-            <p className="text-dark[100]">Go back</p>
-          </div>
-          <div className="flex space-x-4 items-center">
-            <Button className="p-4 border-2 border-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100">
-              Save To Drafts
-            </Button>
-            <Button className="p-3 text-white-100 text-center ">Publish Assesments</Button>
-          </div>
-        </div>
-        <div className="pt-4 pb-2 flex space-x-10 justify-center">
-          <div
-            className={` cursor-pointer ${
-              active === 'button1' ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443] ' : 'text-dark-100'
-            }`}
-            onClick={() => handleClick('button1')}
-          >
-            Questions &amp; Answers
-          </div>
-          <div
-            className={` cursor-pointer ${
-              active === 'button2' ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443]' : 'text-dark-100'
-            }`}
-            onClick={() => handleClick('button2')}
-          >
-            Scoring
-          </div>
-        </div>
-        <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
-        {/* Actual layouts */}
-        <div className="">
-          <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0] ">
-            {active === 'button1' ? (
-              <>
-                <Edithead />
-                <div className="pt-4 ">
-                  <CreateTemplate />
+    <ToPushContext.Provider value={[newobject, setObject]}>
+      <UpdateContext.Provider value={[listupdate, setListupdate]}>
+        <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
+          <main className="w-full">
+            <AssessmentBanner
+              title="Create New Assessment"
+              subtitle="Create single choice quiz with scoring conditions"
+              bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
+            />
+            <div className="pt-10 pb-10 flex justify-between flex-wrap px-[24px] md:px-[40px] lg:px-[100px] gap-y-4 :">
+              <div
+                className="flex space-x-1 items-center cursor-pointer"
+                onClick={() => {
+                  window.history.back();
+                }}
+              >
+                <div>
+                  <Backarrow />
                 </div>
-              </>
-            ) : (
-              <ScoringScreen />
-            )}
-          </div>
-        </div>
-      </main>
-    </MainLayout>
+                <p className="text-dark[100]">Go back</p>
+              </div>
+              {active === 'button1' ? (
+                <div className="flex space-x-4 items-center">
+                  <Button intent={'secondary'} size={'sm'} spinnerColor="#000" onClick={draftsClick}>
+                    Save To Drafts
+                  </Button>
+                  <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={publishClick}>
+                    Publish Assesments
+                  </Button>
+                </div>
+              ) : (
+                <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000">
+                  Save Changes
+                </Button>
+              )}
+            </div>
+            <div className="pt-4 pb-2 flex space-x-10 justify-center">
+              <div
+                className={` cursor-pointer ${
+                  active === 'button1'
+                    ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443] '
+                    : 'text-dark-100 rounded-sm'
+                }`}
+                onClick={() => handleClick('button1')}
+              >
+                Questions &amp; Answers
+              </div>
+              <div
+                className={` cursor-pointer ${
+                  active === 'button2'
+                    ? 'text-[#BF8443] font-bold rounded-sm border-b-4 border-[#BF8443]'
+                    : 'text-dark-100'
+                }`}
+                onClick={() => handleClick('button2')}
+              >
+                Scoring
+              </div>
+            </div>
+            <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
+            {/* Actual layouts */}
+            <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
+              {active === 'button1' ? (
+                <>
+                  <Edithead />
+                  <div className="pt-4">
+                    <CreateTemplate />
+                  </div>
+                </>
+              ) : (
+                <ScoringScreen />
+              )}
+            </div>
+          </main>
+        </MainLayout>
+      </UpdateContext.Provider>
+    </ToPushContext.Provider>
   );
 };
 
