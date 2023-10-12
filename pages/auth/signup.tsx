@@ -255,8 +255,15 @@ function Signup() {
                 <input type="checkbox" {...form.getInputProps('agree')} className="w-4 border-brand-green-primary" />
               </span>
               <p className="text-gray-200 text-sm">
-                I agree with zuri stores <Link href={'#'}>Terms of Service</Link> &{' '}
-                <Link href={'#'}>Privacy Policy</Link> .
+                I agree with zuri stores{' '}
+                <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+                  Terms of Service
+                </Link>{' '}
+                &{' '}
+                <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+                  Privacy Policy
+                </Link>{' '}
+                .
               </p>
             </div>
             <style jsx>{`
