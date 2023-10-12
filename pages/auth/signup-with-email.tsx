@@ -20,14 +20,14 @@ function SignUpWithEmail() {
   const router = useRouter();
   const onSignUpWithEmailSuccess = (data: any) => {
     console.log(data);
-    if (data.message !== 'Email does not exist.') {
-      const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
-      notifyError(errorMessage);
+    if (data.success && data.isRegistered === false) {
+      // user does not exists, continue to signup page
+      router.push(`/auth/signup?email=${userEmail}`);
       return;
     }
 
-    // user does not exists, continue to signup page
-    router.push(`/auth/signup?email=${userEmail}`);
+    const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
+    notifyError(errorMessage);
   };
 
   const onSignUpWithEmailError = (error: any) => {
