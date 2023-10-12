@@ -372,8 +372,8 @@ export interface RatingBarProps {
 }
 
 export interface RatingCardProps {
-  rating: string;
-  users: string;
+  rating: number;
+  users: number;
 }
 
 export interface filterProps {
@@ -551,3 +551,10 @@ export type LoginResponse = {
   data: LoginBodyResponse;
   statusCode: number;
 };
+
+export interface Review {
+  id: number;
+  rating: number;
+  name: string;
+  description: string;
+}

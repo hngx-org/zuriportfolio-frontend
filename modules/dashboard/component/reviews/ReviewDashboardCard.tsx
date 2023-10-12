@@ -27,10 +27,10 @@ function ReviewDashboardCard({ id, className, imageSrc, title, author, avgRating
       <div className="flex font-manropeL text-dark-100 tracking-wide border-b border-brand-disabled pb-6">
         <div className="flex flex-col md:flex-row gap-6 w-full">
           <Link href="#" className="flex justify-center h-auto w-full md:w-[162.5px]">
-            <Image src={imageSrc} alt={title} width={327} height={180} objectFit="contain" />
+            <Image src={imageSrc} alt={title} width={327} height={180} />
           </Link>
           <div className="w-full">
-            <div className="flex flex-row md:justify-between">
+            <div className="flex flex-row justify-center md:justify-between">
               <div className="flex flex-col gap-1">
                 <Link href="#">
                   <h4 className="font-manropeEB text-xs font-bold md:text-base hover:underline">{title}</h4>
@@ -50,7 +50,7 @@ function ReviewDashboardCard({ id, className, imageSrc, title, author, avgRating
                 </div>
               </div>
               <Link
-                href={`/dashboard/reviews/${id}`}
+                href={`/dashboard/reviews/product-details/${id}`}
                 className="flex justify-end text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36"
               >
                 <p className="hover:text-green-200">View reviews</p>
