@@ -45,7 +45,7 @@ function LoginForm() {
         const value = isAuthenticated(res.token);
         console.log(value);
 
-        router.push('/');
+        router.push('/dashboard/orders');
       } else if (res.statusCode === 400 && res.message === 'Please verify your email.') {
         console.error('Unverified user');
 
@@ -63,12 +63,6 @@ function LoginForm() {
       } else if (res.statusCode === 500 && res.message === 'Error logging in') {
         console.error('Error logging in');
 
-        notify({
-          message: 'Error logging in',
-          type: 'error',
-        });
-      } else {
-        console.error('sign up');
         notify({
           message: 'Error logging in',
           type: 'error',
