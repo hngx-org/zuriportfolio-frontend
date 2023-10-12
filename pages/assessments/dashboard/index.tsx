@@ -10,26 +10,28 @@ const Dashboard = () => {
   return (
     <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
       <div className="w-[100%] mb-[3rem]">
-        <div className="w-full h-[3.5rem] grow md:h-[5.6rem] lg:h-[8rem] font-manropeL bg-brand-green-shade40 text-white-100 flex items-center justify-between pl-[1.5rem] md:pl-[2.5rem] lg:pl-[3rem] xl:pl-[5rem]">
-          <div className="md:w-[70%]">
-            <h1 className="text-[.75rem] md:text-[1.25rem] mb-[.1rem] lg:text-[1.5rem] xl:text-[2rem] font-bold leading-1">
-              My Dashboard
-            </h1>
-            <p className="text-[.375rem] md:text-[.65rem] lg:text-[.9rem] xl:text-[1.05rem] font-normal">
-              Level Up Your UX Superpowers! Earn Badges, Build Trust, and Land the Dream Projects!
-            </p>
-          </div>
-          <div className="h-full">
-            <Image
-              src="/assets/dashboard/dashboard-top.svg"
-              alt="checklist"
-              width={150}
-              height={150}
-              className="h-[100%] md:w-[300px] lg:w-[350px] xl:w-[400px]"
-            />
+        <div className="w-full bg-brand-green-shade40">
+          <div className="2xl:max-w-[1240px] 2xl:mx-auto h-[3.5rem] grow md:h-[5.6rem] lg:h-[8rem] font-manropeL text-white-100 flex items-center justify-between pl-[1.5rem] md:pl-[2.5rem] lg:pl-[3rem] xl:pl-[5rem] 2xl:pl-0">
+            <div className="md:w-[70%]">
+              <h1 className="text-[.75rem] md:text-[1.25rem] mb-[.1rem] lg:text-[1.5rem] xl:text-[2rem] font-bold leading-1">
+                My Dashboard
+              </h1>
+              <p className="text-[.375rem] md:text-[.65rem] lg:text-[.9rem] xl:text-[1.05rem] font-normal">
+                Level Up Your UX Superpowers! Earn Badges, Build Trust, and Land the Dream Projects!
+              </p>
+            </div>
+            <div className="h-full">
+              <Image
+                src="/assets/dashboard/dashboard-top.svg"
+                alt="checklist"
+                width={150}
+                height={150}
+                className="h-[100%] md:w-[300px] lg:w-[350px] xl:w-[400px]"
+              />
+            </div>
           </div>
         </div>
-        <div className="lg:mx-[3rem] md:mx-[2.5rem] mx-[1.5rem] xl:mx-[5rem] 2xl:mx-auto 2xl:w-[70%]">
+        <div className="lg:mx-[3rem] md:mx-[2.5rem] mx-[1.5rem] xl:mx-[5rem] 2xl:mx-auto 2xl:max-w-[1240px] 2xl:px-[1rem]">
           <Button className="mt-[1rem] ml-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md">
             View Past assessment
           </Button>

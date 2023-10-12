@@ -18,10 +18,10 @@ export default function NotificationsSettings() {
   };
 
   return (
-    <div className=" flex flex-col space-y-[16px] items-start">
+    <div className=" flex flex-col space-y-[16px] items-start container mx-auto">
       <h1 className="font-semibold md:text-[22px] text-sm font-manropeB text-dark-105">Notification Setting</h1>
-      <p className="text-sm text-[#444846]">Email Notification</p>
-      <div className="text-sm font-manropeB text-white-650 space-y-4 mt-4">
+      <p className="text-sm md:text-[16px] font-manropeB text-[#444846]">Email Notification</p>
+      <div className="md:text-[16px] text-[14px] font-manropeL space-y-[16px] text-white-650">
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
