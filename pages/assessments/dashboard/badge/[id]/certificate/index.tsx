@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { toJpeg, toPng } from 'html-to-image';
 import Button from '@ui/Button';
 import Head from 'next/head';
-import MainLayout from '../../../../../components/Layout/MainLayout';
+import MainLayout from '../../../../../../components/Layout/MainLayout';
 
 const Page = () => {
   const certificateRef = useRef<HTMLElement>(null);
