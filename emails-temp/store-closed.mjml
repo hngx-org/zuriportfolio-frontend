@@ -23,41 +23,32 @@
         </mj-text>
 
         <mj-text font-family="Century Gothic" font-weight="bold" color="#009254" font-size="20px">
-          Your store has been approved
+          Your shop has been closed
         </mj-text>
 
         <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
-          We are glad today's to notify you that your Zuriportfolio store
+          Unfortunately, we have made the challenging decision to close your store
           <span style="font-weight: bold"> {{$store_name}} </span>
-          has successfully undergone our comprehensive review process and has received official approval to continue its
-          operations on our platform. This achievement is a testament to your unwavering commitment to maintaining
-          elevated standards of quality and compliance.
+          on Zuriportfolio after a comprehensive review and remove it from our platform.
         </mj-text>
 
         <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
-          Your store has demonstrated excellence across all the dimensions outlined
+          This decision is a result of several serious violations of our terms of service and community guidelines which
+          you were sanctioned or prior to this decision being taken.
         </mj-text>
-
-        <mj-button
-          href="https://zuriportfolio.com/login"
-          border-radius="10px"
-          background-color="#33a467"
-          height="30px"
-          width="200px"
-          font-size="16px"
-          >Go to your store</mj-button
-        >
 
         <mj-text padding-top="30px" font-weight="400" color="#000" font-size="18px" font-family="Century Gothic">
-          We genuinely appreciate your dedication to upholding the quality and security of our platform. Your commitment
-          to these standards is instrumental in fostering a positive experience for our users.
+          Attempting to create a new shop or circumvent this closure is highly prohibited and will lead to a permanent
+          ban rom our platform.
         </mj-text>
 
         <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
-          If you have any questions or issues, please contact support at
+          If you have any pending orders, refunds, or unresolved issues associated with your shop, please contact our
+          support team at
           <a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
             >support@zuriportolio.com</a
-          >.
+          >
+          for assistance in resolving them.
         </mj-text>
 
         <mj-text font-family="Century Gothic" color="#000" padding-top="30px" font-size="18px">
@@ -65,7 +56,7 @@
             padding-top="30px"
             style="display: block; color: #d7a068; font-weight: bold; padding-top: 10px"
           >
-            Zuriportfolio
+            Zuri Team
           </span>
         </mj-text>
 
