@@ -1,6 +1,6 @@
-import Button, {ButtonVariants} from '@ui/Button';
-import React, { FC } from 'react'
- 
+import Button, { ButtonVariants } from '@ui/Button';
+import React, { FC } from 'react';
+
 // TODO: Update to the exported type when it has been exported in the button component
 interface ButtonProps extends ButtonVariants {
   children: React.ReactNode;
@@ -14,9 +14,7 @@ interface ButtonProps extends ButtonVariants {
   spinnerSize?: string | number;
 }
 
-const SignUpWithSocialsButton:FC<ButtonProps> = ({
- children, ...props
-}) => {
+const SignUpWithSocialsButton: FC<ButtonProps> = ({ children, ...props }) => {
   return (
     <Button
       intent={'tertiary'}
@@ -27,6 +25,6 @@ const SignUpWithSocialsButton:FC<ButtonProps> = ({
       {children}
     </Button>
   );
-}
+};
 
-export default SignUpWithSocialsButton
+export default SignUpWithSocialsButton;

@@ -6,14 +6,14 @@ const useSearchFilter = () => {
   const router = useRouter();
 
   // search filter state and logic here
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   function toggle() {
-    setIsOpen(isOpen => !isOpen)
+    setIsOpen((isOpen) => !isOpen);
   }
-  
+
   function handleSearch() {
-      setLoading(true);
-      console.log("handle submit")
+    setLoading(true);
+    console.log('handle submit');
     setTimeout(() => {
       setLoading(false);
       router.push('/marketplace/error-page');
