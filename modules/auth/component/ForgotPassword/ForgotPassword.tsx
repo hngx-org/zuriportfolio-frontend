@@ -23,7 +23,7 @@ const ForgotPassword = () => {
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
-      <main className="min-h-screen flex max-w-[1240px] mx-auto lg:py-16 lg:gap-[43px] ">
+      <main className=" flex mx-auto lg:pt-16 lg:gap-[43px] ">
         <section className="flex-col flex lg:w-fit w-full lg:text-start text-center ">
           <div className="font-manropeB flex-1 flex-col  flex justify-center md:py-14  max-w-[517px] mx-auto">
             <h1 className="font-manropeEB font-bold text-black md:text-[36px] leading-[122.222%] tracking-[-0.09px] md:mb-4 mb-[10px] text-[24px] ">
@@ -56,7 +56,7 @@ const ForgotPassword = () => {
               </div>
               <Button
                 intent={'primary'}
-                className="flex justify-center items-center gap-4 md:pl-[15.0625rem] md:pr-[15.0625rem] py-3 md:px-60 md:w-[100%] w-[100%] h-14 rounded-lg button text-white-100 text-center mt-[1rem]"
+                className="flex justify-center items-center gap-4 py-3 md:w-[100%] w-[100%] h-14 rounded-lg button text-white-100 text-center mt-[1rem]"
               >
                 Submit
               </Button>

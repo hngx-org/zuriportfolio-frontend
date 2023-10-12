@@ -31,6 +31,8 @@ function ProductCardWrapper({ productsList, title }: { productsList: ProductCard
           return (
             <div key={index} className="relative w-1/2 md:w-1/3 lg:w-1/4 pr-2 md:pr-4 lg:pr-8">
               <ProductCard
+                id={item?.id}
+                currency={item?.currency}
                 image={item?.image}
                 productName={item?.productName}
                 productPrice={item?.productPrice}

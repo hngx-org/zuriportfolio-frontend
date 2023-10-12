@@ -12,8 +12,8 @@ export default function ProductCard({
   discountPercentage,
   tag,
   tagBackground,
-  closeHandler
-}: CartProductCardProps & {closeHandler: (event: MouseEvent<HTMLElement>) => void}) {
+  closeHandler,
+}: CartProductCardProps & { closeHandler: (event: MouseEvent<HTMLElement>) => void }) {
   let tagStyle = ` absolute py-2 px-3 top-0 left-0 rounded-md text-[#fff] font-manropeB ${tagBackground} `;
 
   const getRating = () => {
@@ -42,8 +42,9 @@ export default function ProductCard({
           <span className="absolute py-2 px-3 top-0 left-0 bg-[#e6f5ea] rounded-md">{discountPercentage}% off</span>
         )}
         {tag && <span className={tagStyle}>{tag}</span>}
-        <Image onClick={closeHandler}
-        id={id}
+        <Image
+          onClick={closeHandler}
+          id={id}
           className="absolute top-0 right-3"
           width={25}
           height={25}

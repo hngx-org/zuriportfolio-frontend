@@ -13,9 +13,12 @@ import CategoriesNav from '../CategoriesNav/CategoriesNav';
 
 const handPicked: ProductCardProps[] = [
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -24,9 +27,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -35,9 +41,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -46,9 +55,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -57,9 +69,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -68,9 +83,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -79,9 +97,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -90,9 +111,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -104,9 +128,12 @@ const handPicked: ProductCardProps[] = [
 
 const limitedOffers: ProductCardProps[] = [
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-5.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -115,9 +142,12 @@ const limitedOffers: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: true,
@@ -126,9 +156,12 @@ const limitedOffers: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-6.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -137,9 +170,12 @@ const limitedOffers: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-7.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -148,9 +184,12 @@ const limitedOffers: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-5.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -159,9 +198,12 @@ const limitedOffers: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: true,
@@ -170,9 +212,12 @@ const limitedOffers: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-6.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -181,9 +226,12 @@ const limitedOffers: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-7.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -195,9 +243,12 @@ const limitedOffers: ProductCardProps[] = [
 
 const recentlyViewed: ProductCardProps[] = [
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/recentlyviewed/image1.webp',
     productName: 'Webinar and Course Slide Templa',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: true,
@@ -206,9 +257,12 @@ const recentlyViewed: ProductCardProps[] = [
     discount: 60,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/recentlyviewed/image2.webp',
     productName: 'Webinar and Course Slide Templa',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -217,9 +271,12 @@ const recentlyViewed: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/recentlyviewed/image3.webp',
     productName: 'Webinar and Course Slide Templa',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: true,
@@ -228,9 +285,12 @@ const recentlyViewed: ProductCardProps[] = [
     discount: 60,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/recentlyviewed/image4.webp',
     productName: 'Webinar and Course Slide Templa',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: true,
@@ -243,26 +303,25 @@ const recentlyViewed: ProductCardProps[] = [
 function LandingPage() {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="max-w-[1240px] mx-auto">
-        <CategoriesNav
-          navItems={[
-            ' Design & Graphics',
-            ' Development & Programming',
-            ' Content Creation',
-            ' Digital Arts & Media',
-            ' Audio & Sound',
-            ' Photography',
-            'Writing & Copywriting',
-            'Video & motion',
-            'Data & Analytics',
-            'Marketing & Advertising',
-            'eCommerce & Business',
-            'Gaming & Entertainment',
-            'Virtual Reality & Augmented Reality',
-            'e-Books',
-          ]}
-        />
-      </div>
+      <CategoriesNav
+        navItems={[
+          ' Design & Graphics',
+          ' Development & Programming',
+          ' Content Creation',
+          ' Digital Arts & Media',
+          ' Audio & Sound',
+          ' Photography',
+          'Writing & Copywriting',
+          'Video & motion',
+          'Data & Analytics',
+          'Marketing & Advertising',
+          'eCommerce & Business',
+          'Gaming & Entertainment',
+          'Virtual Reality & Augmented Reality',
+          'e-Books',
+        ]}
+      />
+
       <div className="py-6 px-4 overflow-hidden w-full">
         <div className="max-w-[1240px] mx-auto">
           <ProductCardWrapper title="Handpicked For You" productsList={handPicked} />
@@ -393,6 +452,8 @@ function LandingPage() {
                     <Image src={Cancel} alt="Cancel Icon" />
                   </button>
                   <ProductCard
+                    currency={item?.currency}
+                    id={item?.id}
                     image={item?.image}
                     productName={item?.productName}
                     productPrice={item?.productPrice}

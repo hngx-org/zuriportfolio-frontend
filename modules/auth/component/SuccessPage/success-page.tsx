@@ -18,7 +18,7 @@ const SuccessPage = () => {
         <Button
           href="/auth/reset_password"
           intent={'primary'}
-          className="flex justify-center items-center gap-4 whitespace-nowrap py-3 md:px-60 md:w-[100%] w-[100%] md:mb-[50px] mb-5 h-14 rounded-lg button text-white-100 text-center mt-[1rem] tracking-[ 0.024px] leading-[150%]"
+          className="flex justify-center items-center gap-4 whitespace-nowrap py-3 md:w-[100%] w-[100%] md:mb-[50px] mb-5 h-14 rounded-lg button text-white-100 text-center mt-[1rem] tracking-[ 0.024px] leading-[150%]"
         >
           Check my mail to proceed
         </Button>
