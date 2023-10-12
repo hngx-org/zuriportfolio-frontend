@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Modal from '../ui/Modal';
 import Image from 'next/image';
-import badgeExpert from '../../public/assets/images/CATAYST.png';
-import badgeInterMediate from '../../public/assets/images/badge-tablet.png';
-import badgeBeginner from '../../public/assets/images/badge-reward.png';
+import badgeExpert from '../../public/assets/images/badges/expert.png';
+import badgeInterMediate from '../../public/assets/images/badges/intermediate.png';
+import badgeBeginner from '../../public/assets/images/badges/beginner.png';
 import peaceIcon from '../../public/assets/images/peace-icon.png';
 import Button from '@ui/Button';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [isShown, setIsShown] = useState(false);
@@ -49,6 +50,8 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
     setHasSelected(true);
     setIsShown((prev) => !prev);
     setSelection(event.currentTarget.textContent);
+
+    onClose()
   };
 
   const handleDownload = () => {
