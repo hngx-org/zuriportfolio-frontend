@@ -57,29 +57,34 @@ const Summary  = ({ prices,sum }: SummaryProps & {sum: number}) => {
     }
   };
 
-  const handleCheckoutClick = () => {
-    const token = localStorage.getItem('authToken');
-    console.log(token);
+  // const handleCheckoutClick = () => {
+  //   const token = localStorage.getItem('authToken');
+  //   console.log(token);
 
-    if (token !== null) {
-      const userIsAuthenticated = isAuthenticated(token);
-      if (userIsAuthenticated) {
-        setAuthUser(true);
-        setModalOpen(true);
-      }
-    } else {
-      onOpen();
-    }
-    // const token = localStorage.getItem('authToken');
-    // if(token !== null) {
-    //   const value = isAuthenticated(token)
-    //   console.log(value)
-    // }
-  };
+  //   if (token !== null) {
+  //     const userIsAuthenticated = isAuthenticated(token);
+  //     if (userIsAuthenticated) {
+  //       setAuthUser(true);
+  //       setModalOpen(true);
+  //     }
+  //   } else {
+  //     onOpen();
+  //   }
+  //   // const token = localStorage.getItem('authToken');
+  //   // if(token !== null) {
+  //   //   const value = isAuthenticated(token)
+  //   //   console.log(value)
+  //   // }
+  // };
 
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const handleCheckoutClick = () => {
+    setModalOpen(true);
+  };
+
   return (
     <section className="flex lg:px-10 py-8">
       <div className="cart-summary_wrapper flex flex-col space-y-6">
@@ -176,13 +181,14 @@ const Summary  = ({ prices,sum }: SummaryProps & {sum: number}) => {
               Checkout
             </button>
           </div>
-          {authUser ? (
+          {/* {authUser ? (
             modalOpen ? (
               <PaymentInformationModal closeModal={closeModal} />
             ) : null
           ) : (
             <TempUser isOpen={isOpen} onClose={onClose} />
-          )}
+          )} */}
+          {modalOpen ? <PaymentInformationModal closeModal={closeModal} /> : null}
         </div>
       </div>
     </section>

@@ -245,11 +245,15 @@ export function PortfolioCtxProvider(props: { children: any }) {
     },
     {
       id: 'language',
-      modal: <LanguageModal isOpen={modalStates['language']} onClose={() => onCloseModal('language')} />,
+      modal: (
+        <LanguageModal isOpen={modalStates['language']} onClose={() => onCloseModal('language')} userId={userId} />
+      ),
     },
     {
-      id: 'interest',
-      modal: <InterestModal isOpen={modalStates['interest']} onClose={() => onCloseModal('interest')} />,
+      id: 'interests',
+      modal: (
+        <InterestModal isOpen={modalStates['interests']} onClose={() => onCloseModal('interests')} userId={userId} />
+      ),
     },
     {
       id: 'skill',
