@@ -19,8 +19,6 @@ import { FavoriteProduct } from '../../@types';
 import { CloseCircle, ArrowRight2 } from 'iconsax-react';
 import { useState, useEffect } from 'react';
 
-import CategoriesDetailsNav from './component/CategoriesNav/CategoriesDetailNav';
-
 import Button from '@ui/Button';
 import Image from 'next/image';
 
@@ -85,18 +83,6 @@ function Wishlist() {
         </div>
       )}
       <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-        <CategoriesDetailsNav
-          navItems={[
-            'Wish-list',
-            ' UI/UX Designers',
-            'Software Devs',
-            'Video Editors',
-            'Content Creators',
-            'Writers',
-            'SEO Expert',
-            'Devops Engi...',
-          ]}
-        />
         <Container>
           <div className="font-manropeL max-w-[1240px] mx-auto my-8 pt-2">
             <section className="px-3 xl:px-0 flex flex-col gap-6 my-4">

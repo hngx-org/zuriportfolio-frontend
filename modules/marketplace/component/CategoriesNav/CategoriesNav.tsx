@@ -38,7 +38,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
 
   return (
     <div className={`font-ppReg shadow-sm -mt-8 px-4`}>
-      <aside className="max-w-[1240px] mx-auto hidden lg:flex gap-8 items-center z-50">
+      <aside className="max-w-[1240px] mx-auto hidden xl:flex gap-8 items-center z-50">
         <button
           className={`${allCatActive ? 'text-brand-green-shade50' : ''}  items-center gap-1 whitespace-nowrap flex`}
           onClick={() => {
