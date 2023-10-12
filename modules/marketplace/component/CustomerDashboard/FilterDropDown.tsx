@@ -5,9 +5,9 @@ import { Sort } from 'iconsax-react';
 import React from 'react';
 
 type FilterList = {
-  name: SearchFilter,
-  id: number
-}
+  name: SearchFilter;
+  id: number;
+};
 
 const filterByList: FilterList[] = [
   {
