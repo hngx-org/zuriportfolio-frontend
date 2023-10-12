@@ -14,10 +14,10 @@ const EmptyCart = () => {
             </p>
           </div>
 
-          <button className="rounded-[8px] bg-brand-green-primary w-full lg:w-[345px] h-[60px] px-[20px] py-[12px] flex gap-[16px] items-center justify-center ">
+          <a  href='/marketplace' className="cursor-pointer rounded-[8px] bg-brand-green-primary w-full lg:w-[345px] h-[60px] px-[20px] py-[12px] flex gap-[16px] items-center justify-center ">
             <p className="text-[#fff] text-[14px] font-[600] leading-[20px] font-manropeL">Start Shopping</p>
             <ArrowRight color="#fff" />
-          </button>
+          </a>
         </div>
 
         <div className="help-line border-y border-[#E1E3E2] px-[24px] lg:px-[100px] text-center lg:text-left py-[24px] w-full">
