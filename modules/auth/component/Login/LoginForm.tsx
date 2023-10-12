@@ -140,7 +140,7 @@ function LoginForm() {
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
       <div className="md:mx-auto lg:mb-10 font-manropeL">
         <div className="md:flex sm:flex flex-col items-center justify-center lg:items-start">
-          <p className=" md:text-4xl text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
+          <p className=" md:text-4xl mt-[1.75rem] md:mt-0 text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
           <p className="text-custom-color30  mt-[1rem] md:text-[1.375rem]  lg:font-semibold sm:tracking-[0.00375rem] text-center md:text-left">
             Log in to continue using zuriportfolio
           </p>
@@ -205,8 +205,8 @@ function LoginForm() {
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
               Don&apos;t have an account?
-              <Link href="/auth/login">
-                <span className="text-brand-green-primary"> Sign in</span>
+              <Link href="/auth/signup">
+                <span className="text-brand-green-primary"> Sign Up</span>
               </Link>
             </p>
           </div>

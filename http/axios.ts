@@ -5,6 +5,7 @@ const $http = axios.create({
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
+    credentials: 'include',
     // 'Access-Control-Allow-Origin': '*',
   },
   // withCredentials: true,
