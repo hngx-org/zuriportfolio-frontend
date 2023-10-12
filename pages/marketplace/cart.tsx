@@ -10,7 +10,6 @@ import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 
 export default function Cart() {
 
-
   const ViewedProducts: ViewedProductCardProps[] = [
     {
       id: '1',
@@ -50,20 +49,87 @@ export default function Cart() {
     },
   ]
 
+  const CartProducts: CartItemProps[] = [
+    {
+      productId: '1',
+      productImage: '/assets/images/image-zuri-1.png',
+      productTitle: 'Moodring: Cute Shop',
+      productSize: 'medium',
+      productColor: 'blue',
+      productSeller: 'Artel Market',
+      productPrice: 100,
+    },
+    {
+      productId: '2',
+      productImage: '/assets/images/image-zuri-2.png',
+      productTitle: 'Jelly Bean: Fun Shop',
+      productSize: 'medium',
+      productColor: 'blue',
+      productSeller: 'Artel Market',
+      productPrice: 100,
+    },
+    {
+      productId: '3',
+      productImage: '/assets/images/image-zuri-3.png',
+      productTitle: 'Webinar and Course',
+      productSize: 'medium',
+      productColor: 'blue',
+      productSeller: 'Artel Market',
+      productPrice: 100,
+    },
+    {
+      productId: '4',
+      productImage: '/assets/images/image-zuri-4.png',
+      productTitle: '4in1 Big Bundle',
+      productSize: 'medium',
+      productColor: 'blue',
+      productSeller: 'Artel Market',
+      productPrice: 100,
+    },
+    {
+      productId: '5',
+      productImage: '/assets/images/image-zuri-5.png',
+      productTitle: 'Square Space 7.1',
+      productSize: 'medium',
+      productColor: 'blue',
+      productSeller: 'Artel Market',
+      productPrice: 100,
+    },
+    {
+      productId: '6',
+      productImage: '/assets/images/image-zuri-6.png',
+      productTitle: 'Digital illustration',
+      productSize: 'medium',
+      productColor: 'blue',
+      productSeller: 'Artel Market',
+      productPrice: 100,
+    }
+  ]
+
   const authContext = useContext(AuthContext);
   const {user} = authContext
   const [productCards,setProductCards] = useState(ViewedProducts);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
+  
 
-
+  const getSummary = (items: any[]) => {
+    let sum = 0;
+    const data = items.map((item) => (sum += Number(item.productPrice)));
+    return sum
+  }
+  // const sum = getSummary(CartProducts);
+  const [cartSummary, setCartSummary ] = useState<number>(0)
+  
+  // setCartSummary(sum);
 
   useEffect(() => {
       async function cartFetch() {
-        const carts = await getUserCart(user?.token as string)
+        const carts = await getUserCart()
         console.log(carts);
         console.log("carts fetched");
-        
         setCartItems(carts)
+        const sum = getSummary(carts);
+        setCartSummary(sum);
       }
       cartFetch()
   },[])
@@ -81,6 +147,7 @@ export default function Cart() {
     setCartItems(cartProductsItems)
   }
 
+  
 
   const cartProductItems = cartItems.map((cartItem) => (
     <CartItem
@@ -88,6 +155,7 @@ export default function Cart() {
       productId={cartItem.productId}
       productColor={cartItem.productColor}
       productTitle={cartItem.productTitle}
+      proudctDescription={cartItem.proudctDescription}
       productImage={cartItem.productImage}
       productSeller={cartItem.productSeller}
       productSize={cartItem.productSize}
@@ -117,14 +185,15 @@ export default function Cart() {
   return (
     <MainLayout activePage="home" showDashboardSidebar={false} showTopbar>
       <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
- 
+{ cartItems.length > 0 ?
+  <>
         <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
           <div className="w-full flex flex-col justify-center md:w-full lg:w-4/5 ">
             <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
             {cartProductItems}
           </div>
           <div className="flex md:flex-none justify-center md:mx-0">
-            <Summary />
+            <Summary sum={cartSummary} />
           </div>
         </section>
 
@@ -137,7 +206,9 @@ export default function Cart() {
             {recentlyViewed}
           </div>
         </section>
-      
+        </>: 
+        <EmptyCart></EmptyCart>
+      }
       </main>
     </MainLayout>
   );
