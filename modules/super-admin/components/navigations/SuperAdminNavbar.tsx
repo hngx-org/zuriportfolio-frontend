@@ -1,7 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../../../public/assets/404/logo-zuri-auth.svg';
-import { Book, Chart, I24Support, I3Dcube, Notification, Personalcard, SearchNormal1 } from 'iconsax-react';
+import {
+  Book,
+  Chart,
+  I24Support,
+  I3Dcube,
+  Notification,
+  Personalcard,
+  SearchNormal1,
+  SecuritySafe,
+} from 'iconsax-react';
 import { Input } from '@ui/Input';
 import { useRouter } from 'next/router';
 import Sidebar from './SuperAdminSidebar';
@@ -27,11 +36,16 @@ export const menu = [
     to: '/super-admin/feedback-and-customer-support',
     icon: <I24Support size="20" />,
   },
-  // {
-  //   title: 'Internal Assessment',
-  //   to: '/assessment',
-  //   icon: <Book size="20" />
-  // }
+  {
+    title: 'Internal Assessment',
+    to: '/super-admin/assessment',
+    icon: <Book size="20" />,
+  },
+  {
+    title: 'API Statuses',
+    to: '/super-admin/api-statuses',
+    icon: <SecuritySafe size="20" />,
+  },
 ];
 
 const SuperAdminNavbar = () => {
@@ -46,6 +60,10 @@ const SuperAdminNavbar = () => {
         return 'Vendor Management';
       case route.includes('/super-admin/feedback-and-customer-support'):
         return 'Feedback & Customer Support';
+      case route.includes('/super-admin/assessment'):
+        return 'Internal Assessment';
+      case route.includes('/super-admin/api-statuses'):
+        return 'API Statuses';
       default:
         return '';
     }
