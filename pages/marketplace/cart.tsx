@@ -63,7 +63,7 @@ export default function Cart() {
         console.log(carts);
         setCartItems(carts)
       }
-      // cartFetch()
+      cartFetch()
   },[])
 
 
