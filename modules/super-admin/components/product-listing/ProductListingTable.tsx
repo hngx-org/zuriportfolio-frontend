@@ -85,8 +85,16 @@ const ProductListingTable = () => {
 
       if (status === 'newest') {
         return dateB.getTime() - dateA.getTime(); // Newest to oldest
-      } else {
+      } else if (status === 'newest') {
         return dateA.getTime() - dateB.getTime(); // Oldest to newest
+      } else {
+        const statusOrder: { [key: string]: number } = {
+          Active: 1,
+          Sanctioned: 2,
+          Deleted: 3,
+        };
+        return statusOrder[a.status] - statusOrder[b.status];
+        // });
       }
     });
     setFilteredProducts(sortedProducts);
