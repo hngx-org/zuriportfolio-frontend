@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@ui/Button';
+import axios from 'axios';
 import { Input } from '@ui/Input';
 import { ArrowRight2 } from 'iconsax-react';
 import { Trash } from 'iconsax-react';
@@ -21,6 +22,10 @@ type PurchaseData = {
   date: string;
   sellerName: string;
   status: string;
+};
+
+type Item = {
+  transactions: any[];
 };
 
 const DUMMYDATA: PurchaseData[] = [
@@ -45,7 +50,7 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U91',
 
     price: '$100.00',
 
@@ -61,7 +66,7 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U92',
 
     price: '$100.00',
 
@@ -76,8 +81,7 @@ const DUMMYDATA: PurchaseData[] = [
     id: 4,
 
     item: 'Webinar & Course Slide',
-
-    orderID: '643D73U90',
+    orderID: '643D73U93',
 
     price: '$100.00',
 
@@ -92,8 +96,7 @@ const DUMMYDATA: PurchaseData[] = [
     id: 5,
 
     item: 'Webinar & Course Slide',
-
-    orderID: '643D73U90',
+    orderID: '643D73U94',
 
     price: '$100.00',
 
@@ -108,9 +111,7 @@ const DUMMYDATA: PurchaseData[] = [
     id: 6,
 
     item: 'Webinar & Course Slide',
-
-    orderID: '643D73U90',
-
+    orderID: '643D73U95',
     price: '$100.00',
 
     date: '25 March 2023',
@@ -128,12 +129,54 @@ export type SearchFilter = 'item' | 'date' | 'orderID' | 'price' | 'sellerName';
 const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [filter, setFilter] = useState<string | null>(null);
+  const [transactionData, setTransactionData] = useState<Item[]>([]);
   const [data, setData] = useState<PurchaseData[]>(DUMMYDATA);
+  const [error, setError] = useState<string | null>(null);
+
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
 
+  const transactionUrl = 'https://customer-purchase.onrender.com/api';
+
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      try {
+        const response = await axios.get(`${transactionUrl}/all-transactions`);
+        setTransactionData(response?.data);
+      } catch (err) {}
+    };
+    fetchTransaction();
+  }, [transactionUrl]);
+
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+
   // function to handle delete
   const onDelete = () => {
+    onClose();
+  };
+
+  const deleteData = async (id: string) => {
+    try {
+      const response = await axios.delete(`${transactionUrl}/delete-transactions`);
+      return response.data();
+    } catch (err) {
+      setError('Unable to delete!');
+    }
+  };
+
+  const handleCheckboxChange = (orderID: string) => {
+    setCheckedItems((prevState) => {
+      if (prevState.includes(orderID)) {
+        return prevState.filter((id) => id !== orderID);
+      } else {
+        return [...prevState, orderID];
+      }
+    });
+  };
+
+  const handleDelete = (orderIds: string) => {
+    const newData = data.filter((item) => !orderIds.includes(item.orderID));
+    setData(newData);
     onClose();
   };
 
@@ -185,9 +228,9 @@ const MyPage: React.FC = () => {
 
   return (
     <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
-      <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
-        <div className="mt-9 mb-12 hidden sm:block">
-          <div className="flex items-center">
+      <div className="px-7 sm:px-16 max-w-screen overflow-hidden">
+        <div className="mt-2 sm:mt-9 sm:mb-12 sm:block">
+          <div className="flex items-center ml-5 sm:ml-0">
             <p className="text-base text-brand-green-primary">Settings</p>
             <span className="mx-[5px]">
               <ArrowRight2 size="16" color="green" />
@@ -256,8 +299,8 @@ const MyPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
-          <div className="hidden sm:flex items-center h-[2.5rem] gap-10 mt-[3rem] ">
+        <div className="sm:border-r-4 sm:border-white-200 sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
+          <div className="flex items-center h-[2.5rem] gap-5 sm:gap-10 mt-[3rem] ">
             <form className="w-full" onSubmit={(e) => onSearch(e)}>
               <Input
                 value={searchInput}
@@ -268,14 +311,16 @@ const MyPage: React.FC = () => {
               />
             </form>
 
-            <FilterDropDown onChooseFilter={onChooseFilter} />
-
-            <Button
-              onClick={onOpen}
-              className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]"
-            >
-              <Trash size="16" /> Delete
-            </Button>
+            <div className="flex gap-3">
+              <FilterDropDown onChooseFilter={onChooseFilter} />
+              <Button
+                onClick={onOpen}
+                className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 sm:w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]"
+              >
+                <Trash size="16" />
+                <p className="hidden sm:block">Delete</p>
+              </Button>
+            </div>
           </div>
 
           {/* table */}
@@ -306,7 +351,11 @@ const MyPage: React.FC = () => {
                         <td className="text-[0.75rem] flex items-center mt-5">
                           <span className="px-4 ml-[1rem]">
                             {' '}
-                            <input type="checkbox" />
+                            <input
+                              type="checkbox"
+                              checked={checkedItems.includes(item.orderID)}
+                              onChange={() => handleCheckboxChange(item.orderID)}
+                            />
                           </span>
                           {item.item}
                         </td>
@@ -331,12 +380,19 @@ const MyPage: React.FC = () => {
               </table>
             </div>
           )}
-          {data.length > 0 && <MobileCustomerDashboard />}
+
+          {data.length > 0 && (
+            <MobileCustomerDashboard
+              data={data}
+              checkedItems={checkedItems}
+              handleCheckboxChange={handleCheckboxChange}
+            />
+          )}
           {/* error page */}
           {data.length === 0 && <PurchaseNotFound back={onBack} />}
         </div>
         {/* delete modal */}
-        <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
+        <DeleteModal isOpen={isOpen} onClose={onClose} handleDelete={handleDelete} checkedItems={checkedItems} />
       </div>
     </MainLayout>
   );
