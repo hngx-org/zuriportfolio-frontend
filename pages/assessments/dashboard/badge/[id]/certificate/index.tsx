@@ -90,7 +90,7 @@ const Page = () => {
         </Head>
         <section
           ref={certificateRef}
-          className="w-full bg-white rounded-lg py-8 px-8 text-center flex flex-col gap-4 items-center justify-center"
+          className="w-full bg-white rounded-lg pt-4 pb-8 px-8 text-center flex flex-col gap-4 items-center justify-center"
         >
           <h4 className="text-[#009254] font-[700] text-xl">Congratulations!</h4>
 

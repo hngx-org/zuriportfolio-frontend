@@ -62,18 +62,18 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 
   return (
     <Modal isOpen={isOpen} closeModal={onClose} closeOnOverlayClick isCloseIconPresent={false}>
-      <div className="bg-white rounded-lg pt-[110px] mx-auto flex flex-col gap-[22px] items-center">
-        <h4 className="text-green-600 font-manropeB text-[32px] ">Congratulations!</h4>
+      <div className="bg-white rounded-lg pt-[25px] sm:pt-[65px] mx-auto flex flex-col gap-[22px] items-center">
+        <h4 className="text-green-600 font-manropeB text-[24px] sm:text-[32px] ">Congratulations!</h4>
 
-        <Image src={badgeImage} alt="user badge" className="w-40" priority />
+        <Image src={badgeImage} alt="user badge" className="w-40 border-transparent rounded-full " priority />
 
         <div className="flex gap-2 items-center">
           <h4 className="font-manropeB text-[28px] text-xl">{badgeTitle}</h4>
-          <Image src={peaceIcon} alt="Peace icon" className="w-[43px] h-[43px]" />
+          <Image src={peaceIcon} alt="Peace icon" className="w-[43px] h-[43px] " />
         </div>
-        <p className="font-manrope text-[14px] text-center w-[288px] md:w-[399px]">{badgeDescription}</p>
+        <p className="font-manrope text-[14px] sm:text-[18px] text-center w-[288px] md:w-[399px]">{badgeDescription}</p>
 
-        <div className={`flex flex-col gap-2 overflow-y-hidden duration-300 ${isShown ? 'h-[11rem]' : 'h-14'}`}>
+        <div className={`flex flex-col gap-2 overflow-y-hidden duration-300 mb-4  ${isShown ? 'h-[11rem]' : 'h-14'}`}>
           <Button
             className="mt-2 px-6 py-3 text-white text-sm w-fit flex items-center gap-4 bg-[#009254] rounded-2xl"
             onClick={handleDownload}
