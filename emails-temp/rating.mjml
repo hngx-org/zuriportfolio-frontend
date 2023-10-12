@@ -7,190 +7,86 @@
     <mj-section>
       <mj-column width="100%">
         <!-- Header -->
-        <mj-image src="assets/order/logo.svg" alt="" width="200px" align="left" />
+        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/green-logo.png" alt="" width="200px" align="left" />
 
         <!-- Main Content -->
         <mj-text color="#000" padding-top="50px" font-weight="600" font-family="Manrope" font-size="22px">
-          Review time!
-        </mj-text>
-        <mj-text font-size="16px" font-weight="400" font-family="Manrope"> Hi Mirabel,<br /> </mj-text>
-        <mj-text font-size="16px" font-weight="400" font-family="Manrope">
-          We're thrilled that you chose to shop with Zuriportfolio, and we hope you're enjoying your orders. Your
-          satisfaction is our top priority, and we'd greatly appreciate it if you could take a moment to share your
-          experience with us.
+        Review time!
         </mj-text>
         <mj-text font-size="16px" font-weight="400" font-family="Manrope">
-          Your feedback helps us improve our products and services, and it also provides valuable insights to potential
-          customers looking to make a purchase. Whether you had an exceptional experience or feel there's room for
-          improvement, we want to hear from you.
+             Hi Mirabel,<br />
         </mj-text>
-        <mj-text font-size="16px" font-weight="400" font-family="Manrope">
-          To leave a review, simply click on the link below and share your thoughts:
+        <mj-text font-size="16px" font-weight="400" font-family="Manrope" line-height="24px">
+            We're thrilled that you chose to shop with Zuriportfolio, and we hope you're enjoying your orders. Your satisfaction is our top priority, and we'd greatly appreciate it if you could take a moment to share your experience with us.
         </mj-text>
-        <mj-button
-          background-color="#009254"
-          align="left"
-          border-radius="16px"
-          height="52px"
-          width="164px"
-          font-family="Manrope"
-        >
-          Send a review
+         <mj-text font-size="16px" font-weight="400" font-family="Manrope" line-height="24px">
+            Your feedback helps us improve our products and services, and it also provides valuable insights to potential customers looking to make a purchase. Whether you had an exceptional experience or feel there's room for improvement, we want to hear from you.
+        </mj-text>
+         <mj-text font-size="16px" font-weight="400" font-family="Manrope" line-height="24px">
+            To leave a review, simply click on the link below and share your thoughts:
+        </mj-text>
+        <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px" font-family="Manrope">
+            Send a review
         </mj-button>
         <mj-divider border-color="#F0F1F0" padding-top="20px" />
-      </mj-column>
-    </mj-section>
-    <mj-section padding-top="2px">
-      <mj-column>
-        <mj-text font-weight="700" font-family="Manrope" font-size="16px" padding-top="2px" color="#000">
+            </mj-column>
+       </mj-section>
+      <mj-section padding-top="2px">
+        <mj-column > 
+             <mj-text font-weight="700" font-family="Manrope" font-size="16px" padding-top="2px" color="#000">
           Product Details:
         </mj-text>
+        </mj-column>
+     </mj-section>
+      <mj-section>
+      <mj-column width="30%">
+      <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product2.svg" alt="" width="90px" padding-top="10px" align="left" />
       </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-group>
-        <mj-column width="50%">
-          <mj-text>
-            <mj-raw>
-              <style>
-                @media screen and (min-width: 768px) {
-                  .custom-flex {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    align-items: center;
-                  }
-                  .custom-flex img {
-                    width: 90px;
-                  }
-                  .grey {
-                    color: #737876;
-                  }
-                  .bold {
-                    font-family: Manrope;
-                    font-size: 12px;
-                  }
-                }
-
-                @media screen and (max-width: 767px) {
-                  .custom-flex {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                  }
-                  .custom-flex img {
-                    width: 90px;
-                    margin-bottom: 10px;
-                  }
-                  .grey {
-                    color: #737876;
-                  }
-                  .bold {
-                    font-family: Manrope;
-                    font-size: 12px;
-                  }
-                }
-              </style>
-            </mj-raw>
-            <div class="custom-flex">
-              <div>
-                <img src="assets/order/product2.svg" alt="" width="90px" align="left" />
-              </div>
-              <div>
-                <p class="bold grey">ITEM</p>
-                <p class="bold">Brown nylon jacket</p>
-              </div>
-            </div>
-          </mj-text>
+      <mj-column width="70%" >
+         <mj-text  font-family="Manrope" font-size="12px" color="#737876" align="left">
+          ITEM
+        </mj-text>
+        <mj-text font-family="Manrope" font-size="12px" padding-top="0">
+              Brown nylon jacket
+        </mj-text>
+      </mj-column>
+  </mj-section>
+   <mj-section>
+      <mj-column width="30%">
+      <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product.svg" alt="" width="90px" padding-top="10px" align="left" />
+      </mj-column>
+      <mj-column width="70%" >
+         <mj-text  font-family="Manrope" font-size="12px" color="#737876" align="left">
+          ITEM
+        </mj-text>
+        <mj-text font-family="Manrope" font-size="12px" padding-top="0">
+              Brown nylon jacket
+        </mj-text>
+      </mj-column>
+  </mj-section>
+      <mj-section padding-bottom="200px">
+        <mj-group>
+        <mj-column > 
+             <mj-text font-weight="600" font-family="Manrope" font-size="14px" line-height="24px">
+        If you have any questions, reply to this email or contact us at hello@zuriportfolio.com
+        </mj-text>
         </mj-column>
-      </mj-group>
-    </mj-section>
-    <mj-section>
-      <mj-group>
-        <mj-column width="50%">
-          <mj-text>
-            <mj-raw>
-              <style>
-                @media screen and (min-width: 768px) {
-                  .custom-flex {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    align-items: center;
-                  }
-                  .custom-flex img {
-                    width: 90px;
-                  }
-                  .grey {
-                    color: #737876;
-                  }
-                  .bold {
-                    font-family: Manrope;
-                    font-size: 12px;
-                  }
-                }
-
-                @media screen and (max-width: 767px) {
-                  .custom-flex {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                  }
-                  .custom-flex img {
-                    width: 90px;
-                    margin-bottom: 10px;
-                  }
-                  .grey {
-                    color: #737876;
-                  }
-                  .bold {
-                    font-family: Manrope;
-                    font-size: 12px;
-                  }
-                }
-              </style>
-            </mj-raw>
-            <div class="custom-flex">
-              <div>
-                <img src="assets/order/product.svg" alt="" width="90px" align="left" />
-              </div>
-              <div>
-                <p class="bold grey">ITEM</p>
-                <p class="bold">Brown nylon jacket</p>
-              </div>
-            </div>
-          </mj-text>
-        </mj-column>
-      </mj-group>
-    </mj-section>
-    <mj-section padding-bottom="200px">
-      <mj-group>
-        <mj-column>
-          <mj-text font-weight="600" font-family="Manrope" font-size="14px">
-            If you have any questions, reply to this email or contact us at hello@zuriportfolio.com
-          </mj-text>
-        </mj-column>
-      </mj-group>
-    </mj-section>
-    <mj-section background-color="#009254">
-      <mj-column width="90%">
-        <mj-image src="assets/order/footer-logo.svg" alt="" width="100px" align="center" />
-        <mj-social font-size="14px" icon-size="24px" mode="horizontal" padding-top="8px">
-          <mj-social-element src="assets/order/linkedin.svg" href="https://www.linkedin.com/company/hng-internship/" />
-          <mj-social-element src="assets/order/instagram.svg" href="https://www.instagram.com/hnginternship/" />
-          <mj-social-element src="assets/order/facebook.svg" href="https://www.facebook.com/Hnginternship/" />
-          <mj-social-element src="assets/order/twitter.svg" href="https://www.twitter.com/hnginternship/" />
+        </mj-group>
+     </mj-section>
+          <mj-section background-color="#009254">
+        <mj-column width="90%">
+             <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png" alt="" width="100px" align="center" />
+       
+        <mj-social font-size="24px" align="center">
+          <mj-social-element name="instagram" href="https://www.instagram.com/hnginternship/" background-color="red" />
+          <mj-social-element name="facebook" href="https://facebook.com/Hnginternship/" />
+          <mj-social-element name="twitter" href="https://twitter.com/hnginternship" />
+          <mj-social-element name="linkedin" href="https://www.linkedin.com/company/hng-internship/" />
         </mj-social>
-        <mj-text color="#fff" padding-top="4px" align="center" font-size="14px" font-family="Manrope"
-          >Beaverto, Oregon, Washington County, USA</mj-text
-        >
-        <mj-text color="#fff" align="center" font-size="14px" font-family="Manrope"
-          >Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text
-        >
-        <mj-text color="#C4C7C6" padding-top="4px" align="center" font-size="12px" font-family="Manrope"
-          >Unsubscribe</mj-text
-        >
-      </mj-column>
-    </mj-section>
+        <mj-text color="#fff" padding-top="4px" align="center" font-size="14px" font-family="Manrope">Beaverto, Oregon, Washington County, USA</mj-text>
+        <mj-text color="#fff" align="center" font-size="14px" font-family="Manrope">Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text>
+        <mj-text color="#C4C7C6" padding-top="4px" align="center" font-size="12px" font-family="Manrope">Unsubscribe</mj-text>     
+        </mj-column>
+       </mj-section>
   </mj-body>
 </mjml>
