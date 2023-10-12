@@ -100,7 +100,7 @@ const SuperAdminNavbar = () => {
           </div>
         </div>
       </div>
-      <div className="px-5 py-5 mt-6 justify-between font-manropeB hidden lg:flex container mx-auto">
+      <div className="py-5 mt-6 justify-between font-manropeB hidden lg:flex container mx-auto">
         {menu.map((item) => (
           <Link
             key={item.title}

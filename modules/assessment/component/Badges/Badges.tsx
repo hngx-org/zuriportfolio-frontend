@@ -1,6 +1,5 @@
 import React from 'react';
 import { MdArrowBackIosNew } from 'react-icons/md';
-import { BsFillShareFill } from 'react-icons/bs';
 import BadgeModal from '../../../../components/Modals/BadgesModal';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,7 +16,7 @@ const Badges: React.FC<BadgesProps> = ({ scorePercentage, badgelabel, setIsdownl
   return (
     <section className="bg-[#F2F4F5]">
       <div className="hidden lg:flex pl-6  sm:pl-[96px] pt-8 flex justify-start align-middle text-2xl cursor-pointer">
-        <Link href="/badges">
+        <Link href="/assessments/dashboard">
           <MdArrowBackIosNew />
         </Link>
       </div>
@@ -60,18 +59,12 @@ const Badges: React.FC<BadgesProps> = ({ scorePercentage, badgelabel, setIsdownl
                 >
                   Download
                 </button>
-                <button className="bg-white border-[#009254] border h-12 w-full rounded-2xl text-[#009254]">
-                  View
-                </button>
-              </div>
-              <div className=" h-10  flex items-center justify-end w-10/12 pb-2 md:w-auto md:justify-center md:h-12 md:pt-6 text-2xl text-[#009254]">
-                <BsFillShareFill />
               </div>
             </div>
           </div>
           <div className="flex justify-end w-full">
             <Link href={'/assessments/dashboard'}>
-              <p className=" underline mt-[30px] flex right-6 pr-4 sm:pr-10 cursor-pointer">Retake Test</p>
+              <p className=" underline mt-[30px] flex right-6 pr-4 sm:pr-10 ">Retake Test</p>
             </Link>
           </div>
           <BadgeModal isOpen={isdownloadOpen} onClose={onClose} />
