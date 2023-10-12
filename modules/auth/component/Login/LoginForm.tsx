@@ -53,15 +53,15 @@ function LoginForm() {
         router.push('/dashboard/orders');
       } else if (res.statusCode === 400 && 'Please verify your email.') {
         // Unverified user
-        console.error('Unverified user:');
+        console.error('Unverified user');
         // Handle unverified user logic (e.g., show a message to verify the email).
       } else if (res.statusCode === 400 && 'Password or email is not correct') {
         // Incorrect password
-        console.error('Incorrect password:');
+        console.error('Incorrect password');
         // Handle incorrect password logic (e.g., show a password error message).
-      } else if (res.statusCode === 400 && 'User not found') {
+      } else if (res.statusCode === 500 && 'Error logging in') {
         // User not found
-        console.error('User not found:');
+        console.error('Error logging in');
         // Handle user not found logic (e.g., show an error message).
       } else {
         // Handle other error cases
@@ -177,7 +177,6 @@ function LoginForm() {
             </Link>
 
             <Button
-              // href="/auth/2fa"
               isLoading={isLoginUserMutationLoading}
               intent={'primary'}
               type="submit"
@@ -189,9 +188,9 @@ function LoginForm() {
           </form>
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-              Already have an account?{' '}
+              Don&apos;t have an account?
               <Link href="/auth/login">
-                <span className="text-brand-green-primary">Sign in</span>
+                <span className="text-brand-green-primary"> Sign in</span>
               </Link>
             </p>
           </div>

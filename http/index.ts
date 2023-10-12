@@ -25,7 +25,7 @@ import $http from './axios';
 //   };
 //   statusCode: number;
 // };
-const AUTH_HTTP_URL = 'https://hng-stage-six.onrender.com/';
+const AUTH_HTTP_URL = 'https://auth.akuya.tech/';
 
 // test
 export const getUserByName = async (props: { name: string }) => {
@@ -56,23 +56,6 @@ export const loginUser = async (props: { email: string; password: string }) => {
     return e.response.data ?? { message: e.message };
   }
 };
-
-// export const loginUser = async (props: { email: string; password: string }) => {
-//   const $http = axios.create({
-//     baseURL: 'https://auth.akuya.tech/api/auth',
-//     timeout: 30000,
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   });
-
-//   const res = await $http.post('/login', props);
-//   // console.log("response", res.data);
-//   if (res.data === 'User not found ') {
-//     // throw new Error('not found');
-//   }
-//   return res?.data;
-// };
 
 // export const loginUser = async () => {
 //   const $http = axios.create({
