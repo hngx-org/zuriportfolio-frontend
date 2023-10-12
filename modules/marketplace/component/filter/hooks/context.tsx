@@ -57,10 +57,11 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
       if(status === 200) {
         console.log(data)
         if(data.products.length === 0){
-          // router.push('/marketplace/error-page');
+          router.push('/marketplace/error-page');
           console.log("no data")
         } else {
           console.log(data, "data ready for redirection")
+          router.push(`/marketplace/specific-sub-category`)
         }
       } 
     } catch (error) {
