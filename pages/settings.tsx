@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
-import { ArrowLeft2 } from 'iconsax-react';
+import { ArrowLeft2, Import } from 'iconsax-react';
 import MainLayout from '../components/Layout/MainLayout';
 import InviteLink from '../modules/portfolio/component/portfolioSettingsComponents/inviteLink';
 import NotificationSettings from '../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
@@ -11,6 +11,8 @@ import AccountManagementMobile from '@modules/portfolio/component/portfolioSetti
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NotificationCheckboxType } from '../@types';
+import { useRouter } from 'next/router';
+import router from 'next/router';
 
 export default function SettingPage() {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -20,9 +22,12 @@ export default function SettingPage() {
     refer: false,
   });
 
+  const router = useRouter();
+
   const openEachSeting = Object.values(settingOption).some((value) => value === true);
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [local, setlocal] = useState<boolean>(false);
   const [showNotInfo, setShowNotInfo] = useState<boolean>(false);
   const [showReferInfo, setShowReferInfo] = useState<boolean>(false);
 
@@ -66,7 +71,7 @@ export default function SettingPage() {
     }
   }, []);
 
-  const userId = '6ba7b812-9dad-11d1-80b4-00c04fd430c8';
+  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
 
   const [checkboxState, setCheckboxState] = useState<NotificationCheckboxType>({
     emailSummary: false,
@@ -75,23 +80,17 @@ export default function SettingPage() {
     followUpdate: false,
     newMessages: false,
   });
-  const [checkboxState3, setCheckboxState3] = useState<NotificationCheckboxType>({
-    emailSummary: false,
-    specialOffers: false,
-    communityUpdate: false,
-    followUpdate: false,
-    newMessages: false,
-  });
+
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
-      const url = `https://hng6-r5y3.onrender.com/api/set-notification-settings/8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`;
+      const url = `https://hng6-r5y3.onrender.com/api/set-notification-settings/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(checkboxState3),
+        body: JSON.stringify(checkboxState),
       });
 
       if (response.ok) {
@@ -113,6 +112,10 @@ export default function SettingPage() {
           progress: undefined,
           theme: 'light',
         });
+
+        setTimeout(() => {
+          router.push('/');
+        }, 3100);
       } else {
         console.error('Failed to update notification settings');
         toast.error('Unable To Update!', {
@@ -125,11 +128,15 @@ export default function SettingPage() {
           progress: undefined,
           theme: 'light',
         });
+        setTimeout(() => {
+          router.push('/');
+        }, 3100);
       }
     } catch (error) {
       console.error('An error occurred while updating notification settings:', error);
     } finally {
       setLoading(false);
+      setlocal((prv) => !prv);
     }
   };
 
@@ -143,7 +150,7 @@ export default function SettingPage() {
 
   useEffect(() => {
     getNotificationSettingsFromLocalStorage();
-  }, []);
+  }, [local]);
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
@@ -367,17 +374,14 @@ export default function SettingPage() {
         <Button
           //leftIcon={<I24Support color="#06C270" />}
           intent={'secondary'}
-          onClick={handleNotificationUpdate}
+          onClick={settingOption.notificationSettings ? handleNotificationUpdate : undefined}
           size={'sm'}
           isLoading={loading}
           spinnerColor="#000"
           className={` text-[ 16px] my-[46px] lg:mr-[100px] md:mr-[32px] mr-[24px] border-[1px] border-[#009444] py-[16.5px] px-[20px] self-end 
           relative text-[#009444] rounded-[8px] 
            w-[139px] h-[52px] grow lg:block md:hidden ${showReferInfo && 'w-[77px] md:w-[139px]'} ${
-             settingOption.accountManagement ||
-             settingOption.deleteAccount ||
-             settingOption.refer ||
-             settingOption.notificationSettings
+             settingOption.accountManagement || settingOption.deleteAccount || settingOption.refer
                ? 'md:block lg:block hidden'
                : ''
            }
