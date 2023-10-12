@@ -6,6 +6,8 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import EducationSection from '@modules/portfolio/component/education-modal';
 import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
+import PortfolioAbout from '@modules/portfolio/component/about/about';
+import PortfolioReference from '@modules/portfolio/component/reference/reference';
 
 type PortfolioContext = {
   hasData: boolean;
@@ -164,6 +166,14 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'interests',
       modal: <InterestModal isOpen={modalStates['interests']} onClose={() => onCloseModal('interests')} />,
+    },
+    {
+      id: 'about',
+      modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => onCloseModal('about')} />,
+    },
+    {
+      id: 'reference',
+      modal: <PortfolioReference isOpen={modalStates['reference']} onClose={() => onCloseModal('reference')} />,
     },
   ];
 
