@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import checkedPayment from '../../public/assets/images/check-1.png';
 
-
 const CartPaymentModal = () => {
   const [modalOpen, setModalOpen] = useState(true);
   return (

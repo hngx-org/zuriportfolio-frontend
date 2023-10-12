@@ -34,9 +34,8 @@ export const loginUser = async (props: { email: string; password: string }) => {
 
 export const getUserCart = async () => {
   try {
-    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts',
-    )
-    return response.data  
+    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts');
+    return response.data;
   } catch (error) {
     console.log(error);
   }
