@@ -82,12 +82,12 @@ const AnalysisCards: React.FC = () => {
 
   return (
     <>
-      <div className="max-w-[77.5rem] min-[1536px]:max-w-[1536px] w-full mx-auto mt-[1.75rem] max-[1300px]:px-[1.2rem] max-[1300px]:py-0 max-[834px]:hidden">
+      <div className="max-w-[77.5rem] w-full mx-auto mt-[1.75rem] max-[1300px]:px-[1.2rem] max-[1300px]:py-0 max-[834px]:hidden">
         <div className="grid grid-cols-4 gap-[1.5rem] max-[1300px]:gap-[1rem]">
           {CardDataOne.map((hero) => (
             <div
               key={hero.id}
-              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] min-[1536px]:max-w-full max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
             >
               <div className="flex w-full justify-between gap-[0.5rem]">
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
@@ -122,7 +122,7 @@ const AnalysisCards: React.FC = () => {
           ))}
         </div>
         <div className="grid grid-cols-2 gap-[1.5rem] max-[1300px]:gap-[1rem] mt-[1.5rem] max-[1024px]:mt-[1rem]">
-          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-full">
+          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]">
             <div className="flex w-full justify-between gap-[0.5rem]">
               <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                 Total Sales
@@ -153,7 +153,7 @@ const AnalysisCards: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-full">
+          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]">
             <div className="flex w-full justify-between gap-[0.5rem]">
               <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                 Total Order
@@ -186,12 +186,12 @@ const AnalysisCards: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="hidden max-w-[47.125rem] max-[834px]:max-w-full w-full max-[500px]:px-[1.5rem] mx-0 mt-[1.75rem] max-[834px]:block max-[834px]:px-[2.5rem]">
-        <div className="grid grid-cols-3 gap-[1rem] max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
+      <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] max-[834px]:block max-[800px]:px-[1.5rem]">
+        <div className="grid grid-cols-3 gap-[1rem] max-[800px]:grid-cols-2 max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
           {CardDataTwo.map((hero) => (
             <div
               key={hero.id}
-              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[13.7rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
+              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
             >
               <div className="flex w-full justify-between gap-[0.5rem]">
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
