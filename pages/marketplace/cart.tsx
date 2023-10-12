@@ -50,7 +50,6 @@ export default function Cart() {
     },
   ]
 
-
   const authContext = useContext(AuthContext);
   const {user} = authContext
   const [productCards,setProductCards] = useState(ViewedProducts);
@@ -118,8 +117,7 @@ export default function Cart() {
   return (
     <MainLayout activePage="home" showDashboardSidebar={false} showTopbar>
       <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
-      { cartItems.length > 0 ?
-      <>
+ 
         <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
           <div className="w-full flex flex-col justify-center md:w-full lg:w-4/5 ">
             <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
@@ -139,11 +137,7 @@ export default function Cart() {
             {recentlyViewed}
           </div>
         </section>
-        </> :
-        <>
-        <EmptyCart></EmptyCart>
-        </>
-      }
+      
       </main>
     </MainLayout>
   );
