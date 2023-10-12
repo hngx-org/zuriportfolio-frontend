@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { Dispatch, useRef, useState } from 'react';
 import {
   Airdrop,
   ArrowDown2,
@@ -22,7 +22,7 @@ import CustomDropdown from './components/CustomDropdown';
 import { Input, SelectInput } from '@ui/Input';
 // import Breadcrumbs from '../../components/Breadcrumbs';
 
-const SearchAndFilter = () => {
+const SearchAndFilter = (prop: { setSearchQuery?: Dispatch<React.SetStateAction<string>> }) => {
   const [activeSection, setActiveSection] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
@@ -135,7 +135,7 @@ const SearchAndFilter = () => {
         <div className="w-full grid grid-cols-[1fr_auto] gap-4 md:w-[22rem] xl:w-[37.5rem]">
           <Input
             onChange={(e) => {
-              console.log(e.target.value);
+              prop.setSearchQuery && prop.setSearchQuery(e.target.value);
             }}
             type="text"
             name="search input"

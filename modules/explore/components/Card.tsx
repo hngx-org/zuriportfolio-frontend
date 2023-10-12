@@ -8,6 +8,7 @@ import Location from '../../../public/assets/images/explore_img/location.svg';
 import CardHover from './CardHover';
 import { UserInfo } from '../../../@types/exploreTyples';
 import bg1 from '../../../public/assets/images/explore_img/bg1.svg';
+import photo2 from '../../../public/assets/images/explore_img/photo2.png';
 
 interface CardProps {
   data: CardData;
@@ -24,7 +25,7 @@ const Card = ({ data }: { data?: UserInfo }) => {
         <Image
           objectFit="fill"
           className="-mt-12 rounded-full mx-auto aspect-square"
-          src={data?.profilePictureUrl}
+          src={data?.profilePictureUrl ?? photo2}
           alt="Avatar"
           width={112}
           height={112}
@@ -59,14 +60,14 @@ const Card = ({ data }: { data?: UserInfo }) => {
               <Image src={badge_beginner} alt="badge_beginner" className="m-auto" width={40} height={40} />
               <div className="grid">
                 <span className="text-gray-500 text-left text-[0.75rem] ">Badge</span>
-                <span className="text-left text-sm font-bold">{data?.ranking}</span>
+                <span className="text-left text-sm font-bold">{data?.ranking ?? 'No Ranking'}</span>
               </div>
             </div>
           </div>
           <div className="flex justify-center items-center gap-1 mt-5">
             <Image src={Location} alt="badge_beginner" width={20} height={20} />
             <div>
-              <span className="text-gray-500">{data?.address}</span>
+              <span className="text-gray-500">{data?.address ?? 'No Address'}</span>
             </div>
           </div>
         </div>
