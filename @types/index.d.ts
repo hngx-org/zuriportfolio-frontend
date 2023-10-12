@@ -162,6 +162,24 @@ export interface ProgressBarProps {
   value: number;
 }
 
+// Toastify interface
+
+export type ToastPosition = 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left';
+export type ToastTheme = 'light' | 'dark' | 'colored';
+export type ToastVariant = 'info' | 'success' | 'warning' | 'error' | 'default';
+export interface ToastProps {
+  message?: string;
+  position?: ToastPosition;
+  autoClose?: number;
+  hideProgressBar?: boolean;
+  closeOnClick?: boolean;
+  pauseOnHover?: boolean;
+  draggable?: boolean;
+  progress?: undefined;
+  theme?: ToastTheme;
+  type?: ToastVariant;
+}
+
 // export all interfaces and type s
 declare module 'nprogress';
 
@@ -255,26 +273,18 @@ export interface OrderHistory {
   sales: number;
   revenue: number;
 }
-export interface Product {
+
+export interface WishlistProduct {
   productId: string;
   productName: string;
   productPrice: number;
   productImage: StaticImageData;
   productRating: number;
   numReviews: number;
-}
-
-export interface WishlistProduct extends Product {
   productCategory: string;
   inStock: boolean;
   inCart: boolean;
 }
-
-export interface FavoriteProduct extends Product {
-  isFavourite: boolean;
-  productCreator: string;
-}
-
 export interface WorkExperience {
   role: string;
   description: string;
@@ -362,8 +372,8 @@ export interface RatingBarProps {
 }
 
 export interface RatingCardProps {
-  rating: string;
-  users: string;
+  rating: number;
+  users: number;
 }
 
 export interface filterProps {
@@ -541,3 +551,10 @@ export type LoginResponse = {
   data: LoginBodyResponse;
   statusCode: number;
 };
+
+export interface Review {
+  id: number;
+  rating: number;
+  name: string;
+  description: string;
+}
