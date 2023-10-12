@@ -6,6 +6,7 @@ import star1 from '../../../public/assets/star1.svg';
 import star2 from '../../../public/assets/star2.svg';
 import profileImg from '../../../public/assets/images/profile-img.png';
 import verifyIcon from '../../../public/assets/icons/verify.svg';
+import Link from 'next/link';
 
 const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) => void; tab: string }) => {
   return (
@@ -150,6 +151,7 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
         <form action="#" className="mt-6">
           <h3 className="text-base font-manropeB font-semibold">Review this product</h3>
           <p className="text-sm font-manropeL font-normal mt-[0.8px]">Share your thoughts with other customers</p>
+          <Link href={'/dashboard/reviews/new'}>
           <textarea
             id="about"
             name="about"
@@ -158,11 +160,12 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
             placeholder="Write a customer review"
             required
           ></textarea>
+          </Link>
           <button
             type="button"
             className="text-xl font-semibold leading-6 mt-7 text-base font-manropeB font-bold text-brand-green-primary flex mx-auto"
           >
-            See more reviews
+            <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
           </button>
         </form>
       </>
