@@ -15,26 +15,38 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen }) => {
   const [hide, setHide] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [isError, setisError] = useState(true);
   const [errorBorder, setErrorBorder] = useState('[#E1E3E2]');
 
   const response = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/about/6ba7b811-9dad-11d1-80b4-00c04fd430c8', {
-        method: 'POST',
-        body: text,
-      });
+      const response = await fetch(
+        'https://hng6-r5y3.onrender.com/api/education/550e8400-e29b-41d4-a716-446655440000',
+        {
+          method: 'POST',
+          body: text,
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
       setLoading(false);
+      setisError(false);
+      setMessage('About section successfully added');
       const data = await response.json();
       console.log(data);
+      onClose();
     } catch (error) {
       console.error('An error occurred:', error);
+      setMessage(`${error}`);
+      setTimeout(() => {
+        setMessage('');
+      }, 5000);
       setLoading(false);
+      setisError(true);
     }
   };
 
@@ -52,20 +64,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen }) => {
     setIsEditing(false);
   };
 
-  const submitAbout = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (text !== '') {
-      if (!isEditing) {
-        setIsEditing(!isEditing);
-      } else {
-        console.log('here is not editing');
-      }
-    } else {
-      console.log('Enter input');
-    }
-  };
-
-  const handleClick = () => {
+  const submitAbout = (event: React.FormEvent<HTMLFormElement | any>) => {
     if (text !== '') {
       if (!isEditing) {
         setIsEditing(!isEditing);
@@ -92,6 +91,13 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen }) => {
       isCloseIconPresent={false}
       size="lg"
     >
+      <div
+        className={`${isError ? 'bg-brand-red-hover' : 'bg-brand-green-hover'} ${
+          message === '' ? 'hidden' : 'block'
+        } text-white-100 font-normal text-center rounded shadow-md shadow-[#00000040] mb-3 p-2 transition`}
+      >
+        {message}
+      </div>
       <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
         <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">
           <span className="font-semibold text-lg">About</span>
@@ -161,7 +167,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen }) => {
                 size={'sm'}
                 className="w-full md:w-24 rounded-lg border-[2px] border-brand-green-primary hover:border-brand-green-hover"
                 type="button"
-                onClick={handleClick}
+                onClick={submitAbout}
               >
                 {loading ? (
                   <div className="block w-5 h-5">

@@ -33,6 +33,8 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose }) 
   const [formData, setFormData] = useState<formData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
+  const [message, setMessage] = useState('');
+  const [isError, setisError] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,15 +109,30 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose }) 
       }
 
       setLoading(false);
+      setisError(false);
+      setMessage('Reference section successfully added');
       const data = await response.json();
       console.log(data);
+      onClose();
     } catch (error) {
       console.error('An error occurred:', error);
+      setMessage(`${error}`);
+      setTimeout(() => {
+        setMessage('');
+      }, 5000);
       setLoading(false);
+      setisError(true);
     }
   };
   return (
-    <Modal isOpen={isOpen} closeModal={() => {}} size="lg" isCloseIconPresent={false}>
+    <Modal isOpen={isOpen} closeModal={onClose} size="lg" isCloseIconPresent={false}>
+      <div
+        className={`${isError ? 'bg-brand-red-hover' : 'bg-brand-green-hover'} ${
+          message === '' ? 'hidden' : 'block'
+        } text-white-100 font-normal text-center rounded shadow-md shadow-[#00000040] mb-3 p-2 transition`}
+      >
+        {message}
+      </div>
       <div className="mx-auto bg-white-100 rounded-md p-3 py-5">
         <div className="flex justify-between items-center border-b-[3.6px]  border-brand-green-primary pb-1">
           <div className="flex gap-4 items-center">
