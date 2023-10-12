@@ -2,15 +2,22 @@ import { Item } from '@radix-ui/react-select';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent} from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
+import axios from 'axios';
 
 type skillModalProps = {
-  handleCloseSkillModal: () => void;
-  isSkillModalOpen: boolean;
+  onClose: () => void;
+  isOpen: boolean;
 };
 
-const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps) => {
+type PostSkillResponse = {
+  skills: Array<string>;
+  sectionId: number;
+  usetId: string;
+};
+
+const SkillModal = ({ onClose, isOpen }: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<string>>([
     'Version Control',
@@ -26,6 +33,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
     'API Intergration',
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<string>>([]);
+  const [response, setResponse] = useState([]);
 
   useEffect(() => {
     const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
@@ -64,30 +72,68 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
     setArrayTwo([]);
   };
 
-  const saveBtn = () => {
-    handleCloseSkillModal();
-    console.log('me');
-  };
-
   const setToLocalStorage = (trimmedValue: string) => {
     localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, trimmedValue]));
   };
 
+  // const addSkills = async (): Promise<PostSkillResponse> => {
+  //   try {
+  //     const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
+  //     const requestData = {
+  //       skills: arrayTwo,
+  //       sectionId: 5,
+  //       userId: '550e8400-e29b-41d4-a716-446655440000',
+  //     };
+
+  //     const response = await axios.post(apiUrl, requestData);
+  //     setResponse(response?.data);
+
+  //     return response?.data;
+  //   } catch (error) {
+
+  //     console.error('Error:', error);
+  //   }
+  //   return
+  // };
+
+  const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
+  // const customHeaders = {
+  //   Authorization: `Bearer ${token}`,
+  //   'Content-Type': 'application/json',
+  // { headers: customHeaders }
+  // };
+
+  const requestData = {
+    skills: arrayTwo,
+    sectionId: 5,
+    userId: '550e8400-e29b-41d4-a716-446655440000',
+  };
+
+  async function postSkillData(): Promise<PostSkillResponse> {
+    try {
+      const response = await axios.post(apiUrl, requestData);
+       console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error; // You can handle the error further if needed
+    }
+    
+  }
+  function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
+    postSkillData();
+    onClose();
+  }
+
   return (
     <section className="w-full flex items-center justify-center fontFamily-manropeEL">
-      <Modal
-        closeOnOverlayClick
-        isOpen={isSkillModalOpen}
-        closeModal={handleCloseSkillModal}
-        isCloseIconPresent={false}
-        size="xl"
-      >
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
         <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL max-sm:px-2 ">
           <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
             <h1 className="font-bold text-2xl ">Skill</h1>
             <button
               className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
-              onClick={handleCloseSkillModal}
+              onClick={onClose}
             >
               <AiOutlineClose />
             </button>
@@ -148,7 +194,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
             <Button
               className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
               onClick={() => {
-                handleCloseSkillModal();
+                onClose();
                 cancelBtnFn();
               }}
             >
@@ -156,9 +202,7 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
             </Button>
             <Button
               className="border-2 p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
-              onClick={() => {
-                saveBtn();
-              }}
+              onClick={handleAddSkills}
             >
               Save
             </Button>
