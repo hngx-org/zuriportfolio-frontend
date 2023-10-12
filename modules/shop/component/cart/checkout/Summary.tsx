@@ -6,7 +6,7 @@ import TempUser from './../../../../../components/Modals/TempUser';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import isAuthenticated from '../../../../../helpers/isAuthenticated';
 
-const Summary  = ({ prices,sum }: SummaryProps & {sum: number}) => {
+const Summary = ({ prices, sum }: SummaryProps & { sum: number }) => {
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
