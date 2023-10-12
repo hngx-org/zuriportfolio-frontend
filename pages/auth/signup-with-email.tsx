@@ -8,8 +8,30 @@ import { z } from 'zod';
 import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { signUpUserWithEmail } from '../../http';
+import { useRouter } from 'next/router';
+
 
 function SignUpWithEmail() {
+  const router = useRouter();
+  const onSignUpWithEmailSuccess = (data: any) => {
+    console.log(data);
+    if(data.message === 'Email does not exist.') {
+      router.push('/auth/signup');
+    }
+
+    if(data.message === 'Email exists but is not verified.') {
+      router.push('/auth/verification')
+    }
+
+    if(data.message === 'Email exists and is verified.') {
+      router.push('dashboard');
+    }
+  }
+
+  const signUpUser = useAuthMutation(signUpUserWithEmail, {onSuccess: (data) => onSignUpWithEmailSuccess(data), onError: (error) => console.error(error)});
+
   const schema = z.object({
     email: z.string().email(),
   });
@@ -23,6 +45,7 @@ function SignUpWithEmail() {
 
   const handleSignUpWithEmail = (values: any) => {
     console.log('email', values.email);
+    signUpUser.mutate({email: values.email});
   };
 
   return (
@@ -48,7 +71,7 @@ function SignUpWithEmail() {
             />
             <p className="text-[red] text-xs">{form.errors.email && form.errors.email}</p>
           </div>
-          <Button intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
+          <Button isLoading={signUpUser.isLoading} intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
             Continue
           </Button>
           {/* </Link> */}
