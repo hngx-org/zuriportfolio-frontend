@@ -111,7 +111,7 @@ function Home() {
 
   return (
     <>
-      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xxl">
         <div className=" bg-white-100 p-3 py-5 rounded-lg">
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">

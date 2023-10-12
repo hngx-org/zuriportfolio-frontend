@@ -1,14 +1,10 @@
-import React, { FormEvent, useState } from 'react';
-import Image from 'next/image';
+import React, { FormEvent, useState, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import google from '../../../../public/assets/loginPageAssets/google.svg';
-import github from '../../../../public/assets/loginPageAssets/github.svg';
-import facebook from '../../../../public/assets/loginPageAssets/facebook.svg';
+import { notify } from '@ui/Toast';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
 import { Eye, EyeSlash } from 'iconsax-react';
-
 import InputError from '../InputError';
 import useInputError from '../../../../hooks/useInputError';
 import { loginUser } from '../../../../http';
@@ -16,19 +12,78 @@ import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
+import { useRouter } from 'next/router';
+import AuthContext from '../../../../context/AuthContext';
+import isAuthenticated from '../../../../helpers/isAuthenticated';
 
 function LoginForm() {
+  const { handleUser } = useContext(AuthContext);
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
   const { handleSubmit, inputErrors } = useInputError();
-  const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data) });
+
+  const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
+    onSuccess: async (res) => {
+      console.log('responseoutside', res);
+
+      if (res.statusCode === 200 && res.data.token) {
+        console.log('Login success:', res);
+        handleUser(res.data);
+        localStorage.setItem('zpt', res.token);
+        const value = isAuthenticated(res.token);
+        console.log(value);
+
+        router.push('/');
+      } else if (res.statusCode === 400 && res.message === 'Please verify your email.') {
+        console.error('Unverified user');
+
+        notify({
+          message: 'Please verify your email.',
+          type: 'error',
+        });
+      } else if (res.statusCode === 400 && res.message === 'Incorrect password') {
+        console.error('Incorrect password');
+
+        notify({
+          message: 'Incorrect password',
+          type: 'error',
+        });
+      } else if (res.statusCode === 500 && res.message === 'Error logging in') {
+        console.error('Error logging in');
+
+        notify({
+          message: 'Error logging in',
+          type: 'error',
+        });
+      } else {
+        console.error('sign up');
+        notify({
+          message: 'Error logging in',
+          type: 'error',
+        });
+      }
+    },
+    onError: (e) => {
+      console.error({ e });
+      notify({
+        message: 'Error logging in',
+        type: 'error',
+      });
+    },
+  });
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('heloooooooooo');
+
     if (email.length !== 0 && password.length !== 0) {
-      loginFn.mutate({ email: email as string, password: password as string });
+      loginUserMutation({ email: email, password: password });
     }
+    // To clear the input filed after submission
+    setEmail('');
+    setPassword('');
   };
 
   return (
@@ -90,8 +145,7 @@ function LoginForm() {
             </Link>
 
             <Button
-              // href="/auth/2fa"
-              isLoading={loginFn.isLoading}
+              isLoading={isLoginUserMutationLoading}
               intent={'primary'}
               type="submit"
               size={'md'}
@@ -102,9 +156,9 @@ function LoginForm() {
           </form>
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-              Already have an account?{' '}
+              Don&apos;t have an account?
               <Link href="/auth/login">
-                <span className="text-brand-green-primary">Sign in</span>
+                <span className="text-brand-green-primary"> Sign in</span>
               </Link>
             </p>
           </div>
