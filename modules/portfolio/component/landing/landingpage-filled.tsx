@@ -1,7 +1,8 @@
 'use-client';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
+import { useRouter } from 'next/router';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import {
   WorkExperience,
@@ -32,12 +33,55 @@ import {
   references,
   contacts,
 } from './data';
+import Image from 'next/image';
+
+// type UserProfile = {
+//   picture: string;
+//   name: string;
+//   city: string;
+//   country: string;
+// };
+
+interface PortfolioDetails {
+  picture: string;
+  name: string;
+  city: string;
+  country: string;
+  trackId: string;
+}
 
 const LandingPageFilled: React.FC = () => {
+  const router = useRouter();
+  const { data } = router.query;
+
   const { selectedSections, buildPortfolio, toggleSection, editSection, modals, modalStates } = useContext(Portfolio);
+  const [userProfile, setUserProfile] = useState<PortfolioDetails | null>(null);
+
+
+  useEffect(() => {
+    if (data) {
+      const parsedData: PortfolioDetails = JSON.parse(data as string);
+      // Now you can use `parsedData` to display the data on your home page
+    }
+  }, [data]);
+
+
+ 
 
   return (
     <>
+      
+      
+      {userProfile && (
+        <div>
+          {/* Display the user's profile data, including the picture and input fields */}
+          <Image src={userProfile.picture} alt="Profile Picture" />
+          <p>Name: {userProfile.name}</p>
+          <p>City: {userProfile.city}</p>
+          <p>Country: {userProfile.country}</p>
+        </div>
+      )}
+    
       {/* Show modals to enter data */}
       {modals?.map((modalItem) => {
         const { id, modal } = modalItem;
@@ -177,3 +221,18 @@ export const Wrapper = ({ id, title, children, edit, remove }: WrapperProps) => 
 export const Line = () => {
   return <hr className="-mt-2 mb-3 w-full border-gray-200 opacity-10" />;
 };
+function setPicture(picture: any) {
+  throw new Error('Function not implemented.');
+}
+
+function setName(name: any) {
+  throw new Error('Function not implemented.');
+}
+
+function setCity(city: any) {
+  throw new Error('Function not implemented.');
+}
+
+function setCountry(country: any) {
+  throw new Error('Function not implemented.');
+}

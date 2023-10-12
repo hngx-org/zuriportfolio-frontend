@@ -1,34 +1,31 @@
-import React, { useState } from 'react'
+'use client';
+import React, { useState, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import cover from '../../../public/assets/images/portfolioLanding/cover.png';
 import profile from '../../../public/assets/images/portfolioLanding/profile.png';
 
 
+interface PortfolioDetails {
+  name: string;
+  city: string;
+  country: string;
+  trackId: string;
+}
+
 const EditProfile = () => {
-    // edit profile
+  const router = useRouter(); 
+  const [file, setFile] = useState<File | undefined>();
   const [picture, setPicture] = useState('');
   const [name, setName] = useState('');
   const [track, setTrack] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
-      if (e.target.id === 'coverUpload') {
-        setPicture(URL.createObjectURL(file));
-      }
-    }
-  };
 
-  interface PortfolioDetails {
-    name: string;
-    city: string;
-    country: string;
-    trackId: string;
-  }
+
 
   const [portfolioDetails, setPortfolioDetails] = useState<PortfolioDetails>({
     name: '',
@@ -37,38 +34,55 @@ const EditProfile = () => {
     trackId: '',
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+
+  const [error, setError] = useState('');
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    setFile(selectedFile);
+  };
+
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
+    if (!file) {
+      setError('Please select an image.');
+      return;
+    }
+
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/profile/:userId`, {
+      const data = new FormData();
+      data.append('file', file);
+
+      // Here, you should replace 'YOUR_API_ENDPOINT' with the actual API endpoint to upload the image.
+      const res = await fetch('https://hng6-r5y3.onrender.com/api/profile/:userId', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: 1,
-          createPortfolioDetails: portfolioDetails,
-        }),
+        body: data,
       });
-  
-      if (response.ok) {
-        // Data successfully saved
+
+      if (res.ok) {
+        localStorage.setItem('userProfile', JSON.stringify(portfolioDetails));
+        setError('');
+
+        router.push({
+          pathname: '/',
+          query: { data: JSON.stringify(portfolioDetails) }, // Pass the data as query parameters
+        });
       } else {
-        // Handle error
+        console.error(await res.text());
       }
-    } catch (error) {
-      // Handle network error
+    } catch (e: any) {
+      console.error(e);
     }
   };
-  
-  
-  
+
+
   return (
-    <form className="p-4 mt-3 flex flex-col gap-4 rounded-lg border-brand-disabled items-center justify-start hover:border-green-500" onSubmit={handleSubmit}>
-      <div
-        className="grid place-content-center absolute w-[60px] md:w-[80px] object-fill object-center aspect-square rounded-full bg-emerald-50 mx-auto"
-      >
+    <form
+      className="p-4 mt-3 flex flex-col gap-4 rounded-lg  items-center justify-start hover:border-green-500"
+      onSubmit={handleSave}
+    >
+      <div className="grid place-content-center absolute w-[60px] md:w-[80px] object-fill object-center aspect-square rounded-full bg-emerald-50 mx-auto">
         <Image
           src="/assets/images/portfolioLanding/profilePlaceholder.svg"
           width={0}
@@ -86,50 +100,64 @@ const EditProfile = () => {
             className="w-[25px] md:w-[30px] object-fill object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full"
           />
           <input
-           
             id="avatarUpload"
             type="file"
-            onChange={handleUpload}
+            onChange={(e) => setFile(e.target.files?.[0])}
             className="hidden"
             accept="image/png, image/jpeg"
             value={picture}
           />
         </label>
       </div>
-      <div className='mt-[80px]'>
-        <div className='w-[100%]'>
+      <div className="mt-[80px]">
+        <div className="w-[100%]">
           <label>Name *</label>
           <Input
-            className='w-[100%] mt-3'
+            className="w-[100%] mt-3"
             onChange={(e) => {
-              setPortfolioDetails({
-                ...portfolioDetails,
-                name: e.target.value,
-              });
+              const newName = e.target.value;
+              if (newName.length >= 1 && newName.length <= 50) {
+                setPortfolioDetails({
+                  ...portfolioDetails,
+                  name: newName,
+                });
+                setError(''); // Clear the error if input is valid
+              } else {
+                setError('Name must be between 3 and 50 characters.');
+              }
             }}
             type="text"
             intent={'default'}
-            disabled={false}
+            // disabled={false}
             placeHolder="Enter your name"
             value={portfolioDetails.name}
           />
+          {error && <p className="text-red-500">{error}</p>}
         </div>
-        <div className='w-[100%] mt-5 block'>
-          <label className='mb-3'>Track *</label>
+        <div className="w-[100%] mt-5 block">
+          <label className="mb-3">Track *</label>
           <Select
             onValueChange={(value: string) => {
               setTrack(value);
             }}
             value={track}
           >
-            <SelectTrigger >
+            <SelectTrigger>
               <SelectValue placeholder="Select Track" />
             </SelectTrigger>
             <SelectContent className="border-[#ffffff] hover:border-green-500 bg-white-100">
-              <SelectItem className=" hover:text-green-500" value="behance">Product Design</SelectItem>
-              <SelectItem className=" hover:text-green-500" value="github">Video Editor</SelectItem>
-              <SelectItem className=" hover:text-green-500" value="instagram">Frontend Development</SelectItem>
-              <SelectItem className=" hover:text-green-500" value="linkedIn">Digital Marketer</SelectItem>
+              <SelectItem className=" hover:text-green-500" value="behance">
+                Product Design
+              </SelectItem>
+              <SelectItem className=" hover:text-green-500" value="github">
+                Video Editor
+              </SelectItem>
+              <SelectItem className=" hover:text-green-500" value="instagram">
+                Frontend Development
+              </SelectItem>
+              <SelectItem className=" hover:text-green-500" value="linkedIn">
+                Digital Marketer
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -140,7 +168,7 @@ const EditProfile = () => {
               <span> (optional) </span>
             </label>
             <Input
-              className='w-[100%] mt-3'
+              className="w-[100%] mt-3"
               onChange={(e) => {
                 setCity(e.target.value);
               }}
@@ -157,7 +185,7 @@ const EditProfile = () => {
               <span> (optional) </span>
             </label>
             <Input
-              className='w-[100%] mt-3'
+              className="w-[100%] mt-3"
               onChange={(e) => {
                 setCountry(e.target.value);
               }}
@@ -183,6 +211,6 @@ const EditProfile = () => {
         </div>
       </div>
     </form>
-  )
-}
-export default EditProfile
+  );
+};
+export default EditProfile;
