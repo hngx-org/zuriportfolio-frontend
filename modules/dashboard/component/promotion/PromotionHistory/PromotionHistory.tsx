@@ -2,51 +2,69 @@ import React from 'react';
 import PaginationBar from '../PaginationBar';
 import { SearchNormal1 } from 'iconsax-react';
 import PromotionHistoryTable from './PromotionHistoryTable';
-import { PromotionHistoryMobile } from './PromotionHistoryRow';
 import Image from 'next/image';
 import Link from 'next/link';
 import usePaginate from '../../../../../hooks/usePaginatePromo';
 import usePromotions from '../../../../../hooks/usePromotions';
-import { Input } from '@ui/Input';
+import Button from '@ui/Button';
 
 const PromotionHistory: React.FC = () => {
   const { promotions, changeSortBy, sortBy, toggleSortOrder } = usePromotions();
   const { changeCurrentPage, pageItem, currentPage, pageLength } = usePaginate(promotions, 8);
+
   return (
     <>
-      <main className="w-[100%] md:w-full mx-auto px-3 md:px-20">
+      <main className="max-w-[1240px] mx-auto md:px-10 px-4">
         <section className="font-manropeB font-semibold mt-4">
-          <div className="justify-between items-center  mb-[25px] gap-[35px] flex md:hidden">
-            <div
-              className="focus-within:outline focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-[#D0D5DD] rounded-lg md:hidden flex-1 min-w-0"
-              style={{
-                boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-              }}
-            >
-              <SearchNormal1 size="16" color="#667085" />
-              <Input
-                className=" bg-transparent focus-within:outline-none flex-1  text-[1rem] leading-[150%] min-w-0"
-                placeholder="Search"
-              />
+          <div className="mb-[25px] gap-[35px] flex justify-end">
+            <div className="hidden md:justify-end md:flex  justify-center">
+              <Link href="/dashboard/promotions/promotions-type">
+                <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                    <path
+                      d="M6.5 12H18.5"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M12.5 18V6"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span>Add New Promotion</span>
+                </Button>
+              </Link>
             </div>
-            <button
-              className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
-              style={{
-                boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-              }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
-                  stroke="#344054"
-                  strokeWidth="1.67"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+            <div className="mb-[25px] gap-[35px] flex justify-end md:hidden">
+              <button
+                className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
+                style={{
+                  boxShadow: `0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
+                    stroke="#344054"
+                    strokeWidth="1.67"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <Link href="/dashboard/promotions/promotions-type">
+                <button className="px-4 bg-brand-green-primary rounded-full">
+                  <span className="text-white-100 text-[24px] font-manropeEL">+</span>
+                </button>
+              </Link>
+            </div>
           </div>
-          <section className="rounded-2xl hidden md:block">
+          <section className="rounded-2xl md:block">
             {pageItem.length === 0 ? (
               <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] md:m-[200px] flex-col items-center justify-center">
                 <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
@@ -64,24 +82,26 @@ const PromotionHistory: React.FC = () => {
                 </Link>
               </main>
             ) : (
-              <>
+              <div className="table-container border rounded-lg border-slate-50 mb-10 overflow-x-auto">
                 <PromotionHistoryTable
                   pageItem={pageItem}
                   changeSort={changeSortBy}
                   toggleSort={toggleSortOrder}
                   currentSort={sortBy}
                 />
-                <PaginationBar {...{ changeCurrentPage, currentPage, pageLength }} />
-              </>
+              </div>
             )}
+            <PaginationBar {...{ changeCurrentPage, currentPage, pageLength }} />
           </section>
-          <div className="md:hidden flex flex-col gap-4 ">
-            {pageItem.map((item) => (
-              <PromotionHistoryMobile key={item.type} {...item} />
-            ))}
-          </div>
         </section>
       </main>
+
+      <style jsx>{`
+        .table-container {
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+      `}</style>
     </>
   );
 };

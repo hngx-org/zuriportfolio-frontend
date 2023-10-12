@@ -5,12 +5,17 @@ import Button from '@ui/Button';
 import { ProductCardProps } from '../../@types';
 import ProductCard from './component/ProductCard';
 import { formatNumberWithCommas } from '../../helpers';
+import CategoriesNav from './component/CategoriesNav/CategoriesNav';
+import SearchFilter from './component/filter/search-filter';
+import useSearchFilter from './component/filter/hooks/useSearchFilter';
 
 const dummyHandPickedData: ProductCardProps[] = [
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -19,9 +24,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -30,9 +37,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -41,9 +50,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -52,9 +63,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -63,9 +76,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -74,9 +89,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -85,9 +102,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -96,9 +115,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -107,9 +128,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -118,9 +141,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -129,9 +154,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -140,9 +167,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -151,9 +180,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -162,9 +193,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -173,9 +206,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -184,9 +219,11 @@ const dummyHandPickedData: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -196,7 +233,7 @@ const dummyHandPickedData: ProductCardProps[] = [
   },
 ];
 
-const SpecificSubCategory: FC = () => {
+const SpecificSubCategory: FC<{ subCategory?: string }> = (props) => {
   const [productCards, setProductCards] = useState<ProductCardProps[]>(dummyHandPickedData);
   const [pageNumber, setPageNumber] = useState(0);
   const [currentPageSet, setCurrentPageSet] = useState(0);
@@ -205,6 +242,9 @@ const SpecificSubCategory: FC = () => {
   const pagesVisited = pageNumber * usersPerPage;
   const totalPages = Math.ceil(productCards.length / usersPerPage);
   const pagesPerSet = 4;
+
+  // search filter hook
+  const { isOpen, toggle } = useSearchFilter();
 
   useEffect(() => {
     setCurrentPageSet(Math.floor(pageNumber / pagesPerSet));
@@ -215,6 +255,8 @@ const SpecificSubCategory: FC = () => {
     .map((productCard, index) => (
       <ProductCard
         key={index}
+        currency={productCard.currency}
+        id={productCard.id}
         image={productCard.image}
         productName={productCard.productName}
         productPrice={productCard.productPrice}
@@ -266,6 +308,26 @@ const SpecificSubCategory: FC = () => {
   return (
     <div>
       <MainLayout showDashboardSidebar={false} showFooter={true} showTopbar={true} activePage="marketplace">
+        <div className="max-w-[1240px] mx-auto ">
+          <CategoriesNav
+            navItems={[
+              ' Design & Graphics',
+              ' Development & Programming',
+              ' Content Creation',
+              ' Digital Arts & Media',
+              ' Audio & Sound',
+              ' Photography',
+              'Writing & Copywriting',
+              'Video & motion',
+              'Data & Analytics',
+              'Marketing & Advertising',
+              'eCommerce & Business',
+              'Gaming & Entertainment',
+              'Virtual Reality & Augmented Reality',
+              'e-Books',
+            ]}
+          />
+        </div>
         <div
           className={`${manropeL.className} w-[100%] flex flex-col px-[1rem] mb-[2rem] md:px-[1.5rem] lg:px-[4rem] lg:max-w-[1350px] mx-auto`}
         >
@@ -279,7 +341,7 @@ const SpecificSubCategory: FC = () => {
             <h1
               className={`${manropeEB.className} text-green-850 text-[1.375rem] leading-[1.75rem] md:text-[2rem] md:leading-[2.5rem] lg:text-[1.75rem] lg:leading-[2.25rem]`}
             >
-              Graphics Design Templates
+              {props.subCategory || 'Graphics Design Templates'}
             </h1>
             <p className="text-white-400 text-[0.75rem] leading-[1.2rem] tracking-[0.003rem] max-w-[21.5625rem] md:max-w-[35rem] md:leading-[1.25rem] md:tracking-[0.00219rem] lg:text-[1.5rem] lg:max-w-[70rem] lg:leading-[2rem]">
               Level up your presentations with beautiful templates and designs for PowerPoint, Keynote, and Google
@@ -295,7 +357,10 @@ const SpecificSubCategory: FC = () => {
               >
                 {formatNumberWithCommas(57098)} Products
               </div>
-              <Button className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-white-100 w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem] hover:text-white-100">
+              <Button
+                className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-white-100 w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem] hover:text-white-100"
+                onClick={toggle}
+              >
                 Filter
               </Button>
             </div>
@@ -334,6 +399,7 @@ const SpecificSubCategory: FC = () => {
           {/*  */}
         </div>
       </MainLayout>
+      <SearchFilter isOpen={isOpen} toggle={toggle} />
     </div>
   );
 };

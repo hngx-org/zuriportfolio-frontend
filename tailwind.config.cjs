@@ -209,6 +209,8 @@ module.exports = {
           color39: '#A1ADB2',
           color40: '#FFFBDE',
           color41: '#E0FFF0',
+          color42: '#FCFCFD',
+          color43: '#444846',
         },
       },
       fontFamily: {
@@ -221,9 +223,36 @@ module.exports = {
         manropeB: ['var(--font-manropeB)'],
         manropeEB: ['var(--font-manropeEB)'],
       },
+
+      // Modal animation in shop cart
+      animation: {
+        slideIn: 'slideIn 2s',
+      },
+
+      keyframes: {
+        slideIn: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+      },
+    },
+    container: {
+      center: true,
     },
   },
   plugins: [
     require('tailwind-scrollbar'),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.no-scrollbar::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+        },
+      };
+      addUtilities(newUtilities);
+    },
   ],
 };

@@ -1,11 +1,12 @@
 // @ts-expect-error
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { CloseCircle } from 'iconsax-react';
+import { IoMdClose } from 'react-icons/io';
 import { ModalProps } from '../../@types';
 import Button from './Button';
 
-const sizes: Record<'xl' | 'lg' | 'md' | 'sm', string> = {
+const sizes: Record<'xxl' | 'xl' | 'lg' | 'md' | 'sm', string> = {
+  xxl: 'max-w-[980px]',
   xl: 'max-w-[700px]',
   lg: 'max-w-xl',
   md: 'max-w-lg',
@@ -19,6 +20,7 @@ function Modal({
   title,
   size = 'sm',
   isCloseIconPresent = true,
+  closeBtnClass,
 }: ModalProps) {
   return (
     <>
@@ -57,8 +59,8 @@ function Modal({
                   {/* Close button */}
                   {isCloseIconPresent ? (
                     <div className="absolute right-1 top-2">
-                      <Button onClick={closeModal}>
-                        <CloseCircle />
+                      <Button onClick={closeModal} className={closeBtnClass}>
+                        <IoMdClose />
                       </Button>
                     </div>
                   ) : null}

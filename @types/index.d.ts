@@ -1,3 +1,4 @@
+import React from 'react';
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
 
@@ -12,7 +13,15 @@ export interface MainLayoutProps {
   showTopbar?: boolean;
   showFooter?: boolean;
 }
-
+export interface Education {
+  id: number;
+  degree: string;
+  fieldOfStudy: string;
+  school: string;
+  description: string;
+  dateFrom: string;
+  dateTo: string;
+}
 export interface AllCategoryDetails {
   price: string;
   name: string;
@@ -35,15 +44,6 @@ export interface Products {
   rating: number;
 }
 
-export interface AdminTablePagination {
-  handleClick?: any;
-  disabledFn?: any;
-  title: any;
-  currentPage: any;
-  totalPages: any;
-  onPageChange: any;
-}
-
 export interface SuperAdminPagination {
   title: any;
 }
@@ -60,9 +60,10 @@ export interface MainLayoutContextProps {
 }
 
 export interface CartProductCardProps {
+  id: string;
   productImage: string;
   productTitle: string;
-  cardStyle: string;
+  // cardStyle: string;
   productPrice: number;
   productRating: number;
   productSeller: string;
@@ -72,9 +73,11 @@ export interface CartProductCardProps {
 }
 
 export interface ProductCardProps {
-  image: string;
+  id: string;
+  currency: string;
+  image: string | null;
   productName: string;
-  productPrice: string;
+  productPrice: number;
   productOwner: string;
   productRating: number;
   showLimitedOffer?: boolean;
@@ -125,8 +128,9 @@ export interface ModalProps {
   children?: React.ReactNode;
   closeOnOverlayClick?: boolean;
   title?: string;
-  size?: 'lg' | 'md' | 'sm' | 'xl';
+  size?: 'lg' | 'md' | 'sm' | 'xl' | 'xxl';
   isCloseIconPresent?: boolean;
+  closeBtnClass?: string;
 }
 
 export interface PriceData {
@@ -146,6 +150,41 @@ export interface AuthLayoutProps {
   isTopRightBlobShown?: boolean;
   isBottomLeftPadlockShown?: boolean;
 }
+
+// Password interface
+export interface PasswordPopoverProps {
+  password: string;
+  children: React.ReactNode;
+}
+
+export interface PasswordRequirementProps {
+  meets: boolean;
+  label: string;
+}
+
+export interface ProgressBarProps {
+  color: string;
+  value: number;
+}
+
+// Toastify interface
+
+export type ToastPosition = 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left';
+export type ToastTheme = 'light' | 'dark' | 'colored';
+export type ToastVariant = 'info' | 'success' | 'warning' | 'error' | 'default';
+export interface ToastProps {
+  message?: string;
+  position?: ToastPosition;
+  autoClose?: number;
+  hideProgressBar?: boolean;
+  closeOnClick?: boolean;
+  pauseOnHover?: boolean;
+  draggable?: boolean;
+  progress?: undefined;
+  theme?: ToastTheme;
+  type?: ToastVariant;
+}
+
 // export all interfaces and type s
 declare module 'nprogress';
 
@@ -176,12 +215,26 @@ export type ProductCardProps = {
 };
 
 export type CartItemProps = {
+  productId: string;
   productImage: string;
   productTitle: string;
-  productSize: string;
-  productColor: string;
+  proudctDescription?: string;
+  productSize?: string;
+  productColor?: string;
   productSeller: string;
   productPrice: number;
+};
+
+export type ViewedProductCardProps = {
+  id: string;
+  productImage: string;
+  productPrice: number;
+  discountPercentage?: number;
+  productRating: number;
+  productSeller: string;
+  productTitle: string;
+  tag?: string;
+  tagBackground?: string;
 };
 
 // In a file like '@types/index.ts' or a similar location
@@ -221,27 +274,23 @@ export interface OrderHistory {
   customerName: string;
   date: Date;
   status: 'completed' | 'cancelled' | 'pending';
+  productType: string;
+  price: number;
+  sales: number;
+  revenue: number;
 }
-export interface Product {
+
+export interface WishlistProduct {
   productId: string;
   productName: string;
   productPrice: number;
   productImage: StaticImageData;
   productRating: number;
   numReviews: number;
-}
-
-export interface WishlistProduct extends Product {
   productCategory: string;
   inStock: boolean;
   inCart: boolean;
 }
-
-export interface FavoriteProduct extends Product {
-  isFavourite: boolean;
-  productCreator: string;
-}
-
 export interface WorkExperience {
   role: string;
   description: string;
@@ -329,8 +378,8 @@ export interface RatingBarProps {
 }
 
 export interface RatingCardProps {
-  rating: string;
-  users: string;
+  rating: number;
+  users: number;
 }
 
 export interface filterProps {
@@ -354,4 +403,165 @@ export interface searchProp {
 
 export interface filterProp {
   handleFilter: (status: string) => void;
+}
+
+export type SectionModalProps = {
+  openButtonText: string;
+  heading: string;
+  paragraph: string;
+  primaryText: string;
+  onClickAction: () => void;
+};
+
+export interface PaymentStatusModalProps {
+  children: React.ReactNode;
+}
+
+export interface Vendor {
+  vendorImgSrc: string;
+  name: string;
+  email: string;
+  amount: string;
+  quantity: number;
+  date: string;
+  statusIndicatorSrc: string;
+  statusText: string;
+}
+
+export type BannedDeletedVendorsProps = {
+  showBanned: boolean;
+  setShowBanned: (any: boolean) => void;
+  showDeleted: boolean;
+  setShowDeleted: (any: boolean) => void;
+};
+
+export interface SettingOptionTypes {
+  accountManagement: boolean;
+  notificationSettings: boolean;
+  deleteAccount: boolean;
+  refer: boolean;
+}
+export interface NotificationCheckboxType {
+  emailSummary: boolean;
+  specialOffers: boolean;
+  communityUpdate: boolean;
+  followUpdate: boolean;
+  newMessages: boolean;
+  // userId:string
+}
+
+export type cardinfo = {
+  title: string;
+  kMenu: string;
+  price: number;
+  arUp: string;
+  id: number;
+};
+export type Graph = {
+  id: number;
+  title: string;
+  btn: string;
+  calender: {
+    twelveM: string;
+    threeM: string;
+    thirtyD: string;
+    sevenD: string;
+    twentyFourH: string;
+    md: boolean;
+  };
+};
+
+export type topListingProduct = {
+  id: number;
+  productName: string;
+  productImage: string;
+  category: string;
+  order: string;
+  price: string;
+  topSales: string;
+  vendor: string;
+};
+
+export type activity = {
+  name: string;
+  purchased: string;
+  pItem: string;
+  id: number;
+};
+type cardinfo = {
+  title: string;
+  kMenu: string;
+  price: number;
+  arUp: string;
+  id: number;
+};
+
+export type inputErrorMessage = {
+  errorMessage: string;
+  inputName: string;
+  isValid: boolean;
+};
+// product listing types
+export interface ProductInfo {
+  productName: string;
+  vendor: string;
+  id: number;
+  dateAdded: string;
+  status: string;
+}
+export interface DeletedProducts {
+  name: string;
+  vendor: string;
+  id: number;
+  dateAdded: Date;
+  dateDeleted: Date;
+  status: string;
+}
+export interface CardData {
+  id: number;
+  bgImage: string;
+  photoImage: string;
+  name: string;
+  role: string;
+  skills: string[];
+  totalProjects: number;
+  badge: string;
+  location: string;
+}
+
+export interface AuthContextProps {
+  user: LoginBodyResponse | undefined;
+  handleUser: (value: LoginBodyResponse) => void;
+}
+
+export type LoginBodyResponse = {
+  id: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  token: string;
+  section_order: unknown;
+  password: string;
+  provider: unknown;
+  profile_pic: unknown;
+  refresh_token: string;
+  role_id: number;
+  is_verified: boolean;
+  two_factor_auth: boolean;
+  location: unknown;
+  country: unknown;
+  created_at: string;
+};
+export type LoginResponse = {
+  token: string;
+  data: LoginBodyResponse;
+  statusCode: number;
+};
+
+export interface Review {
+  id: number;
+  rating: number;
+  name: string;
+  description: string;
 }

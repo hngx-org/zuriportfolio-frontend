@@ -4,10 +4,13 @@ import { Products } from '../../../../../@types';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
 import Link from 'next/link';
+<<<<<<< HEAD
 import { Eye, ShoppingCart } from 'iconsax-react';
 import { useCart } from '../../CartContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+=======
+>>>>>>> a2e138010e81b3575672ee9e4facaba7306d5e62
 
 interface ProductCardProps {
   product: Products;
@@ -34,6 +37,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     return stars;
   };
   return (
+<<<<<<< HEAD
     <div className="p-2 w-full shadow border border-[#ccc] h-auto rounded-md bg-[#ffffff]  hover:shadow-[#ccc] group overflow-hidden">
       <div className="relative w-full max-w-md h-auto">
         <Link href={`/shop/product?id=${product._id}`} passHref>
@@ -61,6 +65,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <Eye size={17} />
           </Link>
         </div>
+=======
+    <div className="p-4 shadow border h-auto rounded-md bg-[#ffffff]">
+      <div className="relative w-full h-52">
+        <Link href={`/shop/product?id=${product.id}`} passHref>
+          <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" className="rounded-md h-52" />
+        </Link>{' '}
+>>>>>>> a2e138010e81b3575672ee9e4facaba7306d5e62
       </div>
       <div className="flex flex-col gap-2 flex-grow py-2 px-2">
         <div>

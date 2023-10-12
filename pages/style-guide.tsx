@@ -1,11 +1,22 @@
 import { Input, SelectInput } from '@ui/Input';
 import Button from '@ui/Button';
-import { EmptyWalletAdd, Eye, EyeSlash, I24Support, UserSquare } from 'iconsax-react';
+import {
+  ArrowDown,
+  ArrowDown2,
+  ArrowUp,
+  ArrowUp2,
+  EmptyWalletAdd,
+  Eye,
+  EyeSlash,
+  I24Support,
+  UserSquare,
+} from 'iconsax-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { CodeBlock, a11yDark } from 'react-code-blocks';
 import SampleModal from '../components/Modals/SampleModal';
 import useDisclosure from '../hooks/useDisclosure';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { notify } from '@ui/Toast';
 
 function ZuriCodeBlock({
   code,
@@ -119,6 +130,8 @@ function StyleGuide() {
   const [codeSelected, setCodeSelected] = useState(0);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [defaultInpType, setDefaultInpType] = useState<'password' | 'text'>('password');
+  const [isDdOpen, setIsDdOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
 
   useEffect(() => {
     if (loading) {
@@ -133,6 +146,20 @@ function StyleGuide() {
     setCodeSelected(num);
   };
 
+  const handleToast = () => {
+    notify({
+      message: '🦄 Wow so easy!',
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: 'dark',
+      type: 'success',
+    });
+  };
+
   return (
     <div>
       {/* Navigation */}
@@ -142,6 +169,12 @@ function StyleGuide() {
             Buttons
           </a>
         </li>
+        <li className="mr-6 mb-4 md:mb-0">
+          <a className="text-green-500 hover:text-green-800" href="#toasts">
+            Toast
+          </a>
+        </li>
+
         <li className="mr-6 mb-4 md:mb-0">
           <a className="text-green-500 hover:text-green-800" href="#inputs">
             Inputs
@@ -156,7 +189,7 @@ function StyleGuide() {
           <Button
             leftIcon={<I24Support color="#fff" />}
             intent={'primary'}
-            onClick={() => handleClick(0)}
+            onClick={(e) => handleClick(1)}
             size={'md'}
             isLoading={loading}
             spinnerColor="#000"
@@ -233,16 +266,59 @@ function StyleGuide() {
         </div>
       </div>
 
+      {/* Toasts */}
+      <div className="py-1 px-9 pb-10" id="toasts">
+        <h3 className="text-3xl flex justify-center py-10">Toasts</h3>
+        <div className="flex items-center justify-center gap-9">
+          <Button intent={'primary'} onClick={() => handleToast()} size={'md'}>
+            Show Toast
+          </Button>
+        </div>
+
+        <div className="py-5 px-9 r-10">
+          <ZuriCodeBlock
+            code={`   // Toast
+  import { notify } from '@ui/Toast';
+
+  const handleToast = () => {
+          notify({
+            message: '🦄 Wow so easy!',
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+            type: "success",
+          });
+  }
+
+  <Button intent={'primary'} onClick={handleToast} size={'md'}>Show Toast </Button>
+`}
+            language={'JavaScript'}
+            showLineNumbers={true}
+          />
+        </div>
+      </div>
+
       {/* Inputs */}
       <div className="py-1 px-9 pb-10" id="inputs">
         <h3 className="text-3xl flex justify-center py-10">Inputs</h3>
         <div className="flex items-center justify-center gap-9">
-          <Select
-            onValueChange={(value) => {
-              console.log(value);
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
+          <Select onOpenChange={() => setIsDdOpen(!isDdOpen)} onValueChange={(value) => setSelectedValue(value)}>
+            <SelectTrigger
+              rightIcon={
+                isDdOpen ? (
+                  <ArrowUp2 />
+                ) : selectedValue.length === 0 ? (
+                  <ArrowDown2 />
+                ) : (
+                  <span className="text-dark-100">{selectedValue}</span>
+                )
+              }
+              className="w-[180px]"
+            >
               <SelectValue placeholder="Theme" />
             </SelectTrigger>
             <SelectContent>

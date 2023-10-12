@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 function Breadcrumbs() {
   const router = useRouter();
-  const routeArr: string[] = router.route.split('/');
+  const routeArr: string[] = router.route.slice(1).split('/');
 
   const breadcrumbs = routeArr.map((el, i, arr) => (
     <>
@@ -19,6 +19,10 @@ function Breadcrumbs() {
       </Link>
     </>
   ));
+<<<<<<< HEAD
+=======
+
+>>>>>>> a2e138010e81b3575672ee9e4facaba7306d5e62
   return (
     <div className="font-manropeB text-brand-green-shade50 capitalize">
       <div>

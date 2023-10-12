@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&family=Montserrat&display=swap');
+.response {
+  font-family: Manrope;
+  margin-bottom: 300px;
+}
+
+.student_name {
+  font-size: 32px;
+  font-weight: 600;
+  color: #009254;
+}
+
+.student_score {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px; /* 125% */
+  color: #009254;
+  display: flex;
+  width: 143px;
+  padding: 13px 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 20px;
+  border: 1px solid #dfe3e6;
+  background: #f2f4f5;
+}
+
+.checked {
+  accent-color: #009254;
+}
+
+.pagination_number_clicked {
+  background: #009254;
+  color: #fff;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.pagination_numbers {
+  color: #767676;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.question_header {
+  color: var(--primary-color-primary-base-color, #009254);
+  /* Typography/Title/Bold/Large */
+  font-family: Manrope;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 127.273% */
+}
+.pick_answer {
+  color: var(--info-state-info-dark, #004fc4);
+  /* Typography/Label/Regular/Small */
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 166.667% */
+  letter-spacing: 0.06px;
+}
+.question_answers {
+  color: var(--tertiary-tertiary-40, #5b5f5e);
+
+  /* Typography/Label/Regular/Medium */
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+  letter-spacing: 0.06px;
+}
+
+@media (max-width: 369px) {
+  .question_card {
+    width: 300px;
+  }
+}
+
+@media (max-width: 335px) {
+  .question_card {
+    width: 250px;
+  }
+}
+
+@media (max-width: 285px) {
+  .question_card {
+    width: 200px;
+  }
+}

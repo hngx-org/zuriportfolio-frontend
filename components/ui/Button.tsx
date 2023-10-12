@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       intent: {
         primary:
-          ' bg-brand-green-primary hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed ',
+          'bg-brand-green-primary hover:bg-brand-green-hover focus:bg-brand-green-focused active:bg-brand-green-pressed disabled:bg-brand-disabled disabled:cursor-not-allowed ',
         secondary:
           'bg-white-100 text-brand-green-primary hover:bg-[#F4FBF6] focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled border-solid border-[2px] border-brand-green-primary ',
         success:
@@ -36,8 +36,7 @@ export interface ButtonVariants
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {}
 
-interface ButtonProps extends ButtonVariants {
-  onClick?: () => void;
+export interface ButtonProps extends ButtonVariants {
   children: React.ReactNode;
   className?: React.ComponentProps<'div'>['className'];
   leftIcon?: React.ReactNode;
@@ -50,7 +49,6 @@ interface ButtonProps extends ButtonVariants {
 }
 
 const Button: React.FC<ButtonProps> = ({
-  onClick,
   children,
   isLoading,
   disabled,
@@ -67,7 +65,7 @@ const Button: React.FC<ButtonProps> = ({
   if (href) {
     return (
       // @ts-expect-error
-      <Link href={href} className={classNames} onClick={onClick} {...props}>
+      <Link href={href} className={classNames} {...props}>
         {leftIcon && leftIcon}
         {children}
         {rightIcon && rightIcon}
@@ -76,7 +74,7 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button onClick={onClick} disabled={isLoading ?? disabled} className={classNames} {...props}>
+    <button disabled={isLoading ?? disabled} className={classNames} {...props}>
       <div className="w-full h-full absolute top-0 flex flex-col items-center justify-center">
         <svg
           width={spinnerSize ?? '20'}

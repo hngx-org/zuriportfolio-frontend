@@ -1,14 +1,23 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PriceData, SummaryProps } from '../../../../../@types';
 import PaymentInformationModal from './PaymentInformationModal';
+import TempUser from './../../../../../components/Modals/TempUser';
+import useDisclosure from '../../../../../hooks/useDisclosure';
+import isAuthenticated from '../../../../../helpers/isAuthenticated';
 
 const Summary: React.FC<SummaryProps> = ({ prices }) => {
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
   const [invalid, setInvalid] = useState<boolean>(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
+  const [authUser, setAuthUser] = useState<boolean>(false); // setAuthUser to true to see the modal of the Authenticated user
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    setModalOpen(false);
+  }, []);
 
   const defaultPrices: PriceData = {
     subtotal: 600,
@@ -49,22 +58,41 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
   };
 
   const handleCheckoutClick = () => {
-    setModalOpen(true);
+    const token = localStorage.getItem('authToken');
+    console.log(token);
+
+    if (token !== null) {
+      const userIsAuthenticated = isAuthenticated(token);
+      if (userIsAuthenticated) {
+        setAuthUser(true);
+        setModalOpen(true);
+      }
+    } else {
+      onOpen();
+    }
+    // const token = localStorage.getItem('authToken');
+    // if(token !== null) {
+    //   const value = isAuthenticated(token)
+    //   console.log(value)
+    // }
   };
 
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   return (
-    <section className="flex flex-grow px-10 py-8">
+    <section className="flex lg:px-10 py-8">
       <div className="cart-summary_wrapper flex flex-col space-y-6">
         <div className="cart-summary__header border border-gray-300 rounded-md shadow-sm">
-          <h1 className="font-bold capitalize text-xl px-4 py-4">cart summary</h1>
-          <div className="line bg-gray-300 h-0.5 w-[80%] pr-4"></div>
+          <h1 className="font-bold capitalize text-xl px-4 py-4 ">cart summary</h1>
+          <hr className="border-b-1 border-gray-500" />
           <div className="coupon flex flex-col py-4 px-4">
             <span></span> <span className="text-sm">Have a coupon?</span>
-            <div className="coupon w-full flex items-center">
+            <div className="coupon w-full py-0 flex items-center">
               <input
                 type="text"
                 placeholder="50 SALE"
-                className={`border border-green-300 border-r-0 placeholder-green-400 outline-none py-2 px-4 my-1 rounded-l-lg ${
+                className={`border border-green-300 my-0 border-r-0 h-[100%] placeholder-green-400 outline-none py-2 px-4  rounded-l-lg ${
                   couponErrorState ? 'border-brand-red-primary' : ''
                 }`}
                 onFocus={() => {
@@ -76,7 +104,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
 
               <button
                 type="submit"
-                className={`bg-green-300 text-white-100 py-2 px-6 rounded-r-md capitalize hover:bg-brand-green-primary focus:bg-brand-green-focus transition-all duration-300 ${
+                className={`bg-green-300 text-white-100 py-2 px-6 rounded-r-md capitalize hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ${
                   couponErrorState ? 'bg-gray-200' : ''
                 }`}
                 onClick={couponHandler}
@@ -87,7 +115,6 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
             {showDiscount ? (
               <div className="discount flex items-center space-x-1">
                 <Image src="/assets/check.svg" alt="check-svg" width={10} height={10} />
-
                 <span className="text-sm text-green-300 transition-all duration-300">Hurray! you got a discount!</span>
               </div>
             ) : (
@@ -131,7 +158,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
             </div>
           </div>
 
-          <div className="line bg-gray-300 h-0.5 w-full my-6"></div>
+          <hr className="border-b-5 border-gray-300 my-4 mx-3" />
 
           <div className="cart-total">
             <div className="sum flex justify-between">
@@ -143,12 +170,19 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
           <div>
             <button
               className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-brand-green-primary focus:bg-brand-green-focu transition-all duration-300"'
+              // onClick={authUser ? handleCheckoutClick : onOpen}
               onClick={handleCheckoutClick}
             >
               Checkout
             </button>
           </div>
-          {modalOpen ? <PaymentInformationModal /> : null}
+          {authUser ? (
+            modalOpen ? (
+              <PaymentInformationModal closeModal={closeModal} />
+            ) : null
+          ) : (
+            <TempUser isOpen={isOpen} onClose={onClose} />
+          )}
         </div>
       </div>
     </section>
