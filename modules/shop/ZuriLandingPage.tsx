@@ -51,9 +51,13 @@ const ZuriLandingPage = () => {
   });
   const totalPageCount = Math.ceil(products.length / productsPerPage);
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
   useEffect(() => {
     const indexOfFirstProduct = (currentPage - 1) * productsPerPage;
-    const updatedCurrentProducts = filteredProducts.slice(indexOfFirstProduct);
+    const updatedCurrentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfFirstProduct + productsPerPage);
     setCurrentProducts(updatedCurrentProducts);
   }, [currentPage, productsPerPage, filteredProducts]);
 
@@ -112,7 +116,7 @@ const ZuriLandingPage = () => {
             activePage={currentPage}
             pages={totalPageCount}
             page={currentPage}
-            setPage={setCurrentPage}
+            setPage={handlePageChange}
           />
         </div>
       </div>
