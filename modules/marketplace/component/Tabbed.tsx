@@ -152,14 +152,14 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
           <h3 className="text-base font-manropeB font-semibold">Review this product</h3>
           <p className="text-sm font-manropeL font-normal mt-[0.8px]">Share your thoughts with other customers</p>
           <Link href={'/dashboard/reviews/new'}>
-          <textarea
-            id="about"
-            name="about"
-            rows={3}
-            className="block w-full rounded-xl mt-4 text-[#A1ADB2] border-0 border-custom-color32 text-base font-bold py-2  shadow-sm ring-1 ring-inset ring-gray-300 pl-2 min-h-[116px] placeholder:text-[#A1ADB2]  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
-            placeholder="Write a customer review"
-            required
-          ></textarea>
+            <textarea
+              id="about"
+              name="about"
+              rows={3}
+              className="block w-full rounded-xl mt-4 text-[#A1ADB2] border-0 border-custom-color32 text-base font-bold py-2  shadow-sm ring-1 ring-inset ring-gray-300 pl-2 min-h-[116px] placeholder:text-[#A1ADB2]  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
+              placeholder="Write a customer review"
+              required
+            ></textarea>
           </Link>
           <button
             type="button"
