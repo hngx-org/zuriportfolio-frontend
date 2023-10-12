@@ -1,7 +1,7 @@
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import AuthLayout from '../../modules/auth/component/AuthLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
@@ -13,6 +13,7 @@ import { signUpUserWithEmail } from '../../http';
 import { useRouter } from 'next/router';
 
 function SignUpWithEmail() {
+  const [userEmail, setUserEmail] = useState("");
   const router = useRouter();
   const onSignUpWithEmailSuccess = (data: any) => {
     console.log(data);
@@ -28,7 +29,7 @@ function SignUpWithEmail() {
     }
 
     // user does not exists, continue to signup page
-    router.push('/auth/signup');
+    router.push(`/auth/signup?email=${userEmail}`);
   };
 
   const onSignUpWithEmailError = (error: any) => {
@@ -70,6 +71,7 @@ function SignUpWithEmail() {
 
   const handleSignUpWithEmail = (values: any) => {
     console.log('email', values.email);
+    setUserEmail(values.email as string);
     signUpUser({ email: values.email });
   };
 
