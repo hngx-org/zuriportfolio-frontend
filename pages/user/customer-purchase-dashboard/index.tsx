@@ -201,60 +201,68 @@ const MyPage: React.FC = () => {
         </div>
         <h3 className="font-semibold text-3xl hidden sm:block">Customer Purchase Dashboard</h3>
 
-          <div className="hidden sm:flex sm:align-center sm:justify-between w-full lg:w-4/5 mt-9">
-            <div
-              className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
-                filter === null ? 'border-brand-green-primary' : 'border-white-100'
+        <div className="hidden sm:flex sm:align-center sm:justify-between w-full lg:w-4/5 mt-9">
+          <div
+            className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
+              filter === null ? 'border-brand-green-primary' : 'border-white-100'
+            }`}
+            onClick={() => handleFilterClick(null)}
+          >
+            <p
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === null ? 'text-brand-green-primary' : 'border-white-100'
               }`}
-              onClick={() => handleFilterClick(null)}
             >
-              <p className={`text-sm cursor-pointer lg:text-base ${filter === null ? 'text-brand-green-primary' : 'border-white-100'}`}>
-                All Purchases ({allPurchasesCount})
-              </p>
-            </div>
-            <div
-              className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
-                filter === 'Pending' ? 'border-brand-green-primary' : 'border-white-100'
-              }`}
-              onClick={() => handleFilterClick('Pending')}
-            >
-              <p className={`text-sm cursor-pointer lg:text-base ${filter === 'Pending' ? 'text-brand-green-primary' : 'border-white-100'}`}>
-                Pending Purchases ({pendingPurchasesCount})
-              </p>
-            </div>
-            <div
-              className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
-                filter === 'Successful' ? 'border-brand-green-primary' : 'border-white-100'
-              }`}
-              onClick={() => handleFilterClick('Successful')}
-            >
-              <p
-                className={`text-sm cursor-pointer lg:text-base ${
-                  filter === 'Successful' ? 'text-brand-green-primary' : 'border-white-100'
-                }`}
-              >
-                Completed Purchases ({completedPurchasesCount})
-              </p>
-            </div>
-            <div
-              className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
-                filter === 'Failed' ? 'border-brand-green-primary' : 'border-white-100'
-              }`}
-              onClick={() => handleFilterClick('Failed')}
-            >
-              <p
-                className={`text-sm cursor-pointer lg:text-base ${
-                  filter === 'Failed' ? 'text-brand-green-primary' : 'border-white-100'
-                }`}
-              >
-                Failed Purchases ({failedPurchasesCount})
-              </p>
-            </div>
+              All Purchases ({allPurchasesCount})
+            </p>
           </div>
+          <div
+            className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
+              filter === 'Pending' ? 'border-brand-green-primary' : 'border-white-100'
+            }`}
+            onClick={() => handleFilterClick('Pending')}
+          >
+            <p
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === 'Pending' ? 'text-brand-green-primary' : 'border-white-100'
+              }`}
+            >
+              Pending Purchases ({pendingPurchasesCount})
+            </p>
+          </div>
+          <div
+            className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
+              filter === 'Successful' ? 'border-brand-green-primary' : 'border-white-100'
+            }`}
+            onClick={() => handleFilterClick('Successful')}
+          >
+            <p
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === 'Successful' ? 'text-brand-green-primary' : 'border-white-100'
+              }`}
+            >
+              Completed Purchases ({completedPurchasesCount})
+            </p>
+          </div>
+          <div
+            className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
+              filter === 'Failed' ? 'border-brand-green-primary' : 'border-white-100'
+            }`}
+            onClick={() => handleFilterClick('Failed')}
+          >
+            <p
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === 'Failed' ? 'text-brand-green-primary' : 'border-white-100'
+              }`}
+            >
+              Failed Purchases ({failedPurchasesCount})
+            </p>
+          </div>
+        </div>
 
           <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
             <div className="hidden sm:flex items-center h-[2.5rem] gap-10 mt-[3rem] ">
-              <form className='w-full' onSubmit={(e) => onSearch(e)}>
+            <form className='w-full' onSubmit={(e) => onSearch(e)}>
                 <Input
                   value={searchInput}
                   onChange={(e) => handleSearchInput(e)}
@@ -266,33 +274,33 @@ const MyPage: React.FC = () => {
 
             <FilterDropDown onChooseFilter={onChooseFilter} />
 
-              <Button
-                onClick={onOpen}
-                className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]"
-              >
-                <Trash size="16" /> Delete
-              </Button>
-            </div>
+            <Button
+              onClick={onOpen}
+              className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-[6.25rem] rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]"
+            >
+              <Trash size="16" /> Delete
+            </Button>
+          </div>
 
-            {/* table */}
-            {data.length > 0 && (
-              <div className="hidden sm:block w-full overflow-x-auto">
-                <table className="w-max md:w-full mt-6 mb-8">
-                  <thead className="h-[3rem]">
-                    <tr className="bg-white-200">
-                      <th className="text-left px-4 py-2 text-[0.75rem]">
-                        <span className="px-4">
-                          <input type="checkbox" />
-                        </span>
-                        Items
-                      </th>
-                      <th className="text-left px-4 py-2 text-[0.75rem]">Order ID</th>
-                      <th className="text-left px-4 py-2 text-[0.75rem]">Price</th>
-                      <th className="text-left px-4 py-2 text-[0.75rem]">Date</th>
-                      <th className="text-left px-4 py-2 text-[0.75rem]">Sellers Name</th>
-                      <th className="text-left px-4 py-2 text-[0.75rem]">Status</th>
-                    </tr>
-                  </thead>
+          {/* table */}
+          {data.length > 0 && (
+            <div className="hidden sm:block w-full overflow-x-auto">
+              <table className="w-max md:w-full mt-6 mb-8">
+                <thead className="h-[3rem]">
+                  <tr className="bg-white-200">
+                    <th className="text-left px-4 py-2 text-[0.75rem]">
+                      <span className="px-4">
+                        <input type="checkbox" />
+                      </span>
+                      Items
+                    </th>
+                    <th className="text-left px-4 py-2 text-[0.75rem]">Order ID</th>
+                    <th className="text-left px-4 py-2 text-[0.75rem]">Price</th>
+                    <th className="text-left px-4 py-2 text-[0.75rem]">Date</th>
+                    <th className="text-left px-4 py-2 text-[0.75rem]">Sellers Name</th>
+                    <th className="text-left px-4 py-2 text-[0.75rem]">Status</th>
+                  </tr>
+                </thead>
 
                 <tbody>
                   {data
@@ -316,7 +324,9 @@ const MyPage: React.FC = () => {
                               getStatusBackgroundColor(item.status)[0]
                             }`}
                           >
-                            <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>{item.status}</p>
+                            <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.status)[1]}`}>
+                              {item.status}
+                            </p>
                           </span>
                         </td>
                       </tr>
