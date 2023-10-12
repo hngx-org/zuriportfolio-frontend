@@ -66,7 +66,7 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U92’,
+    orderID: '643D73U92',
 
     price: '$100.00',
 
@@ -82,7 +82,7 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U93’,
+    orderID: '643D73U93',
 
     price: '$107.00',
 
@@ -144,7 +144,7 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U907,
+    orderID: '643D73U907',
 
     price: '$260.00',
 
@@ -174,7 +174,7 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U99’,
+    orderID: '643D73U99',
 
     price: '$100.00',
 
