@@ -8,6 +8,7 @@ import {
   Certificate,
   Awards,
   Custom,
+  Shop,
   Interests,
   Language,
   Reference,
@@ -86,11 +87,11 @@ export const sections = [
     modal: <Reference />,
   },
   {
-    id: 'custom',
+    id: 'shop',
     title: 'Shop',
     description: 'A place to highlight your professional experience A place to highlight your professional ',
     icon: <Briefcase />,
-    modal: <Custom />,
+    modal: <Shop />,
   },
   {
     id: 'contact',
@@ -101,7 +102,7 @@ export const sections = [
   },
 ];
 
-export const workexperiences = [
+export let workexperiences = [
   {
     id: 11,
     role: 'Role',
@@ -114,7 +115,7 @@ export const workexperiences = [
   },
 ];
 
-export const certificates = [
+export let certificates = [
   {
     id: 11,
     certificate: 'Certificate',
@@ -127,7 +128,7 @@ export const certificates = [
   },
 ];
 
-export const awards = [
+export let awards = [
   {
     id: 11,
     award: 'Award',
@@ -140,7 +141,7 @@ export const awards = [
   },
 ];
 
-export const educations = [
+export let educations = [
   {
     id: 11,
     degree: 'Degree',
@@ -155,7 +156,7 @@ export const educations = [
   },
 ];
 
-export const projects = [
+export let projects = [
   {
     id: 11,
     title: 'Project title',
@@ -167,15 +168,15 @@ export const projects = [
   },
 ];
 
-export const about = 'A place to highlight your professional experience A place to highlight your professional.';
+export let about = 'A place to highlight your professional experience A place to highlight your professional.';
 
-export const skills = ['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5', 'Skill 6'];
+export let skills = ['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5', 'Skill 6'];
 
-export const interests = ['Interest 1', 'Interest 2', 'Interest 3', 'Interest 4', 'Interest 5', 'Interest 6'];
+export let interests = ['Interest 1', 'Interest 2', 'Interest 3', 'Interest 4', 'Interest 5', 'Interest 6'];
 
-export const languages = ['Language 1', 'Language 2', 'Language 3', 'Language 4', 'Language 5', 'Language 6'];
+export let languages = ['Language 1', 'Language 2', 'Language 3', 'Language 4', 'Language 5', 'Language 6'];
 
-export const contacts = [
+export let contacts = [
   {
     id: 11,
     title: 'Contact',
@@ -196,7 +197,7 @@ export const contacts = [
   },
 ];
 
-export const references = [
+export let references = [
   {
     id: 11,
     name: 'Name',
@@ -206,3 +207,12 @@ export const references = [
     phone: 'Phone',
   },
 ];
+
+export const profileData = {
+  userId: '11',
+  picture: 'picture',
+  name: 'Name',
+  track: 'Track',
+  city: 'City',
+  country: 'Country',
+};
