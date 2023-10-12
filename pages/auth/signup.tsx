@@ -282,6 +282,7 @@ function Signup() {
 
             <Button
               // href="/auth/verification"
+              isLoading={isLoading}
               intent={'primary'}
               size={'sm'}
               className="w-full h-[44px] md:h-[60px] rounded-lg mt-3"
