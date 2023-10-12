@@ -1,11 +1,24 @@
 'use-client';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 
 const LandingPageFilled: React.FC = () => {
   const { sections, buildPortfolio, deleteSection, editSection, modals, modalStates } = useContext(Portfolio);
+  const [draggedSection, setDraggedSection] = useState<string | null>(null);
+
+  const onDragStart = (e: React.DragEvent<HTMLDivElement>, sectionId: string) => {
+    e.dataTransfer.setData('text/plain', sectionId);
+    setDraggedSection(sectionId);
+  };
+
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (draggedSection === null) return;
+    // Your drag-and-drop logic to reorder sections goes here
+  };
+
   return (
     <>
       {modals?.map((modalItem) => {
@@ -13,7 +26,7 @@ const LandingPageFilled: React.FC = () => {
         return <React.Fragment key={id}>{modalStates[id] && modal}</React.Fragment>;
       })}
 
-      <div className="w-full flex flex-col justify-start items-start gap-12">
+      <div className="w-full flex flex-col justify-start items-start gap-12" onDragOver={(e) => onDragOver(e)}>
         {sections?.map((section) => (
           <React.Fragment key={section.id}>
             <Wrapper
@@ -21,6 +34,8 @@ const LandingPageFilled: React.FC = () => {
               title={section.title}
               edit={() => editSection(section.id)}
               remove={() => deleteSection(section.id)}
+              onDragStart={(e, sectionId) => onDragStart(e, sectionId)}
+              onDragOver={onDragOver}
             >
               {section.content}
             </Wrapper>
@@ -45,11 +60,30 @@ type WrapperProps = {
   children?: React.ReactNode;
   edit?: () => void;
   remove?: () => void;
+  onDragStart: () => void;
+  onDragOver: () => void;
 };
 
-export const Wrapper = ({ id, title, children, edit, remove }: WrapperProps) => {
+export const Wrapper = ({
+  id,
+  title,
+  children,
+  edit,
+  remove,
+  onDragStart,
+  onDragOver,
+}: WrapperProps & {
+  onDragStart: (e: React.DragEvent<HTMLDivElement>, sectionId: string) => void;
+  onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+}) => {
   return (
-    <div className="flex justify-start items-start gap-2 md:gap-4 w-full" id={id}>
+    <div
+      className="flex justify-start items-start gap-2 md:gap-4 w-full"
+      id={id}
+      draggable
+      onDragStart={(e) => onDragStart(e, id)}
+      onDragOver={(e) => onDragOver(e)}
+    >
       {/* This is the icon */}
       <div>
         <svg
