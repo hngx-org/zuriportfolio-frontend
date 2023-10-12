@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthContextProvider } from '../context/AuthContext';
 // import { ToastContainer } from 'react-toastify';
 const queryClient = new QueryClient();
+import { CreatingAssessmentProvider } from '../context/assessment/CreatingAssessmentContext';
 
 // nprogress loader
 Router.events.on('routeChangeStart', nProgress.start);
@@ -39,7 +40,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <QueryClientProvider client={queryClient}>
           <AuthContextProvider>
             <MainLayoutContextProvider>
-              <AnyComponent {...pageProps} />
+              <CreatingAssessmentProvider>
+                <AnyComponent {...pageProps} />
+              </CreatingAssessmentProvider>
             </MainLayoutContextProvider>
             {/* <ToastContainer /> */}
           </AuthContextProvider>
