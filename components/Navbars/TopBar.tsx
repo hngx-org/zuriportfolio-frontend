@@ -13,6 +13,7 @@ import settingsIcon from './assets/setting-2.svg';
 import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 import MobileNav from '@modules/dashboard/component/MobileNav';
+import { ProductCardProps, ProductResult } from '../../@types';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -23,6 +24,43 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchMobile, setSearchMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
+  console.log(searchResult);
+
+  const route = useRouter();
+
+  const searchPosts = async (searchValue: string) => {
+    try {
+      const response = await fetch(
+        `https://coral-app-8bk8j.ondigitalocean.app/api/product-retrieval/?search=${searchValue}`,
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const posts: ProductResult[] = await response.json();
+      const searchResults = posts.filter((post) => post.name.toLowerCase().includes(searchValue.toLowerCase()));
+
+      return searchResults;
+    } catch (error) {
+      throw new Error(`Failed to fetch posts: ${error}`);
+    }
+  };
+
+  const handleSearch = async (e: React.KeyboardEvent) => {
+    e.preventDefault();
+    if (e.key === 'Enter') {
+      try {
+        const results = await searchPosts(searchQuery);
+        setSearchResults(results);
+        router.push(`/marketplace/search?searchResults=${JSON.stringify(results)}`);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
   };
@@ -132,6 +170,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </div>
                 </div>
                 <input
+                  value={searchQuery}
+                  onKeyUp={handleSearch}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search"
                   className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
                 />
@@ -166,6 +207,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </label>
               </div>
             </div>
+
             {/* Action Buttons */}
             {auth || (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
