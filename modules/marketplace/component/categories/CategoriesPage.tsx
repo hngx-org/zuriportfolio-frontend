@@ -4,9 +4,11 @@ import { ProductCardProps } from '../../../../@types';
 
 const handPicked: ProductCardProps[] = [
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -15,9 +17,11 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -26,9 +30,11 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -37,9 +43,11 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,

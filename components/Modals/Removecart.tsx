@@ -15,7 +15,7 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, produ
   if (modalOpen) {
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-        <div id="modal" className="bg-white-100 p-4 rounded-lg w-488 h-415 text-center">
+        <div id="modal" className="bg-white-100 p-4 rounded-lg w-488 h-415 text-center animate-slideIn">
           <svg
             onClick={closeModal}
             className="ml-auto mr-1 mt-1"

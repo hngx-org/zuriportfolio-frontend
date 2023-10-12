@@ -1,4 +1,17 @@
 <mjml>
+<mj-head>
+ <mj-style>
+      body {
+        margin: initial;
+        padding: 24px 24px 48px 24px;
+      }
+    </mj-style>
+    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
+
+    <mj-attributes>
+      <mj-text color="#2E3130" font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" line-height="24px" />
+    </mj-attributes>
+</mj-head>
   <mj-body background-color="#f0ece6">
     <mj-section background-repeat="repeat" padding="20px 0" text-align="center">
       <mj-column>
@@ -10,53 +23,104 @@
         ></mj-image>
       </mj-column>
     </mj-section>
-    <mj-section background-color="#ffffff" background-repeat="repeat" padding="20px 20px" text-align="center">
+    <mj-section border-radius="10px" background-color="#ffffff" background-repeat="repeat" padding="20px 20px" text-align="center">
       <mj-column>
         <mj-text
           padding="40px 20px 20px 20px"
           color="#000"
-          font-size="26px"
+          font-size="24px"
           font-weight="bold"
-          font-family="Century Gothic"
+          
         >
           HI {{$name}},
         </mj-text>
 
-        <mj-text font-family="Century Gothic" font-weight="bold" color="#009254" font-size="20px">
+        <mj-text  font-weight="bold" color="#009254" font-size="20px">
           A product has been removed from your store
         </mj-text>
 
-        <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
+        <mj-text  font-weight="400"  font-size="16px">
           One of your products <span style="font-weight: bold"> '{{$product_name}}' </span> has been removed from your
           Zuriportfolio store due to policy violations
         </mj-text>
 
-        <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
+        <mj-text  font-weight="400"  font-size="16px">
           Violation:
           <span style="font-weight: bold">
             Your product was found to violate our terms concerning copyright infringement.
           </span>
         </mj-text>
+      </mj-column>
+    </mj-section>
 
-        <mj-text padding-top="30px" font-weight="400" color="#000" font-size="18px" font-family="Century Gothic">
+
+<mj-wrapper padding="20px 40px" background-color="#ffffff">
+<mj-section padding="20px 10px" border="1px solid #E1E3E2"  border-radius="15px" background-color="#ffffff"  text-align="center">
+
+      <mj-column width="35%" padding-right="8px" padding-bottom="8px">
+        <mj-raw>
+          <div
+            style="
+              min-width: 7rem;
+              width: 100%;
+              max-width: 9rem;
+              height: 8.56319rem;
+              border-radius: 0.32113rem;
+              overflow: hidden;
+            "
+          >
+            <img
+              style="margin: auto; width: 100%; height: 100%; vertical-align: bottom; object-fit: cover"
+              src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png"
+              alt=""
+            />
+          </div>
+        </mj-raw>
+      </mj-column>
+      <mj-column width="65%">
+        <mj-text font-size="20px" color="#737876"  font-weight="bold">
+            <span >Guide to Marketing 101</span>
+        </mj-text>
+
+        <mj-text color="#737876" font-size="16px" >
+            <span >21 courses sold</span>
+          </div>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    </mj-wrapper>
+
+    <mj-section background-color="#ffffff" background-repeat="repeat" padding="20px 20px" text-align="center">
+      <mj-column>
+        <mj-button
+          href="https://zuriportfolio.com/login"
+          border-radius="10px"
+          background-color="#33a467"
+          height="30px"
+          width="200px"
+          font-size="16px"
+          >Go to your store</mj-button
+        >
+
+        <mj-text padding-top="30px" font-weight="400" color="#000" font-size="16px" >
           We understand that this decision may come as a surprise, and we apologize for any inconvenience it may cause.
           Our commitment to maintaining a safe and compliant shopping environment for all users necessitates strict
           adherence to our policies
         </mj-text>
 
-        <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
+        <mj-text  font-weight="400" color="#000" font-size="16px">
           If you believe this decision was made in error, please reach out to our support team at
           <a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
             >support@zuriportolio.com</a
           >.
         </mj-text>
 
-        <mj-text font-family="Century Gothic" color="#000" padding-top="30px" font-size="18px">
+        <mj-text  color="#000" padding-top="30px" font-size="16px">
           Thank you for choosing Zuriportfolio!<span
             padding-top="30px"
-            style="display: block; color: #d7a068; font-weight: bold; padding-top: 10px"
+            style="display: block; color: #865311; font-weight: bold; padding-top: 10px"
           >
-            Zuriportfolio
+            Zuri Team
           </span>
         </mj-text>
 

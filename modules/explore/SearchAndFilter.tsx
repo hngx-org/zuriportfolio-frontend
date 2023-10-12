@@ -50,7 +50,7 @@ const SearchAndFilter: React.FC = () => {
     {
       icon: <Filter size={26} color="white" />,
       activeIcon: <Filter size={26} color="black" />,
-      text: 'All_Filter',
+      text: 'All Filter',
       id: 1,
     },
     {
@@ -81,12 +81,12 @@ const SearchAndFilter: React.FC = () => {
     {
       icon: <Cloud size="26" color="white" />,
       activeIcon: <Cloud size={26} color="#737373" />,
-      text: 'Cloud_Computing',
+      text: 'Cloud Computing',
     },
     {
       icon: <Data size="26" color="white" />,
       activeIcon: <Data size={26} color="#737373" />,
-      text: 'Data_Science',
+      text: 'Data Science',
     },
     {
       icon: <Airdrop size="26" color="white" />,
@@ -101,11 +101,11 @@ const SearchAndFilter: React.FC = () => {
   ];
 
   return (
-    <div className="md:container margin-auto pt-20 md:px-10 mb-2 px-3 py-8">
+    <div className="md:container m-auto md:px-10 mb-2 px-3 py-8">
       <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-6">
-        <div className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
-          Filter
-        </div>
+        <h1 className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
+          Explore
+        </h1>
         <div className="text-neutral-500 text-[14px] md:text-[22px] font-normal font-manropeBL leading-5 md:leading-7">
           Customize and refine your search results to suit your specific preferences
         </div>
