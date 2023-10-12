@@ -8,6 +8,9 @@ import { SettingOptionTypes } from '../@types';
 import DeleteAccount from '@modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
 import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
 import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { NotificationCheckboxType } from '../@types';
 
 export default function SettingPage() {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -63,13 +66,84 @@ export default function SettingPage() {
     }
   }, []);
 
-  useEffect(() => {
-    if (loading) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
+  const userId = '6ba7b812-9dad-11d1-80b4-00c04fd430c8';
+
+  const [checkboxState, setCheckboxState] = useState<NotificationCheckboxType>({
+    emailSummary: false,
+    specialOffers: false,
+    communityUpdate: false,
+    followUpdate: false,
+    newMessages: false,
+  });
+  const [checkboxState3, setCheckboxState3] = useState<NotificationCheckboxType>({
+    emailSummary: false,
+    specialOffers: false,
+    communityUpdate: false,
+    followUpdate: false,
+    newMessages: false,
+  });
+  const handleNotificationUpdate = async () => {
+    setLoading(true);
+    try {
+      const url = `https://hng6-r5y3.onrender.com/api/set-notification-settings/8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(checkboxState3),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Notification settings updated successfully:', data.data);
+        const { userId, ...notificationData } = data.data;
+
+        setCheckboxState(notificationData);
+
+        localStorage.setItem(`notificationData${userId}`, JSON.stringify(notificationData));
+
+        toast.success('Updated Successfully', {
+          position: 'top-center',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      } else {
+        console.error('Failed to update notification settings');
+        toast.error('Unable To Update!', {
+          position: 'top-center',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      }
+    } catch (error) {
+      console.error('An error occurred while updating notification settings:', error);
+    } finally {
+      setLoading(false);
     }
-  }, [loading]);
+  };
+
+  const getNotificationSettingsFromLocalStorage = () => {
+    const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
+    if (storedNotificationData) {
+      const parsedData = JSON.parse(storedNotificationData);
+      setCheckboxState(parsedData);
+    }
+  };
+
+  useEffect(() => {
+    getNotificationSettingsFromLocalStorage();
+  }, []);
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
@@ -169,7 +243,9 @@ export default function SettingPage() {
                 <InviteLink />
               ) : (
                 <div className="mt-[26px]">
-                  {settingOption.notificationSettings && <NotificationSettings />}
+                  {settingOption.notificationSettings && (
+                    <NotificationSettings checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
+                  )}
                   {settingOption.deleteAccount && <DeleteAccount />}
                   {settingOption.accountManagement && <AccountManagement />}
                 </div>
@@ -276,7 +352,9 @@ export default function SettingPage() {
                   {!showReferInfo ? ' Settings' : 'Invite a friend'}
                 </p>
                 <div className=" w-full relative mb-4 ">
-                  {settingOption.notificationSettings && <NotificationSettings />}
+                  {settingOption.notificationSettings && (
+                    <NotificationSettings checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
+                  )}
                   {settingOption.deleteAccount && <DeleteAccount />}
                   {settingOption.accountManagement && <AccountManagementMobile />}
                   {settingOption.refer && <InviteLink />}
@@ -289,7 +367,7 @@ export default function SettingPage() {
         <Button
           //leftIcon={<I24Support color="#06C270" />}
           intent={'secondary'}
-          onClick={() => setLoading(true)}
+          onClick={handleNotificationUpdate}
           size={'sm'}
           isLoading={loading}
           spinnerColor="#000"

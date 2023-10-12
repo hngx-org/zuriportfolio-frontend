@@ -68,8 +68,8 @@ export default function InviteLink() {
           className="  appearance-none font-manropeL
            outline-none px-[8px] border-[1px] leading-6  grow max-w-[232px]
             md:max-w-[268px] height-[24px] border-[#D0D5DD]
-             lg:px-[12px] py-[10px] text-[14px] md:text-[16px] rounded-l-md text-[#667085]"
-          value={`portfolio.zuri/invite?=${userName}`}
+             lg:px-[12px] py-[10px] text-[12px] md:text-[14px] rounded-l-md text-[#667085]"
+          value={`portfolio.zuri/invite?=${userName || 'pleroma'}`}
           readOnly
         />
 
@@ -119,13 +119,9 @@ export default function InviteLink() {
               <Image src={Social1} height={30} width={30} alt="social1" />
             </a>
 
-            {/* <a
-        href={`https://www.instagram.com/sharer/sharer.php?u=${encodeURIComponent(websiteURL)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Image src={Social2} height={30} width={30} alt="social2" />
-      </a> */}
+            <a href={`https://www.instagram.com `} target="_blank" rel="noopener noreferrer">
+              <Image src={Social2} height={30} width={30} alt="social2" />
+            </a>
 
             <a
               href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(websiteURL)}`}
