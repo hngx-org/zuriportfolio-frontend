@@ -1,7 +1,7 @@
 // @ts-expect-error
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { CloseCircle } from 'iconsax-react';
+import { IoMdClose } from 'react-icons/io';
 import { ModalProps } from '../../@types';
 import Button from './Button';
 
@@ -60,7 +60,7 @@ function Modal({
                   {isCloseIconPresent ? (
                     <div className="absolute right-1 top-2">
                       <Button onClick={closeModal} className={closeBtnClass}>
-                        <CloseCircle />
+                        <IoMdClose />
                       </Button>
                     </div>
                   ) : null}
