@@ -1,6 +1,7 @@
 // components/SearchBar.tsx
 import { CloseCircle, SearchNormal1 } from 'iconsax-react';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 interface SearchBarProps {
   searchQuery: string;
@@ -11,6 +12,8 @@ interface SearchBarProps {
   handleCategoryChange: (category: string) => void;
   addToSearchHistory: () => void;
   showSearchHistory: () => void;
+  setShopOwnerQuery: (query: string) => void;
+  setCategoryQuery: (query: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -20,13 +23,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
   clearSearch,
   selectedCategory,
   handleCategoryChange,
+  setShopOwnerQuery,
+  setCategoryQuery,
   addToSearchHistory,
   showSearchHistory,
 }) => {
   const [error, setError] = useState<string | null>(null);
 
-  const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [isFocused, setIsFocused] = useState(false);
+  const router = useRouter();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -34,6 +38,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
     setSearchQuery(query);
     setError(null);
     addToSearchHistory();
+    setShopOwnerQuery(query);
+    setCategoryQuery(query);
+
+    if (router.pathname === '/shop/product') {
+      router.push('/shop');
+    }
   };
 
   const handleClear = () => {
@@ -41,22 +51,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
     setSearchQueryLocal('');
     setError(null);
     clearSearch();
-  };
-  const handleInputFocus = () => {
-    // Show the search history modal when the input is focused
-    setIsFocused(true);
-
-    showSearchHistory();
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      showSearchHistory();
-    }
-  };
-  const handleBlur = () => {
-    // When the search input is blurred, hide the search history
-    setIsFocused(false);
   };
 
   return (
@@ -68,9 +62,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
           placeholder="Search..."
           value={searchQuery}
           onChange={handleSearch}
-          onFocus={handleInputFocus}
-          onBlur={handleBlur}
-          onKeyPress={handleKeyPress}
           className=" focus:outline-none max-w-md  w-full"
         />
         <button onClick={handleClear} className="outline-none">

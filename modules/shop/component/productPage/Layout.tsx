@@ -3,10 +3,13 @@
 import { Dispatch, SetStateAction } from 'react';
 import Footer from './Footer';
 import Header from './Header';
+import { useCart } from '../CartContext';
 
 interface LayoutProps {
   children: React.ReactNode;
   setSearchQuery: Dispatch<SetStateAction<string>>;
+  setShopOwnerQuery: Dispatch<SetStateAction<string>>;
+  setCategoryQuery: Dispatch<SetStateAction<string>>;
   cartItemCount: number;
   categories: string[];
   selectedCategory: string;
@@ -17,18 +20,23 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({
   children,
   setSearchQuery,
-  cartItemCount,
   categories,
   selectedCategory,
+  setCategoryQuery,
   setSelectedCategory,
+  setShopOwnerQuery,
   handleCategoryChange,
 }) => {
+  const { cart } = useCart();
+
+  const cartItemCount = cart.length;
   return (
     <div>
       <Header
         setSearchQuery={setSearchQuery}
         cartItemCount={cartItemCount}
-        categories={categories}
+        setShopOwnerQuery={setShopOwnerQuery}
+        setCategoryQuery={setCategoryQuery}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}

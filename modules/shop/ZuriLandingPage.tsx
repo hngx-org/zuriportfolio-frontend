@@ -1,21 +1,26 @@
 // pages/shop/products.tsx
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ShopProductList from './component/productPage/ShopProduct/ShopProductList';
-import Pagination from './component/productPage/Pagination/Pagination';
 import Header from '../shop/component/productPage/Header';
 import Footer from '../shop/component/productPage/Footer';
 import { useCart } from './component/CartContext';
 import { Products } from '../../@types';
+import Pagination from '@ui/Pagination';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //const fakeStoreApiUrl = 'https://fakestoreapi.com/products';
 
 const ZuriLandingPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 12;
+  const [shopOwnerQuery, setShopOwnerQuery] = useState('');
+  const [categoryQuery, setCategoryQuery] = useState('');
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const productsPerPage = 3;
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [currentProducts, setCurrentProducts] = useState<Products[]>([]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -27,8 +32,9 @@ const ZuriLandingPage = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:4000/products')
+      .get('https://tech-v3ey.onrender.com/products')
       .then((response) => {
+        console.log('Fetched product data:', response.data);
         setProducts(response.data as Products[]);
       })
       .catch((error) => {
@@ -37,29 +43,32 @@ const ZuriLandingPage = () => {
   }, []);
 
   const filteredProducts = products.filter((product) => {
-    const categoryMatch =
-      selectedCategory === 'All' || product.category.toLowerCase() === selectedCategory.toLowerCase();
     const nameMatch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const shopOwnerMatch = product.shopOwner && product.shopOwner.toLowerCase().includes(shopOwnerQuery.toLowerCase());
+    const categoryMatch = product.category && product.category.toLowerCase().includes(categoryQuery.toLowerCase());
 
-    return categoryMatch && nameMatch;
+    return nameMatch && shopOwnerMatch && categoryMatch;
   });
+  const totalPageCount = Math.ceil(products.length / productsPerPage);
 
-  // Pagination logic
-  const totalPageCount = Math.ceil(filteredProducts.length / productsPerPage);
-  const indexOfFirstProduct = (currentPage - 1) * productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfFirstProduct + productsPerPage);
-  console.log('searchQuery:', searchQuery);
-  console.log('selectedCategory:', selectedCategory);
+  useEffect(() => {
+    const indexOfFirstProduct = (currentPage - 1) * productsPerPage;
+    const updatedCurrentProducts = filteredProducts.slice(indexOfFirstProduct);
+    setCurrentProducts(updatedCurrentProducts);
+  }, [currentPage, productsPerPage, filteredProducts]);
 
   return (
     <div>
       <Header
         setSearchQuery={setSearchQuery}
+        setShopOwnerQuery={setShopOwnerQuery}
+        setCategoryQuery={setCategoryQuery}
         cartItemCount={cartItemCount}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       />{' '}
+      <ToastContainer />
       <div className=" px-4 sm:px-6 md:px-3 py-5 container mx-auto">
         <div className="space-y-12 py-10">
           <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to TechVerse.</h1>
@@ -90,7 +99,21 @@ const ZuriLandingPage = () => {
           </svg>
         </div>
         <div className="py-10">
-          <ShopProductList products={products} searchQuery={searchQuery} />
+          <ShopProductList
+            products={products}
+            searchQuery={searchQuery}
+            currentPage={currentPage}
+            productsPerPage={productsPerPage}
+          />
+        </div>
+        <div className="w-full mx-auto flex justify-center">
+          <Pagination
+            visiblePaginatedBtn={5}
+            activePage={currentPage}
+            pages={totalPageCount}
+            page={currentPage}
+            setPage={setCurrentPage}
+          />
         </div>
       </div>
       <Footer />

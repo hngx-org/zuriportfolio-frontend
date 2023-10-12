@@ -5,16 +5,25 @@ import Image from 'next/image';
 import SearchBar from './SearchBar/SearchBar';
 import { ShoppingCart, CloseCircle } from 'iconsax-react';
 import ZuriShopLogo from '../../../../public/assets/shop/ZuriShopLogo.png';
-import SearchHistoryModal from './SearchHistoryModal';
+import { useRouter } from 'next/router';
 interface HeaderProps {
   setSearchQuery: Dispatch<SetStateAction<string>>;
+  setShopOwnerQuery: Dispatch<SetStateAction<string>>;
+  setCategoryQuery: Dispatch<SetStateAction<string>>;
   cartItemCount: number;
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
   handleCategoryChange: (category: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ setSearchQuery, cartItemCount, selectedCategory, handleCategoryChange }) => {
+const Header: React.FC<HeaderProps> = ({
+  setSearchQuery,
+  cartItemCount,
+  selectedCategory,
+  handleCategoryChange,
+  setShopOwnerQuery,
+  setCategoryQuery,
+}) => {
   const [searchQueryLocal, setSearchQueryLocal] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showSearchHistory, setShowSearchHistory] = useState(false);
@@ -51,6 +60,8 @@ const Header: React.FC<HeaderProps> = ({ setSearchQuery, cartItemCount, selected
     localStorage.removeItem('searchHistory');
   };
 
+  const router = useRouter();
+
   return (
     <nav className="bg-white-100 shadow">
       <div className="container mx-auto px-4 sm:px-6 md:px-3 py-5 flex flex-col md:flex-row  items-center">
@@ -81,6 +92,8 @@ const Header: React.FC<HeaderProps> = ({ setSearchQuery, cartItemCount, selected
           <SearchBar
             searchQuery={searchQueryLocal}
             setSearchQuery={setSearchQuery}
+            setShopOwnerQuery={setShopOwnerQuery}
+            setCategoryQuery={setCategoryQuery}
             setSearchQueryLocal={setSearchQueryLocal}
             clearSearch={clearSearch}
             selectedCategory={selectedCategory}
@@ -100,13 +113,6 @@ const Header: React.FC<HeaderProps> = ({ setSearchQuery, cartItemCount, selected
           </div>
         </div>
       </div>
-      {showSearchHistory && (
-        <SearchHistoryModal
-          searchHistory={searchHistory}
-          onClose={toggleSearchHistoryModal}
-          onClear={clearSearchHistory}
-        />
-      )}
     </nav>
   );
 };

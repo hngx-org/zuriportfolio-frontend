@@ -1,15 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-}
+import { Products } from '../../../@types';
 
 interface CartContextType {
-  cart: Product[];
-  addToCart: (product: Product) => void;
+  cart: Products[];
+  addToCart: (product: Products) => void;
   removeFromCart: (productId: string) => void;
 }
 
@@ -20,14 +14,14 @@ interface CartProviderProps {
 }
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [cart, setCart] = useState<Product[]>([]);
+  const [cart, setCart] = useState<Products[]>([]);
 
-  const addToCart = (product: Product) => {
+  const addToCart = (product: Products) => {
     setCart([...cart, product]);
   };
 
   const removeFromCart = (productId: string) => {
-    const updatedCart = cart.filter((product) => product.id !== productId);
+    const updatedCart = cart.filter((product) => product._id !== productId);
     setCart(updatedCart);
   };
 

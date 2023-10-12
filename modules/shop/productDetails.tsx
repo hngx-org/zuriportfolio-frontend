@@ -2,18 +2,14 @@ import Image from 'next/image';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
 import Slider from './component/slider';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from '@ui/Button';
 import { ProfileCircle } from 'iconsax-react';
 import { ArrowLeft } from 'iconsax-react';
-import { ProductCardProps } from '../../@types';
+import { ProductCardProps, Products } from '../../@types';
 import ProductCardWrapper from '../marketplace/component/landingpage/productCardWrapper/product-card-wrapper';
 import { useRouter } from 'next/router';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import Header from './component/productPage/Header';
-import Footer from './component/productPage/Footer';
-import Link from 'next/link';
-import { staticProducts } from './staticProducts';
 import Layout from './component/productPage/Layout';
 import { useCart } from './component/CartContext';
 
@@ -67,17 +63,18 @@ const otherProducts: ProductCardProps[] = [
 export default function ProductDetails() {
   const router = useRouter();
 
-  const { id } = router.query;
-  const product = staticProducts.find((p) => p.id === String(id));
   const [isClickedDesc, setIsClickedDesc] = useState(true);
   const [isClickedSpec, setIsClickedSpec] = useState(false);
   const [isClickedRev, setIsClickedRev] = useState(false);
+  const [product, setProduct] = useState<Products | null>(null);
   const [image, setImage] = useState(product?.image);
+  const [shopOwnerQuery, setShopOwnerQuery] = useState('');
+  const [categoryQuery, setCategoryQuery] = useState('');
   const lensRef = useRef<HTMLDivElement | null>(null);
   const secondRef = useRef<HTMLImageElement | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [cartItemCount, setCartItemCount] = useState(0); // Initialize with the correct value
-  const categories: string[] = []; // Initialize with the correct categories
+  const [cartItemCount, setCartItemCount] = useState(0);
+  const categories: string[] = [];
   const [selectedCategory, setSelectedCategory] = useState('');
   const { addToCart } = useCart();
 
@@ -86,18 +83,25 @@ export default function ProductDetails() {
   const [lensStyle, setLensStyle] = useState<React.CSSProperties>({ display: 'none' });
   const [secondStyle, setSecondStyle] = useState<React.CSSProperties>({});
 
-  if (!product) {
-    return (
-      <div className="text-center flex justify-center items-center flex-col w-full h-screen">
-        <p className="text-red-500 text-3xl pb-[2rem]">Product Not Found</p>
-        <Link href={`/shop`} passHref className="text-base bg-green-200 rounded-lg p-4 text-white-100">
-          {' '}
-          Go Back To Shop
-        </Link>
-      </div>
-    );
-  }
+  const { id } = router.query;
 
+  useEffect(() => {
+    if (id) {
+      fetch(`https://tech-v3ey.onrender.com/api/products/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setProduct(data);
+        })
+        .catch((error) => {
+          console.error('Error fetching product details:', error);
+          setProduct(null);
+        });
+    }
+  }, [id]);
+
+  if (!product) {
+    return null;
+  }
   const updateImage = (newImage: any) => {
     setImage(newImage);
   };
@@ -159,11 +163,22 @@ export default function ProductDetails() {
       setAddedToCart(false);
     }, 3000);
   };
+
+  const renderRatingStars = (rating: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      const starType = i <= rating ? 'star1' : 'star2';
+      stars.push(<Image src={starType === 'star1' ? star1 : star2} alt={`Star ${i}`} key={i} />);
+    }
+    return stars;
+  };
   return (
     <>
       <Layout
         setSearchQuery={setSearchQuery}
         cartItemCount={cartItemCount}
+        setShopOwnerQuery={setShopOwnerQuery}
+        setCategoryQuery={setCategoryQuery}
         categories={categories}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
@@ -224,19 +239,13 @@ export default function ProductDetails() {
                 <p className="w-fit ml-2">{product.shopOwner}</p>
               </div>
               <p className="text-lg font-normal font-manropeL leading-normal tracking-tight flex flex-col">
-                <span>Empower your educational endeavors with our Webinar and Course Template.</span>
-                <span>Craft immersive online learning experiences that captivate audiences. </span>
-                <span>Seamlessly integrate multimedia elements, quizzes, and discussions to enrich t...</span>
+                {product.description}
               </p>
 
               <div className="flex flex-col gap-y-2">
-                <div className="flex gap-x-1">
+                <div className="flex gap-x-1 items-center">
                   <p className=" text-base font-semibold font-manropeB leading-normal tracking-tight">3.3/5</p>
-                  <Image src={star1} alt="rating star" />
-                  <Image src={star1} alt="rating star" />
-                  <Image src={star1} alt="rating star" />
-                  <Image src={star2} alt="rating star" />
-                  <Image src={star2} alt="rating star" />
+                  <div className="flex items-center ">{renderRatingStars(product.rating)}</div>
                 </div>
                 <p className="text-black text-base font-normal font-manropeL leading-normal tracking-tight">
                   (50 Customers)
@@ -252,7 +261,9 @@ export default function ProductDetails() {
                   Total Payment (Incl. taxes)
                 </p>
                 <p className="flex gap-x-4 items-center">
-                  <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">$100.00</span>
+                  <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
+                    ${product.price}
+                  </span>
                   <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
                     $120.00
                   </span>
@@ -262,6 +273,7 @@ export default function ProductDetails() {
               <Button intent={'primary'} size={'lg'} className="w-5/12 text-xs" onClick={handleAddToCart}>
                 Add to cart
               </Button>
+              {addedToCart && <div className="mt-2 text-green-600 font-bold">Added to Cart</div>}
             </div>
           </div>
 
@@ -297,15 +309,7 @@ export default function ProductDetails() {
               <h1 className="font-manropeB text-2xl text-white-700">
                 {isClickedDesc ? 'Description' : `${isClickedSpec ? 'Specification' : 'Review'}`}
               </h1>
-              <p>
-                Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
-                experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
-                to enrich the learning journey. Tailor the template to your brand with customizable design options.
-                Track learner progress, foster collaboration, and gain insights through built-in analytics. Whether you
-                {"'"}re an educator or a business, this template streamlines course creation, webinar hosting, and
-                community building. Elevate your online education with a user-friendly, responsive, and feature-rich
-                solution that engages and enlightens learners.
-              </p>
+              <p>{isClickedDesc ? product.description : isClickedSpec ? product.specification : ''}</p>
             </div>
           </div>
 

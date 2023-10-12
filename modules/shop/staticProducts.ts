@@ -2,7 +2,7 @@ import { Products } from '../../@types';
 
 export const staticProducts: Products[] = [
   {
-    id: '1',
+    _id: '1',
     name: 'Book',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -10,7 +10,7 @@ export const staticProducts: Products[] = [
     category: 'Category 1',
   },
   {
-    id: '2',
+    _id: '2',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -18,7 +18,7 @@ export const staticProducts: Products[] = [
     category: 'Category 2',
   },
   {
-    id: '3',
+    _id: '3',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -26,7 +26,7 @@ export const staticProducts: Products[] = [
     category: 'Category 3',
   },
   {
-    id: '4',
+    _id: '4',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -34,7 +34,7 @@ export const staticProducts: Products[] = [
     category: 'Category 4',
   },
   {
-    id: '5',
+    _id: '5',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -42,7 +42,7 @@ export const staticProducts: Products[] = [
     category: 'Category 5',
   },
   {
-    id: '6',
+    _id: '6',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -50,7 +50,7 @@ export const staticProducts: Products[] = [
     category: 'Category 6',
   },
   {
-    id: '7',
+    _id: '7',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -58,7 +58,7 @@ export const staticProducts: Products[] = [
     category: 'Category 7',
   },
   {
-    id: '8',
+    _id: '8',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -66,7 +66,7 @@ export const staticProducts: Products[] = [
     category: 'Category 8',
   },
   {
-    id: '9',
+    _id: '9',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -74,7 +74,7 @@ export const staticProducts: Products[] = [
     category: 'Category 9',
   },
   {
-    id: '10',
+    _id: '10',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -82,7 +82,7 @@ export const staticProducts: Products[] = [
     category: 'Category 10',
   },
   {
-    id: '11',
+    _id: '11',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -90,7 +90,7 @@ export const staticProducts: Products[] = [
     category: 'Category 11',
   },
   {
-    id: '12',
+    _id: '12',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -98,7 +98,7 @@ export const staticProducts: Products[] = [
     category: 'Category 12',
   },
   {
-    id: '13',
+    _id: '13',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -106,7 +106,7 @@ export const staticProducts: Products[] = [
     category: 'Category 13',
   },
   {
-    id: '14',
+    _id: '14',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -114,7 +114,7 @@ export const staticProducts: Products[] = [
     category: 'Category 14',
   },
   {
-    id: '15',
+    _id: '15',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -122,7 +122,7 @@ export const staticProducts: Products[] = [
     category: 'Category 15',
   },
   {
-    id: '16',
+    _id: '16',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -130,7 +130,7 @@ export const staticProducts: Products[] = [
     category: 'Category 16',
   },
   {
-    id: '17',
+    _id: '17',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -138,7 +138,7 @@ export const staticProducts: Products[] = [
     category: 'Category 17',
   },
   {
-    id: '18',
+    _id: '18',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -146,7 +146,7 @@ export const staticProducts: Products[] = [
     category: 'Category 18',
   },
   {
-    id: '19',
+    _id: '19',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
@@ -154,7 +154,7 @@ export const staticProducts: Products[] = [
     category: 'Category 19',
   },
   {
-    id: '20',
+    _id: '20',
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',

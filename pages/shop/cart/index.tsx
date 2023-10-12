@@ -2,15 +2,20 @@ import { useCart } from '@modules/shop/component/CartContext';
 import Trending from '@modules/shop/component/carts/Trending';
 import Layout from '@modules/shop/component/productPage/Layout';
 import { staticProducts } from '@modules/shop/staticProducts';
-import { ArrowRight, CloseCircle } from 'iconsax-react';
+import { ArrowRight, CloseCircle, Trash } from 'iconsax-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+import star1 from '../../../public/assets/star1.svg';
+import star2 from '../../../public/assets/star2.svg';
+import RemoveFromCartModal from '@modules/shop/component/carts/RemoveFromCartModal';
+import { Products } from '../../../@types';
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
+  const [shopOwnerQuery, setShopOwnerQuery] = useState('');
+  const [categoryQuery, setCategoryQuery] = useState('');
   const [cartItemCount, setCartItemCount] = useState(0);
   const categories: string[] = [];
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -18,18 +23,45 @@ const CartPage: React.FC = () => {
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
+
+  const renderRatingStars = (rating: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      const starType = i <= rating ? 'star1' : 'star2';
+      stars.push(<Image className="w-5 h-5" src={starType === 'star1' ? star1 : star2} alt={`Star ${i}`} key={i} />);
+    }
+    return stars;
+  };
+
+  const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
+  const [productToRemove, setProductToRemove] = useState<Products | null>(null);
+
+  const handleConfirmRemove = () => {
+    if (productToRemove) {
+      removeFromCart(productToRemove._id);
+      setShowRemoveConfirmation(false);
+      setProductToRemove(null);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowRemoveConfirmation(false);
+  };
+
   return (
     <>
+      {showRemoveConfirmation && <RemoveFromCartModal onClose={handleCloseModal} onConfirm={handleConfirmRemove} />}
       <Layout
         setSearchQuery={setSearchQuery}
         cartItemCount={cartItemCount}
         categories={categories}
+        setShopOwnerQuery={setShopOwnerQuery}
+        setCategoryQuery={setCategoryQuery}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       >
-        <div className=" container mx-auto   px-6 grid grid-cols-5 gap-10 ">
-          <Breadcrumbs />
+        <div className=" container mx-auto  w-full  px-6 grid grid-cols-5 gap-10 ">
           {cart.length > 0 ? (
             <>
               <div className="bg-white col-span-4 py-10 rounded-lg">
@@ -37,9 +69,9 @@ const CartPage: React.FC = () => {
                   <p className="text-4xl font-semibold ">Cart</p>
                 </div>
 
-                <div className="pt-2 flex flex-col gap-2  border-b-[1px] border-b-white-300 ">
+                <div className="pt-2 flex flex-col gap-2  ">
                   {cart.map((product) => (
-                    <div key={product.id} className=" flex py-3 items-center gap-8">
+                    <div key={product._id} className=" flex items-center gap-8 border-b-[1px] border-b-white-300 py-5">
                       <Image
                         className="object-cover rounded-md max-h-36"
                         width={200}
@@ -47,18 +79,27 @@ const CartPage: React.FC = () => {
                         src={product.image}
                         alt="productImage"
                       />
-                      <div className="flex items-center px-2 gap-4">
+                      <div className="flex items-center justify-between w-full px-2">
                         <div className="flex flex-col gap-1">
-                          <p className="text-lg  font-manropeEB">{product.name}</p>
-                          <p className="text-sm text-gray-600">
-                            <span className="font-semibold text-amazon_blue">${product.price}</span>
-                          </p>
-                          <div
-                            onClick={() => removeFromCart(product.id)}
-                            className="flex items-center text-sm font-medium text-gray-400 hover:text-red-600 cursor-pointer duration-300"
-                          >
-                            <CloseCircle className="mt-[2px]" /> <p>remove</p>
+                          <p className="text-base font-manropeEB text-[#444846]">{product.name}</p>
+                          <p className="font-manropeEL text-sm text-[#444846]">By {product.shopOwner}</p>
+                          <div className="inline-flex items-center font-manropeEB text-sm gap-3">
+                            {product.rating}.0
+                            <div className="flex flex-row my-3 mx-0">{renderRatingStars(product.rating)}</div>
                           </div>
+
+                          <p className="text-sm text-gray-600">
+                            <span className="font-manropeEB text-brand-green-pressed">${product.price}</span>
+                          </p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            setProductToRemove(product);
+                            setShowRemoveConfirmation(true);
+                          }}
+                          className="flex items-center text-sm font-medium text-gray-400 hover:text-red-600 cursor-pointer duration-300"
+                        >
+                          <Trash size="17" color="#ff8a65" />
                         </div>
                       </div>
                     </div>

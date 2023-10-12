@@ -5,8 +5,10 @@ import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
 import Link from 'next/link';
 import { Eye, ShoppingCart } from 'iconsax-react';
-import { useState } from 'react';
 import { useCart } from '../../CartContext';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 interface ProductCardProps {
   product: Products;
 }
@@ -14,19 +16,27 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
 
-  const [addedToCart, setAddedToCart] = useState(false);
-
   const handleAddToCart = () => {
     addToCart(product);
-    setAddedToCart(true);
-    setTimeout(() => {
-      setAddedToCart(false);
-    }, 3000);
+
+    toast.success('Added to Cart', {
+      position: 'top-right',
+      autoClose: 3000,
+    });
+  };
+
+  const renderRatingStars = (rating: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      const starType = i <= rating ? 'star1' : 'star2';
+      stars.push(<Image src={starType === 'star1' ? star1 : star2} alt={`Star ${i}`} key={i} />);
+    }
+    return stars;
   };
   return (
     <div className="p-2 w-full shadow border border-[#ccc] h-auto rounded-md bg-[#ffffff]  hover:shadow-[#ccc] group overflow-hidden">
       <div className="relative w-full max-w-md h-auto">
-        <Link href={`/shop/product?id=${product.id}`} passHref>
+        <Link href={`/shop/product?id=${product._id}`} passHref>
           <Image
             src={product.image}
             alt={product.name}
@@ -44,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <ShoppingCart size={17} />
           </span>
           <Link
-            href={`/shop/product?id=${product.id}`}
+            href={`/shop/product?id=${product._id}`}
             passHref
             className="w-full h-full text-black border-b -[1px] border-b-[#ccc] flex items-center justify-center text-sm bg-transparent hover:bg-[#febd69] hover:text-white-100 cursor-pointer duration-300"
           >
@@ -62,15 +72,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             By: <span className="underline text-gray-500">{product.shopOwner}</span>
           </p>
         </div>
-        <div className="flex items-center mt-2">
-          <Image src={star1} alt="rating star" />
-          <Image src={star1} alt="rating star" />
-          <Image src={star1} alt="rating star" />
-          <Image src={star2} alt="rating star" />
-          <Image src={star2} alt="rating star" />
-        </div>{' '}
+        <div className="flex items-center mt-2">{renderRatingStars(product.rating)}</div>
       </div>
-      {addedToCart && <div className="mt-2 text-green-600 font-bold">Added to Cart</div>}
     </div>
   );
 };
