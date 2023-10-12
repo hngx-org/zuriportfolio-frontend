@@ -19,7 +19,7 @@
          <mj-text font-size="16px" font-weight="400" font-family="Manrope" line-height="24px">
             A client has placed an order on your website, click on the button below in order to confirm the client’s order.
         </mj-text>
-         <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px" font-family="Manrope">
+         <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px" font-family="Manrope" href="https://zuriportfolio-frontend-pw1h.vercel.app">
             Confirm request
         </mj-button>
         <mj-divider border-color="#F0F1F0" padding-top="20px" />
