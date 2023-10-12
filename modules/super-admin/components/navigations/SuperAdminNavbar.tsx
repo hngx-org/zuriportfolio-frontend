@@ -50,7 +50,6 @@ const SuperAdminNavbar = () => {
         return '';
     }
   };
-  
 
   return (
     <nav className="sticky top-0 bg-white-100 z-10">

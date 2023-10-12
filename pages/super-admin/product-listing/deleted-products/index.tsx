@@ -106,7 +106,7 @@ const DeletedProducts = () => {
           </tbody>
         </table>
       </div>
-      <div className='mb-5'>
+      <div className="mb-5">
         <Pagination />
       </div>
     </>
