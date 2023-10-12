@@ -60,6 +60,7 @@ const EditProfile = () => {
         body: data,
       });
 
+
       if (res.ok) {
         localStorage.setItem('userProfile', JSON.stringify(portfolioDetails));
         setError('');
@@ -75,7 +76,6 @@ const EditProfile = () => {
       console.error(e);
     }
   };
-
 
   return (
     <form
