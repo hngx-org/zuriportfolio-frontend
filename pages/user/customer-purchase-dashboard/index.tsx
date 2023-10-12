@@ -81,7 +81,7 @@ const DUMMYDATA: PurchaseData[] = [
     id: 4,
 
     item: 'Webinar & Course Slide',
-
+    
     orderID: '643D73U93',
 
     price: '$107.00',
@@ -97,7 +97,6 @@ const DUMMYDATA: PurchaseData[] = [
     id: 5,
 
     item: 'Webinar & Course Slide',
-
     orderID: '643D73U94',
 
     price: '$100.00',
