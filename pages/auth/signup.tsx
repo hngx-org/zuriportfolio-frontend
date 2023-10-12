@@ -52,13 +52,14 @@ function Signup() {
   });
 
   const router = useRouter();
+  const {email: userEmail} = router.query;
 
   const handleSignUp = async (values: any) => {
     try {
       const userData = {
         firstName: values.firstName,
         lastName: values.lastName,
-        email: 'emmanuelagbeniga+fuefgjef@gmail.com',
+        email: userEmail,
         password: values.password,
         confirmPassword: values.confirmPassword,
       };
