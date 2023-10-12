@@ -15,12 +15,12 @@ export default function UserReview() {
       <div className="max-w-[1240px] hidden md:block mx-auto my-0">
         <CategoriesNav
           navItems={[
-            'Design & Graphics',
-            'Development & Programming',
-            'Content Creation',
-            'Digital Arts & Media',
-            'Audio & Sound',
-            'Photography',
+            ' Design & Graphics',
+            ' Development & Programming',
+            ' Content Creation',
+            ' Digital Arts & Media',
+            ' Audio & Sound',
+            ' Photography',
             'Writing & Copywriting',
             'Video & motion',
             'Data & Analytics',
@@ -56,6 +56,7 @@ export default function UserReview() {
                     <Review
                       buyerName={reviewData[0].buyerName}
                       adminDate={reviewData[0].adminDate}
+                      mainDate={reviewData[0].adminDate}
                       review={reviewData[0].review}
                       noOfStars={reviewData[0].noOfStars}
                       shopReply={reviewData[2].shopReply}

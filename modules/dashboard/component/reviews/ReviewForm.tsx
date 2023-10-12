@@ -6,6 +6,7 @@ import star1 from '../../../../public/assets/star1.svg';
 import star2 from '../../../../public/assets/star2.svg';
 import { Review, reviewProps } from '../../../../@types';
 import axios from 'axios';
+import { postReviewByProductId } from '../../../../http/api/controllerReview';
 
 function ReviewForms() {
   const [rating, setRating] = useState(0);
@@ -45,15 +46,12 @@ function ReviewForms() {
       const newReview: Review = {
         id: Date.now(),
         rating,
-        name,
+        customerName: name,
         description,
       };
 
       // Make an API request to post the review
-      await axios.post(
-        'https://team-liquid-repo-production.up.railway.app/api/products/%7BproductId%7D/reviews',
-        newReview,
-      );
+      await axios.post(`https://team-liquid-repo-production.up.railway.app/api/products/1/reviews`, newReview);
 
       // You can also handle success, show a message, or redirect the user
     } catch (error) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavDashBoard from '../../../../modules/dashboard/component/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,9 +11,114 @@ import PaginationBar from '../../../../modules/dashboard/component/order/Paginat
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { ratingData, reviewData } from '../../../../db/reviews';
 import Container from '@modules/auth/component/Container/Container';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 
-export default function UserReview() {
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const res = await fetch('');
+//   const data = await res.json();
+
+//   const paths = data.map(zuri => {
+//     return {
+//       params: {id: zuri.id.toString()}
+//     }
+//   })
+
+//   return {
+//     paths: paths,
+//     fallback: false
+//   }
+// }
+
+type Props = {
+  zuri: [
+    {
+      productId: string;
+      reviewId: string;
+      customerName: string;
+      isHelpful: number;
+      title: string;
+      description: string;
+      rating: number;
+      replies: {
+        replyId: string;
+        name: string;
+        message: string;
+        createAt: string;
+      };
+      createdAt: string;
+    },
+  ];
+};
+interface Params extends ParsedUrlQuery {
+  id: string;
+}
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [
+      {
+        params: { id: '1' },
+      },
+      {
+        params: { id: '2' },
+      },
+      {
+        params: { id: '3' },
+      },
+      {
+        params: { id: '4' },
+      },
+      {
+        params: { id: '5' },
+      },
+    ],
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
+  const id = context.params!.id;
+  const res = await fetch(
+    `https://team-liquid-repo-production.up.railway.app/api/shop/${id}/reviews?pageNumber=1&pageSize=10`,
+  );
+  const data = await res.json();
+  const tes = await fetch('https://i-external-view-production.up.railway.app/api/v1/products');
+  const dat = await tes.json();
+  console.log(dat);
+  console.log(data.data);
+
+  return {
+    props: { zuri: data.data },
+  };
+};
+// export const getStaticProp: GetStaticProps = async (context) => {
+//   const id = context?.params?.id;
+//   const res = await fetch('https://i-external-view-production.up.railway.app/api/v1/products');
+//   const dat = await res.json();
+//   console.log(dat)
+
+//   return {
+//     props: { zuriRats: dat}
+//   }
+// }
+
+const UserReview: NextPage<Props> = (props) => {
   const router = useRouter();
+
+  function calculateTotalRatings() {
+    let total = 0;
+    ratingData.forEach((data) => {
+      let rating = Number(data.rating);
+      total += rating;
+    });
+    return total;
+  }
+
+  function getPercentage(number: string) {
+    let totalRatings = calculateTotalRatings();
+    let percentage = (Number(number) / totalRatings) * 100;
+    return Math.floor(percentage);
+  }
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
@@ -41,15 +146,16 @@ export default function UserReview() {
                   <Filter review={76} rating={195} />
                 </div>
                 <div className="mt-4 mx-1">
-                  {reviewData.map((data, index) => (
+                  {props.zuri.map((data, index) => (
                     <SellerReview
                       key={index}
-                      buyerName={data.buyerName}
-                      adminDate={data.adminDate}
-                      review={data.review}
-                      noOfStars={data.noOfStars}
-                      shopReply={data.shopReply}
-                      shopName={data.shopName}
+                      buyerName={data.customerName}
+                      mainDate={data.createdAt}
+                      adminDate={data.replies.createAt}
+                      review={data.description}
+                      noOfStars={data.rating}
+                      shopReply={data.replies.message}
+                      shopName={data.replies.name}
                     />
                   ))}
                 </div>
@@ -61,4 +167,5 @@ export default function UserReview() {
       </Container>
     </MainLayout>
   );
-}
+};
+export default UserReview;

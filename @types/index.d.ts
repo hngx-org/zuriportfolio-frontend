@@ -374,8 +374,8 @@ export interface RatingBarProps {
 }
 
 export interface RatingCardProps {
-  rating: number;
-  users: number;
+  rating: any;
+  users: any;
 }
 
 export interface filterProps {
@@ -386,6 +386,7 @@ export interface filterProps {
 export interface reviewProps {
   buyerName: string;
   adminDate: string;
+  mainDate: string;
   review: string;
   noOfStars: number;
   shopName?: string;
@@ -557,6 +558,6 @@ export type LoginResponse = {
 export interface Review {
   id: number;
   rating: number;
-  name: string;
+  customerName: string;
   description: string;
 }

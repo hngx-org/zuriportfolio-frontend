@@ -13,6 +13,7 @@ export default function SellerReview(props: reviewProps) {
   const [res, setRes] = useState<boolean>(false);
 
   function getStars(rating: number) {
+    console.log(rating);
     let stars = [];
     for (let i = 0; i < 5; i++) {
       if (rating >= 1) {
@@ -47,7 +48,7 @@ export default function SellerReview(props: reviewProps) {
               alt="Line"
               style={{ margin: '0 10px' }}
             />
-            <div className="date">{props.adminDate}</div>
+            <div className="date">{props.mainDate}</div>
           </div>
           <div className="my-3 mx-0 flex text-sm text-black">{props.review}</div>
           <p className="flex text-xs m-0 mb-2 cursor-pointer max-w-max text-dark-600" onClick={(e) => setRes(!res)}>

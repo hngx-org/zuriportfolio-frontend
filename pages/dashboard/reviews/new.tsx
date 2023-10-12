@@ -4,8 +4,8 @@ import Container from '@modules/auth/component/Container/Container';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
-import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
 import { ratingData } from '../../../db/reviews';
+import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
 
 export default function UserReview() {
   return (

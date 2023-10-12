@@ -56,6 +56,7 @@ export default function UserReview() {
                           key={index}
                           buyerName={data.buyerName}
                           adminDate={data.adminDate}
+                          mainDate={data.adminDate}
                           review={data.review}
                           noOfStars={data.noOfStars}
                           shopReply={data.shopReply}
