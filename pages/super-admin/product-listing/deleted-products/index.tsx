@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { ArrowDown, More } from 'iconsax-react';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
-import Pagination from '../../view-components/super-admin/pagination';
-import { deletedProducts } from '../../../helpers/sanctionedProducts';
+import { deletedProducts } from '../../../../helpers/sanctionedProducts';
+import Pagination from '../../../view-components/super-admin/pagination';
+import { useRouter } from 'next/router';
 
 const DeletedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -21,27 +22,23 @@ const DeletedProducts = () => {
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
+  const route = useRouter();
 
   return (
     <>
       <SuperAdminNavbar />
-      <div className="m-6 font-manropeL border-2 border-custom-color1">
-        {/* <ProductListingTable /> */}
-        {/* Heading */}
+      <div className="m-6 container mx-auto font-manropeL border-2 border-custom-color1">
         <div className="py-6 px-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
             <h2 className="text-lg font-medium text-custom-color10">Deleted Products</h2>
             <p className="text-custom-color2 text-sm">List of all deleted products and their details</p>
           </div>
           <div>
-            {/* input for search */}
             <SearchProduct handleSearchChange={handleSubmit} />
           </div>
         </div>
-        {/* Deleted products list */}
         <table className="border-t border-custom-color1 w-full">
           <thead>
-            {/* Table Headers */}
             <tr>
               <th className="text-custom-color2 text-sm font-normal leading-5 px-6 py-6 gap-3 text-left flex  items-center">
                 <input type="checkbox" />
@@ -67,9 +64,12 @@ const DeletedProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Listed Products */}
             {deletedProducts.map((product, index) => (
-              <tr className="border-t border-custom-color1" key={index}>
+              <tr
+                className="border-t border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200"
+                key={index}
+                onClick={() => route.push(`/super-admin/product-listing/deleted-products/${product.id}`)}
+              >
                 <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color10 px-6 py-4 items-center gap-6 self-stretch flex">
                   <input type="checkbox" />
 
@@ -106,7 +106,9 @@ const DeletedProducts = () => {
           </tbody>
         </table>
       </div>
-      <Pagination />
+      <div className="mb-5">
+        <Pagination />
+      </div>
     </>
   );
 };

@@ -22,7 +22,7 @@
           HI {{$name}},
         </mj-text>
 
-        <mj-text font-family="Century Gothic" font-weight="bold" color="#009254" font-size="26px">
+        <mj-text font-family="Century Gothic" font-weight="bold" color="#009254" font-size="20px">
           Your Account has been banned
         </mj-text>
 
@@ -33,7 +33,9 @@
 
         <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
           If you believe this decision was made in error, please reach out to our support team at
-          <a href="mailto:zurisupport@gmail.com" style="font-weight: bold; color: #009254">zurisupport@gmail.com</a>.
+          <a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
+            >support@zuriportolio.com</a
+          >.
         </mj-text>
 
         <mj-text padding-top="30px" font-weight="400" color="#000" font-size="18px" font-family="Century Gothic">
