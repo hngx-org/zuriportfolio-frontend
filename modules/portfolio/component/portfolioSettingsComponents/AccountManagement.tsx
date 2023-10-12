@@ -1,7 +1,7 @@
 import Button from '@ui/Button';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface userDetailsI {
   email: string;
@@ -38,7 +38,7 @@ function AccountManagement() {
     if (Object.keys(formValidate).length === 0) {
       setIspending(true);
       axios
-        .patch(`https://hng6-r5y3.onrender.com/api/update-user-account-settings`, { userDetails })
+        .patch(`https://hng6-r5y3.onrender.com/api/update-user-account-settings`, userDetails)
         .then((response) => {
           console.log(response);
           if (response.status === 200) {
@@ -74,6 +74,7 @@ function AccountManagement() {
   };
   return (
     <div className="flex flex-col gap-y-[1rem]">
+      <ToastContainer />
       <h3 className=" font-manropeEB lg:font-manropeB text-[1rem] lg:text-[1.375rem] text-[#2E3130] leading-[1.5rem] lg:leading-[1.75rem]">
         Account Management
       </h3>
@@ -138,6 +139,8 @@ function AccountManagement() {
                 type="password"
                 value={userDetails.currentPassword}
                 onChange={onInputChange}
+                minLength={5}
+                maxLength={18}
                 placeholder="Enter password"
                 className="w-full border py-[0.625rem] px-[0.875rem] pr-7 rounded-[0.5rem] font-manropeL text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#667085]"
               />
@@ -180,6 +183,8 @@ function AccountManagement() {
                 type="password"
                 value={userDetails.newPassword}
                 onChange={onInputChange}
+                minLength={5}
+                maxLength={18}
                 placeholder="Enter new password"
                 className="w-full border py-[0.625rem] px-[0.875rem] pr-7 rounded-[0.5rem] font-manropeL text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#667085]"
               />
@@ -217,6 +222,8 @@ function AccountManagement() {
                 type="password"
                 value={userDetails.confirmNewPassword}
                 onChange={onInputChange}
+                minLength={5}
+                maxLength={18}
                 placeholder="Enter new passowrd"
                 className="w-full border py-[0.625rem] px-[0.875rem] pr-7 rounded-[0.5rem] font-manropeL text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#667085]"
               />
