@@ -4,7 +4,7 @@ import Button from '../../components/ui/Button';
 import Logic2FA from '../../modules/auth/Logic2FA';
 
 function Code2FAUI() {
-  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleResend, handleSubmit } = Logic2FA();
+  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit } = Logic2FA();
 
   return (
     <>
