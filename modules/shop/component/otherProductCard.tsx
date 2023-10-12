@@ -15,8 +15,7 @@ const OtherProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleClick = () => {
     router.replace(router.asPath);
-  };
-    router.replace(router.asPath);
+    return null;
   };
 
   return (
