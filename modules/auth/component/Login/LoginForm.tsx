@@ -38,89 +38,39 @@ function LoginForm() {
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
-      if (res.statusCode === 200 && res.data.token) {
+      if (res.statusCode === 200 && res.token) {
         console.log('Login success:', res);
         handleUser(res.data);
         localStorage.setItem('zpt', res.token);
         const value = isAuthenticated(res.token);
         console.log(value);
 
-        router.push('/dashboard/orders');
-      } else if (res.statusCode === 400 && res.message === 'Please verify your email.') {
-        console.error('Unverified user');
-
+        router.push('/');
+      } else if (res.status === 'Error' && res.message === 'Please verify your email.') {
         notify({
           message: 'Please verify your email.',
           type: 'error',
         });
-      } else if (res.statusCode === 400 && res.message === 'Incorrect password') {
-        console.error('Incorrect password');
-
+      } else if (res.status === 'Error' && res.message === 'Incorrect password.') {
         notify({
-          message: 'Incorrect password',
+          message: 'Incorrect password.',
           type: 'error',
         });
-      } else if (res.statusCode === 500 && res.message === 'Error logging in') {
-        console.error('Error logging in');
-
+      } else if (res.status === 'Error' && res.message === 'User not found.') {
         notify({
-          message: 'Error logging in',
+          message: 'User not found.',
           type: 'error',
         });
       }
     },
-    // onError: (e) => {
-    //   console.error({ e });
-    //   notify({
-    //     message: 'Error logging in',
-    //     type: 'error',
-    //   });
-    // },
+    onError: (e) => {
+      console.error({ e });
+      notify({
+        message: 'Error logging in',
+        type: 'error',
+      });
+    },
   });
-
-  // const onLoginSuccess = (res: any) => {
-  //   console.log('responseoutside', res);
-  //   if (res.statusCode === 200 && res.data.token) {
-  //     console.log('Login success:', res);
-  //     handleUser(res.data);
-  //     localStorage.setItem('zpt', res.token);
-  //     const value = isAuthenticated(res.token);
-  //     console.log(value);
-  //     router.push('/');
-  //   }
-  // };
-  // const onLoginError = (e: any) => {
-  //   console.error({ e });
-  //   if (e.statusCode === 400 && e.message === 'Please verify your email.') {
-  //     console.error('Unverified user');
-  //     notify({
-  //       message: 'Please verify your email.',
-  //       type: 'error',
-  //     });
-  //   } else if (e.statusCode === 400 && e.message === 'Incorrect password') {
-  //     console.error('Incorrect password');
-  //     notify({
-  //       message: 'Incorrect password',
-  //       type: 'error',
-  //     });
-  //   } else if (e.statusCode === 500 && e.message === 'Error logging in') {
-  //     console.error('Error logging in');
-  //     notify({
-  //       message: 'Error logging in',
-  //       type: 'error',
-  //     });
-  //   } else {
-  //     console.error('Unexpected error');
-  //     notify({
-  //       message: 'An unexpected error occurred. Please try again later.',
-  //       type: 'error',
-  //     });
-  //   }
-  // };
-  // const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
-  //   onSuccess: (res) => onLoginSuccess(res),
-  //   onError: (e) => onLoginError(e),
-  // });
 
   const handleLogin = (values: any) => {
     try {
