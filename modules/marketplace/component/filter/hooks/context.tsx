@@ -52,6 +52,8 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
     const rating = filterSelection.rating.join(",")
     try {
       const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/products-filter?category=${category}&subCategory=${subCategory}&discount=${discount}&price=${price}&rating=${rating}`
+
+      console.log(API_URL)
       const { data, status } = await axios.get(API_URL);
       console.log(data, status);
       if(status === 200) {
@@ -74,10 +76,6 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
     } finally {
       setLoading(false);
     }
-    // setTimeout(() => {
-    //   setLoading(false);
-    //   router.push('/marketplace/error-page');
-    // }, 3000);
   }
 
   function resetFilter() {

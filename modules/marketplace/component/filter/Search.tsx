@@ -18,12 +18,13 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <CancelIcon onClick={toggle} />
             </section>
             <Fragment>
-              <FilterSection data={category} sectionTitle="Category" />
-              <FilterSection data={subCategory} sectionTitle="Sub Category" />
-     yarn         <FilterSection data={discount} sectionTitle="By Discount" />
-              <FilterSection data={keyword} sectionTitle="By Keywords" />
-              <FilterSection data={rating} sectionTitle="By Rating" />
-              <FilterSection data={price} sectionTitle="By Price">
+              <FilterSection tag='category' data={category} sectionTitle="Category" />
+              <FilterSection tag='subCategory' data={subCategory} sectionTitle="Sub Category" />
+     yarn         <FilterSection tag='discount' data={discount} sectionTitle="By Discount" />
+              <FilterSection tag='keyword' data={keyword} sectionTitle="By Keywords" />
+              <FilterSection tag='rating' data={rating} sectionTitle="By Rating" />
+              <FilterSection tag='' data={price} sectionTitle="By Price" />
+              <FilterSection tag='' data={price} sectionTitle="By Price">
                 <PriceRanges data={['$80', '$500']} />
               </FilterSection>
               {/* Please do not make children a props element */}
@@ -32,7 +33,8 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
             <div className="flex items-center justify-center gap-4 mt-10 mb-4">
               <Button
                 type="reset"
-                className="rounded-lg px-7 text-sm bg-white-100  focus:bg-white-100 border-brand-green-primary hover:bg-white-100 text-brand-green-primary border-2"
+                className="rounded-lg px-7 text-sm bg-white-100  focus:bg-white-100 border-brand-green-primary hover:bg-white-100 text-brand-green-p    domains: ['fakestoreapi.com']
+                rimary border-2"
               >
                 Reset
               </Button>

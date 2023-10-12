@@ -1,11 +1,12 @@
 import { Fragment } from 'react';
-import { category, discount, keyword, price, rating, subCategory } from './data/search-data';
+import { category, discount, keyword, price, priceRange, rating, subCategory } from './data/search-data';
 import FilterSection from './filter-section';
 import Button from '@ui/Button';
 import { CancelIcon } from './icons';
 import Badge from './Badge';
 import useSearchFilter from './hooks/useSearchFilter';
 import { manropeL } from '../../../../config/font';
+import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
   const { resetFilter, handleSearch, loading } = useSearchFilter();
@@ -26,7 +27,9 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <FilterSection tag="discount" data={discount} sectionTitle="By Discount" />
               <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
               <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
-              <FilterSection tag="price" data={price} children={<PriceRanges data={['$80', '$500']} />} sectionTitle="By Price" />
+              <FilterSection tag="price" data={price} sectionTitle="By Price">
+                <PriceRanges data={priceRange.map(price => formatToNigerianNaira(price))} />
+              </FilterSection>
             </Fragment>
 
             <div className="flex items-center justify-center gap-4 mt-10 mb-4">
@@ -50,7 +53,7 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
 
 const PriceRanges = ({ data }: { data: string[] }) => {
   return (
-    <div className="ml-10 flex gap-10">
+    <div className="ml-10 flex gap-4 flex-wrap">
       {Array.isArray(data) &&
         data.length > 0 &&
         data.map((item, i) => (
