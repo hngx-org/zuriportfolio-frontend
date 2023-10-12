@@ -1,6 +1,7 @@
 <mjml>
   <mj-head>
     <mj-title>Welcome Email</mj-title>
+    <mj-style> .bold { font-weight: 600; } .header img { max-width: 50%; margin: auto; }</mj-style>
     <mj-font name="FontAwesome" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <mj-font
       name="Manrope"
@@ -16,13 +17,11 @@
     </mj-attributes>
   </mj-head>
   <mj-body background-color="#ecebe6">
-    <mj-section padding-top="20px">
+    <mj-section padding-top="20px" css-class="header">
       <mj-column css-class="logo" width="100%">
         <mj-image
           src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/green-logo.png"
           alt=""
-          width="160px"
-          height="30px"
           css-class="large-on-big-screens"
         ></mj-image>
       </mj-column>

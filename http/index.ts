@@ -1,30 +1,6 @@
 import axios from 'axios';
 import $http from './axios';
 
-// type LoginResponse = {
-//   token: string;
-//   data: {
-//     id: string;
-//     username: string;
-//     first_name: string;
-//     last_name: string;
-//     email: string;
-//     token: string;
-//     section_order: unknown;
-//     password: string;
-//     provider: unknown;
-//     profile_pic: unknown;
-//     refresh_token: string;
-//     role_id: number;
-//     is_verified: boolean;
-//     two_factor_auth: boolean;
-//     location: unknown;
-//     country: unknown;
-//     created_at: string;
-//     // message: string;
-//   };
-//   statusCode: number;
-// };
 const AUTH_HTTP_URL = 'https://hng-stage-six.onrender.com/';
 
 // test
@@ -37,7 +13,6 @@ export const getUserByName = async (props: { name: string }) => {
     return e.response.data ?? { message: e.message };
   }
 };
-
 export const loginUser = async (props: { email: string; password: string }) => {
   const $http = axios.create({
     baseURL: AUTH_HTTP_URL,
@@ -57,6 +32,18 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
+export const getUserCart = async (token: string) => {
+  try {
+    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts',
+    {headers: {
+      'Authorization': `Bearer ${token}`
+    }}
+    )
+    return response.data  
+  } catch (error) {
+    console.log(error);
+  }
+}
 export const signUpUserWithEmail = async (props: { email: string }) => {
   try {
     const res = await $http.post('https://auth.akuya.tech/api/auth/check-email', props);
@@ -89,22 +76,16 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
   }
 };
 
-// export const loginUser = async (props: { email: string; password: string }) => {
-//   const $http = axios.create({
-//     baseURL: 'https://auth.akuya.tech/api/auth',
-//     timeout: 30000,
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   });
-
-//   const res = await $http.post('/login', props);
-//   // console.log("response", res.data);
-//   if (res.data === 'User not found ') {
-//     // throw new Error('not found');
-//   }
-//   return res?.data;
-// };
+export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
+  try {
+    const response = await axios.patch('https://9735-102-219-208-41.ngrok-free.app/api/auth/reset-password', props);
+    console.log(response);
+    return response?.data;
+  } catch (e: any) {
+    console.log(e);
+    throw new Error(e);
+  }
+};
 
 // export const loginUser = async () => {
 //   const $http = axios.create({
@@ -125,3 +106,30 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
 //     return e.response.data ?? { message: e.message };
 //   }
 // }
+
+export const makePayment = async (selectedPaymentMethod: string) => {
+  if (selectedPaymentMethod) {
+    try {
+      const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/orders';
+      const data = {
+        redirect_url: 'https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart',
+        payment_method: selectedPaymentMethod,
+      };
+
+      const response = await $http.post(apiUrl, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          // accept: 'application/json',
+        },
+      });
+
+      console.log('API Response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error making payment:', error);
+      throw error;
+    }
+  } else {
+    throw new Error('Please select a payment method before making the payment.');
+  }
+};
