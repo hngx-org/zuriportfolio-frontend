@@ -206,3 +206,12 @@ export const references = [
     phone: 'Phone',
   },
 ];
+
+export const profileData = {
+  userId: '11',
+  picture: 'picture',
+  name: 'Name',
+  track: 'Track',
+  city: 'City',
+  country: 'Country',
+};

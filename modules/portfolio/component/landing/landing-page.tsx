@@ -8,6 +8,10 @@ import Home from '../modals/add-section';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import { CoverDiv } from './avatars';
 import Loader from './Loader';
+import { Briefcase, CloseSquare } from 'iconsax-react';
+import EditProfile from '../modals/edit-profile';
+import ViewTemplate from '../modals/view-template';
+
 
 const Landing = () => {
   const {
@@ -15,6 +19,7 @@ const Landing = () => {
     hasData,
     profileUpdate,
     isOpen,
+    onClose,
     modal,
     showProfileUpdate,
     showBuildPortfolio,
@@ -25,7 +30,7 @@ const Landing = () => {
 
   const { hasDataFromBE, coverImage } = userData;
   const { firstName, lastName, avatarImage, tracks, city, country } = userInfo;
-
+  
   const headerMargin =
     'mt-[89px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen';
 
@@ -34,15 +39,11 @@ const Landing = () => {
       <div onClick={modal}>
         {showProfileUpdate && (
           <Modal isOpen={isOpen} closeModal={modal}>
-            <p>Awaiting update profile modal</p>
+            <EditProfile/>
           </Modal>
         )}
         {showBuildPortfolio && <Home />}
-        {showViewtemplates && (
-          <Modal isOpen={isOpen} closeModal={modal}>
-            <p>Awaiting view template modal</p>
-          </Modal>
-        )}
+        {showViewtemplates && <ViewTemplate/>}
       </div>
       <div className="mx-auto w-[min(90vw,1200px)] font-manropeB pb-20 min-h-[50vh]">
         {isLoading ? (
