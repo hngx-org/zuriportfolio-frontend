@@ -32,7 +32,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onClick={() => handleActiveNav(index)}
         className={`${active === index ? 'text-brand-green-shade50' : 'text-brand-green-shade10'} z-10 relative`}
       >
-        <Link href="/marketplace/categories">{category}</Link>
+        <Link href={`/marketplace/categories/${category}`}>{category}</Link>
       </div>
       <div
         className={`py-3 flex-col gap-3 ${
@@ -50,7 +50,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
               onClick={() => handleActiveNav(index)}
               className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
               key={i + 1}
-              href="/marketplace/specific-sub-category"
+              href={`/marketplace/categories/${category}/${item}`}
             >
               {item}
             </Link>

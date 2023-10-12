@@ -11,11 +11,7 @@ import SuperAdminNavbar from '../../navigations/SuperAdminNavbar';
 import arrowRight from '../../../../../public/assets/arrowtoRight.svg';
 import { useRouter } from 'next/router';
 
-const SuperAdminProdDetails = ({
-  setOpenModal,
-}: {
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const SuperAdminProdDetails = ({ setOpenModal }: { setOpenModal: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const route = useRouter();
 
   return (
