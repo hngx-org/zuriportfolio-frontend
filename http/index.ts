@@ -57,6 +57,18 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
+export const signUpUserWithEmail = async (props: { email: string }) => {
+  try {
+    const res = await $http.post('https://auth.akuya.tech/api/auth/check-email', props);
+    console.log(res?.data);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    throw new Error(e);
+    // return e.response.data ?? { message: e.message };
+  }
+};
+
 export const verfiy2FA = async (props: { email: string; token: string }) => {
   const $http = axios.create({
     baseURL: AUTH_HTTP_URL,
