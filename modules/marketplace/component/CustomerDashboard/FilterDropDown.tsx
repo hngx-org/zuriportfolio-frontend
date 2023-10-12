@@ -37,7 +37,7 @@ const FilterDropDown = ({ onChooseFilter }: { onChooseFilter: (filter: SearchFil
     <div className="w-max">
       <Menu>
         <Menu.Button>
-          <span className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-max sm:w-[6.25rem] rounded text-black-600 bg-white-100 hover:bg-white-100 active:bg-white-100 text-[0.88rem] ">
+          <span className="px-4 sm:px-0 h-[2.5rem] flex gap-3 items-center justify-center border-2 border-solid border-white-200 w-max sm:w-[6.25rem] rounded text-black-600 bg-white-100 hover:bg-white-100 active:bg-white-100 text-[0.88rem] ">
             <Sort size="16" /> <span className="hidden sm:block">Filters</span>
           </span>
         </Menu.Button>
