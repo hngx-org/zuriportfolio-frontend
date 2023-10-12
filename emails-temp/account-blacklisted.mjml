@@ -119,7 +119,7 @@
           </mj-text>
         </mj-column>
         <mj-column width="100%">
-          <mj-button>
+          <mj-button href="https://zuriportfolio-frontend-pw1h.vercel.app">
             Contact support
           </mj-button>
         </mj-column>

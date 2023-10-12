@@ -25,7 +25,7 @@
          <mj-text font-size="16px" font-weight="400" font-family="Manrope" line-height="24px">
             To leave a review, simply click on the link below and share your thoughts:
         </mj-text>
-        <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px" font-family="Manrope">
+        <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px" font-family="Manrope" href="https://zuriportfolio-frontend-pw1h.vercel.app">
             Send a review
         </mj-button>
         <mj-divider border-color="#F0F1F0" padding-top="20px" />
