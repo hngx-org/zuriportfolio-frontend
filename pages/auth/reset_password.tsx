@@ -4,10 +4,65 @@ import AuthLayout from '../../modules/auth/component/AuthLayout';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Eye, EyeSlash } from 'iconsax-react';
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
+import PasswordPopover from '@modules/auth/component/PasswordPopover';
+import { resetPassword } from '../../http';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { notify } from '@ui/Toast';
+import { useRouter } from 'next/router';
+
+const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
 function ResetPassword() {
   const [showPassword, setShowPassword] = useState([false, false]); // an array of states to manage the visibility of each password (new password, confirm password).
   const [passwordChanged, setPasswordChanged] = useState(false); // state to manage the success of passsword reset
+
+  const router = useRouter();
+  const { token } = router.query;
+  console.log(token);
+
+  const onResetPasswordError = (data: any) => {
+    console.log(data);
+    if (data.message === 'Request failed with status code 400') {
+      const errorMessage = 'An unexpected error occured, Please try again';
+      notifyError(errorMessage);
+    }
+  };
+
+  const { mutate, isLoading } = useAuthMutation(resetPassword, {
+    onSuccess: () => setPasswordChanged(true),
+    onError: (error: any) => onResetPasswordError(error),
+  });
+
+  const schema = z
+    .object({
+      password: z.string().regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/, { message: 'Please match requirements' }),
+      confirmPassword: z.string().min(2, { message: 'Confirm password is required' }),
+    })
+    .superRefine(({ confirmPassword, password }, ctx) => {
+      if (confirmPassword !== password) {
+        ctx.addIssue({
+          path: ['confirmPassword'],
+          code: 'custom',
+          message: 'The passwords did not match',
+        });
+      }
+    });
+
+  const form = useForm({
+    validate: zodResolver(schema),
+    initialValues: {
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const handleResetPassword = (values: any) => {
+    console.log('password', values.password);
+    console.log('confirmPassword', values.confirmPassword);
+    mutate({ token: token, password: values.password });
+  };
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
@@ -21,41 +76,46 @@ function ResetPassword() {
                 Enter your new password below.
               </p>
             </div>
-            <form className="flex flex-col gap-4" onSubmit={(e) => (e.preventDefault(), setPasswordChanged(true))}>
-              <div className="flex flex-col gap-3">
-                <label htmlFor="reset_new_password" className="font-manropeB text-base font-semibold text-slate-300">
+            <form className="flex flex-col gap-4" onSubmit={form.onSubmit((values) => handleResetPassword(values))}>
+              {/* Password */}
+              <div className="space-y-3">
+                <label htmlFor="password" className="font-manropeB text-base font-semibold text-slate-300">
                   New password
                 </label>
-                <Input
-                  id="reset_new_password"
-                  name="reset_new_password"
-                  type={showPassword[0] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
-                  // isPasswordVisible={showPassword[0]} // Pass the visibility state as a prop
-                  className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-custom-color2 text-base font-manropeEL font-light"
-                  placeHolder="new password"
-                  rightIcon={
-                    <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
-                      {/* Update the icon based on the visibility state of the password. */}
-                      {showPassword[0] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
-                    </div>
-                  }
-                  required
-                />
+                <PasswordPopover password={form.values.password}>
+                  <Input
+                    id="password"
+                    {...form.getInputProps('password')}
+                    type={showPassword[0] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
+                    // isPasswordVisible={showPassword[0]} // Pass the visibility state as a prop
+                    className={`h-[2.75rem] md:h-[3.75rem] w-full shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05) ${
+                      form.errors.password ? 'border-red-200' : ''
+                    }`}
+                    placeHolder="Daniel345"
+                    rightIcon={
+                      <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
+                        {/* Update the icon based on the visibility state of the password. */}
+                        {showPassword[0] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
+                      </div>
+                    }
+                  />
+                </PasswordPopover>
+                <p className="text-[red] text-xs">{form.errors.password && form.errors.password}</p>
               </div>
-              <div className="flex flex-col gap-3">
-                <label
-                  htmlFor="reset_confirm_password"
-                  className="font-manropeB text-base font-semibold text-slate-300"
-                >
+              {/* Confirm Password */}
+              <div className="space-y-3">
+                <label htmlFor="confirmPassword" className="font-manropeB text-base font-semibold text-slate-300">
                   Confirm password
                 </label>
                 <Input
-                  id="reset_confirm_password"
-                  name="reset_confirm_password"
+                  id="confirmPassword"
+                  {...form.getInputProps('confirmPassword')}
                   type={showPassword[1] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
                   // isPasswordVisible={showPassword[1]} // Pass the visibility state as a prop
-                  className="h-[2.75rem] md:h-[3.75rem] w-full bg-transparent outline-none rounded-lg border border-gray-300 shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] pl-3 text-custom-color2 text-base font-manropeEL font-light"
-                  placeHolder="confirm password"
+                  className={`h-[2.75rem] md:h-[3.75rem] w-full shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] ${
+                    form.errors.confirmPassword ? 'border-red-200' : ''
+                  }`}
+                  placeHolder="Daniel345"
                   rightIcon={
                     <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
                       {/* Update the icon based on the visibility state of the password. */}
@@ -64,9 +124,12 @@ function ResetPassword() {
                   }
                   required
                 />
+                <p className="text-[red] text-xs">{form.errors.confirmPassword && form.errors.confirmPassword}</p>
               </div>
               <Button
-                className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-5 font-manropeB text-base text-white-100"
+                intent={'primary'}
+                isLoading={isLoading}
+                className="w-full h-[3.25rem] md:h-[3.75rem] mt-5 rounded-lg"
                 type="submit"
               >
                 Change password
@@ -84,12 +147,13 @@ function ResetPassword() {
               />
             </div>
             <h2 className="font-manropeEB text-2xl md:text-4xl">Password changed</h2>
-            <p className="font-manropeL lg:font-manropeB text-sm lg:text-[1.375rem] text-custom-color20 w-[80%] md:w-[40%] lg:w-full">
+            <p className="font-manropeL lg:font-manropeB text-sm lg:text-[1.375rem] text-custom-color20 w-[80%] md:w-[40%] lg:w-full mt-2 leading-7">
               Your password has been successfully changed
             </p>
             <Button
               href="/auth/login" // redirect the user to the login page after successful password reset
-              className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg bg-brand-green-primary mt-8 font-manropeB text-base text-white-100"
+              intent={'primary'}
+              className="w-full h-[3.25rem] md:h-[3.75rem] rounded-lg mt-8"
             >
               Login to account
             </Button>

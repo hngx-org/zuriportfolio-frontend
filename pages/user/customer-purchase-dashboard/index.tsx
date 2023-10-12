@@ -23,120 +23,123 @@ type PurchaseData = {
   status: string;
 };
 
+const DUMMYDATA: PurchaseData[] = [
+  {
+    id: 1,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$100.00',
+
+    date: '25 March 2023',
+
+    sellerName: 'Mark Essien',
+
+    status: 'Successful',
+  },
+
+  {
+    id: 2,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$100.00',
+
+    date: '25 March 2023',
+
+    sellerName: 'Mark Essien',
+
+    status: 'Pending',
+  },
+
+  {
+    id: 3,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$100.00',
+
+    date: '25 March 2023',
+
+    sellerName: 'Ekomobong Enang',
+
+    status: 'Failed',
+  },
+
+  {
+    id: 4,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$100.00',
+
+    date: '25 March 2023',
+
+    sellerName: 'Mark Essien',
+
+    status: 'Pending',
+  },
+
+  {
+    id: 5,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$100.00',
+
+    date: '25 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Successful',
+  },
+
+  {
+    id: 6,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$100.00',
+
+    date: '25 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Successful',
+  },
+
+  // Add more data items as needed
+];
+
+export type SearchFilter = "item" | "date" | "orderID" | "price" | "sellerName"
+
 const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [filter, setFilter] = useState<string | null>(null);
+  const [data, setData] = useState<PurchaseData[]>(DUMMYDATA)
+  // search state
+  const [searchInput, setSearchInput] = useState<string>("");
 
-  const data: PurchaseData[] = [
-    {
-      id: 1,
-
-      item: 'Webinar & Course Slide',
-
-      orderID: '643D73U90',
-
-      price: '$100.00',
-
-      date: '25 March 2023',
-
-      sellerName: 'Mark Essien',
-
-      status: 'Successful',
-    },
-
-    {
-      id: 2,
-
-      item: 'Webinar & Course Slide',
-
-      orderID: '643D73U90',
-
-      price: '$100.00',
-
-      date: '25 March 2023',
-
-      sellerName: 'Mark Essien',
-
-      status: 'Pending',
-    },
-
-    {
-      id: 3,
-
-      item: 'Webinar & Course Slide',
-
-      orderID: '643D73U90',
-
-      price: '$100.00',
-
-      date: '25 March 2023',
-
-      sellerName: 'Ekomobong Enang',
-
-      status: 'Failed',
-    },
-
-    {
-      id: 4,
-
-      item: 'Webinar & Course Slide',
-
-      orderID: '643D73U90',
-
-      price: '$100.00',
-
-      date: '25 March 2023',
-
-      sellerName: 'Mark Essien',
-
-      status: 'Pending',
-    },
-
-    {
-      id: 5,
-
-      item: 'Webinar & Course Slide',
-
-      orderID: '643D73U90',
-
-      price: '$100.00',
-
-      date: '25 March 2023',
-
-      sellerName: 'Solomon Edem',
-
-      status: 'Successful',
-    },
-
-    {
-      id: 6,
-
-      item: 'Webinar & Course Slide',
-
-      orderID: '643D73U90',
-
-      price: '$100.00',
-
-      date: '25 March 2023',
-
-      sellerName: 'Solomon Edem',
-
-      status: 'Successful',
-    },
-
-    // Add more data items as needed
-  ];
+  
 
   // function to handle delete
   const onDelete = () => {
     onClose();
   };
 
-  // handle filter dropdown
-  const [filterBy, setFilterBy] = useState<string>('item');
-  const onChooseFilter = (filter: string) => {
-    setFilterBy(filter);
-  };
+  
 
   // Calculate counts for each category
   const allPurchasesCount = data.length;
@@ -158,9 +161,31 @@ const MyPage: React.FC = () => {
     }
   };
 
+  // handle filter dropdown
+  const [filterBy, setFilterBy] = useState<SearchFilter>('item');
+  const onChooseFilter = (filter: SearchFilter) => {
+    setFilterBy(filter);
+  };
+
+  const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const filteredPurchase = data.filter(purchase => purchase[filterBy].toLowerCase().includes(searchInput) );
+    setData(filteredPurchase);
+    setSearchInput("");
+  }
+
+  // handle search and filter functionality
   const handleFilterClick = (filterName: string | null) => {
     setFilter(filterName);
   };
+
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  }
+
+  const onBack = () => {
+    setData(DUMMYDATA);
+  }
 
   return (
     <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
@@ -183,7 +208,11 @@ const MyPage: React.FC = () => {
             }`}
             onClick={() => handleFilterClick(null)}
           >
-            <p className={`text-sm lg:text-base ${filter === null ? 'text-brand-green-primary' : 'border-white-100'}`}>
+            <p
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === null ? 'text-brand-green-primary' : 'border-white-100'
+              }`}
+            >
               All Purchases ({allPurchasesCount})
             </p>
           </div>
@@ -193,7 +222,11 @@ const MyPage: React.FC = () => {
             }`}
             onClick={() => handleFilterClick('Pending')}
           >
-            <p className={`text-sm lg:text-base ${filter === 'Pending' ? '' : ''}`}>
+            <p
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === 'Pending' ? 'text-brand-green-primary' : 'border-white-100'
+              }`}
+            >
               Pending Purchases ({pendingPurchasesCount})
             </p>
           </div>
@@ -204,8 +237,8 @@ const MyPage: React.FC = () => {
             onClick={() => handleFilterClick('Successful')}
           >
             <p
-              className={`text-sm lg:text-base ${
-                filter === 'Successful' ? 'border-brand-green-primary' : 'border-white-100'
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === 'Successful' ? 'text-brand-green-primary' : 'border-white-100'
               }`}
             >
               Completed Purchases ({completedPurchasesCount})
@@ -218,8 +251,8 @@ const MyPage: React.FC = () => {
             onClick={() => handleFilterClick('Failed')}
           >
             <p
-              className={`text-sm lg:text-base ${
-                filter === 'Failed' ? 'border-brand-green-primary' : 'border-white-100'
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === 'Failed' ? 'text-brand-green-primary' : 'border-white-100'
               }`}
             >
               Failed Purchases ({failedPurchasesCount})
@@ -227,13 +260,17 @@ const MyPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
-          <div className="hidden sm:flex items-center h-[2.5rem] gap-10 mt-[3rem] ">
-            <Input
-              leftIcon={<SearchNormal1 color="#777" />}
-              className="border-2 border-solid border-white-200 pl-6 w-[62.5rem] h-[2.5rem] pr-[1rem] rounded flex-1"
-              placeholder="Search by items, status, seller etc"
-            />
+          <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
+            <div className="hidden sm:flex items-center h-[2.5rem] gap-10 mt-[3rem] ">
+            <form className='w-full' onSubmit={(e) => onSearch(e)}>
+                <Input
+                  value={searchInput}
+                  onChange={(e) => handleSearchInput(e)}
+                  leftIcon={<SearchNormal1 color="#777" />}
+                  className="border-2 border-solid border-white-200 pl-6 w-full h-[2.5rem] pr-[1rem] rounded flex-1"
+                  placeholder={`Search by ${filterBy} or select a filter to search by`}
+                />
+              </form>
 
             <FilterDropDown onChooseFilter={onChooseFilter} />
 
@@ -298,10 +335,11 @@ const MyPage: React.FC = () => {
               </table>
             </div>
           )}
-          <MobileCustomerDashboard />
+          {data.length > 0 && <MobileCustomerDashboard />}
           {/* error page */}
-          {data.length === 0 && <PurchaseNotFound />}
+          {data.length === 0 && <PurchaseNotFound back={onBack}/>}
         </div>
+        {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
       </div>
     </MainLayout>

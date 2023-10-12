@@ -1,14 +1,23 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PriceData, SummaryProps } from '../../../../../@types';
 import PaymentInformationModal from './PaymentInformationModal';
+import TempUser from './../../../../../components/Modals/TempUser';
+import useDisclosure from '../../../../../hooks/useDisclosure';
+import isAuthenticated from '../../../../../helpers/isAuthenticated';
 
 const Summary: React.FC<SummaryProps> = ({ prices }) => {
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
   const [invalid, setInvalid] = useState<boolean>(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
+  const [authUser, setAuthUser] = useState<boolean>(false); // setAuthUser to true to see the modal of the Authenticated user
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    setModalOpen(false);
+  }, []);
 
   const defaultPrices: PriceData = {
     subtotal: 600,
@@ -49,15 +58,30 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
   };
 
   const handleCheckoutClick = () => {
-    setModalOpen(true);
+    const token = localStorage.getItem('authToken');
+    console.log(token);
+
+    if (token !== null) {
+      const userIsAuthenticated = isAuthenticated(token);
+      if (userIsAuthenticated) {
+        setAuthUser(true);
+        setModalOpen(true);
+      }
+    } else {
+      onOpen();
+    }
+    // const token = localStorage.getItem('authToken');
+    // if(token !== null) {
+    //   const value = isAuthenticated(token)
+    //   console.log(value)
+    // }
   };
 
   const closeModal = () => {
     setModalOpen(false);
   };
-
   return (
-    <section className="flex flex-grow lg:px-10 py-8">
+    <section className="flex lg:px-10 py-8">
       <div className="cart-summary_wrapper flex flex-col space-y-6">
         <div className="cart-summary__header border border-gray-300 rounded-md shadow-sm">
           <h1 className="font-bold capitalize text-xl px-4 py-4 ">cart summary</h1>
@@ -146,12 +170,19 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
           <div>
             <button
               className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-brand-green-primary focus:bg-brand-green-focu transition-all duration-300"'
+              // onClick={authUser ? handleCheckoutClick : onOpen}
               onClick={handleCheckoutClick}
             >
               Checkout
             </button>
           </div>
-          {modalOpen ? <PaymentInformationModal closeModal={closeModal} /> : null}
+          {authUser ? (
+            modalOpen ? (
+              <PaymentInformationModal closeModal={closeModal} />
+            ) : null
+          ) : (
+            <TempUser isOpen={isOpen} onClose={onClose} />
+          )}
         </div>
       </div>
     </section>

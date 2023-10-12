@@ -216,4 +216,4 @@ export const categoryMenus = [
   'Gaming & Entertainment',
   'Virtual Reality & Augmented Reality',
   'e-Books',
-]
+];

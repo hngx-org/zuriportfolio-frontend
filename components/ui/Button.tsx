@@ -36,8 +36,7 @@ export interface ButtonVariants
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {}
 
-interface ButtonProps extends ButtonVariants {
-  onClick?: () => void;
+export interface ButtonProps extends ButtonVariants {
   children: React.ReactNode;
   className?: React.ComponentProps<'div'>['className'];
   leftIcon?: React.ReactNode;
@@ -50,7 +49,6 @@ interface ButtonProps extends ButtonVariants {
 }
 
 const Button: React.FC<ButtonProps> = ({
-  onClick,
   children,
   isLoading,
   disabled,
@@ -67,7 +65,7 @@ const Button: React.FC<ButtonProps> = ({
   if (href) {
     return (
       // @ts-expect-error
-      <Link href={href} className={classNames} onClick={onClick} {...props}>
+      <Link href={href} className={classNames} {...props}>
         {leftIcon && leftIcon}
         {children}
         {rightIcon && rightIcon}
@@ -76,7 +74,7 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button onClick={onClick} disabled={isLoading ?? disabled} className={classNames} {...props}>
+    <button disabled={isLoading ?? disabled} className={classNames} {...props}>
       <div className="w-full h-full absolute top-0 flex flex-col items-center justify-center">
         <svg
           width={spinnerSize ?? '20'}

@@ -10,40 +10,13 @@ interface LayoutProps extends React.ComponentPropsWithRef<'section'> {
 }
 
 const CategoryLayout = ({ children, ...props }: LayoutProps) => {
-  const menuRef = useRef<HTMLUListElement>(null);
-  const caretRef = useRef<HTMLButtonElement>(null);
-  // const [currentItem, setCurrentItem] = useState(0);
 
-  // useEffect(() => {
-  //   const caretRightButton = caretRef.current;
-  //   if (caretRightButton) {
-  //     caretRightButton.addEventListener('click', () => {
-  //       // Find the next item to scroll to
-  //       const nextItem = currentItem + 1;
-
-  //       if (nextItem < categoryMenus.length) {
-  //         setCurrentItem(nextItem);
-  //       }
-  //     });
-  //   }
-  // }, [currentItem]);
-
-  // useEffect(() => {
-  //   // Scroll to the current item when currentItem changes
-  //   const itemToScroll = menuRef.current?.children[currentItem];
-  //   if (itemToScroll) {
-  //     itemToScroll.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  // }, [currentItem]);
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
       {/* This menu will be replaced witht actual categories nav */}
       <menu className="lg:-mt-8 bg-white-100 shadow-sm z-50 relative w-full">
-        <CategoriesNav navItems={categoryMenus}/>
+        <CategoriesNav navItems={categoryMenus} />
       </menu>
-
-      {/* End of test menu */}
-      {/* <CategoriesNav navItems={categoryMenus}/> */}
       <div className="max-w-[1240px] mx-auto px-5 md:px-0 -z-30">
         <div className="my-4 md:my-6 lg:my-8">
           <Breadcrumbs />
@@ -53,7 +26,6 @@ const CategoryLayout = ({ children, ...props }: LayoutProps) => {
     </MainLayout>
   );
 };
-
 
 export default CategoryLayout;
 
