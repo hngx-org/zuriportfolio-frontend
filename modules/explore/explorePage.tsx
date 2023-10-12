@@ -26,6 +26,11 @@ import photo10 from '../../public/assets/images/explore_img/photo10.png';
 import photo11 from '../../public/assets/images/explore_img/photo11.png';
 import photo12 from '../../public/assets/images/explore_img/photo12.png';
 import SearchAndFilter from './SearchAndFilter';
+import axios from 'axios';
+import useDebounce from './hooks/deBounce';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { UserInfo } from '../../@types/exploreTyples';
 
 // Interface
 
@@ -175,6 +180,20 @@ const cardData: CardData[] = [
 ];
 
 const HomePage = () => {
+  // States
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters1, setFilters1] = useState('ddd');
+  const [filters2, setFilters2] = useState('ddd');
+  const deBounce = useDebounce(searchQuery, 1200);
+
+  // Data fetching
+  const { data, isLoading } = useQuery<UserInfo[]>({
+    queryKey: ['profile', deBounce, filters1, filters2],
+    queryFn: () => fetchUsers(searchQuery),
+  });
+
+  console.log(data);
+
   return (
     <>
       <SearchAndFilter />
@@ -190,3 +209,18 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
+  searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
+  filterUrl = (query: string) =>
+    `${baseUrl}/explore/filter?SortBy=1&Location=nigeria&Country=lagos&Provider=ee&Skill=ee&Track=ee&Ranking=ee&RoleId=1&Tag=a&PageSize=12&PageNumber=1`,
+  allUsers = `${baseUrl}/explore/GetAllPortfolio?page=1&itemsPerPage=12`;
+
+async function fetchUsers(query?: string, filers?: string) {
+  let url = allUsers;
+  if (query) {
+    url = searchUrl(query);
+  }
+  const { data } = await axios.get(url);
+  return data;
+}
