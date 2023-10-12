@@ -199,7 +199,7 @@ const dummyHandPickedData: ProductCardProps[] = [
   },
 ];
 
-const SpecificSubCategory: FC = () => {
+const SpecificSubCategory: FC<{ subCategory?: string }> = (props) => {
   const [productCards, setProductCards] = useState<ProductCardProps[]>(dummyHandPickedData);
   const [pageNumber, setPageNumber] = useState(0);
   const [currentPageSet, setCurrentPageSet] = useState(0);
@@ -305,7 +305,7 @@ const SpecificSubCategory: FC = () => {
             <h1
               className={`${manropeEB.className} text-green-850 text-[1.375rem] leading-[1.75rem] md:text-[2rem] md:leading-[2.5rem] lg:text-[1.75rem] lg:leading-[2.25rem]`}
             >
-              Graphics Design Templates
+              {props.subCategory || 'Graphics Design Templates'}
             </h1>
             <p className="text-white-400 text-[0.75rem] leading-[1.2rem] tracking-[0.003rem] max-w-[21.5625rem] md:max-w-[35rem] md:leading-[1.25rem] md:tracking-[0.00219rem] lg:text-[1.5rem] lg:max-w-[70rem] lg:leading-[2rem]">
               Level up your presentations with beautiful templates and designs for PowerPoint, Keynote, and Google
