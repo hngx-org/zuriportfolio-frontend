@@ -1,14 +1,10 @@
 import React, { FormEvent, useState, useContext } from 'react';
-import Image from 'next/image';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import google from '../../../../public/assets/loginPageAssets/google.svg';
-import github from '../../../../public/assets/loginPageAssets/github.svg';
-import facebook from '../../../../public/assets/loginPageAssets/facebook.svg';
+import { notify } from '@ui/Toast';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
 import { Eye, EyeSlash } from 'iconsax-react';
-
 import InputError from '../InputError';
 import useInputError from '../../../../hooks/useInputError';
 import { loginUser } from '../../../../http';
@@ -29,82 +25,54 @@ function LoginForm() {
   const { handleSubmit, inputErrors } = useInputError();
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
-    // onSuccess: async (res) => {
-    //    console.log("responseoutside", res);
-    //   if (res.statusCode === 200 && res.token) {
-    //     console.log('response', res);
-    //     router.push('/dashboard/orders');
-    //   }
-
-    //   // router.push('/dashboard/orders');
-    // },
-
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
       if (res.statusCode === 200 && res.data.token) {
-        // Successful login
         console.log('Login success:', res);
         handleUser(res.data);
         localStorage.setItem('zpt', res.token);
         const value = isAuthenticated(res.token);
         console.log(value);
 
-        router.push('/dashboard/orders');
-      } else if (res.statusCode === 400 && 'Please verify your email.') {
-        // Unverified user
-        console.error('Unverified user:');
-        // Handle unverified user logic (e.g., show a message to verify the email).
-      } else if (res.statusCode === 400 && 'Password or email is not correct') {
-        // Incorrect password
-        console.error('Incorrect password:');
-        // Handle incorrect password logic (e.g., show a password error message).
-      } else if (res.statusCode === 400 && 'User not found') {
-        // User not found
-        console.error('User not found:');
-        // Handle user not found logic (e.g., show an error message).
+        router.push('/');
+      } else if (res.statusCode === 400 && res.message === 'Please verify your email.') {
+        console.error('Unverified user');
+
+        notify({
+          message: 'Please verify your email.',
+          type: 'error',
+        });
+      } else if (res.statusCode === 400 && res.message === 'Incorrect password') {
+        console.error('Incorrect password');
+
+        notify({
+          message: 'Incorrect password',
+          type: 'error',
+        });
+      } else if (res.statusCode === 500 && res.message === 'Error logging in') {
+        console.error('Error logging in');
+
+        notify({
+          message: 'Error logging in',
+          type: 'error',
+        });
       } else {
-        // Handle other error cases
         console.error('sign up');
-        router.push('/access-denied');
+        notify({
+          message: 'Error logging in',
+          type: 'error',
+        });
       }
     },
     onError: (e) => {
       console.error({ e });
-      router.push('/access-denied');
+      notify({
+        message: 'Error logging in',
+        type: 'error',
+      });
     },
   });
-
-  //  const { mutate: loginUserMutation, isLoading } = useMutation(loginUser, {
-  //   onSuccess: async res => {
-  //     handleAuthState(res.data)
-  //     navigate('/dashboard')
-  //   },
-  //   onError: e => {
-  //     console.error({ e })
-  //     toast.error('Incorrect login credentials')
-  //   },
-  // })
-
-  // const handleSubmit = (values: any) => {
-  //   loginUserMutation(values)
-  // }
-
-  // const loginFn = useAuthMutation(loginUser, {
-  //   onSuccess: (data) => {
-  //     if (data === 'User not found ') {
-
-  //       // router.push('/access-denied');
-  //     }else {
-  //            router.push('/dashboard/orders');
-  //     }
-  //     // console.log(data);
-
-  //   },
-  //   // onError: (err: any) => {
-  //   // //  router.push('/access-denied');
-  //   // },
-  // });
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -177,7 +145,6 @@ function LoginForm() {
             </Link>
 
             <Button
-              // href="/auth/2fa"
               isLoading={isLoginUserMutationLoading}
               intent={'primary'}
               type="submit"
@@ -189,9 +156,9 @@ function LoginForm() {
           </form>
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-              Already have an account?{' '}
+              Don&apos;t have an account?
               <Link href="/auth/login">
-                <span className="text-brand-green-primary">Sign in</span>
+                <span className="text-brand-green-primary"> Sign in</span>
               </Link>
             </p>
           </div>
