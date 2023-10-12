@@ -5,19 +5,17 @@ import trash from '../../public/assets/removecart/delete.svg';
 
 interface RemoveCartProps {
   closeModal: () => void;
-  onRemoveItem: (productId: string) => void; // Make onRemoveItem optional
+  onRemoveItem: (productId: string) => void;
   productId: string;
 }
 
 const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, productId }) => {
-  // const [modalOpen, setModalOpen] = useState(true);
-
-  // if (modalOpen) {
+  
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
         <div
           id="modal"
-          className="bg-white-100 p-4 rounded-lg w-[90%] md:w-[50%] lg:w-[35%] h-415 text-center animate-slideIn"
+          className="bg-white-100 p-4 rounded-lg w-[90%] md:w-[50%] lg:w-[23%] h-415 text-center animate-slideIn"
         >
           <svg
             onClick={closeModal}
@@ -69,10 +67,10 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, produ
             <button
               className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[14px] flex items-center gap-2 rounded-md"
               onClick={() => {
+                closeModal();
                 onRemoveItem(productId);
               }}
             >
-              {/* Remove Item icon */}
               <Image src={trash} alt="checked" width={20} height={20} />
               Remove Item
             </button>
@@ -80,8 +78,6 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, produ
         </div>
       </div>
     );
-  // }
-  // return null;
 };
 
 export default RemoveCart;

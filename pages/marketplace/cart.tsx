@@ -64,6 +64,7 @@ export default function Cart() {
   useEffect(() => {
       async function cartFetch() {
         const carts = await getUserCart()
+        // console.log(carts)
         setCartItems(carts)
         const sum = getSummary(carts);
         setCartSummary(sum);
@@ -79,7 +80,11 @@ export default function Cart() {
   };
 
   function removeProductHandler(productId: string) {
+
+    console.log(cartItems);
+    console.log(productId);
     let cartProductsItems = cartItems.filter((product) => product.productId != productId);
+    console.log(cartProductItems);
     removeFromCart(productId);
     setCartItems(cartProductsItems)
   }
