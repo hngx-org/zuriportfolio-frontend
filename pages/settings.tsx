@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
 import { ArrowLeft2 } from 'iconsax-react';
-import MainLayout from '../../components/Layout/MainLayout';
-import InviteLink from '../../modules/portfolio/component/portfolioSettingsComponents/inviteLink';
-import NotificationSettings from '../../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
-import { SettingOptionTypes } from '../../@types';
+import MainLayout from '../components/Layout/MainLayout';
+import InviteLink from '../modules/portfolio/component/portfolioSettingsComponents/inviteLink';
+import NotificationSettings from '../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
+import { SettingOptionTypes } from '../@types';
 import DeleteAccount from '@modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
 import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
 import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';

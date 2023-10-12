@@ -1,20 +1,93 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NotificationCheckboxType } from '../../../../@types';
+import { MdCheck } from 'react-icons/md';
 
 export default function NotificationsSettings() {
   const [checkboxState, setCheckboxState] = useState<NotificationCheckboxType>({
-    receiveEmail: false,
+    emailSummary: false,
     specialOffers: false,
-    getNotification: false,
-    notifyFollow: false,
-    notifyMessages: false,
+    communityUpdate: false,
+    followUpdate: false,
+    newMessages: false,
+    //userId:"6ba7b812-9dad-11d1-80b4-00c04fd430c8"
   });
+
+  const [acceptedNotificationMethod, setAcceptedNotificationMethod] = useState<{}>({});
+
+  const userId = '6ba7b812-9dad-11d1-80b4-00c04fd430c8';
+  const handleNotificationUpdate = async () => {
+    try {
+      const url = `https://hng6-r5y3.onrender.com/api/set-notification-settings/${userId}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(checkboxState),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Notification settings updated successfully:', data.data);
+        const { userId, ...notificationData } = data.data;
+
+        setCheckboxState(notificationData);
+
+        localStorage.setItem(`notificationData${userId}`, JSON.stringify(notificationData));
+      } else {
+        console.error('Failed to update notification settings');
+      }
+    } catch (error) {
+      console.error('An error occurred while updating notification settings:', error);
+    }
+  };
+
+  const getNotificationSettingsFromLocalStorage = () => {
+    const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
+    if (storedNotificationData) {
+      const parsedData = JSON.parse(storedNotificationData);
+      setCheckboxState(parsedData);
+    }
+  };
+
+  useEffect(() => {
+    getNotificationSettingsFromLocalStorage();
+  }, []);
 
   const handleLabelClick = (checkboxName: keyof NotificationCheckboxType) => {
     setCheckboxState((prevState) => ({
       ...prevState,
       [checkboxName]: !prevState[checkboxName],
     }));
+  };
+
+  // interface ApiResponse {
+  //
+  //   message: string;
+  //
+  // }
+
+  const handleNOtificationUpdate = async () => {
+    try {
+      const url = 'https://hng6-r5y3.onrender.com/api/set-notification-settings/6ba7b812-9dad-11d1-80b4-00c04fd430c8';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(checkboxState),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Notification settings updated successfully:', data.data);
+        setCheckboxState(data.data);
+      } else {
+        console.error('Failed to update notification settings');
+      }
+    } catch (error) {
+      console.error('An error occurred while updating notification settings:', error);
+    }
   };
 
   return (
@@ -25,22 +98,25 @@ export default function NotificationsSettings() {
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
-            name="receiveEmail"
-            id="receiveEmail"
-            checked={checkboxState.receiveEmail}
+            name="emailSummary"
+            id="emailSummary"
+            checked={checkboxState.emailSummary}
             className="appearance-none hidden"
           />
           <label
-            htmlFor="receiveEmail"
+            htmlFor="emailSummary"
             className=" flex gap-2 items-center justify-start"
-            onClick={() => handleLabelClick('receiveEmail')}
+            onClick={() => handleLabelClick('emailSummary')}
           >
             <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={`border-[1px] top-[1px] relative ${
-                  checkboxState.receiveEmail && 'bg-brand-green-hover'
-                }  border-brand-green-primary w-[16px] [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
-              ></p>{' '}
+                className={` flex justify-center relative ${
+                  checkboxState.emailSummary && 'bg-brand-green-hover'
+                }  border-brand-green-primary  rounded-md w-[16px] 
+                 h-[16px]`}
+              >
+                <MdCheck className={`text-brand-green-primary`} />
+              </p>{' '}
             </p>
             Receive an email summary of notification
           </label>
@@ -60,11 +136,13 @@ export default function NotificationsSettings() {
           >
             <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={`border-[1px]  top-[1px] relative ${
+                className={` flex justify-center relative ${
                   checkboxState.specialOffers && 'bg-brand-green-hover'
-                }  border-brand-green-primary w-[16px] 
-                [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
-              ></p>{' '}
+                }  border-brand-green-primary  rounded-md w-[16px] 
+                 h-[16px]`}
+              >
+                <MdCheck className={`text-brand-green-primary`} />
+              </p>{' '}
             </p>
             Announcement on special offers
           </label>
@@ -72,23 +150,25 @@ export default function NotificationsSettings() {
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
-            name="getNotification"
-            id="getNotification"
-            checked={checkboxState.getNotification}
+            name="communityUpdate"
+            id="communityUpdate"
+            checked={checkboxState.communityUpdate}
             className="appearance-none hidden"
           />
           <label
-            htmlFor="getNotification"
+            htmlFor="communityUpdate"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('getNotification')}
+            onClick={() => handleLabelClick('communityUpdate')}
           >
             <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={`border-[1px]  top-[1px] relative ${
-                  checkboxState.getNotification && 'bg-brand-green-hover'
+                className={` flex justify-center relative ${
+                  checkboxState.communityUpdate && 'bg-brand-green-hover'
                 }  border-brand-green-primary  rounded-md w-[16px] 
-                [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
-              ></p>{' '}
+                 h-[16px]`}
+              >
+                <MdCheck className={`text-brand-green-primary`} />
+              </p>{' '}
             </p>
             Get Notification to stay up-to-date with Zuri portfolio community
           </label>
@@ -96,22 +176,24 @@ export default function NotificationsSettings() {
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
-            name="notifyFollow"
-            id="notifyFollow"
-            checked={checkboxState.notifyFollow}
+            name="followUpdate"
+            id="followUpdate"
+            checked={checkboxState.followUpdate}
             className="appearance-none hidden"
           />
           <label
-            htmlFor="notifyFollow"
+            htmlFor="followUpdate"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('notifyFollow')}
+            onClick={() => handleLabelClick('followUpdate')}
           >
-            <p className="border-[1.6px]   rounded-md relative flex items-center justify-center border-white-650">
+            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={`border-[1px] top-[1px] relative ${
-                  checkboxState.notifyFollow && 'bg-brand-green-hover'
-                }  border-brand-green-primary  rounded-md w-[16px] [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
-              ></p>{' '}
+                className={` flex justify-center relative w-[16px]
+                 h-[16px]`}
+              >
+                {' '}
+                {checkboxState.followUpdate && <MdCheck className={`text-brand-green-primary`} />}
+              </p>
             </p>
             Notify when someone follows you
           </label>
@@ -119,26 +201,35 @@ export default function NotificationsSettings() {
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
-            name="notifyMessages"
-            id="notifyMessages"
-            checked={checkboxState.notifyMessages}
+            name="newMessages"
+            id="newMessages"
+            checked={checkboxState.newMessages}
             className="appearance-none hidden"
           />
           <label
-            htmlFor="notifyMessages"
+            htmlFor="newMessages"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('notifyMessages')}
+            onClick={() => handleLabelClick('newMessages')}
           >
             <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={`border-[1px] top-[1px] relative ${
-                  checkboxState.notifyMessages && 'bg-brand-green-hover'
-                }  border-brand-green-primary  rounded-md w-[16px] [clip-path:polygon(27%_12%,49%_57%,84%_41%,92%_54%,42%_78%,13%_17%)] h-[16px]`}
-              ></p>{' '}
+                className={` flex  justify-center relative ${checkboxState.newMessages && 'block'}   w-[16px] 
+                 h-[16px]`}
+              >
+                {' '}
+                {checkboxState.newMessages && (
+                  <MdCheck
+                    className={`text-brand-green-primary 
+             `}
+                  />
+                )}
+              </p>{' '}
             </p>
             Notify about new messages or interactions
           </label>
         </div>
+
+        <button onClick={handleNotificationUpdate}>textinddd</button>
       </div>
     </div>
   );
