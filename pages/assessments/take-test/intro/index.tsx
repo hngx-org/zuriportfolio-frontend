@@ -17,17 +17,17 @@ const TakeTest: FC = () => {
         />
         <div className="container mx-auto pt-16 px-8 pb-36 md-pb-4 md:h-screen">
           <div className="mx-auto sm:w  md:w-fit rounded-lg border border-slate-100 pt-10 pb-5 md:pb-10 md:px-10 px-5">
-            <button onClick={() => router.back()}>
+            <button className="text-custom-color43" onClick={() => router.back()}>
               <ArrowLeft />
             </button>
             <h1 className="text-brand-green-primary font-manropeEB mt-4 mb-6 font-extrabold text-2xl">
               Welcome to the User persorna quiz
             </h1>
-            <p className="mb-8 text-sm md:text-base">
+            <p className="mb-8 text-sm md:text-base text-custom-color43">
               Test Duration: This assessment would take approximately one minute to complete
             </p>
-            <h5>Instructions:</h5>
-            <ul className="pl-5 list-decimal text-sm md:text-base">
+            <h5 className="text-custom-color43">Instructions:</h5>
+            <ul className="pl-5 list-decimal text-sm md:text-base text-custom-color43">
               <li>Focus: Find a quite, distraction free environment.</li>
               <li>Tech Requirements: Ensure a stable internet connection and device.</li>
               <li>Honesty: Answer honestly to access your skills accurately.</li>
