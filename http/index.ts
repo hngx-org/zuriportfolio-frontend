@@ -1,30 +1,6 @@
 import axios from 'axios';
 import $http from './axios';
 
-// type LoginResponse = {
-//   token: string;
-//   data: {
-//     id: string;
-//     username: string;
-//     first_name: string;
-//     last_name: string;
-//     email: string;
-//     token: string;
-//     section_order: unknown;
-//     password: string;
-//     provider: unknown;
-//     profile_pic: unknown;
-//     refresh_token: string;
-//     role_id: number;
-//     is_verified: boolean;
-//     two_factor_auth: boolean;
-//     location: unknown;
-//     country: unknown;
-//     created_at: string;
-//     // message: string;
-//   };
-//   statusCode: number;
-// };
 const AUTH_HTTP_URL = 'https://hng-stage-six.onrender.com/';
 
 // test
@@ -88,23 +64,6 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
     }
   }
 };
-
-// export const loginUser = async (props: { email: string; password: string }) => {
-//   const $http = axios.create({
-//     baseURL: 'https://auth.akuya.tech/api/auth',
-//     timeout: 30000,
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//   });
-
-//   const res = await $http.post('/login', props);
-//   // console.log("response", res.data);
-//   if (res.data === 'User not found ') {
-//     // throw new Error('not found');
-//   }
-//   return res?.data;
-// };
 
 // export const loginUser = async () => {
 //   const $http = axios.create({
