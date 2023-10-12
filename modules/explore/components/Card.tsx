@@ -22,7 +22,7 @@ const Card = ({ data }: { data?: UserInfo }) => {
       <div className="max-w-[22rem] p-2 pb-4 border-1 border mx-auto  border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm lg:min-w-[22.5rem] xl:min-w-[24rem]">
         <Image className="w-full rounded-t-2xl object-cover" src={bg1} alt="Card Header" width={100} height={76} />
         <Image
-          objectFit="cover"
+          objectFit="fill"
           className="-mt-12 rounded-full mx-auto aspect-square"
           src={data?.profilePictureUrl}
           alt="Avatar"
