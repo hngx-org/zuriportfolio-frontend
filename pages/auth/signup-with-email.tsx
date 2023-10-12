@@ -22,7 +22,7 @@ function SignUpWithEmail() {
        * @type {string}
        */
       const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
-      // TODO: display the error message to the user
+      // TOAST-TODO: display the error message to the user
 
       return;
     }
@@ -30,7 +30,7 @@ function SignUpWithEmail() {
     // user does not exists, continue to signup page
     router.push('/auth/signup');
   };
-  
+
   const onSignUpWithEmailError = (error: any) => {
     console.error('onError', error.message);
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
@@ -41,7 +41,7 @@ function SignUpWithEmail() {
        */
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-      // TODO: display the error message to the user
+      // TOAST-TODO: display the error message to the user
     }
 
     /**
@@ -49,7 +49,7 @@ function SignUpWithEmail() {
      * @type {string}
      */
     const serverErrorMessage = 'Oops! Something went wrong. Please try again later.';
-    // TODO: display the error message to the user
+    // TOAST-TODO: display the error message to the user
   };
 
   const { mutate: signUpUser, isLoading: isUserSigningUp } = useAuthMutation(signUpUserWithEmail, {
