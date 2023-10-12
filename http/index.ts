@@ -34,16 +34,16 @@ export const loginUser = async (props: { email: string; password: string }) => {
 
 export const getUserCart = async (token: string) => {
   try {
-    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts',
-    {headers: {
-      'Authorization': `Bearer ${token}`
-    }}
-    )
-    return response.data  
+    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const signUpUserWithEmail = async (props: { email: string }) => {
   try {
     const res = await $http.post('https://auth.akuya.tech/api/auth/check-email', props);
@@ -84,6 +84,18 @@ export const resetPassword = async (props: { token: string | string[] | undefine
   } catch (e: any) {
     console.log(e);
     throw new Error(e);
+  }
+};
+
+export const signUpUser = async (props: { firstName: string; lastName: string; email: string; password: string }) => {
+  try {
+    const res = await $http.post('https://auth.akuya.tech/api/auth/signup', props);
+    console.log(res?.data);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    throw new Error(e);
+    // return e.response.data ?? { message: e.message };
   }
 };
 
