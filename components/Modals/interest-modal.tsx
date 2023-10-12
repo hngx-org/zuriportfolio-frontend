@@ -10,7 +10,7 @@ import { notify } from '@ui/Toast';
 
 const interests_endpoint = 'https://hng6-r5y3.onrender.com/api/interests';
 
-const InterestModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
 
@@ -63,7 +63,7 @@ const InterestModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
   const handleSubmit = () => {
     if (values.length === 0) return;
     const data = {
-      userId: '550e8400-e29b-41d4-a716-446655440000',
+      userId: userId,
       interests: values,
       sectionId: 323,
     };
