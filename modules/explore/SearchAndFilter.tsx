@@ -22,7 +22,7 @@ import CustomDropdown from './components/CustomDropdown';
 import { Input, SelectInput } from '@ui/Input';
 // import Breadcrumbs from '../../components/Breadcrumbs';
 
-const SearchAndFilter = (props: {}) => {
+const SearchAndFilter = () => {
   const [activeSection, setActiveSection] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
