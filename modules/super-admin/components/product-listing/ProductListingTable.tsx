@@ -83,7 +83,7 @@ const ProductListingTable = () => {
 
       if (status === 'newest') {
         return dateB.getTime() - dateA.getTime(); // Newest to oldest
-      } else if (status === 'newest') {
+      } else if (status === 'oldest') {
         return dateA.getTime() - dateB.getTime(); // Oldest to newest
       } else {
         const statusOrder: { [key: string]: number } = {
