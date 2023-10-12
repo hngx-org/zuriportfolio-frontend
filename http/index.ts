@@ -13,7 +13,6 @@ export const getUserByName = async (props: { name: string }) => {
     return e.response.data ?? { message: e.message };
   }
 };
-
 export const loginUser = async (props: { email: string; password: string }) => {
   const $http = axios.create({
     baseURL: AUTH_HTTP_URL,
@@ -33,6 +32,18 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
+export const getUserCart = async (token: string) => {
+  try {
+    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts',
+    {headers: {
+      'Authorization': `Bearer ${token}`
+    }}
+    )
+    return response.data  
+  } catch (error) {
+    console.log(error);
+  }
+}
 export const signUpUserWithEmail = async (props: { email: string }) => {
   try {
     const res = await $http.post('https://auth.akuya.tech/api/auth/check-email', props);
@@ -62,6 +73,17 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
     if (e?.response?.data && e?.response?.data?.message) {
       console.log(e?.response.data.message);
     }
+  }
+};
+
+export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
+  try {
+    const response = await axios.patch('https://9735-102-219-208-41.ngrok-free.app/api/auth/reset-password', props);
+    console.log(response);
+    return response?.data;
+  } catch (e: any) {
+    console.log(e);
+    throw new Error(e);
   }
 };
 
