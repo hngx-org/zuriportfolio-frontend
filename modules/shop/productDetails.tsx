@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from 'next/image';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
@@ -17,9 +18,11 @@ import Link from 'next/link';
 
 const otherProducts: ProductCardProps[] = [
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -28,9 +31,11 @@ const otherProducts: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -39,9 +44,11 @@ const otherProducts: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -50,9 +57,11 @@ const otherProducts: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
