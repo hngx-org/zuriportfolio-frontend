@@ -117,10 +117,9 @@ export default function Cart() {
     const data = items.map((item) => (sum += Number(item.productPrice)));
     return sum
   }
-  // const sum = getSummary(CartProducts);
+  
   const [cartSummary, setCartSummary ] = useState<number>(0)
   
-  // setCartSummary(sum);
 
   useEffect(() => {
       async function cartFetch() {
