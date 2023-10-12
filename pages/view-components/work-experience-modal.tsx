@@ -1,10 +1,10 @@
-import WorkExperienceSection from '@modules/portfolio/component/work-experience-modal';
+import WorkExperienceModalSection from '@modules/portfolio/component/work-experience-modal';
 import React from 'react';
 
 const WorkExperienceModal = () => {
   return (
     <div>
-      <WorkExperienceSection />
+      <WorkExperienceModalSection />
     </div>
   );
 };
