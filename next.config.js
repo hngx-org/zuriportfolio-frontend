@@ -3,13 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
-  }
+    domains: ['res.cloudinary.com'],
+  },
 };
 
 module.exports = nextConfig;

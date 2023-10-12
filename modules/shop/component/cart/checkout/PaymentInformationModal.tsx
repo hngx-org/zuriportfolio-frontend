@@ -3,7 +3,8 @@ import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import AllOTPModal from '../../../../../components/Modals/OTPModals/AllOTPModal';
 import axios from 'axios';
-
+import { makePayment } from '../../../../../http';
+import { string } from 'zod';
 const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalOpen, setModalOpen] = useState(true);
@@ -16,30 +17,43 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
     setPaymentMethodError('');
   };
 
-  const makePayment = async () => {
+  // const makePayment = async () => {
+  //   if (selectedPaymentMethod) {
+  //     // Payment method is selected, proceed with the payment
+  //     try {
+  //       const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/orders';
+  //       const data = {
+  //         redirect_url: 'http://localhost:3000/marketplace/cart',
+  //         payment_method: selectedPaymentMethod,
+  //       };
+
+  //       const response = await axios.post(apiUrl, data, {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           accept: 'application/json',
+  //         },
+  //       });
+
+  //       // Handle the error response
+  //       console.log('API Response:', response.data);
+  //     } catch (error) {
+  //       console.error('Error making payment:', error);
+  //     }
+  //   } else {
+  //     // No payment method selected, set an error message
+  //     setPaymentMethodError('Please select a payment method before making the payment.');
+  //   }
+  // };
+  const handlePayment = async () => {
     if (selectedPaymentMethod) {
-      // Payment method is selected, proceed with the payment
       try {
-        const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/orders';
-        const data = {
-          redirect_url: 'http://localhost:3000/marketplace/cart',
-          payment_method: selectedPaymentMethod,
-        };
-
-        const response = await axios.post(apiUrl, data, {
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-          },
-        });
-
-        // Handle the error response
-        console.log('API Response:', response.data);
+        const response = await makePayment(selectedPaymentMethod);
+        window.location.href = response.transaction_url;
       } catch (error) {
         console.error('Error making payment:', error);
+        // Handle the error here as needed
       }
     } else {
-      // No payment method selected, set an error message
       setPaymentMethodError('Please select a payment method before making the payment.');
     }
   };
@@ -134,7 +148,7 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
             </div>
 
             <button
-              onClick={makePayment}
+              onClick={handlePayment}
               className=" py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
             >
               Proceed to pay
