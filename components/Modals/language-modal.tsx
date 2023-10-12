@@ -6,6 +6,8 @@ import close1 from '../../public/assets/icons/close1.svg';
 import arrow_left from '../../public/assets/icons/arrow-left.svg';
 import Button from '@ui/Button';
 
+const language_endpoint = 'https://hng6-r5y3.onrender.com/api/all-languages';
+
 const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
@@ -49,6 +51,11 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
     </span>
   ));
 
+  const handleSubmit = () => {
+    if (values.length === 0) return;
+    console.log(values);
+  };
+
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
       <section className="">
@@ -76,7 +83,7 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-2.5">
           <Button
             onClick={onClose}
-            className="border flex justify-center border-[#009444] bg-white-100 py-3 px-5 text-sm sm:text-base font-normal text-text-green-600 text-center rounded-lg hover:bg-white-100 hover:text-[#009444]"
+            className="border flex justify-center border-[#009444] bg-white-100 py-3 px-5 text-sm sm:text-base font-normal text-text-green-600 text-center rounded-lg hover:bg-white-100 text-[#009444] hover:text-[#009444]"
           >
             Cancel
           </Button>
