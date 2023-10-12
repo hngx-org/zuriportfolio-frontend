@@ -6,6 +6,7 @@ import EducationSection from '@modules/portfolio/component/education-modal';
 import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { sections as s } from '@modules/portfolio/component/landing/data';
+import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
 
 type PortfolioContext = {
   userData: any;
@@ -249,6 +250,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'interest',
       modal: <InterestModal isOpen={modalStates['interest']} onClose={() => onCloseModal('interest')} />,
+    },
+    {
+      id: 'skill',
+      modal: <SkillModal isOpen={modalStates['skill']} onClose={() => onCloseModal('skill')} userId={userId}/>,
     },
   ];
 
