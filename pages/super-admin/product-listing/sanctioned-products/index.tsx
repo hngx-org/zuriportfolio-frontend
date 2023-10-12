@@ -1,10 +1,11 @@
 import { ArrowDown, More } from 'iconsax-react';
 
-import Pagination from '../../view-components/super-admin/pagination';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import { useState } from 'react';
-import { sanctionedProducts } from '../../../helpers/sanctionedProducts';
+import { sanctionedProducts } from '../../../../helpers/sanctionedProducts';
+import Pagination from '../../../view-components/super-admin/pagination';
+import { useRouter } from 'next/router';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -22,6 +23,7 @@ const SanctionedProducts = () => {
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
+  const route = useRouter();
 
   return (
     <>
@@ -69,7 +71,11 @@ const SanctionedProducts = () => {
           <tbody>
             {/* Listed Products */}
             {sanctionedProducts.map((product, index) => (
-              <tr className="border-t  border-custom-color1  py-4" key={index}>
+              <tr
+                className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
+                key={index}
+                onClick={() => route.push(`/super-admin/product-listing/sanctioned-products/${product.id}`)}
+              >
                 <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 items-center gap-6 self-stretch flex">
                   <input type="checkbox" />
 
@@ -106,7 +112,9 @@ const SanctionedProducts = () => {
           </tbody>
         </table>
       </div>
-      <Pagination />
+      <div className="mb-5">
+        <Pagination />
+      </div>
     </>
   );
 };

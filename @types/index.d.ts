@@ -123,7 +123,7 @@ export interface ModalProps {
   children?: React.ReactNode;
   closeOnOverlayClick?: boolean;
   title?: string;
-  size?: 'lg' | 'md' | 'sm' | 'xl';
+  size?: 'lg' | 'md' | 'sm' | 'xl' | 'xxl';
   isCloseIconPresent?: boolean;
   closeBtnClass?: string;
 }
@@ -160,6 +160,24 @@ export interface PasswordRequirementProps {
 export interface ProgressBarProps {
   color: string;
   value: number;
+}
+
+// Toastify interface
+
+export type ToastPosition = 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left';
+export type ToastTheme = 'light' | 'dark' | 'colored';
+export type ToastVariant = 'info' | 'success' | 'warning' | 'error' | 'default';
+export interface ToastProps {
+  message?: string;
+  position?: ToastPosition;
+  autoClose?: number;
+  hideProgressBar?: boolean;
+  closeOnClick?: boolean;
+  pauseOnHover?: boolean;
+  draggable?: boolean;
+  progress?: undefined;
+  theme?: ToastTheme;
+  type?: ToastVariant;
 }
 
 // export all interfaces and type s
@@ -255,26 +273,18 @@ export interface OrderHistory {
   sales: number;
   revenue: number;
 }
-export interface Product {
+
+export interface WishlistProduct {
   productId: string;
   productName: string;
   productPrice: number;
   productImage: StaticImageData;
   productRating: number;
   numReviews: number;
-}
-
-export interface WishlistProduct extends Product {
   productCategory: string;
   inStock: boolean;
   inCart: boolean;
 }
-
-export interface FavoriteProduct extends Product {
-  isFavourite: boolean;
-  productCreator: string;
-}
-
 export interface WorkExperience {
   role: string;
   description: string;
@@ -362,8 +372,8 @@ export interface RatingBarProps {
 }
 
 export interface RatingCardProps {
-  rating: string;
-  users: string;
+  rating: number;
+  users: number;
 }
 
 export interface filterProps {
@@ -513,5 +523,38 @@ export interface CardData {
 }
 
 export interface AuthContextProps {
-  [key]: any;
+  user: LoginBodyResponse | undefined;
+  handleUser: (value: LoginBodyResponse) => void;
+}
+
+export type LoginBodyResponse = {
+  id: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  token: string;
+  section_order: unknown;
+  password: string;
+  provider: unknown;
+  profile_pic: unknown;
+  refresh_token: string;
+  role_id: number;
+  is_verified: boolean;
+  two_factor_auth: boolean;
+  location: unknown;
+  country: unknown;
+  created_at: string;
+};
+export type LoginResponse = {
+  token: string;
+  data: LoginBodyResponse;
+  statusCode: number;
+};
+
+export interface Review {
+  id: number;
+  rating: number;
+  name: string;
+  description: string;
 }

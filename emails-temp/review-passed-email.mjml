@@ -19,7 +19,7 @@
           font-weight="bold"
           font-family="Century Gothic"
         >
-          HI {{$name}},
+          Hi {{$name}},
         </mj-text>
 
         <mj-text font-family="Century Gothic" font-weight="bold" color="#009254" font-size="20px">
@@ -37,6 +37,16 @@
         <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
           Your store has demonstrated excellence across all the dimensions outlined
         </mj-text>
+
+        <mj-button
+          href="https://zuriportfolio.com/login"
+          border-radius="10px"
+          background-color="#33a467"
+          height="30px"
+          width="200px"
+          font-size="16px"
+          >Go to your store</mj-button
+        >
 
         <mj-text padding-top="30px" font-weight="400" color="#000" font-size="18px" font-family="Century Gothic">
           We genuinely appreciate your dedication to upholding the quality and security of our platform. Your commitment
