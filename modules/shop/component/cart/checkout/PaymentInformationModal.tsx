@@ -48,7 +48,7 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
     if (selectedPaymentMethod) {
       try {
         const response = await makePayment(selectedPaymentMethod);
-        window.location.href = response.transaction_url
+        window.location.href = response.transaction_url;
       } catch (error) {
         console.error('Error making payment:', error);
         // Handle the error here as needed
