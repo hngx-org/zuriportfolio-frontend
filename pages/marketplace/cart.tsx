@@ -57,10 +57,13 @@ export default function Cart() {
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
 
 
+
   useEffect(() => {
       async function cartFetch() {
         const carts = await getUserCart(user?.token as string)
         console.log(carts);
+        console.log("carts fetched");
+        
         setCartItems(carts)
       }
       cartFetch()
