@@ -6,7 +6,7 @@ import MainLayout from '../../../../../../../zuriportfolio-frontend/components/L
 
 const Page: React.FC = () => {
   const params = useRouter();
-  const badgelabel = params.query?.badge;
+  const badgelabel = params.query?.id;
   console.log(badgelabel);
 
   const [scorePercentage, setScorePercentage] = useState<number>(10);
