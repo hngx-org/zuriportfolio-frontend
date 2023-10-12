@@ -57,29 +57,34 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
     }
   };
 
-  const handleCheckoutClick = () => {
-    const token = localStorage.getItem('authToken');
-    console.log(token);
+  // const handleCheckoutClick = () => {
+  //   const token = localStorage.getItem('authToken');
+  //   console.log(token);
 
-    if (token !== null) {
-      const userIsAuthenticated = isAuthenticated(token);
-      if (userIsAuthenticated) {
-        setAuthUser(true);
-        setModalOpen(true);
-      }
-    } else {
-      onOpen();
-    }
-    // const token = localStorage.getItem('authToken');
-    // if(token !== null) {
-    //   const value = isAuthenticated(token)
-    //   console.log(value)
-    // }
-  };
+  //   if (token !== null) {
+  //     const userIsAuthenticated = isAuthenticated(token);
+  //     if (userIsAuthenticated) {
+  //       setAuthUser(true);
+  //       setModalOpen(true);
+  //     }
+  //   } else {
+  //     onOpen();
+  //   }
+  //   // const token = localStorage.getItem('authToken');
+  //   // if(token !== null) {
+  //   //   const value = isAuthenticated(token)
+  //   //   console.log(value)
+  //   // }
+  // };
 
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const handleCheckoutClick = () => {
+    setModalOpen(true);
+  };
+
   return (
     <section className="flex lg:px-10 py-8">
       <div className="cart-summary_wrapper flex flex-col space-y-6">
@@ -104,7 +109,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
 
               <button
                 type="submit"
-                className={`bg-green-300 text-white-100 py-2 px-6 rounded-r-md capitalize hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ${
+                className={`bg-green-300 text-white-100 py-1.5 px-6 rounded-r-md capitalize hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ${
                   couponErrorState ? 'bg-gray-200' : ''
                 }`}
                 onClick={couponHandler}
@@ -176,13 +181,14 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
               Checkout
             </button>
           </div>
-          {authUser ? (
+          {/* {authUser ? (
             modalOpen ? (
               <PaymentInformationModal closeModal={closeModal} />
             ) : null
           ) : (
             <TempUser isOpen={isOpen} onClose={onClose} />
-          )}
+          )} */}
+          {modalOpen ? <PaymentInformationModal closeModal={closeModal} /> : null}
         </div>
       </div>
     </section>
