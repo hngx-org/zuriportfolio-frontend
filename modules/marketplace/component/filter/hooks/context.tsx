@@ -51,7 +51,7 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
     const price = filterSelection.price.join(",")
     const rating = filterSelection.rating.join(",")
     try {
-      const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/products-filter?category=${category}&subCategory=${subCategory}&discount=${discount}&price=${price}&rating`
+      const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/products-filter?category=${category}&subCategory=${subCategory}&discount=${discount}&price=${price}&rating=${rating}`
       const { data, status } = await axios.get(API_URL);
       console.log(data, status);
       if(status === 200) {

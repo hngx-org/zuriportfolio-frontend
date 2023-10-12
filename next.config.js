@@ -9,7 +9,6 @@ const nextConfig = {
         hostname: "**",
       },
     ],
-    domains: ['fakestoreapi.com']
   }
 };
 
