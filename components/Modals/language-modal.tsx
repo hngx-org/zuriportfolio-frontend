@@ -10,7 +10,9 @@ import { notify } from '@ui/Toast';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 
-const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
+  console.log(userId);
+
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
 
@@ -55,7 +57,7 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
   const handleSubmit = () => {
     if (values.length === 0) return;
     const data = {
-      userId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      userId: userId,
       languages: values,
     };
     axios
