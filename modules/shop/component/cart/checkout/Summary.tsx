@@ -70,6 +70,11 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
     } else {
       onOpen();
     }
+    // const token = localStorage.getItem('authToken');
+    // if(token !== null) {
+    //   const value = isAuthenticated(token)
+    //   console.log(value)
+    // }
   };
 
   const closeModal = () => {

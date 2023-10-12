@@ -35,7 +35,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
   };
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
-      <div className="flex items-end justify-end">
+      <div className="flex items-end justify-end animate-slideIn">
         <Image className="cursor-pointer" src={cancel} alt="cancel modal" onClick={onClose} />
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-[5px] p-[20px]">
