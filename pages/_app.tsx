@@ -7,6 +7,7 @@ import '../styles/nprogress.css';
 import type { AppProps } from 'next/app';
 import nProgress from 'nprogress';
 import { Router } from 'next/router';
+import { CartProvider } from '@modules/shop/component/CartContext';
 
 // nprogress loader
 Router.events.on('routeChangeStart', nProgress.start);
@@ -30,11 +31,13 @@ export default function App({ Component, pageProps }: AppProps) {
           }
         `}
       </style>
-      <ErrorBoundary>
-        <MainLayoutContextProvider>
-          <AnyComponent {...pageProps} />
-        </MainLayoutContextProvider>
-      </ErrorBoundary>
+      <CartProvider>
+        <ErrorBoundary>
+          <MainLayoutContextProvider>
+            <AnyComponent {...pageProps} />
+          </MainLayoutContextProvider>
+        </ErrorBoundary>
+      </CartProvider>
     </>
   );
 }

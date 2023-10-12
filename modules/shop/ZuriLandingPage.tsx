@@ -5,175 +5,13 @@ import ShopProductList from './component/productPage/ShopProduct/ShopProductList
 import Pagination from './component/productPage/Pagination/Pagination';
 import Header from '../shop/component/productPage/Header';
 import Footer from '../shop/component/productPage/Footer';
+import { useCart } from './component/CartContext';
 import { Products } from '../../@types';
 
-const fakeStoreApiUrl = 'https://fakestoreapi.com/products';
-
-const staticProducts: Products[] = [
-  {
-    id: 1,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg4.png',
-    category: 'Category 1',
-  },
-  {
-    id: 2,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg2.png',
-    category: 'Category 2',
-  },
-  {
-    id: 3,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg4.png', // Reference to your local image in the public folder
-    category: 'Category 3',
-  },
-  {
-    id: 4,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg7.png', // Reference to your local image in the public folder
-    category: 'Category 4',
-  },
-  {
-    id: 5,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg3.png', // Reference to your local image in the public folder
-    category: 'Category 5',
-  },
-  {
-    id: 6,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg6.png', // Reference to your local image in the public folder
-    category: 'Category 6',
-  },
-  {
-    id: 7,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg5.png', // Reference to your local image in the public folder
-    category: 'Category 7',
-  },
-  {
-    id: 8,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg2.png', // Reference to your local image in the public folder
-    category: 'Category 8',
-  },
-  {
-    id: 9,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg4.png', // Reference to your local image in the public folder
-    category: 'Category 9',
-  },
-  {
-    id: 10,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg1.png', // Reference to your local image in the public folder
-    category: 'Category 10',
-  },
-  {
-    id: 11,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg6.png', // Reference to your local image in the public folder
-    category: 'Category 11',
-  },
-  {
-    id: 12,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg5.png', // Reference to your local image in the public folder
-    category: 'Category 12',
-  },
-  {
-    id: 13,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg7.png', // Reference to your local image in the public folder
-    category: 'Category 13',
-  },
-  {
-    id: 14,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg2.png', // Reference to your local image in the public folder
-    category: 'Category 14',
-  },
-  {
-    id: 15,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg4.png', // Reference to your local image in the public folder
-    category: 'Category 15',
-  },
-  {
-    id: 16,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg5.png', // Reference to your local image in the public folder
-    category: 'Category 16',
-  },
-  {
-    id: 17,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg3.png', // Reference to your local image in the public folder
-    category: 'Category 17',
-  },
-  {
-    id: 18,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg1.png', // Reference to your local image in the public folder
-    category: 'Category 18',
-  },
-  {
-    id: 19,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg6.png', // Reference to your local image in the public folder
-    category: 'Category 19',
-  },
-  {
-    id: 20,
-    name: 'Webinar and Course Template',
-    price: 100,
-    shopOwner: 'Mark Essien',
-    image: '/assets/wishlistAssets/favProductImg7.png',
-    category: 'Category 20',
-  },
-];
+//const fakeStoreApiUrl = 'https://fakestoreapi.com/products';
 
 const ZuriLandingPage = () => {
-  const [products] = useState(staticProducts);
+  const [products, setProducts] = useState<Products[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
@@ -183,37 +21,46 @@ const ZuriLandingPage = () => {
     setSelectedCategory(category);
   };
 
-  const categories = Array.from(new Set(products.map((product) => product.category)));
+  const { cart } = useCart();
+
+  const cartItemCount = cart.length;
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:4000/products')
+      .then((response) => {
+        setProducts(response.data as Products[]);
+      })
+      .catch((error) => {
+        console.error('Error fetching product data:', error);
+      });
+  }, []);
+
   const filteredProducts = products.filter((product) => {
-    if (selectedCategory === 'All' || selectedCategory === '') {
-      return product.name.toLowerCase().includes(searchQuery.toLowerCase());
-    } else {
-      return (
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        product.category.toLowerCase() === selectedCategory.toLowerCase()
-      );
-    }
+    const categoryMatch =
+      selectedCategory === 'All' || product.category.toLowerCase() === selectedCategory.toLowerCase();
+    const nameMatch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return categoryMatch && nameMatch;
   });
 
+  // Pagination logic
   const totalPageCount = Math.ceil(filteredProducts.length / productsPerPage);
-
   const indexOfFirstProduct = (currentPage - 1) * productsPerPage;
-
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfFirstProduct + productsPerPage);
-
-  const cartItemCount = 0;
+  console.log('searchQuery:', searchQuery);
+  console.log('selectedCategory:', selectedCategory);
 
   return (
     <div>
       <Header
         setSearchQuery={setSearchQuery}
         cartItemCount={cartItemCount}
-        categories={categories}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       />{' '}
-      <div className="p-4 container mx-auto">
+      <div className=" px-4 sm:px-6 md:px-3 py-5 container mx-auto">
         <div className="space-y-12 py-10">
           <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to TechVerse.</h1>
           <p className="md:text-base text-xs font-normal font-manropeL">
@@ -243,9 +90,8 @@ const ZuriLandingPage = () => {
           </svg>
         </div>
         <div className="py-10">
-          <ShopProductList products={currentProducts} />
+          <ShopProductList products={products} searchQuery={searchQuery} />
         </div>
-        <Pagination currentPage={currentPage} totalPageCount={totalPageCount} setCurrentPage={setCurrentPage} />
       </div>
       <Footer />
     </div>

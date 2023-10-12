@@ -24,7 +24,7 @@ export interface AllCategoryDetails {
   discount: number;
 }
 export interface Products {
-  id: number;
+  id: string;
   name: string;
   image: string;
   shopOwner: string;
