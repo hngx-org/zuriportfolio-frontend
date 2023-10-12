@@ -21,7 +21,7 @@ import AuthContext from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
 
 function LoginForm() {
-  const { handleUser } = useContext(AuthContext);
+  const { handleAuth } = useContext(AuthContext);
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,7 +45,7 @@ function LoginForm() {
       if (res.statusCode === 200 && res.data.token) {
         // Successful login
         console.log('Login success:', res);
-        handleUser(res.data);
+        handleAuth(res);
         localStorage.setItem('zpt', res.token);
         const value = isAuthenticated(res.token);
         console.log(value);

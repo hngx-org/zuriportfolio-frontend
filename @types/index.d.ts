@@ -527,8 +527,8 @@ export interface CardData {
 }
 
 export interface AuthContextProps {
-  user: LoginBodyResponse | undefined;
-  handleUser: (value: LoginBodyResponse) => void;
+  auth: LoginResponse | undefined;
+  handleAuth: (value: LoginResponse) => void;
 }
 
 export type LoginBodyResponse = {
@@ -550,6 +550,7 @@ export type LoginBodyResponse = {
   country: unknown;
   created_at: string;
 };
+
 export type LoginResponse = {
   token: string;
   data: LoginBodyResponse;
