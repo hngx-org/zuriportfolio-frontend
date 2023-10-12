@@ -1,29 +1,27 @@
 'use client';
 import React from 'react';
-import { useRouter } from 'next/router';
 
 interface ICountdown {
   minutes: number;
   seconds: number;
+  action: () => void;
 }
 
-export const CountdownTimer = ({ minutes, seconds }: ICountdown) => {
-  const router = useRouter();
-
-  const [time, setTime] = React.useState<ICountdown>({ minutes, seconds });
+export const CountdownTimer = ({ minutes, seconds, action }: ICountdown) => {
+  const [time, setTime] = React.useState<ICountdown>({ minutes, seconds, action });
 
   const tick = () => {
-    if (time.minutes === 0 && time.seconds === 0) router.push('/assessments/overview');
+    if (time.minutes === 0 && time.seconds === 0) action();
     else if (time.seconds === 0) {
       if (time.minutes > 0) {
-        setTime({ minutes: time.minutes - 1, seconds: 59 });
+        setTime({ minutes: time.minutes - 1, seconds: 59, action });
       }
     } else {
-      setTime({ minutes: time.minutes, seconds: time.seconds - 1 });
+      setTime({ minutes: time.minutes, seconds: time.seconds - 1, action });
     }
   };
 
-  const reset = () => setTime({ minutes: time.minutes, seconds: time.seconds });
+  const reset = () => setTime({ minutes: time.minutes, seconds: time.seconds, action });
 
   React.useEffect(() => {
     const timerId = setInterval(() => tick(), 1000);
