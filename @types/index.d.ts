@@ -505,5 +505,31 @@ export interface CardData {
 }
 
 export interface AuthContextProps {
-  [key]: any;
+  user: LoginBodyResponse | undefined;
+  handleUser: (value: LoginBodyResponse) => void;
 }
+
+export type LoginBodyResponse = {
+  id: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  token: string;
+  section_order: unknown;
+  password: string;
+  provider: unknown;
+  profile_pic: unknown;
+  refresh_token: string;
+  role_id: number;
+  is_verified: boolean;
+  two_factor_auth: boolean;
+  location: unknown;
+  country: unknown;
+  created_at: string;
+};
+export type LoginResponse = {
+  token: string;
+  data: LoginBodyResponse;
+  statusCode: number;
+};
