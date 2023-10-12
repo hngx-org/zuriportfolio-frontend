@@ -183,7 +183,11 @@ const MyPage: React.FC = () => {
             }`}
             onClick={() => handleFilterClick(null)}
           >
-            <p className={`text-sm lg:text-base ${filter === null ? 'text-brand-green-primary' : 'border-white-100'}`}>
+            <p
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === null ? 'text-brand-green-primary' : 'border-white-100'
+              }`}
+            >
               All Purchases ({allPurchasesCount})
             </p>
           </div>
@@ -193,7 +197,11 @@ const MyPage: React.FC = () => {
             }`}
             onClick={() => handleFilterClick('Pending')}
           >
-            <p className={`text-sm lg:text-base ${filter === 'Pending' ? '' : ''}`}>
+            <p
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === 'Pending' ? 'text-brand-green-primary' : 'border-white-100'
+              }`}
+            >
               Pending Purchases ({pendingPurchasesCount})
             </p>
           </div>
@@ -204,8 +212,8 @@ const MyPage: React.FC = () => {
             onClick={() => handleFilterClick('Successful')}
           >
             <p
-              className={`text-sm lg:text-base ${
-                filter === 'Successful' ? 'border-brand-green-primary' : 'border-white-100'
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === 'Successful' ? 'text-brand-green-primary' : 'border-white-100'
               }`}
             >
               Completed Purchases ({completedPurchasesCount})
@@ -218,8 +226,8 @@ const MyPage: React.FC = () => {
             onClick={() => handleFilterClick('Failed')}
           >
             <p
-              className={`text-sm lg:text-base ${
-                filter === 'Failed' ? 'border-brand-green-primary' : 'border-white-100'
+              className={`text-sm cursor-pointer lg:text-base ${
+                filter === 'Failed' ? 'text-brand-green-primary' : 'border-white-100'
               }`}
             >
               Failed Purchases ({failedPurchasesCount})
@@ -302,6 +310,7 @@ const MyPage: React.FC = () => {
           {/* error page */}
           {data.length === 0 && <PurchaseNotFound />}
         </div>
+        {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
       </div>
     </MainLayout>

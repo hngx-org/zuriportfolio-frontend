@@ -36,18 +36,17 @@
         </mj-text>
 
         <mj-text  font-weight="bold" color="#009254" font-size="20px">
-          A product has been removed from your store
+          Product suspension lifted
         </mj-text>
 
-        <mj-text  font-weight="400"  font-size="16px">
-          One of your products <span style="font-weight: bold"> '{{$product_name}}' </span> has been removed from your
-          Zuriportfolio store due to policy violations
+        <mj-text  font-weight="400" color="#000" font-size="16px">
+            Good news. The suspension on your product <span style="font-weight: bold"> '{{$product_name}}' </span> has been lifted, and it is once again available for purchase on our platform.
         </mj-text>
 
-        <mj-text  font-weight="400"  font-size="16px">
-          Violation:
+        <mj-text  font-weight="400" color="#000" font-size="16px">
+          Reason(s) for suspension :
           <span style="font-weight: bold">
-            Your product was found to violate our terms concerning copyright infringement.
+             Product misrepresentation & Intellectual property infringement
           </span>
         </mj-text>
       </mj-column>
@@ -103,13 +102,11 @@
         >
 
         <mj-text padding-top="30px" font-weight="400" color="#000" font-size="16px" >
-          We understand that this decision may come as a surprise, and we apologize for any inconvenience it may cause.
-          Our commitment to maintaining a safe and compliant shopping environment for all users necessitates strict
-          adherence to our policies
+          We love and appreciate your prompt attention to addressing the issues that led to the suspension and your commitment to upholding the quality and compliance of products on our platform.
         </mj-text>
 
         <mj-text  font-weight="400" color="#000" font-size="16px">
-          If you believe this decision was made in error, please reach out to our support team at
+          If you have any questions or issues, please contact support at 
           <a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
             >support@zuriportolio.com</a
           >.

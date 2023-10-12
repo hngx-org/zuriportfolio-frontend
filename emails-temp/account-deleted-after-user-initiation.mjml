@@ -1,7 +1,7 @@
 <mjml>
   <mj-head>
-    <mj-preview>Account Blacklisted</mj-preview>
-    <mj-title>Account Blacklisted</mj-title>
+    <mj-preview>Account Deleted</mj-preview>
+    <mj-title>Account Deleted</mj-title>
     <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" />
     <mj-font name="Open Sans" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" />
     <mj-attributes>
@@ -78,31 +78,33 @@
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="h-lg" padding-bottom="16px">
-            Your account has been blacklisted
+            Your account has been deleted
           </mj-text>
         </mj-column>
 
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="16px">
-            We must regretfully inform you that your account with Zuriportfolio has been blacklisted due to suspicious activities and serious violations of our terms and guidelines.
+            We are writing to inform you that, as per your request, your account with Zuriportfolio has been successfully deleted.
+          </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="4px">
+            Your account details were as follows :  
           </mj-text>
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="16px">
-            As a consequence of this measure, your account will be restricted from accessing our platform, and any associated services or privileges will be revoked. This includes store creation and selling of products, as well as buying from other sellers
+            <span class="bold">
+              <ul style="margin: 0; padding-left:30px;">
+                <li style="padding-bottom:4px">[Dare/dare@gmail.com]</li>
+                <li>[Account ID, #456789]</li>
+              </ul>
+            </span>
           </mj-text>
         </mj-column>
         <mj-column width="100%">
-          <mj-text mj-class="p-1">
-            <div style="display:flex">
-              <span style="flex-shrink: 0;">Violation(s):</span>
-              <span class="bold">
-                <ul style="margin: 0; padding-left:30px;">
-                  <li>Product misrepresentation</li>
-                  <li>Intellectual property infringement</li>
-                </ul>
-              </span>
-            </div>
+          <mj-text mj-class="p-1" padding-bottom="4px">
+            We have completed the account deletion process, and your data has been removed from our system. Please be aware that this action is irreversible, and you will no longer have access to your account or any associated services.
           </mj-text>
         </mj-column>
         <mj-column width="100%">
@@ -110,22 +112,12 @@
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="16px">
-            We kindly request that you refrain from creating a new account or attempting to circumvent this blacklisting, as these actions are strictly prohibited.
+            We will be sad to see you go, and we appreciate your support and time spent on Zuriportfolio
           </mj-text>
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1">
-            If you have any outstanding orders, pending refunds, or unresolved issues related to your account please contact our support team at <span style="color: #009254">support@zuriportolio.com.</span> for assistance in resolving them.
-          </mj-text>
-        </mj-column>
-        <mj-column width="100%">
-          <mj-button>
-            Contact support
-          </mj-button>
-        </mj-column>
-        <mj-column width="100%">
-          <mj-text mj-class="p-1">
-            If you believe this decision was made in error, please reach out to our support team  at <span style="color: #009254">support@zuriportolio.com.</span>
+            If you believe this decision was made in error, please reach out to our support team at <span style="color: #009254">support@zuriportolio.com.</span>
           </mj-text>
         </mj-column>
 
