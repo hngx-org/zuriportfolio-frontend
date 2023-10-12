@@ -7,7 +7,6 @@ function Explore() {
   return (
     <MainLayout showTopbar={true} showDashboardSidebar={false} activePage="explore">
       <div>
-        <SearchAndFilter />
         <ExplorePage />
       </div>
     </MainLayout>

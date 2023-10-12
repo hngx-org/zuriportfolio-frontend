@@ -25,6 +25,7 @@ import photo9 from '../../public/assets/images/explore_img/photo9.png';
 import photo10 from '../../public/assets/images/explore_img/photo10.png';
 import photo11 from '../../public/assets/images/explore_img/photo11.png';
 import photo12 from '../../public/assets/images/explore_img/photo12.png';
+import SearchAndFilter from './SearchAndFilter';
 
 // Interface
 
@@ -173,15 +174,18 @@ const cardData: CardData[] = [
   },
 ];
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   return (
-    <div className="m-auto p-6">
-      <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
-        {cardData.map((card) => (
-          <Card key={card.id} data={card} />
-        ))}
+    <>
+      <SearchAndFilter />
+      <div className="m-auto p-6">
+        <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
+          {cardData.map((card) => (
+            <Card key={card.id} data={card} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
