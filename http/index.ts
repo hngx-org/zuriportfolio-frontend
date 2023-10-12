@@ -34,11 +34,8 @@ export const loginUser = async (props: { email: string; password: string }) => {
 };
 
 export const getUserCart = async () => {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL
-  console.log(API_URL);
-  
   try {
-    const response = await $http.get(`${API_URL}/carts`)
+    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts')
     return response.data  
   } catch (error) {
     console.log(error);

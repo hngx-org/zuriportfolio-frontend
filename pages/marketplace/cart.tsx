@@ -47,7 +47,6 @@ export default function Cart() {
       tagBackground: 'bg-[#515b63]',
     },
   ];
-  const [cartItems, setCartItems] = useState([]);
 
   const CartProducts: CartItemProps[] = [
     {
@@ -108,6 +107,7 @@ export default function Cart() {
 
   const [productCards,setProductCards] = useState(ViewedProducts);
   const [cartProducts,setcartProducts] = useState(CartProducts);
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
       async function cartFetch() {
