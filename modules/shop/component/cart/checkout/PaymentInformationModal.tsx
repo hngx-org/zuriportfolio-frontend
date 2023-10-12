@@ -2,17 +2,53 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import AllOTPModal from '../../../../../components/Modals/OTPModals/AllOTPModal';
+import axios from 'axios';
 
 const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalOpen, setModalOpen] = useState(true);
   const [showOTP, setShowOTP] = useState(true);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+  const [paymentMethodError, setPaymentMethodError] = useState('');
+
+  const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedPaymentMethod(event.target.value);
+    setPaymentMethodError('');
+  };
+
+  const makePayment = async () => {
+    if (selectedPaymentMethod) {
+      // Payment method is selected, proceed with the payment
+      try {
+        const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/orders';
+        const data = {
+          redirect_url: 'http://localhost:3000/marketplace/cart',
+          payment_method: selectedPaymentMethod,
+        };
+
+        const response = await axios.post(apiUrl, data, {
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+        });
+
+        // Handle the error response
+        console.log('API Response:', response.data);
+      } catch (error) {
+        console.error('Error making payment:', error);
+      }
+    } else {
+      // No payment method selected, set an error message
+      setPaymentMethodError('Please select a payment method before making the payment.');
+    }
+  };
 
   if (modalOpen) {
     return (
       <>
         <div className=" fixed  inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-          <div className="bg-white-100 p-12 rounded-lg   w-[85%] md:w-[35%]">
+          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[50%] lg:w-[35%]">
             <svg
               onClick={closeModal}
               className="ml-auto"
@@ -65,44 +101,7 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
 
             <div className="relative w-full">
               <h3 className="mt-4 mb-2">Select payment method</h3>
-              <div className="flex items-center justify-between w-full border rounded-lg p-2 mb-4 border-[#E1E3E2]">
-                <label className="inline-flex items-center flex-grow">
-                  <input
-                    type="radio"
-                    className="form-radio h-4 w-4 text-[#1A1C1B] border-[#E1E3E2]"
-                    name="paymentMethod"
-                    value="paystack"
-                  />
-                  <span className="ml-2 text-[#1A1C1B]">Pay with USSD or BanK Transfer</span>
-                </label>
-                <Image src="/assets/bank.png" alt="bank" width={18} height={18} />
-              </div>
 
-              <div className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-2 mb-4">
-                <label className="inline-flex items-center flex-grow">
-                  <input
-                    type="radio"
-                    className="form-radio h-4 w-4 text-[#1A1C1B] border-[#E1E3E2]"
-                    name="paymentMethod"
-                    value="paystack"
-                  />
-                  <span className="ml-2 text-[#1A1C1B]">Pay with Card</span>
-                </label>
-                <Image src="/assets/visa.png" alt="visa" width={24} height={24} className="mr-2" />
-                <Image src="/assets/MasterCard.png" alt="mastercard" width={24} height={24} />
-              </div>
-              <div className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-2 mb-4">
-                <label className="inline-flex items-center flex-grow">
-                  <input
-                    type="radio"
-                    className="form-radio h-4 w-4 text-[#1A1C1B]"
-                    name="paymentMethod"
-                    value="paystack"
-                  />
-                  <span className="ml-2 text-[#1A1C1B]">Pay with strill</span>
-                </label>
-                <Image src="/assets/Skrill.png" alt="mastercard" width={24} height={24} />
-              </div>
               <div className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-2 mb-4">
                 <label className="inline-flex items-center flex-grow">
                   <input
@@ -110,6 +109,8 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
                     className="form-radio h-4 w-4 text-indigo-600 "
                     name="paymentMethod"
                     value="paystack"
+                    checked={selectedPaymentMethod === 'paystack'}
+                    onChange={handlePaymentMethodChange}
                   />
                   <span className="ml-2">Pay with Paystack </span>
                 </label>
@@ -121,26 +122,28 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
                     type="radio"
                     className="form-radio h-4 w-4 text-indigo-600 "
                     name="paymentMethod"
-                    value="paystack"
+                    value="flutterwave"
+                    checked={selectedPaymentMethod === 'flutterwave'}
+                    onChange={handlePaymentMethodChange}
                   />
                   <span className="ml-2">Pay with Flutterwave</span>
                 </label>
                 <Image src="/assets/futterwave.png" alt="mastercard" width={76} height={76} />
               </div>
+              {paymentMethodError && <div className="text-brand-red-primary mb-4">{paymentMethodError}</div>}
             </div>
 
             <button
-              onClick={onOpen}
+              onClick={makePayment}
               className=" py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
             >
-              Continue
+              Make Payment
             </button>
             <p className="text-center text-sm mt-4">
               This is an encrypted payment, your details are 100% secured and safe
             </p>
           </div>
         </div>
-        {showOTP ? <AllOTPModal isOpen={isOpen} onClose={onClose} /> : null}
       </>
     );
   }
