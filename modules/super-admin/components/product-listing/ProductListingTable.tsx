@@ -1,6 +1,4 @@
 'use client';
-// import { useState } from 'react';
-// import React, { FC, useState} from 'react';
 import React, { useState } from 'react';
 
 import { ArrowDown, More, Sort } from 'iconsax-react';
@@ -95,7 +93,8 @@ const ProductListingTable = () => {
   return (
     <div className="font-manropeL max-w-7xl mx-auto border-2 border-custom-color1 mt-4">
       {/* Heading */}
-      <div className=" border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
+      {/* container */}
+      <div className="border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
         {/* <div className="py-2">
           <h2 className="text-lg  text-gray-900  font-bold">Products Listing</h2>
           <p className="text-gray-500 text-base">List of all products and their details</p>
