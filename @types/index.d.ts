@@ -70,9 +70,11 @@ export interface CartProductCardProps {
 }
 
 export interface ProductCardProps {
-  image: string;
+  id: string;
+  currency: string;
+  image: string | null;
   productName: string;
-  productPrice: string;
+  productPrice: number;
   productOwner: string;
   productRating: number;
   showLimitedOffer?: boolean;
