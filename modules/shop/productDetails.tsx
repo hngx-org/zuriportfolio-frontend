@@ -17,6 +17,8 @@ import Layout from './component/productPage/Layout';
 import { useCart } from './component/CartContext';
 import { Products } from '../../@types';
 import { staticProducts } from './staticProducts';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -124,10 +126,10 @@ export default function ProductDetails() {
 
   const handleAddToCart = () => {
     addToCart(product);
-    setAddedToCart(true);
-    setTimeout(() => {
-      setAddedToCart(false);
-    }, 3000);
+    toast.success('Added to Cart', {
+      position: 'top-right',
+      autoClose: 3000,
+    });
   };
 
   const renderRatingStars = (rating: number) => {

@@ -6,8 +6,6 @@ import Header from '../shop/component/productPage/Header';
 import Footer from '../shop/component/productPage/Footer';
 import { Products } from '../../@types';
 import Pagination from '@ui/Pagination';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useCart } from './component/CartContext';
 
 //const fakeStoreApiUrl = 'https://fakestoreapi.com/products';
@@ -42,24 +40,11 @@ const ZuriLandingPage = () => {
       });
   }, []);
 
-  const filteredProducts = products.filter((product) => {
-    const nameMatch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const shopOwnerMatch = product.shopOwner && product.shopOwner.toLowerCase().includes(shopOwnerQuery.toLowerCase());
-    const categoryMatch = product.category && product.category.toLowerCase().includes(categoryQuery.toLowerCase());
-
-    return nameMatch && shopOwnerMatch && categoryMatch;
-  });
   const totalPageCount = Math.ceil(products.length / productsPerPage);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-
-  useEffect(() => {
-    const indexOfFirstProduct = (currentPage - 1) * productsPerPage;
-    const updatedCurrentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfFirstProduct + productsPerPage);
-    setCurrentProducts(updatedCurrentProducts);
-  }, [currentPage, productsPerPage, filteredProducts]);
 
   return (
     <div>
@@ -72,7 +57,6 @@ const ZuriLandingPage = () => {
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       />{' '}
-      <ToastContainer />
       <div className=" px-4 sm:px-6 md:px-3 py-5 container mx-auto">
         <div className="space-y-12 py-10">
           <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to TechVerse.</h1>
