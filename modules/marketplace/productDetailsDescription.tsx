@@ -8,20 +8,36 @@ import profileImg from '../../public/assets/images/profile-img.png';
 import Slider from './component/slider';
 import { useRouter } from 'next/router';
 import Button from '@ui/Button';
-import MainLayout from '../../components/Layout/MainLayout';
 import TabContainer from './component/Tabbed';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CategoryLayout from './component/layout/category-layout';
 import { ArrowRight } from 'iconsax-react';
+import axios from 'axios';
+import { ProductData } from '../../@types';
 
 export default function ProductDetailsDescription() {
   const [image, setImage] = useState(mainImage);
+  const [product, setProduct] = useState<ProductData | null>(null);
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}`;
+    // Fetch data using Axios
+    axios
+      .get<ProductData>(apiUrl)
+      .then((response) => {
+        setProduct(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [id]);
 
   const updateImage = (newImage: any) => {
     setImage(newImage);
   };
   const [showAll, setShowAll] = useState(false);
-  const router = useRouter();
   const specificationData = [
     'Adaptable with HTML5  and CSS3',
     'Comprehensive documentation and customer support',
@@ -59,17 +75,14 @@ export default function ProductDetailsDescription() {
 
           {/* Product Detail Data */}
           <div className="space-y-6 w-full">
-            <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] tracking-tighter">
-              Webinar and Course Slide <br className="hidden lg:block" />
-              Templates by Sarah Rino (Soft Copy)
+            <h1 className="sm:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] tracking-tighter">
+              {product?.name}
             </h1>
 
             <div>
               <p className="lg:hidden block sm:text-2xl text-sm sm:leading-8 leading-5 font-semibold">Description</p>
               <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
-                Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
-                experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
-                to enrich <b className="text-green-600 lg:hidden flex">Read More...</b>
+                {product?.description} <b className="text-green-600 hidden">Read More...</b>
               </p>
             </div>
 
@@ -94,9 +107,11 @@ export default function ProductDetailsDescription() {
                 Total Payment (Incl. taxes)
               </p>
               <p className="flex gap-x-4 items-center">
-                <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">$100.00</span>
+                <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
+                  ${product?.discount_price}
+                </span>
                 <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
-                  $120.00
+                  ${product?.price}
                 </span>
               </p>
             </div>
@@ -105,7 +120,7 @@ export default function ProductDetailsDescription() {
               <Button
                 intent={'primary'}
                 size={'lg'}
-                className="lg:px-12 md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg tracking-[0.08px]"
+                className="md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg tracking-[0.08px]"
               >
                 Add to cart
               </Button>
@@ -122,6 +137,7 @@ export default function ProductDetailsDescription() {
         </div>
 
         {/* Description, Specification, Reviews (Desktop View)  */}
+        {/* Pass all the data down to this component as props  */}
         <TabContainer />
 
         {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
