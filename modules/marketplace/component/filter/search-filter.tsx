@@ -10,7 +10,7 @@ import { manropeL } from '../../../../config/font';
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
   const {resetFilter, handleSearch, loading} = useSearchFilter()
   return (
-    <Fragment>
+    <div>
       {isOpen ? (
         <div className={`flex items-center justify-center absolute z-50  w-full top-0 min-h-screen bg-black bg-opacity-50 py-10 px-5 backdrop-blur-sm transition duration-300 ease-in-out ${manropeL.className}`}>
           <div className="bg-white-100 md:max-w-2xl w-full py-5 px-7 rounded-md shadow-sm transition delay-500 ease-in-out">
@@ -19,12 +19,12 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <CancelIcon onClick={toggle} />
             </section>
             <Fragment>
-              <FilterSection data={category} sectionTitle="Category" />
-              <FilterSection data={subCategory} sectionTitle="Sub Category" />
-              <FilterSection data={discount} sectionTitle="By Discount" />
-              <FilterSection data={keyword} sectionTitle="By Keywords" />
-              <FilterSection data={rating} sectionTitle="By Rating" />
-              <FilterSection data={price} children={<PriceRanges data={['$80', '$500']} />} sectionTitle="By Price" />
+              <FilterSection tag="category" data={category} sectionTitle="Category" />
+              <FilterSection tag="subCategory" data={subCategory} sectionTitle="Sub Category" />
+              <FilterSection tag="discount" data={discount} sectionTitle="By Discount" />
+              <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
+              <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
+              <FilterSection tag="price" data={price} children={<PriceRanges data={['$80', '$500']} />} sectionTitle="By Price" />
             </Fragment>
 
             <div className="flex items-center justify-center gap-4 mt-10 mb-4">
@@ -40,7 +40,7 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
           </div>
         </div>
       ) : null}
-    </Fragment>
+    </div>
   );
 };
 

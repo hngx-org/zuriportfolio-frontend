@@ -18,7 +18,7 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
             <Fragment>
               <FilterSection data={category} sectionTitle="Category" />
               <FilterSection data={subCategory} sectionTitle="Sub Category" />
-              <FilterSection data={discount} sectionTitle="By Discount" />
+     yarn         <FilterSection data={discount} sectionTitle="By Discount" />
               <FilterSection data={keyword} sectionTitle="By Keywords" />
               <FilterSection data={rating} sectionTitle="By Rating" />
               <FilterSection data={price} children={<PriceRanges data={['$80', '$500']} />} sectionTitle="By Price" />
