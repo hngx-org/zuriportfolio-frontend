@@ -123,7 +123,7 @@ export interface ModalProps {
   children?: React.ReactNode;
   closeOnOverlayClick?: boolean;
   title?: string;
-  size?: 'lg' | 'md' | 'sm' | 'xl';
+  size?: 'lg' | 'md' | 'sm' | 'xl' | 'xxl';
   isCloseIconPresent?: boolean;
   closeBtnClass?: string;
 }
