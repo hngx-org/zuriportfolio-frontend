@@ -17,7 +17,7 @@ import { ProductCardProps, ProductResult } from '../../@types';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
-  const [auth, setAuth] = useState(true);
+  const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
   const searchRef2 = useRef<HTMLDivElement | null>(null);

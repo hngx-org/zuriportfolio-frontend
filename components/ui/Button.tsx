@@ -36,7 +36,7 @@ export interface ButtonVariants
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {}
 
-interface ButtonProps extends ButtonVariants {
+export interface ButtonProps extends ButtonVariants {
   children: React.ReactNode;
   className?: React.ComponentProps<'div'>['className'];
   leftIcon?: React.ReactNode;
