@@ -6,7 +6,7 @@ const withoutAuth = <P extends {}>(WrappedComponent: React.ComponentType<P>) => 
   const Wrapper: React.FC<P> = (props) => {
     const router = useRouter();
     useEffect(() => {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('zpt');
       const isLoggedIn = isAuthenticated(token as string);
 
       if (isLoggedIn) {
