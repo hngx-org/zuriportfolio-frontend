@@ -84,8 +84,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [sections, setSections] = useState<Array<any>>(s);
   const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
 
-  const [openDelete, setOpenDelete] = useState<boolean>(false);
-
   //landing page
   const users = [
     `f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`,
