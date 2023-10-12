@@ -69,10 +69,8 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
           theme: 'light',
           type: 'success',
         });
-        console.log(res.data);
-
-        // setValues([]);
-        // onClose();
+        setValues([]);
+        onClose();
       })
       .catch((err) => {
         notify({
