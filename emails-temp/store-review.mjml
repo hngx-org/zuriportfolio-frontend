@@ -1,7 +1,7 @@
 <mjml>
   <mj-head>
-    <mj-preview>Account Blacklisted</mj-preview>
-    <mj-title>Account Blacklisted</mj-title>
+    <mj-preview>Store Review</mj-preview>
+    <mj-title>Store Review</mj-title>
     <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" />
     <mj-font name="Open Sans" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" />
     <mj-attributes>
@@ -78,54 +78,49 @@
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="h-lg" padding-bottom="16px">
-            Your account has been blacklisted
+            Notice of store review
           </mj-text>
         </mj-column>
 
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="16px">
-            We must regretfully inform you that your account with Zuriportfolio has been blacklisted due to suspicious activities and serious violations of our terms and guidelines.
+            This email is to formally notify you that your Zuriportfolio store <span class="bold">‘Road to marketing’</span> is currently undergoing a comprehensive review. This process is a standard procedure designed to assess and ensure the quality, compliance, and overall excellence of all stores within our platform.
           </mj-text>
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="16px">
-            As a consequence of this measure, your account will be restricted from accessing our platform, and any associated services or privileges will be revoked. This includes store creation and selling of products, as well as buying from other sellers
+            The review will encompass a thorough examination of the following critical aspects of your store:
           </mj-text>
-        </mj-column>
-        <mj-column width="100%">
-          <mj-text mj-class="p-1">
-            <div style="display:flex">
-              <span style="flex-shrink: 0;">Violation(s):</span>
-              <span class="bold">
-                <ul style="margin: 0; padding-left:30px;">
-                  <li>Product misrepresentation</li>
-                  <li>Intellectual property infringement</li>
-                </ul>
-              </span>
-            </div>
-          </mj-text>
-        </mj-column>
-        <mj-column width="100%">
-         <mj-spacer mj-class="sp-xl" />
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="16px">
-            We kindly request that you refrain from creating a new account or attempting to circumvent this blacklisting, as these actions are strictly prohibited.
+            <span class="bold">Product Listings:</span> This evaluation will focus on the accuracy, comprehensiveness, and appropriateness of your product descriptions, pricing, and imagery.
+          </mj-text>
+          <mj-text mj-class="p-1" padding-bottom="16px">
+            <span class="bold">Store Policies:</span> We will meticulously inspect your store's policies, including complying with brand guidelines, terms of use.
+          </mj-text>
+          <mj-text mj-class="p-1" padding-bottom="16px">
+            <span class="bold">User Experience:</span> The overall user experience, including user satisfaction, end-of-use, and user reviews
           </mj-text>
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1">
-            If you have any outstanding orders, pending refunds, or unresolved issues related to your account please contact our support team at <span style="color: #009254">support@zuriportolio.com.</span> for assistance in resolving them.
+            The review will be carried out over a period of 2 weeks.  
           </mj-text>
         </mj-column>
         <mj-column width="100%">
           <mj-button>
-            Contact support
+            Go to your store
           </mj-button>
         </mj-column>
         <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="16px">
+            We encourage you to continue managing and updating your store as usual during this period, as this review process will not affect your regular operations. Should any specific actions or additional information be required from you, we will promptly communicate with detailed guidance.
+          </mj-text>
+        </mj-column>
+        <mj-column width="100%">
           <mj-text mj-class="p-1">
-            If you believe this decision was made in error, please reach out to our support team  at <span style="color: #009254">support@zuriportolio.com.</span>
+            If you have any questions or issues, please contact support at <span style="color: #009254">support@zuriportolio.com.</span>
           </mj-text>
         </mj-column>
 
@@ -144,7 +139,6 @@
 
         <mj-column>
           <mj-spacer mj-class="sp-xl"/>
-          <mj-spacer mj-class="sp-xl"/>
         </mj-column>
       </mj-section>
       <mj-section>
@@ -155,7 +149,7 @@
           />
         </mj-column>
         <mj-column width="100%">
-          <mj-text align="center" mj-class="p-2" padding-top="8px"> 
+          <mj-text align="center" mj-class="p-2" padding-top="16px"> 
             Copyright &copy;2023 Zuriportfolio, All rights reserved.
           </mj-text>
         </mj-column>

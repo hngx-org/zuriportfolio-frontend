@@ -1,7 +1,7 @@
 <mjml>
   <mj-head>
-    <mj-preview>Account Suspended</mj-preview>
-    <mj-title>Account Suspended</mj-title>
+    <mj-preview>Purchase Confirmation</mj-preview>
+    <mj-title></mj-title>
     <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
     <mj-font name="Open Sans" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" />
     <mj-attributes>
@@ -71,33 +71,57 @@
           <mj-text mj-class="h-1" padding-bottom="20px"> Hi Dare </mj-text>
         </mj-column>
         <mj-column width="100%">
-          <mj-text mj-class="h-1" padding-bottom="20px" color="#009254"> Your account has been suspended </mj-text>
+          <mj-text mj-class="h-1" padding-bottom="20px" color="#009254"> Your account has been deleted </mj-text>
         </mj-column>
 
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="20px">
-            Your Zuriportfolio account has been temporarily suspended due to a violation of our guidelines, effective
-            immediately and lasting for 2 weeks.
+            We regret to inform you that, after your [prolonged ban or violating community guidelines], your account
+            with Zuriportfolio has been permanently deleted.
           </mj-text>
         </mj-column>
+
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="10px">
-            Violation: <span class="bold">Your account was found to violate our terms concerning financial abuse</span>
+            Your account, associated with <span class="bold">[Dare/dare@gmail.com]</span> and
+            <span class="bold">[Account ID, #456789]</span>, was suspended due to [prolonged ban or violating community
+            guidelines].
           </mj-text>
         </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="20px">
+            Your data has been removed from our system, and you will no longer have access to your account or any
+            associated services.
+          </mj-text>
+        </mj-column>
+
         <mj-column width="100%">
           <mj-spacer mj-class="sp-xl" />
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="20px">
-            If you believe this decision was made in error, please reach out to our support team at
-            <span style="color: #009254">support@zuriportolio.com.</span>
+            Despite our attempts to resolve the issues, we were unable to reinstate your account or bring it into
+            compliance with our guidelines within the given timeframe. This led to the regrettable decision to
+            permanently delete your account.
           </mj-text>
         </mj-column>
+
         <mj-column width="100%">
-          <mj-text mj-class="p-1">
-            During this suspension, you won't be able to access your account. Please refrain from creating a new
-            account, as it's against our policies
+          <mj-text mj-class="p-1" padding-bottom="20px">
+            Our regret at taking this decision is immense. We understand that this news may be disappointing, and we
+            appreciate your past involvement with Zuriportfolio
+          </mj-text>
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="20px">
+            If you believe this decision was made in error, please reach out to our support team at
+            <span style="color: #009254"
+              ><a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
+                >support@zuriportolio.com</a
+              ></span
+            >.
           </mj-text>
         </mj-column>
 
