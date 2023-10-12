@@ -1,4 +1,4 @@
-import { MutationFunction, useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { MutationFunction, useMutation, UseMutationOptions } from '@tanstack/react-query';
 
 /**
  * @typedef {Object} TData - shape of the data returned from endpoint

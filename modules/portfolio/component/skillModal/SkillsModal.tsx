@@ -58,16 +58,16 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
     }
     setInputValue(''); // Clear the input field after pushing the value
   };
-      
-  const  cancelBtnFn = () =>{
-    localStorage.removeItem('arrayTwo')
-    setArrayTwo([])
-  }
+
+  const cancelBtnFn = () => {
+    localStorage.removeItem('arrayTwo');
+    setArrayTwo([]);
+  };
 
   const saveBtn = () => {
-    handleCloseSkillModal()
-    console.log("me")
-  }
+    handleCloseSkillModal();
+    console.log('me');
+  };
 
   const setToLocalStorage = (trimmedValue: string) => {
     localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, trimmedValue]));
@@ -154,8 +154,11 @@ const SkillModal = ({ handleCloseSkillModal, isSkillModalOpen }: skillModalProps
             >
               Cancel
             </Button>
-            <Button className="border-2 p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
-            onClick={()=> {saveBtn()}}
+            <Button
+              className="border-2 p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
+              onClick={() => {
+                saveBtn();
+              }}
             >
               Save
             </Button>
