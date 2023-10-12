@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useContext } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -10,38 +10,117 @@ import AuthLayout from '../AuthLayout';
 import { Eye, EyeSlash } from 'iconsax-react';
 
 import InputError from '../InputError';
+import useInputError from '../../../../hooks/useInputError';
 import { loginUser } from '../../../../http';
-import { useForm, zodResolver } from '@mantine/form';
-import { z } from 'zod';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
+import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
+import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
+import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
+import { useRouter } from 'next/router';
+import AuthContext from '../../../../context/AuthContext';
+import isAuthenticated from '../../../../helpers/isAuthenticated';
 
 function LoginForm() {
+  const { handleUser } = useContext(AuthContext);
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
-  const loginFn = useAuthMutation(loginUser, { onSuccess: (data) => console.log(data) });
+  const { handleSubmit, inputErrors } = useInputError();
 
-  const schema = z.object({
-    email: z.string().email(),
-    password: z.string().min(1, { message: 'Password required' }),
-  });
+  const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
+    // onSuccess: async (res) => {
+    //    console.log("responseoutside", res);
+    //   if (res.statusCode === 200 && res.token) {
+    //     console.log('response', res);
+    //     router.push('/dashboard/orders');
+    //   }
 
-  const form = useForm({
-    validate: zodResolver(schema),
-    initialValues: {
-      email: '',
-      password: '',
+    //   // router.push('/dashboard/orders');
+    // },
+
+    onSuccess: async (res) => {
+      console.log('responseoutside', res);
+
+      if (res.statusCode === 200 && res.data.token) {
+        // Successful login
+        console.log('Login success:', res);
+        handleUser(res.data);
+        localStorage.setItem('zpt', res.token);
+        const value = isAuthenticated(res.token);
+        console.log(value);
+
+        router.push('/dashboard/orders');
+      } else if (res.statusCode === 400 && 'Please verify your email.') {
+        // Unverified user
+        console.error('Unverified user:');
+        // Handle unverified user logic (e.g., show a message to verify the email).
+      } else if (res.statusCode === 400 && 'Password or email is not correct') {
+        // Incorrect password
+        console.error('Incorrect password:');
+        // Handle incorrect password logic (e.g., show a password error message).
+      } else if (res.statusCode === 400 && 'User not found') {
+        // User not found
+        console.error('User not found:');
+        // Handle user not found logic (e.g., show an error message).
+      } else {
+        // Handle other error cases
+        console.error('sign up');
+        router.push('/access-denied');
+      }
+    },
+    onError: (e) => {
+      console.error({ e });
+      router.push('/access-denied');
     },
   });
 
-  const handleLogin = (values: any) => {
-    console.log('email', values.email);
-    console.log('password', values.password);
+  //  const { mutate: loginUserMutation, isLoading } = useMutation(loginUser, {
+  //   onSuccess: async res => {
+  //     handleAuthState(res.data)
+  //     navigate('/dashboard')
+  //   },
+  //   onError: e => {
+  //     console.error({ e })
+  //     toast.error('Incorrect login credentials')
+  //   },
+  // })
+
+  // const handleSubmit = (values: any) => {
+  //   loginUserMutation(values)
+  // }
+
+  // const loginFn = useAuthMutation(loginUser, {
+  //   onSuccess: (data) => {
+  //     if (data === 'User not found ') {
+
+  //       // router.push('/access-denied');
+  //     }else {
+  //            router.push('/dashboard/orders');
+  //     }
+  //     // console.log(data);
+
+  //   },
+  //   // onError: (err: any) => {
+  //   // //  router.push('/access-denied');
+  //   // },
+  // });
+
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('heloooooooooo');
+
+    if (email.length !== 0 && password.length !== 0) {
+      loginUserMutation({ email: email, password: password });
+    }
+    // To clear the input filed after submission
+    setEmail('');
+    setPassword('');
   };
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
-      <div className="md:mx-auto h-[90%]  font-manropeL">
+      <div className="md:mx-auto lg:mb-10 font-manropeL">
         <div className="md:flex sm:flex flex-col items-center justify-center lg:items-start">
           <p className=" md:text-4xl text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
           <p className="text-custom-color30  mt-[1rem] md:text-[1.375rem]  lg:font-semibold sm:tracking-[0.00375rem] text-center md:text-left">
@@ -50,7 +129,7 @@ function LoginForm() {
         </div>
 
         <div className="pt-[2.25rem]">
-          <form onSubmit={form.onSubmit((values) => handleLogin(values))}>
+          <form onSubmit={handleLogin}>
             <div>
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
@@ -58,13 +137,14 @@ function LoginForm() {
               <Input
                 placeHolder="Allusugar@gmail.com"
                 id="email"
-                {...form.getInputProps('email')}
-                className={`w-full ${
-                  form.errors.email ? 'border-[red]' : 'border-slate-50'
-                } mt-[0.5rem] py-[0.84rem] bg-transparent`}
+                name="email"
+                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
                 type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <p className="text-[red] text-xs pt-1">{form.errors.email && form.errors.email}</p>
+              <InputError inputError={inputErrors} inputName="email" />
             </div>
             <div className="mt-[1rem]">
               <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
@@ -73,10 +153,8 @@ function LoginForm() {
               <Input
                 placeHolder="Gbemi345"
                 id="password"
-                {...form.getInputProps('password')}
-                className={`w-full ${
-                  form.errors.password ? 'border-[red]' : 'border-slate-50'
-                } mt-[0.5rem] py-[0.84rem] bg-transparent`}
+                name="password"
+                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
                 type={isPasswordShown ? 'text' : 'password'}
                 rightIcon={
                   isPasswordShown ? (
@@ -85,8 +163,11 @@ function LoginForm() {
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
                   )
                 }
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
-              <p className="text-[red] text-xs pt-1">{form.errors.password && form.errors.password}</p>
+              <InputError inputError={inputErrors} inputName="password" />
             </div>
 
             <Link href="/auth/forgot-password">
@@ -96,7 +177,8 @@ function LoginForm() {
             </Link>
 
             <Button
-              isLoading={loginFn.isLoading}
+              // href="/auth/2fa"
+              isLoading={isLoginUserMutationLoading}
               intent={'primary'}
               type="submit"
               size={'md'}
@@ -107,9 +189,9 @@ function LoginForm() {
           </form>
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-              Don&lsquo;t have an account?{' '}
-              <Link href="/auth/signup">
-                <span className="text-brand-green-primary">Sign Up</span>
+              Already have an account?{' '}
+              <Link href="/auth/login">
+                <span className="text-brand-green-primary">Sign in</span>
               </Link>
             </p>
           </div>
@@ -120,27 +202,9 @@ function LoginForm() {
             <div className="w-1/2 h-[0.0625rem] bg-white-650 "></div>
           </div>
           <div className="mt-[1.6rem] flex flex-col gap-[1rem] relative">
-            <Button
-              intent={'secondary'}
-              className="flex justify-center items-center gap-2.5 pr-[3rem] py-2  text-custom-color20  w-full h-14 rounded-[0.3125rem] border border-custom-color21"
-              leftIcon={<Image src={google} alt="Google" className="mr-[0.62rem]" />}
-            >
-              Contunue with Google
-            </Button>
-            <Button
-              intent={'secondary'}
-              className="flex justify-center items-center gap-2.5 pr-[3.625rem]  py-2 pl-6 text-custom-color20  w-full h-14 rounded-[0.3125rem] border  border-custom-color21"
-              leftIcon={<Image src={github} alt="Google" className="mr-[0.62rem]" />}
-            >
-              Continue with Github
-            </Button>
-            <Button
-              intent={'secondary'}
-              className="flex justify-center items-center gap-2.5 pr-[2.625rem]  py-2 pl-6 text-custom-color20  w-full h-14 rounded-[0.3125rem] border  border-custom-color21"
-              leftIcon={<Image src={facebook} alt="Google" className="mr-[0.62rem]" />}
-            >
-              Continue with Facebook
-            </Button>
+            <SignUpWithGoogle />
+            <SignUpWithGithub />
+            <SignUpWithFacebook />
           </div>
         </div>
       </div>

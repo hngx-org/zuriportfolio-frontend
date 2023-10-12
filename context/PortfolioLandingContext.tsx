@@ -4,6 +4,8 @@ import { editModals } from '@modules/portfolio/component/landing/data';
 import useDisclosure from '../hooks/useDisclosure';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import EducationSection from '@modules/portfolio/component/education-modal';
+import LanguageModal from '../components/Modals/language-modal';
+import InterestModal from '../components/Modals/interest-modal';
 
 type PortfolioContext = {
   hasData: boolean;
@@ -154,6 +156,14 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'education',
       modal: <EducationSection isOpen={modalStates['education']} onClose={() => onCloseModal('education')} />,
+    },
+    {
+      id: 'language',
+      modal: <LanguageModal isOpen={modalStates['language']} onClose={() => onCloseModal('language')} />,
+    },
+    {
+      id: 'interests',
+      modal: <InterestModal isOpen={modalStates['interests']} onClose={() => onCloseModal('interests')} />,
     },
   ];
 
