@@ -81,7 +81,7 @@ const InterestModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
       })
       .catch((err) => {
         notify({
-          message: 'Interests created successfully',
+          message: 'Error occurred',
           position: 'top-center',
           theme: 'light',
           type: 'error',
