@@ -12,25 +12,50 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { signUpUserWithEmail } from '../../http';
 import { useRouter } from 'next/router';
 
-
 function SignUpWithEmail() {
   const router = useRouter();
   const onSignUpWithEmailSuccess = (data: any) => {
     console.log(data);
-    if(data.message === 'Email does not exist.') {
-      router.push('/auth/signup');
+    if (data.message !== 'Email does not exist.') {
+      /**
+       * Display an error message to the user when they try to sign up with an email that already exists.
+       * @type {string}
+       */
+      const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
+      // TODO: display the error message to the user
+
+      return;
     }
 
-    if(data.message === 'Email exists but is not verified.') {
-      router.push('/auth/verification')
+    // user does not exists, continue to signup page
+    router.push('/auth/signup');
+  };
+  
+  const onSignUpWithEmailError = (error: any) => {
+    console.error('onError', error.message);
+    if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
+      console.log('Message here');
+      /**
+       * Display an error message to the user when there's a timeout error and the API call did not go through.
+       * @type {string}
+       */
+      const timeoutErrorMessage =
+        'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+      // TODO: display the error message to the user
     }
 
-    if(data.message === 'Email exists and is verified.') {
-      router.push('dashboard');
-    }
-  }
+    /**
+     * Display an error message to the user when there's internal server error and the API call did not go through.
+     * @type {string}
+     */
+    const serverErrorMessage = 'Oops! Something went wrong. Please try again later.';
+    // TODO: display the error message to the user
+  };
 
-  const signUpUser = useAuthMutation(signUpUserWithEmail, {onSuccess: (data) => onSignUpWithEmailSuccess(data), onError: (error) => console.error(error)});
+  const { mutate: signUpUser, isLoading: isUserSigningUp } = useAuthMutation(signUpUserWithEmail, {
+    onSuccess: (data) => onSignUpWithEmailSuccess(data),
+    onError: (error: any) => onSignUpWithEmailError(error),
+  });
 
   const schema = z.object({
     email: z.string().email(),
@@ -45,7 +70,7 @@ function SignUpWithEmail() {
 
   const handleSignUpWithEmail = (values: any) => {
     console.log('email', values.email);
-    signUpUser.mutate({email: values.email});
+    signUpUser({ email: values.email });
   };
 
   return (
@@ -71,10 +96,15 @@ function SignUpWithEmail() {
             />
             <p className="text-[red] text-xs">{form.errors.email && form.errors.email}</p>
           </div>
-          <Button isLoading={signUpUser.isLoading} intent={'primary'} size={'md'} className="w-full rounded-lg" type="submit">
+          <Button
+            isLoading={isUserSigningUp}
+            intent={'primary'}
+            size={'md'}
+            className="w-full rounded-lg"
+            type="submit"
+          >
             Continue
           </Button>
-          {/* </Link> */}
         </form>
 
         <div className="mt-8">

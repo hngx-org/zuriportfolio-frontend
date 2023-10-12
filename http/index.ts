@@ -35,12 +35,13 @@ export const loginUser = async (props: { email: string; password: string }) => {
 
 export const signUpUserWithEmail = async (props: { email: string }) => {
   try {
-    const res = await $http.post('https://hngx-authentication-service-api.onrender.com/api/auth/check-email', props);
+    const res = await $http.post('https://auth.akuya.tech/api/auth/check-email', props);
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {
     console.log(e);
-    return e.response.data ?? { message: e.message };
+    throw new Error(e);
+    // return e.response.data ?? { message: e.message };
   }
 };
 
