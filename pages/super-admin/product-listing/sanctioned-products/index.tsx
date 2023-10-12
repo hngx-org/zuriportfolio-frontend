@@ -25,7 +25,6 @@ const SanctionedProducts = () => {
   };
   const route = useRouter();
 
-
   return (
     <>
       <SuperAdminNavbar />
@@ -72,8 +71,10 @@ const SanctionedProducts = () => {
           <tbody>
             {/* Listed Products */}
             {sanctionedProducts.map((product, index) => (
-              <tr className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4" key={index} 
-              onClick={() => route.push(`/super-admin/product-listing/sanctioned-products/${product.id}`)}
+              <tr
+                className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
+                key={index}
+                onClick={() => route.push(`/super-admin/product-listing/sanctioned-products/${product.id}`)}
               >
                 <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 items-center gap-6 self-stretch flex">
                   <input type="checkbox" />
@@ -111,7 +112,7 @@ const SanctionedProducts = () => {
           </tbody>
         </table>
       </div>
-      <div className='mb-5'>
+      <div className="mb-5">
         <Pagination />
       </div>
     </>
