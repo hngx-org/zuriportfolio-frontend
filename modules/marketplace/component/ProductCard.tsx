@@ -13,8 +13,18 @@ export default function ProductCard({
   showTopPicks,
   showDiscount,
   discount,
+  id,
+  currency,
 }: ProductCardProps) {
   const productNameTrimmed = productName?.slice(0, 30);
+
+  const formatPrice = (price: number) => {
+    if (typeof price === 'number') {
+      return price.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    }
+
+    return price;
+  };
 
   const stars: starProps = {
     1: { src: '/assets/images/stars/1StarRating.png', alt: '1 Star' },
@@ -28,7 +38,7 @@ export default function ProductCard({
 
   return (
     <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[286px] max-w-full">
-      <Link href="">
+      <Link href={`/marketplace/product-details?id=${id}`}>
         <div className="flex flex-col items-start">
           {/* Product Image */}
           <div>
@@ -47,7 +57,18 @@ export default function ProductCard({
                 </div>
               ) : null}
             </div>
-            <Image src={image} alt="Landscape picture" width={254} height={209} className="rounded-[8px]" />
+
+            {image ? (
+              <Image src={image} alt={productName} width={254} height={209} className="rounded-[8px]" />
+            ) : (
+              <Image
+                src="/public/assets/dummyImage.jpg"
+                alt="dummy image"
+                width={254}
+                height={209}
+                className="rounded-[8px]"
+              />
+            )}
           </div>
           {/* Product Name */}
           <p className="font-manropeL text-brand-green-shade10 text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
@@ -55,7 +76,7 @@ export default function ProductCard({
           </p>
           {/* Product Price */}
           <h1 className="font-manropeL text-brand-green-shade10 text-[18px] font-bold leading-[20px] letter pt-[2px] pb-[8px]">
-            {`$${productPrice}`}
+            {currency === 'USD' ? `$${formatPrice(productPrice)}` : `$${formatPrice(productPrice)}`}
           </h1>
           {/* Product Owner */}
           <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">

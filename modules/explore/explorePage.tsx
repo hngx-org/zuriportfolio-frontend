@@ -1,29 +1,36 @@
+// pages/index.tsx
 import { CardData } from '../../@types';
 import Card from './components/Card';
-import photoImage1 from '../../public/photo1.svg';
-import bg1 from '../../public/bg1.svg';
-import bg2 from '../../public/bg2.png';
-import bg3 from '../../public/bg3.png';
-import bg4 from '../../public/bg4.png';
-import bg5 from '../../public/bg5.png';
-import bg6 from '../../public/bg6.png';
-import bg7 from '../../public/bg7.png';
-import bg8 from '../../public/bg8.png';
-import bg9 from '../../public/bg9.png';
-import bg10 from '../../public/bg10.png';
-import bg11 from '../../public/bg11.png';
-import bg12 from '../../public/bg12.png';
-import photo2 from '../../public/photo2.png';
-import photo3 from '../../public/photo3.png';
-import photo4 from '../../public/photo4.png';
-import photo5 from '../../public/photo5.png';
-import photo6 from '../../public/photo6.png';
-import photo7 from '../../public/photo7.png';
-import photo8 from '../../public/photo8.png';
-import photo9 from '../../public/photo9.png';
-import photo10 from '../../public/photo10.png';
-import photo11 from '../../public/photo11.png';
-import photo12 from '../../public/photo12.png';
+import photoImage1 from '../../public/assets/images/explore_img/photo1.svg';
+import bg1 from '../../public/assets/images/explore_img/bg1.svg';
+import bg2 from '../../public/assets/images/explore_img/bg2.png';
+import bg3 from '../../public/assets/images/explore_img/bg3.png';
+import bg4 from '../../public/assets/images/explore_img/bg4.png';
+import bg5 from '../../public/assets/images/explore_img/bg5.png';
+import bg6 from '../../public/assets/images/explore_img/bg6.png';
+import bg7 from '../../public/assets/images/explore_img/bg7.png';
+import bg8 from '../../public/assets/images/explore_img/bg8.png';
+import bg9 from '../../public/assets/images/explore_img/bg9.png';
+import bg10 from '../../public/assets/images/explore_img/bg10.png';
+import bg11 from '../../public/assets/images/explore_img/bg11.png';
+import bg12 from '../../public/assets/images/explore_img/bg12.png';
+import photo2 from '../../public/assets/images/explore_img/photo2.png';
+import photo3 from '../../public/assets/images/explore_img/photo3.png';
+import photo4 from '../../public/assets/images/explore_img/photo4.png';
+import photo5 from '../../public/assets/images/explore_img/photo5.png';
+import photo6 from '../../public/assets/images/explore_img/photo6.png';
+import photo7 from '../../public/assets/images/explore_img/photo7.png';
+import photo8 from '../../public/assets/images/explore_img/photo8.png';
+import photo9 from '../../public/assets/images/explore_img/photo9.png';
+import photo10 from '../../public/assets/images/explore_img/photo10.png';
+import photo11 from '../../public/assets/images/explore_img/photo11.png';
+import photo12 from '../../public/assets/images/explore_img/photo12.png';
+import SearchAndFilter from './SearchAndFilter';
+import axios from 'axios';
+import useDebounce from './hooks/deBounce';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { UserInfo } from '../../@types/exploreTyples';
 
 // Interface
 
@@ -172,19 +179,53 @@ const cardData: CardData[] = [
   },
 ];
 
-const HomePage: React.FC = () => {
-  const customStyles = {
-    maxWidth: '1240px',
-  };
+const HomePage = () => {
+  // States
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters1, setFilters1] = useState('ddd');
+  const [filters2, setFilters2] = useState('ddd');
+  const deBounce = useDebounce(searchQuery, 1200);
+
+  // Data fetching
+  const { data, isLoading } = useQuery<UserInfo[]>({
+    queryKey: ['profile', deBounce, filters1, filters2],
+    queryFn: () => fetchUsers(searchQuery),
+  });
+
+  console.log(data);
+
   return (
-    <div style={customStyles} className="container  m-auto w-1240px">
-      <div className="sm:grid  sm:grid-cols-2 h-full sm:gap-6 lg:grid-cols-3 sm:mx-3 sm:px-0 2xl:grid-cols-4 gap-12 lg:gap-6 m-auto justify-between  ">
-        {cardData.map((card) => (
-          <Card key={card.id} data={card} />
-        ))}
+    <>
+      <SearchAndFilter setSearchQuery={setSearchQuery} />
+      {isLoading && (
+        <div className="grid place-items-center min-h-[300px]">
+          <p>Loading...</p>{' '}
+        </div>
+      )}
+      <div className="m-auto p-6">
+        <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
+          {data?.map((card, key) => <Card key={key} data={card} />)}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export default HomePage;
+
+const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
+  searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
+  filterUrl = (query: string) =>
+    `${baseUrl}/explore/filter?SortBy=1&Location=nigeria&Country=lagos&Provider=ee&Skill=ee&Track=ee&Ranking=ee&RoleId=1&Tag=a&PageSize=12&PageNumber=1`,
+  allUsers = `${baseUrl}/explore/GetAllPortfolio?page=1&itemsPerPage=12`;
+
+async function fetchUsers(query?: string, filters?: string, filter2?: string) {
+  let url = allUsers;
+  if (query) {
+    url = searchUrl(query);
+  } else if (filters) {
+    url = filterUrl(filters);
+  }
+  const { data } = await axios.get(url);
+  return data;
+}

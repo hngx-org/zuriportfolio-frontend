@@ -10,35 +10,58 @@ export interface CategoriesProps {
 
 const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps) => {
   const [popupClass, setPopupClass] = useState(false);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+
+  const getPostion = async (e: any) => {
+    const el = e.target;
+
+    const rect = el.getBoundingClientRect();
+
+    setPosition({ top: rect.top, left: rect.left });
+
+    setPopupClass(true);
+  };
+
+  const returnPos = () => {
+    setPopupClass(false);
+  };
+
+  const isWishlist = category === 'Wishlist';
 
   return (
-    <button
-      onClick={() => handleActiveNav(index)}
-      className={`${active === index ? 'text-brand-green-shade50' : 'text-brand-green-shade10'}`}
-      onMouseOver={() => setPopupClass(true)}
-      onMouseLeave={() => setPopupClass(false)}
-    >
-      <Link href="/marketplace/categories">{category}</Link>
-
+    <div onMouseOver={getPostion} onMouseLeave={returnPos}>
       <div
-        className={`border-[2px]  border-slate-50 flex flex-col gap-3 ${
-          popupClass ? 'visible opacity-100' : 'invisible opacity-0'
-        }  rounded-lg absolute translate-y-4 -translate-x-1/4 transition-all duration-500 w-[286px] bg-white-100`}
+        onClick={() => handleActiveNav(index)}
+        className={`${active === index ? 'text-brand-green-shade50' : 'text-brand-green-shade10'} z-10 relative`}
       >
-        {['Graphics Design Templates', 'Illustrations', 'Logos', 'Branding Assets', 'Ui/Ux Design Elements'].map(
-          (item, i) => (
-            <Link
-              onClick={() => handleActiveNav(index)}
-              className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
-              key={i + 1}
-              href="/marketplace/specific-sub-category"
-            >
-              {item}
-            </Link>
-          ),
-        )}
+        <Link href={isWishlist ? 'marketplace/wishlist' : `/marketplace/categories/${category}`}>{category}</Link>
       </div>
-    </button>
+      {!isWishlist && (
+        <div
+          className={`py-3 flex-col gap-3 ${
+            popupClass ? `flex opacity-100` : 'hidden opacity-0'
+          } rounded-lg absolute -translate-y-2 transition-all duration-500 w-[286px] bg-white-100 z-50 shadow-lg`}
+          style={{
+            left: `${position.left}px`,
+          }}
+          onMouseOver={() => setPopupClass(true)}
+          onMouseLeave={() => setPopupClass(false)}
+        >
+          {['Graphics Design Templates', 'Illustrations', 'Logos', 'Branding Assets', 'Ui/Ux Design Elements'].map(
+            (item, i) => (
+              <Link
+                onClick={() => handleActiveNav(index)}
+                className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
+                key={i + 1}
+                href={`/marketplace/categories/${category}/${item}`}
+              >
+                {item}
+              </Link>
+            ),
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 
