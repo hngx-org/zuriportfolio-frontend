@@ -10,13 +10,11 @@ interface LayoutProps extends React.ComponentPropsWithRef<'section'> {
 const CategoryLayout = ({ children, ...props }: LayoutProps) => {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="max-w-[1240px] mx-auto pt-5 px-5 md:px-0">
-        <CategoriesNav navItems={categoryMenus} />
-        <div className="my-4 md:my-6 lg:my-8">
-          <Breadcrumbs />
-        </div>
-        <section {...props}>{children}</section>
+      <CategoriesNav navItems={categoryMenus} />
+      <div className="max-w-[1240px] mx-auto  my-4 md:my-6 lg:my-8">
+        <Breadcrumbs />
       </div>
+      <section {...props}>{children}</section>
     </MainLayout>
   );
 };

@@ -14,7 +14,7 @@ const AnalyticsAndReport: React.FC = () => {
     const delay = setTimeout(() => {
       setLoading(false);
       clearTimeout(delay);
-    }, 3000);
+    }, 2000);
   }, []);
   return (
     <>
@@ -26,8 +26,8 @@ const AnalyticsAndReport: React.FC = () => {
           <ReportRedirect />
           <AnalysisCards />
           <BusinessOveriview />
-          <PerformanceData />
           <PortfolioCreation />
+          <PerformanceData />
           <TopSellingProducts />
         </>
       )}
