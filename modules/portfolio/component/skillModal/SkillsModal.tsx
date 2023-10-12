@@ -2,7 +2,7 @@ import { Item } from '@radix-ui/react-select';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
-import { useEffect, useState, MouseEvent} from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
 import { number } from 'zod';
@@ -10,7 +10,7 @@ import { number } from 'zod';
 type skillModalProps = {
   onClose: () => void;
   isOpen: boolean;
-  userId: string
+  userId: string;
 };
 
 type PostSkillResponse = {
@@ -19,11 +19,11 @@ type PostSkillResponse = {
 };
 
 type skillListRes = {
-  skillId : number,
-  skill: string
-}
+  skillId: number;
+  skill: string;
+};
 
-const SkillModal = ({ onClose, isOpen, userId}: skillModalProps) => {
+const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<string>>([
     'Version Control',
@@ -42,21 +42,20 @@ const SkillModal = ({ onClose, isOpen, userId}: skillModalProps) => {
   const [response, setResponse] = useState([]);
   const [skillData, setSkillData] = useState<Array<skillListRes>>([]);
 
-
-const fetchSkillData = async () => {
-  try {
-    // Make a GET request to the API
-    const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
-    // const suggestionRes = await axios.get('https://piranha-assessment.onrender.com/api/admin/skills/');
-    const data = response.data.data;
-    // const skillList = data.map((item:skillListRes) => item.skill)
-    // Set the data in the state
-    setSkillData(data);
-  } catch (error) {
-    // Handle errors
-    console.error('Error fetching data:', error);
-  }
-};
+  const fetchSkillData = async () => {
+    try {
+      // Make a GET request to the API
+      const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
+      // const suggestionRes = await axios.get('https://piranha-assessment.onrender.com/api/admin/skills/');
+      const data = response.data.data;
+      // const skillList = data.map((item:skillListRes) => item.skill)
+      // Set the data in the state
+      setSkillData(data);
+    } catch (error) {
+      // Handle errors
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
     // Call the fetchData function
@@ -67,18 +66,18 @@ const fetchSkillData = async () => {
     setArrayOne(arrayOne.filter((el: string) => el !== item));
     setArrayTwo((prevArrayTwo) => [...prevArrayTwo, item]);
   };
-    const handleSetSkillData = (item: skillListRes) => {
-      setSkillData((prevArray) => [...prevArray, item]); // Use the callback
-    };
+  const handleSetSkillData = (item: skillListRes) => {
+    setSkillData((prevArray) => [...prevArray, item]); // Use the callback
+  };
 
   const handleMoveToOne = (item: string) => {
-    setArrayTwo((prevArrayTwo) => prevArrayTwo.filter((el) => el !== item));  
+    setArrayTwo((prevArrayTwo) => prevArrayTwo.filter((el) => el !== item));
     setArrayOne([...arrayOne, item]);
   };
 
-   const handleArrayOneSetSkill = (item: skillListRes) => {
-     setSkillData((prevArray) => prevArray.filter((el) => el !== item)); 
-   };
+  const handleArrayOneSetSkill = (item: skillListRes) => {
+    setSkillData((prevArray) => prevArray.filter((el) => el !== item));
+  };
 
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
@@ -117,21 +116,19 @@ const fetchSkillData = async () => {
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
-       console.log(response.data.data);
+      console.log(response.data.data);
       return response.data;
     } catch (error) {
       console.error('Error:', error);
       throw error; // You can handle the error further if needed
     }
-    
   }
 
-
-  async function deleteSkillsData(id:number){
+  async function deleteSkillsData(id: number) {
     try {
       const response = await axios.delete(`https://hng6-r5y3.onrender.com/api/delete-skills/${id}`);
-      if (response.data.successful){
-        fetchSkillData()
+      if (response.data.successful) {
+        fetchSkillData();
       }
       console.log(response.data.data);
       return response.data;
@@ -141,7 +138,7 @@ const fetchSkillData = async () => {
     }
   }
 
-console.log(skillData);
+  console.log(skillData);
 
   function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
     postSkillData();

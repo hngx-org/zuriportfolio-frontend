@@ -10,9 +10,9 @@ function Code2FALogic() {
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
   interface DecodedToken {
-  email: string;
-}
-   useEffect(() => {
+    email: string;
+  }
+  useEffect(() => {
     const token = localStorage.getItem('authToken');
 
     if (token !== null) {
@@ -29,7 +29,6 @@ function Code2FALogic() {
       console.log('Token is null.');
     }
   }, []);
-
 
   function handlePaste(e: React.ClipboardEvent<HTMLInputElement>, index: number) {
     e.preventDefault();
@@ -96,22 +95,22 @@ function Code2FALogic() {
   };
 
   const loginFn = useAuthMutation(verfiy2FA);
-  const handleSubmit = (event: ChangeEvent<HTMLInputElement>) : void => {
+  const handleSubmit = (event: ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
     const Token = localStorage.getItem('authToken');
-  if (Token !== null) {
-    const decodedToken = jwtDecode(Token) as DecodedToken; // Assuming you've defined DecodedToken
-    const email = decodedToken.email;
-    const token = digits.toString();
-    loginFn.mutate({ email, token });
-  } else {
-    console.log('Token is null. Unable to proceed.');
-  }
-  }
+    if (Token !== null) {
+      const decodedToken = jwtDecode(Token) as DecodedToken; // Assuming you've defined DecodedToken
+      const email = decodedToken.email;
+      const token = digits.toString();
+      loginFn.mutate({ email, token });
+    } else {
+      console.log('Token is null. Unable to proceed.');
+    }
+  };
 
-  const handleResend = (event: ChangeEvent<HTMLInputElement>) : void => {
+  const handleResend = (event: ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
-  }
+  };
   return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend };
 }
 
