@@ -11,6 +11,9 @@ import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUp
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { signUpUserWithEmail } from '../../http';
 import { useRouter } from 'next/router';
+import { notify } from '@ui/Toast';
+
+const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
 function SignUpWithEmail() {
   const [userEmail, setUserEmail] = useState('');
@@ -18,13 +21,8 @@ function SignUpWithEmail() {
   const onSignUpWithEmailSuccess = (data: any) => {
     console.log(data);
     if (data.message !== 'Email does not exist.') {
-      /**
-       * Display an error message to the user when they try to sign up with an email that already exists.
-       * @type {string}
-       */
       const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
-      // TOAST-TODO: display the error message to the user
-
+      notifyError(errorMessage);
       return;
     }
 
@@ -33,24 +31,15 @@ function SignUpWithEmail() {
   };
 
   const onSignUpWithEmailError = (error: any) => {
-    console.error('onError', error.message);
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
-      console.log('Message here');
-      /**
-       * Display an error message to the user when there's a timeout error and the API call did not go through.
-       * @type {string}
-       */
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-      // TOAST-TODO: display the error message to the user
+      notifyError(timeoutErrorMessage);
+      return;
     }
 
-    /**
-     * Display an error message to the user when there's internal server error and the API call did not go through.
-     * @type {string}
-     */
     const serverErrorMessage = 'Oops! Something went wrong. Please try again later.';
-    // TOAST-TODO: display the error message to the user
+    notifyError(serverErrorMessage);
   };
 
   const { mutate: signUpUser, isLoading: isUserSigningUp } = useAuthMutation(signUpUserWithEmail, {
