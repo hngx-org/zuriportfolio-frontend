@@ -5,124 +5,137 @@
       name="Manrope"
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
     />
-     <mj-attributes>
-  
-      <mj-text font-family="Manrope" font-size="16px" />
-    </mj-attributes>
     <mj-style>
-      .set-nposition{position:relative} .center-group { margin: 0 auto; } .set-position{position: absolute}
-      .set-width{width: 80%} .text-center { text-align: center; } .set-display{display: flex} .img-responsive
-      .text-primary { color: #33a467; } .text-secondary { color: #f4fbf6; } .text-white { color: #fff; }
-      .section-position { position: relative; top: 50%; transform: translateY(-25%); } .border-radius-top {
-      border-radius: 10px 10px 0 0; } .width{width: 100%} .center-text { text-align: center; } @media (max-width: 480px)
-      { .mobile-hidden { display: none !important; } .n-width { width: 100% !important; } } .new-width {width: 4rem; height: 4rem}
+      .border-radius-top { border-radius: 10px 10px 0 0; } @media (max-width: 480px) { .mobile-hidden { display: none
+      !important; } .n-width { width: 100% !important; } } .confetti-bg { position: relative; background-color: #f4fef6;
+      } .confetti-bg:before, .confetti-bg:after { content: ""; background-image:
+      url('https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png');
+      background-repeat: repeat-y; background-size: contain; position: absolute; top: 0; bottom: 0; width: 50%; }
+      .confetti-bg:before { left: 0; } .confetti-bg:after { right: 0; transform: scaleX(-1); }
     </mj-style>
+    <mj-preview>Buyer Notification</mj-preview>
+    <mj-attributes>
+      <mj-text font-weight="400" font-size="16px" color="#000000" line-height="24px" font-family="Manrope"></mj-text>
+    </mj-attributes>
+
+    <mj-style inline="inline">
+      .body-section { -webkit-box-shadow: 1px 4px 11px 0px rgba(0, 0, 0, 0.15); -moz-box-shadow: 1px 4px 11px 0px
+      rgba(0, 0, 0, 0.15); box-shadow: 1px 4px 11px 0px rgba(0, 0, 0, 0.15); ; } .border-radius-top {border-radius: 10px
+      10px 10px 10px}
+    </mj-style>
+    <mj-style inline="inline"> .text-link { color: #5e6ebf } </mj-style>
+    <mj-style inline="inline"> .footer-link { color: #888888 } </mj-style>
   </mj-head>
-  <mj-body background-color="#f4fbf6" width="1500px">
-    <mj-section background-color="#33a467" css-class="set-nposition">
-      <mj-column width="100%" padding="20px 0px 250px 0px">
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png" alt="Logo" width="337px" height="64px" />
+  <mj-body background-color="#f4fbf6" width="600px">
+    <mj-section full-width="full-width" background-color="#33a467" padding-bottom="0">
+      <mj-column width="100%">
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png"
+          alt=""
+          align="center"
+          width="300px"
+          padding-bottom="30px"
+        />
+      </mj-column>
+
+      <mj-column width="100%" css-class="border-radius-top confetti-bg" background-color="#f4fef6">
+        <mj-text
+          background-color="#f4fbf6"
+          align="center"
+          color="#33a467"
+          font-weight="900"
+          font-size="20px"
+          line-height="32px"
+          css-class="center-text  banner-text"
+          font-family="Century Gothic"
+        >
+          <p>PHP Test Completed</p>
+        </mj-text>
       </mj-column>
     </mj-section>
 
-    <mj-section
-      css-class="set-width section-position"
-      border-radius="10px"
-      background-color="#fff"
-      padding="0px 0 80px 0"
-    >
-      <mj-group background-color="#f4fef6" vertical-align="middle" width="100%" css-class="border-radius-top">
-
-        <mj-column css-class="mobile-hidden" vertical-align="middle"   width="20%">
-          <mj-image  width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
+    <mj-wrapper padding-top="0" padding-bottom="0" css-class="body-section">
+      <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px" css-class="border-radius-top">
+        <mj-column width="500px">
+          <mj-image
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/bro.png"
+            alt="bro"
+            width="160px"
+          />
         </mj-column>
 
-        <mj-column css-class="n-width" width="60%" vertical-align="middle">
-          <mj-text
-            background-color="#f4fbf6"
-            align="center"
-            font-size="18px"
-            color="#33a467"
-            font-weight="700"
-            line-height="32px"
-            css-class="center-text"
-          >
-            <p>Review PHP Test Results</p>
+        <mj-column width="100%">
+          <mj-text font-family="Century Gothic" color="#000" font-size="18px">
+            Hi <span style="font-weight: bold">{{$name}}</span>,
           </mj-text>
-        </mj-column>
-        <mj-column  width="20%" css-class="mobile-hidden"  vertical-align="middle">
-          <mj-image  width="120px" height="120px" padding="0" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/Confetti.png" />
-        </mj-column>
-
-      </mj-group>
-
-      <mj-column width="500px">
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/bro.png" alt="bro" width="160px" />
-      </mj-column>
-
-     
-
-
-
-
-      <mj-column width="100%">
-        <mj-text  font-size="18px" line-height="24px">
-          <p>Hi <span style="font-weight: bold">Mark</span>,</p>
-          <p>
+          <mj-text font-family="Century Gothic" color="#000" font-size="18px">
             Congratulations on completing your internal assessment for
-            <span style="font-weight: bold">PHP Basics Test!</span>
-          </p>
-
-          <p>
+            <span style="font-weight: bold">{{$service}}</span>
+          </mj-text>
+          <mj-text font-family="Century Gothic" color="#000" font-size="18px">
             Your results will be available shortly. You can access your results by logging in to your account, click on
             the button below to login.
-          </p>
-        </mj-text>
-      </mj-column>
+          </mj-text>
 
-      <mj-column width="100%">
-        <mj-button
-          href="https://zuriportfolio.com/login"
-          border-radius="10px"
-          background-color="#33a467"
-          height="30px"
-          width="160px"
-          font-size="16px"
-          >Login</mj-button
-        >
-      </mj-column>
+          <mj-button
+            href="https://zuriportfolio.com/login"
+            border-radius="10px"
+            background-color="#33a467"
+            height="30px"
+            width="160px"
+            font-size="16px"
+            >Login</mj-button
+          >
 
-      <mj-column width="100%">
-        <mj-text  font-size="18px" line-height="24px">
-          <p>
+          <mj-text font-family="Century Gothic" color="#000" font-size="18px" padding-bottom="30px">
             If you have any questions about your results, please contact our support group at
             <a href="mailto:zurisupport@gmail.com" style="font-weight: bold; color: #000">zurisupport@gmail.com</a>
-          </p>
+          </mj-text>
+        </mj-column>
+      </mj-section>
 
-          <p>Thank you for your hard work!</p>
-          <p style="line-height: normal">
-            Sincerely,<span style="display: block; color: #d7a068"> Zuriportfolio </span>
-          </p>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    </mj-section>
+      <mj-section background-color="#ffffff" padding="0 15px 0 15px">
+        <mj-column width="100%">
+          <mj-text font-family="Century Gothic" color="#212b35" font-size="18px" padding-bottom="0">
+            Thank you for your hard work!
+          </mj-text>
+          <mj-text font-family="Century Gothic" color="#000" font-size="18px">
+            Sincerely,<span style="display: block; color: #d7a068; font-weight: bold"> Zuriportfolio </span>
+          </mj-text>
+        </mj-column>
+      </mj-section>
 
-    <mj-section background-color="#33a467">
+      <mj-section background-color="#ffffff"> </mj-section>
+    </mj-wrapper>
+
+    <mj-wrapper> </mj-wrapper>
+    <mj-wrapper> </mj-wrapper>
+    <mj-wrapper> </mj-wrapper>
+
+    <mj-section full-width="full-width" background-color="#33a467">
       <mj-column width="600px">
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png" alt="Logo" width="150px" height="32px" />
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png"
+          alt="Logo"
+          width="150px"
+          height="32px"
+        />
       </mj-column>
 
       <mj-column width="100%">
         <mj-social font-size="24px" align="center">
-          <mj-social-element name="instagram" href="#" />
-          <mj-social-element name="facebook" href="#"></mj-social-element>
-          <mj-social-element name="twitter" href="#" />
-          <mj-social-element name="linkedin" href="#" />
+          <mj-social-element name="instagram" href="https://www.instagram.com/hnginternship/" />
+          <mj-social-element name="facebook" href="https://facebook.com/Hnginternship/" />
+          <mj-social-element name="twitter" href="https://twitter.com/hnginternship" />
+          <mj-social-element name="linkedin" href="https://www.linkedin.com/company/hng-internship/" />
         </mj-social>
 
-        <mj-text align="center" color="#fff">Beaverto, Oregon, Washington County, USA</mj-text>
-        <mj-text align="center" color="#fff">Copyright © 2023 Zuriportfolio, All rights reserved.</mj-text>
+        <mj-text align="center" font-size="14px" padding-bottom="0px" color="#fff"
+          >Beaverto, Oregon, Washington County, USA</mj-text
+        >
+        <mj-text align="center" font-size="14px" color="#fff"
+          >Copyright © 2023 Zuriportfolio, All rights reserved.</mj-text
+        >
         <mj-text align="center" color="#fff"><a href="#">Unsubscribe</a></mj-text>
       </mj-column>
     </mj-section>

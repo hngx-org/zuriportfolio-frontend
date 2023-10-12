@@ -1,0 +1,84 @@
+<mjml>
+  <mj-body background-color="#f0ece6">
+    <mj-section background-repeat="repeat" padding="20px 0" text-align="center">
+      <mj-column>
+        <mj-image
+          align="center"
+          padding="10px 25px"
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/green-logo.png"
+          width="373px"
+        ></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#ffffff" background-repeat="repeat" padding="20px 20px" text-align="center">
+      <mj-column>
+        <mj-text
+          padding="40px 20px 20px 20px"
+          color="#000"
+          font-size="26px"
+          font-weight="bold"
+          font-family="Century Gothic"
+        >
+          Hi {{$name}},
+        </mj-text>
+
+        <mj-text font-family="Century Gothic" font-weight="bold" color="#009254" font-size="20px">
+          Your shop has been closed
+        </mj-text>
+
+        <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
+          Unfortunately, we have made the challenging decision to close your store
+          <span style="font-weight: bold"> {{$store_name}} </span>
+          on Zuriportfolio after a comprehensive review and remove it from our platform.
+        </mj-text>
+
+        <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
+          This decision is a result of several serious violations of our terms of service and community guidelines which
+          you were sanctioned or prior to this decision being taken.
+        </mj-text>
+
+        <mj-text padding-top="30px" font-weight="400" color="#000" font-size="18px" font-family="Century Gothic">
+          Attempting to create a new shop or circumvent this closure is highly prohibited and will lead to a permanent
+          ban rom our platform.
+        </mj-text>
+
+        <mj-text font-family="Century Gothic" font-weight="400" color="#000" font-size="18px">
+          If you have any pending orders, refunds, or unresolved issues associated with your shop, please contact our
+          support team at
+          <a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
+            >support@zuriportolio.com</a
+          >
+          for assistance in resolving them.
+        </mj-text>
+
+        <mj-text font-family="Century Gothic" color="#000" padding-top="30px" font-size="18px">
+          Thank you for choosing Zuriportfolio!<span
+            padding-top="30px"
+            style="display: block; color: #d7a068; font-weight: bold; padding-top: 10px"
+          >
+            Zuri Team
+          </span>
+        </mj-text>
+
+        <mj-image
+          align="center"
+          padding="10px 25px"
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/green-logo.png"
+          width="120px"
+        ></mj-image>
+
+        <mj-text
+          align="center"
+          font-family="Arial, sans-serif"
+          font-size="13px"
+          line-height="22px"
+          padding="10px 25px"
+          color="#5B5F5E"
+          >Copyright (c) Zuriportfolio. All rights reserved</mj-text
+        >
+      </mj-column>
+    </mj-section>
+
+    <mj-section> </mj-section>
+  </mj-body>
+</mjml>

@@ -226,7 +226,7 @@ module.exports = {
 
       // Modal animation in shop cart
       animation: {
-        slideIn: 'slideIn 2s'
+        slideIn: 'slideIn 2s',
       },
 
       keyframes: {
@@ -235,11 +235,10 @@ module.exports = {
           '100%': { transform: 'translateY(0)' },
         },
       },
-     
     },
     container: {
       center: true,
-   }
+    },
   },
   plugins: [
     require('tailwind-scrollbar'),

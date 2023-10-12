@@ -1,106 +1,154 @@
 <mjml>
   <mj-head>
-    <mj-title>Purchase Confirmation</mj-title>
-    <mj-attributes>
-      <mj-class name="primary-color" color="#009254" />
-      <mj-class name="neutral-color" color="#1A1C1B" />
-      <mj-class name="secondary-color" background-color="#F0F1F0" />
-      <mj-class name="light" color="#fff" />
-      <mj-class name="dark" color="#000" />
-      <mj-class name="rounded" border-radius="0.63rem" />
-      <mj-text font-family="Manrope" font-size="16px" line-height="24px" letter-spacing="0.08px" />
-    </mj-attributes>
+    <mj-preview>Purchase Confirmation</mj-preview>
+    <mj-title></mj-title>
     <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
-    <mj-style>
-      h1, h2, h3, h4, h5, h6, p { margin: 0 } h1 { font-family: Manrope; font-size: 1.5rem; font-style: normal;
-      font-weight: 700; line-height: 2rem; text-align: center; } h2 { font-family: Manrope; font-size: 1rem; font-style:
-      normal; font-weight: 700; line-height: 1.5rem; letter-spacing: 0.005rem; } .header > table > tbody > tr > td,
-      .wrapper > table > tbody > tr > td { padding-block: 0 !important; } .mj-column-per-100 > table > tbody > tr > td {
-      padding-block-start: 0 !important; } @media screen and (min-width: 1024px){ h1 { text-align: left !important; }
-      .container { padding: 5.69rem !important; } .content { padding: 2rem !important; box-sizing: border-box; } .title
-      { flex-direction: row !important; justify-content: space-between; align-items: flex-end !important; } .title > div
-      { width: 150px; position: relative } .title > div > img { bottom: 0; position: absolute; width: 100%; }
-      .order-summary { gap: 1rem !important; } } @media screen and (min-width: 500px) { .order-summary { flex-direction:
-      row !important; } } .container { padding: 3rem 1.5rem !important; } .content { margin-block: 64px !important; }
-      .content * { color: #2E3130 !important; } .content h1 { color: #1A1C1B !important; } .order-summary { display:
-      flex; gap: .5rem; flex-direction: column; } .title { gap: .5rem; align-items: center; display: flex;
-      flex-direction: column; } .order-image { width: 150px; height: 150px; border-radius: 8px; overflow: hidden; }
-      .order-image img { width: 100%; height: 100%; object-fit: cover; } span.bold { font-weight: 700; }
+    <mj-font name="Open Sans" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" />
+    <mj-attributes>
+      /* background colors */
+      <mj-class name="bg-grey" background-color="#F0F1F0" />
+      <mj-class name="bg-white" background-color="#fff" border-radius="10.08px" padding="24px 0" />
+      <mj-class name="bg-green" background-color="#009254" border-radius="10.08px" padding="24px 0" />
+
+      /* Font styles */
+      <mj-class name="h-1" font-size="24px" line-height="32px" font-weight="700" color="#1A1C1B" css-class="h1" />
+      <mj-class
+        name="h-2"
+        font-size="16px"
+        line-height="24px"
+        letter-spacing="0.08px"
+        font-weight="700"
+        color="#2E3130"
+        css-class="h2"
+      />
+      <mj-class name="p-1" font-size="16px" line-height="24px" letter-spacing="0.08px" color="#2E3130" css-class="p1" />
+      <mj-class name="p-2" font-size="14px" line-height="20px" letter-spacing="0.03504px" color="#FFF" css-class="p3" />
+      <mj-class
+        name="p-3"
+        font-size="12px"
+        line-height="16px"
+        letter-spacing="0.048px"
+        font-weight="600"
+        color="#96D4AB"
+        css-class="p3"
+      />
+
+      /* Spacing */
+      <mj-class name="sp-lg" height="80px" />
+      <mj-class name="sp-xl" height="24px" />
+
+      /* MJML Attributes */
+      <mj-text font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" padding="0" />
+      <!-- <mj-button background-color="#006853" color="#FFFFFF" font-size="12px" line-height="15px" font-weight="bold" border-radius="45px" inner-padding="18px" padding="0"/> -->
+      <mj-image padding="0" />
+      <mj-divider border-color="#E1E3E2" width="100%" border-width="2px" padding="20px 0" />
+      <mj-column padding="0" />
+      <mj-spacer height="16px" />
+      <mj-section padding="0" />
+    </mj-attributes>
+    <mj-style inline>
+      /* tablet */ /*@media (max-width: 960px) { .container > table > tbody > tr > td { padding: 84px 32px !important ;
+      } .hero > table > tbody > tr > td { padding: 40px 30px 80px 40px !important; } .hero .hero_img{ width: 7.83238rem
+      !important; height: 3.37513rem !important; padding-right: 30px !important; top: 1.5rem !important; } .hero
+      .hero_text{ padding-right: 10.72744rem; } .order_img { width: 7.9375rem !important; height: 7.29888rem !important;
+      } .body { padding-block: 56px 116px !important; } .container > * { background: linear-gradient(#E6F5EA 13.625rem,
+      #F0F1F0 13.625rem) !important; } } @media (max-width: 600px) { .hero .hero_img{ margin: 8px 0 0 !important;
+      position: static !important; width: 100% !important; height: 2.58388rem !important; padding-right: 0 !important;
+      top: 1.5rem !important; } .hero .hero_text{ padding-right: 0 !important; } .hero .hero_text .h1 *{ text-align:
+      center !important; } } @media (max-width: 500px) { .body { padding-block: 0 !important; } .h1 * { font-size: 1rem
+      !important; line-height: 1.5rem !important; } .p1 * { font-size: .875rem !important; } .p2 * { font-size: .75rem
+      !important; } .p3 * { font-size: .75rem !important; } .container > table > tbody > tr > td { padding: 40px 24px
+      112px !important ; } .hero > table > tbody > tr > td { padding: 32px 16px 128px !important; } .order_img { width:
+      7.9375rem !important; height: 7.29888rem !important; } .order_wrapper { display: block !important; }
+      .order_wrapper > div:nth-child(2) { margin-left: 0 !important; margin-top: .5rem !important; } .container > * {
+      background: linear-gradient(#E6F5EA 7.75rem, #F0F1F0 7.75rem) !important; } }*/ .header img { max-width: 50%;
+      margin: auto; } .bold { font-weight: 700; } .hero { position: relative; } /*.hero .hero_img{ position: absolute;
+      width: 10.72744rem; height: 5.02138rem; object-fit: contain; padding-right: 40px; right: 0; top: 1rem; }*/
+      .hero_img { } .container > * { background: linear-gradient(#E6F5EA 20rem, #F0F1F0 20rem) !important; } .box >
+      table { width: 150px !important; margin: auto !important; } /*.container > table > tbody > tr > td { padding: 95px
+      96px 72px !important ; } .hero > table > tbody > tr > td { padding: 60px 45px 100px 60px !important; }*/
     </mj-style>
   </mj-head>
-  <mj-body mj-class="secondary-color" width="1024px" css-class="container">
-    <mj-section css-class="header">
-      <mj-column>
-        <mj-image width="350px" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_green.svg" />
-      </mj-column>
-    </mj-section>
-
-    <mj-wrapper background-color="#fff" mj-class="rounded" css-class="content">
-      <mj-section css-class="wrapper">
+  <mj-body width="640px" background-color="white" css-class="body">
+    <mj-wrapper mj-class="bg-grey" padding="84px 32px" css-class="container">
+      <mj-section padding-bottom="60px" css-class="header">
         <mj-column width="100%">
-          <mj-text>
-            <div class="title">
-              <h1>PURCHASE CONFIRMATION</h1>
-              <div>
-                <img width="150px" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/card_payments.svg" alt="" />
-              </div>
-            </div>
-          </mj-text>
-        </mj-column>
-        <mj-group width="100%">
-          <mj-column>
-            <mj-divider css-class="divider" border-width="2px" border-color="#E1E3E2" />
-          </mj-column>
-        </mj-group>
-      </mj-section>
-
-      <mj-section css-class="wrapper">
-        <mj-column>
-          <mj-text>
-            <p>Dear [Seller's Name],</p>
-            <p>
-              We are pleased to inform you of a recent purchase of your online course, introduction to UIUX, on
-              Zuriportfolio.
-            </p>
-            <p>Below are the order details</p>
-          </mj-text>
+          <mj-image
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_green.png"
+          />
         </mj-column>
       </mj-section>
-
-      <mj-section css-class="wrapper">
-        <mj-column>
-          <mj-text>
-            <h2>Order Summary</h2>
-            <div>
-              <span>Order #:</span>
-              <span class="bold">655922</span>
-            </div>
-            <div>
-              <span>Order Date:</span>
-              <span class="bold">September 16, 2023</span>
-            </div>
-            <div>
-              <span>Total Amount:</span>
-              <span class="bold">20,000 NGN</span>
-            </div>
-          </mj-text>
+      <mj-section mj-class="bg-white" padding="40px 30px 80px 40px" css-class="hero">
+        <mj-column width="100%" css-class="hero_text">
+          <mj-text mj-class="h-1" align="center" padding-bottom="10px"> PURCHASE CONFIRMATION </mj-text>
         </mj-column>
-      </mj-section>
+        <mj-column width="150px" css-class="box">
+          <mj-raw>
+            <img
+              width="100%"
+              class="hero_img"
+              style="max-width: 150px; margin: auto"
+              src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/card_payments.png"
+              alt=""
+            />
+          </mj-raw>
+        </mj-column>
 
-      <mj-section css-class="wrapper">
-        <mj-group width="100%">
-          <mj-column>
-            <mj-text>
-              <h2>Order Details</h2>
-            </mj-text>
-          </mj-column>
-        </mj-group>
         <mj-column width="100%">
-          <mj-text>
-            <div class="order-summary">
-              <div class="order-image">
-                <img src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png" alt="" />
-              </div>
+          <mj-divider />
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="p-1"> Dear [Seller's Name], </mj-text>
+          <mj-text mj-class="p-1">
+            We are pleased to inform you of a recent purchase of your online course, introduction to UIUX, on
+            Zuriportfolio.
+          </mj-text>
+          <mj-text mj-class="p-1"> Below are the order details </mj-text>
+        </mj-column>
+
+        <mj-column>
+          <mj-spacer />
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="h-2"> Order Summary </mj-text>
+          <mj-text mj-class="p-1"> Order #: <span class="bold">655922</span> </mj-text>
+          <mj-text mj-class="p-1"> Order Date: <span class="bold">September 16, 2023</span> </mj-text>
+          <mj-text mj-class="p-1"> Total Amount: <span class="bold">20,000 NGN</span> </mj-text>
+        </mj-column>
+
+        <mj-column>
+          <mj-spacer />
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="h-2" padding-bottom="8px"> Order Details </mj-text>
+        </mj-column>
+        <mj-column width="35%" padding-right="8px" padding-bottom="8px">
+          <mj-raw>
+            <div
+              style="
+                min-width: 7rem;
+                width: 100%;
+                max-width: 9rem;
+                height: 8.56319rem;
+                border-radius: 0.32113rem;
+                overflow: hidden;
+              "
+              class="order_img"
+            >
+              <img
+                style="margin: auto; width: 100%; height: 100%; vertical-align: bottom; object-fit: cover"
+                src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png"
+                alt=""
+              />
+            </div>
+          </mj-raw>
+        </mj-column>
+        <mj-column width="65%">
+          <mj-text mj-class="p-1">
+            <div class="order_wrapper" style="display: flex">
               <div>
                 <div>
                   <span>Online Course:</span>
@@ -122,69 +170,47 @@
             </div>
           </mj-text>
         </mj-column>
-        <mj-group width="100%">
-          <mj-column>
-            <mj-divider css-class="divider" border-width="2px" border-color="#E1E3E2" />
-          </mj-column>
-        </mj-group>
-      </mj-section>
 
-      <mj-section css-class="wrapper">
-        <mj-column>
-          <mj-text>
-            <div>
-              <h2>Buyer's Information</h2>
-              <div>
-                <span>Name:</span>
-                <span class="bold">[Buyer's Name]</span>
-              </div>
-              <div>
-                <span>Email Address:</span>
-                <span class="bold">[Buyer's Email]</span>
-              </div>
-            </div>
-          </mj-text>
-          <mj-divider css-class="divider" border-width="2px" border-color="#E1E3E2" />
-        </mj-column>
-      </mj-section>
-      <mj-section css-class="wrapper">
-        <mj-column>
-          <mj-text>
-            <div>
-              <h2>Earnings Summary</h2>
-              <div>
-                <span>Total Earnings:</span>
-                <span class="bold">[Total Earnings]</span>
-              </div>
-              <div>
-                <span>Net Earnings:</span>
-                <span class="bold">[Net Earnings]</span>
-              </div>
-            </div>
-          </mj-text>
-          <mj-divider css-class="divider" border-width="2px" border-color="#E1E3E2" />
-        </mj-column>
-      </mj-section>
-      <mj-section css-class="wrapper">
-        <mj-column>
-          <mj-text>
-            <div>
-              <h2>Payment Method</h2>
-              <p>
-                Payment will be processed to your zuri portfolio wallet on [Payment Date], which can then be withdrawn
-                to your local bank.
-              </p>
-            </div>
-          </mj-text>
-          <mj-divider css-class="divider" border-width="2px" border-color="#E1E3E2" />
-        </mj-column>
-      </mj-section>
-
-      <mj-section css-class="wrapper">
         <mj-column width="100%">
-          <mj-text>
-            <h2>Important Notes</h2>
-            <ul>
+          <mj-divider />
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="h-2"> Buyer's Information </mj-text>
+          <mj-text mj-class="p-1"> Name: <span class="bold">[Buyer's Name]</span> </mj-text>
+          <mj-text mj-class="p-1"> Email Address: <span class="bold">[Buyer's Email]</span> </mj-text>
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-divider />
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="h-2"> Earnings Summary </mj-text>
+          <mj-text mj-class="p-1"> Total Earnings: <span class="bold">[Total Earnings]</span> </mj-text>
+          <mj-text mj-class="p-1"> Net Earnings: <span class="bold">[Net Earnings]</span> </mj-text>
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-divider />
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="h-2"> Payment Method </mj-text>
+          <mj-text mj-class="p-1">
+            Payment will be processed to your zuri portfolio wallet on [Payment Date], which can then be withdrawn to
+            your local bank.
+          </mj-text>
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-divider />
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="h-2"> Important Notes </mj-text>
+          <mj-text mj-class="p-1">
+            <ul style="margin: 8px 0 0 0; padding-left: 30px">
               <li>Make sure to provide any necessary support or additional resources for your course.</li>
               <li>
                 If you have any questions or need assistance, please contact our support team at [Support Contact].
@@ -193,67 +219,83 @@
           </mj-text>
         </mj-column>
         <mj-column width="100%">
-          <mj-text>
-            <span
-              >Thank you for being a valued contributor to Zuriportfolio! We appreciate your dedication to sharing
-              knowledge.</span
-            >
-          </mj-text>
+          <mj-divider />
+        </mj-column>
+        <mj-column>
+          <mj-spacer />
         </mj-column>
         <mj-column width="100%">
-          <mj-text>
-            <h2 className="text-[#1A1C1B] font-bold">Thanks,<br />Zuriportfolio support team</h2>
+          <mj-text mj-class="p-1">
+            Thank you for being a valued contributor to Zuriportfolio! We appreciate your dedication to sharing
+            knowledge.
+          </mj-text>
+        </mj-column>
+        <mj-column>
+          <mj-spacer />
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="h-2">
+            Thanks,<br />
+            Zuriportfolio support team
           </mj-text>
         </mj-column>
       </mj-section>
+
+      <mj-section>
+        <mj-column>
+          <mj-spacer mj-class="sp-lg" />
+        </mj-column>
+      </mj-section>
+
+      <mj-section mj-class="bg-green">
+        <mj-column width="100%">
+          <mj-image
+            width="124px"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_white.png"
+          />
+        </mj-column>
+        <mj-column width="100%">
+          <mj-social inner-padding="12px">
+            <mj-social-element
+              icon-size="24px"
+              background-color="transparent"
+              src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/instagram.png"
+              name="instagram"
+              href="https://www.instagram.com/hnginternship"
+            />
+            <mj-social-element
+              icon-size="24px"
+              background-color="transparent"
+              src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/facebook.png"
+              name="facebook"
+              href="https://www.facebook.com/HNG.INC"
+            />
+            <mj-social-element
+              icon-size="24px"
+              background-color="transparent"
+              src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/twitter.png"
+              name="twitter"
+              href="https://twitter.com/hnginternship"
+            />
+            <mj-social-element
+              icon-size="24px"
+              background-color="transparent"
+              src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/linkedin.png"
+              name="linkedin"
+              href="https://ng.linkedin.com/company/hng-internship"
+            />
+          </mj-social>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text align="center" mj-class="p-2" color="#fff"> Beaverto, Oregon,Washington County, USA </mj-text>
+          <mj-text align="center" mj-class="p-2" color="#fff" padding="8px 0 12px">
+            Copyright &copy;2023 Zuriportfolio, All rights reserved.
+          </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text align="center" mj-class="p-3"> unsubscribe </mj-text>
+        </mj-column>
+      </mj-section>
     </mj-wrapper>
-    <mj-section background-color="#009254" mj-class="rounded">
-      <mj-column width="100%">
-        <mj-image width="200px" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_white.svg" />
-      </mj-column>
-      <mj-column width="100%">
-        <mj-social inner-padding="12px">
-          <mj-social-element
-            icon-size="24px"
-            background-color="transparent"
-            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/instagram.svg"
-            name="instagram"
-            href="https://mjml.io/"
-          />
-          <mj-social-element
-            icon-size="24px"
-            background-color="transparent"
-            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/facebook.svg"
-            name="facebook"
-            href="https://mjml.io/"
-          />
-          <mj-social-element
-            icon-size="24px"
-            background-color="transparent"
-            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/twitter.svg"
-            name="twitter"
-            href="https://mjml.io/"
-          />
-          <mj-social-element
-            icon-size="24px"
-            background-color="transparent"
-            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/linkedin.svg"
-            name="linkedin"
-            href="https://mjml.io/"
-          />
-        </mj-social>
-      </mj-column>
-      <mj-column width="100%">
-        <mj-text align="center" line-height="32px" color="#fff">
-          <address style="font-style: normal">Beaverto, Oregon,Washington County, USA</address>
-          <span>Copyright &copy;2023 Zuriportfolio, All rights reserved.</span>
-        </mj-text>
-      </mj-column>
-      <mj-column width="100%">
-        <mj-text align="center" color="#C4C7C6">
-          <span>unsubscribe</span>
-        </mj-text>
-      </mj-column>
-    </mj-section>
   </mj-body>
 </mjml>

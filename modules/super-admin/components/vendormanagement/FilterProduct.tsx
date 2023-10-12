@@ -2,6 +2,7 @@ import { SelectInput } from '@ui/Input';
 import { Sort } from 'iconsax-react';
 import React, { useEffect, useState } from 'react';
 import { filterProp } from '../../../../@types';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 const FilterProduct = ({ handleFilter }: filterProp) => {
   const [filterStatus, setFilterStatus] = useState('all');
@@ -11,40 +12,24 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
   }, [filterStatus]);
   return (
     <div>
-      <SelectInput
-        leftIcon={<Sort />}
-        inputSize={'sm'}
-        options={[
-          {
-            value: 'all',
-            label: 'Filters',
-          },
-          {
-            value: 'highest',
-            label: 'Highest qty',
-          },
-          {
-            value: 'lowest',
-            label: 'Lowest qty',
-          },
-          {
-            value: 'newest',
-            label: 'Newest products',
-          },
-          {
-            value: 'oldest',
-            label: 'Oldest products',
-          },
-        ]}
-        disabled={false}
-        intent="default"
-        onChange={(e) => {
-          setFilterStatus(e.target.value);
-          handleFilter(e.target.value);
-          console.log(e.target.value);
+      <Select
+        onValueChange={(value) => {
+          setFilterStatus(value);
+          handleFilter(value);
+          console.log(value);
         }}
-        className="md:w-fit w-[100px]"
-      />
+      >
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Filter" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="highest">Highest quantity</SelectItem>
+          <SelectItem value="lowest">Lowest quantity</SelectItem>
+          <SelectItem value="oldest">Oldest Products</SelectItem>
+          <SelectItem value="newest">Newest Products</SelectItem>
+          <SelectItem value="status">Status</SelectItem>
+        </SelectContent>
+      </Select>
     </div>
   );
 };

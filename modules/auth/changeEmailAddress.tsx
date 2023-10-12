@@ -18,7 +18,7 @@ function ChangeEmailAddress() {
       <div className=" sm:bg-brand-green-ttr sm:px-[40px] w-full max-w-[600px] md:px-[45px] py-8 lg:py-10 sm:border sm:border-brand-disabled rounded-[32px] z-10">
         <div className=" w-full">
           <h1 className=" font-manropeEB text-2xl md:text-4xl text-center">Change email address</h1>
-          <p className=" font-manropeL text-xs text-center md:w-[90%] text-[#737876] md:text-[#000] pt-3 pb-8">
+          <p className=" font-manropeL text-[16px] mx-auto text-center md:w-[90%] text-[#737876] md:text-[#000] pt-3 pb-8">
             Please enter your email address to get verified
           </p>
 
