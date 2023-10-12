@@ -95,7 +95,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
             <div className=" hidden lg:flex gap-10 items-start">
               <div className="group h flex flex-col ali justify-center items-center gap-1">
-                <Link className={activeLink('/')} href={'/'}>
+                <Link className={activeLink('/')} href={'/explore'}>
                   Explore
                 </Link>
                 {router.pathname === '/' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
