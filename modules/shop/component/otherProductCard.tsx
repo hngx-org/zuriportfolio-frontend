@@ -16,6 +16,8 @@ const OtherProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleClick = () => {
     router.replace(router.asPath);
   };
+    router.replace(router.asPath);
+  };
 
   return (
     <div className="p-[0.66rem] md:p-4 shadow border h-auto sm:h-[22.75rem] md:h-auto rounded-md bg-[#ffffff]">
