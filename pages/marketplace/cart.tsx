@@ -9,7 +9,6 @@ import AuthContext from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 
 export default function Cart() {
-
   const ViewedProducts: ViewedProductCardProps[] = [
     {
       id: '1',
@@ -47,7 +46,7 @@ export default function Cart() {
       tag: 'Top Picks',
       tagBackground: 'bg-[#515b63]',
     },
-  ]
+  ];
 
   const CartProducts: CartItemProps[] = [
     {
@@ -103,36 +102,33 @@ export default function Cart() {
       productColor: 'blue',
       productSeller: 'Artel Market',
       productPrice: 100,
-    }
-  ]
+    },
+  ];
 
   const authContext = useContext(AuthContext);
-  const {user} = authContext
-  const [productCards,setProductCards] = useState(ViewedProducts);
+  const { user } = authContext;
+  const [productCards, setProductCards] = useState(ViewedProducts);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
-  
 
   const getSummary = (items: any[]) => {
     let sum = 0;
     const data = items.map((item) => (sum += Number(item.productPrice)));
-    return sum
-  }
-  
-  const [cartSummary, setCartSummary ] = useState<number>(0)
-  
+    return sum;
+  };
+
+  const [cartSummary, setCartSummary] = useState<number>(0);
 
   useEffect(() => {
-      async function cartFetch() {
-        const carts = await getUserCart()
-        console.log(carts);
-        console.log("carts fetched");
-        setCartItems(carts)
-        const sum = getSummary(carts);
-        setCartSummary(sum);
-      }
-      cartFetch()
-  },[])
-
+    async function cartFetch() {
+      const carts = await getUserCart();
+      console.log(carts);
+      console.log('carts fetched');
+      setCartItems(carts);
+      const sum = getSummary(carts);
+      setCartSummary(sum);
+    }
+    cartFetch();
+  }, []);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
     let id = event.currentTarget.id;
@@ -140,13 +136,10 @@ export default function Cart() {
     setProductCards(recentlyViewedProducts);
   };
 
-
   function removeProductHandler(productId: string) {
     let cartProductsItems = cartItems.filter((product) => product.productId != productId);
-    setCartItems(cartProductsItems)
+    setCartItems(cartProductsItems);
   }
-
-  
 
   const cartProductItems = cartItems.map((cartItem) => (
     <CartItem
@@ -179,35 +172,34 @@ export default function Cart() {
     />
   ));
 
-  
-  
   return (
     <MainLayout activePage="home" showDashboardSidebar={false} showTopbar>
       <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
-{ cartItems.length > 0 ?
-  <>
-        <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
-          <div className="w-full flex flex-col justify-center md:w-full lg:w-4/5 ">
-            <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
-            {cartProductItems}
-          </div>
-          <div className="flex md:flex-none justify-center md:mx-0">
-            <Summary sum={cartSummary} />
-          </div>
-        </section>
+        {cartItems.length > 0 ? (
+          <>
+            <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
+              <div className="w-full flex flex-col justify-center md:w-full lg:w-4/5 ">
+                <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
+                {cartProductItems}
+              </div>
+              <div className="flex md:flex-none justify-center md:mx-0">
+                <Summary sum={cartSummary} />
+              </div>
+            </section>
 
-        <section className="w-full flex flex-col mt-[50px] mb-[10%]">
-          <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
-          <div
-            className="w-full flex flex-row overflow-scroll gap-x-8 md:overflow-hidden items-center lg:items-start lg:justify-between md:flex-row md:justify-center md:flex-wrap 
+            <section className="w-full flex flex-col mt-[50px] mb-[10%]">
+              <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
+              <div
+                className="w-full flex flex-row overflow-scroll gap-x-8 md:overflow-hidden items-center lg:items-start lg:justify-between md:flex-row md:justify-center md:flex-wrap 
                             md:gap-x-4 gap-y-4  lg:gap-x-2 mt-4 "
-          >
-            {recentlyViewed}
-          </div>
-        </section>
-        </>: 
-        <EmptyCart></EmptyCart>
-      }
+              >
+                {recentlyViewed}
+              </div>
+            </section>
+          </>
+        ) : (
+          <EmptyCart></EmptyCart>
+        )}
       </main>
     </MainLayout>
   );

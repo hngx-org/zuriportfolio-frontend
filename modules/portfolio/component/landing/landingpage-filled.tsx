@@ -34,7 +34,14 @@ import {
 } from './data';
 
 const LandingPageFilled: React.FC = () => {
-  const { selectedSections, buildPortfolio, toggleSection, editSection, modals, modalStates } = useContext(Portfolio);
+  const { selectedSections, buildPortfolio, toggleSection, editSection, modals, modalStates, userSections } =
+    useContext(Portfolio);
+
+  // console.log(userSections);
+  // userSections.map((el) => {
+  //   console.log(el, el.length > 0);
+  // });
+  console.log(userSections);
 
   return (
     <>
@@ -45,7 +52,8 @@ const LandingPageFilled: React.FC = () => {
       })}
 
       <div className="w-full flex flex-col justify-start items-start gap-8">
-        {selectedSections?.map((section, i) => {
+        {userSections?.map((section, i) => {
+          console.log(section);
           return (
             <React.Fragment key={i}>
               <Wrapper
@@ -72,7 +80,7 @@ const LandingPageFilled: React.FC = () => {
                   })}
 
                 {section.id === 'education' &&
-                  educations.map((el, i) => {
+                  section.data.map((el: any, i: any) => {
                     return <Education key={i} data={el} />;
                   })}
 
@@ -93,9 +101,11 @@ const LandingPageFilled: React.FC = () => {
                   })}
 
                 {section.id === 'contact' && <Contact data={contacts} />}
-                {/*Todo */}
-                {section.id === 'custom' && <Custom />}
+
                 {section.id === 'shop' && <Shop />}
+                {/*Todo */}
+
+                {section.id === 'custom' && <Custom />}
               </Wrapper>
               <Line />
             </React.Fragment>

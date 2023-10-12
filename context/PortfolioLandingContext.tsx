@@ -38,7 +38,8 @@ type PortfolioContext = {
   toggleSection: (sectionTitle: string) => void;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  userInfo: any;
+  userSections: any[];
+  error: any;
 };
 
 const Portfolio = createContext<PortfolioContext>({
@@ -71,7 +72,8 @@ const Portfolio = createContext<PortfolioContext>({
   toggleSection: () => {},
   isLoading: false,
   setIsLoading: () => {},
-  userInfo: {},
+  userSections: [],
+  error: null,
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
@@ -87,6 +89,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     `f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`,
     `8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`,
     `6ba7b810-9dad-11d1-80b4-00c04fd430c8`,
+    `6ba7b811-9dad-11d1-80b4-00c04fd430c8`,
   ];
   const [coverImage, setCoverImage] = useState<File | any>();
   const [avatarImage, setAvatarImage] = useState<File | any>();
@@ -94,18 +97,18 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [showBuildPortfolio, setShowBuildPortfolio] = useState<boolean>(false);
   const [showViewtemplates, setShowViewtemplates] = useState<boolean>(false);
   const [userData, setUserData] = useState<any>({
-    hasDataFromBE: false,
-    coverImage: '',
-  });
-  const [userId, setUserId] = useState<string>(users[1]);
-  const [userInfo, setUserInfo] = useState<any>({
     firstName: '',
     lastName: '',
     avatarImage: '',
+    coverImage: '',
     city: '',
     country: '',
     tracks: [],
+    hasDataFromBE: false,
   });
+  const [userId, setUserId] = useState<string>(users[3]);
+  const [userSections, setUserSections] = useState<any[]>([]);
+  const [error, setError] = useState<any>(null);
 
   useEffect(() => {
     const getUser = async () => {
@@ -113,32 +116,46 @@ export function PortfolioCtxProvider(props: { children: any }) {
         setIsLoading(true);
         const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
         const data = await response.json();
-        setUserInfo({
+        setUserData({
           firstName: data?.user?.firstName,
           lastName: data?.user?.lastName,
           avatarImage: data?.user?.avatarImage,
           city: data?.portfolio?.city,
           country: data?.portfolio?.country,
           tracks: data?.tracks,
+          hasDataFromBE: true,
+          coverImage: '',
         });
         setIsLoading(false);
-      } catch (error) {
-        console.log(error);
+        setHasData(true);
+      } catch (error: any) {
+        setError({ state: true, error: error.message });
       }
     };
     getUser();
-    selectedSections.length === 0 && !userData.hasDataFromBE ? setHasData(false) : setHasData(true);
-  }, [selectedSections.length, userData.hasDataFromBE, userId]);
 
-  const getUserData = async () => {
-    try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const getUserSections = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+
+        const response = await data.json();
+        const { workExperience, education } = response;
+        setUserSections([
+          { title: 'Work Experience', id: 'workExperience', data: workExperience },
+          { title: 'Education', id: 'education', data: education },
+        ]);
+        setIsLoading(false);
+      } catch (error: any) {
+        setError({ state: true, error: error });
+        console.log(error);
+      }
+    };
+
+    getUserSections();
+
+    // selectedSections.length === 0 && !userData.hasDataFromBE ? setHasData(false) : setHasData(true);
+  }, [userId]);
 
   const profileUpdate = () => {
     setShowProfileUpdate(true);
@@ -288,10 +305,11 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setAvatarImage,
     handleUploadCover,
     userData,
-    userInfo,
     toggleSection,
     isLoading,
     setIsLoading,
+    userSections,
+    error,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

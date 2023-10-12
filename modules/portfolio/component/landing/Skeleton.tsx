@@ -38,13 +38,7 @@ export const Education = ({ data }: SkeletonProps) => {
   return (
     <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-2 mb-6 ">
       <p className="text-gray-300 font-semibold text-base flex-1">
-        <span>
-          {data?.startMonth} {data?.startYear}
-        </span>{' '}
-        -{' '}
-        <span>
-          {data?.endMonth} {data?.endYear}
-        </span>
+        <span>{data?.from}</span> - <span>{data?.to}</span>
       </p>
       <div className="flex flex-col mb-4 md:gap-1 flex-1">
         <h3 className="text-lg font-semibold text-gray-200">{data?.degree}</h3>
