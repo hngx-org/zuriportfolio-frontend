@@ -48,63 +48,6 @@ export default function Cart() {
     },
   ];
 
-  const CartProducts: CartItemProps[] = [
-    {
-      productId: '1',
-      productImage: '/assets/images/image-zuri-1.png',
-      productTitle: 'Moodring: Cute Shop',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '2',
-      productImage: '/assets/images/image-zuri-2.png',
-      productTitle: 'Jelly Bean: Fun Shop',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '3',
-      productImage: '/assets/images/image-zuri-3.png',
-      productTitle: 'Webinar and Course',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '4',
-      productImage: '/assets/images/image-zuri-4.png',
-      productTitle: '4in1 Big Bundle',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '5',
-      productImage: '/assets/images/image-zuri-5.png',
-      productTitle: 'Square Space 7.1',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '6',
-      productImage: '/assets/images/image-zuri-6.png',
-      productTitle: 'Digital illustration',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-  ];
-
   const authContext = useContext(AuthContext);
   const { user } = authContext;
   const [productCards, setProductCards] = useState(ViewedProducts);
