@@ -21,7 +21,7 @@ const PortfolioCreation: React.FC = () => {
                 </div>
                 <div className="max-w-[19.8rem] w-full max-[730px]:ml-0 max-[778px]:min-w-[9.8rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem]">
-                    Categories
+                    Category
                   </p>
                 </div>
                 <div className="max-w-[11.8rem] w-full max-[778px]:min-w-[9rem]">
