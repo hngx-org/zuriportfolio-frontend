@@ -1,4 +1,6 @@
 import React, { ChangeEvent, useState, useRef } from 'react';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { verfiy2FA } from '../../http';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
@@ -70,7 +72,18 @@ function Code2FALogic() {
     }
   };
 
-  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange };
+  const loginFn = useAuthMutation(verfiy2FA);
+  const handleSubmit = (event: ChangeEvent<HTMLInputElement>) : void => {
+    event.preventDefault();
+    const email = "example@yahoo.com";
+    const token = digits.toString();
+    loginFn.mutate({ email: email as string, token: token as string });
+  }
+
+  const handleResend = (event: ChangeEvent<HTMLInputElement>) : void => {
+    event.preventDefault();
+  }
+  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend };
 }
 
 export default Code2FALogic;

@@ -1,10 +1,10 @@
 'use client';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import Button from '../../components/ui/Button';
 import Logic2FA from '../../modules/auth/Logic2FA';
 
 function Code2FAUI() {
-  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange } = Logic2FA();
+  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleResend, handleSubmit } = Logic2FA();
 
   return (
     <>
@@ -26,6 +26,7 @@ function Code2FAUI() {
               onChange={(e) => handleDigitChange(index, e)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               onPaste={(e) => handlePaste(e, index)}
+              onSubmit={handleSubmit}
               ref={inputRefs[index]}
               aria-label={`Digit ${index + 1}`}
               className="w-9 h-9 md:w-14 md:h-14 text-center border border-gray-300 rounded border-opacity-70 focus:outline-green-600"
@@ -45,7 +46,7 @@ function Code2FAUI() {
         </Button>
       </form>
       <Button
-        onClick={() => console.log('to be implemented with API integration')}
+        onClick={(e) => e.preventDefault()}
         aria-label="Resend code"
         className="bg-tranparent text-gray-700 hover-bg-transparent
         mx-auto p-0 justtify-self-center self-center font-base text-center
