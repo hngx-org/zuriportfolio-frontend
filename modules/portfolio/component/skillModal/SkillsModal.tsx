@@ -5,6 +5,7 @@ import Modal from '@ui/Modal';
 import { useEffect, useState, MouseEvent} from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
+import { number } from 'zod';
 
 type skillModalProps = {
   onClose: () => void;
@@ -16,6 +17,11 @@ type PostSkillResponse = {
   skills: Array<string>;
   sectionId: number;
 };
+
+type skillListRes = {
+  skillId : number,
+  skill: string
+}
 
 const SkillModal = ({ onClose, isOpen, userId}: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
@@ -34,50 +40,45 @@ const SkillModal = ({ onClose, isOpen, userId}: skillModalProps) => {
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<string>>([]);
   const [response, setResponse] = useState([]);
-  const [skillData, setSkillData] = useState(null);
+  const [skillData, setSkillData] = useState<Array<skillListRes>>([]);
 
 
-
+const fetchSkillData = async () => {
+  try {
+    // Make a GET request to the API
+    const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
+    // const suggestionRes = await axios.get('https://piranha-assessment.onrender.com/api/admin/skills/');
+    const data = response.data.data;
+    // const skillList = data.map((item:skillListRes) => item.skill)
+    // Set the data in the state
+    setSkillData(data);
+  } catch (error) {
+    // Handle errors
+    console.error('Error fetching data:', error);
+  }
+};
 
   useEffect(() => {
-    const fetchSkillData = async () => {
-      try {
-        // Make a GET request to the API
-        const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
-        // Set the data in the state
-        setSkillData(response.data);
-        
-      } catch (error) {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      }
-    };
-
     // Call the fetchData function
     fetchSkillData();
   }, []);
 
-  console.log(skillData)
-
-  useEffect(() => {
-    const storedArrayTwo = JSON.parse(localStorage.getItem('arrayTwo') || '[]') as string[];
-    setArrayTwo(storedArrayTwo);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleMoveToTwo = (item: string) => {
     setArrayOne(arrayOne.filter((el: string) => el !== item));
-    setArrayTwo((prevArrayTwo) => [...prevArrayTwo, item]); // Use the callback
-    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, item]));
+    setArrayTwo((prevArrayTwo) => [...prevArrayTwo, item]);
   };
+    const handleSetSkillData = (item: skillListRes) => {
+      setSkillData((prevArray) => [...prevArray, item]); // Use the callback
+    };
 
   const handleMoveToOne = (item: string) => {
-    setArrayTwo((prevArrayTwo) => prevArrayTwo.filter((el) => el !== item));
+    setArrayTwo((prevArrayTwo) => prevArrayTwo.filter((el) => el !== item));  
     setArrayOne([...arrayOne, item]);
-
-    // Update local storage with the modified arrayTwo (removed the selected item)
-    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo.filter((el) => el !== item)]));
   };
+
+   const handleArrayOneSetSkill = (item: skillListRes) => {
+     setSkillData((prevArray) => prevArray.filter((el) => el !== item)); 
+   };
 
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
@@ -124,6 +125,24 @@ const SkillModal = ({ onClose, isOpen, userId}: skillModalProps) => {
     }
     
   }
+
+
+  async function deleteSkillsData(id:number){
+    try {
+      const response = await axios.delete(`https://hng6-r5y3.onrender.com/api/delete-skills/${id}`);
+      if (response.data.successful){
+        fetchSkillData()
+      }
+      console.log(response.data.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error; // You can handle the error further if needed
+    }
+  }
+
+console.log(skillData);
+
   function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
     postSkillData();
     onClose();
@@ -143,16 +162,19 @@ const SkillModal = ({ onClose, isOpen, userId}: skillModalProps) => {
             </button>
           </div>
           <div className="w-full">
-            {arrayTwo.length > 0 && (
+            {skillData?.length > 0 && (
               <ul className="w-full flex flex-wrap gap-4 my-12">
-                {arrayTwo.map((item) => (
-                  <li key={item}>
+                {skillData?.map((item: skillListRes) => (
+                  <li key={item.skillId}>
                     <Button
                       className=" group/skillsbtn text-brand-green-shade20 h-10 bg-brand-green-shade95  hover:text-white-100 hover: text-sm font-semibold leading-5 rounded-lg px-2 py-4 flex items-center gap-4"
-                      onClick={() => handleMoveToOne(item)}
+                      onClick={() => {
+                        handleMoveToOne(item.skill);
+                        deleteSkillsData(item.skillId);
+                      }}
                       type="button"
                     >
-                      {item}
+                      {item.skill}
                       <span className="text-base rounded-full m-auto ml-4 flex items-center justify-center  group-hover/skillsbtn:border-white-100">
                         <AiOutlineCloseCircle />
                       </span>
@@ -181,7 +203,10 @@ const SkillModal = ({ onClose, isOpen, userId}: skillModalProps) => {
                   <li key={item}>
                     <Button
                       className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100"
-                      onClick={() => handleMoveToTwo(item)}
+                      onClick={() => {
+                        handleMoveToTwo(item);
+                        handleSetSkillData({ skillId: Math.random(), skill: item });
+                      }}
                       type="button"
                     >
                       {item}
