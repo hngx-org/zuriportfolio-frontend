@@ -114,7 +114,7 @@ export default function Cart() {
 
   const getSummary = (items: any[]) => {
     let sum = 0;
-    const data = items.map((item) => (sum += item.productPrice));
+    const data = items.map((item) => (sum += Number(item.productPrice)));
     return sum
   }
   // const sum = getSummary(CartProducts);
@@ -155,6 +155,7 @@ export default function Cart() {
       productId={cartItem.productId}
       productColor={cartItem.productColor}
       productTitle={cartItem.productTitle}
+      proudctDescription={cartItem.proudctDescription}
       productImage={cartItem.productImage}
       productSeller={cartItem.productSeller}
       productSize={cartItem.productSize}
