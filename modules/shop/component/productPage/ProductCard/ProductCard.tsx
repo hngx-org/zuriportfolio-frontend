@@ -15,7 +15,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="p-4 shadow border h-auto rounded-md bg-[#ffffff]">
       <div className="relative w-full h-52">
-        <Link href={`/shop/product?id=${product.id}`} passHref>
+        <Link href={`/shop/product?id=${product._id}`} passHref>
           <Image src={product.image} alt={product.name} layout="fill" objectFit="cover" className="rounded-md h-52" />
         </Link>{' '}
       </div>
