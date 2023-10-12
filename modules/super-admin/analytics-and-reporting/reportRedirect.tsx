@@ -1,12 +1,15 @@
 import Image from 'next/image';
 import MultiCalender from './datePicker';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '@ui/Modal';
+
+type CustomSize = 'sm' | 'xl';
 
 const ReportRedirect: React.FC = () => {
   const [reportModalOpen, setReportModalOpen] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
+  // const [size, setSize] = useState<CustomSize>('xl');
 
   const openModal = () => {
     setIsLoading(true);
@@ -24,7 +27,7 @@ const ReportRedirect: React.FC = () => {
 
   return (
     <>
-      <div className="mx-auto max-[1300px]:mx-0 max-[1300px]:px-[1.5rem] max-[768px]:max-w-[46.3rem] max-[768px]:pl-[2.5rem] max-[768px]:px-0 max-w-[77.5rem] w-full max-[500px]:px-[1.5rem] max-[834px]:px-[2.5rem]">
+      <div className="mx-auto min-[1536px]:max-w-[1536px] max-[1300px]:mx-0 max-[1300px]:px-[1.5rem] max-[768px]:max-w-[46.3rem] max-[768px]:pl-[2.5rem] max-[768px]:px-0 max-w-[77.5rem] w-full max-[500px]:px-[1.5rem] max-[834px]:px-[2.5rem]">
         <div className="flex gap-[1rem] py-[0.75rem] mt-[1.13rem] max-[834px]:mt-[1rem] max-[500px]:mt-[1.5rem]">
           <Image
             onClick={redirectToAnotherPage}
@@ -61,13 +64,13 @@ const ReportRedirect: React.FC = () => {
         </div>
       </div>
       {reportModalOpen && (
-        <div>
+        <section className="max-[768px]:max-w-[10.5rem] w-full">
           <Modal
             closeOnOverlayClick
             closeModal={() => setReportModalOpen(false)}
             isCloseIconPresent={false}
             isOpen
-            size="xl"
+            size={window.innerWidth <= 768 ? 'sm' : 'xl'}
           >
             <div className="flex justify-center flex-col gap-[2.88rem] m-[1.88rem] max-[768px]:m-[0.27rem] max-[768px]:gap-[1.27rem]">
               <div className="border-b-[#A8ACAB] border-b-[0.11994rem] pb-[1.2rem] max-w-[44.49rem] w-full max-[768px]:pb-[0.53rem]">
@@ -83,7 +86,7 @@ const ReportRedirect: React.FC = () => {
                   <div className="flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] text-[#8D9290] py-[1.2rem] font-manropeL border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem]">
                     Excel
                   </div>
-                  <div className="flex justify-center items-center max-w-[9.59425rem] w-full font-manropeL rounded-[0.95944rem] py-[1.2rem] border-[#33A467] bg-[#E6F5EA] shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] text-[#009254] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem]">
+                  <div className="flex justify-center items-center max-w-[9.59425rem] w-full font-manropeL rounded-[0.95944rem] py-[1.2rem] bg-[#E6F5EA] shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] text-[#009254] border border-[#33A467] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem]">
                     PDF
                   </div>
                   <div className="flex justify-center items-center max-w-[9.59425rem] w-full font-manropeL rounded-[0.95944rem] py-[1.2rem] text-[#8D9290] border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem]">
@@ -104,7 +107,7 @@ const ReportRedirect: React.FC = () => {
               </div>
             </div>
           </Modal>
-        </div>
+        </section>
       )}
     </>
   );

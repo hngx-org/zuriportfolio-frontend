@@ -26,8 +26,8 @@ const AnalyticsAndReport: React.FC = () => {
           <ReportRedirect />
           <AnalysisCards />
           <BusinessOveriview />
-          <PerformanceData />
           <PortfolioCreation />
+          <PerformanceData />
           <TopSellingProducts />
         </>
       )}
