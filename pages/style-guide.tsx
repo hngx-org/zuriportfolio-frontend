@@ -170,6 +170,12 @@ function StyleGuide() {
           </a>
         </li>
         <li className="mr-6 mb-4 md:mb-0">
+          <a className="text-green-500 hover:text-green-800" href="#toasts">
+            Toast
+          </a>
+        </li>
+
+        <li className="mr-6 mb-4 md:mb-0">
           <a className="text-green-500 hover:text-green-800" href="#inputs">
             Inputs
           </a>
@@ -261,7 +267,7 @@ function StyleGuide() {
       </div>
 
       {/* Toasts */}
-      <div className="py-1 px-9 pb-10" id="inputs">
+      <div className="py-1 px-9 pb-10" id="toasts">
         <h3 className="text-3xl flex justify-center py-10">Toasts</h3>
         <div className="flex items-center justify-center gap-9">
           <Button intent={'primary'} onClick={() => handleToast()} size={'md'}>
