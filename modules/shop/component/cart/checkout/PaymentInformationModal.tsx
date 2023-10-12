@@ -137,7 +137,7 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
               onClick={makePayment}
               className=" py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
             >
-              Make Payment
+              Proceed to pay
             </button>
             <p className="text-center text-sm mt-4">
               This is an encrypted payment, your details are 100% secured and safe
