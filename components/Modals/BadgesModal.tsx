@@ -7,7 +7,6 @@ import badgeBeginner from '../../public/assets/images/badges/beginner.png';
 import peaceIcon from '../../public/assets/images/peace-icon.png';
 import Button from '@ui/Button';
 import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
 
 function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [isShown, setIsShown] = useState(false);
