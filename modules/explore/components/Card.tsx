@@ -35,11 +35,15 @@ const Card = ({ data }: { data?: UserInfo }) => {
           <h4 className="text-gray-500 md:text-base">{data?.track}</h4>
 
           <div className="flex flex-wrap justify-center items-center gap-2 my-5 px-4 text-[0.75rem] font-manropeB text-gray-600 text-center md:text-sm md:px-3">
-            {data?.skills.map((skill, id) => (
-              <button key={id} className="border border-gray-100 px-2 rounded-full">
-                {skill}
-              </button>
-            ))}
+            {data?.skills.length === 0 ? (
+              <button className="border border-gray-100 px-2 rounded-full">No Skills</button>
+            ) : (
+              data?.skills.map((skill, id) => (
+                <button key={id} className="border border-gray-100 px-2 rounded-full">
+                  {skill}
+                </button>
+              ))
+            )}
             {/* <button className="mt-2 border border-gray-100 px-4 py-1 rounded-full">{data.skills[6]}</button> */}
           </div>
           <div className="mx-auto my-4 gap-2 md:gap-0 justify-center items-center flex">
