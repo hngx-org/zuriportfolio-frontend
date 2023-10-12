@@ -215,8 +215,9 @@ export type CartItemProps = {
   productId: string;
   productImage: string;
   productTitle: string;
-  productSize: string;
-  productColor: string;
+  proudctDescription?: string;
+  productSize?: string;
+  productColor?: string;
   productSeller: string;
   productPrice: number;
 };

@@ -13,7 +13,6 @@ export const getUserByName = async (props: { name: string }) => {
     return e.response.data ?? { message: e.message };
   }
 };
-
 export const loginUser = async (props: { email: string; password: string }) => {
   const $http = axios.create({
     baseURL: AUTH_HTTP_URL,
@@ -33,6 +32,15 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
+export const getUserCart = async () => {
+  try {
+    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts',
+    )
+    return response.data  
+  } catch (error) {
+    console.log(error);
+  }
+}
 export const signUpUserWithEmail = async (props: { email: string }) => {
   try {
     const res = await $http.post('https://auth.akuya.tech/api/auth/check-email', props);
@@ -95,3 +103,30 @@ export const resetPassword = async (props: { token: string | string[] | undefine
 //     return e.response.data ?? { message: e.message };
 //   }
 // }
+
+export const makePayment = async (selectedPaymentMethod: string) => {
+  if (selectedPaymentMethod) {
+    try {
+      const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/orders';
+      const data = {
+        redirect_url: 'https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart',
+        payment_method: selectedPaymentMethod,
+      };
+
+      const response = await $http.post(apiUrl, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          // accept: 'application/json',
+        },
+      });
+
+      console.log('API Response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error making payment:', error);
+      throw error;
+    }
+  } else {
+    throw new Error('Please select a payment method before making the payment.');
+  }
+};
