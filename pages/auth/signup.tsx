@@ -7,6 +7,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -50,17 +51,19 @@ function Signup() {
     },
   });
 
+  const router = useRouter();
+
   const handleSignUp = async (values: any) => {
     try {
       const userData = {
         firstName: values.firstName,
         lastName: values.lastName,
-        email: 'emmanuelagbeniga@gmail.com',
+        email: 'emmanuelagbeniga+fuefgjef@gmail.com',
         password: values.password,
         confirmPassword: values.confirmPassword,
       };
 
-      const response = await axios.post('https://auth.akuya.tech/api/auth/signup', userData);
+      const response = await axios.post('https://hng-stage-six.onrender.com/api/auth/signup ', userData);
       console.log('firstName', values.firstName);
       console.log('lastName', values.lastName);
       console.log('password', values.password);
@@ -68,7 +71,7 @@ function Signup() {
       console.log('agree', values.agree);
 
       if (response.status === 200) {
-        // redirect to verification page
+        router.push('/auth/verification');
       } else {
         // Handle signup error, e.g., display an error message
       }
