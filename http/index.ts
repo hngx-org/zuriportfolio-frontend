@@ -89,6 +89,17 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
   }
 };
 
+export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
+  try {
+    const response = await axios.patch('https://9735-102-219-208-41.ngrok-free.app/api/auth/reset-password', props);
+    console.log(response);
+    return response?.data;
+  } catch (e: any) {
+    console.log(e);
+    throw new Error(e);
+  }
+};
+
 // export const loginUser = async (props: { email: string; password: string }) => {
 //   const $http = axios.create({
 //     baseURL: 'https://auth.akuya.tech/api/auth',
