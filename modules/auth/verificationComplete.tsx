@@ -4,6 +4,7 @@ import VerificationLayout from './component/verificationLayout';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { verifyUser } from '../../http';
 import { useRouter } from 'next/router';
+import { notify } from '@ui/Toast';
 
 function VerificationComplete() {
   const router = useRouter();
@@ -11,36 +12,72 @@ function VerificationComplete() {
 
   console.log(token);
 
-  const [message, setMessage] = useState({});
+  const [message, setMessage] = useState({ success: null, message: '' });
 
   const { mutate, isLoading } = useAuthMutation(verifyUser, {
     onSuccess: (data) => {
       console.log(data);
-
       setMessage(data);
+
+      if (data.message === 'Something went wrong') {
+        notify({
+          message: data.message,
+          theme: 'light',
+          type: 'error',
+        });
+        router.push('/auth/verification');
+
+        return;
+      }
 
       router.push('/auth/login');
     },
     onError: ({ response }: any) => {
-      console.log(response.data.message);
+      console.log(response.data);
+
+      notify({
+        message: response.data.message,
+        theme: 'light',
+      });
+
+      setMessage(response.data.message);
 
       if (response.data.message === 'Email already verified. Please login') {
+        notify({
+          message: 'Email already verified. Kindly login.',
+          theme: 'light',
+          type: 'error',
+        });
         router.push('auth/login');
-      } else {
+      } else if (response.data.message === 'Invalid token') {
+        notify({
+          message: 'Oops! your link is invalid or expired',
+          theme: 'light',
+          type: 'error',
+        });
         router.push('/auth/verification');
+      } else if (response.data.message === 'Something went wrong') {
+        notify({
+          message: 'Oops! Something went wrong!',
+          theme: 'light',
+          type: 'error',
+        });
+        router.push('auth/login');
       }
     },
   });
 
-  console.log({ message });
+  // console.log({ message });
 
   const verifyQuery = async () => {
-    mutate({ token: token as any });
+    if (token) {
+      mutate({ token: token as any });
+    }
   };
 
   useEffect(() => {
     try {
-      console.log(token, 'inside the try catch');
+      // console.log(token, 'inside the try catch');
       verifyQuery();
     } catch (error) {
       console.log(error);
@@ -49,7 +86,7 @@ function VerificationComplete() {
 
   return (
     <VerificationLayout>
-      {/* {success && (
+      {message?.success && (
         <>
           <Image
             className="w-[218px] h-[159px] xl:w-[218px] xl:h-[218px] mx-auto mt-16 md:mt-16 lg:"
@@ -65,20 +102,22 @@ function VerificationComplete() {
             </p>
           </div>
         </>
-      )} */}
-
-      {isLoading && (
-        <div className="w-16 h-16 border-t-4 border-[#009254] border-solid rounded-full animate-spin"></div>
       )}
 
-      {/* {!success && (
+      {isLoading && (
         <div className=" sm:bg-brand-green-ttr px-4 max-w-[712px] sm:px-[40px] md:px-[58px] lg:px-[120px] py-5 sm:border sm:border-brand-disabled rounded-[32px] z-10">
-          <h1 className=" font-manropeEB text-[24px] md:text-[36px] text-center">Link has expired</h1>
+          <div className="w-16 h-16 border-t-4 border-[#009254] border-solid rounded-full animate-spin"></div>
+        </div>
+      )}
+
+      {!message?.success && (
+        <div className=" sm:bg-brand-green-ttr px-4 max-w-[712px] sm:px-[40px] md:px-[58px] lg:px-[120px] py-5 sm:border sm:border-brand-disabled rounded-[32px] z-10">
+          <h1 className=" font-manropeEB text-[24px] md:text-[36px] text-center"></h1>
           <p className=" font-manropeL text-[16px] text-center text-[#737876] md:text-[#000] py-[16px] ">
-            Please get a new link
+            {message?.message}
           </p>
         </div>
-      )} */}
+      )}
     </VerificationLayout>
   );
 }

@@ -525,6 +525,8 @@ export interface CardData {
 export interface AuthContextProps {
   user: LoginBodyResponse | undefined;
   handleUser: (value: LoginBodyResponse) => void;
+  handleEmail: (value: Email) => void;
+  email: Email | undefined;
 }
 
 export type LoginBodyResponse = {
@@ -557,4 +559,8 @@ export interface Review {
   rating: number;
   name: string;
   description: string;
+}
+
+export interface Email {
+  email: string;
 }

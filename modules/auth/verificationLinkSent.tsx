@@ -29,7 +29,7 @@ function VerificationLinkSent({ handleClick }: Props) {
           with a verification link.
         </p>
 
-        <Button href="/auth/2fa" className=" w-full rounded-md h-[60px] text-[16px] font-manropeB">
+        <Button href="" className=" w-full rounded-md h-[60px] text-[16px] font-manropeB">
           Resend Verification Link
         </Button>
 
