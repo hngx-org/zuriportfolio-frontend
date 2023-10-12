@@ -3,6 +3,8 @@ import WorkExperienceSection from '@modules/portfolio/component/work-experience-
 import useDisclosure from '../hooks/useDisclosure';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import EducationSection from '@modules/portfolio/component/education-modal';
+import LanguageModal from '../components/Modals/language-modal';
+import InterestModal from '../components/Modals/interest-modal';
 import { sections as s } from '@modules/portfolio/component/landing/data';
 
 type PortfolioContext = {
@@ -239,6 +241,14 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'education',
       modal: <EducationSection isOpen={modalStates['education']} onClose={() => onCloseModal('education')} />,
+    },
+    {
+      id: 'language',
+      modal: <LanguageModal isOpen={modalStates['language']} onClose={() => onCloseModal('language')} />,
+    },
+    {
+      id: 'interest',
+      modal: <InterestModal isOpen={modalStates['interest']} onClose={() => onCloseModal('interest')} />,
     },
   ];
 
