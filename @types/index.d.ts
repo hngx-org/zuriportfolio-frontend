@@ -70,9 +70,11 @@ export interface CartProductCardProps {
 }
 
 export interface ProductCardProps {
-  image: string;
+  id: string;
+  currency: string;
+  image: string | null;
   productName: string;
-  productPrice: string;
+  productPrice: number;
   productOwner: string;
   productRating: number;
   showLimitedOffer?: boolean;
@@ -123,7 +125,7 @@ export interface ModalProps {
   children?: React.ReactNode;
   closeOnOverlayClick?: boolean;
   title?: string;
-  size?: 'lg' | 'md' | 'sm' | 'xl';
+  size?: 'lg' | 'md' | 'sm' | 'xl' | 'xxl';
   isCloseIconPresent?: boolean;
   closeBtnClass?: string;
 }
@@ -162,6 +164,24 @@ export interface ProgressBarProps {
   value: number;
 }
 
+// Toastify interface
+
+export type ToastPosition = 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left';
+export type ToastTheme = 'light' | 'dark' | 'colored';
+export type ToastVariant = 'info' | 'success' | 'warning' | 'error' | 'default';
+export interface ToastProps {
+  message?: string;
+  position?: ToastPosition;
+  autoClose?: number;
+  hideProgressBar?: boolean;
+  closeOnClick?: boolean;
+  pauseOnHover?: boolean;
+  draggable?: boolean;
+  progress?: undefined;
+  theme?: ToastTheme;
+  type?: ToastVariant;
+}
+
 // export all interfaces and type s
 declare module 'nprogress';
 
@@ -195,8 +215,9 @@ export type CartItemProps = {
   productId: string;
   productImage: string;
   productTitle: string;
-  productSize: string;
-  productColor: string;
+  proudctDescription?: string;
+  productSize?: string;
+  productColor?: string;
   productSeller: string;
   productPrice: number;
 };
@@ -255,26 +276,18 @@ export interface OrderHistory {
   sales: number;
   revenue: number;
 }
-export interface Product {
+
+export interface WishlistProduct {
   productId: string;
   productName: string;
   productPrice: number;
   productImage: StaticImageData;
   productRating: number;
   numReviews: number;
-}
-
-export interface WishlistProduct extends Product {
   productCategory: string;
   inStock: boolean;
   inCart: boolean;
 }
-
-export interface FavoriteProduct extends Product {
-  isFavourite: boolean;
-  productCreator: string;
-}
-
 export interface WorkExperience {
   role: string;
   description: string;
@@ -362,8 +375,8 @@ export interface RatingBarProps {
 }
 
 export interface RatingCardProps {
-  rating: string;
-  users: string;
+  rating: number;
+  users: number;
 }
 
 export interface filterProps {
@@ -426,11 +439,12 @@ export interface SettingOptionTypes {
   refer: boolean;
 }
 export interface NotificationCheckboxType {
-  receiveEmail: boolean;
+  emailSummary: boolean;
   specialOffers: boolean;
-  getNotification: boolean;
-  notifyFollow: boolean;
-  notifyMessages: boolean;
+  communityUpdate: boolean;
+  followUpdate: boolean;
+  newMessages: boolean;
+  // userId:string
 }
 
 export type cardinfo = {
@@ -513,5 +527,38 @@ export interface CardData {
 }
 
 export interface AuthContextProps {
-  [key]: any;
+  user: LoginBodyResponse | undefined;
+  handleUser: (value: LoginBodyResponse) => void;
+}
+
+export type LoginBodyResponse = {
+  id: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  token: string;
+  section_order: unknown;
+  password: string;
+  provider: unknown;
+  profile_pic: unknown;
+  refresh_token: string;
+  role_id: number;
+  is_verified: boolean;
+  two_factor_auth: boolean;
+  location: unknown;
+  country: unknown;
+  created_at: string;
+};
+export type LoginResponse = {
+  token: string;
+  data: LoginBodyResponse;
+  statusCode: number;
+};
+
+export interface Review {
+  id: number;
+  rating: number;
+  name: string;
+  description: string;
 }
