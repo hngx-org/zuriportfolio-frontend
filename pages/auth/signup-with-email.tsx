@@ -13,7 +13,7 @@ import { signUpUserWithEmail } from '../../http';
 import { useRouter } from 'next/router';
 
 function SignUpWithEmail() {
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState('');
   const router = useRouter();
   const onSignUpWithEmailSuccess = (data: any) => {
     console.log(data);
