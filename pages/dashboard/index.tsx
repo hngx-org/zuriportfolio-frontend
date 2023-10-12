@@ -1,5 +1,4 @@
 import React from 'react';
-// import withAuth from '../helpers/withAuth';
 import MainLayout from '../../components/Layout/MainLayout';
 import ShopOwnerDashboard from '@modules/dashboard/component/dashboard';
 import withAuth from '../../helpers/withAuth';
