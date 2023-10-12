@@ -60,21 +60,17 @@ export default function ProductDetails() {
     setShowAll(!showAll);
   };
 
-
   const [selectedCategory, setSelectedCategory] = useState(product.category);
   const [searchQuery, setSearchQuery] = useState('');
 
-
-  const handleCategoryChange = () => {
-  };
+  const handleCategoryChange = () => {};
 
   const [cartCount, setCartCount] = useState(0);
-    
 
-  var cartItemCount = function() {
+  var cartItemCount = function () {
     setCartCount(cartCount + 1);
     router.push('/marketplace/cart');
-  }
+  };
 
   const ZOOM = 250;
   useEffect(() => {
@@ -134,8 +130,6 @@ export default function ProductDetails() {
     }
   }, []);
 
-
-
   return (
     <>
       {/* Navbar */}
@@ -150,24 +144,24 @@ export default function ProductDetails() {
       {/* Main */}
       <main className={`p-4 container mx-auto`}>
         <div className="self-start mb-[8px]">
-          <span className='font-manropeEL text-xs md:text-sm tracking-[0.00375rem] md:tracking-[0.00088rem] font-normal lg:text-base'><Breadcrumbs /></span>
+          <span className="font-manropeEL text-xs md:text-sm tracking-[0.00375rem] md:tracking-[0.00088rem] font-normal lg:text-base">
+            <Breadcrumbs />
+          </span>
         </div>
         <a onClick={() => router.back()} className="self-start">
-          <ArrowLeft size="27" color="#000000" className='mb-[8px]'/>
+          <ArrowLeft size="27" color="#000000" className="mb-[8px]" />
         </a>
 
         {/* Product Details  */}
         <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
           {/* Product Detail Images  */}
           <div className="flex flex-col w-full item-center lg:gap-y-2">
-            <div
-              className="img-container w-full lg:h-[27rem] md:h-[20rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-3xl"
-            >
+            <div className="img-container w-full lg:h-[27rem] md:h-[20rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-3xl">
               <Image
                 src={image}
                 alt="Main Image"
-                layout='fill'
-                objectFit='cover'
+                layout="fill"
+                objectFit="cover"
                 className="img max-w-none w-full h-full absolute"
               />
             </div>
@@ -180,14 +174,25 @@ export default function ProductDetails() {
               {product.name}
             </h1>
             <div className="flex items-center">
-              <ProfileCircle color="#464646" variant="Bulk" className='w-6 h-6 md:w-9 md:h-9' />
-              <p className="w-fit font-manropeL font-bold text-xs tracking-[0.003rem] md:tracking-[0.005rem] ml-1 md:font-semibold md:text-base">{product.shopOwner}</p>
+              <ProfileCircle color="#464646" variant="Bulk" className="w-6 h-6 md:w-9 md:h-9" />
+              <p className="w-fit font-manropeL font-bold text-xs tracking-[0.003rem] md:tracking-[0.005rem] ml-1 md:font-semibold md:text-base">
+                {product.shopOwner}
+              </p>
             </div>
             <div>
-              <p className='lg:hidden text-base font-semibold md:font-bold md:text-lg font-manropeL tracking-[0.00088rem] pb-2 md:pb-1'>Description</p>
+              <p className="lg:hidden text-base font-semibold md:font-bold md:text-lg font-manropeL tracking-[0.00088rem] pb-2 md:pb-1">
+                Description
+              </p>
               <p className="font-normal font-manropeL text-sm md:text-base lg:text-lg tracking-[0.005rem] w-full line-clamp-3 lg:mt-6">
-              Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions to enrich the learning journey. Tailor the template to your brand with customizable design options. Track learner progress, foster collaboration, and gain insights through built-in analytics. Whether you're an educator or a business, this template streamlines course creation, webinar hosting, and community building. Elevate your online education with a user-friendly, responsive, and feature-rich solution that engages and enlightens learners.
-              </p><span className='text-[#009254] font-manropeL font-bold lg:hidden'>Read more</span>
+                Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
+                experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
+                to enrich the learning journey. Tailor the template to your brand with customizable design options.
+                Track learner progress, foster collaboration, and gain insights through built-in analytics. Whether
+                you're an educator or a business, this template streamlines course creation, webinar hosting, and
+                community building. Elevate your online education with a user-friendly, responsive, and feature-rich
+                solution that engages and enlightens learners.
+              </p>
+              <span className="text-[#009254] font-manropeL font-bold lg:hidden">Read more</span>
             </div>
             <div className="lg:flex flex-col gap-y-2 hidden">
               <div className="flex gap-x-1 mt-4">
@@ -212,7 +217,9 @@ export default function ProductDetails() {
                 Total Payment (Incl. taxes)
               </p>
               <p className="flex gap-x-4 items-center">
-                <span className="text-black text-xl md:text-3xl lg:text-3xl font-normal lg:font-semibold font-manropeEB leading-10">$100.00</span>
+                <span className="text-black text-xl md:text-3xl lg:text-3xl font-normal lg:font-semibold font-manropeEB leading-10">
+                  $100.00
+                </span>
                 <span className="text-xl font-light md:text-2xl lg:text-[1.375rem] font-manrope line-through leading-7 text-gray-300">
                   $120.00
                 </span>
@@ -223,7 +230,12 @@ export default function ProductDetails() {
               <hr className="bg-white-110 text-white-110 h-[2px] border-0 block md:hidden" />
             </div>
 
-            <Button intent={'primary'} size={'md'} className="md:w-1/3 lg:w-1/2 w-full text-base font-manropeL tracking-[0.005rem] rounded-lg" onClick={cartItemCount}>
+            <Button
+              intent={'primary'}
+              size={'md'}
+              className="md:w-1/3 lg:w-1/2 w-full text-base font-manropeL tracking-[0.005rem] rounded-lg"
+              onClick={cartItemCount}
+            >
               Add to cart
             </Button>
           </div>
@@ -426,16 +438,15 @@ export default function ProductDetails() {
 
               <form action="" className="block sm:hidden">
                 <Link href={'/dashboard/reviews/new'}>
-                <textarea
-                  id="about"
-                  name="about"
-                  rows={3}
-                  className="block w-full rounded-xl text-custom-color39 border-0 border-custom-color32  py-2  shadow-sm ring-1 ring-inset ring-gray-300  min-h-[116px] placeholder:text-custom-color39  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
-                  placeholder="Write a customer review"
-                  required
-                ></textarea>
+                  <textarea
+                    id="about"
+                    name="about"
+                    rows={3}
+                    className="block w-full rounded-xl text-custom-color39 border-0 border-custom-color32  py-2  shadow-sm ring-1 ring-inset ring-gray-300  min-h-[116px] placeholder:text-custom-color39  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
+                    placeholder="Write a customer review"
+                    required
+                  ></textarea>
                 </Link>
-                
               </form>
             </div>
           </div>
@@ -443,24 +454,29 @@ export default function ProductDetails() {
 
         {/* favorite products  */}
         <div className="mt-[4.4rem] mb-[2.37rem]">
-          <div className='flex justify-between items-center mb-5 md:mb-2 lg:mb-[1.13rem]'>
-          <h3 className="text-custom-color31 font-manropeL font-bold md:text-2xl text-sm md:px-2 truncate w-[13.1875rem] md:w-full">
-          Other Products By {product.shopOwner} </h3>
-          <span className='flex items-center text-[#00894C] text-xs font-semibold font-manropeL gap-x-2 md:hidden'><Link href={'/shop'}>View all</Link> <ArrowRight2 size="20" color="#00894c"/></span>
+          <div className="flex justify-between items-center mb-5 md:mb-2 lg:mb-[1.13rem]">
+            <h3 className="text-custom-color31 font-manropeL font-bold md:text-2xl text-sm md:px-2 truncate w-[13.1875rem] md:w-full">
+              Other Products By {product.shopOwner}{' '}
+            </h3>
+            <span className="flex items-center text-[#00894C] text-xs font-semibold font-manropeL gap-x-2 md:hidden">
+              <Link href={'/shop'}>View all</Link> <ArrowRight2 size="20" color="#00894c" />
+            </span>
           </div>
-          <div className='md:mx-[0.66rem] mx-0 hidden lg:block'>
-          <ShopProductList products={staticProducts.slice(0, 8)}/>  
+          <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
+            <ShopProductList products={staticProducts.slice(0, 8)} />
           </div>
-          <div className='md:mx-[0.66rem] mx-0 hidden lg:hidden md:block'>
-          <ShopProductList products={staticProducts.slice(0, 6)}/>  
+          <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
+            <ShopProductList products={staticProducts.slice(0, 6)} />
           </div>
-          <div className='md:mx-[0.66rem] mx-0 md:hidden block'>
-          <ShopProductList products={staticProducts.slice(0, 4)}/>  
+          <div className="md:mx-[0.66rem] mx-0 md:hidden block">
+            <ShopProductList products={staticProducts.slice(0, 4)} />
           </div>
-          <div className='md:flex w-full justify-end hidden'>
-            <span className='flex py-3 px-5 gap-1 border-solid border border-white-120 rounded-lg mt-6 mb-[4.44rem] font-manropeL font-semibold tracking-[0.00088rem] text-sm items-center'>
-              <span className='text-[#009444]'><Link href={'/shop'}>View All</Link></span>
-              <ArrowRight size="24" color="#009254"/>
+          <div className="md:flex w-full justify-end hidden">
+            <span className="flex py-3 px-5 gap-1 border-solid border border-white-120 rounded-lg mt-6 mb-[4.44rem] font-manropeL font-semibold tracking-[0.00088rem] text-sm items-center">
+              <span className="text-[#009444]">
+                <Link href={'/shop'}>View All</Link>
+              </span>
+              <ArrowRight size="24" color="#009254" />
             </span>
           </div>
         </div>
@@ -469,4 +485,3 @@ export default function ProductDetails() {
     </>
   );
 }
-
