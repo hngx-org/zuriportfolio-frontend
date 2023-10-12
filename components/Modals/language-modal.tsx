@@ -5,8 +5,10 @@ import close_circle from '../../public/assets/icons/close-circle.svg';
 import close1 from '../../public/assets/icons/close1.svg';
 import arrow_left from '../../public/assets/icons/arrow-left.svg';
 import Button from '@ui/Button';
+import axios from 'axios';
+import { notify } from '@ui/Toast';
 
-const language_endpoint = 'https://hng6-r5y3.onrender.com/api/all-languages';
+const endpoint = 'https://hng6-r5y3.onrender.com';
 
 const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -16,17 +18,16 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent the default form submission
       if (inputValue.trim() !== '' && !values.includes(inputValue)) {
+        const empty = '';
         setValues((prevValues) => [...prevValues, inputValue]);
-        setInputValue('');
+        setInputValue(empty);
       }
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
-    if (value !== '') {
-      setInputValue(e.target.value);
-    }
+    setInputValue(value);
   };
 
   const handleListItemClick = (clickedValue: string) => {
@@ -53,7 +54,33 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
 
   const handleSubmit = () => {
     if (values.length === 0) return;
-    console.log(values);
+    const data = {
+      userId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      languages: values,
+    };
+    axios
+      .post(`${endpoint}/api/language`, data)
+      .then((res) => {
+        notify({
+          message: 'Language created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        console.log(res.data);
+
+        // setValues([]);
+        // onClose();
+      })
+      .catch((err) => {
+        notify({
+          message: 'Error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        console.log(err);
+      });
   };
 
   return (
@@ -87,7 +114,10 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
           >
             Cancel
           </Button>
-          <Button className="border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg">
+          <Button
+            onClick={handleSubmit}
+            className="border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg"
+          >
             {' '}
             Save{' '}
           </Button>
