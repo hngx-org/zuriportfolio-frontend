@@ -192,12 +192,12 @@ function Home() {
           </div>
         ))}
         <Button
-        onClick={onOpen}
-        className="p-2 ml-6 mt-4 bg-[#ffffff] hover:text-[#ffffff] rounded-lg shadow-md flex items-center cursor-pointer border border-green-500 text-[#009254] "
-      >
-        <Add size="16" className="hover:text-[#ffffff] text-[#009254]" />
-        Add section
-      </Button>
+          onClick={onOpen}
+          className="p-2 ml-6 mt-4 bg-[#ffffff] hover:text-[#ffffff] rounded-lg shadow-md flex items-center cursor-pointer border border-green-500 text-[#009254] "
+        >
+          <Add size="16" className="hover:text-[#ffffff] text-[#009254]" />
+          Add section
+        </Button>
       </div>
 
       {/* Edit Modal */}
@@ -236,7 +236,6 @@ function Home() {
           <p className="font-semibold">Placeholder for Custom Section</p>
         </div>
       </Modal>
-      
     </>
   );
 }

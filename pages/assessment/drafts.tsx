@@ -7,7 +7,7 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 const Draft = () => {
   return (
     <div>
-      <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
+      <MainLayout activePage="dashboard" showTopbar showFooter showDashboardSidebar={false}>
         <AssessmentBanner
           title="Draft"
           subtitle="All incomplete assessments, saved, to be worked on later."
