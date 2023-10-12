@@ -27,7 +27,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue,
         }`}
         onClick={toggleDropdown}
       >
-        <div className="text-black text-base font-normal font-manropeEB leading-normal tracking-tight">
+        <div className="text-black text-[0.875rem] font-normal font-manropeEB leading-normal tracking-tight">
           {selectedValue || options[1]}
         </div>
         <div className="w-6 h-6 justify-center items-center flex">

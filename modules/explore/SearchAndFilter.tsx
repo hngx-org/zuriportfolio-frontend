@@ -115,8 +115,10 @@ const SearchAndFilter: React.FC = () => {
       {/* <Breadcrumbs /> */}
       <section className="mb-4">
         <div>
-          <h1 className=" font-manropeEB text-[2.25rem] text-custom-color11 md:text-[2.815rem]">Explore</h1>
-          <p className="text-base text-custom-color43">Find your perfect creative match</p>
+          <h1 className=" font-manropeEB text-[2.25rem] text-custom-color11 md:text-[2.815rem] xl:text-[3.5rem]">
+            Explore
+          </h1>
+          <p className="text-base text-custom-color43 xl:text-[1.375rem]">Find your perfect creative match</p>
         </div>
 
         <div className="hidden flex-col justify-start items-start gap-3 mb-10">
@@ -130,7 +132,7 @@ const SearchAndFilter: React.FC = () => {
       </section>
 
       <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
-        <div className="w-full grid grid-cols-[1fr_auto] gap-4">
+        <div className="w-full grid grid-cols-[1fr_auto] gap-4 md:w-[22rem] xl:w-[37.5rem]">
           <Input
             onChange={(e) => {
               console.log(e.target.value);
@@ -152,7 +154,7 @@ const SearchAndFilter: React.FC = () => {
           </button>
         </div>
 
-        <div className="w-full grid grid-cols-2 gap-2">
+        <div className="w-full grid grid-cols-2 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
           <CustomDropdown
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
@@ -167,15 +169,15 @@ const SearchAndFilter: React.FC = () => {
       </div>
 
       <div
-        className="h-full overflow-x-scroll mt-4 mr-[5rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
+        className="h-full overflow-x-scroll mt-4 mr-[6.5rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
         ref={sliderRef}
         onScroll={handleScroll}
       >
-        <div className="justify-start items-center inline-flex mt-4">
+        <div className="justify-start items-center inline-flex mt-4 gap-6">
           {sectionsData.map((section, index) => (
             <div
               key={index}
-              className={`px-[20px] py-[10px] rounded-2xl justify-center items-center gap-4 flex cursor-pointer ${
+              className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeB text-[0.875rem] ${
                 activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
               } ${section.text === 'All' ? 'hidden sm:flex' : ''}`}
               onClick={() => {
@@ -184,7 +186,7 @@ const SearchAndFilter: React.FC = () => {
               }}
             >
               <div className="w-6 h-6 relative">{activeSection === index ? section.icon : section.activeIcon}</div>
-              <div className="text-center text-xs font-manropeEB leading-none tracking-tight">{section.text}</div>
+              <div className="text-center">{section.text}</div>
             </div>
           ))}
         </div>
