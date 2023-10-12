@@ -199,9 +199,7 @@ const HomePage = () => {
       <SearchAndFilter />
       <div className="m-auto p-6">
         <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
-          {cardData.map((card) => (
-            <Card key={card.id} data={card} />
-          ))}
+          {data?.map((card) => <Card key={card.id} data={card} />)}
         </div>
       </div>
     </>
@@ -216,10 +214,12 @@ const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
     `${baseUrl}/explore/filter?SortBy=1&Location=nigeria&Country=lagos&Provider=ee&Skill=ee&Track=ee&Ranking=ee&RoleId=1&Tag=a&PageSize=12&PageNumber=1`,
   allUsers = `${baseUrl}/explore/GetAllPortfolio?page=1&itemsPerPage=12`;
 
-async function fetchUsers(query?: string, filers?: string) {
+async function fetchUsers(query?: string, filters?: string, filter2?: string) {
   let url = allUsers;
   if (query) {
     url = searchUrl(query);
+  } else if (filters) {
+    url = filterUrl(filters);
   }
   const { data } = await axios.get(url);
   return data;

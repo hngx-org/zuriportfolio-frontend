@@ -5,7 +5,7 @@ export interface UserInfo {
   id: string;
   lastName: string;
   location: string;
-  profilePictureUrl: string;
+  profilePictureUrl: any;
   profileUrl: string;
   projects: number;
   provider: string;
