@@ -135,7 +135,6 @@ function Signup() {
                     form.errors.password ? 'border-[red]' : 'border-[#D0D5DD]'
                   }`}
                   type={passwordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
-                  isPasswordVisible={passwordVisible} // Pass the visibility state as a prop
                   rightIcon={
                     <button type="button" onClick={togglePasswordVisibility} className="cursor-pointer">
                       {passwordVisible ? (
