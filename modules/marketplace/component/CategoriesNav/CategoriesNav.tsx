@@ -5,6 +5,7 @@ import styles from '.././landingpage/productCardWrapper/product-card-wrapper.mod
 import Image from 'next/image';
 import more from '../../../../public/assets/ic_outline-arrow-back-ios.svg';
 import menu from '../../../../public/assets/ic_outline-menu.svg';
+import { useAuthentication } from '../../../../hooks/useAuthentication';
 
 interface CategoriesNavProps {
   navItems: string[];
@@ -13,6 +14,7 @@ interface CategoriesNavProps {
 const CategoriesNav = (props: CategoriesNavProps) => {
   const [active, setActive] = useState(-1);
   const [allCatActive, setAllCatActive] = useState(false);
+  const { authenticated } = useAuthentication();
 
   const navContainerRef = useRef<HTMLDivElement>(null);
 
@@ -36,8 +38,13 @@ const CategoriesNav = (props: CategoriesNavProps) => {
     }
   };
 
+  const _navItems = [...navItems];
+  if (authenticated) {
+    _navItems.unshift('Wishlist');
+  }
+
   return (
-    <div className={`font-ppReg shadow-sm -mt-8 px-4`}>
+    <div className={`font-ppReg shadow-sm -mt-4 px-4`}>
       <aside className="max-w-[1240px] mx-auto hidden xl:flex gap-8 items-center z-50">
         <button
           className={`${allCatActive ? 'text-brand-green-shade50' : ''}  items-center gap-1 whitespace-nowrap flex`}
@@ -47,11 +54,11 @@ const CategoriesNav = (props: CategoriesNavProps) => {
           }}
         >
           <Image src={menu} alt="menu icon" />
-          <Link href="/marketplace/allcategories">All Categories</Link>
+          <Link href="/marketplace/categories/all">All Categories</Link>
         </button>
         <div className={`overflow-x-scroll  ${styles['hide-scroll']}`} ref={navContainerRef}>
           <ul className={`list flex whitespace-nowrap gap-8 py-5 bg-white-100 text-base `}>
-            {navItems.map((category, i) => {
+            {_navItems.map((category, i) => {
               return (
                 <li key={i + 1} className="">
                   <ButtonCat active={active} handleActiveNav={handleActiveNav} category={category} index={i} />
