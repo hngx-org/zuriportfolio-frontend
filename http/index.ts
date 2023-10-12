@@ -84,8 +84,8 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
   } catch (e: any) {
     console.log(e);
     if (e?.response?.data && e?.response?.data?.message) {
-        console.log(e?.response.data.message);
-      }
+      console.log(e?.response.data.message);
+    }
   }
 };
 

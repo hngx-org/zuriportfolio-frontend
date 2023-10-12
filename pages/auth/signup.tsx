@@ -52,7 +52,7 @@ function Signup() {
   });
 
   const router = useRouter();
-  const {email: userEmail} = router.query;
+  const { email: userEmail } = router.query;
 
   const handleSignUp = async (values: any) => {
     try {
