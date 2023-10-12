@@ -16,7 +16,7 @@
         <mj-text font-size="16px" font-weight="400" font-family="Manrope">
              Hi Vendor,
         </mj-text>      
-         <mj-text font-size="16px" font-weight="400" font-family="Manrope">
+         <mj-text font-size="16px" font-weight="400" font-family="Manrope" line-height="24px">
             A client has placed an order on your website, click on the button below in order to confirm the client’s order.
         </mj-text>
          <mj-button background-color="#009254" align="left" border-radius="16px" height="52px" width="164px" font-family="Manrope">
@@ -28,138 +28,55 @@
       <mj-section>
       <mj-group>
         <mj-column > 
-             <mj-text font-weight="700" font-family="Manrope" font-size="16px" padding-top="2px" color="#000">
+             <mj-text font-weight="700" font-family="Manrope" font-size="16px" padding-top="10px" color="#000">
           Product Details:
         </mj-text>
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="400" font-family="Manrope" font-size="14px" padding-top="8px" color="#737876" align="right">Order #2424352345
+             <mj-text font-weight="400" font-family="Manrope" font-size="14px" padding="10px 10px 0 0" color="#737876" align="right">Order #2424352345
              </mj-text>
         </mj-column>
     </mj-group>
      </mj-section>
-     <mj-section>
+  <mj-section>
     <mj-group>
-      <mj-column width="50%">
-        <mj-text>
-          <mj-raw>
-            <style>
-              @media screen and (min-width: 768px) {
-                .custom-flex {
-                  display: flex;
-                  flex-direction: row;
-                  justify-content: space-between; 
-                  align-items: center; 
-                }
-                .custom-flex img {
-                  width: 90px; 
-                }
-                 .grey {
-                  color: #737876;
-                }
-                .bold {
-                  font-family: Manrope;
-                   font-size: 12px;
-                }
-              }
-
-              @media screen and (max-width: 767px) {
-                .custom-flex {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: flex-start; 
-                }
-                .custom-flex img {
-                  width: 90px; 
-                  margin-bottom: 10px; 
-                }
-                 .grey {
-                  color: #737876;
-                }
-                .bold {
-                  font-family: Manrope;
-                   font-size: 12px;
-                }
-              }
-            </style>
-          </mj-raw>
-          <div class="custom-flex">
-            <div>
-              <img src="assets/order/product2.svg" alt="" width="90px" align="left" />
-            </div>
-            <div>
-              <p class="bold grey">ITEM</p>
-              <p class="bold">Brown nylon jacket</p>
-            </div>
-          </div>
+      <mj-column width="30%">
+      <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product2.svg" alt="" width="90px" padding-top="10px" align="left" />
+      </mj-column>
+      <mj-column width="50%" >
+         <mj-text padding="10px 0 0 0" font-family="Manrope" font-size="12px" color="#737876">
+          ITEM
+        </mj-text>
+        <mj-text padding="10px 0 0 0" font-family="Manrope" font-size="12px">
+              Brown nylon jacket
         </mj-text>
       </mj-column>
-      <mj-column>
-        <mj-text font-weight="700" font-family="ManropeB" align="right" font-size="14px" font-family="Manrope">$400.00</mj-text>
+      <mj-column width="20%">
+        <mj-text font-weight="700" align="right" font-size="14px" font-family="Manrope" padding="20px 10px 0 0">$400.00</mj-text>
+      </mj-column>
+    </mj-group>
+  </mj-section>
+    <mj-section>
+    <mj-group>
+      <mj-column width="30%">
+      <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product.svg" alt="" width="90px" padding-top="10px" align="left" />
+      </mj-column>
+      <mj-column width="50%" >
+         <mj-text padding="10px 0 0 0" font-family="Manrope" font-size="12px" color="#737876">
+          ITEM
+        </mj-text>
+        <mj-text padding="10px 0 0 0" font-family="Manrope" font-size="12px">
+              Brown nylon jacket
+        </mj-text>
+      </mj-column>
+      <mj-column width="20%">
+        <mj-text font-weight="700" align="right" font-size="14px" font-family="Manrope" padding="20px 10px 0 0">$400.00</mj-text>
       </mj-column>
     </mj-group>
   </mj-section>
   <mj-section>
-    <mj-group>
-      <mj-column width="50%">
-        <mj-text>
-          <mj-raw>
-            <style>
-              @media screen and (min-width: 768px) {
-                .custom-flex {
-                  display: flex;
-                  flex-direction: row;
-                  justify-content: space-between; 
-                  align-items: center; 
-                }
-                .custom-flex img {
-                  width: 90px; 
-                }
-                .grey {
-                  color: #737876;
-                }
-                .bold {
-                  font-family: Manrope;
-                   font-size: 12px;
-                }
-              }
-
-              @media screen and (max-width: 767px) {
-                .custom-flex {
-                  display: flex;
-                  flex-direction: column;
-                  align-items: flex-start; 
-                }
-                .custom-flex img {
-                  width: 90px; 
-                  margin-bottom: 10px; 
-                }
-                 .grey {
-                  color: #737876;
-                }
-                .bold {
-                  font-family: Manrope;
-                   font-size: 12px;
-                }
-              }
-            </style>
-          </mj-raw>
-          <div class="custom-flex">
-            <div>
-              <img src="assets/order/product.svg" alt="" width="90px" align="left" />
-            </div>
-            <div>
-              <p class="bold grey">ITEM</p>
-              <p class="bold">Brown nylon jacket</p>
-            </div>
-          </div>
-        </mj-text>
-      </mj-column>
-      <mj-column>
-        <mj-text font-weight="700" font-family="ManropeB" align="right" font-size="14px" font-family="Manrope">$400.00</mj-text>
-      </mj-column>
-    </mj-group>
+    
   </mj-section>
       <mj-section>
         <mj-group>
@@ -170,7 +87,7 @@
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="400" font-family="Manrope" font-size="14px" align="right">$800.00
+             <mj-text font-weight="400" font-family="Manrope" font-size="14px" align="right" padding="20px 10px 0 0">$800.00
              </mj-text>
         </mj-column>
         </mj-group>
@@ -184,7 +101,7 @@
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="400" font-family="Manrope" font-size="14px" padding-top="8px" align="right" color="green">- 10% ($80.00)
+             <mj-text font-weight="400" font-family="Manrope" font-size="14px" padding-top="8px" align="right" color="green" padding="20px 10px 0 0">- 10% ($80.00)
              </mj-text>
         </mj-column>
      </mj-group>
@@ -198,14 +115,14 @@
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="400" font-family="Manrope" font-size="14px" padding-top="8px" align="right">$10.00
+             <mj-text font-weight="400" font-family="Manrope" font-size="14px" padding-top="8px" align="right" padding="20px 10px 0 0">$10.00
              </mj-text>
         </mj-column>
     </mj-group>
      </mj-section>
      <mj-section>
         <mj-column>
-               <mj-divider border-color="#009254" padding-top="2px" />
+               <mj-divider border-color="#009254"  padding="20px 10px 0 0"/>
         </mj-column>
      </mj-section>
      <mj-section padding-top="0">
@@ -217,7 +134,7 @@
         </mj-column>
         <mj-column>
         </mj-text>
-             <mj-text font-weight="700" font-family="Manrope" font-size="16px" padding-top="8px" align="right">$730.00
+             <mj-text font-weight="700" font-family="Manrope" font-size="16px" padding-top="8px" align="right" padding="20px 10px 0 0">$730.00
              </mj-text>
         </mj-column>
     </mj-group>
@@ -235,14 +152,14 @@
         </mj-column>
      </mj-section>
      
-        <mj-section background-color="#009254">
+       <mj-section background-color="#009254">
         <mj-column width="90%">
-             <mj-image src="assets/order/footer-logo.svg" alt="" width="100px" align="center" />
-        <mj-social font-size="14px" icon-size="24px" mode="horizontal" padding-top="8px">
-          <mj-social-element src="assets/order/linkedin.svg" href="https://www.linkedin.com/company/hng-internship/" />
-          <mj-social-element src="assets/order/instagram.svg" href="https://www.instagram.com/hnginternship/" />
-          <mj-social-element src="assets/order/facebook.svg" href="https://www.facebook.com/Hnginternship/" />
-          <mj-social-element src="assets/order/twitter.svg" href="https://www.twitter.com/hnginternship/" />
+             <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png" alt="" width="100px" align="center" />
+           <mj-social font-size="24px" align="center">
+          <mj-social-element name="instagram" href="https://www.instagram.com/hnginternship/" background-color="red" />
+          <mj-social-element name="facebook" href="https://facebook.com/Hnginternship/" />
+          <mj-social-element name="twitter" href="https://twitter.com/hnginternship" />
+          <mj-social-element name="linkedin" href="https://www.linkedin.com/company/hng-internship/" />
         </mj-social>
         <mj-text color="#fff" padding-top="4px" align="center" font-size="14px" font-family="Manrope">Beaverto, Oregon, Washington County, USA</mj-text>
         <mj-text color="#fff" align="center" font-size="14px" font-family="Manrope">Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text>
