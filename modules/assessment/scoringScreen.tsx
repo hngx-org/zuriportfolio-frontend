@@ -93,72 +93,113 @@ const ScoringScreen = () => {
     return hoursInMinutes + minutesValue + secondsValue;
   };
 
+  // const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
+  //   const newValue = e.target.value;
+  //   const name = e.target.name;
+
+  //   if (name === 'minScore') {
+  //     const minScore = newValue;
+  //     const maxScore = gradingValues[level].maxScore;
+
+  //     // Update grading values
+  //     setGradingValues((prevValues) => ({
+  //       ...prevValues,
+  //       [level]: {
+  //         ...prevValues[level],
+  //         minScore,
+  //       },
+  //     }));
+
+  //     // Update assessmentScoring state based on the level
+  //     if (maxScore) {
+  //       const range = `${minScore}% - ${maxScore}%`;
+  //       setAssessmentScoring((prevAssessmentScoring) => ({
+  //         ...prevAssessmentScoring,
+  //         [`${level.toLowerCase()}_score_range`]: range,
+  //       }));
+  //     }
+
+  //     // Update incomplete levels
+  //     if (maxScore === '') {
+  //       if (!incompleteLevels.includes(level)) {
+  //         setIncompleteLevels([...incompleteLevels, level]);
+  //       }
+  //     } else {
+  //       setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
+  //     }
+  //   } else if (name === 'maxScore') {
+  //     const minScore = gradingValues[level].minScore;
+  //     const maxScore = newValue;
+
+  //     // Update grading values
+  //     setGradingValues((prevValues) => ({
+  //       ...prevValues,
+  //       [level]: {
+  //         ...prevValues[level],
+  //         maxScore,
+  //       },
+  //     }));
+
+  //     // Update assessmentScoring state based on the level
+  //     if (minScore) {
+  //       const range = `${minScore}% - ${maxScore}%`;
+  //       setAssessmentScoring((prevAssessmentScoring) => ({
+  //         ...prevAssessmentScoring,
+  //         [`${level.toLowerCase()}_score_range`]: range,
+  //       }));
+  //     }
+
+  //     // Update incomplete levels
+  //     if (minScore === '') {
+  //       if (!incompleteLevels.includes(level)) {
+  //         setIncompleteLevels([...incompleteLevels, level]);
+  //       }
+  //     } else {
+  //       setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
+  //     }
+  //   }
+  //   console.log(assessmentScoring);
+  // };
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
     const newValue = e.target.value;
     const name = e.target.name;
 
-    if (name === 'minScore') {
-      const minScore = newValue;
-      const maxScore = gradingValues[level].maxScore;
+    if (name === 'minScore' || name === 'maxScore') {
+      const numericValue = newValue === '' ? '' : parseInt(newValue, 10);
 
-      // Update grading values
-      setGradingValues((prevValues) => ({
-        ...prevValues,
-        [level]: {
-          ...prevValues[level],
-          minScore,
-        },
-      }));
+      if (
+        newValue === '' ||
+        (!isNaN(numericValue as number) && (numericValue as number) >= 0 && (numericValue as number) <= 100)
+      ) {
+        // Update grading values
+        setGradingValues((prevValues) => ({
+          ...prevValues,
+          [level]: {
+            ...prevValues[level],
+            [name]: newValue,
+          },
+        }));
 
-      // Update assessmentScoring state based on the level
-      if (maxScore) {
+        // Update assessmentScoring state based on the level
+        const minScore = name === 'minScore' ? newValue : gradingValues[level].minScore;
+        const maxScore = name === 'maxScore' ? newValue : gradingValues[level].maxScore;
         const range = `${minScore}% - ${maxScore}%`;
         setAssessmentScoring((prevAssessmentScoring) => ({
           ...prevAssessmentScoring,
           [`${level.toLowerCase()}_score_range`]: range,
         }));
-      }
 
-      // Update incomplete levels
-      if (maxScore === '') {
-        if (!incompleteLevels.includes(level)) {
-          setIncompleteLevels([...incompleteLevels, level]);
+        // Update incomplete levels
+        if (minScore === '' || maxScore === '') {
+          if (!incompleteLevels.includes(level)) {
+            setIncompleteLevels([...incompleteLevels, level]);
+          }
+        } else {
+          setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
         }
-      } else {
-        setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
       }
-    } else if (name === 'maxScore') {
-      const minScore = gradingValues[level].minScore;
-      const maxScore = newValue;
-
-      // Update grading values
-      setGradingValues((prevValues) => ({
-        ...prevValues,
-        [level]: {
-          ...prevValues[level],
-          maxScore,
-        },
-      }));
-
-      // Update assessmentScoring state based on the level
-      if (minScore) {
-        const range = `${minScore}% - ${maxScore}%`;
-        setAssessmentScoring((prevAssessmentScoring) => ({
-          ...prevAssessmentScoring,
-          [`${level.toLowerCase()}_score_range`]: range,
-        }));
-      }
-
-      // Update incomplete levels
-      if (minScore === '') {
-        if (!incompleteLevels.includes(level)) {
-          setIncompleteLevels([...incompleteLevels, level]);
-        }
-      } else {
-        setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
-      }
+      console.log(assessmentScoring);
     }
-    console.log(assessmentScoring);
   };
 
   const handleSlider = () => {
@@ -268,6 +309,7 @@ const ScoringScreen = () => {
                     name="hours"
                     value={examTime.hours}
                     id="min-score"
+                    max="100"
                     onChange={handleInputChange}
                     placeHolder=""
                     className="h-8 w-14 sm:w-20 rounded-md border text-base font-bold text-black"
@@ -306,7 +348,7 @@ const ScoringScreen = () => {
                 </div>
               </div>
               <div className="flex gap-4 items-center mt-8">
-                <p className="text-sm w-full text-gray-200">
+                <p className="text-xs sm:text-sm w-full text-gray-200">
                   Automatically submit assessment for review when time elapses
                 </p>
                 <div
