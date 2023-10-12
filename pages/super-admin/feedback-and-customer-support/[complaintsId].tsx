@@ -4,9 +4,10 @@ import Link from 'next/link';
 import Nav from '../../view-components/super-admin/navbar';
 
 import Image from 'next/image';
-// /assets/myfolder/Icon.png
+import axios from 'axios';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
+import index from '../../marketplace/error-page';
 
 function ComplaintsDetails() {
   const [showform, setshowForm] = useState(false);
@@ -20,6 +21,8 @@ function ComplaintsDetails() {
   const [resolve, setResolve] = useState(false);
 
   const [resolveButton, setResolveButton] = useState(true);
+
+  const [replies, setReplies] = useState<any[]>([]);
 
   const showResolveButton = () => {
     setResolveButton(false);
@@ -37,12 +40,24 @@ function ComplaintsDetails() {
     setmodalOpen(true);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const message = e.currentTarget.message.value;
-    setText(message);
-    setshowForm(false);
-    showProfile();
+
+    try {
+      const response = await axios.post('https://team-mirage-super-amind2.onrender.com/api/admin/feedback/comments/', {
+        complaintId: 1,
+        message,
+      });
+      const newReply = { message, date: new Date().toISOString() };
+
+      setReplies([...replies, newReply]);
+      showProfile();
+      toggleForm();
+      console.log('Message Sent');
+    } catch (error) {
+      console.log('Error posting reply', error);
+    }
   };
 
   const toggleForm = () => {
@@ -96,7 +111,7 @@ function ComplaintsDetails() {
           </div>
 
           <div>
-            <div className="mb-20 flex flex-col ">
+            <div className="mb-2 flex flex-col ">
               <h1 className="mb-2 text-base">Feedback</h1>
               <p className="mb-2 text-xs">Order not recieved</p>
               <p className="mb-2 text-sm">
@@ -112,18 +127,6 @@ function ComplaintsDetails() {
                   Reply
                 </button>
 
-                <div>
-                  {profile && (
-                    <div className="p-4 bg-white-200 mt-2">
-                      <div className="flex justify-between">
-                        <p className="font-bold text-sm mb-2">ZuriCare</p>
-                        <p className="text-xs text-white-400">September 22, 2023.</p>
-                      </div>
-                      <p>{text}</p>
-                    </div>
-                  )}
-                </div>
-
                 {showform && (
                   <form
                     onSubmit={handleSubmit}
@@ -138,6 +141,20 @@ function ComplaintsDetails() {
                   </form>
                 )}
               </div>
+            </div>
+
+            <div>
+              {profile && (
+                <div className="p-4 bg-white-200 mt-2">
+                  <div className="flex justify-between">
+                    <p className="font-bold text-sm mb-2">ZuriCare</p>
+                    <p className="text-xs text-white-400">September 22, 2023.</p>
+                  </div>
+                  {replies.map((reply, index) => (
+                    <p key={index}>{reply.message}</p>
+                  ))}
+                </div>
+              )}
             </div>
 
             {resolveButton && <Button onClick={() => setmodalOpen(true)}>Set as Resolved</Button>}
