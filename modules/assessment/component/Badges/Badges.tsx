@@ -1,6 +1,5 @@
 import React from 'react';
 import { MdArrowBackIosNew } from 'react-icons/md';
-import { BsFillShareFill } from 'react-icons/bs';
 import BadgeModal from '../../../../components/Modals/BadgesModal';
 import Image from 'next/image';
 import Link from 'next/link';

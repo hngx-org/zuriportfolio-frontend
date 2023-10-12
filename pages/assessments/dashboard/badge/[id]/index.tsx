@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Badges from '@modules/assessment/component/Badges/Badges';
 import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
-import MainLayout from '../../../../../../../zuriportfolio-frontend/components/Layout/MainLayout';
+import MainLayout from '../../../../../components/Layout/MainLayout';
 
 const Page: React.FC = () => {
   const params = useRouter();
