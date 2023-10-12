@@ -52,13 +52,14 @@ function Signup() {
   });
 
   const router = useRouter();
+  const {email: userEmail} = router.query;
 
   const handleSignUp = async (values: any) => {
     try {
       const userData = {
         firstName: values.firstName,
         lastName: values.lastName,
-        email: 'emmanuelagbeniga+fuefgjef@gmail.com',
+        email: userEmail,
         password: values.password,
         confirmPassword: values.confirmPassword,
       };
@@ -134,7 +135,6 @@ function Signup() {
                     form.errors.password ? 'border-[red]' : 'border-[#D0D5DD]'
                   }`}
                   type={passwordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
-                  isPasswordVisible={passwordVisible} // Pass the visibility state as a prop
                   rightIcon={
                     <button type="button" onClick={togglePasswordVisibility} className="cursor-pointer">
                       {passwordVisible ? (
