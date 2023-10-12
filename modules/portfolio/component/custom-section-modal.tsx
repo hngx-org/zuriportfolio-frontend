@@ -60,6 +60,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
       id: idCounter,
     };
     setFields([...fields, newField]);
+    // setIsTitle(false);
   };
 
   const handleSave = () => {
@@ -270,7 +271,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
         <div className="border-brand-disabled rounded py-5 px-6 mt-8 mb-8 border-[1px]">
           <SectionBtns handleAddTitle={handleAddTitle} handleAddField={handleAddField} />
         </div>
-        <div className="border-brand-disabled rounded p-5 mt-3 mb-8 text-center border-[1px]">
+        <div className="border-brand-disabled rounded p-5 mt-2 mb-10 text-center border-[1px]">
           {fields.length > 0 || isTitle ? (
             <div>
               <>
@@ -291,17 +292,19 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
                   </div>
                 )}
               </>
-              {fields.length > 0 && <div className="flex flex-col gap-7">{renderfields()}</div>}
+              {fields.length > 0 && <div className="flex flex-col gap-7 pb-4">{renderfields()}</div>}
             </div>
           ) : (
             <h1></h1>
           )}
         </div>
         <>
-          {fields.length <= 0 && (
+          {fields.length < 0 || !isTitle ? (
             <div className="border-brand-disabled h-[250px] font-manropeL text-[#444846] flex items-center justify-center flex-col gap-7 rounded p-5 mt-3 mb-8 text-center border-[1px]">
               Customize and arrange your fields by clicking on the options above
             </div>
+          ) : (
+            <h1></h1>
           )}
         </>
         <div className="flex gap-2 justify-end items-end">
@@ -314,7 +317,15 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
           >
             Cancel
           </Button>
-          <Button type="submit" onClick={handleSave} className="w-full rounded-md self-end sm:w-[6rem]" size={'lg'}>
+          <Button
+            type="submit"
+            onClick={() => {
+              handleSave();
+              setIsTitle(false);
+            }}
+            className="w-full rounded-md self-end sm:w-[6rem]"
+            size={'lg'}
+          >
             Save
           </Button>
         </div>
@@ -357,6 +368,26 @@ const SectionBtns = ({
   handleAddField: (type: string) => void;
   handleAddTitle: () => void;
 }) => {
+  // const handleOpenFileManager = (e: React.FormEvent<HTMLInputElement>) => {
+  //   // Create a file input element
+  //   const fileInput = document.createElement('input');
+  //   fileInput.type = 'file';
+  //   fileInput.accept = 'image/*'; // Set the accepted file types (e.g., images)
+  //   fileInput.style.display = 'none';
+
+  //   // Add an event listener to handle the selected files
+  //   fileInput.addEventListener('change', (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     const selectedFiles = event.target.files;
+  //     if (selectedFiles && selectedFiles.length > 0) {
+  //       const selectedFile = selectedFiles[0];
+  //       // Process the selected file here (e.g., upload it or display it)
+  //     }
+  //   });
+
+  //   // Trigger a click event on the file input
+  //   fileInput.click();
+  // };
+
   return (
     <div
       style={{

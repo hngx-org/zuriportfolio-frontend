@@ -78,7 +78,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         }),
       });
       const data = await response.json();
-      console.log(data);
+      console.log({ data });
     } catch (error) {
       console.error(error);
     }
