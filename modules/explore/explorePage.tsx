@@ -28,9 +28,10 @@ import photo12 from '../../public/assets/images/explore_img/photo12.png';
 import SearchAndFilter from './SearchAndFilter';
 import axios from 'axios';
 import useDebounce from './hooks/deBounce';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { UserInfo } from '../../@types/exploreTyples';
+import { useRouter } from 'next/router';
 
 // Interface
 
@@ -185,6 +186,7 @@ const HomePage = () => {
   const [filters1, setFilters1] = useState('ddd');
   const [filters2, setFilters2] = useState('ddd');
   const deBounce = useDebounce(searchQuery, 1200);
+  const router = useRouter();
 
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo[]>({
