@@ -49,7 +49,6 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
     setHasSelected(true);
     setIsShown((prev) => !prev);
     setSelection(event.currentTarget.textContent);
-
     onClose()
   };
 
