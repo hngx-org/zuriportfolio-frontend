@@ -1,30 +1,30 @@
 import axios from 'axios';
 import $http from './axios';
 
-type LoginResponse = {
-  token: string;
-  data: {
-    id: string;
-    username: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    token: string;
-    section_order: unknown;
-    password: string;
-    provider: unknown;
-    profile_pic: unknown;
-    refresh_token: string;
-    role_id: number;
-    is_verified: boolean;
-    two_factor_auth: boolean;
-    location: unknown;
-    country: unknown;
-    created_at: string;
-    // message: string;
-  };
-  statusCode: number;
-};
+// type LoginResponse = {
+//   token: string;
+//   data: {
+//     id: string;
+//     username: string;
+//     first_name: string;
+//     last_name: string;
+//     email: string;
+//     token: string;
+//     section_order: unknown;
+//     password: string;
+//     provider: unknown;
+//     profile_pic: unknown;
+//     refresh_token: string;
+//     role_id: number;
+//     is_verified: boolean;
+//     two_factor_auth: boolean;
+//     location: unknown;
+//     country: unknown;
+//     created_at: string;
+//     // message: string;
+//   };
+//   statusCode: number;
+// };
 const AUTH_HTTP_URL = 'https://hng-stage-six.onrender.com/';
 
 // test

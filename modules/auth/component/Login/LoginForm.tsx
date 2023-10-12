@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useContext } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -17,8 +17,11 @@ import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWi
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 import { useRouter } from 'next/router';
+import AuthContext from '../../../../context/AuthContext';
+import isAuthenticated from '../../../../helpers/isAuthenticated';
 
 function LoginForm() {
+  const { handleUser } = useContext(AuthContext);
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,12 +45,17 @@ function LoginForm() {
       if (res.statusCode === 200 && res.data.token) {
         // Successful login
         console.log('Login success:', res);
+        handleUser(res.data);
+        localStorage.setItem('zpt', res.token);
+        const value = isAuthenticated(res.token);
+        console.log(value);
+
         router.push('/dashboard/orders');
       } else if (res.statusCode === 400 && 'Please verify your email.') {
         // Unverified user
         console.error('Unverified user:');
         // Handle unverified user logic (e.g., show a message to verify the email).
-      } else if (res.statusCode === 400 && 'Incorrect password') {
+      } else if (res.statusCode === 400 && 'Password or email is not correct') {
         // Incorrect password
         console.error('Incorrect password:');
         // Handle incorrect password logic (e.g., show a password error message).
