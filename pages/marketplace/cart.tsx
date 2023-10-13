@@ -56,18 +56,16 @@ export default function Cart() {
   const getSummary = (items: any[]) => {
     let sum = 0;
     items.map((item) => (sum += Number(item.productPrice)));
-    return sum
-  }
-  
-  
-  useEffect(() => {
-      async function cartFetch() {
-        const carts = await getUserCart()
-        setCartItems(carts)
-      }
-      cartFetch()
-  },[])
+    return sum;
+  };
 
+  useEffect(() => {
+    async function cartFetch() {
+      const carts = await getUserCart();
+      setCartItems(carts);
+    }
+    cartFetch();
+  }, []);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
     let id = event.currentTarget.id;
