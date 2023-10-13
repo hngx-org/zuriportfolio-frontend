@@ -98,7 +98,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
 export default function SubCategoryPage({ response }: ResponseType) {
   const router = useRouter();
   const { category, subCategory } = router.query;
-  // console.log(response);
 
   return (
     <FilterContextProvider>

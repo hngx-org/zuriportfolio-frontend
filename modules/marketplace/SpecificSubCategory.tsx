@@ -104,8 +104,6 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
     return pages;
   };
 
-  console.log(props?.response);
-
   return (
     <div>
       <CategoryLayout>
