@@ -49,7 +49,7 @@ export default function Cart() {
   ];
 
   const authContext = useContext(AuthContext);
-  const { auth } = authContext;
+  const { user } = authContext;
   const [productCards, setProductCards] = useState(ViewedProducts);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
 

@@ -1,16 +1,10 @@
-import React, { FormEvent, useState, useContext } from 'react';
-import Image from 'next/image';
+import React, { useState, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import google from '../../../../public/assets/loginPageAssets/google.svg';
-import github from '../../../../public/assets/loginPageAssets/github.svg';
-import facebook from '../../../../public/assets/loginPageAssets/facebook.svg';
+import { notify } from '@ui/Toast';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
 import { Eye, EyeSlash } from 'iconsax-react';
-
-import InputError from '../InputError';
-import useInputError from '../../../../hooks/useInputError';
 import { loginUser } from '../../../../http';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
@@ -19,33 +13,34 @@ import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUp
 import { useRouter } from 'next/router';
 import AuthContext from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
-import { notify } from '@ui/Toast';
+import z from 'zod';
+import { useForm, zodResolver } from '@mantine/form';
 
 function LoginForm() {
-  const { handleAuth } = useContext(AuthContext);
+  const { handleUser } = useContext(AuthContext);
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
-  const { handleSubmit, inputErrors } = useInputError();
+
+  const schema = z.object({
+    email: z.string().email(),
+    password: z.string().min(1, { message: 'Password is required' }),
+  });
+
+  const form = useForm({
+    validate: zodResolver(schema),
+    initialValues: {
+      email: '',
+      password: '',
+    },
+  });
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
-    // onSuccess: async (res) => {
-    //    console.log("responseoutside", res);
-    //   if (res.statusCode === 200 && res.token) {
-    //     console.log('response', res);
-    //     router.push('/dashboard/orders');
-    //   }
-
-    //   // router.push('/dashboard/orders');
-    // },
-
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
       if (res.message === 'Login successful') {
         // console.log('Login success:', res);
-        handleAuth(res.data);
+        handleUser(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
         // console.log(value);
@@ -73,51 +68,19 @@ function LoginForm() {
     },
     onError: (e) => {
       console.error({ e });
-      router.push('/access-denied');
+      notify({
+        message: 'Error logging in',
+        type: 'error',
+      });
     },
   });
 
-  //  const { mutate: loginUserMutation, isLoading } = useMutation(loginUser, {
-  //   onSuccess: async res => {
-  //     handleAuthState(res.data)
-  //     navigate('/dashboard')
-  //   },
-  //   onError: e => {
-  //     console.error({ e })
-  //     toast.error('Incorrect login credentials')
-  //   },
-  // })
+  const handleLogin = (values: any) => {
+    try {
+      loginUserMutation({ email: values.email, password: values.password });
+    } catch (error) {}
 
-  // const handleSubmit = (values: any) => {
-  //   loginUserMutation(values)
-  // }
-
-  // const loginFn = useAuthMutation(loginUser, {
-  //   onSuccess: (data) => {
-  //     if (data === 'User not found ') {
-
-  //       // router.push('/access-denied');
-  //     }else {
-  //            router.push('/dashboard/orders');
-  //     }
-  //     // console.log(data);
-
-  //   },
-  //   // onError: (err: any) => {
-  //   // //  router.push('/access-denied');
-  //   // },
-  // });
-
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('heloooooooooo');
-
-    if (email.length !== 0 && password.length !== 0) {
-      loginUserMutation({ email: email, password: password });
-    }
-    // To clear the input filed after submission
-    setEmail('');
-    setPassword('');
+    form.reset();
   };
 
   return (
@@ -131,7 +94,7 @@ function LoginForm() {
         </div>
 
         <div className="pt-[2.25rem]">
-          <form onSubmit={handleLogin}>
+          <form onSubmit={form.onSubmit((values) => handleLogin(values))}>
             <div>
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
@@ -139,14 +102,13 @@ function LoginForm() {
               <Input
                 placeHolder="Allusugar@gmail.com"
                 id="email"
-                name="email"
-                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
+                {...form.getInputProps('email')}
+                className={`w-full mt-[0.5rem] py-[0.84rem] bg-transparent ${
+                  form.errors.email ? 'border-[red]' : 'border-slate-50'
+                }`}
                 type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
-              <InputError inputError={inputErrors} inputName="email" />
+              <p className="text-[red] text-xs pt-1">{form.errors.email && form.errors.email}</p>
             </div>
             <div className="mt-[1rem]">
               <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
@@ -155,8 +117,10 @@ function LoginForm() {
               <Input
                 placeHolder="Gbemi345"
                 id="password"
-                name="password"
-                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
+                {...form.getInputProps('password')}
+                className={`w-full mt-[0.5rem] py-[0.84rem] bg-transparent ${
+                  form.errors.password ? 'border-[red]' : 'border-slate-50'
+                }`}
                 type={isPasswordShown ? 'text' : 'password'}
                 rightIcon={
                   isPasswordShown ? (
@@ -165,11 +129,8 @@ function LoginForm() {
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
                   )
                 }
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
-              <InputError inputError={inputErrors} inputName="password" />
+              <p className="text-[red] text-xs pt-1">{form.errors.password && form.errors.password}</p>
             </div>
 
             <Link href="/auth/forgot-password">
@@ -191,7 +152,7 @@ function LoginForm() {
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
               Don&apos;t have an account?
-              <Link href="/auth/signup-with-email">
+              <Link href="/auth/signup">
                 <span className="text-brand-green-primary"> Sign Up</span>
               </Link>
             </p>
