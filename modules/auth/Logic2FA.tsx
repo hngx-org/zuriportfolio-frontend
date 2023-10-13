@@ -16,11 +16,11 @@ function Code2FALogic() {
   const auth = useAuth();
   const email = auth.email;
   const mutateFn = useAuthMutation(verfiy2FA,  {
-    onSuccess: (data) => {
-     if(data.response.data.status && data.response.data.status == "Error") {
+    onSuccess: (data : any) => {
+     if(data?.response?.data?.status && data?.response?.data.status == "Error") {
       setDigits(['', '', '', '', '', '']);
       notify({
-          message: data.response.data?.message || "Error! Invalid code",
+          message: data?.response?.data?.message || "Error! Invalid code",
           type: 'error',
         });
      } else {
