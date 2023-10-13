@@ -4,7 +4,6 @@ import { RecentlyViewedProductProp } from '../@types';
 
 const AUTH_HTTP_URL = 'https://auth.akuya.tech';
 
-// test
 export const getUserByName = async (props: { name: string }) => {
   try {
     const res = await $http.get(`/user/${props?.name}`);
@@ -68,9 +67,8 @@ export const removeFromCart = async (productId: string,token: string) => {
 // 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/fecfd17b-51a3-4288-9bd0-77ac4b7d60a0/'
 
 export const getRecentlyViewedProducts = async (user_id: string, token: string) => {
-  const userId = 'fecfd17b-51a3-4288-9bd0-77ac4b7d60a0'
   try {
-    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${userId}`;
+    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${user_Id}`;
     const response = await $http.get(apiUrl, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -92,7 +90,7 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
     return res?.data;
   } catch (e: any) {
     const errorData = e.response.data;
-    console.log("Error in catch", errorData)
+    console.log('Error in catch', errorData);
     // throw new Error(errorData);
     return e.response.data ?? { message: e.message };
   }

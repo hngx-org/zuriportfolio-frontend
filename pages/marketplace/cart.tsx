@@ -5,29 +5,25 @@ import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, RecentlyViewedProductProp, ViewedProductCardProps } from '../../@types';
 import { getRecentlyViewedProducts, getUserCart, removeFromCart } from '../../http';
-import AuthContext from '../../context/AuthContext';
+import  { useAuth } from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 import CartPageSkeleton from '@modules/shop/component/cart/checkout/CartPageSkeleton';
 import { getDiscountPercentage, getSummary } from '../../helpers';
 
 export default function Cart() {
 
-
-  const authContext = useContext(AuthContext);
-  const { user } = authContext;
-  // const { auth } = authContext;
+  const {auth} = useAuth()
+  
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedProductProp[]>([]);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [isLoading,setIsLoading] = useState(true)
 
- 
 
   
   useEffect(() => {
       async function cartFetch() {
-        const carts = await getUserCart(user?.token as string)
-        const recentlyViewed = await getRecentlyViewedProducts("123",user?.token as string);
-        console.log(carts)
+        const carts = await getUserCart(auth?.token as string)
+        const recentlyViewed = await getRecentlyViewedProducts(auth?.user.id as string,auth?.token as string);
         setRecentlyViewed(recentlyViewed)
         setCartItems(carts)
         setIsLoading(false)
@@ -44,7 +40,7 @@ export default function Cart() {
 
   function removeProductHandler(productId: string) {
     let cartProductsItems = cartItems.filter((product) => product.id != productId);
-    removeFromCart(productId,user?.token as string);
+    removeFromCart(productId,auth?.token as string);
     setCartItems(cartProductsItems);
   }
   
