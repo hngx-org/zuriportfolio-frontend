@@ -91,8 +91,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
   //landing page
   const users = [
     `f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`,
-    `8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`,
     `6ba7b810-9dad-11d1-80b4-00c04fd430c8`,
+    `8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`,
   ];
   const [coverImage, setCoverImage] = useState<File | any>();
   const [avatarImage, setAvatarImage] = useState<File | any>();
@@ -131,7 +131,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
           coverImage: '',
         });
         setIsLoading(false);
-        setHasData(true);
       } catch (error: any) {
         setError({ state: true, error: error.message });
       }
@@ -180,7 +179,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
       }
     };
     getUserSections();
-  }, [userId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const profileUpdate = () => {
     setShowProfileUpdate(true);
