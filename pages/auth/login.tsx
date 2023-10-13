@@ -1,6 +1,7 @@
 import React from 'react';
 // import withoutAuth from '../../helpers/withoutAuth';
 import LoginForm from '../../modules/auth/component/Login/LoginForm';
+import withoutAuth from '../../helpers/withoutAuth';
 
 function Login() {
   return (
@@ -10,4 +11,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default withoutAuth(Login);

@@ -2,11 +2,11 @@ import { ExportSquare } from 'iconsax-react';
 import Image from 'next/image';
 
 type AboutProps = {
-  data?: string;
+  bio?: string;
 };
 
-export const About = ({ data }: AboutProps) => {
-  return <p className="text-sm text-gray-300 font-semibold">{data}</p>;
+export const About = ({ bio }: AboutProps) => {
+  return <p className="text-sm text-gray-300 font-semibold">{bio}</p>;
 };
 
 type SkeletonProps = {
@@ -14,7 +14,6 @@ type SkeletonProps = {
 };
 
 export const WorkExperience = ({ data }: SkeletonProps) => {
-  // console.log(data);
   return (
     <div className="flex md:flex-row flex-col justify-start md:justify-between  items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6">
       <p className="text-gray-300 font-semibold text-base flex-[2]">
@@ -103,6 +102,7 @@ export const Awards = ({ data }: SkeletonProps) => {
 };
 
 export const Project = ({ data }: SkeletonProps) => {
+  const dataToMap = data.tags.split(',');
   const image = data?.img ? (
     <Image
       width={0}
@@ -121,7 +121,7 @@ export const Project = ({ data }: SkeletonProps) => {
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className="font-semibold text-sm text-gray-400">{data?.description}</p>
         <div className="order-2 md:order-1 flex gap-3 my-2">
-          {data?.tags?.map((tag: string, i: number) => (
+          {dataToMap.map((tag: string, i: number) => (
             <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
               <p className="text-sm text-gray-400">{tag}</p>
             </span>
@@ -136,14 +136,15 @@ export const Project = ({ data }: SkeletonProps) => {
 };
 
 export const Skill = ({ data }: SkeletonProps) => {
+  const dataToMap = data.split(',');
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {data?.map((skill: string, i: number) => (
+      {dataToMap?.map((interest: string, i: number) => (
         <span
           className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
           key={i}
         >
-          <p className="text-sm text-gray-400 font-semibold opacity-70"> {skill}</p>
+          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
         </span>
       ))}
     </div>
@@ -151,14 +152,15 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
+  const dataToMap = data.interest.split(',');
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {data?.map((interest: string, i: number) => (
+      {dataToMap?.map((interest: string, i: number) => (
         <span
           className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
           key={i}
         >
-          <p className="text-sm text-gray-400 font-semibold opacity-70"> {interest}</p>
+          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
         </span>
       ))}
     </div>
@@ -166,14 +168,15 @@ export const Interests = ({ data }: SkeletonProps) => {
 };
 
 export const Language = ({ data }: SkeletonProps) => {
+  const dataToMap = data.split(',');
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {data?.map((language: string, i: number) => (
+      {dataToMap?.map((interest: string, i: number) => (
         <span
           className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
           key={i}
         >
-          <p className="text-sm text-gray-400 font-semibold opacity-70"> {language}</p>
+          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
         </span>
       ))}
     </div>
