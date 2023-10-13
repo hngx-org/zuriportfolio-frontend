@@ -62,6 +62,25 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, produ
                     />
                   </g>
                 </g>
+              </g>
+            </svg>
+            <span className="text-[#001F23]">Save for Later</span>
+          </button>
+          <button
+            className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[14px] flex items-center gap-2 rounded-md"
+            onClick={() => {
+              closeModal();
+              onRemoveItem(productId);
+            }}
+          >
+            <Image src={trash} alt="checked" width={20} height={20} />
+            Remove Item
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
 };
 
 export default RemoveCart;

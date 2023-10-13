@@ -19,11 +19,17 @@ export default function CartItem({
   removeHandler,
 }: CartItemProps & { removeHandler: (productId: string) => void }) {
   const [modalClosed, setModalClosed] = useState('hidden');
-  
+
   const removeItem = () => {
     // removeFromCart()
     setModalClosed('block');
   };
+
+
+  const closeModal = () => {
+    setModalClosed('hidden');
+  };
+
 
   return (
     <>
