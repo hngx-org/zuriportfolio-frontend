@@ -1,12 +1,10 @@
-import React, { FormEvent, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { notify } from '@ui/Toast';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
 import { Eye, EyeSlash } from 'iconsax-react';
-import InputError from '../InputError';
-import useInputError from '../../../../hooks/useInputError';
 import { loginUser } from '../../../../http';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
@@ -15,52 +13,55 @@ import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUp
 import { useRouter } from 'next/router';
 import AuthContext from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
+import z from 'zod';
+import { useForm, zodResolver } from '@mantine/form';
 
 function LoginForm() {
   const { handleUser } = useContext(AuthContext);
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
-  const { handleSubmit, inputErrors } = useInputError();
+
+  const schema = z.object({
+    email: z.string().email(),
+    password: z.string().min(1, { message: 'Password is required' }),
+  });
+
+  const form = useForm({
+    validate: zodResolver(schema),
+    initialValues: {
+      email: '',
+      password: '',
+    },
+  });
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
-      if (res.statusCode === 200 && res.data.token) {
-        console.log('Login success:', res);
+      if (res.message === 'Login successful') {
+        // console.log('Login success:', res);
         handleUser(res.data);
-        localStorage.setItem('zpt', res.token);
-        const value = isAuthenticated(res.token);
-        console.log(value);
-
+        localStorage.setItem('zpt', res?.data?.token);
+        const value = isAuthenticated(res?.data?.token);
+        // console.log(value);
+        notify({
+          message: 'Login successful',
+          type: 'success',
+        });
         router.push('/');
-      } else if (res.statusCode === 400 && res.message === 'Please verify your email.') {
-        console.error('Unverified user');
-
+      } else if (res.message === 'Invalid password') {
         notify({
-          message: 'Please verify your email.',
+          message: 'Invalid password',
           type: 'error',
         });
-      } else if (res.statusCode === 400 && res.message === 'Incorrect password') {
-        console.error('Incorrect password');
-
+      } else if (res.message === 'User not found') {
         notify({
-          message: 'Incorrect password',
+          message: 'User not found',
           type: 'error',
         });
-      } else if (res.statusCode === 500 && res.message === 'Error logging in') {
-        console.error('Error logging in');
-
+      } else if (res.message === 'Please verify your account') {
         notify({
-          message: 'Error logging in',
-          type: 'error',
-        });
-      } else {
-        console.error('sign up');
-        notify({
-          message: 'Error logging in',
+          message: 'Please verify your account',
           type: 'error',
         });
       }
@@ -74,30 +75,26 @@ function LoginForm() {
     },
   });
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('heloooooooooo');
+  const handleLogin = (values: any) => {
+    try {
+      loginUserMutation({ email: values.email, password: values.password });
+    } catch (error) {}
 
-    if (email.length !== 0 && password.length !== 0) {
-      loginUserMutation({ email: email, password: password });
-    }
-    // To clear the input filed after submission
-    setEmail('');
-    setPassword('');
+    form.reset();
   };
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
       <div className="md:mx-auto lg:mb-10 font-manropeL">
         <div className="md:flex sm:flex flex-col items-center justify-center lg:items-start">
-          <p className=" md:text-4xl text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
+          <p className=" md:text-4xl mt-[1.75rem] md:mt-0 text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
           <p className="text-custom-color30  mt-[1rem] md:text-[1.375rem]  lg:font-semibold sm:tracking-[0.00375rem] text-center md:text-left">
             Log in to continue using zuriportfolio
           </p>
         </div>
 
         <div className="pt-[2.25rem]">
-          <form onSubmit={handleLogin}>
+          <form onSubmit={form.onSubmit((values) => handleLogin(values))}>
             <div>
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
@@ -105,14 +102,13 @@ function LoginForm() {
               <Input
                 placeHolder="Allusugar@gmail.com"
                 id="email"
-                name="email"
-                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
+                {...form.getInputProps('email')}
+                className={`w-full mt-[0.5rem] py-[0.84rem] bg-transparent ${
+                  form.errors.email ? 'border-[red]' : 'border-slate-50'
+                }`}
                 type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
-              <InputError inputError={inputErrors} inputName="email" />
+              <p className="text-[red] text-xs pt-1">{form.errors.email && form.errors.email}</p>
             </div>
             <div className="mt-[1rem]">
               <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
@@ -121,8 +117,10 @@ function LoginForm() {
               <Input
                 placeHolder="Gbemi345"
                 id="password"
-                name="password"
-                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
+                {...form.getInputProps('password')}
+                className={`w-full mt-[0.5rem] py-[0.84rem] bg-transparent ${
+                  form.errors.password ? 'border-[red]' : 'border-slate-50'
+                }`}
                 type={isPasswordShown ? 'text' : 'password'}
                 rightIcon={
                   isPasswordShown ? (
@@ -131,11 +129,8 @@ function LoginForm() {
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
                   )
                 }
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
-              <InputError inputError={inputErrors} inputName="password" />
+              <p className="text-[red] text-xs pt-1">{form.errors.password && form.errors.password}</p>
             </div>
 
             <Link href="/auth/forgot-password">
@@ -157,8 +152,8 @@ function LoginForm() {
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
               Don&apos;t have an account?
-              <Link href="/auth/login">
-                <span className="text-brand-green-primary"> Sign in</span>
+              <Link href="/auth/signup">
+                <span className="text-brand-green-primary"> Sign Up</span>
               </Link>
             </p>
           </div>

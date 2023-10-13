@@ -1,10 +1,34 @@
-import React, { ChangeEvent, useState, useRef } from 'react';
+import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
+import jwtDecode from 'jwt-decode';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { verfiy2FA } from '../../http';
+import isAuthenticated from '../../helpers/isAuthenticated';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
 function Code2FALogic() {
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+  interface DecodedToken {
+    email: string;
+  }
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+
+    if (token !== null) {
+      const decodedToken = jwtDecode(token) as DecodedToken;
+
+      if (isAuthenticated(token)) {
+        const userEmail = decodedToken.email;
+
+        console.log(`User's email: ${userEmail}`);
+      } else {
+        console.log('User is not authenticated.');
+      }
+    } else {
+      console.log('Token is null.');
+    }
+  }, []);
 
   function handlePaste(e: React.ClipboardEvent<HTMLInputElement>, index: number) {
     e.preventDefault();
@@ -70,7 +94,24 @@ function Code2FALogic() {
     }
   };
 
-  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange };
+  const loginFn = useAuthMutation(verfiy2FA);
+  const handleSubmit = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.preventDefault();
+    const Token = localStorage.getItem('authToken');
+    if (Token !== null) {
+      const decodedToken = jwtDecode(Token) as DecodedToken; // Assuming you've defined DecodedToken
+      const email = decodedToken.email;
+      const token = digits.toString();
+      loginFn.mutate({ email, token });
+    } else {
+      console.log('Token is null. Unable to proceed.');
+    }
+  };
+
+  const handleResend = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.preventDefault();
+  };
+  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend };
 }
 
 export default Code2FALogic;
