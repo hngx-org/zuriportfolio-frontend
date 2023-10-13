@@ -39,12 +39,15 @@ function LoginForm() {
       console.log('responseoutside', res);
 
       if (res.message === 'Login successful') {
-        console.log('Login success:', res);
+        // console.log('Login success:', res);
         handleUser(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
-        console.log(value);
-
+        // console.log(value);
+        notify({
+          message: 'Login successful',
+          type: 'success',
+        });
         router.push('/');
       } else if (res.message === 'Invalid password') {
         notify({
