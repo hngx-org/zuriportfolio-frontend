@@ -7,7 +7,7 @@ import { Eye, EyeSlash } from 'iconsax-react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
-import { resetPassword } from '../../http';
+import { resetPassword } from '../../http/auth';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { notify } from '@ui/Toast';
 import { useRouter } from 'next/router';
