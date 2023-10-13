@@ -1,23 +1,26 @@
 import React from 'react';
 import Image, { StaticImageData } from 'next/image';
-import { VendorCardProps } from '../../../@types';
+import { VendorCardProps2 } from '../../../@types';
 import Starfill from '../../../public/assets/images/vendors/starfilled.png';
 import Starempty from '../../../public/assets/images/vendors/starempty.png';
+import Aff from '../../../../../public/assets/images/vendors/afflate.png';
+import Web from '../../../public/assets/images/vendors/webinar.png';
 import Link from 'next/link';
 
-function VendorCard({ vendorname, pic, name, price }: VendorCardProps): React.ReactElement {
+// function VendorCard({ vendorname, pic, name, price }: VendorCardProps): React.ReactElement {
+function VendorCard({ currency, name, price, vendor }: VendorCardProps2): React.ReactElement {
   return (
     <div className="rounded-md p-1.5 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL">
-      <Image className="mb-4 rounded-lg max-h-[100%] min-w-[100%]" src={pic} alt="coursepic" />
+      <Image className="mb-4 rounded-lg max-h-[100%] min-w-[100%]" src={Web} alt="coursepic" />
       <div className="flex flex-col w-[230px] max-w-[100%] content-start">
         <p className="text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%] text-green-850">
           {name}
         </p>
-        <h2 className="font-bold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-green-850">{`$${price}`}</h2>
+        <h2 className="font-bold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-green-850">{`${currency} ${price}`}</h2>
         <p className="text-custom-color15 font-semibold text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] break-words w-[100%] max-w-[100%]">
           By:{' '}
           <Link href={'/'} className="underline">
-            {vendorname}
+            {vendor}
           </Link>{' '}
         </p>
       </div>
