@@ -50,7 +50,7 @@ export interface AllCategoryDetails {
 export interface Products {
   _id: string;
   name: string;
-  image: string;
+  image: any;
   shopOwner: string;
   price: number;
   category: string;
@@ -515,13 +515,7 @@ export interface NotificationCheckboxType {
   // userId:string
 }
 
-export type cardinfo = {
-  title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
-};
+
 export type Graph = {
   id: number;
   title: string;
@@ -547,18 +541,22 @@ export type topListingProduct = {
   vendor: string;
 };
 
-export type activity = {
+type activity = {
   name: string;
+  user_details: {
+    first_name: string;
+    last_name: string;
+  };
+  action: string;
+  title: string;
   purchased: string;
   pItem: string;
   id: number;
 };
-type cardinfo = {
+export type cardinfo = {
   title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
+  amount: any;
+  ratio: number;
 };
 
 export type inputErrorMessage = {
@@ -644,3 +642,28 @@ export type AuthResponse = {
   token: string;
   user: User;
 };
+
+
+type ProductResultImage = {
+  url: string;
+}
+export interface ProductResult {
+  id: string;
+  name: string;
+  description: string;
+  quantity: number;
+  price: string;
+  discount_price: string;
+  tax: string;
+  images: ProductResultImage[];
+  admin_status: string;
+  is_deleted: string;
+  is_published: boolean;
+  currency: string;
+  createdat: string;
+  updatedat: string;
+  shop: string;
+  category: number;
+  rating: number;
+  user: string;
+}
