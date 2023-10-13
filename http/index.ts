@@ -165,7 +165,7 @@ export const makePayment = async (selectedPaymentMethod: string) => {
     try {
       const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/checkout/api/orders';
       const data = {
-        redirect_url: 'https://www.staging.zuri.team/marketplace/cart',
+        redirect_url: 'https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart',
         payment_method: selectedPaymentMethod,
       };
 
