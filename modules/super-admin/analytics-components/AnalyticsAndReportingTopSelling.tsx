@@ -11,7 +11,7 @@ export default function Page() {
     async function getData() {
       try {
         const res = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/admin/analytics/best_selling_products/',
+          'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/',
         );
         if (!res.ok) {
           throw new Error('Failed to fetch data');
@@ -39,7 +39,7 @@ export default function Page() {
     </div>
   );
 
-  const currentPage = 2;
+  const currentPage = 1;
   const totalPages = 10;
 
   return (
@@ -65,25 +65,26 @@ export default function Page() {
           </div>
         </div>
         <div className="min-w-[1000px]">
-          {products &&
-            products.map((product) => (
-              <div
-                key={product.product_id}
-                className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap"
-              >
-                <div className="flex items-center md:pl-8 ">
-                  <Image src={Logo} alt={product.product_id} width={50} height={50} />
-                  <span className="ml-4 text-md md:text-lg">{product.product_name}</span>
+          {products
+            ? products.map((product) => (
+                <div
+                  key={product.product_id}
+                  className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap"
+                >
+                  <div className="flex items-center md:pl-8 ">
+                    <Image src={Logo} alt={product.product_id} width={50} height={50} />
+                    <span className="ml-4 text-md md:text-lg">{product.product_name}</span>
+                  </div>
+                  <div className="grid grid-cols-5 text-custom-color2 text-center min-w-[100px]">
+                    <p className="">{product.category_name}</p>
+                    <p>{product.total_orders}</p>
+                    <p>{product.price}</p>
+                    <p>{product.total_sales}</p>
+                    <p>{product.vendor_name}</p>
+                  </div>
                 </div>
-                <div className="grid grid-cols-5 text-custom-color2 text-center min-w-[100px]">
-                  <p className="">{product.category_name}</p>
-                  <p>{product.total_orders}</p>
-                  <p>{product.price}</p>
-                  <p>{product.total_sales}</p>
-                  <p>{product.vendor_name}</p>
-                </div>
-              </div>
-            ))}
+              ))
+            : 'Fetching...'}
         </div>
         <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={() => {}} />
       </div>
