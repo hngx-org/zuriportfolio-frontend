@@ -7,6 +7,7 @@ import { CartItemProps, ViewedProductCardProps } from '../../@types';
 import { getUserCart, removeFromCart } from '../../http';
 import AuthContext from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
+import CartPageSkeleton from '@modules/shop/component/cart/checkout/CartPageSkeleton';
 
 export default function Cart() {
   const ViewedProducts: ViewedProductCardProps[] = [
@@ -52,6 +53,7 @@ export default function Cart() {
   const { user } = authContext;
   const [productCards, setProductCards] = useState(ViewedProducts);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
+  const [isLoading,setIsLoading] = useState(true)
 
   const getSummary = (items: any[]) => {
     let sum = 0;
@@ -64,6 +66,7 @@ export default function Cart() {
       async function cartFetch() {
         const carts = await getUserCart()
         setCartItems(carts)
+        setIsLoading(false)
       }
       cartFetch()
   },[])
@@ -114,7 +117,10 @@ export default function Cart() {
 
   return (
     <MainLayout activePage="home" showDashboardSidebar={false} showTopbar>
-      <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
+      { isLoading ? 
+        <CartPageSkeleton></CartPageSkeleton>
+      :
+        <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
         {cartItems.length > 0 ? (
           <>
             <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
@@ -140,7 +146,8 @@ export default function Cart() {
         ) : (
           <EmptyCart></EmptyCart>
         )}
-      </main>
+        </main>
+      }
     </MainLayout>
   );
 }
