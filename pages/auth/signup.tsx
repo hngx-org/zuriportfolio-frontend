@@ -9,7 +9,7 @@ import PasswordPopover from '@modules/auth/component/PasswordPopover';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
-import { signUpUser } from '../../http';
+import { signUpUser } from '../../http/auth';
 import { notify } from '@ui/Toast';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
