@@ -90,3 +90,14 @@ export const resendVerification = async (props: { email: string }) => {
     return e.response.data ?? { message: e.message };
   }
 };
+
+export const guestSignup = async (props: { email: string; firstName: string; lastName: string; password: string }) => {
+  try {
+    const res = await $http.post('/signup', props);
+    console.log(res?.data);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    return e.response.data ?? { message: e.message };
+  }
+};
