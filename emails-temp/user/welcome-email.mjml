@@ -3,17 +3,13 @@
     <mj-title>Welcome Email</mj-title>
     <mj-style>.header img { max-width: 50%; margin: auto; }</mj-style>
     <mj-font name="FontAwesome" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <mj-font
-      name="Manrope"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
-    />
     <mj-attributes>
       <mj-class name="primary" color="#33a467" />
       <mj-class name="neutral" color="#253237" />
       <mj-class name="white" color="#fff" />
       <mj-class name="secondary" background-color="#ecebe6" />
 
-      <mj-text font-family="Manrope" font-size="16px" />
+      <mj-text font-family="Verdana" font-size="16px" />
     </mj-attributes>
   </mj-head>
   <mj-body background-color="#ecebe6">
@@ -31,7 +27,7 @@
       <mj-group background-color="white">
         <mj-column width="100%">
           <mj-text font-weight="1000" font-size="18px" padding-top="40px"> Hi Dare, </mj-text>
-          <mj-text line-height="25px" font-family="Manrope, Century Gothic">
+          <mj-text line-height="25px" font-family="Verdana, Century Gothic">
             Welcome to Zuriportfolio! We're so excited to have you on board. We're your one-stop shop for all your
             digital product needs. We sell a wide range of digital products, such as ebooks, online courses, templates,
             and other items. We also provide a platform for creating and sharing your portfolio, CV, and other digital
@@ -40,14 +36,14 @@
         </mj-column>
 
         <mj-column padding-top="20px" width="100%">
-          <mj-text font-family="Manrope, Century Gothic"> With your Zuriportfolio account you get: </mj-text>
+          <mj-text font-family="Verdana, Century Gothic"> With your Zuriportfolio account you get: </mj-text>
         </mj-column>
 
         <mj-column width="5%">
           <mj-text color="#865311" font-family="FontAwesome">&#xf058;</mj-text>
         </mj-column>
         <mj-column width="95%" padding-left="20px">
-          <mj-text line-height="25px" font-family="Manrope, Century Gothic">
+          <mj-text line-height="25px" font-family="Verdana, Century Gothic">
             Portfolio template to showcase your skills
           </mj-text>
         </mj-column>
@@ -56,7 +52,7 @@
           <mj-text color="#865311" font-family="FontAwesome">&#xf058;</mj-text>
         </mj-column>
         <mj-column width="95%" padding-left="20px">
-          <mj-text line-height="25px" font-family="Manrope, Century Gothic">
+          <mj-text line-height="25px" font-family="Verdana, Century Gothic">
             Access to other creatives like you in different fields all over the world
           </mj-text>
         </mj-column>
@@ -65,7 +61,7 @@
           <mj-text color="#865311" font-family="FontAwesome">&#xf058;</mj-text>
         </mj-column>
         <mj-column width="95%" padding-left="20px">
-          <mj-text line-height="25px" font-family="Manrope, Century Gothic">
+          <mj-text line-height="25px" font-family="Verdana, Century Gothic">
             A personal online shop for any digital product of yours for sale e.g courses, templates e.t.c
           </mj-text>
         </mj-column>
@@ -74,7 +70,7 @@
           <mj-text color="#865311" font-family="FontAwesome">&#xf058;</mj-text>
         </mj-column>
         <mj-column width="95%" padding-left="20px">
-          <mj-text line-height="25px" font-family="Manrope, Century Gothic">
+          <mj-text line-height="25px" font-family="Verdana, Century Gothic">
             External assessment to test your skills
           </mj-text>
         </mj-column>
@@ -82,7 +78,7 @@
         <mj-column width="100%" background-color="white">
           <mj-button
             background-color="#009254"
-            font-family="Manrope, Century Gothic"
+            font-family="Verdana, Century Gothic"
             font-size="15px"
             border-radius="16px"
             width="200px"
@@ -94,7 +90,7 @@
         </mj-column>
 
         <mj-column padding-top="20px" background-color="white" width="100%" padding-bottom="40px">
-          <mj-text font-family="Manrope, Century Gothic"> Thank you for choosing Zuri Portfolio </mj-text>
+          <mj-text font-family="Verdana, Century Gothic"> Thank you for choosing Zuri Portfolio </mj-text>
           <mj-text font-size="17px" font-weight="700" color="#865311"> Zuri Team </mj-text>
         </mj-column>
 
@@ -108,7 +104,7 @@
         </mj-column>
 
         <mj-column width="100%" padding-bottom="40px">
-          <mj-text align="center" font-size="12px" font-family="Manrope, Century Gothic">
+          <mj-text align="center" font-size="12px" font-family="Verdana, Century Gothic">
             Copyright &copy Zuriportfolio. All rights reserved
           </mj-text>
         </mj-column>

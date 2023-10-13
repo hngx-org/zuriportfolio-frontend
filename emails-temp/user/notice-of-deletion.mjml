@@ -2,8 +2,6 @@
   <mj-head>
     <mj-preview>Purchase Confirmation</mj-preview>
     <mj-title></mj-title>
-    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
-    <mj-font name="Open Sans" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" />
     <mj-attributes>
       /* background colors */
       <mj-class name="bg-grey" background-color="#F0F1F0" />
@@ -11,7 +9,7 @@
       <mj-class name="bg-green" background-color="#009254" border-radius="10.08px" padding="24px 0" />
 
       /* Font styles */
-      <mj-class name="h-1" font-size="28px" line-height="32px" font-weight="700" color="#1A1C1B" css-class="h1" />
+      <mj-class name="h-1" font-size="18px" line-height="32px" font-weight="700" color="#1A1C1B" css-class="h1" />
       <mj-class
         name="h-2"
         font-size="16px"
@@ -32,7 +30,7 @@
       />
       <mj-class
         name="p-3"
-        font-size="12px"
+        font-size="14px"
         line-height="16px"
         letter-spacing="0.048px"
         font-weight="600"
@@ -45,7 +43,7 @@
       <mj-class name="sp-xl" height="36px" />
 
       /* MJML Attributes */
-      <mj-text font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" padding="0" />
+      <mj-text font-family="Verdana" padding="0" />
       <!-- <mj-button background-color="#006853" color="#FFFFFF" font-size="12px" line-height="15px" font-weight="bold" border-radius="45px" inner-padding="18px" padding="0"/> -->
       <mj-image padding="0" />
       <mj-column padding="0" />

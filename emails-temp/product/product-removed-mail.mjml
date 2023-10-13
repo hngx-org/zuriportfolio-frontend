@@ -6,10 +6,9 @@
         padding: 24px 24px 48px 24px;
       }
     </mj-style>
-    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
 
     <mj-attributes>
-      <mj-text color="#2E3130" font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" line-height="24px" />
+      <mj-text color="#2E3130" font-family="Verdana" line-height="24px" />
     </mj-attributes>
 </mj-head>
   <mj-body background-color="#f0ece6">
@@ -28,14 +27,14 @@
         <mj-text
           padding="40px 20px 20px 20px"
           color="#000"
-          font-size="24px"
+          font-size="18px"
           font-weight="bold"
           
         >
-          HI {{$name}},
+          Hi {{$name}},
         </mj-text>
 
-        <mj-text  font-weight="bold" color="#009254" font-size="20px">
+        <mj-text  font-weight="bold" color="#009254" font-size="18px">
           A product has been removed from your store
         </mj-text>
 
@@ -78,7 +77,7 @@
         </mj-raw>
       </mj-column>
       <mj-column width="65%">
-        <mj-text font-size="20px" color="#737876"  font-weight="bold">
+        <mj-text font-size="18px" color="#737876"  font-weight="bold">
             <span >Guide to Marketing 101</span>
         </mj-text>
 
@@ -133,7 +132,7 @@
 
         <mj-text
           align="center"
-          font-family="Arial, sans-serif"
+          font-family="Verdana"
           font-size="13px"
           line-height="22px"
           padding="10px 25px"

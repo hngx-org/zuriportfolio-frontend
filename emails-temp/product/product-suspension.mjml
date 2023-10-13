@@ -2,18 +2,14 @@
   <mj-head>
     <mj-title>Welcome Email</mj-title>
     <mj-style> .bold { font-weight: 600; } .header img { max-width: 50%; margin: auto; }</mj-style>
-    <mj-font name="FontAwesome" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <mj-font
-      name="Manrope"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
-    />
+
     <mj-attributes>
       <mj-class name="primary" color="#33a467" />
       <mj-class name="neutral" color="#253237" />
       <mj-class name="white" color="#fff" />
       <mj-class name="secondary" background-color="#ecebe6" />
 
-      <mj-text font-family="Manrope , Century Gothic" font-size="16px" />
+      <mj-text font-family="Verdana" font-size="16px" />
     </mj-attributes>
   </mj-head>
   <mj-body background-color="#ecebe6">
@@ -30,26 +26,24 @@
     <mj-section padding="20px">
       <mj-group background-color="white">
         <mj-column width="100%">
-          <mj-text font-weight="1000" font-size="18px" padding-top="40px" font-family="Manrope , Century Gothic">
-            Hi Dare,
-          </mj-text>
+          <mj-text font-weight="1000" font-size="18px" padding-top="40px" font-family="Verdana"> Hi Dare, </mj-text>
           <mj-text
             font-weight="600"
             color="#009254"
-            font-size="20px"
+            font-size="18px"
             padding-top="10px"
             line-height="24px"
-            font-family="Manrope , Century Gothic"
+            font-family="Verdana"
           >
             Product suspension
           </mj-text>
-          <mj-text line-height="25px" font-family="Manrope , Century Gothic">
+          <mj-text line-height="25px" font-family="Verdana">
             One of your products ‘Guide to Marketing 101’ has been suspended from your Zuriportfolio store and unlisted
             from the platform or a duration of 2 weeks due to policy and community guidelines violations
           </mj-text>
-          <mj-text line-height="25px" font-family="Manrope , Century Gothic"
+          <mj-text line-height="25px" font-family="Verdana"
             >Violation:
-            <span style="font-weight: 600; font-family: Century Gothic">
+            <span style="font-weight: 600; font-family: Verdana">
               Product misrepresentation & Intellectual property infringement</span
             ></mj-text
           >
@@ -93,7 +87,7 @@
         </mj-column>
 
         <mj-column width="100%" padding-top="40px">
-          <mj-text line-height="25px" font-family="Manrope , Century Gothic">
+          <mj-text line-height="25px" font-family="Verdana">
             If you believe this decision was made in error, please reach out to our support team at
             <a href="mailto:zurisupport@gmail.com" style="font-weight: bold; color: #009254">zurisupport@gmail.com</a>.
           </mj-text>
@@ -107,12 +101,8 @@
         </mj-column>
 
         <mj-column padding-top="180px" background-color="white" width="100%" padding-bottom="40px">
-          <mj-text line-height="25px" font-family="Manrope , Century Gothic">
-            Thank you for choosing Zuri Portfolio
-          </mj-text>
-          <mj-text font-size="17px" font-weight="700" color="#865311" font-family="Manrope , Century Gothic">
-            Zuri Team
-          </mj-text>
+          <mj-text line-height="25px" font-family="Verdana"> Thank you for choosing Zuri Portfolio </mj-text>
+          <mj-text font-size="17px" font-weight="700" color="#865311" font-family="Verdana"> Zuri Team </mj-text>
         </mj-column>
 
         <mj-column css-class="logo" width="100%">
@@ -125,7 +115,7 @@
         </mj-column>
 
         <mj-column width="100%" padding-bottom="40px">
-          <mj-text align="center" font-size="12px" font-family="Manrope , Century Gothic">
+          <mj-text align="center" font-size="12px" font-family="Verdana">
             Copyright &copy Zuriportfolio. All rights reserved
           </mj-text>
         </mj-column>

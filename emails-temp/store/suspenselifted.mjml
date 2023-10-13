@@ -1,11 +1,10 @@
 <mjml>
   <mj-head>
     <mj-style> body { margin: initial; padding: 24px 24px 48px 24px; } </mj-style>
-    <mj-font name="ManRope" href="https-//fonts.googleapis.com/css2?family=Century Gothic&display=swap" />
     <mj-attributes>
       <mj-image padding="0px" />
       <mj-body background-color="#F0ECE6" />
-      <mj-text font-family="Century Gothic, sans-serif" font-size="14px" letter-spacing="0.035px" color="#2E3130" />
+      <mj-text font-family="Verdana" font-size="16px" letter-spacing="0.035px" color="#2E3130" />
     </mj-attributes>
   </mj-head>
   <mj-body>
@@ -24,15 +23,9 @@
     <mj-wrapper background-color="#fff">
       <mj-section padding="40px 2px 0px 2px">
         <mj-column>
-          <mj-text font-size="16px" font-weight="600" color="#000"> Hi, Dare </mj-text>
-          <mj-text font-size="16px" font-weight="600" color="#009254"> Suspension lifted </mj-text>
-          <mj-text
-            color="#191c1d"
-            line-height="20px"
-            font-family="Century Gothic, sans-serif"
-            font-size="14px"
-            letter-spacing="0.035px"
-          >
+          <mj-text font-size="18px" font-weight="600" color="#000"> Hi, Dare </mj-text>
+          <mj-text font-size="18px" font-weight="600" color="#009254"> Suspension lifted </mj-text>
+          <mj-text color="#191c1d" line-height="20px" font-family="Verdana" font-size="16px" letter-spacing="0.035px">
             We are pleased to let you know that your store Zuriportfolio store
             <mj-raw>
               <span style="font-weight: bold; color: #191c1d">‘Road to marketing’</span>
@@ -41,13 +34,7 @@
             unwavering commitment to maintaining elevated standards of quality and compliance.
           </mj-text>
 
-          <mj-text
-            color="#191c1d"
-            line-height="20px"
-            font-family="Century Gothic, sans-serif"
-            font-size="14px"
-            letter-spacing="0.035px"
-          >
+          <mj-text color="#191c1d" line-height="20px" font-family="Verdana" font-size="16px" letter-spacing="0.035px">
             We acknowledge the inconvenience and disruption this suspension may have caused and appreciate your
             understanding and cooperation throughout the process.
           </mj-text>
@@ -69,13 +56,7 @@
 
       <mj-section padding="15px 2px 0px 2px">
         <mj-column>
-          <mj-text
-            color="#191c1d"
-            line-height="20px"
-            font-family="Century Gothic, sans-serif"
-            font-size="14px"
-            letter-spacing="0.035px"
-          >
+          <mj-text color="#191c1d" line-height="20px" font-family="Verdana" font-size="16px" letter-spacing="0.035px">
             Take a moment to review our
             <mj-raw>
               <span style="color: #009254; text-decoration: underline">terms of service</span>
@@ -88,13 +69,7 @@
             fostering a safe and respectful environment for all users.
           </mj-text>
 
-          <mj-text
-            color="#191c1d"
-            line-height="20px"
-            font-family="Century Gothic, sans-serif"
-            font-size="14px"
-            letter-spacing="0.035px"
-          >
+          <mj-text color="#191c1d" line-height="20px" font-family="Verdana" font-size="16px" letter-spacing="0.035px">
             If you have any questions or issues, please contact support at
             <mj-raw> <span style="color: #009254; text-decoration: underline">support@zuriportolio.com</span>. </mj-raw>
           </mj-text>
@@ -103,13 +78,7 @@
 
       <mj-section padding="30px 2px 0px 2px">
         <mj-column>
-          <mj-text
-            color="#191C1D"
-            line-height="0"
-            font-family="Century Gothic, sans-serif"
-            font-size="12px"
-            letter-spacing="0.035px"
-          >
+          <mj-text color="#191C1D" line-height="0" font-family="Verdana" font-size="16px" letter-spacing="0.035px">
             Thank you for choosing Zuriportfolio!
           </mj-text>
 
@@ -117,8 +86,8 @@
             color="#865311"
             font-weight="700"
             line-height="1px"
-            font-family="Century Gothic, sans-serif"
-            font-size="14px"
+            font-family="Verdana"
+            font-size="16px"
             letter-spacing="0.035px"
           >
             Zuri Team
@@ -138,8 +107,8 @@
             font-weight="700"
             align="center"
             line-height="1px"
-            font-family="Century Gothic, sans-serif"
-            font-size="9.528px"
+            font-family="Verdana"
+            font-size="12px"
             letter-spacing="0.035px"
           >
             Copyright (c) Zuriportfolio. All rights reserved
