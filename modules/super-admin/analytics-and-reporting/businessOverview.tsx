@@ -10,31 +10,33 @@ const BusinessOveriview: React.FC = (props) => {
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
   const [BusinessOverviewArray, setBusinessOverview] = React.useState<any>([]);
+  // React.useEffect(() => {
+  //   fetch('https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/')
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setBusinessOverview(data.data);
+  //       // console.log(data.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  // DateQuery
+
   React.useEffect(() => {
-    fetch('https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/')
+    fetch(
+      `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`,
+    )
       .then((res) => res.json())
       .then((data) => {
         setBusinessOverview(data.data);
-        // console.log(data.data)
+        console.log(data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  // DateQuery
-
-  //   React.useEffect((()=>{
-  //    fetch(`https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/?start_date=${startDate}&end_date=${endDate}`)
-  //   .then(res => res.json())
-  //   .then(data =>  {
-  //     setBusinessOverview(data.data)
-  //     // console.log(data.data)
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //   });
-  // }),[])
 
   // fetch("https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/",{
   //   method:'GET',

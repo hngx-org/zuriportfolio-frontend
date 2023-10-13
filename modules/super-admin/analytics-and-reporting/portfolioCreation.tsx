@@ -4,18 +4,15 @@ import Image from 'next/image';
 const PortfolioCreation: React.FC = (props) => {
   const [portfolioCreationArray, setPortfolioCreationArray] = React.useState<any>([]);
   React.useEffect(() => {
-    fetch('https://team-mirage-super-amind2.onrender.com/api/admin/analytics/portfolio_summary/')
+    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/')
       .then((res) => res.json())
       .then((data) => {
-        // setPortfolioCreationArray(data.data)
-        console.log(data);
+        setPortfolioCreationArray(data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndDate] = React.useState('');
 
   // DateQuery
 
@@ -78,17 +75,17 @@ const PortfolioCreation: React.FC = (props) => {
                   >
                     <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[9.969rem]">
                       <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                        {e.totalPorfolio}
+                        {e.total_portfolios_created}
                       </h6>
                     </div>
                     <div className="max-w-[19.8rem] w-full max-[778px]:min-w-[9.8rem]">
                       <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                        {e.category}
+                        {e.portfolio_category}
                       </p>
                     </div>
                     <div className="max-w-[11.8rem] w-full max-[778px]:min-w-[11.8rem]">
                       <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                        {e.totalAmount}
+                        {e.total_category}
                       </p>
                     </div>
                     <div className="max-w-[12.4rem] w-full max-[778px]:min-w-[12.4rem]">
@@ -98,7 +95,7 @@ const PortfolioCreation: React.FC = (props) => {
                     </div>
                     <div className="max-w-[10.8rem] w-full max-[778px]:min-w-[10.8rem]">
                       <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                        {e.activeUsers}
+                        {e.active_user}
                       </p>
                     </div>
                   </div>

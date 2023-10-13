@@ -1,36 +1,41 @@
 import React from 'react';
 import Image from 'next/image';
+import { DateObject } from 'react-multi-date-picker';
 
-const AnalysisCards: React.FC = (props) => {
+const AnalysisCards: React.FC = () => {
+  // const startDate = dataRange[0]?dataRange[0].format(`YYYY-MM-DDTHH:mm:ss${"Z"}`):"2023-10-19T18:09:12Z";
+  // const endDate = dataRange[1]?dataRange[0].format(`YYYY-MM-DDTHH:mm:ss${"Z"}`):"2023-10-19T18:09:12Z";
+  // console.log(startDate)
+  // console.log(endDate)
+
+  // DateQuery
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
+
   React.useEffect(() => {
-    fetch('https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/')
+    fetch(
+      `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`,
+    )
       .then((res) => res.json())
       .then((data) => {
         setCardDataOne(data.data);
-        // console.log(data.data)
+        console.log(data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  // DateQuery
-
   //   React.useEffect((()=>{
-  //     fetch(`https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/?start_date=${startDate}&end_date=${endDate}`)
+  //     fetch(`https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=""&end_date=""`)
   //    .then(res => res.json())
   //    .then(data =>  {
   //      setCardDataOne(data.data)
-  //      // console.log(data.data)
   //    })
   //    .catch(err => {
   //      console.log(err)
   //    });
   //  }),[])
   const [CardDataOne, setCardDataOne] = React.useState<any>([]);
-  // MOBILE
 
   const percentile = '/assets/images/reports/crack.svg';
 
@@ -88,7 +93,7 @@ const AnalysisCards: React.FC = (props) => {
                     />
                   </svg>
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                    {CardDataOne[0]?.ratio}%
+                    {Math.floor(CardDataOne[0]?.ratio)}%
                   </p>
                 </div>
               )}
@@ -102,14 +107,14 @@ const AnalysisCards: React.FC = (props) => {
                     className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                   />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                    {CardDataOne[0]?.ratio}%
+                    {Math.floor(CardDataOne[0]?.ratio)}%
                   </p>
                 </div>
               )}
               {CardDataOne[0]?.ratio == 0 && (
                 <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                    {CardDataOne[0]?.ratio}%
+                    {Math.floor(CardDataOne[0]?.ratio)}%
                   </p>
                 </div>
               )}
@@ -164,7 +169,7 @@ const AnalysisCards: React.FC = (props) => {
                     />
                   </svg>
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                    {CardDataOne[1]?.ratio}%
+                    {Math.floor(CardDataOne[1]?.ratio)}%
                   </p>
                 </div>
               )}
@@ -178,14 +183,14 @@ const AnalysisCards: React.FC = (props) => {
                     className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
                   />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                    {CardDataOne[1]?.ratio}%
+                    {Math.floor(CardDataOne[1]?.ratio)}%
                   </p>
                 </div>
               )}
               {CardDataOne[1]?.ratio == 0 && (
                 <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                    {CardDataOne[1]?.ratio}%
+                    {Math.floor(CardDataOne[1]?.ratio)}%
                   </p>
                 </div>
               )}
@@ -316,7 +321,7 @@ const AnalysisCards: React.FC = (props) => {
                     />
                   </svg>
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                    {CardDataOne[5]?.ratio}%
+                    {Math.floor(CardDataOne[5]?.ratio)}%
                   </p>
                 </div>
               )}
@@ -330,14 +335,14 @@ const AnalysisCards: React.FC = (props) => {
                     className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                   />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                    {CardDataOne[5]?.ratio}%
+                    {Math.floor(CardDataOne[5]?.ratio)}%
                   </p>
                 </div>
               )}
               {CardDataOne[5]?.ratio == 0 && (
                 <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                    {CardDataOne[5]?.ratio}%
+                    {Math.floor(CardDataOne[5]?.ratio)}%
                   </p>
                 </div>
               )}
@@ -540,7 +545,7 @@ const AnalysisCards: React.FC = (props) => {
                       />
                     </svg>
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {hero?.ratio}%
+                      {Math.floor(hero?.ratio)}%
                     </p>
                   </div>
                 )}
@@ -554,14 +559,14 @@ const AnalysisCards: React.FC = (props) => {
                       className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                     />
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {hero?.ratio}%
+                      {Math.floor(hero?.ratio)}%
                     </p>
                   </div>
                 )}
                 {hero?.ratio == 0 && (
                   <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {hero?.ratio}%
+                      {Math.floor(hero?.ratio)}%
                     </p>
                   </div>
                 )}
@@ -619,7 +624,7 @@ const AnalysisCards: React.FC = (props) => {
                       />
                     </svg>
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {hero?.ratio}%
+                      {Math.floor(hero?.ratio)}%
                     </p>
                   </div>
                 )}
@@ -633,14 +638,14 @@ const AnalysisCards: React.FC = (props) => {
                       className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                     />
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {hero?.ratio}%
+                      {Math.floor(hero?.ratio)}%
                     </p>
                   </div>
                 )}
                 {hero?.ratio == 0 && (
                   <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {hero?.ratio}%
+                      {Math.floor(hero?.ratio)}%
                     </p>
                   </div>
                 )}
