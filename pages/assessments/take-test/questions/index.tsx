@@ -9,10 +9,30 @@ import Button from '@ui/Button';
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
+  const [selectedAnswers, setSelectedAnswers] = React.useState({});
   const router = useRouter();
+
+  const handleAnswerSelect = (questionId: number, answer: string) => {
+    setSelectedAnswers(prevState => ({
+      ...prevState,
+      [questionId]: answer
+    }))
+
+    axios.post('/api/submit-answer', {
+      questionId: questionId,
+      answer: answer
+    })
+    .then(response => {
+      console.log('Answer submitted successfully:', response.data);
+    })
+    .catch(error => {
+      console.error('Error submitting answer:', error);
+    });
+  };
 
   return (
     <>
@@ -67,7 +87,12 @@ const Questions: React.FC = () => {
                   <div className="mt-4 flex gap-4 flex-col">
                     {question.options.map((option, index) => (
                       <div key={index} className="flex items-center gap-5 ">
-                        <input type="radio" id={`${option.answer}`} name={question.question} value={option.answer} />
+                        <input type="radio" 
+                          id={`${option.answer}`} 
+                          name={question.question} 
+                          value={option.answer} 
+                          onClick={() => handleAnswerSelect(question.id, option.answer)}
+                        />
                         <label className="text-xs text-gray-700 " htmlFor={`${option.answer}`}>
                           {option.answer}
                         </label>
