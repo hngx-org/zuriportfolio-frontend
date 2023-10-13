@@ -31,7 +31,7 @@ export const sections = [
     modal: <Education />,
   },
   {
-    id: 'skill',
+    id: 'skills',
     title: 'Skill',
     description: 'List your your expertise, technical, managerial or soft skill abilities in this section',
     icon: <Briefcase />,
@@ -102,16 +102,47 @@ export const sections = [
   },
 ];
 
+// @Entity()
+// export class Certificate {
+//   @PrimaryGeneratedColumn()
+//   id: number;
+
+//   @Column()
+//   title: string;
+
+//   @Column()
+//   year: string;
+
+//   @Column()
+//   organization: string;
+
+//   @Column({ type: "text", nullable: true })
+//   url: string;
+
+//   @Column("text")
+//   description: string;
+
+//   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+//   created_at: Date;
+
+//   @Column({ name: "user_id" })
+//   userId: string;
+
+//   @Column({ name: "section_id" })
+//   sectionId: number;
+
+//   @ManyToOne(()
+
 export let workexperiences = [
   {
     id: 11,
     role: 'Role',
     company: 'Company',
     description: 'Description',
-    startMonth: 'mm',
-    startYear: 'yyyy',
-    endMonth: 'mm',
-    endYear: 'yyyy',
+    start_month: 'mm',
+    start_year: 'yyyy',
+    end_month: 'mm',
+    end_year: 'yyyy',
   },
 ];
 
@@ -147,12 +178,8 @@ export let educations = [
     degree: 'Degree',
     school: 'School',
     description: 'Description',
-    linkTitle: 'Link Title',
-    link: 'Link',
-    startMonth: 'mm',
-    startYear: 'yyyy',
-    endMonth: 'mm',
-    endYear: 'yyyy',
+    from: 'mm',
+    to: 'yyyy',
   },
 ];
 
