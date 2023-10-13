@@ -17,19 +17,20 @@ function Index() {
   const [list, setList]: any = useState(Assessmentlist);
   //This is for the search box, to be updated as user inputs
   const [filterParam, setfilterParam] = useState('');
+  const [filteredData, setFilteredData] = useState(Assessmentlist);
   const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
   //The list is searched according to what user enters
   useEffect(() => {
-    setList(
-      Assessmentlist?.filter((child: any) => {
+    setFilteredData(
+      list.filter((child:any) => {
         if (filterParam === '') {
-          return list;
+          return true; // Return true to include all items when filterParam is empty
         } else {
           return child?.trackname.toLowerCase().includes(filterParam);
         }
-      }),
+      })
     );
   }, [filterParam, list]);
   return (
@@ -65,7 +66,7 @@ function Index() {
 
             <input className="w-full outline-none" placeholder="Search assessments and responses" onInput={onFilter} />
           </div>
-          <ListContext.Provider value={[list, setList]}>
+          <ListContext.Provider value={[filteredData, setList]}>
             <Assessmentresponses />
           </ListContext.Provider>
         </div>
