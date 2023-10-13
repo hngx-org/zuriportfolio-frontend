@@ -1,7 +1,7 @@
 import axios from 'axios';
 import $http from './axios';
 
-const AUTH_HTTP_URL = 'https://hng-stage-six.onrender.com/';
+const AUTH_HTTP_URL = 'https://auth.akuya.tech';
 
 // test
 export const getUserByName = async (props: { name: string }) => {
