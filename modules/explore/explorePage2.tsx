@@ -82,7 +82,7 @@ const HomePage = () => {
 
   return (
     <>
-      <SearchAndFilter setSearchQuery={setSearchQuery} />
+      {/* <SearchAndFilter setSearchQuery={setSearchQuery} /> */}
       {isLoading && (
         <div className="grid place-items-center min-h-[300px]">
           <p>Loading...</p>{' '}
