@@ -197,8 +197,7 @@ export let projects = [
 
 export let about = 'A place to highlight your professional experience A place to highlight your professional.';
 
-export let skills = [
-  {
+export let skills = [  {
     id: 67867834,
     skills: 'Skill 1',
   },
