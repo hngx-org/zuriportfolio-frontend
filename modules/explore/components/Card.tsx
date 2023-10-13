@@ -19,24 +19,24 @@ interface CardProps {
 
 const Card = ({ data }: { data?: UserInfo }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const cardRef = useRef<HTMLDivElement | null>(null);
-  const overlayRef = useRef<HTMLDivElement | null>(null);
-  const shareBtnRef = useRef<HTMLDivElement | null>(null);
-  const btnPortfolioRef = useRef<HTMLDivElement | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const shareBtnRef = useRef<HTMLDivElement>(null);
+  const btnPortfolioRef = useRef<HTMLAnchorElement>(null);
 
   return (
     <div
       className="relative transition-all ease-in-out duration-500 hover:scale-105 "
       ref={cardRef}
       onMouseEnter={() => {
-        overlayRef.current.style.height = '100%';
-        shareBtnRef.current.classList.toggle('hidden');
-        btnPortfolioRef.current.classList.toggle('hidden');
+        overlayRef.current && (overlayRef.current.style.height = '100%');
+        shareBtnRef.current && shareBtnRef.current.classList.toggle('hidden');
+        btnPortfolioRef.current && btnPortfolioRef.current.classList.toggle('hidden');
       }}
       onMouseLeave={() => {
-        overlayRef.current.style.height = '100%';
-        shareBtnRef.current.classList.toggle('hidden');
-        btnPortfolioRef.current.classList.toggle('hidden');
+        overlayRef.current && (overlayRef.current.style.height = '0');
+        shareBtnRef.current && shareBtnRef.current.classList.toggle('hidden');
+        btnPortfolioRef.current && btnPortfolioRef.current.classList.toggle('hidden');
       }}
     >
       <div
