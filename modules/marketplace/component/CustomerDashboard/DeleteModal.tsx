@@ -2,29 +2,30 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { Trash } from 'iconsax-react';
 
-interface Props {
+const DeleteModal = ({
+  isOpen,
+  onClose,
+  onDelete,
+}: {
   isOpen: boolean;
   onClose: () => void;
-  handleDelete: (orderId: string) => void;
-  checkedItems: any;
-}
-
-const DeleteModal: React.FC<Props> = ({ isOpen, onClose, handleDelete, checkedItems }) => {
+  onDelete?: () => void;
+}) => {
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
-      <div className="cus-2-content p-[2rem]">
+      <div className="cus-2-content p-[.3rem] md:p-[2rem]">
         <div className="icon flex justify-center mb-[2rem]">
-          <div className="l1 p-[1.3rem] bg-brand-red-hover/20 rounded-full">
-            <div className="l2 bg-red-305 rounded-full p-[1.3rem]">
+          <div className="l1 p-[.6rem] md:p-[1.3rem] bg-brand-red-hover/20 rounded-full">
+            <div className="l2 bg-red-305 rounded-full p-[.6rem] md:p-[1.3rem]">
               <Trash size={30} color="#ffff" />
             </div>
           </div>
         </div>
         <div className="cus-2-title text-center">
-          <h3 className="font-bold text-[1.5rem]">Delete Order History</h3>
+          <h3 className="font-bold text-[1.2rem] md:text-[1.5rem]">Delete Order History</h3>
         </div>
-        <div className="cus-2-para text-center my-[2rem]">
-          <p className="text-[1.2rem] font-[200]">
+        <div className="cus-2-para text-center my-[1rem] md:my-[2rem]">
+          <p className="text-[.8rem] font-semibold md:text-[1.2rem] text-black/70">
             Are you sure you want to delete this history? Don’t worry, we have sent a copy for you to your mail just
             incase.
           </p>
@@ -33,7 +34,7 @@ const DeleteModal: React.FC<Props> = ({ isOpen, onClose, handleDelete, checkedIt
           <Button intent={'secondary'} size={'md'} onClick={onClose}>
             No, Back
           </Button>
-          <Button size={'lg'} onClick={() => handleDelete(checkedItems)}>
+          <Button size={'lg'} onClick={onDelete}>
             Yes, Delete
           </Button>
         </div>
