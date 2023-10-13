@@ -43,7 +43,7 @@ const CreateTemplate: React.FC<CreateassProps> = ({ dataValues }) => {
     const name = e.target.name;
     const value = e.target.value;
 
-    setInputsVal((values) => ({ ...values, [name]: value }));
+    setInputsVal((prevValues) => ({ ...prevValues, [name]: value }));
   };
   //pushing the select input to the lists
   useEffect(() => {
@@ -52,9 +52,7 @@ const CreateTemplate: React.FC<CreateassProps> = ({ dataValues }) => {
   }, [inputsVal]);
 
   //demo-post
-  const handleRequest = () => {
-    console.log(inputsVal);
-  };
+
   return (
     <>
       <div className="flex flex-col gap-y-8 ">
@@ -70,10 +68,10 @@ const CreateTemplate: React.FC<CreateassProps> = ({ dataValues }) => {
                   className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100 text-[18px]"
                   onChange={handleChange}
                   type="text"
-                  name={`Question${index}`}
+                  name={`Question${index + 1}`}
                   placeholder=""
                   intent={'default'}
-                  value={inputsVal[`Question${index}`] || ''}
+                  value={inputsVal[`Question${index + 1}`] || ''}
                   size={15}
                 />
 
@@ -107,9 +105,9 @@ const CreateTemplate: React.FC<CreateassProps> = ({ dataValues }) => {
                         className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100 text-[17px]"
                         onChange={handleChange}
                         type="text"
-                        name={'option' + index}
+                        name={`option${index + 1}`}
                         placeholder=""
-                        value={inputsVal[`option${index}`] || ''}
+                        value={inputsVal[`option${index + 1}`] || ''}
                         intent={'default'}
                       />
                       <svg
@@ -189,7 +187,6 @@ const CreateTemplate: React.FC<CreateassProps> = ({ dataValues }) => {
         >
           Add Question
         </Button>
-        <button onClick={handleRequest}>Subit Assesment</button>
       </div>
     </>
   );

@@ -13,7 +13,10 @@ const CreateAssessment = () => {
   const handleClick = (button: string) => {
     setActive(button);
   };
-
+  //getting input values
+  const publishAssesment = () => {
+    console.log(requestValues);
+  };
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
@@ -41,7 +44,9 @@ const CreateAssessment = () => {
             <Button className="p-4 border-2 border-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100">
               Save To Drafts
             </Button>
-            <Button className="p-3 text-white-100 text-center ">Publish Assesments</Button>
+            <Button className="p-3 text-white-100 text-center" onClick={publishAssesment}>
+              Publish Assesments
+            </Button>
           </div>
         </div>
         <div className="pt-4 pb-2 flex space-x-10 justify-center">
