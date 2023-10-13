@@ -6,6 +6,7 @@ import Image from 'next/image';
 import more from '../../../../public/assets/ic_outline-arrow-back-ios.svg';
 import menu from '../../../../public/assets/ic_outline-menu.svg';
 import { useAuthentication } from '../../../../hooks/useAuthentication';
+import axios from 'axios';
 
 interface CategoriesNavProps {
   navItems: string[];
@@ -14,11 +15,28 @@ interface CategoriesNavProps {
 const CategoriesNav = (props: CategoriesNavProps) => {
   const [active, setActive] = useState(-1);
   const [allCatActive, setAllCatActive] = useState(false);
+  const [categories, setCategories] = useState([]);
+
   const { authenticated } = useAuthentication();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+
+        setCategories(data.categories || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    return () => {
+      fetchCategories();
+    };
+  }, []);
 
   const navContainerRef = useRef<HTMLDivElement>(null);
 
-  const { navItems } = props;
   useEffect(() => {
     if (active >= 0) setAllCatActive(false);
   }, [active]);
@@ -29,7 +47,6 @@ const CategoriesNav = (props: CategoriesNavProps) => {
 
   const handleScrollLeft = () => {
     if (navContainerRef.current) {
-      console.log('Yes');
       const scrollAmount = -100;
       navContainerRef.current.scrollTo({
         left: navContainerRef.current.scrollLeft - scrollAmount,
@@ -37,11 +54,6 @@ const CategoriesNav = (props: CategoriesNavProps) => {
       });
     }
   };
-
-  const _navItems = [...navItems];
-  if (authenticated) {
-    _navItems.unshift('Wishlist');
-  }
 
   return (
     <div className={`font-ppReg shadow-sm -mt-4 px-4`}>
@@ -58,7 +70,12 @@ const CategoriesNav = (props: CategoriesNavProps) => {
         </button>
         <div className={`overflow-x-scroll  ${styles['hide-scroll']}`} ref={navContainerRef}>
           <ul className={`list flex whitespace-nowrap gap-8 py-5 bg-white-100 text-base `}>
-            {_navItems.map((category, i) => {
+            {authenticated && (
+              <li>
+                <Link href={`/marketplace/wishlist`}>WishList</Link>
+              </li>
+            )}
+            {categories.map((category, i: number) => {
               return (
                 <li key={i + 1} className="">
                   <ButtonCat active={active} handleActiveNav={handleActiveNav} category={category} index={i} />
