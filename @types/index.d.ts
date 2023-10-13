@@ -507,12 +507,12 @@ export interface ProductInfo {
   status: string;
 }
 export interface DeletedProducts {
+  admin_status: string;
+  category_id: number;
+  createdAt: string;
+  id: string;
   name: string;
-  vendor: string;
-  id: number;
-  dateAdded: Date;
-  dateDeleted: Date;
-  status: string;
+  updatedAt: string;
 }
 export interface CardData {
   id: number;

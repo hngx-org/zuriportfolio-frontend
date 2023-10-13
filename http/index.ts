@@ -129,3 +129,19 @@ export const makePayment = async (selectedPaymentMethod: string) => {
     throw new Error('Please select a payment method before making the payment.');
   }
 };
+
+export const getAllProducts = async () => {
+  const $http = axios.create({
+    baseURL: 'https://spitfire-superadmin-1.onrender.com/',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  });
+  try {
+    const resp = await $http.get('api/product/all');
+    console.log(resp?.data?.data);
+    return resp?.data?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
