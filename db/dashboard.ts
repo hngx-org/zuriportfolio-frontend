@@ -50,8 +50,11 @@ export const metricsChartTimeline = [
   },
 ];
 
-export const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
+export const twelveMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export const threeMonths = ['Jan', 'Feb', 'Mar'];
+export const thirtyDays = Array.from({ length: 30 }, (_, i) => (i + 1).toString());
+export const sevenDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+export const twentyFourHours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
 export const activityData = [
   {
     name: 'Dami Wikinson',
@@ -108,5 +111,61 @@ export const activityData = [
   {
     name: 'Loki Bright',
     item: 'Webflow 101',
+  },
+  {
+    name: 'Jessica Smith',
+    item: 'Figma Course',
+  },
+  {
+    name: 'Sophia Johnson',
+    item: 'SEO Masterclass',
+  },
+  {
+    name: 'David Brown',
+    item: 'Website Template',
+  },
+  {
+    name: 'Grace Miller',
+    item: 'Figma Course',
+  },
+  {
+    name: 'Michael Thomas',
+    item: 'Webflow 101',
+  },
+  {
+    name: 'Isabella White',
+    item: 'Webflow 101',
+  },
+  {
+    name: 'Oliver Lewis',
+    item: 'SEO Masterclass',
+  },
+  {
+    name: 'Ava Taylor',
+    item: 'Figma Course',
+  },
+  {
+    name: 'William Martinez',
+    item: 'Website Template',
+  },
+  {
+    name: 'Sophie Hall',
+    item: 'Webflow 101',
+  },
+  {
+    name: 'Benjamin Clark',
+    item: 'Website Template',
+  },
+  {
+    name: 'Nora Davis',
+    item: 'SEO Masterclass',
+  },
+  {
+    name: 'Ethan Turner',
+    item: 'Webflow 101',
+  },
+  {
+    name: 'Olivia Harris',
+    item: 'Figma Course',
   },
 ];

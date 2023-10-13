@@ -1,5 +1,16 @@
-// import { toast } from "@/hooks/use-toast"
-import { axiosDashboardInstance } from './axios';
+import axios from 'axios';
+import { notify } from '@ui/Toast';
+
+const fetchErrorToast = (data: string) => notify({ type: 'error', message: `Error fetching ${data}`, theme: 'light' });
+
+const baseURL = 'https://zuriportfolio-shop-internal-api.onrender.com/api';
+
+const axiosDashboardInstance = axios.create({
+  baseURL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 export const fetchTodaysRevenue = async () => {
   try {
@@ -7,10 +18,7 @@ export const fetchTodaysRevenue = async () => {
     console.log(res);
     return res.data;
   } catch (error) {
-    // toast({
-    //   description: "Error fetching revenues",
-    //   variant: "destructive",
-    // })
+    fetchErrorToast("today's revenue");
     console.error('Error fetching revenues:', error);
     throw error;
   }
@@ -22,10 +30,7 @@ export const fetchTodaysOrders = async () => {
     console.log(res);
     return res.data;
   } catch (error) {
-    // toast({
-    //   description: "Error fetching todays orders",
-    //   variant: "destructive",
-    // })
+    fetchErrorToast("today's orders");
     console.error('Error fetching todays orders:', error);
     throw error;
   }
@@ -37,10 +42,7 @@ export const fetchAverageOrderValue = async () => {
     console.log(res);
     return res.data;
   } catch (error) {
-    // toast({
-    //   description: "Error fetching order/average",
-    //   variant: "destructive",
-    // })
+    fetchErrorToast('average order revenue value');
     console.error('Error fetching order/average:', error);
     throw error;
   }
@@ -52,10 +54,7 @@ export const fetchSalesReports = async () => {
     console.log(res);
     return res.data;
   } catch (error) {
-    // toast({
-    //   description: "Error fetching reports",
-    //   variant: "destructive",
-    // })
+    fetchErrorToast('sales reports');
     console.error('Error fetching reports:', error);
     throw error;
   }
@@ -67,10 +66,7 @@ export const fetchStoreTraffic = async () => {
     console.log(res);
     return res.data;
   } catch (error) {
-    // toast({
-    //   description: "Error fetching store-traffic",
-    //   variant: "destructive",
-    // })
+    fetchErrorToast('store traffic');
     console.error('Error fetching store-traffic:', error);
     throw error;
   }
@@ -82,10 +78,7 @@ export const fetchActivity = async () => {
     console.log(res);
     return res.data;
   } catch (error) {
-    // toast({
-    //   description: "Error fetching activity",
-    //   variant: "destructive",
-    // })
+    fetchErrorToast('activity');
     console.error('Error fetching activity:', error);
     throw error;
   }
