@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth';
+const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth/api/auth';
 
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
@@ -106,7 +106,7 @@ export const resendVerification = async (props: { email: string }) => {
 
 export const guestSignup = async (props: { email: string; firstName: string; lastName: string; password: string }) => {
   try {
-    const res = await $http.post('/api/auth/signup', props);
+    const res = await $http.post('/signup', props);
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {
