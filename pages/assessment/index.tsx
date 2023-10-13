@@ -18,13 +18,40 @@ export const ListContext = React.createContext([{}]);
 function Index() {
   const [newModal, setnewModal]: any = useState(false);
   const [track, setTrack]: any = useState(null);
+  const [loading, setLoading] = useState(true);
   const [list, setList]: any = useState(Assessmentlist);
+  const [trackids, setTrackids] = useState([]);
   //This is for the search box, to be updated as user inputs
   const [filterParam, setfilterParam] = useState('');
   const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
 
+  const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
+  useEffect(() => {
+    fetch(apiUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parse the JSON response
+      })
+      .then((responseData) => {
+        setTrackids(responseData.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setLoading(false);
+      });
+  }, []);
+  if (loading) {
+    return (
+      <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
+        <div className=" items-center text-white-100 text-2xl">Loading...</div>
+      </div>
+    );
+  }
   return (
     <MainLayout activePage="/assessment/" className="assessmentheader" showTopbar showDashboardSidebar={false}>
       {newModal && (
@@ -41,11 +68,13 @@ function Index() {
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1">Option1</SelectItem>
-                  <SelectItem value="2">Option2</SelectItem>
-                  <SelectItem value="3">Option3</SelectItem>
-                  <SelectItem value="4">Option4</SelectItem>
-                  <SelectItem value="5">Option5</SelectItem>
+                  {trackids.map((track: any) => {
+                    return (
+                      <SelectItem key={track.id} value={track?.id}>
+                        {track?.track}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             </div>
