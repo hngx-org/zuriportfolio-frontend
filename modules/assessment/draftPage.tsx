@@ -77,13 +77,14 @@ const DraftPage = () => {
             {
               question_no: 1,
               question_text: 'string',
+              question_type: "multiple_choice",
               options: ['string'],
               correct_option: 1,
             },
           ],
           is_published: false,
           title: newTitle,
-          duration_minutes: 1,
+          duration_minutes: 0,
         }),
       });
 
