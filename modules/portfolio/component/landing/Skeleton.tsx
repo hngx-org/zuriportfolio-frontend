@@ -102,7 +102,8 @@ export const Awards = ({ data }: SkeletonProps) => {
 };
 
 export const Project = ({ data }: SkeletonProps) => {
-  const dataToMap = data.tags.split(',');
+  console.log(data);
+  // const dataToMap = data.tags.split('#');
   const image = data?.img ? (
     <Image
       width={0}
@@ -121,11 +122,11 @@ export const Project = ({ data }: SkeletonProps) => {
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className="font-semibold text-sm text-gray-400">{data?.description}</p>
         <div className="order-2 md:order-1 flex gap-3 my-2">
-          {dataToMap.map((tag: string, i: number) => (
+          {/* {dataToMap.map((tag: string, i: number) => (
             <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
               <p className="text-sm text-gray-400">{tag}</p>
             </span>
-          ))}
+          ))} */}
         </div>
         <a className="text-blue-100 font-semibold" href={data?.url}>
           Link to project
@@ -136,15 +137,14 @@ export const Project = ({ data }: SkeletonProps) => {
 };
 
 export const Skill = ({ data }: SkeletonProps) => {
-  const dataToMap = data.split(',');
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {dataToMap?.map((interest: string, i: number) => (
+      {data?.map((skill: any, i: number) => (
         <span
           className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
           key={i}
         >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
+          <p className="text-sm text-gray-400 font-semibold opacity-70">{skill.skills}</p>
         </span>
       ))}
     </div>
@@ -152,7 +152,7 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
-  const dataToMap = data.interest.split(',');
+  const dataToMap = data?.interest?.split(',');
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
       {dataToMap?.map((interest: string, i: number) => (

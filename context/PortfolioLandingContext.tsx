@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, use } from 'react';
 import WorkExperienceSection from '@modules/portfolio/component/work-experience-modal';
 import useDisclosure from '../hooks/useDisclosure';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
@@ -9,6 +9,7 @@ import { interests, sections as s } from '@modules/portfolio/component/landing/d
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
 
 type PortfolioContext = {
+  setUserData: React.Dispatch<React.SetStateAction<any>>;
   userData: any;
   hasData: boolean;
   sections: Array<any>;
@@ -45,6 +46,7 @@ type PortfolioContext = {
 };
 
 const Portfolio = createContext<PortfolioContext>({
+  setUserData: () => {},
   userData: {},
   selectedSections: [],
   hasData: false,
@@ -94,6 +96,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     `6ba7b810-9dad-11d1-80b4-00c04fd430c8`,
     `8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`,
   ];
+
   const [coverImage, setCoverImage] = useState<File | any>();
   const [avatarImage, setAvatarImage] = useState<File | any>();
   const [showProfileUpdate, setShowProfileUpdate] = useState<boolean>(false);
@@ -123,15 +126,16 @@ export function PortfolioCtxProvider(props: { children: any }) {
         setUserData({
           firstName: data?.user?.firstName,
           lastName: data?.user?.lastName,
-          avatarImage: data?.user?.avatarImage,
+          avatarImage: data?.user?.profilePic,
           city: data?.portfolio?.city,
           country: data?.portfolio?.country,
           tracks: data?.tracks,
           hasDataFromBE: true,
-          coverImage: '',
+          coverImage: data?.user?.profileCoverPhoto,
         });
         setIsLoading(false);
       } catch (error: any) {
+        setIsLoading(false);
         setError({ state: true, error: error.message });
       }
     };
@@ -214,13 +218,15 @@ export function PortfolioCtxProvider(props: { children: any }) {
     try {
       setIsLoading(true);
       const formData = new FormData();
+      const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
       formData.append('images', coverImage as string | Blob);
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/cover/photo', {
+      formData.append('userId', userId);
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/cover/upload', {
         method: 'POST',
         body: formData,
       });
       const data = await response.json();
-      setUserData((p: any) => ({ ...p, hasDataFromBE: true, coverImage: data.data[0] }));
+      setUserData((p: any) => ({ ...p, hasDataFromBE: true, coverImage: data.data.profilePic }));
       setHasData(true);
       setIsLoading(false);
     } catch (error) {
@@ -298,8 +304,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
       ),
     },
     {
-      id: 'skill',
-      modal: <SkillModal isOpen={modalStates['skill']} onClose={() => onCloseModal('skill')} userId={userId} />,
+      id: 'skills',
+      modal: <SkillModal isOpen={modalStates['skills']} onClose={() => onCloseModal('skills')} userId={userId} />,
     },
   ];
 
@@ -337,6 +343,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     error,
     openDelete,
     setOpenDelete,
+    setUserData,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

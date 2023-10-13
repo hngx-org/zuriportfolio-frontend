@@ -44,7 +44,7 @@ const Landing = () => {
     'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen';
 
   const cover = coverImage ? (
-    <Image src={coverImage} unoptimized width={0} height={0} alt="" className={`${headerMargin}`} />
+    <Image src={coverImage} priority unoptimized width={0} height={0} alt="" className={`${headerMargin}`} />
   ) : (
     <CoverDiv className={`bg-[#F0F1F0] opacity-80 ${headerMargin}`} />
   );
