@@ -129,6 +129,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       console.log(error);
     }
   };
+
   const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
