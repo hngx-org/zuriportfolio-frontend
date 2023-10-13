@@ -25,8 +25,7 @@ const SanctionedProductDetails = () => {
     <>
       {isLoading ? (
         <Loader />
-      ) :
-      data?.data?.length > 0 ? (
+      ) : data?.data?.length > 0 ? (
         <>
           <SuperAdminProdDetails setOpenModal={setOpenModal} data={data?.data[0]} id={id} />
           <DeleteModal
