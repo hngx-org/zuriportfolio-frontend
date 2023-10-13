@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth';
+const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth/api/auth';
 
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
