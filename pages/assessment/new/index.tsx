@@ -5,6 +5,7 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
+import Edithead from '@modules/assessment/component/edittitleHead';
 import Image from 'next/image';
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
@@ -103,6 +104,7 @@ const CreateAssessment = () => {
             <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
               {active === 'button1' ? (
                 <>
+                  <Edithead />
                   <div className="pt-4">
                     <CreateTemplate />
                   </div>

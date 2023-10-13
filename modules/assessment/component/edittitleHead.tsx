@@ -1,15 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Edit } from 'iconsax-react';
 import { ToPushContext } from '../../../pages/assessment/new';
 const Edithead = () => {
   const [disable, setDisable] = useState(true);
   const [newobject, setObject]: any = useContext(ToPushContext);
+  const [inputVal, setinputVal] = useState('');
+
   const readInput = (e: any) => {
+    setinputVal(e.target.value);
+  };
+  useEffect(() => {
     const newt = { ...newobject };
-    newt.assessment_name = e.target.value;
+    newt.assessment_name = inputVal;
     setObject(newt);
     console.log(newobject);
-  };
+  }, [inputVal]);
   return (
     <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
       <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
