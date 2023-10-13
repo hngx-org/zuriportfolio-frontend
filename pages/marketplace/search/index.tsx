@@ -67,14 +67,14 @@ export default function Index() {
                       id={item.id}
                       currency={`USD`}
                       image={`/assets/products-banner/Image-11.png`}
-                      productName={item?.name}
-                      productPrice={99}
-                      productOwner={`Mark Essien`}
-                      productRating={3}
+                      name={item?.name}
+                      price={99}
+                      user={`Mark Essien`}
+                      rating={3}
                       showLimitedOffer={false}
                       showTopPicks={false}
                       showDiscount={true}
-                      discount={50}
+                      discount_price={50}
                     />
                   </Link>
                 );
