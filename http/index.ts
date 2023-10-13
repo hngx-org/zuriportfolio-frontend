@@ -96,25 +96,6 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
   }
 };
 
-export const verfiy2FA = async (props: { email: string; token: string }) => {
-  const $http = axios.create({
-    baseURL: AUTH_HTTP_URL,
-    timeout: 30000,
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-  });
-
-  try {
-    const res = await $http.post('/api/auth/2fa/verify-code', props);
-    console.log(res);
-  } catch (e: any) {
-    console.log(e);
-    if (e?.response?.data && e?.response?.data?.message) {
-      console.log(e?.response.data.message);
-    }
-  }
-};
 
 export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
   try {
