@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import MultiCalender from './datePicker';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Modal from '@ui/Modal';
 import { DateObject } from 'react-multi-date-picker';
 
@@ -32,8 +32,8 @@ const ReportRedirect: React.FC = () => {
 
   return (
     <>
-      <div className="mx-auto min-[1536px]:max-w-[1536px] max-[1300px]:mx-0 max-[1300px]:px-[1.5rem] max-[768px]:max-w-[46.3rem] max-[768px]:pl-[2.5rem] max-[768px]:px-0 max-w-[77.5rem] w-full max-[500px]:px-[1.5rem] max-[834px]:px-[2.5rem]">
-        <div className="flex gap-[1rem] py-[0.75rem] mt-[1.13rem] max-[834px]:mt-[1rem] max-[500px]:mt-[1.5rem]">
+      <div className="mx-auto max-[1300px]:mx-0 max-[1300px]:px-[1rem] max-w-[77.5rem] max-[768px]:px-[1.5rem] w-full max-[500px]:px-[1.5rem]">
+        <div className="flex gap-[1rem] mt-[3.37rem] max-[500px]:mt-[1.5rem]">
           <Image
             onClick={redirectToAnotherPage}
             src="/assets/images/reports/arrow-back.svg"
@@ -44,7 +44,7 @@ const ReportRedirect: React.FC = () => {
           />
           <p className="text-[1.125rem] text-[#101828] font-medium leading-[1.75rem] font-manropeL">Report</p>
         </div>
-        <div className="flex gap-[1.5rem] items-center max-[768px]:flex-col max-[768px]:items-stretch mt-[0.5rem] max-[834px]:gap-0 max-[768px]:gap-[1.5rem]">
+        <div className="flex gap-[1.5rem] items-center max-[768px]:flex-col max-[768px]:items-stretch mt-[1.25rem] max-[834px]:gap-0 max-[768px]:gap-[1.5rem]">
           <p className="text-[1rem] leading-[1.5rem] font-manropeL font-normal tracking-[0.005rem] text-[#000] max-[850px]:text-[0.875rem] max-[834px]:pr-[0.2rem]">
             Select Time Frame
           </p>
@@ -69,13 +69,13 @@ const ReportRedirect: React.FC = () => {
         </div>
       </div>
       {reportModalOpen && (
-        <section className="max-[768px]:max-w-[10.5rem] w-full">
+        <div>
           <Modal
             closeOnOverlayClick
             closeModal={() => setReportModalOpen(false)}
             isCloseIconPresent={false}
             isOpen
-            size={window.innerWidth <= 768 ? 'sm' : 'xl'}
+            size="xl"
           >
             <div className="flex justify-center flex-col gap-[2.88rem] m-[1.88rem] max-[768px]:m-[0.27rem] max-[768px]:gap-[1.27rem]">
               <div className="border-b-[#A8ACAB] border-b-[0.11994rem] pb-[1.2rem] max-w-[44.49rem] w-full max-[768px]:pb-[0.53rem]">
@@ -91,7 +91,7 @@ const ReportRedirect: React.FC = () => {
                   <div className="flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] text-[#8D9290] py-[1.2rem] font-manropeL border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem]">
                     Excel
                   </div>
-                  <div className="flex justify-center items-center max-w-[9.59425rem] w-full font-manropeL rounded-[0.95944rem] py-[1.2rem] bg-[#E6F5EA] shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] text-[#009254] border border-[#33A467] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem]">
+                  <div className="flex justify-center items-center max-w-[9.59425rem] w-full font-manropeL rounded-[0.95944rem] py-[1.2rem] border-[#33A467] bg-[#E6F5EA] shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] text-[#009254] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem]">
                     PDF
                   </div>
                   <div className="flex justify-center items-center max-w-[9.59425rem] w-full font-manropeL rounded-[0.95944rem] py-[1.2rem] text-[#8D9290] border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem]">
@@ -103,16 +103,13 @@ const ReportRedirect: React.FC = () => {
                 <div className="flex justify-center items-center bg-[#009254] rounded-[1.91888rem] max-w-[17.50956rem] w-full h-[5.75656rem] font-manropeL text-[#FFF] text-[1.5rem] font-extrabold tracking-[0.00088rem] leading-[1.375rem] max-[768px]:text-[0.875rem] max-[768px]:w-[7.73119rem] max-[768px]:h-[2.5rem]">
                   Confirm
                 </div>
-                <div
-                  className="flex justify-center items-center bg-[#F4FBF6] border-[1.919px] border-[#009254] rounded-[1.91888rem] max-w-[17.50956rem] w-full h-[5.75656rem] font-manropeL text-[#009254] text-[1.5rem] font-extrabold tracking-[0.00088rem] leading-[1.375rem] max-[768px]:text-[0.875rem] max-[768px]:w-[7.73119rem] max-[768px]:h-[2.5rem] cursor-pointer"
-                  onClick={() => setReportModalOpen(false)}
-                >
+                <div className="flex justify-center items-center bg-[#F4FBF6] border-[1.919px] border-[#009254] rounded-[1.91888rem] max-w-[17.50956rem] w-full h-[5.75656rem] font-manropeL text-[#009254] text-[1.5rem] font-extrabold tracking-[0.00088rem] leading-[1.375rem] max-[768px]:text-[0.875rem] max-[768px]:w-[7.73119rem] max-[768px]:h-[2.5rem]">
                   Cancel
                 </div>
               </div>
             </div>
           </Modal>
-        </section>
+        </div>
       )}
     </>
   );

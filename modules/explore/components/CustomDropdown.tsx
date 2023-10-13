@@ -20,14 +20,14 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue,
   };
 
   return (
-    <div className="relative">
+    <div className="w-full relative">
       <div
-        className={`min-w-[37vw] md:min-w-[13.5vw] h-[50px] px-5 py-3 bg-white rounded-2xl border border-stone-300 justify-center items-start sm:items-center gap-2 flex cursor-pointer ${
+        className={`h-12 px-5 py-3 bg-white rounded-2xl border border-stone-300 justify-between items-center gap-2 flex cursor-pointer ${
           isOpen ? 'bg-white' : ''
         }`}
         onClick={toggleDropdown}
       >
-        <div className="text-black text-base font-normal font-manropeEB leading-normal tracking-tight">
+        <div className="text-black text-[0.875rem] font-normal font-manropeEB leading-normal tracking-tight">
           {selectedValue || options[1]}
         </div>
         <div className="w-6 h-6 justify-center items-center flex">
