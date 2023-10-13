@@ -50,7 +50,7 @@ export interface AllCategoryDetails {
 export interface Products {
   _id: string;
   name: string;
-  image: string;
+  image: any;
   shopOwner: string;
   price: number;
   category: string;
