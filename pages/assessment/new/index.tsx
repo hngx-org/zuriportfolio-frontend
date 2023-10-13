@@ -5,6 +5,7 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+import { number } from 'zod';
 const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
   const [requestValues, setRequestValues] = useState<{ [key: string]: string }>({});
@@ -17,15 +18,46 @@ const CreateAssessment = () => {
   const handleInput = (value: string) => {
     setHeadInput(value);
   };
-
-  const publishAssessment = () => {
-    // Merge headInput with other requestValues
-    const mergedValues = {
-      ...requestValues,
-      headInput: headInput,
-    };
+  // Merge headInput with other requestValues
+  const mergedValues = {
+    ...requestValues,
+    headInput: headInput,
+  };
+  const publishAssessment = async () => {
     setRequestValues(mergedValues);
-    console.log(requestValues.headInput);
+
+    const { headInput, correct_option, Question1, option1, option2, option3, option4 } = requestValues;
+    // split question and string and number
+    const url = 'https://piranha-assessment.onrender.com/api/admin/assessments/';
+    const reqOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        skill_id: 1,
+        questions_and_answers: [
+          {
+            question_no: Question1?.match(/\d+/)?.[0] ?? 4,
+            question_text: Question1?.match(/([a-zA-Z])+/)?.[0] ?? '',
+            question_type: 'multiple_choice',
+            options: [option1, option2, option3, option4],
+            correct_option: correct_option?.match(/\d+/)?.[0] ?? 20,
+          },
+        ],
+        assessment_name: headInput || 'Default',
+        duration_in_minutes: 20,
+      }),
+    };
+    console.log(reqOptions);
+    const postEnd = await fetch(url, reqOptions);
+
+    if (!postEnd.ok) {
+      console.log(requestValues);
+      console.log('Error' + postEnd.status);
+    }
+    const response = await postEnd.json();
+    console.log(response);
   };
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
