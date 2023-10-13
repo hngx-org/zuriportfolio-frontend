@@ -4,7 +4,7 @@ import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard'
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, RecentlyViewedProductProp, ViewedProductCardProps } from '../../@types';
-import { getRecentlyViewedProducts, getUserCart, removeFromCart } from '../../http';
+import { getUserCart, removeFromCart } from '../../http';
 import { useAuth } from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 import CartPageSkeleton from '@modules/shop/component/cart/checkout/CartPageSkeleton';
@@ -20,7 +20,7 @@ export default function Cart() {
   useEffect(() => {
     async function cartFetch() {
       const carts = await getUserCart(auth?.token as string);
-      const recentlyViewed = await getRecentlyViewedProducts(auth?.user.id as string, auth?.token as string);
+      // const recentlyViewed = await getRecentlyViewedProducts(auth?.user.id as string,auth?.token as string);
       setRecentlyViewed(recentlyViewed);
       setCartItems(carts);
       setIsLoading(false);

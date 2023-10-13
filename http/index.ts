@@ -1,5 +1,6 @@
 import axios from 'axios';
 import $http from './axios';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { RecentlyViewedProductProp } from '../@types';
 
@@ -92,26 +93,6 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
   }
 };
 
-export const verfiy2FA = async (props: { email: string; token: string }) => {
-  const $http = axios.create({
-    baseURL: AUTH_HTTP_URL,
-    timeout: 30000,
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-  });
-
-  try {
-    const res = await $http.post('/api/auth/2fa/verify-code', props);
-    console.log(res);
-  } catch (e: any) {
-    console.log(e);
-    if (e?.response?.data && e?.response?.data?.message) {
-      console.log(e?.response.data.message);
-    }
-  }
-};
-
 export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
   try {
     const response = await axios.patch('https://auth.akuya.tech/api/auth/reset-password', props);
@@ -168,7 +149,7 @@ export const makePayment = async (selectedPaymentMethod: string) => {
       const response = await $http.post(apiUrl, data, {
         headers: {
           'Content-Type': 'application/json',
-          // accept: 'application/json',
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`,
         },
       });
 
@@ -217,4 +198,53 @@ export const getAllProducts = async (token: string) => {
     console.log(error);
     toast.error('Error loading products');
   }
+};
+
+//super-admin1
+const makeRequest = async (apiUrl: string, method = 'get', data = null, config = {}) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    const requestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method,
+      url: `https://spitfire-superadmin-1.onrender.com/api/admin/${apiUrl}`,
+      data,
+      ...config,
+    };
+    const response = await axios(requestConfig);
+
+    return response?.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const useGetProdDetails = (id: string) => {
+  return useQuery(['get-sanctioned-prod-details', id], async () => {
+    return makeRequest(`product/${id}`, 'get');
+  });
+};
+
+export const useRemoveSanction = () => {
+  const removeSanctionMutation = useMutation((id: string) => {
+    return makeRequest(`product/approve_product/${id}`, 'patch');
+  });
+
+  return {
+    removeSanction: removeSanctionMutation.mutate,
+    isLoading: removeSanctionMutation.isLoading,
+  };
+};
+
+export const useDeleteProd = () => {
+  const deleteSanctionedProd = useMutation((id: string) => {
+    return makeRequest(`product/delete_product/${id}`, 'delete');
+  });
+
+  return {
+    deleteSanction: deleteSanctionedProd.mutate,
+    isLoading: deleteSanctionedProd.isLoading,
+  };
 };
