@@ -37,7 +37,7 @@ export const getUserCart = async (token: string) => {
   try {
     const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/checkout/api/carts',{
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`
       }
     });
     return response.data;
@@ -53,7 +53,7 @@ export const removeFromCart = async (productId: string,token: string) => {
     const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts/${productId}`;
     const response = await $http.delete(apiUrl, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`
       },
     });
 
@@ -153,7 +153,7 @@ export const makePayment = async (selectedPaymentMethod: string) => {
       const response = await $http.post(apiUrl, data, {
         headers: {
           'Content-Type': 'application/json',
-          // accept: 'application/json',
+          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`
         },
       });
 
