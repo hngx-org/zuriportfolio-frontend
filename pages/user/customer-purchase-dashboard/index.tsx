@@ -31,7 +31,7 @@ const DUMMYDATA: PurchaseData[] = [
 
     orderID: '643D73U90',
 
-    price: '$100.00',
+    price: '$150.00',
 
     date: '25 March 2023',
 
@@ -45,9 +45,9 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U91',
 
-    price: '$100.00',
+    price: '$280.00',
 
     date: '25 March 2023',
 
@@ -61,11 +61,11 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U93',
 
     price: '$100.00',
 
-    date: '25 March 2023',
+    date: '27 March 2023',
 
     sellerName: 'Ekomobong Enang',
 
@@ -77,9 +77,9 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U93',
 
-    price: '$100.00',
+    price: '$107.00',
 
     date: '25 March 2023',
 
@@ -93,15 +93,15 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U94',
 
     price: '$100.00',
 
-    date: '25 March 2023',
+    date: '30 March 2023',
 
     sellerName: 'Solomon Edem',
 
-    status: 'Successful',
+    status: 'Pending',
   },
 
   {
@@ -109,37 +109,93 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U95',
 
-    price: '$100.00',
+    price: '$900.00',
 
-    date: '25 March 2023',
+    date: '30 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Failed',
+  },
+  {
+    id: 7,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U96',
+
+    price: '$700.00',
+
+    date: '30 March 2023',
 
     sellerName: 'Solomon Edem',
 
     status: 'Successful',
   },
+  {
+    id: 8,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$260.00',
+
+    date: '31 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Successful',
+  },
+  {
+    id: 9,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U98',
+
+    price: '$100.00',
+
+    date: '31 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Successful',
+  },
+  {
+    id: 10,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$100.00',
+
+    date: '31 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Pending',
+  },
 
   // Add more data items as needed
 ];
 
-export type SearchFilter = "item" | "date" | "orderID" | "price" | "sellerName"
+export type SearchFilter = 'item' | 'date' | 'orderID' | 'price' | 'sellerName';
 
 const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [filter, setFilter] = useState<string | null>(null);
-  const [data, setData] = useState<PurchaseData[]>(DUMMYDATA)
+  const [data, setData] = useState<PurchaseData[]>(DUMMYDATA);
   // search state
-  const [searchInput, setSearchInput] = useState<string>("");
-
-  
+  const [searchInput, setSearchInput] = useState<string>('');
 
   // function to handle delete
   const onDelete = () => {
     onClose();
   };
-
-  
 
   // Calculate counts for each category
   const allPurchasesCount = data.length;
@@ -169,10 +225,10 @@ const MyPage: React.FC = () => {
 
   const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const filteredPurchase = data.filter(purchase => purchase[filterBy].toLowerCase().includes(searchInput) );
+    const filteredPurchase = data.filter((purchase) => purchase[filterBy].toLowerCase().includes(searchInput));
     setData(filteredPurchase);
-    setSearchInput("");
-  }
+    setSearchInput('');
+  };
 
   // handle search and filter functionality
   const handleFilterClick = (filterName: string | null) => {
@@ -181,11 +237,11 @@ const MyPage: React.FC = () => {
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
-  }
+  };
 
   const onBack = () => {
     setData(DUMMYDATA);
-  }
+  };
 
   return (
     <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
@@ -260,17 +316,17 @@ const MyPage: React.FC = () => {
           </div>
         </div>
 
-          <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
-            <div className="hidden sm:flex items-center h-[2.5rem] gap-10 mt-[3rem] ">
-            <form className='w-full' onSubmit={(e) => onSearch(e)}>
-                <Input
-                  value={searchInput}
-                  onChange={(e) => handleSearchInput(e)}
-                  leftIcon={<SearchNormal1 color="#777" />}
-                  className="border-2 border-solid border-white-200 pl-6 w-full h-[2.5rem] pr-[1rem] rounded flex-1"
-                  placeholder={`Search by ${filterBy} or select a filter to search by`}
-                />
-              </form>
+        <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
+          <div className="hidden sm:flex items-center h-[2.5rem] gap-10 mt-[3rem] ">
+            <form className="w-full" onSubmit={(e) => onSearch(e)}>
+              <Input
+                value={searchInput}
+                onChange={(e) => handleSearchInput(e)}
+                leftIcon={<SearchNormal1 color="#777" />}
+                className="border-2 border-solid border-white-200 pl-6 w-full h-[2.5rem] pr-[1rem] rounded flex-1"
+                placeholder={`Search by ${filterBy} or select a filter to search by`}
+              />
+            </form>
 
             <FilterDropDown onChooseFilter={onChooseFilter} />
 
@@ -337,7 +393,7 @@ const MyPage: React.FC = () => {
           )}
           {data.length > 0 && <MobileCustomerDashboard />}
           {/* error page */}
-          {data.length === 0 && <PurchaseNotFound back={onBack}/>}
+          {data.length === 0 && <PurchaseNotFound back={onBack} />}
         </div>
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />

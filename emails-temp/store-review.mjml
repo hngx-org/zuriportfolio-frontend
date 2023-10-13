@@ -13,52 +13,62 @@
       /* Font styles */
       <mj-class name="h-lg" font-size="24px" line-height="52px" font-weight="700" color="#009254" css-class="hlg" />
       <mj-class name="h-1" font-size="24px" line-height="32px" font-weight="700" color="#1A1C1B" css-class="h1" />
-      <mj-class name="h-2" font-size="16px" line-height="24px" letter-spacing="0.08px" font-weight="700" color="#2E3130" css-class="h2"/>
+      <mj-class
+        name="h-2"
+        font-size="16px"
+        line-height="24px"
+        letter-spacing="0.08px"
+        font-weight="700"
+        color="#2E3130"
+        css-class="h2"
+      />
       <mj-class name="p-1" font-size="16px" line-height="24px" letter-spacing="0.08px" color="#2E3130" css-class="p1" />
-      <mj-class name="p-2" font-size="14px" line-height="20px" letter-spacing="0.03504px" color="#2E3130" css-class="p3" />
-      <mj-class name="p-3" font-size="12px" line-height="16px" letter-spacing="0.048px" font-weight="600" color="#96D4AB" css-class="p3" />
-      
+      <mj-class
+        name="p-2"
+        font-size="14px"
+        line-height="20px"
+        letter-spacing="0.03504px"
+        color="#2E3130"
+        css-class="p3"
+      />
+      <mj-class
+        name="p-3"
+        font-size="12px"
+        line-height="16px"
+        letter-spacing="0.048px"
+        font-weight="600"
+        color="#96D4AB"
+        css-class="p3"
+      />
+
       /* Spacing */
       <mj-class name="sp-lg" height="80px" />
       <mj-class name="sp-xl" height="40.5px" />
 
       /* MJML Attributes */
       <mj-text font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" padding="0" />
-      <mj-button width="45%" background-color="#009254" color="#FFFFFF" font-size="14px" line-height="15px" font-weight="600" border-radius="16px" inner-padding="20px" padding="40px 0"/>
-      <mj-image padding="0"/>
+      <mj-button
+        width="45%"
+        background-color="#009254"
+        color="#FFFFFF"
+        font-size="14px"
+        line-height="15px"
+        font-weight="600"
+        border-radius="16px"
+        inner-padding="20px"
+        padding="40px 0"
+      />
+      <mj-image padding="0" />
       <mj-column padding="0" />
       <mj-spacer height="16px" />
-      <mj-section padding="0"/>
+      <mj-section padding="0" />
     </mj-attributes>
     <mj-style inline>
-      .header img {
-        max-width: 50%;
-        margin: auto;
-      }
-      .bold {
-        font-weight: 700;
-      }
-      .body {
-        padding-block: 5rem
-      }
-      @media (max-width: 500px) {
-        .hlg > * {
-          font-size: 16px !important;
-          line-height: 24px !important;
-        }
-        .h1 > * {
-          font-size: 16px !important;
-          line-height: 24px !important;
-        }
-        .p1 > * {
-          font-size: 14px !important;
-          line-height: 24px !important;
-        }
-        .container > table > tbody > tr > td {
-          padding: 40px 20px !important;
-        }
-      }
-  </mj-style> 
+      .header img { max-width: 50%; margin: auto; } .bold { font-weight: 700; } .body { padding-block: 5rem } @media
+      (max-width: 500px) { .hlg > * { font-size: 16px !important; line-height: 24px !important; } .h1 > * { font-size:
+      16px !important; line-height: 24px !important; } .p1 > * { font-size: 14px !important; line-height: 24px
+      !important; } .container > table > tbody > tr > td { padding: 40px 20px !important; } }
+    </mj-style>
   </mj-head>
   <mj-body mj-class="bg-grey" width="640px" css-class="body">
     <mj-section padding="10px 0 30px" css-class="header">
@@ -68,23 +78,22 @@
         />
       </mj-column>
     </mj-section>
-  
+
     <mj-wrapper mj-class="bg-white" padding="60px 40px 40px" css-class="container">
       <mj-section css-class="hero">
         <mj-column width="100%" css-class="hero_text">
-          <mj-text mj-class="h-1" padding-bottom="16px">
-            Hi Dare,
-          </mj-text>
+          <mj-text mj-class="h-1" padding-bottom="16px"> Hi Dare, </mj-text>
         </mj-column>
         <mj-column width="100%">
-          <mj-text mj-class="h-lg" padding-bottom="16px">
-            Notice of store review
-          </mj-text>
+          <mj-text mj-class="h-lg" padding-bottom="16px"> Notice of store review </mj-text>
         </mj-column>
 
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="16px">
-            This email is to formally notify you that your Zuriportfolio store <span class="bold">‘Road to marketing’</span> is currently undergoing a comprehensive review. This process is a standard procedure designed to assess and ensure the quality, compliance, and overall excellence of all stores within our platform.
+            This email is to formally notify you that your Zuriportfolio store
+            <span class="bold">‘Road to marketing’</span> is currently undergoing a comprehensive review. This process
+            is a standard procedure designed to assess and ensure the quality, compliance, and overall excellence of all
+            stores within our platform.
           </mj-text>
         </mj-column>
         <mj-column width="100%">
@@ -94,51 +103,49 @@
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="16px">
-            <span class="bold">Product Listings:</span> This evaluation will focus on the accuracy, comprehensiveness, and appropriateness of your product descriptions, pricing, and imagery.
+            <span class="bold">Product Listings:</span> This evaluation will focus on the accuracy, comprehensiveness,
+            and appropriateness of your product descriptions, pricing, and imagery.
           </mj-text>
           <mj-text mj-class="p-1" padding-bottom="16px">
-            <span class="bold">Store Policies:</span> We will meticulously inspect your store's policies, including complying with brand guidelines, terms of use.
+            <span class="bold">Store Policies:</span> We will meticulously inspect your store's policies, including
+            complying with brand guidelines, terms of use.
           </mj-text>
           <mj-text mj-class="p-1" padding-bottom="16px">
-            <span class="bold">User Experience:</span> The overall user experience, including user satisfaction, end-of-use, and user reviews
+            <span class="bold">User Experience:</span> The overall user experience, including user satisfaction,
+            end-of-use, and user reviews
+          </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="p-1"> The review will be carried out over a period of 2 weeks. </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-button href="https://zuriportfolio-frontend-pw1h.vercel.app"> Go to your store </mj-button>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="16px">
+            We encourage you to continue managing and updating your store as usual during this period, as this review
+            process will not affect your regular operations. Should any specific actions or additional information be
+            required from you, we will promptly communicate with detailed guidance.
           </mj-text>
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1">
-            The review will be carried out over a period of 2 weeks.  
-          </mj-text>
-        </mj-column>
-        <mj-column width="100%">
-          <mj-button>
-            Go to your store
-          </mj-button>
-        </mj-column>
-        <mj-column width="100%">
-          <mj-text mj-class="p-1" padding-bottom="16px">
-            We encourage you to continue managing and updating your store as usual during this period, as this review process will not affect your regular operations. Should any specific actions or additional information be required from you, we will promptly communicate with detailed guidance.
-          </mj-text>
-        </mj-column>
-        <mj-column width="100%">
-          <mj-text mj-class="p-1">
-            If you have any questions or issues, please contact support at <span style="color: #009254">support@zuriportolio.com.</span>
+            If you have any questions or issues, please contact support at
+            <span style="color: #009254">support@zuriportolio.com.</span>
           </mj-text>
         </mj-column>
 
         <mj-column>
-          <mj-spacer mj-class="sp-xl"/>
+          <mj-spacer mj-class="sp-xl" />
         </mj-column>
 
         <mj-column width="100%">
-          <mj-text mj-class="p-1">
-            Thank you for choosing Zuriportfolio! 
-          </mj-text>
-          <mj-text mj-class="h-2" color="#865311">
-            Zuri Team
-          </mj-text>
+          <mj-text mj-class="p-1"> Thank you for choosing Zuriportfolio! </mj-text>
+          <mj-text mj-class="h-2" color="#865311"> Zuri Team </mj-text>
         </mj-column>
 
         <mj-column>
-          <mj-spacer mj-class="sp-xl"/>
+          <mj-spacer mj-class="sp-xl" />
         </mj-column>
       </mj-section>
       <mj-section>
@@ -149,7 +156,7 @@
           />
         </mj-column>
         <mj-column width="100%">
-          <mj-text align="center" mj-class="p-2" padding-top="16px"> 
+          <mj-text align="center" mj-class="p-2" padding-top="16px">
             Copyright &copy;2023 Zuriportfolio, All rights reserved.
           </mj-text>
         </mj-column>
