@@ -5,7 +5,37 @@ import AuthLayout from '../AuthLayout';
 import { Input } from '@ui/Input';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
+import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
+import { notify } from '@ui/Toast';
+import { useRouter } from 'next/router';
+import { forgetPassword } from '../../../../http/auth';
+
 const ForgotPassword = () => {
+  const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
+  const router = useRouter();
+
+  //Error Handler
+  const forgotPasswordSuccess = (data: any) => {
+    console.log(data.message);
+    if (data.message === 'User not found') {
+      const errorMessage = 'This user does not have an account';
+      notifyError(errorMessage);
+      return;
+    } else if (data.message === 'AxiosError: timeout of 30000ms exceeded') {
+      const timeoutErrorMessage =
+        'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+      notifyError(timeoutErrorMessage);
+      return;
+    } else if (data.message === 'AxiosError: Network Error') {
+      const errorMessage = 'Server is down! Please try again later';
+      notifyError(errorMessage);
+      return;
+    }
+    const errorMessage = 'Oops! An error occurred. If the issue persists, reach out to support.';
+    notifyError(errorMessage);
+  };
+
+  // Form validation
   const schema = z.object({
     email: z.string().email(),
   });
@@ -17,8 +47,19 @@ const ForgotPassword = () => {
     },
   });
 
+  // Hook for making an API call and handling the response
+  const { mutate, isLoading } = useAuthMutation(forgetPassword, {
+    onSuccess: (data) => {
+      forgotPasswordSuccess(data);
+      router.push('/auth/reset-password');
+    },
+    onError: (error: any) => console.log(error),
+  });
+
+  // Handling email input
   const handleForgotPassword = (values: any) => {
     console.log('email', values.email);
+    mutate({ email: values.email });
   };
 
   return (
@@ -55,8 +96,8 @@ const ForgotPassword = () => {
                 <p className="text-[red] text-xs">{form.errors.email && form.errors.email}</p>
               </div>
               <Button
-                intent={'primary'}
                 className="flex justify-center items-center gap-4 py-3 md:w-[100%] w-[100%] h-14 rounded-lg button text-white-100 text-center mt-[1rem]"
+                isLoading={isLoading}
               >
                 Submit
               </Button>

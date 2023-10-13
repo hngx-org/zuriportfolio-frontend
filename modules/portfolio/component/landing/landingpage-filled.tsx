@@ -116,6 +116,20 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
+              {section?.id === 'skills' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <Skill key={i} data={section.data} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
             </React.Fragment>
           );
         })}

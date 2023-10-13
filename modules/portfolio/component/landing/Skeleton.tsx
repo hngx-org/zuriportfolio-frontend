@@ -136,15 +136,14 @@ export const Project = ({ data }: SkeletonProps) => {
 };
 
 export const Skill = ({ data }: SkeletonProps) => {
-  const dataToMap = data.split(',');
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {dataToMap?.map((interest: string, i: number) => (
+      {data?.map((skill: any, i: number) => (
         <span
           className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
           key={i}
         >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
+          <p className="text-sm text-gray-400 font-semibold opacity-70">{skill.skills}</p>
         </span>
       ))}
     </div>
@@ -152,7 +151,7 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
-  const dataToMap = data.interest.split(',');
+  const dataToMap = data?.interest?.split(',');
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
       {dataToMap?.map((interest: string, i: number) => (
