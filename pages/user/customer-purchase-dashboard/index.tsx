@@ -23,10 +23,6 @@ type PurchaseData = {
   status: string;
 };
 
-type Item = {
-  transactions: any[];
-};
-
 const DUMMYDATA: PurchaseData[] = [
   {
     id: 1,
