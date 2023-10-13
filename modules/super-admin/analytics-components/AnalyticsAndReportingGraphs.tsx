@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, ReferenceLine, ResponsiveContainer } from 'recharts';
-import { Graph, MonthlyData, PeriodType } from '../../../@types';
+import { Graph, MonthlyData} from '../../../@types';
 import Link from 'next/link';
 import Image from 'next/image';
 import ActivityDetails from './ActivityDetails';
 
-
+type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
 const calendarMonths = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
 ];
@@ -20,7 +20,7 @@ const AnalyticsAndReportingGraphs = () => {
   const fetchSalesData = useCallback(async (period: string, graphIndex: number) => {
     try {
       const response = await fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/admin/analytics/total-sales-orders-users?period=${period}`
+        `https://team-mirage-super-amind2.onrender.com/api/admin/analytics/total-sales-orders-users?=${period}`
       );
 
       if (!response.ok) {
@@ -46,7 +46,7 @@ const AnalyticsAndReportingGraphs = () => {
       const filteredData = Array.from({ length: numMonths }, (_, i) => {
         const monthIndex = (adjustedStartIndex + i) % calendarMonths.length;
         const month = calendarMonths[monthIndex];
-
+      
         return {
           name: month,
           sales: sales || 0,
@@ -54,16 +54,21 @@ const AnalyticsAndReportingGraphs = () => {
           users: users || 0,
         };
       });
-
+      
+      // Sort the data array by the index of each month in calendarMonths
+      const sortedData = filteredData.sort((a, b) => {
+        return calendarMonths.indexOf(a.name) - calendarMonths.indexOf(b.name);
+      });
+      
       if (graphIndex === 1) {
-        setSalesDataGraph1(filteredData);
+        setSalesDataGraph1(sortedData);
       } else if (graphIndex === 2) {
-        setSalesDataGraph2(filteredData);
+        setSalesDataGraph2(sortedData);
       }
     } catch (error) {
       console.error(`Error fetching sales data for graph ${graphIndex}`, error);
     }
-  }, []); // Empty dependency array since fetchSalesData does not depend on any external variables
+  }, []);
 
   // Helper function to get the number of months based on the selected period
   const getNumMonths = (period: string) => {
@@ -113,7 +118,6 @@ const AnalyticsAndReportingGraphs = () => {
   ];
 
   
-
   const calendarButtons = [
     { label: '12 months', value: '12 mon' },
     { label: '3 months', value: '3 mon' },
@@ -138,7 +142,7 @@ const AnalyticsAndReportingGraphs = () => {
       setIsGraph(window.innerWidth > 768);
     };
 
-    updateIsGraph(); // Initial check
+    updateIsGraph();
     window.addEventListener('resize', updateIsGraph);
 
     fetchSalesData(selectedPeriodGraph1, 1);
@@ -223,7 +227,9 @@ const AnalyticsAndReportingGraphs = () => {
                   {index === 0 ? (
                     <ResponsiveContainer height={230} className="mx-auto mt-6 ">
                       <LineChart data={salesDataGraph1}>
-                        <XAxis dataKey="name" axisLine={false} />
+                        <XAxis dataKey="name" axisLine={false}  tick={(props) => {
+    return props.index % 2 === 0 ? <text {...props} /> : null;
+  }}/>
                         <ReferenceLine y={1000} stroke="#F2F4F7" />
                         <ReferenceLine y={3200} stroke="#F2F4F7" />
                         <ReferenceLine y={5200} stroke="#F2F4F7" />
