@@ -377,15 +377,31 @@ export default function AllCategoriesPage() {
     <div className="category">
       {productRows.map((row, index) => (
         <div key={index} className="">
-          <div className="flex gap-6">
-            <div className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal ">
+          <div className="flex gap-6 items-center">
+            <div className="text-custom-color31 font-manropeL font-bold md:text-2xl leading-normal ">
               {paragraphTexts[index]}
             </div>
-            <div className="text-neutral-400 text-base font-semibold font-Manrope md:mb-8 leading-normal tracking-tight pt-2">
+            <div className="text-neutral-400 text-base font-semibold font-Manrope leading-normal tracking-tight pt-2">
               {labelTExt[index]}
             </div>
+            <Link
+              className="flex items-center gap-2 text-sm font-bold ml-auto text-brand-green-shade50"
+              href={`/marketplace/categories/${paragraphTexts[index]}`}
+            >
+              View All
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M7.42578 16.5999L12.8591 11.1666C13.5008 10.5249 13.5008 9.4749 12.8591 8.83324L7.42578 3.3999"
+                  className=" stroke-green-300"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
           </div>
-          <ProductCardWrapper productsList={row} title={''} showTopPicks={false} showAll={true} />
+          <ProductCardWrapper productsList={row} title={''} showTopPicks={false} showAll={false} />
         </div>
       ))}
     </div>
