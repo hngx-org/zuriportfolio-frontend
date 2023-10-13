@@ -2,17 +2,22 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { CloseCircle } from 'iconsax-react';
 import { useState } from 'react';
+import { useDeleteProd } from '../../../../../http';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const DeleteModal = ({
   isOpen,
   closeModal,
   reasons,
   setReasons,
+  id,
 }: {
   isOpen: boolean;
   closeModal: () => void;
   reasons: Map<string, string>;
   setReasons: React.Dispatch<React.SetStateAction<Map<string, string>>>;
+  id: string;
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const reasonsList = ['Policy violations', 'Offensive words', 'Just feel like it', 'Other'];
@@ -26,6 +31,26 @@ const DeleteModal = ({
     setReasons(newSelectedReasons);
   };
   const reasonsKeysArray = Array.from(reasons.keys());
+  const { deleteSanction, isLoading: isDeleting } = useDeleteProd();
+  const route = useRouter();
+
+  const handleDelete = () => {
+    deleteSanction(id, {
+      onSuccess: (response) => {
+        if (response.message) {
+          toast.error(response.message);
+          route.push('.');
+        } else {
+          toast.error(response.response.data || 'Error deleting this product.');
+        }
+      },
+      onError: () => {
+        toast.error('Error, try again');
+        // route.push('.');
+      },
+    });
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} closeModal={closeModal} closeOnOverlayClick isCloseIconPresent={false} size="xl">
@@ -105,7 +130,13 @@ const DeleteModal = ({
           </p>
           <p className="mt-2 text-[16px] text-center">Product will be permanently deleted from list.</p>
           <div className="flex flex-col gap-3 mt-8">
-            <Button intent={'error'} spinnerColor="#000" className="w-full rounded-[16px]" onClick={() => null}>
+            <Button
+              intent={'error'}
+              spinnerColor="#000"
+              className="w-full rounded-[16px]"
+              isLoading={isDeleting}
+              onClick={handleDelete}
+            >
               Delete Product
             </Button>
             <Button

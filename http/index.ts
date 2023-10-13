@@ -1,5 +1,6 @@
 import axios from 'axios';
 import $http from './axios';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 const AUTH_HTTP_URL = 'https://auth.akuya.tech';
 
@@ -157,4 +158,53 @@ export const makePayment = async (selectedPaymentMethod: string) => {
   } else {
     throw new Error('Please select a payment method before making the payment.');
   }
+};
+
+//super-admin1
+const makeRequest = async (apiUrl: string, method = 'get', data = null, config = {}) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    const requestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method,
+      url: `https://spitfire-superadmin-1.onrender.com/${apiUrl}`,
+      data,
+      ...config,
+    };
+    const response = await axios(requestConfig);
+
+    return response?.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const useGetProdDetails = (id: string) => {
+  return useQuery(['get-sanctioned-prod-details', id], async () => {
+    return makeRequest(`api/product/${id}`, 'get');
+  });
+};
+
+export const useRemoveSanction = () => {
+  const removeSanctionMutation = useMutation((id: string) => {
+    return makeRequest(`api/product/remove_sanction/${id}`, 'patch');
+  });
+
+  return {
+    removeSanction: removeSanctionMutation.mutate,
+    isLoading: removeSanctionMutation.isLoading,
+  };
+};
+
+export const useDeleteProd = () => {
+  const deleteSanctionedProd = useMutation((id: string) => {
+    return makeRequest(`api/product/delete_product/${id}`, 'delete');
+  });
+
+  return {
+    deleteSanction: deleteSanctionedProd.mutate,
+    isLoading: deleteSanctionedProd.isLoading,
+  };
 };

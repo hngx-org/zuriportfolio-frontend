@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import mainImage from '../../../../../public/assets/mainImage.png';
 import profileimage from '../../../../../public/assets/profile.png';
@@ -6,13 +6,50 @@ import badgesanctioned from '../../../../../public/assets/BadgeSanctioned.svg';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
 import Button from '@ui/Button';
-import Slider from '../../slider/slider';
+import Slider from '../../../../../modules/shop/component/slider';
 import SuperAdminNavbar from '../../navigations/SuperAdminNavbar';
 import arrowRight from '../../../../../public/assets/arrowtoRight.svg';
 import { useRouter } from 'next/router';
+import { useRemoveSanction } from '../../../../../http';
+import { toast } from 'react-toastify';
 
-const SuperAdminProdDetails = ({ setOpenModal }: { setOpenModal: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const SuperAdminProdDetails = ({
+  setOpenModal,
+  data,
+  id,
+}: {
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  data: Record<string, any> | null;
+  id: string;
+}) => {
   const route = useRouter();
+  const [image, setImage] = useState(mainImage);
+  const { removeSanction, isLoading } = useRemoveSanction();
+
+  const updateImage = (newImage: any) => {
+    setImage(newImage);
+  };
+
+  const handleRemoveSaction = () => {
+    removeSanction(id, {
+      onSuccess: (response) => {
+        toast.error(response.message);
+        // route.push('.');
+      },
+      // onError: () => {
+      //   toast.error('Error, try again.');
+      // },
+    });
+  };
+
+  function formatDate(inputDate: string) {
+    const date = new Date(inputDate);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+
+    return `${day}-${month}-${year}`;
+  }
 
   return (
     <>
@@ -23,15 +60,19 @@ const SuperAdminProdDetails = ({ setOpenModal }: { setOpenModal: React.Dispatch<
             <Image src={arrowRight} alt="arrowRight" onClick={() => route.push('.')} className="cursor-pointer" />
             <p className="font-manropeB text-[18px] font-medium text-gray-900">Products Details</p>
           </div>
-          <div className="flex gap-[28px] flex-col lg:flex-row">
+          <div className="flex gap-[28px] items-center flex-col lg:flex-row mb-8">
             <div className="flex flex-col mt-6 gap-[16px] lg:w-1/2">
-              <Image src={mainImage} alt="Main Image" className="w-90% lg:object-cover object-contain rounded-2xl" />
-              <Slider />
+              <Image
+                src={image}
+                alt="Main Image"
+                className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
+              />
+              <Slider updateImage={updateImage} />
             </div>
 
-            <div className="flex lg:w-1/2 lg:mt-6 flex-col">
+            <div className="flex w-full lg:w-1/2 lg:mt-6 flex-col">
               <h1 className="font-manropeEB md:text-[32px] text-[22px] mb-2 lg:font-semibold text-custom-color11 font-bold  ">
-                Webinar and Course Slide Templates (Soft Copy)
+                {data?.name}
               </h1>
 
               <div className="flex justify-between items-start mb-6">
@@ -42,13 +83,13 @@ const SuperAdminProdDetails = ({ setOpenModal }: { setOpenModal: React.Dispatch<
                 <div className="flex space-y-2 items-end flex-col">
                   <div className="flex font-manropeB gap-[18px] text-custom-color43 text-[12px]">
                     <p className="font-bold">Date Added</p>
-                    <p>08-01-23</p>
+                    <p>{formatDate(data?.createdAt)}</p>
                   </div>
                   <div className="flex font-manropeB text-custom-color43  gap-[18px] text-[12px]">
                     <p className="font-bold">
                       Date {route.pathname.includes('sanctioned-products') ? 'Sanctioned' : 'Deleted'}
                     </p>
-                    <p>08-01-23</p>
+                    <p>{formatDate(data?.updatedAt)}</p>
                   </div>
                   {route.pathname.includes('sanctioned-products') ? (
                     <Image src={badgesanctioned} alt="badgeStatus" />
@@ -63,13 +104,7 @@ const SuperAdminProdDetails = ({ setOpenModal }: { setOpenModal: React.Dispatch<
 
               <div className="flex space-y-4 flex-col pb-6">
                 <p className="font-manropeL text-[12px] md:text-[16px] md:tracking-[0.08px] text-white-700 lg:text-[16px]">
-                  Empower your educational endeavors with our Webinar and Course Template. Craft immersive online
-                  learning experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and
-                  discussions to enrich the learning journey. Tailor the template to your brand with customizable design
-                  options. Track learner progress, foster collaboration, and gain insights through built-in analytics.
-                  Whether you&apos;re an educator or a business, this template streamlines course creation, webinar
-                  hosting, and community building. Elevate your online education with a user-friendly, responsive, and
-                  feature-rich solution that engages and enlightens learners.
+                  {data?.description}
                 </p>
 
                 <div className="flex flex-col gap-y-2 ">
@@ -92,7 +127,7 @@ const SuperAdminProdDetails = ({ setOpenModal }: { setOpenModal: React.Dispatch<
                     <p className="font-manropeB text-[14px]  tracking-[0.035px] text-custom-color43  md:text-[16px]">
                       Sales Price (Incl. taxes)
                     </p>
-                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px]"> $100.00</p>
+                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px]"> ${data?.tax}</p>
                   </div>
                   <div className="flex justify-between items-center">
                     <p className="font-manropeB text-[14px]  tracking-[0.035px] text-custom-color43  md:text-[16px]">
@@ -104,7 +139,7 @@ const SuperAdminProdDetails = ({ setOpenModal }: { setOpenModal: React.Dispatch<
                     <p className="font-manropeB text-[14px]  tracking-[0.035px] text-custom-color43  md:text-[16px]">
                       Total Sold
                     </p>
-                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px] "> 123</p>
+                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px] "> {data?.price}</p>
                   </div>
                 </div>
 
@@ -119,6 +154,8 @@ const SuperAdminProdDetails = ({ setOpenModal }: { setOpenModal: React.Dispatch<
                   <Button
                     intent={'primary'}
                     className="lg:w-[284.5px] lg:h-[60px]lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px]"
+                    isLoading={isLoading}
+                    onClick={route.pathname.includes('sanctioned-products') ? handleRemoveSaction : () => null}
                   >
                     <span className="font-manropeL text-[12px]">
                       {route.pathname.includes('sanctioned-products') ? 'Remove Sanction' : 'Restore'}
