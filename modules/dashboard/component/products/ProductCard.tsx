@@ -226,7 +226,10 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
         <form className="mt-6 flex flex-col" onSubmit={handleSubmit}>
           <label className="font-manropeB text-[16px]">Product name</label>
           <Input className="w-full my-2" placeholder={products.name} rightIcon={<Image src={editImg} alt="edit" />} />
-          <span className="text-[#3F484F] text-[1rem] lowercase mt-2">https://zuri.store/{products.name}</span>
+          <span className="text-[#3F484F] text-[1rem] lowercase mt-2">
+            https://zuri.store/{products.name.replace(/\s+/g, '-')}
+          </span>
+
           <label className="font-manropeB text-[16px] mt-6">Product Description</label>
           <Input className="w-full my-2" placeholder={products.description} inputMode="none" />
           <label className="font-manropeB text-[16px] mt-6">Add Product File</label>
