@@ -5,7 +5,7 @@ import { notify } from '@ui/Toast';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
 import { Eye, EyeSlash } from 'iconsax-react';
-import { loginUser } from '../../../../http';
+import { loginUser } from '../../../../http/auth';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
