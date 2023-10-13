@@ -16,10 +16,10 @@ const CreateAssessment = () => {
   const data = router.query;
   const skillid = data.name;
   const [newobject, setObject] = useState({
-    skill_id: 0,
+    skill_id: skillid,
     questions_and_answers: [
       {
-        question_no: skillid,
+        question_no: 0,
         question_text: '',
         question_type: 'multiple_choice',
         options: [''],
