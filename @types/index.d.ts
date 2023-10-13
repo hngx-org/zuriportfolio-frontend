@@ -642,3 +642,28 @@ export type AuthResponse = {
   token: string;
   user: User;
 };
+
+
+type ProductResultImage = {
+  url: string;
+}
+export interface ProductResult {
+  id: string;
+  name: string;
+  description: string;
+  quantity: number;
+  price: string;
+  discount_price: string;
+  tax: string;
+  images: ProductResultImage[];
+  admin_status: string;
+  is_deleted: string;
+  is_published: boolean;
+  currency: string;
+  createdat: string;
+  updatedat: string;
+  shop: string;
+  category: number;
+  rating: number;
+  user: string;
+}
