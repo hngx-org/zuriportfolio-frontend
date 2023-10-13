@@ -5,7 +5,7 @@ import trash from '../../public/assets/removecart/delete.svg';
 
 interface RemoveCartProps {
   closeModal: () => void;
-  onRemoveItem: (productId: string) => void; // Make onRemoveItem optional
+  onRemoveItem: (productId: string) => void;
   productId: string;
 }
 
@@ -13,30 +13,30 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, produ
   // const [modalOpen, setModalOpen] = useState(true);
 
   // if (modalOpen) {
-  return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-      <div
-        id="modal"
-        className="bg-white-100 p-4 rounded-lg w-[90%] md:w-[50%] lg:w-[35%] h-415 text-center animate-slideIn"
-      >
-        <svg
-          onClick={closeModal}
-          className="ml-auto mr-1 mt-1"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          style={{ cursor: 'pointer' }}
+    return (
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
+        <div
+          id="modal"
+          className="bg-white-100 p-4 rounded-lg w-[90%] md:w-[50%] lg:w-[35%] h-415 text-center animate-slideIn"
         >
-          <path
-            d="M18 6.5L6 18.5M6 6.5L18 18.5"
-            stroke="#667085"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+          <svg
+            onClick={closeModal}
+            className="ml-auto mr-1 mt-1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            style={{ cursor: 'pointer' }}
+          >
+            <path
+              d="M18 6.5L6 18.5M6 6.5L18 18.5"
+              stroke="#667085"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
 
         <div>
           <div className="flex justify-center">
@@ -62,26 +62,24 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, produ
                     />
                   </g>
                 </g>
-              </g>
-            </svg>
-            <span className="text-[#001F23]">Save for Later</span>
-          </button>
-          <button
-            className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[14px] flex items-center gap-2 rounded-md"
-            onClick={() => {
-              onRemoveItem(productId);
-            }}
-          >
-            {/* Remove Item icon */}
-            <Image src={trash} alt="checked" width={20} height={20} />
-            Remove Item
-          </button>
+                </g>
+              </svg>
+              <span className="text-[#001F23]">Save for Later</span>
+            </button>
+            <button
+              className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[14px] flex items-center gap-2 rounded-md"
+              onClick={() => {
+                closeModal();
+                onRemoveItem(productId);
+              }}
+            >
+              <Image src={trash} alt="checked" width={20} height={20} />
+              Remove Item
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
-  // }
-  // return null;
+    );
 };
 
 export default RemoveCart;
