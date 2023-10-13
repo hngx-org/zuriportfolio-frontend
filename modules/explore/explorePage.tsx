@@ -32,161 +32,45 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { UserInfo } from '../../@types/exploreTyples';
 import { useRouter } from 'next/router';
-
-// Interface
-
-// id: number;
-// bgImage: string;
-// photoImage: string;
-// name: string;
-// role: string;
-// skills:string[]
-// totalProjects: number;
-// badge: string;
-// location: string;
-
-const cardData: CardData[] = [
-  {
-    id: 1,
-    bgImage: bg1,
-    photoImage: photoImage1,
-    name: 'Theresa Webb',
-    role: 'Product Designer',
-    skills: ['UI Design', 'User Research', 'Prototyping', 'Figma', 'Interaction Design', '+5'],
-    totalProjects: 11,
-    badge: 'Beginner',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 2,
-    bgImage: bg1,
-    photoImage: photo2,
-    name: 'Jacob Jones',
-    role: 'Frontend Developer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Vue JS', 'Figma', '+3'],
-    totalProjects: 8,
-    badge: 'Expert',
-    location: 'Port Harcourt, Nigeria',
-  },
-  {
-    id: 3,
-    bgImage: bg3,
-    photoImage: photo3,
-    name: 'Bessie Cooper',
-    role: 'Full Stack Engineer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 5,
-    badge: 'Intermediate',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 4,
-    bgImage: bg4,
-    photoImage: photo4,
-    name: 'Jenny Wilson',
-    role: 'Cyber Security',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 8,
-    badge: 'Expert',
-    location: 'Port Harcourt, Nigeria',
-  },
-  {
-    id: 5,
-    bgImage: bg5,
-    photoImage: photo5,
-    name: 'Annette Black',
-    role: 'Data Science',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 5,
-    badge: 'Intermediate',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 6,
-    bgImage: bg6,
-    photoImage: photo6,
-    name: 'Guy Hawkins',
-    role: 'Graphic Designer',
-    skills: ['Photoshop', 'Illustrator', 'Adobe CC', 'Motion', 'Figma', '+5'],
-    totalProjects: 11,
-    badge: 'Beginner',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 7,
-    bgImage: bg7,
-    photoImage: photo7,
-    name: 'Robert Fox',
-    role: 'Video Marketer',
-    skills: ['UI Design', 'User Research', 'Prototyping', 'Figma', 'Interaction Design', '+5'],
-    totalProjects: 8,
-    badge: 'Intermediate',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 8,
-    bgImage: bg8,
-    photoImage: photo8,
-    name: 'Darlene Robertson',
-    role: 'Product Designer',
-    skills: ['UI Design', 'User Research', 'Prototyping', 'Figma', 'Interaction Design', '+5'],
-    totalProjects: 8,
-    badge: 'Beginner',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 9,
-    bgImage: bg9,
-    photoImage: photo9,
-    name: 'Jerome Bell',
-    role: 'Mobile Developer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 8,
-    badge: 'Expert',
-    location: 'Port Harcourt, Nigeria',
-  },
-  {
-    id: 10,
-    bgImage: bg10,
-    photoImage: photo10,
-    name: 'Leslie Alexander',
-    role: 'Cloud Computing',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 8,
-    badge: 'Beginner',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 11,
-    bgImage: bg11,
-    photoImage: photo11,
-    name: 'Kathryn Murphy',
-    role: 'Full Stack Engineer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 5,
-    badge: 'Intermediate',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 12,
-    bgImage: bg12,
-    photoImage: photo12,
-    name: 'Albert Flores',
-    role: 'Frontend Developer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Vue JS', '+3'],
-    totalProjects: 8,
-    badge: 'Expert',
-    location: 'Port Harcourt, Nigeria',
-  },
-];
+import { useSearchParams } from 'next/navigation';
 
 const HomePage = () => {
   // States
+  const searchParam = useSearchParams();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [filters1, setFilters1] = useState('ddd');
   const [filters2, setFilters2] = useState('ddd');
   const deBounce = useDebounce(searchQuery, 1200);
   const router = useRouter();
+
+  const explorePageParam = {
+    page: searchParam.get('page'),
+    itemsPerPage: searchParam.get('itemsPerPage'),
+  };
+
+  const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
+    searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
+    filterUrl = (query: string) =>
+      `${baseUrl}/explore/filter?SortBy=1&Location=nigeria&Country=lagos&Provider=ee&Skill=ee&Track=ee&Ranking=ee&RoleId=1&Tag=a&PageSize=12&PageNumber=1`,
+    allUsers = `${baseUrl}/explore/GetAllPortfolio?page=${explorePageParam.page}&itemsPerPage=${explorePageParam.itemsPerPage}`;
+
+  async function fetchUsers(
+    query?: string,
+    param?: {
+      page: number;
+    },
+  ) {
+    let url = allUsers;
+    if (query) {
+      url = searchUrl(query);
+    }
+    // else if (filters) {
+    //   url = filterUrl(filters);
+    // }
+    const { data } = await axios.get(url);
+    return data;
+  }
 
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo[]>({
@@ -221,20 +105,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
-  searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
-  filterUrl = (query: string) =>
-    `${baseUrl}/explore/filter?SortBy=1&Location=nigeria&Country=lagos&Provider=ee&Skill=ee&Track=ee&Ranking=ee&RoleId=1&Tag=a&PageSize=12&PageNumber=1`,
-  allUsers = `${baseUrl}/explore/GetAllPortfolio?page=1&itemsPerPage=12`;
-
-async function fetchUsers(query?: string, filters?: string, filter2?: string) {
-  let url = allUsers;
-  if (query) {
-    url = searchUrl(query);
-  } else if (filters) {
-    url = filterUrl(filters);
-  }
-  const { data } = await axios.get(url);
-  return data;
-}

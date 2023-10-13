@@ -20,6 +20,7 @@ import {
 import FilterComponent from './components/FilterComponent';
 import CustomDropdown from './components/CustomDropdown';
 import { Input, SelectInput } from '@ui/Input';
+import { useExploreParams } from './hooks/exploreParam';
 // import Breadcrumbs from '../../components/Breadcrumbs';
 
 const SearchAndFilter = (prop: { setSearchQuery?: Dispatch<React.SetStateAction<string>> }) => {
@@ -109,6 +110,8 @@ const SearchAndFilter = (prop: { setSearchQuery?: Dispatch<React.SetStateAction<
       text: 'Devops',
     },
   ];
+
+  const { page, upDatePage } = useExploreParams();
 
   return (
     <div className="mx-auto mb-2 py-8 px-6 font-manropeL xl:max-w-[77.5rem] xl:px-0">
