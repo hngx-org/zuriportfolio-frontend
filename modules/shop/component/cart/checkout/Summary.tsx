@@ -6,7 +6,7 @@ import TempUser from './../../../../../components/Modals/TempUser';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import isAuthenticated from '../../../../../helpers/isAuthenticated';
 
-const Summary: React.FC<SummaryProps> = ({ prices }) => {
+const Summary = ({ prices, sum }: SummaryProps & { sum: number }) => {
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
@@ -156,10 +156,10 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
             )}
 
             <div className="sum flex justify-between">
-              <p className="font-bold">Vat</p>
+              {/* <p className="font-bold">Vat</p>
               <span className="text-brand-red-primary transition-all duration-300">
                 +${displayPrices.vat.toFixed(2)}
-              </span>
+              </span> */}
             </div>
           </div>
 
@@ -168,7 +168,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
           <div className="cart-total">
             <div className="sum flex justify-between">
               <p className="font-bold">Total:</p>
-              <span className="font-bold text-xl transition-all duration-300">${displayPrices.total.toFixed(2)}</span>
+              <span className="font-bold text-xl transition-all duration-300">$ {sum}</span>
             </div>
           </div>
 

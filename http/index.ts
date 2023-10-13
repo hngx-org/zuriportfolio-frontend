@@ -32,18 +32,14 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
-export const getUserCart = async (token: string) => {
+export const getUserCart = async () => {
   try {
-    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts',
-    {headers: {
-      'Authorization': `Bearer ${token}`
-    }}
-    )
-    return response.data  
+    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts');
+    return response.data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const signUpUserWithEmail = async (props: { email: string }) => {
   try {
     const res = await $http.post('https://auth.akuya.tech/api/auth/check-email', props);
@@ -106,6 +102,25 @@ export const resetPassword = async (props: { token: string | string[] | undefine
 //     return e.response.data ?? { message: e.message };
 //   }
 // }
+
+
+export const removeFromCart = async (productId: string) => {
+  
+    try {
+      const apiUrl = `https://zuri-cart-checkout.onrender.com/api/carts/${productId}`;
+      const response = await $http.delete(apiUrl,{
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Error making payment:', error);
+      throw error;
+    }
+  }
+
 
 export const makePayment = async (selectedPaymentMethod: string) => {
   if (selectedPaymentMethod) {
