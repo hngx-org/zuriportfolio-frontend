@@ -13,10 +13,12 @@ import { signUpUserWithEmail } from '../../http/auth';
 import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
 import withoutAuth from '../../helpers/withoutAuth';
+import { useAuth } from '../../context/AuthContext';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
 function SignUpWithEmail() {
+  const { handleEmail } = useAuth();
   const [userEmail, setUserEmail] = useState('');
   const router = useRouter();
   const onSignUpWithEmailSuccess = (data: any) => {
@@ -59,6 +61,7 @@ function SignUpWithEmail() {
   const handleSignUpWithEmail = (values: any) => {
     console.log('email', values.email);
     setUserEmail(values.email as string);
+    handleEmail(values.email);
     signUpUser({ email: values.email });
   };
 
