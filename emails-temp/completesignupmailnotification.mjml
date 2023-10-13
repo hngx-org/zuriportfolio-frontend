@@ -92,5 +92,8 @@
         </mj-text>
       </mj-column>
     </mj-section>
+     <mj-section>
+    <mj-column width="100%" padding="0px"></mj-column>
+    </mj-section>
   </mj-body>
 </mjml>
