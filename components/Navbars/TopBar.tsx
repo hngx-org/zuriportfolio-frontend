@@ -102,7 +102,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       try {
         const results = await searchPosts(searchQuery);
         setSearchResults(results);
-        localStorage.setItem('search_result', JSON.stringify(results))
+        localStorage.setItem('search_result', JSON.stringify(results));
         router.push(`/marketplace/search?searchQuery=${searchQuery}`);
       } catch (error) {
         console.error(error);
@@ -179,9 +179,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </div>
                 </div>
                 <input
-                 value={searchQuery}
-                 onKeyUp={handleSearch}
-                 onChange={(e) => setSearchQuery(e.target.value)}
+                  value={searchQuery}
+                  onKeyUp={handleSearch}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search"
                   className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
                 />
@@ -390,9 +390,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     </div>
                   </div>
                   <input
-                   value={searchQuery}
-                   onKeyUp={handleSearch}
-                   onChange={(e) => setSearchQuery(e.target.value)}
+                    value={searchQuery}
+                    onKeyUp={handleSearch}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search"
                     className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
                   />
