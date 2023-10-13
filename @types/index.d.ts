@@ -50,7 +50,7 @@ export interface AllCategoryDetails {
 export interface Products {
   _id: string;
   name: string;
-  image: any;
+  image: string;
   shopOwner: string;
   price: number;
   category: string;
@@ -242,39 +242,36 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-
-export type RecentlyViewedProductProp = 
-{
-  user:string
+export type RecentlyViewedProductProp = {
+  user: string;
   product: {
-    id:string
-    name:string
-    description:string
-    quantity: number
-    category: number
-    price:string
-    discount_price:string
-    tax:string
-    admin_status:string
-    is_deleted:string
-    rating: number,
-    is_published: false,
-    currency:string
-    createdat:string
-    updatedat:string
-    user:string
-    image_url:string
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: string;
+    discount_price: string;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
     shop: {
-      merchant:string
-      name:string
-      reviewed: string,
-      rating: number
-    }
-  },
-  interaction_type: string
-  createdat: number
-}
-
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+};
 
 export type CartItemProps = {
   id?: string;
@@ -452,8 +449,10 @@ export interface filterProps {
 }
 
 export interface reviewProps {
+  reviewId: string;
   buyerName: string;
   adminDate: string;
+  mainDate: string;
   review: string;
   noOfStars: number;
   shopName?: string;
@@ -514,7 +513,6 @@ export interface NotificationCheckboxType {
   newMessages: boolean;
   // userId:string
 }
-
 
 export type Graph = {
   id: number;
@@ -593,9 +591,8 @@ export interface CardData {
 }
 
 export interface Review {
-  id: number;
-  rating: number;
-  name: string;
+  rateNo: number;
+  customerName: string;
   description: string;
 }
 export interface UserInfo {
@@ -643,10 +640,6 @@ export type AuthResponse = {
   user: User;
 };
 
-
-type ProductResultImage = {
-  url: string;
-}
 export interface ProductResult {
   id: string;
   name: string;
