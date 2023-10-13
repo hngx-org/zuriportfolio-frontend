@@ -55,7 +55,7 @@ function RecentlyViewed() {
                 image_url={item?.product?.image_url}
                 name={item?.product?.name}
                 price={item?.product?.price}
-                user={item?.product?.user}
+                user={item?.product?.shop?.name}
                 rating={item?.product?.rating}
                 showLimitedOffer={item?.product?.showLimitedOffer}
                 showTopPicks={item?.product?.showTopPicks}
