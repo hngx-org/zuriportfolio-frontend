@@ -7,7 +7,7 @@ const AnalyticsAndReportingTopSelling = () => {
   const products: topListingProduct[] = [
     {
       id: 1,
-      productName: 'Product Design course',
+      productName: 'Product Design course.',
       productImage: '/assets/tsImages/image 10.png',
       category: 'Tech Learning',
       order: '123456',
