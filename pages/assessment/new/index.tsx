@@ -5,12 +5,15 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+import { Key } from 'iconsax-react';
 const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
+  const [requestValues, setRequestValues] = useState<{ [Key: string]: string }>({});
 
   const handleClick = (button: string) => {
     setActive(button);
   };
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
@@ -67,7 +70,11 @@ const CreateAssessment = () => {
               <>
                 <Edithead />
                 <div className="pt-4 ">
-                  <CreateTemplate />
+                  <CreateTemplate
+                    dataValues={(dataContent) => {
+                      setRequestValues(dataContent);
+                    }}
+                  />
                 </div>
               </>
             ) : (
