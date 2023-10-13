@@ -21,26 +21,23 @@ function SignUpWithEmail() {
   const router = useRouter();
   const onSignUpWithEmailSuccess = (data: any) => {
     console.log(data);
-    if (data.message !== 'Email does not exist.') {
-      const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
-      notifyError(errorMessage);
+    if (data.status === 200) {
+      console.log(data.message);
+      router.push(`/auth/signup?email=${userEmail}`);
       return;
     }
 
-    // user does not exists, continue to signup page
-    router.push(`/auth/signup?email=${userEmail}`);
+    notifyError(data.message);
   };
 
   const onSignUpWithEmailError = (error: any) => {
+    // for axios timeout error
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
       notifyError(timeoutErrorMessage);
       return;
     }
-
-    const serverErrorMessage = 'Oops! Something went wrong. Please try again later.';
-    notifyError(serverErrorMessage);
   };
 
   const { mutate: signUpUser, isLoading: isUserSigningUp } = useAuthMutation(signUpUserWithEmail, {
