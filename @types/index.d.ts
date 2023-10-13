@@ -478,13 +478,6 @@ export interface NotificationCheckboxType {
   // userId:string
 }
 
-export type cardinfo = {
-  title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
-};
 export type Graph = {
   id: number;
   title: string;
