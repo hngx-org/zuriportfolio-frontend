@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Button from '@ui/Button';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
-import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
@@ -104,7 +103,6 @@ const CreateAssessment = () => {
             <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
               {active === 'button1' ? (
                 <>
-                  <Edithead />
                   <div className="pt-4">
                     <CreateTemplate />
                   </div>
