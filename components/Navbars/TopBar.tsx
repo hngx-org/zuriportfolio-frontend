@@ -53,7 +53,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       try {
         const results = await searchPosts(searchQuery);
         setSearchResults(results);
-        router.push(`/marketplace/search?searchResults=${JSON.stringify(results)}`);
+        localStorage.setItem('search_result', JSON.stringify(results))
+        router.push(`/marketplace/search?searchQuery=${searchQuery}`);
       } catch (error) {
         console.error(error);
       }
