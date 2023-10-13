@@ -12,8 +12,7 @@ function Code2FAUI() {
         A code has been sent to your mail
       </h2>
       <form className="flex flex-col gap-10 items-center w-full" onSubmit={handleSubmit}>
-        <p className="text-base lg:self-start text-gray-700 mb-[-1.8rem]">Enter 6 digit code
-         </p>
+        <p className="text-base lg:self-start text-gray-700 mb-[-1.8rem]">Enter 6 digit code</p>
         <div className="grid grid-cols-6 gap-3 justify-center lg:self-start relative">
           {digits.map((digit, index) => (
             <input
@@ -58,6 +57,5 @@ function Code2FAUI() {
     </>
   );
 }
-
 
 export default Code2FAUI;

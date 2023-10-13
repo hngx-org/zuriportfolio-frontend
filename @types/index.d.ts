@@ -571,12 +571,13 @@ export interface ProductInfo {
   status: string;
 }
 export interface DeletedProducts {
-  name: string;
-  vendor: string;
-  id: number;
-  dateAdded: Date;
-  dateDeleted: Date;
-  status: string;
+  admin_status: string;
+  category_id: number;
+  createdAt: string;
+  product_id: string;
+  product_name: string;
+  updatedAt: string;
+  vendor_name: string;
 }
 export interface CardData {
   id: number;
@@ -638,6 +639,10 @@ export type User = {
 export type AuthResponse = {
   token: string;
   user: User;
+};
+
+type ProductResultImage = {
+  url: string;
 };
 
 export interface ProductResult {
