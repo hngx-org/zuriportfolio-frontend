@@ -56,20 +56,18 @@ export default function Cart() {
   const getSummary = (items: any[]) => {
     let sum = 0;
     items.map((item) => (sum += Number(item.productPrice)));
-    return sum;
-  };
-
-  const [cartSummary, setCartSummary] = useState<number>(0);
-
+    return sum
+  }
+  
+  
   useEffect(() => {
-    async function cartFetch() {
-      const carts = await getUserCart();
-      setCartItems(carts);
-      const sum = getSummary(carts);
-      setCartSummary(sum);
-    }
-    cartFetch();
-  }, []);
+      async function cartFetch() {
+        const carts = await getUserCart()
+        setCartItems(carts)
+      }
+      cartFetch()
+  },[])
+
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
     let id = event.currentTarget.id;
@@ -89,7 +87,7 @@ export default function Cart() {
       productId={cartItem.productId}
       productColor={cartItem.productColor}
       productTitle={cartItem.productTitle}
-      proudctDescription={cartItem.proudctDescription}
+      productDescription={cartItem.productDescription}
       productImage={cartItem.productImage}
       productSeller={cartItem.productSeller}
       productSize={cartItem.productSize}
@@ -125,7 +123,7 @@ export default function Cart() {
                 {cartProductItems}
               </div>
               <div className="flex md:flex-none justify-center md:mx-0">
-                <Summary sum={cartSummary} />
+                <Summary discount={2} sum={getSummary(cartItems)} />
               </div>
             </section>
 
