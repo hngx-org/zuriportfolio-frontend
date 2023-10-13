@@ -20,10 +20,10 @@ const Guestsignupform: React.FC = () => {
 
   const { mutate: guestSignupFn, isLoading: isLoginUserMutationLoading } = useAuthMutation(guestSignup, {
     onSuccess: (data) => {
-      console.log(data?.status);
-      // if (data?.status === 200) {
-      //   router.push('/auth/verification');
-      // }
+      console.log(data);
+      if (data?.status === 200) {
+        router.push('/auth/verification');
+      }
     },
     onError: (res) => console.log({ res }),
     // notify({
@@ -187,7 +187,7 @@ const Guestsignupform: React.FC = () => {
                 <input
                   type="checkbox"
                   name="checkbox"
-                  {...form.getInputProps('agree')}
+                  {...form.getInputProps('agree', { type: 'checkbox' })}
                   className="custom-checkbox cursor-pointer"
                 />
               </span>

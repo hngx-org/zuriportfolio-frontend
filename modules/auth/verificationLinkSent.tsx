@@ -50,12 +50,12 @@ function VerificationLinkSent({ handleClick }: Props) {
           </p>
 
           {/* Uncomment out when change email endpoint is working */}
-          {/* <button
+          <button
             onClick={handleClick}
             className=" font-manropeL text-left sm:text-right text-[10px] md:text-brand-green-primary text-[#737876] "
           >
             Incorrect email address? Change email address
-          </button> */}
+          </button>
         </div>
       </div>
     </VerificationLayout>

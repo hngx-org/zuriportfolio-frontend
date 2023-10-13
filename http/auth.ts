@@ -117,7 +117,7 @@ export const guestSignup = async (props: { email: string; firstName: string; las
 
 export const forgetPassword = async (props: { email: string }) => {
   try {
-    const res = await $http.post('/api/auth/reset-password', props);
+    const res = await $http.post('/reset-password', props);
     console.log(res);
     return res?.data;
   } catch (e: any) {
