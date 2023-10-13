@@ -1,7 +1,7 @@
-import Breadcrumbs from '../../../../components/Breadcrumbs';
 import MainLayout from '../../../../components/Layout/MainLayout';
-import CategoriesNav from '../CategoriesNav/CategoriesNav';
+import Breadcrumbs from './BreadCrumbs';
 import { categoryMenus } from './data/category-data';
+import CategoriesNav from '../CategoriesNav/CategoriesNav';
 
 interface LayoutProps extends React.ComponentPropsWithRef<'section'> {
   children: React.ReactNode;
