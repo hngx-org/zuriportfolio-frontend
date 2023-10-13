@@ -12,9 +12,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NotificationCheckboxType } from '../@types';
 import { useRouter } from 'next/router';
-import router from 'next/router';
+import withAuth from '../helpers/withAuth';
 
-export default function SettingPage() {
+const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
     accountManagement: false,
     notificationSettings: false,
@@ -398,4 +398,5 @@ export default function SettingPage() {
       </div>
     </MainLayout>
   );
-}
+};
+export default SettingPage;
