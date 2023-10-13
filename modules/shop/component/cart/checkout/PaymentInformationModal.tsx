@@ -17,38 +17,11 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
     setPaymentMethodError('');
   };
 
-  // const makePayment = async () => {
-  //   if (selectedPaymentMethod) {
-  //     // Payment method is selected, proceed with the payment
-  //     try {
-  //       const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/orders';
-  //       const data = {
-  //         redirect_url: 'http://localhost:3000/marketplace/cart',
-  //         payment_method: selectedPaymentMethod,
-  //       };
-
-  //       const response = await axios.post(apiUrl, data, {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           accept: 'application/json',
-  //         },
-  //       });
-
-  //       // Handle the error response
-  //       console.log('API Response:', response.data);
-  //     } catch (error) {
-  //       console.error('Error making payment:', error);
-  //     }
-  //   } else {
-  //     // No payment method selected, set an error message
-  //     setPaymentMethodError('Please select a payment method before making the payment.');
-  //   }
-  // };
   const handlePayment = async () => {
     if (selectedPaymentMethod) {
       try {
         const response = await makePayment(selectedPaymentMethod);
-        window.location.href = response.transaction_url
+        window.location.href = response.transaction_url;
       } catch (error) {
         console.error('Error making payment:', error);
         // Handle the error here as needed
