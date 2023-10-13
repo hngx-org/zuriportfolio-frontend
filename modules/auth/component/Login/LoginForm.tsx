@@ -11,13 +11,13 @@ import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWi
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 import { useRouter } from 'next/router';
-import AuthContext from '../../../../context/AuthContext';
+import { useAuth } from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 
 function LoginForm() {
-  const { handleUser } = useContext(AuthContext);
+  const { handleAuth } = useAuth();
   const router = useRouter();
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
 
@@ -40,7 +40,7 @@ function LoginForm() {
 
       if (res.message === 'Login successful') {
         // console.log('Login success:', res);
-        handleUser(res.data);
+        handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
         // console.log(value);
