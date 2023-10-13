@@ -33,14 +33,16 @@ export interface AllCategoryDetails {
   discount: number;
 }
 export interface Products {
-  id: number;
+  _id: string;
   name: string;
   image: string;
   shopOwner: string;
   price: number;
   category: string;
+  description: string;
+  specification: string;
+  rating: number;
 }
-
 export interface SuperAdminPagination {
   title: any;
 }
@@ -74,7 +76,7 @@ export interface ProductCardProps {
   currency: string;
   image: string | null;
   productName: string;
-  productPrice: number | string;
+  productPrice: number;
   productOwner: string;
   productRating: number;
   showLimitedOffer?: boolean;
@@ -215,8 +217,9 @@ export type CartItemProps = {
   productId: string;
   productImage: string;
   productTitle: string;
-  productSize: string;
-  productColor: string;
+  proudctDescription?: string;
+  productSize?: string;
+  productColor?: string;
   productSeller: string;
   productPrice: number;
 };
@@ -438,11 +441,12 @@ export interface SettingOptionTypes {
   refer: boolean;
 }
 export interface NotificationCheckboxType {
-  receiveEmail: boolean;
+  emailSummary: boolean;
   specialOffers: boolean;
-  getNotification: boolean;
-  notifyFollow: boolean;
-  notifyMessages: boolean;
+  communityUpdate: boolean;
+  followUpdate: boolean;
+  newMessages: boolean;
+  // userId:string
 }
 
 export type cardinfo = {

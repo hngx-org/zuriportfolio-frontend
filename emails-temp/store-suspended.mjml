@@ -1,0 +1,156 @@
+<mjml>
+  <mj-head>
+    <mj-title>Store suspended</mj-title>
+    <mj-attributes>
+      <mj-font
+        name="Manrope"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+      />
+      <mj-body background-color="#F0ECE6" />
+      <mj-class name="bold" font-weight="700" font-family="Century Gothic" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-section>
+      <mj-column width="100%">
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/green-logo.png"
+          alt=""
+          width="200px"
+          align="center"
+        />
+      </mj-column>
+    </mj-section>
+    <mj-wrapper background-color="white">
+      <mj-section>
+        <mj-column>
+          <mj-text
+            color="#000"
+            padding-top="50px"
+            font-weight="700"
+            font-size="24px"
+            font-family="Century Gothic"
+            line-height="32px"
+          >
+            Hi Dare,
+          </mj-text>
+          <mj-text color="#009254" font-size="24px" font-weight="700" line-height="52px" font-family="Century Gothic">
+            Your store has been suspended
+          </mj-text>
+          <mj-text
+            font-size="16px"
+            font-weight="400"
+            line-height="24px"
+            letter-spacing="0.035px"
+            color="#2E3130"
+            font-family="Century Gothic"
+          >
+            You are formally notified that your store on our platform
+            <span style="font-weight: bold">‘Road to marketing’</span> on Zuriportfolio has been temporarily suspended
+            due to violations of our terms of service and community guidelines.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column width="40%">
+          <mj-text color="#2E3130" font-size="16px" font-family="Century Gothic" line-height="24px">
+            Reasons(s) or suspension:
+          </mj-text>
+        </mj-column>
+        <mj-column width="60%">
+          <mj-text padding="0" font-size="16px" font-family="Century Gothic">
+            <ul style="">
+              <li style="padding-bottom: 20px; line-height=24px">Product misrepresentation</li>
+              <li style="line-height=24px">Intellectual property infringement</li>
+            </ul>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-text
+            font-size="16px"
+            font-weight="400"
+            line-height="24px"
+            letter-spacing="0.035px"
+            color="#2E3130"
+            font-family="Century Gothic"
+          >
+            During this suspension period, your store and its associated products and services will be temporarily
+            unavailable to users on our platform. We kindly request that you refrain from conducting business on the
+            platform during this time, as doing so may result in further actions.
+          </mj-text>
+          <mj-text
+            font-size="16px"
+            font-weight="400"
+            line-height="24px"
+            letter-spacing="0.035px"
+            color="#2E3130"
+            font-family="Century Gothic"
+          >
+            <p>
+              If you have any pending orders, refunds, or unresolved issues associated with your shop, please contact
+              our support team at
+              <a href="mailto:support@zuriportolio.com" style="color: #009254; text-decoration: none"
+                >support@zuriportolio.com</a
+              >
+              for assistance in resolving them.
+            </p>
+          </mj-text>
+
+          <mj-text
+            font-size="16px"
+            font-weight="400"
+            line-height="24px"
+            letter-spacing="0.035px"
+            color="#2E3130"
+            font-family="Century Gothic"
+          >
+            <p>
+              If you believe this decision was made in error, or you need further clarification please reach out to our
+              support team at
+              <a href="mailto:support@zuriportolio.com" style="color: #009254; text-decoration: none"
+                >support@zuriportolio.com</a
+              >.
+            </p>
+          </mj-text>
+          <mj-text
+            font-size="16px"
+            font-weight="400"
+            line-height="24px"
+            letter-spacing="0.035px"
+            color="#2E3130"
+            padding-bottom="0"
+            font-family="Century Gothic"
+          >
+            Thank you for choosing Zuriportfolio!
+          </mj-text>
+          <mj-text
+            font-size="16px"
+            font-weight="700"
+            line-height="24px"
+            letter-spacing="0.035px"
+            color="#2E3130"
+            font-family="Manrope"
+            padding-top="0"
+          >
+            Zuri Team
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-image
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/green-logo.png"
+            alt=""
+            width="160px"
+            align="center"
+          />
+          <mj-text align="center" font-size="12px" font-family="Manrope" font-weight="700">
+            Copyright (c) Zuriportfolio. All rights reserved
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+  </mj-body>
+</mjml>
