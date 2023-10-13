@@ -23,15 +23,13 @@ export default function CartItem({
   const removeItem = () => {
     // removeFromCart()
     setModalClosed('block');
-    console.log("removed");
-
+    console.log('removed');
   };
 
   const closeModal = () => {
-    console.log("clicked");
+    console.log('clicked');
     setModalClosed('hidden');
-    console.log("hidden set");
-    
+    console.log('hidden set');
   };
 
   return (

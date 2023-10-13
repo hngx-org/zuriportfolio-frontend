@@ -4,9 +4,8 @@ import { ProductCardProps } from '../../../../../@types';
 import ProductCard from '../../ProductCard';
 // import Link from 'next/link';
 import Image from 'next/image';
-import Cancel from "../../../../../public/assets/recentlyviewed/cancel.svg"
+import Cancel from '../../../../../public/assets/recentlyviewed/cancel.svg';
 import styles from '../productCardWrapper/product-card-wrapper.module.css';
-
 
 const recentlyViewed: ProductCardProps[] = [
   {
@@ -63,8 +62,7 @@ const recentlyViewed: ProductCardProps[] = [
   },
 ];
 
-
-function RecentlyViewed (){
+function RecentlyViewed() {
   // const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/118453f4-b66b-4cd4-a2a5-34f93394a207/`;
   // const [recentlyViewed, setRecentlyViewed] = useState<ProductCardProps[]>([]);
   // // const [loading, setLoading] = useState(true);
@@ -77,12 +75,7 @@ function RecentlyViewed (){
   //     console.log(data)
   //     setRecentlyViewed(data);
   //   })
-  // }, [API_URL]); 
-
-  
-
-
-  
+  // }, [API_URL]);
 
   // console.log('User Id: ', userDetails.id);
 
@@ -101,7 +94,7 @@ function RecentlyViewed (){
                 <Image src={Cancel} alt="Cancel Icon" />
               </button>
               <ProductCard
-              id={item?.id}
+                id={item?.id}
                 currency={item?.currency}
                 image={item?.image}
                 productName={item?.productName}

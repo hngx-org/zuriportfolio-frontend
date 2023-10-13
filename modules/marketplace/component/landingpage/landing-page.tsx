@@ -237,8 +237,6 @@ const limitedOffers: ProductCardProps[] = [
   },
 ];
 
-
-
 function LandingPage() {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
