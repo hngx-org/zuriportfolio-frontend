@@ -180,7 +180,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     Sign In
                   </Button>
 
-                  <Button href="/auth/signup" className="rounded-lg px-6 py-3" intent={'primary'} size={'md'}>
+                  <Button
+                    href="/auth/signup-with-email"
+                    className="rounded-lg px-6 py-3"
+                    intent={'primary'}
+                    size={'md'}
+                  >
                     Sign Up
                   </Button>
                 </div>
@@ -373,7 +378,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
       </nav>
-      <div className="mb-32"></div>
+      <div className="mb-24 md:mb-28 lg:mb-32 "></div>
     </>
   );
 
@@ -575,7 +580,7 @@ function MenuUI({
             >
               Sign In
             </Button>
-            <Button href="/auth/signup" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
+            <Button href="/auth/signup-with-email" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
               Sign Up
             </Button>
           </>
