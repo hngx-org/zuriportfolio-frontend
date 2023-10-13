@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Edit } from 'iconsax-react';
 const Edithead = () => {
   const [disable, setDisable] = useState(true);
+  const readInput = (e: any) => {
+    console.log(e.target.value);
+  };
   return (
     <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
       <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
@@ -13,6 +16,7 @@ const Edithead = () => {
             className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
             placeholder="Untitled Assessment"
             disabled={disable}
+            onChange={(e) => readInput(e)}
           />
         </div>
         <div>
