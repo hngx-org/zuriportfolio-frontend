@@ -5,7 +5,8 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
-import Backarrow from '@modules/assessment/component/assets/backarrow';
+import backarrow from '../../../modules/assessment/component/backarrow.svg';
+import Image from 'next/image';
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
 const CreateAssessment = () => {
@@ -58,9 +59,7 @@ const CreateAssessment = () => {
                   window.history.back();
                 }}
               >
-                <div>
-                  <Backarrow />
-                </div>
+                <Image alt="go back" src={backarrow} width={'20'} height={'20'} />
                 <p className="text-dark[100]">Go back</p>
               </div>
               {active === 'button1' ? (

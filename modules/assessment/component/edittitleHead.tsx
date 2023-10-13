@@ -4,7 +4,7 @@ import { ToPushContext } from '../../../pages/assessment/new';
 const Edithead = () => {
   const [disable, setDisable] = useState(true);
   const [newobject, setObject]: any = useContext(ToPushContext);
-  const readLetter = (e: any) => {
+  const readInput = (e: any) => {
     const newt = { ...newobject };
     newt.assessment_name = e.target.value;
     setObject(newt);
@@ -22,7 +22,7 @@ const Edithead = () => {
             placeholder="Untitled Assessment"
             name="assessment_name"
             disabled={disable}
-            onChange={(e) => readLetter(e)}
+            onChange={(e) => readInput(e)}
           />
         </div>
         <div>
