@@ -71,7 +71,7 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
 
 export const checkEmail = async (props: { email: string }) => {
   try {
-    const res = await $http.post('/api/auth/check-email', props);
+    const res = await $http.post('/check-email', props);
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {
@@ -111,6 +111,20 @@ export const guestSignup = async (props: { email: string; firstName: string; las
     return res?.data;
   } catch (e: any) {
     console.log(e);
+    return e.response.data ?? { message: e.message };
+  }
+};
+
+export const forgetPassword = async (props: { email: string }) => {
+  try {
+    const res = await $http.post('/api/auth/reset-password', props);
+    console.log(res);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    if (e?.response?.data && e?.response?.data?.message) {
+      console.log(e?.response.data.message);
+    }
     return e.response.data ?? { message: e.message };
   }
 };
