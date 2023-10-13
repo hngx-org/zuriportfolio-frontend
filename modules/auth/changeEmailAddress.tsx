@@ -13,7 +13,7 @@ import { checkEmail } from '../../http/auth';
 function ChangeEmailAddress() {
   const router = useRouter();
 
-  const onSignUpWithEmailSuccess = (data: any) => {
+  const onSignUpWithEmailSuccess = (data: { message: string }) => {
     if (data.message !== 'Email is available for use') {
       const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
       notify({ message: errorMessage, type: 'error' });
@@ -23,7 +23,7 @@ function ChangeEmailAddress() {
     router.push(`/auth/guest-signup-form?email=${form.values.email}`);
   };
 
-  const onSignUpWithEmailError = (error: any) => {
+  const onSignUpWithEmailError = (error: { message: string }) => {
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
