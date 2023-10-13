@@ -66,21 +66,21 @@ export const removeFromCart = async (productId: string,token: string) => {
 
 // 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/fecfd17b-51a3-4288-9bd0-77ac4b7d60a0/'
 
-export const getRecentlyViewedProducts = async (user_id: string, token: string) => {
-  try {
-    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${user_id}`;
-    const response = await $http.get(apiUrl, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-    });
-    return response.data
+// export const getRecentlyViewedProducts = async (user_id: string, token: string) => {
+//   try {
+//     const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${user_id}`;
+//     const response = await $http.get(apiUrl, {
+//       headers: {
+//         'Authorization': `Bearer ${token}`
+//       },
+//     });
+//     return response.data
      
-  } catch (error) {
-    console.error('Error fetching data', error);
-    return []
-  }
-};
+//   } catch (error) {
+//     console.error('Error fetching data', error);
+//     return []
+//   }
+// };
 
 
 export const signUpUserWithEmail = async (props: { email: string }) => {
