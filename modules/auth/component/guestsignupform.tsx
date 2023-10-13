@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Link from 'next/link';
@@ -7,8 +8,29 @@ import { Eye, EyeSlash } from 'iconsax-react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
+import useAuthMutation from '../../../hooks/Auth/useAuthMutation';
+import { guestSignup } from '../../../http';
+import { useRouter } from 'next/router';
+import { notify } from '@ui/Toast';
 
 const Guestsignupform: React.FC = () => {
+  const router = useRouter();
+
+  const { email } = router.query;
+
+  const { mutate: guestSignupFn, isLoading: isLoginUserMutationLoading } = useAuthMutation(guestSignup, {
+    onSuccess: (data) => {
+      console.log(data?.status);
+      // if (data?.status === 200) {
+      //   router.push('/auth/verification');
+      // }
+    },
+    onError: (res) => console.log({ res }),
+    // notify({
+    //   message: `${res}`,
+    //   type: 'error',
+    // }),
+  });
   const [passwordVisible, togglePasswordVisibility] = usePasswordVisibility();
   const [confirmPasswordVisible, toggleConfirmPasswordVisibility] = usePasswordVisibility();
 
@@ -40,12 +62,18 @@ const Guestsignupform: React.FC = () => {
     },
   });
 
-  const handleGuestSignUp = (values: any) => {
-    console.log('firstname', values.firstname);
-    console.log('lastname', values.lastname);
-    console.log('password', values.password);
-    console.log('confirmPassword', values.confirmPassword);
-    console.log('agree', values.agree);
+  const handleGuestSignUp = async (values: any) => {
+    try {
+      const userData = {
+        email: email as string,
+        firstName: values.firstname,
+        lastName: values.lastname,
+        password: values.password,
+      };
+      guestSignupFn(userData);
+    } catch (error) {
+      console.log(`Error during guest signup: ${error}`);
+    }
   };
 
   return (
@@ -54,7 +82,7 @@ const Guestsignupform: React.FC = () => {
         <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] leading-[44px] font-semibold text-dark-100">
           Finish setting up your account
         </h1>
-        <p className="md:text-[22px] text-[#6b797f] leading-7">Femiadesina@gmail.com</p>
+        <p className="md:text-[22px] text-[#6b797f] leading-7">{`${email}`}</p>
       </div>
       <div className="mt-6 md:mt-12">
         <form className="flex flex-col" onSubmit={form.onSubmit((values) => handleGuestSignUp(values))}>
@@ -164,7 +192,7 @@ const Guestsignupform: React.FC = () => {
                 />
               </span>
               <span className="text-gray-200 text-base">
-                I agree with Zuri stores <Link href="#">Terms of Service</Link> & <Link href="#">Privacy Policy</Link>.
+                I agree with Zuri stores <Link href="/">Terms of Service</Link> & <Link href="/">Privacy Policy</Link>.
               </span>
             </label>
             <style jsx>{`
@@ -210,7 +238,7 @@ const Guestsignupform: React.FC = () => {
         <div className="mt-6">
           <p className="text-center text-gray-200 text-base">
             Already have an account?{' '}
-            <Link href="#" className="text-brand-green-primary hover:text-brand-green-hover">
+            <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
               Sign in
             </Link>
           </p>
