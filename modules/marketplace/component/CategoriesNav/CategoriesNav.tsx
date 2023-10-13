@@ -70,7 +70,11 @@ const CategoriesNav = (props: CategoriesNavProps) => {
         </button>
         <div className={`overflow-x-scroll  ${styles['hide-scroll']}`} ref={navContainerRef}>
           <ul className={`list flex whitespace-nowrap gap-8 py-5 bg-white-100 text-base `}>
-            {authenticated && <li>WishList</li>}
+            {authenticated && (
+              <li>
+                <Link href={`/marketplace/wishlist`}>WishList</Link>
+              </li>
+            )}
             {categories.map((category, i: number) => {
               return (
                 <li key={i + 1} className="">
