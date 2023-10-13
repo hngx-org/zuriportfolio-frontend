@@ -65,7 +65,7 @@ const DeletedProducts = () => {
               <tr
                 className="border-t border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200"
                 key={index}
-                onClick={() => route.push(`/super-admin/product-listing/deleted-products/${product.id}`)}
+                onClick={() => route.push(`/super-admin/product-listing/deleted-products/${product.product_id}`)}
               >
                 <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color10 px-6 py-4 items-center gap-6 self-stretch flex">
                   <input type="checkbox" />
@@ -76,7 +76,7 @@ const DeletedProducts = () => {
                   {product.vendor_name}
                 </td>
                 <td className="hidden md:table-cell text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
-                  #{product.id}
+                  #{product.product_id}
                 </td>
                 <td className="hidden md:table-cell text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
                   {product.createdAt}

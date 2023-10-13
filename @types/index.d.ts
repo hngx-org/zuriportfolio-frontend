@@ -572,7 +572,7 @@ export interface DeletedProducts {
   admin_status: string;
   category_id: number;
   createdAt: string;
-  id: string;
+  product_id: string;
   product_name: string;
   updatedAt: string;
   vendor_name: string;
