@@ -46,9 +46,10 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {
-    console.log(e);
-    throw new Error(e);
-    // return e.response.data ?? { message: e.message };
+    const errorData = e.response.data;
+    console.log('Error in catch', errorData);
+    // throw new Error(errorData);
+    return e.response.data ?? { message: e.message };
   }
 };
 
@@ -74,12 +75,24 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
 
 export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
   try {
-    const response = await axios.patch('https://9735-102-219-208-41.ngrok-free.app/api/auth/reset-password', props);
+    const response = await axios.patch('https://auth.akuya.tech/api/auth/reset-password', props);
     console.log(response);
     return response?.data;
   } catch (e: any) {
     console.log(e);
     throw new Error(e);
+  }
+};
+
+export const signUpUser = async (props: { firstName: string; lastName: string; email: string; password: string }) => {
+  try {
+    const res = await $http.post('https://auth.akuya.tech/api/auth/signup', props);
+    console.log(res?.data);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    throw new Error(e);
+    // return e.response.data ?? { message: e.message };
   }
 };
 

@@ -1,38 +1,14 @@
 // pages/index.tsx
-import { CardData } from '../../@types';
+// import { CardData } from '../../@types';
 import Card from './components/Card';
-import photoImage1 from '../../public/assets/images/explore_img/photo1.svg';
-import bg1 from '../../public/assets/images/explore_img/bg1.svg';
-import bg2 from '../../public/assets/images/explore_img/bg2.png';
-import bg3 from '../../public/assets/images/explore_img/bg3.png';
-import bg4 from '../../public/assets/images/explore_img/bg4.png';
-import bg5 from '../../public/assets/images/explore_img/bg5.png';
-import bg6 from '../../public/assets/images/explore_img/bg6.png';
-import bg7 from '../../public/assets/images/explore_img/bg7.png';
-import bg8 from '../../public/assets/images/explore_img/bg8.png';
-import bg9 from '../../public/assets/images/explore_img/bg9.png';
-import bg10 from '../../public/assets/images/explore_img/bg10.png';
-import bg11 from '../../public/assets/images/explore_img/bg11.png';
-import bg12 from '../../public/assets/images/explore_img/bg12.png';
-import photo2 from '../../public/assets/images/explore_img/photo2.png';
-import photo3 from '../../public/assets/images/explore_img/photo3.png';
-import photo4 from '../../public/assets/images/explore_img/photo4.png';
-import photo5 from '../../public/assets/images/explore_img/photo5.png';
-import photo6 from '../../public/assets/images/explore_img/photo6.png';
-import photo7 from '../../public/assets/images/explore_img/photo7.png';
-import photo8 from '../../public/assets/images/explore_img/photo8.png';
-import photo9 from '../../public/assets/images/explore_img/photo9.png';
-import photo10 from '../../public/assets/images/explore_img/photo10.png';
-import photo11 from '../../public/assets/images/explore_img/photo11.png';
-import photo12 from '../../public/assets/images/explore_img/photo12.png';
 import SearchAndFilter from './SearchAndFilter';
 import axios from 'axios';
 import useDebounce from './hooks/deBounce';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { UserInfo } from '../../@types/exploreTyples';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
+import { UserInfo } from './@types';
 
 const HomePage = () => {
   // States

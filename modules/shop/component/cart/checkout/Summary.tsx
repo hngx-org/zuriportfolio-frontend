@@ -6,7 +6,7 @@ import TempUser from './../../../../../components/Modals/TempUser';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import isAuthenticated from '../../../../../helpers/isAuthenticated';
 
-const Summary = ({ prices, sum, discount }: SummaryProps & { discount:number, sum: number }) => {
+const Summary = ({ prices, sum, discount }: SummaryProps & { discount: number; sum: number }) => {
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
@@ -147,9 +147,7 @@ const Summary = ({ prices, sum, discount }: SummaryProps & { discount:number, su
             {discount > 0 ? (
               <div className="sum flex justify-between">
                 <p className="font-bold">Discount</p>
-                <span className="text-green-500 transition-all duration-300">
-                  -${discount}
-                </span>
+                <span className="text-green-500 transition-all duration-300">-${discount}</span>
               </div>
             ) : (
               ''
