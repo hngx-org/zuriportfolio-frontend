@@ -73,14 +73,28 @@ export interface ProductCardProps {
   id: string;
   currency: string;
   image: string | null;
-  productName: string;
-  productPrice: number;
-  productOwner: string;
-  productRating: number;
+  name: string;
+  price: number;
+  user: string;
+  rating: number;
   showLimitedOffer?: boolean;
   showTopPicks?: boolean;
   showDiscount?: boolean;
-  discount?: number;
+  discount_price?: number;
+}
+
+export interface MarketPlaceProductCardProps {
+  id: string;
+  currency: string;
+  image: string | null;
+  name: string;
+  price: number;
+  user: string;
+  rating: number;
+  showLimitedOffer?: boolean;
+  showTopPicks?: boolean;
+  showDiscount?: boolean;
+  discount_price?: number;
 }
 
 export interface ratingProps {
