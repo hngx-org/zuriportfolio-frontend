@@ -6,7 +6,10 @@ import googleLogo from '../../../../public/assets/images/logo/google-logo.svg';
 const SignUpWithGoogle = () => {
   return (
     // the google logo has white space around it, so i am reducing the margin on the right so all the buttons look similar
-    <SignUpWithSocialsButton leftIcon={<Image src={googleLogo} alt="Google logo" className="w-8 h-8 -mr-1.5" />}>
+    <SignUpWithSocialsButton
+      href="https://auth.akuya.tech/api/auth/google"
+      leftIcon={<Image src={googleLogo} alt="Google logo" className="w-8 h-8 -mr-1.5" />}
+    >
       Continue with Google
     </SignUpWithSocialsButton>
   );

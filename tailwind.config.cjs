@@ -223,10 +223,22 @@ module.exports = {
         manropeB: ['var(--font-manropeB)'],
         manropeEB: ['var(--font-manropeEB)'],
       },
+
+      // Modal animation in shop cart
+      animation: {
+        slideIn: 'slideIn 2s',
+      },
+
+      keyframes: {
+        slideIn: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+      },
     },
     container: {
       center: true,
-   }
+    },
   },
   plugins: [
     require('tailwind-scrollbar'),

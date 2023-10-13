@@ -6,6 +6,7 @@ import star1 from '../../../public/assets/star1.svg';
 import star2 from '../../../public/assets/star2.svg';
 import profileImg from '../../../public/assets/images/profile-img.png';
 import verifyIcon from '../../../public/assets/icons/verify.svg';
+import Link from 'next/link';
 
 const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) => void; tab: string }) => {
   return (
@@ -150,19 +151,21 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
         <form action="#" className="mt-6">
           <h3 className="text-base font-manropeB font-semibold">Review this product</h3>
           <p className="text-sm font-manropeL font-normal mt-[0.8px]">Share your thoughts with other customers</p>
-          <textarea
-            id="about"
-            name="about"
-            rows={3}
-            className="block w-full rounded-xl mt-4 text-[#A1ADB2] border-0 border-custom-color32 text-base font-bold py-2  shadow-sm ring-1 ring-inset ring-gray-300 pl-2 min-h-[116px] placeholder:text-[#A1ADB2]  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
-            placeholder="Write a customer review"
-            required
-          ></textarea>
+          <Link href={'/dashboard/reviews/new'}>
+            <textarea
+              id="about"
+              name="about"
+              rows={3}
+              className="block w-full rounded-xl mt-4 text-[#A1ADB2] border-0 border-custom-color32 text-base font-bold py-2  shadow-sm ring-1 ring-inset ring-gray-300 pl-2 min-h-[116px] placeholder:text-[#A1ADB2]  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
+              placeholder="Write a customer review"
+              required
+            ></textarea>
+          </Link>
           <button
             type="button"
             className="text-xl font-semibold leading-6 mt-7 text-base font-manropeB font-bold text-brand-green-primary flex mx-auto"
           >
-            See more reviews
+            <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
           </button>
         </form>
       </>

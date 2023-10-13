@@ -35,7 +35,7 @@ export default function Slider({ updateImage }: any) {
   };
   return (
     <div className="relative w-full mx-auto">
-      <div className="flex w-full max-w-[700px]  md:justify-between justify-around md:gap-x-2 gap-x-2 mx-auto overflow-hidden">
+      <div className="flex w-full max-w-[700px]  justify-evenly md:gap-x-2 gap-x-2 mx-auto overflow-hidden">
         <Image
           src={slides[0]}
           onClick={handleUpdateImage1}

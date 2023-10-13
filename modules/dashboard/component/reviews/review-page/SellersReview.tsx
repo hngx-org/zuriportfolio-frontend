@@ -29,11 +29,15 @@ export default function SellerReview(props: reviewProps) {
 
   return (
     <div className=" w-full m-0 p-0">
-      <div className=" w-full mb-6 ">
+      <div className=" w-full  mb-6 ">
         <div className="flex flex-col w-full mb-7">
           <div className="flex flex-row my-3 mx-0">{getStars(props.noOfStars)}</div>
           <div className="flex text-xs text-dark-600">
-            <Link href="/" className="username" style={{ textDecoration: 'underline' }}>
+            <Link
+              href="/dashboard/reviews/customer-feedback"
+              className="username"
+              style={{ textDecoration: 'underline' }}
+            >
               {props.buyerName}
             </Link>
             <Image
@@ -51,7 +55,7 @@ export default function SellerReview(props: reviewProps) {
           </p>
           {res && (
             <form action="" className="flex items-center mb-3">
-              <label htmlFor="" className=" text-center w-16 py-4 px-2">
+              <label htmlFor="" className="text-center w-16 py-4 px-2">
                 Reply
               </label>
               <Input
@@ -60,8 +64,8 @@ export default function SellerReview(props: reviewProps) {
                 }}
                 type="text"
                 size={48}
-                placeHolder=""
-                rightIcon={<Send color="#777" />}
+                placeholder="Send"
+                className="  w-full lg:w-[450px] placeholder:text-end flex"
               />
             </form>
           )}

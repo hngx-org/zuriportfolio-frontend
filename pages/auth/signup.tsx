@@ -6,10 +6,40 @@ import AuthLayout from '../../modules/auth/component/AuthLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { signUpUser } from '../../http/auth';
+import { notify } from '@ui/Toast';
 
+const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const onSignUpSuccess = (data: any) => {
+    console.log(data);
+    if (data.status === 200) {
+      console.log(data.message);
+      router.push(`/auth/verification`);
+      return;
+    }
+
+    notifyError(data.message);
+  };
+
+  const onSignUpError = (error: any) => {
+    // for axios timeout error
+    if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
+      const timeoutErrorMessage =
+        'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+      notifyError(timeoutErrorMessage);
+      return;
+    }
+  };
+  const { mutate: signUpUserFn, isLoading } = useAuthMutation(signUpUser, {
+    onSuccess: (data) => onSignUpSuccess(data),
+    onError: (error: any) => onSignUpError(error),
+  });
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -23,8 +53,8 @@ function Signup() {
 
   const schema = z
     .object({
-      firstname: z.string().min(1, { message: 'First name is required' }),
-      lastname: z.string().min(1, { message: 'Last name is required' }),
+      firstName: z.string().min(1, { message: 'First name is required' }),
+      lastName: z.string().min(1, { message: 'Last name is required' }),
       password: z.string().regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/, { message: 'Please match requirements' }),
       confirmPassword: z.string().min(2, { message: 'Confirm password is required' }),
     })
@@ -41,20 +71,27 @@ function Signup() {
   const form = useForm({
     validate: zodResolver(schema),
     initialValues: {
-      firstname: '',
-      lastname: '',
+      firstName: '',
+      lastName: '',
       password: '',
       confirmPassword: '',
       agree: false,
     },
   });
 
-  const handleSignUp = (values: any) => {
-    console.log('firstname', values.firstname);
-    console.log('lastname', values.lastname);
-    console.log('password', values.password);
-    console.log('confirmPassword', values.confirmPassword);
-    console.log('agree', values.agree);
+  const router = useRouter();
+  const { email: userEmail } = router.query;
+
+  const handleSignUp = async (values: any) => {
+    const userData = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: userEmail as string,
+      password: values.password,
+      // confirmPassword: values.confirmPassword,
+    };
+
+    signUpUserFn(userData);
   };
 
   return (
@@ -68,32 +105,32 @@ function Signup() {
           <form className="flex flex-col" onSubmit={form.onSubmit((values) => handleSignUp(values))}>
             {/* First name */}
             <div className="flex flex-col gap-2 mb-2">
-              <label htmlFor="firstname" className="leading-[27.04px] font-semibold text-gray-700">
+              <label htmlFor="firstName" className="leading-[27.04px] font-semibold text-gray-700">
                 First name
               </label>
               <Input
                 placeHolder="Aliu"
-                id="firstname"
-                {...form.getInputProps('firstname')}
-                className={`w-full h-[44px] md:h-[60px] ${form.errors.firstname ? 'border-[red]' : 'border-[#D0D5DD]'}`}
+                id="firstName"
+                {...form.getInputProps('firstName')}
+                className={`w-full h-[44px] md:h-[60px] ${form.errors.firstName ? 'border-[red]' : 'border-[#D0D5DD]'}`}
                 type="text"
               />
-              <p className="text-[red] text-xs">{form.errors.firstname && form.errors.firstname}</p>
+              <p className="text-[red] text-xs">{form.errors.firstName && form.errors.firstName}</p>
             </div>
 
             {/* last Name */}
             <div className="flex flex-col gap-2 mb-2">
-              <label htmlFor="lastname" className="leading-[27.04px] font-semibold text-gray-700">
+              <label htmlFor="lastName" className="leading-[27.04px] font-semibold text-gray-700">
                 Last name
               </label>
               <Input
                 placeHolder="Sugar"
-                id="lastname"
-                {...form.getInputProps('lastname')}
-                className={`w-full h-[44px] md:h-[60px] ${form.errors.lastname ? 'border-[red]' : 'border-[#D0D5DD]'}`}
+                id="lastName"
+                {...form.getInputProps('lastName')}
+                className={`w-full h-[44px] md:h-[60px] ${form.errors.lastName ? 'border-[red]' : 'border-[#D0D5DD]'}`}
                 type="text"
               />
-              <p className="text-[red] text-xs">{form.errors.lastname && form.errors.lastname}</p>
+              <p className="text-[red] text-xs">{form.errors.lastName && form.errors.lastName}</p>
             </div>
 
             {/* Password */}
@@ -110,7 +147,6 @@ function Signup() {
                     form.errors.password ? 'border-[red]' : 'border-[#D0D5DD]'
                   }`}
                   type={passwordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
-                  isPasswordVisible={passwordVisible} // Pass the visibility state as a prop
                   rightIcon={
                     <button type="button" onClick={togglePasswordVisibility} className="cursor-pointer">
                       {passwordVisible ? (
@@ -222,11 +258,23 @@ function Signup() {
 
             <div className="flex items-center leading-[27.04px] my-4 h-5">
               <span className="mr-2 flex my-auto ">
-                <input type="checkbox" {...form.getInputProps('agree')} className="w-4 border-brand-green-primary" />
+                <input
+                  id="agree"
+                  type="checkbox"
+                  {...form.getInputProps('agree')}
+                  className="w-4 border-brand-green-primary"
+                />
               </span>
               <p className="text-gray-200 text-sm">
-                I agree with zuri stores <Link href={'#'}>Terms of Service</Link> &{' '}
-                <Link href={'#'}>Privacy Policy</Link> .
+                I agree with zuri stores{' '}
+                <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+                  Terms of Service
+                </Link>{' '}
+                &{' '}
+                <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+                  Privacy Policy
+                </Link>{' '}
+                .
               </p>
             </div>
             <style jsx>{`
@@ -262,6 +310,7 @@ function Signup() {
 
             <Button
               // href="/auth/verification"
+              isLoading={isLoading}
               intent={'primary'}
               size={'sm'}
               className="w-full h-[44px] md:h-[60px] rounded-lg mt-3"

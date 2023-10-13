@@ -1,0 +1,161 @@
+<mjml>
+  <mj-head>
+    <mj-preview>Account Deleted</mj-preview>
+    <mj-title>Account Deleted</mj-title>
+    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" />
+    <mj-font name="Open Sans" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" />
+    <mj-attributes>
+      /* background colors */
+      <mj-class name="bg-grey" background-color="#F0F1F0" />
+      <mj-class name="bg-white" background-color="#fff" border-radius="10.08px" padding="24px 0" />
+      <mj-class name="bg-green" background-color="#009254" border-radius="10.08px" padding="24px 0" />
+
+      /* Font styles */
+      <mj-class name="h-lg" font-size="24px" line-height="52px" font-weight="700" color="#009254" css-class="hlg" />
+      <mj-class name="h-1" font-size="24px" line-height="32px" font-weight="700" color="#1A1C1B" css-class="h1" />
+      <mj-class
+        name="h-2"
+        font-size="16px"
+        line-height="24px"
+        letter-spacing="0.08px"
+        font-weight="700"
+        color="#2E3130"
+        css-class="h2"
+      />
+      <mj-class name="p-1" font-size="16px" line-height="24px" letter-spacing="0.08px" color="#2E3130" css-class="p1" />
+      <mj-class
+        name="p-2"
+        font-size="14px"
+        line-height="20px"
+        letter-spacing="0.03504px"
+        color="#2E3130"
+        css-class="p3"
+      />
+      <mj-class
+        name="p-3"
+        font-size="12px"
+        line-height="16px"
+        letter-spacing="0.048px"
+        font-weight="600"
+        color="#96D4AB"
+        css-class="p3"
+      />
+
+      /* Spacing */
+      <mj-class name="sp-lg" height="80px" />
+      <mj-class name="sp-xl" height="40.5px" />
+
+      /* MJML Attributes */
+      <mj-text font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" padding="0" />
+      <mj-button
+        width="45%"
+        background-color="#009254"
+        color="#FFFFFF"
+        font-size="14px"
+        line-height="15px"
+        font-weight="600"
+        border-radius="16px"
+        inner-padding="20px"
+        padding="40px 0"
+      />
+      <mj-image padding="0" />
+      <mj-column padding="0" />
+      <mj-spacer height="16px" />
+      <mj-section padding="0" />
+    </mj-attributes>
+    <mj-style inline>
+      .header img { max-width: 50%; margin: auto; } .bold { font-weight: 700; } .body { padding-block: 5rem } @media
+      (max-width: 500px) { .hlg > * { font-size: 16px !important; line-height: 24px !important; } .h1 > * { font-size:
+      16px !important; line-height: 24px !important; } .p1 > * { font-size: 14px !important; line-height: 24px
+      !important; } .container > table > tbody > tr > td { padding: 40px 20px !important; } }
+    </mj-style>
+  </mj-head>
+  <mj-body mj-class="bg-grey" width="640px" css-class="body">
+    <mj-section padding="10px 0 30px" css-class="header">
+      <mj-column width="100%">
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_green.png"
+        />
+      </mj-column>
+    </mj-section>
+
+    <mj-wrapper mj-class="bg-white" padding="60px 40px 40px" css-class="container">
+      <mj-section css-class="hero">
+        <mj-column width="100%" css-class="hero_text">
+          <mj-text mj-class="h-1" padding-bottom="16px"> Hi Dare, </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="h-lg" padding-bottom="16px"> Your account has been deleted </mj-text>
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="16px">
+            We are writing to inform you that, as per your request, your account with Zuriportfolio has been
+            successfully deleted.
+          </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="4px"> Your account details were as follows : </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="16px">
+            <span class="bold">
+              <ul style="margin: 0; padding-left: 30px">
+                <li style="padding-bottom: 4px">[Dare/dare@gmail.com]</li>
+                <li>[Account ID, #456789]</li>
+              </ul>
+            </span>
+          </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="4px">
+            We have completed the account deletion process, and your data has been removed from our system. Please be
+            aware that this action is irreversible, and you will no longer have access to your account or any associated
+            services.
+          </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-spacer mj-class="sp-xl" />
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="p-1" padding-bottom="16px">
+            We will be sad to see you go, and we appreciate your support and time spent on Zuriportfolio
+          </mj-text>
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text mj-class="p-1">
+            If you believe this decision was made in error, please reach out to our support team at
+            <span style="color: #009254">support@zuriportolio.com.</span>
+          </mj-text>
+        </mj-column>
+
+        <mj-column>
+          <mj-spacer mj-class="sp-xl" />
+        </mj-column>
+
+        <mj-column width="100%">
+          <mj-text mj-class="p-1"> Thank you for choosing Zuriportfolio! </mj-text>
+          <mj-text mj-class="h-2" color="#865311"> Zuri Team </mj-text>
+        </mj-column>
+
+        <mj-column>
+          <mj-spacer mj-class="sp-xl" />
+          <mj-spacer mj-class="sp-xl" />
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column width="100%">
+          <mj-image
+            width="180px"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/logo_green.png"
+          />
+        </mj-column>
+        <mj-column width="100%">
+          <mj-text align="center" mj-class="p-2" padding-top="8px">
+            Copyright &copy;2023 Zuriportfolio, All rights reserved.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+  </mj-body>
+</mjml>

@@ -1,11 +1,12 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 type DraftCardProps = {
   item: {
     id: number;
     title: string;
-    time: string;
+    createdAt: string;
   };
   onRename: (id: number, newTitle: string) => void;
   onDelete: () => void;
@@ -39,7 +40,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ item, onRename, onDelete }) => {
   };
 
   return (
-    <div className="relative flex flex-col w-[270px] h-[243px] border border-solid border-[#A8ACAB] rounded-t-2xl rounded-b-xl ">
+    <div className="relative justify-self-center flex flex-col w-[300px] sm:w-full 2xl:w-full h-[243px] border border-solid border-[#A8ACAB] rounded-t-2xl rounded-b-xl ">
       <div className="h-full flex items-center px-[10px]">
         {isEditing ? (
           <input
@@ -49,11 +50,13 @@ const DraftCard: React.FC<DraftCardProps> = ({ item, onRename, onDelete }) => {
             onChange={(e) => setNewTitle(e.target.value)}
           />
         ) : (
-          <p className="text-[#006F37] text-[45px] leading-none">{newTitle}</p>
+          <Link href={`/assessment/preview-edit/${item.id}`} className=" h-full w-full flex items-center">
+            <p className="text-[#006F37] text-[45px] leading-none overflow-hidden overflow-ellipsis w-56">{newTitle}</p>
+          </Link>
         )}
       </div>
       <div className="flex px-[10px] justify-between items-center w-full h-[55px] bg-[#F9F9FA] rounded-b-xl border-t border-solid border-[#A8ACAB]">
-        <p className="text-[#BF8443] font-manropeB text-[12px]">{item.time}</p>
+        <p className="text-[#BF8443] font-manropeB text-[12px]">{item.createdAt}</p>
         <Image
           src="/assets/more.svg"
           alt="more icon"

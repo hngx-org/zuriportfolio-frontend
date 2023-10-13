@@ -21,6 +21,7 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
           <SelectValue placeholder="Filter" />
         </SelectTrigger>
         <SelectContent>
+          <SelectItem value="status">Status</SelectItem>
           <SelectItem value="oldest">Oldest Products</SelectItem>
           <SelectItem value="newest">Newest Products</SelectItem>
         </SelectContent>

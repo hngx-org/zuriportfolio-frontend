@@ -1,7 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../../../public/assets/404/logo-zuri-auth.svg';
-import { Chart, I24Support, I3Dcube, Notification, Personalcard, SearchNormal1 } from 'iconsax-react';
+import {
+  Book,
+  Chart,
+  I24Support,
+  I3Dcube,
+  Notification,
+  Personalcard,
+  SearchNormal1,
+  SecuritySafe,
+} from 'iconsax-react';
 import { Input } from '@ui/Input';
 import { useRouter } from 'next/router';
 import Sidebar from './SuperAdminSidebar';
@@ -27,22 +36,36 @@ export const menu = [
     to: '/super-admin/feedback-and-customer-support',
     icon: <I24Support size="20" />,
   },
+  {
+    title: 'Internal Assessment',
+    to: '/super-admin/assessment',
+    icon: <Book size="20" />,
+  },
+  {
+    title: 'API Statuses',
+    to: '/super-admin/api-statuses',
+    icon: <SecuritySafe size="20" />,
+  },
 ];
 
 const SuperAdminNavbar = () => {
   const router = useRouter();
   const getPageTitle = (route: string) => {
-    switch (route) {
-      case '/super-admin/analytics-and-reporting':
+    switch (true) {
+      case route.includes('/super-admin/analytics-and-reporting'):
         return 'Analytics & Reporting';
-      case '/super-admin/product-listing':
+      case route.includes('/super-admin/product-listing'):
         return 'Product Listing';
-      case '/super-admin/vendor-management':
+      case route.includes('/super-admin/vendor-management'):
         return 'Vendor Management';
-      case '/super-admin/feedback-and-customer-support':
+      case route.includes('/super-admin/feedback-and-customer-support'):
         return 'Feedback & Customer Support';
+      case route.includes('/super-admin/assessment'):
+        return 'Internal Assessment';
+      case route.includes('/super-admin/api-statuses'):
+        return 'API Statuses';
       default:
-        break;
+        return '';
     }
   };
 
@@ -77,7 +100,7 @@ const SuperAdminNavbar = () => {
           </div>
         </div>
       </div>
-      <div className="px-5 py-5 mt-6 justify-between font-manropeB hidden lg:flex container mx-auto">
+      <div className="py-5 mt-6 justify-between font-manropeB hidden lg:flex container mx-auto">
         {menu.map((item) => (
           <Link
             key={item.title}

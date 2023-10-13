@@ -1,14 +1,16 @@
 import WorkExperienceModalSection from '@modules/portfolio/component/work-experience-modal';
 import React from 'react';
 import useDisclosure from '../../hooks/useDisclosure';
+import { WorkExperienceModalContextProvider } from '@modules/portfolio/context/work-experience-modal-context';
 
 const WorkExperienceModal = () => {
-  const { isOpen, onClose } = useDisclosure();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
-    <div>
+    <WorkExperienceModalContextProvider>
       <WorkExperienceModalSection isOpen={isOpen} onClose={onClose} />
-    </div>
+      <button onClick={onOpen}>Open bobo</button>
+    </WorkExperienceModalContextProvider>
   );
 };
 

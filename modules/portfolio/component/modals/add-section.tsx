@@ -2,15 +2,20 @@
 import React, { useContext } from 'react';
 import Modal from '@ui/Modal';
 import { Briefcase, CloseSquare } from 'iconsax-react';
-import { sections } from '../landing/data';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 
 function Home() {
-  const { isOpen, onClose, addSection, selectedSections } = useContext(Portfolio);
+  const { isOpen, onClose, toggleSection, sections, userSections } = useContext(Portfolio);
+
+  const nonMatchingSections = sections.filter((section) => {
+    return !userSections.some((selected) => {
+      return section.title === selected.title && selected?.data && selected?.data?.length >= 1;
+    });
+  });
 
   return (
     <>
-      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xxl">
         <div className=" bg-white-100 p-3 py-5 rounded-lg">
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
@@ -22,13 +27,12 @@ function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-            {sections
-              .filter((section) => !selectedSections.some((selected) => selected.title === section.title))
-              .map((section, index) => (
+            {nonMatchingSections.map((section, i) => {
+              return (
                 <div
-                  key={index}
+                  key={i}
                   className="bg-[#F4FBF6] p-4 rounded-lg cursor-pointer hover:border-2 hover:border-green-500 border-2 border-transparent"
-                  onClick={() => addSection(section.title)}
+                  onClick={() => toggleSection(section.title)}
                 >
                   <div className="flex gap-2 items-center text-green-500">
                     {section.icon}
@@ -38,11 +42,12 @@ function Home() {
                     <p className="text-[#444846] mt-2">{section.description}</p>
                   </div>
                 </div>
-              ))}
+              );
+            })}
 
             <div
               className="bg-[#ffffff] p-4 rounded-lg flex items-center cursor-pointer border border-green-500 border-dashed hover:border-2 hover:border-green-500"
-              onClick={() => addSection('Custom')}
+              onClick={() => toggleSection('custom')}
             >
               <div>
                 <div className="flex gap-2">

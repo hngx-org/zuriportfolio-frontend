@@ -24,19 +24,19 @@ export default function Review(props: reviewProps) {
   }
 
   return (
-    <div className=" w-full m-0 p-0">
+    <div className=" w-full m-0 font-manrope p-0">
       <div className="border-b w-full m-0 mb-6 border-white-400">
         <div className=" flex flex-col w-full mb-7">
           <div className="flex flex-row my-3 mx-0">{getStars(props.noOfStars)}</div>
-          <div className=" flex text-xs text-dark-600">
+          <div className=" flex text-xs text-dark-600 tracking-tight">
             <Link href="/" className=" underline">
               {props.buyerName}
             </Link>
-            <Image src="/assets/reviewsAssets/ShortLine.svg" width={1} height={1} alt="Line" className=" mx-3 my-0" />
+            <Image src="/assets/reviewsAssets/ShortLine.svg" width={2} height={1} alt="Line" className=" mx-3 my-0" />
             <div className="date">September 22, 2023.</div>
           </div>
-          <div className=" my-3 mx-0 flex text-sm text-black">{props.review}</div>
-          <p className=" flex text-xs m-0 mb-3 text-dark-600">{props.help} people found this helpful</p>
+          <div className=" my-3 mx-0 flex text-sm tracking-tight font-manropeL text-black">{props.review}</div>
+          <p className=" flex text-xs m-0 mb-3 text-dark-600 tracking-tight">{props.help} people found this helpful</p>
           <Button
             leftIcon={<Like1 color="#777" />}
             intent={'secondary'}
@@ -49,12 +49,12 @@ export default function Review(props: reviewProps) {
           </Button>
         </div>
         {props.shopReply && (
-          <div className="flex flex-col w-full p-5 mb-7 mx-0 bg-white-200">
+          <div className="flex flex-col lg:h-[155px]  w-full p-5 mb-7 mx-0 bg-white-200">
             <div className=" flex text-xs w-full justify-between items-center text-dark-600 ">
-              <div className=" text-black text-sm font-semibold">{props.shopName}</div>
-              <div className="date">{props.adminDate}</div>
+              <div className=" text-black text-sm tracking-tighter font-semibold">{props.shopName}</div>
+              <div className="date tracking-tight">{props.adminDate}</div>
             </div>
-            <div className="my-3 mx-0 flex text-sm text-black">{props.shopReply}</div>
+            <div className="my-3 mx-0 flex font-manropeL tracking-tight text-sm text-black">{props.shopReply}</div>
           </div>
         )}
       </div>

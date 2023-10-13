@@ -1,22 +1,29 @@
 import Button from '@ui/Button';
 import Modal from '@ui/Modal';
-import useDisclosure from '../../../hooks/useDisclosure';
 import { SectionModalProps } from '../../../@types';
 import { CloseSquare } from 'iconsax-react';
+import { useContext } from 'react';
+import Portfolio from '../../../context/PortfolioLandingContext';
+import { set } from 'nprogress';
 
 //A section modal component for both the unsave changes and section delete
-function SectionModal({ openButtonText, heading, paragraph, primaryText, onClickAction }: SectionModalProps) {
+function SectionModal({
+  openButtonText,
+  heading,
+  paragraph,
+  primaryText,
+  onClickAction,
+  sectionToDelete,
+}: SectionModalProps) {
   //Destructure the useDisclosure hook
-  const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
+  const { openDelete, setOpenDelete } = useContext(Portfolio);
+  const onClose = () => setOpenDelete(false);
 
   return (
     <>
       {/*Creating a button here because of the click event needed to open the Modal*/}
-      <Button intent={'primary'} size={'md'} isLoading={false} spinnerColor="#000" onClick={onOpen} className="m-5">
-        {openButtonText}
-      </Button>
 
-      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
+      <Modal closeOnOverlayClick isOpen={openDelete} closeModal={onClose} isCloseIconPresent={false} size="sm">
         <CloseSquare
           size="32"
           color="#009254"
@@ -60,7 +67,20 @@ function SectionModal({ openButtonText, heading, paragraph, primaryText, onClick
 }
 
 //A Modal function for the deleting of a section
-export function SectionDeleteModal() {
+export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
+  const { toggleSection, setOpenDelete } = useContext(Portfolio);
+  const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
+  const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
+
+  const deleteSection = () => {
+    if (deleteFromBe) {
+    } else if (deleteLocal) {
+      const parts = sectionToDelete.split(' ');
+      const section = parts.slice(1).join(' ');
+      toggleSection(section);
+      setOpenDelete(false);
+    }
+  };
   return (
     <>
       <SectionModal
@@ -68,7 +88,8 @@ export function SectionDeleteModal() {
         heading={'Delete entire section?'}
         paragraph={'Oh my! you’re about to delete an entire section, delete anyway?'}
         primaryText={'Delete'}
-        onClickAction={() => {}}
+        onClickAction={deleteSection}
+        sectionToDelete={sectionToDelete}
       />
     </>
   );
