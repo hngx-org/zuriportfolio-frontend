@@ -515,13 +515,7 @@ export interface NotificationCheckboxType {
   // userId:string
 }
 
-export type cardinfo = {
-  title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
-};
+
 export type Graph = {
   id: number;
   title: string;
@@ -547,18 +541,22 @@ export type topListingProduct = {
   vendor: string;
 };
 
-export type activity = {
+type activity = {
   name: string;
+  user_details: {
+    first_name: string;
+    last_name: string;
+  };
+  action: string;
+  title: string;
   purchased: string;
   pItem: string;
   id: number;
 };
-type cardinfo = {
+export type cardinfo = {
   title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
+  amount: any;
+  ratio: number;
 };
 
 export type inputErrorMessage = {
