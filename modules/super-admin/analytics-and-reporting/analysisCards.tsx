@@ -99,7 +99,7 @@ const AnalysisCards: React.FC = (props) => {
                     alt="Percentage-rate"
                     width={16}
                     height={16}
-                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] rotate-180"
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                   />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                     {CardDataOne[0]?.ratio}%
@@ -175,7 +175,7 @@ const AnalysisCards: React.FC = (props) => {
                     alt="Percentage-rate"
                     width={16}
                     height={16}
-                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] rotate-180"
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
                   />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                     {CardDataOne[1]?.ratio}%
@@ -251,7 +251,7 @@ const AnalysisCards: React.FC = (props) => {
                     alt="Percentage-rate"
                     width={16}
                     height={16}
-                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] rotate-180"
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
                   />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                     {CardDataOne[2]?.ratio}%
@@ -327,7 +327,7 @@ const AnalysisCards: React.FC = (props) => {
                     alt="Percentage-rate"
                     width={16}
                     height={16}
-                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] rotate-180"
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                   />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                     {CardDataOne[5]?.ratio}%
@@ -401,7 +401,7 @@ const AnalysisCards: React.FC = (props) => {
                     alt="Percentage-rate"
                     width={16}
                     height={16}
-                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] rotate-180"
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
                   />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                     {CardDataOne[3]?.ratio}%
@@ -473,7 +473,7 @@ const AnalysisCards: React.FC = (props) => {
                     alt="Percentage-rate"
                     width={16}
                     height={16}
-                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] rotate-180"
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
                   />
                   <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                     {CardDataOne[4]?.ratio}%
@@ -551,7 +551,7 @@ const AnalysisCards: React.FC = (props) => {
                       alt="Percentage-rate"
                       width={16}
                       height={16}
-                      className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] rotate-180"
+                      className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                     />
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                       {hero?.ratio}%
@@ -630,7 +630,7 @@ const AnalysisCards: React.FC = (props) => {
                       alt="Percentage-rate"
                       width={16}
                       height={16}
-                      className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] rotate-180"
+                      className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                     />
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                       {hero?.ratio}%
