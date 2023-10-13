@@ -14,6 +14,7 @@ function Discounts() {
   const [selectedOptionProduct, setSelectedOptionProduct] = useState('');
   const [selectedDateTime, setSelectedDateTime] = useState('');
   const [selectedDateTimeExpire, setSelectedDateTimeExpire] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   const handleOptionChangeProduct = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOptionProduct(event.target.value);
@@ -81,6 +82,8 @@ function Discounts() {
   }
 
   const handleCreateDiscount = async (values: any) => {
+    setIsLoading(true); // Set loading state to true
+
     const productIds = [generateUUID()];
 
     const userData = {
@@ -94,39 +97,35 @@ function Discounts() {
     };
 
     console.log('userData', userData);
-    const response = await axios
-      .post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData)
-      .then((response) => {
-        if (response.status === 200) {
-          // Handle success
-          toast.success(response.data, {
-            autoClose: 5000,
-            onClose: () => {
-              router?.push('/dashboard/promotions');
-            },
-          });
-          console.log('success', response?.data);
-        } else {
-          // Handle other successful status codes if needed
-        }
-      })
-      .catch((error) => {
-        // Handle request error
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          console.error('Request failed with status code', error.response.status);
-          console.error('Error response data:', error.response.data);
-          toast.error(error.response.data.message, {
-            autoClose: 5000,
-          });
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.error('No response received from the server');
-        } else {
-          // Something happened in setting up the request
-          console.error('Request setup error', error.message);
-        }
-      });
+    try {
+      const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData);
+      if (response.status === 200) {
+        toast.success('Discount created successfully', {
+          autoClose: 5000,
+          onClose: () => {
+            router?.push('/dashboard/promotions');
+          },
+        });
+        console.log('success', response?.data);
+      } else {
+        // Handle other successful status codes if needed
+      }
+    } catch (error: any) {
+      console.error('Error:', error);
+      if (error.response) {
+        console.error('Request failed with status code', error.response.status);
+        console.error('Error response data:', error.response.data);
+        toast.error(error.response.data.message, {
+          autoClose: 5000,
+        });
+      } else if (error.request) {
+        console.error('No response received from the server');
+      } else {
+        console.error('Request setup error', error.message);
+      }
+    } finally {
+      setIsLoading(false); // Set loading state back to false
+    }
   };
 
   return (
@@ -224,9 +223,22 @@ function Discounts() {
                 </div>
               </div>
               <div>
-                <Button className="w-full bg-brand-green-primary text-white-100 p-3 mt-5 rounded-lg" type="submit">
-                  Create Discount
-                </Button>
+                {isLoading ? (
+                  // Show loading button
+                  <Button
+                    isLoading={true}
+                    className="w-full bg-brand-green-primary text-white-100 p-3 mt-5 rounded-lg"
+                    type="button"
+                    disabled
+                  >
+                    Creating Discount...
+                  </Button>
+                ) : (
+                  // Show regular button
+                  <Button className="w-full bg-brand-green-primary text-white-100 p-3 mt-5 rounded-lg" type="submit">
+                    Create Discount
+                  </Button>
+                )}
               </div>
             </form>
           </div>
