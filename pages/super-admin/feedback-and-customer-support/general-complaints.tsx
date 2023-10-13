@@ -40,7 +40,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
     // Send a request to update the status on the server
     try {
-      const response = await fetch('https://team-mirage-super-amind2.onrender.com/api/admin/feedback/complaints', {
+      const response = await fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints', {
         method: 'PUT', // or 'POST' depending on your API
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   }
 
   React.useEffect(() => {
-    fetch('https://team-mirage-super-amind2.onrender.com/api/admin/feedback/complaints/')
+    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -97,7 +97,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     async function fetchData() {
       try {
         const response = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/admin/feedback/pending-complaints/',
+          'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/pending-complaints/',
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -121,7 +121,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     async function fetchData() {
       try {
         const response = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/admin/feedback/in-progress-complaints/',
+          'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/in-progress-complaints/',
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -145,7 +145,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     async function fetchData() {
       try {
         const response = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/admin/feedback/resolved-complaints/',
+          'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/resolved-complaints/',
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');

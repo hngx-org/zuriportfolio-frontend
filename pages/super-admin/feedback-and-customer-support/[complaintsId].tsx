@@ -45,10 +45,13 @@ function ComplaintsDetails() {
     const message = e.currentTarget.message.value;
 
     try {
-      const response = await axios.post('https://team-mirage-super-amind2.onrender.com/api/admin/feedback/comments/', {
-        complaintId: 1,
-        message,
-      });
+      const response = await axios.post(
+        'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/comments/',
+        {
+          complaintId: 1,
+          message,
+        },
+      );
       const newReply = { message, date: new Date().toISOString() };
 
       setReplies([...replies, newReply]);
