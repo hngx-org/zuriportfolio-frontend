@@ -13,6 +13,19 @@ export interface MainLayoutProps {
   showTopbar?: boolean;
   showFooter?: boolean;
 }
+
+export interface ProductData {
+  id: string;
+  name: string;
+  discount_price: string;
+  description: string;
+  price: string;
+  rating: Number;
+  user: string;
+  quantity: Number;
+  shop: string;
+}
+
 export interface Education {
   id: number;
   degree: string;
@@ -33,14 +46,16 @@ export interface AllCategoryDetails {
   discount: number;
 }
 export interface Products {
-  id: number;
+  _id: string;
   name: string;
   image: string;
   shopOwner: string;
   price: number;
   category: string;
+  description: string;
+  specification: string;
+  rating: number;
 }
-
 export interface SuperAdminPagination {
   title: any;
 }
@@ -229,7 +244,7 @@ export type CartItemProps = {
   productId: string;
   productImage: string;
   productTitle: string;
-  proudctDescription?: string;
+  productDescription: string;
   productSize?: string;
   productColor?: string;
   productSeller: string;
@@ -253,6 +268,7 @@ export type ViewedProductCardProps = {
 export interface ActivityCardProps {
   name: string;
   item: string;
+  isPage: boolean;
 }
 
 export interface MetricCardProps {
@@ -417,11 +433,12 @@ export interface filterProp {
 }
 
 export type SectionModalProps = {
-  openButtonText: string;
-  heading: string;
-  paragraph: string;
-  primaryText: string;
-  onClickAction: () => void;
+  openButtonText?: string;
+  heading?: string;
+  paragraph?: string;
+  primaryText?: string;
+  onClickAction?: () => void;
+  sectionToDelete?: string;
 };
 
 export interface PaymentStatusModalProps {
@@ -541,8 +558,8 @@ export interface CardData {
 }
 
 export interface AuthContextProps {
-  user: LoginBodyResponse | undefined;
-  handleUser: (value: LoginBodyResponse) => void;
+  auth: LoginResponse | undefined;
+  handleAuth: (value: LoginResponse) => void;
 }
 
 export type LoginBodyResponse = {
@@ -564,6 +581,7 @@ export type LoginBodyResponse = {
   country: unknown;
   created_at: string;
 };
+
 export type LoginResponse = {
   token: string;
   data: LoginBodyResponse;
@@ -575,4 +593,27 @@ export interface Review {
   rating: number;
   name: string;
   description: string;
+}
+export interface UserInfo {
+  address: string;
+  createdAt: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  location: string;
+  profilePictureUrl: any;
+  profileUrl: string;
+  projects: number;
+  provider: string;
+  ranking: string;
+  skills: string[];
+  tag: string;
+  track: string;
+}
+
+interface ChartProps {
+  isBarChart: boolean;
+  data: any[];
+  isFetching: boolean;
+  isFetched: boolean;
 }

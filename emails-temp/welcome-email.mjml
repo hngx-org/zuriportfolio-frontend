@@ -1,10 +1,7 @@
 <mjml>
   <mj-head>
     <mj-title>Welcome Email</mj-title>
-    <mj-style>.header img {
-        max-width: 50%;
-        margin: auto;
-      }</mj-style>
+    <mj-style>.header img { max-width: 50%; margin: auto; }</mj-style>
     <mj-font name="FontAwesome" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <mj-font
       name="Manrope"
@@ -50,7 +47,9 @@
           <mj-text color="#865311" font-family="FontAwesome">&#xf058;</mj-text>
         </mj-column>
         <mj-column width="95%" padding-left="20px">
-          <mj-text line-height="25px" font-family="Manrope, Century Gothic"> Portfolio template to showcase your skills </mj-text>
+          <mj-text line-height="25px" font-family="Manrope, Century Gothic">
+            Portfolio template to showcase your skills
+          </mj-text>
         </mj-column>
 
         <mj-column width="5%">
@@ -75,7 +74,9 @@
           <mj-text color="#865311" font-family="FontAwesome">&#xf058;</mj-text>
         </mj-column>
         <mj-column width="95%" padding-left="20px">
-          <mj-text line-height="25px" font-family="Manrope, Century Gothic"> External assessment to test your skills </mj-text>
+          <mj-text line-height="25px" font-family="Manrope, Century Gothic">
+            External assessment to test your skills
+          </mj-text>
         </mj-column>
 
         <mj-column width="100%" background-color="white">
@@ -107,7 +108,9 @@
         </mj-column>
 
         <mj-column width="100%" padding-bottom="40px">
-          <mj-text align="center" font-size="12px" font-family="Manrope, Century Gothic"> Copyright &copy Zuriportfolio. All rights reserved </mj-text>
+          <mj-text align="center" font-size="12px" font-family="Manrope, Century Gothic">
+            Copyright &copy Zuriportfolio. All rights reserved
+          </mj-text>
         </mj-column>
       </mj-group>
     </mj-section>
