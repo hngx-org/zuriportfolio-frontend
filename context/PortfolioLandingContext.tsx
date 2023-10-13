@@ -179,6 +179,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       }
     };
     getUserSections();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const profileUpdate = () => {
