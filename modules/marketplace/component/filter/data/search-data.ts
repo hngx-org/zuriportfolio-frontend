@@ -22,19 +22,8 @@ export const subCategory = [
   'Ebooks',
   'Music',
 ];
-export const discount = [
-  'All',
-  'Limited Offer',
-  'Top Picks',
-  '30% off',
-  '20% off',
-  '10% off',
-  'Mid-year sale',
-  'Clearance sale',
-  'Special offfer',
-  'Mothers day sale',
-  'Fathers day sale',
-];
+export const discount = ['All', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'];
+export const priceRange = [100, 200, 500, 1000, 5000, 10000, 50000, 100000];
 export const keyword = [
   'All',
   'Infographic',

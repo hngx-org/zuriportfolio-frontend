@@ -1,5 +1,6 @@
 export type GenericProp<T> = {
   data: T[];
+  tag: string;
 };
 
 export interface BadgeInterface extends React.ComponentPropsWithoutRef<'span'> {
@@ -13,5 +14,6 @@ export interface SectionProps extends React.ComponentPropsWithoutRef<'article'> 
   data: unknown[];
   action?: () => void;
   sectionTitle: string;
+  tag: string;
   children?: React.ReactNode;
 }
