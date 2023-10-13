@@ -96,6 +96,26 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
   }
 };
 
+export const forgetPassword = async (props: { email: string }) => {
+  const $http = axios.create({
+    baseURL: 'https://auth.akuya.tech',
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  });
+  try {
+    const res = await $http.post('/api/auth/reset-password', props);
+    console.log(res);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    if (e?.response?.data && e?.response?.data?.message) {
+      console.log(e?.response.data.message);
+    }
+  }
+};
+
 // export const loginUser = async () => {
 //   const $http = axios.create({
 //     baseURL: 'https://reqres.in/',
