@@ -1,5 +1,4 @@
 import { UseQueryOptions, useQuery, QueryKey, QueryFunction } from '@tanstack/react-query';
-import { loginUser } from '../../http';
 
 /**
  * @template TQueryFnData - shape of the data returned from endpoint

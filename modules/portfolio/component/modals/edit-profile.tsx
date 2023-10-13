@@ -98,7 +98,7 @@ const EditProfile = () => {
 
   const { setHasData, setCoverImage, setUserData } = useContext(Portfolio);
   const router = useRouter();
-  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const firstName = name.split(' ')[0];
     const lastName = name.split(' ')[1];

@@ -5,7 +5,7 @@ import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, ViewedProductCardProps } from '../../@types';
 import { getUserCart, removeFromCart } from '../../http';
-import AuthContext from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 
 export default function Cart() {
@@ -48,8 +48,7 @@ export default function Cart() {
     },
   ];
 
-  const authContext = useContext(AuthContext);
-  const { user } = authContext;
+  const { auth } = useAuth();
   const [productCards, setProductCards] = useState(ViewedProducts);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
 

@@ -1,64 +1,64 @@
 import React, { useContext, useEffect, useState } from 'react';
 // import AuthContext from '../../../../../context/AuthContext';
-import { ProductCardProps } from '../../../../../@types';
+import { ProductCardProps, MarketPlaceProductCardProps } from '../../../../../@types';
 import ProductCard from '../../ProductCard';
 // import Link from 'next/link';
 import Image from 'next/image';
 import Cancel from '../../../../../public/assets/recentlyviewed/cancel.svg';
 import styles from '../productCardWrapper/product-card-wrapper.module.css';
 
-const recentlyViewed: ProductCardProps[] = [
+const recentlyViewed: MarketPlaceProductCardProps[] = [
   {
     id: '1',
     currency: 'USD',
     image: '/assets/recentlyviewed/image1.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    productPrice: 100,
+    name: 'Webinar and Course Slide Templa',
+    user: 'Mark Essien',
+    rating: 3,
+    price: 100,
     showLimitedOffer: true,
     showTopPicks: false,
     showDiscount: true,
-    discount: 60,
+    discount_price: 60,
   },
   {
     id: '1',
     currency: 'USD',
     image: '/assets/recentlyviewed/image2.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
+    name: 'Webinar and Course Slide Templa',
+    price: 100,
+    user: 'Mark Essien',
+    rating: 3,
     showLimitedOffer: false,
     showTopPicks: false,
     showDiscount: false,
-    discount: 0,
+    discount_price: 60,
   },
   {
     id: '1',
     currency: 'USD',
     image: '/assets/recentlyviewed/image3.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
+    name: 'Webinar and Course Slide Templa',
+    price: 100,
+    user: 'Mark Essien',
+    rating: 3,
     showLimitedOffer: true,
     showTopPicks: false,
     showDiscount: true,
-    discount: 60,
+    discount_price: 60,
   },
   {
     id: '1',
     currency: 'USD',
     image: '/assets/recentlyviewed/image4.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
+    name: 'Webinar and Course Slide Templa',
+    price: 100,
+    user: 'Mark Essien',
+    rating: 3,
     showLimitedOffer: true,
     showTopPicks: true,
     showDiscount: true,
-    discount: 0,
+    discount_price: 60,
   },
 ];
 
@@ -97,14 +97,14 @@ function RecentlyViewed() {
                 id={item?.id}
                 currency={item?.currency}
                 image={item?.image}
-                productName={item?.productName}
-                productPrice={item?.productPrice}
-                productOwner={item?.productOwner}
-                productRating={item?.productRating}
+                name={item?.name}
+                price={item?.price}
+                user={item?.user}
+                rating={item?.rating}
                 showLimitedOffer={item?.showLimitedOffer}
                 showTopPicks={item?.showTopPicks}
                 showDiscount={item?.showDiscount}
-                discount={item?.discount}
+                discount_price={item?.discount_price}
               />
             </div>
           );

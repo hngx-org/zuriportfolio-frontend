@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Edit } from 'iconsax-react';
 const Edithead = () => {
   const [disable, setDisable] = useState(true);
+
   return (
     <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
       <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
