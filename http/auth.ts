@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth';
+const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth/api/auth';
 
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
@@ -69,6 +69,19 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
   }
 };
 
+export const checkEmail = async (props: { email: string }) => {
+  try {
+    const res = await $http.post('/api/auth/check-email', props);
+    console.log(res?.data);
+    return res?.data;
+  } catch (e: any) {
+    const errorData = e.response.data;
+    console.log('Error in catch', errorData);
+    // throw new Error(errorData);
+    return e.response.data ?? { message: e.message };
+  }
+};
+
 export const verifyUser = async (props: { token: string }) => {
   try {
     const res = await $http.get(`/verify/${props.token}`);
@@ -83,6 +96,17 @@ export const verifyUser = async (props: { token: string }) => {
 export const resendVerification = async (props: { email: string }) => {
   try {
     const res = await $http.post('/resend-verification/', props);
+    console.log(res?.data);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    return e.response.data ?? { message: e.message };
+  }
+};
+
+export const guestSignup = async (props: { email: string; firstName: string; lastName: string; password: string }) => {
+  try {
+    const res = await $http.post('/signup', props);
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {
