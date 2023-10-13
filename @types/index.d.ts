@@ -230,7 +230,7 @@ export type CartItemProps = {
   productId: string;
   productImage: string;
   productTitle: string;
-  proudctDescription?: string;
+  productDescription: string;
   productSize?: string;
   productColor?: string;
   productSeller: string;
