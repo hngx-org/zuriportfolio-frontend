@@ -125,6 +125,20 @@ export interface ProductCardProps {
   discount?: number;
 }
 
+export interface MarketPlaceProductCardProps {
+  id: string;
+  currency: string;
+  image: string | null;
+  name: string;
+  price: number;
+  user: string;
+  rating: number;
+  showLimitedOffer?: boolean;
+  showTopPicks?: boolean;
+  showDiscount?: boolean;
+  discount_price?: number;
+}
+
 export interface ratingProps {
   src: string;
   alt: string;
