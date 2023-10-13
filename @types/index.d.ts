@@ -20,7 +20,9 @@ export interface ProductData {
   discount_price: string;
   description: string;
   price: string;
-  rating: Number;
+  images: any[];
+  url: string[];
+  rating: number;
   user: string;
   quantity: Number;
   shop: string;
