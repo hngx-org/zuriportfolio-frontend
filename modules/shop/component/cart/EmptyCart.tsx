@@ -17,7 +17,10 @@ const EmptyCart = () => {
 
           <Link
             href="/marketplace"
-            className="cursor-pointer rounded-[8px] bg-brand-green-primary w-full lg:w-[345px] h-[60px] px-[20px] py-[12px] flex gap-[16px] items-center justify-center "
+            className="cursor-pointer rounded-[8px] bg-brand-green-primary 
+              w-full lg:w-[345px] h-[60px] px-[20px] py-[12px] flex gap-[16px] items-center justify-center
+              hover:shadow-xl transition-transform hover:-translate-y-1 duration-300relative 
+              hover:z-10 transform hover:scale-105 duration-300"
           >
             <p className="text-[#fff] text-[14px] font-[600] leading-[20px] font-manropeL">Start Shopping</p>
             <ArrowRight color="#fff" />
