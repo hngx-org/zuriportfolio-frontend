@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-type activity = {
-  name: string;
-  user_details: {
-    first_name: string;
-    last_name: string;
-  };
-  action: string;
-  title: string;
-  purchased: string;
-  pItem: string;
-  id: number;
-};
+import { activity } from '../../../@types';
 
 const ActivityDetails = () => {
   const [activityDetails, setActivityDetails] = useState<activity[]>([]);
