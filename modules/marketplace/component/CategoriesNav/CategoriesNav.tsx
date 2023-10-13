@@ -23,7 +23,6 @@ const CategoriesNav = (props: CategoriesNavProps) => {
     const fetchCategories = async () => {
       try {
         const { data } = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
-        console.log(data);
 
         setCategories(data.categories);
       } catch (err) {
