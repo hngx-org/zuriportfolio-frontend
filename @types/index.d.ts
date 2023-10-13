@@ -542,8 +542,9 @@ export interface DeletedProducts {
   category_id: number;
   createdAt: string;
   id: string;
-  name: string;
+  product_name: string;
   updatedAt: string;
+  vendor_name: string;
 }
 export interface CardData {
   id: number;

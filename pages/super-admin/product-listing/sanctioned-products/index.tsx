@@ -17,7 +17,7 @@ const SanctionedProducts = () => {
 
   const handleSubmit = (searchText: string) => {
     const filteredProduct: DeletedProducts[] = sanctionedProducts.filter((product) =>
-      product.name.toLowerCase().includes(searchText.toLowerCase()),
+      product.product_name.toLowerCase().includes(searchText.toLowerCase()),
     );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
@@ -123,10 +123,10 @@ const SanctionedProducts = () => {
                   <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 items-center gap-6 self-stretch flex">
                     <input type="checkbox" />
 
-                    {product.name}
+                    {product.product_name}
                   </td>
                   <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
-                    Okereke James
+                    {product.vendor_name}
                   </td>
                   <td className="hidden md:table-cell text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
                     #{product.id}
