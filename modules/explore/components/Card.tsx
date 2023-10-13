@@ -1,5 +1,5 @@
 // components/Card.tsx
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { CardData } from '../../../@types';
 import total_projects from '../../../public/assets/images/explore_img/total-projects.svg';
@@ -10,6 +10,8 @@ import { UserInfo } from '../../../@types';
 
 import bg1 from '../../../public/assets/images/explore_img/bg1.svg';
 import photo2 from '../../../public/assets/images/explore_img/photo2.png';
+import Link from 'next/link';
+import { ExportCurve } from 'iconsax-react';
 
 interface CardProps {
   data: CardData;
@@ -17,14 +19,44 @@ interface CardProps {
 
 const Card = ({ data }: { data?: UserInfo }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const shareBtnRef = useRef<HTMLDivElement>(null);
+  const btnPortfolioRef = useRef<HTMLAnchorElement>(null);
 
   return (
-    <article className="relative" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+    <div
+      className="relative transition-all ease-in-out duration-500 hover:scale-105 "
+      ref={cardRef}
+      onMouseEnter={() => {
+        overlayRef.current && (overlayRef.current.style.height = '100%');
+        shareBtnRef.current && shareBtnRef.current.classList.toggle('hidden');
+        btnPortfolioRef.current && btnPortfolioRef.current.classList.toggle('hidden');
+      }}
+      onMouseLeave={() => {
+        overlayRef.current && (overlayRef.current.style.height = '0');
+        shareBtnRef.current && shareBtnRef.current.classList.toggle('hidden');
+        btnPortfolioRef.current && btnPortfolioRef.current.classList.toggle('hidden');
+      }}
+    >
+      <div ref={overlayRef} className="w-full absolute top-0 left-0 rounded-2xl hover:bg-[rgba(0,0,0,0.7)] z-[1]"></div>
+      <div ref={shareBtnRef} className="hidden absolute right-8 top-10 w-30 rounded-full bg-white z-[2]">
+        <button>
+          <ExportCurve color="#fff" className="border-2 border-white-100 w-[30px] h-[30px] rounded-full p-1" />
+        </button>
+      </div>
+      <Link
+        ref={btnPortfolioRef}
+        href={'/portfolio'}
+        className="hidden absolute bg-[rgba(255,255,255,0.15)] w-[80%] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer font-manropeB text-white-100 border border-white-100 border-solid rounded-2xl py-3 text-center hover:bg-brand-green-primary hover:text-custom-color38 z-[1]"
+      >
+        View Portfolio
+      </Link>
       {/* <CardHover openCard={isOpen} /> */}
       <div className="max-w-[22rem] p-2 pb-4 border-1 border mx-auto  border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm lg:min-w-[22.5rem] xl:min-w-[24rem]">
         <Image className="w-full rounded-t-2xl object-cover" src={bg1} alt="Card Header" width={100} height={76} />
         <Image
-          className="-mt-12 rounded-full mx-auto aspect-square"
+          className="-mt-11 rounded-full mx-auto aspect-square"
           src={data?.profilePictureUrl ?? photo2}
           alt="Avatar"
           width={112}
@@ -72,7 +104,7 @@ const Card = ({ data }: { data?: UserInfo }) => {
           </div>
         </div>
       </div>
-    </article>
+    </div>
   );
 };
 

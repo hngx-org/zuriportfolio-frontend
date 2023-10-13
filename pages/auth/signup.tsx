@@ -208,7 +208,7 @@ function Signup() {
                   form.errors.confirmPassword ? 'border-[red]' : 'border-[#D0D5DD]'
                 }`}
                 type={confirmPasswordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
-                isPasswordVisible={confirmPasswordVisible} // Pass the visibility state as a prop
+                // isPasswordVisible={confirmPasswordVisible} // Pass the visibility state as a prop
                 rightIcon={
                   <button type="button" onClick={toggleConfirmPasswordVisibility} className="cursor-pointer">
                     {confirmPasswordVisible ? (
@@ -267,11 +267,11 @@ function Signup() {
               </span>
               <p className="text-gray-200 text-sm">
                 I agree with zuri stores{' '}
-                <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+                <Link href={'/'} className="text-brand-green-primary hover:text-brand-green-hover">
                   Terms of Service
                 </Link>{' '}
                 &{' '}
-                <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+                <Link href={'/'} className="text-brand-green-primary hover:text-brand-green-hover">
                   Privacy Policy
                 </Link>{' '}
                 .

@@ -49,12 +49,13 @@ function VerificationLinkSent({ handleClick }: Props) {
             Link expires in <span className=" font-manropeB text-[#003A1B]">4:23</span>
           </p>
 
-          <button
+          {/* Uncomment out when change email endpoint is working */}
+          {/* <button
             onClick={handleClick}
             className=" font-manropeL text-left sm:text-right text-[10px] md:text-brand-green-primary text-[#737876] "
           >
             Incorrect email address? Change email address
-          </button>
+          </button> */}
         </div>
       </div>
     </VerificationLayout>

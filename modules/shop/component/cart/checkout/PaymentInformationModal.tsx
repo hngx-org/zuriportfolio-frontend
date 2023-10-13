@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
-import AllOTPModal from '../../../../../components/Modals/OTPModals/AllOTPModal';
-import axios from 'axios';
 import { makePayment } from '../../../../../http';
 
 const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () => void; orderTotal: number }) => {
@@ -20,16 +18,16 @@ const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () =>
 
   const handlePayment = async () => {
     setPaymentButtonClicked(true);
-    // if (selectedPaymentMethod) {
-    //   try {
-    //     const response = await makePayment(selectedPaymentMethod);
-    //     window.location.href = response.transaction_url;
-    //   } catch (error) {
-    //     console.error('Error making payment:', error);
-    //   }
-    // } else {
-    //   setPaymentMethodError('Please select a payment method before making the payment.');
-    // }
+    if (selectedPaymentMethod) {
+      try {
+        const response = await makePayment(selectedPaymentMethod);
+        window.location.href = response.transaction_url;
+      } catch (error) {
+        console.error('Error making payment:', error);
+      }
+    } else {
+      setPaymentMethodError('Please select a payment method before making the payment.');
+    }
   };
 
   if (modalOpen) {

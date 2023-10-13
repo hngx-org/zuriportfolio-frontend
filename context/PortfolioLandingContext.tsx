@@ -298,8 +298,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
       ),
     },
     {
-      id: 'skill',
-      modal: <SkillModal isOpen={modalStates['skill']} onClose={() => onCloseModal('skill')} userId={userId} />,
+      id: 'skills',
+      modal: <SkillModal isOpen={modalStates['skills']} onClose={() => onCloseModal('skills')} userId={userId} />,
     },
   ];
 

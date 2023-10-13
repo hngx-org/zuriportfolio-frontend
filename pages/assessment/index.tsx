@@ -15,6 +15,7 @@ import MainLayout from '../../components/Layout/MainLayout';
 import backarrow from '../../modules/assessment/component/backarrow.svg';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 export const ListContext = React.createContext([{}]);
+
 function Index() {
   const [newModal, setnewModal]: any = useState(false);
   const [track, setTrack]: any = useState(null);
@@ -23,6 +24,31 @@ function Index() {
   const [trackids, setTrackids] = useState([]);
   //This is for the search box, to be updated as user inputs
   const [filterParam, setfilterParam] = useState('');
+  const [assessments, setAssessments] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Replace with your API endpoint URL
+        const apiUrl = 'https://piranha-assessment.onrender.com/api/admin/assessments/';
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setAssessments(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
@@ -136,7 +162,7 @@ function Index() {
             <input className="w-full outline-none" placeholder="Search assessments and responses" onInput={onFilter} />
           </div>
           <ListContext.Provider value={[list, setList]}>
-            <Assessmentresponses />
+            <Assessmentresponses assessments={assessments} />
           </ListContext.Provider>
         </div>
       </div>

@@ -8,6 +8,7 @@ import { BiTrash } from 'react-icons/bi';
 import { removeFromCart } from '../../../../../http';
 
 export default function CartItem({
+  id,
   productId,
   productImage,
   productTitle,
@@ -32,7 +33,7 @@ export default function CartItem({
   return (
     <>
       <div className={modalClosed}>
-        <RemoveCart productId={productId} closeModal={closeModal} onRemoveItem={removeHandler} />
+        <RemoveCart productId={id as string} closeModal={closeModal} onRemoveItem={removeHandler} />
       </div>
       <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5 cart-item">
         <div className="">
