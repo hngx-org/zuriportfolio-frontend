@@ -401,6 +401,7 @@ export interface filterProps {
 }
 
 export interface reviewProps {
+  reviewId: number;
   buyerName: string;
   adminDate: string;
   mainDate: string;

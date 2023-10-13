@@ -49,14 +49,14 @@ function ReviewForms() {
         customerName: name,
         description,
       };
-
-      // Make an API request to post the review
-      await axios.post(`https://team-liquid-repo-production.up.railway.app/api/products/1/reviews`, newReview);
+      newReview.rating = parseInt(newReview.rating as any);
+      const config = {
+        headers: { 'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*' },
+      };
+      await axios.post('https://team-liquid-repo.onrender.com/api/products/1/reviews', newReview);
 
       // You can also handle success, show a message, or redirect the user
-    } catch (error) {
-      // Handle errors here
-    }
+    } catch (error) {}
   };
 
   return (

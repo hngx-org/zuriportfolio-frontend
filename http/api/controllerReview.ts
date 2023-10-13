@@ -1,9 +1,9 @@
 import $http from '../axios';
 
 // test
-export const postReplyById = async (props: { id: string }) => {
+export const postReplyByReviewId = async (props: { id: number }, payload: { name: string; feedback: string }) => {
   try {
-    const res = await $http.post(`/shop/review/${props?.id}`);
+    const res = await $http.post(`/shop/reviews/${props?.id}`, payload);
     return res?.data;
   } catch (e: any) {
     console.log(e);
@@ -11,28 +11,27 @@ export const postReplyById = async (props: { id: string }) => {
   }
 };
 
-export const getReviewByProductId = async (props: { id: string }) => {
-  try {
-    const res = await $http.get(`/shop/${props?.id}/reviews`);
-    return res?.data;
-  } catch (e: any) {
-    console.log(e);
-    return e.response?.data ?? { message: e.message };
-  }
-};
-
-export const getMarketplaceReviewByProductId = async (props: { id: string }) => {
-  try {
-    const res = await $http.get(`/marketplace/products/1reviews`);
-    return res?.data;
-  } catch (e: any) {
-    console.log(e);
-    return e.response?.data ?? { message: e.message };
-  }
-};
+// export const getReviewByProductId = async (props: { id: string }) => {
+//   try {
+//     const res = await $http.get(`/shop/1/reviews`);
+//     return res?.data;
+//   } catch (e: any) {
+//     console.log(e);
+//     return e.response?.data ?? { message: e.message };
+//   }
+// };
+// export const getMarketplaceReviewByProductId = async (props: { id: string }) => {
+//   try {
+//     const res = await $http.get(`/marketplace/products/1/reviews`);
+//     return res?.data;
+//   } catch (e: any) {
+//     console.log(e);
+//     return e.response?.data ?? { message: e.message };
+//   }
+// };
 
 export const postReviewByProductId = async (
-  props: { id: string },
+  props: { id: number },
   payload: { customerName: string; title: string; description: string; isHelpful: number; rateNo: number },
 ) => {
   try {

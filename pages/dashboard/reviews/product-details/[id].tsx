@@ -30,6 +30,17 @@ import { ParsedUrlQuery } from 'querystring';
 //   }
 // }
 
+// export const getStaticProp: GetStaticProps = async (context) => {
+//   const id = context?.params?.id;
+//   const res = await fetch('https://i-external-view-production.up.railway.app/api/v1/products');
+//   const dat = await res.json();
+//   console.log(dat)
+
+//   return {
+//     props: { zuriRats: dat}
+//   }
+// }
+
 type Props = {
   zuri: [
     {
@@ -78,47 +89,20 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
   const id = context.params!.id;
-  const res = await fetch(
-    `https://team-liquid-repo-production.up.railway.app/api/shop/${id}/reviews?pageNumber=1&pageSize=10`,
-  );
+  const res = await fetch(`https://team-liquid-repo.onrender.com/api/shop/${id}/reviews?pageNumber=1&pageSize=30`);
   const data = await res.json();
-  const tes = await fetch('https://i-external-view-production.up.railway.app/api/v1/products');
-  const dat = await tes.json();
-  console.log(dat);
+  // const tes = await fetch('https://i-external-view-production.up.railway.app/api/v1/products');
+  // const dat = await tes.json();
+  // console.log(dat);
   console.log(data.data);
 
   return {
     props: { zuri: data.data },
   };
 };
-// export const getStaticProp: GetStaticProps = async (context) => {
-//   const id = context?.params?.id;
-//   const res = await fetch('https://i-external-view-production.up.railway.app/api/v1/products');
-//   const dat = await res.json();
-//   console.log(dat)
-
-//   return {
-//     props: { zuriRats: dat}
-//   }
-// }
 
 const UserReview: NextPage<Props> = (props) => {
   const router = useRouter();
-
-  function calculateTotalRatings() {
-    let total = 0;
-    ratingData.forEach((data) => {
-      let rating = Number(data.rating);
-      total += rating;
-    });
-    return total;
-  }
-
-  function getPercentage(number: string) {
-    let totalRatings = calculateTotalRatings();
-    let percentage = (Number(number) / totalRatings) * 100;
-    return Math.floor(percentage);
-  }
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
@@ -155,13 +139,23 @@ const UserReview: NextPage<Props> = (props) => {
                       review={data.description}
                       noOfStars={data.rating}
                       shopReply={data.replies.message}
-                      shopName={data.replies.name}
+                      shopName="tofunmi"
+                      reviewId={Number(data.reviewId)}
                     />
                   ))}
                 </div>
               </div>
             </div>
           </div>
+          {props.zuri.slice(0, 1).map((data) => (
+            <Link
+              key={data.productId}
+              href={`../dashboard/reviews/${data.productId}`}
+              className="flex justify-end text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36"
+            >
+              <button className="hover:text-green-200">Create Review</button>
+            </Link>
+          ))}
           <PaginationBar pageLength={1} currentPage={0} changeCurrentPage={() => 1} />
         </div>
       </Container>

@@ -7,13 +7,13 @@ import { Input } from '@ui/Input';
 import { Send } from 'iconsax-react';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
+import { postReplyByReviewId } from '../../../../../http/api/controllerReview';
 
 export default function SellerReview(props: reviewProps) {
   const [reply, setReply] = useState<string>();
   const [res, setRes] = useState<boolean>(false);
 
   function getStars(rating: number) {
-    console.log(rating);
     let stars = [];
     for (let i = 0; i < 5; i++) {
       if (rating >= 1) {
@@ -26,6 +26,13 @@ export default function SellerReview(props: reviewProps) {
       rating--;
     }
     return stars;
+  }
+  function handleSubmit(e: any) {
+    e.preventDefault();
+    const payload = { name: props.shopName!, feedback: reply! };
+    postReplyByReviewId({ id: props.reviewId }, payload).then((res) => {
+      console.log(res);
+    });
   }
 
   return (
@@ -55,19 +62,20 @@ export default function SellerReview(props: reviewProps) {
             {props.shopReply ? '1 reply' : 'Reply customer'}
           </p>
           {res && (
-            <form action="" className="flex items-center mb-3">
+            <form action="" className="flex items-center mb-3" onSubmit={handleSubmit}>
               <label htmlFor="" className="text-center w-16 py-4 px-2">
                 Reply
               </label>
               <Input
                 onChange={(e) => {
-                  console.log(e.target.value);
+                  setReply(e.target.value);
                 }}
                 type="text"
                 size={48}
                 placeholder="Send"
                 className="  w-full lg:w-[450px] placeholder:text-end flex"
               />
+              <button type="submit">Submit reply</button>
             </form>
           )}
         </div>

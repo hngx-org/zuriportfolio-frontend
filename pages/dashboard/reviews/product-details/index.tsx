@@ -54,6 +54,7 @@ export default function UserReview() {
                       {reviewData.map((data, index) => (
                         <SellerReview
                           key={index}
+                          reviewId={index}
                           buyerName={data.buyerName}
                           adminDate={data.adminDate}
                           mainDate={data.adminDate}
