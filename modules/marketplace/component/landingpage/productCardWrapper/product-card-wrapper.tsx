@@ -48,7 +48,7 @@ function ProductCardWrapper({
                   <ProductCard
                     id={item?.id}
                     currency={item?.currency}
-                    image={item?.image}
+                    image_url={item?.image_url}
                     name={item?.name}
                     price={item?.price}
                     user={item?.user}

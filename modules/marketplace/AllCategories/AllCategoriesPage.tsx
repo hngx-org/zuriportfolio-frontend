@@ -14,7 +14,7 @@ interface ProductCardWrapperProps {
 interface ProductData {
   id: string;
   currency: string;
-  image: string | null;
+  image_url: string | null;
   name: string;
   price: number;
   user: string;
@@ -30,7 +30,7 @@ export default function AllCategoriesPage() {
   const products: MarketPlaceProductCardProps[] = [
     {
       id: '1',
-      image: '/assets/products-banner/Image-1.png',
+      image_url: '/assets/products-banner/Image-1.png',
       name: 'Webinar and Course Slide Templa...',
       price: 100,
       user: 'Mark Essien',
@@ -44,7 +44,7 @@ export default function AllCategoriesPage() {
 
     {
       id: '1',
-      image: '/assets/products-banner/Image-2.png',
+      image_url: '/assets/products-banner/Image-2.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -57,7 +57,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-3.png',
+      image_url: '/assets/products-banner/Image-3.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -70,7 +70,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-4.png',
+      image_url: '/assets/products-banner/Image-4.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -83,7 +83,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-8.png',
+      image_url: '/assets/products-banner/Image-8.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -96,7 +96,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-9.png',
+      image_url: '/assets/products-banner/Image-9.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -109,7 +109,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-10.png',
+      image_url: '/assets/products-banner/Image-10.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -122,7 +122,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-11.png',
+      image_url: '/assets/products-banner/Image-11.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -135,7 +135,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-5.png',
+      image_url: '/assets/products-banner/Image-5.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -148,7 +148,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-4.png',
+      image_url: '/assets/products-banner/Image-4.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -161,7 +161,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-6.png',
+      image_url: '/assets/products-banner/Image-6.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -174,7 +174,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-7.png',
+      image_url: '/assets/products-banner/Image-7.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -187,7 +187,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-8.png',
+      image_url: '/assets/products-banner/Image-8.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -200,35 +200,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-9.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: true,
-      discount_price: 60,
-    },
-
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-10.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-11.png',
+      image_url: '/assets/products-banner/Image-9.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -242,7 +214,7 @@ export default function AllCategoriesPage() {
 
     {
       id: '1',
-      image: '/assets/products-banner/Image-5.png',
+      image_url: '/assets/products-banner/Image-10.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -256,7 +228,35 @@ export default function AllCategoriesPage() {
 
     {
       id: '1',
-      image: '/assets/products-banner/Image-4.png',
+      image_url: '/assets/products-banner/Image-11.png',
+      name: 'Webinar and Course Slide Templa...',
+      price: 120.0,
+      currency: 'USD',
+      user: 'Mark Essien',
+      rating: 3,
+      showLimitedOffer: false,
+      showTopPicks: false,
+      showDiscount: true,
+      discount_price: 60,
+    },
+
+    {
+      id: '1',
+      image_url: '/assets/products-banner/Image-5.png',
+      name: 'Webinar and Course Slide Templa...',
+      price: 120.0,
+      currency: 'USD',
+      user: 'Mark Essien',
+      rating: 3,
+      showLimitedOffer: false,
+      showTopPicks: false,
+      showDiscount: false,
+      discount_price: 60,
+    },
+
+    {
+      id: '1',
+      image_url: '/assets/products-banner/Image-4.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -270,7 +270,7 @@ export default function AllCategoriesPage() {
 
     {
       id: '1',
-      image: '/assets/products-banner/Image-6.png',
+      image_url: '/assets/products-banner/Image-6.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -284,7 +284,7 @@ export default function AllCategoriesPage() {
 
     {
       id: '1',
-      image: '/assets/products-banner/Image-7.png',
+      image_url: '/assets/products-banner/Image-7.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -297,7 +297,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-9.png',
+      image_url: '/assets/products-banner/Image-9.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -310,7 +310,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-4.png',
+      image_url: '/assets/products-banner/Image-4.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -323,7 +323,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-7.png',
+      image_url: '/assets/products-banner/Image-7.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',
@@ -336,7 +336,7 @@ export default function AllCategoriesPage() {
     },
     {
       id: '1',
-      image: '/assets/products-banner/Image-3.png',
+      image_url: '/assets/products-banner/Image-3.png',
       name: 'Webinar and Course Slide Templa...',
       price: 120.0,
       currency: 'USD',

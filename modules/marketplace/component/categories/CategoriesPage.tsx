@@ -6,7 +6,7 @@ const handPicked: MarketPlaceProductCardProps[] = [
   {
     id: '1',
     currency: 'USD',
-    image: '/assets/products-banner/Image-1.png',
+    image_url: '/assets/products-banner/Image-1.png',
     name: 'Webinar and Course Slide Templa...',
     price: 100,
     user: 'Mark Essien',
@@ -19,7 +19,7 @@ const handPicked: MarketPlaceProductCardProps[] = [
   {
     id: '1',
     currency: 'USD',
-    image: '/assets/products-banner/Image-2.png',
+    image_url: '/assets/products-banner/Image-2.png',
     name: 'Webinar and Course Slide Templa...',
     price: 100,
     user: 'Mark Essien',
@@ -32,7 +32,7 @@ const handPicked: MarketPlaceProductCardProps[] = [
   {
     id: '1',
     currency: 'USD',
-    image: '/assets/products-banner/Image-3.png',
+    image_url: '/assets/products-banner/Image-3.png',
     name: 'Webinar and Course Slide Templa...',
     price: 100,
     user: 'Mark Essien',
@@ -45,7 +45,7 @@ const handPicked: MarketPlaceProductCardProps[] = [
   {
     id: '1',
     currency: 'USD',
-    image: '/assets/products-banner/Image-4.png',
+    image_url: '/assets/products-banner/Image-4.png',
     name: 'Webinar and Course Slide Templa...',
     price: 100,
     user: 'Mark Essien',

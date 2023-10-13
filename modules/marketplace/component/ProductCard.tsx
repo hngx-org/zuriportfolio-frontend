@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function ProductCard({
-  image,
+  image_url,
   name,
   price,
   user,
@@ -58,8 +58,8 @@ export default function ProductCard({
               ) : null}
             </div>
 
-            {image ? (
-              <Image src={image} alt={name} width={254} height={209} className="rounded-[8px]" />
+            {image_url ? (
+              <Image src={image_url} alt={name} width={254} height={209} className="rounded-[8px]" />
             ) : (
               <Image
                 src="/assets/dummyImage.jpg"
