@@ -29,9 +29,7 @@ const CreateAssessment = () => {
   const handleClick = (button: string) => {
     setActive(button);
   };
-  const savetodrafts = () => {
-    console.log('tugytf');
-  };
+
   const publishClick = () => {
     const newt = { ...newobject };
     newt.is_published = true;
