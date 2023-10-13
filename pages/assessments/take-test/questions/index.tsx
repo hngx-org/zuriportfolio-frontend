@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { TimerStart } from 'iconsax-react';
@@ -9,29 +9,29 @@ import Button from '@ui/Button';
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 
 const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
   const [selectedAnswers, setSelectedAnswers] = React.useState({});
   const router = useRouter();
+  useEffect(() => {
+    const assessmentData = localStorage.getItem('assessmentData')
+    const storedAssessmentData = assessmentData ? JSON.parse(assessmentData) : null
+  
+    // console.log('Hellllooooooooooo>>>>>>>>>>>>>>>>>>>',storedAssessmentData)
+    if(assessmentData){
+      console.log('data message', assessmentData)
+      setSelectedAnswers(assessmentData)
+      // console.log('first data',data[0]?.message)
+    }
+  },[])
+  // console.log('questions', data[0])
 
   const handleAnswerSelect = (questionId: number, answer: string) => {
     setSelectedAnswers(prevState => ({
       ...prevState,
       [questionId]: answer
     }))
-
-    axios.post('/api/submit-answer', {
-      questionId: questionId,
-      answer: answer
-    })
-    .then(response => {
-      console.log('Answer submitted successfully:', response.data);
-    })
-    .catch(error => {
-      console.error('Error submitting answer:', error);
-    });
   };
 
   return (
@@ -77,7 +77,7 @@ const Questions: React.FC = () => {
           </div>
           <form action="#">
             <ul className="overscroll md:max-w-xl max-w-xs flex flex-col  w-full gap-y-4 overflow-y-scroll max-h-screen h-full">
-              {DATA.questions.map((question, index) => (
+              {assessmentData.map((question, index) => (
                 <li key={index} className="w-full md:max-w-lg py-8 px-4 border border-slate-100 rounded-lg">
                   <h1 className="text-xl text-brand-green-primary text-center font-bold mb-4">
                     Question {DATA.questions.indexOf(question) + 1} of {DATA.questions.length}
