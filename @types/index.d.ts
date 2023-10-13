@@ -242,7 +242,42 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
+
+export type RecentlyViewedProductProp = 
+{
+  user:string
+  product: {
+    id:string
+    name:string
+    description:string
+    quantity: number
+    category: number
+    price:string
+    discount_price:string
+    tax:string
+    admin_status:string
+    is_deleted:string
+    rating: number,
+    is_published: false,
+    currency:string
+    createdat:string
+    updatedat:string
+    user:string
+    image_url:string
+    shop: {
+      merchant:string
+      name:string
+      reviewed: string,
+      rating: number
+    }
+  },
+  interaction_type: string
+  createdat: number
+}
+
+
 export type CartItemProps = {
+  id?: string;
   productId: string;
   productImage: string;
   productTitle: string;
