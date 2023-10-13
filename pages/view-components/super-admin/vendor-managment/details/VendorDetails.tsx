@@ -3,304 +3,315 @@ import Image, { StaticImageData } from 'next/image';
 import React from 'react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { VendorProduct } from '../../../../../@types';
+import { NextApiRequest, NextApiResponse, GetServerSideProps } from 'next';
+import { VendProduct2 } from '../../../../../@types';
 import Aff from '../../../../../public/assets/images/vendors/afflate.png';
 import Web from '../../../../../public/assets/images/vendors/webinar.png';
 import Art from '../../../../../public/assets/images/vendors/art.png';
 import lang from '../../../../../public/assets/images/vendors/lang.png';
 import Photo from '../../../../../public/assets/images/vendors/photo.png';
 import VendorCard from '../../../../../modules/super-admin/components/VendorCard';
+import { vendorInstance } from '../../../../../http/vendor';
+import { useQuery } from '@tanstack/react-query';
+
+export async function fetchProducts() {
+  const response = await vendorInstance.get('api/admin/product/all');
+  return response.data.data;
+}
 
 function VendorDetails(): React.ReactElement {
-  const cards: VendorProduct[] = [
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 245,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 333,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 222,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 908,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 786,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 576,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 334,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 508,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 29,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 31,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 27,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 30,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 28,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 26,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 32,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 25,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 1,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 2,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 3,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 18,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 19,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 20,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 21,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 22,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 8,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 9,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 10,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 11,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 12,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 13,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 14,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 4,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 5,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 6,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 7,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 15,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 16,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 17,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Aff,
-      id: 2,
-    },
-    {
-      productName: 'Webinar and Course Slide Template',
-      productPrice: 100,
-      productAuthor: 'Mark Essien',
-      productImage: Web,
-      id: 24,
-    },
-  ];
+  const { data, isLoading } = useQuery(['product-data'], fetchProducts);
+  console.log(data);
+
+  // const cards: VendorProduct[] = [
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 245,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 333,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 222,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 908,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 786,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 576,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 334,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 508,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 29,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 31,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 27,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 30,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 28,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 26,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 32,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 25,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 1,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 2,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 3,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 18,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 19,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 20,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 21,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 22,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 8,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 9,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 10,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 11,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 12,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 13,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 14,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 4,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 5,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 6,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 7,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 15,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 16,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 17,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Aff,
+  //     id: 2,
+  //   },
+  //   {
+  //     productName: 'Webinar and Course Slide Template',
+  //     productPrice: 100,
+  //     productAuthor: 'Mark Essien',
+  //     productImage: Web,
+  //     id: 24,
+  //   },
+  // ];
   // Pagination Varriables
   const [currentPage, setCurrentPage] = useState(1); // current page identifier
   const recordsPerPage: number = 8; // list of pages that show at a page
   const lastIndex: number = currentPage * recordsPerPage; // las item on current page
   const firstIndex: number = lastIndex - recordsPerPage; // first item on current page
-  const records: VendorProduct[] = cards.slice(firstIndex, lastIndex); // page slicer determining what shows per page
-  const pages: number = Math.ceil(cards.length / recordsPerPage); // page number in total
+  const records: VendProduct2[] = data?.slice(firstIndex, lastIndex); // page slicer determining what shows per page
+  const pages: number = Math.ceil(data?.length / recordsPerPage); // page number in total
   const convertToArray = (number: number) => Array.from({ length: number }, (value, index) => index + 1);
   const numbers: number[] = convertToArray(pages);
 
@@ -330,7 +341,7 @@ function VendorDetails(): React.ReactElement {
       </Link>
       <hr className="border-custom-color1" />
       <div className="mt-4 mb-10  lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-5 lg:gap5">
-        {records.map((card) => {
+        {/* {records.map((card) => {
           const { productAuthor, productImage, productName, productPrice, id } = card;
           return (
             <VendorCard
@@ -341,7 +352,15 @@ function VendorDetails(): React.ReactElement {
               price={productPrice}
             />
           );
-        })}
+        })} */}
+        {!isLoading ? (
+          records?.map((product) => {
+            const { product_name, price, id, currency, vendor_name } = product;
+            return <VendorCard key={id} vendor={vendor_name} name={product_name} price={price} currency={currency} />;
+          })
+        ) : (
+          <div className="loading-spinner ml-[300px]"></div>
+        )}
       </div>
       <hr className="border-custom-color1 mb-10" />
       <nav className="flex justify-center items-center mb-16">
