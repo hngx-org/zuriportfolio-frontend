@@ -84,9 +84,14 @@ export default function SettingPage() {
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
-      const url = `https://hng6-r5y3.onrender.com/api/set-notification-settings/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`;
+      const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
+      const baseUrl = 'https://hng6-r5y3.onrender.com';
+      const method = storedNotificationData ? 'PATCH' : 'POST';
+
+      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${userId}`;
       const response = await fetch(url, {
-        method: 'POST',
+        method: method,
+
         headers: {
           'Content-Type': 'application/json',
         },
@@ -94,6 +99,7 @@ export default function SettingPage() {
       });
 
       if (response.ok) {
+        console.log('Request type:', method);
         const data = await response.json();
         console.log('Notification settings updated successfully:', data.data);
         const { userId, ...notificationData } = data.data;
@@ -154,7 +160,7 @@ export default function SettingPage() {
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
-      <div className="w-full   relative font-manropeEB mb-4  lg:mb-2  pt-4rem flex flex-col  ">
+      <div className="w-full   relative font-manropeEB mb-4  lg:mb-2   flex flex-col  ">
         {/*  Laptop View*/}
         <div
           className="md:hidden hidden lg:flex lg:border-b-[1px]  cursor-auto
@@ -211,7 +217,7 @@ export default function SettingPage() {
                       settingOption.accountManagement && 'w-full bg-[#E6F5EA]'
                     }`}
                   >
-                    <span className="min-w-[170px] text-start">Account Management</span>
+                    <button className="min-w-[170px] text-start">Account Management</button>
                   </li>
                   <li
                     className={` flex justify-center py-3 hover:bg-brand-green-shade95 w-full ${
@@ -221,7 +227,7 @@ export default function SettingPage() {
                       changeSettingOptions('notificationSettings');
                     }}
                   >
-                    <span className="min-w-[170px] text-start">Notification Settings</span>
+                    <button className="min-w-[170px] text-start">Notification Settings</button>
                   </li>
                   <li
                     className={`flex justify-center    py-3 hover:bg-brand-green-shade95 w-full ${
@@ -232,7 +238,7 @@ export default function SettingPage() {
                       changeSettingOptions('deleteAccount');
                     }}
                   >
-                    <span className="min-w-[170px] text-start">Delete Account</span>
+                    <button className="min-w-[170px] text-start">Delete Account</button>
                   </li>
                 </ul>
               </div>
@@ -262,7 +268,7 @@ export default function SettingPage() {
         </div>
 
         {/*  Mobile and Desktop View*/}
-        <div className="lg:hidden container mx-auto">
+        <div className="lg:hidden relative  container mx-auto">
           <div
             className="flex   flex-col items-start min-h-[50vh] font-manropeEB 
          px-6 md:items-center lg:hidden  gap-8 justify-start"
@@ -302,7 +308,7 @@ export default function SettingPage() {
                         toggleShow(setShowNotInfo);
                         changeSettingOptions('refer');
                       }}
-                      className="py-4 md:py-3 w-full
+                      className="pb-4 md:py-3 w-full
                        min-w-[50vw] text-[14px] md:text-[16px] hover:bg-brand-green-shade95 
                       border-b-[1px] border-white-500  md:text-[#444846] text-dark-110 "
                     >
@@ -320,7 +326,7 @@ export default function SettingPage() {
                         toggleShow(setShowNotInfo);
                         changeSettingOptions('accountManagement');
                       }}
-                      className="py-4 md:py-3 w-full  
+                      className="pb-4 md:py-3 w-full  
                        hover:bg-brand-green-shade95 min-w-[50vw]  border-b-[1px] border-white-500 "
                     >
                       Account Management
@@ -339,7 +345,7 @@ export default function SettingPage() {
                         toggleShow(setShowNotInfo);
                         changeSettingOptions('deleteAccount');
                       }}
-                      className="py-4 md:py-3 w-full border-b-[1px] md:border-none hover:bg-brand-green-shade95 min-w-[50vw] border-white-500 
+                      className="py-4  md:py-3 w-full border-b-[1px] md:border-none hover:bg-brand-green-shade95 min-w-[50vw] border-white-500 
                   "
                     >
                       Delete Account
