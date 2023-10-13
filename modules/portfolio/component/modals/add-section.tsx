@@ -5,7 +5,13 @@ import { Briefcase, CloseSquare } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 
 function Home() {
-  const { isOpen, onClose, toggleSection, sections } = useContext(Portfolio);
+  const { isOpen, onClose, toggleSection, sections, userSections } = useContext(Portfolio);
+
+  const nonMatchingSections = sections.filter((section) => {
+    return !userSections.some((selected) => {
+      return section.title === selected.title && selected?.data && selected?.data?.length >= 1;
+    });
+  });
 
   return (
     <>
@@ -21,21 +27,23 @@ function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-            {sections.map((section, i) => (
-              <div
-                key={i}
-                className="bg-[#F4FBF6] p-4 rounded-lg cursor-pointer hover:border-2 hover:border-green-500 border-2 border-transparent"
-                onClick={() => toggleSection(section.title)}
-              >
-                <div className="flex gap-2 items-center text-green-500">
-                  {section.icon}
-                  <h2 className="text-black leading-6 text-base font-medium">{section.title}</h2>
+            {nonMatchingSections.map((section, i) => {
+              return (
+                <div
+                  key={i}
+                  className="bg-[#F4FBF6] p-4 rounded-lg cursor-pointer hover:border-2 hover:border-green-500 border-2 border-transparent"
+                  onClick={() => toggleSection(section.title)}
+                >
+                  <div className="flex gap-2 items-center text-green-500">
+                    {section.icon}
+                    <h2 className="text-black leading-6 text-base font-medium">{section.title}</h2>
+                  </div>
+                  <div>
+                    <p className="text-[#444846] mt-2">{section.description}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[#444846] mt-2">{section.description}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
 
             <div
               className="bg-[#ffffff] p-4 rounded-lg flex items-center cursor-pointer border border-green-500 border-dashed hover:border-2 hover:border-green-500"

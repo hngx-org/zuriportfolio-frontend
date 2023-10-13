@@ -5,7 +5,7 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import EducationSection from '@modules/portfolio/component/education-modal';
 import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
-import { sections as s } from '@modules/portfolio/component/landing/data';
+import { interests, sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
 
 type PortfolioContext = {
@@ -40,6 +40,8 @@ type PortfolioContext = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   userSections: any[];
   error: any;
+  openDelete: boolean;
+  setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Portfolio = createContext<PortfolioContext>({
@@ -74,6 +76,8 @@ const Portfolio = createContext<PortfolioContext>({
   setIsLoading: () => {},
   userSections: [],
   error: null,
+  openDelete: false,
+  setOpenDelete: () => {},
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
@@ -82,14 +86,13 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [hasData, setHasData] = useState<boolean>(false);
   const [modalStates, setModalStates] = useState<{ [key: string]: boolean }>({});
   const [sections, setSections] = useState<Array<any>>(s);
-  const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
 
   //landing page
   const users = [
     `f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`,
-    `8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`,
     `6ba7b810-9dad-11d1-80b4-00c04fd430c8`,
-    `6ba7b811-9dad-11d1-80b4-00c04fd430c8`,
+    `8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`,
   ];
   const [coverImage, setCoverImage] = useState<File | any>();
   const [avatarImage, setAvatarImage] = useState<File | any>();
@@ -106,9 +109,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
     tracks: [],
     hasDataFromBE: false,
   });
-  const [userId, setUserId] = useState<string>(users[3]);
-  const [userSections, setUserSections] = useState<any[]>([]);
   const [error, setError] = useState<any>(null);
+  const [userId, setUserId] = useState<string>(users[0]);
+  const [userSections, setUserSections] = useState<any[]>([]);
+  const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -127,7 +131,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
           coverImage: '',
         });
         setIsLoading(false);
-        setHasData(true);
       } catch (error: any) {
         setError({ state: true, error: error.message });
       }
@@ -140,22 +143,44 @@ export function PortfolioCtxProvider(props: { children: any }) {
         const data = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
 
         const response = await data.json();
-        const { workExperience, education } = response;
+        const {
+          about,
+          projects,
+          workExperience,
+          education,
+          skills,
+          contact,
+          interests,
+          awards,
+          language,
+          reference,
+          certificate,
+          shop,
+          custom,
+        } = response;
         setUserSections([
+          { title: 'About', id: 'about', data: about },
+          { title: 'Project', id: 'projects', data: projects },
           { title: 'Work Experience', id: 'workExperience', data: workExperience },
           { title: 'Education', id: 'education', data: education },
+          { title: 'Skills', id: 'skills', data: skills },
+          { title: 'Interests', id: 'interests', data: interests },
+          { title: 'Awards', id: 'awards', data: awards },
+          { title: 'Certificate', id: 'certificate', data: certificate },
+          { title: 'Language', id: 'language', data: language },
+          { title: 'Reference', id: 'reference', data: reference },
+          { title: 'Shop', id: 'shop', data: shop },
+          { title: 'Contact', id: 'contact', data: contact },
+          { title: 'Custom', id: 'custom', data: custom },
         ]);
         setIsLoading(false);
       } catch (error: any) {
         setError({ state: true, error: error });
-        console.log(error);
       }
     };
-
     getUserSections();
-
-    // selectedSections.length === 0 && !userData.hasDataFromBE ? setHasData(false) : setHasData(true);
-  }, [userId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const profileUpdate = () => {
     setShowProfileUpdate(true);
@@ -310,6 +335,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setIsLoading,
     userSections,
     error,
+    openDelete,
+    setOpenDelete,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;
