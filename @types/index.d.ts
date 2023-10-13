@@ -403,11 +403,12 @@ export interface filterProp {
 }
 
 export type SectionModalProps = {
-  openButtonText: string;
-  heading: string;
-  paragraph: string;
-  primaryText: string;
-  onClickAction: () => void;
+  openButtonText?: string;
+  heading?: string;
+  paragraph?: string;
+  primaryText?: string;
+  onClickAction?: () => void;
+  sectionToDelete?: string;
 };
 
 export interface PaymentStatusModalProps {
