@@ -6,7 +6,16 @@ import Link from 'next/link';
 
 const Cover = () => {
   const { handleUploadCover, profileUpdate, userData } = useContext(Portfolio);
-  const { hasDataFromBE, avatarImage } = userData;
+  const { avatarImage, tracks } = userData;
+  let append: any[] = [];
+  tracks.forEach((track: any) => {
+    append.push(track.track);
+  });
+
+  append.join(',');
+
+  const link = tracks ? `/assessments/dashboard/${append}` : '/assessments/dashboard';
+  console.log(link);
 
   const avatar = avatarImage ? (
     <Image
@@ -61,7 +70,7 @@ const Cover = () => {
         accept="image/png, image/jpeg"
       />
       <Link
-        href="/assessments/dashboard"
+        href={link}
         className="rounded-lg bg-brand-green-primary text-white-100 focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled   px-4 py-3 flex items-center justify-center gap-5 w-fit h-[48px] font-manropeB"
       >
         Take Assesment
