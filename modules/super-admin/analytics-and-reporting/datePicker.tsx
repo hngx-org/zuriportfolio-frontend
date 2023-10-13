@@ -4,20 +4,30 @@ import { DateObject } from 'react-multi-date-picker';
 import Image from 'next/image';
 import 'react-multi-date-picker/styles/colors/green.css';
 
-const MultiCalender: React.FC = () => {
-  const [values, setValues] = useState<DateObject[]>([
-    new DateObject().subtract(4, 'days'),
-    new DateObject().add(4, 'days'),
-  ]);
+interface MultiCalenderProps {
+  onDateRangeChange: (dateRange: DateObject[]) => void;
+  selectedDateRange: DateObject[];
+}
+
+const MultiCalender: React.FC<MultiCalenderProps> = ({ onDateRangeChange, selectedDateRange }) => {
+  const [values, setValues] = useState<DateObject[]>(
+    selectedDateRange.length > 0
+      ? selectedDateRange
+      : [new DateObject().subtract(4, 'days'), new DateObject().add(4, 'days')],
+  );
 
   const handleDateChange = (
     date: DateObject | DateObject[] | null,
     options: { validatedValue: string | string[]; input: HTMLElement; isTyping: boolean },
   ) => {
-    if (date !== null && !Array.isArray(date)) {
-      setValues([date]);
-    } else if (Array.isArray(date)) {
-      setValues(date);
+    if (date !== null) {
+      if (!Array.isArray(date)) {
+        setValues([date]);
+        onDateRangeChange([date]);
+      } else if (Array.isArray(date)) {
+        setValues(date);
+        onDateRangeChange(date);
+      }
     }
   };
 
