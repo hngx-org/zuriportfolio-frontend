@@ -25,9 +25,7 @@ const SanctionedProducts = () => {
 
   useEffect(() => {
     const fetchDta = async () => {
-      const dd = await getAllProducts(
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZiNzVkZDIyLTBhMTAtNGY0NC05Yjc1LWE3NDI1Nzg0NzFiMiIsImZpcnN0TmFtZSI6InNhcHBoaXJlQGdtYWlsLmNvbSIsImVtYWlsIjoic2FwcGhpcmVqdWRpdGhAZ21haWwuY29tIiwiaWF0IjoxNjk3MjA3OTQ2fQ.9cWy9mxCLtLZIfDzFoV0KOwwiHP36BcPYXs4P6YDIZA',
-      );
+      const dd = await getAllProducts();
       setSanctionedProducts(dd);
       console.log();
       // datar.filter(dat => dat.status.toLowerCase().includes("sanctioned"));

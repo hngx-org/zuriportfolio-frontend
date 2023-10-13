@@ -166,9 +166,10 @@ export const makePayment = async (selectedPaymentMethod: string) => {
   }
 };
 
-export const getAllProducts = async (token: string) => {
+export const getAllProducts = async () => {
+  const token = localStorage.getItem('authToken');
   const $http = axios.create({
-    baseURL: 'https://spitfire-superadmin-1.onrender.com/',
+    baseURL: 'https://staging.zuri.team/',
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       Authorization: `Bearer ${token}`,
