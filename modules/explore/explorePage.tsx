@@ -39,6 +39,7 @@ const HomePage = () => {
   const searchParam = useSearchParams();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({});
   const [filters1, setFilters1] = useState('ddd');
   const [filters2, setFilters2] = useState('ddd');
   const deBounce = useDebounce(searchQuery, 1200);
@@ -51,24 +52,24 @@ const HomePage = () => {
 
   const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
     searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
-    filterUrl = (query: string) =>
-      `${baseUrl}/explore/filter?SortBy=1&Location=nigeria&Country=lagos&Provider=ee&Skill=ee&Track=ee&Ranking=ee&RoleId=1&Tag=a&PageSize=12&PageNumber=1`,
-    allUsers = `${baseUrl}/explore/GetAllPortfolio?page=${explorePageParam.page}&itemsPerPage=${explorePageParam.itemsPerPage}`;
+    filterUrl = `${baseUrl}/explore/filter`,
+    allUsers = `${baseUrl}/explore/GetAllPortfolio`;
 
-  async function fetchUsers(
-    query?: string,
-    param?: {
-      page: number;
-    },
-  ) {
+  const pa = `?SortBy=1&Location=nigeria&Country=lagos&Provider=ee&Skill=ee&Track=ee&Ranking=ee&RoleId=1&Tag=a&PageSize=12&PageNumber=1`;
+  async function fetchUsers(query?: string) {
     let url = allUsers;
     if (query) {
       url = searchUrl(query);
     }
-    // else if (filters) {
-    //   url = filterUrl(filters);
-    // }
-    const { data } = await axios.get(url);
+    if (Object.keys(filters).length > 0) {
+      url = filterUrl;
+    }
+    const { data } = await axios.get(url, {
+      params: {
+        page: 1,
+        itemsPerPage: 12,
+      },
+    });
     return data;
   }
 
@@ -77,8 +78,6 @@ const HomePage = () => {
     queryKey: ['profile', deBounce, filters1, filters2],
     queryFn: () => fetchUsers(searchQuery),
   });
-
-  console.log(data);
 
   return (
     <>

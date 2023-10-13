@@ -4,24 +4,10 @@ import router, { useRouter } from 'next/router';
 export function useExploreParams() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
-  const router = useRouter();
-  useEffect(() => {
-    router.replace({
-      pathname: router.pathname,
-      query: {
-        page: page,
-        itemsPerPage: limit,
-      },
-    });
-  }, [page]);
-
-  const upDatePage = (page: number) => {
-    setPage(page);
-  };
 
   return {
     page,
-    upDatePage,
+
     limit,
   };
 }
