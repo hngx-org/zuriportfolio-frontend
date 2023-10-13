@@ -78,6 +78,11 @@ function Wishlist() {
     document.body.style.overflow = showEmptyWishlistModal ? 'hidden' : 'unset';
   }, [showEmptyWishlistModal]);
 
+  const moveToCart = (productId: string) => {
+    const newWishlistProducts = wishlistProducts.filter((product: WishlistProduct) => product.productId !== productId);
+    setWishlistProducts(newWishlistProducts);
+    toast.success('Added item to cart');
+  };
   return (
     <>
       <ToastContainer />
@@ -118,6 +123,7 @@ function Wishlist() {
               <div className="flex flex-col gap-6  lg:px-[100px]">
                 {wishlistProducts.map((product) => (
                   <WishlistProductCard
+                    moveToCart={moveToCart}
                     key={product.productId}
                     product={product}
                     removeProductFromWishlist={removeProductFromWishlist}
