@@ -38,27 +38,27 @@ function LoginForm() {
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
-      if (res.statusCode === 200 && res.token) {
+      if (res.message === 'Login successful') {
         console.log('Login success:', res);
         handleUser(res.data);
-        localStorage.setItem('zpt', res.token);
-        const value = isAuthenticated(res.token);
+        localStorage.setItem('zpt', res?.data?.token);
+        const value = isAuthenticated(res?.data?.token);
         console.log(value);
 
         router.push('/');
-      } else if (res.status === 'Error' && res.message === 'Please verify your email.') {
+      } else if (res.message === 'Invalid password') {
         notify({
-          message: 'Please verify your email.',
+          message: 'Invalid password',
           type: 'error',
         });
-      } else if (res.status === 'Error' && res.message === 'Incorrect password.') {
+      } else if (res.message === 'User not found') {
         notify({
-          message: 'Incorrect password.',
+          message: 'User not found',
           type: 'error',
         });
-      } else if (res.status === 'Error' && res.message === 'User not found.') {
+      } else if (res.message === 'Please verify your account') {
         notify({
-          message: 'User not found.',
+          message: 'Please verify your account',
           type: 'error',
         });
       }
