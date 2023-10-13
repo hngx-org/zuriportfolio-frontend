@@ -90,6 +90,7 @@ export type SearchFilter = "item" | "price"
 
 const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [filter, setFilter] = useState<string | null>(null);
   const [data, setData] = useState<PurchaseData[]>(DUMMYDATA)
   // search state
@@ -123,21 +124,29 @@ const MyPage: React.FC = () => {
         return ['bg-gray-200', 'text-gray-600'];
     }
   };
+  
 
   // api search
   const onSearch = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      const res = await $http.get(getFilterApi(filterBy, searchInput));
+      const res = await $http.get(getFilterApi(filterBy, searchInput), {
+        headers: {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU"
+        }
+      });
       setData(res?.data?.data)
+      setIsLoading(false);
     } catch (error) {
       setData([]);
+      setIsLoading(false);
     }
     setSearchInput("");
   }
 
   const getFilterApi = (filterBy: string, filterParams: string) => {
-    return `https://customer-purchase.onrender.com/api/filter-transactions?${filterBy}=${filterParams}`
+    return `https://customer-purchase.onrender.com/api/orders/filter-transactions?${filterBy}=${filterParams}`
   }
 
   // handle filter dropdown
@@ -158,7 +167,7 @@ const MyPage: React.FC = () => {
 
   const onBack = () => {
     // call purchase data here again
-    setData(DUMMYDATA);
+    onClose();
   }
 
   return (
@@ -315,7 +324,7 @@ const MyPage: React.FC = () => {
           {data.length > 0 && <MobileCustomerDashboard data={data} />}
           {/* error page */}
           {data.length === 0 && <PurchaseNotFound back={onBack}/>}
-        </div>
+          </div>
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
       </div>
