@@ -35,7 +35,7 @@ export const loginUser = async (props: { email: string; password: string }) => {
 
 export const getUserCart = async (token: string) => {
   try {
-    const response = await $http.get('https://staging.Zuri.team/api/checkout/api/carts',{
+    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/checkout/api/carts',{
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -45,12 +45,12 @@ export const getUserCart = async (token: string) => {
     return [];
   }
 };
-
+// https://zuri-cart-checkout.onrender.com/api/checkout/api/carts
 
 export const removeFromCart = async (productId: string,token: string) => {
   
   try {
-    const apiUrl = `https://staging.Zuri.team/api/checkout/api/carts/${productId}`;
+    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts/${productId}`;
     const response = await $http.delete(apiUrl, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -163,7 +163,7 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
 export const makePayment = async (selectedPaymentMethod: string) => {
   if (selectedPaymentMethod) {
     try {
-      const apiUrl = 'https://staging.zuri.team/api/checkout/api/orders';
+      const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/checkout/api/orders';
       const data = {
         redirect_url: 'https://www.staging.zuri.team/marketplace/cart',
         payment_method: selectedPaymentMethod,
