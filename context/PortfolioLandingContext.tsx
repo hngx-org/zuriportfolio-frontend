@@ -8,6 +8,7 @@ import InterestModal from '../components/Modals/interest-modal';
 import { interests, sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
 import PortfolioReference from '@modules/portfolio/component/reference/reference';
+import PortfolioAbout from '@modules/portfolio/component/about/about';
 
 type PortfolioContext = {
   userData: any;
@@ -311,6 +312,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
           userId={userId}
         />
       ),
+    },
+    {
+      id: 'about',
+      modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => onCloseModal('about')} userId={userId} />,
     },
   ];
 
