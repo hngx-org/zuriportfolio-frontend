@@ -29,7 +29,7 @@ export const Activity: React.FC<{ isPage: boolean }> = ({ isPage }) => {
 
 const ActivityCard = ({ name, item, isPage }: ActivityCardProps) => {
   return (
-    <div className={`${isPage ? 'shadow rounded-md p-5 flex gap-1 text-base md:text-lg' : 'text-sm md:text-base'}`}>
+    <div className={`${isPage ? 'shadow rounded-md p-5 md:flex gap-1 text-base md:text-lg' : 'text-sm md:text-base'}`}>
       <p className="font-semibold">{name}</p>
       <p className="text-brand-white-650 font-normal">
         Purchased <span className="text-orange-110 font-semibold">{item}</span>
