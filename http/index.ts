@@ -65,9 +65,7 @@ export const makePayment = async (selectedPaymentMethod: string) => {
   }
 };
 
-export const getAllProducts = async () => {
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZiNzVkZDIyLTBhMTAtNGY0NC05Yjc1LWE3NDI1Nzg0NzFiMiIsImZpcnN0TmFtZSI6InNhcHBoaXJlQGdtYWlsLmNvbSIsImVtYWlsIjoic2FwcGhpcmVqdWRpdGhAZ21haWwuY29tIiwiaWF0IjoxNjk3MjA3OTQ2fQ.9cWy9mxCLtLZIfDzFoV0KOwwiHP36BcPYXs4P6YDIZA';
+export const getAllProducts = async (token: string) => {
   const $http = axios.create({
     baseURL: 'https://spitfire-superadmin-1.onrender.com/',
     headers: {

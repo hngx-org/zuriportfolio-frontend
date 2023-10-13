@@ -545,6 +545,7 @@ export interface DeletedProducts {
   createdAt: string;
   id: string;
   product_name: string;
+  product_status;
   updatedAt: string;
   vendor_name: string;
 }

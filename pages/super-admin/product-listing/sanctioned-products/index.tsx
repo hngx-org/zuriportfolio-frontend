@@ -25,7 +25,7 @@ const SanctionedProducts = () => {
 
   useEffect(() => {
     const fetchDta = async () => {
-      const dd = await getAllProducts();
+      const dd = await getAllProducts('token');
       setSanctionedProducts(dd);
       console.log(setSanctionedProducts);
       // datar.filter(dat => dat.status.toLowerCase().includes("sanctioned"));
