@@ -15,7 +15,6 @@ const Cover = () => {
   append.join(',');
 
   const link = tracks ? `/assessments/dashboard/${append}` : '/assessments/dashboard';
-  console.log(link);
 
   const avatar = avatarImage ? (
     <Image
