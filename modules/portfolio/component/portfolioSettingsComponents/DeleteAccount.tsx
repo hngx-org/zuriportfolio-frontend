@@ -51,9 +51,7 @@ function DeleteAccount() {
         </h3>
         <p className="text-[#737876] font-manropeL text-[0.875rem] leading-[1.25rem] ">
           Would you like to delete your portfolio account:{' '}
-          <span className="text-[#009254] text-[0.875rem] sm:text-[1rem]  font-manropeEL leading-[1.5rem]">
-            @pleroma
-          </span>
+          <span className="text-[#009254] text-[0.875rem] sm:text-[1rem]  font-manropeEL leading-[1.5rem]">@ubong</span>
           ?
         </p>
         <p className="text-[#737876] font-manropeL text-[0.875rem] sm:text-[1rem] leading-[1.25rem] sm:leading-[1.5rem]">
