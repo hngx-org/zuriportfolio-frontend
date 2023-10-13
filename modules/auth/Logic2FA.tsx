@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
 import jwtDecode from 'jwt-decode';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
-import { verfiy2FA } from '../../http';
+import { verfiy2FA } from '../../http/auth';
 import isAuthenticated from '../../helpers/isAuthenticated';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
