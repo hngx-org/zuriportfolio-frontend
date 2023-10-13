@@ -7,11 +7,45 @@ import { Eye, EyeSlash } from 'iconsax-react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
+import { resetPassword } from '../../http';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { notify } from '@ui/Toast';
+import { useRouter } from 'next/router';
+
+const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
 function ResetPassword() {
   const [showPassword, setShowPassword] = useState([false, false]); // an array of states to manage the visibility of each password (new password, confirm password).
   const [passwordChanged, setPasswordChanged] = useState(false); // state to manage the success of passsword reset
 
+  const router = useRouter();
+  const { token } = router.query; // Get the token after the user is redirected.
+
+  const onResetPasswordError = (error: any) => {
+    // Handle different error scenarios and display relevant error messages for each situation.
+    console.log(error.message);
+    if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
+      const timeoutErrorMessage =
+        'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+      notifyError(timeoutErrorMessage);
+      return;
+    } else if (error.message === 'AxiosError: Network Error') {
+      const networkErrorMessage = 'Oops! Looks like there was a network error. Please give it another try later.';
+      notifyError(networkErrorMessage);
+      return;
+    }
+    const errorMessage =
+      'Oops! An error occurred. Please request another forgot password email or click the mail button again to redirect you to this page. If the issue persists, reach out to support.';
+    notifyError(errorMessage);
+  };
+
+  // Hook for making an API call and handling the response
+  const { mutate, isLoading } = useAuthMutation(resetPassword, {
+    onSuccess: () => setPasswordChanged(true),
+    onError: (error: any) => onResetPasswordError(error),
+  });
+
+  // inputs validation
   const schema = z
     .object({
       password: z.string().regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/, { message: 'Please match requirements' }),
@@ -35,10 +69,11 @@ function ResetPassword() {
     },
   });
 
+  // handle form submission
   const handleResetPassword = (values: any) => {
-    setPasswordChanged(true);
     console.log('password', values.password);
     console.log('confirmPassword', values.confirmPassword);
+    mutate({ token: token, password: values.password });
   };
 
   return (
@@ -103,7 +138,12 @@ function ResetPassword() {
                 />
                 <p className="text-[red] text-xs">{form.errors.confirmPassword && form.errors.confirmPassword}</p>
               </div>
-              <Button intent={'primary'} className="w-full h-[3.25rem] md:h-[3.75rem] mt-5 rounded-lg" type="submit">
+              <Button
+                intent={'primary'}
+                isLoading={isLoading}
+                className="w-full h-[3.25rem] md:h-[3.75rem] mt-5 rounded-lg"
+                type="submit"
+              >
                 Change password
               </Button>
             </form>
