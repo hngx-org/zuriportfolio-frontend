@@ -14,7 +14,6 @@ type EducationModalProps = {
 const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) => {
   const [educations, setEducations] = useState<Education[]>([]);
   const [degreeOptions, setDegreeOptions] = useState<DegreeOption[]>([]);
-  // const [userDetails, setUserDetails] = useState<UserDetail[]>([]);
   const [degree, setDegree] = useState<string>('');
   const [fieldOfStudy, setFieldOfStudy] = useState('');
   const [description, setDescription] = useState('');
@@ -70,46 +69,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
       console.error('Error creating education details:', error);
     }
   };
-  // const handleSaveEdit = async (degreeId: number) => {
-  //   try {
-  //     console.log(`Editing education entry with degreeId: ${degreeId}`);
-  //     const response = await fetch('', {
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(editedEducation),
-  //     });
-
-  //     if (response.ok) {
-  //       console.log('Education details updated successfully.');
-  //     } else {
-  //       console.error('Failed to update education details.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating education details:', error);
-  //   }
-
-  //   setEditMode(false);
-  //   setEditedEducation(null);
-  // };
-
-  // const handleDelete = async (degreeId: number) => {
-  //   try {
-  //     console.log(`Deleting education entry with degreeId: ${degreeId}`);
-  //     const response = await fetch(`API URL for deleting an education entry/${degreeId}`, {
-  //       method: 'DELETE',
-  //     });
-
-  //     if (response.ok) {
-  //       console.log('Education details deleted successfully.');
-  //     } else {
-  //       console.error('Failed to delete education details.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error deleting education details:', error);
-  //   }
-  // };
 
   const handleSaveEdit = async () => {
     try {
