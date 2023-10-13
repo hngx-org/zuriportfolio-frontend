@@ -609,3 +609,12 @@ export type AuthResponse = {
   token: string;
   user: User;
 };
+
+export interface ShopTotals {
+  data: {
+    total_banned_shops: number;
+    total_deleted_shops: number;
+    total_shops: number;
+  }[];
+  message: string;
+}
