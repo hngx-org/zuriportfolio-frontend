@@ -4,7 +4,7 @@ import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard'
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, ViewedProductCardProps } from '../../@types';
-import { getUserCart } from '../../http';
+import { getUserCart, removeFromCart } from '../../http';
 import AuthContext from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 
@@ -48,63 +48,6 @@ export default function Cart() {
     },
   ];
 
-  const CartProducts: CartItemProps[] = [
-    {
-      productId: '1',
-      productImage: '/assets/images/image-zuri-1.png',
-      productTitle: 'Moodring: Cute Shop',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '2',
-      productImage: '/assets/images/image-zuri-2.png',
-      productTitle: 'Jelly Bean: Fun Shop',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '3',
-      productImage: '/assets/images/image-zuri-3.png',
-      productTitle: 'Webinar and Course',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '4',
-      productImage: '/assets/images/image-zuri-4.png',
-      productTitle: '4in1 Big Bundle',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '5',
-      productImage: '/assets/images/image-zuri-5.png',
-      productTitle: 'Square Space 7.1',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-    {
-      productId: '6',
-      productImage: '/assets/images/image-zuri-6.png',
-      productTitle: 'Digital illustration',
-      productSize: 'medium',
-      productColor: 'blue',
-      productSeller: 'Artel Market',
-      productPrice: 100,
-    },
-  ];
-
   const authContext = useContext(AuthContext);
   const { user } = authContext;
   const [productCards, setProductCards] = useState(ViewedProducts);
@@ -112,7 +55,7 @@ export default function Cart() {
 
   const getSummary = (items: any[]) => {
     let sum = 0;
-    const data = items.map((item) => (sum += Number(item.productPrice)));
+    items.map((item) => (sum += Number(item.productPrice)));
     return sum;
   };
 
@@ -121,8 +64,6 @@ export default function Cart() {
   useEffect(() => {
     async function cartFetch() {
       const carts = await getUserCart();
-      console.log(carts);
-      console.log('carts fetched');
       setCartItems(carts);
       const sum = getSummary(carts);
       setCartSummary(sum);
@@ -138,12 +79,13 @@ export default function Cart() {
 
   function removeProductHandler(productId: string) {
     let cartProductsItems = cartItems.filter((product) => product.productId != productId);
+    removeFromCart(productId);
     setCartItems(cartProductsItems);
   }
 
-  const cartProductItems = cartItems.map((cartItem) => (
+  const cartProductItems = cartItems.map((cartItem, index) => (
     <CartItem
-      key={cartItem.productId}
+      key={index}
       productId={cartItem.productId}
       productColor={cartItem.productColor}
       productTitle={cartItem.productTitle}
@@ -156,9 +98,9 @@ export default function Cart() {
     />
   ));
 
-  const recentlyViewed = productCards.map((product) => (
+  const recentlyViewed = productCards.map((product, index) => (
     <ProductCard
-      key={product.id}
+      key={index}
       id={product.id}
       productImage={product.productImage}
       productPrice={product.productPrice}

@@ -19,6 +19,7 @@ function Signup() {
   }, onError: (error:any) => {
     console.error(error)
   }})
+  const [error, setError] = useState<string | null>(null);
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -72,9 +73,26 @@ function Signup() {
       };
 
       signUpUserFn(userData)
-    } catch (error) {
+      const response = await axios.post(' https://auth.akuya.tech/api/auth/signup ', userData);
+      console.log('firstName', values.firstName);
+      console.log('lastName', values.lastName);
+      console.log('password', values.password);
+      console.log('confirmPassword', values.confirmPassword);
+      console.log('agree', values.agree);
+
+      if (response.status === 200) {
+        router.push('/auth/verification');
+      } else {
+        // Handle signup error, e.g., display an error message
+      }
+    } catch (error: any) {
       // Handle any exceptions or errors here
       console.error('Error during signup:', error);
+      if (error.response && error.response.data && error.response.data.code === 'EXISTING_USER_EMAIL') {
+        setError('Email already exists. Please use a different email address.');
+      } else {
+        setError('An error occurred during signup. Please try again later.');
+      }
     }
   };
 
@@ -244,10 +262,17 @@ function Signup() {
               <span className="mr-2 flex my-auto ">
                 <input id='agree' type="checkbox" {...form.getInputProps('agree')} className="w-4 border-brand-green-primary" />
               </span>
-              <label htmlFor='agree' className="text-gray-200 text-sm">
-                I agree with zuri stores <Link href={'#'}>Terms of Service</Link> &{' '}
-                <Link href={'#'}>Privacy Policy</Link> .
-              </label>
+              <p className="text-gray-200 text-sm">
+                I agree with zuri stores{' '}
+                <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+                  Terms of Service
+                </Link>{' '}
+                &{' '}
+                <Link href={'#'} className="text-brand-green-primary hover:text-brand-green-hover">
+                  Privacy Policy
+                </Link>{' '}
+                .
+              </p>
             </div>
             <style jsx>{`
               input[type='checkbox'] {
@@ -291,6 +316,8 @@ function Signup() {
             >
               Continue
             </Button>
+            {/* server side error handling */}
+            {error && <p className="text-[red] text-xs mt-2">{error}</p>}
           </form>
           <div className="mt-8">
             <p className="text-center text-gray-200">

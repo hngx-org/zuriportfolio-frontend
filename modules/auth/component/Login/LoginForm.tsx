@@ -19,6 +19,7 @@ import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUp
 import { useRouter } from 'next/router';
 import AuthContext from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
+import { notify } from '@ui/Toast';
 
 function LoginForm() {
   const { handleAuth } = useContext(AuthContext);
@@ -42,31 +43,32 @@ function LoginForm() {
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
-      if (res.statusCode === 200 && res.data.token) {
-        // Successful login
-        console.log('Login success:', res);
-        handleAuth(res);
-        localStorage.setItem('zpt', res.token);
-        const value = isAuthenticated(res.token);
-        console.log(value);
-
-        router.push('/dashboard/orders');
-      } else if (res.statusCode === 400 && 'Please verify your email.') {
-        // Unverified user
-        console.error('Unverified user:');
-        // Handle unverified user logic (e.g., show a message to verify the email).
-      } else if (res.statusCode === 400 && 'Password or email is not correct') {
-        // Incorrect password
-        console.error('Incorrect password:');
-        // Handle incorrect password logic (e.g., show a password error message).
-      } else if (res.statusCode === 400 && 'User not found') {
-        // User not found
-        console.error('User not found:');
-        // Handle user not found logic (e.g., show an error message).
-      } else {
-        // Handle other error cases
-        console.error('sign up');
-        router.push('/access-denied');
+      if (res.message === 'Login successful') {
+        // console.log('Login success:', res);
+        handleAuth(res.data);
+        localStorage.setItem('zpt', res?.data?.token);
+        const value = isAuthenticated(res?.data?.token);
+        // console.log(value);
+        notify({
+          message: 'Login successful',
+          type: 'success',
+        });
+        router.push('/');
+      } else if (res.message === 'Invalid password') {
+        notify({
+          message: 'Invalid password',
+          type: 'error',
+        });
+      } else if (res.message === 'User not found') {
+        notify({
+          message: 'User not found',
+          type: 'error',
+        });
+      } else if (res.message === 'Please verify your account') {
+        notify({
+          message: 'Please verify your account',
+          type: 'error',
+        });
       }
     },
     onError: (e) => {
@@ -122,7 +124,7 @@ function LoginForm() {
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
       <div className="md:mx-auto lg:mb-10 font-manropeL">
         <div className="md:flex sm:flex flex-col items-center justify-center lg:items-start">
-          <p className=" md:text-4xl text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
+          <p className=" md:text-4xl mt-[1.75rem] md:mt-0 text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
           <p className="text-custom-color30  mt-[1rem] md:text-[1.375rem]  lg:font-semibold sm:tracking-[0.00375rem] text-center md:text-left">
             Log in to continue using zuriportfolio
           </p>
@@ -177,7 +179,6 @@ function LoginForm() {
             </Link>
 
             <Button
-              // href="/auth/2fa"
               isLoading={isLoginUserMutationLoading}
               intent={'primary'}
               type="submit"
@@ -189,9 +190,9 @@ function LoginForm() {
           </form>
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-              Already have an account?{' '}
-              <Link href="/auth/login">
-                <span className="text-brand-green-primary">Sign in</span>
+              Don&apos;t have an account?
+              <Link href="/auth/signup-with-email">
+                <span className="text-brand-green-primary"> Sign Up</span>
               </Link>
             </p>
           </div>
