@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Button from '@ui/Button';
 import { Edit } from 'iconsax-react';
 import MainLayout from '../../../components/Layout/MainLayout';
@@ -7,39 +8,41 @@ import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
+
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
 const CreateAssessment = () => {
+  const router = useRouter();
+  const data = router.query;
+  const skillid = data.name;
   const [newobject, setObject] = useState({
     skill_id: 0,
     questions_and_answers: [
       {
-        question_no: 0,
+        question_no: skillid,
         question_text: '',
+        question_type: 'multiple_choice',
         options: [''],
         correct_option: 0,
       },
     ],
-    is_published: false,
     assessment_name: '',
-    assessment_duration: 0,
+    duration_in_minutes: 0,
   });
 
   const [active, setActive] = useState<null | string>('button1');
-  const [listupdate, setListupdate] = useState(false);
+  const [listupdate, setListupdate] = useState('waiting');
   const handleClick = (button: string) => {
     setActive(button);
   };
 
   const publishClick = () => {
     const newt = { ...newobject };
-    newt.is_published = true;
     setObject(newt);
-    setListupdate(true);
+    setListupdate('save');
   };
   const draftsClick = () => {
-    newobject.is_published = false;
-    setListupdate(true);
+    setListupdate('save');
   };
   const [disable, setDisable] = useState(true);
 
@@ -49,6 +52,44 @@ const CreateAssessment = () => {
     setObject(newt);
     console.log(newobject);
   };
+
+  if (listupdate === 'post') {
+    console.log('posting');
+    console.log(newobject.questions_and_answers);
+    postObject();
+  }
+
+  function postObject() {
+    // The API endpoint URL
+    const apiUrl = 'https://piranha-assessment.onrender.com/api/admin/assessments';
+
+    // Create the request options
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newobject),
+    };
+
+    // Send the POST request using the fetch API
+    fetch(apiUrl, requestOptions)
+      .then((response) => {
+        console.log(response);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parse the JSON response
+      })
+      .then((responseData) => {
+        // Handle the response data here
+        console.log('Response:', responseData);
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error('Error:', error);
+      });
+  }
 
   return (
     <ToPushContext.Provider value={[newobject, setObject]}>

@@ -17,24 +17,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 export const ListContext = React.createContext([{}]);
 function Index() {
   const [newModal, setnewModal]: any = useState(false);
+  const [track, setTrack]: any = useState(null);
   const [list, setList]: any = useState(Assessmentlist);
   //This is for the search box, to be updated as user inputs
   const [filterParam, setfilterParam] = useState('');
   const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
-  //The list is searched according to what user enters
-  useEffect(() => {
-    setList(
-      Assessmentlist?.filter((child: any) => {
-        if (filterParam === '') {
-          return list;
-        } else {
-          return child?.trackname.toLowerCase().includes(filterParam);
-        }
-      }),
-    );
-  }, [filterParam, list]);
+
   return (
     <MainLayout activePage="/assessment/" className="assessmentheader" showTopbar showDashboardSidebar={false}>
       {newModal && (
@@ -44,18 +34,18 @@ function Index() {
             <div className="pb-6 w-full ">
               <Select
                 onValueChange={(value) => {
-                  console.log(value);
+                  setTrack(value);
                 }}
               >
                 <SelectTrigger className="w-full p-2 ">
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="option1">Option1</SelectItem>
-                  <SelectItem value="option2">Option2</SelectItem>
-                  <SelectItem value="option3">Option3</SelectItem>
-                  <SelectItem value="option4">Option4</SelectItem>
-                  <SelectItem value="option5">Option5</SelectItem>
+                  <SelectItem value="1">Option1</SelectItem>
+                  <SelectItem value="2">Option2</SelectItem>
+                  <SelectItem value="3">Option3</SelectItem>
+                  <SelectItem value="4">Option4</SelectItem>
+                  <SelectItem value="5">Option5</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -64,10 +54,10 @@ function Index() {
                 className="flex1 w-full px-4 py-3 bg-brand-green-ttr border-green-600 border-[1px] text-green-600 rounded-full hover:text-white-100 hover:bg-green-600 transition"
                 onClick={() => setnewModal(false)}
               >
-                Hold On
+                Cancel
               </div>
               <Link
-                href={'/assessment/new'}
+                href={{ pathname: track === null ? '/assessment' : '/assessment/new', query: { name: track } }}
                 onClick={() => {
                   setnewModal(false);
                 }}

@@ -67,12 +67,12 @@ const CreateTemplate = () => {
     ]);
   };
   useEffect(() => {
-    if (listupdate === true) {
+    if (listupdate === 'save') {
       const newt = { ...newobject };
       newt.questions_and_answers = list;
       console.log(newt);
       setObject(newt);
-      setListupdate(false);
+      setListupdate('post');
     }
   }, [listupdate, newobject, setObject, setListupdate, list]);
   return (
