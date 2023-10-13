@@ -48,16 +48,16 @@ const SanctionedProducts = () => {
     //   }
     // }
     // testFunc();
-  }, [sanctionedProducts, filteredProduct]);
+  }, []);
 
   useEffect(() => {
     const updateData = () => {
-      const filteredDatar = sanctionedProducts.filter((dat) => dat.admin_status.toLowerCase().includes('sanctioned'));
+      const filteredDatar = sanctionedProducts.filter((dat) => dat.product_status.toLowerCase().includes('sanctioned'));
       setFilteredProducts(filteredDatar);
       setIsLoading(false);
     };
     updateData();
-  }, [sanctionedProducts, filteredProduct]);
+  }, [sanctionedProducts]);
 
   const route = useRouter();
 
