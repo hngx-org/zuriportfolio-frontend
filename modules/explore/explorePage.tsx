@@ -15,9 +15,9 @@ const HomePage = () => {
   const searchParam = useSearchParams();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState({});
-  const [filters1, setFilters1] = useState('ddd');
-  const [filters2, setFilters2] = useState('ddd');
+  const [filters, setFilters] = useState<{
+    SortBy?: number;
+  }>({});
   const deBounce = useDebounce(searchQuery, 1200);
   const router = useRouter();
 
@@ -44,6 +44,7 @@ const HomePage = () => {
       params: {
         page: 1,
         itemsPerPage: 12,
+        ...filters,
       },
     });
     return data;
@@ -51,7 +52,7 @@ const HomePage = () => {
 
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo[]>({
-    queryKey: ['profile', deBounce, filters1, filters2],
+    queryKey: ['profile', deBounce, filters],
     queryFn: () => fetchUsers(searchQuery),
   });
 
