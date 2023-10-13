@@ -15,18 +15,18 @@ const ForgotPassword = () => {
   const router = useRouter();
 
   //Error Handler
-  const forgotPasswordError = (error: any) => {
-    console.log(error.message);
-    if (error.message === 'User not found') {
+  const forgotPasswordSuccess = (data: any) => {
+    console.log(data.message);
+    if (data.message === 'User not found') {
       const errorMessage = 'This user does not have an account';
       notifyError(errorMessage);
       return;
-    } else if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
+    } else if (data.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
       notifyError(timeoutErrorMessage);
       return;
-    } else if (error.message === 'AxiosError: Network Error') {
+    } else if (data.message === 'AxiosError: Network Error') {
       const errorMessage = 'Server is down! Please try again later';
       notifyError(errorMessage);
       return;
@@ -49,8 +49,11 @@ const ForgotPassword = () => {
 
   // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(forgetPassword, {
-    onSuccess: () => router.push('/auth/reset-password'),
-    onError: (error: any) => forgotPasswordError(error),
+    onSuccess: (data) => {
+      forgotPasswordSuccess(data);
+      router.push('/auth/reset-password');
+    },
+    onError: (error: any) => console.log(error),
   });
 
   // Handling email input
