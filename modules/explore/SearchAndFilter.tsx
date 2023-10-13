@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { Dispatch, useRef, useState } from 'react';
 import {
   Airdrop,
   ArrowDown2,
@@ -20,9 +20,14 @@ import {
 import FilterComponent from './components/FilterComponent';
 import CustomDropdown from './components/CustomDropdown';
 import { Input, SelectInput } from '@ui/Input';
+import { useExploreParams } from './hooks/exploreParam';
 // import Breadcrumbs from '../../components/Breadcrumbs';
 
-const SearchAndFilter: React.FC = () => {
+const SearchAndFilter = (prop: {
+  setSearchQuery?: Dispatch<React.SetStateAction<string>>;
+  filters: { SortBy?: number; Country?: string };
+  handleFilters: (type: string, value: string | number) => void;
+}) => {
   const [activeSection, setActiveSection] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
@@ -30,6 +35,7 @@ const SearchAndFilter: React.FC = () => {
   const [showRightButton, setShowRightButton] = useState<boolean>(true);
   const [showFilterComponent, setShowFilterComponent] = useState<boolean>(false);
 
+  const { filters, handleFilters } = prop;
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
@@ -51,9 +57,28 @@ const SearchAndFilter: React.FC = () => {
 
   const handleCustomDropdownChange = (option: string) => {
     setSelectedOption(option);
+
+    if (option === 'Nigeria' || option === 'Ghana' || option === 'Cameroon') {
+      return handleFilters('Country', option);
+    }
+
+    delete filters.Country;
   };
   const handleCustomDropdownChange2 = (option: string) => {
     setSelectedOption2(option);
+    let sort = 0;
+    if (option === 'Featured') {
+      sort = 1;
+
+      return handleFilters('SortBy', sort);
+    }
+    if (option === 'New Arrival') {
+      sort = 2;
+
+      return handleFilters('SortBy', sort);
+    }
+
+    delete filters.SortBy;
   };
 
   const sectionsData = [
@@ -62,51 +87,61 @@ const SearchAndFilter: React.FC = () => {
       activeIcon: <Filter size={26} color="black" />,
       text: 'All Filter',
       id: 1,
+      filterType: 'none',
     },
     {
       icon: <Category size={26} color="white" />,
       activeIcon: <Category size={26} color="#737373" />,
       text: 'All',
+      filterType: 'none',
     },
     {
       icon: <PenTool2 size={26} color="white" />,
       activeIcon: <PenTool2 size={26} color="#737373" />,
       text: 'Design',
+      filterType: 'Track',
     },
     {
       icon: <Code size="26" color="white" />,
       activeIcon: <Code size={26} color="#737373" />,
       text: 'Frontend',
+      filterType: 'Track',
     },
     {
       icon: <CommandSquare size="26" color="white" />,
       activeIcon: <CommandSquare size={26} color="#737373" />,
       text: 'Backend',
+      filterType: 'Track',
     },
     {
       icon: <MobileProgramming size="26" color="white" />,
       activeIcon: <MobileProgramming size={26} color="#737373" />,
       text: 'Mobile',
+      filterType: 'Track',
     },
     {
       icon: <Cloud size="26" color="white" />,
       activeIcon: <Cloud size={26} color="#737373" />,
       text: 'Cloud Computing',
+      filterType: 'Track',
     },
     {
       icon: <Data size="26" color="white" />,
       activeIcon: <Data size={26} color="#737373" />,
       text: 'Data Science',
+      filterType: 'Track',
     },
     {
       icon: <Airdrop size="26" color="white" />,
       activeIcon: <Airdrop size={26} color="#737373" />,
       text: 'Cybersecurity',
+      filterType: 'Track',
     },
     {
       icon: <Code size="26" color="white" />,
       activeIcon: <Code size={26} color="#737373" />,
       text: 'Devops',
+      filterType: 'Track',
     },
   ];
 
@@ -135,7 +170,7 @@ const SearchAndFilter: React.FC = () => {
         <div className="w-full grid grid-cols-[1fr_auto] gap-4 md:w-[22rem] xl:w-[37.5rem]">
           <Input
             onChange={(e) => {
-              console.log(e.target.value);
+              prop.setSearchQuery && prop.setSearchQuery(e.target.value);
             }}
             type="text"
             name="search input"
@@ -156,14 +191,16 @@ const SearchAndFilter: React.FC = () => {
 
         <div className="w-full grid grid-cols-2 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
           <CustomDropdown
-            options={['Nigeria', 'Ghana', 'Cameroon']}
+            options={[`None`, 'Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
             onChange={handleCustomDropdownChange}
+            setFilters={handleFilters}
           />
           <CustomDropdown
-            options={['Trending', 'Music', 'Drama']}
+            options={['Trending', 'Featured', 'New Arrival']}
             selectedValue={selectedOption2}
             onChange={handleCustomDropdownChange2}
+            setFilters={handleFilters}
           />
         </div>
       </div>
@@ -182,6 +219,7 @@ const SearchAndFilter: React.FC = () => {
               } ${section.text === 'All' ? 'hidden sm:flex' : ''}`}
               onClick={() => {
                 setActiveSection(index);
+                handleFilters(section.filterType, section.text);
                 setShowFilterComponent(section.text === 'All Filter');
               }}
             >

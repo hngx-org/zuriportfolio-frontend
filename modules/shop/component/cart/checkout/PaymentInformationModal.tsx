@@ -3,55 +3,43 @@ import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import AllOTPModal from '../../../../../components/Modals/OTPModals/AllOTPModal';
 import axios from 'axios';
+import { makePayment } from '../../../../../http';
 
-const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => {
+const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () => void; orderTotal: number }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalOpen, setModalOpen] = useState(true);
   const [showOTP, setShowOTP] = useState(true);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [paymentMethodError, setPaymentMethodError] = useState('');
+  const [paymentButtonClicked, setPaymentButtonClicked] = useState(false);
 
   const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentMethod(event.target.value);
     setPaymentMethodError('');
   };
 
-  const makePayment = async () => {
-    if (selectedPaymentMethod) {
-      // Payment method is selected, proceed with the payment
-      try {
-        const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/orders';
-        const data = {
-          redirect_url: 'http://localhost:3000/marketplace/cart',
-          payment_method: selectedPaymentMethod,
-        };
-
-        const response = await axios.post(apiUrl, data, {
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-          },
-        });
-
-        // Handle the error response
-        console.log('API Response:', response.data);
-      } catch (error) {
-        console.error('Error making payment:', error);
-      }
-    } else {
-      // No payment method selected, set an error message
-      setPaymentMethodError('Please select a payment method before making the payment.');
-    }
+  const handlePayment = async () => {
+    setPaymentButtonClicked(true);
+    // if (selectedPaymentMethod) {
+    //   try {
+    //     const response = await makePayment(selectedPaymentMethod);
+    //     window.location.href = response.transaction_url;
+    //   } catch (error) {
+    //     console.error('Error making payment:', error);
+    //   }
+    // } else {
+    //   setPaymentMethodError('Please select a payment method before making the payment.');
+    // }
   };
 
   if (modalOpen) {
     return (
       <>
         <div className=" fixed  inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[50%] lg:w-[35%] animate-slideIn">
+          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[50%] lg:w-[28%] animate-slideIn">
             <svg
               onClick={closeModal}
-              className="ml-auto"
+              className="ml-auto cursor-pointer"
               xmlns="http://www.w3.org/2000/svg"
               width="40"
               height="40"
@@ -95,7 +83,7 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
                 readOnly
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-[#00894C] font-semibold">1245777</span>
+                <span className="text-[#00894C] font-semibold">$ {orderTotal}</span>
               </div>
             </div>
 
@@ -132,13 +120,26 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
               </div>
               {paymentMethodError && <div className="text-brand-red-primary mb-4">{paymentMethodError}</div>}
             </div>
+            {paymentButtonClicked ? (
+              <button
+                type="button"
+                className="bg-green-200 py-2 px-4 w-full rounded-md hover:bg-green-200 rounded text-white-100 flex justify-center items-center"
+                disabled
+              >
+                <svg className="animate-spin h-4 w-4 inline mr-2 text-[#f5f6f1]" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="none" strokeWidth="4" stroke="currentColor" />
+                </svg>
+                Processing Payment...
+              </button>
+            ) : (
+              <button
+                onClick={handlePayment}
+                className="py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
+              >
+                Proceed to pay
+              </button>
+            )}
 
-            <button
-              onClick={makePayment}
-              className=" py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
-            >
-              Proceed to pay
-            </button>
             <p className="text-center text-sm mt-4">
               This is an encrypted payment, your details are 100% secured and safe
             </p>
