@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Button from '@ui/Button';
+import { Edit } from 'iconsax-react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
-import Edithead from '@modules/assessment/component/edittitleHead';
 import Image from 'next/image';
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
@@ -40,6 +40,14 @@ const CreateAssessment = () => {
   const draftsClick = () => {
     newobject.is_published = false;
     setListupdate(true);
+  };
+  const [disable, setDisable] = useState(true);
+
+  const readInput = (e: any) => {
+    const newt = { ...newobject };
+    newt.assessment_name = e.target.value;
+    setObject(newt);
+    console.log(newobject);
   };
 
   return (
@@ -104,7 +112,26 @@ const CreateAssessment = () => {
             <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
               {active === 'button1' ? (
                 <>
-                  <Edithead />
+                  <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
+                    <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
+                    <div className="p-4 flex justify-between items-center">
+                      <div className="text-[20px]">
+                        <input
+                          type="text"
+                          id="input_assessment"
+                          className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
+                          placeholder="Untitled Assessment"
+                          disabled={disable}
+                          onChange={(e) => readInput(e)}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="input_assessment">
+                          <Edit className="w-[25px] cursor-pointer" onClick={() => setDisable(false)} />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                   <div className="pt-4">
                     <CreateTemplate />
                   </div>
