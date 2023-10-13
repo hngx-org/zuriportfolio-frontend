@@ -1,16 +1,17 @@
 import { Fragment } from 'react';
-import { category, discount, keyword, price, rating, subCategory } from './data/search-data';
+import { category, discount, keyword, price, priceRange, rating, subCategory } from './data/search-data';
 import FilterSection from './filter-section';
 import Button from '@ui/Button';
 import { CancelIcon } from './icons';
 import Badge from './Badge';
 import useSearchFilter from './hooks/useSearchFilter';
 import { manropeL } from '../../../../config/font';
+import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
   const { resetFilter, handleSearch, loading } = useSearchFilter();
   return (
-    <Fragment>
+    <div>
       {isOpen ? (
         <div
           className={`flex items-center justify-center absolute z-50  w-full top-0 min-h-screen bg-black bg-opacity-50 py-10 px-5 backdrop-blur-sm transition duration-300 ease-in-out ${manropeL.className}`}
@@ -21,15 +22,14 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <CancelIcon onClick={toggle} />
             </section>
             <Fragment>
-              <FilterSection data={category} sectionTitle="Category" />
-              <FilterSection data={subCategory} sectionTitle="Sub Category" />
-              <FilterSection data={discount} sectionTitle="By Discount" />
-              <FilterSection data={keyword} sectionTitle="By Keywords" />
-              <FilterSection data={rating} sectionTitle="By Rating" />
-              <FilterSection data={price} sectionTitle="By Price">
-                <PriceRanges data={['$80', '$500']} />
+              <FilterSection tag="category" data={category} sectionTitle="Category" />
+              <FilterSection tag="subCategory" data={subCategory} sectionTitle="Sub Category" />
+              <FilterSection tag="discount" data={discount} sectionTitle="By Discount" />
+              <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
+              <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
+              <FilterSection tag="price" data={price} sectionTitle="By Price">
+                <PriceRanges data={priceRange.map(price => formatToNigerianNaira(price))} />
               </FilterSection>
-              {/* Please do not make children a props element */}
             </Fragment>
 
             <div className="flex items-center justify-center gap-4 mt-10 mb-4">
@@ -47,13 +47,13 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
           </div>
         </div>
       ) : null}
-    </Fragment>
+    </div>
   );
 };
 
 const PriceRanges = ({ data }: { data: string[] }) => {
   return (
-    <div className="ml-10 flex gap-10">
+    <div className="ml-10 flex gap-4 flex-wrap">
       {Array.isArray(data) &&
         data.length > 0 &&
         data.map((item, i) => (
