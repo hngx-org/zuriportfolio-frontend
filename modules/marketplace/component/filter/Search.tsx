@@ -18,12 +18,12 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <CancelIcon onClick={toggle} />
             </section>
             <Fragment>
-              <FilterSection data={category} sectionTitle="Category" />
-              <FilterSection data={subCategory} sectionTitle="Sub Category" />
-              <FilterSection data={discount} sectionTitle="By Discount" />
-              <FilterSection data={keyword} sectionTitle="By Keywords" />
-              <FilterSection data={rating} sectionTitle="By Rating" />
-              <FilterSection data={price} sectionTitle="By Price">
+            <FilterSection tag="category" data={category} sectionTitle="Category" />
+              <FilterSection tag="subCategory" data={subCategory} sectionTitle="Sub Category" />
+              <FilterSection tag="discount" data={discount} sectionTitle="By Discount" />
+              <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
+              <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
+              <FilterSection tag="price" data={price} sectionTitle="By Price">
                 <PriceRanges data={['$80', '$500']} />
               </FilterSection>
               {/* Please do not make children a props element */}
