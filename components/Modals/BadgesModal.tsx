@@ -1,49 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Modal from '../ui/Modal';
 import Image from 'next/image';
-import badgeExpert from '../../public/assets/images/CATAYST.png';
-import badgeInterMediate from '../../public/assets/images/badge-tablet.png';
-import badgeBeginner from '../../public/assets/images/badge-reward.png';
 import peaceIcon from '../../public/assets/images/peace-icon.png';
 import Button from '@ui/Button';
-import { useRouter } from 'next/router';
 import { toJpeg, toPng } from 'html-to-image';
 import generatePDF, { Margin } from 'react-to-pdf';
 
-function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function BadgeModal({
+  isOpen,
+  onClose,
+  badgeType,
+  score,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  badgeType: string | string[] | undefined;
+  score: number;
+}) {
   const [isShown, setIsShown] = useState(false);
   const [hasSelected, setHasSelected] = useState(false);
   const [selection, setSelection] = useState<null | string>(null);
-  const [badgeType, setBadgeType] = useState<null | string>(null);
 
-  const router = useRouter();
   const downloadRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const { badge: level } = router.query;
-    if (typeof level === 'string') {
-      setBadgeType(level);
-    }
-  }, [router.query]);
-
-  let badgeImage, badgeTitle, badgeDescription;
-
-  if (badgeType === 'beginner') {
-    badgeImage = badgeBeginner;
-    badgeTitle = 'Beginner Badge';
-    badgeDescription =
-      'You just unlocked the Beginner Badge as you have scored 90 points or above by completing this assessment.';
-  } else if (badgeType === 'intermediate') {
-    badgeImage = badgeInterMediate;
-    badgeTitle = 'Intermediate Badge';
-    badgeDescription =
-      'You just unlocked the Intermediate Badge as you have scored 90 points or above by completing this assessment.';
-  } else {
-    badgeImage = badgeExpert;
-    badgeTitle = 'Expert Badge';
-    badgeDescription =
-      'You just unlocked the Expert Badge as you have scored 90 points orabove by completing this assessment.';
-  }
   const toggleSelection = (event: React.MouseEvent) => {
     event.stopPropagation();
     setIsShown((prev) => !prev);
@@ -126,13 +105,31 @@ function BadgeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
         <div ref={downloadRef} className="p-8 flex flex-col gap-8 items-center justify-center">
           <h4 className="text-green-600 font-manropeB font-[700] text-[32px] ">Congratulations!</h4>
 
-          <Image src={badgeImage} alt="user badge" className="w-40" sizes="100vw" priority />
+          <Image
+            src={`/assets/images/badges/${badgeType}.png`}
+            alt="user badge"
+            className="w-40"
+            sizes="100vw"
+            width={50}
+            height={50}
+            priority
+          />
 
           <div className="flex gap-2 items-center">
-            <h4 className="font-manropeB font-[600] text-[28px] text-xl">{badgeTitle}</h4>
-            <Image src={peaceIcon} alt="Peace icon" className="w-[43px] h-[43px]" sizes="100vw" />
+            <h4 className="font-manropeB font-[600] text-[28px] text-xl">{badgeType}</h4>
+            <Image
+              src={peaceIcon}
+              alt="Peace icon"
+              className="w-[43px] h-[43px]"
+              sizes="100vw"
+              width={50}
+              height={50}
+            />
           </div>
-          <p className="font-manrope font-[400] text-[14px] text-center w-[288px] md:w-[399px]">{badgeDescription}</p>
+          <p className="font-manrope font-[400] text-[14px] text-center w-[288px] md:w-[399px]">
+            You just unlocked the {badgeType} Badge as you have scored {score} points or above by completing this
+            assessment.
+          </p>
         </div>
 
         <div className={`flex flex-col gap-2 overflow-y-hidden duration-300 ${isShown ? 'h-[11rem]' : 'h-14'}`}>

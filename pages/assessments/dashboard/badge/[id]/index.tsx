@@ -5,52 +5,75 @@ import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
 import MainLayout from '../../../../../components/Layout/MainLayout';
 
 const Page: React.FC = () => {
-  const params = useRouter();
-  const badgelabel = params.query?.id;
+  const router = useRouter();
 
-  const [scorePercentage, setScorePercentage] = useState<number>(10);
+  const [scorePercentage, setScorePercentage] = useState<number>(0);
   const [isdownloadOpen, setIsdownloadOpen] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [badgeData, setBadgeData] = useState([]);
+  const [screenLoading, setScreenLoading] = useState<boolean>(false);
+  const [badgeName, setbadgeName] = useState<string>('');
   const onClose = () => {
     setIsdownloadOpen(false);
   };
 
   useEffect(() => {
-    const apiUrl = `https://demerzel-badges-production.up.railway.app/api/badges/1`;
-
     const fetchData = async () => {
       try {
-        const response = await fetch(apiUrl, { method: 'GET', redirect: 'follow' });
+        const badgelabel = router.query?.id;
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        if (badgelabel) {
+          setIsLoading(true);
+
+          const apiUrl = `https://demerzel-badges-production.up.railway.app/api/badges/${badgelabel}`;
+          const response = await fetch(apiUrl, { method: 'GET', redirect: 'follow' });
+
+          if (!response.ok) {
+            setIsLoading(false);
+            setErrorMessage('Error Loading Data');
+            throw new Error('Network response was not ok');
+          }
+
+          const data = await response.json();
+          setbadgeName(data.data.badge.Badge.name);
+          setScorePercentage(data.data.badge.UserAssessment.score);
+          setScorePercentage(data.data.badge.UserAssessment.score);
+          console.log(data.data.badge);
+          setIsLoading(false);
         }
-
-        const data = await response.json();
-        setBadgeData(data.badge);
-        console.log(data);
       } catch (error) {
+        setErrorMessage('Error fetching Data');
         console.error('There was a problem with the fetch operation:', error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [router.query]);
+  console.log(scorePercentage);
 
   return (
     <>
       <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-        <BadgesHeader />
-        <Badges
-          scorePercentage={scorePercentage}
-          badgelabel={badgelabel}
-          setIsdownloadOpen={setIsdownloadOpen}
-          isdownloadOpen={isdownloadOpen}
-          onClose={onClose}
-        />
+        <>
+          {isLoading ? (
+            <div className="flex justify-center items-center h-screen">
+              <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
+            </div>
+          ) : errorMessage ? (
+            <h2>Error Fetching Data</h2>
+          ) : (
+            <>
+              <BadgesHeader />
+              <Badges
+                scorePercentage={scorePercentage}
+                badgelabel={badgeName}
+                setIsdownloadOpen={setIsdownloadOpen}
+                isdownloadOpen={isdownloadOpen}
+                onClose={onClose}
+              />
+            </>
+          )}
+        </>
       </MainLayout>
     </>
   );
