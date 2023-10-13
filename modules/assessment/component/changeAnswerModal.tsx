@@ -64,7 +64,7 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
   }
 
   return (
-    <Modal isOpen={showModal} closeModal={() => setShowModal(false)} isCloseIconPresent={false}>
+    <Modal closeOnOverlayClick isOpen={showModal} closeModal={() => setShowModal(false)} isCloseIconPresent={false}>
       {selectedQuestion && (
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
@@ -86,7 +86,7 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
                     checked={selectedQuestion.selectedOption.id === item.id}
                     onChange={() => selectOption(selectedQuestion.id, item.id)}
                   />
-                  <label className="text-sm font-manropeL text-[#5B5F5E]  flex-1" htmlFor="option3">
+                  <label className="text-sm font-manropeL text-[#5B5F5E]  flex-1" htmlFor={`${item.id}`}>
                     {item.answer}
                   </label>
                 </div>
