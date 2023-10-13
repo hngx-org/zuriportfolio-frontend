@@ -11,7 +11,7 @@ export default function Page() {
     async function getData() {
       try {
         const res = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/admin/analytics/best_selling_products/',
+          'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/',
         );
         if (!res.ok) {
           throw new Error('Failed to fetch data');
