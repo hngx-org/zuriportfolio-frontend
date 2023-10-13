@@ -77,26 +77,14 @@ const AnalyticsAndReportingTopSelling = () => {
     },
   ];
 
-  const productName = (
-    <div className="flex items-center gap-1">
-      <span>Product Name </span>
-      <Image
-        src="/assets/tsImages/arrow-down.png"
-        alt="Product Icon"
-        width={20}
-        height={20}
-        className="object-contain"
-      />
-    </div>
-  );
 
   const currentPage = 1;
   const totalPages = 10;
 
   return (
     <section className=" px-6 mb-10 font-manropeL">
-      <div className="max-w-[1220px] mx-auto py-4 border border-white-200 rounded-lg shadow-md overflow-x-auto lg:max-w-[1050px] xl:max-w-[1220px]">
-        <div className="grid grid-cols-2 min-w-[1000px] items-center text-custom-color2 border-b border-white-200 px-4 py-3 bord">
+      <div className="max-w-[1220px] mx-auto py-4 border border-white-200 rounded-lg overflow-x-auto no-scrollbar lg:max-w-[1050px] xl:max-w-[1220px] 2xl:max-w-[1470px] ">
+        <div className="grid grid-cols-2 min-w-[1000px] items-center text-custom-color2 border-b border-white-200 px-4 py-3 bord no-scrollbar">
           <div className="flex items-center gap-1">
             <span className="md:pl-8">Product Name </span>
             <Image
@@ -117,15 +105,12 @@ const AnalyticsAndReportingTopSelling = () => {
         </div>
         <div className="min-w-[1000px]">
           {products.map((product) => (
-            <div
-              key={product.id}
-              className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap"
-            >
+            <div key={product.id} className="grid grid-cols-2 items-center border-b border-white-200 bg-white-100 py-4 px-4 whitespace-nowrap">
               <div className="flex items-center md:pl-8 ">
                 <Image src={product.productImage} alt={product.productName} width={50} height={50} />
-                <span className="ml-4 text-md md:text-lg">{product.productName}</span>
+                <span className="ml-4 text-[15px]">{product.productName}</span>
               </div>
-              <div className="grid grid-cols-5 text-custom-color2 text-center min-w-[100px]">
+              <div className="grid grid-cols-5 text-custom-color2 text-center min-w-[100px] text-[14px]">
                 <p className="">{product.category}</p>
                 <p>{product.order}</p>
                 <p>{product.price}</p>
