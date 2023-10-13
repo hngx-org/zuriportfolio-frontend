@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, ReferenceLine, ResponsiveContainer } from 'recharts';
-import { Graph, MonthlyData} from '../../../@types';
+import { Graph} from '../../../@types';
 import Link from 'next/link';
 import Image from 'next/image';
 import ActivityDetails from './ActivityDetails';
 
+interface MonthlyData {
+  name: string;
+  sales: number;
+  orders: number;
+  users: number;
+}
 type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
 const calendarMonths = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -227,9 +233,7 @@ const AnalyticsAndReportingGraphs = () => {
                   {index === 0 ? (
                     <ResponsiveContainer height={230} className="mx-auto mt-6 ">
                       <LineChart data={salesDataGraph1}>
-                        <XAxis dataKey="name" axisLine={false}  tick={(props) => {
-    return props.index % 2 === 0 ? <text {...props} /> : null;
-  }}/>
+                        <XAxis dataKey="name" axisLine={false}/>
                         <ReferenceLine y={1000} stroke="#F2F4F7" />
                         <ReferenceLine y={3200} stroke="#F2F4F7" />
                         <ReferenceLine y={5200} stroke="#F2F4F7" />
