@@ -95,7 +95,7 @@ const MyPage: React.FC = () => {
   // search state
   const [searchInput, setSearchInput] = useState<string>("");
 
-  
+
 
   // function to handle delete
   const onDelete = () => {
