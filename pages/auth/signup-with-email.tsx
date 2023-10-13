@@ -12,6 +12,7 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { signUpUserWithEmail } from '../../http';
 import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
+import withoutAuth from '../../helpers/withoutAuth';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
@@ -121,4 +122,4 @@ function SignUpWithEmail() {
   );
 }
 
-export default SignUpWithEmail;
+export default withoutAuth(SignUpWithEmail);

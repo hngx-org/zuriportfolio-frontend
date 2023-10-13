@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import RemoveCart from '../../../../../components/Modals/Removecart';
 import { BiTrash } from 'react-icons/bi';
+import { removeFromCart } from '../../../../../http';
 
 export default function CartItem({
   productId,
@@ -20,11 +21,17 @@ export default function CartItem({
   const [modalClosed, setModalClosed] = useState('hidden');
 
   const removeItem = () => {
+    // removeFromCart()
     setModalClosed('block');
+    console.log("removed");
+
   };
 
   const closeModal = () => {
+    console.log("clicked");
     setModalClosed('hidden');
+    console.log("hidden set");
+    
   };
 
   return (
