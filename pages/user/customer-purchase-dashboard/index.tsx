@@ -31,7 +31,7 @@ const DUMMYDATA: PurchaseData[] = [
 
     orderID: '643D73U90',
 
-    price: '$100.00',
+    price: '$150.00',
 
     date: '25 March 2023',
 
@@ -45,9 +45,9 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U91',
 
-    price: '$100.00',
+    price: '$280.00',
 
     date: '25 March 2023',
 
@@ -61,11 +61,11 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U93',
 
     price: '$100.00',
 
-    date: '25 March 2023',
+    date: '27 March 2023',
 
     sellerName: 'Ekomobong Enang',
 
@@ -77,9 +77,9 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U93',
 
-    price: '$100.00',
+    price: '$107.00',
 
     date: '25 March 2023',
 
@@ -93,15 +93,15 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U94',
 
     price: '$100.00',
 
-    date: '25 March 2023',
+    date: '30 March 2023',
 
     sellerName: 'Solomon Edem',
 
-    status: 'Successful',
+    status: 'Pending',
   },
 
   {
@@ -109,15 +109,75 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U90',
+    orderID: '643D73U95',
 
-    price: '$100.00',
+    price: '$900.00',
 
-    date: '25 March 2023',
+    date: '30 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Failed',
+  },
+  {
+    id: 7,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U96',
+
+    price: '$700.00',
+
+    date: '30 March 2023',
 
     sellerName: 'Solomon Edem',
 
     status: 'Successful',
+  },
+  {
+    id: 8,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$260.00',
+
+    date: '31 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Successful',
+  },
+  {
+    id: 9,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U98',
+
+    price: '$100.00',
+
+    date: '31 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Successful',
+  },
+  {
+    id: 10,
+
+    item: 'Webinar & Course Slide',
+
+    orderID: '643D73U90',
+
+    price: '$100.00',
+
+    date: '31 March 2023',
+
+    sellerName: 'Solomon Edem',
+
+    status: 'Pending',
   },
 
   // Add more data items as needed

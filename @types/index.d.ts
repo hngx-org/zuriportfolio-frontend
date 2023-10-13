@@ -33,14 +33,16 @@ export interface AllCategoryDetails {
   discount: number;
 }
 export interface Products {
-  id: number;
+  _id: string;
   name: string;
   image: string;
   shopOwner: string;
   price: number;
   category: string;
+  description: string;
+  specification: string;
+  rating: number;
 }
-
 export interface SuperAdminPagination {
   title: any;
 }
