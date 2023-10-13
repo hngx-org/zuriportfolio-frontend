@@ -48,7 +48,7 @@ const SanctionedProducts = () => {
     //   }
     // }
     // testFunc();
-  }, []);
+  }, [sanctionedProducts, filteredProduct]);
 
   useEffect(() => {
     const updateData = () => {
