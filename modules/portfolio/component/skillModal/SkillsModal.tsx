@@ -81,7 +81,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     setSkillData((prevArray) => prevArray.filter((el) => el !== item));
   };
 
-
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
       const trimmedValue = inputValue.trim();
@@ -94,10 +93,10 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       }
     }
   };
-  
+
   const suggestedArray = [...skillData, ...inputArray];
 
-  const arrayToBePosted =[...arrayTwo, ...inputArray]
+  const arrayToBePosted = [...arrayTwo, ...inputArray];
   const cancelBtnFn = () => {
     localStorage.removeItem('arrayTwo');
     setArrayTwo([]);
@@ -253,5 +252,3 @@ export default SkillModal;
 function setItems(arg0: any) {
   throw new Error('Function not implemented.');
 }
-
-
