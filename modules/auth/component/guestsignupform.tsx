@@ -9,7 +9,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
 import useAuthMutation from '../../../hooks/Auth/useAuthMutation';
-import { guestSignup } from '../../../http';
+import { guestSignup } from '../../../http/auth';
 import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
 
