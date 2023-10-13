@@ -71,7 +71,7 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
 
 export const checkEmail = async (props: { email: string }) => {
   try {
-    const res = await $http.post('/api/auth/check-email', props);
+    const res = await $http.post('/check-email', props);
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {

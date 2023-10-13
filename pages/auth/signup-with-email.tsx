@@ -19,8 +19,7 @@ const notifyError = (message: string) => notify({ type: 'error', message, theme:
 function SignUpWithEmail() {
   const [userEmail, setUserEmail] = useState('');
   const router = useRouter();
-  const onSignUpWithEmailSuccess = (data: any) => {
-    console.log(data);
+  const onSignUpWithEmailSuccess = (data: { message: string }) => {
     if (data.message !== 'Email does not exist.') {
       const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
       notifyError(errorMessage);
@@ -31,7 +30,7 @@ function SignUpWithEmail() {
     router.push(`/auth/signup?email=${userEmail}`);
   };
 
-  const onSignUpWithEmailError = (error: any) => {
+  const onSignUpWithEmailError = (error: { message: string }) => {
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
