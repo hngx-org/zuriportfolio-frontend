@@ -33,13 +33,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 import { UserInfo } from './@types';
-
+import Pagination from '@ui/Pagination';
 
 const HomePage = () => {
   // States
   const searchParam = useSearchParams();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
 
   const handleFilters = (type: string, value: string | number) => {
@@ -74,7 +75,7 @@ const HomePage = () => {
     }
     const { data } = await axios.get(url, {
       params: {
-        page: 1,
+        page: currentPage,
         itemsPerPage: 12,
         ...filters,
       },
@@ -82,13 +83,17 @@ const HomePage = () => {
     return data;
   }
 
-  console.log(filters);
-
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo>({
     queryKey: ['profile', deBounce, filters],
     queryFn: () => fetchUsers(searchQuery),
   });
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  console.log(data?.data);
 
   return (
     <>
@@ -109,6 +114,16 @@ const HomePage = () => {
             {data.data.map((card, key) => (
               <Card key={key} data={card} />
             ))}
+
+            {/* <div className="col-span-full w-full mx-auto flex justify-center">
+              <Pagination
+                visiblePaginatedBtn={3}
+                activePage={currentPage}
+                pages={4}
+                page={currentPage}
+                setPage={handlePageChange}
+              />
+            </div> */}
           </div>
         </div>
       )}
