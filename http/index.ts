@@ -46,9 +46,10 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {
-    console.log(e);
-    throw new Error(e);
-    // return e.response.data ?? { message: e.message };
+    const errorData = e.response.data;
+    console.log("Error in catch", errorData)
+    // throw new Error(errorData);
+    return e.response.data ?? { message: e.message };
   }
 };
 
@@ -80,6 +81,18 @@ export const resetPassword = async (props: { token: string | string[] | undefine
   } catch (e: any) {
     console.log(e);
     throw new Error(e);
+  }
+};
+
+export const signUpUser = async (props: { firstName: string; lastName: string; email: string; password: string }) => {
+  try {
+    const res = await $http.post('https://auth.akuya.tech/api/auth/signup', props);
+    console.log(res?.data);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    throw new Error(e);
+    // return e.response.data ?? { message: e.message };
   }
 };
 
