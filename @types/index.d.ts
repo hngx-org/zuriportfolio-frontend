@@ -436,3 +436,11 @@ export type inputErrorMessage = {
   inputName: string;
   isValid: boolean;
 };
+
+type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
+interface MonthlyData {
+  name: string;
+  sales: number;
+  orders: number;
+  users: number;
+}

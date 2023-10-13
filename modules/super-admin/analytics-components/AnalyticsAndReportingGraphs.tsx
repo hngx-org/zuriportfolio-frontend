@@ -1,18 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, ReferenceLine, ResponsiveContainer } from 'recharts';
-import { Graph, activity } from '../../../@types';
+import { Graph, MonthlyData, PeriodType } from '../../../@types';
 import Link from 'next/link';
 import Image from 'next/image';
 import ActivityDetails from './ActivityDetails';
 
-type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
-
-interface MonthlyData {
-  name: string;
-  sales: number;
-  orders: number;
-  users: number;
-}
 
 const calendarMonths = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
