@@ -20,7 +20,9 @@ export interface ProductData {
   discount_price: string;
   description: string;
   price: string;
-  rating: Number;
+  images: any[];
+  url: string[];
+  rating: number;
   user: string;
   quantity: Number;
   shop: string;
@@ -641,3 +643,24 @@ interface ChartProps {
   isFetching: boolean;
   isFetched: boolean;
 }
+
+export interface AuthContextProps {
+  auth: AuthResponse | undefined;
+  email: string;
+  redirect: string;
+  handleAuth: (value: AuthResponse) => void;
+  handleEmail: (value: string) => void;
+  handleRedirect: (value: string) => void;
+}
+
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+export type AuthResponse = {
+  token: string;
+  user: User;
+};
