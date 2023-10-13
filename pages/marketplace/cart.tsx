@@ -4,7 +4,7 @@ import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard'
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, ViewedProductCardProps } from '../../@types';
-import { getUserCart,removeFromCart } from '../../http';
+import { getUserCart, removeFromCart } from '../../http';
 import AuthContext from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 
@@ -56,21 +56,16 @@ export default function Cart() {
   const getSummary = (items: any[]) => {
     let sum = 0;
     items.map((item) => (sum += Number(item.productPrice)));
-    return sum
-  }
-  
-  const [cartSummary, setCartSummary ] = useState<number>(0)
-  
-  useEffect(() => {
-      async function cartFetch() {
-        const carts = await getUserCart()
-        setCartItems(carts)
-        const sum = getSummary(carts);
-        setCartSummary(sum);
-      }
-      cartFetch()
-  },[])
+    return sum;
+  };
 
+  useEffect(() => {
+    async function cartFetch() {
+      const carts = await getUserCart();
+      setCartItems(carts);
+    }
+    cartFetch();
+  }, []);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
     let id = event.currentTarget.id;
@@ -81,18 +76,16 @@ export default function Cart() {
   function removeProductHandler(productId: string) {
     let cartProductsItems = cartItems.filter((product) => product.productId != productId);
     removeFromCart(productId);
-    setCartItems(cartProductsItems)
+    setCartItems(cartProductsItems);
   }
 
-  
-
-  const cartProductItems = cartItems.map((cartItem,index) => (
+  const cartProductItems = cartItems.map((cartItem, index) => (
     <CartItem
       key={index}
       productId={cartItem.productId}
       productColor={cartItem.productColor}
       productTitle={cartItem.productTitle}
-      proudctDescription={cartItem.proudctDescription}
+      productDescription={cartItem.productDescription}
       productImage={cartItem.productImage}
       productSeller={cartItem.productSeller}
       productSize={cartItem.productSize}
@@ -101,7 +94,7 @@ export default function Cart() {
     />
   ));
 
-  const recentlyViewed = productCards.map((product,index) => (
+  const recentlyViewed = productCards.map((product, index) => (
     <ProductCard
       key={index}
       id={product.id}
@@ -128,7 +121,7 @@ export default function Cart() {
                 {cartProductItems}
               </div>
               <div className="flex md:flex-none justify-center md:mx-0">
-                <Summary sum={cartSummary} />
+                <Summary discount={2} sum={getSummary(cartItems)} />
               </div>
             </section>
 
@@ -149,5 +142,3 @@ export default function Cart() {
     </MainLayout>
   );
 }
-
-

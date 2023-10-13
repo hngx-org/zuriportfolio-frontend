@@ -139,10 +139,10 @@ export let workexperiences = [
     role: 'Role',
     company: 'Company',
     description: 'Description',
-    start_month: 'mm',
-    start_year: 'yyyy',
-    end_month: 'mm',
-    end_year: 'yyyy',
+    startMonth: 'mm',
+    startYear: 'yyyy',
+    endMonth: 'mm',
+    endYear: 'yyyy',
   },
 ];
 
@@ -188,7 +188,7 @@ export let projects = [
     id: 11,
     title: 'Project title',
     description: 'Description',
-    tags: ['Tag 1', 'Tag 2'],
+    tags: 'Tag 1,Tag 2',
     linkTitle: 'Link Title',
     link: 'Link',
     img: '',
@@ -197,11 +197,9 @@ export let projects = [
 
 export let about = 'A place to highlight your professional experience A place to highlight your professional.';
 
-export let skills = ['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5', 'Skill 6'];
-
-export let interests = ['Interest 1', 'Interest 2', 'Interest 3', 'Interest 4', 'Interest 5', 'Interest 6'];
-
-export let languages = ['Language 1', 'Language 2', 'Language 3', 'Language 4', 'Language 5', 'Language 6'];
+export let skills = 'Skill 1,Skill 2,Skill 3,Skill 4,Skill 5,Skill 6';
+export let interests = 'Interest 1,Interest 2,Interest 3,Interest 4,Interest 5,Interest 6';
+export let languages = 'Language 1,Language 2,Language 3,Language 4,Language 5,Language 6';
 
 export let contacts = [
   {
