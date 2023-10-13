@@ -72,7 +72,6 @@ export default function ProductDetailsDescription() {
         toast.success('product added to localstorage');
       }
     }
-    toast.error('User is not signed in');
   };
 
   const renderRatingStars = (rating: number) => {
