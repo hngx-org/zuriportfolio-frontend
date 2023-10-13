@@ -7,6 +7,7 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { interests, sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
+import PortfolioReference from '@modules/portfolio/component/reference/reference';
 
 type PortfolioContext = {
   userData: any;
@@ -300,6 +301,16 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'skill',
       modal: <SkillModal isOpen={modalStates['skill']} onClose={() => onCloseModal('skill')} userId={userId} />,
+    },
+    {
+      id: 'reference',
+      modal: (
+        <PortfolioReference
+          isOpen={modalStates['reference']}
+          onClose={() => onCloseModal('reference')}
+          userId={userId}
+        />
+      ),
     },
   ];
 
