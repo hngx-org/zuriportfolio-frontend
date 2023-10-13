@@ -7,10 +7,33 @@ import { Eye, EyeSlash } from 'iconsax-react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
+import { resetPassword } from '../../http';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { notify } from '@ui/Toast';
+import { useRouter } from 'next/router';
+
+const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
 function ResetPassword() {
   const [showPassword, setShowPassword] = useState([false, false]); // an array of states to manage the visibility of each password (new password, confirm password).
   const [passwordChanged, setPasswordChanged] = useState(false); // state to manage the success of passsword reset
+
+  const router = useRouter();
+  const { token } = router.query;
+  console.log(token);
+
+  const onResetPasswordError = (data: any) => {
+    console.log(data);
+    if (data.message === 'Request failed with status code 400') {
+      const errorMessage = 'An unexpected error occured, Please try again';
+      notifyError(errorMessage);
+    }
+  };
+
+  const { mutate, isLoading } = useAuthMutation(resetPassword, {
+    onSuccess: () => setPasswordChanged(true),
+    onError: (error: any) => onResetPasswordError(error),
+  });
 
   const schema = z
     .object({
@@ -36,9 +59,9 @@ function ResetPassword() {
   });
 
   const handleResetPassword = (values: any) => {
-    setPasswordChanged(true);
     console.log('password', values.password);
     console.log('confirmPassword', values.confirmPassword);
+    mutate({ token: token, password: values.password });
   };
 
   return (
@@ -103,7 +126,12 @@ function ResetPassword() {
                 />
                 <p className="text-[red] text-xs">{form.errors.confirmPassword && form.errors.confirmPassword}</p>
               </div>
-              <Button intent={'primary'} className="w-full h-[3.25rem] md:h-[3.75rem] mt-5 rounded-lg" type="submit">
+              <Button
+                intent={'primary'}
+                isLoading={isLoading}
+                className="w-full h-[3.25rem] md:h-[3.75rem] mt-5 rounded-lg"
+                type="submit"
+              >
                 Change password
               </Button>
             </form>

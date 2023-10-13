@@ -67,7 +67,7 @@ const Badges: React.FC<BadgesProps> = ({ scorePercentage, badgelabel, setIsdownl
               <p className=" underline mt-[30px] flex right-6 pr-4 sm:pr-10 ">Retake Test</p>
             </Link>
           </div>
-          <BadgeModal isOpen={isdownloadOpen} onClose={onClose} />
+          <BadgeModal isOpen={isdownloadOpen} onClose={onClose} badgeType={badgelabel} score={scorePercentage} />
         </div>
       </div>
     </section>

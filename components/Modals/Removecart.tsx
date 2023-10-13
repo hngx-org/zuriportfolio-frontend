@@ -10,12 +10,15 @@ interface RemoveCartProps {
 }
 
 const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, productId }) => {
-  const [modalOpen, setModalOpen] = useState(true);
+  // const [modalOpen, setModalOpen] = useState(true);
 
-  if (modalOpen) {
+  // if (modalOpen) {
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-        <div id="modal" className="bg-white-100 p-4 rounded-lg w-488 h-415 text-center animate-slideIn">
+        <div
+          id="modal"
+          className="bg-white-100 p-4 rounded-lg w-[90%] md:w-[50%] lg:w-[35%] h-415 text-center animate-slideIn"
+        >
           <svg
             onClick={closeModal}
             className="ml-auto mr-1 mt-1"
@@ -77,8 +80,8 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, produ
         </div>
       </div>
     );
-  }
-  return null;
+  // }
+  // return null;
 };
 
 export default RemoveCart;
