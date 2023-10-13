@@ -14,7 +14,7 @@ interface Draft {
   createdAt: string;
 }
 const DraftPage = () => {
-  const { auth } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [draftList, setDraftList] = useState<Draft[]>([]);
 
@@ -38,7 +38,7 @@ const DraftPage = () => {
           method: 'GET',
           headers: {
             Accept: 'application/json',
-            // 'Authorization': `Token ${auth?.token}`,
+            // 'Authorization': `Token ${user?.token}`,
           },
         });
 
@@ -68,7 +68,7 @@ const DraftPage = () => {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: `Token ${auth?.token}`,
+          Authorization: `Token ${user?.token}`,
           'Content-Type': 'application/json',
           'X-CSRFTOKEN': 'jRc2ZpP1CpofaUIH2PzCuLJv7ZXzwX478mGc0KeehQACbHBm9aR12Err7zG9xKs1',
         },
@@ -112,7 +112,7 @@ const DraftPage = () => {
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
-          Authorization: `Token ${auth?.token}`,
+          Authorization: `Token ${user?.token}`,
           'Content-Type': 'application/json',
           'X-CSRFTOKEN': 'jRc2ZpP1CpofaUIH2PzCuLJv7ZXzwX478mGc0KeehQACbHBm9aR12Err7zG9xKs1',
         },
