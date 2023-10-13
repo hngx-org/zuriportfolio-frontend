@@ -13,7 +13,7 @@ import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUp
 import { useRouter } from 'next/router';
 import AuthContext from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
-import z, { objectInputType } from 'zod';
+import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 
 function LoginForm() {
