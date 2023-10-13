@@ -64,10 +64,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     console.log('User work experience', workExperience);
   };
 
-  useEffect(() => {
-    getUserWorkExperience();
-  }, []);
-
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
   const handleEditExperience = async (id: string) => {
@@ -133,7 +129,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       console.log(error);
     }
   };
-  const userId = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -176,6 +172,10 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   useEffect(() => {
     getAllWorkExperience();
   }, []);
+
+  useEffect(() => {
+    console.log('User work experience ', workExperiences);
+  }, [workExperiences]);
 
   return (
     <WorkExperienceModalContext.Provider
