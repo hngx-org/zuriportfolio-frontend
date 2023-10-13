@@ -13,6 +13,19 @@ export interface MainLayoutProps {
   showTopbar?: boolean;
   showFooter?: boolean;
 }
+
+export interface ProductData {
+  id: string;
+  name: string;
+  discount_price: string;
+  description: string;
+  price: string;
+  rating: Number;
+  user: string;
+  quantity: Number;
+  shop: string;
+}
+
 export interface Education {
   id: number;
   degree: string;
@@ -405,11 +418,12 @@ export interface filterProp {
 }
 
 export type SectionModalProps = {
-  openButtonText: string;
-  heading: string;
-  paragraph: string;
-  primaryText: string;
-  onClickAction: () => void;
+  openButtonText?: string;
+  heading?: string;
+  paragraph?: string;
+  primaryText?: string;
+  onClickAction?: () => void;
+  sectionToDelete?: string;
 };
 
 export interface PaymentStatusModalProps {

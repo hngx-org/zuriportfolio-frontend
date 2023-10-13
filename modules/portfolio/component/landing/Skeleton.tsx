@@ -14,8 +14,9 @@ type SkeletonProps = {
 };
 
 export const WorkExperience = ({ data }: SkeletonProps) => {
+  // console.log(data);
   return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between  items-start gap-x-10 md:gap-y-0 gap-y-2 mb-6 ">
+    <div className="flex md:flex-row flex-col justify-start md:justify-between  items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6">
       <p className="text-gray-300 font-semibold text-base flex-[2]">
         <span>
           {data?.startMonth} {data?.startYear}
@@ -25,7 +26,7 @@ export const WorkExperience = ({ data }: SkeletonProps) => {
           {data?.endMonth} {data?.endYear}
         </span>
       </p>
-      <div className="flex flex-col mb-4 md:gap-1 flex-[2]">
+      <div className="flex flex-col mb-2 md:gap-1 flex-[2]">
         <h3 className="text-lg font-semibold text-gray-200">{data?.company}</h3>
         <p className="text-base font-manropeL text-brand-green-primary">{data?.role}</p>
       </div>
@@ -36,12 +37,12 @@ export const WorkExperience = ({ data }: SkeletonProps) => {
 
 export const Education = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-2 mb-6 ">
+    <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
       <p className="text-gray-300 font-semibold text-base flex-1">
         <span>{data?.from}</span> - <span>{data?.to}</span>
       </p>
-      <div className="flex flex-col mb-4 md:gap-1 flex-1">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.degree}</h3>
+      <div className="flex flex-col mb-1 md:gap-1 flex-1">
+        <h3 className="text-lg font-semibold text-gray-200">{data?.fieldOfStudy}</h3>
         <p className="text-sm font-manropeL text-gray-300">{data?.school}</p>
       </div>
       <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
@@ -102,15 +103,20 @@ export const Awards = ({ data }: SkeletonProps) => {
 };
 
 export const Project = ({ data }: SkeletonProps) => {
+  const image = data?.img ? (
+    <Image
+      width={0}
+      height={0}
+      src={data?.img}
+      alt="project image "
+      className="w-[290px] aspect-square rounded-xl order-2 md:order-1 border-[1px] border-gray-300 border-opacity-50"
+    />
+  ) : (
+    ''
+  );
   return (
     <div className="flex md:flex-row flex-col gap-4 md:gap-10">
-      <Image
-        width={0}
-        height={0}
-        src={data?.img}
-        alt="project image "
-        className="w-[290px] aspect-square rounded-xl order-2 md:order-1 border-[1px] border-gray-300 border-opacity-50"
-      />
+      {image}
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className="font-semibold text-sm text-gray-400">{data?.description}</p>
@@ -121,8 +127,8 @@ export const Project = ({ data }: SkeletonProps) => {
             </span>
           ))}
         </div>
-        <a className="text-blue-100 font-semibold" href={data?.link}>
-          View project
+        <a className="text-blue-100 font-semibold" href={data?.url}>
+          Link to project
         </a>
       </div>
     </div>
