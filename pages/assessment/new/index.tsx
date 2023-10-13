@@ -5,17 +5,27 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
-import { Key } from 'iconsax-react';
 const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
-  const [requestValues, setRequestValues] = useState<{ [Key: string]: string }>({});
+  const [requestValues, setRequestValues] = useState<{ [key: string]: string }>({});
+  const [headInput, setHeadInput] = useState('');
 
   const handleClick = (button: string) => {
     setActive(button);
   };
-  //getting input values
-  const publishAssesment = () => {
-    console.log(requestValues);
+
+  const handleInput = (value: string) => {
+    setHeadInput(value);
+  };
+
+  const publishAssessment = () => {
+    // Merge headInput with other requestValues
+    const mergedValues = {
+      ...requestValues,
+      headInput: headInput,
+    };
+    setRequestValues(mergedValues);
+    console.log(requestValues.headInput);
   };
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
@@ -44,7 +54,7 @@ const CreateAssessment = () => {
             <Button className="p-4 border-2 border-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100">
               Save To Drafts
             </Button>
-            <Button className="p-3 text-white-100 text-center" onClick={publishAssesment}>
+            <Button className="p-3 text-white-100 text-center" onClick={publishAssessment}>
               Publish Assesments
             </Button>
           </div>
@@ -73,7 +83,7 @@ const CreateAssessment = () => {
           <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0] ">
             {active === 'button1' ? (
               <>
-                <Edithead />
+                <Edithead onInputChange={handleInput} />
                 <div className="pt-4 ">
                   <CreateTemplate
                     dataValues={(dataContent) => {

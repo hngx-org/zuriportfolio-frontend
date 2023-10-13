@@ -1,7 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { Edit } from 'iconsax-react';
-const Edithead = () => {
+
+interface EditheadProps {
+  onInputChange?: (value: string) => void;
+}
+
+const Edithead: React.FC<EditheadProps> = ({ onInputChange }) => {
   const [disable, setDisable] = useState(true);
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    onInputChange && onInputChange(newValue);
+  };
+
   return (
     <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
       <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
@@ -13,6 +26,8 @@ const Edithead = () => {
             className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
             placeholder="Untitled Assessment"
             disabled={disable}
+            value={inputValue}
+            onChange={handleInputChange}
           />
         </div>
         <div>
