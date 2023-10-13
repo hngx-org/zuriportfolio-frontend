@@ -134,7 +134,7 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
-​
+
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
@@ -149,6 +149,7 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
+
 ​
               {section?.id === 'projects' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
@@ -164,6 +165,7 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
+
             </React.Fragment>
           );
         })}

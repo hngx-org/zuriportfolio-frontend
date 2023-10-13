@@ -1,34 +1,38 @@
-import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
-import jwtDecode from 'jwt-decode';
+import React, { ChangeEvent, useState, useRef, useContext } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
-import { verfiy2FA } from '../../http';
-import isAuthenticated from '../../helpers/isAuthenticated';
+import { useAuth } from '../../context/AuthContext';
+import { verfiy2FA  } from '../../http';
+import Router, { useRouter } from 'next/router';
+import { notify } from '@ui/Toast';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
 function Code2FALogic() {
+  const router = useRouter();
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-  interface DecodedToken {
-    email: string;
-  }
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-
-    if (token !== null) {
-      const decodedToken = jwtDecode(token) as DecodedToken;
-
-      if (isAuthenticated(token)) {
-        const userEmail = decodedToken.email;
-
-        console.log(`User's email: ${userEmail}`);
-      } else {
-        console.log('User is not authenticated.');
-      }
-    } else {
-      console.log('Token is null.');
+  const auth = useAuth();
+  const email = auth.email;
+  const mutateFn = useAuthMutation(verfiy2FA,  {
+    onSuccess: (data) => {
+     if(data.response.data.status && data.response.data.status == "Error") {
+      setDigits(['', '', '', '', '', '']);
+      notify({
+          message: data.response.data?.message || "Error! Invalid code",
+          type: 'error',
+        });
+     } else {
+      notify({
+          message: '2FA verified',
+          type: 'success',
+        });
+      router.push("/");
+     }
     }
-  }, []);
+  });
+
 
   function handlePaste(e: React.ClipboardEvent<HTMLInputElement>, index: number) {
     e.preventDefault();
@@ -94,24 +98,22 @@ function Code2FALogic() {
     }
   };
 
-  const loginFn = useAuthMutation(verfiy2FA);
-  const handleSubmit = (event: ChangeEvent<HTMLInputElement>): void => {
-    event.preventDefault();
-    const Token = localStorage.getItem('authToken');
-    if (Token !== null) {
-      const decodedToken = jwtDecode(Token) as DecodedToken; // Assuming you've defined DecodedToken
-      const email = decodedToken.email;
-      const token = digits.toString();
-      loginFn.mutate({ email, token });
-    } else {
-      console.log('Token is null. Unable to proceed.');
-    }
-  };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  event.preventDefault();
+  const token = digits.toString();
+  setLoading(true);
+   setTimeout(() => {
+    mutateFn.mutate({ email: email as string, token: token as string });
+    setLoading(false);
+  }, 700);
+}
 
   const handleResend = (event: ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
   };
-  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend };
+
+
+  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend, loading};
 }
 
 export default Code2FALogic;

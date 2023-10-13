@@ -1,17 +1,28 @@
 import React from 'react';
-
 import Image from 'next/image';
-
 import Button from '@ui/Button';
-
 import { VerificationLayoutProps } from '../../@types';
 import VerificationLayout from './component/verificationLayout';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { resendVerification } from '../../http/auth';
+import { useAuth } from '../../context/AuthContext';
 
 type Props = {
   handleClick: VerificationLayoutProps['handleClick'];
 };
 
 function VerificationLinkSent({ handleClick }: Props) {
+  const { email } = useAuth();
+
+  const { mutate, isLoading } = useAuthMutation(resendVerification, {
+    onSuccess: (data) => console.log(data),
+    onError: (error: any) => console.log(error),
+  });
+
+  const handleVerificationLink = () => {
+    mutate({ email: email });
+  };
+
   return (
     <VerificationLayout>
       <Image
@@ -25,11 +36,11 @@ function VerificationLinkSent({ handleClick }: Props) {
         <h1 className=" font-manropeEB text-[24px] md:text-[36px] text-center">Verification Link Sent</h1>
         <p className=" font-manropeL text-[12px] md:text-[16px] text-center md:w-[90%] mx-auto text-[#737876] md:text-[#000] py-[16px]  lg:py-[32px]">
           We&apos;ve sent an email to your{' '}
-          <span className=" font-manropeEB text-[#003A1B] text-[14px] md:text-[16px]">www.sunmicah01@gmail.com</span>{' '}
-          with a verification link.
+          <span className=" font-manropeEB text-[#003A1B] text-[14px] md:text-[16px]">{email}</span> with a verification
+          link.
         </p>
 
-        <Button href="/auth/2fa" className=" w-full rounded-md h-[60px] text-[16px] font-manropeB">
+        <Button onClick={handleVerificationLink} className=" w-full rounded-md h-[60px] text-[16px] font-manropeB">
           Resend Verification Link
         </Button>
 
@@ -38,12 +49,13 @@ function VerificationLinkSent({ handleClick }: Props) {
             Link expires in <span className=" font-manropeB text-[#003A1B]">4:23</span>
           </p>
 
-          <button
+          {/* Uncomment out when change email endpoint is working */}
+          {/* <button
             onClick={handleClick}
             className=" font-manropeL text-left sm:text-right text-[10px] md:text-brand-green-primary text-[#737876] "
           >
             Incorrect email address? Change email address
-          </button>
+          </button> */}
         </div>
       </div>
     </VerificationLayout>
