@@ -43,31 +43,6 @@ const CreateAssessment = () => {
     setListupdate(true);
   };
 
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch('https://piranha-assessment.onrender.com/api/admin/assessments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newobject),
-      });
-      console.log(response);
-      if (response.ok) {
-        console.log('data submitted successfully.');
-      } else {
-        console.error('Failed to submit data.');
-        console.log(JSON.stringify(newobject));
-      }
-    } catch (error) {
-      console.error('An error occurred while submitting data:', error);
-    }
-  };
-
-  if (listupdate === true) {
-    handleSubmit();
-  }
-
   return (
     <ToPushContext.Provider value={[newobject, setObject]}>
       <UpdateContext.Provider value={[listupdate, setListupdate]}>
