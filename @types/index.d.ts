@@ -230,7 +230,7 @@ export type CartItemProps = {
   productId: string;
   productImage: string;
   productTitle: string;
-  proudctDescription?: string;
+  productDescription: string;
   productSize?: string;
   productColor?: string;
   productSeller: string;
@@ -254,6 +254,7 @@ export type ViewedProductCardProps = {
 export interface ActivityCardProps {
   name: string;
   item: string;
+  isPage: boolean;
 }
 
 export interface MetricCardProps {
@@ -593,4 +594,11 @@ export interface UserInfo {
   skills: string[];
   tag: string;
   track: string;
+}
+
+interface ChartProps {
+  isBarChart: boolean;
+  data: any[];
+  isFetching: boolean;
+  isFetched: boolean;
 }
