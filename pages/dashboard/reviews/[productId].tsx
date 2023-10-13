@@ -1,13 +1,14 @@
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import Container from '@modules/auth/component/Container/Container';
-import Review from '@modules/dashboard/component/reviews/review-page/Review';
+import MainLayout from '../../../components/Layout/MainLayout';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
-import { ratingData, reviewData } from '../../../../db/reviews';
-import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
-import MainLayout from '../../../../components/Layout/MainLayout';
+import Review from '@modules/dashboard/component/reviews/review-page/Review';
+import Filter from '@modules/dashboard/component/reviews/review-page/ReviewFilter';
+import PaginationBar from '../../../modules/dashboard/component/order/PaginationBar';
+import { ratingData, reviewData } from '../../../db/reviews';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 // import { useRouter } from 'next/router';
@@ -75,9 +76,9 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
-  const id = context.params!.id;
+  const productId = context.params!.id;
   const res = await fetch(
-    `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=1&pageSize=10`,
+    `https://team-liquid-repo.onrender.com/api/shop/${productId}/reviews?pageNumber=1&pageSize=10`,
   );
   const data = await res.json();
   console.log(data.data);
@@ -113,53 +114,37 @@ const ProductDetails: NextPage<Props> = (props: any) => {
     let percentage = (Number(number) / totalRatings) * 100;
     return Math.floor(percentage);
   }
+
   return (
-    <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar={true}>
-      <div className="max-w-[1240px] hidden md:block mx-auto my-0">
-        <CategoriesNav
-          navItems={[
-            ' Design & Graphics',
-            ' Development & Programming',
-            ' Content Creation',
-            ' Digital Arts & Media',
-            ' Audio & Sound',
-            ' Photography',
-            'Writing & Copywriting',
-            'Video & motion',
-            'Data & Analytics',
-            'Marketing & Advertising',
-            'eCommerce & Business',
-            'Gaming & Entertainment',
-            'Virtual Reality & Augmented Reality',
-            'e-Books',
-          ]}
-        />
-      </div>
+    <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
         <div className="flex flex-col">
-          <div className="flex items-center justify-center">
-            <div className="mb-10 items-center justify-center">
-              <div className="lg:text-2xl lg:leading-8 text-custom-color31 font-manropeB lg:font-semibold text-[22px] leading-7 ">
-                <p>Customer Feedback</p>
+          <div className=" flex items-center justify-center">
+            <div className="flex flex-col w-[89%] mb-10 items-center justify-center">
+              <div className="flex justify-start items-center w-full">
+                <Link href="/dashboard/reviews" className="flex flex-row justify-start items-center">
+                  <Image src="/assets/reviews/return-icon.svg" width={22} height={22} alt="return" />
+                  <p className=" m-0 ml-1">Customer Feedback</p>
+                </Link>
               </div>
-              <div className="lg:text-base text-sm lg:tracking-tight  py-5 lg:leading-6 leading-5">
-                <p>VERIFIED RATINGS (173)</p>
-              </div>
-              <div className="flex flex-col md:flex-row md:items-start items-center justify-center">
-                <div className="md:flex flex-col items-center hidden  py-4 ">
-                  <RatingBar avgRating={3.0} />
-                  <div className=" my-5">
+              <div className="flex flex-col  mt-14 md:flex-row md:items-start items-center justify-center">
+                <div className=" flex md:flex-col flex-row  p-4 ">
+                  <RatingBar avgRating={4.2} />
+                  <div className=" mt-7">
                     {ratingData.map((data, index) => (
                       <RatingCard key={index} rating={data.rating} users={data.users} />
                     ))}
                   </div>
                 </div>
-                <div className="md:mx-16 mx-0 flex flex-col">
-                  <div className="">
-                    {props.zuri.slice(0, 1).map((data: any, index: any) => (
+                <div className="= flex flex-col ml-10">
+                  <div className="w-max">
+                    <Filter review={76} rating={195} />
+                  </div>
+                  <div className="mt-6 ">
+                    {props.zuri.map((data: any, index: any) => (
                       <Review
+                        reviewId={data.reviewId}
                         key={index}
-                        reviewId={data.productId}
                         buyerName={data.customerName}
                         mainDate={data.createdAt}
                         adminDate={data.replies.createAt}
@@ -169,27 +154,12 @@ const ProductDetails: NextPage<Props> = (props: any) => {
                         shopName={data.replies.name}
                       />
                     ))}
-                    <div className="flex items-center w-48">
-                      <Link href="product-details" className="flex items-center">
-                        <p className=" font-bold font-manropeL lg:text-base lg:leading-6 text-green-600 tracking-wide cursor-pointer items-center flex p-0 text-xs leading-6">
-                          See more reviews
-                        </p>
-                        <div className="lg:w-6 w-4 mx-0 lg:h-6 h-4">
-                          <Image
-                            src="/assets/reviews/arrow-right.svg"
-                            width={24}
-                            height={24}
-                            alt="back"
-                            className="p-0  "
-                          />
-                        </div>
-                      </Link>
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <PaginationBar pageLength={1} currentPage={0} changeCurrentPage={() => 1} />
         </div>
       </Container>
     </MainLayout>

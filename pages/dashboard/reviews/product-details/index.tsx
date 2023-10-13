@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import empty from '../../../../public/assets/reviews/Table.png';
 import Container from '@modules/auth/component/Container/Container';
 import MainLayout from '../../../../components/Layout/MainLayout';
@@ -11,9 +10,10 @@ import SellerReview from '@modules/dashboard/component/reviews/review-page/Selle
 import Filter from '@modules/dashboard/component/reviews/review-page/ReviewFilter';
 import PaginationBar from '../../../../modules/dashboard/component/order/PaginationBar';
 import { ratingData, reviewData } from '../../../../db/reviews';
+// import { useRouter } from 'next/router';
 
 export default function UserReview() {
-  const router = useRouter();
+  // const router = Router();
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar={true}>
@@ -22,7 +22,10 @@ export default function UserReview() {
           <div className=" flex items-center justify-center">
             <div className="flex flex-col w-[89%] mb-10 items-center justify-center">
               <div className="flex justify-start items-center w-full">
-                <div className="flex flex-row justify-start items-center cursor-pointer" onClick={() => router.back()}>
+                <div
+                  className="flex flex-row justify-start items-center cursor-pointer"
+                  // onClick={() =>router.back()}
+                >
                   <Image src="/assets/reviews/return-icon.svg" width={22} height={22} alt="return" />
                   <p className=" m-0 ml-1">The Complete Ruby on Rails Developer Course</p>
                 </div>
@@ -53,9 +56,11 @@ export default function UserReview() {
                     <div className="mt-6 ">
                       {reviewData.map((data, index) => (
                         <SellerReview
+                          reviewId={''}
                           key={index}
                           buyerName={data.buyerName}
                           adminDate={data.adminDate}
+                          mainDate={data.adminDate}
                           review={data.review}
                           noOfStars={data.noOfStars}
                           shopReply={data.shopReply}
