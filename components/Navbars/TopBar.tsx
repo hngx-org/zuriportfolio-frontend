@@ -14,6 +14,8 @@ import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 import MobileNav from '@modules/dashboard/component/MobileNav';
 import { ProductResult } from '../../@types';
+import { useAuth } from '../../context/AuthContext';
+import isAuthenticated from '../../helpers/isAuthenticated';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -40,6 +42,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     router.pathname === path
       ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
       : 'text-gray-600 text-base font-semibold  leading-normal tracking-tight';
+
+  useEffect(() => {
+    const token = localStorage.getItem('zpt');
+    const isLoggedIn = isAuthenticated(token as string);
+    if (isLoggedIn) {
+      setAuth(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
