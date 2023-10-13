@@ -68,7 +68,7 @@ export const removeFromCart = async (productId: string,token: string) => {
 
 export const getRecentlyViewedProducts = async (user_id: string, token: string) => {
   try {
-    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${user_Id}`;
+    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${user_id}`;
     const response = await $http.get(apiUrl, {
       headers: {
         'Authorization': `Bearer ${token}`
