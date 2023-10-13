@@ -14,22 +14,19 @@ export default function CartItem({
   productSize,
   productColor,
   productSeller,
-  proudctDescription,
+  productDescription,
   productPrice,
   removeHandler,
 }: CartItemProps & { removeHandler: (productId: string) => void }) {
   const [modalClosed, setModalClosed] = useState('hidden');
-
+  
   const removeItem = () => {
     // removeFromCart()
     setModalClosed('block');
-    console.log('removed');
   };
 
   const closeModal = () => {
-    console.log('clicked');
-    setModalClosed('hidden');
-    console.log('hidden set');
+    setModalClosed('hidden');   
   };
 
   return (
@@ -43,7 +40,7 @@ export default function CartItem({
         </div>
         <div className="flex flex-col md:w-2/4">
           <h3 className="text-2xl font-manropeEB">{productTitle}</h3>
-          <p className="text-[#6c7983] lg:w-[350px] md:mt-4 leading-6 font-manropeL">{proudctDescription}</p>
+          <p className="text-[#6c7983] lg:w-[350px] md:mt-4 leading-6 font-manropeL">{productDescription}</p>
           <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">${productPrice}</p>
         </div>
         <div className="md:mt-3 md:ml-auto md:flex md:items-center">
