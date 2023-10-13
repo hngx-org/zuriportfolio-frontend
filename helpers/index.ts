@@ -74,15 +74,14 @@ export const formatNumberWithCommas = (value: number): string | null => {
   return new Intl.NumberFormat('en-US').format(value);
 };
 
-
 export const getSummary = (items: any[]) => {
   let sum = 0;
   items.map((item) => (sum += Number(item.productPrice)));
-  return sum
-}
+  return sum;
+};
 
 export const getDiscountPercentage = (costPrice: string, sellingPrice: string) => {
-    const diffrence = Number(costPrice) - Number(sellingPrice);
-    const discountPercentage = (diffrence / Number(costPrice)) * 100;
-    return discountPercentage
-}
+  const diffrence = Number(costPrice) - Number(sellingPrice);
+  const discountPercentage = (diffrence / Number(costPrice)) * 100;
+  return discountPercentage;
+};

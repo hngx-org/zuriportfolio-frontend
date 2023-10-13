@@ -4,33 +4,29 @@ import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard'
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, RecentlyViewedProductProp, ViewedProductCardProps } from '../../@types';
-import { getRecentlyViewedProducts, getUserCart, removeFromCart } from '../../http';
-import  { useAuth } from '../../context/AuthContext';
+import { getUserCart, removeFromCart } from '../../http';
+import { useAuth } from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 import CartPageSkeleton from '@modules/shop/component/cart/checkout/CartPageSkeleton';
 import { getDiscountPercentage, getSummary } from '../../helpers';
 
 export default function Cart() {
+  const { auth } = useAuth();
 
-  const {auth} = useAuth()
-  
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedProductProp[]>([]);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
-  const [isLoading,setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
-
-  
   useEffect(() => {
-      async function cartFetch() {
-        const carts = await getUserCart(auth?.token as string)
-        const recentlyViewed = await getRecentlyViewedProducts(auth?.user.id as string,auth?.token as string);
-        setRecentlyViewed(recentlyViewed)
-        setCartItems(carts)
-        setIsLoading(false)
-      }
-      cartFetch()
-  },[])
-
+    async function cartFetch() {
+      const carts = await getUserCart(auth?.token as string);
+      // const recentlyViewed = await getRecentlyViewedProducts(auth?.user.id as string,auth?.token as string);
+      setRecentlyViewed(recentlyViewed);
+      setCartItems(carts);
+      setIsLoading(false);
+    }
+    cartFetch();
+  }, []);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
     let id = event.currentTarget.id;
@@ -40,26 +36,28 @@ export default function Cart() {
 
   function removeProductHandler(productId: string) {
     let cartProductsItems = cartItems.filter((product) => product.id != productId);
-    removeFromCart(productId,auth?.token as string);
+    removeFromCart(productId, auth?.token as string);
     setCartItems(cartProductsItems);
   }
-  
 
-  const cartProductItems = cartItems.length > 0 ? cartItems.map((cartItem, index) => (
-    <CartItem
-      key={index}
-      id={cartItem.id}
-      productId={cartItem.productId}
-      productColor={cartItem.productColor}
-      productTitle={cartItem.productTitle}
-      productDescription={cartItem.productDescription}
-      productImage={cartItem.productImage}
-      productSeller={cartItem.productSeller}
-      productSize={cartItem.productSize}
-      productPrice={cartItem.productPrice}
-      removeHandler={removeProductHandler}
-    />
-  )) : null;
+  const cartProductItems =
+    cartItems.length > 0
+      ? cartItems.map((cartItem, index) => (
+          <CartItem
+            key={index}
+            id={cartItem.id}
+            productId={cartItem.productId}
+            productColor={cartItem.productColor}
+            productTitle={cartItem.productTitle}
+            productDescription={cartItem.productDescription}
+            productImage={cartItem.productImage}
+            productSeller={cartItem.productSeller}
+            productSize={cartItem.productSize}
+            productPrice={cartItem.productPrice}
+            removeHandler={removeProductHandler}
+          />
+        ))
+      : null;
 
   const recentlyViewedProducts = recentlyViewed.map((product, index) => (
     <ProductCard
@@ -67,8 +65,8 @@ export default function Cart() {
       id={product.product.id}
       productImage={product.product.image_url}
       productPrice={Number(product.product.price)}
-      discountPercentage={getDiscountPercentage(product.product.price,product.product.discount_price) }
-      productRating={product.product.rating ?? (index % 5) + 1 }
+      discountPercentage={getDiscountPercentage(product.product.price, product.product.discount_price)}
+      productRating={product.product.rating ?? (index % 5) + 1}
       productSeller={product.product.shop.name}
       productTitle={product.product.name}
       closeHandler={closeHandler}
@@ -77,37 +75,37 @@ export default function Cart() {
 
   return (
     <MainLayout activePage="home" showDashboardSidebar={false} showTopbar>
-      { isLoading ? 
+      {isLoading ? (
         <CartPageSkeleton></CartPageSkeleton>
-      :
+      ) : (
         <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
-        {cartItems.length > 0 ? (
-          <>
-            <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
-              <div className="w-full flex flex-col justify-center md:w-full lg:justify-normal lg:w-4/5 ">
-                <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
-                {cartProductItems}
-              </div>
-              <div className="flex md:flex-none justify-center md:mx-0">
-                <Summary discount={2} sum={getSummary(cartItems)} />
-              </div>
-            </section>
+          {cartItems.length > 0 ? (
+            <>
+              <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
+                <div className="w-full flex flex-col justify-center md:w-full lg:justify-normal lg:w-4/5 ">
+                  <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
+                  {cartProductItems}
+                </div>
+                <div className="flex md:flex-none justify-center md:mx-0">
+                  <Summary discount={2} sum={getSummary(cartItems)} />
+                </div>
+              </section>
 
-            <section className="w-full flex flex-col mt-[50px] mb-[10%]">
-              <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
-              <div
-                className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden items-center lg:items-stretch lg:justify-normal 
+              <section className="w-full flex flex-col mt-[50px] mb-[10%]">
+                <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
+                <div
+                  className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden items-center lg:items-stretch lg:justify-normal 
                 md:flex-row md:justify-center md:flex-wrap md:gap-x-4 gap-y-4 lg:gap-x-4 mt-4 "
-              >
-                {recentlyViewedProducts}
-              </div>
-            </section>
-          </>
-        ) : (
-          <EmptyCart></EmptyCart>
-        )}
+                >
+                  {recentlyViewedProducts}
+                </div>
+              </section>
+            </>
+          ) : (
+            <EmptyCart></EmptyCart>
+          )}
         </main>
-      }
+      )}
     </MainLayout>
   );
 }
