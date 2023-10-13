@@ -8,6 +8,7 @@ import Pagination from '../../../view-components/super-admin/pagination';
 import { useRouter } from 'next/router';
 import { getAllProducts } from '../../../../http';
 import { DeletedProducts } from '../../../../@types';
+import Loader from '@modules/portfolio/component/landing/Loader';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -16,11 +17,13 @@ const SanctionedProducts = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const handleSubmit = (searchText: string) => {
-    const filteredProduct: DeletedProducts[] = sanctionedProducts.filter((product) =>
-      product.product_name.toLowerCase().includes(searchText.toLowerCase()),
+    const filteredProducts: DeletedProducts[] = sanctionedProducts.filter(
+      (product) =>
+        product.product_name.toLowerCase().includes(searchText.toLowerCase()) &&
+        product.product_status.toLowerCase().includes('sanctioned'),
     );
     setSearchVal(searchText);
-    setFilteredProducts(filteredProduct);
+    setFilteredProducts(filteredProducts);
   };
 
   useEffect(() => {
@@ -107,14 +110,16 @@ const SanctionedProducts = () => {
             {isLoading ? (
               <tr>
                 {' '}
-                <td className="absolute md:px-[40%] px-[20%]">Is loading</td>
+                <td className="absolute md:px-[40%] px-[20%]">
+                  <Loader />
+                </td>
               </tr>
             ) : filteredProduct.length == 0 ? (
               <tr className="absolute md:px-[40%] px-[20%]">
                 <td>No Sanctioned products found!</td>
               </tr>
             ) : (
-              sanctionedProducts.map((product, index) => (
+              filteredProduct.map((product, index) => (
                 <tr
                   className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                   key={index}
@@ -140,7 +145,7 @@ const SanctionedProducts = () => {
                   <td className="hidden md:table-cell text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
                     <div className="hidden mx-auto bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max">
                       <span className="inline-block w-2 h-2 bg-yellow-600 rounded-full"></span>
-                      <span className="capitalize">{product.admin_status}</span>
+                      <span className="capitalize">{product.product_status}</span>
                     </div>
                   </td>
 
