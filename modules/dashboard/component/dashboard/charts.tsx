@@ -26,14 +26,14 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     queryKey: ['sales-reports'],
     enabled: true,
   });
-  console.log(querySalesReportData);
+  // console.log(querySalesReportData);
 
   const { data: queryStoreTrafficData } = useQuery({
     queryFn: () => fetchStoreTraffic(),
     queryKey: ['store-traffic'],
     enabled: true,
   });
-  console.log(queryStoreTrafficData);
+  // console.log(queryStoreTrafficData);
 
   const updateChartData = (index: number) => {
     switch (index) {
