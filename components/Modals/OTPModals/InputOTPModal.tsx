@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Button from '@ui/Button';
 import PaymentStatusModal from './PaymentStatusModal';
 import checkedPayment from '../../../public/assets/images/check-1.png';
+import SubmissionSuccess from './../../../modules/assessment/modals/SubmissionSuccess';
 
 interface OTPModal {
   onClose: () => void;
@@ -89,7 +90,8 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
     }
   };
 
-  const handleContinueClick = () => {
+  const handleOTPSubmission: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
     // Join the OTP array to get the entered OTP
     const enteredOTP = otp.join('');
 
@@ -133,20 +135,22 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
 
   const renderOTP = otp.map((_, index) => {
     return (
-      <React.Fragment key={index}>
-        <input
-          ref={(element) => {
-            inputRefs.current[index] = element!;
-          }}
-          type="number"
-          placeholder=""
-          className={otpError ? otpErrorInputClasses : otpInputClasses}
-          onChange={(e) => handleOnChange(e, index)}
-          onKeyDown={(e) => handleOnKeyDown(e, index)}
-          onPaste={(e) => handlePaste(e, index)}
-          value={otp[index]}
-        />
-      </React.Fragment>
+      <form onSubmit={handleOTPSubmission} key={index}>
+        <React.Fragment>
+          <input
+            ref={(element) => {
+              inputRefs.current[index] = element!;
+            }}
+            type="number"
+            placeholder=""
+            className={otpError ? otpErrorInputClasses : otpInputClasses}
+            onChange={(e) => handleOnChange(e, index)}
+            onKeyDown={(e) => handleOnKeyDown(e, index)}
+            onPaste={(e) => handlePaste(e, index)}
+            value={otp[index]}
+          />
+        </React.Fragment>
+      </form>
     );
   });
 
@@ -176,7 +180,7 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
       <div className={otpError ? otpErrorTextClasses : otpTextClasses}>
         <p>A one-time password has been sent to {maskedNumber}. Kindly check and enter below.</p>
       </div>
-      <div className="inline-flex flex-col items-start gap-[16px] max-w-[400px] w-4/5 [@media(max-width:520px)]:items-center">
+      <div className="inline-flex flex-col items-start gap-[16px] max-w-[400px] w-[88%] [@media(max-width:520px)]:items-center">
         <p className="flex items-start font-manropeL text-[16px] not-italic font-semibold leading-[24px] [@media(max-width:400px)]:mt-[20px]">
           Enter OTP
         </p>
@@ -194,7 +198,7 @@ const InputOTPModal = ({ onClose }: OTPModal) => {
       </div>
       <Button
         className="flex w-[313px] h-[56px] px-[16.923px] py-[10.154px] justify-center items-center gap-[13.538px] rounded-[10px] bg-brand-green-primary [@media(max-width:520px)]:w-[200px]"
-        onClick={handleContinueClick}
+        type="submit"
       >
         <p className="text-center font-manropeL text-[22px] not-italic font-semibold text-white leading-[28px]">
           Continue

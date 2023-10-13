@@ -1,19 +1,108 @@
-'use client';
-
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { MetricChartProps, MetricTimelineProps } from '../../../../@types';
-import { metricsChartTimeline, monthNames } from '../../../../db/dashboard';
-import { BarChart, Bar, XAxis, CartesianGrid, LineChart, Line, ResponsiveContainer } from 'recharts';
+import {
+  metricsChartTimeline,
+  twelveMonths,
+  threeMonths,
+  thirtyDays,
+  sevenDays,
+  twentyFourHours,
+} from '../../../../db/dashboard';
+import { fetchSalesReports, fetchStoreTraffic } from '../../../../http/dashboard';
+import Chart from './chart';
 
 export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
+  let data;
   const [timeline, setTimeline] = useState({ active: true, index: 0 });
+  const [chartData, setChartData] = useState(twelveMonths);
+
+  const {
+    data: querySalesReportData,
+    isFetched,
+    isFetching,
+  } = useQuery({
+    queryFn: () => fetchSalesReports(),
+    queryKey: ['sales-reports'],
+    enabled: true,
+  });
+  console.log(querySalesReportData);
+
+  const { data: queryStoreTrafficData } = useQuery({
+    queryFn: () => fetchStoreTraffic(),
+    queryKey: ['store-traffic'],
+    enabled: true,
+  });
+  console.log(queryStoreTrafficData);
+
+  const updateChartData = (index: number) => {
+    switch (index) {
+      case 0:
+        setChartData(twelveMonths);
+        break;
+      case 1:
+        setChartData(threeMonths);
+        break;
+      case 2:
+        setChartData(thirtyDays);
+        break;
+      case 3:
+        setChartData(sevenDays);
+        break;
+      case 4:
+        setChartData(twentyFourHours);
+        break;
+      default:
+        setChartData(twelveMonths);
+        break;
+    }
+    setTimeline({ active: true, index });
+  };
+
+  const numBars = {
+    0: 12,
+    1: 3,
+    2: 30,
+    3: 7,
+    4: 24,
+  }[timeline.index];
+
+  const numBarsAsNumber: number = numBars as number;
+
+  const mockSalesReportData = Array.from({ length: numBarsAsNumber }, (_, i) => {
+    const income: number = Math.floor(Math.random() * 1001) + 500;
+    const timeline: string = chartData[i % chartData.length];
+    return { timeline, income };
+  });
+
+  const mockStoreTrafficData = Array.from({ length: numBarsAsNumber }, (_, i) => {
+    const income1: number = Math.floor(Math.random() * 1001) + 500;
+    const income2: number = Math.floor(Math.random() * 1001) + 500;
+    const timeline: string = chartData[i % chartData.length];
+    return { timeline, income1, income2 };
+  });
+
+  if (isBarChart) {
+    if (querySalesReportData?.timeline) {
+      data = querySalesReportData;
+    } else {
+      data = mockSalesReportData;
+    }
+  } else {
+    if (queryStoreTrafficData?.timeline) {
+      data = queryStoreTrafficData;
+    } else {
+      data = mockStoreTrafficData;
+    }
+  }
+
   return (
     <div className="shadow rounded-md px-5 py-5 space-y-1.5 md:space-y-3">
       <p className="flex items-center justify-between font-light">
         <span className="text-base md:text-lg">{title}</span>
-        <button className="p-1.5 md:p-2 border border-brand-green-disabled rounded-md text-sm md:text-base">
+        {/* <button className="p-1.5 md:p-2 border border-brand-green-disabled rounded-md text-sm md:text-base">
           View report
-        </button>
+        </button> */}
       </p>
       <p className="space-x-2">
         {metricsChartTimeline.map((data, index) => {
@@ -22,48 +111,13 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
               key={index}
               index={index}
               timespan={data.timespan}
-              setTimeline={setTimeline}
+              setTimeline={() => updateChartData(index)}
               active={timeline.active === true && timeline.index === index}
             />
           );
         })}
       </p>
-      <ResponsiveContainer height={250}>
-        {isBarChart ? (
-          <BarChart
-            width={800}
-            height={250}
-            data={salesReportData}
-            margin={{
-              top: 5,
-              right: 20,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid vertical={false} strokeDasharray="1 0" />
-            <XAxis dataKey="month" />
-            <Bar barSize={30} dataKey="income" fill="#CBEAD4" />
-          </BarChart>
-        ) : (
-          <LineChart
-            width={800}
-            height={250}
-            data={storeTrafficData}
-            margin={{
-              top: 5,
-              right: 20,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid vertical={false} strokeDasharray="1 0" />
-            <XAxis dataKey="month" />
-            <Line dot={false} type="monotone" dataKey="income1" stroke="#F1D5BA" strokeWidth={2.5} />
-            <Line dot={false} type="monotone" dataKey="income2" stroke="#E1BD90" strokeWidth={2.5} />
-          </LineChart>
-        )}
-      </ResponsiveContainer>
+      <Chart isBarChart={isBarChart} data={data} isFetching={isFetching} isFetched={isFetched} />
     </div>
   );
 };
@@ -80,24 +134,3 @@ const MetricTimeline = ({ timespan, index, active, setTimeline }: MetricTimeline
     </button>
   );
 };
-
-const salesReportData: { month: string; income: number }[] = [];
-
-for (let i = 0; i < 12; i++) {
-  const income: number = Math.floor(Math.random() * 1001) + 500;
-  const month: string = monthNames[i];
-  salesReportData.push({ month, income });
-}
-// console.log(salesReportData);
-
-const storeTrafficData: { month: string; income1: number; income2: number }[] = [];
-
-for (let i = 0; i < 12; i++) {
-  const income1: number = Math.floor(Math.random() * 1001) + 500;
-  const income2: number = Math.floor(Math.random() * 1001) + 500;
-  const month: string = monthNames[i];
-
-  storeTrafficData.push({ month, income1, income2 });
-}
-
-// console.log(storeTrafficData);

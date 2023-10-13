@@ -67,8 +67,8 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAb
       isCloseIconPresent={false}
       size="lg"
     >
-      <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-5 md:px-10">
-        <div className="flex justify-between border-b-[3px] md:border-b-8 border-brand-green-primary pb-1">
+      <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
+        <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">
           <span className="font-semibold text-lg">About</span>
           <div
             className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"
@@ -77,15 +77,15 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAb
             x
           </div>
         </div>
-        <form className="py-3 px-2 md:p-6" onSubmit={submitAbout}>
+        <form className="py-3 md:pt-7" onSubmit={submitAbout}>
           {!isEditing ? (
             <div className="w-full">
-              <div className="w-full">
-                <label htmlFor="about" className="block mb-2">
+              <div className="w-full px-3">
+                <label htmlFor="about" className="block font-medium mb-2 text-[#444846]">
                   Description
                 </label>
                 <textarea
-                  className={`resize-none overflow-auto border-2 border-solid border-${errorBorder} pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary w-full`}
+                  className={`resize-none overflow-auto border-[1.2px] border-solid border-${errorBorder} py-2 pl-2 text-dark-600 font-normal rounded-lg outline-none focus:border-brand-green-primary w-full`}
                   name="about"
                   id=""
                   rows={4}
@@ -99,17 +99,17 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAb
                     }
                   }}
                 ></textarea>
-                <span className="text-brand-red-primary">{error}</span>
+                <span className="text-brand-red-primary font-normal">{error}</span>
               </div>
             </div>
           ) : (
             <>
-              <span className="text-[#737876] inline-block">{text}</span>
+              <span className="text-[#737876] inline-block font-normal">{text}</span>
             </>
           )}
-          <div className="flex gap-2 flex-col justify-end mt-10">
+          <div className={`flex gap-2 flex-col justify-end mt-8 ${!isEditing ? 'px-3' : 'px-0'}`}>
             {isEditing ? (
-              <div className="flex gap-3 justify-end mb-2 font-medium">
+              <div className="flex gap-3 justify-end mb-5 font-medium">
                 <p onClick={handleEditClick} className="text-blue-300 cursor-pointer">
                   Edit
                 </p>
@@ -120,7 +120,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAb
             ) : (
               ''
             )}
-            <div className="flex justify-end font-medium gap-4 mt-2">
+            <div className="flex justify-end font-medium gap-4 mt-0 md:mt-2">
               <Button intent={'secondary'} size={'sm'} className="w-24 rounded-lg" type="button">
                 Close
               </Button>

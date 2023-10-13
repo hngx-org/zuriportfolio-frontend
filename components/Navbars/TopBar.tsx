@@ -47,11 +47,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         setSearchMobile(false);
       }
       if (searchRef2.current && !searchRef2.current.contains(targetNode)) {
-        setSearchMobile(false);
+        console.log(searchRef2.current);
+        setToggle(false);
       }
     }
 
-    if (authMenu || searchMobile) {
+    if (authMenu || searchMobile || toggle) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -60,7 +61,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [authMenu, searchMobile]);
+  }, [authMenu, searchMobile, toggle]);
 
   return (
     <>
@@ -94,10 +95,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
             <div className=" hidden lg:flex gap-10 items-start">
               <div className="group h flex flex-col ali justify-center items-center gap-1">
-                <Link className={activeLink('/')} href={'/'}>
+                <Link className={activeLink('/explore')} href={'/explore'}>
                   Explore
                 </Link>
-                {router.pathname === '/' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
+                {router.pathname === '/explore' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
               </div>
               <div className=" group flex flex-col ali justify-center items-center gap-1 ">
                 <Link className={activeLink('/marketplace')} href={'/marketplace'}>
@@ -142,11 +143,11 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 >
                   <select
                     id="explore"
-                    className="text-zinc-900 text-base font-normal background-transparent pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
+                    className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
                   bg-opacity-0 hover:cursor-pointer "
                   >
-                    <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
-                    <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
+                    <option className="hover:cursor-pointer bg-white-100">Explore</option>
+                    <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
                   </select>
                   <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                     <div className="w-6 h-6  ">
@@ -190,7 +191,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           {authMenu && (
             <div
               ref={authMenuRef}
-              className="absolute flex flex-col right-0 lg:top-[71px] top-[60px] bg-white-100 shadow-lg z-[60]"
+              className="absolute hidden lg:flex flex-col right-0 lg:top-[71px] top-[60px] bg-white-100 shadow-lg z-[60]"
             >
               <ul>
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
@@ -274,7 +275,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <Cart items={7} />
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
-                  <div className="details ">
+                  <div className="details hidden ">
                     <p className=" font-bold ">John Doe</p>
                     <p className="text-sm ">Zuri Team</p>
                   </div>
@@ -312,9 +313,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           toggler={handleToggle}
           handleAuthMenu={handleAuthMenu}
           auth={auth}
-        >
-          {props.showDashBorad && <MobileNav active={props.activePage} />}
-        </MenuUI>
+          refMenu={searchRef2}
+        />
+
         {/* Search Mobile Nav */}
         {searchMobile && (
           <div className="absolute min-h-screen lg:hidden bg-white-610 right-0 left-0 top-20">
@@ -345,11 +346,11 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   >
                     <select
                       id="explore"
-                      className="text-zinc-900 text-base font-normal background-transparent pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
-                  bg-opacity-0 hover:cursor-pointer "
+                      className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
+                  bg-opacity-0 hover:cursor-pointer  "
                     >
-                      <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
-                      <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
+                      <option className="hover:cursor-pointer bg-white-100 ">Explore</option>
+                      <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
                     </select>
                     <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                       <div className="w-6 h-6  ">
@@ -372,7 +373,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
       </nav>
-      <div className="mb-24"></div>
+      <div className="mb-32"></div>
     </>
   );
 
@@ -464,7 +465,6 @@ function MenuUI({
   auth,
   handleAuthMenu,
   authMenu,
-  children,
 }: {
   toggle?: boolean;
   toggler: () => void;
@@ -473,7 +473,7 @@ function MenuUI({
   auth?: boolean;
   handleAuthMenu: () => void;
   authMenu?: boolean;
-  children: React.ReactNode;
+  refMenu?: any;
 }) {
   const router = useRouter();
   const activeLink = (path: string) =>
@@ -484,11 +484,11 @@ function MenuUI({
   // JSX Return
   return (
     <nav
-      className={`menu lg:hidden bg-white-100 min-h-[100dvh] absolute top-0 left-0 right-0 ${
+      className={`menu lg:hidden bg-white-610 min-h-[100dvh] absolute top-0 left-0 right-0 ${
         toggle ? 'left-0' : 'left-[-300dvw] hidden'
       }`}
     >
-      <div className="flex justify-between px-4 py-6 border-[#EBEEEF] border-b-[1px] ">
+      <div className="flex justify-between px-4 py-6 bg-white-100 border-[#EBEEEF] border-b-[1px] ">
         <svg xmlns="http://www.w3.org/2000/svg" width="126" height="24" fill="none" viewBox="0 0 126 24">
           <path
             fill="#009254"
@@ -497,13 +497,13 @@ function MenuUI({
         </svg>
         <MenuIcon toggle={toggle} style="lg:hidden" toggler={toggler} />
       </div>
-      <ul className="p-6 flex gap-6 flex-col place-items-start">
+      <ul className="p-6 flex gap-6 flex-col place-items-start bg-white-100">
         <li className=" flex flex-col lg:hidden gap-5 ">
           <div className="group h flex flex-col ali justify-center gap-1">
-            <Link className={activeLink('/')} href={'/'}>
+            <Link className={activeLink('/explore')} href={'/explore'}>
               Explore
             </Link>
-            {router.pathname === '/' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            {router.pathname === '/explore' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
           <div className=" group flex flex-col ali justify-center  gap-1 ">
             <Link className={activeLink('/marketplace')} href={'/marketplace'}>
@@ -512,7 +512,59 @@ function MenuUI({
             {router.pathname === '/marketplace' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
         </li>
-        {children}
+
+        {auth && (
+          <div className="mt-4 flex flex-col items-baseline gap-6 w-[100%]">
+            <div className=" group flex flex-col  justify-center  gap-1 ">
+              <Link className={activeLink('/profile')} href={'/View Live Profile'}>
+                View Live Profile
+              </Link>
+              {router.pathname === '/profile' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/shop')} href={'/shop'}>
+                Your Shop
+              </Link>
+              {router.pathname === '/shop' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/dashboard')} href={'/dashboard'}>
+                Customer Dashboard
+              </Link>
+              {router.pathname === '/dashboard' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/portfolio')} href={'/portfolio'}>
+                Manage Portfolio
+              </Link>
+              {router.pathname === '/portfolio' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/assessments')} href={'/assessments'}>
+                Assessments & Badges
+              </Link>
+              {router.pathname === '/assessments' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/settings')} href={'/settings'}>
+                Settings
+              </Link>
+              {router.pathname === '/settings' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <Link
+              className="rounded-lg relative px-4 flex items-center justify-center gap-5 h-[48px] font-manropeB focus:shadow-brand-green-shd   border-solid text-base py-3  border-0 bg-pink-50 text-[#FF2E2E] w-[100%]"
+              href="/"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" fill="none" viewBox="0 0 25 24">
+                <g fill="#FF2E2E">
+                  <path d="M11.5 7h2v7h-2V7zm0 8h2v2h-2v-2z"></path>
+                  <path d="M22.207 7.293l-5-5A.996.996 0 0016.5 2h-8a.996.996 0 00-.707.293l-5 5A.996.996 0 002.5 8v8c0 .266.105.52.293.707l5 5A.997.997 0 008.5 22h8c.266 0 .52-.105.707-.293l5-5A.997.997 0 0022.5 16V8a.996.996 0 00-.293-.707zM20.5 15.586L16.086 20H8.914L4.5 15.586V8.414L8.914 4h7.172L20.5 8.414v7.172z"></path>
+                </g>
+              </svg>
+              Sign Out
+            </Link>
+          </div>
+        )}
         {!auth && (
           <>
             <Button

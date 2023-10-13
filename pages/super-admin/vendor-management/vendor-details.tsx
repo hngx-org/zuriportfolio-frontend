@@ -23,6 +23,13 @@ function VendorDetails() {
   //States for opening and closing the modaals
   const [isModal, setIsModal] = React.useState(false);
   const [isDeleteModal, setDeleteModal] = React.useState(false);
+  const [action, setAction] = React.useState('');
+  if (statusText && statusText === 'Banned') {
+    setAction('Delete Permanently');
+  }
+  if (statusText && statusText === 'Deleted') {
+    setAction('Recover');
+  }
 
   function openModal() {
     setIsModal(true);
@@ -46,7 +53,7 @@ function VendorDetails() {
   return (
     <>
       <SuperAdminNavbar />
-      <Link href="/super-admin/vendor-management/index">
+      <Link href="/super-admin/vendor-management/">
         <div className="top flex items-center mr-5 border-b border-white-110 ml-10 mt-5 mb-5">
           <Image src={right} alt="back" className="mr-2 pb-3"></Image>
           <p className="pb-3">Vendor Profile Details</p>
@@ -101,7 +108,7 @@ function VendorDetails() {
                 <Image src={star_outline} alt="star"></Image>
                 <Image src={star_outline} alt="star"></Image>
               </aside>
-              <p className="text-xs mr-5 lg:mr-0 sm:ml-auto">{date ? date : 'Date Added 08-01-23'}</p>
+              <p className="text-xs mr-5 lg:mr-0 sm:ml-auto">{date ? date : 'Date Added 08-01-23.'}</p>
             </div>
 
             <div className="status flex items-center justify-between mb-3">
@@ -119,7 +126,7 @@ function VendorDetails() {
                 className="text-red-200 bg-transparent border border-red-200 p-3 pr-4 pl-4 w-3/4 rounded-md mr-5 lg:ml-0 z-0 hover:bg-red-200 hover:text-white-100"
                 onClick={openModal}
               >
-                Delete
+                {action === '' ? 'Delete' : action}
               </Button>
 
               <Button
@@ -243,13 +250,13 @@ function VendorDetails() {
             <input type="checkbox" className="mr-5"></input>Other
           </li>
         </ul>
-        <div className="buttons flex items-center mt-6  w-1/2 ml-auto justify-between">
+        <div className="buttons flex items-center mt-6  w-1/2 ml-auto justify-between mr-3">
           <Button
             intent={'secondary'}
             size={'md'}
             isLoading={false}
             spinnerColor="#000"
-            className="text-black bg-white-100 p-3 w-1/2 rounded-md mr-5 z-0 ml-auto"
+            className="text-black bg-white-100 p-3 w-1/2 rounded-md z-0"
             onClick={closeModal}
           >
             Cancel
@@ -259,7 +266,7 @@ function VendorDetails() {
             size={'md'}
             isLoading={false}
             spinnerColor="#000"
-            className="p-3 w-1/2  ml-5 rounded-md"
+            className="p-3 w-1/2  ml-5 rounded-md mr-6"
             onClick={deleteModal}
           >
             Delete

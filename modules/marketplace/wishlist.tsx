@@ -1,8 +1,3 @@
-import favProductImg1 from '../../public/assets/wishlistAssets/favProductImg1.png';
-import favProductImg2 from '../../public/assets/wishlistAssets/favProductImg2.png';
-import favProductImg3 from '../../public/assets/wishlistAssets/favProductImg3.png';
-import favProductImg4 from '../../public/assets/wishlistAssets/favProductImg4.png';
-
 import wishlistProductImg1 from '../../public/assets/wishlistAssets/wishlistProductImg1.png';
 import wishlistProductImg2 from '../../public/assets/wishlistAssets/wishlistProductImg2.png';
 import wishlistProductImg3 from '../../public/assets/wishlistAssets/wishlistProductImg3.png';
@@ -15,29 +10,58 @@ import wishlistProductImg8 from '../../public/assets/wishlistAssets/wishlistProd
 import loadingIllustration from '../../public/assets/wishlistAssets/loadingIllustration.svg';
 
 import { WishlistProduct } from '../../@types';
-import { FavoriteProduct } from '../../@types';
 import { CloseCircle, ArrowRight2 } from 'iconsax-react';
 import { useState, useEffect } from 'react';
-
-import CategoriesNav from './component/CategoriesNav/CategoriesNav';
 
 import Button from '@ui/Button';
 import Image from 'next/image';
 
 import { WishlistProductCard } from './component/WishlistProductCard';
-import { FavoriteproductCard } from './component/FavoriteProductCard';
 
 import MainLayout from '../../components/Layout/MainLayout';
+
+import Container from '@modules/auth/component/Container/Container';
+
+// importing axios to send my request
+import Axios, { AxiosResponse } from 'axios';
+// importing toastify
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Wishlist() {
   const [showEmptyWishlistModal, setShowEmptyWishlistModal] = useState(false);
 
   const [wishlistProducts, setWishlistProducts] = useState<WishlistProduct[]>(initialWishlistProducts);
-  const [favoriteProducts, setFavoriteProducts] = useState<FavoriteProduct[]>(initialFavoriteProducts);
 
-  const removeProductFromWishlist = (productId: string) => {
-    const newWishlistProducts = wishlistProducts.filter((product: WishlistProduct) => product.productId !== productId);
-    setWishlistProducts(newWishlistProducts);
+  // Function to remove a product from the wishlist API
+  const removeProductFromWishlistAPI = async (productId: string): Promise<boolean> => {
+    try {
+      // Replace 'your-api-endpoint' with the actual API endpoint for removing a product
+      const response: AxiosResponse = await Axios.delete(
+        `https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/${productId}`,
+      );
+      if (response.status === 200) {
+        // Product removed successfully
+        toast.success('Product removed successfully');
+        return true;
+      }
+    } catch (error: any) {
+      // Handle errors (e.g., network error, server error)
+      console.error('Error removing product from the wishlist:', error);
+      toast.error(error.response.data.detail ? error.response.data.detail : 'Error removing product from wishlist');
+    }
+    return false;
+  };
+
+  const removeProductFromWishlist = async (productId: string) => {
+    const removed: boolean = await removeProductFromWishlistAPI(productId);
+    if (removed) {
+      // If the product was removed from the API, update the local wishlistProducts
+      const newWishlistProducts = wishlistProducts.filter(
+        (product: WishlistProduct) => product.productId !== productId,
+      );
+      setWishlistProducts(newWishlistProducts);
+    }
   };
 
   const removeEmptyWishlistModal = () => {
@@ -51,65 +75,41 @@ function Wishlist() {
   }, [wishlistProducts]);
 
   useEffect(() => {
-    document.body.style.overflow = showEmptyWishlistModal ? "hidden" : "unset";
+    document.body.style.overflow = showEmptyWishlistModal ? 'hidden' : 'unset';
   }, [showEmptyWishlistModal]);
 
   return (
     <>
-     {showEmptyWishlistModal && (
-            <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
-              {/* close button */}
+      <ToastContainer />
+      {showEmptyWishlistModal && (
+        <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
+          <div className="absolute top-0 right-0 mr-5 mt-5">
+            <Button
+              leftIcon={<CloseCircle color="#06C270" />}
+              intent={'secondary'}
+              size={'sm'}
+              onClick={() => removeEmptyWishlistModal()}
+            >
+              Close
+            </Button>
+          </div>
+          <div className="bg-white-100 py-3 md:py-4 flex flex-col justify-center items-center gap-5 rounded-md w-9/12 md:w-[485px]">
+            <Image src={loadingIllustration} alt="loading" width={100} height={100} />
 
-              <div className="absolute top-0 right-0 mr-5 mt-5">
-                <Button
-                  leftIcon={<CloseCircle color="#06C270" />}
-                  intent={'secondary'}
-                  size={'sm'}
-                  onClick={() => removeEmptyWishlistModal()}
-                >
-                  Close
-                </Button>
-              </div>
-
-              <div className="bg-white-100 py-3 md:py-4 flex flex-col justify-center items-center gap-5 rounded-md w-9/12 md:w-[485px]">
-                <Image src={loadingIllustration} alt="loading" width={100} height={100} />
-
-                <div className="flex flex-col gap-2 items-center">
-                  <h3 className="text-custom-color10 text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
-                  <p className="text-custom-color14 text-xs md:text-sm">
-                    Looks like you have no items in your wishlist.
-                  </p>
-                </div>
-                <Button intent={'primary'} size={'sm'} className="h-[44px] rounded-md mb-4">
-                  Start Shopping
-                </Button>
-              </div>
+            <div className="flex flex-col gap-2 items-center">
+              <h3 className="text-custom-color10 text-sm font-bold md:text-xl">Your wishlist is Empty</h3>
+              <p className="text-custom-color14 text-xs md:text-sm">Looks like you have no items in your wishlist.</p>
             </div>
-          )}
-    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-        <main className="w-full mx-auto">
-          
-
-          <CategoriesNav
-            navItems={[
-              ' Design & Graphics',
-              ' Development & Programming',
-              ' Content Creation',
-              ' Digital Arts & Media',
-              ' Audio & Sound',
-              ' Photography',
-              'Writing & Copywriting',
-              'Video & motion',
-              'Data & Analytics',
-              'Marketing & Advertising',
-              'eCommerce & Business',
-              'Gaming & Entertainment',
-              'Virtual Reality & Augmented Reality',
-              'e-Books',
-            ]}
-          />
-          <div className="font-manropeL max-w-[1240px] mx-auto my-8 pt-2">
-            <section className="px-3 xl:px-0 flex flex-col gap-6 my-4">
+            <Button intent={'primary'} size={'sm'} className="h-[44px] rounded-md mb-4">
+              Start Shopping
+            </Button>
+          </div>
+        </div>
+      )}
+      <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+        <Container>
+          <div className="font-manropeL max-w-[1240px] mx-auto my-8">
+            <section className="flex flex-col gap-10 mb-20">
               <div className="flex justify-between items-center">
                 <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">
                   My Wishlist (<span>{wishlistProducts.length}</span> items)
@@ -125,28 +125,9 @@ function Wishlist() {
                 ))}
               </div>
             </section>
-            <section className="px-3 lg:px-0 py-5 flex flex-col gap-6 my-4">
-              <div className="flex justify-between items-center">
-                <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">My Favorites</h2>
-                <Button
-                  rightIcon={<ArrowRight2 color="#06C270" />}
-                  intent={'secondary'}
-                  size={'md'}
-                  spinnerColor="#000"
-                  className="border-none bg-white-100 text-brand-success-primary font-semibold"
-                >
-                  View All
-                </Button>
-              </div>
-              <div className="gap-2 sm:gap-6 md:gap-8  gap-y-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {favoriteProducts.map((product) => (
-                  <FavoriteproductCard product={product} key={product.productId} />
-                ))}
-              </div>
-            </section>
           </div>
-        </main>
-    </MainLayout>
+        </Container>
+      </MainLayout>
     </>
   );
 }
@@ -241,48 +222,5 @@ const initialWishlistProducts: WishlistProduct[] = [
     productCategory: 'Presentation Templates',
     inStock: false,
     inCart: true,
-  },
-];
-
-const initialFavoriteProducts: FavoriteProduct[] = [
-  {
-    productId: '1',
-    productName: 'Webinar and Course Slides Template',
-    productPrice: 170,
-    productImage: favProductImg1,
-    productRating: 2,
-    numReviews: 9,
-    isFavourite: true,
-    productCreator: 'Mark Essein',
-  },
-  {
-    productId: '2',
-    productName: 'Webinar and Course Slides Template',
-    productPrice: 99.9,
-    productImage: favProductImg2,
-    productRating: 1,
-    numReviews: 16,
-    isFavourite: true,
-    productCreator: 'Mark Essein',
-  },
-  {
-    productId: '3',
-    productName: 'Webinar and Course Slides Template',
-    productPrice: 190,
-    productImage: favProductImg3,
-    productRating: 4,
-    numReviews: 3,
-    isFavourite: true,
-    productCreator: 'Mark Essein',
-  },
-  {
-    productId: '4',
-    productName: 'Webinar and Course Slides Template',
-    productPrice: 50,
-    productImage: favProductImg4,
-    productRating: 5,
-    numReviews: 3,
-    isFavourite: true,
-    productCreator: 'Mark Essein',
   },
 ];

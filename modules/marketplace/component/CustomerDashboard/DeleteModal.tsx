@@ -2,15 +2,14 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { Trash } from 'iconsax-react';
 
-const DeleteModal = ({
-  isOpen,
-  onClose,
-  onDelete,
-}: {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onDelete?: () => void;
-}) => {
+  handleDelete: (orderId: string) => void;
+  checkedItems: any;
+}
+
+const DeleteModal: React.FC<Props> = ({ isOpen, onClose, handleDelete, checkedItems }) => {
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
       <div className="cus-2-content p-[2rem]">
@@ -34,7 +33,7 @@ const DeleteModal = ({
           <Button intent={'secondary'} size={'md'} onClick={onClose}>
             No, Back
           </Button>
-          <Button size={'lg'} onClick={onDelete}>
+          <Button size={'lg'} onClick={() => handleDelete(checkedItems)}>
             Yes, Delete
           </Button>
         </div>
