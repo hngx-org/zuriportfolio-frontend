@@ -3,12 +3,14 @@ import MultiCalender from './datePicker';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Modal from '@ui/Modal';
+import { DateObject } from 'react-multi-date-picker';
 
 type CustomSize = 'sm' | 'xl';
 
 const ReportRedirect: React.FC = () => {
   const [reportModalOpen, setReportModalOpen] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [selectedDateRange, setSelectedDateRange] = useState<DateObject[]>([]);
   // const [size, setSize] = useState<CustomSize>('xl');
 
   const openModal = () => {
@@ -23,6 +25,10 @@ const ReportRedirect: React.FC = () => {
 
   const redirectToAnotherPage = () => {
     router.push('/super-admin/analytics-and-reporting');
+  };
+
+  const handleDateRangeChange = (dateRange: DateObject[]) => {
+    setSelectedDateRange(dateRange);
   };
 
   return (
@@ -44,7 +50,7 @@ const ReportRedirect: React.FC = () => {
             Select Time Frame
           </p>
           <div>
-            <MultiCalender />
+            <MultiCalender selectedDateRange={selectedDateRange} onDateRangeChange={handleDateRangeChange} />
           </div>
           <div className="flex gap-[1.5rem] max-[834px]:pl-[1.5rem] max-[834px]:gap-[1.5rem] max-[800px]:pl-[1rem] max-[800px]:gap-[1rem] max-[768px]:gap-[1.5rem] max-[768px]:pl-0">
             <div className="w-[9.6875rem] p-[0.75rem] flex justify-center items-center rounded-[0.5rem] bg-[#009254] tracking-[0.005rem] text-[1rem] leading-[1.5rem] font-manropeL text-[#FFF] font-normal max-[850px]:w-[8.375rem] max-[500px]:py-[0.5rem] max-[375px]:text-[0.875rem]">

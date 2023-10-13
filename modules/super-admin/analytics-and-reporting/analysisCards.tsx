@@ -87,7 +87,7 @@ const AnalysisCards: React.FC = () => {
           {CardDataOne.map((hero) => (
             <div
               key={hero.id}
-              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] min-[1536px]:max-w-full max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+              className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] min-[1536px]:max-w-full max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
             >
               <div className="flex w-full justify-between gap-[0.5rem]">
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
@@ -122,7 +122,7 @@ const AnalysisCards: React.FC = () => {
           ))}
         </div>
         <div className="grid grid-cols-2 gap-[1.5rem] max-[1300px]:gap-[1rem] mt-[1.5rem] max-[1024px]:mt-[1rem]">
-          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-full">
+          <div className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-full">
             <div className="flex w-full justify-between gap-[0.5rem]">
               <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                 Total Sales
@@ -153,7 +153,7 @@ const AnalysisCards: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-full">
+          <div className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-full">
             <div className="flex w-full justify-between gap-[0.5rem]">
               <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                 Total Order
@@ -191,7 +191,7 @@ const AnalysisCards: React.FC = () => {
           {CardDataTwo.map((hero) => (
             <div
               key={hero.id}
-              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[13.7rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
+              className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[13.7rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
             >
               <div className="flex w-full justify-between gap-[0.5rem]">
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
@@ -223,7 +223,7 @@ const AnalysisCards: React.FC = () => {
           {CardDataTwo.map((hero) => (
             <div
               key={hero.id}
-              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
+              className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
             >
               <div className="flex w-full justify-between gap-[0.5rem]">
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
