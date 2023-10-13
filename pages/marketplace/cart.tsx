@@ -5,7 +5,7 @@ import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, ViewedProductCardProps } from '../../@types';
 import { getUserCart, removeFromCart } from '../../http';
-import AuthContext from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 
 export default function Cart() {
@@ -48,26 +48,23 @@ export default function Cart() {
     },
   ];
 
-  const authContext = useContext(AuthContext);
-  const { auth } = authContext;
+  const { auth } = useAuth();
   const [productCards, setProductCards] = useState(ViewedProducts);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
 
   const getSummary = (items: any[]) => {
     let sum = 0;
     items.map((item) => (sum += Number(item.productPrice)));
-    return sum
-  }
-  
-  
-  useEffect(() => {
-      async function cartFetch() {
-        const carts = await getUserCart()
-        setCartItems(carts)
-      }
-      cartFetch()
-  },[])
+    return sum;
+  };
 
+  useEffect(() => {
+    async function cartFetch() {
+      const carts = await getUserCart();
+      setCartItems(carts);
+    }
+    cartFetch();
+  }, []);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
     let id = event.currentTarget.id;
