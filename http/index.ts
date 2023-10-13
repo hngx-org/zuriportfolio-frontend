@@ -95,11 +95,9 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
 
   try {
     const res = await $http.post('/api/auth/2fa/verify-code', props);
-    console.log(res);
+    return res;
   } catch (e: any) {
-    console.log(e);
-    if (e?.response?.data && e?.response?.data?.message) {
-      console.log(e?.response.data.message);
-    }
+    console.log(e)
+  return e;
   }
 };
