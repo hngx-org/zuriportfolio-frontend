@@ -5,7 +5,7 @@ import trash from '../../public/assets/removecart/delete.svg';
 
 interface RemoveCartProps {
   closeModal: () => void;
-  onRemoveItem: (productId: string) => void; // Make onRemoveItem optional
+  onRemoveItem: (productId: string) => void;
   productId: string;
 }
 
@@ -62,26 +62,6 @@ const RemoveCart: React.FC<RemoveCartProps> = ({ closeModal, onRemoveItem, produ
                     />
                   </g>
                 </g>
-              </g>
-            </svg>
-            <span className="text-[#001F23]">Save for Later</span>
-          </button>
-          <button
-            className="px-6 py-3 bg-[#DE3730] text-[#FFFFFF] text-[14px] flex items-center gap-2 rounded-md"
-            onClick={() => {
-              onRemoveItem(productId);
-            }}
-          >
-            {/* Remove Item icon */}
-            <Image src={trash} alt="checked" width={20} height={20} />
-            Remove Item
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-  // }
-  // return null;
 };
 
 export default RemoveCart;

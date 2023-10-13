@@ -230,7 +230,7 @@ export type CartItemProps = {
   productId: string;
   productImage: string;
   productTitle: string;
-  proudctDescription?: string;
+  productDescription: string;
   productSize?: string;
   productColor?: string;
   productSeller: string;
@@ -544,8 +544,8 @@ export interface CardData {
 }
 
 export interface AuthContextProps {
-  user: LoginBodyResponse | undefined;
-  handleUser: (value: LoginBodyResponse) => void;
+  auth: LoginResponse | undefined;
+  handleAuth: (value: LoginResponse) => void;
 }
 
 export type LoginBodyResponse = {
@@ -567,6 +567,7 @@ export type LoginBodyResponse = {
   country: unknown;
   created_at: string;
 };
+
 export type LoginResponse = {
   token: string;
   data: LoginBodyResponse;
