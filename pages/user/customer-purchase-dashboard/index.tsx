@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { ArrowRight2 } from 'iconsax-react';
