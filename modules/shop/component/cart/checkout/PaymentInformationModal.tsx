@@ -39,7 +39,7 @@ const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () =>
           <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[50%] lg:w-[28%] animate-slideIn">
             <svg
               onClick={closeModal}
-              className="ml-auto"
+              className="ml-auto cursor-pointer"
               xmlns="http://www.w3.org/2000/svg"
               width="40"
               height="40"

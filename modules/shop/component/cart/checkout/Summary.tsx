@@ -97,7 +97,7 @@ const Summary = ({ prices, sum, discount }: SummaryProps & { discount:number, su
               <input
                 type="text"
                 placeholder="50 SALE"
-                className={`border border-green-300 my-0 border-r-0 h-[100%] placeholder-green-400 outline-none py-2 px-4  rounded-l-lg ${
+                className={`border border-green-100 focus:border-green-400 my-0 border-r-0 h-[100%] placeholder-green-100 outline-none py-2 px-4  rounded-l-lg ${
                   couponErrorState ? 'border-brand-red-primary' : ''
                 }`}
                 onFocus={() => {
@@ -188,7 +188,7 @@ const Summary = ({ prices, sum, discount }: SummaryProps & { discount:number, su
           ) : (
             <TempUser isOpen={isOpen} onClose={onClose} />
           )} */}
-          {modalOpen ? <PaymentInformationModal orderTotal={sum} closeModal={closeModal} /> : null}
+          {modalOpen ? <PaymentInformationModal orderTotal={sum - discount} closeModal={closeModal} /> : null}
         </div>
       </div>
     </section>
