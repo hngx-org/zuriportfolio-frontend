@@ -1,40 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { Add } from 'iconsax-react';
+import avatar from './avatar.svg';
+import minus from './minus.svg';
+import questions_and_answers from './newlist';
+import { ToPushContext } from '../../../pages/assessment/new';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { UpdateContext } from '../../../pages/assessment/new';
+import Image from 'next/image';
 const CreateTemplate = () => {
-  const [mockArr, setMcokarr] = useState(new Array(1).fill(null));
-  const [mockData, setMockData] = useState(new Array(1).fill(null));
+  const [newobject, setObject]: any = useContext(ToPushContext);
+  const [list, setList] = useState(questions_and_answers);
 
+  const handleinputQuestion = (e: any, index: number) => {
+    const updatedData = [...list];
+    updatedData[index].question_text = e.target.value;
+    setList(updatedData);
+  };
+  const [listupdate, setListupdate]: any = useContext(UpdateContext);
+  const handleinputOption = (e: any, index: number, n: number) => {
+    console.log(index, n);
+    const updatedData = [...list];
+    console.log(list);
+    updatedData[index].options[n] = e.target.value;
+    setList(updatedData);
+  };
+  function splicearr(arr: any, index: number) {
+    const resultArray = arr.slice(0, index).concat(arr.slice(index + 1));
+
+    return resultArray;
+  }
   //deleting options
-  const handleDelete = (indexToDelete: number) => {
-    const updatedData = mockData.filter((item, index) => index !== indexToDelete);
-    setMockData(updatedData);
+  const handleDelete = (index: number, opt: string) => {
+    var num = 0;
+    var updatedData = [...list];
+    updatedData[index].options.filter((data) => {
+      if (data == opt) {
+        num = updatedData[index].options.indexOf(data);
+      }
+    });
+    const newdata = splicearr(updatedData[index].options, num);
+    updatedData[index].options = newdata;
+    console.log(newdata, updatedData);
+
+    setList(updatedData);
   };
   //adding options
-  const handleIncreaseLength = () => {
-    if (mockData.length > 0) {
-      const lastElement = mockData[mockData.length - 1];
-      const updatedData = [...mockData, lastElement];
-      setMockData(updatedData);
-    }
+  const handleIncreaseOption = (index: number) => {
+    const updatedData = [...list];
+    //updatedData[indextoadd]?.options.push('')
+    updatedData[index].options.push('');
+    setList(updatedData);
   };
 
-  //handlicng Adding questions
+  //handling Adding questions
   const handleAddquestion = () => {
-    console.log('adding');
-    if (mockArr.length > 0) {
-      const lastElement = mockArr[mockArr.length - 1];
-      const updatedArr = [...mockArr, lastElement];
-      setMcokarr(updatedArr);
-    }
+    setList((list) => [
+      ...list,
+      {
+        question_no: list.length + 1,
+        question_text: '',
+        options: [''],
+        correct_option: 1,
+      },
+    ]);
   };
-
+  useEffect(() => {
+    if (listupdate === 'save') {
+      const newt = { ...newobject };
+      newt.questions_and_answers = list;
+      console.log(newt);
+      setObject(newt);
+      setListupdate('post');
+    }
+  }, [listupdate, newobject, setObject, setListupdate, list]);
   return (
     <>
-      <div className="flex flex-col gap-y-8 ">
-        {mockArr.map((item, index) => {
+      <div className="flex flex-col gap-y-8">
+        {list?.map((item, index) => {
           return (
             <div
               key={index}
@@ -44,37 +88,22 @@ const CreateTemplate = () => {
               <div className="flex items-center pt-4 gap-x-4">
                 <Input
                   className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                  }}
+                  onChange={(e) => handleinputQuestion(e, index)}
                   type="text"
                   name="question"
                   placeHolder=""
                   intent={'default'}
                   size={15}
                 />
-                <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M33.0204 25.94L28.3254 14.975C26.7354 11.255 23.8104 11.105 21.8454 14.645L19.0104 19.76C17.5704 22.355 14.8854 22.58 13.0254 20.255L12.6954 19.835C10.7604 17.405 8.03038 17.705 6.63538 20.48L4.05538 25.655C2.24038 29.255 4.86538 33.5 8.88538 33.5H28.0254C31.9254 33.5 34.5504 29.525 33.0204 25.94Z"
-                    stroke="#464646"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M10.9551 12.5C13.4404 12.5 15.4551 10.4853 15.4551 8C15.4551 5.51472 13.4404 3.5 10.9551 3.5C8.4698 3.5 6.45508 5.51472 6.45508 8C6.45508 10.4853 8.4698 12.5 10.9551 12.5Z"
-                    stroke="#464646"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <div className="bg-[#dcd2d2] rounded">
+                  <Image src={avatar} alt="avatar" width={36} height={36} />
+                </div>
               </div>
               <div className=" text-[20px] font-semibold pt-4 text-[#1A1C1B]">Answers</div>
-              {mockData.map((item, index) => {
+              {list[index]?.options.map((opt, n) => {
                 return (
                   <div key={index} className="pt-4 flex flex-col gap-y-[10px]">
-                    <div className=" text-[18px] font-semibold  text-[#1A1C1B]">{`Option ${index + 1}`}</div>
+                    <div className=" text-[18px] font-semibold  text-[#1A1C1B]">{`Option ${n + 1}`}</div>
                     <div className="flex items-center justify-between gap-x-2">
                       <svg width="28" height="29" viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="14" cy="14.5" r="13.5" stroke="#009254" />
@@ -82,48 +111,28 @@ const CreateTemplate = () => {
                       <Input
                         className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
                         onChange={(e) => {
-                          console.log(e.target.value);
+                          handleinputOption(e, index, n);
                         }}
                         type="text"
-                        name="opt-1"
+                        name={`opt-${n + 1}`}
                         placeHolder=""
                         intent={'default'}
                         size={15}
                       />
-                      <svg
-                        width="28"
-                        height="29"
-                        viewBox="0 0 28 29"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <div
                         onClick={() => {
-                          handleDelete(index);
+                          handleDelete(index, opt);
                         }}
-                        className="cursor-pointer"
                       >
-                        <path
-                          d="M13.9069 26.1667C20.3236 26.1667 25.5736 20.9167 25.5736 14.5C25.5736 8.08334 20.3236 2.83334 13.9069 2.83334C7.49023 2.83334 2.24023 8.08334 2.24023 14.5C2.24023 20.9167 7.49023 26.1667 13.9069 26.1667Z"
-                          fill="#FF5C5C"
-                          stroke="#464646"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M9.24023 14.5H18.5736"
-                          stroke="#464646"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                        <Image src={minus} alt="minus" width={28} height={28} />
+                      </div>
                     </div>
                   </div>
                 );
               })}
               <div className="pt-2">
                 <Button
-                  onClick={handleIncreaseLength}
+                  onClick={() => handleIncreaseOption(index)}
                   rightIcon={<Add color="black" />}
                   intent={'primary'}
                   size={'md'}
@@ -143,11 +152,13 @@ const CreateTemplate = () => {
                     <SelectValue placeholder="Option1" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="light">Option1</SelectItem>
-                    <SelectItem value="dark">Option2</SelectItem>
-                    <SelectItem value="system">Option3</SelectItem>
-                    <SelectItem value="system">Option4</SelectItem>
-                    <SelectItem value="system">Option5</SelectItem>
+                    {list[index].options.map((optt: any, n: number) => {
+                      return (
+                        <SelectItem key={`${index}${n}`} value={`option 1${n}`}>
+                          Option {n + 1}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               </div>

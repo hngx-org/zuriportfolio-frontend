@@ -5,9 +5,10 @@ interface CustomDropdownProps {
   options: string[];
   selectedValue: string;
   onChange: (option: string) => void;
+  setFilters?: (type: string, vslue: string) => void;
 }
 
-const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue, onChange }) => {
+const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue, onChange, setFilters }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
