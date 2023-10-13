@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
 import { FaDownload, FaSearch, FaClipboardList, FaFilter } from 'react-icons/fa';
 import Pagination from '@ui/Pagination';
 import Image from 'next/image';
+import Link from 'next/link';
+import { fetchAssessmentHistory } from '../../../http/userTakenAssessment';
 
 const mockAssessments = [
   {
@@ -31,15 +33,54 @@ const mockAssessments = [
   },
 ];
 
+// Define a type or interface for the assessment data
+interface Assessment {
+  id: string;
+  date: string;
+  assessment: string;
+  skill: number;
+  badgeName: string;
+  score: number;
+  downloadLink: string;
+}
+
 const History: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(9);
-  const [assessments, setAssessments] = useState(mockAssessments);
+  const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [showFilters, setShowFilters] = useState(true);
   const [expandedAssessment, setExpandedAssessment] = useState<string | null>(null);
 
+  useEffect(() => {
+    // You can call the fetchAssessmentHistory function within useEffect or any other event handler
+    fetchAssessmentHistory()
+      .then((response) => {
+        // Check if the 'data' property is available in the response
+        if (response) {
+          console.log(response);
+          // Extract relevant data from the API response and convert it to an array
+          const badges = response.map((badge: any) => ({
+            id: String(badge.id),
+            score: badge?.UserAssessment?.score,
+            assessment: badge?.UserAssessment?.Assessment?.title,
+            skill: badge?.UserAssessment?.Assessment?.skill_id,
+            badgeName: badge?.Badge?.name,
+            date: badge?.UserAssessment?.submisssion_date,
+            downloadLink: 'your_download_link_here', // Replace with the actual download link if available
+          }));
+
+          console.log(badges);
+          // Update the state variable 'assessments' with the 'badges' array
+          setAssessments(badges);
+        }
+      })
+      .catch((error) => {
+        // Handle errors, if necessary
+        console.error('Error fetching assessment history:', error);
+      });
+  }, []);
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -69,7 +110,7 @@ const History: React.FC = () => {
   const filteredAssessments = assessments
     .filter(
       (assessment) =>
-        assessment.assessment.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        assessment.assessment?.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedLevel === 'All' ? true : assessment.badgeName === selectedLevel),
     )
     .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -221,14 +262,21 @@ const History: React.FC = () => {
                       {assessment.score}/100
                     </td>
                     <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
-                      <a
+                      {/* <a
                         href={assessment.downloadLink}
                         target="_blank"
                         rel="noreferrer"
                         className="flex items-center text-brand-green-primary hover:text-brand-green-hover"
                       >
                         <FaDownload className="mr-1" /> Download
-                      </a>
+                      </a> */}
+
+                      <Link
+                        href="/assessments/dashboard/badge/[id]"
+                        as={`/assessments/dashboard/badge/${assessment.skill}`}
+                      >
+                        View
+                      </Link>
                     </td>
                   </tr>
                   {expandedAssessment === assessment.id && (
