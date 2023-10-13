@@ -95,10 +95,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
             <div className=" hidden lg:flex gap-10 items-start">
               <div className="group h flex flex-col ali justify-center items-center gap-1">
-                <Link className={activeLink('/')} href={'/explore'}>
+                <Link className={activeLink('/explore')} href={'/explore'}>
                   Explore
                 </Link>
-                {router.pathname === '/' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
+                {router.pathname === '/explore' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
               </div>
               <div className=" group flex flex-col ali justify-center items-center gap-1 ">
                 <Link className={activeLink('/marketplace')} href={'/marketplace'}>
@@ -180,7 +180,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     Sign In
                   </Button>
 
-                  <Button href="/auth/signup" className="rounded-lg px-6 py-3" intent={'primary'} size={'md'}>
+                  <Button
+                    href="/auth/signup-with-email"
+                    className="rounded-lg px-6 py-3"
+                    intent={'primary'}
+                    size={'md'}
+                  >
                     Sign Up
                   </Button>
                 </div>
@@ -373,7 +378,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
       </nav>
-      <div className="mb-32"></div>
+      <div className="mb-24 md:mb-28 lg:mb-32 "></div>
     </>
   );
 
@@ -500,10 +505,10 @@ function MenuUI({
       <ul className="p-6 flex gap-6 flex-col place-items-start bg-white-100">
         <li className=" flex flex-col lg:hidden gap-5 ">
           <div className="group h flex flex-col ali justify-center gap-1">
-            <Link className={activeLink('/')} href={'/'}>
+            <Link className={activeLink('/explore')} href={'/explore'}>
               Explore
             </Link>
-            {router.pathname === '/' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            {router.pathname === '/explore' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
           <div className=" group flex flex-col ali justify-center  gap-1 ">
             <Link className={activeLink('/marketplace')} href={'/marketplace'}>
@@ -575,7 +580,7 @@ function MenuUI({
             >
               Sign In
             </Button>
-            <Button href="/auth/signup" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
+            <Button href="/auth/signup-with-email" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
               Sign Up
             </Button>
           </>

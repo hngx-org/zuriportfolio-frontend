@@ -6,7 +6,7 @@ import TempUser from './../../../../../components/Modals/TempUser';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import isAuthenticated from '../../../../../helpers/isAuthenticated';
 
-const Summary: React.FC<SummaryProps> = ({ prices }) => {
+const Summary = ({ prices, sum, discount }: SummaryProps & { discount: number; sum: number }) => {
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
@@ -57,29 +57,34 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
     }
   };
 
-  const handleCheckoutClick = () => {
-    const token = localStorage.getItem('authToken');
-    console.log(token);
+  // const handleCheckoutClick = () => {
+  //   const token = localStorage.getItem('authToken');
+  //   console.log(token);
 
-    if (token !== null) {
-      const userIsAuthenticated = isAuthenticated(token);
-      if (userIsAuthenticated) {
-        setAuthUser(true);
-        setModalOpen(true);
-      }
-    } else {
-      onOpen();
-    }
-    // const token = localStorage.getItem('authToken');
-    // if(token !== null) {
-    //   const value = isAuthenticated(token)
-    //   console.log(value)
-    // }
-  };
+  //   if (token !== null) {
+  //     const userIsAuthenticated = isAuthenticated(token);
+  //     if (userIsAuthenticated) {
+  //       setAuthUser(true);
+  //       setModalOpen(true);
+  //     }
+  //   } else {
+  //     onOpen();
+  //   }
+  //   // const token = localStorage.getItem('authToken');
+  //   // if(token !== null) {
+  //   //   const value = isAuthenticated(token)
+  //   //   console.log(value)
+  //   // }
+  // };
 
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const handleCheckoutClick = () => {
+    setModalOpen(true);
+  };
+
   return (
     <section className="flex lg:px-10 py-8">
       <div className="cart-summary_wrapper flex flex-col space-y-6">
@@ -92,7 +97,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
               <input
                 type="text"
                 placeholder="50 SALE"
-                className={`border border-green-300 my-0 border-r-0 h-[100%] placeholder-green-400 outline-none py-2 px-4  rounded-l-lg ${
+                className={`border border-green-100 focus:border-green-400 my-0 border-r-0 h-[100%] placeholder-green-100 outline-none py-2 px-4  rounded-l-lg ${
                   couponErrorState ? 'border-brand-red-primary' : ''
                 }`}
                 onFocus={() => {
@@ -112,7 +117,7 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
                 apply
               </button>
             </div>
-            {showDiscount ? (
+            {discount > 0 ? (
               <div className="discount flex items-center space-x-1">
                 <Image src="/assets/check.svg" alt="check-svg" width={10} height={10} />
                 <span className="text-sm text-green-300 transition-all duration-300">Hurray! you got a discount!</span>
@@ -137,24 +142,22 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
           <div className="cart-summary__prices flex flex-col space-y-3">
             <div className="sum flex justify-between">
               <p className="font-bold">Subtotal</p>
-              <span className="text-gray-200">${displayPrices.subtotal.toFixed(2)}</span>
+              <span className="text-gray-200">${sum}</span>
             </div>
-            {showDiscount ? (
+            {discount > 0 ? (
               <div className="sum flex justify-between">
                 <p className="font-bold">Discount</p>
-                <span className="text-green-500 transition-all duration-300">
-                  -${displayPrices.discount.toFixed(2)}
-                </span>
+                <span className="text-green-500 transition-all duration-300">-${discount}</span>
               </div>
             ) : (
               ''
             )}
 
             <div className="sum flex justify-between">
-              <p className="font-bold">Vat</p>
+              {/* <p className="font-bold">Vat</p>
               <span className="text-brand-red-primary transition-all duration-300">
                 +${displayPrices.vat.toFixed(2)}
-              </span>
+              </span> */}
             </div>
           </div>
 
@@ -163,26 +166,27 @@ const Summary: React.FC<SummaryProps> = ({ prices }) => {
           <div className="cart-total">
             <div className="sum flex justify-between">
               <p className="font-bold">Total:</p>
-              <span className="font-bold text-xl transition-all duration-300">${displayPrices.total.toFixed(2)}</span>
+              <span className="font-bold text-xl transition-all duration-300">$ {sum - discount}</span>
             </div>
           </div>
 
           <div>
             <button
-              className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-brand-green-primary focus:bg-brand-green-focu transition-all duration-300"'
+              className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-green-300 hover:shadow-lg hover:font-bold focus:bg-brand-green-focu transition-all duration-300"'
               // onClick={authUser ? handleCheckoutClick : onOpen}
               onClick={handleCheckoutClick}
             >
               Checkout
             </button>
           </div>
-          {authUser ? (
+          {/* {authUser ? (
             modalOpen ? (
               <PaymentInformationModal closeModal={closeModal} />
             ) : null
           ) : (
             <TempUser isOpen={isOpen} onClose={onClose} />
-          )}
+          )} */}
+          {modalOpen ? <PaymentInformationModal orderTotal={sum - discount} closeModal={closeModal} /> : null}
         </div>
       </div>
     </section>
