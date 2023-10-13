@@ -3,9 +3,48 @@ import Image from 'next/image';
 import Button from '@ui/Button';
 import { LevelData, AssesMentData } from '../../../helpers/dashboardui';
 import MainLayout from '../../../components/Layout/MainLayout';
+import Link from 'next/link';
+import { getAssessmentDetails } from '../../../http/userTakenAssessment';
+import star from '../../../public/assets/dashboard/star.svg';
+import timer from '../../../public/assets/dashboard/timer.svg';
+import medal from '../../../public/assets/dashboard/medal-star.svg';
+import { Item } from '@radix-ui/react-select';
+
+type AssessmentDetails = {
+  assessment_id: number;
+  skill_id: number;
+  title?: string;
+  description: string;
+  duration_minutes: string;
+  status: string;
+  start_date: Date;
+  end_date: Date;
+};
 
 const Dashboard = () => {
   const [locked, setLocked] = React.useState<boolean>(false);
+  const [result, setResult] = React.useState<AssessmentDetails>();
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAssessmentDetails();
+        console.log(data);
+        setResult(data);
+      } catch (error) {
+        // Handle errors, e.g., set an error state or display an error message.
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // const resultArray = Object.values(result);
+
+  // const res = resultArray.map((item) => item);
+  // console.log(res)
+  // console.log("res",res[0],"res2",res[1])
 
   return (
     <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
@@ -35,16 +74,18 @@ const Dashboard = () => {
           <Button className="mt-[1rem] ml-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md">
             View Past assessment
           </Button>
-          <div className="mt-[2rem] border border-[.58px] border-white-400 rounded-md py-[.6rem] px-[1rem] md:p-[1.9rem] lg:p-[2.3rem] xl:p-[2.7rem] 2xl:p-[4rem]">
+          <div className="mt-[2rem] border-[.58px] border-white-400 rounded-md py-[.6rem] px-[1rem] md:p-[1.9rem] lg:p-[2.3rem] xl:p-[2.7rem] 2xl:p-[4rem]">
             <div className="">
               <h2 className="text-green-950 text-[.875rem] md:text-[.9rem] lg:text-[1.2rem] xl:text-[1.5rem] mb-[.4rem] md:mb-[1.2rem] xl:mb-[1.5rem] font-semibold">
                 Current Skill Level
               </h2>
               <div className="md:flex">
                 {LevelData().map((item, index) => (
-                  <div
+                  <Link
+                    href={`/assessments/dashboard/badge/${result?.skill_id}`}
+                    as={`/assessments/dashboard/badge/${item.level}`}
                     key={index}
-                    className="flex md:mx-2 xl:mx-4 items-center gap-[.5rem] my-[1rem] md:my-0 md:gap-[.7rem] lg:gap-[1rem] p-[.7rem] lg:p-[1rem] border border-[.58px] border-white-400 md:w-[14.4rem] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] rounded-md h-[6rem] md:h-[7rem] lg:h-[9rem] xl:h-[10rem]"
+                    className="flex md:mx-2 xl:mx-4 items-center gap-[.5rem] my-[1rem] md:my-0 md:gap-[.7rem] lg:gap-[1rem] p-[.7rem] lg:p-[1rem] border-[.58px] border-white-400 md:w-[14.4rem] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] rounded-md h-[6rem] md:h-[7rem] lg:h-[9rem] xl:h-[10rem]"
                   >
                     <div className="relative group">
                       <div
@@ -74,14 +115,14 @@ const Dashboard = () => {
                       <p className="text-brand-green-shade10 font-medium text-[.75rem] md:text-[.85rem] lg:text-[1rem] xl:text-[1.3rem] leading-1">
                         Level: {item.level}
                       </p>
-                      <p className="text-brand-green-shade10 font-medium text-[.75rem] md:text-[.85rem] lg:text-[1rem] lg:text-[1.3rem] leading-1">
+                      <p className="text-brand-green-shade10 font-medium text-[.75rem] md:text-[.85rem] lg:text-[1.3rem] leading-1">
                         Score: {item.score}
                       </p>
                       <p className="text-white-650 text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
                         {item.desc}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -96,27 +137,51 @@ const Dashboard = () => {
                 className="w-[70px] md:w-[76px] lg:w-[100px] xl:w-[116px]"
               />
               <h2 className="text-[#191C1E] leading-1 font-medium text-[.875rem] md:text-[1rem] lg:text-[1.5rem]">
-                Assessment Name
+                {result?.title}
               </h2>
             </div>
             <div className="mt-[1rem]">
               <p className="text-[#2E3130] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1.rem] leading-1">
                 Unlock your potential and level up your skills – take the assessment now!
               </p>
-              {AssesMentData().map((item, index) => (
-                <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3" key={index}>
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    width={20}
-                    height={30}
-                    className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
-                  />
-                  <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
-                    {item.title}
-                  </span>
-                </div>
-              ))}
+
+              <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
+                <Image
+                  src={star}
+                  alt="star"
+                  width={20}
+                  height={30}
+                  className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
+                />
+                <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
+                  10 multiple choice questions
+                </span>
+              </div>
+              <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
+                <Image
+                  src={timer}
+                  alt="star"
+                  width={20}
+                  height={30}
+                  className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
+                />
+                <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
+                  {result?.duration_minutes} seconds per assessment
+                </span>
+              </div>
+
+              <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
+                <Image
+                  src={medal}
+                  alt="star"
+                  width={20}
+                  height={30}
+                  className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
+                />
+                <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
+                  Score points to earn a badge
+                </span>
+              </div>
             </div>
             <Button
               href="/assessments/take-test/intro"

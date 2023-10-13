@@ -8,10 +8,38 @@ import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { signUpUser } from '../../http/auth';
+import { notify } from '@ui/Toast';
 
+const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const onSignUpSuccess = (data: any) => {
+    console.log(data);
+    if (data.status === 200) {
+      console.log(data.message);
+      router.push(`/auth/verification`);
+      return;
+    }
+
+    notifyError(data.message);
+  };
+
+  const onSignUpError = (error: any) => {
+    // for axios timeout error
+    if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
+      const timeoutErrorMessage =
+        'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+      notifyError(timeoutErrorMessage);
+      return;
+    }
+  };
+  const { mutate: signUpUserFn, isLoading } = useAuthMutation(signUpUser, {
+    onSuccess: (data) => onSignUpSuccess(data),
+    onError: (error: any) => onSignUpError(error),
+  });
 
   // Function to toggle the password visibility
   const togglePasswordVisibility = () => {
@@ -55,31 +83,15 @@ function Signup() {
   const { email: userEmail } = router.query;
 
   const handleSignUp = async (values: any) => {
-    try {
-      const userData = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: userEmail,
-        password: values.password,
-        confirmPassword: values.confirmPassword,
-      };
+    const userData = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: userEmail as string,
+      password: values.password,
+      // confirmPassword: values.confirmPassword,
+    };
 
-      const response = await axios.post('https://hng-stage-six.onrender.com/api/auth/signup ', userData);
-      console.log('firstName', values.firstName);
-      console.log('lastName', values.lastName);
-      console.log('password', values.password);
-      console.log('confirmPassword', values.confirmPassword);
-      console.log('agree', values.agree);
-
-      if (response.status === 200) {
-        router.push('/auth/verification');
-      } else {
-        // Handle signup error, e.g., display an error message
-      }
-    } catch (error) {
-      // Handle any exceptions or errors here
-      console.error('Error during signup:', error);
-    }
+    signUpUserFn(userData);
   };
 
   return (
@@ -196,7 +208,7 @@ function Signup() {
                   form.errors.confirmPassword ? 'border-[red]' : 'border-[#D0D5DD]'
                 }`}
                 type={confirmPasswordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
-                isPasswordVisible={confirmPasswordVisible} // Pass the visibility state as a prop
+                // isPasswordVisible={confirmPasswordVisible} // Pass the visibility state as a prop
                 rightIcon={
                   <button type="button" onClick={toggleConfirmPasswordVisibility} className="cursor-pointer">
                     {confirmPasswordVisible ? (
@@ -246,11 +258,23 @@ function Signup() {
 
             <div className="flex items-center leading-[27.04px] my-4 h-5">
               <span className="mr-2 flex my-auto ">
-                <input type="checkbox" {...form.getInputProps('agree')} className="w-4 border-brand-green-primary" />
+                <input
+                  id="agree"
+                  type="checkbox"
+                  {...form.getInputProps('agree')}
+                  className="w-4 border-brand-green-primary"
+                />
               </span>
               <p className="text-gray-200 text-sm">
-                I agree with zuri stores <Link href={'#'}>Terms of Service</Link> &{' '}
-                <Link href={'#'}>Privacy Policy</Link> .
+                I agree with zuri stores{' '}
+                <Link href={'/'} className="text-brand-green-primary hover:text-brand-green-hover">
+                  Terms of Service
+                </Link>{' '}
+                &{' '}
+                <Link href={'/'} className="text-brand-green-primary hover:text-brand-green-hover">
+                  Privacy Policy
+                </Link>{' '}
+                .
               </p>
             </div>
             <style jsx>{`
@@ -286,6 +310,7 @@ function Signup() {
 
             <Button
               // href="/auth/verification"
+              isLoading={isLoading}
               intent={'primary'}
               size={'sm'}
               className="w-full h-[44px] md:h-[60px] rounded-lg mt-3"

@@ -43,14 +43,18 @@ export default function NotificationsSettings(props: pros) {
           >
             <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={` flex justify-center relative ${
-                  props.checkboxState.emailSummary && 'bg-brand-green-hover'
-                }  border-brand-green-primary  rounded-md w-[16px] 
+                className={` flex  justify-center relative ${props.checkboxState.emailSummary && 'block'}   w-[16px] 
                  h-[16px]`}
               >
-                <MdCheck className={`text-brand-green-primary`} />
+                {' '}
+                {props.checkboxState.emailSummary && (
+                  <MdCheck
+                    className={`text-brand-green-primary 
+             `}
+                  />
+                )}
               </p>{' '}
-            </p>
+            </p>{' '}
             Receive an email summary of notification
           </label>
         </div>
@@ -69,12 +73,16 @@ export default function NotificationsSettings(props: pros) {
           >
             <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={` flex justify-center relative ${
-                  props.checkboxState.specialOffers && 'bg-brand-green-hover'
-                }  border-brand-green-primary  rounded-md w-[16px] 
+                className={` flex  justify-center relative ${props.checkboxState.specialOffers && 'block'}   w-[16px] 
                  h-[16px]`}
               >
-                <MdCheck className={`text-brand-green-primary`} />
+                {' '}
+                {props.checkboxState.specialOffers && (
+                  <MdCheck
+                    className={`text-brand-green-primary 
+             `}
+                  />
+                )}
               </p>{' '}
             </p>
             Announcement on special offers
@@ -95,12 +103,16 @@ export default function NotificationsSettings(props: pros) {
           >
             <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={` flex justify-center relative ${
-                  props.checkboxState.communityUpdate && 'bg-brand-green-hover'
-                }  border-brand-green-primary  rounded-md w-[16px] 
+                className={` flex  justify-center relative ${props.checkboxState.communityUpdate && 'block'}   w-[16px] 
                  h-[16px]`}
               >
-                <MdCheck className={`text-brand-green-primary`} />
+                {' '}
+                {props.checkboxState.communityUpdate && (
+                  <MdCheck
+                    className={`text-brand-green-primary 
+             `}
+                  />
+                )}
               </p>{' '}
             </p>
             Get Notification to stay up-to-date with Zuri portfolio community

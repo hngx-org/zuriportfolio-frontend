@@ -13,6 +13,9 @@ import settingsIcon from './assets/setting-2.svg';
 import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 import MobileNav from '@modules/dashboard/component/MobileNav';
+import { ProductResult } from '../../@types';
+import { useAuth } from '../../context/AuthContext';
+import isAuthenticated from '../../helpers/isAuthenticated';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -23,6 +26,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchMobile, setSearchMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
+
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
   };
@@ -36,6 +42,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     router.pathname === path
       ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
       : 'text-gray-600 text-base font-semibold  leading-normal tracking-tight';
+
+  useEffect(() => {
+    const token = localStorage.getItem('zpt');
+    const isLoggedIn = isAuthenticated(token as string);
+    if (isLoggedIn) {
+      setAuth(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -62,6 +77,38 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [authMenu, searchMobile, toggle]);
+
+  const searchPosts = async (searchValue: string) => {
+    try {
+      const response = await fetch(
+        `https://coral-app-8bk8j.ondigitalocean.app/api/product-retrieval/?search=${searchValue}`,
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const posts: ProductResult[] = await response.json();
+      const searchResults = posts.filter((post) => post.name.toLowerCase().includes(searchValue.toLowerCase()));
+
+      return searchResults;
+    } catch (error) {
+      throw new Error(`Failed to fetch posts: ${error}`);
+    }
+  };
+
+  const handleSearch = async (e: React.KeyboardEvent) => {
+    e.preventDefault();
+    if (e.key === 'Enter') {
+      try {
+        const results = await searchPosts(searchQuery);
+        setSearchResults(results);
+        localStorage.setItem('search_result', JSON.stringify(results));
+        router.push(`/marketplace/search?searchQuery=${searchQuery}`);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <>
@@ -95,10 +142,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
             <div className=" hidden lg:flex gap-10 items-start">
               <div className="group h flex flex-col ali justify-center items-center gap-1">
-                <Link className={activeLink('/')} href={'/explore'}>
+                <Link className={activeLink('/explore')} href={'/explore'}>
                   Explore
                 </Link>
-                {router.pathname === '/' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
+                {router.pathname === '/explore' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
               </div>
               <div className=" group flex flex-col ali justify-center items-center gap-1 ">
                 <Link className={activeLink('/marketplace')} href={'/marketplace'}>
@@ -132,6 +179,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </div>
                 </div>
                 <input
+                  value={searchQuery}
+                  onKeyUp={handleSearch}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search"
                   className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
                 />
@@ -180,7 +230,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     Sign In
                   </Button>
 
-                  <Button href="/auth/signup" className="rounded-lg px-6 py-3" intent={'primary'} size={'md'}>
+                  <Button
+                    href="/auth/signup-with-email"
+                    className="rounded-lg px-6 py-3"
+                    intent={'primary'}
+                    size={'md'}
+                  >
                     Sign Up
                   </Button>
                 </div>
@@ -335,6 +390,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     </div>
                   </div>
                   <input
+                    value={searchQuery}
+                    onKeyUp={handleSearch}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search"
                     className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
                   />
@@ -373,7 +431,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
       </nav>
-      <div className="mb-32"></div>
+      <div className="mb-24 md:mb-28 lg:mb-32 "></div>
     </>
   );
 
@@ -500,10 +558,10 @@ function MenuUI({
       <ul className="p-6 flex gap-6 flex-col place-items-start bg-white-100">
         <li className=" flex flex-col lg:hidden gap-5 ">
           <div className="group h flex flex-col ali justify-center gap-1">
-            <Link className={activeLink('/')} href={'/'}>
+            <Link className={activeLink('/explore')} href={'/explore'}>
               Explore
             </Link>
-            {router.pathname === '/' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            {router.pathname === '/explore' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
           <div className=" group flex flex-col ali justify-center  gap-1 ">
             <Link className={activeLink('/marketplace')} href={'/marketplace'}>
@@ -575,7 +633,7 @@ function MenuUI({
             >
               Sign In
             </Button>
-            <Button href="/auth/signup" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
+            <Button href="/auth/signup-with-email" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
               Sign Up
             </Button>
           </>
