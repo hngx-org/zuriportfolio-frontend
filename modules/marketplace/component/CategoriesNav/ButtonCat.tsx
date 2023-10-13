@@ -34,7 +34,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onClick={() => handleActiveNav(index)}
         className={`${active === index ? 'text-brand-green-shade50' : 'text-brand-green-shade10'} z-10 relative`}
       >
-        <Link href={isWishlist ? 'marketplace/wishlist' : `/marketplace/categories/${category}`}>{category}</Link>
+        <Link href={isWishlist ? '/marketplace/wishlist' : `/marketplace/categories/${category}`}>{category}</Link>
       </div>
       {!isWishlist && (
         <div
