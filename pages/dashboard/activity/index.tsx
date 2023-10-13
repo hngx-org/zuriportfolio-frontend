@@ -1,5 +1,5 @@
 import React from 'react';
-// import withAuth from '../helpers/withAuth';
+// import withAuth from '../../helpers/withAuth';
 import MainLayout from '../../../components/Layout/MainLayout';
 import Container from '@modules/auth/component/Container/Container';
 import { Activity } from '@modules/dashboard/component/dashboard/activity';

@@ -1,8 +1,8 @@
 import React from 'react';
-// import withAuth from '../helpers/withAuth';
 import MainLayout from '../../components/Layout/MainLayout';
 import ShopOwnerDashboard from '@modules/dashboard/component/dashboard';
 import Container from '@modules/auth/component/Container/Container';
+// import withAuth from '../../helpers/withAuth';
 
 function dashboard() {
   return (
