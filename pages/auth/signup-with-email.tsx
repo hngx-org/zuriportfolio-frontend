@@ -9,7 +9,7 @@ import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWi
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
-import { signUpUserWithEmail } from '../../http';
+import { signUpUserWithEmail } from '../../http/auth';
 import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
 import withoutAuth from '../../helpers/withoutAuth';
