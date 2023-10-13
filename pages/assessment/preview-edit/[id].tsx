@@ -2,12 +2,30 @@ import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EditLayout from '@modules/assessment/component/editLayout';
 // import ScoringS from '@modules/assessment/component/scoreDropdown';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+
+import { useRouter } from 'next/router';
+import { questionArr } from '@modules/assessment/component/questionsArr';
+
 const EditAssesment = () => {
+  const [questionToEdit, setQuestionToEdit] = useState({});
+  const router = useRouter();
+  const { question_id } = router.query;
+  const parsedQuestionId: number | undefined = typeof question_id === 'string' ? parseInt(question_id, 10) : undefined;
+
   const [active, setActive] = useState<null | string>('button1');
+
+  useEffect(() => {
+    if (parsedQuestionId !== undefined) {
+      const filteredQuestion = questionArr.find((question) => question.id === parsedQuestionId);
+      if (filteredQuestion) {
+        setQuestionToEdit(filteredQuestion);
+      }
+    }
+  }, [parsedQuestionId]);
 
   const handleClick = (button: string) => {
     setActive(button);

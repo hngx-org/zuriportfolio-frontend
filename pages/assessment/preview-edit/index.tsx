@@ -2,19 +2,49 @@ import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PreviewQuests from '@modules/assessment/component/previewQuests';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+
 const Previewedit: React.FC = () => {
+  interface Assessment {
+    // Define the structure of your assessment data here
+    // For example, if your data contains 'id', 'name', and 'description' fields:
+    id: number;
+    name: string;
+    description: string;
+  }
   //demo-question-...
   // eslint-disable-next-line react/no-unescaped-entities
   const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
 
   const [active, setActive] = useState<null | string>('button1');
+  const [assessments, setAssessments] = useState<Assessment[]>([]);
 
   const handleClick = (button: string) => {
     setActive(button);
   };
+
+  const fetchAssessmentData = async () => {
+    try {
+      const apiUrl: string = 'https://piranha-assessment.onrender.com/api/admin/assessments/';
+      const response: Response = await fetch(apiUrl);
+
+      if (response.status >= 200 && response.status < 300) {
+        const data: Assessment[] = await response.json();
+        setAssessments(data);
+        console.log(data);
+      } else {
+        throw new Error(`Failed to fetch data. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAssessmentData();
+  }, []);
 
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
