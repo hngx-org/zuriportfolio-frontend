@@ -75,15 +75,15 @@ const DraftPage = () => {
         body: JSON.stringify({
           questions: [
             {
-              question_no: 0,
+              question_no: 1,
               question_text: 'string',
               options: ['string'],
-              correct_option: 0,
+              correct_option: 1,
             },
           ],
           is_published: false,
           title: newTitle,
-          duration_minutes: 0,
+          duration_minutes: 1,
         }),
       });
 
