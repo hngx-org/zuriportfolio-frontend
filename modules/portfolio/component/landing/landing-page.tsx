@@ -11,6 +11,7 @@ import { CoverDiv } from './avatars';
 import Loader from './Loader';
 import EditProfile from '../modals/edit-profile';
 import ViewTemplate from '../modals/view-template';
+import ContactModal from '../contact-modal';
 
 const Landing = () => {
   const {
@@ -41,7 +42,7 @@ const Landing = () => {
   }, [setHasData, userSections]);
 
   const headerMargin =
-    'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen';
+    'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen object-cover';
 
   const cover = coverImage ? (
     <Image src={coverImage} priority unoptimized width={0} height={0} alt="" className={`${headerMargin}`} />
@@ -99,6 +100,7 @@ const Landing = () => {
             ) : (
               <div className="mt-10 md:mt-20">
                 <LandingPageFilled />
+                {/* <ContactModal /> */}
               </div>
             )}
           </>
