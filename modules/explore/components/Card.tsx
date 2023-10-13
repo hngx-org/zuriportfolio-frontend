@@ -6,7 +6,8 @@ import total_projects from '../../../public/assets/images/explore_img/total-proj
 import badge_beginner from '../../../public/assets/images/explore_img/badge-beginner.svg';
 import Location from '../../../public/assets/images/explore_img/location.svg';
 import CardHover from './CardHover';
-import { UserInfo } from '../../../@types/exploreTyples';
+import { UserInfo } from '../../../@types';
+
 import bg1 from '../../../public/assets/images/explore_img/bg1.svg';
 import photo2 from '../../../public/assets/images/explore_img/photo2.png';
 
@@ -19,11 +20,10 @@ const Card = ({ data }: { data?: UserInfo }) => {
 
   return (
     <article className="relative" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-      <CardHover openCard={isOpen} />
+      {/* <CardHover openCard={isOpen} /> */}
       <div className="max-w-[22rem] p-2 pb-4 border-1 border mx-auto  border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm lg:min-w-[22.5rem] xl:min-w-[24rem]">
         <Image className="w-full rounded-t-2xl object-cover" src={bg1} alt="Card Header" width={100} height={76} />
         <Image
-          objectFit="fill"
           className="-mt-12 rounded-full mx-auto aspect-square"
           src={data?.profilePictureUrl ?? photo2}
           alt="Avatar"

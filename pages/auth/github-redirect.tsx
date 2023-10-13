@@ -1,10 +1,8 @@
-"use client"
+'use client';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 function GithubRedirect() {
-
-
   const router = useRouter();
 
   useEffect(() => {
@@ -22,8 +20,8 @@ function GithubRedirect() {
       });
       try {
         const { data } = await $http.get(url);
-        const token = data.token.token
-        localStorage.setItem('Authtoken', token);
+        const token = data.token.token;
+        localStorage.setItem('zpt', token);
         router.push('/dashboard');
       } catch (e: any) {
         router.push('/auth/signup-with-email');
@@ -31,6 +29,6 @@ function GithubRedirect() {
     };
     Oauth();
   }, []);
-  return <div className='flex item-center justify-center mt-[2rem]'>Please Wait...</div>;
+  return <div className="flex item-center justify-center mt-[2rem]">Please Wait...</div>;
 }
 export default GithubRedirect;
