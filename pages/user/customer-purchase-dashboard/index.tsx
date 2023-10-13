@@ -144,7 +144,7 @@ const DUMMYDATA: PurchaseData[] = [
 
     item: 'Webinar & Course Slide',
 
-    orderID: '643D73U907',
+    orderID: '643D73U97',
 
     price: '$260.00',
 
@@ -194,19 +194,18 @@ const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [filter, setFilter] = useState<string | null>(null);
   const [data, setData] = useState<PurchaseData[]>(DUMMYDATA);
+
   const [error, setError] = useState<string | null>(null);
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
 
 
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
-
   // function to handle delete
   const onDelete = () => {
     onClose();
   };
-
 
   const handleCheckboxChange = (orderID: string) => {
     setCheckedItems((prevState) => {
