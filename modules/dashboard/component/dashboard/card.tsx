@@ -1,6 +1,3 @@
-// create todaysFinalCardValue and yesterdaysFinalCardValue and add queryTodaysRevenue and queryYesterdaysRevenue to the ternary...
-// create const finalPercentage which should be the percentage increase or decrease between todaysFinalCardValue and yesterdaysFinalCardValue
-
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@ui/Loader';
 import Image from 'next/image';
@@ -68,11 +65,13 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
   // Calculate todaysFinalCardValue
   const todaysFinalCardValue =
     title === 'Average order value'
-      ? queryTodaysAverageOrderValue
+      ? queryTodaysAverageOrderValue || 0
       : title === "Today's orders"
       ? queryTodaysOrders
-      : title === "Today's revenue" && Array.isArray(queryTodaysRevenue) && queryTodaysRevenue.length > 0
-      ? queryTodaysRevenue
+      : title === "Today's revenue"
+      ? Array.isArray(queryTodaysRevenue) && queryTodaysRevenue.length > 0
+        ? queryTodaysRevenue
+        : 0
       : typeof value === 'number'
       ? value
       : 0;
@@ -80,11 +79,13 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
   // Calculate yesterdaysFinalCardValue
   const yesterdaysFinalCardValue =
     title === 'Average order value'
-      ? queryYesterdaysAverageOrderValue
+      ? queryYesterdaysAverageOrderValue || 0
       : title === "Today's orders"
       ? queryYesterdaysOrders
-      : title === "Today's revenue" && Array.isArray(queryYesterdaysRevenue) && queryYesterdaysRevenue.length > 0
-      ? queryYesterdaysRevenue
+      : title === "Today's revenue"
+      ? Array.isArray(queryYesterdaysRevenue) && queryYesterdaysRevenue.length > 0
+        ? queryYesterdaysRevenue
+        : 0
       : typeof value === 'number'
       ? value
       : 0;
