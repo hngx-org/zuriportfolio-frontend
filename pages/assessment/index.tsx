@@ -43,6 +43,7 @@ function Index() {
       useEffect(() => {
   const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
 
+      
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) {
