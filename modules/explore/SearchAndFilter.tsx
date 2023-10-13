@@ -23,27 +23,21 @@ import { Input, SelectInput } from '@ui/Input';
 import { useExploreParams } from './hooks/exploreParam';
 // import Breadcrumbs from '../../components/Breadcrumbs';
 
-const SearchAndFilter = (prop: { setSearchQuery?: Dispatch<React.SetStateAction<string>> }) => {
+const SearchAndFilter = (prop: {
+  setSearchQuery?: Dispatch<React.SetStateAction<string>>;
+  filters: { SortBy?: number };
+  handleFilters: (type: string, value: string | number) => void;
+}) => {
   const [activeSection, setActiveSection] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
   const [showLeftButton, setShowLeftButton] = useState<boolean>(true);
   const [showRightButton, setShowRightButton] = useState<boolean>(true);
   const [showFilterComponent, setShowFilterComponent] = useState<boolean>(false);
-  const [filters, setFilters] = useState<{
-    SortBy?: number;
-  }>({});
 
+  const { filters, handleFilters } = prop;
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  const handleFilters = (type: string, value: string | number) => {
-    setFilters((prev) => {
-      if (type === 'none') {
-        return {};
-      }
-      return { ...prev, [type]: value };
-    });
-  };
   const handleScroll = () => {
     const slider = sliderRef.current!; // Non-null assertion
 
@@ -80,7 +74,7 @@ const SearchAndFilter = (prop: { setSearchQuery?: Dispatch<React.SetStateAction<
       return handleFilters('SortBy', sort);
     }
 
-    delete filters?.SortBy;
+    delete filters.SortBy;
   };
 
   const sectionsData = [

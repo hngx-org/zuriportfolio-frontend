@@ -18,6 +18,15 @@ const HomePage = () => {
   const [filters, setFilters] = useState<{
     SortBy?: number;
   }>({});
+
+  const handleFilters = (type: string, value: string | number) => {
+    setFilters((prev) => {
+      if (type === 'none') {
+        return {};
+      }
+      return { ...prev, [type]: value };
+    });
+  };
   const deBounce = useDebounce(searchQuery, 1200);
   const router = useRouter();
 
@@ -37,7 +46,7 @@ const HomePage = () => {
     if (query) {
       url = searchUrl(query);
     }
-    if (Object.keys(filters).length > 0) {
+    if (Object.keys(filters).length > 100) {
       url = filterUrl;
     }
     const { data } = await axios.get(url, {
@@ -58,7 +67,7 @@ const HomePage = () => {
 
   return (
     <>
-      <SearchAndFilter setSearchQuery={setSearchQuery} />
+      <SearchAndFilter handleFilters={handleFilters} filters={filters} setSearchQuery={setSearchQuery} />
       {isLoading && (
         <div className="grid place-items-center min-h-[300px]">
           <p>Loading...</p>{' '}
