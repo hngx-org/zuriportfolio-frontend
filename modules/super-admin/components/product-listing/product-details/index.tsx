@@ -72,13 +72,13 @@ const SuperAdminProdDetails = ({
 
             <div className="flex w-full lg:w-1/2 lg:mt-6 flex-col">
               <h1 className="font-manropeEB md:text-[32px] text-[22px] mb-2 lg:font-semibold text-custom-color11 font-bold  ">
-                {data?.name}
+                {data?.name || data?.product_name}
               </h1>
 
               <div className="flex justify-between items-start mb-6">
                 <div className="flex gap-[4px] items-start ">
                   <Image src={profileimage} alt="profileimg" />
-                  <p className="font-manropeB font-semibold tracking-[0.035px] md:tracking-[0.08px]">Fola Kingsley</p>
+                  <p className="font-manropeB font-semibold tracking-[0.035px] md:tracking-[0.08px]">{data?.vendor_name}</p>
                 </div>
                 <div className="flex space-y-2 items-end flex-col">
                   <div className="flex font-manropeB gap-[18px] text-custom-color43 text-[12px]">
