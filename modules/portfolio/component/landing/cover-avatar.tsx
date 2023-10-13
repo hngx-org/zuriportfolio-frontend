@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import Profile from './avatars';
 import Link from 'next/link';
-
+​
 const Cover = () => {
   const { handleUploadCover, profileUpdate, userData } = useContext(Portfolio);
   const { avatarImage, tracks } = userData;
@@ -11,12 +11,11 @@ const Cover = () => {
   tracks.forEach((track: any) => {
     append.push(track.track);
   });
-
+​
   append.join(',');
-
+​
   const link = tracks ? `/assessments/dashboard/${append}` : '/assessments/dashboard';
-  console.log(link);
-
+​
   const avatar = avatarImage ? (
     <Image
       unoptimized
@@ -30,7 +29,7 @@ const Cover = () => {
   ) : (
     <Profile profileUpdate={profileUpdate} />
   );
-
+​
   return (
     <div className="relative h-full flex flex-col items-end justify-between py-5 md:py-10 -mt-[40px] lg:-mt-[35px]">
       {avatar}
@@ -78,5 +77,5 @@ const Cover = () => {
     </div>
   );
 };
-
+​
 export default Cover;

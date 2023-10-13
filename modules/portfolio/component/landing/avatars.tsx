@@ -1,7 +1,7 @@
 type PortfolioContext = {
   profileUpdate: () => void;
 };
-
+​
 const Profile = ({ profileUpdate }: PortfolioContext) => {
   return (
     <div className="grid place-content-center absolute w-[120px] md:w-[170px] object-fill object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full bg-emerald-50">
@@ -21,7 +21,7 @@ const Profile = ({ profileUpdate }: PortfolioContext) => {
           strokeLinejoin="round"
         />
       </svg>
-
+​
       <label
         className="absolute md:bottom-4 bottom-1 -right-2 w-[33%] md:w-[30%] bg-brand-green-primary aspect-square rounded-full grid place-content-center cursor-pointer"
         onClick={() => profileUpdate()}
@@ -59,15 +59,15 @@ const Profile = ({ profileUpdate }: PortfolioContext) => {
     </div>
   );
 };
-
+​
 export default Profile;
-
+​
 type coverDiv = {
   className: string;
 };
-
+​
 const CoverDiv = ({ className }: coverDiv) => {
   return <div className={className}></div>;
 };
-
+​
 export { CoverDiv };

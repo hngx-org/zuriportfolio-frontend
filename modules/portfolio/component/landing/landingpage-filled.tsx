@@ -1,5 +1,5 @@
 'use-client';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
@@ -18,7 +18,7 @@ import {
   Skill,
   Certificate,
 } from './Skeleton';
-
+​
 import {
   about,
   workexperiences,
@@ -33,13 +33,31 @@ import {
   contacts,
 } from './data';
 import { SectionDeleteModal } from '../warningModals';
-
+​
 const LandingPageFilled: React.FC = () => {
-  const { selectedSections, buildPortfolio, setOpenDelete, editSection, modals, modalStates, userSections } =
-    useContext(Portfolio);
-
+  const {
+    selectedSections,
+    buildPortfolio,
+    setOpenDelete,
+    editSection,
+    setHasData,
+    modals,
+    modalStates,
+    userSections,
+  } = useContext(Portfolio);
+​
   const deleteSection = () => setOpenDelete(true);
-
+​
+  useEffect(() => {
+    userSections?.map((section) => {
+      if (section?.data?.length !== 0) {
+        setHasData(true);
+      } else {
+        setHasData(false);
+      }
+    });
+  }, [setHasData, userSections]);
+​
   return (
     <>
       {/* Show modals to enter data */}
@@ -47,7 +65,7 @@ const LandingPageFilled: React.FC = () => {
         const { id, modal } = modalItem;
         return <React.Fragment key={id}>{modalStates[id] && modal}</React.Fragment>;
       })}
-
+​
       {/* data from backend */}
       <div className="w-full flex flex-col justify-start items-start gap-8">
         {userSections?.map((section, i) => {
@@ -69,7 +87,7 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
-
+​
               {section?.id === 'education' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
@@ -86,7 +104,7 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
-
+​
               {section?.id === 'interests' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
@@ -101,7 +119,7 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
-
+​
               {section?.id === 'about' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
@@ -116,10 +134,40 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
+​
+              {section?.id === 'skills' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <Skill key={i} data={section.data} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+​
+              {section?.id === 'projects' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <Project key={i} data={section.data} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
             </React.Fragment>
           );
         })}
-
+​
         {/* local data */}
         {selectedSections.map((section: any, i: number) => {
           return (
@@ -148,7 +196,7 @@ const LandingPageFilled: React.FC = () => {
                     educations.map((el: any, i: any) => {
                       return <Education key={i} data={el} />;
                     })}
-                  {section.id === 'project' &&
+                  {section.id === 'projects' &&
                     projects.map((el, i) => {
                       return <Project key={i} data={el} />;
                     })}
@@ -208,9 +256,9 @@ const LandingPageFilled: React.FC = () => {
     </>
   );
 };
-
+​
 export default LandingPageFilled;
-
+​
 type WrapperProps = {
   id: string;
   title: string;
@@ -218,7 +266,7 @@ type WrapperProps = {
   edit?: () => void;
   remove?: () => void;
 };
-
+​
 export const Wrapper = ({ id, title, children, edit, remove }: WrapperProps) => {
   return (
     <div className="flex justify-start items-start gap-2 md:gap-4 w-full" id={id}>
@@ -269,7 +317,7 @@ export const Wrapper = ({ id, title, children, edit, remove }: WrapperProps) => 
     </div>
   );
 };
-
+​
 export const Line = () => {
   return <hr className="-mt-2 mb-3 w-full border-gray-200 opacity-10" />;
 };

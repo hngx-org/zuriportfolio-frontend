@@ -1,5 +1,5 @@
 import React from 'react';
-
+​
 const Loader = () => {
   return (
     <div className="flex flex-col gap-3 justify-center items-center h-[25vh] max-w-fit mx-auto scale-150">
@@ -8,5 +8,5 @@ const Loader = () => {
     </div>
   );
 };
-
+​
 export default Loader;

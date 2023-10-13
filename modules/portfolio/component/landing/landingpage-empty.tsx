@@ -1,7 +1,7 @@
 import Button from '@ui/Button';
 import { useContext } from 'react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
-
+​
 const LandinEmptyState = () => {
   const { viewPortfolio, buildPortfolio } = useContext(Portfolio);
   return (
@@ -54,7 +54,7 @@ const LandinEmptyState = () => {
           strokeLinejoin="round"
         />
       </svg>
-
+​
       <div className="flex justify-center items-center flex-col gap-2 -mt-5 mb-6 md:w-[50%] text-center">
         <h1 className="font-semibold text-2xl">Start showcasing your work</h1>
         <p className="text-sm text-gray-500">
@@ -73,5 +73,5 @@ const LandinEmptyState = () => {
     </div>
   );
 };
-
+​
 export default LandinEmptyState;
