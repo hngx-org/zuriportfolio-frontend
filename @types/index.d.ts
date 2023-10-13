@@ -543,6 +543,9 @@ export interface CardData {
   location: string;
 }
 
+type ProductResultImage = {
+  url: string;
+}
 export interface ProductResult {
   id: string;
   name: string;
@@ -551,6 +554,7 @@ export interface ProductResult {
   price: string;
   discount_price: string;
   tax: string;
+  images: ProductResultImage[];
   admin_status: string;
   is_deleted: string;
   is_published: boolean;
