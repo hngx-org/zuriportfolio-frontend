@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, ReferenceLine, ResponsiveContainer } from 'recharts';
 import { Graph, activity } from '../../../@types';
 import Link from 'next/link';
 import Image from 'next/image';
+import ActivityDetails from './ActivityDetails';
 
 type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
 
@@ -24,53 +25,36 @@ const AnalyticsAndReportingGraphs = () => {
   const [salesDataGraph1, setSalesDataGraph1] = useState<MonthlyData[]>([]);
   const [salesDataGraph2, setSalesDataGraph2] = useState<MonthlyData[]>([]);
 
-  useEffect(() => {
-    const updateIsGraph = () => {
-      setIsGraph(window.innerWidth > 768);
-    };
-
-    updateIsGraph(); // Initial check
-    window.addEventListener('resize', updateIsGraph);
-
-    fetchSalesData(selectedPeriodGraph1, 1);
-    fetchSalesData(selectedPeriodGraph2, 2);
-
-    return () => {
-      window.removeEventListener('resize', updateIsGraph);
-    };
-  }, [selectedPeriodGraph1, selectedPeriodGraph2]);
-
-  const fetchSalesData = async (period: string, graphIndex: number) => {
+  const fetchSalesData = useCallback(async (period: string, graphIndex: number) => {
     try {
       const response = await fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/admin/analytics/total-sales?period=${period}`
+        `https://team-mirage-super-amind2.onrender.com/api/admin/analytics/total-sales-orders-users?period=${period}`
       );
-  
+
       if (!response.ok) {
         console.error(`Error fetching sales data for graph ${graphIndex}. Status: ${response.status}`);
         console.error('Response:', await response.text());
         return;
       }
-  
+
       const apiResponse = await response.json();
       const { status, message, sales, orders, users } = apiResponse;
-      console.log(apiResponse)
-  
+
       // Calculate the number of months based on the selected period
       const numMonths = getNumMonths(period);
-  
+
       // Get the index of the current month in calendarMonths
       const currentMonthIndex = new Date().getMonth();
-      
+
       // Calculate the starting index for the data based on the current month
       const startIndex = currentMonthIndex - numMonths + 1;
       const adjustedStartIndex = startIndex < 0 ? calendarMonths.length + startIndex : startIndex;
-  
+
       // Filter the data based on the selected period
       const filteredData = Array.from({ length: numMonths }, (_, i) => {
         const monthIndex = (adjustedStartIndex + i) % calendarMonths.length;
         const month = calendarMonths[monthIndex];
-        
+
         return {
           name: month,
           sales: sales || 0,
@@ -78,7 +62,7 @@ const AnalyticsAndReportingGraphs = () => {
           users: users || 0,
         };
       });
-  
+
       if (graphIndex === 1) {
         setSalesDataGraph1(filteredData);
       } else if (graphIndex === 2) {
@@ -87,8 +71,8 @@ const AnalyticsAndReportingGraphs = () => {
     } catch (error) {
       console.error(`Error fetching sales data for graph ${graphIndex}`, error);
     }
-  };
-  
+  }, []); // Empty dependency array since fetchSalesData does not depend on any external variables
+
   // Helper function to get the number of months based on the selected period
   const getNumMonths = (period: string) => {
     switch (period) {
@@ -106,12 +90,7 @@ const AnalyticsAndReportingGraphs = () => {
         return 12; // Default to 12 months
     }
   };
-  
-  
-  
-  
-  
-  
+
   const graphDetails: Graph[] = [
     {
       id: 1,
@@ -141,74 +120,7 @@ const AnalyticsAndReportingGraphs = () => {
     },
   ];
 
-  const activityDetails: activity[] = [
-    {
-      name: 'Demi Wikinson',
-      purchased: 'Purchased',
-      pItem: 'Webflow 101',
-      id: 1,
-    },
-    {
-      name: 'John Doe',
-      purchased: 'Purchased',
-      pItem: 'Figma Course',
-      id: 2,
-    },
-    {
-      name: 'Jane Smith',
-      purchased: 'Purchased',
-      pItem: 'Webflow 101',
-      id: 3,
-    },
-    {
-      name: 'Bob Johnson',
-      purchased: 'Purchased',
-      pItem: 'ProductZ',
-      id: 4,
-    },
-    {
-      name: 'Alice Brown',
-      purchased: 'Purchased',
-      pItem: 'Webflow 101',
-      id: 5,
-    },
-    {
-      name: 'Charlie Davis',
-      purchased: 'Purchased',
-      pItem: 'Website Template',
-      id: 6,
-    },
-    {
-      name: 'Eva White',
-      purchased: 'Purchased',
-      pItem: 'SEO Masterclass',
-      id: 7,
-    },
-    {
-      name: 'Frank Miller',
-      purchased: 'Purchased',
-      pItem: 'Webflow 101',
-      id: 8,
-    },
-    {
-      name: 'Grace Wilson',
-      purchased: 'Purchased',
-      pItem: 'Webflow 101',
-      id: 9,
-    },
-    {
-      name: 'Grace Wilson',
-      purchased: 'Purchased',
-      pItem: 'Webflow 101',
-      id: 10,
-    },
-    {
-      name: 'Grace Wilson',
-      purchased: 'Purchased',
-      pItem: 'Webflow 101',
-      id: 11,
-    },
-  ];
+  
 
   const calendarButtons = [
     { label: '12 months', value: '12 mon' },
@@ -228,9 +140,23 @@ const AnalyticsAndReportingGraphs = () => {
       fetchSalesData(period, 2);
     }
   };
-  
-  
-  
+
+  useEffect(() => {
+    const updateIsGraph = () => {
+      setIsGraph(window.innerWidth > 768);
+    };
+
+    updateIsGraph(); // Initial check
+    window.addEventListener('resize', updateIsGraph);
+
+    fetchSalesData(selectedPeriodGraph1, 1);
+    fetchSalesData(selectedPeriodGraph2, 2);
+
+    return () => {
+      window.removeEventListener('resize', updateIsGraph);
+    };
+  }, [selectedPeriodGraph1, selectedPeriodGraph2, fetchSalesData]);
+
 
   const reportRoute = '/super-admin/analytics-and-reporting/reports';
 
@@ -253,16 +179,15 @@ const AnalyticsAndReportingGraphs = () => {
                   <div className="flex justify-center items-center text-center  gap-3 text-[13px] sm:text-[15px] md:gap-5">
                     {calendarButtons.map(({ label, value }) => (
                       <button
-                      
-                      key={value}
-                      onClick={() => {  console.log('Button clicked:', value); handlePeriodClick(value, index)}}
-                      className={`${
-                        (index === 0 && selectedPeriodGraph1 === value) ||
-                        (index === 1 && selectedPeriodGraph2 === value)
-                          ? 'selected rounded-md bg-[#E6F5EA] py-1.5 px-2 text-brand-green-focused'
-                          : ''
-                      }`}
-                    >
+                        key={value}
+                        onClick={() => { console.log('Button clicked:', value); handlePeriodClick(value, index) }}
+                        className={`${
+                          (index === 0 && selectedPeriodGraph1 === value) ||
+                          (index === 1 && selectedPeriodGraph2 === value)
+                            ? 'selected rounded-md bg-[#E6F5EA] py-1.5 px-2 text-brand-green-focused'
+                            : ''
+                        }`}
+                      >
                         {isGraph ? label : isGraph && value === '12 mon' ? '12 months' : value}
                       </button>
                     ))}
@@ -306,7 +231,7 @@ const AnalyticsAndReportingGraphs = () => {
                   {index === 0 ? (
                     <ResponsiveContainer height={230} className="mx-auto mt-6 ">
                       <LineChart data={salesDataGraph1}>
-                        <XAxis dataKey="name" axisLine={false}/>
+                        <XAxis dataKey="name" axisLine={false} />
                         <ReferenceLine y={1000} stroke="#F2F4F7" />
                         <ReferenceLine y={3200} stroke="#F2F4F7" />
                         <ReferenceLine y={5200} stroke="#F2F4F7" />
@@ -344,25 +269,7 @@ const AnalyticsAndReportingGraphs = () => {
             </div>
           ))}
         </div>
-        <section className="lg:w-[25%]">
-          <div className="py-[50px] px-5  whitespace-nowrap  bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:px-10 xl:max-w-[1270px]">
-            <div className="flex justify-between items-center mb-8">
-              <h3 className="text-[19px]">Activity</h3>
-              <p className="text-custom-color15 text-[15px]">View All</p>
-            </div>
-            <div className="space-y-5 md:space-y-[15.5px]">
-              {activityDetails.map((item) => (
-                <div key={item.id}>
-                  <h3 className="text-custom-color15 text-[16px]">{item.name}</h3>
-                  <div className="flex gap-1.5">
-                    <p className="text-custom-color22 font-light text-[15px]">{item.purchased}</p>
-                    <span className="text-orange-110 text-[15px]">{item.pItem}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ActivityDetails />
       </section>
     </>
   );
