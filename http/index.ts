@@ -1,7 +1,7 @@
 import axios from 'axios';
 import $http from './axios';
 
-const AUTH_HTTP_URL = 'https://hng-stage-six.onrender.com/';
+const AUTH_HTTP_URL = 'https://auth.akuya.tech';
 
 // test
 export const getUserByName = async (props: { name: string }) => {
@@ -103,24 +103,21 @@ export const resetPassword = async (props: { token: string | string[] | undefine
 //   }
 // }
 
-
 export const removeFromCart = async (productId: string) => {
-  
-    try {
-      const apiUrl = `https://zuri-cart-checkout.onrender.com/api/carts/${productId}`;
-      const response = await $http.delete(apiUrl,{
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  try {
+    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/carts/${productId}`;
+    const response = await $http.delete(apiUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-      return response.data;
-    } catch (error) {
-      console.error('Error making payment:', error);
-      throw error;
-    }
+    return response.data;
+  } catch (error) {
+    console.error('Error making payment:', error);
+    throw error;
   }
-
+};
 
 export const makePayment = async (selectedPaymentMethod: string) => {
   if (selectedPaymentMethod) {

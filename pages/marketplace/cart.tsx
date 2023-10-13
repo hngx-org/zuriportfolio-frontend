@@ -4,7 +4,7 @@ import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard'
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, ViewedProductCardProps } from '../../@types';
-import { getUserCart,removeFromCart } from '../../http';
+import { getUserCart, removeFromCart } from '../../http';
 import AuthContext from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 
@@ -78,12 +78,10 @@ export default function Cart() {
   function removeProductHandler(productId: string) {
     let cartProductsItems = cartItems.filter((product) => product.productId != productId);
     removeFromCart(productId);
-    setCartItems(cartProductsItems)
+    setCartItems(cartProductsItems);
   }
 
-  
-
-  const cartProductItems = cartItems.map((cartItem,index) => (
+  const cartProductItems = cartItems.map((cartItem, index) => (
     <CartItem
       key={index}
       productId={cartItem.productId}
@@ -98,7 +96,7 @@ export default function Cart() {
     />
   ));
 
-  const recentlyViewed = productCards.map((product,index) => (
+  const recentlyViewed = productCards.map((product, index) => (
     <ProductCard
       key={index}
       id={product.id}
@@ -146,5 +144,3 @@ export default function Cart() {
     </MainLayout>
   );
 }
-
-
