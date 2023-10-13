@@ -50,5 +50,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/devops/zuri_frontend/zuriportfolio-frontend
-            yarn install --ignore-engines
-            pm2 restart auth
+            npx yarn install --ignore-engines
+            npx pm2 restart zuri_frontend
