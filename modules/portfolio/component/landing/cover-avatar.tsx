@@ -31,7 +31,7 @@ const Cover = () => {
   );
 
   return (
-    <div className="relative h-full flex flex-col items-end justify-between py-5 md:py-10 -mt-[40px] lg:-mt-[35px]">
+    <div className="relative h-full flex flex-col items-end justify-between py-5 md:py-10 -mt-[20px] lg:-mt-[35px]">
       {avatar}
       <label htmlFor="coverUpload" className="bg-white-100 rounded-full p-2 cursor-pointer">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

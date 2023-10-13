@@ -4,15 +4,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Image from 'next/image';
-import axios from 'axios';
-import cover from '../../../public/assets/images/portfolioLanding/cover.png';
-import profile from '../../../public/assets/images/portfolioLanding/profile.png';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import { useRouter } from 'next/router';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 const EditProfile = () => {
   // edit profile
 
-  const [picture, setPicture] = useState('');
+  const [picture, setPicture] = useState<string | StaticImport>();
   const [name, setName] = useState('');
   const [trackId, setTrackId] = useState('');
   const [city, setCity] = useState('');
@@ -26,78 +24,28 @@ const EditProfile = () => {
         const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`);
         const data = await response.json();
         console.log(data);
-        // setPicture(data?.user?.profilePic);
+        setPicture(data?.user?.profilePic);
         setName(data?.user?.firstName + ' ' + data?.user?.lastName);
         setCity(data?.portfolio?.city);
         setCountry(data?.portfolio?.country);
-
-        // data?.tracks.map(el => {
-        //   console.log(el);
-        // })
         setIsLoading(false);
       } catch (error: any) {
-        // setError({ state: true, error: error.message });
+        console.log(error);
       }
     };
     getUser();
   }, []);
 
-  // console.log(picture);
-
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
-      if (e.target.id === 'coverUpload') {
-        setPicture(URL.createObjectURL(file));
-      }
-    }
-  };
   interface PortfolioDetails {
     name: string;
     city: string;
     country: string;
     trackId: string;
   }
-  // const [portfolioDetails, setPortfolioDetails] = useState<PortfolioDetails>({
-  //   name: "",
-  //   city: "",
-  //   country: "",
-  //   trackId: "",
-  // });
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   const profileObj = {
-  //     name: name,
-  //     trackId: trackId,
-  //     city: city,
-  //     country: country,
-  //   };
-  //   console.log(trackId)
-  //   try {
-  //     const response = await fetch("https://hng6-r5y3.onrender.com/api/profile/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(profileObj),
-  //     });
-  //     if (response.ok) {
-  //       // Data successfully saved
-  //       console.log("success");
-  //     } else {
-  //       // Handle error
-  //       console.log("error1");
-  //     }
-  //   } catch (error) {
-  //     // Handle network error
-  //     console.log("error3");
-  //   }
-  // };
-  // useEffect(() => {
-  // })
 
   const { setHasData, setCoverImage, setUserData } = useContext(Portfolio);
   const router = useRouter();
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const firstName = name.split(' ')[0];
@@ -152,7 +100,7 @@ const EditProfile = () => {
         body: formData,
       });
       const data = await response.json();
-      setUserData((p: any) => ({ ...p, hasDataFromBE: true, coverImage: data.data.profilePic }));
+      setUserData((p: any) => ({ ...p, hasDataFromBE: true, avatarImage: data.data.profilePic }));
       setHasData(true);
       setIsLoading(false);
     } catch (error) {
@@ -160,12 +108,12 @@ const EditProfile = () => {
     }
   };
 
-  const handleUploadCover = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       const image = URL.createObjectURL(file);
-      if (e.target.id === 'imageUpload') {
-        // setCoverImage(image);
+      if (e.target.id === 'avatarUpload') {
+        setPicture(image);
         await uploadCover(file);
       }
     }
@@ -175,14 +123,18 @@ const EditProfile = () => {
       className="p-4 mt-3 flex flex-col gap-4 rounded-lg border-brand-disabled items-center justify-start hover:border-green-500"
       onSubmit={handleSubmit}
     >
-      <div className="grid place-content-center absolute w-[60px] md:w-[80px] object-fill object-center aspect-square rounded-full bg-emerald-50 mx-auto">
-        <Image
-          src="/assets/images/portfolioLanding/profilePlaceholder.svg"
-          width={0}
-          height={0}
-          alt="cover"
-          className="w-[100%] aspect-square rounded-full "
-        />
+      <div className="grid place-content-center absolute w-[60px] md:w-[80px] object-cover object-center aspect-square rounded-full bg-emerald-50 mx-auto">
+        {picture ? (
+          <Image
+            src={picture || ''}
+            width={0}
+            height={0}
+            alt="cover"
+            className="w-[100%] aspect-square rounded-full "
+          />
+        ) : (
+          ''
+        )}
         <label className="absolute bottom-2 -right-2 w-[35%] bg-brand-green-primary aspect-square rounded-full grid place-content-center cursor-pointer">
           {' '}
           <Image
@@ -195,10 +147,9 @@ const EditProfile = () => {
           <input
             id="avatarUpload"
             type="file"
-            onChange={handleUpload}
+            onChange={handleUploadImage}
             className="hidden"
             accept="image/png, image/jpeg"
-            value={picture}
           />
         </label>
       </div>

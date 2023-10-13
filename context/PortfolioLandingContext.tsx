@@ -123,6 +123,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         setIsLoading(true);
         const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
         const data = await response.json();
+        console.log(data);
         setUserData({
           firstName: data?.user?.firstName,
           lastName: data?.user?.lastName,
