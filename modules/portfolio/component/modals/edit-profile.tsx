@@ -120,7 +120,7 @@ const EditProfile = () => {
             value={track}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select Track" />
+              <SelectValue placeholder="Select Track" className="hover:border-green-500" />
             </SelectTrigger>
             <SelectContent className="border-[#ffffff] hover:border-green-500 bg-white-100">
               <SelectItem className=" hover:text-green-500" value="behance">
