@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const Cover = () => {
   const { handleUploadCover, profileUpdate, userData } = useContext(Portfolio);
-  const { hasDataFromBE, avatarImage } = userData;
+  const { avatarImage } = userData;
 
   const avatar = avatarImage ? (
     <Image
