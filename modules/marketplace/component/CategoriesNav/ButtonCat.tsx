@@ -5,7 +5,6 @@ type categories = {
   name: string;
   subcategories: [];
 };
-
 export interface CategoriesProps {
   category: categories;
   index: number;
