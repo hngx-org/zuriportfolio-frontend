@@ -68,46 +68,55 @@ const SearchAndFilter = (prop: { setSearchQuery?: Dispatch<React.SetStateAction<
       icon: <Category size={26} color="white" />,
       activeIcon: <Category size={26} color="#737373" />,
       text: 'All',
+      filterType: 'none',
     },
     {
       icon: <PenTool2 size={26} color="white" />,
       activeIcon: <PenTool2 size={26} color="#737373" />,
       text: 'Design',
+      filterType: 'Track',
     },
     {
       icon: <Code size="26" color="white" />,
       activeIcon: <Code size={26} color="#737373" />,
       text: 'Frontend',
+      filterType: 'Track',
     },
     {
       icon: <CommandSquare size="26" color="white" />,
       activeIcon: <CommandSquare size={26} color="#737373" />,
       text: 'Backend',
+      filterType: 'Track',
     },
     {
       icon: <MobileProgramming size="26" color="white" />,
       activeIcon: <MobileProgramming size={26} color="#737373" />,
       text: 'Mobile',
+      filterType: 'Track',
     },
     {
       icon: <Cloud size="26" color="white" />,
       activeIcon: <Cloud size={26} color="#737373" />,
       text: 'Cloud Computing',
+      filterType: 'Track',
     },
     {
       icon: <Data size="26" color="white" />,
       activeIcon: <Data size={26} color="#737373" />,
       text: 'Data Science',
+      filterType: 'Track',
     },
     {
       icon: <Airdrop size="26" color="white" />,
       activeIcon: <Airdrop size={26} color="#737373" />,
       text: 'Cybersecurity',
+      filterType: 'Track',
     },
     {
       icon: <Code size="26" color="white" />,
       activeIcon: <Code size={26} color="#737373" />,
       text: 'Devops',
+      filterType: 'Track',
     },
   ];
 
