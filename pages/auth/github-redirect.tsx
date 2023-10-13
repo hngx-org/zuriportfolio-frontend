@@ -23,7 +23,7 @@ function GithubRedirect() {
       try {
         const { data } = await $http.get(url);
         const token = data.token.token
-        localStorage.setItem('Authtoken', token);
+        localStorage.setItem('zpt', token);
         router.push('/dashboard');
       } catch (e: any) {
         router.push('/auth/signup-with-email');
