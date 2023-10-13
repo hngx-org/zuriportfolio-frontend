@@ -163,7 +163,7 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
 export const makePayment = async (selectedPaymentMethod: string) => {
   if (selectedPaymentMethod) {
     try {
-      const apiUrl = 'https://staging.Zuri.team/api/checkout/api/orders';
+      const apiUrl = 'https://staging.zuri.team/api/checkout/api/orders';
       const data = {
         redirect_url: 'https://www.staging.zuri.team/marketplace/cart',
         payment_method: selectedPaymentMethod,
