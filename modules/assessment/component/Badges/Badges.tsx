@@ -15,7 +15,7 @@ interface BadgesProps {
 const Badges: React.FC<BadgesProps> = ({ scorePercentage, badgelabel, setIsdownloadOpen, isdownloadOpen, onClose }) => {
   return (
     <section className="bg-[#F2F4F5]">
-      <div className="hidden lg:flex pl-6  sm:pl-[96px] pt-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
+      <div className="hidden lg:flex pl-6  sm:pl-[96px] pt-8 md:flex justify-start align-middle text-2xl cursor-pointer">
         <Link href="/assessments/dashboard">
           <MdArrowBackIosNew />
         </Link>
