@@ -111,8 +111,6 @@ const SearchAndFilter = (prop: { setSearchQuery?: Dispatch<React.SetStateAction<
     },
   ];
 
-  const { page, upDatePage } = useExploreParams();
-
   return (
     <div className="mx-auto mb-2 py-8 px-6 font-manropeL xl:max-w-[77.5rem] xl:px-0">
       {/* <Breadcrumbs /> */}
