@@ -26,7 +26,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [authMenu, setAuthMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
-  console.log(searchResult);
 
   const route = useRouter();
 

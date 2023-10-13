@@ -27,8 +27,6 @@ export default function Index() {
     }
   }, [searchResults]);
 
-  console.log('result', results);
-
   return (
     <>
       {results.length === 0 ? (
