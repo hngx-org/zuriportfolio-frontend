@@ -59,15 +59,11 @@ export default function Cart() {
     return sum
   }
   
-  const [cartSummary, setCartSummary ] = useState<number>(0)
   
   useEffect(() => {
       async function cartFetch() {
         const carts = await getUserCart()
-        // console.log(carts)
         setCartItems(carts)
-        const sum = getSummary(carts);
-        setCartSummary(sum);
       }
       cartFetch()
   },[])
@@ -80,11 +76,7 @@ export default function Cart() {
   };
 
   function removeProductHandler(productId: string) {
-
-    console.log(cartItems);
-    console.log(productId);
     let cartProductsItems = cartItems.filter((product) => product.productId != productId);
-    console.log(cartProductItems);
     removeFromCart(productId);
     setCartItems(cartProductsItems)
   }
@@ -97,7 +89,7 @@ export default function Cart() {
       productId={cartItem.productId}
       productColor={cartItem.productColor}
       productTitle={cartItem.productTitle}
-      proudctDescription={cartItem.proudctDescription}
+      productDescription={cartItem.productDescription}
       productImage={cartItem.productImage}
       productSeller={cartItem.productSeller}
       productSize={cartItem.productSize}
@@ -133,7 +125,7 @@ export default function Cart() {
                 {cartProductItems}
               </div>
               <div className="flex md:flex-none justify-center md:mx-0">
-                <Summary sum={cartSummary} />
+                <Summary discount={2} sum={getSummary(cartItems)} />
               </div>
             </section>
 
