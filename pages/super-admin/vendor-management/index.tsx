@@ -212,12 +212,7 @@ const Index = () => {
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto">
-        <VendorsStat
-          showBanned={showBanned}
-          setShowBanned={setShowBanned}
-          showDeleted={showDeleted}
-          setShowDeleted={setShowDeleted}
-        />
+        <VendorsStat />
         <section className="border-white-115 border-2 py-4 rounded-md container mx-auto">
           <div className=" border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
             <div className="mb-4 md:mb-0">

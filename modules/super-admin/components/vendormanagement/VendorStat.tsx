@@ -4,14 +4,6 @@ import { ArrowUp } from 'iconsax-react';
 import Link from 'next/link';
 import axios from 'axios';
 
-const token = localStorage.getItem('authToken');
-const api = axios.create({
-  baseURL: 'https://staging.zuri.team/api',
-  headers: {
-    Authorization: token,
-  },
-});
-
 const VendorsStat = () => {
   const [vendorData, setVendorData] = useState({
     totalShops: 0,
@@ -19,6 +11,16 @@ const VendorsStat = () => {
     totalDeletedShops: 0,
   });
   const [error, setError] = useState<string | null>(null);
+
+  // Retrieve the token from local storage
+  const authToken = localStorage.getItem('authToken');
+
+  const api = axios.create({
+    baseURL: 'https://staging.zuri.team/api',
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
 
   const fetchData = async () => {
     try {
@@ -29,7 +31,6 @@ const VendorsStat = () => {
         const totalShops = data.total_shops;
         const totalBannedShops = data.total_banned_shops;
         const totalDeletedShops = data.total_deleted_shops;
-        console.log(data);
 
         setVendorData({
           totalShops,
