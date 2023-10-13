@@ -63,3 +63,21 @@ export const makePayment = async (selectedPaymentMethod: string) => {
     throw new Error('Please select a payment method before making the payment.');
   }
 };
+
+export const verfiy2FA = async (props: { email: string; token: string }) => {
+  const $http = axios.create({
+    baseURL: "https://auth.akuya.tech",
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  });
+
+  try {
+    const res = await $http.post('/api/auth/2fa/verify-code', props);
+    return res;
+  } catch (e: any) {
+    console.log(e)
+  return e;
+  }
+};
