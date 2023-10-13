@@ -3,6 +3,7 @@ import Code2FA from '../../modules/auth/Code2FA';
 import UI2FA from '../../modules/auth/UI2FA';
 import React from 'react';
 import AuthLayout from '@modules/auth/component/AuthLayout';
+import withAuth from '../../helpers/withAuth';
 
 function _2FA() {
   return (
@@ -16,4 +17,4 @@ function _2FA() {
     </AuthLayout>
   );
 }
-export default _2FA;
+export default withAuth(_2FA);
