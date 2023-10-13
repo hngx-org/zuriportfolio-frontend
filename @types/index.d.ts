@@ -13,6 +13,21 @@ export interface MainLayoutProps {
   showTopbar?: boolean;
   showFooter?: boolean;
 }
+
+export interface ProductData {
+  id: string;
+  name: string;
+  discount_price: string;
+  description: string;
+  price: string;
+  images: any[];
+  url: string[];
+  rating: number;
+  user: string;
+  quantity: Number;
+  shop: string;
+}
+
 export interface Education {
   id: number;
   degree: string;
@@ -33,14 +48,16 @@ export interface AllCategoryDetails {
   discount: number;
 }
 export interface Products {
-  id: number;
+  _id: string;
   name: string;
   image: string;
   shopOwner: string;
   price: number;
   category: string;
+  description: string;
+  specification: string;
+  rating: number;
 }
-
 export interface SuperAdminPagination {
   title: any;
 }
@@ -70,9 +87,11 @@ export interface CartProductCardProps {
 }
 
 export interface ProductCardProps {
-  image: string;
+  id: string;
+  currency: string;
+  image: string | null;
   productName: string;
-  productPrice: string;
+  productPrice: number;
   productOwner: string;
   productRating: number;
   showLimitedOffer?: boolean;
@@ -108,6 +127,20 @@ export interface ProductCardProps {
   discount?: number;
 }
 
+export interface MarketPlaceProductCardProps {
+  id: string;
+  currency: string;
+  image: string | null;
+  name: string;
+  price: number;
+  user: string;
+  rating: number;
+  showLimitedOffer?: boolean;
+  showTopPicks?: boolean;
+  showDiscount?: boolean;
+  discount_price?: number;
+}
+
 export interface ratingProps {
   src: string;
   alt: string;
@@ -123,7 +156,7 @@ export interface ModalProps {
   children?: React.ReactNode;
   closeOnOverlayClick?: boolean;
   title?: string;
-  size?: 'lg' | 'md' | 'sm' | 'xl';
+  size?: 'lg' | 'md' | 'sm' | 'xl' | 'xxl';
   isCloseIconPresent?: boolean;
   closeBtnClass?: string;
 }
@@ -162,6 +195,24 @@ export interface ProgressBarProps {
   value: number;
 }
 
+// Toastify interface
+
+export type ToastPosition = 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left';
+export type ToastTheme = 'light' | 'dark' | 'colored';
+export type ToastVariant = 'info' | 'success' | 'warning' | 'error' | 'default';
+export interface ToastProps {
+  message?: string;
+  position?: ToastPosition;
+  autoClose?: number;
+  hideProgressBar?: boolean;
+  closeOnClick?: boolean;
+  pauseOnHover?: boolean;
+  draggable?: boolean;
+  progress?: undefined;
+  theme?: ToastTheme;
+  type?: ToastVariant;
+}
+
 // export all interfaces and type s
 declare module 'nprogress';
 
@@ -195,8 +246,9 @@ export type CartItemProps = {
   productId: string;
   productImage: string;
   productTitle: string;
-  productSize: string;
-  productColor: string;
+  productDescription: string;
+  productSize?: string;
+  productColor?: string;
   productSeller: string;
   productPrice: number;
 };
@@ -218,6 +270,7 @@ export type ViewedProductCardProps = {
 export interface ActivityCardProps {
   name: string;
   item: string;
+  isPage: boolean;
 }
 
 export interface MetricCardProps {
@@ -255,26 +308,18 @@ export interface OrderHistory {
   sales: number;
   revenue: number;
 }
-export interface Product {
+
+export interface WishlistProduct {
   productId: string;
   productName: string;
   productPrice: number;
   productImage: StaticImageData;
   productRating: number;
   numReviews: number;
-}
-
-export interface WishlistProduct extends Product {
   productCategory: string;
   inStock: boolean;
   inCart: boolean;
 }
-
-export interface FavoriteProduct extends Product {
-  isFavourite: boolean;
-  productCreator: string;
-}
-
 export interface WorkExperience {
   role: string;
   description: string;
@@ -362,8 +407,8 @@ export interface RatingBarProps {
 }
 
 export interface RatingCardProps {
-  rating: string;
-  users: string;
+  rating: number;
+  users: number;
 }
 
 export interface filterProps {
@@ -390,11 +435,12 @@ export interface filterProp {
 }
 
 export type SectionModalProps = {
-  openButtonText: string;
-  heading: string;
-  paragraph: string;
-  primaryText: string;
-  onClickAction: () => void;
+  openButtonText?: string;
+  heading?: string;
+  paragraph?: string;
+  primaryText?: string;
+  onClickAction?: () => void;
+  sectionToDelete?: string;
 };
 
 export interface PaymentStatusModalProps {
@@ -426,11 +472,12 @@ export interface SettingOptionTypes {
   refer: boolean;
 }
 export interface NotificationCheckboxType {
-  receiveEmail: boolean;
+  emailSummary: boolean;
   specialOffers: boolean;
-  getNotification: boolean;
-  notifyFollow: boolean;
-  notifyMessages: boolean;
+  communityUpdate: boolean;
+  followUpdate: boolean;
+  newMessages: boolean;
+  // userId:string
 }
 
 export type cardinfo = {
@@ -512,6 +559,53 @@ export interface CardData {
   location: string;
 }
 
-export interface AuthContextProps {
-  [key]: any;
+export interface Review {
+  id: number;
+  rating: number;
+  name: string;
+  description: string;
 }
+export interface UserInfo {
+  address: string;
+  createdAt: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  location: string;
+  profilePictureUrl: any;
+  profileUrl: string;
+  projects: number;
+  provider: string;
+  ranking: string;
+  skills: string[];
+  tag: string;
+  track: string;
+}
+
+interface ChartProps {
+  isBarChart: boolean;
+  data: any[];
+  isFetching: boolean;
+  isFetched: boolean;
+}
+
+export interface AuthContextProps {
+  auth: AuthResponse | undefined;
+  email: string;
+  redirect: string;
+  handleAuth: (value: AuthResponse) => void;
+  handleEmail: (value: string) => void;
+  handleRedirect: (value: string) => void;
+}
+
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+export type AuthResponse = {
+  token: string;
+  user: User;
+};

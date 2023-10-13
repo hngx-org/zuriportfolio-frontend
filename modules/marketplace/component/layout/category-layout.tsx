@@ -1,7 +1,7 @@
-import Breadcrumbs from '../../../../components/Breadcrumbs';
 import MainLayout from '../../../../components/Layout/MainLayout';
-import CategoriesNav from '../CategoriesNav/CategoriesNav';
+import Breadcrumbs from './BreadCrumbs';
 import { categoryMenus } from './data/category-data';
+import CategoriesNav from '../CategoriesNav/CategoriesNav';
 
 interface LayoutProps extends React.ComponentPropsWithRef<'section'> {
   children: React.ReactNode;
@@ -10,13 +10,13 @@ interface LayoutProps extends React.ComponentPropsWithRef<'section'> {
 const CategoryLayout = ({ children, ...props }: LayoutProps) => {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="max-w-[1240px] mx-auto pt-5 px-5 md:px-0">
-        <CategoriesNav navItems={categoryMenus} />
+      <CategoriesNav navItems={categoryMenus} />
+      <div className="max-w-[1240px] mx-auto px-5 md:px-0 -z-30">
         <div className="my-4 md:my-6 lg:my-8">
           <Breadcrumbs />
         </div>
-        <section {...props}>{children}</section>
       </div>
+      <section {...props}>{children}</section>
     </MainLayout>
   );
 };
