@@ -157,6 +157,7 @@ const MyPage: React.FC = () => {
   }
 
   const onBack = () => {
+    // call purchase data here again
     setData(DUMMYDATA);
   }
 
