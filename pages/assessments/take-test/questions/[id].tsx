@@ -21,7 +21,6 @@ const Questions: React.FC = () => {
   const assessment = useGetAssessment({ assessment_id: query?.id });
 
   const assessmentQuestions = useStartAssessment({ assessment_id: query?.id });
-
   const [questions, setQuestions] = useState<AssessmentQuestion[] | null>();
   const [selectedOption, setSelectedOption] = useState<OptionType>();
 
