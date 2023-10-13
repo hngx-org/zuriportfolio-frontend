@@ -57,15 +57,26 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setIsForm(true);
   };
 
+  const getUserWorkExperience = async () => {
+    const data = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+    const response = await data.json();
+    const { workExperience } = response;
+    console.log('User work experience', workExperience);
+  };
+
+  useEffect(() => {
+    getUserWorkExperience();
+  }, []);
+
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
   const handleEditExperience = async (id: string) => {
+    console.log(id);
     try {
-      const response = await fetch(`${API_BASE_URL}api/work-experience/${id}`, {
-        method: 'PATCH',
+      const response = await fetch(`${API_BASE_URL}api/update-work-experience/${id}`, {
+        method: 'PUT',
         body: JSON.stringify({
-          company, // Assuming `company` is a variable in your scope
-          // Add other data you want to send to the backend here
+          company,
           role,
           startMonth,
           startYear,
@@ -77,8 +88,13 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
           sectionId: 2,
         }),
       });
-      const data = await response.json();
-      console.log({ data });
+      // if (response.ok) {
+      // console.log(body);
+      const data = await response.text();
+      // console.log(response);
+
+      // console.log(data);
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -106,17 +122,18 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
 
   const getAllWorkExperience = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}api/work-experience`);
+      const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+
       if (response.ok) {
         const data = await response.json();
-        setWorkExperiences(data.workExperiences);
-        console.log(data);
+        const { workExperience } = data;
+        setWorkExperiences(workExperience);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+  const userId = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -144,7 +161,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       if (response.ok) {
         // Request was successful, you can handle the response here
         const data = await response.json(); // Parse the response as JSON
-        console.log('Response data:', data);
         getAllWorkExperience();
         resetForm();
       } else {

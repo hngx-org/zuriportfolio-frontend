@@ -40,6 +40,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     handleEditExperience,
     isEditMode,
     setIsEditMode,
+    resetForm,
   } = useContext(WorkExperienceModalContext);
   const [editingExperienceId, setEditingExperienceId] = useState<string | null>();
   const [editingExperience, setEditingExperience] = useState<WorkExperience | null>(null);
@@ -83,8 +84,9 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     // setIsForm(true);
   };
 
-  const editExperience = (experience: WorkExperience) => {
+  const editExperience = (experience: WorkExperience, e: React.FormEvent<HTMLFormElement>) => {
     // if (editingExperienceId) {
+    e.preventDefault();
     prefillForm(experience);
     handleEditExperience(editingExperienceId);
     console.log('bqgdgj');
@@ -117,7 +119,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                       <div>
                         <p className="text-[#2E3130] mb-1 text-[1.375rem] font-semibold">{experience.company}</p>
                         <p className="font-normal text-brand-green-primary text-sm">{experience.role}</p>
-                        <p>{experience.id}</p>
                       </div>
                     </div>
                     <p
@@ -134,7 +135,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     <span
                       className="font-semibold cursor-pointer text-[#5B8DEF]"
                       onClick={() => {
-                        setIsEditMode(true);
+                        setIsEditMode(false);
                         setEditingExperience(experience);
                         prefillForm(experience);
                       }}
@@ -156,7 +157,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
         <>
           {isForm && (
             <form
-              onSubmit={(e) => (isEditMode ? editExperience(editingExperience!) : addWorkExperience(e))}
+              onSubmit={(e) => (isEditMode ? editExperience(editingExperience!, e) : addWorkExperience(e))}
               className="flex flex-col gap-y-7"
             >
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
