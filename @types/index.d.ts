@@ -516,12 +516,10 @@ export type activity = {
   pItem: string;
   id: number;
 };
-type cardinfo = {
+export type cardinfo = {
   title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
+  amount: any;
+  ratio: number;
 };
 
 export type inputErrorMessage = {
