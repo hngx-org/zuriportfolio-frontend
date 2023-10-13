@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Button from '@ui/Button';
 import { LevelData, AssesMentData } from '../../../helpers/dashboardui';
 import MainLayout from '../../../components/Layout/MainLayout';
+import Link from 'next/link';
 
 const Dashboard = () => {
   const [locked, setLocked] = React.useState<boolean>(false);
@@ -42,7 +43,9 @@ const Dashboard = () => {
               </h2>
               <div className="md:flex">
                 {LevelData().map((item, index) => (
-                  <div
+                  <Link
+                    href="/assessments/dashboard/badge/[id]"
+                    as={`/assessments/dashboard/badge/${item.level}`}
                     key={index}
                     className="flex md:mx-2 xl:mx-4 items-center gap-[.5rem] my-[1rem] md:my-0 md:gap-[.7rem] lg:gap-[1rem] p-[.7rem] lg:p-[1rem] border border-[.58px] border-white-400 md:w-[14.4rem] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] rounded-md h-[6rem] md:h-[7rem] lg:h-[9rem] xl:h-[10rem]"
                   >
@@ -81,7 +84,7 @@ const Dashboard = () => {
                         {item.desc}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

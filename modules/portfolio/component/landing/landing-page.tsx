@@ -1,5 +1,6 @@
+'use-client';
 import Image from 'next/image';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Modal from '@ui/Modal';
 import LandinEmptyState from './landingpage-empty';
 import LandingPageFilled from './landingpage-filled';
@@ -8,7 +9,6 @@ import Home from '../modals/add-section';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import { CoverDiv } from './avatars';
 import Loader from './Loader';
-import { Briefcase, CloseSquare } from 'iconsax-react';
 import EditProfile from '../modals/edit-profile';
 import ViewTemplate from '../modals/view-template';
 
@@ -17,7 +17,6 @@ const Landing = () => {
     hasData,
     profileUpdate,
     isOpen,
-    onClose,
     modal,
     showProfileUpdate,
     showBuildPortfolio,
@@ -25,9 +24,21 @@ const Landing = () => {
     userData,
     isLoading,
     error,
+    userSections,
+    setHasData,
   } = useContext(Portfolio);
 
-  const { firstName, lastName, tracks, city, country, hasDataFromBE, coverImage } = userData;
+  const { firstName, lastName, tracks, city, country, coverImage } = userData;
+
+  useEffect(() => {
+    userSections?.map((section) => {
+      if (section?.data?.length !== 0) {
+        setHasData(true);
+      } else {
+        setHasData(false);
+      }
+    });
+  }, [setHasData, userSections]);
 
   const headerMargin =
     'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen';
