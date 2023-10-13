@@ -29,6 +29,7 @@ function VerificationComplete() {
 
       if (response.data.message) {
         notify({ message: response.data.message, type: 'error' });
+        router.push('/auth/verification');
         return;
       }
     },
