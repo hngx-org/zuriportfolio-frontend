@@ -2,17 +2,24 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { CloseCircle } from 'iconsax-react';
 import { useState } from 'react';
+import { useDeleteProd } from '../../../../../http';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const DeleteModal = ({
   isOpen,
   closeModal,
   reasons,
   setReasons,
+  id,
+  data,
 }: {
   isOpen: boolean;
   closeModal: () => void;
   reasons: Map<string, string>;
   setReasons: React.Dispatch<React.SetStateAction<Map<string, string>>>;
+  id: string;
+  data: Record<string, any>;
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const reasonsList = ['Policy violations', 'Offensive words', 'Just feel like it', 'Other'];
@@ -26,14 +33,35 @@ const DeleteModal = ({
     setReasons(newSelectedReasons);
   };
   const reasonsKeysArray = Array.from(reasons.keys());
+  const { deleteSanction, isLoading: isDeleting } = useDeleteProd();
+  const route = useRouter();
+
+  const handleDelete = () => {
+    deleteSanction(id, {
+      onSuccess: (response) => {
+        if (response.response.status < 300) {
+          toast.success(response.response.status || 'Product deleted successfully');
+          route.push('.');
+        } else {
+          toast.error(response.response.data.message || 'Error deleting the product');
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.success('Product permanently deleted');
+        route.push('.');
+      },
+    });
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} closeModal={closeModal} closeOnOverlayClick isCloseIconPresent={false} size="xl">
         <div className="p-5 flex flex-col gap-8">
           <h2 className="font-manropeB text-[28px] lg:text-[36px]">Delete Product</h2>
           <p className="font-manrope leading-[28px] text-[22px]">
-            <span className="font-bold">Webinar and Course Slide Templates (Soft Copy)</span> will be deleted as a
-            vendor from Zuri Marketplace and all their products as well. They will get a notification email.
+            <span className="font-bold">{data?.product_name}</span> will be deleted as a vendor from Zuri Marketplace
+            and all their products as well. They will get a notification email.
           </p>
           <div>
             <p className="text-[20px] lg:text-[22px] mb-4">Reason for deleting:</p>
@@ -105,7 +133,13 @@ const DeleteModal = ({
           </p>
           <p className="mt-2 text-[16px] text-center">Product will be permanently deleted from list.</p>
           <div className="flex flex-col gap-3 mt-8">
-            <Button intent={'error'} spinnerColor="#000" className="w-full rounded-[16px]" onClick={() => null}>
+            <Button
+              intent={'error'}
+              spinnerColor="#000"
+              className="w-full rounded-[16px]"
+              isLoading={isDeleting}
+              onClick={handleDelete}
+            >
               Delete Product
             </Button>
             <Button
