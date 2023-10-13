@@ -6,7 +6,7 @@ type DraftCardProps = {
   item: {
     id: number;
     title: string;
-    time: string;
+    createdAt: string;
   };
   onRename: (id: number, newTitle: string) => void;
   onDelete: () => void;
@@ -56,7 +56,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ item, onRename, onDelete }) => {
         )}
       </div>
       <div className="flex px-[10px] justify-between items-center w-full h-[55px] bg-[#F9F9FA] rounded-b-xl border-t border-solid border-[#A8ACAB]">
-        <p className="text-[#BF8443] font-manropeB text-[12px]">{item.time}</p>
+        <p className="text-[#BF8443] font-manropeB text-[12px]">{item.createdAt}</p>
         <Image
           src="/assets/more.svg"
           alt="more icon"

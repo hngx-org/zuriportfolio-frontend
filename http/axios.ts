@@ -8,7 +8,7 @@ const $http = axios.create({
     credentials: 'include',
     // 'Access-Control-Allow-Origin': '*',
   },
-  // withCredentials: true,
+  // withCredentials: false,
 });
 
 export default $http;
