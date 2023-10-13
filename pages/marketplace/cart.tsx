@@ -49,7 +49,7 @@ export default function Cart() {
   ];
 
   const authContext = useContext(AuthContext);
-  const { user } = authContext;
+  const { auth } = authContext;
   const [productCards, setProductCards] = useState(ViewedProducts);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
 
@@ -59,14 +59,10 @@ export default function Cart() {
     return sum;
   };
 
-  const [cartSummary, setCartSummary] = useState<number>(0);
-
   useEffect(() => {
     async function cartFetch() {
       const carts = await getUserCart();
       setCartItems(carts);
-      const sum = getSummary(carts);
-      setCartSummary(sum);
     }
     cartFetch();
   }, []);
@@ -89,7 +85,7 @@ export default function Cart() {
       productId={cartItem.productId}
       productColor={cartItem.productColor}
       productTitle={cartItem.productTitle}
-      proudctDescription={cartItem.proudctDescription}
+      productDescription={cartItem.productDescription}
       productImage={cartItem.productImage}
       productSeller={cartItem.productSeller}
       productSize={cartItem.productSize}
@@ -125,7 +121,7 @@ export default function Cart() {
                 {cartProductItems}
               </div>
               <div className="flex md:flex-none justify-center md:mx-0">
-                <Summary sum={cartSummary} />
+                <Summary discount={2} sum={getSummary(cartItems)} />
               </div>
             </section>
 

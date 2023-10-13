@@ -230,7 +230,7 @@ export type CartItemProps = {
   productId: string;
   productImage: string;
   productTitle: string;
-  proudctDescription?: string;
+  productDescription: string;
   productSize?: string;
   productColor?: string;
   productSeller: string;
@@ -254,6 +254,7 @@ export type ViewedProductCardProps = {
 export interface ActivityCardProps {
   name: string;
   item: string;
+  isPage: boolean;
 }
 
 export interface MetricCardProps {
@@ -563,8 +564,8 @@ export interface ProductResult {
 }
 
 export interface AuthContextProps {
-  user: LoginBodyResponse | undefined;
-  handleUser: (value: LoginBodyResponse) => void;
+  auth: LoginResponse | undefined;
+  handleAuth: (value: LoginResponse) => void;
 }
 
 export type LoginBodyResponse = {
@@ -586,6 +587,7 @@ export type LoginBodyResponse = {
   country: unknown;
   created_at: string;
 };
+
 export type LoginResponse = {
   token: string;
   data: LoginBodyResponse;
@@ -597,4 +599,27 @@ export interface Review {
   rating: number;
   name: string;
   description: string;
+}
+export interface UserInfo {
+  address: string;
+  createdAt: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  location: string;
+  profilePictureUrl: any;
+  profileUrl: string;
+  projects: number;
+  provider: string;
+  ranking: string;
+  skills: string[];
+  tag: string;
+  track: string;
+}
+
+interface ChartProps {
+  isBarChart: boolean;
+  data: any[];
+  isFetching: boolean;
+  isFetched: boolean;
 }

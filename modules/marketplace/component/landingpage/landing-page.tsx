@@ -1,15 +1,11 @@
 import React from 'react';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { ProductCardProps } from '../../../../@types';
-import ProductCard from '../ProductCard';
-import Link from 'next/link';
-import Image from 'next/image';
 import ProductCardWrapper from './productCardWrapper/product-card-wrapper';
 import ExperienceCard from './experience-cards/experience-card';
-import Cancel from '../../../../public/assets/recentlyviewed/cancel.svg';
-import styles from './productCardWrapper/product-card-wrapper.module.css';
 import AllCategorySlider from '../AllCategorySlider';
 import CategoriesNav from '../CategoriesNav/CategoriesNav';
+import RecentlyViewed from './recentlyViewed/recentlyViewed';
 
 const handPicked: ProductCardProps[] = [
   {
@@ -241,65 +237,6 @@ const limitedOffers: ProductCardProps[] = [
   },
 ];
 
-const recentlyViewed: ProductCardProps[] = [
-  {
-    id: '1',
-    currency: 'USD',
-
-    image: '/assets/recentlyviewed/image1.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: true,
-    showTopPicks: false,
-    showDiscount: true,
-    discount: 60,
-  },
-  {
-    id: '1',
-    currency: 'USD',
-
-    image: '/assets/recentlyviewed/image2.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: false,
-    showTopPicks: false,
-    showDiscount: false,
-    discount: 0,
-  },
-  {
-    id: '1',
-    currency: 'USD',
-
-    image: '/assets/recentlyviewed/image3.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: true,
-    showTopPicks: false,
-    showDiscount: true,
-    discount: 60,
-  },
-  {
-    id: '1',
-    currency: 'USD',
-
-    image: '/assets/recentlyviewed/image4.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: true,
-    showTopPicks: true,
-    showDiscount: true,
-    discount: 0,
-  },
-];
-
 function LandingPage() {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
@@ -425,7 +362,7 @@ function LandingPage() {
 
         <AllCategorySlider />
 
-        <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-[60px]">
+        {/* <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-[60px]">
           <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
             Recently Viewed
             <Link className="flex items-center gap-2 text-sm font-bold text-brand-green-shade50" href="">
@@ -468,7 +405,8 @@ function LandingPage() {
               );
             })}
           </div>
-        </section>
+        </section> */}
+        <RecentlyViewed />
       </div>
     </MainLayout>
   );
