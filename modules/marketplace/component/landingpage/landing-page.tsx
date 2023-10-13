@@ -1,21 +1,20 @@
 import React from 'react';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { ProductCardProps } from '../../../../@types';
-import ProductCard from '../ProductCard';
-import Link from 'next/link';
-import Image from 'next/image';
 import ProductCardWrapper from './productCardWrapper/product-card-wrapper';
 import ExperienceCard from './experience-cards/experience-card';
-import Cancel from '../../../../public/assets/recentlyviewed/cancel.svg';
-import styles from './productCardWrapper/product-card-wrapper.module.css';
 import AllCategorySlider from '../AllCategorySlider';
 import CategoriesNav from '../CategoriesNav/CategoriesNav';
+import RecentlyViewed from './recentlyViewed/recentlyViewed';
 
 const handPicked: ProductCardProps[] = [
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -24,9 +23,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -35,9 +37,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -46,9 +51,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -57,9 +65,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-1.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -68,9 +79,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-2.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -79,9 +93,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-3.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -90,9 +107,12 @@ const handPicked: ProductCardProps[] = [
     discount: 0,
   },
   {
+    id: '1',
+    currency: 'USD',
+
     image: '/assets/products-banner/Image-4.png',
     productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -104,111 +124,12 @@ const handPicked: ProductCardProps[] = [
 
 const limitedOffers: ProductCardProps[] = [
   {
-    image: '/assets/products-banner/Image-5.png',
-    productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: false,
-    showTopPicks: false,
-    showDiscount: false,
-    discount: 0,
-  },
-  {
-    image: '/assets/products-banner/Image-4.png',
-    productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: true,
-    showTopPicks: false,
-    showDiscount: false,
-    discount: 0,
-  },
-  {
-    image: '/assets/products-banner/Image-6.png',
-    productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: false,
-    showTopPicks: false,
-    showDiscount: false,
-    discount: 0,
-  },
-  {
-    image: '/assets/products-banner/Image-7.png',
-    productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: false,
-    showTopPicks: false,
-    showDiscount: false,
-    discount: 0,
-  },
-  {
-    image: '/assets/products-banner/Image-5.png',
-    productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: false,
-    showTopPicks: false,
-    showDiscount: false,
-    discount: 0,
-  },
-  {
-    image: '/assets/products-banner/Image-4.png',
-    productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: true,
-    showTopPicks: false,
-    showDiscount: false,
-    discount: 0,
-  },
-  {
-    image: '/assets/products-banner/Image-6.png',
-    productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: false,
-    showTopPicks: false,
-    showDiscount: false,
-    discount: 0,
-  },
-  {
-    image: '/assets/products-banner/Image-7.png',
-    productName: 'Webinar and Course Slide Templa...',
-    productPrice: '100',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: false,
-    showTopPicks: false,
-    showDiscount: false,
-    discount: 0,
-  },
-];
+    id: '1',
+    currency: 'USD',
 
-const recentlyViewed: ProductCardProps[] = [
-  {
-    image: '/assets/recentlyviewed/image1.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: '100',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    showLimitedOffer: true,
-    showTopPicks: false,
-    showDiscount: true,
-    discount: 60,
-  },
-  {
-    image: '/assets/recentlyviewed/image2.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: '100',
+    image: '/assets/products-banner/Image-5.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: false,
@@ -217,25 +138,101 @@ const recentlyViewed: ProductCardProps[] = [
     discount: 0,
   },
   {
-    image: '/assets/recentlyviewed/image3.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: '100',
+    id: '1',
+    currency: 'USD',
+
+    image: '/assets/products-banner/Image-4.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: true,
     showTopPicks: false,
-    showDiscount: true,
-    discount: 60,
+    showDiscount: false,
+    discount: 0,
   },
   {
-    image: '/assets/recentlyviewed/image4.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: '100',
+    id: '1',
+    currency: 'USD',
+
+    image: '/assets/products-banner/Image-6.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: 100,
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: false,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    id: '1',
+    currency: 'USD',
+
+    image: '/assets/products-banner/Image-7.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: 100,
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: false,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    id: '1',
+    currency: 'USD',
+
+    image: '/assets/products-banner/Image-5.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: 100,
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: false,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    id: '1',
+    currency: 'USD',
+
+    image: '/assets/products-banner/Image-4.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: 100,
     productOwner: 'Mark Essien',
     productRating: 3,
     showLimitedOffer: true,
-    showTopPicks: true,
-    showDiscount: true,
+    showTopPicks: false,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    id: '1',
+    currency: 'USD',
+
+    image: '/assets/products-banner/Image-6.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: 100,
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: false,
+    showDiscount: false,
+    discount: 0,
+  },
+  {
+    id: '1',
+    currency: 'USD',
+
+    image: '/assets/products-banner/Image-7.png',
+    productName: 'Webinar and Course Slide Templa...',
+    productPrice: 100,
+    productOwner: 'Mark Essien',
+    productRating: 3,
+    showLimitedOffer: false,
+    showTopPicks: false,
+    showDiscount: false,
     discount: 0,
   },
 ];
@@ -243,26 +240,27 @@ const recentlyViewed: ProductCardProps[] = [
 function LandingPage() {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+      <CategoriesNav
+        navItems={[
+          ' Design & Graphics',
+          ' Development & Programming',
+          ' Content Creation',
+          ' Digital Arts & Media',
+          ' Audio & Sound',
+          ' Photography',
+          'Writing & Copywriting',
+          'Video & motion',
+          'Data & Analytics',
+          'Marketing & Advertising',
+          'eCommerce & Business',
+          'Gaming & Entertainment',
+          'Virtual Reality & Augmented Reality',
+          'e-Books',
+        ]}
+      />
+
       <div className="py-6 px-4 overflow-hidden w-full">
         <div className="max-w-[1240px] mx-auto">
-          <CategoriesNav
-            navItems={[
-              ' Design & Graphics',
-              ' Development & Programming',
-              ' Content Creation',
-              ' Digital Arts & Media',
-              ' Audio & Sound',
-              ' Photography',
-              'Writing & Copywriting',
-              'Video & motion',
-              'Data & Analytics',
-              'Marketing & Advertising',
-              'eCommerce & Business',
-              'Gaming & Entertainment',
-              'Virtual Reality & Augmented Reality',
-              'e-Books',
-            ]}
-          />
           <ProductCardWrapper title="Handpicked For You" productsList={handPicked} />
 
           <ProductCardWrapper title="Limited Offers" productsList={limitedOffers} />
@@ -364,7 +362,7 @@ function LandingPage() {
 
         <AllCategorySlider />
 
-        <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-[60px]">
+        {/* <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-[60px]">
           <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
             Recently Viewed
             <Link className="flex items-center gap-2 text-sm font-bold text-brand-green-shade50" href="">
@@ -391,6 +389,8 @@ function LandingPage() {
                     <Image src={Cancel} alt="Cancel Icon" />
                   </button>
                   <ProductCard
+                    currency={item?.currency}
+                    id={item?.id}
                     image={item?.image}
                     productName={item?.productName}
                     productPrice={item?.productPrice}
@@ -405,7 +405,8 @@ function LandingPage() {
               );
             })}
           </div>
-        </section>
+        </section> */}
+        <RecentlyViewed />
       </div>
     </MainLayout>
   );

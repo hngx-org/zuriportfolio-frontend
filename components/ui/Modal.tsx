@@ -1,11 +1,12 @@
 // @ts-expect-error
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { CloseCircle } from 'iconsax-react';
+import { IoMdClose } from 'react-icons/io';
 import { ModalProps } from '../../@types';
 import Button from './Button';
 
-const sizes: Record<'xl' | 'lg' | 'md' | 'sm', string> = {
+const sizes: Record<'xxl' | 'xl' | 'lg' | 'md' | 'sm', string> = {
+  xxl: 'max-w-[980px]',
   xl: 'max-w-[700px]',
   lg: 'max-w-xl',
   md: 'max-w-lg',

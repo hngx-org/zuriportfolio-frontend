@@ -1,0 +1,151 @@
+<mjml>
+  <mj-head>
+    <mj-style> body { margin: initial; padding: 24px 24px 48px 24px; } </mj-style>
+    <mj-font name="ManRope" href="https-//fonts.googleapis.com/css2?family=Century Gothic&display=swap" />
+    <mj-attributes>
+      <mj-image padding="0px" />
+      <mj-body background-color="#F0ECE6" />
+      <mj-text font-family="Century Gothic, sans-serif" font-size="14px" letter-spacing="0.035px" color="#2E3130" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-wrapper padding="0px" full-width="full-width">
+      <mj-section>
+        <mj-column>
+          <mj-image
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/greenzurilogo.png"
+            alt="zuri portfolio logo"
+            width="142px"
+          />
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+
+    <mj-wrapper background-color="#fff">
+      <mj-section padding="40px 2px 0px 2px">
+        <mj-column>
+          <mj-text font-size="16px" font-weight="600" color="#000"> Hi, Dare </mj-text>
+          <mj-text font-size="16px" font-weight="600" color="#009254"> Suspension lifted </mj-text>
+          <mj-text
+            color="#191c1d"
+            line-height="20px"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
+            We are pleased to let you know that your store Zuriportfolio store
+            <mj-raw>
+              <span style="font-weight: bold; color: #191c1d">‘Road to marketing’</span>
+            </mj-raw>
+            is no longer suspended and is now fully operational on our platform. This achievement is a testament to your
+            unwavering commitment to maintaining elevated standards of quality and compliance.
+          </mj-text>
+
+          <mj-text
+            color="#191c1d"
+            line-height="20px"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
+            We acknowledge the inconvenience and disruption this suspension may have caused and appreciate your
+            understanding and cooperation throughout the process.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-button
+            href="https://zuriportfolio.com/login"
+            border-radius="10px"
+            background-color="#33a467"
+            height="30px"
+            width="250px"
+            font-size="16px"
+            >Sign into your account
+          </mj-button>
+        </mj-column>
+      </mj-section>
+
+      <mj-section padding="15px 2px 0px 2px">
+        <mj-column>
+          <mj-text
+            color="#191c1d"
+            line-height="20px"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
+            Take a moment to review our
+            <mj-raw>
+              <span style="color: #009254; text-decoration: underline">terms of service</span>
+            </mj-raw>
+            and
+            <mj-raw>
+              <span style="color: #009254; text-decoration: underline">community guidelines</span>
+            </mj-raw>
+            to ensure continued adherence. We look forward to your valued partnership in upholding our standards of
+            fostering a safe and respectful environment for all users.
+          </mj-text>
+
+          <mj-text
+            color="#191c1d"
+            line-height="20px"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
+            If you have any questions or issues, please contact support at
+            <mj-raw> <span style="color: #009254; text-decoration: underline">support@zuriportolio.com</span>. </mj-raw>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section padding="30px 2px 0px 2px">
+        <mj-column>
+          <mj-text
+            color="#191C1D"
+            line-height="0"
+            font-family="Century Gothic, sans-serif"
+            font-size="12px"
+            letter-spacing="0.035px"
+          >
+            Thank you for choosing Zuriportfolio!
+          </mj-text>
+
+          <mj-text
+            color="#865311"
+            font-weight="700"
+            line-height="1px"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
+            Zuri Team
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section padding="40px 2px 40px 2px">
+        <mj-column>
+          <mj-image
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/greenzurilogo.png"
+            alt="zuri portfolio logo"
+            width="126px"
+          />
+          <mj-text
+            color="#5B5F5E"
+            font-weight="700"
+            align="center"
+            line-height="1px"
+            font-family="Century Gothic, sans-serif"
+            font-size="9.528px"
+            letter-spacing="0.035px"
+          >
+            Copyright (c) Zuriportfolio. All rights reserved
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+  </mj-body>
+</mjml>

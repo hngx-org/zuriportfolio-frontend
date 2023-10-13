@@ -368,14 +368,14 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
             </div>
           </div>
           <div className="mt-8 w-full h-auto border-2 border-zinc-200 max-md:overflow-x-scroll rounded-xl overflow-x-scroll">
-            <div className="complaintHeading h-18 p-3 flex flex-row items-center justify-between border-b-2 border-zinc-200">
-              <div className="headerText min-w-[190px] mr-2">
+            <div className="complaintHeading h-18 p-3 flex flex-row items-center max-md:flex-col max-md:items-start justify-between ">
+              <div className="headerText min-w-[300px] mr-2">
                 <h2 className="font-manropeL text-xl font-semibold">My Complaint</h2>
                 <h3 className="font-manropeL text-base font-normal text-slate-600">
                   List of all complaint and their details
                 </h3>
               </div>
-              <div className="searchFunc flex flex-row items-center ">
+              <div className="searchFunc flex flex-row max-md:mt-1.5 items-center ">
                 <div className="search h-11 rounded-lg border-solid border-2 border-zinc-200 px-2 w-auto flex flex-row justify-evenly items-center">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -390,7 +390,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                     type="search"
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search"
-                    className="  border-none focus:outline-none ml-1.5 h-6 w-96"
+                    className="  border-none focus:outline-none ml-1 h-6 w-96 max-md:w-56"
                   />
                 </div>
                 <div className="filter cursor-pointer rounded-lg ml-2 p-2.5 flex flex-row h-auto w-auto justify-center items-center border-solid border-zinc-200 border-2">
@@ -418,7 +418,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
               </div>
             </div>
             <div className="complaintList">
-              <div className="tableHead border-solid border-b-2 border-zinc-200">
+              <div className="tableHead border-solid border-b-2 border-t-2 max-md:w-max max-lg:w-max border-zinc-200">
                 <div className="vendorComplaints p-3 flex flex-row items-center justify-between ">
                   <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
                   <div className="w-80 name flex flex-row items-center justify-start min-w-[250px]">

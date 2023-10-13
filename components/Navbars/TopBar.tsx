@@ -16,7 +16,7 @@ import MobileNav from '@modules/dashboard/component/MobileNav';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
-  const [auth, setAuth] = useState(true);
+  const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
   const searchRef2 = useRef<HTMLDivElement | null>(null);
@@ -95,10 +95,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
             <div className=" hidden lg:flex gap-10 items-start">
               <div className="group h flex flex-col ali justify-center items-center gap-1">
-                <Link className={activeLink('/')} href={'/'}>
+                <Link className={activeLink('/explore')} href={'/explore'}>
                   Explore
                 </Link>
-                {router.pathname === '/' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
+                {router.pathname === '/explore' ? <div className="w-6 h-0.5 bg-emerald-600 rounded-lg" /> : null}
               </div>
               <div className=" group flex flex-col ali justify-center items-center gap-1 ">
                 <Link className={activeLink('/marketplace')} href={'/marketplace'}>
@@ -146,8 +146,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
                   bg-opacity-0 hover:cursor-pointer "
                   >
-                    <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
-                    <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
+                    <option className="hover:cursor-pointer bg-white-100">Explore</option>
+                    <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
                   </select>
                   <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                     <div className="w-6 h-6  ">
@@ -314,9 +314,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           handleAuthMenu={handleAuthMenu}
           auth={auth}
           refMenu={searchRef2}
-        >
-          {auth && <MobileNav active={props.activePage} />}
-        </MenuUI>
+        />
+
         {/* Search Mobile Nav */}
         {searchMobile && (
           <div className="absolute min-h-screen lg:hidden bg-white-610 right-0 left-0 top-20">
@@ -350,8 +349,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
                   bg-opacity-0 hover:cursor-pointer  "
                     >
-                      <option className="hover:cursor-pointer hover:bg-orange-800">Explore</option>
-                      <option className="hover:cursor-pointer hover:bg-orange-800">Marketplace</option>
+                      <option className="hover:cursor-pointer bg-white-100 ">Explore</option>
+                      <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
                     </select>
                     <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                       <div className="w-6 h-6  ">
@@ -466,7 +465,6 @@ function MenuUI({
   auth,
   handleAuthMenu,
   authMenu,
-  children,
 }: {
   toggle?: boolean;
   toggler: () => void;
@@ -475,7 +473,6 @@ function MenuUI({
   auth?: boolean;
   handleAuthMenu: () => void;
   authMenu?: boolean;
-  children: React.ReactNode;
   refMenu?: any;
 }) {
   const router = useRouter();
@@ -503,10 +500,10 @@ function MenuUI({
       <ul className="p-6 flex gap-6 flex-col place-items-start bg-white-100">
         <li className=" flex flex-col lg:hidden gap-5 ">
           <div className="group h flex flex-col ali justify-center gap-1">
-            <Link className={activeLink('/')} href={'/'}>
+            <Link className={activeLink('/explore')} href={'/explore'}>
               Explore
             </Link>
-            {router.pathname === '/' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            {router.pathname === '/explore' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
           <div className=" group flex flex-col ali justify-center  gap-1 ">
             <Link className={activeLink('/marketplace')} href={'/marketplace'}>
@@ -515,7 +512,7 @@ function MenuUI({
             {router.pathname === '/marketplace' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
           </div>
         </li>
-        {children}
+
         {auth && (
           <div className="mt-4 flex flex-col items-baseline gap-6 w-[100%]">
             <div className=" group flex flex-col  justify-center  gap-1 ">

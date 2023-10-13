@@ -5,6 +5,7 @@ import Edithead from '@modules/assessment/component/edittitleHead';
 import { useState } from 'react';
 import PreviewQuests from '@modules/assessment/component/previewQuests';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+
 const Previewedit: React.FC = () => {
   //demo-question-...
   // eslint-disable-next-line react/no-unescaped-entities
@@ -66,7 +67,7 @@ const Previewedit: React.FC = () => {
         </div>
         <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
         {/* Actual layouts */}
-        <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
+        <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0]">
           {active === 'button1' ? (
             <>
               <Edithead />
