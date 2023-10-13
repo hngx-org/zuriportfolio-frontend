@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Button from '@ui/Button';
-// import axios from 'axios';
 import { Input } from '@ui/Input';
 import { ArrowRight2 } from 'iconsax-react';
 import { Trash } from 'iconsax-react';
@@ -9,7 +8,6 @@ import { SearchNormal1 } from 'iconsax-react';
 import DeleteModal from '@modules/marketplace/component/CustomerDashboard/DeleteModal';
 import useDisclosure from '../../../hooks/useDisclosure';
 import PurchaseNotFound from '@modules/marketplace/component/CustomerDashboard/PurchaseNotFound';
-// import MobileCustomerDashboard from './mobile_customer_dashboard';
 import FilterDropDown from '@modules/marketplace/component/CustomerDashboard/FilterDropDown';
 import MainLayout from '../../../components/Layout/MainLayout';
 
@@ -424,9 +422,6 @@ const MyPage: React.FC = () => {
             </div>
           )}
 
-          {/* {data.length > 0 && (
-            <MobileCustomerDashboard/>
-          )} */}
           {/* error page */}
           {data.length === 0 && <PurchaseNotFound back={onBack} />}
         </div>
