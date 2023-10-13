@@ -6,8 +6,62 @@ import Image from 'next/image';
 import Link from 'next/link';
 import VendorComplaint from '../../../public/assets/images/vendorComplaint.png';
 
-function GeneralCOmplaints() {
-  const [fetchComplains, setfetchComplaits] = useState<any[]>([]);
+interface ResolvedType {
+  total_resolved: number;
+  // Add other properties as needed
+}
+
+interface PendingType {
+  total_pending: number;
+  // Add other properties as needed
+}
+
+interface InProgressType {
+  total_in_progress: number;
+  // Add other properties as needed
+}
+
+interface Complain {
+  id: number;
+  status: string;
+  // Add other properties based on your data structure
+}
+
+function GeneralComplaints({ complain }: { complain: Complain }) {
+  const initialStatus = complain ? complain.status : '';
+  const [complainStatus, setComplainStatus] = useState(initialStatus);
+
+  const handleStatusUpdate = async () => {
+    // New status value (e.g., 'resolved')
+    const newStatus = 'in Progress';
+
+    // Update the complainStatus in the component's state
+    setComplainStatus(newStatus);
+
+    // Send a request to update the status on the server
+    try {
+      const response = await fetch('https://team-mirage-super-amind2.onrender.com/api/admin/feedback/complaints', {
+        method: 'PUT', // or 'POST' depending on your API
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: complain.id, // Include the complain ID for identification
+          status: newStatus, // Updated status value
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+      // Revert the status in the component's state if there was an error
+      setComplainStatus(initialStatus);
+    }
+  };
+
+  const [fetchComplains, setfetchComplaints] = useState([]);
   const [search, setSearch] = React.useState<string>('');
   const [filter, setFilter] = React.useState<string>('');
   const [tag, setTag] = React.useState<string>('pending');
@@ -18,10 +72,95 @@ function GeneralCOmplaints() {
 
   React.useEffect(() => {
     fetch('https://team-mirage-super-amind2.onrender.com/api/admin/feedback/complaints/')
-      .then((response) => response.json())
-      .then((data) => setfetchComplaits(data));
-    console.log(fetchComplains);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const dataArray = data.data;
+        setfetchComplaints(dataArray);
+        console.log(dataArray);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        // Handle the error or set an error state in your component
+      });
   }, []);
+
+  // State to store the API data
+  const [pending, setpending] = useState<PendingType | null>(null);
+
+  // Fetch data from the API
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          'https://team-mirage-super-amind2.onrender.com/api/admin/feedback/pending-complaints/',
+        );
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setpending(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  // State to store the API data
+  const [inProgress, setinProgress] = useState<InProgressType | null>(null);
+
+  // Fetch data from the API
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          'https://team-mirage-super-amind2.onrender.com/api/admin/feedback/in-progress-complaints/',
+        );
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setinProgress(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  // State to store the API data
+  const [resolved, setResolved] = useState<ResolvedType | null>(null);
+
+  // Fetch data from the API
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          'https://team-mirage-super-amind2.onrender.com/api/admin/feedback/resolved-complaints/',
+        );
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setResolved(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <Nav />
@@ -62,7 +201,11 @@ function GeneralCOmplaints() {
                   </svg>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
-                  <h1 className="h-10 text-2xl font-manropeL font-bold ">94</h1>
+                  {resolved ? (
+                    <h1 className="h-10 text-2xl font-manropeL font-bold ">{resolved.total_resolved}</h1>
+                  ) : (
+                    <p>Loading....</p>
+                  )}
                   <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl bg-green-100">
                     <svg width="67" height="24" viewBox="0 0 67 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect x="0.333984" width="66" height="24" rx="12" fill="#E6F5EA" />
@@ -122,7 +265,11 @@ function GeneralCOmplaints() {
                   </svg>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
-                  <h1 className="h-10 text-2xl font-manropeL font-bold ">66</h1>
+                  {pending ? (
+                    <h1 className="h-10 text-2xl font-manropeL font-bold ">{pending.total_pending}</h1>
+                  ) : (
+                    <p>Loading...</p>
+                  )}
                   <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl bg-yellow-50">
                     <svg width="67" height="24" viewBox="0 0 67 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect x="0.667969" width="66" height="24" rx="12" fill="#FFF6AF" />
@@ -184,7 +331,11 @@ function GeneralCOmplaints() {
                   </div>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
-                  <h1 className="h-10 text-2xl font-manropeL font-bold ">51</h1>
+                  {inProgress ? (
+                    <h1 className="h-10 text-2xl font-manropeL font-bold ">{inProgress.total_in_progress}</h1>
+                  ) : (
+                    <p>Loading...</p>
+                  )}
                   <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl bg-blue-50">
                     <svg width="66" height="24" viewBox="0 0 66 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g>
@@ -304,10 +455,10 @@ function GeneralCOmplaints() {
                 </div>
               </div>
               {fetchComplains
-                .filter((item) => {
-                  return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search);
+                .filter((item: any) => {
+                  return search.toLowerCase() === '' ? item : item.user_name.toLowerCase().includes(search);
                 })
-                .map((complain) => {
+                .map((complain: any) => {
                   return (
                     <div
                       key={complain.id}
@@ -316,23 +467,41 @@ function GeneralCOmplaints() {
                       <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
                       <div className="name w-80 flex flex-row items-center min-w-[250px]">
                         <div className="displayPicture">
-                          <Image
-                            alt=""
-                            src={complain.image}
-                            className="h-10 w-10 rounded-full object-contain"
-                            width={40}
-                            height={40}
-                          />
+                          {complain.user_details && complain.user_details.profile_pic && (
+                            <Image
+                              alt=""
+                              src={complain.user_details.profile_pic}
+                              className="h-10 w-10 rounded-full object-contain"
+                              width={40}
+                              height={40}
+                            />
+                          )}
                           {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                         </div>
                         <Link
-                          onClick={changeTag}
-                          href={'/super-admin/feedback-and-customer-support/[1]'}
+                          onClick={handleStatusUpdate}
+                          key={complain.id}
+                          id={complain.id}
+                          href={
+                            complain && complain.id ? `/super-admin/feedback-and-customer-support/${complain.id}` : '#'
+                          }
                           className="identity pl-2"
                         >
                           <div>
-                            <h2 className="font-manropeL font-semibold text-base">{complain.user_name}</h2>
-                            <p className="font-manropeL text-xs font-normal text-slate-500">{complain.email}</p>
+                            {complain.user_details ? (
+                              <h2 className="font-manropeL font-semibold text-base">
+                                {complain.user_details.first_name} {complain.user_details.last_name}
+                              </h2>
+                            ) : (
+                              <h2 className="font-manropeL font-semibold text-base">User Details Unavailable</h2>
+                            )}
+                            {complain.user_details ? (
+                              <p className="font-manropeL text-xs font-normal text-slate-500">
+                                {complain.user_details.email}
+                              </p>
+                            ) : (
+                              <p className="font-manropeL text-xs font-normal text-slate-500">Email Unavailable</p>
+                            )}
                           </div>
                         </Link>
                       </div>
@@ -342,10 +511,17 @@ function GeneralCOmplaints() {
                         </p>
                       </div>
                       <div className="date w-40 min-w-[120px] flex items-center justify-center">
-                        <p className="font-manropeL font-medium text-base text-slate-500">{complain.name}</p>
+                        {complain.user_details && complain.createdAt ? (
+                          <p className="font-manropeL font-medium text-base text-slate-500">{complain.createdAt}</p>
+                        ) : (
+                          <p className="font-manropeL font-medium text-base text-slate-500">Date Unavailable</p>
+                        )}
                       </div>
                       <div>
-                        <p>{tag}</p>
+                        <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                          <div className="w-2 h-2 bg-yellow-300 rounded-md "></div>
+                          <p className="text-xs text-yellow-300">{complain.status}</p>
+                        </div>
                       </div>
                       <div className="action w-20 flex items-center justify-center cursor-pointer min-w-[80px]">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -377,4 +553,4 @@ function GeneralCOmplaints() {
   );
 }
 
-export default GeneralCOmplaints;
+export default GeneralComplaints;
