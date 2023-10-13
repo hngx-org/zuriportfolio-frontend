@@ -14,6 +14,8 @@ import CategoryLayout from './component/layout/category-layout';
 import { ArrowRight } from 'iconsax-react';
 import axios from 'axios';
 import { ProductData } from '../../@types';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProductDetailsDescription() {
   const [image, setImage] = useState(mainImage);
@@ -22,17 +24,39 @@ export default function ProductDetailsDescription() {
   const { id } = router.query;
 
   useEffect(() => {
-    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}`;
+    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/fecfd17b-51a3-4288-9bd0-77ac4b7d60a0/`;
     // Fetch data using Axios
+    const headers = {
+      accept: 'application/json',
+      'X-CSRFToken': 'SZsrPtDcQVaCAGj1y6i2APFbPOSb3lYXa3y4PNvCV2wFsiTNkfzPozotwTiOCzSy',
+    };
     axios
-      .get<ProductData>(apiUrl)
+      .get<ProductData>(apiUrl, { headers })
       .then((response) => {
         setProduct(response.data);
+        // console.log(product)
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, [id]);
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    toast.success('Added to Cart', {
+      position: 'top-right',
+      autoClose: 3000,
+    });
+  };
+
+  const renderRatingStars = (rating: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      const starType = i <= rating ? 'star1' : 'star2';
+      stars.push(<Image src={starType === 'star1' ? star1 : star2} alt={`Star ${i}`} key={i} />);
+    }
+    return stars;
+  };
 
   const updateImage = (newImage: any) => {
     setImage(newImage);
@@ -66,7 +90,9 @@ export default function ProductDetailsDescription() {
           {/* Product Detail Images  */}
           <div className="flex flex-col w-full item-center lg:gap-y-4 md:gap-y-2 gap-y-3 gap-x-10 mx-auto pb-6">
             <Image
-              src={image}
+              src={product?.images[0].url}
+              width={500}
+              height={500}
               alt="Main Image"
               className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover lg:rounded-3xl rounded-lg"
             />
@@ -88,12 +114,20 @@ export default function ProductDetailsDescription() {
 
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-1">
-                <p className=" text-base font-semibold font-manropeB leading-normal tracking-tight">3.3/5</p>
-                <Image src={star1} alt="rating star" />
-                <Image src={star1} alt="rating star" />
-                <Image src={star1} alt="rating star" />
-                <Image src={star2} alt="rating star" />
-                <Image src={star2} alt="rating star" />
+                <p className=" text-base font-semibold font-manropeB leading-normal tracking-tight">
+                  {product?.rating ? product?.rating : '3'}/5
+                </p>
+                {product?.rating ? (
+                  renderRatingStars(product?.rating)
+                ) : (
+                  <>
+                    <Image src={star1} alt="rating star" />
+                    <Image src={star1} alt="rating star" />
+                    <Image src={star1} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                  </>
+                )}
               </div>
               <p className="text-black text-base font-normal font-manropeL leading-normal tracking-tight">
                 (50 Customers)
@@ -118,6 +152,7 @@ export default function ProductDetailsDescription() {
 
             <div className="flex md:flex-row flex-col gap-[10px] font-normal font-base leading-6">
               <Button
+                onClick={handleAddToCart}
                 intent={'primary'}
                 size={'lg'}
                 className="md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg tracking-[0.08px]"
@@ -352,4 +387,7 @@ export default function ProductDetailsDescription() {
       </main>
     </CategoryLayout>
   );
+}
+function addToCart(product: ProductData | null) {
+  throw new Error('Function not implemented.');
 }
