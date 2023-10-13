@@ -47,11 +47,11 @@ export const cardData = [
 ];
 
 export const ratingData = [
-  { rating: '5', users: '48' },
-  { rating: '4', users: '36' },
-  { rating: '3', users: '24' },
-  { rating: '2', users: '12' },
-  { rating: '1', users: '6' },
+  { rating: 5, users: 48 },
+  { rating: 4, users: 36 },
+  { rating: 3, users: 24 },
+  { rating: 2, users: 12 },
+  { rating: 1, users: 6 },
 ];
 
 export const reviewData = [

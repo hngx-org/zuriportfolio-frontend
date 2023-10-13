@@ -5,8 +5,12 @@ import close_circle from '../../public/assets/icons/close-circle.svg';
 import close1 from '../../public/assets/icons/close1.svg';
 import add from '../../public/assets/icons/add.svg';
 import Button from '@ui/Button';
+import axios from 'axios';
+import { notify } from '@ui/Toast';
 
-const InterestModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const interests_endpoint = 'https://hng6-r5y3.onrender.com/api/interests';
+
+const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
 
@@ -55,6 +59,37 @@ const InterestModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
       />
     </span>
   ));
+
+  const handleSubmit = () => {
+    if (values.length === 0) return;
+    const data = {
+      userId: userId,
+      interests: values,
+      sectionId: 323,
+    };
+    axios
+      .post(interests_endpoint, data)
+      .then((res) => {
+        notify({
+          message: 'Interests created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        setValues([]);
+        onClose();
+      })
+      .catch((err) => {
+        notify({
+          message: 'Error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        console.log(err);
+      });
+    // console.log(values);
+  };
 
   const suggestionsArray = [
     'Dance',
@@ -121,7 +156,10 @@ const InterestModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
           >
             Cancel
           </Button>
-          <Button className="border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg">
+          <Button
+            onClick={handleSubmit}
+            className="border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg"
+          >
             {' '}
             Save{' '}
           </Button>

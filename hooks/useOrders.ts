@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { OrderHistory } from '../@types';
+import { clearTimeout } from 'timers';
 
 const dummyOrders: OrderHistory[] = [
   {
@@ -18,7 +19,7 @@ const dummyOrders: OrderHistory[] = [
     productName: 'Your Soul Is a River Ebook',
     customerName: 'Jane Cooper',
     date: new Date(2023, 9, 11),
-    status: 'pending',
+    status: 'cancelled',
     productType: 'Ebook',
     price: 45000,
     sales: 64,
@@ -60,7 +61,7 @@ const dummyOrders: OrderHistory[] = [
   {
     id: 3061,
     productName: 'Artistic Sketchbook',
-    status: 'pending',
+    status: 'cancelled',
     date: new Date(2023, 9, 18),
     customerName: 'Bello Akim',
     productType: 'Arts',
@@ -88,9 +89,26 @@ const useOrders = (initialOrders = dummyOrders) => {
     sortBy: keyof OrderHistory;
     sortOrder: 'asc' | 'desc';
   }>({ sortBy: 'id', sortOrder: 'asc' });
+  const [searchQuery, setSearchQuery] = useState('');
 
+  const filterFunc = useCallback((filter: string, shouldChangeSort: boolean = true) => {
+    let filteredOrders = [...initialOrders];
+    if (filter !== 'all') {
+      filteredOrders = initialOrders.filter((order) => order.status === filter);
+    }
+
+    setOrders(filteredOrders);
+    // Change sort to default
+    if (shouldChangeSort) {
+      changeSortBy('id');
+    }
+    return filteredOrders;
+  }, []);
   const changeFilter = (val: string) => {
+    // show orders by status which is either all | completed | cancelled or pending
     setOrderFilter(val);
+
+    filterFunc(val);
   };
 
   const changeSortBy = (val: keyof OrderHistory) => {
@@ -110,12 +128,8 @@ const useOrders = (initialOrders = dummyOrders) => {
   };
 
   useEffect(() => {
-    const filterAndSortOrders = () => {
-      let filteredOrders = initialOrders;
-
-      if (orderFilter !== 'all') {
-        filteredOrders = initialOrders.filter((order) => order.status === orderFilter);
-      }
+    const sortOrders = (orders: OrderHistory[]) => {
+      let filteredOrders = [...orders];
 
       const { sortBy, sortOrder } = sort;
 
@@ -134,11 +148,27 @@ const useOrders = (initialOrders = dummyOrders) => {
         return 0;
       });
 
-      setOrders(sortedOrders);
+      return sortedOrders;
     };
 
-    filterAndSortOrders();
-  }, [orderFilter, initialOrders, sort]);
+    setOrders((prev) => sortOrders(prev));
+  }, [initialOrders, sort]);
+  //  Search Logic
+
+  const searchFunc = useCallback((query: string, filter: string) => {
+    if (query.trim().length === 0) {
+      filterFunc(filter as string);
+      return;
+    }
+    // Filter initial Orders by status
+    const orders = filterFunc(filter, false);
+    setOrders(orders.filter((order) => order.productName.toLowerCase().includes(query.trim().toLowerCase())));
+  }, []);
+
+  const changeSearchQuery = (val: string, filter: string) => {
+    setSearchQuery(val);
+    searchFunc(val, filter);
+  };
 
   return {
     orders,
@@ -152,6 +182,8 @@ const useOrders = (initialOrders = dummyOrders) => {
         sortOrder: prevSort.sortOrder === 'asc' ? 'desc' : 'asc',
       }));
     },
+    changeSearchQuery,
+    searchQuery,
   };
 };
 

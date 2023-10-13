@@ -16,7 +16,7 @@ const SubCategories = ({ item }: SubCategoriesProps) => {
       onMouseOver={() => setPopupClass(true)}
       onMouseLeave={() => setPopupClass(false)}
     >
-      <Link className="flex justify-between items-center" href="/marketplace/categories">
+      <Link className="flex justify-between items-center" href={`/marketplace/categories/${item}`}>
         {item}
 
         <Image src={chevron} alt="chevron svg" width={20} height={20} />
@@ -26,9 +26,13 @@ const SubCategories = ({ item }: SubCategoriesProps) => {
           popupClass ? 'visible opacity-100' : 'invisible opacity-0'
         } text-start rounded-lg rounded-tr-none absolute -translate-x-[106%] translate-y-[5%] transition-all duration-500 w-[286px] bg-white-100`}
       >
-        {['Articles', 'Scripts', 'Copywriting Templates '].map((item, i) => (
-          <Link className="pl-4 py-2 hover:bg-white-200 w-full " href="/marketplace/specific-sub-category" key={i + 1}>
-            {item}
+        {['Articles', 'Scripts', 'Copywriting Templates '].map((_item, i) => (
+          <Link
+            className="pl-4 py-2 hover:bg-white-200 w-full "
+            href={`/marketplace/categories/${item}/${_item}`}
+            key={i + 1}
+          >
+            {_item}
           </Link>
         ))}
       </span>

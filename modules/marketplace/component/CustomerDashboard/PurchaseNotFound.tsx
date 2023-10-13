@@ -4,7 +4,7 @@ import Button from '@ui/Button';
 // loacal imports
 import NotFound from '../../../../public/assets/404/nothing_here.png';
 
-const PurchaseNotFound = () => {
+const PurchaseNotFound = ({ back }: { back?: () => void }) => {
   const browseProdutLink = '#';
 
   return (
@@ -23,7 +23,10 @@ const PurchaseNotFound = () => {
           />
         </div>
         <p className="text-center text-4xl sm:text-[3.5rem] mt-[2rem]">There is nothing here</p>
-        <div className="cus-2-btn flex justify-center mt-[4rem]">
+        <div className="cus-2-btn flex flex-col md:flex-row gap-[2rem] justify-center items-center mt-[4rem]">
+          <Button onClick={back} intent={'secondary'} href={browseProdutLink} size={'lg'}>
+            Back
+          </Button>
           <Button intent={'primary'} href={browseProdutLink} size={'lg'}>
             Browse Products
           </Button>

@@ -2,20 +2,44 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import AllOTPModal from '../../../../../components/Modals/OTPModals/AllOTPModal';
+import axios from 'axios';
+import { makePayment } from '../../../../../http';
 
-const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => {
+const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () => void; orderTotal: number }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalOpen, setModalOpen] = useState(true);
   const [showOTP, setShowOTP] = useState(true);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+  const [paymentMethodError, setPaymentMethodError] = useState('');
+  const [paymentButtonClicked, setPaymentButtonClicked] = useState(false);
+
+  const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedPaymentMethod(event.target.value);
+    setPaymentMethodError('');
+  };
+
+  const handlePayment = async () => {
+    setPaymentButtonClicked(true);
+    // if (selectedPaymentMethod) {
+    //   try {
+    //     const response = await makePayment(selectedPaymentMethod);
+    //     window.location.href = response.transaction_url;
+    //   } catch (error) {
+    //     console.error('Error making payment:', error);
+    //   }
+    // } else {
+    //   setPaymentMethodError('Please select a payment method before making the payment.');
+    // }
+  };
 
   if (modalOpen) {
     return (
       <>
         <div className=" fixed  inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-          <div className="bg-white-100 p-12 rounded-lg   w-[85%] md:w-[35%]">
+          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[50%] lg:w-[28%] animate-slideIn">
             <svg
               onClick={closeModal}
-              className="ml-auto"
+              className="ml-auto cursor-pointer"
               xmlns="http://www.w3.org/2000/svg"
               width="40"
               height="40"
@@ -59,50 +83,13 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
                 readOnly
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-[#00894C] font-semibold">1245777</span>
+                <span className="text-[#00894C] font-semibold">$ {orderTotal}</span>
               </div>
             </div>
 
             <div className="relative w-full">
               <h3 className="mt-4 mb-2">Select payment method</h3>
-              <div className="flex items-center justify-between w-full border rounded-lg p-2 mb-4 border-[#E1E3E2]">
-                <label className="inline-flex items-center flex-grow">
-                  <input
-                    type="radio"
-                    className="form-radio h-4 w-4 text-[#1A1C1B] border-[#E1E3E2]"
-                    name="paymentMethod"
-                    value="paystack"
-                  />
-                  <span className="ml-2 text-[#1A1C1B]">Pay with USSD or BanK Transfer</span>
-                </label>
-                <Image src="/assets/bank.png" alt="bank" width={18} height={18} />
-              </div>
 
-              <div className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-2 mb-4">
-                <label className="inline-flex items-center flex-grow">
-                  <input
-                    type="radio"
-                    className="form-radio h-4 w-4 text-[#1A1C1B] border-[#E1E3E2]"
-                    name="paymentMethod"
-                    value="paystack"
-                  />
-                  <span className="ml-2 text-[#1A1C1B]">Pay with Card</span>
-                </label>
-                <Image src="/assets/visa.png" alt="visa" width={24} height={24} className="mr-2" />
-                <Image src="/assets/MasterCard.png" alt="mastercard" width={24} height={24} />
-              </div>
-              <div className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-2 mb-4">
-                <label className="inline-flex items-center flex-grow">
-                  <input
-                    type="radio"
-                    className="form-radio h-4 w-4 text-[#1A1C1B]"
-                    name="paymentMethod"
-                    value="paystack"
-                  />
-                  <span className="ml-2 text-[#1A1C1B]">Pay with strill</span>
-                </label>
-                <Image src="/assets/Skrill.png" alt="mastercard" width={24} height={24} />
-              </div>
               <div className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-2 mb-4">
                 <label className="inline-flex items-center flex-grow">
                   <input
@@ -110,6 +97,8 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
                     className="form-radio h-4 w-4 text-indigo-600 "
                     name="paymentMethod"
                     value="paystack"
+                    checked={selectedPaymentMethod === 'paystack'}
+                    onChange={handlePaymentMethodChange}
                   />
                   <span className="ml-2">Pay with Paystack </span>
                 </label>
@@ -121,26 +110,41 @@ const PaymentInformationModal = ({ closeModal }: { closeModal: () => void }) => 
                     type="radio"
                     className="form-radio h-4 w-4 text-indigo-600 "
                     name="paymentMethod"
-                    value="paystack"
+                    value="flutterwave"
+                    checked={selectedPaymentMethod === 'flutterwave'}
+                    onChange={handlePaymentMethodChange}
                   />
                   <span className="ml-2">Pay with Flutterwave</span>
                 </label>
                 <Image src="/assets/futterwave.png" alt="mastercard" width={76} height={76} />
               </div>
+              {paymentMethodError && <div className="text-brand-red-primary mb-4">{paymentMethodError}</div>}
             </div>
+            {paymentButtonClicked ? (
+              <button
+                type="button"
+                className="bg-green-200 py-2 px-4 w-full rounded-md hover:bg-green-200 rounded text-white-100 flex justify-center items-center"
+                disabled
+              >
+                <svg className="animate-spin h-4 w-4 inline mr-2 text-[#f5f6f1]" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="none" strokeWidth="4" stroke="currentColor" />
+                </svg>
+                Processing Payment...
+              </button>
+            ) : (
+              <button
+                onClick={handlePayment}
+                className="py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
+              >
+                Proceed to pay
+              </button>
+            )}
 
-            <button
-              onClick={onOpen}
-              className=" py-2 px-4 w-full rounded-md hover:bg-green-600 bg-green-700 rounded text-white-100 "
-            >
-              Continue
-            </button>
             <p className="text-center text-sm mt-4">
               This is an encrypted payment, your details are 100% secured and safe
             </p>
           </div>
         </div>
-        {showOTP ? <AllOTPModal isOpen={isOpen} onClose={onClose} /> : null}
       </>
     );
   }

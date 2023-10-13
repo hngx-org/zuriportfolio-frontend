@@ -36,7 +36,7 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
             </div>
             {/* give the element on the right of the container a max width of 672px, only on screen size less than 1024px */}
             {/* <div className="max-lg:max-w-2xl mx-auto lg:mx-0 w-full lg:pb-4">{children}</div> */}
-            <div className=" mx-auto lg:mx-0 w-full lg:pb-4 lg:overflow-y-scroll scrollbar scrollbar-thumb-white scrollbar-track-white">
+            <div className=" mx-auto lg:mx-0 w-full mt-8 md:mt-20 lg:mt-0 lg:pb-4 lg:overflow-y-scroll scrollbar scrollbar-thumb-white scrollbar-track-white">
               {children}
             </div>
           </div>

@@ -70,7 +70,7 @@ const FilterComponent: React.FC = () => {
         />
       </div>
 
-      <div className="lg:hidden w-[90vw] mx-auto">
+      <div className="lg:hidden mx-auto">
         <div className="w-[90vw] h-[123px] flex-col justify-center items-center gap-4 inline-flex">
           <div className="w-[90vw] h-[60px] px-5 py-3 bg-brand-green-primary rounded-2xl justify-center items-center inline-flex">
             <div className="text-center text-white text-sm font-manropeB leading-tight tracking-tight cursor-pointer">

@@ -9,16 +9,17 @@ import { cardData } from '../../../db/reviews';
 export default function reviewDashboard() {
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
-      <NavDashBoard active="reviews" />
       <Container>
+        <NavDashBoard active="reviews" />
         <div className="flex flex-col w-full">
           <div className="flex flex-col justify-center items-center">
-            <div className=" w-[89%]">
+            <div className="w-11/12">
+              <h2 className="lg:hidden self-stretch font-manropeB text-2xl pb-8">Reviews</h2>
               {cardData.map((card) => (
                 <ReviewDashboardCard
                   key={card.id}
                   id={card.id}
-                  className="mb-4"
+                  className="mb-6"
                   imageSrc={card.imageSrc}
                   title={card.title}
                   author={card.author}

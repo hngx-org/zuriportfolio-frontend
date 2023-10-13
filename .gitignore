@@ -24,6 +24,6 @@ tsconfig.tsbuildinfo
 
 /.vscode
 .DS_Store 
-/helpers/withAuth.tsx
-/helpers/withoutAuth.tsx
+# /helpers/withAuth.tsx
+# /helpers/withoutAuth.tsx
 
