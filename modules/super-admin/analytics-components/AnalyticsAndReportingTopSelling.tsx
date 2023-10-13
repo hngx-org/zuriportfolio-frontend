@@ -77,18 +77,6 @@ const AnalyticsAndReportingTopSelling = () => {
     },
   ];
 
-  const productName = (
-    <div className="flex items-center gap-1">
-      <span>Product Name </span>
-      <Image
-        src="/assets/tsImages/arrow-down.png"
-        alt="Product Icon"
-        width={20}
-        height={20}
-        className="object-contain"
-      />
-    </div>
-  );
 
   const currentPage = 1;
   const totalPages = 10;
