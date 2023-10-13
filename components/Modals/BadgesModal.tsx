@@ -103,12 +103,12 @@ function BadgeModal({
     <Modal isOpen={isOpen} closeModal={onClose} closeOnOverlayClick isCloseIconPresent={false}>
       <div className="bg-white rounded-lg mx-auto flex flex-col gap-[22px] items-center">
         <div ref={downloadRef} className="p-8 flex flex-col gap-8 items-center justify-center">
-          <h4 className="text-green-600 font-manropeB font-[700] text-[32px] ">Congratulations!</h4>
+          <h4 className="text-green-600 font-manropeB font-[700] text-[24px] sm:text-[32px] ">Congratulations!</h4>
 
           <Image
             src={`/assets/images/badges/${badgeType}.png`}
             alt="user badge"
-            className="w-40"
+            className="w-40 border-transparent rounded-full"
             sizes="100vw"
             width={50}
             height={50}
