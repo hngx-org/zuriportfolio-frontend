@@ -1,5 +1,6 @@
 import axios from 'axios';
 import $http from './axios';
+import { toast } from 'react-toastify';
 
 // test
 export const getUserByName = async (props: { name: string }) => {
@@ -61,5 +62,25 @@ export const makePayment = async (selectedPaymentMethod: string) => {
     }
   } else {
     throw new Error('Please select a payment method before making the payment.');
+  }
+};
+
+export const getAllProducts = async () => {
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZiNzVkZDIyLTBhMTAtNGY0NC05Yjc1LWE3NDI1Nzg0NzFiMiIsImZpcnN0TmFtZSI6InNhcHBoaXJlQGdtYWlsLmNvbSIsImVtYWlsIjoic2FwcGhpcmVqdWRpdGhAZ21haWwuY29tIiwiaWF0IjoxNjk3MjA3OTQ2fQ.9cWy9mxCLtLZIfDzFoV0KOwwiHP36BcPYXs4P6YDIZA';
+  const $http = axios.create({
+    baseURL: 'https://spitfire-superadmin-1.onrender.com/',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  try {
+    const resp = await $http.get('api/admin/product/all');
+    console.log(resp?.data?.data);
+    return resp?.data?.data;
+  } catch (error) {
+    console.log(error);
+    toast.error('Error loading products');
   }
 };
