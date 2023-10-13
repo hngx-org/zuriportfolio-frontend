@@ -15,9 +15,7 @@ const HomePage = () => {
   const searchParam = useSearchParams();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState<{
-    SortBy?: number;
-  }>({});
+  const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
 
   const handleFilters = (type: string, value: string | number) => {
     setFilters((prev) => {
@@ -46,7 +44,7 @@ const HomePage = () => {
     if (query) {
       url = searchUrl(query);
     }
-    if (Object.keys(filters).length > 100) {
+    if (Object.keys(filters).length > 0) {
       url = filterUrl;
     }
     const { data } = await axios.get(url, {
@@ -59,8 +57,10 @@ const HomePage = () => {
     return data;
   }
 
+  console.log(filters);
+
   // Data fetching
-  const { data, isLoading } = useQuery<UserInfo[]>({
+  const { data, isLoading } = useQuery<UserInfo>({
     queryKey: ['profile', deBounce, filters],
     queryFn: () => fetchUsers(searchQuery),
   });
@@ -73,7 +73,7 @@ const HomePage = () => {
           <p>Loading...</p>{' '}
         </div>
       )}
-      {data?.length === 0 && (
+      {data?.data?.length === 0 && (
         <div className="grid place-items-center min-h-[300px]">
           <p>No Results</p>
         </div>
@@ -81,7 +81,9 @@ const HomePage = () => {
       {data && (
         <div className="m-auto p-6">
           <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
-            {data?.map((card, key) => <Card key={key} data={card} />)}
+            {data.data.map((card, key) => (
+              <Card key={key} data={card} />
+            ))}
           </div>
         </div>
       )}

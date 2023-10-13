@@ -25,7 +25,7 @@ import { useExploreParams } from './hooks/exploreParam';
 
 const SearchAndFilter = (prop: {
   setSearchQuery?: Dispatch<React.SetStateAction<string>>;
-  filters: { SortBy?: number };
+  filters: { SortBy?: number; Country?: string };
   handleFilters: (type: string, value: string | number) => void;
 }) => {
   const [activeSection, setActiveSection] = useState(0);
@@ -58,19 +58,23 @@ const SearchAndFilter = (prop: {
   const handleCustomDropdownChange = (option: string) => {
     setSelectedOption(option);
 
-    console.log(option, 'country');
+    if (option === 'Nigeria' || option === 'Ghana' || option === 'Cameroon') {
+      return handleFilters('Country', option);
+    }
+
+    delete filters.Country;
   };
   const handleCustomDropdownChange2 = (option: string) => {
     setSelectedOption2(option);
     let sort = 0;
     if (option === 'Featured') {
       sort = 1;
-      console.log(option, 'trending');
+
       return handleFilters('SortBy', sort);
     }
     if (option === 'New Arrival') {
       sort = 2;
-      console.log(option, 'trending');
+
       return handleFilters('SortBy', sort);
     }
 
@@ -141,8 +145,6 @@ const SearchAndFilter = (prop: {
     },
   ];
 
-  console.log(filters);
-
   return (
     <div className="mx-auto mb-2 py-8 px-6 font-manropeL xl:max-w-[77.5rem] xl:px-0">
       {/* <Breadcrumbs /> */}
@@ -189,7 +191,7 @@ const SearchAndFilter = (prop: {
 
         <div className="w-full grid grid-cols-2 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
           <CustomDropdown
-            options={['Nigeria', 'Ghana', 'Cameroon']}
+            options={[`None`, 'Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
             onChange={handleCustomDropdownChange}
             setFilters={handleFilters}
