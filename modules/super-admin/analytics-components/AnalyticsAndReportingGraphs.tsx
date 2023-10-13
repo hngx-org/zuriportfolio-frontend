@@ -26,7 +26,7 @@ const AnalyticsAndReportingGraphs = () => {
   const fetchSalesData = useCallback(async (period: string, graphIndex: number) => {
     try {
       const response = await fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/admin/analytics/total-sales-orders-users?=${period}`
+        `https://team-mirage-super-amind2.onrender.com/api/admin/analytics/total-sales-orders-users?last=${period}`
       );
 
       if (!response.ok) {
