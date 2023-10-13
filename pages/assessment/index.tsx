@@ -24,6 +24,9 @@ function Index() {
   const [trackids, setTrackids] = useState([]);
   //This is for the search box, to be updated as user inputs
   const [filterParam, setfilterParam] = useState('');
+
+  const [filteredData, setFilteredData] = useState(Assessmentlist);
+
   const [assessments, setAssessments] = useState([]);
 
   useEffect(() => {
@@ -49,12 +52,27 @@ function Index() {
     fetchData();
   }, []);
 
+
   const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
 
-  const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
   useEffect(() => {
+
+    setFilteredData(
+      list.filter((child:any) => {
+        if (filterParam === '') {
+          return true; // Return true to include all items when filterParam is empty
+        } else {
+          return child?.trackname.toLowerCase().includes(filterParam);
+        }
+      }))
+    }, [filterParam, list]);
+
+      useEffect(() => {
+  const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
+
+      
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) {
@@ -71,11 +89,13 @@ function Index() {
         setLoading(false);
       });
   }, []);
+
   if (loading) {
     return (
       <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
         <div className=" items-center text-white-100 text-2xl">Loading...</div>
       </div>
+
     );
   }
   return (
@@ -161,8 +181,10 @@ function Index() {
 
             <input className="w-full outline-none" placeholder="Search assessments and responses" onInput={onFilter} />
           </div>
-          <ListContext.Provider value={[list, setList]}>
-            <Assessmentresponses assessments={assessments} />
+
+          <ListContext.Provider value={[filteredData, setList]}>
+         <Assessmentresponses assessments={assessments} />
+
           </ListContext.Provider>
         </div>
       </div>
