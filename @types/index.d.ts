@@ -564,8 +564,8 @@ export interface ProductResult {
 }
 
 export interface AuthContextProps {
-  auth: LoginResponse | undefined;
-  handleAuth: (value: LoginResponse) => void;
+  user: LoginBodyResponse | undefined;
+  handleUser: (value: LoginBodyResponse) => void;
 }
 
 export type LoginBodyResponse = {
