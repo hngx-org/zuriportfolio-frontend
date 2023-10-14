@@ -50,7 +50,7 @@ const Index = () => {
     let filteredProducts = data?.data;
     if (status === 'oldest') {
       filteredProducts = filteredProducts.sort(
-        (a: any, b: any) => new Date(formatDate(a.createdAt)).getTime() - new Date(formatDate(b.createdAt)).getTime(),
+        (a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
       );
     } else if (status === 'highest') {
       filteredProducts = filteredProducts.sort((a: any, b: any) => b.total_products - a.total_products);
@@ -73,7 +73,7 @@ const Index = () => {
     setFilteredProducts(filteredProducts);
   };
   return (
-    <main className="">
+    <div className="">
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto">
@@ -141,7 +141,7 @@ const Index = () => {
           )}
         </section>
       </section>
-    </main>
+    </div>
   );
 };
 export default Index;
