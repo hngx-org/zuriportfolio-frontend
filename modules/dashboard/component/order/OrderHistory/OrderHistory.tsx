@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PaginationBar from '../PaginationBar';
 
 import { OrderHistoryMobile } from './OrderHistoryRow';
 import OrderHistoryTable from './OrderHistoryTable';
 import { SearchNormal1 } from 'iconsax-react';
 import usePaginate from '../../../../../hooks/usePaginate';
-import useOrders from '../../../../../hooks/useOrders';
 import Link from 'next/link';
 import Filters from '../Filters';
 import { OrderHistory } from '../../../../../@types';
 import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
+import axios from 'axios';
+import useOrders from '../../../../../hooks/useOrders';
+import { toast } from 'react-toastify';
 
 const orderNavs: {
   id: string;
@@ -52,44 +54,130 @@ const filters: {
 ];
 const OrderHistory: React.FC = () => {
   const [pageOrders, setPageOrders] = useState<OrderHistory[]>([]);
-  const [loadingOrders, setLoadingOrders] = useState(true);
-  const { orders, orderFilter, changeFilter, changeSortBy, sortBy, toggleSortOrder, searchQuery, changeSearchQuery } =
+  const [loadingOrders, setLoadingOrders] = useState(false);
+  const { orders, orderFilter, changeFilter, changeSortBy, sortBy, toggleSortOrder, changeSearchQuery } =
     useOrders(pageOrders);
 
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
+  const [searching, setSearching] = useState(false);
   const closeFilter = () => {
     setShowFilters(false);
   };
+  const filterFunc = useCallback((filter: string, order: any[]) => {
+    let filteredOrders = [...pageOrders];
+    if (filter !== 'all') {
+      filteredOrders = pageOrders.filter((order) => order.status === filter);
+    }
+
+    return filteredOrders;
+  }, []);
+  const fetchOrders = async () => {
+    try {
+      setLoadingOrders(true);
+      const data = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order`,
+        method: 'GET',
+      });
+      if (data.data?.errorStatus === true) {
+        setPageOrders([]);
+        return;
+      }
+      if (!data.data.data || data.data.data?.length === 0) {
+        setPageOrders([]);
+        return;
+      }
+      const transformedOrder = data?.data.data?.map((order: any) => ({
+        productName: order.product.name,
+        id: order.id,
+        status: order.merchant.customer_orders[0]?.status,
+        customerName: order.customer.username,
+        date: new Date(order.createdAt),
+      }));
+      const filteredOrders = filterFunc(orderFilter, transformedOrder);
+      setPageOrders(filteredOrders);
+    } catch (error) {
+      setPageOrders([]);
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
+  const debounce = (func: (...a: any) => any, timeSlice: number = 2000) => {
+    let timeout: NodeJS.Timeout;
+    return function (...arg: any) {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => {
+        func.apply(null, arg);
+      }, timeSlice);
+    };
+  };
+  const getSearchResult = async (query: string) => {
+    try {
+      setSearching(true);
+      if (query.length === 0) {
+        return;
+      }
+      const res = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
+        method: 'GET',
+      });
+      const { data } = res;
+      console.log(data);
+      if (data?.errorStatus) {
+        setPageOrders([]);
+        return;
+      }
+      if (data?.data === 'user not found') {
+        setPageOrders([]);
+        return;
+      }
+      if (!data.data || (data?.data && data.data.length === 0)) {
+        setPageOrders([]);
+        return;
+      } else {
+        const transformedOrder = data.data.map((order: any) => ({
+          id: order.order_id,
+          price: order.order_price,
+          date: new Date(order.createdAt),
+          revenue: order.merchant.revenue[0]?.amount,
+          status: order.customer_orders[0]?.status,
+          sales: order.customer_orders[0]?.sales_report[0]?.sales,
+          customerName: order.customer[0]?.username,
+          productName: order.product.name,
+          productType: order.product.categories[0]?.name,
+        }));
+        const filteredOrders = filterFunc(orderFilter, transformedOrder);
+        setPageOrders(filteredOrders);
+      }
+    } catch (error) {
+      setPageOrders([]);
+    } finally {
+      setSearching(false);
+    }
+  };
+  const debounceSearch = debounce(getSearchResult);
   useEffect(() => {}, [currentPage]);
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const fetchOrders = async () => {
-      try {
-        setLoadingOrders(true);
-        const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/Orders', { signal });
-        const data = await res.json();
-        if (data?.errorStatus === true) {
-          setPageOrders([]);
-          return;
-        }
-        const transformedOrder = data?.data.map((order: any) => ({
-          productName: order.product.name,
-          id: order.id,
-          status: order.merchant.customer_orders[0]?.status,
-          customerName: order.customer.username,
-          date: new Date(order.createdAt),
-        }));
-        setPageOrders(transformedOrder);
-      } catch (error) {
-        setPageOrders([]);
-      } finally {
-        setLoadingOrders(false);
-      }
-    };
     fetchOrders();
   }, []);
+  useEffect(() => {
+    const changeStatus = () => {
+      setSearchQuery('');
+      fetchOrders();
+    };
+    changeStatus();
+  }, [orderFilter]);
+  const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value.trim());
+    if (e.target.value.trim()) {
+      debounceSearch(e.target.value.trim());
+    } else {
+      fetchOrders();
+    }
+  };
   return (
     <>
       <main className="max-w-[1240px] mx-auto md:px-10 px-4 relative min-h-[400px]">
@@ -115,51 +203,52 @@ const OrderHistory: React.FC = () => {
               </Link>
             </div>
             <h1 className="text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order History</h1>
-            {orders.length > 0 && (
-              <div className="justify-between items-center mb-[25px] gap-[35px] flex md:hidden relative">
-                <div
-                  className="focus-within:outline focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg md:hidden flex-1 min-w-0"
-                  style={{
-                    boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-                  }}
-                >
-                  <SearchNormal1 size="16" color="#667085" />
-                  <input
-                    className=" bg-transparent focus-within:outline-none flex-1  text-[1rem] leading-[150%] min-w-0"
-                    placeholder="Search"
-                    value={searchQuery}
-                    onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
-                  />
-                </div>
-                <div className="relative">
-                  <button
-                    className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
+            {orders.length > 0 ||
+              (searchQuery.trim().length > 0 && (
+                <div className="justify-between items-center mb-[25px] gap-[35px] flex md:hidden relative">
+                  <div
+                    className="focus-within:outline focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg md:hidden flex-1 min-w-0"
                     style={{
                       boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
                     }}
-                    onClick={() => setShowFilters((prev) => !prev)}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path
-                        d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
-                        stroke="#344054"
-                        strokeWidth="1.67"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                  {showFilters && (
-                    <Filters
-                      filters={filters}
-                      changeFilter={changeSortBy}
-                      currentFilter={sortBy}
-                      closeFilter={closeFilter}
+                    <SearchNormal1 size="16" color="#667085" />
+                    <input
+                      className=" bg-transparent focus-within:outline-none flex-1  text-[1rem] leading-[150%] min-w-0"
+                      placeholder="Search"
+                      value={searchQuery}
+                      onChange={changeInput}
                     />
-                  )}
+                  </div>
+                  <div className="relative">
+                    <button
+                      className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
+                      style={{
+                        boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
+                      }}
+                      onClick={() => setShowFilters((prev) => !prev)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path
+                          d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
+                          stroke="#344054"
+                          strokeWidth="1.67"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                    {showFilters && (
+                      <Filters
+                        filters={filters}
+                        changeFilter={changeSortBy}
+                        currentFilter={sortBy}
+                        closeFilter={closeFilter}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              ))}
             <nav className="flex flex-col md:gap-4 gap-5">
               <ul className="lg:text-[22px] text-[14px]   mx-auto md:mx-0 leading-[127.273%] text-dark-110 flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
                 {orderNavs.map((orderNav) => (
@@ -171,7 +260,7 @@ const OrderHistory: React.FC = () => {
                     } cursor-pointer whitespace-nowrap`}
                     onClick={() => {
                       changeFilter(orderNav.id);
-                      changeSearchQuery('', orderNav.id);
+                      setSearchQuery('');
                     }}
                   >
                     {orderNav.title}
@@ -188,7 +277,7 @@ const OrderHistory: React.FC = () => {
               )}
             </nav>
             <section className="relative">
-              {orders.length > 0 ? (
+              {orders.length > 0 || searchQuery.trim().length > 0 ? (
                 <section
                   className="rounded-2xl pt-5 hidden md:block"
                   style={{
@@ -207,7 +296,7 @@ const OrderHistory: React.FC = () => {
                         className=" bg-transparent focus-within:outline-none flex-1 text-[1rem] leading-[150%]"
                         placeholder="Search"
                         value={searchQuery}
-                        onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
+                        onChange={(e) => changeSearchQuery(e.target.value)}
                       />
                     </div>
                     <div className="flex items-center gap-6 relative">
@@ -239,13 +328,25 @@ const OrderHistory: React.FC = () => {
                       )}
                     </div>
                   </div>
-
-                  <OrderHistoryTable
-                    pageItem={orders}
-                    changeSort={changeSortBy}
-                    toggleSort={toggleSortOrder}
-                    currentSort={sortBy}
-                  />
+                  <div className={`relative ${searching && 'min-h-[400px]'} `}>
+                    {pageOrders.length > 0 ? (
+                      <OrderHistoryTable
+                        pageItem={orders}
+                        changeSort={changeSortBy}
+                        toggleSort={toggleSortOrder}
+                        currentSort={sortBy}
+                      />
+                    ) : (
+                      <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                        No Order to Show
+                      </p>
+                    )}
+                    {searching && (
+                      <div className="absolute z-50 inset-0 min-h-[300px]">
+                        <Loader />
+                      </div>
+                    )}
+                  </div>
                 </section>
               ) : (
                 <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">

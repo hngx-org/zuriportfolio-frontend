@@ -28,6 +28,37 @@ export interface ProductData {
   shop: string;
 }
 
+export interface RecentlyViewedData {
+  user: string;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: number;
+    discount_price: number;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
+    shop: {
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+};
+
 export interface Education {
   id: number;
   degree: string;
@@ -242,8 +273,13 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-export type RecentlyViewedProductProp = {
-  user: string;
+
+export type CartSumaryProp = {subtotal: number, discount: number, VAT: number, total: number}
+
+
+export type RecentlyViewedProductProp = 
+{
+  user:string
   product: {
     id: string;
     name: string;
