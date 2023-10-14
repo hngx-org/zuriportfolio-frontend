@@ -59,9 +59,9 @@ const DeleteModal = (props: any) => {
           props.closeModal();
 
           // Fetch the updated product list to reflect the deletion
-          props.fetchProducts();
+          const product = await props.fetchProducts();
           // props.deleteProduct(props.product.product_id);
-
+          props.insertProduct(product || []);
           // Show a success toast message
           toast.success(`Product "${productName}" has been deleted successfully`, {
             position: 'top-right',
@@ -315,12 +315,17 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
   );
 };
 
-const ProductCard = () => {
+const ProductCard = (props: {
+  product: Product[];
+  selectedProduct: Product | null;
+  fetchProducts: () => void;
+  insertProduct: (prod: Product[]) => void;
+  insertSelectedProduct: (prod: Product | null) => void;
+}) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [loading, setIsLoading] = useState(true);
+  // const [products, setProducts] = useState<Product[]>([]);
+  // const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const closeDeleteModal = () => {
     setDeleteModal(false);
   };
@@ -330,100 +335,69 @@ const ProductCard = () => {
   };
 
   const handleEditClick = (product: Product) => {
-    setSelectedProduct(product);
+    props.insertSelectedProduct(product);
     setEditModal(true);
   };
 
-  const fetchProducts = () => {
-    // Fetch the product data from the server
-    setIsLoading(true);
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data.data)) {
-          setProducts(data.data);
-          setSelectedProduct(null);
-        }
-      })
-      .catch((error) => console.error('Error fetching data:', error))
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-  const deleteProduct = (id: any) => {
-    setProducts((prev) => prev.filter((prev) => prev.product_id !== id));
-  };
   return (
     <>
-      {!loading ? (
-        products.map((product, index) => (
-          <div
-            key={index}
-            className="lg:px-[20.15px] md:px-[17px] px-3  py-[10px] md:py-4 lg:pt-[17.78px] bg-white-100 pb-[11.85px] rounded-[10px] border border-brand-disabled2 items-center"
-          >
-            <figure className="md:mb-8 mb-3">
-              <Image
-                src={product.image[0].url}
-                alt="Product"
-                width={240}
-                height={143}
-                className="rounded-[5px] h-[143px] object-cover"
-              />
-            </figure>
-            <p className="font-manropeL font-normal text-[14px] capitalize leading-[142.857%] tracking-[0.035px] text-custom-color43 mb-[2px]">
-              {product.name}
-            </p>
-            <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
-              ${product.price}
-            </p>
-            <div className="flex items-center lg:gap-6 md:gap-5 gap-3 justify-between">
-              <button
-                className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2 basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-white-650 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"
-                onClick={() => {
-                  setSelectedProduct(product);
-                  setEditModal(true);
-                }}
-              >
-                <Image src={editImg} alt="edit" />
-                <span>Edit</span>
-              </button>
-              <button
-                className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2  basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-custom-color34 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"
-                onClick={() => {
-                  setSelectedProduct(product);
-                  setDeleteModal(true);
-                }}
-              >
-                <Image src={trashImg} alt="delete" />
-                <span>Delete</span>
-              </button>
-            </div>
+      {props.product.map((product, index) => (
+        <div
+          key={index}
+          className="lg:px-[20.15px] md:px-[17px] px-3  py-[10px] md:py-4 lg:pt-[17.78px] bg-white-100 pb-[11.85px] rounded-[10px] border border-brand-disabled2 items-center"
+        >
+          <figure className="md:mb-8 mb-3">
+            <Image
+              src={product.image[0].url}
+              alt="Product"
+              width={240}
+              height={143}
+              className="rounded-[5px] h-[143px] object-cover"
+            />
+          </figure>
+          <p className="font-manropeL font-normal text-[14px] capitalize leading-[142.857%] tracking-[0.035px] text-custom-color43 mb-[2px]">
+            {product.name}
+          </p>
+          <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
+            ${product.price}
+          </p>
+          <div className="flex items-center lg:gap-6 md:gap-5 gap-3 justify-between">
+            <button
+              className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2 basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-white-650 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"
+              onClick={() => {
+                props.insertSelectedProduct(product);
+                setEditModal(true);
+              }}
+            >
+              <Image src={editImg} alt="edit" />
+              <span>Edit</span>
+            </button>
+            <button
+              className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2  basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-custom-color34 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"
+              onClick={() => {
+                props.insertSelectedProduct(product);
+                setDeleteModal(true);
+              }}
+            >
+              <Image src={trashImg} alt="delete" />
+              <span>Delete</span>
+            </button>
           </div>
-        ))
-      ) : (
-        <div className="absolute z-50 inset-0 min-h-[300px]">
-          <Loader />
         </div>
-      )}
-      {selectedProduct && (
+      ))}
+
+      {props.selectedProduct && (
         <DeleteModal
           isOpen={deleteModal}
           closeModal={closeDeleteModal}
-          product={selectedProduct}
-          deleteProduct={deleteProduct}
-          fetchProducts={fetchProducts}
+          product={props.selectedProduct}
+          fetchProducts={props.fetchProducts}
+          insertProduct={props.insertProduct}
         />
       )}
-      {selectedProduct && <EditModal isOpen={editModal} closeEditModal={closeEditModal} product={selectedProduct} />}
+      {props.selectedProduct && (
+        <EditModal isOpen={editModal} closeEditModal={closeEditModal} product={props.selectedProduct} />
+      )}
     </>
   );
 };
