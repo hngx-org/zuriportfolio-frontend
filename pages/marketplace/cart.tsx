@@ -4,26 +4,28 @@ import ProductCard from '../../modules/shop/component/cart/checkout/ProductCard'
 import CartItem from '../../modules/shop/component/cart/checkout/CartItem';
 import Summary from '@modules/shop/component/cart/checkout/Summary';
 import { CartItemProps, RecentlyViewedProductProp, ViewedProductCardProps } from '../../@types';
-import { getUserCart, removeFromCart } from '../../http';
+import { getCartSummary, getRecentlyViewedProducts, getUserCart, removeFromCart } from '../../http';
 import  { useAuth } from '../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 import CartPageSkeleton from '@modules/shop/component/cart/checkout/CartPageSkeleton';
-import { getDiscountPercentage, getSummary } from '../../helpers';
+import { getDiscountPercentage } from '../../helpers';
 
 export default function Cart() {
 
   const {auth} = useAuth()
-  
+  const defSummary = {subtotal: 0, discount: 0, VAT: 0, total: 0}
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedProductProp[]>([]);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [isLoading,setIsLoading] = useState(true)
-
+  const [cartSummary, setCartSummary] = useState(defSummary)
 
   
   useEffect(() => {
       async function cartFetch() {
         const carts = await getUserCart(auth?.token as string)
-        // const recentlyViewed = await getRecentlyViewedProducts(auth?.user.id as string,auth?.token as string);
+        const summary = await getCartSummary(auth?.token as string);
+        const recentlyViewed = await getRecentlyViewedProducts(auth?.user.id as string,auth?.token as string);
+        setCartSummary(summary.data)
         setRecentlyViewed(recentlyViewed)
         setCartItems(carts)
         setIsLoading(false)
@@ -38,12 +40,14 @@ export default function Cart() {
     setRecentlyViewed(recentlyViewedProducts);
   };
 
-  function removeProductHandler(productId: string) {
+  async function removeProductHandler(productId: string) {
     let cartProductsItems = cartItems.filter((product) => product.id != productId);
     removeFromCart(productId,auth?.token as string);
+    const summary = await getCartSummary(auth?.token as string);
+    setCartSummary(summary.data)
     setCartItems(cartProductsItems);
   }
-  
+  // auth?.token as string
 
   const cartProductItems = cartItems.length > 0 ? cartItems.map((cartItem, index) => (
     <CartItem
@@ -89,7 +93,7 @@ export default function Cart() {
                 {cartProductItems}
               </div>
               <div className="flex md:flex-none justify-center md:mx-0">
-                <Summary discount={2} sum={getSummary(cartItems)} />
+                <Summary token={auth?.token as string} summary={cartSummary} />
               </div>
             </section>
 
