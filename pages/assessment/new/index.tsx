@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@ui/Button';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
@@ -26,10 +26,15 @@ const CreateAssessment = () => {
     setHeadInput(value);
   };
   // Merge headInput with other requestValues
+
   const mergedValues = {
     ...requestValues,
     headInput: headInput,
   };
+
+  useEffect(() => {
+    setRequestValues(mergedValues);
+  }, [headInput, mergedValues]);
   const publishAssessment = async () => {
     const { headInput, correct_option, Question1, option1, option2, option3, option4 } = requestValues;
     if ((headInput || Question1 || option1) === undefined) {
@@ -58,7 +63,7 @@ const CreateAssessment = () => {
             correct_option: correct_option?.match(/\d+/)?.[0] ?? 2,
           },
         ],
-        assessment_name: headInput || `New Assessments${Math.floor(Math.random() * 0.5)}`,
+        assessment_name: headInput || `New Assessment${Math.floor(Math.random() * 0.5)}`,
         duration_in_minutes: 30,
       }),
     };
@@ -115,7 +120,7 @@ const CreateAssessment = () => {
             correct_option: correct_option?.match(/\d+/)?.[0] ?? 2,
           },
         ],
-        assessment_name: headInput || `New Assessments${Math.floor(Math.random() * 0.5)}`,
+        assessment_name: headInput || `New Assessment${Math.floor(Math.random() * 0.5)}`,
         duration_in_minutes: 30,
       }),
     };

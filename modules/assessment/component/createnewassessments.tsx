@@ -49,7 +49,7 @@ const CreateTemplate: React.FC<CreateassProps> = ({ dataValues }) => {
   useEffect(() => {
     inputsVal.correct_option = drop;
     dataValues(inputsVal);
-  }, [inputsVal]);
+  }, [inputsVal, drop]);
 
   //demo-post
 
