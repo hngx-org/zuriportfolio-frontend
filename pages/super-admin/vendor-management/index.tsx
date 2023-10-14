@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { ArrowDown, Sort } from 'iconsax-react';
+import { Sort } from 'iconsax-react';
 import VendorsStat from '@modules/super-admin/components/vendormanagement/VendorStat';
 import VendorLists from '@modules/super-admin/components/vendormanagement/VendorLists';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
@@ -24,7 +24,7 @@ const Index = () => {
   const endIndex = startIndex + itemsPerPage;
   const visibleVendors = filteredProducts?.slice(startIndex, endIndex);
   const totalItems = 1000;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const totalPages = Math.ceil(data?.data?.length / itemsPerPage);
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -51,7 +51,9 @@ const Index = () => {
   const handleFilter = (status: string) => {
     let filteredProducts = data?.data;
     if (status === 'oldest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      filteredProducts = filteredProducts.sort(
+        (a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      );
     } else if (status === 'highest') {
       filteredProducts = filteredProducts.sort((a: any, b: any) => b.quantity - a.quantity);
     } else if (status === 'lowest') {
@@ -107,26 +109,36 @@ const Index = () => {
             <LoadingTable />
           ) : (
             <>
-              <div className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-5 md:grid-cols-4 grid-cols-1 text-gray-500 text-center text-sm overflow-x-auto ">
-                <div className="flex items-center">
-                  {/* <input type="checkbox" name="" id="" /> */}
-                  <p className="px-2">Vendor Name</p>
-                  {/* <ArrowDown size="16" className="" /> */}
-                </div>
-                <p className="hidden md:block">Total Sales</p>
-                <p className="hidden md:block">Number of Products</p>
-                <p className="hidden md:block">Date Joined</p>
-                <p className="hidden lg:block">Status</p>
-                {/* <p className="hidden lg:block">Action</p> */}
-              </div>
-              <div>
-                {showBanned
-                  ? bannedVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)
-                  : showDeleted
-                  ? deletedVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)
-                  : visibleVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)}
-              </div>
-              <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+              {bannedVendors?.length > 0 || deletedVendors?.legnth > 0 || visibleVendors?.length > 0 ? (
+                <>
+                  <div className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-5 md:grid-cols-4 grid-cols-1 text-gray-500 text-center text-sm overflow-x-auto ">
+                    <div className="flex items-center">
+                      {/* <input type="checkbox" name="" id="" /> */}
+                      <p className="px-2">Vendor Name</p>
+                      {/* <ArrowDown size="16" className="" /> */}
+                    </div>
+                    <p className="hidden md:block">Total Sales</p>
+                    <p className="hidden md:block">Number of Products</p>
+                    <p className="hidden md:block">Date Joined</p>
+                    <p className="hidden lg:block">Status</p>
+                    {/* <p className="hidden lg:block">Action</p> */}
+                  </div>
+                  <div>
+                    {showBanned
+                      ? bannedVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)
+                      : showDeleted
+                      ? deletedVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)
+                      : visibleVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)}
+                  </div>
+                  <SuperAdminPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </>
+              ) : (
+                <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
+              )}
             </>
           )}
         </section>
