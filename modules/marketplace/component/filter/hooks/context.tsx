@@ -41,16 +41,10 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
     setIsOpen((isOpen) => !isOpen);
   }
 
-  function constructApiUrl({
-    category = '',
-    subCategory = '',
-    discount = '',
-    price = '',
-    rating = ''
-  }) {
+  function constructApiUrl({ category = '', subCategory = '', discount = '', price = '', rating = '' }) {
     // Initialize the base URL
     let apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/products-filter?';
-  
+
     // Check each query parameter and append to the URL if not empty
     if (category) {
       apiUrl += `category=${category}&`;
@@ -67,43 +61,45 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
     if (rating) {
       apiUrl += `rating=${rating}&`;
     }
-  
+
     // Remove the trailing '&' if it exists
     if (apiUrl.endsWith('&')) {
       apiUrl = apiUrl.slice(0, -1);
     }
-  
+
     return apiUrl;
   }
-  
-  
 
   async function handleSearch() {
     setLoading(true);
     console.log('handle submit');
     console.log(filterSelection);
-    const category = filterSelection.category.join(",")
-    const subCategory = filterSelection.subCategory.join(",")
-    const discount = filterSelection.discount.join(",")
-    const price = filterSelection.price.join(",")
-    const rating = filterSelection.rating.join(",")
+    const category = filterSelection.category.join(',');
+    const subCategory = filterSelection.subCategory.join(',');
+    const discount = filterSelection.discount.join(',');
+    const price = filterSelection.price.join(',');
+    const rating = filterSelection.rating.join(',');
     try {
-      const API_URL = constructApiUrl({category, subCategory, discount, price, rating})
+      const API_URL = constructApiUrl({ category, subCategory, discount, price, rating });
 
       // console.log(API_URL)
       const { data, status } = await axios.get(API_URL);
       console.log(data, status);
-      if(status === 200) {
-        console.log(data)
-        if(data.products.length === 0){
+      if (status === 200) {
+        console.log(data);
+        if (data.products.length === 0) {
           router.push('/marketplace/error-page');
-          console.log("no data")
+          console.log('no data');
         } else {
-          console.log(data, "data ready for redirection")
-          toggle()
-          router.push(`/marketplace/specific-sub-category?category=${category}&subCategory=${subCategory}&discount=${parseInt(discount)}&price=${parseInt(price)}&rating=${rating}`)
+          console.log(data, 'data ready for redirection');
+          toggle();
+          router.push(
+            `/marketplace/specific-sub-category?category=${category}&subCategory=${subCategory}&discount=${parseInt(
+              discount,
+            )}&price=${parseInt(price)}&rating=${rating}`,
+          );
         }
-      } 
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error);
