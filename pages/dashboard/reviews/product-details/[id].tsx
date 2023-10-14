@@ -87,12 +87,15 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
+let data: any;
+
 export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
   const id = context.params!.id;
   const res = await fetch(
     `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=0&pageSize=10`,
-  );
-  const data = await res.json();
+  )
+    .then((res) => (data = res.json()))
+    .catch((err) => console.log(err));
   // const tes = await fetch('https://team-liquid-repo.onrender.com/api/shop/products/1/reviews/rating?rating=5&pageNumber=0&pageSize=10');
   // const dat = await tes.json();
   // console.log(dat);
