@@ -6,7 +6,6 @@ import { useEffect, useState, MouseEvent } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
 
-
 type skillModalProps = {
   onClose: () => void;
   isOpen: boolean;
@@ -54,11 +53,11 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     }
   };
   // set the data in the db on the modal onload
+
   useEffect(() => {
     fetchSkillData();
   }, []);
 
- 
   // on Enter press append input value to array two(setValues)
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
