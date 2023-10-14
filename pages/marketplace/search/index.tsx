@@ -57,6 +57,8 @@ export default function Index() {
               className={`flex py-8 flex-nowrap lg:flex-wrap gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
             >
               {results?.map((item) => {
+                const stringFromEndpoint = item.price;
+                const price = parseInt(stringFromEndpoint, 10);
                 return (
                   <Link
                     href={`marketplace/product-details?id=${item.id}`}
@@ -68,7 +70,7 @@ export default function Index() {
                       currency={`USD`}
                       image={item?.images[0]?.url}
                       name={item?.name}
-                      price={99}
+                      price={price}
                       user={item?.category.name}
                       rating={0}
                       showLimitedOffer={false}
