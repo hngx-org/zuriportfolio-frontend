@@ -58,13 +58,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setIsForm(true);
   };
 
-  const getUserWorkExperience = async () => {
-    const data = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
-    const response = await data.json();
-    const { workExperience } = response;
-    console.log('User work experience', workExperience);
-  };
-
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
   const handleEditExperience = async (id: string) => {
