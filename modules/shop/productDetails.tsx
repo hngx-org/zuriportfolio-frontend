@@ -20,7 +20,6 @@ import Layout from './component/productPage/Layout';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
-
 export default function ProductDetails() {
   const router = useRouter();
 
@@ -65,7 +64,6 @@ export default function ProductDetails() {
     }
   }, [id]);
 
-
   useEffect(() => {
     axios
       .get('https://tech-v3ey.onrender.com/products')
@@ -78,46 +76,45 @@ export default function ProductDetails() {
       });
   }, []);
 
-
   const imgContRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     const imgContElm = imgContRef.current;
     const imgElm = imgRef.current;
-  
+
     const handleMouseEnter = () => {
-    console.log(imgContElm)
+      console.log(imgContElm);
       if (imgElm) {
-        console.log(imgElm)
+        console.log(imgElm);
         imgElm.style.width = ZOOM + '%';
         imgElm.style.height = ZOOM + '%';
       }
       console.log('entered');
     };
-  
+
     const handleMouseLeave = () => {
       if (imgElm) {
         resetImageStyles();
       }
       console.log('left');
     };
-  
+
     const handleMouseMove = (event: MouseEvent) => {
       if (imgElm) {
         const { clientX, clientY } = event;
         const { offsetLeft, offsetTop, clientWidth, clientHeight } = imgContElm!;
         const imgWidth = imgElm.clientWidth;
         const imgHeight = imgElm.clientHeight;
-  
-        const left = -((imgWidth - clientWidth) * (clientX - offsetLeft) / clientWidth);
-        const top = -((imgHeight - clientHeight) * (clientY - offsetTop) / clientHeight);
-  
+
+        const left = -(((imgWidth - clientWidth) * (clientX - offsetLeft)) / clientWidth);
+        const top = -(((imgHeight - clientHeight) * (clientY - offsetTop)) / clientHeight);
+
         imgElm.style.left = left + 'px';
         imgElm.style.top = top + 'px';
       }
     };
-  
+
     if (imgContElm && imgElm) {
       imgContElm.addEventListener('mouseenter', handleMouseEnter);
       imgContElm.addEventListener('mouseleave', handleMouseLeave);
@@ -130,9 +127,9 @@ export default function ProductDetails() {
         imgElm.style.height = '100%';
         imgElm.style.top = '0';
         imgElm.style.left = '0';
-      };
+      }
     };
-  
+
     return () => {
       if (imgContElm) {
         imgContElm.removeEventListener('mouseenter', handleMouseEnter);
@@ -187,15 +184,14 @@ export default function ProductDetails() {
   const readMore = () => {
     text?.classList.toggle('line-clamp-3');
     text?.classList.toggle('line-clamp-none');
-      if (readMoreBtn?.textContent === 'Read more') {
-        readMoreBtn.textContent = 'Read less';
-        console.log('it reads more')
-      } else if(readMoreBtn?.textContent === 'Read less') {
-        readMoreBtn.textContent = 'Read more';
-        console.log('it reads less')
-      }
+    if (readMoreBtn?.textContent === 'Read more') {
+      readMoreBtn.textContent = 'Read less';
+      console.log('it reads more');
+    } else if (readMoreBtn?.textContent === 'Read less') {
+      readMoreBtn.textContent = 'Read more';
+      console.log('it reads less');
+    }
   };
-
 
   return (
     <>
@@ -225,7 +221,10 @@ export default function ProductDetails() {
           <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
             {/* Product Detail Images  */}
             <div className="flex flex-col w-full item-center lg:gap-y-2">
-              <div className="img-container w-full lg:h-[27rem] md:h-[20rem] sm:h-[17rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-lg" ref={imgContRef}>
+              <div
+                className="img-container w-full lg:h-[27rem] md:h-[20rem] sm:h-[17rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-lg"
+                ref={imgContRef}
+              >
                 <Image
                   ref={imgRef}
                   src={image ? image : product.image}
@@ -256,8 +255,15 @@ export default function ProductDetails() {
                 <p className="font-normal font-manropeL text-sm md:text-base lg:text-lg tracking-[0.005rem] w-full line-clamp-3 lg:mt-6 text-wrapper">
                   {product.description}
                 </p>
-                <span onClick={() => router.push("#description")} className="text-[#009254] font-manropeL font-bold md:block hidden">Read more</span>
-                <span className="text-[#009254] font-manropeL font-bold md:hidden read-more-btn" onClick={readMore}>Read more</span>
+                <span
+                  onClick={() => router.push('#description')}
+                  className="text-[#009254] font-manropeL font-bold md:block hidden"
+                >
+                  Read more
+                </span>
+                <span className="text-[#009254] font-manropeL font-bold md:hidden read-more-btn" onClick={readMore}>
+                  Read more
+                </span>
               </div>
               <div className="lg:flex flex-col gap-y-2 hidden">
                 <div className="flex gap-x-1 mt-4">
@@ -303,7 +309,9 @@ export default function ProductDetails() {
           </div>
 
           {/* Description, Specification, Reviews (Desktop View)  */}
-          <span id='description'><TabContainer /></span>
+          <span id="description">
+            <TabContainer />
+          </span>
           {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
           <div className="md:hidden block mt-[26px] mr-auto">
             <h2 className="text-green-900 font-manropeB font-semibold text-[22px] text-left">Specifications</h2>

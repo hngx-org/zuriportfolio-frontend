@@ -6,7 +6,6 @@ import Button from '@ui/Button';
 import notificationIcon from './assets/notification.svg';
 import cartIcon from './assets/shopping-cart.svg';
 import briefCaseIcon from './assets/briefcase.svg';
-import errorBoxIcon from './assets/bx-error-alt.svg';
 import dashBoard from './assets/home-2.svg';
 import likesIcon from './assets/like-shapes.svg';
 import settingsIcon from './assets/setting-2.svg';
@@ -16,6 +15,7 @@ import MobileNav from '@modules/dashboard/component/MobileNav';
 import { ProductResult } from '../../@types';
 import { useAuth } from '../../context/AuthContext';
 import isAuthenticated from '../../helpers/isAuthenticated';
+import Logout from '@modules/auth/component/logout/Logout';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -102,7 +102,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       try {
         const results = await searchPosts(searchQuery);
         setSearchResults(results);
-        localStorage.setItem('search_result', JSON.stringify(results))
+        localStorage.setItem('search_result', JSON.stringify(results));
         router.push(`/marketplace/search?searchQuery=${searchQuery}`);
       } catch (error) {
         console.error(error);
@@ -179,9 +179,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </div>
                 </div>
                 <input
-                 value={searchQuery}
-                 onKeyUp={handleSearch}
-                 onChange={(e) => setSearchQuery(e.target.value)}
+                  value={searchQuery}
+                  onKeyUp={handleSearch}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search"
                   className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
                 />
@@ -230,12 +230,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     Sign In
                   </Button>
 
-                  <Button
-                    href="/auth/signup-with-email"
-                    className="rounded-lg px-6 py-3"
-                    intent={'primary'}
-                    size={'md'}
-                  >
+                  <Button href="/auth/signup" className="rounded-lg px-6 py-3" intent={'primary'} size={'md'}>
                     Sign Up
                   </Button>
                 </div>
@@ -306,10 +301,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <Image draggable={false} src={settingsIcon} alt="Setting" />
                   <p>Settings</p>
                 </Link>
-                <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 text-[#FF2E2E]">
-                  <Image draggable={false} src={errorBoxIcon} alt="SignOut" />
-                  <p>Sign Out</p>
-                </li>
+
+                {/* Import Logout button */}
+                <Logout />
               </ul>
             </div>
           )}
@@ -390,9 +384,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     </div>
                   </div>
                   <input
-                   value={searchQuery}
-                   onKeyUp={handleSearch}
-                   onChange={(e) => setSearchQuery(e.target.value)}
+                    value={searchQuery}
+                    onKeyUp={handleSearch}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search"
                     className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
                   />
@@ -633,7 +627,7 @@ function MenuUI({
             >
               Sign In
             </Button>
-            <Button href="/auth/signup-with-email" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
+            <Button href="/auth/signup" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
               Sign Up
             </Button>
           </>
