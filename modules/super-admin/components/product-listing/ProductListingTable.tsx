@@ -5,7 +5,7 @@ import SearchProduct from '@modules/super-admin/components/product-listing/searc
 import FilterProduct from '@modules/super-admin/components/product-listing/filterProduct';
 import Button from '@ui/Button';
 import Link from 'next/link';
-import Pagination from '../../../../pages/view-components/super-admin/pagination';
+import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { formatDate } from './product-details';
 import { useRouter } from 'next/router';
 
@@ -18,6 +18,14 @@ export const LoadingTable = () => {
 const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
   const [searchVal, setSearchVal] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(data?.data);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Number of items to display per page
+
+  // Calculate the range of products to display
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   useEffect(() => {
     setFilteredProducts(data?.data);
@@ -59,6 +67,10 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
     }
   };
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <div className="font-manropeL mb-8 container mx-auto border-2 border-custom-color1 mt-4">
       <div className="border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
@@ -85,7 +97,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         <LoadingTable />
       ) : (
         <div className="mb-4">
-          {filteredProducts?.length > 0 ? (
+          {visibleProducts?.length > 0 ? (
             <>
               <table className="w-full ">
                 <thead>
@@ -107,7 +119,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredProducts?.map((product: any) => (
+                  {visibleProducts?.map((product: any) => (
                     <tr
                       className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                       key={product?.product_id}
@@ -153,7 +165,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   ))}
                 </tbody>
               </table>
-              <Pagination />
+              <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
             </>
           ) : (
             <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
