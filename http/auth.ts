@@ -25,7 +25,7 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
 
 export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
   try {
-    const response = await axios.patch('/reset-password', props);
+    const response = await $http.patch('/reset-password', props);
     console.log(response);
     return response?.data;
   } catch (e: any) {

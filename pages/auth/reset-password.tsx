@@ -41,7 +41,17 @@ function ResetPassword() {
 
   // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(resetPassword, {
-    onSuccess: () => setPasswordChanged(true),
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        setPasswordChanged(true);
+        return;
+      }
+
+      notify({
+        message: data?.message,
+        type: 'error',
+      });
+    },
     onError: (error: any) => onResetPasswordError(error),
   });
 
