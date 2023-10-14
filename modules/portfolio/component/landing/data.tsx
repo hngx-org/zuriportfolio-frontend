@@ -32,7 +32,7 @@ export const sections = [
   },
   {
     id: 'skills',
-    title: 'Skill',
+    title: 'Skills',
     description: 'List your your expertise, technical, managerial or soft skill abilities in this section',
     icon: <Briefcase />,
     modal: <Skill />,
@@ -52,7 +52,7 @@ export const sections = [
     modal: <About />,
   },
   {
-    id: 'project',
+    id: 'projects',
     title: 'Project',
     description: 'A place to highlight your professional experience A place to highlight your professional ',
     icon: <Briefcase />,
@@ -101,37 +101,6 @@ export const sections = [
     modal: <Contact />,
   },
 ];
-
-// @Entity()
-// export class Certificate {
-//   @PrimaryGeneratedColumn()
-//   id: number;
-
-//   @Column()
-//   title: string;
-
-//   @Column()
-//   year: string;
-
-//   @Column()
-//   organization: string;
-
-//   @Column({ type: "text", nullable: true })
-//   url: string;
-
-//   @Column("text")
-//   description: string;
-
-//   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-//   created_at: Date;
-
-//   @Column({ name: "user_id" })
-//   userId: string;
-
-//   @Column({ name: "section_id" })
-//   sectionId: number;
-
-//   @ManyToOne(()
 
 export let workexperiences = [
   {
@@ -207,6 +176,7 @@ export let skills = [
     skills: 'Skill 1',
   },
 ];
+
 export let interests = 'Interest 1,Interest 2,Interest 3,Interest 4,Interest 5,Interest 6';
 export let languages = 'Language 1,Language 2,Language 3,Language 4,Language 5,Language 6';
 
