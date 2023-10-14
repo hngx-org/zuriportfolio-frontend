@@ -7,7 +7,7 @@ import { Eye, EyeSlash } from 'iconsax-react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
-import { resetPassword } from '../../http';
+import { resetPassword } from '../../http/auth';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { notify } from '@ui/Toast';
 import { useRouter } from 'next/router';
@@ -19,22 +19,33 @@ function ResetPassword() {
   const [passwordChanged, setPasswordChanged] = useState(false); // state to manage the success of passsword reset
 
   const router = useRouter();
-  const { token } = router.query;
-  console.log(token);
+  const { token } = router.query; // Get the token after the user is redirected.
 
-  const onResetPasswordError = (data: any) => {
-    console.log(data);
-    if (data.message === 'Request failed with status code 400') {
-      const errorMessage = 'An unexpected error occured, Please try again';
-      notifyError(errorMessage);
+  const onResetPasswordError = (error: any) => {
+    // Handle different error scenarios and display relevant error messages for each situation.
+    console.log(error.message);
+    if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
+      const timeoutErrorMessage =
+        'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+      notifyError(timeoutErrorMessage);
+      return;
+    } else if (error.message === 'AxiosError: Network Error') {
+      const networkErrorMessage = 'Oops! Looks like there was a network error. Please give it another try later.';
+      notifyError(networkErrorMessage);
+      return;
     }
+    const errorMessage =
+      'Oops! An error occurred. Please request another forgot password email or click the mail button again to redirect you to this page. If the issue persists, reach out to support.';
+    notifyError(errorMessage);
   };
 
+  // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(resetPassword, {
     onSuccess: () => setPasswordChanged(true),
     onError: (error: any) => onResetPasswordError(error),
   });
 
+  // inputs validation
   const schema = z
     .object({
       password: z.string().regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/, { message: 'Please match requirements' }),
@@ -58,6 +69,7 @@ function ResetPassword() {
     },
   });
 
+  // handle form submission
   const handleResetPassword = (values: any) => {
     console.log('password', values.password);
     console.log('confirmPassword', values.confirmPassword);

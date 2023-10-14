@@ -15,20 +15,8 @@ const filterByList: FilterList[] = [
     id: 1,
   },
   {
-    name: 'date',
-    id: 2,
-  },
-  {
-    name: 'orderID',
-    id: 3,
-  },
-  {
     name: 'price',
     id: 4,
-  },
-  {
-    name: 'sellerName',
-    id: 5,
   },
 ];
 
@@ -37,7 +25,7 @@ const FilterDropDown = ({ onChooseFilter }: { onChooseFilter: (filter: SearchFil
     <div className="w-max">
       <Menu>
         <Menu.Button>
-          <span className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-max sm:w-[6.25rem] rounded text-black-600 bg-white-100 hover:bg-white-100 active:bg-white-100 text-[0.88rem] ">
+          <span className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 px-[1rem] w-max sm:w-[6.25rem] rounded text-black-600 bg-white-100 hover:bg-white-100 active:bg-white-100 text-[0.88rem] ">
             <Sort size="16" /> <span className="hidden sm:block">Filters</span>
           </span>
         </Menu.Button>

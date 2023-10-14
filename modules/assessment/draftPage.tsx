@@ -4,7 +4,7 @@ import DraftCard from './component/draftCard';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { useEffect } from 'react';
-import AuthContext from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,7 +14,7 @@ interface Draft {
   createdAt: string;
 }
 const DraftPage = () => {
-  const { user } = useContext(AuthContext);
+  const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [draftList, setDraftList] = useState<Draft[]>([]);
 
@@ -68,17 +68,18 @@ const DraftPage = () => {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: `Token ${user?.token}`,
+          Authorization: `Token ${auth?.token}`,
           'Content-Type': 'application/json',
           'X-CSRFTOKEN': 'jRc2ZpP1CpofaUIH2PzCuLJv7ZXzwX478mGc0KeehQACbHBm9aR12Err7zG9xKs1',
         },
         body: JSON.stringify({
           questions: [
             {
-              question_no: 0,
+              question_no: 1,
               question_text: 'string',
+              question_type: 'multiple_choice',
               options: ['string'],
-              correct_option: 0,
+              correct_option: 1,
             },
           ],
           is_published: false,
@@ -112,7 +113,7 @@ const DraftPage = () => {
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
-          Authorization: `Token ${user?.token}`,
+          Authorization: `Token ${auth?.token}`,
           'Content-Type': 'application/json',
           'X-CSRFTOKEN': 'jRc2ZpP1CpofaUIH2PzCuLJv7ZXzwX478mGc0KeehQACbHBm9aR12Err7zG9xKs1',
         },
