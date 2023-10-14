@@ -88,6 +88,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
+  console.log('Fetching data...');
   const id = context.params!.id;
   try {
     const res = await fetch(
@@ -95,7 +96,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
       { next: { revalidate: 5 } },
     );
     const data = await res.json();
-    console.log(data); // log response data to console
+    console.log(data);
     if (!data) {
       throw new Error('API response is empty');
     }
