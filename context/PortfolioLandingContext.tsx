@@ -7,7 +7,6 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { interests, sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
-import axios from 'axios';
 
 type PortfolioContext = {
   setUserData: React.Dispatch<React.SetStateAction<any>>;
@@ -362,6 +361,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setAvatarImage,
     handleUploadCover,
     userData,
+    
     toggleSection,
     isLoading,
     setIsLoading,
