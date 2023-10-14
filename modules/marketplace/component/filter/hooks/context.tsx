@@ -80,9 +80,14 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
     const price = filterSelection.price.join(',');
     const rating = filterSelection.rating.join(',');
     try {
-      const API_URL = constructApiUrl({ category, subCategory, discount, price, rating });
-
-      // console.log(API_URL)
+      const API_URL = constructApiUrl({ category, subCategory });
+      toggle();
+      router.push(
+        `/marketplace/search-filter?category=${category}&subCategory=${subCategory}&discount=${parseInt(
+          discount,
+        )}&price=${parseInt(price)}&rating=${rating}`,
+      );
+      console.log(API_URL)
       const { data, status } = await axios.get(API_URL);
       console.log(data, status);
       if (status === 200) {
@@ -94,7 +99,7 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
           console.log(data, 'data ready for redirection');
           toggle();
           router.push(
-            `/marketplace/specific-sub-category?category=${category}&subCategory=${subCategory}&discount=${parseInt(
+            `/marketplace/search-filter?category=${category}&subCategory=${subCategory}&discount=${parseInt(
               discount,
             )}&price=${parseInt(price)}&rating=${rating}`,
           );
@@ -103,6 +108,7 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error);
+        router.push('/marketplace/error-page');
       }
       if (error instanceof Error) {
         console.log(error);
