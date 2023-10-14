@@ -55,8 +55,8 @@ const OrderHistoryTable: React.FC<{
         </tr>
       </thead>
       <tbody>
-        {pageItem.map((order) => (
-          <OrderHistoryRow key={order.id} {...order} />
+        {pageItem.map((order, i) => (
+          <OrderHistoryRow key={`${order.id}${i}`} {...order} />
         ))}
       </tbody>
     </table>

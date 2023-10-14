@@ -66,9 +66,9 @@ const OrderHistory: React.FC = () => {
     setShowFilters(false);
   };
   const filterFunc = useCallback((filter: string, order: any[]) => {
-    let filteredOrders = [...pageOrders];
+    let filteredOrders = [...order];
     if (filter !== 'all') {
-      filteredOrders = pageOrders.filter((order) => order.status === filter);
+      filteredOrders = order.filter((order) => order.status === filter);
     }
 
     return filteredOrders;
@@ -80,6 +80,7 @@ const OrderHistory: React.FC = () => {
         url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
         method: 'GET',
       });
+
       if (data.data?.errorStatus === true) {
         setPageOrders([]);
         return;
@@ -90,12 +91,13 @@ const OrderHistory: React.FC = () => {
       }
       const transformedOrder = data?.data.data?.map((order: any) => ({
         productName: order.product.name,
-        id: order.id,
+        id: order.order_id,
         status: order.merchant.customer_orders[0]?.status,
-        customerName: order.customer.username,
+        customerName: order.customer.first_name + order.customer.last_name,
         date: new Date(order.createdAt),
       }));
       const filteredOrders = filterFunc(orderFilter, transformedOrder);
+
       setPageOrders(filteredOrders);
     } catch (error) {
       setPageOrders([]);
@@ -103,7 +105,7 @@ const OrderHistory: React.FC = () => {
       setLoadingOrders(false);
     }
   };
-  const debounce = (func: (...a: any) => any, timeSlice: number = 2000) => {
+  const debounce = (func: (...a: any) => any, timeSlice: number = 1000) => {
     let timeout: NodeJS.Timeout;
     return function (...arg: any) {
       if (timeout) {
@@ -125,22 +127,26 @@ const OrderHistory: React.FC = () => {
         method: 'GET',
       });
       const { data } = res;
-      console.log(data);
-      if (data?.errorStatus) {
+      if (!!data?.errorStatus) {
+        console.log('Error');
         setPageOrders([]);
         return;
       }
       if (data?.data === 'user not found') {
+        console.log('no data');
         setPageOrders([]);
         return;
       }
-      if (!data.data || (data?.data && data.data.length === 0)) {
+      if (!data.data) {
+        console.log(data.data);
         setPageOrders([]);
         return;
-      } else {
-        const transformedOrder = data.data.map((order: any) => ({
+      }
+
+      const transformedOrder = data.data.map((order: any) => {
+        return {
           id: order.order_id,
-          price: order.order_price,
+          price: order.product.price,
           date: new Date(order.createdAt),
           revenue: order.merchant.revenue[0]?.amount,
           status: order.customer_orders[0]?.status,
@@ -148,10 +154,12 @@ const OrderHistory: React.FC = () => {
           customerName: order.customer[0]?.username,
           productName: order.product.name,
           productType: order.product.categories[0]?.name,
-        }));
-        const filteredOrders = filterFunc(orderFilter, transformedOrder);
-        setPageOrders(filteredOrders);
-      }
+        };
+      });
+
+      const filteredOrders = filterFunc(orderFilter, transformedOrder);
+
+      setPageOrders(filteredOrders);
     } catch (error) {
       setPageOrders([]);
     } finally {
@@ -166,7 +174,7 @@ const OrderHistory: React.FC = () => {
       setSearchQuery('');
       fetchOrders();
     };
-    console.log('running');
+
     changeStatus();
   }, [orderFilter]);
   const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -276,7 +284,7 @@ const OrderHistory: React.FC = () => {
               )}
             </nav>
             <section className="relative">
-              {orders.length > 0 || searchQuery.trim().length > 0 ? (
+              {pageOrders.length > 0 || searchQuery.trim().length > 0 ? (
                 <section
                   className="rounded-2xl pt-5 hidden md:block"
                   style={{
@@ -295,7 +303,7 @@ const OrderHistory: React.FC = () => {
                         className=" bg-transparent focus-within:outline-none flex-1 text-[1rem] leading-[150%]"
                         placeholder="Search"
                         value={searchQuery}
-                        onChange={(e) => changeSearchQuery(e.target.value)}
+                        onChange={changeInput}
                       />
                     </div>
                     <div className="flex items-center gap-6 relative">
@@ -328,22 +336,25 @@ const OrderHistory: React.FC = () => {
                     </div>
                   </div>
                   <div className={`relative ${searching && 'min-h-[400px]'} `}>
-                    {pageOrders.length > 0 ? (
-                      <OrderHistoryTable
-                        pageItem={orders}
-                        changeSort={changeSortBy}
-                        toggleSort={toggleSortOrder}
-                        currentSort={sortBy}
-                      />
-                    ) : (
-                      <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                        No Order to Show
-                      </p>
-                    )}
-                    {searching && (
+                    {searching ? (
                       <div className="absolute z-50 inset-0 min-h-[300px]">
                         <Loader />
                       </div>
+                    ) : (
+                      <>
+                        {pageOrders.length > 0 ? (
+                          <OrderHistoryTable
+                            pageItem={pageOrders}
+                            changeSort={changeSortBy}
+                            toggleSort={toggleSortOrder}
+                            currentSort={sortBy}
+                          />
+                        ) : (
+                          <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                            No Order to Show
+                          </p>
+                        )}
+                      </>
                     )}
                   </div>
                 </section>
@@ -354,8 +365,8 @@ const OrderHistory: React.FC = () => {
               )}
             </section>
             <div className="md:hidden flex flex-col gap-4 mb-4">
-              {orders.length > 0 ? (
-                orders.map((item) => <OrderHistoryMobile key={item.id} {...item} />)
+              {pageOrders.length > 0 ? (
+                pageOrders.map((item, i) => <OrderHistoryMobile key={`${item.id}${i}`} {...item} />)
               ) : (
                 <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
                   No Order to Show
@@ -364,7 +375,7 @@ const OrderHistory: React.FC = () => {
             </div>
           </section>
         )}
-        {pageOrders.length > 0 && (
+        {pageOrders.length > 0 && !loadingOrders && (
           <div className="flex justify-center my-6">
             <Pagination
               activePage={currentPage}
