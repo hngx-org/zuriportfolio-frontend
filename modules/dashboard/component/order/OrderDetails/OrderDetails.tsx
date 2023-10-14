@@ -58,7 +58,7 @@ const OrderDetails = () => {
     try {
       setLoadingOrders(true);
       const data = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order`,
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
         method: 'GET',
       });
       if (data.data?.errorStatus === true) {

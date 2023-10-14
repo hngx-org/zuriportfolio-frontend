@@ -39,23 +39,6 @@ const DeleteModal = (props: any) => {
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
-  const fetchProducts = () => {
-    // Fetch the product data from the server
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data.data)) {
-          setProducts(data.data);
-        }
-      })
-      .catch((error) => console.error('Error fetching data:', error));
-  };
-
   const handleDelete = () => {
     const productId = props.product.id;
     const productName = props.product.name;
@@ -71,12 +54,13 @@ const DeleteModal = (props: any) => {
         if (response.ok) {
           // Delete was successful
           console.log(`Product "${productName}" has been deleted.`);
-
+          // Delete Product from state
           // Close the delete modal
           props.closeModal();
 
           // Fetch the updated product list to reflect the deletion
-          fetchProducts();
+          props.fetchProducts();
+          // props.deleteProduct(props.product.product_id);
 
           // Show a success toast message
           toast.success(`Product "${productName}" has been deleted successfully`, {
@@ -328,7 +312,7 @@ const ProductCard = () => {
   const [editModal, setEditModal] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
+  const [loading, setIsLoading] = useState(true);
   const closeDeleteModal = () => {
     setDeleteModal(false);
   };
@@ -344,6 +328,7 @@ const ProductCard = () => {
 
   const fetchProducts = () => {
     // Fetch the product data from the server
+    setIsLoading(true);
     fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
       .then((response) => {
         if (!response.ok) {
@@ -357,16 +342,21 @@ const ProductCard = () => {
           setSelectedProduct(null);
         }
       })
-      .catch((error) => console.error('Error fetching data:', error));
+      .catch((error) => console.error('Error fetching data:', error))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
     fetchProducts();
   }, []);
-
+  const deleteProduct = (id: any) => {
+    setProducts((prev) => prev.filter((prev) => prev.product_id !== id));
+  };
   return (
     <>
-      {products.length > 0 ? (
+      {!loading ? (
         products.map((product, index) => (
           <div
             key={index}
@@ -416,7 +406,15 @@ const ProductCard = () => {
           <Loader />
         </div>
       )}
-      {selectedProduct && <DeleteModal isOpen={deleteModal} closeModal={closeDeleteModal} product={selectedProduct} />}
+      {selectedProduct && (
+        <DeleteModal
+          isOpen={deleteModal}
+          closeModal={closeDeleteModal}
+          product={selectedProduct}
+          deleteProduct={deleteProduct}
+          fetchProducts={fetchProducts}
+        />
+      )}
       {selectedProduct && <EditModal isOpen={editModal} closeEditModal={closeEditModal} product={selectedProduct} />}
     </>
   );

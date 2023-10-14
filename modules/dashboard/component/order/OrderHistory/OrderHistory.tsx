@@ -77,7 +77,7 @@ const OrderHistory: React.FC = () => {
     try {
       setLoadingOrders(true);
       const data = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order`,
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
         method: 'GET',
       });
       if (data.data?.errorStatus === true) {
@@ -160,14 +160,13 @@ const OrderHistory: React.FC = () => {
   };
   const debounceSearch = debounce(getSearchResult);
   useEffect(() => {}, [currentPage]);
+
   useEffect(() => {
-    fetchOrders();
-  }, []);
-  useEffect(() => {
-    const changeStatus = () => {
+    const changeStatus = async () => {
       setSearchQuery('');
       fetchOrders();
     };
+    console.log('running');
     changeStatus();
   }, [orderFilter]);
   const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {

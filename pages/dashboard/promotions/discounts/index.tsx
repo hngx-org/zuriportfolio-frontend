@@ -145,10 +145,11 @@ function Discounts() {
       if (response.status === 200) {
         toast.success('Discount created successfully', {
           autoClose: 5000,
-          onClose: () => {
-            router?.push('/dashboard/promotions');
-          },
+          // onClose: () => {
+          //   router?.push('/dashboard/promotions');
+          // },
         });
+        router.push('/dashboard/promotions');
         console.log('success', response?.data);
       } else {
         // Handle other successful status codes if needed
