@@ -20,7 +20,7 @@ function VerificationComplete() {
       setMessage(data);
 
       if (data.status === 200) {
-        router.push('/dashboard');
+        router.push('/auth/login');
         return;
       }
     },
