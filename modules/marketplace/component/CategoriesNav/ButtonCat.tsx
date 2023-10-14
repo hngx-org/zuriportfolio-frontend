@@ -56,7 +56,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
             onClick={() => handleActiveNav(index)}
             className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
             key={i + 1}
-            href={`/marketplace/categories/${category.name}/${item.name}`}
+            href={`/marketplace/categories/${category?.name}/${item.name}`}
           >
             {item.name}
           </Link>
