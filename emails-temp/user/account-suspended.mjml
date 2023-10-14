@@ -1,9 +1,7 @@
 <mjml>
   <mj-head>
-    <mj-preview>Purchase Confirmation</mj-preview>
-    <mj-title></mj-title>
-    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
-    <mj-font name="Open Sans" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" />
+    <mj-preview>Account Suspended</mj-preview>
+    <mj-title>Account Suspended</mj-title>
     <mj-attributes>
       /* background colors */
       <mj-class name="bg-grey" background-color="#F0F1F0" />
@@ -11,7 +9,7 @@
       <mj-class name="bg-green" background-color="#009254" border-radius="10.08px" padding="24px 0" />
 
       /* Font styles */
-      <mj-class name="h-1" font-size="28px" line-height="32px" font-weight="700" color="#1A1C1B" css-class="h1" />
+      <mj-class name="h-1" font-size="18px" line-height="32px" font-weight="700" color="#1A1C1B" css-class="h1" />
       <mj-class
         name="h-2"
         font-size="16px"
@@ -32,7 +30,7 @@
       />
       <mj-class
         name="p-3"
-        font-size="12px"
+        font-size="14px"
         line-height="16px"
         letter-spacing="0.048px"
         font-weight="600"
@@ -45,7 +43,7 @@
       <mj-class name="sp-xl" height="36px" />
 
       /* MJML Attributes */
-      <mj-text font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" padding="0" />
+      <mj-text font-family="Verdana" padding="0" />
       <!-- <mj-button background-color="#006853" color="#FFFFFF" font-size="12px" line-height="15px" font-weight="bold" border-radius="45px" inner-padding="18px" padding="0"/> -->
       <mj-image padding="0" />
       <mj-column padding="0" />
@@ -71,50 +69,33 @@
           <mj-text mj-class="h-1" padding-bottom="20px"> Hi Dare </mj-text>
         </mj-column>
         <mj-column width="100%">
-          <mj-text mj-class="h-1" padding-bottom="20px" color="#009254"> Notice of deletion </mj-text>
+          <mj-text mj-class="h-1" padding-bottom="20px" color="#009254"> Your account has been suspended </mj-text>
         </mj-column>
 
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="20px">
-            We are writing to bring to your attention that your account with Zuriportfolio is at risk o deletion due to
-            non--compliance with adhering to our guidelines
+            Your Zuriportfolio account has been temporarily suspended due to a violation of our guidelines, effective
+            immediately and lasting for 2 weeks.
           </mj-text>
         </mj-column>
-
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="10px">
-            Your account, associated with <span class="bold">[Dare/dare@gmail.com]</span> and
-            <span class="bold">[Account ID, #456789]</span>, was suspended/banned due to [prolonged ban or violating
-            community guidelines]and has not complied with the guidelines stated for account reinstating and will be
-            deleted in 30 days
+            Violation: <span class="bold">Your account was found to violate our terms concerning financial abuse</span>
           </mj-text>
         </mj-column>
-
-        <mj-column width="100%">
-          <mj-text mj-class="p-1" padding-bottom="20px">
-            To avoid deletion, please make sure you carry out the actions required o you before the time period elapses
-          </mj-text>
-        </mj-column>
-
         <mj-column width="100%">
           <mj-spacer mj-class="sp-xl" />
         </mj-column>
         <mj-column width="100%">
           <mj-text mj-class="p-1" padding-bottom="20px">
-            All of your data will be removed from our system, and you will no longer have access to your account or any
-            associated services after the elapsed period.
+            If you believe this decision was made in error, please reach out to our support team at
+            <span style="color: #009254">support@zuriportolio.com.</span>
           </mj-text>
         </mj-column>
-
         <mj-column width="100%">
-          <mj-text mj-class="p-1" padding-bottom="20px">
-            If you believe this decision was made in error, or you need further clarification please reach out to our
-            support team at
-            <span style="color: #009254"
-              ><a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
-                >support@zuriportolio.com</a
-              ></span
-            >.
+          <mj-text mj-class="p-1">
+            During this suspension, you won't be able to access your account. Please refrain from creating a new
+            account, as it's against our policies
           </mj-text>
         </mj-column>
 

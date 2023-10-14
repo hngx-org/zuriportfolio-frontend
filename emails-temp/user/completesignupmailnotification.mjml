@@ -1,11 +1,7 @@
 <mjml>
   <mj-head>
-    <mj-font
-      name="Manrope"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
-    />
     <mj-title>Guest Complete SignUp Mail Notification</mj-title>
-    <mj-text font-family="Manrope" />
+    <mj-text font-family="Verdana" />
     <!-- Define the font-family -->
     <mj-style>
       .blob { position: absolute; height:70px; width: 70px; right: 1px; top: 5px; } .blob-parent{ position:relative;
@@ -37,8 +33,8 @@
         ></mj-image>
 
         <!-- Header Text -->
-        <mj-text font-size="24px" color="#333333" font-weight="bold" align="center" padding-bottom="10px">
-          <span style="font-size: 25px">&#128075;</span>Hi, Finish your account setup
+        <mj-text font-size="20px" color="#333333" font-weight="bold" align="center" padding-bottom="10px">
+          <span style="font-size: 20px">&#128075;</span>Hi, Finish your account setup
         </mj-text>
 
         <!-- Email Text(content) -->
@@ -52,7 +48,7 @@
         <mj-button
           background-color="#009254"
           color="white"
-          font-size="18px"
+          font-size="16px"
           padding="15px 30px"
           border-radius="5px"
           align="center"
@@ -83,7 +79,7 @@
           width="50px"
         />
         <!-- Header Text -->
-        <mj-text font-size="20px" color="#333333" font-weight="bold" align="center" padding-bottom="10px">
+        <mj-text font-size="18px" color="#333333" font-weight="bold" align="center" padding-bottom="10px">
           Get the most out of your Zuri Portfolio Account
         </mj-text>
         <!-- Email Text(content) -->
@@ -92,8 +88,8 @@
         </mj-text>
       </mj-column>
     </mj-section>
-     <mj-section>
-    <mj-column width="100%" padding="0px"></mj-column>
+    <mj-section>
+      <mj-column width="100%" padding="0px"></mj-column>
     </mj-section>
   </mj-body>
 </mjml>

@@ -1,7 +1,6 @@
 <mjml>
   <mj-head>
     <mj-title> E-mail Verification / Order Fulfillment </mj-title>
-    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope" />
   </mj-head>
   <mj-body>
     <mj-wrapper border="1px solid #E1E3E2" padding="0px" full-width="full-width">
@@ -20,9 +19,9 @@
         <mj-column>
           <mj-text
             align="center"
-            font-family="Manrope"
+            font-family="Verdana"
             font-weight="400"
-            font-size="22px"
+            font-size="18px"
             color="#ffffff"
             padding-top="8px"
           >
@@ -30,8 +29,8 @@
           </mj-text>
           <mj-text
             align="center"
-            font-family="Manrope"
-            font-size="28px"
+            font-family="Verdana"
+            font-size="22px"
             color="#ffffff"
             font-weight="700"
             padding-top="8px"
@@ -43,11 +42,11 @@
     <mj-section background-color="#ffffff" border="1px solid #E1E3E2">
       <mj-column>
         <mj-text
-          font-family="Manrope"
+          font-family="Verdana"
           color="#2E3130"
           padding-top="24px"
           padding-bottom="24px"
-          font-size="15px"
+          font-size="16px"
           font-weight="400"
           line-height="24px"
         >
@@ -55,32 +54,32 @@
           Thank you for creating an account with Zuriportfolio! To complete your account creation, please verify your
           email address by clicking on the following link:
         </mj-text>
-        <mj-text font-family="Manrope" padding-bottom="24px">
+        <mj-text font-family="Verdana" padding-bottom="24px">
           <mj-raw>
-            <a style="color: #009254; font-weight: 400; font-size: 15px; line-height: 24px" href="#"
+            <a style="color: #009254; font-weight: 400; font-size: 16px; line-height: 24px" href="#"
               >[verification link]</a
             >
           </mj-raw>
         </mj-text>
-        <mj-text font-family="Manrope" font-weight="bold" font-size="15px"> Link will expire in 24 hours </mj-text>
+        <mj-text font-family="Verdana" font-weight="bold" font-size="16px"> Link will expire in 24 hours </mj-text>
         <mj-text
-          font-family="Manrope"
+          font-family="Verdana"
           font-weight="400"
           color="#2E3130"
           padding-top="24px"
           padding-bottom="24px"
-          font-size="15px"
+          font-size="16px"
           line-height="24px"
         >
           This link will take you to a secure page where you can confirm your email address. Once you have verified your
           email address, you will be able to log in to your account and start using our services.
         </mj-text>
-        <mj-text color="#191c1d" line-height="20px" font-family="Manrope" font-size="15px">
-          <mj-text font-family="Manrope" font-weight="bold" font-size="15px">P.S:</mj-text> If you did not create an
+        <mj-text color="#191c1d" line-height="20px" font-family="Verdana" font-size="16px">
+          <mj-text font-family="Verdana" font-weight="bold" font-size="16px">P.S:</mj-text> If you did not create an
           account on Zuriportfolio, please disregard this email.
         </mj-text>
 
-        <mj-text font-family="Manrope" font-weight="bold" line-height="24px" font-size="15px">
+        <mj-text font-family="Verdana" font-weight="bold" line-height="24px" font-size="16px">
           Thanks,<br />
           Zuriportfolio support team
         </mj-text>
@@ -111,14 +110,14 @@
             src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/linkedin.png"
           ></mj-social-element>
         </mj-social>
-        <mj-text color="#fff" font-family="Manrope" font-size="12px" letter-spacing="0.048px" align="center">
+        <mj-text color="#fff" font-family="Verdana" font-size="12px" letter-spacing="0.048px" align="center">
           Beaverton, Oregon, Washington County, USA
         </mj-text>
-        <mj-text font-family="Manrope" color="#fff" font-size="12px" align="center" letter-spacing="0.048px">
+        <mj-text font-family="Verdana" color="#fff" font-size="12px" align="center" letter-spacing="0.048px">
           Copyright © 2023 Zuriportfolio, All rights reserved.
         </mj-text>
 
-        <mj-text font-family="Manrope" color="#96D4AB" font-size="12px" align="center" font-weight="600">
+        <mj-text font-family="Verdana" color="#96D4AB" font-size="12px" align="center" font-weight="600">
           Unsubscribe
         </mj-text>
       </mj-column>
