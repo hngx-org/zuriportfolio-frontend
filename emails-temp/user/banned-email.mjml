@@ -1,9 +1,7 @@
 <mjml>
   <mj-head>
-    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
-
     <mj-attributes>
-      <mj-text color="#2E3130" font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" line-height="24px" />
+      <mj-text color="#2E3130" font-family="Verdana" line-height="24px" />
     </mj-attributes>
   </mj-head>
   <mj-body background-color="#f0ece6">
@@ -25,22 +23,33 @@
       text-align="center"
     >
       <mj-column>
-        <mj-text padding="40px 20px 20px 20px" color="#000" font-size="26px" font-weight="bold">
+        <mj-text padding="40px 20px 20px 20px" color="#000" font-size="18px" font-weight="bold">
           Hi {{$name}},
         </mj-text>
 
-        <mj-text font-weight="bold" color="#009254" font-size="20px"> Your store has been approved </mj-text>
+        <mj-text font-weight="bold" color="#009254" font-size="18px"> Your Account has been banned </mj-text>
 
         <mj-text font-weight="400" font-size="16px">
-          We are glad today's to notify you that your Zuriportfolio store
-          <span style="font-weight: bold"> {{$store_name}} </span>
-          has successfully undergone our comprehensive review process and has received official approval to continue its
-          operations on our platform. This achievement is a testament to your unwavering commitment to maintaining
-          elevated standards of quality and compliance.
+          We regret to inform you that your account with Zuriportfolio has been permanently banned, and your linked
+          store has been permanently deleted due to repeated violations of our terms, service and community guidelines.
         </mj-text>
 
         <mj-text font-weight="400" font-size="16px">
-          Your store has demonstrated excellence across all the dimensions outlined
+          If you believe this decision was made in error, please reach out to our support team at
+          <a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
+            >support@zuriportolio.com</a
+          >.
+        </mj-text>
+
+        <mj-text padding-top="30px" font-weight="400" color="#000" font-size="16px">
+          Do not attempt to create a new account or bypass this ban as both actions are strictly prohibited and will
+          result in legal action being taken against you.
+        </mj-text>
+
+        <mj-text font-weight="400" color="#000" font-size="16px">
+          <span padding-top="30px" style="color: #000; font-weight: bold; padding-top: 10px"> PS: </span>
+          If you have any pending orders, outstanding refunds, or unresolved issues related to your account, please
+          reach out to our support team for assistance in resolving them.
         </mj-text>
 
         <mj-button
@@ -50,22 +59,10 @@
           height="30px"
           width="200px"
           font-size="16px"
-          >Go to your store</mj-button
+          >Contact Support</mj-button
         >
 
-        <mj-text font-size="16px" padding-top="30px" font-weight="400" color="#000" font-size="18px">
-          We genuinely appreciate your dedication to upholding the quality and security of our platform. Your commitment
-          to these standards is instrumental in fostering a positive experience for our users.
-        </mj-text>
-
-        <mj-text font-weight="400" font-size="16px">
-          If you have any questions or issues, please contact support at
-          <a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
-            >support@zuriportolio.com</a
-          >.
-        </mj-text>
-
-        <mj-text padding-top="30px" font-size="16px">
+        <mj-text color="#000" padding-top="30px" font-size="16px">
           Thank you for choosing Zuriportfolio!<span
             padding-top="30px"
             style="display: block; color: #865311; font-weight: bold; padding-top: 10px"
@@ -83,8 +80,8 @@
 
         <mj-text
           align="center"
-          font-family="Arial, sans-serif"
-          font-size="13px"
+          font-family="Verdana"
+          font-size="14px"
           line-height="22px"
           padding="10px 25px"
           color="#5B5F5E"

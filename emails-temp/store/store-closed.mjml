@@ -1,9 +1,7 @@
 <mjml>
   <mj-head>
-    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" />
-
     <mj-attributes>
-      <mj-text color="#2E3130" font-family="Century Gothic, Manrope,Open Sans, Roboto, Helvetica" line-height="24px" />
+      <mj-text color="#2E3130" font-family="Verdana" line-height="24px" />
     </mj-attributes>
   </mj-head>
   <mj-body background-color="#f0ece6">
@@ -25,11 +23,11 @@
       text-align="center"
     >
       <mj-column>
-        <mj-text padding="40px 20px 20px 20px" color="#000" font-size="24px" font-weight="bold">
+        <mj-text padding="40px 20px 20px 20px" color="#000" font-size="18px" font-weight="bold">
           Hi {{$name}},
         </mj-text>
 
-        <mj-text font-weight="bold" color="#009254" font-size="20px"> Your shop has been closed </mj-text>
+        <mj-text font-weight="bold" color="#009254" font-size="18px"> Your shop has been closed </mj-text>
 
         <mj-text font-weight="400" color="#000" font-size="16px">
           Unfortunately, we have made the challenging decision to close your store
@@ -74,7 +72,7 @@
 
         <mj-text
           align="center"
-          font-family="Arial, sans-serif"
+          font-family="Verdana"
           font-size="13px"
           line-height="22px"
           padding="10px 25px"

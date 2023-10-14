@@ -1,10 +1,7 @@
 <mjml>
   <mj-head>
-    <mj-title>Buyer Notification</mj-title>
-    <mj-font
-      name="Manrope"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
-    />
+    <mj-title>Seller Notification</mj-title>
+
     <mj-style>
       .border-radius-top { border-radius: 10px 10px 0 0; } @media (max-width: 480px) { .mobile-hidden { display: none
       !important; } .n-width { width: 100% !important; } } .confetti-bg { position: relative; background-color: #f4fef6;
@@ -13,9 +10,9 @@
       background-repeat: repeat-y; background-size: contain; position: absolute; top: 0; bottom: 0; width: 50%; }
       .confetti-bg:before { left: 0; } .confetti-bg:after { right: 0; transform: scaleX(-1); }
     </mj-style>
-    <mj-preview>Buyer Notification</mj-preview>
+    <mj-preview>Seller's Notification</mj-preview>
     <mj-attributes>
-      <mj-text font-weight="400" font-size="16px" color="#000000" line-height="24px" font-family="Manrope"></mj-text>
+      <mj-text font-weight="400" font-size="16px" color="#000000" line-height="24px" font-family="Verdana"></mj-text>
     </mj-attributes>
 
     <mj-style inline="inline">
@@ -47,9 +44,9 @@
           font-size="20px"
           line-height="32px"
           css-class="center-text  banner-text"
-          font-family="Century Gothic"
+          font-family="Verdana"
         >
-          <p>PHP Test Completed</p>
+          <p>PHP TEST BASICS ASSESSMENT</p>
         </mj-text>
       </mj-column>
     </mj-section>
@@ -65,16 +62,18 @@
         </mj-column>
 
         <mj-column width="100%">
-          <mj-text font-family="Century Gothic" color="#000" font-size="18px">
+          <mj-text font-family="Verdana" color="#000" font-size="18px">
             Hi <span style="font-weight: bold">{{$name}}</span>,
           </mj-text>
-          <mj-text font-family="Century Gothic" color="#000" font-size="18px">
-            Congratulations on completing your internal assessment for
-            <span style="font-weight: bold">{{$service}}</span>
+          <mj-text font-family="Verdana" color="#000" font-size="16px">
+            This is to notify you that
+            <span style="font-weight: bold">{{ $buyer_name }}</span> has completed the
+            <span style="font-weight: bold">{{ $service }} </span>
+            internal assessment you assigned to them. Their results have been submitted to you for review.
           </mj-text>
-          <mj-text font-family="Century Gothic" color="#000" font-size="18px">
-            Your results will be available shortly. You can access your results by logging in to your account, click on
-            the button below to login.
+          <mj-text font-family="Verdana" color="#000" font-size="16px">
+            You can view their results and provide feedback by logging in to your account, click on the button below to
+            login.
           </mj-text>
 
           <mj-button
@@ -87,7 +86,7 @@
             >Login</mj-button
           >
 
-          <mj-text font-family="Century Gothic" color="#000" font-size="18px" padding-bottom="30px">
+          <mj-text font-family="Verdana" color="#000" font-size="16px" padding-bottom="30px">
             If you have any questions about your results, please contact our support group at
             <a href="mailto:zurisupport@gmail.com" style="font-weight: bold; color: #000">zurisupport@gmail.com</a>
           </mj-text>
@@ -96,10 +95,10 @@
 
       <mj-section background-color="#ffffff" padding="0 15px 0 15px">
         <mj-column width="100%">
-          <mj-text font-family="Century Gothic" color="#212b35" font-size="18px" padding-bottom="0">
+          <mj-text font-family="Verdana" color="#212b35" font-size="16px" padding-bottom="0">
             Thank you for your hard work!
           </mj-text>
-          <mj-text font-family="Century Gothic" color="#000" font-size="18px">
+          <mj-text font-family="Verdana" color="#000" font-size="16px">
             Sincerely,<span style="display: block; color: #d7a068; font-weight: bold"> Zuriportfolio </span>
           </mj-text>
         </mj-column>
