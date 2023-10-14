@@ -90,7 +90,7 @@ function AccountManagement() {
           </label>
           <div className="flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Current Email Address</p>
-            <div className="relative w-[33rem] flex flex-row">
+            <div className="relative w-[35rem] flex flex-row">
               <input
                 name="email"
                 type="email"
@@ -135,7 +135,7 @@ function AccountManagement() {
           </label>
           <div className="flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Current Passowrd</p>
-            <div className="relative w-[33rem] flex flex-row">
+            <div className="relative w-[35rem] flex flex-row">
               <input
                 name="currentPassword"
                 type="password"
@@ -179,7 +179,7 @@ function AccountManagement() {
             >
               New Password
             </label>
-            <div className="relative w-[33rem] flex flex-row">
+            <div className="relative w-[35rem] flex flex-row">
               <input
                 name="newPassword"
                 type="password"
@@ -218,7 +218,7 @@ function AccountManagement() {
           </div>
           <div className="flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Confirm New Password</p>
-            <div className="relative w-[33rem] flex flex-row">
+            <div className="relative w-[35rem] flex flex-row">
               <input
                 name="confirmNewPassword"
                 type="password"
