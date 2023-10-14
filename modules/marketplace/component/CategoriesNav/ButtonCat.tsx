@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-// type categories = {
-//   name: string;
-//   subcategories: [];
-// };
+type categories = {
+  name: string;
+  subcategories: [];
+};
 export interface CategoriesProps {
-  category: string;
+  category: categories;
   index: number;
   handleActiveNav: (arg: number) => void;
   active: number;
@@ -36,7 +36,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onClick={() => handleActiveNav(index)}
         className={`${active === index ? 'text-brand-green-shade50' : 'text-brand-green-shade10'} z-10 relative`}
       >
-        <Link href={`/marketplace/categories/${category}`}>{category}</Link>
+        <Link href={`/marketplace/categories/${category}`}>{category.name}</Link>
       </div>
       <div
         className={`py-3 flex-col gap-3 ${
@@ -48,18 +48,16 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onMouseOver={() => setPopupClass(true)}
         onMouseLeave={() => setPopupClass(false)}
       >
-        {['Graphics Design Templates', 'Illustrations', 'Logos', 'Branding Assets', 'Ui/Ux Design Elements'].map(
-          (item: string, i) => (
-            <Link
-              onClick={() => handleActiveNav(index)}
-              className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
-              key={i + 1}
-              href={`/marketplace/categories/${category}/${item}`}
-            >
-              {item}
-            </Link>
-          ),
-        )}
+        {category.subcategories.map((item: { name: string }, i: number) => (
+          <Link
+            onClick={() => handleActiveNav(index)}
+            className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
+            key={i + 1}
+            href={`/marketplace/categories/${category.name}/${item.name}`}
+          >
+            {item.name}
+          </Link>
+        ))}
       </div>
     </div>
   );

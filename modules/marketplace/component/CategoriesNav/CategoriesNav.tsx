@@ -7,16 +7,15 @@ import more from '../../../../public/assets/ic_outline-arrow-back-ios.svg';
 import menu from '../../../../public/assets/ic_outline-menu.svg';
 import { useAuthentication } from '../../../../hooks/useAuthentication';
 
-import axios from 'axios';
-
-interface CategoriesNavProps {
-  navItems: string[];
-}
-
+// import axios from 'axios';
 type categories = {
   name: string;
   subcategories: [];
 };
+
+interface CategoriesNavProps {
+  navItems: object[];
+}
 
 const CategoriesNav = (props: CategoriesNavProps) => {
   const [active, setActive] = useState(-1);
@@ -82,10 +81,15 @@ const CategoriesNav = (props: CategoriesNavProps) => {
                 <Link href={`/marketplace/wishlist`}>WishList</Link>
               </li>
             )}
-            {navItems.map((category: string, i: number) => {
+            {navItems.map((category, i: number) => {
               return (
                 <li key={i + 1} className="">
-                  <ButtonCat active={active} handleActiveNav={handleActiveNav} category={category} index={i} />
+                  <ButtonCat
+                    active={active}
+                    handleActiveNav={handleActiveNav}
+                    category={category as categories}
+                    index={i}
+                  />
                 </li>
               );
             })}
