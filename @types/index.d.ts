@@ -449,8 +449,10 @@ export interface filterProps {
 }
 
 export interface reviewProps {
+  reviewId: string;
   buyerName: string;
   adminDate: string;
+  mainDate: string;
   review: string;
   noOfStars: number;
   shopName?: string;
@@ -529,14 +531,16 @@ export type Graph = {
 };
 
 export type topListingProduct = {
-  id: number;
-  productName: string;
-  productImage: string;
-  category: string;
-  order: string;
-  price: string;
-  topSales: string;
-  vendor: string;
+  map(arg0: (item: any, id: any) => React.JSX.Element): React.ReactNode;
+  product_id?: number;
+  product_name?: string;
+  productImage?: string;
+  category_name?: string;
+  total_orders?: string;
+  price?: string;
+  top_sales?: string;
+  vendor_name?: string;
+  total_sales?: string;
 };
 
 type activity = {
@@ -592,9 +596,8 @@ export interface CardData {
 }
 
 export interface Review {
-  id: number;
-  rating: number;
-  name: string;
+  rateNo: number;
+  customerName: string;
   description: string;
 }
 export interface UserInfo {
