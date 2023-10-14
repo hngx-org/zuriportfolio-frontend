@@ -14,14 +14,14 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
-  console.log(subCategory, category);
+  //   console.log(subCategory, category);
   const url = `https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}/${subCategory}/`;
 
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
         const res = await axios(url);
-        console.log(res.data.products);
+        // console.log(res.data.products);
         if (res.data.products.length === 0) {
           return setError(true);
         }
@@ -37,7 +37,7 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
     fetchSubCategories();
   }, [url]);
 
-  console.log(data, loading, error);
+  //   console.log(data, loading, error);
 
   if (error) {
     return <CategoryError message={`No products found in ${category}`} />;

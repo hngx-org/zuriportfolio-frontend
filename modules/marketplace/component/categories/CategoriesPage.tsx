@@ -11,7 +11,7 @@ interface CategoriesPageProps {
 }
 
 const CategoriesPage: FC<CategoriesPageProps> = ({ error, errorMessage, data }) => {
-  console.log(error, errorMessage, data);
+  // console.log(error, errorMessage, data);
   // const { name, subcategories } = data;
   const name = data?.name;
   // return undefined if not present
@@ -23,7 +23,7 @@ const CategoriesPage: FC<CategoriesPageProps> = ({ error, errorMessage, data }) 
     mappedSubcategory = subcategories?.map((el) => el.name);
   }
   // // if data is empty
-  console.log(mappedSubcategory);
+  // console.log(mappedSubcategory);
   // console.log(mappedSubcategory);
 
   if (error) {

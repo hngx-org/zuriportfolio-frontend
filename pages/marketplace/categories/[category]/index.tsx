@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const getServerSideProps = async (context: any) => {
   const { category } = context.query;
-  console.log(category);
+  // console.log(category);
 
   if (!category) {
     return {
@@ -47,11 +47,11 @@ export const getServerSideProps = async (context: any) => {
 };
 
 export default function CategoryPage(props: any) {
-  console.log(props);
+  // console.log(props);
 
   const router = useRouter();
   const { category } = router.query;
-  console.log(category);
+  // console.log(category);
 
   return <CategoriesPage error={props.error} errorMessage={props.errorMessage} data={props.data} />;
 }
