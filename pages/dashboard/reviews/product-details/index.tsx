@@ -12,7 +12,7 @@ import Filter from '@modules/dashboard/component/reviews/review-page/ReviewFilte
 import PaginationBar from '../../../../modules/dashboard/component/order/PaginationBar';
 import { ratingData, reviewData } from '../../../../db/reviews';
 import { ParsedUrlQuery } from 'querystring';
-import { NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
 interface ReviewData {
   productId: string;
@@ -39,7 +39,7 @@ interface Params extends ParsedUrlQuery {
   id: string;
 }
 
-const UserReview: NextPage = () => {
+export default function UserReview() {
   const [data, setData] = useState<ReviewData[] | null>(null);
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
   const [total5Star, setTotal5Star] = useState<number>(0);
@@ -96,6 +96,7 @@ const UserReview: NextPage = () => {
       setFilteredData(filteredReviews); // update the filteredData state with the filtered reviews
     }
   }
+
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar={true}>
       <Container>
@@ -108,7 +109,7 @@ const UserReview: NextPage = () => {
                   <p className=" m-0 ml-1">The Complete Ruby on Rails Developer Course</p>
                 </div>
               </div>
-              {reviewData.length === 0 ? (
+              {data === null || data.length === 0 ? (
                 <div className="container md:h-[60vh] lg:h-[60vh] xl:h-[70vh] h-[50vh] content-center justify-center flex flex-col mx-auto">
                   <div className="flex flex-col items-center justify-center">
                     <Image src={empty} width={157} height={157} alt="empty" />
@@ -132,19 +133,33 @@ const UserReview: NextPage = () => {
                       <Filter review={4} rating={4} filterReview={(view, rating) => handleFilter(view, rating)} />
                     </div>
                     <div className="mt-6 ">
-                      {reviewData.map((data, index) => (
-                        <SellerReview
-                          reviewId={''}
-                          key={index}
-                          buyerName={data.buyerName}
-                          adminDate={data.adminDate}
-                          mainDate={data.adminDate}
-                          review={data.review}
-                          noOfStars={data.noOfStars}
-                          shopReply={data.shopReply}
-                          shopName={data.shopName}
-                        />
-                      ))}
+                      {filteredData !== null && filteredData !== undefined
+                        ? filteredData.map((data, index) => (
+                            <SellerReview
+                              key={index}
+                              reviewId=""
+                              buyerName={data.customerName}
+                              adminDate={data.createdAt}
+                              mainDate={data.createdAt}
+                              review={data.description}
+                              noOfStars={data.rating}
+                              shopReply={data.reply?.message}
+                              shopName={''}
+                            />
+                          ))
+                        : data.map((data, index) => (
+                            <SellerReview
+                              key={index}
+                              reviewId=""
+                              buyerName={data.customerName}
+                              adminDate={data.createdAt}
+                              mainDate={data.createdAt}
+                              review={data.description}
+                              noOfStars={data.rating}
+                              shopReply={data.reply?.message}
+                              shopName={''}
+                            />
+                          ))}
                     </div>
                   </div>
                 </div>
@@ -156,4 +171,4 @@ const UserReview: NextPage = () => {
       </Container>
     </MainLayout>
   );
-};
+}
