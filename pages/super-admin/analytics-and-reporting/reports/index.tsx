@@ -47,7 +47,7 @@ const AnalyticsAndReport: React.FC = () => {
           console.error('Error fetching top-selling products:', error);
         });
       setGetReport(false);
-      setReportClicked(true);
+      setReportClicked(!reportClicked);
     }
   };
 
