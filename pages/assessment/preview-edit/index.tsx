@@ -7,10 +7,6 @@ import PreviewQuests from '@modules/assessment/component/previewQuests';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 
 const Previewedit: React.FC = () => {
-  //demo-question-...
-  // eslint-disable-next-line react/no-unescaped-entities
-  const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
-
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {
