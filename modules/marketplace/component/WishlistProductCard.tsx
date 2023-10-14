@@ -9,9 +9,11 @@ import Link from 'next/link';
 export const WishlistProductCard = ({
   product,
   removeProductFromWishlist,
+  moveToCart,
 }: {
   product: WishlistProduct;
   removeProductFromWishlist: (productId: string) => void;
+  moveToCart: (productId: string) => void;
 }) => {
   return (
     <>
@@ -63,6 +65,7 @@ export const WishlistProductCard = ({
                   size={'sm'}
                   intent={'tertiary'}
                   spinnerColor="#00894C px-3 py-1"
+                  onClick={() => moveToCart(product.productId)}
                 >
                   <span className="text-[12px] md:text-lg ">{product.inCart ? 'Explore Similar' : 'Move To Cart'}</span>
                 </Button>
@@ -104,6 +107,7 @@ export const WishlistProductCard = ({
             size={'sm'}
             intent={'tertiary'}
             spinnerColor="#00894C px-4 py-2"
+            onClick={() => moveToCart(product.productId)}
           >
             {product.inCart ? 'Explore Similar' : 'Move To Cart'}
           </Button>

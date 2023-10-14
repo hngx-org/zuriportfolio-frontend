@@ -82,7 +82,7 @@ const AnalysisCards: React.FC = () => {
 
   return (
     <>
-      <div className="max-w-[77.5rem] w-full mx-auto mt-[1.75rem] max-[1300px]:px-[1.2rem] max-[1300px]:py-0 max-[834px]:hidden">
+      <div className="max-w-[77.5rem] min-[1536px]:max-w-[1536px] w-full mx-auto mt-[1.75rem] max-[1300px]:px-[1.2rem] max-[1300px]:py-0 max-[834px]:hidden">
         <div className="grid grid-cols-4 gap-[1.5rem] max-[1300px]:gap-[1rem]">
           {CardDataOne.map((hero) => (
             <div
@@ -186,8 +186,8 @@ const AnalysisCards: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] max-[834px]:block max-[800px]:px-[1.5rem]">
-        <div className="grid grid-cols-3 gap-[1rem] max-[800px]:grid-cols-2 max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
+      <div className="hidden max-w-[47.125rem] max-[834px]:max-w-full w-full max-[500px]:px-[1.5rem] mx-0 mt-[1.75rem] max-[834px]:block max-[834px]:px-[2.5rem]">
+        <div className="grid grid-cols-3 gap-[1rem] max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
           {CardDataTwo.map((hero) => (
             <div
               key={hero.id}
