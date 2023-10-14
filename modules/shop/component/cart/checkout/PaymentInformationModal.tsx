@@ -3,7 +3,7 @@ import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import { makePayment } from '../../../../../http';
 
-const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () => void; orderTotal: number }) => {
+const PaymentInformationModal = ({ closeModal, orderTotal,token }: { closeModal: () => void; orderTotal: number,token:string }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalOpen, setModalOpen] = useState(true);
   const [showOTP, setShowOTP] = useState(true);
@@ -20,7 +20,7 @@ const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () =>
     setPaymentButtonClicked(true);
     if (selectedPaymentMethod) {
       try {
-        const response = await makePayment(selectedPaymentMethod);
+        const response = await makePayment(selectedPaymentMethod,token);
         window.location.href = response.transaction_url;
       } catch (error) {
         console.error('Error making payment:', error);
