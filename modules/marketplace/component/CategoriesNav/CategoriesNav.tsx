@@ -73,7 +73,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
           }}
         >
           <Image src={menu} alt="menu icon" />
-          <Link href="/marketplace/categories/all">All Categories</Link>
+          <Link href="/marketplace/allcategories">All Categories</Link>
         </button>
         <div className={`overflow-x-scroll  ${styles['hide-scroll']}`} ref={navContainerRef}>
           <ul className={`list flex whitespace-nowrap gap-8 py-5 bg-white-100 text-base `}>
