@@ -43,6 +43,7 @@ export interface RecentlyViewedData {
     is_deleted: string;
     rating: number;
     is_published: false;
+    showTopPicks: true;
     currency: string;
     createdat: string;
     updatedat: string;
@@ -78,16 +79,26 @@ export interface AllCategoryDetails {
   showLimitedOffer: boolean;
   discount: number;
 }
-export interface Products {
-  _id: string;
+interface ImageData {
+  id: string;
+  product_id: string;
+  url: string;
+}
+interface CategoryData {
   name: string;
-  image: any;
+}
+export interface Products {
+  id: string;
+  name: string;
+  image: ImageData[];
   shopOwner: string;
   price: number;
-  category: string;
+  category: CategoryData;
   description: string;
   specification: string;
   rating: number;
+  currency: string;
+  discount_price: string;
 }
 export interface SuperAdminPagination {
   title: any;
