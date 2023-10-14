@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { WorkExperience } from '../../../@types';
+import { notify } from '@ui/Toast';
 
 interface WorkExperienceModalContextType {
   workExperiences: WorkExperience[];
@@ -108,11 +109,22 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         method: 'DELETE',
       });
       if (response.ok) {
-        const data = await response.json();
+        notify({
+          message: 'Work experience deleted successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
         setWorkExperiences((prevExperiences) => prevExperiences.filter((experience) => experience.id !== experienceId));
       }
     } catch (error) {
       console.log(error);
+      notify({
+        message: 'Was not able to delete work experience 😞',
+        position: 'top-center',
+        theme: 'light',
+        type: 'success',
+      });
     }
   };
 
@@ -135,6 +147,43 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      const missingFields = [];
+
+      if (role === '') {
+        missingFields.push('Role');
+      }
+      if (company === '') {
+        missingFields.push('Company');
+      }
+      if (description === '') {
+        missingFields.push('Description');
+      }
+      if (startMonth === '') {
+        missingFields.push('Start Month');
+      }
+      if (startYear === '') {
+        missingFields.push('Start Year');
+      }
+      if (endMonth === '') {
+        missingFields.push('End Month');
+      }
+      if (endYear === '') {
+        missingFields.push('End Year');
+      }
+
+      if (missingFields.length > 0) {
+        // Handle the case when required values are missing
+        const missingFieldsString = missingFields.join(', ');
+        // Notify the user about missing fields
+        notify({
+          message: `Please fill in the required fields: ${missingFieldsString}`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
       const response = await fetch(`${API_BASE_URL}api/create-work-experience/${userId}`, {
         method: 'POST',
         headers: {
@@ -156,13 +205,23 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       });
 
       if (response.ok) {
-        // Request was successful, you can handle the response here
-        const data = await response.json(); // Parse the response as JSON
         getAllWorkExperience();
+        notify({
+          message: 'Work experience created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
         resetForm();
       } else {
         // Request failed, handle the error
         console.error('Request failed with status:', response.status);
+        notify({
+          message: 'We had some issues adding ur work experience',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       }
     } catch (error) {
       // Handle network or other errors

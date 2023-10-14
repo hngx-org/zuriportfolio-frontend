@@ -1,6 +1,6 @@
 export const months = [
   {
-    label: 'Month',
+    label: 'January',
     value: 'January',
   },
   {
