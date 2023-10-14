@@ -1,82 +1,47 @@
 import React from 'react';
 import Image from 'next/image';
+import { DateObject } from 'react-multi-date-picker';
+import { get } from 'axios';
+import axios from 'axios';
 
-const AnalysisCards: React.FC = () => {
-  const CardDataOne: {
-    id: number;
-    CardName: string;
-    TotalAmount: number;
-    percentage: number;
-  }[] = [
-    {
-      id: 1,
-      CardName: 'Total Users',
-      TotalAmount: 400,
-      percentage: 10,
-    },
-    {
-      id: 2,
-      CardName: 'Active Users',
-      TotalAmount: 259,
-      percentage: 10,
-    },
-    {
-      id: 3,
-      CardName: 'Total Products',
-      TotalAmount: 1700,
-      percentage: 10,
-    },
-    {
-      id: 4,
-      CardName: 'Portfolio Created',
-      TotalAmount: 290,
-      percentage: 10,
-    },
-  ];
+interface zaProps {
+  dateRange: DateObject[];
+  reportClicked: Boolean;
+}
 
-  const CardDataTwo: {
-    id: number;
-    CardName: string;
-    TotalAmount: string;
-    percentage: number;
-  }[] = [
-    {
-      id: 1,
-      CardName: 'Total Users',
-      TotalAmount: '400',
-      percentage: 10,
-    },
-    {
-      id: 2,
-      CardName: 'Active Users',
-      TotalAmount: '259',
-      percentage: 10,
-    },
-    {
-      id: 3,
-      CardName: 'Total Products',
-      TotalAmount: '1700',
-      percentage: 10,
-    },
-    {
-      id: 4,
-      CardName: 'Total Sales',
-      TotalAmount: '$1605',
-      percentage: 10,
-    },
-    {
-      id: 5,
-      CardName: 'Total Order',
-      TotalAmount: '7890',
-      percentage: 10,
-    },
-    {
-      id: 6,
-      CardName: 'Portfolio Created',
-      TotalAmount: '290',
-      percentage: 10,
-    },
-  ];
+const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
+  const [startDate, setStartDate] = React.useState('');
+  const [endDate, setEndDate] = React.useState('');
+  const [CardDataOne, setCardDataOne] = React.useState<any>([]);
+  React.useEffect(() => {
+    if (reportClicked && dateRange.length === 2) {
+      const starttDate = dateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
+      const enddDate = dateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
+      fetch(
+        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setCardDataOne(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      fetch(
+        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`,
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setCardDataOne(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [reportClicked]);
 
   const percentile = '/assets/images/reports/crack.svg';
 
@@ -84,27 +49,137 @@ const AnalysisCards: React.FC = () => {
     <>
       <div className="max-w-[77.5rem] min-[1536px]:max-w-[1536px] w-full mx-auto mt-[1.75rem] max-[1300px]:px-[1.2rem] max-[1300px]:py-0 max-[834px]:hidden">
         <div className="grid grid-cols-4 gap-[1.5rem] max-[1300px]:gap-[1rem]">
-          {CardDataOne.map((hero) => (
-            <div
-              key={hero.id}
-              className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] min-[1536px]:max-w-full max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
-            >
-              <div className="flex w-full justify-between gap-[0.5rem]">
-                <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
-                  {hero.CardName}
-                </p>
-                <Image
-                  src="/assets/images/reports/more.svg"
-                  alt="More options"
-                  width={20}
-                  height={20}
-                  className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                />
-              </div>
-              <div className="flex w-full justify-between gap-[1rem] items-center">
-                <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
-                  {hero.TotalAmount}
-                </p>
+          {/* card */}
+          <div
+            // key={hero.index}
+            className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+          >
+            <div className="flex w-full justify-between gap-[0.5rem]">
+              <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
+                {/* {hero.Title} */}
+                {CardDataOne[0]?.title}
+              </p>
+              <Image
+                src="/assets/images/reports/more.svg"
+                alt="More options"
+                width={20}
+                height={20}
+                className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
+              />
+            </div>
+            <div className="flex w-full justify-between gap-[1rem] items-center">
+              <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
+                {CardDataOne[0]?.amount}
+              </p>
+              {CardDataOne[0]?.ratio < 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <svg
+                    width="17"
+                    height="16"
+                    viewBox="0 0 17 16"
+                    fill="none"
+                    className="rotate-180"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                      stroke="#dc2626"
+                      strokeWidth="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8.33398 13.6673V2.44727"
+                      stroke="#dc2626"
+                      stroke-width="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {Math.floor(CardDataOne[0]?.ratio)}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[0]?.ratio > 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <Image
+                    src={percentile}
+                    alt="Percentage-rate"
+                    width={16}
+                    height={16}
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
+                  />
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {Math.floor(CardDataOne[0]?.ratio)}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[0]?.ratio == 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {Math.floor(CardDataOne[0]?.ratio)}%
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          {/* card */}
+          <div
+            // key={hero.index}
+            className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+          >
+            <div className="flex w-full justify-between gap-[0.5rem]">
+              <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
+                {CardDataOne[1]?.title}
+              </p>
+              <Image
+                src="/assets/images/reports/more.svg"
+                alt="More options"
+                width={20}
+                height={20}
+                className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
+              />
+            </div>
+            <div className="flex w-full justify-between gap-[1rem] items-center">
+              <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
+                {CardDataOne[1]?.amount}
+              </p>
+              {CardDataOne[1]?.ratio < 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <svg
+                    width="17"
+                    height="16"
+                    viewBox="0 0 17 16"
+                    fill="none"
+                    className="rotate-180"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                      stroke="#dc2626"
+                      strokeWidth="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8.33398 13.6673V2.44727"
+                      stroke="#dc2626"
+                      stroke-width="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {Math.floor(CardDataOne[1]?.ratio)}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[1]?.ratio > 0 && (
                 <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
                   <Image
                     src={percentile}
@@ -113,50 +188,28 @@ const AnalysisCards: React.FC = () => {
                     height={16}
                     className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
                   />
-                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] tracking-[0.00219rem] text-[#009254] text-center max-[1024px]:text-[0.6rem]">
-                    {hero.percentage}%
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {Math.floor(CardDataOne[1]?.ratio)}%
                   </p>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-[1.5rem] max-[1300px]:gap-[1rem] mt-[1.5rem] max-[1024px]:mt-[1rem]">
-          <div className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-full">
-            <div className="flex w-full justify-between gap-[0.5rem]">
-              <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
-                Total Sales
-              </p>
-              <Image
-                src="/assets/images/reports/more.svg"
-                alt="More options"
-                width={20}
-                height={20}
-                className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-              />
-            </div>
-            <div className="flex w-full justify-between gap-[1rem] items-center">
-              <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
-                $160500
-              </p>
-              <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                <Image
-                  src={percentile}
-                  alt="Percentage-rate"
-                  width={16}
-                  height={16}
-                  className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
-                />
-                <p className="font-manropeL text-[0.875rem] leading-[1.25rem] tracking-[0.00219rem] text-[#009254] text-center max-[1024px]:text-[0.6rem]">
-                  10%
-                </p>
-              </div>
+              )}
+              {CardDataOne[1]?.ratio == 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {Math.floor(CardDataOne[1]?.ratio)}%
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-          <div className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-full">
+          {/* card */}
+          <div
+            // key={hero.index}
+            className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+          >
             <div className="flex w-full justify-between gap-[0.5rem]">
               <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
-                Total Order
+                {CardDataOne[2]?.title}
               </p>
               <Image
                 src="/assets/images/reports/more.svg"
@@ -168,34 +221,297 @@ const AnalysisCards: React.FC = () => {
             </div>
             <div className="flex w-full justify-between gap-[1rem] items-center">
               <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
-                7890
+                {CardDataOne[2]?.amount}
               </p>
-              <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                <Image
-                  src={percentile}
-                  alt="Percentage-rate"
-                  width={16}
-                  height={16}
-                  className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
-                />
-                <p className="font-manropeL text-[0.875rem] leading-[1.25rem] tracking-[0.00219rem] text-[#009254] text-center max-[1024px]:text-[0.6rem]">
-                  10%
-                </p>
-              </div>
+              {CardDataOne[2]?.ratio < 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <svg
+                    width="17"
+                    height="16"
+                    viewBox="0 0 17 16"
+                    fill="none"
+                    className="rotate-180"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                      stroke="#dc2626"
+                      strokeWidth="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8.33398 13.6673V2.44727"
+                      stroke="#dc2626"
+                      stroke-width="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {CardDataOne[2]?.ratio}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[2]?.ratio > 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <Image
+                    src={percentile}
+                    alt="Percentage-rate"
+                    width={16}
+                    height={16}
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
+                  />
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {CardDataOne[2]?.ratio}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[2]?.ratio == 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {CardDataOne[2]?.ratio}%
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          {/* card */}
+          <div
+            // key={hero.index}
+            className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+          >
+            <div className="flex w-full justify-between gap-[0.5rem]">
+              <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
+                {CardDataOne[5]?.title}
+              </p>
+              <Image
+                src="/assets/images/reports/more.svg"
+                alt="More options"
+                width={20}
+                height={20}
+                className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
+              />
+            </div>
+            <div className="flex w-full justify-between gap-[1rem] items-center">
+              <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
+                {CardDataOne[5]?.amount}
+              </p>
+              {CardDataOne[5]?.ratio < 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <svg
+                    width="17"
+                    height="16"
+                    viewBox="0 0 17 16"
+                    fill="none"
+                    className="rotate-180"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                      stroke="#dc2626"
+                      strokeWidth="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8.33398 13.6673V2.44727"
+                      stroke="#dc2626"
+                      stroke-width="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {Math.floor(CardDataOne[5]?.ratio)}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[5]?.ratio > 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <Image
+                    src={percentile}
+                    alt="Percentage-rate"
+                    width={16}
+                    height={16}
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
+                  />
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {Math.floor(CardDataOne[5]?.ratio)}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[5]?.ratio == 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {Math.floor(CardDataOne[5]?.ratio)}%
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-[1.5rem] max-[1300px]:gap-[1rem] mt-[1.5rem] max-[1024px]:mt-[1rem]">
+          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]">
+            <div className="flex w-full justify-between gap-[0.5rem]">
+              <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
+                {CardDataOne[3]?.title}
+              </p>
+              <Image
+                src="/assets/images/reports/more.svg"
+                alt="More options"
+                width={20}
+                height={20}
+                className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
+              />
+            </div>
+            <div className="flex w-full justify-between gap-[1rem] items-center">
+              <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
+                {CardDataOne[3]?.amount}
+              </p>
+              {CardDataOne[3]?.ratio < 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <svg
+                    width="17"
+                    height="16"
+                    viewBox="0 0 17 16"
+                    fill="none"
+                    className="rotate-180"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                      stroke="#dc2626"
+                      strokeWidth="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8.33398 13.6673V2.44727"
+                      stroke="#dc2626"
+                      stroke-width="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {CardDataOne[3]?.ratio}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[3]?.ratio > 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <Image
+                    src={percentile}
+                    alt="Percentage-rate"
+                    width={16}
+                    height={16}
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
+                  />
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {CardDataOne[3]?.ratio}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[3]?.ratio == 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {CardDataOne[3]?.ratio}%
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]">
+            <div className="flex w-full justify-between gap-[0.5rem]">
+              <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
+                {CardDataOne[4]?.title}
+              </p>
+              <Image
+                src="/assets/images/reports/more.svg"
+                alt="More options"
+                width={20}
+                height={20}
+                className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
+              />
+            </div>
+            <div className="flex w-full justify-between gap-[1rem] items-center">
+              <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
+                {CardDataOne[4]?.amount}
+              </p>
+              {CardDataOne[4]?.ratio < 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <svg
+                    width="17"
+                    height="16"
+                    viewBox="0 0 17 16"
+                    fill="none"
+                    className="rotate-180"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                      stroke="#dc2626"
+                      strokeWidth="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M8.33398 13.6673V2.44727"
+                      stroke="#dc2626"
+                      stroke-width="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {CardDataOne[4]?.ratio}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[4]?.ratio > 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <Image
+                    src={percentile}
+                    alt="Percentage-rate"
+                    width={16}
+                    height={16}
+                    className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
+                  />
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {CardDataOne[4]?.ratio}%
+                  </p>
+                </div>
+              )}
+              {CardDataOne[4]?.ratio == 0 && (
+                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                    {CardDataOne[4]?.ratio}%
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-      <div className="hidden max-w-[47.125rem] max-[834px]:max-w-full w-full max-[500px]:px-[1.5rem] mx-0 mt-[1.75rem] max-[834px]:block max-[834px]:px-[2.5rem]">
-        <div className="grid grid-cols-3 gap-[1rem] max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
-          {CardDataTwo.map((hero) => (
+      <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] max-[834px]:block max-[800px]:px-[1.5rem]">
+        <div className="grid grid-cols-3 gap-[1rem] max-[800px]:grid-cols-2 max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
+          {CardDataOne?.map((hero: any) => (
             <div
-              key={hero.id}
-              className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[13.7rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
+              key={hero?.index}
+              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
             >
               <div className="flex w-full justify-between gap-[0.5rem]">
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
-                  {hero.CardName}
+                  {hero?.title}
                 </p>
                 <Image
                   src="/assets/images/reports/more.svg"
@@ -206,13 +522,60 @@ const AnalysisCards: React.FC = () => {
                 />
               </div>
               <div className="flex w-full justify-between gap-[1rem] items-center">
-                <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero.TotalAmount}</p>
-                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                  <Image src={percentile} alt="Percentage-rate" width={16} height={16} className="w-[1rem] h-[1rem]" />
-                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] tracking-[0.00219rem] text-[#009254] text-center">
-                    {hero.percentage}%
-                  </p>
-                </div>
+                <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
+                {hero?.ratio < 0 && (
+                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      className="rotate-180"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                        stroke="#dc2626"
+                        strokeWidth="1.5"
+                        strokeMiterlimit="10"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M8.33398 13.6673V2.44727"
+                        stroke="#dc2626"
+                        stroke-width="1.5"
+                        strokeMiterlimit="10"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                      {Math.floor(hero?.ratio)}%
+                    </p>
+                  </div>
+                )}
+                {hero?.ratio > 0 && (
+                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                    <Image
+                      src={percentile}
+                      alt="Percentage-rate"
+                      width={16}
+                      height={16}
+                      className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
+                    />
+                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                      {Math.floor(hero?.ratio)}%
+                    </p>
+                  </div>
+                )}
+                {hero?.ratio == 0 && (
+                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                      {Math.floor(hero?.ratio)}%
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -220,14 +583,14 @@ const AnalysisCards: React.FC = () => {
       </div>
       <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] pl-[1.5rem] max-[500px]:block pr-0">
         <div className="flex gap-[1.5rem] overflow-x-scroll no-scrollbar">
-          {CardDataTwo.map((hero) => (
+          {CardDataOne?.map((hero: any) => (
             <div
-              key={hero.id}
-              className="flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
+              key={hero?.index}
+              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
             >
               <div className="flex w-full justify-between gap-[0.5rem]">
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
-                  {hero.CardName}
+                  {hero?.title}
                 </p>
                 <Image
                   src="/assets/images/reports/more.svg"
@@ -238,13 +601,60 @@ const AnalysisCards: React.FC = () => {
                 />
               </div>
               <div className="flex w-full justify-between gap-[1rem] items-center">
-                <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero.TotalAmount}</p>
-                <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                  <Image src={percentile} alt="Percentage-rate" width={16} height={16} className="w-[1rem] h-[1rem]" />
-                  <p className="font-manropeL text-[0.875rem] leading-[1.25rem] tracking-[0.00219rem] text-[#009254] text-center">
-                    {hero.percentage}%
-                  </p>
-                </div>
+                <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
+                {hero?.ratio < 0 && (
+                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                    <svg
+                      width="17"
+                      height="16"
+                      viewBox="0 0 17 16"
+                      fill="none"
+                      className="rotate-180"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                        stroke="#dc2626"
+                        strokeWidth="1.5"
+                        strokeMiterlimit="10"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M8.33398 13.6673V2.44727"
+                        stroke="#dc2626"
+                        stroke-width="1.5"
+                        strokeMiterlimit="10"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                      {Math.floor(hero?.ratio)}%
+                    </p>
+                  </div>
+                )}
+                {hero?.ratio > 0 && (
+                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                    <Image
+                      src={percentile}
+                      alt="Percentage-rate"
+                      width={16}
+                      height={16}
+                      className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
+                    />
+                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                      {Math.floor(hero?.ratio)}%
+                    </p>
+                  </div>
+                )}
+                {hero?.ratio == 0 && (
+                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                      {Math.floor(hero?.ratio)}%
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           ))}
