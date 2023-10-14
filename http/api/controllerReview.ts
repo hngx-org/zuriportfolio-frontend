@@ -1,13 +1,22 @@
-import $http from '../axios';
+import axios from 'axios';
 
-// test
+const API_URL = 'https://team-liquid-repo.onrender.com/api/review';
+const axiosReviewInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 export const postReplyByReviewId = async (props: { id: string }, payload: { name: string; feedback: string }) => {
   try {
-    const res = await $http.post(`/shop/reviews/${props?.id}`, payload);
-    return res?.data;
-  } catch (e: any) {
-    console.log(e);
-    return e.response?.data ?? { message: e.message };
+    const res: any = await axiosReviewInstance.post(`/shop/reviews/${props?.id}`, payload);
+    const productReview = res?.data;
+    return productReview;
+  } catch (error) {
+    // fetchErrorToast("product's reviews");
+    // console.error('Error fetching reviews:', error);
+    throw error;
   }
 };
 
@@ -35,7 +44,7 @@ export const postReviewByProductId = async (
   payload: { customerName: string; title: string; description: string; isHelpful: number; rateNo: number },
 ) => {
   try {
-    const res = await $http.post(`/products/1/reviews`, payload);
+    const res = await axiosReviewInstance.post(`/products/1/reviews`, payload);
     return res?.data;
   } catch (e: any) {
     console.log(e);
