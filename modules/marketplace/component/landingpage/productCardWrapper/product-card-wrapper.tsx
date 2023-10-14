@@ -11,7 +11,7 @@ function ProductCardWrapper({
   showTopPicks,
   showAll,
 }: {
-  productsList: MarketPlaceProductCardProps[];
+  productsList: any[];
   title: string;
   showTopPicks: boolean;
   showAll: boolean;
@@ -48,10 +48,10 @@ function ProductCardWrapper({
                   <ProductCard
                     id={item?.id}
                     currency={item?.currency}
-                    image={item?.image}
+                    image={item?.images && item?.images[0]?.url}
                     name={item?.name}
                     price={item?.price}
-                    user={item?.user}
+                    user={item?.category ? `${item?.category?.name}` : 'null'}
                     rating={item?.rating}
                     showDiscount={item?.showDiscount}
                     showTopPicks={showTopPicks}
