@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import NavDashBoard from '../../../../modules/dashboard/component/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -87,23 +87,26 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-let data: any;
-
 export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
   const id = context.params!.id;
-  const res = await fetch(
-    `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=0&pageSize=10`,
-  )
-    .then((res) => (data = res.json()))
-    .catch((err) => console.log(err));
-  // const tes = await fetch('https://team-liquid-repo.onrender.com/api/shop/products/1/reviews/rating?rating=5&pageNumber=0&pageSize=10');
-  // const dat = await tes.json();
-  // console.log(dat);
-  console.log(data);
-
-  return {
-    props: { zuri: data.data },
-  };
+  try {
+    const res = await fetch(
+      `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=0&pageSize=10`,
+    );
+    const data = await res.json();
+    console.log(data); // log response data to console
+    if (!data) {
+      throw new Error('API response is empty');
+    }
+    return {
+      props: { zuri: data.data },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: { zuri: [] },
+    };
+  }
 };
 
 const UserReview: NextPage<Props> = (props) => {
@@ -116,12 +119,6 @@ const UserReview: NextPage<Props> = (props) => {
       total += rating;
     });
     return total;
-  }
-
-  function getPercentage(number: string) {
-    let totalRatings = calculateTotalRatings();
-    let percentage = (Number(number) / totalRatings) * 100;
-    return Math.floor(percentage);
   }
 
   return (
