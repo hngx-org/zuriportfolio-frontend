@@ -124,7 +124,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
-      console.log(response.data.data);
       return response.data;
     } catch (error) {
       console.error('Error:', error);
