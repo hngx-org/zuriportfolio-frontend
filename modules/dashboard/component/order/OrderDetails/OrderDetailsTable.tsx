@@ -34,12 +34,11 @@ const tableHeaders: {
 const OrderDetailsTable: React.FC<{
   pageItem: any[];
   changeSort: (val: keyof OrderHistory) => void;
-  toggleSort: () => void;
   currentSort: string;
-}> = ({ changeSort, pageItem, toggleSort, currentSort }) => {
+}> = ({ changeSort, pageItem, currentSort }) => {
   const OnCLick = (val: keyof OrderHistory) => {
     if (val === currentSort) {
-      toggleSort();
+      return;
     } else {
       changeSort(val);
     }
