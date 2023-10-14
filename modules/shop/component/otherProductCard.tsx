@@ -38,7 +38,7 @@ const OtherProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
         <div>
           <p className="text-[0.7rem] md:text-sm text-[#4F4E4E] font-normal tracking-[0.00219rem] -mt-1 md:mt-0">
-            By: <span className="underline text-gray-500">{product.shopOwner}</span>
+            By: <span className="underline text-gray-500">{product.category.name}</span>
           </p>
         </div>
         <div className="flex items-center gap-x-[0.08288rem] h-[0.875rem] md:h-4 md:mt-5">
