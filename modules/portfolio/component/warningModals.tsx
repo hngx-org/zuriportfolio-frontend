@@ -4,6 +4,7 @@ import { SectionModalProps } from '../../../@types';
 import { CloseSquare } from 'iconsax-react';
 import { useContext } from 'react';
 import Portfolio from '../../../context/PortfolioLandingContext';
+import { set } from 'nprogress';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({
@@ -17,7 +18,6 @@ function SectionModal({
   //Destructure the useDisclosure hook
   const { openDelete, setOpenDelete } = useContext(Portfolio);
   const onClose = () => setOpenDelete(false);
-  console.log(sectionToDelete);
 
   return (
     <>
@@ -68,8 +68,18 @@ function SectionModal({
 
 //A Modal function for the deleting of a section
 export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
+  const { toggleSection, setOpenDelete } = useContext(Portfolio);
+  const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
+  const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
+
   const deleteSection = () => {
-    console.log(sectionToDelete);
+    if (deleteFromBe) {
+    } else if (deleteLocal) {
+      const parts = sectionToDelete.split(' ');
+      const section = parts.slice(1).join(' ');
+      toggleSection(section);
+      setOpenDelete(false);
+    }
   };
   return (
     <>

@@ -56,10 +56,6 @@ const Products = () => {
             }}
           >
             <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
           </div>
         </div>
       </div>

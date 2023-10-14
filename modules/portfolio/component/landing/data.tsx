@@ -32,7 +32,7 @@ export const sections = [
   },
   {
     id: 'skills',
-    title: 'Skill',
+    title: 'Skills',
     description: 'List your your expertise, technical, managerial or soft skill abilities in this section',
     icon: <Briefcase />,
     modal: <Skill />,
@@ -52,7 +52,7 @@ export const sections = [
     modal: <About />,
   },
   {
-    id: 'project',
+    id: 'projects',
     title: 'Project',
     description: 'A place to highlight your professional experience A place to highlight your professional ',
     icon: <Briefcase />,
@@ -102,47 +102,16 @@ export const sections = [
   },
 ];
 
-// @Entity()
-// export class Certificate {
-//   @PrimaryGeneratedColumn()
-//   id: number;
-
-//   @Column()
-//   title: string;
-
-//   @Column()
-//   year: string;
-
-//   @Column()
-//   organization: string;
-
-//   @Column({ type: "text", nullable: true })
-//   url: string;
-
-//   @Column("text")
-//   description: string;
-
-//   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-//   created_at: Date;
-
-//   @Column({ name: "user_id" })
-//   userId: string;
-
-//   @Column({ name: "section_id" })
-//   sectionId: number;
-
-//   @ManyToOne(()
-
 export let workexperiences = [
   {
     id: 11,
     role: 'Role',
     company: 'Company',
     description: 'Description',
-    start_month: 'mm',
-    start_year: 'yyyy',
-    end_month: 'mm',
-    end_year: 'yyyy',
+    startMonth: 'mm',
+    startYear: 'yyyy',
+    endMonth: 'mm',
+    endYear: 'yyyy',
   },
 ];
 
@@ -188,7 +157,7 @@ export let projects = [
     id: 11,
     title: 'Project title',
     description: 'Description',
-    tags: ['Tag 1', 'Tag 2'],
+    tags: 'Tag 1,Tag 2',
     linkTitle: 'Link Title',
     link: 'Link',
     img: '',
@@ -197,11 +166,19 @@ export let projects = [
 
 export let about = 'A place to highlight your professional experience A place to highlight your professional.';
 
-export let skills = ['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5', 'Skill 6'];
+export let skills = [
+  {
+    id: 67867834,
+    skills: 'Skill 1',
+  },
+  {
+    id: 67867834,
+    skills: 'Skill 1',
+  },
+];
 
-export let interests = ['Interest 1', 'Interest 2', 'Interest 3', 'Interest 4', 'Interest 5', 'Interest 6'];
-
-export let languages = ['Language 1', 'Language 2', 'Language 3', 'Language 4', 'Language 5', 'Language 6'];
+export let interests = 'Interest 1,Interest 2,Interest 3,Interest 4,Interest 5,Interest 6';
+export let languages = 'Language 1,Language 2,Language 3,Language 4,Language 5,Language 6';
 
 export let contacts = [
   {

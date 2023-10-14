@@ -6,7 +6,9 @@ import Link from 'next/link';
 
 const Cover = () => {
   const { handleUploadCover, profileUpdate, userData } = useContext(Portfolio);
-  const { hasDataFromBE, avatarImage } = userData;
+  const { avatarImage, tracks } = userData;
+
+  const link = ``;
 
   const avatar = avatarImage ? (
     <Image
@@ -23,7 +25,7 @@ const Cover = () => {
   );
 
   return (
-    <div className="relative h-full flex flex-col items-end justify-between py-5 md:py-10 -mt-[40px] lg:-mt-[35px]">
+    <div className="relative h-full flex flex-col items-end justify-between py-5 md:py-10 -mt-[20px] lg:-mt-[35px]">
       {avatar}
       <label htmlFor="coverUpload" className="bg-white-100 rounded-full p-2 cursor-pointer">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +63,7 @@ const Cover = () => {
         accept="image/png, image/jpeg"
       />
       <Link
-        href="/assessments/dashboard"
+        href={link}
         className="rounded-lg bg-brand-green-primary text-white-100 focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled   px-4 py-3 flex items-center justify-center gap-5 w-fit h-[48px] font-manropeB"
       >
         Take Assesment

@@ -6,6 +6,7 @@ import { useEffect, useState, MouseEvent } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
 import { number } from 'zod';
+import { Math } from 'iconsax-react';
 
 type skillModalProps = {
   onClose: () => void;
@@ -41,6 +42,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   const [arrayTwo, setArrayTwo] = useState<Array<string>>([]);
   const [response, setResponse] = useState([]);
   const [skillData, setSkillData] = useState<Array<skillListRes>>([]);
+  const [inputArray, setInputArray] = useState<Array<skillListRes>>([]);
 
   const fetchSkillData = async () => {
     try {
@@ -82,23 +84,27 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
       const trimmedValue = inputValue.trim();
+      setInputArray([...inputArray, { skill: String(trimmedValue), skillId: new Date().getTime() }]);
+      setInputValue('');
 
       if (trimmedValue !== '') {
-        setArrayTwo((prevArray) => [...prevArray, trimmedValue]);
-        setToLocalStorage(trimmedValue);
+        // setArrayTwo((prevArray) => [...prevArray, trimmedValue]);
+        // setToLocalStorage(trimmedValue);
       }
     }
-    setInputValue(''); // Clear the input field after pushing the value
   };
 
+  const suggestedArray = [...skillData, ...inputArray];
+
+  const arrayToBePosted = [...arrayTwo, ...inputArray];
   const cancelBtnFn = () => {
     localStorage.removeItem('arrayTwo');
     setArrayTwo([]);
   };
 
-  const setToLocalStorage = (trimmedValue: string) => {
-    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, trimmedValue]));
-  };
+  // const setToLocalStorage = (trimmedValue: string) => {
+  //   localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, trimmedValue]));
+  // };
 
   const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
   // const customHeaders = {
@@ -108,15 +114,16 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   // };
 
   const requestData = {
-    skills: arrayTwo,
+    skills: arrayToBePosted,
     sectionId: 5,
     userId: userId,
   };
 
+  // console.log(requestData.userId)
+
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
-      console.log(response.data.data);
       return response.data;
     } catch (error) {
       console.error('Error:', error);
@@ -130,7 +137,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       if (response.data.successful) {
         fetchSkillData();
       }
-      console.log(response.data.data);
+      // console.log(response.data.data);
       return response.data;
     } catch (error) {
       console.error('Error:', error);
@@ -138,7 +145,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     }
   }
 
-  console.log(skillData);
+  // console.log(skillData);
 
   function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
     postSkillData();
@@ -159,9 +166,9 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
             </button>
           </div>
           <div className="w-full">
-            {skillData?.length > 0 && (
+            {suggestedArray?.length > 0 && (
               <ul className="w-full flex flex-wrap gap-4 my-12">
-                {skillData?.map((item: skillListRes) => (
+                {suggestedArray?.map((item: skillListRes) => (
                   <li key={item.skillId}>
                     <Button
                       className=" group/skillsbtn text-brand-green-shade20 h-10 bg-brand-green-shade95  hover:text-white-100 hover: text-sm font-semibold leading-5 rounded-lg px-2 py-4 flex items-center gap-4"
@@ -189,6 +196,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
               className="w-full rounded-lg p-4 mb-6 border-2 border-[#C4C7C6] max-sm:p-2"
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyPress}
+              value={inputValue}
             />
           </div>
 
@@ -202,7 +210,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
                       className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100"
                       onClick={() => {
                         handleMoveToTwo(item);
-                        handleSetSkillData({ skillId: Math.random(), skill: item });
+                        handleSetSkillData({ skillId: new Date().getTime(), skill: item });
                       }}
                       type="button"
                     >

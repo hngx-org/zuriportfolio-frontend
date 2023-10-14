@@ -3,8 +3,8 @@ import Image from 'next/image';
 const PerformanceData: React.FC = () => {
   return (
     <>
-      <div className="max-[1310px]:px-[1rem] max-[834px]:px-[2.5rem] max-[800px]:pr-0 max-[830px]:px-[1.5rem]">
-        <div className="max-w-[77.5rem] w-full mt-[3rem] flex flex-col gap-[0.9375rem] rounded-[0.5rem] border border-[#E1E3E2] bg-[#FFF] mx-auto max-[730px]:max-w-[100%] max-[800px]:rounded-tr-none max-[800px]:rounded-br-none max-[800px]:border-r-0">
+      <div className="max-[1310px]:px-[1rem] w-full max-[834px]:px-[2.5rem] max-[760px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0">
+        <div className="max-w-[77.5rem] w-full mt-[3rem] min-[1536px]:max-w-[1536px] flex flex-col gap-[0.9375rem] rounded-[0.5rem] border border-[#E1E3E2] bg-[#FFF] mx-auto max-[730px]:max-w-[100%] max-[760px]:rounded-tr-none max-[760px]:rounded-br-none max-[760px]:border-r-0">
           <div className="px-[1rem] py-[0.75rem] max-w-[77.5rem] w-full border-b-[0.0625rem] border-[#EAECF0]">
             <p className="font-manropeL font-medium leading-[1.75rem] text-[1.25rem] text-gray-900 max-[834px]:text-[1.125rem] max-[880px]:text-[1.125rem] max-[834px]:max-w-none">
               Performance Data
@@ -19,9 +19,9 @@ const PerformanceData: React.FC = () => {
                   </h6>
                   <Image src="/assets/images/reports/arrow-down.svg" alt="Down Arrow" width={16} height={16} />
                 </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    Transaction Value
+                    Value
                   </p>
                 </div>
                 <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
@@ -29,7 +29,7 @@ const PerformanceData: React.FC = () => {
                     Transaction volume
                   </p>
                 </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
+                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     Active Users
                   </p>
@@ -39,7 +39,7 @@ const PerformanceData: React.FC = () => {
                     Total Order
                   </p>
                 </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
+                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     Total Users
                   </p>
@@ -50,13 +50,13 @@ const PerformanceData: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[1110px]:gap-0">
+              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
                 <div className="max-w-[10rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     2023-09-25
                   </h6>
                 </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     $43000
                   </p>
@@ -66,7 +66,7 @@ const PerformanceData: React.FC = () => {
                     250
                   </p>
                 </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
+                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     150
                   </p>
@@ -76,7 +76,7 @@ const PerformanceData: React.FC = () => {
                     300
                   </p>
                 </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
+                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     400
                   </p>
@@ -87,13 +87,13 @@ const PerformanceData: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[1110px]:gap-0">
+              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[834px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
                 <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     2023-09-26
                   </h6>
                 </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     $56000
                   </p>
@@ -103,7 +103,7 @@ const PerformanceData: React.FC = () => {
                     278
                   </p>
                 </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
+                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     168
                   </p>
@@ -113,7 +113,7 @@ const PerformanceData: React.FC = () => {
                     343
                   </p>
                 </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
+                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     400
                   </p>
@@ -124,13 +124,13 @@ const PerformanceData: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[1110px]:gap-0">
+              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
                 <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     2023-09-27
                   </h6>
                 </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     $77000
                   </p>
@@ -140,7 +140,7 @@ const PerformanceData: React.FC = () => {
                     322
                   </p>
                 </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
+                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     223
                   </p>
@@ -150,7 +150,7 @@ const PerformanceData: React.FC = () => {
                     412
                   </p>
                 </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
+                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     400
                   </p>
@@ -161,13 +161,13 @@ const PerformanceData: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[1110px]:gap-0">
+              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[834px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
                 <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     2023-09-28
                   </h6>
                 </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     $62000
                   </p>
@@ -177,7 +177,7 @@ const PerformanceData: React.FC = () => {
                     300
                   </p>
                 </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
+                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     208
                   </p>
@@ -187,7 +187,7 @@ const PerformanceData: React.FC = () => {
                     378
                   </p>
                 </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
+                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     400
                   </p>
@@ -198,13 +198,13 @@ const PerformanceData: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[1110px]:gap-0">
+              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
                 <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     2023-09-29
                   </h6>
                 </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     $57000
                   </p>
@@ -214,7 +214,7 @@ const PerformanceData: React.FC = () => {
                     199
                   </p>
                 </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
+                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     134
                   </p>
@@ -224,7 +224,7 @@ const PerformanceData: React.FC = () => {
                     233
                   </p>
                 </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
+                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     400
                   </p>
@@ -235,13 +235,13 @@ const PerformanceData: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[1110px]:gap-0">
+              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
                 <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     2023-09-30
                   </h6>
                 </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     $47000
                   </p>
@@ -251,7 +251,7 @@ const PerformanceData: React.FC = () => {
                     175
                   </p>
                 </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
+                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     145
                   </p>
@@ -261,7 +261,7 @@ const PerformanceData: React.FC = () => {
                     222
                   </p>
                 </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
+                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
                     400
                   </p>
@@ -276,7 +276,7 @@ const PerformanceData: React.FC = () => {
           </div>
           <div>
             <div className="max-w-77.5rem w-full h-[0.3125rem] bg-[#EAECF0]"></div>
-            <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-[#EAECF0] max-[800px]:rounded-br-none"></div>
+            <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-[#EAECF0] max-[760px]:rounded-br-none"></div>
           </div>
         </div>
       </div>

@@ -41,7 +41,9 @@ const Badges: React.FC<BadgesProps> = ({ scorePercentage, badgelabel, setIsdownl
                 {scorePercentage}%
               </button>
             </div>
-            <p className=" mt-4 mb-8 text-xs sm:text-xl font-manropeL">You&apos;ve earned yourself an {badgelabel} badge!</p>
+            <p className=" mt-4 mb-8 text-xs sm:text-xl font-manropeL">
+              You&apos;ve earned yourself an {badgelabel} badge!
+            </p>
             <div className="flex justify-center align-middle h-30 w-full">
               <Image
                 src={`/assets/images/badges/${badgelabel}.png`}
