@@ -25,7 +25,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
       try {
         const { data } = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
 
-        setCategories(data.categories || []);
+        setCategories(data.categories);
       } catch (err) {
         console.error(err);
       }
