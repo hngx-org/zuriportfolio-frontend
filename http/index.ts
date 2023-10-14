@@ -74,7 +74,7 @@ export const removeFromCart = async (productId: string,token: string) => {
 export const getRecentlyViewedProducts = async (user_id: string, token: string) => {
   try {
     // user_id = '1972d345-44fb-4c9a-a9e3-d286df2510ae';
-    const apiUrl = `${process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
+    const apiUrl = `${RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
     const response = await $http.get(apiUrl, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -150,7 +150,7 @@ export const makePayment = async (selectedPaymentMethod: string,token: string) =
     try {
       const apiUrl = `${CART_ENDPOINT}/api/orders`;
       const data = {
-        redirect_url: `${process.env.NEXT_PUBLIC_APP_STAGING_URL}/marketplace/success`,
+        redirect_url: `${STAGING_URL}/marketplace/success`,
         payment_method: selectedPaymentMethod,
       };
 
