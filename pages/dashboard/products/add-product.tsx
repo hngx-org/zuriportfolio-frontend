@@ -225,13 +225,18 @@ const AddProduct = () => {
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Quantity</label>
                   <Input
-                    className="w-[100%] md:w-[50%]  mb-5 mt-2"
+                    className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="$ 00.00"
                     inputMode="none"
                     name="quantity"
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Value Added Tax (VAT)</label>
-                  <Input className="w-[50%] md:w-[30%] mb-5 mt-2" placeholder="00.00%" inputMode="none" name="tax" />
+                  <Input
+                    className="w-[50%] md:w-[30%] mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    placeholder="00.00%"
+                    inputMode="none"
+                    name="tax"
+                  />
                 </div>
               </div>
             </div>

@@ -210,13 +210,21 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
         <ToastContainer />
         <form className="mt-6 flex flex-col" onSubmit={handleSubmit}>
           <label className="font-manropeB text-[16px]">Product name</label>
-          <Input className="w-full my-2" placeholder={products.name} rightIcon={<Image src={editImg} alt="edit" />} />
+          <Input
+            className="w-full my-2 placeholder:text-[#191C1E] text-black"
+            placeholder={products.name}
+            rightIcon={<Image src={editImg} alt="edit" />}
+          />
           <span className="text-[#3F484F] text-[1rem] lowercase mt-2">
             https://zuri.store/{products.name.replace(/\s+/g, '-')}
           </span>
 
           <label className="font-manropeB text-[16px] mt-6">Product Description</label>
-          <Input className="w-full my-2" placeholder={products.description} inputMode="none" />
+          <Input
+            className="w-full my-2 placeholder:text-[#191C1E] text-black"
+            placeholder={products.description}
+            inputMode="none"
+          />
           <label className="font-manropeB text-[16px] mt-6">Add Product File</label>
           <input
             type="file"
@@ -225,7 +233,7 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
             style={{ display: 'none' }}
             id="imageUploadInput"
           />
-          <div className="p-3 border border-[#00000024] rounded-md mt-3">
+          <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
             {selectedImage ? (
               <Image
                 src={selectedImage}
@@ -293,8 +301,8 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
               <option className="text-dark font-manropeB font-bold" value="">
                 USD
               </option>
-              <option value="option1">NGN</option>
-              <option value="option2">EUR</option>
+              <option value="option1 placeholder:text-[#191C1E] text-black">NGN</option>
+              <option value="option2 placeholder:text-[#191C1E] text-black">EUR</option>
             </select>
             <Input className="w-full my-2" placeholder={products.price} inputMode="none" />
           </div>
