@@ -22,7 +22,7 @@ export default function DraftPreview() {
   };
 
   useEffect(() => {
-    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/89/`;
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
 
     fetch(apiUrl)
       .then((response) => {
@@ -40,7 +40,7 @@ export default function DraftPreview() {
         console.error('Error:', error);
         // setLoading(false);
       });
-  }, []);
+  }, [draftId]);
 
   const [disable, setDisable] = useState(true);
 
