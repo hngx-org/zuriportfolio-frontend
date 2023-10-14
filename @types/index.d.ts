@@ -43,6 +43,7 @@ export interface RecentlyViewedData {
     is_deleted: string;
     rating: number;
     is_published: false;
+    showTopPicks: true;
     currency: string;
     createdat: string;
     updatedat: string;
