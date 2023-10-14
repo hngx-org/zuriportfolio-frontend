@@ -5,7 +5,7 @@ import { LevelData, AssesMentData } from '../../../helpers/dashboardui';
 import MainLayout from '../../../components/Layout/MainLayout';
 import Link from 'next/link';
 import { getAssessmentDetails } from '../../../http/userTakenAssessment';
-import star from '../../../public/assets/dashboard/star.svg';
+import task from '../../../public/assets/dashboard/task.svg';
 import timer from '../../../public/assets/dashboard/timer.svg';
 import medal from '../../../public/assets/dashboard/medal-star.svg';
 import { Item } from '@radix-ui/react-select';
@@ -132,7 +132,7 @@ const Dashboard = () => {
 
               <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
                 <Image
-                  src={star}
+                  src={task}
                   alt="star"
                   width={20}
                   height={30}
