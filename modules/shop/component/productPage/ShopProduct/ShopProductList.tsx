@@ -16,16 +16,14 @@ const ShopProductList: React.FC<ShopProductListProps> = ({ products, searchQuery
 
   const filteredProducts = visibleProducts.filter((product) => {
     const nameMatch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const shopOwnerMatch = product.shopOwner && product.shopOwner.toLowerCase().includes(searchQuery.toLowerCase());
-    const categoryMatch = product.category && product.category.toLowerCase().includes(searchQuery.toLowerCase());
 
-    return nameMatch || shopOwnerMatch || categoryMatch;
+    return nameMatch;
   });
 
   return (
-    <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:gap-10 gap-2">
+    <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 md:gap-10 gap-2">
       {filteredProducts.map((product) => (
-        <ProductCard key={product._id} product={product} />
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );

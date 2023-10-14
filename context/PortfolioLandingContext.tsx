@@ -187,7 +187,33 @@ export function PortfolioCtxProvider(props: { children: any }) {
     }
   };
 
+  // // endpoint to get dynamic userId
+  // const authorize = 'https://auth.akuya.tech/api/authorize';
+
+  // // gets the zpt access token to that lets us get a dynamic userId
+  // const getTokenFromStorage = () => {
+  //   // Get an item from localStorage
+  //   const zpt = localStorage.getItem('zpt');
+
+  //   // Check if the item exists
+  //   if (zpt) {
+  //     axios
+  //       .post(authorize, { token: zpt })
+  //       .then((res) => {
+  //         console.log(res.data, "info gotten from sending token");
+
+  //         // setUserId(res.data.user.id);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   } else {
+  //     console.log('Item not found in localStorage');
+  //   }
+  // };
+
   useEffect(() => {
+    // getTokenFromStorage();
     getUser();
     getUserSections();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -340,6 +366,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setAvatarImage,
     handleUploadCover,
     userData,
+    
     toggleSection,
     isLoading,
     setIsLoading,

@@ -47,7 +47,7 @@ const AnalyticsAndReport: React.FC = () => {
           console.error('Error fetching top-selling products:', error);
         });
       setGetReport(false);
-      setReportClicked(true);
+      setReportClicked(!reportClicked);
     }
   };
 
@@ -166,7 +166,7 @@ const AnalyticsAndReport: React.FC = () => {
             </section>
           )}
           <AnalysisCards dateRange={selectedDateRange} reportClicked={reportClicked} />
-          <BusinessOveriview dateRange={selectedDateRange} reportClicked={reportClicked} />
+          {/* <BusinessOveriview dateRange={selectedDateRange} reportClicked={reportClicked} /> */}
           <PortfolioCreation dateRange={selectedDateRange} reportClicked={reportClicked} />
           <PerformanceData dateRange={selectedDateRange} reportClicked={reportClicked} />
           <TopSellingProducts reportClicked={reportClicked} dateRange={selectedDateRange} />
