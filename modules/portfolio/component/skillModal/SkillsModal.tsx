@@ -124,7 +124,7 @@ const handleKeyPress = (e: { key: string }) => {
       }
       // console.log(response.data.data);
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       if ((error.message !== 'Request failed with status code 404')) {
          throw error;
       }
