@@ -38,7 +38,7 @@ const CartPage: React.FC = () => {
 
   const handleConfirmRemove = () => {
     if (productToRemove) {
-      removeFromCart(productToRemove._id);
+      removeFromCart(productToRemove.id);
       setShowRemoveConfirmation(false);
       setProductToRemove(null);
     }
@@ -71,12 +71,12 @@ const CartPage: React.FC = () => {
 
                 <div className="pt-2 flex flex-col gap-2  ">
                   {cart.map((product) => (
-                    <div key={product._id} className=" flex items-center gap-8 border-b-[1px] border-b-white-300 py-5">
+                    <div key={product.id} className=" flex items-center gap-8 border-b-[1px] border-b-white-300 py-5">
                       <Image
                         className="object-cover rounded-md max-h-36"
                         width={200}
                         height={100}
-                        src={product.image}
+                        src={product.image[0].url}
                         alt="productImage"
                       />
                       <div className="flex items-center justify-between w-full px-2">
