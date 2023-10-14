@@ -10,6 +10,7 @@ import FilterProduct from '@modules/super-admin/components/vendormanagement/Filt
 import Button from '@ui/Button';
 import { useGetAllVendor } from '../../../http';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
+import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
 const Index = () => {
   const { data, isLoading } = useGetAllVendor();
   //Variables for the pagination
@@ -52,15 +53,15 @@ const Index = () => {
     let filteredProducts = data?.data;
     if (status === 'oldest') {
       filteredProducts = filteredProducts.sort(
-        (a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        (a: any, b: any) => new Date(formatDate(a.createdAt)).getTime() - new Date(formatDate(b.createdAt)).getTime(),
       );
     } else if (status === 'highest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => b.quantity - a.quantity);
+      filteredProducts = filteredProducts.sort((a: any, b: any) => b.total_products - a.total_products);
     } else if (status === 'lowest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => a.quantity - b.quantity);
+      filteredProducts = filteredProducts.sort((a: any, b: any) => a.total_products - b.total_products);
     } else if (status === 'newest') {
       filteredProducts = filteredProducts.sort((a: any, b: any) => {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+        return new Date(formatDate(b.createdAt)).getTime() - new Date(formatDate(a.createdAt)).getTime();
       });
     } else if (status === 'status') {
       filteredProducts = filteredProducts.sort((a: any, b: any) => {
@@ -69,7 +70,7 @@ const Index = () => {
           Banned: 2,
           Deleted: 3,
         };
-        return statusOrder[a.statusText] - statusOrder[b.statusText];
+        return statusOrder[a.vendorStatus] - statusOrder[b.vendorStatus];
       });
     }
     setFilteredProducts(filteredProducts);
