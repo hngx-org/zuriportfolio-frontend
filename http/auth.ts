@@ -19,6 +19,17 @@ export const verfiy2FA = async (props: { email: string; code: string }) => {
   }
 };
 
+export const resend2FACode = async (props: { email: string; }) => {
+try {
+    const res = await $http.post('/2fa/send-code', props);
+    console.log(res)
+    return res;
+  } catch (e: any) {
+    console.log(e)
+    return e.response.data ?? { message: e.message };
+  }
+}
+
 export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
   try {
     const response = await axios.patch('/reset-password', props);

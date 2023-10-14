@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState, useRef, useContext } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { useAuth } from '../../context/AuthContext';
-import { verfiy2FA} from "../../http/auth"
+import { verfiy2FA, resend2FACode } from "../../http/auth"
 import Router, { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
 
@@ -27,6 +27,23 @@ function Code2FALogic() {
         setDigits(['', '', '', '', '', '']);
         notify({
           message: data?.response?.message || 'Invalid code',
+          type: 'error',
+        });
+      }
+    },
+  });
+
+  const mutateRe = useAuthMutation(resend2FACode, {
+    onSuccess: (data: any) => {
+      if (data?.data?.status && data?.data?.status == '200') {
+            notify({
+          message: data?.data?.message,
+          type: 'success',
+        });
+        return;
+      } else {
+        notify({
+          message: 'Error!',
           type: 'error',
         });
       }
@@ -108,11 +125,17 @@ function Code2FALogic() {
     }, 700);
   };
 
-  const handleResend = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleResend = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      const email = auth?.user?.email;
+      mutateRe.mutate({ email: email as string });
+      setLoading(false);
+    }, 700);
   };
 
-  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend, loading };
+  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend, loading, auth };
 }
 
 export default Code2FALogic;
