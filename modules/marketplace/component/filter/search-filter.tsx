@@ -7,9 +7,17 @@ import Badge from './Badge';
 import useSearchFilter from './hooks/useSearchFilter';
 import { manropeL } from '../../../../config/font';
 import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
+import useCategory from './hooks/useCategory';
 
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
   const { resetFilter, handleSearch, loading } = useSearchFilter();
+  const { categories, loading: isLoading, products } = useCategory();
+  const sub_categories = categories.flatMap((category) => category.subcategories).map((sub: any) => sub?.name);
+  const prices = products.map((product) => product.price)
+  const uniquePrices = Array.from(new Set(prices)).map(price => formatToNigerianNaira(price));
+  const discounts = products.map((product) => product.discount_price)
+  const discount_price = Array.from(new Set(discounts)).map(discount => discount)
+
   return (
     <div>
       {isOpen ? (
@@ -22,14 +30,20 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <CancelIcon onClick={toggle} />
             </section>
             <Fragment>
-              <FilterSection tag="category" data={category} sectionTitle="Category" />
-              <FilterSection tag="subCategory" data={subCategory} sectionTitle="Sub Category" />
-              <FilterSection tag="discount" data={discount} sectionTitle="By Discount" />
+              <FilterSection tag="category" data={categories.map((c) => c.name)} sectionTitle="Category" />
+              {isLoading ? (
+                'loading...'
+              ) : (
+                <FilterSection tag="subCategory" data={sub_categories} sectionTitle="Sub Category" />
+              )}
+              <FilterSection tag="discount" data={discount_price} sectionTitle="By Discount" />
               <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
               <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
-              <FilterSection tag="price" data={price} sectionTitle="By Price">
-                <PriceRanges data={priceRange.map(price => formatToNigerianNaira(price))} />
-              </FilterSection>
+              <FilterSection
+                tag="price"
+                data={uniquePrices}
+                sectionTitle="By Price"
+              ></FilterSection>
             </Fragment>
 
             <div className="flex items-center justify-center gap-4 mt-10 mb-4">
@@ -51,18 +65,6 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
   );
 };
 
-const PriceRanges = ({ data }: { data: string[] }) => {
-  return (
-    <div className="ml-10 flex gap-4 flex-wrap">
-      {Array.isArray(data) &&
-        data.length > 0 &&
-        data.map((item, i) => (
-          <Badge key={i} className="px-7 border rounded-lg text-sm items-center py-1 border-gray-700 text-gray-600">
-            {item}
-          </Badge>
-        ))}
-    </div>
-  );
-};
 
 export default SearchFilter;
+
