@@ -32,3 +32,4 @@ function Breadcrumbs() {
 }
 
 export default Breadcrumbs;
+
