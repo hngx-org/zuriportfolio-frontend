@@ -1,6 +1,39 @@
+import React from 'react';
 import Image from 'next/image';
+import { DateObject } from 'react-multi-date-picker';
 
-const PortfolioCreation: React.FC = () => {
+interface zaProps {
+  dateRange: DateObject[];
+  reportClicked: Boolean;
+}
+
+const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
+  const [portfolioCreationArray, setPortfolioCreationArray] = React.useState<any>([]);
+  React.useEffect(() => {
+    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/')
+      .then((res) => res.json())
+      .then((data) => {
+        setPortfolioCreationArray(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // DateQuery
+
+  //   React.useEffect((()=>{
+  //     fetch(`https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/?start_date=${startDate}&end_date=${endDate}`)
+  //    .then(res => res.json())
+  //    .then(data =>  {
+  //      setCardDataOne(data.data)
+  //      // console.log(data.data)
+  //    })
+  //    .catch(err => {
+  //      console.log(err)
+  //    });
+  //  }),[])
+
   return (
     <>
       <div className="max-[1310px]:px-[1rem] w-full max-[834px]:px-[2.5rem] max-[760px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0">
@@ -40,114 +73,40 @@ const PortfolioCreation: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0">
-                <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[9.13rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem]">
-                    500
-                  </h6>
-                </div>
-                <div className="max-w-[19.8rem] w-full max-[778px]:min-w-[9.8rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    Product Manager
-                  </p>
-                </div>
-                <div className="max-w-[11.8rem] w-full max-[778px]:min-w-[9rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    190
-                  </p>
-                </div>
-                <div className="max-w-[12.4rem] w-full max-[778px]:min-w-[7.94rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    40%
-                  </p>
-                </div>
-                <div className="max-w-[10.8rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    170
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between px-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0">
-                <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[9.13rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem]">
-                    500
-                  </h6>
-                </div>
-                <div className="max-w-[19.8rem] w-full max-[778px]:min-w-[9.8rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    Software Developer
-                  </p>
-                </div>
-                <div className="max-w-[11.8rem] w-full max-[778px]:min-w-[9rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    110
-                  </p>
-                </div>
-                <div className="max-w-[12.4rem] w-full max-[778px]:min-w-[7.94rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    34%
-                  </p>
-                </div>
-                <div className="max-w-[10.8rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    90
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between px-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0">
-                <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[9.13rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem]">
-                    500
-                  </h6>
-                </div>
-                <div className="max-w-[19.8rem] w-full max-[778px]:min-w-[9.8rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    Product Designer
-                  </p>
-                </div>
-                <div className="max-w-[11.8rem] w-full max-[778px]:min-w-[9rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    105
-                  </p>
-                </div>
-                <div className="max-w-[12.4rem] w-full max-[778px]:min-w-[7.94rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    16%
-                  </p>
-                </div>
-                <div className="max-w-[10.8rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    79
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between px-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0">
-                <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[9.13rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem]">
-                    500
-                  </h6>
-                </div>
-                <div className="max-w-[19.8rem] w-full max-[778px]:min-w-[9.8rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    DevOps Engineer
-                  </p>
-                </div>
-                <div className="max-w-[11.8rem] w-full max-[778px]:min-w-[9rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    95
-                  </p>
-                </div>
-                <div className="max-w-[12.4rem] w-full max-[778px]:min-w-[7.94rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    10%
-                  </p>
-                </div>
-                <div className="max-w-[10.8rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                    64
-                  </p>
-                </div>
-              </div>
+              {portfolioCreationArray?.map((e: any) => {
+                return (
+                  <div
+                    key={e.index}
+                    className="flex items-center justify-between px-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0"
+                  >
+                    <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[9.969rem]">
+                      <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                        {e.total_portfolios_created}
+                      </h6>
+                    </div>
+                    <div className="max-w-[19.8rem] w-full max-[778px]:min-w-[9.8rem]">
+                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                        {e.portfolio_category}
+                      </p>
+                    </div>
+                    <div className="max-w-[11.8rem] w-full max-[778px]:min-w-[11.8rem]">
+                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                        {e.total_category}
+                      </p>
+                    </div>
+                    <div className="max-w-[12.4rem] w-full max-[778px]:min-w-[12.4rem]">
+                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                        {e.percentage}
+                      </p>
+                    </div>
+                    <div className="max-w-[10.8rem] w-full max-[778px]:min-w-[10.8rem]">
+                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                        {e.active_user}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div>

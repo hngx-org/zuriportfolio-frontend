@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Button from '@ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { z } from 'zod';
+import withAuth from '../../../../helpers/withAuth';
 
 type Product = {
   product_id: string;
@@ -141,17 +142,15 @@ function Discounts() {
     console.log('userData', userData);
     try {
       const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData);
-      if (response.status === 200) {
-        toast.success('Discount created successfully', {
-          autoClose: 5000,
-          onClose: () => {
-            router?.push('/dashboard/promotions');
-          },
-        });
-        console.log('success', response?.data);
-      } else {
-        // Handle other successful status codes if needed
-      }
+
+      toast.success('Discount created successfully', {
+        autoClose: 5000,
+        // onClose: () => {
+        //   router?.push('/dashboard/promotions');
+        // },
+      });
+      router.push('/dashboard/promotions');
+      console.log('success', response?.data);
     } catch (error: any) {
       console.error('Error:', error);
       if (error.response) {
@@ -202,7 +201,7 @@ function Discounts() {
                     <Input
                       id="amount"
                       {...form.getInputProps('amount')}
-                      className="w-full text-[14px] mt-2"
+                      className="w-full text-[14px] mt-2 placeholder:text-[#191C1E] text-black"
                       placeHolder="e.g 12%"
                       type="text"
                     />
@@ -212,7 +211,7 @@ function Discounts() {
                     <Input
                       id="quantity"
                       {...form.getInputProps('quantity')}
-                      className="w-full text-[14px] mt-2"
+                      className="w-full text-[14px] mt-2 placeholder:text-[#191C1E] text-black"
                       placeHolder="e.g 2"
                     />
                   </div>
@@ -222,7 +221,7 @@ function Discounts() {
                   <Input
                     id="maxDiscount"
                     {...form.getInputProps('maxDiscount')}
-                    className="w-full text-[14px] mt-2"
+                    className="w-full text-[14px] mt-2 placeholder:text-[#191C1E] text-black"
                     placeHolder="Enter price here"
                   />
                 </div>
@@ -250,7 +249,7 @@ function Discounts() {
                   <div className="flex flex-col w-full">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid From</label>
                     <input
-                      className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTime}
                       onChange={handleDateFrom}
@@ -259,7 +258,7 @@ function Discounts() {
                   <div className="flex flex-col w-full md:mt-0 mt-6 ">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid To</label>
                     <input
-                      className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTimeExpire}
                       onChange={handleDateTo}
@@ -293,4 +292,4 @@ function Discounts() {
   );
 }
 
-export default Discounts;
+export default withAuth(Discounts);
