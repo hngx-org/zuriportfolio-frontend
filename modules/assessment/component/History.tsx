@@ -152,7 +152,7 @@ const History: React.FC = () => {
                       ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
                       : 'text-brand-green-primary'
                   }
-                  onClick={() => handleLevelFilter('Beginner')}
+                  onClick={() => handleLevelFilter('beginner')}
                 >
                   Beginner
                 </button>
@@ -162,7 +162,7 @@ const History: React.FC = () => {
                       ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
                       : 'text-brand-green-primary'
                   }
-                  onClick={() => handleLevelFilter('Intermediate')}
+                  onClick={() => handleLevelFilter('intermediate')}
                 >
                   Intermediate
                 </button>
@@ -172,7 +172,7 @@ const History: React.FC = () => {
                       ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
                       : 'text-brand-green-primary'
                   }
-                  onClick={() => handleLevelFilter('Expert')}
+                  onClick={() => handleLevelFilter('expert')}
                 >
                   Expert
                 </button>
