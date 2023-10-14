@@ -23,6 +23,7 @@ const SanctionedProductDetails = () => {
 
   return (
     <>
+      <SuperAdminNavbar />
       {isLoading ? (
         <Loader />
       ) : data?.data?.length > 0 ? (
@@ -39,7 +40,6 @@ const SanctionedProductDetails = () => {
         </>
       ) : (
         <>
-          <SuperAdminNavbar />
           <p className="text-red-200 text-center my-10">Something went wrong, try again</p>
         </>
       )}

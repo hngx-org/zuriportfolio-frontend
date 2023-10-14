@@ -85,41 +85,44 @@ function LoginForm() {
   };
 
   return (
-    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
-      <div className="md:mx-auto lg:mb-10 font-manropeL">
+    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown>
+      <div className="md:mx-auto lg:mb-20 font-manropeL">
         <div className="md:flex sm:flex flex-col items-center justify-center lg:items-start">
-          <p className=" md:text-4xl mt-[1.75rem] md:mt-0 text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
-          <p className="text-custom-color30  mt-[1rem] md:text-[1.375rem]  lg:font-semibold sm:tracking-[0.00375rem] text-center md:text-left">
+          <p className=" font-manropeEB text-2xl md:text-4xl  text-[1.5rem] mb-1 md:mb-6 text-center lg:text-left ">
+            Log In
+          </p>
+          <p className="text-[#6B797F]  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
             Log in to continue using zuriportfolio
           </p>
         </div>
 
         <div className="pt-[2.25rem]">
           <form onSubmit={form.onSubmit((values) => handleLogin(values))}>
-            <div>
+            <div className="flex flex-col gap-2">
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
               </label>
               <Input
-                placeHolder="Allusugar@gmail.com"
+                placeHolder="enter email"
                 id="email"
                 {...form.getInputProps('email')}
-                className={`w-full mt-[0.5rem] py-[0.84rem] bg-transparent ${
+                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.email ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type="email"
               />
               <p className="text-[red] text-xs pt-1">{form.errors.email && form.errors.email}</p>
             </div>
-            <div className="mt-[1rem]">
-              <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
+
+            <div className=" flex flex-col gap-2">
+              <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-2">
                 Password
               </label>
               <Input
-                placeHolder="Gbemi345"
+                placeHolder="enter password"
                 id="password"
                 {...form.getInputProps('password')}
-                className={`w-full mt-[0.5rem] py-[0.84rem] bg-transparent ${
+                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.password ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type={isPasswordShown ? 'text' : 'password'}
@@ -134,9 +137,9 @@ function LoginForm() {
               <p className="text-[red] text-xs pt-1">{form.errors.password && form.errors.password}</p>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end mt-3 mb-[17px]">
               <Link href="/auth/forgot-password">
-                <span className=" font-manrope text-brand-green-primary text-right  text-[1.18313rem] mt-[0.62rem]">
+                <span className=" font-manrope text-brand-green-primary text-right  text-xs md:text-sm ">
                   Forgot Password ?
                 </span>
               </Link>
@@ -147,7 +150,7 @@ function LoginForm() {
               intent={'primary'}
               type="submit"
               size={'md'}
-              className="w-full rounded-lg mt-[1rem]"
+              className="w-full rounded-lg h-[44px] md:h-[60px]"
             >
               Continue
             </Button>
@@ -155,7 +158,7 @@ function LoginForm() {
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
               Don&apos;t have an account?
-              <Link href="/auth/signup-with-email">
+              <Link href="/auth/signup">
                 <span className="text-brand-green-primary"> Sign Up</span>
               </Link>
             </p>
