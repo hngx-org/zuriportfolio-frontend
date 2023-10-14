@@ -51,13 +51,13 @@ const UserReview: NextPage = () => {
 
   const router = useRouter();
   const { id } = router.query;
-  const productObj = cardData[Number(id) - 1];
+  const productID = parseInt(id as string, 10);
+  const pageTitle = cardData[productID - 1].title;
 
   useEffect(() => {
-    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/${productObj.id}/reviews?pageNumber=0&pageSize=10`)
+    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=0&pageSize=10`)
       .then((res) => res.json())
       .then((data: ReviewApiResponse) => setData(data.data));
-    console.log(productObj.title);
   }, []);
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const UserReview: NextPage = () => {
       <Container>
         <NavDashBoard active="reviews" />
         {data === null || data.length === 0 ? (
-          <EmptyReviewPage pageTitle={productObj.title} />
+          <EmptyReviewPage pageTitle={pageTitle} />
         ) : (
           <div className="flex flex-col md:mx-24">
             <div className="flex flex-col w-full mb-10 items-center justify-center">
@@ -116,7 +116,7 @@ const UserReview: NextPage = () => {
                   onClick={() => router.push('/dashboard/reviews')}
                 >
                   <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-                  {productObj && <p className="font-manropeB lg:text-2xl md:text-xl sm:text-lg">{productObj.title}</p>}
+                  {pageTitle && <p className="font-manropeB lg:text-2xl md:text-xl sm:text-lg">{pageTitle}</p>}
                 </div>
               </div>
               <div className="flex flex-col md:flex-row lg:gap-16 md:gap-10 gap-4">
