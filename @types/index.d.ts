@@ -479,6 +479,7 @@ export interface RatingCardProps {
 export interface filterProps {
   rating: number;
   review: number;
+  filterReview(view: string, stars: string);
 }
 
 export interface reviewProps {
@@ -613,6 +614,7 @@ export interface DeletedProducts {
   createdAt: string;
   product_id: string;
   product_name: string;
+  product_status: string;
   updatedAt: string;
   vendor_name: string;
 }
@@ -681,6 +683,13 @@ export type AuthResponse = {
 type ProductResultImage = {
   url: string;
 };
+
+type ProductCategory = {
+  id: number;
+  name: string;
+  createdat: string;
+  user: string;
+};
 export interface ProductResult {
   id: string;
   name: string;
@@ -697,7 +706,7 @@ export interface ProductResult {
   createdat: string;
   updatedat: string;
   shop: string;
-  category: number;
+  category: ProductCategory;
   rating: number;
   user: string;
 }
