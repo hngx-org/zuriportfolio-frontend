@@ -194,13 +194,11 @@ const SearchAndFilter = (prop: {
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
             onChange={handleCustomDropdownChange}
-            setFilters={handleFilters}
           />
           <CustomDropdown
             options={['Trending', 'Featured', 'New Arrival']}
             selectedValue={selectedOption2}
             onChange={handleCustomDropdownChange2}
-            setFilters={handleFilters}
           />
         </div>
       </div>
