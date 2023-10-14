@@ -1,71 +1,60 @@
 import React from 'react';
-import { Vendor } from '../../../../@types';
-import { More } from 'iconsax-react';
 import Image from 'next/image';
-import Link from 'next/link';
-const VendorLists: React.FC<Vendor> = ({
-  vendorImgSrc,
-  name,
-  email,
-  amount,
-  quantity,
-  date,
-  statusIndicatorSrc,
-  statusText,
-}) => {
-  // Determine the background color and text color based on the statusText
-  let backgroundColorClass = '';
-  let textColorClass = '';
-  if (statusText === 'Active') {
-    backgroundColorClass = 'bg-green-20';
-    textColorClass = 'text-brand-green-primary';
-  } else if (statusText === 'Deleted') {
-    backgroundColorClass = 'bg-red-105';
-    textColorClass = 'text-red-200';
-  } else if (statusText === 'Banned') {
-    backgroundColorClass = 'bg-yellow-50';
-    textColorClass = 'text-yellow-600';
-  }
+import { useRouter } from 'next/router';
+export const imageUrl =
+  'https://media.istockphoto.com/id/1321856038/photo/portrait-beautiful-young-woman-with-clean-fresh-skin.jpg?s=612x612&w=0&k=20&c=jP4pZTdV_7hHPMhFUaFNZSAbIDQAOUEcrMPMwSKFLqk=';
+
+const VendorLists = ({ data }: any) => {
+  const route = useRouter();
   return (
-    <div className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-6 md:grid-cols-4 grid-cols-1 items-center text-gray-500 text-center text-sm">
+    <div
+      className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-5 md:grid-cols-4 grid-cols-1 items-center text-gray-500 text-center text-sm cursor-pointer border-tcursor-pointer transition delay-100 hover:bg-white-200"
+      onClick={() => route.push(`/super-admin/vendor-management/vendor-details/${data?.vendor_id}`)}
+    >
       <div className="flex items-center">
-        <input type="checkbox" name="" id="" />
-        <Link
-          href={{
-            pathname: '/super-admin/vendor-management/vendor-details',
-            query: {
-              // Vendor details as query parameters
-              name,
-              email,
-              amount,
-              quantity,
-              date,
-              statusIndicatorSrc,
-              statusText,
-            },
-          }}
-        >
-          <div className="flex items-center">
-            <Image src={vendorImgSrc} alt="" className="mx-2" width={40} height={40} />
-            <div className="flex flex-col items-start text-left">
-              <p className="text-base lg:text-lg font-bold text-black">{name}</p>
-              <p className="text-sm md:text-xs lg:text-sm">{email}</p>
-            </div>
+        <div className="flex items-center">
+          <div className="w-10 h-10 mx-2 rounded-full overflow-hidden">
+            <Image
+              loader={() => imageUrl}
+              src={imageUrl}
+              alt="profile picture"
+              width={40}
+              height={40}
+              className="object-cover w-full h-full"
+            />
           </div>
-        </Link>
+          <div className="flex flex-col items-start text-left">
+            <p className="text-base lg:text-lg font-bold text-black">{data?.merchant_name}</p>
+            <p className="text-sm md:text-xs lg:text-sm">{data?.merchant_email}</p>
+          </div>
+        </div>
       </div>
-      <p className="hidden md:block text-sm md:text-xs lg:text-sm">{amount}</p>
-      <p className="hidden md:block text-sm md:text-xs lg:text-sm">{quantity}</p>
-      <p className="hidden md:block text-sm md:text-xs lg:text-sm">{date}</p>
+      <p className="hidden md:block text-sm md:text-xs lg:text-sm">{data?.total_products}</p>
+      <p className="hidden md:block text-sm md:text-xs lg:text-sm">{data?.total_products}</p>
+      <p className="hidden md:block text-sm md:text-xs lg:text-sm">{data?.joined_date}</p>
       <div
-        className={`lg:flex items-center justify-center text-sm md:text-xs lg:text-sm rounded-full w-1/2 mx-auto py-1 px-2 ${backgroundColorClass} hidden`}
+        className={` hidden  mx-auto rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
+          data?.vendor_status === 'Banned'
+            ? 'mx-auto bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
+            : data?.vendor_status === 'Deleted'
+            ? 'hidden mx-auto bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
+            : 'bg-green-200 bg-opacity-50 text-green-800'
+        }`}
       >
-        <Image src={statusIndicatorSrc} alt="" className="mr-2" width={5} height={5} />
-        <p className={textColorClass}>{statusText}</p>
+        <span
+          className={`inline-block w-2 h-2 rounded-full ${
+            data?.vendor_status === 'Banned'
+              ? 'bg-yellow-600'
+              : data?.vendor_status === 'Deleted'
+              ? 'bg-red-800'
+              : 'bg-green-800'
+          }`}
+        ></span>
+        <span>{data?.vendor_status}</span>
       </div>
-      <div className="lg:flex items-center justify-center hidden">
+      {/* <div className="lg:flex items-center justify-center hidden">
         <More size="20" className="cursor-pointer" />
-      </div>
+      </div> */}
     </div>
   );
 };
