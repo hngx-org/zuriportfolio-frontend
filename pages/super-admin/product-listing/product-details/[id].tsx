@@ -7,7 +7,7 @@ import Loader from '@modules/portfolio/component/landing/Loader';
 import { toast } from 'react-toastify';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 
-const SanctionedProductDetails = () => {
+const ProdDetails = () => {
   const [openModal, setOpenModal] = useState(false);
   const [reasons, setReasons] = useState(new Map());
   const reasonsKeysArray = Array.from(reasons.keys());
@@ -47,4 +47,4 @@ const SanctionedProductDetails = () => {
   );
 };
 
-export default SanctionedProductDetails;
+export default ProdDetails;

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import $http from './axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { RecentlyViewedProductProp } from '../@types';
 
 const AUTH_HTTP_URL = 'https://auth.akuya.tech';
 import { toast } from 'react-toastify';
@@ -209,9 +208,10 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
     const requestConfig = {
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json; charset=UTF-8',
       },
       method,
-      url: `https://spitfire-superadmin-1.onrender.com/api/admin/${apiUrl}`,
+      url: `https://staging.zuri.team/api/admin/${apiUrl}`,
       data,
       ...config,
     };
@@ -223,6 +223,7 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
   }
 };
 
+// products
 export const useGetProdDetails = (id: string) => {
   return useQuery(['get-sanctioned-prod-details', id], async () => {
     return makeRequest(`product/${id}`, 'get');
@@ -248,5 +249,113 @@ export const useDeleteProd = () => {
   return {
     deleteSanction: deleteSanctionedProd.mutate,
     isLoading: deleteSanctionedProd.isLoading,
+  };
+};
+
+export const useTempDeleteProd = () => {
+  const tempDeleteProd = useMutation((id: string) => {
+    return makeRequest(`product/delete_product/${id}`, 'patch');
+  });
+
+  return {
+    deleteSanction: tempDeleteProd.mutate,
+    isLoading: tempDeleteProd.isLoading,
+  };
+};
+
+export const useRestore = () => {
+  const restoreDeletedProd = useMutation((id: string) => {
+    return makeRequest(`product/restore_product/${id}`, 'patch');
+  });
+
+  return {
+    restoreProd: restoreDeletedProd.mutate,
+    isLoading: restoreDeletedProd.isLoading,
+  };
+};
+
+export const useGetProd = () => {
+  return useQuery(['get-prod'], async () => {
+    return makeRequest(`product/all`, 'get');
+  });
+};
+
+export const useSanction = () => {
+  const sanction = useMutation((id: string) => {
+    return makeRequest(`product/sanction/${id}`, 'patch');
+  });
+
+  return {
+    santionProd: sanction.mutate,
+    isLoading: sanction.isLoading,
+  };
+};
+
+//vendors
+
+export const useGetAllVendor = () => {
+  return useQuery(['get-vendor'], async () => {
+    return makeRequest(`shop/all`, 'get');
+  });
+};
+
+export const useGetShop = (id: string) => {
+  return useQuery(['get-shop'], async () => {
+    return makeRequest(`shop/${id}`, 'get');
+  });
+};
+
+export const useRemoveBan = () => {
+  const removeBan = useMutation((id: string) => {
+    return makeRequest(`shop/unban_vendor/${id}`, 'put');
+  });
+
+  return {
+    removeBan: removeBan.mutate,
+    isLoading: removeBan.isLoading,
+  };
+};
+
+export const useBanShop = () => {
+  const banShop = useMutation((id: string) => {
+    return makeRequest(`shop/ban_vendor/${id}`, 'put');
+  });
+
+  return {
+    banShop: banShop.mutate,
+    isLoading: banShop.isLoading,
+  };
+};
+
+export const useRestoreShop = () => {
+  const restoreShop = useMutation((id: string) => {
+    return makeRequest(`shop/restore_shop/${id}`, 'patch');
+  });
+
+  return {
+    restoreShop: restoreShop.mutate,
+    isLoading: restoreShop.isLoading,
+  };
+};
+
+export const useTempDeleteShop = () => {
+  const tempDeleteShop = useMutation((id: string) => {
+    return makeRequest(`shop/delete_shop/${id}`, 'patch');
+  });
+
+  return {
+    tempDeleteShop: tempDeleteShop.mutate,
+    isLoading: tempDeleteShop.isLoading,
+  };
+};
+
+export const useDeleteShop = () => {
+  const deleteShop = useMutation((id: string) => {
+    return makeRequest(`shop/delete_shop/${id}`, 'patch');
+  });
+
+  return {
+    deleteShop: deleteShop.mutate,
+    isLoading: deleteShop.isLoading,
   };
 };

@@ -84,7 +84,7 @@ function ResetPassword() {
           <div className="flex flex-col gap-8 lg:gap-12 mt-10 lg:mt-0">
             <div className="flex flex-col gap-2 md:gap-4 items-center lg:items-start text-center lg:text-left">
               <h1 className="font-manropeEB text-2xl md:text-4xl">Reset password</h1>
-              <p className="font-manropeL lg:font-manropeB text-xs md:text-sm lg:text-[1.375rem] text-custom-color20">
+              <p className="font-manropeL font-semibold text-xs md:text-sm lg:text-[1.375rem] text-custom-color20  leading-[28px]">
                 Enter your new password below.
               </p>
             </div>
@@ -100,7 +100,7 @@ function ResetPassword() {
                     {...form.getInputProps('password')}
                     type={showPassword[0] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
                     // isPasswordVisible={showPassword[0]} // Pass the visibility state as a prop
-                    className={`h-[2.75rem] md:h-[3.75rem] w-full shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05) ${
+                    className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                       form.errors.password ? 'border-red-200' : ''
                     }`}
                     placeHolder="Daniel345"
@@ -124,7 +124,7 @@ function ResetPassword() {
                   {...form.getInputProps('confirmPassword')}
                   type={showPassword[1] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
                   // isPasswordVisible={showPassword[1]} // Pass the visibility state as a prop
-                  className={`h-[2.75rem] md:h-[3.75rem] w-full shadow-[0px,1px,2px,0px,rgba(16,24,40,0.05)] ${
+                  className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.confirmPassword ? 'border-red-200' : ''
                   }`}
                   placeHolder="Daniel345"
@@ -134,7 +134,6 @@ function ResetPassword() {
                       {showPassword[1] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
                     </div>
                   }
-                  required
                 />
                 <p className="text-[red] text-xs">{form.errors.confirmPassword && form.errors.confirmPassword}</p>
               </div>
