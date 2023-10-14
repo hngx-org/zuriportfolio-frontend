@@ -7,14 +7,8 @@ import Link from 'next/link';
 const Cover = () => {
   const { handleUploadCover, profileUpdate, userData } = useContext(Portfolio);
   const { avatarImage, tracks } = userData;
-  let append: any[] = [];
-  tracks.forEach((track: any) => {
-    append.push(track.track);
-  });
 
-  append.join(',');
-
-  const link = tracks ? `/assessments/dashboard/${append}` : '/assessments/dashboard';
+  const link = ``;
 
   const avatar = avatarImage ? (
     <Image

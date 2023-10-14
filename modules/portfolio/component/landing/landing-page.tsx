@@ -1,7 +1,6 @@
 'use-client';
 import Image from 'next/image';
 import React, { useContext, useEffect } from 'react';
-import Modal from '@ui/Modal';
 import LandinEmptyState from './landingpage-empty';
 import LandingPageFilled from './landingpage-filled';
 import Cover from './cover-avatar';
@@ -11,7 +10,6 @@ import { CoverDiv } from './avatars';
 import Loader from './Loader';
 import EditProfile from '../modals/edit-profile';
 import ViewTemplate from '../modals/view-template';
-import ContactModal from '../contact-modal';
 
 const Landing = () => {
   const {
@@ -52,11 +50,7 @@ const Landing = () => {
   return (
     <>
       <div onClick={modal}>
-        {showProfileUpdate && (
-          <Modal isOpen={isOpen} closeModal={modal}>
-            <EditProfile />
-          </Modal>
-        )}
+        {showProfileUpdate && <EditProfile />}
         {showBuildPortfolio && <Home />}
         {showViewtemplates && <ViewTemplate />}
       </div>
@@ -76,12 +70,12 @@ const Landing = () => {
                 </h1>
                 {tracks && tracks.length > 0 && (
                   <div className="flex items-center space-x-2">
-                    {tracks.map((track: any, index: number) => (
+                    {/* {tracks.map((track: any, index: number) => (
                       <p key={index} className="text-gray-500 font-semibold text-[14px] md:text-[14px]">
                         {track.track}
                         {index !== tracks.length - 1 && ','}
                       </p>
-                    ))}
+                    ))} */}
                   </div>
                 )}
                 <p className="text-gray-500 font-semibold text-[14px] md:text-[14px]">
@@ -100,7 +94,6 @@ const Landing = () => {
             ) : (
               <div className="mt-10 md:mt-20">
                 <LandingPageFilled />
-                {/* <ContactModal /> */}
               </div>
             )}
           </>

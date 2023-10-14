@@ -134,7 +134,6 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
-
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
