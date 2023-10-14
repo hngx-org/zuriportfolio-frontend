@@ -1,12 +1,18 @@
 import React from 'react';
 import Image from 'next/image';
 import { DateObject } from 'react-multi-date-picker';
+import { get } from 'axios';
+import axios from 'axios';
 
-const AnalysisCards: React.FC = () => {
-  // const startDate = dataRange[0]?dataRange[0].format(`YYYY-MM-DDTHH:mm:ss${"Z"}`):"2023-10-19T18:09:12Z";
-  // const endDate = dataRange[1]?dataRange[0].format(`YYYY-MM-DDTHH:mm:ss${"Z"}`):"2023-10-19T18:09:12Z";
-  // console.log(startDate)
-  // console.log(endDate)
+interface zaProps {
+  dateRange: DateObject[];
+}
+
+const AnalysisCards: React.FC<zaProps> = ({ dateRange }) => {
+  const starttDate = '2023-10-10T00:00:00Z';
+  const enddDate = '2023-10-19T00:00:0Z';
+
+  console.log(enddDate);
 
   // DateQuery
   const [startDate, setStartDate] = React.useState('');
@@ -25,16 +31,14 @@ const AnalysisCards: React.FC = () => {
         console.log(err);
       });
   }, []);
-  //   React.useEffect((()=>{
-  //     fetch(`https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=""&end_date=""`)
-  //    .then(res => res.json())
-  //    .then(data =>  {
-  //      setCardDataOne(data.data)
-  //    })
-  //    .catch(err => {
-  //      console.log(err)
-  //    });
-  //  }),[])
+  React.useEffect(() => {
+    fetch(
+      `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
+    )
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
+
   const [CardDataOne, setCardDataOne] = React.useState<any>([]);
 
   const percentile = '/assets/images/reports/crack.svg';
