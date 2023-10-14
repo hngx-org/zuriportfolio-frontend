@@ -72,16 +72,16 @@ function SignUpWithEmail() {
         <p className="md:text-[22px] text-custom-color20 font-manropeB">Let&apos;s get you started</p>
       </div>
       <div className="mt-6 md:my-12">
-        <form className="flex flex-col gap-8" onSubmit={form.onSubmit((values) => handleSignUpWithEmail(values))}>
+        <form className="flex flex-col gap-6" onSubmit={form.onSubmit((values) => handleSignUpWithEmail(values))}>
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="font-manropeB">
               Email Address
             </label>
             <Input
-              placeHolder="Allusugar@gmail.com"
+              placeHolder="enter email"
               id="email"
               {...form.getInputProps('email')}
-              className={`w-full border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+              className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                 form.errors.email ? 'border-red-200' : 'border-slate-50'
               }`}
               type="text"
@@ -92,14 +92,14 @@ function SignUpWithEmail() {
             isLoading={isUserSigningUp}
             intent={'primary'}
             size={'md'}
-            className="w-full rounded-lg"
+            className="w-full rounded-lg h-[44px] md:h-[60px]"
             type="submit"
           >
             Continue
           </Button>
         </form>
 
-        <div className="mt-8">
+        <div className="mt-6">
           <p className="text-center text-gray-200 font-manropeL">
             Already have an account?{' '}
             <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
@@ -108,9 +108,9 @@ function SignUpWithEmail() {
           </p>
         </div>
         <div className="text-white-650 flex justify-between items-center my-6 lg:my-10">
-          <span className="w-[40%] lg:w-[45%] h-[1px] bg-white-650"></span>
-          <span>OR</span>
-          <span className="w-[40%] lg:w-[45%] h-[1px] bg-white-650"></span>
+          <span className="w-full h-[1px] bg-white-650"></span>
+          <span className=" manropeL text-sm px-3">OR</span>
+          <span className="w-full h-[1px] bg-white-650"></span>
         </div>
         <div className="flex flex-col gap-y-4">
           <SignUpWithGoogle />
