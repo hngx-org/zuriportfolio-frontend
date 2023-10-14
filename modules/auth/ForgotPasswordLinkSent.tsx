@@ -12,7 +12,7 @@ function ForgotPasswordLinkSent() {
   const onResetLinkSentSuccess = (data: any) => {
     console.log(data);
     if (data.status === 200) {
-      notify({message: "Reset Link has been resent.", type:"success"})
+      notify({ message: 'Reset Link has been resent.', type: 'success' });
       return;
     }
 

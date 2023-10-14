@@ -57,16 +57,21 @@ export interface RecentlyViewedData {
   };
   interaction_type: string;
   createdat: number;
-};
+}
 
 export interface Education {
   id: number;
-  degree: string;
+  degreeId: number;
+  userId: number;
   fieldOfStudy: string;
   school: string;
   description: string;
-  dateFrom: string;
-  dateTo: string;
+  from: string;
+  to: string;
+}
+export interface DegreeOption {
+  id: number;
+  type: string;
 }
 export interface AllCategoryDetails {
   price: string;
@@ -273,13 +278,10 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
+export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
 
-export type CartSumaryProp = {subtotal: number, discount: number, VAT: number, total: number}
-
-
-export type RecentlyViewedProductProp = 
-{
-  user:string
+export type RecentlyViewedProductProp = {
+  user: string;
   product: {
     id: string;
     name: string;

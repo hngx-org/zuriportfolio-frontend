@@ -152,9 +152,7 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
 
             <div className="sum flex justify-between">
               <p className="font-bold">Vat</p>
-              <span className="text-brand-red-primary transition-all duration-300">
-                +₦ {summary.VAT.toFixed(2)}
-              </span>
+              <span className="text-brand-red-primary transition-all duration-300">+₦ {summary.VAT.toFixed(2)}</span>
             </div>
           </div>
 
@@ -183,7 +181,9 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
           ) : (
             <TempUser isOpen={isOpen} onClose={onClose} />
           )} */}
-          {modalOpen ? <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} /> : null}
+          {modalOpen ? (
+            <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} />
+          ) : null}
         </div>
       </div>
     </section>

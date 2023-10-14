@@ -4,7 +4,7 @@ import isAuthenticated from './isAuthenticated';
 
 // this would change later on once backend has the authentication
 // working.
-const withAuth = <P extends {children: React.ReactNode}>(WrappedComponent: React.ComponentType<P>) => {
+const withAuth = <P extends { children: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper: React.FC<P> = (props) => {
     const router = useRouter();
 

@@ -63,7 +63,7 @@ function RecentlyViewed() {
         </div>
       )}
     </section>
-  ); 
+  );
 }
 
 export default RecentlyViewed;
