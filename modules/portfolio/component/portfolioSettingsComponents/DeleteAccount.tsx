@@ -20,7 +20,7 @@ function DeleteAccount() {
   const notifySuccess = (toastContent: string) => toast.success(toastContent, { closeOnClick: true, autoClose: 3000 });
 
   const notifyError = (toastContent: string) => toast.error(toastContent);
-  const userId: string = '9d0cabc0-500a-44eb-8564-301e8e90ce20';
+  const userId: string = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
 
   const handleDeleteAccount = useCallback(() => {
     setIspending(true);
