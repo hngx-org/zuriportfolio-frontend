@@ -73,7 +73,7 @@ const Index = () => {
     setFilteredProducts(filteredProducts);
   };
   return (
-    <main className="">
+    <div className="">
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto">
@@ -93,7 +93,9 @@ const Index = () => {
             </div>
             <div className="flex items-center justify-left md:justify-between gap-4">
               <SearchProduct handleSearchChange={handleSearch} />
-              <div className="md:block hidden">{visibleVendors && <FilterProduct handleFilter={handleFilter} />}</div>
+              <div className="md:block hidden">
+                <FilterProduct handleFilter={handleFilter} />
+              </div>
               <div className="md:hidden block">
                 <Button intent={'primary'} size={'sm'}>
                   <Sort />
@@ -139,7 +141,7 @@ const Index = () => {
           )}
         </section>
       </section>
-    </main>
+    </div>
   );
 };
 export default Index;
