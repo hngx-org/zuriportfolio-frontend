@@ -26,6 +26,7 @@ export default function Cart() {
       setIsLoading(false);
     }
     cartFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
