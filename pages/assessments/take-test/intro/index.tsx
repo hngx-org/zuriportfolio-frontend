@@ -5,8 +5,24 @@ import Link from 'next/link';
 import Button from '@ui/Button';
 import { useRouter } from 'next/router';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
+import { fetchUserTakenAssessment } from '../../../../http/userTakenAssessment';
 const TakeTest: FC = () => {
   const router = useRouter();
+
+  const handleGetStarted = async () => {
+    try{
+      const data = await fetchUserTakenAssessment()
+      console.log('data',data.statusText)
+      const assessmentData = data.data.data
+      console.log('assessmentData', assessmentData)
+      localStorage.setItem('assessmentData', JSON.stringify(assessmentData))
+      if (data) {
+        router.push(`/assessments/take-test/questions`)
+      }
+    }catch(error){
+      console.log('catch error',error)
+    } 
+  }
   return (
     <>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
@@ -42,6 +58,7 @@ const TakeTest: FC = () => {
                   size={'md'}
                   isLoading={false}
                   spinnerColor="#000"
+                  onClick={handleGetStarted}
                   className="px-5 py-0 md:py-2 md:px-10 text-sm md:text-base font-manropeL"
                 >
                   Start assessment

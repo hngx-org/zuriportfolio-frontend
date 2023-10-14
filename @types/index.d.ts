@@ -57,7 +57,7 @@ export interface RecentlyViewedData {
   };
   interaction_type: string;
   createdat: number;
-};
+}
 
 export interface Education {
   id: number;
@@ -273,13 +273,10 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
+export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
 
-export type CartSumaryProp = {subtotal: number, discount: number, VAT: number, total: number}
-
-
-export type RecentlyViewedProductProp = 
-{
-  user:string
+export type RecentlyViewedProductProp = {
+  user: string;
   product: {
     id: string;
     name: string;
@@ -617,6 +614,7 @@ export interface DeletedProducts {
   createdAt: string;
   product_id: string;
   product_name: string;
+  product_status: string;
   updatedAt: string;
   vendor_name: string;
 }
@@ -690,7 +688,7 @@ type ProductCategory = {
   id: number;
   name: string;
   createdat: string;
-  user: string
+  user: string;
 };
 export interface ProductResult {
   id: string;
