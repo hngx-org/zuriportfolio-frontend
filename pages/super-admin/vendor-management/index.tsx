@@ -46,31 +46,61 @@ const Index = () => {
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
+  // const handleFilter = (status: string) => {
+  //   let filteredProduct = data?.data;
+  //   if (status === 'oldest') {
+  //     filteredProduct = filteredProduct.sort(
+  //       (a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  //     );
+  //   } else if (status === 'highest') {
+  //     filteredProduct = filteredProduct.sort((a: any, b: any) => b.total_products - a.total_products);
+  //   } else if (status === 'lowest') {
+  //     filteredProduct = filteredProduct.sort((a: any, b: any) => a.total_products - b.total_products);
+  //   } else if (status === 'newest') {
+  //     filteredProduct = filteredProduct.sort((a: any, b: any) => {
+  //       return new Date(formatDate(b.createdAt)).getTime() - new Date(formatDate(a.createdAt)).getTime();
+  //     });
+  //   } else{
+  //     filteredProduct = filteredProduct.sort((a: any, b: any) => {
+  //       const statusOrder: { [key: string]: number } = {
+  //         Active: 1,
+  //         Banned: 2,
+  //         Deleted: 3,
+  //       };
+  //       return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
+  //     });
+  //   }
+  //   setFilteredProducts(filteredProduct);
+  // };
+
   const handleFilter = (status: string) => {
-    let filteredProducts = data?.data;
-    if (status === 'oldest') {
-      filteredProducts = filteredProducts.sort(
-        (a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-      );
-    } else if (status === 'highest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => b.total_products - a.total_products);
-    } else if (status === 'lowest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => a.total_products - b.total_products);
-    } else if (status === 'newest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => {
-        return new Date(formatDate(b.createdAt)).getTime() - new Date(formatDate(a.createdAt)).getTime();
+    if (data?.data) {
+      let sortedProducts: any = [...data.data]; // Create a copy of the full dataset
+
+      sortedProducts = sortedProducts.sort((a: any, b: any) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+
+        if (status === 'newest') {
+          return dateB.getTime() - dateA.getTime(); // Newest to oldest
+        } else if (status === 'oldest') {
+          return dateA.getTime() - dateB.getTime(); // Oldest to newest
+        } else if (status === 'lowest') {
+          return a.total_products - b.total_products;
+        } else if (status === 'highest') {
+          return b.total_products - a.total_products;
+        } else {
+          const statusOrder: { [key: string]: number } = {
+            Active: 1,
+            Banned: 2,
+            Deleted: 3,
+          };
+          return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
+        }
       });
-    } else if (status === 'status') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => {
-        const statusOrder: { [key: string]: number } = {
-          Active: 1,
-          Banned: 2,
-          Deleted: 3,
-        };
-        return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
-      });
+
+      setFilteredProducts(sortedProducts);
     }
-    setFilteredProducts(filteredProducts);
   };
   return (
     <div className="">
@@ -93,13 +123,13 @@ const Index = () => {
             </div>
             <div className="flex items-center justify-left md:justify-between gap-4">
               <SearchProduct handleSearchChange={handleSearch} />
-              {showBanned || showDeleted ? (
+              {/* {showBanned || showDeleted ? (
                 <div></div>
-              ) : (
-                <div className="md:block hidden">
-                  <FilterProduct handleFilter={handleFilter} />
-                </div>
-              )}
+              ) : ( */}
+              <div className="md:block hidden">
+                <FilterProduct handleFilter={handleFilter} />
+              </div>
+              {/* )} */}
 
               <div className="md:hidden block">
                 <Button intent={'primary'} size={'sm'}>
