@@ -5,7 +5,16 @@ import trash from '../../../public/assets/assessment/trash.png';
 import editmessage from '../../../public/assets/assessment/message-edit.png';
 import Link from 'next/link';
 
-function Assessmentresponses() {
+interface Assessment {
+  id: number;
+  trackname: string;
+  createddate: string;
+  modifieddate: string;
+  // Add other properties as needed
+}
+
+function Assessmentresponses({ assessments }: { assessments: Assessment[] }) {
+  console.log(assessments);
   //Uses and updates the list from the index page
   const [list, setList]: any = useContext(ListContext);
   //todel is a state, booleen, to be updated when the user tries to delete a project
@@ -29,6 +38,16 @@ function Assessmentresponses() {
     );
     setTodel(false);
   };
+
+  function formatDateToPattern(dateString: string) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${day}-${month}-${year}`;
+  }
+
   return (
     <div className="w-full flex flex-col gap-[15px] md:gap-[23px] mt-[55px] mb-[139px] p-4 md:p-8 rounded border-[1px] border-brand-disabled2 font-manropeL">
       {todel && (
@@ -52,7 +71,7 @@ function Assessmentresponses() {
           </div>
         </div>
       )}
-      {list?.map((child: any) => {
+      {assessments?.map((child: any) => {
         return (
           <div
             className="w-full flex items-center justify-between border-[1px] rounded p-4 md:p-6  border-brand-disabled2"
@@ -60,10 +79,13 @@ function Assessmentresponses() {
           >
             <div>
               <div className="text-custom-color11 text-base md:text-[18px] font-manropeB font-bold mb-[4px]">
-                {child?.trackname}
+                {child?.title}
               </div>
-              <div className="my-[6px] md:my-[10px] text-white-650"> Created {child?.createddate}</div>
-              <div className="text-white-650">Modified {child?.modifieddate}</div>
+              <div className="my-[6px] md:my-[10px] text-white-650">
+                {' '}
+                Created {formatDateToPattern(child?.createdAt)}
+              </div>
+              <div className="text-white-650">Modified {formatDateToPattern(child?.updatedAt)}</div>
             </div>
             <div className="flex gap-2 md:gap-8">
               <div className="flex flex-col items-center cursor-pointer">

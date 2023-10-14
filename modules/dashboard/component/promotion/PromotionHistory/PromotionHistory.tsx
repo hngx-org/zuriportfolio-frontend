@@ -7,6 +7,7 @@ import Link from 'next/link';
 import usePaginate from '../../../../../hooks/usePaginatePromo';
 import usePromotions from '../../../../../hooks/usePromotions';
 import Button from '@ui/Button';
+import { RiAddLine } from 'react-icons/ri';
 
 const PromotionHistory: React.FC = () => {
   const { promotions, changeSortBy, sortBy, toggleSortOrder } = usePromotions();
@@ -58,8 +59,10 @@ const PromotionHistory: React.FC = () => {
                 </svg>
               </button>
               <Link href="/dashboard/promotions/promotions-type">
-                <button className="px-4 bg-brand-green-primary rounded-full">
-                  <span className="text-white-100 text-[24px] font-manropeEL">+</span>
+                <button className="p-4 bg-brand-green-primary rounded-full">
+                  <span className="text-white-100 text-[26px] font-manropeEL">
+                    <RiAddLine size={25} />
+                  </span>
                 </button>
               </Link>
             </div>

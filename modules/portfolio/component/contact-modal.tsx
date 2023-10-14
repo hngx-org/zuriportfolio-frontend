@@ -6,13 +6,6 @@ import Modal from '@ui/Modal';
 import { Add, CloseSquare } from 'iconsax-react';
 import useDisclosure from '../../../hooks/useDisclosure';
 
-// type contactModalProps = {
-//   handleCloseContactModal: () => void;
-//   isContactModalOpen: boolean;
-// };
-
-// { handleCloseContactModal, isContactModalOpen }: contactModalProps
-
 function ContactModal() {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [email, setEmail] = useState('');

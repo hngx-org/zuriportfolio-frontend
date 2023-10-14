@@ -1,0 +1,144 @@
+<mjml>
+<mj-head>
+ <mj-style>
+      body {
+        margin: initial;
+        padding: 24px 24px 48px 24px;
+      }
+    </mj-style>
+
+    <mj-attributes>
+      <mj-text color="#2E3130" font-family="Verdana" line-height="24px" />
+    </mj-attributes>
+</mj-head>
+  <mj-body background-color="#f0ece6">
+    <mj-section background-repeat="repeat" padding="20px 0" text-align="center">
+      <mj-column>
+        <mj-image
+          align="center"
+          padding="10px 25px"
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/green-logo.png"
+          width="373px"
+        ></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section border-radius="10px" background-color="#ffffff" background-repeat="repeat" padding="20px 20px" text-align="center">
+      <mj-column>
+        <mj-text
+          padding="40px 20px 20px 20px"
+          color="#000"
+          font-size="18px"
+          font-weight="bold"
+          
+        >
+          Hi {{$name}},
+        </mj-text>
+
+        <mj-text  font-weight="bold" color="#009254" font-size="18px">
+          Product suspension lifted
+        </mj-text>
+
+        <mj-text  font-weight="400" color="#000" font-size="16px">
+            Good news. The suspension on your product <span style="font-weight: bold"> '{{$product_name}}' </span> has been lifted, and it is once again available for purchase on our platform.
+        </mj-text>
+
+        <mj-text  font-weight="400" color="#000" font-size="16px">
+          Reason(s) for suspension :
+          <span style="font-weight: bold">
+             Product misrepresentation & Intellectual property infringement
+          </span>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+
+<mj-wrapper padding="20px 40px" background-color="#ffffff">
+<mj-section padding="20px 10px" border="1px solid #E1E3E2"  border-radius="15px" background-color="#ffffff"  text-align="center">
+
+      <mj-column width="35%" padding-right="8px" padding-bottom="8px">
+        <mj-raw>
+          <div
+            style="
+              min-width: 7rem;
+              width: 100%;
+              max-width: 9rem;
+              height: 8.56319rem;
+              border-radius: 0.32113rem;
+              overflow: hidden;
+            "
+          >
+            <img
+              style="margin: auto; width: 100%; height: 100%; vertical-align: bottom; object-fit: cover"
+              src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/images/imagePlaceholder.png"
+              alt=""
+            />
+          </div>
+        </mj-raw>
+      </mj-column>
+      <mj-column width="65%">
+        <mj-text font-size="18px" color="#737876"  font-weight="bold">
+            <span >Guide to Marketing 101</span>
+        </mj-text>
+
+        <mj-text color="#737876" font-size="16px" >
+            <span >21 courses sold</span>
+          </div>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    </mj-wrapper>
+
+    <mj-section background-color="#ffffff" background-repeat="repeat" padding="20px 20px" text-align="center">
+      <mj-column>
+        <mj-button
+          href="https://zuriportfolio.com/login"
+          border-radius="10px"
+          background-color="#33a467"
+          height="30px"
+          width="200px"
+          font-size="16px"
+          >Go to your store</mj-button
+        >
+
+        <mj-text padding-top="30px" font-weight="400" color="#000" font-size="16px" >
+          We love and appreciate your prompt attention to addressing the issues that led to the suspension and your commitment to upholding the quality and compliance of products on our platform.
+        </mj-text>
+
+        <mj-text  font-weight="400" color="#000" font-size="16px">
+          If you have any questions or issues, please contact support at 
+          <a href="mailto:support@zuriportolio.com" style="font-weight: bold; color: #009254"
+            >support@zuriportolio.com</a
+          >.
+        </mj-text>
+
+        <mj-text  color="#000" padding-top="30px" font-size="16px">
+          Thank you for choosing Zuriportfolio!<span
+            padding-top="30px"
+            style="display: block; color: #865311; font-weight: bold; padding-top: 10px"
+          >
+            Zuri Team
+          </span>
+        </mj-text>
+
+        <mj-image
+          align="center"
+          padding="10px 25px"
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/green-logo.png"
+          width="120px"
+        ></mj-image>
+
+        <mj-text
+          align="center"
+          font-family="Verdana"
+          font-size="14px"
+          line-height="22px"
+          padding="10px 25px"
+          color="#5B5F5E"
+          >Copyright (c) Zuriportfolio. All rights reserved</mj-text
+        >
+      </mj-column>
+    </mj-section>
+
+    <mj-section> </mj-section>
+  </mj-body>
+</mjml>

@@ -22,14 +22,47 @@ import MainLayout from '../../components/Layout/MainLayout';
 
 import Container from '@modules/auth/component/Container/Container';
 
+// importing axios to send my request
+import Axios, { AxiosResponse } from 'axios';
+// importing toastify
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import CategoryLayout from './component/layout/category-layout';
+
 function Wishlist() {
   const [showEmptyWishlistModal, setShowEmptyWishlistModal] = useState(false);
 
   const [wishlistProducts, setWishlistProducts] = useState<WishlistProduct[]>(initialWishlistProducts);
 
-  const removeProductFromWishlist = (productId: string) => {
-    const newWishlistProducts = wishlistProducts.filter((product: WishlistProduct) => product.productId !== productId);
-    setWishlistProducts(newWishlistProducts);
+  // Function to remove a product from the wishlist API
+  const removeProductFromWishlistAPI = async (productId: string): Promise<boolean> => {
+    try {
+      // Replace 'your-api-endpoint' with the actual API endpoint for removing a product
+      const response: AxiosResponse = await Axios.delete(
+        `https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/${productId}`,
+      );
+      if (response.status === 200) {
+        // Product removed successfully
+        toast.success('Product removed successfully');
+        return true;
+      }
+    } catch (error: any) {
+      // Handle errors (e.g., network error, server error)
+      console.error('Error removing product from the wishlist:', error);
+      toast.error(error.response.data.detail ? error.response.data.detail : 'Error removing product from wishlist');
+    }
+    return false;
+  };
+
+  const removeProductFromWishlist = async (productId: string) => {
+    const removed: boolean = await removeProductFromWishlistAPI(productId);
+    if (removed) {
+      // If the product was removed from the API, update the local wishlistProducts
+      const newWishlistProducts = wishlistProducts.filter(
+        (product: WishlistProduct) => product.productId !== productId,
+      );
+      setWishlistProducts(newWishlistProducts);
+    }
   };
 
   const removeEmptyWishlistModal = () => {
@@ -46,8 +79,14 @@ function Wishlist() {
     document.body.style.overflow = showEmptyWishlistModal ? 'hidden' : 'unset';
   }, [showEmptyWishlistModal]);
 
+  const moveToCart = (productId: string) => {
+    const newWishlistProducts = wishlistProducts.filter((product: WishlistProduct) => product.productId !== productId);
+    setWishlistProducts(newWishlistProducts);
+    toast.success('Added item to cart');
+  };
   return (
     <>
+      <ToastContainer />
       {showEmptyWishlistModal && (
         <div className="absolute top-0 left-0 right-0 bottom-0 w-full h- bg-black bg-opacity-50 backdrop-blur-5 z-[9999] flex justify-center items-center ">
           <div className="absolute top-0 right-0 mr-5 mt-5">
@@ -73,7 +112,8 @@ function Wishlist() {
           </div>
         </div>
       )}
-      <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+      {/* <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}> */}
+       <CategoryLayout>
         <Container>
           <div className="font-manropeL max-w-[1240px] mx-auto my-8">
             <section className="flex flex-col gap-10 mb-20">
@@ -85,6 +125,7 @@ function Wishlist() {
               <div className="flex flex-col gap-6  lg:px-[100px]">
                 {wishlistProducts.map((product) => (
                   <WishlistProductCard
+                    moveToCart={moveToCart}
                     key={product.productId}
                     product={product}
                     removeProductFromWishlist={removeProductFromWishlist}
@@ -94,7 +135,8 @@ function Wishlist() {
             </section>
           </div>
         </Container>
-      </MainLayout>
+        </CategoryLayout>
+      {/* </MainLayout> */}
     </>
   );
 }

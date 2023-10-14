@@ -13,7 +13,7 @@ const Trending: React.FC<TrendingProps> = ({ products }) => {
     <div className="bg-white-100 w-full">
       <div className="container mx-auto px-4 sm:px-6 md:px-3 py-5">
         <div>
-          <h1 className="text-4xl font-manropeEB">Reconmmeded For You</h1>
+          <h1 className="text-4xl font-manropeEB">Recommeded For You</h1>
           <p className="text-xs mt-2 font-manropeB">Recommended courses for you</p>
         </div>
         <div className="w-full h-full py-10 overflow-x-auto whitespace-nowrap  flex gap-5">

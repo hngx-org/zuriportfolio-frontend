@@ -1,70 +1,68 @@
 import React, { useContext, useEffect, useState } from 'react';
 // import AuthContext from '../../../../../context/AuthContext';
-import { ProductCardProps } from '../../../../../@types';
+import { ProductCardProps, MarketPlaceProductCardProps } from '../../../../../@types';
 import ProductCard from '../../ProductCard';
 // import Link from 'next/link';
 import Image from 'next/image';
-import Cancel from "../../../../../public/assets/recentlyviewed/cancel.svg"
+import Cancel from '../../../../../public/assets/recentlyviewed/cancel.svg';
 import styles from '../productCardWrapper/product-card-wrapper.module.css';
 
-
-const recentlyViewed: ProductCardProps[] = [
+const recentlyViewed: MarketPlaceProductCardProps[] = [
   {
     id: '1',
     currency: 'USD',
     image: '/assets/recentlyviewed/image1.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productOwner: 'Mark Essien',
-    productRating: 3,
-    productPrice: 100,
+    name: 'Webinar and Course Slide Templa',
+    user: 'Mark Essien',
+    rating: 3,
+    price: 100,
     showLimitedOffer: true,
     showTopPicks: false,
     showDiscount: true,
-    discount: 60,
+    discount_price: 60,
   },
   {
     id: '1',
     currency: 'USD',
     image: '/assets/recentlyviewed/image2.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
+    name: 'Webinar and Course Slide Templa',
+    price: 100,
+    user: 'Mark Essien',
+    rating: 3,
     showLimitedOffer: false,
     showTopPicks: false,
     showDiscount: false,
-    discount: 0,
+    discount_price: 60,
   },
   {
     id: '1',
     currency: 'USD',
     image: '/assets/recentlyviewed/image3.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
+    name: 'Webinar and Course Slide Templa',
+    price: 100,
+    user: 'Mark Essien',
+    rating: 3,
     showLimitedOffer: true,
     showTopPicks: false,
     showDiscount: true,
-    discount: 60,
+    discount_price: 60,
   },
   {
     id: '1',
     currency: 'USD',
     image: '/assets/recentlyviewed/image4.webp',
-    productName: 'Webinar and Course Slide Templa',
-    productPrice: 100,
-    productOwner: 'Mark Essien',
-    productRating: 3,
+    name: 'Webinar and Course Slide Templa',
+    price: 100,
+    user: 'Mark Essien',
+    rating: 3,
     showLimitedOffer: true,
     showTopPicks: true,
     showDiscount: true,
-    discount: 0,
+    discount_price: 60,
   },
 ];
 
-
-function RecentlyViewed (){
+function RecentlyViewed() {
   // const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/118453f4-b66b-4cd4-a2a5-34f93394a207/`;
   // const [recentlyViewed, setRecentlyViewed] = useState<ProductCardProps[]>([]);
   // // const [loading, setLoading] = useState(true);
@@ -77,12 +75,7 @@ function RecentlyViewed (){
   //     console.log(data)
   //     setRecentlyViewed(data);
   //   })
-  // }, [API_URL]); 
-
-  
-
-
-  
+  // }, [API_URL]);
 
   // console.log('User Id: ', userDetails.id);
 
@@ -101,17 +94,17 @@ function RecentlyViewed (){
                 <Image src={Cancel} alt="Cancel Icon" />
               </button>
               <ProductCard
-              id={item?.id}
+                id={item?.id}
                 currency={item?.currency}
                 image={item?.image}
-                productName={item?.productName}
-                productPrice={item?.productPrice}
-                productOwner={item?.productOwner}
-                productRating={item?.productRating}
+                name={item?.name}
+                price={item?.price}
+                user={item?.user}
+                rating={item?.rating}
                 showLimitedOffer={item?.showLimitedOffer}
                 showTopPicks={item?.showTopPicks}
                 showDiscount={item?.showDiscount}
-                discount={item?.discount}
+                discount_price={item?.discount_price}
               />
             </div>
           );

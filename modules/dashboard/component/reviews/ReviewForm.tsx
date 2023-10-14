@@ -6,11 +6,15 @@ import star1 from '../../../../public/assets/star1.svg';
 import star2 from '../../../../public/assets/star2.svg';
 import { Review, reviewProps } from '../../../../@types';
 import axios from 'axios';
+import { postReviewByProductId } from '../../../../http/api/controllerReview';
+import { useRouter } from 'next/router';
 
 function ReviewForms() {
-  const [rating, setRating] = useState(0);
+  const [rateNo, setRating] = useState(0);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+
+  const router = useRouter();
 
   const handleStarClick = (starIndex: any) => {
     setRating(starIndex + 1);
@@ -18,7 +22,7 @@ function ReviewForms() {
   const renderStarImages = () => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
-      const starImage = i < rating ? star1 : star2;
+      const starImage = i < rateNo ? star1 : star2;
       stars.push(
         <Image
           key={i}
@@ -43,22 +47,20 @@ function ReviewForms() {
   const handleSubmit = async () => {
     try {
       const newReview: Review = {
-        id: Date.now(),
-        rating,
-        name,
+        rateNo,
+        customerName: name,
         description,
       };
+      const config = {
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      };
+      await axios.post('https://team-liquid-repo.onrender.com/api/review/products/1/reviews', newReview);
 
-      // Make an API request to post the review
-      await axios.post(
-        'https://team-liquid-repo-production.up.railway.app/api/products/%7BproductId%7D/reviews',
-        newReview,
-      );
+      console.log(newReview);
+      router.push('/dashboard/reviews/product-details/1');
 
       // You can also handle success, show a message, or redirect the user
-    } catch (error) {
-      // Handle errors here
-    }
+    } catch (error) {}
   };
 
   return (

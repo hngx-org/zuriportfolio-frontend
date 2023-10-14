@@ -1,0 +1,167 @@
+<mjml>
+  <mj-head>
+    <mj-title> Order Confirmation </mj-title>
+  </mj-head>
+  <mj-body background-color="white">
+    <mj-section>
+      <mj-column width="100%">
+        <!-- Header -->
+        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/green-logo.png" alt="" width="200px" align="left" />
+
+        <!-- Main Content -->
+        <mj-text color="#000" padding-top="50px" font-weight="600" font-family="Verdana" font-size="18px">
+        Order Confirmation
+        </mj-text>
+        <mj-text font-size="16px" font-weight="400" font-family="Verdana">
+             Hi Mirabel,<br />
+        </mj-text>
+        <mj-text font-size="16px" font-weight="400" font-family="Verdana" line-height="24px">
+            Thank you for using Zuriportfolio. Your order has been received and is being shipped right now.
+            You can track the delivery progress by clicking the button below.
+        </mj-text>
+        <mj-divider border-color="#F0F1F0" padding="20px 0 0 0" />
+            </mj-column>
+       </mj-section>
+      <mj-section>
+      <mj-group>
+        <mj-column > 
+             <mj-text font-weight="700" font-family="Verdana" font-size="16px" padding-top="10px" color="#000">
+          Product Details:
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="400" font-family="Verdana" font-size="14px" padding="10px 10px 0 0" color="#737876" align="right">Order #2424352345
+             </mj-text>
+        </mj-column>
+    </mj-group>
+     </mj-section>
+  <mj-section>
+    <mj-group>
+      <mj-column width="30%">
+      <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product2.svg" alt="" width="90px" padding-top="10px" align="left" />
+      </mj-column>
+      <mj-column width="50%" >
+         <mj-text padding="10px 0 0 0" font-family="Verdana" font-size="16px" color="#737876">
+          ITEM
+        </mj-text>
+        <mj-text padding="10px 0 0 0" font-family="Verdana" font-size="14px">
+              Brown nylon jacket
+        </mj-text>
+      </mj-column>
+      <mj-column width="20%">
+        <mj-text font-weight="700" align="right" font-size="14px" font-family="Verdana" padding="20px 10px 0 0">$400.00</mj-text>
+      </mj-column>
+    </mj-group>
+  </mj-section>
+    <mj-section>
+    <mj-group>
+      <mj-column width="30%">
+      <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/order/product.svg" alt="" width="90px" padding-top="10px" align="left" />
+      </mj-column>
+      <mj-column width="50%" >
+         <mj-text padding="10px 0 0 0" font-family="Verdana" font-size="16px" color="#737876">
+          ITEM
+        </mj-text>
+        <mj-text padding="10px 0 0 0" font-family="Verdana" font-size="14px">
+              Brown nylon jacket
+        </mj-text>
+      </mj-column>
+      <mj-column width="20%">
+        <mj-text font-weight="700" align="right" font-size="14px" font-family="Verdana" padding="20px 10px 0 0">$400.00</mj-text>
+      </mj-column>
+    </mj-group>
+  </mj-section>
+  <mj-section>
+    
+  </mj-section>
+      <mj-section>
+        <mj-group>
+        <mj-column > 
+             <mj-text font-weight="400" font-family="Verdana" font-size="12px" color="#737876">
+          Subtotal
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="400" font-family="Verdana" font-size="14px" align="right" padding="20px 10px 0 0">$800.00
+             </mj-text>
+        </mj-column>
+        </mj-group>
+     </mj-section>
+    <mj-section>
+    <mj-group>
+        <mj-column > 
+             <mj-text font-weight="400" font-family="Verdana" font-size="12px"  color="#737876">
+          Discount
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="400" font-family="Verdana" font-size="14px" padding-top="8px" align="right" color="green" padding="20px 10px 0 0">- 10% ($80.00)
+             </mj-text>
+        </mj-column>
+     </mj-group>
+     </mj-section>
+      <mj-section>
+      <mj-group>
+        <mj-column > 
+             <mj-text font-weight="400" font-family="Verdana" font-size="12px" padding-top="8px" color="#737876">
+          Shipping
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="400" font-family="Verdana" font-size="14px" padding-top="8px" align="right" padding="20px 10px 0 0">$10.00
+             </mj-text>
+        </mj-column>
+    </mj-group>
+     </mj-section>
+     <mj-section>
+        <mj-column>
+               <mj-divider border-color="#009254"  padding="20px 10px 0 0"/>
+        </mj-column>
+     </mj-section>
+     <mj-section padding-top="0">
+     <mj-group>
+        <mj-column > 
+             <mj-text font-weight="700" font-family="Verdana" font-size="12px" padding-top="8px">
+          Total 
+        </mj-text>
+        </mj-column>
+        <mj-column>
+        </mj-text>
+             <mj-text font-weight="700" font-family="Verdana" font-size="16px" padding-top="8px" align="right" padding="20px 10px 0 0">$730.00
+             </mj-text>
+        </mj-column>
+    </mj-group>
+     </mj-section>
+     <mj-section padding-bottom="200px">
+        <mj-column>
+            <mj-text font-weight="700" font-family="Verdana" font-size="16px" padding-top="24px" padding-bottom="14px">
+          Customer Details
+        </mj-text>
+        <mj-text font-weight="500" font-family="Verdana" font-size="16px" padding-top="6px" font-size="14px">
+          Billing information
+        </mj-text>
+        <mj-text color="#737876" padding-top="2px" font-size="12px" font-family="Verdana">Mirabel Offiong</mj-text>
+        <mj-text color="#737876" padding-top="2px" font-size="12px" font-family="Verdana">Mirabeloffiong34@gmail.com</mj-text>
+        </mj-column>
+     </mj-section>
+     
+       <mj-section background-color="#009254">
+        <mj-column width="90%">
+             <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/assessment/n-logo.png" alt="" width="100px" align="center" />
+           <mj-social font-size="24px" align="center">
+          <mj-social-element name="instagram" href="https://www.instagram.com/hnginternship/" background-color="red" />
+          <mj-social-element name="facebook" href="https://facebook.com/Hnginternship/" />
+          <mj-social-element name="twitter" href="https://twitter.com/hnginternship" />
+          <mj-social-element name="linkedin" href="https://www.linkedin.com/company/hng-internship/" />
+        </mj-social>
+        <mj-text color="#fff" padding-top="4px" align="center" font-size="14px" font-family="Verdana">Beaverto, Oregon, Washington County, USA</mj-text>
+        <mj-text color="#fff" align="center" font-size="14px" font-family="Verdana">Copyright ©2023 Zuriportfolio, All rights reserved. Unsubscribe</mj-text>
+        <mj-text color="#C4C7C6" padding-top="4px" align="center" font-size="12px" font-family="Verdana">Unsubscribe</mj-text>     
+        </mj-column>
+       </mj-section>
+  </mj-body>
+</mjml>
