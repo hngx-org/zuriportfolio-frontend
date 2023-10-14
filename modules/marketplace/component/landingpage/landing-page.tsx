@@ -45,14 +45,14 @@ function LandingPage() {
         <div className="max-w-[1240px] mx-auto">
           <ProductCardWrapper
             title="Handpicked For You"
-            productsList={recommendedProduct.items}
+            productsList={recommendedProduct}
             showTopPicks={true}
             showAll={false}
           />
 
           <ProductCardWrapper
             title="Limited Offers"
-            productsList={limitedOffers.items}
+            productsList={limitedOffers}
             showTopPicks={false}
             showAll={false}
           />
