@@ -7,6 +7,8 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { interests, sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
+import { About } from '@modules/portfolio/component/landing/Skeleton';
+import PortfolioAbout from '@modules/portfolio/component/about/about-modal';
 
 type PortfolioContext = {
   setUserData: React.Dispatch<React.SetStateAction<any>>;
@@ -305,6 +307,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'skills',
       modal: <SkillModal isOpen={modalStates['skills']} onClose={() => modal('skills')} userId={userId} />,
+    },
+    {
+      id: 'about',
+      modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => modal('about')} userId={userId} />,
     },
   ];
 

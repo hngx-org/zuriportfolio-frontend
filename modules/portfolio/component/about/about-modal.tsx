@@ -4,11 +4,12 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 
 type aboutModalProps = {
-  handleCloseAboutModal: () => void;
-  isAboutModalOpen: boolean;
+  onClose: () => void;
+  isOpen: boolean;
+  userId: string;
 };
 
-const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAboutModalOpen }) => {
+const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen }) => {
   const [text, setText] = useState<string>('');
   const [isEditing, setIsEditing] = useState(false);
   const [hide, setHide] = useState(true);
@@ -59,20 +60,13 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ handleCloseAboutModal, isAb
   };
 
   return (
-    <Modal
-      isOpen={isAboutModalOpen}
-      closeModal={() => {
-        setHide(!hide);
-      }}
-      isCloseIconPresent={false}
-      size="lg"
-    >
+    <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
         <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">
           <span className="font-semibold text-lg">About</span>
           <div
             className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"
-            onClick={handleCloseAboutModal}
+            onClick={onClose}
           >
             x
           </div>
