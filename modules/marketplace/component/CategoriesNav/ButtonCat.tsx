@@ -5,7 +5,6 @@ type categories = {
   name: string;
   subcategories: [];
 };
-
 export interface CategoriesProps {
   category: categories;
   index: number;
@@ -37,7 +36,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onClick={() => handleActiveNav(index)}
         className={`${active === index ? 'text-brand-green-shade50' : 'text-brand-green-shade10'} z-10 relative`}
       >
-        <Link href={`/marketplace/categories/${category.name}`}>{category.name}</Link>
+        <Link href={`/marketplace/categories/${category}`}>{category.name}</Link>
       </div>
       <div
         className={`py-3 flex-col gap-3 ${
@@ -49,7 +48,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onMouseOver={() => setPopupClass(true)}
         onMouseLeave={() => setPopupClass(false)}
       >
-        {category.subcategories.map((item: { name: string }, i) => (
+        {category.subcategories.map((item: { name: string }, i: number) => (
           <Link
             onClick={() => handleActiveNav(index)}
             className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
