@@ -19,7 +19,7 @@ const ForgotPassword = () => {
   const forgotPasswordSuccess = (data: any) => {
     console.log(data.message);
     if (data.status === 200) {
-      router.push('/auth/reset-password');
+      router.push('/auth/forgot-password-link-sent');
       return;
     } 
 
