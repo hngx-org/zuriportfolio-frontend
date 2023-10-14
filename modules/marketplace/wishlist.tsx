@@ -113,7 +113,7 @@ function Wishlist() {
         </div>
       )}
       {/* <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}> */}
-       <CategoryLayout>
+      <CategoryLayout>
         <Container>
           <div className="font-manropeL max-w-[1240px] mx-auto my-8">
             <section className="flex flex-col gap-10 mb-20">
@@ -135,7 +135,7 @@ function Wishlist() {
             </section>
           </div>
         </Container>
-        </CategoryLayout>
+      </CategoryLayout>
       {/* </MainLayout> */}
     </>
   );
