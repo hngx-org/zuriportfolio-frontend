@@ -242,7 +242,6 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-<<<<<<< HEAD
 
 export type CartSumaryProp = {subtotal: number, discount: number, VAT: number, total: number}
 
@@ -250,10 +249,6 @@ export type CartSumaryProp = {subtotal: number, discount: number, VAT: number, t
 export type RecentlyViewedProductProp = 
 {
   user:string
-=======
-export type RecentlyViewedProductProp = {
-  user: string;
->>>>>>> c84adc52a4a4275f3004171d2107425fce40c5ef
   product: {
     id: string;
     name: string;

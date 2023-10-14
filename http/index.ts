@@ -34,9 +34,9 @@ export const loginUser = async (props: { email: string; password: string }) => {
 };
 
 
-const CART_ENDPOINT = process.env.NEXT_PUBLIC_CART_API_URL || "https://zuri-cart-checkout.onrender.com/api/checkout"
-const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || "https://zuriportfolio-frontend-pw1h.vercel.app"
-const RECENTLY_VIEWED_ENDPOINT = process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || "https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed"
+const CART_ENDPOINT = "https://zuri-cart-checkout.onrender.com/api/checkout"
+const STAGING_URL = "https://zuriportfolio-frontend-pw1h.vercel.app"
+const RECENTLY_VIEWED_ENDPOINT = "https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed"
 
 export const getUserCart = async (token: string) => {
   try {
