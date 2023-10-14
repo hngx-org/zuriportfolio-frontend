@@ -2,6 +2,7 @@ import React from 'react';
 import NavDashBoard from '@modules/dashboard/component/Navbar';
 import Link from 'next/link';
 import MainLayout from '../../../../components/Layout/MainLayout';
+import withAuth from '../../../../helpers/withAuth';
 
 const PromotionsType: React.FC = () => {
   return (
@@ -46,4 +47,4 @@ const PromotionsType: React.FC = () => {
   );
 };
 
-export default PromotionsType;
+export default withAuth(PromotionsType);

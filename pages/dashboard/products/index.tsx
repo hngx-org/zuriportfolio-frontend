@@ -50,15 +50,11 @@ const Products = () => {
             </div>
           </div>
           <div
-            className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5"
+            className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5 relative min-h-[350px]"
             style={{
               filter: `drop-shadow(0px 28px 38px rgba(201, 213, 216, 0.30))`,
             }}
           >
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
             <ProductCard />
           </div>
         </div>

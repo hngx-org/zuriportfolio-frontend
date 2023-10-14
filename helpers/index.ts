@@ -1,3 +1,5 @@
+import { CartSumaryProp } from "../@types";
+
 // sleep method
 export const sleep = async (sec = 1) => {
   return new Promise((res) => setTimeout(res, sec * 1000));
@@ -72,4 +74,16 @@ export const formatNumberWithCommas = (value: number): string | null => {
   // format number from 1000 to 1,000
   if (!value || !Number.isFinite(value)) return null;
   return new Intl.NumberFormat('en-US').format(value);
+};
+
+
+export const getSummary = (items: CartSumaryProp) => {
+  
+  
+}
+
+export const getDiscountPercentage = (costPrice: string, sellingPrice: string) => {
+  const diffrence = Number(costPrice) - Number(sellingPrice);
+  const discountPercentage = (diffrence / Number(costPrice)) * 100;
+  return discountPercentage;
 };
