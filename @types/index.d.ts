@@ -449,8 +449,10 @@ export interface filterProps {
 }
 
 export interface reviewProps {
+  reviewId: string;
   buyerName: string;
   adminDate: string;
+  mainDate: string;
   review: string;
   noOfStars: number;
   shopName?: string;
@@ -594,9 +596,8 @@ export interface CardData {
 }
 
 export interface Review {
-  id: number;
-  rating: number;
-  name: string;
+  rateNo: number;
+  customerName: string;
   description: string;
 }
 export interface UserInfo {
