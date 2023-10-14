@@ -48,10 +48,10 @@ function ProductCardWrapper({
                   <ProductCard
                     id={item?.id}
                     currency={item?.currency}
-                    image={item?.product_images && item?.product_images[0]?.url}
+                    image={item?.images && item?.images[0]?.url}
                     name={item?.name}
                     price={item?.price}
-                    user={item?.user?.last_name ? `${item?.user?.last_name} ${item?.user?.first_name}` : 'null'}
+                    user={item?.category ? `${item?.category?.name}` : 'null'}
                     rating={item?.rating}
                     showDiscount={item?.showDiscount}
                     showTopPicks={showTopPicks}
