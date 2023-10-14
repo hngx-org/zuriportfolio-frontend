@@ -9,12 +9,14 @@ import Image from 'next/image';
 import Button from '@ui/Button';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import withAuth from '../../../helpers/withAuth';
 
 const AddProduct = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
-
+  const { push } = useRouter();
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setProducts({ ...products, categoryId: event.target.value });
   };
@@ -66,11 +68,12 @@ const AddProduct = () => {
       );
 
       // Handle the response, e.g., show a success message or redirect
-      console.log('Success:', response.data);
+
       toast.success(`Product added successfully`, {
         position: 'top-right',
         autoClose: 5000,
       });
+      push('/dashboard/products');
     } catch (error: any) {
       // Handle errors, e.g., show an error message
       console.error('Error:', error);
@@ -259,4 +262,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default withAuth(AddProduct);
