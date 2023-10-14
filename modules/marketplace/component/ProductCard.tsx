@@ -59,7 +59,9 @@ export default function ProductCard({
             </div>
 
             {image ? (
-              <Image src={image} alt={name} width={254} height={209} className="rounded-[8px]" />
+              <div className="h-[120px] md:h-[209px] overflow-hidden">
+                <Image src={image} alt={name} width={254} height={209} className="rounded-[8px] object-cover" />
+              </div>
             ) : (
               <Image
                 src="/assets/dummyImage.jpg"
