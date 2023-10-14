@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { NotificationCheckboxType } from '../@types';
 import { useRouter } from 'next/router';
 import withAuth from '../helpers/withAuth';
+import Image from 'next/image';
+import { profileData } from '../modules/portfolio/component/landing/data';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -30,6 +32,7 @@ const SettingPage = () => {
   const [local, setlocal] = useState<boolean>(false);
   const [showNotInfo, setShowNotInfo] = useState<boolean>(false);
   const [showReferInfo, setShowReferInfo] = useState<boolean>(false);
+  const [userPic, setUserPic] = useState<string>('');
 
   const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
     setter((prev: boolean) => !prev);
@@ -80,12 +83,11 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-
+  const baseUrl = 'https://hng6-r5y3.onrender.com';
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
       const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
-      const baseUrl = 'https://hng6-r5y3.onrender.com';
       const method = storedNotificationData ? 'PATCH' : 'POST';
 
       const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${userId}`;
@@ -157,6 +159,31 @@ const SettingPage = () => {
   useEffect(() => {
     getNotificationSettingsFromLocalStorage();
   }, [local]);
+
+  useEffect(() => {});
+
+  useEffect(() => {
+    const userDetails = async () => {
+      try {
+        const url = `${baseUrl}/api/users/${userId}`;
+        const response = await fetch(url);
+
+        if (response.ok) {
+          console.log('Request type:');
+          const data = await response.json();
+          console.log(data);
+          setUserPic(data.user.profilePic);
+        } else {
+          console.error('failed to get');
+        }
+      } catch (error) {
+        console.error('failed:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    userDetails();
+  }, []);
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
@@ -260,7 +287,24 @@ const SettingPage = () => {
                     <NotificationSettings checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
                   )}
                   {settingOption.deleteAccount && <DeleteAccount />}
-                  {settingOption.accountManagement && <AccountManagement />}
+                  {settingOption.accountManagement && (
+                    <div>
+                      <div className="w-[180px] h-[180px] rounded-full bg-black ">
+                        <label htmlFor="profilepics">
+                          <Image
+                            src={userPic}
+                            width={280}
+                            height={180}
+                            alt=""
+                            className=" w-[180px] h-[180px] rounded-full"
+                          ></Image>
+                        </label>
+                        <input type="file" name="profilepics" id="profilepics" className="apperance-none" />
+                      </div>
+
+                      <AccountManagement />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -399,4 +443,4 @@ const SettingPage = () => {
     </MainLayout>
   );
 };
-export default SettingPage;
+export default withAuth(SettingPage);
