@@ -11,13 +11,15 @@ import Error from '@modules/marketplace/component/landingpageerror/ErrorPage';
 
 export default function Index() {
   const [results, setResults] = useState<ProductResult[]>([]);
-  const searchquery = localStorage.getItem('keyword');
+  const searchquery = typeof window !== 'undefined' ? localStorage.getItem('keyword') : null;
 
   useEffect(() => {
-    const getresult = localStorage.getItem('search_result');
-    if (getresult) {
-      const result = JSON.parse(getresult);
-      setResults(result);
+    if (typeof window !== 'undefined') {
+      const getresult = localStorage.getItem('search_result');
+      if (getresult) {
+        const result = JSON.parse(getresult);
+        setResults(result);
+      }
     }
   }, [results]);
 
