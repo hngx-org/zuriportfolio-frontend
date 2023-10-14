@@ -14,9 +14,11 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
 
   React.useEffect(() => {
     if (reportClicked && dateRange.length === 2) {
-      const starttDate = dateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
-      const enddDate = dateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
-      fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/get_metrics/')
+      const starttDate = dateRange[0].format('YYYY-MM-DD');
+      const enddDate = dateRange[1].format('YYYY-MM-DD');
+      fetch(
+        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/performance-data/?start_date=${starttDate}&end_date=${enddDate}`,
+      )
         .then((res) => res.json())
         .then((data) => {
           setPerformanceDataArray(data.data);
@@ -26,7 +28,7 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
           console.log(err);
         });
     } else {
-      fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/get_metrics/')
+      fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/performance-data/')
         .then((res) => res.json())
         .then((data) => {
           setPerformanceDataArray(data.data);

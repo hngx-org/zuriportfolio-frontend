@@ -12,7 +12,7 @@ interface zaProps {
 const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
-
+  const [CardDataOne, setCardDataOne] = React.useState<any>([]);
   React.useEffect(() => {
     if (reportClicked && dateRange.length === 2) {
       const starttDate = dateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
@@ -42,8 +42,6 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         });
     }
   }, [reportClicked]);
-
-  const [CardDataOne, setCardDataOne] = React.useState<any>([]);
 
   const percentile = '/assets/images/reports/crack.svg';
 

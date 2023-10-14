@@ -158,7 +158,7 @@ const AnalyticsAndReport: React.FC = () => {
           <AnalysisCards dateRange={selectedDateRange} reportClicked={false} />
           <BusinessOveriview dateRange={selectedDateRange} reportClicked={false} />
           <PortfolioCreation dateRange={selectedDateRange} reportClicked={false} />
-          <PerformanceData dateRange={selectedDateRange} reportClicked={false} />
+          <PerformanceData dateRange={selectedDateRange} reportClicked={true} />
           <TopSellingProducts />
         </>
       )}
