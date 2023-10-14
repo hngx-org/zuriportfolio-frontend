@@ -114,9 +114,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                       onClick={() => route.push(`/super-admin/product-listing/product-details/${product?.product_id}`)}
                     >
                       <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
-                        <Link href="product-listing/product-details">
-                          <p>{product?.product_name} </p>
-                        </Link>
+                        <p>{product?.product_name} </p>
                       </td>
                       <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                         <p>{product?.vendor_name} </p>
