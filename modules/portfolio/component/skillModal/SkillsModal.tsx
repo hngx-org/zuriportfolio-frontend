@@ -6,7 +6,6 @@ import { useEffect, useState, MouseEvent } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
 
-
 type skillModalProps = {
   onClose: () => void;
   isOpen: boolean;
@@ -41,7 +40,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
 
-
   // const fetchSkillData = async () => {
   //   try {
   //     // Make a GET request to the API
@@ -58,65 +56,65 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   //   fetchSkillData();
   // }, []);
 
-    const fetchSkillData = async () => {
-      try {
-        const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
-        const data: skillListRes[] = response.data.data;
+  const fetchSkillData = async () => {
+    try {
+      const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
+      const data: skillListRes[] = response.data.data;
 
-        if (Array.isArray(data)) {
-          const uniqueDataArray: skillListRes[] = Array.from(
-            data
-              .reduce((map: Map<string, skillListRes>, obj: skillListRes) => map.set(obj.skill, obj), new Map())
-              .values(),
-          );
-          setValues(uniqueDataArray);
-        } else {
-          console.error('Fetched data is not an array:', data);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      if (Array.isArray(data)) {
+        const uniqueDataArray: skillListRes[] = Array.from(
+          data
+            .reduce((map: Map<string, skillListRes>, obj: skillListRes) => map.set(obj.skill, obj), new Map())
+            .values(),
+        );
+        setValues(uniqueDataArray);
+      } else {
+        console.error('Fetched data is not an array:', data);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
-    useEffect(() => {
-      fetchSkillData();
-    }, []);
+  useEffect(() => {
+    fetchSkillData();
+  }, []);
 
-    console.log(values);
+  console.log(values);
 
- // on Enter press append input value to array two(setValues)
-const handleKeyPress = (e: { key: string }) => {
+  // on Enter press append input value to array two(setValues)
+  const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
       const trimmedValue = inputValue.trim();
-      if (trimmedValue !== '' &&  !values.some(skill => skill.skill === trimmedValue)) {
-      setValues([...values, {  skillId: new Date().getTime(), skill: String(trimmedValue)}]);
-      setInputValue('');
-      console.log(values)
+      if (trimmedValue !== '' && !values.some((skill) => skill.skill === trimmedValue)) {
+        setValues([...values, { skillId: new Date().getTime(), skill: String(trimmedValue) }]);
+        setInputValue('');
+        console.log(values);
       }
     }
   };
 
+  // handle input change
+  const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputChangeValue = e.target.value.trim();
+    if (inputChangeValue !== '') {
+      setInputValue(e.target.value);
+    }
+  };
 
-  // handle input change 
-  const inputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-   const inputChangeValue = e.target.value.trim();
-   if(inputChangeValue !== ''){
-    setInputValue(e.target.value)
-   }
-  }
-
-  const arrayTwolist = (item:skillListRes) => {
+  const arrayTwolist = (item: skillListRes) => {
     setInputValue('');
     const updatedValues = values.filter((value) => value !== item);
     setValues(updatedValues);
-  }
+  };
 
   const arrayOneItemAddition = (item: skillListRes) => {
-    if (!values.some(skill => skill.skill === item.skill)){ //avoid duplicates
-      setValues((values) => [...values, item])
-    } 
-  }
- 
+    if (!values.some((skill) => skill.skill === item.skill)) {
+      //avoid duplicates
+      setValues((values) => [...values, item]);
+    }
+  };
+
   const skillsArray = values.map((obj) => obj.skill);
 
   const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
@@ -130,17 +128,13 @@ const handleKeyPress = (e: { key: string }) => {
     try {
       const response = await axios.post(apiUrl, requestData);
       // console.log(response.data.data);
-       console.log(response.data);
+      console.log(response.data);
       return response.data;
-      
     } catch (error) {
       console.log('Error:', error);
       throw error; // You can handle the error further if needed
     }
-   
-    
   }
-  
 
   async function deleteSkillsData(id: number) {
     try {
@@ -150,9 +144,9 @@ const handleKeyPress = (e: { key: string }) => {
       }
       // console.log(response.data.data);
       return response.data;
-    } catch (error:any) {
-      if ((error.message !== 'Request failed with status code 404')) {
-         throw error;
+    } catch (error: any) {
+      if (error.message !== 'Request failed with status code 404') {
+        throw error;
       }
     }
   }
@@ -164,11 +158,10 @@ const handleKeyPress = (e: { key: string }) => {
   }
 
   // clear array two on cancel btn click
-   const cancelBtnFn = () => {
+  const cancelBtnFn = () => {
     // deleteSkillsData(skill);
-     setValues([]);
-
-   };
+    setValues([]);
+  };
 
   return (
     <section className="w-full flex items-center justify-center fontFamily-manropeEL">
@@ -191,7 +184,7 @@ const handleKeyPress = (e: { key: string }) => {
                     <Button
                       className=" group/skillsbtn text-brand-green-shade20 h-10 bg-brand-green-shade95  hover:text-white-100 hover: text-sm font-semibold leading-5 rounded-lg px-2 py-4 flex items-center gap-4"
                       onClick={() => {
-                        arrayTwolist(item)
+                        arrayTwolist(item);
                         deleteSkillsData(item.skillId);
                       }}
                       type="button"
@@ -227,7 +220,7 @@ const handleKeyPress = (e: { key: string }) => {
                     <Button
                       className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100"
                       onClick={() => {
-                        arrayOneItemAddition(item)
+                        arrayOneItemAddition(item);
                       }}
                       type="button"
                     >
@@ -247,7 +240,6 @@ const handleKeyPress = (e: { key: string }) => {
               onClick={() => {
                 onClose();
                 cancelBtnFn();
-                
               }}
             >
               Cancel
@@ -269,4 +261,3 @@ export default SkillModal;
 function setItems(arg0: any) {
   throw new Error('Function not implemented.');
 }
-
