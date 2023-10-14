@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import isAuthenticated from './isAuthenticated';
 
 // this would change later on once backend has the authentication
