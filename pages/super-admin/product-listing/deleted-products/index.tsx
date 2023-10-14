@@ -66,7 +66,9 @@ const SanctionedProducts = () => {
                       <tr
                         className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                         key={product?.product_id}
-                        onClick={() => route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)}
+                        onClick={() =>
+                          route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)
+                        }
                       >
                         <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
                           <p>{product?.product_name} </p>
