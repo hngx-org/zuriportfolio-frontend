@@ -17,6 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 export const ListContext = React.createContext([{}]);
 
 function Index() {
+  const [assessmentOverviewData, setAssessmentOverviewData]: any = useState({});
   const [newModal, setnewModal]: any = useState(false);
   const [track, setTrack]: any = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,9 @@ function Index() {
   const [trackids, setTrackids] = useState([]);
   //This is for the search box, to be updated as user inputs
   const [filterParam, setfilterParam] = useState('');
+
+  const [filteredData, setFilteredData] = useState(Assessmentlist);
+
   const [assessments, setAssessments] = useState([]);
 
   useEffect(() => {
@@ -46,15 +50,49 @@ function Index() {
       }
     };
 
+    const assessmentOverviewData = async () => {
+      try {
+        // Replace with your API endpoint URL
+        const apiUrl = 'https://piranha-assessment.onrender.com/api/admin/dashboard/';
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        // setAssessments(data);
+        setAssessmentOverviewData(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
     fetchData();
+    assessmentOverviewData();
   }, []);
 
   const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
 
-  const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
   useEffect(() => {
+    setFilteredData(
+      list.filter((child: any) => {
+        if (filterParam === '') {
+          return true; // Return true to include all items when filterParam is empty
+        } else {
+          return child?.trackname.toLowerCase().includes(filterParam);
+        }
+      }),
+    );
+  }, [filterParam, list]);
+
+  useEffect(() => {
+    const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
+
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) {
@@ -71,6 +109,7 @@ function Index() {
         setLoading(false);
       });
   }, []);
+
   if (loading) {
     return (
       <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
@@ -150,9 +189,23 @@ function Index() {
             </div>
           </div>
           <div className="board-desc flex flex-wrap gap-[14px] md:gap-[26px] justify-center w-full my-[50px] md:my-[79px]">
-            <Description info="Responses" number={120} icon={bookimg} />
-            <Description info="CREATED ASSESSMENTS" number={12} icon={booksaved} />
-            <Description info="PASS/FAIL RATIO" number={'3:1'} icon={ratioimg} />
+            <Description
+              info="Responses"
+              number={assessmentOverviewData.total_individuals ? assessmentOverviewData.total_individuals : 0}
+              icon={bookimg}
+            />
+            <Description
+              info="CREATED ASSESSMENTS"
+              number={
+                assessmentOverviewData.total_created_assessments ? assessmentOverviewData.total_created_assessments : 0
+              }
+              icon={booksaved}
+            />
+            <Description
+              info="PASS/FAIL RATIO"
+              number={assessmentOverviewData.failed_to_passed_ratio ? assessmentOverviewData.failed_to_passed_ratio : 0}
+              icon={ratioimg}
+            />
           </div>
           <div className="search w-full border-dark-200 border-[1px] p-2 md:p-4 rounded-lg flex items-center">
             <div className="icon relative w-4 h-4 mr-2">
@@ -161,7 +214,8 @@ function Index() {
 
             <input className="w-full outline-none" placeholder="Search assessments and responses" onInput={onFilter} />
           </div>
-          <ListContext.Provider value={[list, setList]}>
+
+          <ListContext.Provider value={[filteredData, setList]}>
             <Assessmentresponses assessments={assessments} />
           </ListContext.Provider>
         </div>
