@@ -1,6 +1,6 @@
 import Modal from '@ui/Modal';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import close_circle from '../../public/assets/icons/close-circle.svg';
 import close1 from '../../public/assets/icons/close1.svg';
 import arrow_left from '../../public/assets/icons/arrow-left.svg';
@@ -82,6 +82,21 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
         console.log(err);
       });
   };
+
+  const getAllLanguages = () => {
+    axios
+      .get(`${endpoint}/api/language/${userId}`)
+      .then((res) => {
+        const languagesArray: string[] = res.data?.data.map((obj: any) => obj.language);
+        setValues(languagesArray ? languagesArray : []);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getAllLanguages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
