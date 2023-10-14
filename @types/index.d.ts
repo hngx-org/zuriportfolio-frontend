@@ -694,6 +694,13 @@ export type AuthResponse = {
 type ProductResultImage = {
   url: string;
 };
+
+type ProductCategory = {
+  id: number;
+  name: string;
+  createdat: string;
+  user: string
+};
 export interface ProductResult {
   id: string;
   name: string;
@@ -710,7 +717,7 @@ export interface ProductResult {
   createdat: string;
   updatedat: string;
   shop: string;
-  category: number;
+  category: ProductCategory;
   rating: number;
   user: string;
 }
