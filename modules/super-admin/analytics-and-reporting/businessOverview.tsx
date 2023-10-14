@@ -1,7 +1,13 @@
 import Image from 'next/image';
 import React from 'react';
+import { DateObject } from 'react-multi-date-picker';
 
-const BusinessOveriview: React.FC = (props) => {
+interface zaProps {
+  dateRange: DateObject[];
+  reportClicked: boolean;
+}
+
+const BusinessOveriview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   type BusinessAray = {
     title: string;
     amount: any;
@@ -10,19 +16,36 @@ const BusinessOveriview: React.FC = (props) => {
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
   const [BusinessOverviewArray, setBusinessOverview] = React.useState<any>([]);
-  // React.useEffect(() => {
-  //   fetch('https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/')
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setBusinessOverview(data.data);
-  //       // console.log(data.data)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
-  // DateQuery
+  React.useEffect(() => {
+    if (reportClicked && dateRange.length === 2) {
+      const starttDate = dateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
+      const enddDate = dateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
+      fetch(
+        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setBusinessOverview(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      fetch(
+        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`,
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setBusinessOverview(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [reportClicked]);
 
   React.useEffect(() => {
     fetch(

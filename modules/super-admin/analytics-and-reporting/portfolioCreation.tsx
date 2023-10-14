@@ -1,7 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
+import { DateObject } from 'react-multi-date-picker';
 
-const PortfolioCreation: React.FC = (props) => {
+interface zaProps {
+  dateRange: DateObject[];
+  reportClicked: boolean;
+}
+
+const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const [portfolioCreationArray, setPortfolioCreationArray] = React.useState<any>([]);
   React.useEffect(() => {
     fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/')

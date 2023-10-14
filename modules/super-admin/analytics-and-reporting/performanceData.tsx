@@ -1,18 +1,42 @@
 import Image from 'next/image';
 import React from 'react';
-const PerformanceData: React.FC = () => {
+import { DateObject } from 'react-multi-date-picker';
+
+interface zaProps {
+  dateRange: DateObject[];
+  reportClicked: boolean;
+}
+
+const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const [performanceDataArray, setPerformanceDataArray] = React.useState<any>([]);
+  const [startDate, setStartDate] = React.useState('');
+  const [endDate, setEndDate] = React.useState('');
+
   React.useEffect(() => {
-    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/get_metrics/')
-      .then((res) => res.json())
-      .then((data) => {
-        setPerformanceDataArray(data.data);
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (reportClicked && dateRange.length === 2) {
+      const starttDate = dateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
+      const enddDate = dateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
+      fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/get_metrics/')
+        .then((res) => res.json())
+        .then((data) => {
+          setPerformanceDataArray(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/get_metrics/')
+        .then((res) => res.json())
+        .then((data) => {
+          setPerformanceDataArray(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [reportClicked]);
   return (
     <>
       <div className="max-[1310px]:px-[1rem] w-full max-[834px]:px-[2.5rem] max-[760px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0">

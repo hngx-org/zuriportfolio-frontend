@@ -155,10 +155,10 @@ const AnalyticsAndReport: React.FC = () => {
               </Modal>
             </section>
           )}
-          <AnalysisCards dateRange={selectedDateRange} />
-          <BusinessOveriview />
-          <PortfolioCreation />
-          <PerformanceData />
+          <AnalysisCards dateRange={selectedDateRange} reportClicked={false} />
+          <BusinessOveriview dateRange={selectedDateRange} reportClicked={false} />
+          <PortfolioCreation dateRange={selectedDateRange} reportClicked={false} />
+          <PerformanceData dateRange={selectedDateRange} reportClicked={false} />
           <TopSellingProducts />
         </>
       )}

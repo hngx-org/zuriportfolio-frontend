@@ -6,38 +6,42 @@ import axios from 'axios';
 
 interface zaProps {
   dateRange: DateObject[];
+  reportClicked: boolean;
 }
 
-const AnalysisCards: React.FC<zaProps> = ({ dateRange }) => {
-  const starttDate = '2023-10-10T00:00:00Z';
-  const enddDate = '2023-10-19T00:00:0Z';
-
-  console.log(enddDate);
-
-  // DateQuery
+const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
 
   React.useEffect(() => {
-    fetch(
-      `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setCardDataOne(data.data);
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-  React.useEffect(() => {
-    fetch(
-      `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
-    )
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
+    if (reportClicked && dateRange.length === 2) {
+      const starttDate = dateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
+      const enddDate = dateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
+      fetch(
+        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setCardDataOne(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      fetch(
+        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`,
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setCardDataOne(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [reportClicked]);
 
   const [CardDataOne, setCardDataOne] = React.useState<any>([]);
 
@@ -502,7 +506,7 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange }) => {
       </div>
       <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] max-[834px]:block max-[800px]:px-[1.5rem]">
         <div className="grid grid-cols-3 gap-[1rem] max-[800px]:grid-cols-2 max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
-          {CardDataOne.map((hero: any) => (
+          {CardDataOne?.map((hero: any) => (
             <div
               key={hero?.index}
               className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
@@ -581,7 +585,7 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange }) => {
       </div>
       <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] pl-[1.5rem] max-[500px]:block pr-0">
         <div className="flex gap-[1.5rem] overflow-x-scroll no-scrollbar">
-          {CardDataOne.map((hero: any) => (
+          {CardDataOne?.map((hero: any) => (
             <div
               key={hero?.index}
               className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
