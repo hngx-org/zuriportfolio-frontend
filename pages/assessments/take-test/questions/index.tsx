@@ -106,4 +106,4 @@ const Questions: React.FC = () => {
     </>
   );
 };
-export default Questions; 
+export default Questions;
