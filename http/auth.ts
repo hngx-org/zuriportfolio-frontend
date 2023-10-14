@@ -128,3 +128,17 @@ export const forgetPassword = async (props: { email: string }) => {
     return e.response.data ?? { message: e.message };
   }
 };
+
+export const resendForgetPassword = async (props: { email: string }) => {
+  try {
+    const res = await $http.post('/reset-password', props);
+    console.log(res);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    if (e?.response?.data && e?.response?.data?.message) {
+      console.log(e?.response.data.message);
+    }
+    return e.response.data ?? { message: e.message };
+  }
+};

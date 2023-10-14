@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export const LoadingText = () => {
   return <div className="animate-pulse h-6 w-20 bg-slate-100"></div>;

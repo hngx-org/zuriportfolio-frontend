@@ -6,4 +6,3 @@ const useSearchFilter = () => {
 };
 
 export default useSearchFilter;
-

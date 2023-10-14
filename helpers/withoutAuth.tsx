@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import isAuthenticated from './isAuthenticated';
 
-const withoutAuth = <P extends {}>(WrappedComponent: React.ComponentType<P>) => {
+const withoutAuth = <P extends { children: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper: React.FC<P> = (props) => {
     const router = useRouter();
     useEffect(() => {
@@ -15,7 +15,8 @@ const withoutAuth = <P extends {}>(WrappedComponent: React.ComponentType<P>) => 
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <WrappedComponent {...props} />;
+    const wrappedComponent = React.createElement(WrappedComponent, props);
+    return wrappedComponent;
   };
 
   return Wrapper;

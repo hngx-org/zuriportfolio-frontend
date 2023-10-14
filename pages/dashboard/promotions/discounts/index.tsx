@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Button from '@ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { z } from 'zod';
+import withAuth from '../../../../helpers/withAuth';
 
 type Product = {
   product_id: string;
@@ -293,4 +294,4 @@ function Discounts() {
   );
 }
 
-export default Discounts;
+export default withAuth(Discounts);

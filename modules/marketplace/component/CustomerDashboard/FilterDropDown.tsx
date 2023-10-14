@@ -17,7 +17,7 @@ const filterByList: FilterList[] = [
   {
     name: 'price',
     id: 4,
-  }
+  },
 ];
 
 const FilterDropDown = ({ onChooseFilter }: { onChooseFilter: (filter: SearchFilter) => void }) => {

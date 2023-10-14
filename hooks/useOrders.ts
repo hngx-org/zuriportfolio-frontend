@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { OrderHistory } from '../@types';
 import { clearTimeout } from 'timers';
+import axios from 'axios';
 
 const dummyOrders: OrderHistory[] = [
   {
@@ -91,13 +92,11 @@ const useOrders = (initialOrders = dummyOrders) => {
   }>({ sortBy: 'id', sortOrder: 'asc' });
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filterFunc = useCallback((filter: string, shouldChangeSort: boolean = true) => {
-    let filteredOrders = [...initialOrders];
+  const filterFunc = useCallback((filter: string, shouldChangeSort: boolean = true, defaultOrder?: any[]) => {
+    let filteredOrders = defaultOrder ? [...defaultOrder] : [...initialOrders];
     if (filter !== 'all') {
       filteredOrders = initialOrders.filter((order) => order.status === filter);
     }
-
-    setOrders(filteredOrders);
     // Change sort to default
     if (shouldChangeSort) {
       changeSortBy('id');
@@ -155,19 +154,16 @@ const useOrders = (initialOrders = dummyOrders) => {
   }, [initialOrders, sort]);
   //  Search Logic
 
-  const searchFunc = useCallback((query: string, filter: string) => {
-    if (query.trim().length === 0) {
-      filterFunc(filter as string);
-      return;
-    }
-    // Filter initial Orders by status
-    const orders = filterFunc(filter, false);
-    setOrders(orders.filter((order) => order.productName.toLowerCase().includes(query.trim().toLowerCase())));
+  const searchFunc = useCallback(async (query: string) => {
+    const data = await axios({
+      url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/search/${query}`,
+      method: 'GET',
+    });
+    return data.data;
   }, []);
 
-  const changeSearchQuery = (val: string, filter: string) => {
+  const changeSearchQuery = (val: string) => {
     setSearchQuery(val);
-    searchFunc(val, filter);
   };
 
   return {
@@ -184,6 +180,8 @@ const useOrders = (initialOrders = dummyOrders) => {
     },
     changeSearchQuery,
     searchQuery,
+    filterFunc,
+    searchFunc,
   };
 };
 

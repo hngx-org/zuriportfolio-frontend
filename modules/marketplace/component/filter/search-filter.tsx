@@ -28,7 +28,7 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
               <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
               <FilterSection tag="price" data={price} sectionTitle="By Price">
-                <PriceRanges data={priceRange.map(price => formatToNigerianNaira(price))} />
+                <PriceRanges data={priceRange.map((price) => formatToNigerianNaira(price))} />
               </FilterSection>
             </Fragment>
 

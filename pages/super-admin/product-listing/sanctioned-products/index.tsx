@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { sanctionedProducts } from '../../../../helpers/sanctionedProducts';
 import Pagination from '../../../view-components/super-admin/pagination';
 import { useRouter } from 'next/router';
-import { getAllProducts, useGetProd } from '../../../../http';
+import { useGetProd } from '../../../../http';
 import { DeletedProducts } from '../../../../@types';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
@@ -45,7 +45,7 @@ const SanctionedProducts = () => {
             <p className="text-custom-color2 text-sm">List of all sanctioned products and their details</p>
           </div>
           <div>
-          <SearchProduct handleSearchChange={handleSearch} />
+            <SearchProduct handleSearchChange={handleSearch} />
           </div>
         </div>
         {isLoading ? (
@@ -73,7 +73,9 @@ const SanctionedProducts = () => {
                       <tr
                         className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                         key={product?.product_id}
-                        onClick={() => route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)}
+                        onClick={() =>
+                          route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)
+                        }
                       >
                         <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
                           <p>{product?.product_name} </p>

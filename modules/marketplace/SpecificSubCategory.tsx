@@ -13,7 +13,7 @@ import CategoryLayout from './component/layout/category-layout';
 interface CardType {
   id: string;
   currency: string;
-  image: string | null;
+  images: { url: string }[];
   name: string;
   price: number;
   rating: number;
@@ -154,7 +154,7 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
                       key={productCard.id}
                       currency={productCard.currency}
                       id={productCard.id}
-                      image={productCard.image}
+                      image={productCard?.images[0] ? productCard.images[0]['url'] : ''}
                       name={productCard.name}
                       price={productCard.price}
                       user={'null'}

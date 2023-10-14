@@ -71,7 +71,7 @@ export default function ProductCard({
             )}
           </div>
           {/* Product Name */}
-          <p className="font-manropeL text-brand-green-shade10 text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
+          <p className="break-all font-manropeL text-brand-green-shade10 text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
             {name?.length > 30 ? <span>{productNameTrimmed}...</span> : name}
           </p>
           {/* Product Price */}

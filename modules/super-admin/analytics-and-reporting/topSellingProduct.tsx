@@ -3,23 +3,47 @@ import Pagination from '../../../pages/view-components/super-admin/pagination';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { DateObject } from 'react-multi-date-picker';
 
-const TopSellingProducts: React.FC = () => {
+interface TopSellingProps {
+  dateRange: DateObject[];
+  reportClicked: Boolean;
+}
+
+const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicked }) => {
   const [topSellingProducts, setTopSellingProducts] = useState<any[]>([]);
 
   useEffect(() => {
-    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products';
+    if (reportClicked && dateRange.length === 2) {
+      const startDate = dateRange[0].format('YYYY-MM-DD');
+      const endDate = dateRange[1].format('YYYY-MM-DD');
 
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        console.log(response.data.data);
-        setTopSellingProducts(response.data.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching top-selling products:', error);
-      });
-  }, []);
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?start_date=${startDate}&end_date=${endDate}`;
+
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response.data.data);
+          setTopSellingProducts(response.data.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching top-selling products:', error);
+        });
+    } else {
+      const apiUrl =
+        'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?page=1&page_size=10';
+
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response.data.data);
+          setTopSellingProducts(response.data.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching top-selling products:', error);
+        });
+    }
+  }, [reportClicked]);
 
   return (
     <>

@@ -1,11 +1,9 @@
 'use client';
-import Button from '@ui/Button';
 import { CartItemProps } from '../../../../../@types';
 import Image from 'next/image';
 import { useState } from 'react';
 import RemoveCart from '../../../../../components/Modals/Removecart';
-import { BiTrash } from 'react-icons/bi';
-import { removeFromCart } from '../../../../../http';
+import { BiTrash, BiCartAdd } from 'react-icons/bi';
 
 export default function CartItem({
   id,
@@ -22,7 +20,6 @@ export default function CartItem({
   const [modalClosed, setModalClosed] = useState('hidden');
 
   const removeItem = () => {
-    // removeFromCart()
     setModalClosed('block');
   };
 

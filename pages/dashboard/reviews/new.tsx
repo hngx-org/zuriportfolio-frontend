@@ -4,8 +4,8 @@ import Container from '@modules/auth/component/Container/Container';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
-import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
 import { ratingData } from '../../../db/reviews';
+import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
 
 export default function UserReview() {
   return (
@@ -37,7 +37,7 @@ export default function UserReview() {
               <RatingBar avgRating={3.0} />
               <div className=" my-5">
                 {ratingData.map((data, index) => (
-                  <RatingCard key={index} rating={data.rating} users={data.users} />
+                  <RatingCard key={index} rating={Number(data.rating)} users={data.users} />
                 ))}
                 <p className="md:hidden text-xs py-1 font-manropeL text-center tracking-tight">
                   195 total ratings, 76 with reviews
