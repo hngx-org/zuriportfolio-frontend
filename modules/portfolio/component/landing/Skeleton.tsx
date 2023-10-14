@@ -1,5 +1,9 @@
 import { ExportSquare } from 'iconsax-react';
 import Image from 'next/image';
+import AddShopErrorModal from '../addShopErrorModal';
+import { useContext, useEffect, useState } from 'react';
+import Portfolio from '../../../../context/PortfolioLandingContext';
+import axios from 'axios';
 
 type AboutProps = {
   bio?: string;
@@ -196,13 +200,34 @@ export const Language = ({ data }: SkeletonProps) => {
 };
 
 export const Shop = () => {
-  const shops = [
+  const shop = [
     {
       id: 1,
       image: '',
     },
   ];
-  return (
+
+  const [shops, setShops] = useState(shop);
+
+  const { openShop, setOpenShop } = useContext(Portfolio);
+
+  async function fetchShops() {
+    try {
+      let shopsData: { id: number; image: string }[];
+      shopsData = await axios.get('/shops/id');
+      setShops(shopsData);
+    } catch (error) {
+      //console.log(error)
+    }
+  }
+
+  const showShop = Object.keys(shops).length > 3;
+
+  useEffect(() => {
+    //fetchShops();
+  }, []);
+
+  return showShop ? (
     <div className="flex flex-col gap-5 min-w-full">
       {shops.map((shop) => (
         <div className="" key={shop.id}>
@@ -213,6 +238,8 @@ export const Shop = () => {
         Go to shop
       </a>
     </div>
+  ) : (
+    <AddShopErrorModal />
   );
 };
 
