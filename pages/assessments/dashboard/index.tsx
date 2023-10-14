@@ -71,9 +71,11 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="lg:mx-[3rem] md:mx-[2.5rem] mx-[1.5rem] xl:mx-[5rem] 2xl:mx-auto 2xl:max-w-[1240px] 2xl:px-[1rem]">
-          <Button className="mt-[1rem] ml-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md">
-            View Past assessment
-          </Button>
+          <Link href={`/assessments/history`}>
+            <Button className="mt-[1rem] ml-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md">
+              View Past assessment
+            </Button>
+          </Link>
           <div className="mt-[2rem] border-[.58px] border-white-400 rounded-md py-[.6rem] px-[1rem] md:p-[1.9rem] lg:p-[2.3rem] xl:p-[2.7rem] 2xl:p-[4rem]">
             <div className="">
               <h2 className="text-green-950 text-[.875rem] md:text-[.9rem] lg:text-[1.2rem] xl:text-[1.5rem] mb-[.4rem] md:mb-[1.2rem] xl:mb-[1.5rem] font-semibold">

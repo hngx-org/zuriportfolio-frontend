@@ -14,95 +14,91 @@ import $http from '../../../http/axios';
 
 // Define a type for the data
 export type PurchaseData = {
-    "id": number,
-    "order_id": string,
-    "product_id": string,
-    "customer_id": string,
-    "merchant_id": string,
-    "order_price": string,
-    "order_VAT": string,
-    "order_discount": string,
-    "promo_id": string | null,
-    "createdAt": string,
-    "updatedAt": string,
-    "merchant": {
-      "first_name": string,
-      "last_name": string
-    },
-    "product": {
-      "name": string
-    },
-    "order": {
-      "status": string
-    }
+  id: number;
+  order_id: string;
+  product_id: string;
+  customer_id: string;
+  merchant_id: string;
+  order_price: string;
+  order_VAT: string;
+  order_discount: string;
+  promo_id: string | null;
+  createdAt: string;
+  updatedAt: string;
+  merchant: {
+    first_name: string;
+    last_name: string;
+  };
+  product: {
+    name: string;
+  };
+  order: {
+    status: string;
+  };
 };
 
 const DUMMYDATA: PurchaseData[] = [
   {
-    "id": 7,
-    "order_id": "04f49648-9664-4ffe-a876-91e816dfbd22",
-    "product_id": "f7c1a7f3-6a53-4c0c-8959-ecdd87fbf3e9",
-    "customer_id": "4e8f65c7-d21b-4a5e-98ab-2f2560973c34",
-    "merchant_id": "4e8f65c7-d21b-4a5e-98ab-2f2560973c34",
-    "order_price": "1000.00",
-    "order_VAT": "30.00",
-    "order_discount": "50",
-    "promo_id": null,
-    "createdAt": "2023-10-12T14:59:09.906Z",
-    "updatedAt": "2023-10-12T14:59:09.906Z",
-    "merchant": {
-      "first_name": "John",
-      "last_name": "Doe"
+    id: 7,
+    order_id: '04f49648-9664-4ffe-a876-91e816dfbd22',
+    product_id: 'f7c1a7f3-6a53-4c0c-8959-ecdd87fbf3e9',
+    customer_id: '4e8f65c7-d21b-4a5e-98ab-2f2560973c34',
+    merchant_id: '4e8f65c7-d21b-4a5e-98ab-2f2560973c34',
+    order_price: '1000.00',
+    order_VAT: '30.00',
+    order_discount: '50',
+    promo_id: null,
+    createdAt: '2023-10-12T14:59:09.906Z',
+    updatedAt: '2023-10-12T14:59:09.906Z',
+    merchant: {
+      first_name: 'John',
+      last_name: 'Doe',
     },
-    "product": {
-      "name": "Product 1"
+    product: {
+      name: 'Product 1',
     },
-    "order": {
-      "status": "pending"
-    }
+    order: {
+      status: 'pending',
+    },
   },
   {
-    "id": 8,
-    "order_id": "04f49648-9664-4ffe-a876-91e816dfbd22",
-    "product_id": "f7c1a7f3-6a53-4c0c-8959-ecdd87fbf3e9",
-    "customer_id": "4e8f65c7-d21b-4a5e-98ab-2f2560973c34",
-    "merchant_id": "4e8f65c7-d21b-4a5e-98ab-2f2560973c34",
-    "order_price": "1000.00",
-    "order_VAT": "30.00",
-    "order_discount": "50",
-    "promo_id": null,
-    "createdAt": "2023-10-12T14:59:09.906Z",
-    "updatedAt": "2023-10-12T14:59:09.906Z",
-    "merchant": {
-      "first_name": "John",
-      "last_name": "Doe"
+    id: 8,
+    order_id: '04f49648-9664-4ffe-a876-91e816dfbd22',
+    product_id: 'f7c1a7f3-6a53-4c0c-8959-ecdd87fbf3e9',
+    customer_id: '4e8f65c7-d21b-4a5e-98ab-2f2560973c34',
+    merchant_id: '4e8f65c7-d21b-4a5e-98ab-2f2560973c34',
+    order_price: '1000.00',
+    order_VAT: '30.00',
+    order_discount: '50',
+    promo_id: null,
+    createdAt: '2023-10-12T14:59:09.906Z',
+    updatedAt: '2023-10-12T14:59:09.906Z',
+    merchant: {
+      first_name: 'John',
+      last_name: 'Doe',
     },
-    "product": {
-      "name": "Product 1"
+    product: {
+      name: 'Product 1',
     },
-    "order": {
-      "status": "pending"
-    }
-  }
-]
+    order: {
+      status: 'pending',
+    },
+  },
+];
 
-export type SearchFilter = "item" | "price"
+export type SearchFilter = 'item' | 'price';
 
 const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [filter, setFilter] = useState<string | null>(null);
-  const [data, setData] = useState<PurchaseData[]>(DUMMYDATA)
+  const [data, setData] = useState<PurchaseData[]>(DUMMYDATA);
   // search state
-  const [searchInput, setSearchInput] = useState<string>("");
-
-
+  const [searchInput, setSearchInput] = useState<string>('');
 
   // function to handle delete
   const onDelete = () => {
     onClose();
   };
-
-  
 
   // Calculate counts for each category
   const allPurchasesCount = data.length;
@@ -125,27 +121,26 @@ const MyPage: React.FC = () => {
   };
 
   // api search
-  const onSearch = async(e: React.FormEvent<HTMLFormElement>) => {
+  const onSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await $http.get(getFilterApi(filterBy, searchInput));
-      setData(res?.data?.data)
+      setData(res?.data?.data);
     } catch (error) {
       setData([]);
     }
-    setSearchInput("");
-  }
+    setSearchInput('');
+  };
 
   const getFilterApi = (filterBy: string, filterParams: string) => {
-    return `https://customer-purchase.onrender.com/api/filter-transactions?${filterBy}=${filterParams}`
-  }
+    return `https://customer-purchase.onrender.com/api/filter-transactions?${filterBy}=${filterParams}`;
+  };
 
   // handle filter dropdown
   const [filterBy, setFilterBy] = useState<SearchFilter>('item');
   const onChooseFilter = (filter: SearchFilter) => {
     setFilterBy(filter);
   };
-
 
   // handle search and filter functionality
   const handleFilterClick = (filterName: string | null) => {
@@ -154,12 +149,12 @@ const MyPage: React.FC = () => {
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
-  }
+  };
 
   const onBack = () => {
     // call purchase data here again
     setData(DUMMYDATA);
-  }
+  };
 
   return (
     <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
@@ -234,20 +229,19 @@ const MyPage: React.FC = () => {
             </p>
           </div>
         </div>
-          
-          <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
 
+        <div className="sm:border-r-4 sm:border-white-200  sm:border-solid w-full px-4 flex flex-col gap-8 sm:gap-0">
           {/* search - filter - delete section */}
-            <div className="flex items-center h-[2.5rem] gap-2 mt-[3rem] ">
-            <form className='w-full' onSubmit={(e) => onSearch(e)}>
-                <Input
-                  value={searchInput}
-                  onChange={(e) => handleSearchInput(e)}
-                  leftIcon={<SearchNormal1 color="#777" />}
-                  className="border-2 border-solid border-white-200 pl-6 w-full h-[2.5rem] pr-[1rem] rounded flex-1"
-                  placeholder={`Search by ${filterBy} or select a filter to search by`}
-                />
-              </form>
+          <div className="flex items-center h-[2.5rem] gap-2 mt-[3rem] ">
+            <form className="w-full" onSubmit={(e) => onSearch(e)}>
+              <Input
+                value={searchInput}
+                onChange={(e) => handleSearchInput(e)}
+                leftIcon={<SearchNormal1 color="#777" />}
+                className="border-2 border-solid border-white-200 pl-6 w-full h-[2.5rem] pr-[1rem] rounded flex-1"
+                placeholder={`Search by ${filterBy} or select a filter to search by`}
+              />
+            </form>
 
             <FilterDropDown onChooseFilter={onChooseFilter} />
 
@@ -293,8 +287,10 @@ const MyPage: React.FC = () => {
                         </td>
                         <td className="text-[0.75rem] px-4 py-2">{item.order_id}</td>
                         <td className="text-[0.75rem] px-4 py-2">{item.order_price}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.createdAt.split("T")[0]}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.merchant.last_name} {item.merchant.first_name}</td>
+                        <td className="text-[0.75rem] px-4 py-2">{item.createdAt.split('T')[0]}</td>
+                        <td className="text-[0.75rem] px-4 py-2">
+                          {item.merchant.last_name} {item.merchant.first_name}
+                        </td>
                         <td className="text-[0.75rem] px-4 py-2">
                           <span
                             className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
@@ -314,7 +310,7 @@ const MyPage: React.FC = () => {
           )}
           {data.length > 0 && <MobileCustomerDashboard data={data} />}
           {/* error page */}
-          {data.length === 0 && <PurchaseNotFound back={onBack}/>}
+          {data.length === 0 && <PurchaseNotFound back={onBack} />}
         </div>
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { CartProductCardProps } from '../../../../../@types';
 import { MouseEvent } from 'react';
+import Link from 'next/link';
 
 export default function ProductCard({
   id,
@@ -35,7 +36,10 @@ export default function ProductCard({
   };
 
   return (
-    <div className="border border-[#d5dbdd] hover:border-2 hover:shadow-md cursor-pointer rounded-md  lg:gap-x-3 lg:w-1/4 md:w-1/2 md:max-w-[290px] h-min-[250px] flex flex-col p-3 ">
+    <Link
+      href={`/marketplace/product-details?id=${id}`}
+      className="border border-[#d5dbdd] hover:border-2 hover:shadow-md cursor-pointer rounded-md  lg:gap-x-3 lg:w-1/4 md:w-1/2 md:max-w-[290px] h-min-[250px] flex flex-col p-3 "
+    >
       <div className="relative w-full lg:items-stretch flex-1 mb-3 overflow-hidden">
         <Image width={254} height={209} src={productImage} className="rounded-md" alt={productTitle}></Image>
         {discountPercentage && (
@@ -62,6 +66,6 @@ export default function ProductCard({
           {getRating()} <span className="ml-2 font-manropeB">({productRating})</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

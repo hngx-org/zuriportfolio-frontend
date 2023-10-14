@@ -34,7 +34,6 @@ import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 import { UserInfo } from './@types';
 
-
 const HomePage = () => {
   // States
   const searchParam = useSearchParams();

@@ -10,6 +10,7 @@ import { Input } from '@ui/Input';
 import Link from 'next/link';
 import Button from '@ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
+import Loader from '@ui/Loader';
 
 type Product = {
   product_id: any;
@@ -411,7 +412,9 @@ const ProductCard = () => {
           </div>
         ))
       ) : (
-        <p>Loading products...</p>
+        <div className="absolute z-50 inset-0 min-h-[300px]">
+          <Loader />
+        </div>
       )}
       {selectedProduct && <DeleteModal isOpen={deleteModal} closeModal={closeDeleteModal} product={selectedProduct} />}
       {selectedProduct && <EditModal isOpen={editModal} closeEditModal={closeEditModal} product={selectedProduct} />}
