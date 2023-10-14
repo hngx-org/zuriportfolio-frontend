@@ -77,7 +77,7 @@ const DraftPage = () => {
             {
               question_no: 1,
               question_text: 'string',
-              question_type: "multiple_choice",
+              question_type: 'multiple_choice',
               options: ['string'],
               correct_option: 1,
             },
