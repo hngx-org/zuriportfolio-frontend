@@ -46,6 +46,7 @@ const OrderDetails = () => {
   const { orders, changeSortBy, toggleSortOrder, sortBy, changeSearchQuery, searchQuery, orderFilter } =
     useOrders(pageOrders);
   const [showFilters, setShowFilters] = useState(false);
+
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const { push } = useRouter();
@@ -128,7 +129,7 @@ const OrderDetails = () => {
                     className=" bg-transparent focus-within:outline-none flex-1  text-[1rem] leading-[150%] min-w-0"
                     placeholder="Search"
                     value={searchQuery}
-                    onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
+                    onChange={(e) => changeSearchQuery(e.target.value)}
                   />
                 </div>
                 <div className="relative">
@@ -204,7 +205,7 @@ const OrderDetails = () => {
                   className=" bg-transparent focus-within:outline-none flex-1 text-[1rem] leading-[150%]"
                   placeholder="Search"
                   value={searchQuery}
-                  onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
+                  onChange={(e) => changeSearchQuery(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-6">

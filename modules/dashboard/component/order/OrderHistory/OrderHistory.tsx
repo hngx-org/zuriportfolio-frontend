@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PaginationBar from '../PaginationBar';
 
 import { OrderHistoryMobile } from './OrderHistoryRow';
 import OrderHistoryTable from './OrderHistoryTable';
 import { SearchNormal1 } from 'iconsax-react';
 import usePaginate from '../../../../../hooks/usePaginate';
-import useOrders from '../../../../../hooks/useOrders';
 import Link from 'next/link';
 import Filters from '../Filters';
 import { OrderHistory } from '../../../../../@types';
 import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
+import axios from 'axios';
+import useOrders from '../../../../../hooks/useOrders';
 
 const orderNavs: {
   id: string;
@@ -52,44 +53,97 @@ const filters: {
 ];
 const OrderHistory: React.FC = () => {
   const [pageOrders, setPageOrders] = useState<OrderHistory[]>([]);
-  const [loadingOrders, setLoadingOrders] = useState(true);
-  const { orders, orderFilter, changeFilter, changeSortBy, sortBy, toggleSortOrder, searchQuery, changeSearchQuery } =
+  const [loadingOrders, setLoadingOrders] = useState(false);
+  const { orders, orderFilter, changeFilter, changeSortBy, sortBy, toggleSortOrder, changeSearchQuery } =
     useOrders(pageOrders);
 
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
+  const [searching, setSearching] = useState(false);
   const closeFilter = () => {
     setShowFilters(false);
   };
+  const filterFunc = useCallback((filter: string, order: any[]) => {
+    let filteredOrders = [...pageOrders];
+    if (filter !== 'all') {
+      filteredOrders = pageOrders.filter((order) => order.status === filter);
+    }
+
+    return filteredOrders;
+  }, []);
+  const fetchOrders = async () => {
+    try {
+      setLoadingOrders(true);
+      const data = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/Orders`,
+        method: 'GET',
+      });
+      if (data.data?.errorStatus === true) {
+        setPageOrders([]);
+        return;
+      }
+      if (!data.data.data || data.data.data?.length === 0) {
+        setPageOrders([]);
+        return;
+      }
+      const transformedOrder = data?.data.data?.map((order: any) => ({
+        productName: order.product.name,
+        id: order.id,
+        status: order.merchant.customer_orders[0]?.status,
+        customerName: order.customer.username,
+        date: new Date(order.createdAt),
+      }));
+      const filteredOrders = filterFunc(orderFilter, transformedOrder);
+      setPageOrders(filteredOrders);
+    } catch (error) {
+      setPageOrders([]);
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
+  const getSearchResult = async (query: string) => {
+    try {
+      setSearching(true);
+      const res = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
+        method: 'GET',
+      });
+      const { data } = res;
+      console.log(data);
+      if (data?.errorStatus) {
+        return setPageOrders([]);
+      }
+
+      if (!data.data || (data?.data && data.data.length === 0)) {
+        return setPageOrders([]);
+      } else {
+        const transformedOrder = data.data.map((order: any) => ({
+          id: order.order_id,
+          price: order.order_price,
+          date: new Date(order.createdAt),
+          revenue: order.merchant.revenue[0]?.amount,
+          status: order.customer_orders[0]?.status,
+          sales: order.customer_orders[0]?.sales_report[0]?.sales,
+          customerName: order.customer[0]?.username,
+          productName: order.product.name,
+          productType: order.product.categories[0]?.name,
+        }));
+        const filteredOrders = filterFunc(orderFilter, transformedOrder);
+        setPageOrders(filteredOrders);
+      }
+    } catch (error) {
+      setPageOrders([]);
+    } finally {
+      setSearching(false);
+    }
+  };
+
   useEffect(() => {}, [currentPage]);
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const fetchOrders = async () => {
-      try {
-        setLoadingOrders(true);
-        const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/Orders', { signal });
-        const data = await res.json();
-        if (data?.errorStatus === true) {
-          setPageOrders([]);
-          return;
-        }
-        const transformedOrder = data?.data.map((order: any) => ({
-          productName: order.product.name,
-          id: order.id,
-          status: order.merchant.customer_orders[0]?.status,
-          customerName: order.customer.username,
-          date: new Date(order.createdAt),
-        }));
-        setPageOrders(transformedOrder);
-      } catch (error) {
-        setPageOrders([]);
-      } finally {
-        setLoadingOrders(false);
-      }
-    };
     fetchOrders();
   }, []);
+
   return (
     <>
       <main className="max-w-[1240px] mx-auto md:px-10 px-4 relative min-h-[400px]">
@@ -128,7 +182,7 @@ const OrderHistory: React.FC = () => {
                     className=" bg-transparent focus-within:outline-none flex-1  text-[1rem] leading-[150%] min-w-0"
                     placeholder="Search"
                     value={searchQuery}
-                    onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
                 <div className="relative">
@@ -171,7 +225,7 @@ const OrderHistory: React.FC = () => {
                     } cursor-pointer whitespace-nowrap`}
                     onClick={() => {
                       changeFilter(orderNav.id);
-                      changeSearchQuery('', orderNav.id);
+                      setSearchQuery('');
                     }}
                   >
                     {orderNav.title}
@@ -207,7 +261,7 @@ const OrderHistory: React.FC = () => {
                         className=" bg-transparent focus-within:outline-none flex-1 text-[1rem] leading-[150%]"
                         placeholder="Search"
                         value={searchQuery}
-                        onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
+                        onChange={(e) => changeSearchQuery(e.target.value)}
                       />
                     </div>
                     <div className="flex items-center gap-6 relative">
@@ -240,12 +294,18 @@ const OrderHistory: React.FC = () => {
                     </div>
                   </div>
 
-                  <OrderHistoryTable
-                    pageItem={orders}
-                    changeSort={changeSortBy}
-                    toggleSort={toggleSortOrder}
-                    currentSort={sortBy}
-                  />
+                  {!searching ? (
+                    <OrderHistoryTable
+                      pageItem={orders}
+                      changeSort={changeSortBy}
+                      toggleSort={toggleSortOrder}
+                      currentSort={sortBy}
+                    />
+                  ) : (
+                    <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                      No Order to Show
+                    </p>
+                  )}
                 </section>
               ) : (
                 <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">

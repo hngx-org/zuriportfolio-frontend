@@ -13,6 +13,8 @@ import settingsIcon from './assets/setting-2.svg';
 import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 import MobileNav from '@modules/dashboard/component/MobileNav';
+import { useAuth } from '../../context/AuthContext';
+import isAuthenticated from '../../helpers/isAuthenticated';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -36,6 +38,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     router.pathname === path
       ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
       : 'text-gray-600 text-base font-semibold  leading-normal tracking-tight';
+
+  useEffect(() => {
+    const token = localStorage.getItem('zpt');
+    const isLoggedIn = isAuthenticated(token as string);
+    if (isLoggedIn) {
+      setAuth(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -180,7 +191,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     Sign In
                   </Button>
 
-                  <Button href="/auth/signup" className="rounded-lg px-6 py-3" intent={'primary'} size={'md'}>
+                  <Button
+                    href="/auth/signup-with-email"
+                    className="rounded-lg px-6 py-3"
+                    intent={'primary'}
+                    size={'md'}
+                  >
                     Sign Up
                   </Button>
                 </div>
@@ -373,7 +389,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
       </nav>
-      <div className="mb-32"></div>
+      <div className="mb-24 md:mb-28 lg:mb-32 "></div>
     </>
   );
 
@@ -575,7 +591,7 @@ function MenuUI({
             >
               Sign In
             </Button>
-            <Button href="/auth/signup" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
+            <Button href="/auth/signup-with-email" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
               Sign Up
             </Button>
           </>

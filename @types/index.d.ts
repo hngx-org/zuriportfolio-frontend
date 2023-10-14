@@ -20,7 +20,9 @@ export interface ProductData {
   discount_price: string;
   description: string;
   price: string;
-  rating: Number;
+  images: any[];
+  url: string[];
+  rating: number;
   user: string;
   quantity: Number;
   shop: string;
@@ -125,6 +127,20 @@ export interface ProductCardProps {
   discount?: number;
 }
 
+export interface MarketPlaceProductCardProps {
+  id: string;
+  currency: string;
+  image: string | null;
+  name: string;
+  price: number;
+  user: string;
+  rating: number;
+  showLimitedOffer?: boolean;
+  showTopPicks?: boolean;
+  showDiscount?: boolean;
+  discount_price?: number;
+}
+
 export interface ratingProps {
   src: string;
   alt: string;
@@ -226,7 +242,39 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
+export type RecentlyViewedProductProp = {
+  user: string;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: string;
+    discount_price: string;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
+    shop: {
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+};
+
 export type CartItemProps = {
+  id?: string;
   productId: string;
   productImage: string;
   productTitle: string;
@@ -464,13 +512,6 @@ export interface NotificationCheckboxType {
   // userId:string
 }
 
-export type cardinfo = {
-  title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
-};
 export type Graph = {
   id: number;
   title: string;
@@ -496,18 +537,22 @@ export type topListingProduct = {
   vendor: string;
 };
 
-export type activity = {
+type activity = {
   name: string;
+  user_details: {
+    first_name: string;
+    last_name: string;
+  };
+  action: string;
+  title: string;
   purchased: string;
   pItem: string;
   id: number;
 };
-type cardinfo = {
+export type cardinfo = {
   title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
+  amount: any;
+  ratio: number;
 };
 
 export type inputErrorMessage = {
@@ -543,37 +588,6 @@ export interface CardData {
   location: string;
 }
 
-export interface AuthContextProps {
-  user: LoginBodyResponse | undefined;
-  handleUser: (value: LoginBodyResponse) => void;
-}
-
-export type LoginBodyResponse = {
-  id: string;
-  username: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  token: string;
-  section_order: unknown;
-  password: string;
-  provider: unknown;
-  profile_pic: unknown;
-  refresh_token: string;
-  role_id: number;
-  is_verified: boolean;
-  two_factor_auth: boolean;
-  location: unknown;
-  country: unknown;
-  created_at: string;
-};
-
-export type LoginResponse = {
-  token: string;
-  data: LoginBodyResponse;
-  statusCode: number;
-};
-
 export interface Review {
   id: number;
   rating: number;
@@ -603,3 +617,24 @@ interface ChartProps {
   isFetching: boolean;
   isFetched: boolean;
 }
+
+export interface AuthContextProps {
+  auth: AuthResponse | undefined;
+  email: string;
+  redirect: string;
+  handleAuth: (value: AuthResponse) => void;
+  handleEmail: (value: string) => void;
+  handleRedirect: (value: string) => void;
+}
+
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+export type AuthResponse = {
+  token: string;
+  user: User;
+};

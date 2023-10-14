@@ -1,9 +1,9 @@
 import axios from 'axios';
 import $http from './axios';
+import { RecentlyViewedProductProp } from '../@types';
 
 const AUTH_HTTP_URL = 'https://auth.akuya.tech';
 
-// test
 export const getUserByName = async (props: { name: string }) => {
   try {
     const res = await $http.get(`/user/${props?.name}`);
@@ -32,14 +32,54 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
-export const getUserCart = async () => {
+export const getUserCart = async (token: string) => {
   try {
-    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/carts');
+    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/checkout/api/carts', {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.log(error);
+    return [];
   }
 };
+// https://zuri-cart-checkout.onrender.com/api/checkout/api/carts
+
+export const removeFromCart = async (productId: string, token: string) => {
+  try {
+    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts/${productId}`;
+    const response = await $http.delete(apiUrl, {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error making payment:', error);
+    throw error;
+  }
+};
+
+// 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/fecfd17b-51a3-4288-9bd0-77ac4b7d60a0/'
+
+// export const getRecentlyViewedProducts = async (user_id: string, token: string) => {
+//   try {
+//     const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${user_id}`;
+//     const response = await $http.get(apiUrl, {
+//       headers: {
+//         'Authorization': `Bearer ${token}`
+//       },
+//     });
+//     return response.data
+
+//   } catch (error) {
+//     console.error('Error fetching data', error);
+//     return []
+//   }
+// };
+
 export const signUpUserWithEmail = async (props: { email: string }) => {
   try {
     const res = await $http.post('https://auth.akuya.tech/api/auth/check-email', props);
@@ -47,29 +87,9 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
     return res?.data;
   } catch (e: any) {
     const errorData = e.response.data;
-    console.log("Error in catch", errorData)
+    console.log('Error in catch', errorData);
     // throw new Error(errorData);
     return e.response.data ?? { message: e.message };
-  }
-};
-
-export const verfiy2FA = async (props: { email: string; token: string }) => {
-  const $http = axios.create({
-    baseURL: AUTH_HTTP_URL,
-    timeout: 30000,
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-  });
-
-  try {
-    const res = await $http.post('/api/auth/2fa/verify-code', props);
-    console.log(res);
-  } catch (e: any) {
-    console.log(e);
-    if (e?.response?.data && e?.response?.data?.message) {
-      console.log(e?.response.data.message);
-    }
   }
 };
 
@@ -115,27 +135,12 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
 //     return e.response.data ?? { message: e.message };
 //   }
 // }
-
-export const removeFromCart = async (productId: string) => {
-  try {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/carts/${productId}`;
-    const response = await $http.delete(apiUrl, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error('Error making payment:', error);
-    throw error;
-  }
-};
+// https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart
 
 export const makePayment = async (selectedPaymentMethod: string) => {
   if (selectedPaymentMethod) {
     try {
-      const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/orders';
+      const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/checkout/api/orders';
       const data = {
         redirect_url: 'https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart',
         payment_method: selectedPaymentMethod,
@@ -144,7 +149,7 @@ export const makePayment = async (selectedPaymentMethod: string) => {
       const response = await $http.post(apiUrl, data, {
         headers: {
           'Content-Type': 'application/json',
-          // accept: 'application/json',
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`,
         },
       });
 
@@ -156,5 +161,23 @@ export const makePayment = async (selectedPaymentMethod: string) => {
     }
   } else {
     throw new Error('Please select a payment method before making the payment.');
+  }
+};
+
+export const verfiy2FA = async (props: { email: string; token: string }) => {
+  const $http = axios.create({
+    baseURL: 'https://auth.akuya.tech',
+    timeout: 30000,
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  });
+
+  try {
+    const res = await $http.post('/api/auth/2fa/verify-code', props);
+    return res;
+  } catch (e: any) {
+    console.log(e);
+    return e;
   }
 };
