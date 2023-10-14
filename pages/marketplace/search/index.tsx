@@ -8,12 +8,10 @@ import styles from '../../../modules/marketplace/component/landingpage/productCa
 import { ProductResult } from '../../../@types';
 import Link from 'next/link';
 import Error from '@modules/marketplace/component/landingpageerror/ErrorPage';
-import { useRouter } from 'next/router';
 
 export default function Index() {
-  const route = useRouter();
   const [results, setResults] = useState<ProductResult[]>([]);
-  const { searchQuery } = route.query;
+  const searchquery = localStorage.getItem('keyword');
 
   useEffect(() => {
     const getresult = localStorage.getItem('search_result');
@@ -49,9 +47,9 @@ export default function Index() {
               ]}
             />
           </div>
-          <div className="px-4 max-w-[1240px] mx-auto">
+          <div className="px-4 py-4 sm:py-2 max-w-[1240px] mx-auto">
             <h1 className="text-custom-color31 font-manropeL mt-5 lg:pt-5 md:mb-1 font-bold md:text-2xl leading-normal flex items-center justify-between">
-              Search Result for &apos;{searchQuery}&apos;
+              Search Result for &apos;{searchquery}&apos;
             </h1>
             <div
               className={`flex py-8 flex-nowrap lg:flex-wrap gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
