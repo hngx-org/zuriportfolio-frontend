@@ -215,19 +215,19 @@ const History: React.FC = () => {
                         onClick={() => toggleExpand(assessment.id)}
                         className="whitespace-nowrap border-r border-b-0 cursor-pointer border-gray-300 py-2 px-4"
                       >
-                        {assessment.badgeName === 'Beginner' && (
+                        {assessment.badgeName === 'beginner' && (
                           <span className="flex items-center">
                             <FaUser className="mr-1 text-blue-500" />
                             Beginner
                           </span>
                         )}
-                        {assessment.badgeName === 'Intermediate' && (
+                        {assessment.badgeName === 'intermediate' && (
                           <span className="flex items-center">
                             <FaUserTie className="mr-1 text-green-200" />
                             Intermediate
                           </span>
                         )}
-                        {assessment.badgeName === 'Expert' && (
+                        {assessment.badgeName === 'expert' && (
                           <span className="flex items-center">
                             <FaStar className="mr-1 text-[#f8eb3b]" />
                             Expert
@@ -243,8 +243,8 @@ const History: React.FC = () => {
                       </td>
                       <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
                         <Link
-                          href={`/assessments/dashboard/badge/${assessment.badgeName}`}
-                          as={`/assessments/dashboard/badge/${assessment.badgeName}`}
+                          href={`/assessments/dashboard/badge/${assessment.id}`}
+                          as={`/assessments/dashboard/badge/${assessment.id}`}
                         >
                           View
                         </Link>
