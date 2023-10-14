@@ -191,7 +191,7 @@ const SearchAndFilter = (prop: {
 
         <div className="w-full grid grid-cols-2 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
           <CustomDropdown
-            options={[`None`, 'Nigeria', 'Ghana', 'Cameroon']}
+            options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
             onChange={handleCustomDropdownChange}
             setFilters={handleFilters}
@@ -257,7 +257,7 @@ const SearchAndFilter = (prop: {
         )}
       </div>
 
-      {showFilterComponent && <FilterComponent />}
+      {showFilterComponent && <FilterComponent filters={filters} handleFilters={handleFilters} />}
     </div>
   );
 };
