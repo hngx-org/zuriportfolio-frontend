@@ -42,7 +42,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.DEPLOY_PORT }}
-          localPath: './'
+          localPath: './.next'
           remotePath: '/home/devops/zuri_frontend/zuriportfolio-frontend/'
 
       - name: run app
@@ -54,5 +54,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/devops/zuri_frontend/zuriportfolio-frontend
-            npx yarn install --ignore-engines
-            npx pm2 restart zuri_frontend
+            git stash
+            git pull origin dev
+            yarn install --ignore-engines
+            pm2 restart zuri_frontend
