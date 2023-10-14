@@ -21,6 +21,7 @@ const CreateAssessment = () => {
     setActive(button);
   };
 
+  const [ass, setAss] = useState(true);
   const handleInput = (value: string) => {
     setHeadInput(value);
   };
@@ -82,6 +83,63 @@ const CreateAssessment = () => {
       setModalOpen(false);
     }, 4000);
   };
+
+  // save to drafts
+  const saveDrafts = async () => {
+    const { headInput, correct_option, Question1, option1, option2, option3, option4 } = requestValues;
+    if ((headInput || Question1 || option1) === undefined) {
+      window.alert('Fields cannot be Empty');
+      return;
+    }
+    setAss(false);
+    setRequestValues(mergedValues);
+    setModalOpen(true);
+
+    // split question and string and number
+    const url = 'https://piranha-assessment-jco5.onrender.com//api/admin/drafts/';
+
+    const reqOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
+      },
+      body: JSON.stringify({
+        skill_id: 2,
+        questions_and_answers: [
+          {
+            question_no: Question1?.match(/\d+/)?.[0] ?? 1,
+            question_text: Question1?.match(/([a-zA-Z])+/)?.[0] ?? '',
+            question_type: 'multiple_choice',
+            options: [option1, option2, option3, option4],
+            correct_option: correct_option?.match(/\d+/)?.[0] ?? 2,
+          },
+        ],
+        assessment_name: headInput || `New Assessments${Math.floor(Math.random() * 0.5)}`,
+        duration_in_minutes: 30,
+      }),
+    };
+    console.log(reqOptions);
+    const postEnd = await fetch(url, reqOptions);
+
+    if (!postEnd.ok) {
+      console.log(requestValues);
+      console.log('Error' + postEnd.status);
+      // setModalOpen(false);
+      setErr(`Failed: Error${postEnd.status}`);
+      setTimeout(() => {
+        setModalOpen(false);
+      }, 4000);
+    }
+    const response = await postEnd.json();
+    if (postEnd.ok) {
+      setErr(`Saved Created!`);
+    }
+    console.log(response);
+    setTimeout(() => {
+      setModalOpen(false);
+    }, 4000);
+  };
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
@@ -106,7 +164,10 @@ const CreateAssessment = () => {
             <p className="text-dark[100]">Go back</p>
           </div>
           <div className="flex space-x-4 items-center">
-            <Button className="p-4 border-2 border-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100">
+            <Button
+              className="p-4 border-2 border-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100"
+              onClick={saveDrafts}
+            >
               Save To Drafts
             </Button>
             <Button className="p-3 text-white-100 text-center" onClick={publishAssessment}>
@@ -115,7 +176,9 @@ const CreateAssessment = () => {
           </div>
         </div>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div className="text-center text-white-100 text-[25px] font-semibold w-max">Creating Assessment...</div>
+          <div className="text-center text-white-100 text-[25px] font-semibold w-max">
+            {ass ? 'Creating Assessment' : 'Saving Drafts'}
+          </div>
           <FaSpinner color="#fff" className="animate-spin" size={100} />
           {err ? <p className="text-red-300 w-max text-center text-[20px]">{err}</p> : null}
         </Modal>
