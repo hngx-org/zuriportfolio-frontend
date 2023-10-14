@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { PriceData, SummaryProps } from '../../../../../@types';
+import { CartSumaryProp, PriceData, SummaryProps } from '../../../../../@types';
 import PaymentInformationModal from './PaymentInformationModal';
 import TempUser from './../../../../../components/Modals/TempUser';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import isAuthenticated from '../../../../../helpers/isAuthenticated';
 
-const Summary = ({ prices, sum, discount }: SummaryProps & { discount: number; sum: number }) => {
+const Summary = ({ prices, summary, token }: SummaryProps & { token: string; summary: CartSumaryProp }) => {
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
@@ -88,16 +88,16 @@ const Summary = ({ prices, sum, discount }: SummaryProps & { discount: number; s
   return (
     <section className="flex lg:px-10 py-8">
       <div className="cart-summary_wrapper flex flex-col space-y-6">
-        <div className="cart-summary__header border border-gray-300 rounded-md shadow-sm">
+        <div className="cart-summary__header border border-[#EBEEEF] rounded-md shadow-sm">
           <h1 className="font-bold capitalize text-xl px-4 py-4 ">cart summary</h1>
-          <hr className="border-b-1 border-gray-500" />
+          <hr className="border-b-1 border-[#EBEEEF]" />
           <div className="coupon flex flex-col py-4 px-4">
             <span></span> <span className="text-sm">Have a coupon?</span>
             <div className="coupon w-full py-0 flex items-center">
               <input
                 type="text"
                 placeholder="50 SALE"
-                className={`border border-green-100 focus:border-green-400 my-0 border-r-0 h-[100%] placeholder-green-100 outline-none py-2 px-4  rounded-l-lg ${
+                className={`border border-green-100 focus:border-green-400 my-0 border-r-0 h-[100%] placeholder-green-100 outline-none py-2 px-4  rounded-l-lg ₦{
                   couponErrorState ? 'border-brand-red-primary' : ''
                 }`}
                 onFocus={() => {
@@ -109,7 +109,7 @@ const Summary = ({ prices, sum, discount }: SummaryProps & { discount: number; s
 
               <button
                 type="submit"
-                className={`bg-green-300 text-white-100 py-1.5 px-6 rounded-r-md capitalize hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ${
+                className={`bg-green-300 text-white-100 py-1.5 px-6 rounded-r-md capitalize hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ₦{
                   couponErrorState ? 'bg-gray-200' : ''
                 }`}
                 onClick={couponHandler}
@@ -117,14 +117,14 @@ const Summary = ({ prices, sum, discount }: SummaryProps & { discount: number; s
                 apply
               </button>
             </div>
-            {discount > 0 ? (
+            {/* {discount > 0 ? (
               <div className="discount flex items-center space-x-1">
                 <Image src="/assets/check.svg" alt="check-svg" width={10} height={10} />
                 <span className="text-sm text-green-300 transition-all duration-300">Hurray! you got a discount!</span>
               </div>
             ) : (
               ''
-            )}
+            )} */}
             {invalid ? (
               <div className="discount flex items-center space-x-1">
                 <Image src="/assets/x.svg" alt="check-svg" width={10} height={10} />
@@ -138,35 +138,32 @@ const Summary = ({ prices, sum, discount }: SummaryProps & { discount: number; s
             )}
           </div>
         </div>
-        <div className="cart-summary__details cart-summary__header border border-gray-300 rounded-md px-6 rounded-lg py-8 shadow-sm">
+        <div className="cart-summary__details cart-summary__header border border-[#EBEEEF] rounded-md px-6 rounded-lg py-8 shadow-sm">
           <div className="cart-summary__prices flex flex-col space-y-3">
             <div className="sum flex justify-between">
               <p className="font-bold">Subtotal</p>
-              <span className="text-gray-200">${sum}</span>
+              <span className="text-gray-200">₦ {summary.subtotal.toFixed(2)}</span>
             </div>
-            {discount > 0 ? (
-              <div className="sum flex justify-between">
-                <p className="font-bold">Discount</p>
-                <span className="text-green-500 transition-all duration-300">-${discount}</span>
-              </div>
-            ) : (
-              ''
-            )}
 
             <div className="sum flex justify-between">
-              {/* <p className="font-bold">Vat</p>
+              <p className="font-bold">Discount</p>
+              <span className="text-green-500 transition-all duration-300">-₦ {summary.discount}</span>
+            </div>
+
+            <div className="sum flex justify-between">
+              <p className="font-bold">Vat</p>
               <span className="text-brand-red-primary transition-all duration-300">
-                +${displayPrices.vat.toFixed(2)}
-              </span> */}
+                +₦ {summary.VAT.toFixed(2)}
+              </span>
             </div>
           </div>
 
-          <hr className="border-b-5 border-gray-300 my-4 mx-3" />
+          <hr className="border-b-5 border-[#EBEEEF] my-4 mx-3" />
 
           <div className="cart-total">
             <div className="sum flex justify-between">
               <p className="font-bold">Total:</p>
-              <span className="font-bold text-xl transition-all duration-300">$ {sum - discount}</span>
+              <span className="font-bold text-xl transition-all duration-300">₦ {summary.total.toFixed(2)}</span>
             </div>
           </div>
 
@@ -186,7 +183,7 @@ const Summary = ({ prices, sum, discount }: SummaryProps & { discount: number; s
           ) : (
             <TempUser isOpen={isOpen} onClose={onClose} />
           )} */}
-          {modalOpen ? <PaymentInformationModal orderTotal={sum - discount} closeModal={closeModal} /> : null}
+          {modalOpen ? <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} /> : null}
         </div>
       </div>
     </section>
