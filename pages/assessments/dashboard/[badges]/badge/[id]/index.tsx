@@ -19,7 +19,7 @@ const Page: React.FC = () => {
 
   const [badgeData, setBadgeData] = useState(null) as any;
   useEffect(() => {
-    const apiUrl = `https://demerzel-badges-production.up.railway.app/api/user/02cac250-ccbf-409f-9c67-ecbbdb5bc31e/badgeshttps://demerzel-badges-production.up.railway.app/api/user/02cac250-ccbf-409f-9c67-ecbbdb5bc31e/badges?badge=beginner`;
+    const apiUrl = `https://demerzel-badges-production.up.railway.app/api/user/02cac250-ccbf-409f-9c67-ecbbdb5bc31e/badges?badge=beginner`;
 
     const fetchData = async () => {
       try {
