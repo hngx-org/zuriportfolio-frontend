@@ -6,6 +6,7 @@ import Image from 'next/image';
 import more from '../../../../public/assets/ic_outline-arrow-back-ios.svg';
 import menu from '../../../../public/assets/ic_outline-menu.svg';
 import { useAuthentication } from '../../../../hooks/useAuthentication';
+
 import axios from 'axios';
 
 interface CategoriesNavProps {
