@@ -42,21 +42,47 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   const [values, setValues] = useState<Array<skillListRes>>([]);
 
 
-  const fetchSkillData = async () => {
-    try {
-      // Make a GET request to the API
-      const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
-      const data = response.data.data;
-      setValues(data);
-    } catch (error) {
-      // Handle errors
-      console.error('Error fetching data:', error);
-    }
-  };
-  // set the data in the db on the modal onload
-  useEffect(() => {
-    fetchSkillData();
-  }, []);
+  // const fetchSkillData = async () => {
+  //   try {
+  //     // Make a GET request to the API
+  //     const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
+  //     const data = response.data.data;
+  //     setValues(data);
+  //   } catch (error) {
+  //     // Handle errors
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+  // // set the data in the db on the modal onload
+  // useEffect(() => {
+  //   fetchSkillData();
+  // }, []);
+
+    const fetchSkillData = async () => {
+      try {
+        const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
+        const data: skillListRes[] = response.data.data;
+
+        if (Array.isArray(data)) {
+          const uniqueDataArray: skillListRes[] = Array.from(
+            data
+              .reduce((map: Map<string, skillListRes>, obj: skillListRes) => map.set(obj.skill, obj), new Map())
+              .values(),
+          );
+          setValues(uniqueDataArray);
+        } else {
+          console.error('Fetched data is not an array:', data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    useEffect(() => {
+      fetchSkillData();
+    }, []);
+
+    console.log(values);
 
  // on Enter press append input value to array two(setValues)
 const handleKeyPress = (e: { key: string }) => {
