@@ -53,9 +53,11 @@ export default function UserReview() {
                     <div className="mt-6 ">
                       {reviewData.map((data, index) => (
                         <SellerReview
+                          reviewId={''}
                           key={index}
                           buyerName={data.buyerName}
                           adminDate={data.adminDate}
+                          mainDate={data.adminDate}
                           review={data.review}
                           noOfStars={data.noOfStars}
                           shopReply={data.shopReply}

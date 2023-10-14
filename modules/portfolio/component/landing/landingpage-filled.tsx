@@ -1,5 +1,5 @@
 'use-client';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
@@ -32,9 +32,31 @@ import {
   references,
   contacts,
 } from './data';
+import { SectionDeleteModal } from '../warningModals';
 
 const LandingPageFilled: React.FC = () => {
-  const { selectedSections, buildPortfolio, toggleSection, editSection, modals, modalStates } = useContext(Portfolio);
+  const {
+    selectedSections,
+    buildPortfolio,
+    setOpenDelete,
+    editSection,
+    setHasData,
+    modals,
+    modalStates,
+    userSections,
+  } = useContext(Portfolio);
+
+  const deleteSection = () => setOpenDelete(true);
+
+  useEffect(() => {
+    userSections?.map((section) => {
+      if (section?.data?.length !== 0) {
+        setHasData(true);
+      } else {
+        setHasData(false);
+      }
+    });
+  }, [setHasData, userSections]);
 
   return (
     <>
@@ -44,65 +66,186 @@ const LandingPageFilled: React.FC = () => {
         return <React.Fragment key={id}>{modalStates[id] && modal}</React.Fragment>;
       })}
 
+      {/* data from backend */}
       <div className="w-full flex flex-col justify-start items-start gap-8">
-        {selectedSections?.map((section, i) => {
+        {userSections?.map((section, i) => {
           return (
             <React.Fragment key={i}>
-              <Wrapper
-                id={section.id}
-                title={section.title}
-                edit={() => editSection(section.id)}
-                remove={() => toggleSection(section.title)}
-              >
-                {section.id === 'about' && <About data={about} />}
+              {section?.id === 'workExperience' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.map((el: any, i: any) => {
+                      return <WorkExperience key={i} data={el} />;
+                    })}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
 
-                {section.id === 'workExperience' &&
-                  workexperiences.map((el, i) => {
-                    return <WorkExperience key={i} data={el} />;
-                  })}
+              {section?.id === 'education' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.map((el: any, i: any) => {
+                      return <Education key={i} data={el} />;
+                    })}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
 
-                {section.id === 'certificate' &&
-                  certificates.map((el, i) => {
-                    return <Certificate key={i} data={el} />;
-                  })}
+              {section?.id === 'interests' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <Interests key={i} data={section.data[0]} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
 
-                {section.id === 'awards' &&
-                  awards.map((el, i) => {
-                    return <Awards key={i} data={el} />;
-                  })}
+              {section?.id === 'about' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <About key={i} bio={section.data[0]} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+              {section?.id === 'skills' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <Skill key={i} data={section.data} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
 
-                {section.id === 'education' &&
-                  educations.map((el, i) => {
-                    return <Education key={i} data={el} />;
-                  })}
+              {section?.id === 'projects' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <Project key={i} data={section.data} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          );
+        })}
 
-                {section.id === 'project' &&
-                  projects.map((el, i) => {
-                    return <Project key={i} data={el} />;
-                  })}
-
-                {section.id === 'skill' && <Skill data={skills} />}
-
-                {section.id === 'interests' && <Interests data={interests} />}
-
-                {section.id === 'language' && <Language data={languages} />}
-
-                {section.id === 'reference' &&
-                  references.map((el, i) => {
-                    return <Reference key={i} data={el} />;
-                  })}
-
-                {section.id === 'contact' && <Contact data={contacts} />}
-                {/*Todo */}
-                {section.id === 'custom' && <Custom />}
-                {section.id === 'shop' && <Shop />}
-              </Wrapper>
-              <Line />
+        {/* local data */}
+        {selectedSections.map((section: any, i: number) => {
+          return (
+            <React.Fragment key={i}>
+              <SectionDeleteModal sectionToDelete={`local ${section.title}`} />
+              <React.Fragment key={i}>
+                <Wrapper
+                  id={section.id}
+                  title={section.title}
+                  edit={() => editSection(section.id)}
+                  remove={deleteSection}
+                >
+                  {section.id === 'workExperience' &&
+                    workexperiences.map((el, i) => {
+                      return <WorkExperience key={i} data={el} />;
+                    })}
+                  {section.id === 'certificate' &&
+                    certificates.map((el, i) => {
+                      return <Certificate key={i} data={el} />;
+                    })}
+                  {section.id === 'awards' &&
+                    awards.map((el, i) => {
+                      return <Awards key={i} data={el} />;
+                    })}
+                  {section.id === 'education' &&
+                    educations.map((el: any, i: any) => {
+                      return <Education key={i} data={el} />;
+                    })}
+                  {section.id === 'projects' &&
+                    projects.map((el, i) => {
+                      return <Project key={i} data={el} />;
+                    })}
+                  {section.id === 'about' && <About bio={about} />}
+                  {section.id === 'skills' && <Skill data={skills} />}
+                  {section.id === 'interests' && <Interests data={interests} />}
+                  {section.id === 'language' && <Language data={languages} />}
+                  {section.id === 'reference' &&
+                    references.map((el, i) => {
+                      return <Reference key={i} data={el} />;
+                    })}
+                  {section.id === 'contact' && <Contact data={contacts} />}
+                  {section.id === 'shop' && <Shop />}
+                  {section.id === 'custom' && <Custom />}
+                </Wrapper>
+                <Line />
+              </React.Fragment>
             </React.Fragment>
           );
         })}
       </div>
-
+      {/* /*
+      
+      {section.id === 'certificate' &&
+        certificates.map((el, i) => {
+          return <Certificate key={i} data={el} />;
+        })}
+      {section.id === 'awards' &&
+        awards.map((el, i) => {
+          return <Awards key={i} data={el} />;
+        })}
+      {section.id === 'education' &&
+        section.data.map((el: any, i: any) => {
+          return <Education key={i} data={el} />;
+        })}
+      {section.id === 'project' &&
+        projects.map((el, i) => {
+          return <Project key={i} data={el} />;
+        })}
+      {section.id === 'skill' && <Skill data={skills} />}
+      {section.id === 'interests' && <Interests data={interests} />}
+      {section.id === 'language' && <Language data={languages} />}
+      {section.id === 'reference' &&
+        references.map((el, i) => {
+          return <Reference key={i} data={el} />;
+        })}
+      {section.id === 'contact' && <Contact data={contacts} />}
+      {section.id === 'shop' && <Shop />}
+      {section.id === 'custom' && <Custom />} */}
+      {/*Todo */}
       {selectedSections.length < 13 && (
         <Button intent="secondary" className="rounded-lg border-[1px] pr-6" onClick={() => buildPortfolio()}>
           <Add />

@@ -1,15 +1,16 @@
-import { ArrowLeft, ArrowLeft2, ArrowRight2, Star1, StarSlash } from 'iconsax-react';
-import Image, { StaticImageData } from 'next/image';
+import { ArrowLeft, ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import React from 'react';
-import Link from 'next/link';
 import { useState } from 'react';
 import { VendorProduct } from '../../../../../@types';
 import Aff from '../../../../../public/assets/images/vendors/afflate.png';
 import Web from '../../../../../public/assets/images/vendors/webinar.png';
-import Art from '../../../../../public/assets/images/vendors/art.png';
-import lang from '../../../../../public/assets/images/vendors/lang.png';
-import Photo from '../../../../../public/assets/images/vendors/photo.png';
-import VendorCard from '../../../../../modules/super-admin/components/VendorCard';
+import { useGetShop } from '../../../../../http';
+import { useRouter } from 'next/router';
+import Loader from '@modules/portfolio/component/landing/Loader';
+import { brokenImage } from '../../../../super-admin/vendor-management/vendor-details/[id]';
+import Image from 'next/image';
+import star from '/public/assets/vendor/grade.png';
+import star_outline from '/public/assets/vendor/star_outline.png';
 
 function VendorDetails(): React.ReactElement {
   const cards: VendorProduct[] = [
@@ -294,6 +295,12 @@ function VendorDetails(): React.ReactElement {
       id: 24,
     },
   ];
+  const router = useRouter();
+  const id = router.query?.id as string;
+
+  const { data, isLoading } = useGetShop(id);
+
+  console.log(data?.data);
   // Pagination Varriables
   const [currentPage, setCurrentPage] = useState(1); // current page identifier
   const recordsPerPage: number = 8; // list of pages that show at a page
@@ -321,62 +328,89 @@ function VendorDetails(): React.ReactElement {
   }
 
   return (
-    <div className="mt-2 md:px-5 lg:px-5 sm:px-5 px-1 w-[100%] overflow-x-hidden">
-      <Link href={'/super-admin/vendor-management/vendor-details'}>
-        <div className="flex items-center mb-4">
-          <ArrowLeft size="18" />
-          <p className="ml-3">Products by Gustavo Silas</p>
-        </div>
-      </Link>
-      <hr className="border-custom-color1" />
-      <div className="mt-4 mb-10  lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-5 lg:gap5">
-        {records.map((card) => {
-          const { productAuthor, productImage, productName, productPrice, id } = card;
-          return (
-            <VendorCard
-              key={id}
-              vendorname={productAuthor}
-              pic={productImage}
-              name={productName}
-              price={productPrice}
-            />
-          );
-        })}
-      </div>
-      <hr className="border-custom-color1 mb-10" />
-      <nav className="flex justify-center items-center mb-16">
-        <ul className="flex gap-1.5 md:gap-5 lg:gap-5 items-center">
-          <li
-            className="md:mr-5 lg:mr-5 mr-1 text-[0.6rem] md:text-[0.75rem] lg:text-[0.85rem] cursor-pointer text-slate-300 font-manropeEL"
-            onClick={prevPage}
-          >
-            Previous
-          </li>
-          <li onClick={prevPage} className="cursor-pointer">
-            <ArrowLeft2 size={15} color="#767676" />
-          </li>
-          {numbers.map((n, i) => (
-            <li
-              className={`py-[5px] px-[8.75px] md:py-[8px] md:px-[14px] lg:py-[8px] lg:px-[14px] rounded-lg text-[0.6rem] md:text-[0.75rem] lg:text-[0.85rem] cursor-pointer font-ppReg font-normal ${
-                currentPage === n ? 'bg-green-600 text-white-100 ' : 'text-custom-color27'
-              }`}
-              key={i}
-              onClick={() => changeCPage(n)}
-            >
-              {n}
-            </li>
-          ))}
-          <li onClick={nextPage} className="cursor-pointer">
-            <ArrowRight2 size={15} color="#767676" />
-          </li>
-          <li
-            className="md:ml-5 lg:ml-5 ml-1 text-slate-300 text-[0.6rem] md:text-[0.75rem] lg:text-[0.85rem] cursor-pointer font-manropeEL"
-            onClick={nextPage}
-          >
-            Next
-          </li>
-        </ul>
-      </nav>
+    <div className="container mt-2 md:px-5 lg:px-5 sm:px-5 px-1 w-[100%] overflow-x-hidden">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <div>
+            <div className="flex items-center mb-4">
+              <ArrowLeft
+                size="18"
+                onClick={() => router.push(`/super-admin/vendor-management/vendor-details/${id}`)}
+                className="cursor-pointer w-fit"
+              />
+              <p className="ml-3">
+                Products by {data?.data?.length > 0 ? data.data[0]?.merchant_name : 'Merchant Name Not Found'}
+              </p>
+            </div>
+          </div>
+          <hr className="border-custom-color1" />
+          <div className="mt-4 mb-10  lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-5 lg:gap5">
+            {data?.data?.length > 0
+              ? data?.data[0]?.products?.map((item: any) => (
+                  <div className="product border border-gray-300 p-3 rounded-md m-3" key={item?.id}>
+                    <div className="w-[220px] h-[181px] mx-auto">
+                      <Image
+                        loader={() => brokenImage}
+                        src={brokenImage}
+                        alt="product"
+                        width={100}
+                        height={100}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <p className="mt-2">{item?.product_name}</p>
+                    <p className="font-bold">${new Intl.NumberFormat('en-US').format(item?.price)}</p>
+                    <p className="mb-3">{item?.description}</p>
+                    <aside className="left flex items-center">
+                      <Image src={star} alt="star"></Image>
+                      <Image src={star} alt="star"></Image>
+                      <Image src={star} alt="star"></Image>
+                      <Image src={star_outline} alt="star"></Image>
+                      <Image src={star_outline} alt="star"></Image>
+                      <p>(3)</p>
+                    </aside>
+                  </div>
+                ))
+              : null}
+          </div>
+          <hr className="border-custom-color1 mb-10" />
+          <nav className="flex justify-center items-center mb-16">
+            <ul className="flex gap-1.5 md:gap-5 lg:gap-5 items-center">
+              <li
+                className="md:mr-5 lg:mr-5 mr-1 text-[0.6rem] md:text-[0.75rem] lg:text-[0.85rem] cursor-pointer text-slate-300 font-manropeEL"
+                onClick={prevPage}
+              >
+                Previous
+              </li>
+              <li onClick={prevPage} className="cursor-pointer">
+                <ArrowLeft2 size={15} color="#767676" />
+              </li>
+              {numbers.map((n, i) => (
+                <li
+                  className={`py-[5px] px-[8.75px] md:py-[8px] md:px-[14px] lg:py-[8px] lg:px-[14px] rounded-lg text-[0.6rem] md:text-[0.75rem] lg:text-[0.85rem] cursor-pointer font-ppReg font-normal ${
+                    currentPage === n ? 'bg-green-600 text-white-100 ' : 'text-custom-color27'
+                  }`}
+                  key={i}
+                  onClick={() => changeCPage(n)}
+                >
+                  {n}
+                </li>
+              ))}
+              <li onClick={nextPage} className="cursor-pointer">
+                <ArrowRight2 size={15} color="#767676" />
+              </li>
+              <li
+                className="md:ml-5 lg:ml-5 ml-1 text-slate-300 text-[0.6rem] md:text-[0.75rem] lg:text-[0.85rem] cursor-pointer font-manropeEL"
+                onClick={nextPage}
+              >
+                Next
+              </li>
+            </ul>
+          </nav>
+        </>
+      )}
     </div>
   );
 }

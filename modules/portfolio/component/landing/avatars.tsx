@@ -67,7 +67,7 @@ type coverDiv = {
 };
 
 const CoverDiv = ({ className }: coverDiv) => {
-  return <div className={className}> {/* F0F1F0 */}</div>;
+  return <div className={className}></div>;
 };
 
 export { CoverDiv };

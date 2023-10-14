@@ -5,7 +5,28 @@ import AuthLayout from '../AuthLayout';
 import { Input } from '@ui/Input';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
+import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
+import { notify } from '@ui/Toast';
+import { useRouter } from 'next/router';
+import { forgetPassword } from '../../../../http/auth';
+
+const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
+
 const ForgotPassword = () => {
+  const router = useRouter();
+
+  //Success Handler
+  const forgotPasswordSuccess = (data: any) => {
+    console.log(data.message);
+    if (data.status === 200) {
+      router.push('/auth/forgot-password-link-sent');
+      return;
+    } 
+
+    notifyError(data.message);
+  };
+
+  // Form validation
   const schema = z.object({
     email: z.string().email(),
   });
@@ -17,12 +38,22 @@ const ForgotPassword = () => {
     },
   });
 
+  // Hook for making an API call and handling the response
+  const { mutate, isLoading } = useAuthMutation(forgetPassword, {
+    onSuccess: (data) => {
+      forgotPasswordSuccess(data);
+    },
+    onError: (error: any) => console.log(error),
+  });
+
+  // Handling email input
   const handleForgotPassword = (values: any) => {
     console.log('email', values.email);
+    mutate({ email: values.email });
   };
 
   return (
-    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
+    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown>
       <main className=" flex mx-auto lg:pt-16 lg:gap-[43px] ">
         <section className="flex-col flex lg:w-fit w-full lg:text-start text-center ">
           <div className="font-manropeB flex-1 flex-col  flex justify-center md:py-14  max-w-[517px] mx-auto">
@@ -48,15 +79,15 @@ const ForgotPassword = () => {
                   {...form.getInputProps('email')}
                   type="email"
                   placeholder="Aliusugar@gmail.com"
-                  className={`w-full px-[18px] py-[13.5px] font-manropeL font-light text-custom-color2  rounded-md border-[1.35px] ${
+                  className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.email ? 'border-[red]' : 'border-slate-50'
                   }`}
                 />
                 <p className="text-[red] text-xs">{form.errors.email && form.errors.email}</p>
               </div>
               <Button
-                intent={'primary'}
-                className="flex justify-center items-center gap-4 py-3 md:w-[100%] w-[100%] h-14 rounded-lg button text-white-100 text-center mt-[1rem]"
+                className="flex justify-center items-center gap-4 py-3 md:w-[100%] w-[100%] h-[44px] md:h-[60px] rounded-lg button text-white-100 text-center"
+                isLoading={isLoading}
               >
                 Submit
               </Button>
