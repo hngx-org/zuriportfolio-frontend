@@ -43,7 +43,7 @@ export default function Index({products}:Props) {
                       image={item.images[0].url ||`/assets/products-banner/Image-11.png`}
                       name={item?.name}
                       price={parseInt(item.price) || 99}
-                      user={ item?.user ? `${item?.user?.first_name} ${item?.user?.last_name}` : ``}
+                      user={ item?.shop.name ? item?.shop.name : ``}
                       rating={item.rating || 3}
                       showLimitedOffer={false}
                       showTopPicks={false}
