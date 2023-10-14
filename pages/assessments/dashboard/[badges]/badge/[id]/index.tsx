@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Badges from '@modules/assessment/component/Badges/Badges';
 import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
-import MainLayout from '../../../../../components/Layout/MainLayout';
-import ErrorData from '../../errordata';
+import MainLayout from '../../../../../../components/Layout/MainLayout';
+import ErrorData from '../../../errordata';
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -56,7 +56,7 @@ const Page: React.FC = () => {
             <>
               <BadgesHeader />
               <Badges
-                scorePercentage={badgeData.data.badges[0].UserAssessment.score}
+                scorePercentage={90}
                 badgelabel={badgelabel}
                 setIsdownloadOpen={setIsdownloadOpen}
                 isdownloadOpen={isdownloadOpen}

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
-import MainLayout from '../../../../../components/Layout/MainLayout';
+import MainLayout from '../../../../components/Layout/MainLayout';
 
 interface BadgeComponentProps {
   locked: boolean;
@@ -43,8 +43,8 @@ const BadgeComponent: React.FC<BadgeComponentProps> = ({
 
   return (
     <Link
-      href={`/assessments/dashboard/badge/${badgelabel}`}
-      as={`/assessments/dashboard/badge/${id}`}
+      href={`/assessments/dashboard/badge/$[id]`}
+      as={`/assessments/dashboard/badges/badge/${badgelabel}`}
       passHref
       className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[236px] lg:min-w-[300px] lg:min-h-[300px] xl:min-w-[330px] xl:min-h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
     >
