@@ -102,7 +102,6 @@ const EditProfile = () => {
           hasDataFromBE: true,
           coverImage: data?.user?.profileCoverPhoto,
         });
-        setHasData(true);
         modal();
       })
       .catch((error: any) => {
