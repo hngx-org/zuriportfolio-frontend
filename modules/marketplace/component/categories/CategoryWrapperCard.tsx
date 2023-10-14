@@ -5,61 +5,6 @@ import { FC, useEffect, useState } from 'react';
 import CategoryLoading from './CategoryLoading';
 import CategoryError from './CategoryError';
 
-const handPicked: any[] = [
-  {
-    id: '1',
-    currency: 'USD',
-    image: '/assets/products-banner/Image-1.png',
-    name: 'Webinar and Course Slide Templa...',
-    price: 100,
-    user: 'Mark Essien',
-    rating: 3,
-    showLimitedOffer: false,
-    showTopPicks: true,
-    showDiscount: false,
-    discount_price: 0,
-  },
-  {
-    id: '1',
-    currency: 'USD',
-    image: '/assets/products-banner/Image-2.png',
-    name: 'Webinar and Course Slide Templa...',
-    price: 100,
-    user: 'Mark Essien',
-    rating: 3,
-    showLimitedOffer: false,
-    showTopPicks: true,
-    showDiscount: false,
-    discount_price: 0,
-  },
-  {
-    id: '1',
-    currency: 'USD',
-    image: '/assets/products-banner/Image-3.png',
-    name: 'Webinar and Course Slide Templa...',
-    price: 100,
-    user: 'Mark Essien',
-    rating: 3,
-    showLimitedOffer: false,
-    showTopPicks: true,
-    showDiscount: false,
-    discount_price: 0,
-  },
-  {
-    id: '1',
-    currency: 'USD',
-    image: '/assets/products-banner/Image-4.png',
-    name: 'Webinar and Course Slide Templa...',
-    price: 100,
-    user: 'Mark Essien',
-    rating: 3,
-    showLimitedOffer: false,
-    showTopPicks: true,
-    showDiscount: false,
-    discount_price: 0,
-  },
-];
-
 interface CategoryWrapperCardProps {
   category: string;
   subCategory: string;
