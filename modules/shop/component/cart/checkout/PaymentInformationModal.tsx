@@ -35,6 +35,7 @@ const PaymentInformationModal = ({
       }
     } else {
       setPaymentMethodError('Please select a payment method before making the payment.');
+      setPaymentButtonClicked(false);
     }
   };
 
