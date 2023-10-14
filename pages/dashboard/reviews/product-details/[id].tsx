@@ -50,12 +50,9 @@ const UserReview: NextPage = () => {
   const [total1Star, setTotal1Star] = useState<number>(0);
 
   const router = useRouter();
-  const { id } = router.query;
-  const productID = parseInt(id as string, 10);
-  const pageTitle = cardData[productID - 1].title;
 
   useEffect(() => {
-    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=0&pageSize=10`)
+    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/9/reviews?pageNumber=0&pageSize=10`)
       .then((res) => res.json())
       .then((data: ReviewApiResponse) => setData(data.data));
   }, []);
@@ -106,7 +103,7 @@ const UserReview: NextPage = () => {
       <Container>
         <NavDashBoard active="reviews" />
         {data === null || data.length === 0 ? (
-          <EmptyReviewPage pageTitle={pageTitle} />
+          <EmptyReviewPage />
         ) : (
           <div className="flex flex-col md:mx-24">
             <div className="flex flex-col w-full mb-10 items-center justify-center">
@@ -116,7 +113,7 @@ const UserReview: NextPage = () => {
                   onClick={() => router.push('/dashboard/reviews')}
                 >
                   <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-                  {pageTitle && <p className="font-manropeB lg:text-2xl md:text-xl sm:text-lg">{pageTitle}</p>}
+                  The Complete Ruby on Rails Developer Course
                 </div>
               </div>
               <div className="flex flex-col md:flex-row lg:gap-16 md:gap-10 gap-4">
