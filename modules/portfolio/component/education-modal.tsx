@@ -96,12 +96,19 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
       }
     } catch (error) {
       console.error('Error creating education details:', error);
+    } finally {
+      setDegree('');
+      setDateFrom('');
+      setDateTo('');
+      setDescription('');
+      setFieldOfStudy('');
+      setSchool('');
     }
   };
 
   const handleSaveEdit = async (id: number) => {
     const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
-    const editedEducation = {
+    const editEducationObj = {
       sectionId: 22,
       degreeId: selectedDegreeOption.id,
       fieldOfStudy: fieldOfStudy,
@@ -111,20 +118,20 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
       to: dateTo,
     };
     try {
-      // console.log(`Editing education entry with degree`);
+      console.log(`Editing education entry with degree`);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/updateEducationDetail/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(editedEducation),
+        body: JSON.stringify(editEducationObj),
       });
-      const data = await response.text();
-      // if (response.ok) {
-      //   console.log('Education details updated successfully.');
-      // } else {
-      //   console.error('Failed to update education details.');
-      // }
+
+      if (response.ok) {
+        console.log('Education details updated successfully.');
+      } else {
+        console.error('Failed to update education details.');
+      }
     } catch (error) {
       console.error('Error updating education details:', error);
     }
