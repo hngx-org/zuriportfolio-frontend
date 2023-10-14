@@ -79,7 +79,7 @@ const DraftPage = () => {
           'X-CSRFTOKEN': 'jRc2ZpP1CpofaUIH2PzCuLJv7ZXzwX478mGc0KeehQACbHBm9aR12Err7zG9xKs1',
         },
         body: JSON.stringify({
-          title: newTitle,  // Only include the title field for update
+          title: newTitle, // Only include the title field for update
         }),
       });
 
