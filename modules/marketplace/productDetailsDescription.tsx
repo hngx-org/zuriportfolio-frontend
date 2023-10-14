@@ -24,9 +24,10 @@ export default function ProductDetailsDescription() {
   const [image, setImage] = useState(null);
   const router = useRouter();
   const { id } = router.query;
+  const userId = auth ? auth?.user?.id : '1972d345-44fb-4c9a-a9e3-d286df2510ae';
 
   useEffect(() => {
-    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/1972d345-44fb-4c9a-a9e3-d286df2510ae/`;
+    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${userId}/`;
     // Fetch data using Axios
     const headers = {
       accept: 'application/json',
@@ -42,25 +43,30 @@ export default function ProductDetailsDescription() {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [id]);
+  }, [id, userId]);
 
   console.log(auth);
 
   const addToCart = async () => {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/carts`;
+    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
     if (auth) {
       try {
-        const response = await axios.post(apiUrl, { product_ids: `${id}` });
+        const response = await axios.post(
+          apiUrl,
+          { product_ids: `${id}` },
+          {
+            headers: {
+              Authorization: `Bearer ${auth?.token}`,
+            },
+          },
+        );
 
         if (response.status === 200) {
-          toast.success('Added to Cart', {
-            position: 'top-right',
-            autoClose: 3000,
-          });
+          toast.success('Added to Cart');
           console.log('success');
         }
       } catch (error: any) {
-        console.error('Failed!!');
+        console.error(error);
         toast.error(error.message);
       }
     } else {
