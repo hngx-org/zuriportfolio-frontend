@@ -28,6 +28,37 @@ export interface ProductData {
   shop: string;
 }
 
+export interface RecentlyViewedData {
+  user: string;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: number;
+    discount_price: number;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
+    shop: {
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+}
+
 export interface Education {
   id: number;
   degree: string;
@@ -242,6 +273,8 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
+export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+
 export type RecentlyViewedProductProp = {
   user: string;
   product: {
@@ -446,6 +479,7 @@ export interface RatingCardProps {
 export interface filterProps {
   rating: number;
   review: number;
+  filterReview(view: string, stars: string);
 }
 
 export interface reviewProps {
@@ -649,6 +683,13 @@ export type AuthResponse = {
 type ProductResultImage = {
   url: string;
 };
+
+type ProductCategory = {
+  id: number;
+  name: string;
+  createdat: string;
+  user: string;
+};
 export interface ProductResult {
   id: string;
   name: string;
@@ -665,7 +706,7 @@ export interface ProductResult {
   createdat: string;
   updatedat: string;
   shop: string;
-  category: number;
+  category: ProductCategory;
   rating: number;
   user: string;
 }

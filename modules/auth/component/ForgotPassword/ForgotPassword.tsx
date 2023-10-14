@@ -21,7 +21,7 @@ const ForgotPassword = () => {
     if (data.status === 200) {
       router.push('/auth/forgot-password-link-sent');
       return;
-    } 
+    }
 
     notifyError(data.message);
   };

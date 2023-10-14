@@ -33,11 +33,16 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
+const CART_ENDPOINT = process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout';
+const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://zuriportfolio-frontend-pw1h.vercel.app';
+const RECENTLY_VIEWED_ENDPOINT =
+  process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed';
+
 export const getUserCart = async (token: string) => {
   try {
-    const response = await $http.get('https://zuri-cart-checkout.onrender.com/api/checkout/api/carts', {
+    const response = await $http.get(`${CART_ENDPOINT}/api/carts`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -49,10 +54,10 @@ export const getUserCart = async (token: string) => {
 
 export const removeFromCart = async (productId: string, token: string) => {
   try {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts/${productId}`;
+    const apiUrl = `${CART_ENDPOINT}/api/carts/${productId}`;
     const response = await $http.delete(apiUrl, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -65,21 +70,21 @@ export const removeFromCart = async (productId: string, token: string) => {
 
 // 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/fecfd17b-51a3-4288-9bd0-77ac4b7d60a0/'
 
-// export const getRecentlyViewedProducts = async (user_id: string, token: string) => {
-//   try {
-//     const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${user_id}`;
-//     const response = await $http.get(apiUrl, {
-//       headers: {
-//         'Authorization': `Bearer ${token}`
-//       },
-//     });
-//     return response.data
-
-//   } catch (error) {
-//     console.error('Error fetching data', error);
-//     return []
-//   }
-// };
+export const getRecentlyViewedProducts = async (user_id: string, token: string) => {
+  try {
+    // user_id = '1972d345-44fb-4c9a-a9e3-d286df2510ae';
+    const apiUrl = `${RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
+    const response = await $http.get(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data', error);
+    return [];
+  }
+};
 
 export const signUpUserWithEmail = async (props: { email: string }) => {
   try {
@@ -138,19 +143,19 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
 // }
 // https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart
 
-export const makePayment = async (selectedPaymentMethod: string) => {
+export const makePayment = async (selectedPaymentMethod: string, token: string) => {
   if (selectedPaymentMethod) {
     try {
-      const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/checkout/api/orders';
+      const apiUrl = `${CART_ENDPOINT}/api/orders`;
       const data = {
-        redirect_url: 'https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart',
+        redirect_url: `${STAGING_URL}/marketplace/success`,
         payment_method: selectedPaymentMethod,
       };
 
       const response = await $http.post(apiUrl, data, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -181,6 +186,24 @@ export const getAllProducts = async () => {
   } catch (error) {
     console.log(error);
     toast.error('Error loading products');
+  }
+};
+
+export const getCartSummary = async (token: string) => {
+  try {
+    const apiUrl = `${CART_ENDPOINT}/api/carts/cart-summary`;
+
+    const response = await $http.get(apiUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error making payment:', error);
+    return {};
   }
 };
 

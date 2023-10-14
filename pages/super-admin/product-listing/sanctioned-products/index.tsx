@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { sanctionedProducts } from '../../../../helpers/sanctionedProducts';
 import Pagination from '../../../view-components/super-admin/pagination';
 import { useRouter } from 'next/router';
-import { getAllProducts, useGetProd } from '../../../../http';
+import { useGetProd } from '../../../../http';
 import { DeletedProducts } from '../../../../@types';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
