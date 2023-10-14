@@ -25,8 +25,7 @@ type MyGradingRangeType = {
 
 const ScoringScreen = () => {
   const arr = ['Beginner', 'Intermediate', 'Expert'];
-  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
-    useCreatingAssessmentContext();
+  // const [isAutoSubmitOn, setIsAutoSubmitOn] = useState<boolean>(false);
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
 
   //State for the timing value
@@ -94,6 +93,73 @@ const ScoringScreen = () => {
     return hoursInMinutes + minutesValue + secondsValue;
   };
 
+  // const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
+  //   const newValue = e.target.value;
+  //   const name = e.target.name;
+
+  //   if (name === 'minScore') {
+  //     const minScore = newValue;
+  //     const maxScore = gradingValues[level].maxScore;
+
+  //     // Update grading values
+  //     setGradingValues((prevValues) => ({
+  //       ...prevValues,
+  //       [level]: {
+  //         ...prevValues[level],
+  //         minScore,
+  //       },
+  //     }));
+
+  //     // Update assessmentScoring state based on the level
+  //     if (maxScore) {
+  //       const range = `${minScore}% - ${maxScore}%`;
+  //       setAssessmentScoring((prevAssessmentScoring) => ({
+  //         ...prevAssessmentScoring,
+  //         [`${level.toLowerCase()}_score_range`]: range,
+  //       }));
+  //     }
+
+  //     // Update incomplete levels
+  //     if (maxScore === '') {
+  //       if (!incompleteLevels.includes(level)) {
+  //         setIncompleteLevels([...incompleteLevels, level]);
+  //       }
+  //     } else {
+  //       setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
+  //     }
+  //   } else if (name === 'maxScore') {
+  //     const minScore = gradingValues[level].minScore;
+  //     const maxScore = newValue;
+
+  //     // Update grading values
+  //     setGradingValues((prevValues) => ({
+  //       ...prevValues,
+  //       [level]: {
+  //         ...prevValues[level],
+  //         maxScore,
+  //       },
+  //     }));
+
+  //     // Update assessmentScoring state based on the level
+  //     if (minScore) {
+  //       const range = `${minScore}% - ${maxScore}%`;
+  //       setAssessmentScoring((prevAssessmentScoring) => ({
+  //         ...prevAssessmentScoring,
+  //         [`${level.toLowerCase()}_score_range`]: range,
+  //       }));
+  //     }
+
+  //     // Update incomplete levels
+  //     if (minScore === '') {
+  //       if (!incompleteLevels.includes(level)) {
+  //         setIncompleteLevels([...incompleteLevels, level]);
+  //       }
+  //     } else {
+  //       setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
+  //     }
+  //   }
+  //   console.log(assessmentScoring);
+  // };
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
     const newValue = e.target.value;
     const name = e.target.name;
@@ -139,6 +205,31 @@ const ScoringScreen = () => {
   const handleSlider = () => {
     setIsAutoSubmitOn(!isAutoSubmitOn);
   };
+
+  // const [drafts, setDrafts] = useState([]);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const response = await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/drafts/');
+  //       if (!response.ok) {
+  //         console.log('Failed to fetch data');
+  //         throw new Error('Failed to fetch data');
+  //       }
+  //       const data = await response.json();
+  //       setDrafts(data);
+  //       console.log(data);
+  //     } catch (error) {
+  //       // Handle the error, e.g., display an error message
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   }
+  //   fetchData();
+  //   console.log('draft', drafts);
+  // }, []);
+
+  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
+    useCreatingAssessmentContext();
 
   return (
     <div>
