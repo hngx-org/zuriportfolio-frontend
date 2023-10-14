@@ -6,34 +6,40 @@ import Image from 'next/image';
 import more from '../../../../public/assets/ic_outline-arrow-back-ios.svg';
 import menu from '../../../../public/assets/ic_outline-menu.svg';
 import { useAuthentication } from '../../../../hooks/useAuthentication';
-import axios from 'axios';
+
+// import axios from 'axios';
+type categories = {
+  name: string;
+  subcategories: [];
+};
 
 interface CategoriesNavProps {
-  navItems: string[];
+  navItems: object[];
 }
 
 const CategoriesNav = (props: CategoriesNavProps) => {
   const [active, setActive] = useState(-1);
   const [allCatActive, setAllCatActive] = useState(false);
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
 
   const { authenticated } = useAuthentication();
+  const { navItems } = props;
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const data = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+  //       console.log(data);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const { data } = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+  //       setCategories(data.categories);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
 
-        setCategories(data.categories || []);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    return () => {
-      fetchCategories();
-    };
-  }, []);
+  //   return () => {
+  //     fetchCategories();
+  //   };
+  // }, []);
 
   const navContainerRef = useRef<HTMLDivElement>(null);
 
@@ -75,10 +81,15 @@ const CategoriesNav = (props: CategoriesNavProps) => {
                 <Link href={`/marketplace/wishlist`}>WishList</Link>
               </li>
             )}
-            {categories.map((category, i: number) => {
+            {navItems.map((category, i: number) => {
               return (
                 <li key={i + 1} className="">
-                  <ButtonCat active={active} handleActiveNav={handleActiveNav} category={category} index={i} />
+                  <ButtonCat
+                    active={active}
+                    handleActiveNav={handleActiveNav}
+                    category={category as categories}
+                    index={i}
+                  />
                 </li>
               );
             })}
