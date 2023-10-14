@@ -5,21 +5,26 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { verifyUser } from '../../http/auth';
 import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
+import isAuthenticated from '../../helpers/isAuthenticated';
+import { useAuth } from '../../context/AuthContext';
 
 function VerificationComplete() {
   const router = useRouter();
   const { token } = router.query;
+  const { handleAuth } = useAuth();
 
   console.log(token);
 
-  const [message, setMessage] = useState({ success: null, message: '' });
-
   const { mutate, isLoading, isSuccess } = useAuthMutation(verifyUser, {
-    onSuccess: (data) => {
-      console.log(data);
-      setMessage(data);
+    onSuccess: (response) => {
+      console.log(response);
 
-      if (data.status === 200) {
+      console.log(isSuccess);
+
+      if (response.status === 200) {
+        handleAuth(response);
+        localStorage.setItem('zpt', response?.data?.newtoken);
+
         router.push('/dashboard');
         return;
       }
@@ -80,3 +85,6 @@ function VerificationComplete() {
 }
 
 export default VerificationComplete;
+function handleAuth(data: any) {
+  throw new Error('Function not implemented.');
+}

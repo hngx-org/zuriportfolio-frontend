@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState, useRef, useContext } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { useAuth } from '../../context/AuthContext';
-import { verfiy2FA } from '../../http';
+import { verfiy2FA } from '../../http/auth';
 import Router, { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
 
@@ -13,10 +13,11 @@ function Code2FALogic() {
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-  const auth = useAuth();
-  const email = auth.email;
+  const { auth } = useAuth();
+  const email = auth?.user.email;
   const mutateFn = useAuthMutation(verfiy2FA, {
     onSuccess: (data: any) => {
+      console.log(data);
       if (data?.response?.data?.status && data?.response?.data.status == 'Error') {
         setDigits(['', '', '', '', '', '']);
         notify({

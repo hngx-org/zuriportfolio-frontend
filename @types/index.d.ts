@@ -57,7 +57,7 @@ export interface RecentlyViewedData {
   };
   interaction_type: string;
   createdat: number;
-};
+}
 
 export interface Education {
   id: number;
@@ -669,6 +669,9 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
+  isVerified: boolean;
+  roleId: number;
+  twoFactorAuth: boolean;
 };
 
 export type AuthResponse = {
