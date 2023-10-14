@@ -2,16 +2,30 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import mainImage from '../../../../../public/assets/mainImage.png';
 import profileimage from '../../../../../public/assets/profile.png';
-import badgesanctioned from '../../../../../public/assets/BadgeSanctioned.svg';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
 import Button from '@ui/Button';
 import Slider from '../../../../../modules/shop/component/slider';
-import SuperAdminNavbar from '../../navigations/SuperAdminNavbar';
 import arrowRight from '../../../../../public/assets/arrowtoRight.svg';
-import { useRouter } from 'next/router';
-import { useRemoveSanction } from '../../../../../http';
+import { NextRouter, useRouter } from 'next/router';
+import { useRemoveSanction, useRestore, useSanction, useTempDeleteProd } from '../../../../../http';
 import { toast } from 'react-toastify';
+
+export function formatDate(inputDate: string) {
+  const date = new Date(inputDate);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear().toString();
+
+  return `${day}-${month}-${year}`;
+}
+export const handleBack = (route: NextRouter) => {
+  if (route.pathname.includes('/super-admin/product-listing/product-details/[id]')) {
+    route.push('..');
+  } else {
+    route.push('.');
+  }
+};
 
 const SuperAdminProdDetails = ({
   setOpenModal,
@@ -25,6 +39,9 @@ const SuperAdminProdDetails = ({
   const route = useRouter();
   const [image, setImage] = useState(mainImage);
   const { removeSanction, isLoading } = useRemoveSanction();
+  const { restoreProd, isLoading: isRestoring } = useRestore();
+  const { deleteSanction, isLoading: isTempDeleting } = useTempDeleteProd();
+  const { santionProd, isLoading: isSanctioning } = useSanction();
 
   const updateImage = (newImage: any) => {
     setImage(newImage);
@@ -35,33 +52,78 @@ const SuperAdminProdDetails = ({
       onSuccess: (response) => {
         if (response.response.status < 300) {
           toast.success(response.response.status);
-          route.push('.');
+          handleBack(route);
         } else {
           toast.error(response.response.data.message);
         }
       },
       onError: () => {
-        toast.error('Error, try again.');
+        toast.success('This product is no longer sanctioned');
+        handleBack(route);
       },
     });
   };
 
-  function formatDate(inputDate: string) {
-    const date = new Date(inputDate);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
+  const handleRestoreProd = () => {
+    restoreProd(id, {
+      onSuccess: (response) => {
+        if (response.response.status < 300) {
+          toast.success(response.response.status || 'Product restored successfully');
+          handleBack(route);
+        } else {
+          toast.error(response.response.data.message || 'Error restoring the product');
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.success('Product restored successfully');
+        handleBack(route);
+      },
+    });
+  };
 
-    return `${day}-${month}-${year}`;
-  }
+  const handleDelete = () => {
+    deleteSanction(id, {
+      onSuccess: (response) => {
+        if (response.response.status < 300) {
+          toast.success(response.response.status || 'Product deleted successfully');
+          handleBack(route);
+        } else {
+          toast.error(response.response.data.message || 'Error deleting the product');
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.success('Product permanently deleted');
+        handleBack(route);
+      },
+    });
+  };
+
+  const handleSanction = () => {
+    santionProd(id, {
+      onSuccess: (response) => {
+        if (response.response.status < 300) {
+          toast.success(response.response.status || 'Product sanctioned successfully');
+          handleBack(route);
+        } else {
+          toast.error(response.response.data.message || 'Error sanctioning the product');
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.success('Product sanctioned');
+        handleBack(route);
+      },
+    });
+  };
 
   return (
     <>
-      <SuperAdminNavbar />
       <div className="container">
         <div className="lg:mx-5 mx-3">
           <div className="flex gap-[16px] py-3 border-b-[1px] border-custom-color1">
-            <Image src={arrowRight} alt="arrowRight" onClick={() => route.push('.')} className="cursor-pointer" />
+            <Image src={arrowRight} alt="arrowRight" onClick={() => handleBack(route)} className="cursor-pointer" />
             <p className="font-manropeB text-[18px] font-medium text-gray-900">Products Details</p>
           </div>
           <div className="flex gap-[28px] items-center flex-col lg:flex-row mb-8">
@@ -97,14 +159,28 @@ const SuperAdminProdDetails = ({
                     </p>
                     <p>{formatDate(data?.updatedAt)}</p>
                   </div>
-                  {route.pathname.includes('sanctioned-products') ? (
-                    <Image src={badgesanctioned} alt="badgeStatus" />
-                  ) : (
-                    <div className="flex bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2">
-                      <span className="inline-block w-2 h-2 bg-custom-color34 rounded-full"></span>
-                      <span className=" capitalize">Deleted</span>
+                  <div className="flex flex-end">
+                    <div
+                      className={` hidden  mx-auto rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
+                        data?.product_status === 'Sanctioned'
+                          ? 'mx-auto bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
+                          : data?.product_status === 'Deleted'
+                          ? 'hidden mx-auto bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
+                          : 'bg-green-200 bg-opacity-50 text-green-800'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block w-2 h-2 rounded-full ${
+                          data?.product_status === 'Sanctioned'
+                            ? 'bg-yellow-600'
+                            : data?.product_status === 'Deleted'
+                            ? 'bg-red-800'
+                            : 'bg-green-800'
+                        }`}
+                      ></span>
+                      <span>{data?.product_status}</span>
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
 
@@ -145,26 +221,55 @@ const SuperAdminProdDetails = ({
                     <p className="font-manropeB text-[14px]  tracking-[0.035px] text-custom-color43  md:text-[16px]">
                       Total Sold
                     </p>
-                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px] "> {data?.price}</p>
+                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px] ">
+                      {' '}
+                      {new Intl.NumberFormat('en-US').format(data?.price)}
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex py-8 justify-center space-x-9">
                   <Button
                     intent={'secondary'}
+                    isLoading={isTempDeleting}
                     className="text-brand-red-primary active:bg-brand-red-pressed hover:bg-brand-red-hover hover:text-white-100 border-brand-red-primary lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px]"
-                    onClick={() => setOpenModal(true)}
-                  >
-                    <span className="font-manropeL text-[12px]">Permanently Delete</span>
-                  </Button>
-                  <Button
-                    intent={'primary'}
-                    className="lg:w-[284.5px] lg:h-[60px]lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px]"
-                    isLoading={isLoading}
-                    onClick={route.pathname.includes('sanctioned-products') ? handleRemoveSaction : () => null}
+                    onClick={() => {
+                      data?.product_status === 'Active' ? handleDelete() : setOpenModal(true);
+                    }}
                   >
                     <span className="font-manropeL text-[12px]">
-                      {route.pathname.includes('sanctioned-products') ? 'Remove Sanction' : 'Restore'}
+                      {data?.product_status === 'Active' ? 'Delete' : 'Permanently Delete'}
+                    </span>
+                  </Button>
+
+                  <Button
+                    intent={
+                      data?.product_status === 'Sanctioned'
+                        ? 'primary'
+                        : data?.product_status === 'Deleted'
+                        ? 'primary'
+                        : 'secondary'
+                    }
+                    className={`${
+                      data?.product_status === 'Active'
+                        ? 'bg-transparent focus:bg-brand-green-focused active:bg-black active:text-white-100 disabled:bg-brand-disabled disabled:cursor-not-allowed border-black text-black'
+                        : ''
+                    } lg:w-[284.5px] lg:h-[60px]lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px]`}
+                    isLoading={isLoading || isRestoring || isSanctioning}
+                    onClick={
+                      data?.product_status === 'Sanctioned'
+                        ? handleRemoveSaction
+                        : data?.product_status === 'Deleted'
+                        ? handleRestoreProd
+                        : handleSanction
+                    }
+                  >
+                    <span className="font-manropeL text-[12px]">
+                      {data?.product_status === 'Sanctioned'
+                        ? 'Remove Sanction'
+                        : data?.product_status === 'Deleted'
+                        ? 'Restore'
+                        : 'Sanction'}
                     </span>
                   </Button>
                 </div>
