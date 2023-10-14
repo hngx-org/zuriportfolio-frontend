@@ -23,10 +23,10 @@ const SanctionedProductDetails = () => {
 
   return (
     <>
+      <SuperAdminNavbar />
       {isLoading ? (
         <Loader />
-      ) :
-      data?.data?.length > 0 ? (
+      ) : data?.data?.length > 0 ? (
         <>
           <SuperAdminProdDetails setOpenModal={setOpenModal} data={data?.data[0]} id={id} />
           <DeleteModal
@@ -40,7 +40,6 @@ const SanctionedProductDetails = () => {
         </>
       ) : (
         <>
-          <SuperAdminNavbar />
           <p className="text-red-200 text-center my-10">Something went wrong, try again</p>
         </>
       )}
