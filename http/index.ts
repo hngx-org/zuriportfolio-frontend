@@ -33,9 +33,14 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
+
+const CART_ENDPOINT = process.env.NEXT_PUBLIC_CART_API_URL || "https://zuri-cart-checkout.onrender.com/api/checkout"
+const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || "https://zuriportfolio-frontend-pw1h.vercel.app"
+const RECENTLY_VIEWED_ENDPOINT = process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || "https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed"
+
 export const getUserCart = async (token: string) => {
   try {
-    const response = await $http.get(`${process.env.NEXT_PUBLIC_CART_API_URL}/api/carts`,{
+    const response = await $http.get(`${CART_ENDPOINT}/api/carts`,{
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -50,7 +55,7 @@ export const getUserCart = async (token: string) => {
 export const removeFromCart = async (productId: string,token: string) => {
   
   try {
-    const apiUrl = `${process.env.NEXT_PUBLIC_CART_API_URL}/api/carts/${productId}`;
+    const apiUrl = `${CART_ENDPOINT}/api/carts/${productId}`;
     const response = await $http.delete(apiUrl, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -143,7 +148,7 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
 export const makePayment = async (selectedPaymentMethod: string,token: string) => {
   if (selectedPaymentMethod) {
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_CART_API_URL}/api/orders`;
+      const apiUrl = `${CART_ENDPOINT}/api/orders`;
       const data = {
         redirect_url: `${process.env.NEXT_PUBLIC_APP_STAGING_URL}/marketplace/success`,
         payment_method: selectedPaymentMethod,
@@ -170,7 +175,7 @@ export const makePayment = async (selectedPaymentMethod: string,token: string) =
 
 export const getCartSummary = async (token:string) => {
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_CART_API_URL}/api/carts/cart-summary`;
+      const apiUrl = `${CART_ENDPOINT}/api/carts/cart-summary`;
 
       const response = await $http.get(apiUrl, {
         headers: {
