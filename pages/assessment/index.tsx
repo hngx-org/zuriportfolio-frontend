@@ -43,7 +43,6 @@ function Index() {
 
         const data = await response.json();
         setAssessments(data);
-        console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -52,27 +51,25 @@ function Index() {
     fetchData();
   }, []);
 
-
   const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
 
   useEffect(() => {
-
     setFilteredData(
-      list.filter((child:any) => {
+      list.filter((child: any) => {
         if (filterParam === '') {
           return true; // Return true to include all items when filterParam is empty
         } else {
           return child?.trackname.toLowerCase().includes(filterParam);
         }
-      }))
-    }, [filterParam, list]);
+      }),
+    );
+  }, [filterParam, list]);
 
-      useEffect(() => {
-  const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
+  useEffect(() => {
+    const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
 
-      
     fetch(apiUrl)
       .then((response) => {
         if (!response.ok) {
@@ -95,7 +92,6 @@ function Index() {
       <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
         <div className=" items-center text-white-100 text-2xl">Loading...</div>
       </div>
-
     );
   }
   return (
@@ -170,8 +166,8 @@ function Index() {
             </div>
           </div>
           <div className="board-desc flex flex-wrap gap-[14px] md:gap-[26px] justify-center w-full my-[50px] md:my-[79px]">
-            <Description info="Responses" number={120} icon={bookimg} />
-            <Description info="CREATED ASSESSMENTS" number={12} icon={booksaved} />
+            <Description info="Responses" number={3} icon={bookimg} />
+            <Description info="CREATED ASSESSMENTS" number={assessments.length} icon={booksaved} />
             <Description info="PASS/FAIL RATIO" number={'3:1'} icon={ratioimg} />
           </div>
           <div className="search w-full border-dark-200 border-[1px] p-2 md:p-4 rounded-lg flex items-center">
@@ -183,8 +179,7 @@ function Index() {
           </div>
 
           <ListContext.Provider value={[filteredData, setList]}>
-         <Assessmentresponses assessments={assessments} />
-
+            <Assessmentresponses assessments={assessments} />
           </ListContext.Provider>
         </div>
       </div>

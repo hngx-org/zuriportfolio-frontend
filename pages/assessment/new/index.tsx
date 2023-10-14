@@ -8,10 +8,12 @@ import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
+import { useCreatingAssessmentContext } from '../../../context/assessment/CreatingAssessmentContext';
 
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
 const CreateAssessment = () => {
+  const { examDuration } = useCreatingAssessmentContext();
   const router = useRouter();
   const data = router.query;
   const skillid = data.name;
@@ -37,10 +39,19 @@ const CreateAssessment = () => {
   };
 
   const publishClick = () => {
-    const newt = { ...newobject };
-    setObject(newt);
-    setListupdate('save');
+    const durationInMinutes = parseInt(examDuration, 10); // Convert the string to a number
+    if (!isNaN(durationInMinutes)) {
+      // Check if the conversion was successful
+      const newt = { ...newobject, duration_in_minutes: durationInMinutes };
+      setObject(newt);
+      setListupdate('post');
+      console.log('This is before the post request', newt);
+    } else {
+      // Handle the case where examDuration is not a valid number
+      console.error('Invalid examDuration:', examDuration);
+    }
   };
+
   const draftsClick = () => {
     setListupdate('save');
   };
@@ -68,6 +79,7 @@ const CreateAssessment = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-CSRFToken': 'csrftoken',
       },
       body: JSON.stringify(newobject),
     };
