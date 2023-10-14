@@ -14,7 +14,7 @@ type EducationModalProps = {
 const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) => {
   const [educations, setEducations] = useState<Education[]>([]);
   const [degreeOptions, setDegreeOptions] = useState<DegreeOption[]>([]);
-  const [degree, setDegree] = useState<string>('');
+  const [degree, setDegree] = useState<string>('2');
   // const [educationDetails, setEducationDetails] = useState<EducationDetail[]>([]);
   const [fieldOfStudy, setFieldOfStudy] = useState('');
   const [description, setDescription] = useState('');
@@ -42,7 +42,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
       if (response.ok) {
         const data = await response.json();
         const { education } = data;
-        // console.log(education)
+        console.log(education);
         setEducations(education);
       }
     } catch (error) {
@@ -96,75 +96,78 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
       }
     } catch (error) {
       console.error('Error creating education details:', error);
-    } finally {
-      setDegree('');
-      setDateFrom('');
-      setDateTo('');
-      setDescription('');
-      setFieldOfStudy('');
-      setSchool('');
+    }
+    // finally {
+    //   setDegree('');
+    //   setDateFrom('');
+    //   setDateTo('');
+    //   setDescription('');
+    //   setFieldOfStudy('');
+    //   setSchool('');
+    // }
+  };
+  const handleEdit = async (id: number) => {
+    const editedEducation = educations.find((education) => education.id === id);
+    if (editedEducation) {
+      setDegree('bachelor of science');
+      setFieldOfStudy(editedEducation.fieldOfStudy);
+      setDescription(editedEducation.description);
+      setSchool(editedEducation.school);
+      setDateFrom(editedEducation.from);
+      setDateTo(editedEducation.to);
+      setIsForm(true);
+      setEditMode(true);
+      setEditedEducation(editedEducation);
+    }
+    if (editedEducation) {
+      console.log('yes', degree);
     }
   };
 
-  const handleEdit = async (id: number) => {
+  const handleSaveEdit = async (id: number) => {
+    // const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
+    // const editEducationObj = {
+    //   sectionId: 22,
+    //   id:
+    //   degreeId: selectedDegreeOption,
+    //   fieldOfStudy: fieldOfStudy,
+    //   school: school,
+    //   description: description,
+    //   from: dateFrom,
+    //   to: dateTo,
+    // };
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/education/${id}`);
+      // console.log(`Editing education entry with degree`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/educationDetail/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedEducation),
+      });
+
       if (response.ok) {
-        const educationData = await response.json();
-        setEditedEducation(educationData);
-        console.log(educationData);
-        setEditMode(true);
+        console.log('Education details updated successfully.');
       } else {
-        console.error('Failed to fetch education data for editing.');
+        console.error('Failed to update education details.');
       }
     } catch (error) {
-      console.error('Error fetching education data for editing:', error);
+      console.error('Error updating education details:', error);
     }
+
+    // setEditMode(false);
+    // setEditedEducation(null);
   };
-
-  // const handleSaveEdit = async (id: number) => {
-  //   const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
-  //   const editEducationObj = {
-  //     sectionId: 22,
-  //     degreeId: selectedDegreeOption,
-  //     fieldOfStudy: fieldOfStudy,
-  //     school: school,
-  //     description: description,
-  //     from: dateFrom,
-  //     to: dateTo,
-  //   };
-  //   try {
-  //     console.log(`Editing education entry with degree`);
-  //     const response = await fetch(`https://hng6-r5y3.onrender.com/api/updateEducationDetail/${id}`, {
-  //       method: 'PATCH',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(editEducationObj),
-  //     });
-
-  //     if (response.ok) {
-  //       console.log('Education details updated successfully.');
-  //     } else {
-  //       console.error('Failed to update education details.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating education details:', error);
-  //   }
-
-  //   // setEditMode(false);
-  //   // setEditedEducation(null);
-  // };
 
   const handleDelete = async (id: number) => {
     try {
-      console.log(`Deleting education entry with degreeId`);
+      // console.log(`Deleting education entry with degreeId`);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/education/${id}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        console.log('Education details deleted successfully.');
+        // console.log('Education details deleted successfully.');
         setEducations((prevEducation) => prevEducation.filter((education) => education.id !== id));
       } else {
         console.error('Failed to delete education details.');
@@ -188,7 +191,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
           <div className="">
             <div className="">
               {educations.map((education, index) => {
-                console.log(educations);
+                // console.log(educations);
                 return (
                   <article
                     className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}
@@ -267,7 +270,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                       type="text"
                       intent={'default'}
                       placeHolder="Enter field of study"
-                      value={fieldOfStudy}
+                      value={degree}
                       onChange={(e) => setFieldOfStudy(e.target.value)}
                       className="w-full border-white-120"
                     />
@@ -337,7 +340,12 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                  <Button
+                    type="submit"
+                    className="w-full rounded-md sm:w-[6rem]"
+                    size={'lg'}
+                    // onClick={() => handleSaveEdit(educations)}
+                  >
                     Save
                   </Button>
                 </div>
@@ -363,7 +371,12 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                  <Button
+                    type="submit"
+                    className="w-full rounded-md sm:w-[6rem]"
+                    size={'lg'}
+                    // onClick={() => handleSaveEdit(education.id)}
+                  >
                     Save
                   </Button>
                 </div>

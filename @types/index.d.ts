@@ -61,6 +61,7 @@ export interface RecentlyViewedData {
 
 export interface Education {
   id: number;
+  degree: string;
   degreeId: number;
   userId: number;
   fieldOfStudy: string;
