@@ -6,7 +6,7 @@ import MainLayout from '../../../../../components/Layout/MainLayout';
 import Container from '@modules/auth/component/Container/Container';
 import Table from '../../../../../public/assets/reviews/Table.png';
 
-function EmptyReviewPage() {
+function EmptyReviewPage(props: { pageTitle: string }) {
   const router = useRouter();
 
   return (
@@ -17,7 +17,7 @@ function EmptyReviewPage() {
           onClick={() => router.push('/dashboard/reviews')}
         >
           <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-          <p className="font-manropeB lg:text-2xl md:text-xl sm:text-lg">The Complete Ruby on Rails Developer Course</p>
+          {props.pageTitle && <p className="font-manropeB lg:text-2xl md:text-xl sm:text-lg">{props.pageTitle}</p>}
         </div>
       </div>
       <div className="flex flex-col justify-center items-center h-full w-full py-52">

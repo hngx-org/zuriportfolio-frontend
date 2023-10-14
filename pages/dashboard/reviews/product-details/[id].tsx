@@ -13,7 +13,7 @@ import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/Em
 import Container from '@modules/auth/component/Container/Container';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { ratingData, reviewData } from '../../../../db/reviews';
+import { ratingData, cardData } from '../../../../db/reviews';
 
 interface ReviewData {
   productId: string;
@@ -50,11 +50,14 @@ const UserReview: NextPage = () => {
   const [total1Star, setTotal1Star] = useState<number>(0);
 
   const router = useRouter();
+  const { id } = router.query;
+  const productObj = cardData[Number(id) - 1];
 
   useEffect(() => {
-    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/1/reviews?pageNumber=0&pageSize=10`)
+    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/${productObj.id}/reviews?pageNumber=0&pageSize=10`)
       .then((res) => res.json())
       .then((data: ReviewApiResponse) => setData(data.data));
+    console.log(productObj.title);
   }, []);
 
   useEffect(() => {
@@ -103,7 +106,7 @@ const UserReview: NextPage = () => {
       <Container>
         <NavDashBoard active="reviews" />
         {data === null || data.length === 0 ? (
-          <EmptyReviewPage />
+          <EmptyReviewPage pageTitle={productObj.title} />
         ) : (
           <div className="flex flex-col md:mx-24">
             <div className="flex flex-col w-full mb-10 items-center justify-center">
@@ -113,9 +116,7 @@ const UserReview: NextPage = () => {
                   onClick={() => router.push('/dashboard/reviews')}
                 >
                   <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-                  <p className="font-manropeB lg:text-2xl md:text-xl sm:text-lg">
-                    The Complete Ruby on Rails Developer Course
-                  </p>
+                  {productObj && <p className="font-manropeB lg:text-2xl md:text-xl sm:text-lg">{productObj.title}</p>}
                 </div>
               </div>
               <div className="flex flex-col md:flex-row lg:gap-16 md:gap-10 gap-4">
