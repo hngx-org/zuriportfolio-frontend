@@ -61,7 +61,7 @@ const CreateAssessment = () => {
 
   function postObject() {
     // The API endpoint URL
-    const apiUrl = 'https://piranha-assessment.onrender.com/api/admin/assessments';
+    const apiUrl = 'https://piranha-assessment-jco5.onrender.com//api/admin/assessments';
 
     // Create the request options
     const requestOptions = {

@@ -48,7 +48,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     try {
       // Make a GET request to the API
       const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
-      // const suggestionRes = await axios.get('https://piranha-assessment.onrender.com/api/admin/skills/');
+      // const suggestionRes = await axios.get('https://piranha-assessment-jco5.onrender.com//api/admin/skills/');
       const data = response.data.data;
       // const skillList = data.map((item:skillListRes) => item.skill)
       // Set the data in the state
