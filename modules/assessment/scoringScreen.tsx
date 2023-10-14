@@ -211,7 +211,7 @@ const ScoringScreen = () => {
   // useEffect(() => {
   //   async function fetchData() {
   //     try {
-  //       const response = await fetch('https://piranha-assessment-jco5.onrender.com//api/admin/drafts/');
+  //       const response = await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/drafts/');
   //       if (!response.ok) {
   //         console.log('Failed to fetch data');
   //         throw new Error('Failed to fetch data');
