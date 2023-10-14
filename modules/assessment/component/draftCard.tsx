@@ -50,7 +50,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ item, onRename, onDelete }) => {
             onChange={(e) => setNewTitle(e.target.value)}
           />
         ) : (
-          <Link href={`/assessment/preview-edit/${item.id}`} className=" h-full w-full flex items-center">
+          <Link href={`/assessment/draft/${item.id}`} className=" h-full w-full flex items-center">
             <p className="text-[#006F37] text-[45px] leading-none overflow-hidden overflow-ellipsis w-56">{newTitle}</p>
           </Link>
         )}
