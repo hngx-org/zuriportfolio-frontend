@@ -92,6 +92,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
   try {
     const res = await fetch(
       `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=0&pageSize=10`,
+      { next: { revalidate: 5 } },
     );
     const data = await res.json();
     console.log(data); // log response data to console
