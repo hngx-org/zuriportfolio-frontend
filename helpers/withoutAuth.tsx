@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import isAuthenticated from './isAuthenticated';
 
-const withoutAuth = <P extends {children: React.ReactNode}>(WrappedComponent: React.ComponentType<P>) => {
+const withoutAuth = <P extends { children: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper: React.FC<P> = (props) => {
     const router = useRouter();
     useEffect(() => {
@@ -23,4 +23,3 @@ const withoutAuth = <P extends {children: React.ReactNode}>(WrappedComponent: Re
 };
 
 export default withoutAuth;
-
