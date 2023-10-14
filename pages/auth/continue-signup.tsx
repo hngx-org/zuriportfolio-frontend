@@ -268,7 +268,7 @@ function Signup() {
                   id="agree"
                   type="checkbox"
                   {...form.getInputProps('agree', { type: 'checkbox' })}
-                  className="w-4 border-brand-green-primary"
+                  className="w-4 border-brand-green-primary cursor-pointer"
                 />
               </span>
               <label htmlFor='agree' className="text-gray-200 text-sm font-manropeL">
