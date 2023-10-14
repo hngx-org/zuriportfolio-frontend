@@ -2,11 +2,14 @@
 name: Zuri main dev Deployment
 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [dev]
-  pull_request:
-    branches: [dev]
+    branches:
+      - dev
+  # pull_request:
+  # branches: [dev]
+  # schedule:
+  # cron job that runs every 2 minutes
+  # - cron: '* * * '
 
 jobs:
   build:
