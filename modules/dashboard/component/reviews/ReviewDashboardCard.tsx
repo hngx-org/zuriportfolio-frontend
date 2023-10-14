@@ -1,12 +1,15 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 import { ReviewCardProps } from '../../../../@types';
 import star1 from '../../../../public/assets/star1.svg';
 import star2 from '../../../../public/assets/star2.svg';
 
 function ReviewDashboardCard({ id, className, imageSrc, title, author, avgRating, ratingNo, price }: ReviewCardProps) {
+  const router = useRouter();
+
   function getStars(avgRating: number) {
     let stars = [];
     for (let i = 0; i < 5; i++) {
@@ -50,7 +53,10 @@ function ReviewDashboardCard({ id, className, imageSrc, title, author, avgRating
                 </div>
               </div>
               <Link
-                href={`/dashboard/reviews/product-details/${id}`}
+                href={{
+                  pathname: '/dashboard/reviews/product-details/[id]',
+                  query: { id },
+                }}
                 className="flex justify-end text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36"
               >
                 <p className="hover:text-green-200">View reviews</p>
