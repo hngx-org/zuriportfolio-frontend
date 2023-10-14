@@ -75,10 +75,11 @@ const DraftPage = () => {
         body: JSON.stringify({
           questions: [
             {
-              question_no: 0,
+              question_no: 1,
               question_text: 'string',
+              question_type: 'multiple_choice',
               options: ['string'],
-              correct_option: 0,
+              correct_option: 1,
             },
           ],
           is_published: false,

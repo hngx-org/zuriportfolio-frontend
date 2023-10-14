@@ -5,20 +5,17 @@ import SearchProduct from '@modules/super-admin/components/product-listing/searc
 import { deletedProducts } from '../../../../helpers/sanctionedProducts';
 import Pagination from '../../../view-components/super-admin/pagination';
 import { useRouter } from 'next/router';
+import { DeletedProducts } from '../../../../@types';
 
 const DeletedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
+  const [deletedProducts, setDeletedProducts] = useState<DeletedProducts[]>([]);
   const [filteredProduct, setFilteredProducts] = useState(deletedProducts);
 
   const handleSubmit = (searchText: string) => {
-    const filteredProduct: Array<{
-      name: string;
-      vendor: string;
-      id: number;
-      dateAdded: Date;
-      dateDeleted: Date;
-      status: string;
-    }> = deletedProducts.filter((product) => product.name.toLowerCase().includes(searchText.toLowerCase()));
+    const filteredProduct: DeletedProducts[] = deletedProducts.filter((product) =>
+      product.product_name.toLowerCase().includes(searchText.toLowerCase()),
+    );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
@@ -68,33 +65,29 @@ const DeletedProducts = () => {
               <tr
                 className="border-t border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200"
                 key={index}
-                onClick={() => route.push(`/super-admin/product-listing/deleted-products/${product.id}`)}
+                onClick={() => route.push(`/super-admin/product-listing/deleted-products/${product.product_id}`)}
               >
                 <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color10 px-6 py-4 items-center gap-6 self-stretch flex">
                   <input type="checkbox" />
 
-                  {product.name}
+                  {product.product_name}
                 </td>
                 <td className="text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
-                  {product.vendor}
+                  {product.vendor_name}
                 </td>
                 <td className="hidden md:table-cell text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
-                  #{product.id}
+                  #{product.product_id}
                 </td>
                 <td className="hidden md:table-cell text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
-                  {product.dateAdded.getDate().toString().padStart(2, '0')}-
-                  {(product.dateAdded.getMonth() + 1).toString().padStart(2, '0')}-
-                  {(product.dateAdded.getFullYear() % 100).toString().padStart(2, '0')}
+                  {product.createdAt}
                 </td>
                 <td className="hidden md:table-cell text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
-                  {product.dateDeleted.getDate().toString().padStart(2, '0')}-
-                  {(product.dateDeleted.getMonth() + 1).toString().padStart(2, '0')}-
-                  {(product.dateDeleted.getFullYear() % 100).toString().padStart(2, '0')}
+                  {product.updatedAt}
                 </td>
                 <td className="hidden md:table-cell text-xs tracking-wider lg:tracking-wide font-manropeL lg:text-base text-custom-color2 px-6 py-4 text-center">
                   <div className="hidden mx-auto bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max">
                     <span className="inline-block w-2 h-2 bg-custom-color34 rounded-full"></span>
-                    <span className=" capitalize">{product.status}</span>
+                    <span className=" capitalize">{product.admin_status}</span>
                   </div>
                 </td>
 

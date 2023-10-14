@@ -134,7 +134,7 @@ function LoginForm() {
               <p className="text-[red] text-xs pt-1">{form.errors.password && form.errors.password}</p>
             </div>
 
-            <div className='flex justify-end'>
+            <div className="flex justify-end">
               <Link href="/auth/forgot-password">
                 <span className=" font-manrope text-brand-green-primary text-right  text-[1.18313rem] mt-[0.62rem]">
                   Forgot Password ?
@@ -155,7 +155,7 @@ function LoginForm() {
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
               Don&apos;t have an account?
-              <Link href="/auth/signup-with-email">
+              <Link href="/auth/signup">
                 <span className="text-brand-green-primary"> Sign Up</span>
               </Link>
             </p>
