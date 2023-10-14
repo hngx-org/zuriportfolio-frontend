@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import MainLayout from '../../../../components/Layout/MainLayout';
@@ -14,17 +14,17 @@ import { useRouter } from 'next/router';
 const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
   const router = useRouter();
-  const [storedAssessment, setStoredAssessment] = React.useState<any>([])
-  
+  const [storedAssessment, setStoredAssessment] = React.useState<any>([]);
+
   useEffect(() => {
-    const assessmentData = localStorage.getItem('assessmentData')
-    const storedAssessmentData = assessmentData ? JSON.parse(assessmentData) : null
-    console.log('Hellllooooooooooo>>>>>>>>>>>>>>>>>>>',storedAssessmentData)
-    if(assessmentData){
-      console.log('data message', storedAssessmentData[0].options)
-      setStoredAssessment(storedAssessmentData)
+    const assessmentData = localStorage.getItem('assessmentData');
+    const storedAssessmentData = assessmentData ? JSON.parse(assessmentData) : null;
+    console.log('Hellllooooooooooo>>>>>>>>>>>>>>>>>>>', storedAssessmentData);
+    if (assessmentData) {
+      console.log('data message', storedAssessmentData[0].options);
+      setStoredAssessment(storedAssessmentData);
     }
-  },[])
+  }, []);
 
   return (
     <>

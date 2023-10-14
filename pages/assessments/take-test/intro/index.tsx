@@ -10,19 +10,19 @@ const TakeTest: FC = () => {
   const router = useRouter();
 
   const handleGetStarted = async () => {
-    try{
-      const data = await fetchUserTakenAssessment()
-      console.log('data',data.statusText)
-      const assessmentData = data.data.data
-      console.log('assessmentData', assessmentData)
-      localStorage.setItem('assessmentData', JSON.stringify(assessmentData))
+    try {
+      const data = await fetchUserTakenAssessment();
+      console.log('data', data.statusText);
+      const assessmentData = data.data.data;
+      console.log('assessmentData', assessmentData);
+      localStorage.setItem('assessmentData', JSON.stringify(assessmentData));
       if (data) {
-        router.push(`/assessments/take-test/questions`)
+        router.push(`/assessments/take-test/questions`);
       }
-    }catch(error){
-      console.log('catch error',error)
-    } 
-  }
+    } catch (error) {
+      console.log('catch error', error);
+    }
+  };
   return (
     <>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
