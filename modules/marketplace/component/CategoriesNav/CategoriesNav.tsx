@@ -6,6 +6,7 @@ import Image from 'next/image';
 import more from '../../../../public/assets/ic_outline-arrow-back-ios.svg';
 import menu from '../../../../public/assets/ic_outline-menu.svg';
 import { useAuthentication } from '../../../../hooks/useAuthentication';
+import { CategoryType } from '../filter/hooks/useCategory';
 
 // import axios from 'axios';
 type categories = {
@@ -14,7 +15,7 @@ type categories = {
 };
 
 interface CategoriesNavProps {
-  navItems: object[];
+  navItems: CategoryType[];
 }
 
 const CategoriesNav = (props: CategoriesNavProps) => {
@@ -24,6 +25,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
 
   const { authenticated } = useAuthentication();
   const { navItems } = props;
+  console.log(navItems)
   // useEffect(() => {
   //   const fetchCategories = async () => {
   //     try {
@@ -87,7 +89,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
                   <ButtonCat
                     active={active}
                     handleActiveNav={handleActiveNav}
-                    category={category as categories}
+                    category={category}
                     index={i}
                   />
                 </li>
