@@ -46,8 +46,8 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
       let sortedProducts: any = [...data.data]; // Create a copy of the full dataset
 
       sortedProducts = sortedProducts.sort((a: any, b: any) => {
-        const dateA = new Date(formatDate(a.createdAt));
-        const dateB = new Date(formatDate(b.createdAt));
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
 
         if (status === 'newest') {
           return dateB.getTime() - dateA.getTime(); // Newest to oldest
