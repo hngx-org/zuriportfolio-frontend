@@ -53,7 +53,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       console.error('Error fetching data:', error);
     }
   };
-
   // set the data in the db on the modal onload
   useEffect(() => {
     fetchSkillData();
@@ -85,21 +84,18 @@ const handleKeyPress = (e: { key: string }) => {
     const updatedValues = values.filter((value) => value !== item);
     setValues(updatedValues);
   }
-  console.log(values)
-  
 
   const arrayOneItemAddition = (item: skillListRes) => {
     if (!values.some(skill => skill.skill === item.skill)){ //avoid duplicates
       setValues((values) => [...values, item])
-    }
-    
+    } 
   }
-
-
+ 
+  const skillsArray = values.map((obj) => obj.skill);
 
   const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
   const requestData = {
-    skills: values,
+    skills: skillsArray,
     sectionId: 5,
     userId: userId,
   };
@@ -112,7 +108,7 @@ const handleKeyPress = (e: { key: string }) => {
       return response.data;
       
     } catch (error) {
-      console.error('Error:', error);
+      console.log('Error:', error);
       throw error; // You can handle the error further if needed
     }
    
@@ -129,8 +125,9 @@ const handleKeyPress = (e: { key: string }) => {
       // console.log(response.data.data);
       return response.data;
     } catch (error) {
-      console.error('Error:', error);
-      throw error; // You can handle the error further if needed
+      if ((error.message !== 'Request failed with status code 404')) {
+         throw error;
+      }
     }
   }
 
@@ -169,7 +166,7 @@ const handleKeyPress = (e: { key: string }) => {
                       className=" group/skillsbtn text-brand-green-shade20 h-10 bg-brand-green-shade95  hover:text-white-100 hover: text-sm font-semibold leading-5 rounded-lg px-2 py-4 flex items-center gap-4"
                       onClick={() => {
                         arrayTwolist(item)
-                        
+                        deleteSkillsData(item.skillId);
                       }}
                       type="button"
                     >
@@ -224,7 +221,7 @@ const handleKeyPress = (e: { key: string }) => {
               onClick={() => {
                 onClose();
                 cancelBtnFn();
-                // deleteSkillsData(item.skillId);
+                
               }}
             >
               Cancel
