@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import MainLayout from '../../../../../components/Layout/MainLayout';
+import BadgeComponent from '@modules/assessment/component/Badges/BadgeComponent';
 
 interface BadgeComponentProps {
   locked: boolean;
@@ -17,62 +18,6 @@ interface BadgeComponentProps {
   badgelabel: string;
   as: string;
 }
-
-type AssessmentDetails = {
-  assessment_id: number;
-  skill_id: number;
-  title?: string;
-  description: string;
-  duration_minutes: string;
-  status: string;
-  start_date: Date;
-  end_date: Date;
-};
-
-const BadgeComponent: React.FC<BadgeComponentProps> = ({
-  imageSrc,
-  imageAlt,
-  title,
-  description,
-  earnedDate,
-  isLocked,
-  badgelabel,
-}) => {
-  const [result, setResult] = React.useState<AssessmentDetails>();
-  const id = '02cac250-ccbf-409f-9c67-ecbbdb5bc31e';
-
-  return (
-    <Link
-      href={`/assessments/dashboard/badge/${badgelabel}`}
-      as={`/assessments/dashboard/badge/${id}`}
-      passHref
-      className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[236px] lg:min-w-[300px] lg:min-h-[300px] xl:min-w-[330px] xl:min-h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
-    >
-      {/* {isLocked && (
-          <div className="badgelockoverlay absolute w-full h-full top-0 bg-opacity-60 bg-black flex items-center justify-center z-10 ">
-          <div className="badgelockimage w-[139px] sm:w-[90px] lg:w-[139px] lg:h-[139px]  h-[139px] sm:h-[90px] relative">
-            <Image
-              src="/assets/images/badges/badgelock.png"
-              fill={true}
-              alt="expert reward badge image"
-              priority={true}
-              />
-          </div>
-        </div>
-      )} */}
-      <div className="badgerewardimage w-[160px] h-[128px] relative">
-        <Image src={imageSrc} fill={true} alt={imageAlt} style={{ objectFit: 'contain' }} />
-      </div>
-      <div className="flex flex-col gap-[12px]">
-        <h1 className="text-center text-[22px] sm:text-[16px] lg:text-[22px] font-[600]">{title}</h1>
-        <p className="text-center block sm:hidden lg:block text-[14px] font-[400] leading-[20px] tracking-wide w-full">
-          {description}
-        </p>
-        <p className="text-center block sm:hidden lg:block font-[700] leading-[20px] tracking-wider">{earnedDate}</p>
-      </div>
-    </Link>
-  );
-};
 
 const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -179,7 +124,7 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
         </div>
         <div className="h-full lg:px-[60px] xl:px-[150px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
           <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start">
-            Product design Badges
+            Badges
           </h1>
           <div className="badgecomponents flex flex-col md:flex-row  items-center justify-between gap-[94px]  md:gap-[24px]  ">
             {/* beginner badge component */}
@@ -194,34 +139,6 @@ const Earnedbadges: React.FC<BadgeComponentProps> = ({ locked }) => {
               locked={true}
               href="/badges/badge/[badge]"
               badgelabel="beginner"
-              as={''}
-            />
-            {/* intermediate badge component */}
-            <BadgeComponent
-              imageSrc="/assets/images/badges/intermediatebadgereward.png"
-              imageAlt="intermediate reward badge image"
-              title="INTERMEDIATE"
-              description="Badge earned in the Product designed category."
-              earnedDate="Earned on: Sept 12, 2023"
-              isLocked={true}
-              locked={true}
-              badgelabel="intermediate"
-              href="/badges/badge/[badge]"
-              as={''}
-            />
-
-            {/* expert badge component */}
-
-            <BadgeComponent
-              imageSrc="/assets/images/badges/expertbadgereward.png"
-              imageAlt="expert reward badge image"
-              title="EXPERT"
-              description="Badge earned in the Product designed category."
-              earnedDate="Earned on: Sept 12, 2023"
-              isLocked={true}
-              locked={true}
-              badgelabel="expert"
-              href="/badges/badge/[badge]"
               as={''}
             />
           </div>
