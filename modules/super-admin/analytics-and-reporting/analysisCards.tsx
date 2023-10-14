@@ -6,7 +6,7 @@ import axios from 'axios';
 
 interface zaProps {
   dateRange: DateObject[];
-  reportClicked: boolean;
+  reportClicked: Boolean;
 }
 
 const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {

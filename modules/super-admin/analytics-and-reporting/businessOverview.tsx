@@ -4,7 +4,7 @@ import { DateObject } from 'react-multi-date-picker';
 
 interface zaProps {
   dateRange: DateObject[];
-  reportClicked: boolean;
+  reportClicked: Boolean;
 }
 
 const BusinessOveriview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
