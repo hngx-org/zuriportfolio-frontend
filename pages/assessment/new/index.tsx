@@ -96,7 +96,7 @@ const CreateAssessment = () => {
     setModalOpen(true);
 
     // split question and string and number
-    const url = 'https://piranha-assessment-jco5.onrender.com//api/admin/drafts/';
+    const url = 'https://piranha-assessment-jco5.onrender.com/api/admin/drafts/';
 
     const reqOptions = {
       method: 'POST',
