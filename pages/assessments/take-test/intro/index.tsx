@@ -21,7 +21,7 @@ const TakeTest: FC = () => {
       }
     }catch(error){
       console.log('catch error',error)
-    }
+    } 
   }
   return (
     <>
