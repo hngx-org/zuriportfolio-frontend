@@ -69,7 +69,7 @@ export default function ProductDetailsDescription() {
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
-        toast.success('product added to localstorage');
+        toast.success('Item added to cart🎊');
       }
     }
   };
@@ -167,10 +167,10 @@ export default function ProductDetailsDescription() {
               </p>
               <p className="flex gap-x-4 items-center">
                 <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
-                  ${product?.discount_price}
+                  ${product?.discount_price === '0.00' ? product?.price : product?.discount_price}
                 </span>
                 <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
-                  ${product?.price}
+                  {product?.discount_price === '0.00' ? null : `${product?.price}`}
                 </span>
               </p>
             </div>
@@ -184,21 +184,25 @@ export default function ProductDetailsDescription() {
               >
                 Add to cart
               </Button>
-              <Button
-                className="lg:px-6 md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg text-custom-color11 tracking-[0.08px]"
-                rightIcon={<ArrowRight color="#009254" />}
-                intent={'secondary'}
-                size={'lg'}
-              >
-                Add to Wishlist
-              </Button>
+
+              {/* Remove the "auth &&" to to view it in localhost  */}
+              {auth && (
+                <Button
+                  className="lg:px-6 md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg text-custom-color11 tracking-[0.08px]"
+                  rightIcon={<ArrowRight color="#009254" />}
+                  intent={'secondary'}
+                  size={'lg'}
+                >
+                  Add to Wishlist
+                </Button>
+              )}
             </div>
           </div>
         </div>
 
         {/* Description, Specification, Reviews (Desktop View)  */}
         {/* Pass all the data down to this component as props  */}
-        <TabContainer />
+        <TabContainer desc={product?.description} />
 
         {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
         <div className="md:hidden block mt-[26px] mr-auto">
