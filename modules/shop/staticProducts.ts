@@ -72,7 +72,7 @@ export const staticProducts: Products[] = [
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
-    image: [{ id: '1', product_id: '1', url: '/assets/slider6.png' }],
+    image: [{ id: '1', product_id: '1', url: '/assets/slider4.png' }],
     category: { name: 'Category 6' },
 
     description: 'hi',
@@ -86,7 +86,7 @@ export const staticProducts: Products[] = [
     name: 'Webinar and Course Template',
     price: 100,
     shopOwner: 'Mark Essien',
-    image: [{ id: '1', product_id: '1', url: '/assets/slider7.png' }],
+    image: [{ id: '1', product_id: '1', url: '/assets/slider5.png' }],
     category: { name: 'Category 7' },
 
     description: 'hi',

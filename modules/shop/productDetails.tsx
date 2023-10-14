@@ -22,6 +22,7 @@ import axios from 'axios';
 
 export default function ProductDetails() {
   const router = useRouter();
+  const [products, setProducts] = useState<Products[]>([]);
 
   const [product, setProduct] = useState<Products | null>(null);
   const [currentProducts, setCurrentProducts] = useState<Products[]>([]);
@@ -66,10 +67,10 @@ export default function ProductDetails() {
 
   useEffect(() => {
     axios
-      .get('https://tech-v3ey.onrender.com/products')
+      .get('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
       .then((response) => {
         console.log('Fetched product data:', response.data);
-        setCurrentProducts(response.data as Products[]);
+        setProducts(response.data.data);
       })
       .catch((error) => {
         console.error('Error fetching product data:', error);
@@ -227,7 +228,7 @@ export default function ProductDetails() {
               >
                 <Image
                   src={product.image && product.image[0] ? product.image[0].url : ''}
-                  alt="Main Image"
+                  alt={product.name}
                   fill
                   objectFit="cover"
                   className="img max-w-none w-full h-full absolute"
@@ -532,20 +533,20 @@ export default function ProductDetails() {
           <div className="mt-[4.4rem] mb-[2.37rem]">
             <div className="flex justify-between items-center mb-5 md:mb-2 lg:mb-[1.13rem]">
               <h3 className="text-custom-color31 font-manropeL font-bold md:text-2xl text-sm md:px-2 truncate w-[13.1875rem] md:w-full">
-                Other Products By {product.shopOwner}{' '}
+                Other Products By {product.category.name}{' '}
               </h3>
               <span className="flex items-center text-[#00894C] text-xs font-semibold font-manropeL gap-x-2 md:hidden">
                 <Link href={'/shop'}>View all</Link> <ArrowRight2 size="20" color="#00894c" />
               </span>
             </div>
             <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
-              <ShopProductList products={currentProducts.slice(0, 8)} />
+              <ShopProductList products={products.slice(0, 8)} />
             </div>
             <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
-              <ShopProductList products={currentProducts.slice(0, 6)} />
+              <ShopProductList products={products.slice(0, 6)} />
             </div>
             <div className="md:mx-[0.66rem] mx-0 md:hidden block">
-              <ShopProductList products={currentProducts.slice(0, 4)} />
+              <ShopProductList products={products.slice(0, 4)} />
             </div>
             <div className="md:flex w-full justify-end hidden">
               <span className="flex py-3 px-5 gap-1 border-solid border border-white-120 rounded-lg mt-6 mb-[4.44rem] font-manropeL font-semibold tracking-[0.00088rem] text-sm items-center">
