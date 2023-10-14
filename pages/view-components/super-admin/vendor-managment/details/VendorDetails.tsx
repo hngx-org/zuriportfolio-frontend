@@ -300,14 +300,14 @@ function VendorDetails(): React.ReactElement {
 
   const { data, isLoading } = useGetShop(id);
 
-  console.log(data?.data);
+  console.log(data);
   // Pagination Varriables
   const [currentPage, setCurrentPage] = useState(1); // current page identifier
   const recordsPerPage: number = 8; // list of pages that show at a page
   const lastIndex: number = currentPage * recordsPerPage; // las item on current page
   const firstIndex: number = lastIndex - recordsPerPage; // first item on current page
-  const records: VendorProduct[] = cards.slice(firstIndex, lastIndex); // page slicer determining what shows per page
-  const pages: number = Math.ceil(cards.length / recordsPerPage); // page number in total
+  const records = data?.data[0]?.products?.slice(firstIndex, lastIndex); // page slicer determining what shows per page
+  const pages: number = Math.ceil(data?.data[0]?.products?.length / recordsPerPage); // page number in total
   const convertToArray = (number: number) => Array.from({ length: number }, (value, index) => index + 1);
   const numbers: number[] = convertToArray(pages);
 
@@ -315,16 +315,19 @@ function VendorDetails(): React.ReactElement {
   function nextPage() {
     if (currentPage !== pages) {
       setCurrentPage(currentPage + 1);
+      window.scrollTo(0, 30);
     }
   }
 
   function prevPage() {
     if (currentPage !== 1) {
       setCurrentPage(currentPage - 1);
+      window.scrollTo(0, 30);
     }
   }
   function changeCPage(id: number): void {
     setCurrentPage(id);
+    window.scrollTo(0, 30);
   }
 
   return (
@@ -346,29 +349,58 @@ function VendorDetails(): React.ReactElement {
             </div>
           </div>
           <hr className="border-custom-color1" />
-          <div className="mt-4 mb-10  lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-5 lg:gap5">
+          <div className="mt-4 mb-10  lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-3 lg:gap-4">
             {data?.data?.length > 0
-              ? data?.data[0]?.products?.map((item: any) => (
-                  <div className="product border border-gray-300 p-3 rounded-md m-3" key={item?.id}>
-                    <div className="w-[220px] h-[181px] mx-auto">
+              ? records.map((item: any) => (
+                  <div
+                    className="product m-3 rounded-md p-1.5 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL"
+                    key={item?.id}
+                  >
+                    <div className="mx-auto">
                       <Image
                         loader={() => brokenImage}
                         src={brokenImage}
                         alt="product"
                         width={100}
-                        height={100}
-                        className="w-full h-full object-cover"
+                        height={20}
+                        className="object-cover mb-4 rounded-lg min-w-[100%]"
                       />
                     </div>
-                    <p className="mt-2">{item?.product_name}</p>
-                    <p className="font-bold">${new Intl.NumberFormat('en-US').format(item?.price)}</p>
-                    <p className="mb-3">{item?.description}</p>
-                    <aside className="left flex items-center">
-                      <Image src={star} alt="star"></Image>
-                      <Image src={star} alt="star"></Image>
-                      <Image src={star} alt="star"></Image>
-                      <Image src={star_outline} alt="star"></Image>
-                      <Image src={star_outline} alt="star"></Image>
+                    <p className="mt-2 text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%] text-green-850">
+                      {item?.product_name}
+                    </p>
+                    <p className="font-bold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-green-850">
+                      ${new Intl.NumberFormat('en-US').format(item?.price)}
+                    </p>
+                    <p className="mb-3 text-custom-color15 font-semibold text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%]">
+                      {item?.description}
+                    </p>
+                    <aside className="left flex items-center gap-[1px] w-[100px] md:gap-[2px] lg:gap-[2px] mt-6 lg:w-[230px]">
+                      <Image
+                        src={star}
+                        className="md:w-[19px] w-[16px] lg:w-[22px] md:h-[19px] h-[16px] lg:h-[22px]"
+                        alt="star"
+                      ></Image>
+                      <Image
+                        src={star}
+                        className="md:w-[19px] w-[16px] lg:w-[22px] md:h-[19px] h-[16px] lg:h-[22px]"
+                        alt="star"
+                      ></Image>
+                      <Image
+                        src={star}
+                        className="md:w-[19px] w-[16px] lg:w-[22px] md:h-[19px] h-[16px] lg:h-[22px]"
+                        alt="star"
+                      ></Image>
+                      <Image
+                        src={star_outline}
+                        className="md:w-[19px] w-[16px] lg:w-[22px] md:h-[19px] h-[16px] lg:h-[22px]"
+                        alt="star"
+                      ></Image>
+                      <Image
+                        src={star_outline}
+                        className="md:w-[19px] w-[16px] lg:w-[22px] md:h-[19px] h-[16px] lg:h-[22px]"
+                        alt="star"
+                      ></Image>
                       <p>(3)</p>
                     </aside>
                   </div>

@@ -42,7 +42,7 @@ const PaymentInformationModal = ({
     return (
       <>
         <div className=" fixed  inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[50%] lg:w-[28%] animate-slideIn">
+          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[55%] lg:w-[40%] animate-slideIn">
             <svg
               onClick={closeModal}
               className="ml-auto cursor-pointer"
