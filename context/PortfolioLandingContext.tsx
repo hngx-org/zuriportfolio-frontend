@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, use } from 'react';
 import WorkExperienceSection from '@modules/portfolio/component/work-experience-modal';
 import useDisclosure from '../hooks/useDisclosure';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
@@ -7,7 +7,6 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { interests, sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
-import { Line } from '@modules/portfolio/component/landing/landingpage-filled'; 
 
 type PortfolioContext = {
   setUserData: React.Dispatch<React.SetStateAction<any>>;
@@ -183,7 +182,33 @@ export function PortfolioCtxProvider(props: { children: any }) {
     }
   };
 
+  // // endpoint to get dynamic userId
+  // const authorize = 'https://auth.akuya.tech/api/authorize';
+
+  // // gets the zpt access token to that lets us get a dynamic userId
+  // const getTokenFromStorage = () => {
+  //   // Get an item from localStorage
+  //   const zpt = localStorage.getItem('zpt');
+
+  //   // Check if the item exists
+  //   if (zpt) {
+  //     axios
+  //       .post(authorize, { token: zpt })
+  //       .then((res) => {
+  //         console.log(res.data, "info gotten from sending token");
+
+  //         // setUserId(res.data.user.id);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   } else {
+  //     console.log('Item not found in localStorage');
+  //   }
+  // };
+
   useEffect(() => {
+    // getTokenFromStorage();
     getUser();
     getUserSections();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -336,7 +361,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setAvatarImage,
     handleUploadCover,
     userData,
-    setUserData,
+    
     toggleSection,
     isLoading,
     setIsLoading,
@@ -344,6 +369,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     error,
     openDelete,
     setOpenDelete,
+    setUserData,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;
