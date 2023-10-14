@@ -1,7 +1,5 @@
 import SuperAdminNavbar from '../../../../../modules/super-admin/components/navigations/SuperAdminNavbar';
 import Image from 'next/image';
-import star from '/public/assets/vendor/grade.png';
-import star_outline from '/public/assets/vendor/star_outline.png';
 import right from '/public/assets/vendor/arrow-right.svg';
 import Button from '@ui/Button';
 import Modal from '@ui/Modal';
@@ -20,6 +18,7 @@ import Loader from '@modules/portfolio/component/landing/Loader';
 import { imageUrl } from '@modules/super-admin/components/vendormanagement/VendorLists';
 import { formatDate, handleBack } from '@modules/super-admin/components/product-listing/product-details';
 import { toast } from 'react-toastify';
+import StarRating from '@modules/super-admin/components/StarRating';
 
 export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
@@ -156,6 +155,8 @@ function VendorDetails() {
     router.push(`/super-admin/vendor-management/vendor-details/${id}/all`);
   }
 
+  console.log(data?.data);
+
   return (
     <>
       <SuperAdminNavbar />
@@ -224,18 +225,18 @@ function VendorDetails() {
                 <div className="bio">
                   <div className="rating flex items-center justify-between mr-3 mb-3">
                     <aside className="left flex items-center ">
-                      <p className="ml-5 lg:ml-0">3.3/5</p>
-                      <Image src={star} alt="star"></Image>
-                      <Image src={star} alt="star"></Image>
-                      <Image src={star} alt="star"></Image>
-                      <Image src={star_outline} alt="star"></Image>
-                      <Image src={star_outline} alt="star"></Image>
+                      <p className=" text-base font-semibold font-manropeB leading-normal tracking-[0.08px]">
+                        {data?.rating_id ?? 0}/5
+                      </p>
+                      <StarRating rating={data?.rating_id ?? 0} />
                     </aside>
                     <p className="text-xs mr-5 lg:mr-0 sm:ml-auto">{`Date Added ${formatDate(details?.createdAt)}`}</p>
                   </div>
 
                   <div className="status flex items-center justify-between mb-3">
-                    <p className="ml-5 lg:ml-0">(50 Customers)</p>
+                    <p className="ml-5 lg:ml-0">
+                      ({data?.rating_id ?? 0} Customer{data?.rating_id > 0 ? 's' : ''})
+                    </p>
                     <div
                       className={` hidden  rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
                         details?.vendor_status === 'Banned'
@@ -318,11 +319,11 @@ function VendorDetails() {
                   <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
                 ) : (
                   <>
-                    <div className="products grid grid-cols-2 lg:grid-cols-4 items-center justify-between mt-6">
+                    <div className=" lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-3 lg:gap-4">
                       {details?.products?.map((item: any, index: number) => (
                         <div key={item?.product_id}>
                           {index < 4 ? (
-                            <div className="product border border-gray-300 p-3 rounded-md m-3">
+                            <div className="product h-full border border-gray-300 p-3 rounded-md m-3">
                               <div className="w-[220px] h-[181px] mx-auto">
                                 <Image
                                   loader={() => brokenImage}
@@ -337,12 +338,8 @@ function VendorDetails() {
                               <p className="font-bold">${new Intl.NumberFormat('en-US').format(item?.price)}</p>
                               <p className="mb-3">{item?.description}</p>
                               <aside className="left flex items-center">
-                                <Image src={star} alt="star"></Image>
-                                <Image src={star} alt="star"></Image>
-                                <Image src={star} alt="star"></Image>
-                                <Image src={star_outline} alt="star"></Image>
-                                <Image src={star_outline} alt="star"></Image>
-                                <p>(3)</p>
+                                <StarRating rating={item?.rating ?? 0} />
+                                <p>({item?.rating ?? 0})</p>
                               </aside>
                             </div>
                           ) : null}
