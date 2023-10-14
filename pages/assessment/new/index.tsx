@@ -185,7 +185,11 @@ const CreateAssessment = () => {
             {ass ? 'Creating Assessment' : 'Saving Drafts'}
           </div>
           <FaSpinner color="#fff" className="animate-spin" size={100} />
-          {err ? <p className="text-red-300 w-max text-center text-[20px]">{err}</p> : null}
+          {err ? (
+            <p className={`${err.includes('Error') ? 'text-red-200' : 'text-white-100'} w-max text-center text-[20px]`}>
+              {err}
+            </p>
+          ) : null}
         </Modal>
         <div className="pt-4 pb-2 flex space-x-10 justify-center">
           <div
