@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState, useRef, useContext } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { useAuth } from '../../context/AuthContext';
-import { verfiy2FA } from '../../http';
+import { verfiy2FA} from "../../http/auth"
 import Router, { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
 
@@ -13,22 +13,22 @@ function Code2FALogic() {
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-  const auth = useAuth();
-  const email = auth.email;
+  const { auth } = useAuth();
   const mutateFn = useAuthMutation(verfiy2FA, {
     onSuccess: (data: any) => {
-      if (data?.response?.data?.status && data?.response?.data.status == 'Error') {
-        setDigits(['', '', '', '', '', '']);
-        notify({
-          message: data?.response?.data?.message || 'Error! Invalid code',
-          type: 'error',
-        });
-      } else {
-        notify({
-          message: '2FA verified',
+      if (data?.data?.status && data?.data?.status == '200') {
+            notify({
+          message: data?.data?.message,
           type: 'success',
         });
-        router.push('/');
+        router.push('/dashboard');
+        return;
+      } else {
+        setDigits(['', '', '', '', '', '']);
+        notify({
+          message: data?.response?.message || 'Invalid code',
+          type: 'error',
+        });
       }
     },
   });
@@ -99,10 +99,11 @@ function Code2FALogic() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    const token = digits.toString();
+    const code = digits.join('');
     setLoading(true);
     setTimeout(() => {
-      mutateFn.mutate({ email: email as string, token: token as string });
+      const email = auth?.user?.email;
+      mutateFn.mutate({ email: email as string, code });
       setLoading(false);
     }, 700);
   };
