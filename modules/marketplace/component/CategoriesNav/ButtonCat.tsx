@@ -17,6 +17,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const getPostion = async (e: any) => {
+    if (category.subcategories.length === 0) return;
     const el = e.target;
 
     const rect = el.getBoundingClientRect();
