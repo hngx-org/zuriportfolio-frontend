@@ -37,6 +37,7 @@ const AnalyticsAndReportingGraphs = () => {
 
       const apiResponse = await response.json();
       const { status, message, sales, orders, users } = apiResponse;
+      console.log(apiResponse)
 
       // Calculate the number of months based on the selected period
       const numMonths = getNumMonths(period);
