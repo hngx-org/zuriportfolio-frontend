@@ -19,14 +19,14 @@ export const WishlistProductCard = ({ product }: { product: Product }) => {
               width={145}
               height={145}
               className="h-full min-w-[145px] md:min-w-[165px]"
-            /> 
+            />
           </div>
-         
+
           <div className="flex flex-col gap-2 md:gap-3">
             <div className="flex flex-col gap-2 md:gap-3">
               <div className="flex gap-2 md:gap-3 items-center">
                 <div className="flex flex-col gap-2">
-                  <p className="text-[10px] md:text-xs text-custom-color16">{"Software Engineering"}</p>
+                  <p className="text-[10px] md:text-xs text-custom-color16">{'Software Engineering'}</p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
                     <Link href={`/marketplace/product-details`}>{product.name}</Link>
                   </p>
@@ -94,9 +94,7 @@ export const WishlistProductCard = ({ product }: { product: Product }) => {
           </div>
         </div>
 
-        <div
-          className="md:hidden self-start mt-1 cursor-pointer"
-        >
+        <div className="md:hidden self-start mt-1 cursor-pointer">
           <Image src={deleteIcon} alt="delete" width={35} height={35} />
         </div>
         <div className="hidden md:block">
