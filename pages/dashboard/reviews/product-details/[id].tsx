@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import NavDashBoard from '../../../../modules/dashboard/component/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -41,8 +41,8 @@ import { ParsedUrlQuery } from 'querystring';
 //   }
 // }
 
-type Props = {
-  zuri: [
+interface data {
+  data: [
     {
       productId: string;
       reviewId: string;
@@ -60,68 +60,88 @@ type Props = {
       createdAt: string;
     },
   ];
-};
+}
+
+// type Props = {
+//   zuri: [
+//     {
+//       productId: string;
+//       reviewId: string;
+//       customerName: string;
+//       isHelpful: number;
+//       title: string;
+//       description: string;
+//       rating: number;
+//       reply: {
+//         replyId: string;
+//         name: string;
+//         message: string;
+//         createdAt: string;
+//       };
+//       createdAt: string;
+//     },
+//   ];
+// };
 interface Params extends ParsedUrlQuery {
   id: string;
 }
-export const getStaticPaths: GetStaticPaths = () => {
-  return {
-    paths: [
-      {
-        params: { id: '1' },
-      },
-      {
-        params: { id: '2' },
-      },
-      {
-        params: { id: '3' },
-      },
-      {
-        params: { id: '4' },
-      },
-      {
-        params: { id: '5' },
-      },
-    ],
-    fallback: false,
-  };
-};
+// export const getStaticPaths: GetStaticPaths = () => {
+//   return {
+//     paths: [
+//       {
+//         params: { id: '1' },
+//       },
+//       {
+//         params: { id: '2' },
+//       },
+//       {
+//         params: { id: '3' },
+//       },
+//       {
+//         params: { id: '4' },
+//       },
+//       {
+//         params: { id: '5' },
+//       },
+//     ],
+//     fallback: false,
+//   };
+// };
 
-export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
-  console.log('Fetching data...');
-  const id = context.params!.id;
-  try {
-    const res = await fetch(
-      `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=0&pageSize=10`,
-      { next: { revalidate: 5 } },
-    );
-    const data = await res.json();
-    console.log(data);
-    if (!data) {
-      throw new Error('API response is empty');
-    }
-    return {
-      props: { zuri: data.data },
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      props: { zuri: [] },
-    };
-  }
-};
+// export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
+//   console.log('Fetching data...');
+//   const id = context.params!.id;
+//   try {
+//     const res = await fetch(
+//       `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=0&pageSize=10`,
+//       { next: { revalidate: 5 } },
+//     );
+//     const data = await res.json();
+//     console.log(data);
+//     if (!data) {
+//       throw new Error('API response is empty');
+//     }
+//     return {
+//       props: { zuri: data.data },
+//     };
+//   } catch (error) {
+//     console.error(error);
+//     return {
+//       props: { zuri: [] },
+//     };
+//   }
+// };
 
-const UserReview: NextPage<Props> = (props) => {
+const UserReview = () => {
+  const [data, setData] = useState<data['data'] | null>(null);
   const router = useRouter();
 
-  function calculateTotalRatings() {
-    let total = 0;
-    ratingData.forEach((data) => {
-      let rating = Number(data.rating);
-      total += rating;
-    });
-    return total;
-  }
+  useEffect(() => {
+    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/1/reviews?pageNumber=0&pageSize=10`)
+      .then((res) => res.json())
+      .then((data) => setData(data.data));
+    console.log(data);
+  });
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
@@ -172,19 +192,20 @@ const UserReview: NextPage<Props> = (props) => {
                   <Filter review={4} rating={4} />
                 </div>
                 <div className="mt-4 mx-1">
-                  {props.zuri.map((data, index) => (
-                    <SellerReview
-                      key={index}
-                      buyerName={data.customerName}
-                      mainDate={data.createdAt}
-                      adminDate={data.reply?.createdAt}
-                      review={data.description}
-                      noOfStars={data.rating}
-                      shopReply={data.reply?.message}
-                      shopName={data.reply?.name}
-                      reviewId={data.reviewId}
-                    />
-                  ))}
+                  {data !== null &&
+                    data.map((data, index) => (
+                      <SellerReview
+                        key={index}
+                        buyerName={data.customerName}
+                        mainDate={data.createdAt}
+                        adminDate={data.reply?.createdAt}
+                        review={data.description}
+                        noOfStars={data.rating}
+                        shopReply={data.reply?.message}
+                        shopName={data.reply?.name}
+                        reviewId={data.reviewId}
+                      />
+                    ))}
                 </div>
               </div>
             </div>
