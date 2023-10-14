@@ -14,20 +14,47 @@ export default function UserReview() {
         <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
           <CategoriesNav
             navItems={[
-              ' Design & Graphics',
-              ' Development & Programming',
-              ' Content Creation',
-              ' Digital Arts & Media',
-              ' Audio & Sound',
-              ' Photography',
-              'Writing & Copywriting',
-              'Video & motion',
-              'Data & Analytics',
-              'Marketing & Advertising',
-              'eCommerce & Business',
-              'Gaming & Entertainment',
-              'Virtual Reality & Augmented Reality',
-              'e-Books',
+              {
+                name: 'software enginering',
+                subcategories: [],
+              },
+              {
+                name: 'enginering',
+                subcategories: [
+                  {
+                    name: 'software girl era',
+                  },
+                ],
+              },
+              {
+                name: 'computer enginering',
+                subcategories: [
+                  {
+                    name: 'backend enginering',
+                  },
+                ],
+              },
+              {
+                name: 'Joshua_Shop',
+                subcategories: [
+                  {
+                    name: 'backend enginering',
+                  },
+                  {
+                    name: 'health',
+                  },
+                  {
+                    name: 'health',
+                  },
+                  {
+                    name: 'computer enginering',
+                  },
+                ],
+              },
+              {
+                name: 's enginering',
+                subcategories: [],
+              },
             ]}
           />
         </div>
