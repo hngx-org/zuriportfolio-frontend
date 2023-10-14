@@ -242,6 +242,7 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
+<<<<<<< HEAD
 
 export type CartSumaryProp = {subtotal: number, discount: number, VAT: number, total: number}
 
@@ -249,35 +250,38 @@ export type CartSumaryProp = {subtotal: number, discount: number, VAT: number, t
 export type RecentlyViewedProductProp = 
 {
   user:string
+=======
+export type RecentlyViewedProductProp = {
+  user: string;
+>>>>>>> c84adc52a4a4275f3004171d2107425fce40c5ef
   product: {
-    id:string
-    name:string
-    description:string
-    quantity: number
-    category: number
-    price:string
-    discount_price:string
-    tax:string
-    admin_status:string
-    is_deleted:string
-    rating: number,
-    is_published: false,
-    currency:string
-    createdat:string
-    updatedat:string
-    user:string
-    image_url:string
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: string;
+    discount_price: string;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
     shop: {
-      merchant:string
-      name:string
-      reviewed: string,
-      rating: number
-    }
-  },
-  interaction_type: string
-  createdat: number
-}
-
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+};
 
 export type CartItemProps = {
   id?: string;
@@ -455,8 +459,10 @@ export interface filterProps {
 }
 
 export interface reviewProps {
+  reviewId: string;
   buyerName: string;
   adminDate: string;
+  mainDate: string;
   review: string;
   noOfStars: number;
   shopName?: string;
@@ -501,6 +507,8 @@ export type BannedDeletedVendorsProps = {
   setShowBanned: (any: boolean) => void;
   showDeleted: boolean;
   setShowDeleted: (any: boolean) => void;
+  data: any;
+  isLoading: Boolean;
 };
 
 export interface SettingOptionTypes {
@@ -518,7 +526,6 @@ export interface NotificationCheckboxType {
   // userId:string
 }
 
-
 export type Graph = {
   id: number;
   title: string;
@@ -534,14 +541,16 @@ export type Graph = {
 };
 
 export type topListingProduct = {
-  id: number;
-  productName: string;
-  productImage: string;
-  category: string;
-  order: string;
-  price: string;
-  topSales: string;
-  vendor: string;
+  map(arg0: (item: any, id: any) => React.JSX.Element): React.ReactNode;
+  product_id?: number;
+  product_name?: string;
+  productImage?: string;
+  category_name?: string;
+  total_orders?: string;
+  price?: string;
+  top_sales?: string;
+  vendor_name?: string;
+  total_sales?: string;
 };
 
 type activity = {
@@ -576,12 +585,13 @@ export interface ProductInfo {
   status: string;
 }
 export interface DeletedProducts {
-  name: string;
-  vendor: string;
-  id: number;
-  dateAdded: Date;
-  dateDeleted: Date;
-  status: string;
+  admin_status: string;
+  category_id: number;
+  createdAt: string;
+  product_id: string;
+  product_name: string;
+  updatedAt: string;
+  vendor_name: string;
 }
 export interface CardData {
   id: number;
@@ -596,9 +606,8 @@ export interface CardData {
 }
 
 export interface Review {
-  id: number;
-  rating: number;
-  name: string;
+  rateNo: number;
+  customerName: string;
   description: string;
 }
 export interface UserInfo {
@@ -646,10 +655,9 @@ export type AuthResponse = {
   user: User;
 };
 
-
 type ProductResultImage = {
   url: string;
-}
+};
 export interface ProductResult {
   id: string;
   name: string;

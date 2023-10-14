@@ -48,7 +48,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     try {
       // Make a GET request to the API
       const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
-      // const suggestionRes = await axios.get('https://piranha-assessment.onrender.com/api/admin/skills/');
+      // const suggestionRes = await axios.get('https://piranha-assessment-jco5.onrender.com/api/admin/skills/');
       const data = response.data.data;
       // const skillList = data.map((item:skillListRes) => item.skill)
       // Set the data in the state
@@ -81,7 +81,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     setSkillData((prevArray) => prevArray.filter((el) => el !== item));
   };
 
-
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
       const trimmedValue = inputValue.trim();
@@ -94,10 +93,10 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       }
     }
   };
-  
+
   const suggestedArray = [...skillData, ...inputArray];
 
-  const arrayToBePosted =[...arrayTwo, ...inputArray]
+  const arrayToBePosted = [...arrayTwo, ...inputArray];
   const cancelBtnFn = () => {
     localStorage.removeItem('arrayTwo');
     setArrayTwo([]);
@@ -125,7 +124,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
-      console.log(response.data.data);
       return response.data;
     } catch (error) {
       console.error('Error:', error);
@@ -253,5 +251,3 @@ export default SkillModal;
 function setItems(arg0: any) {
   throw new Error('Function not implemented.');
 }
-
-

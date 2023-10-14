@@ -101,8 +101,21 @@ export const Awards = ({ data }: SkeletonProps) => {
   );
 };
 
+export let projects = [
+  {
+    id: 11,
+    title: 'Project title',
+    description: 'Description',
+    tags: 'Tag 1#Tag 2',
+    linkTitle: 'Link Title',
+    link: 'Link',
+    img: '',
+  },
+];
+
 export const Project = ({ data }: SkeletonProps) => {
-  const dataToMap = data.tags.split(',');
+  console.log(data);
+  const dataToMap = data?.tags?.split('#');
   const image = data?.img ? (
     <Image
       width={0}
@@ -121,7 +134,7 @@ export const Project = ({ data }: SkeletonProps) => {
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className="font-semibold text-sm text-gray-400">{data?.description}</p>
         <div className="order-2 md:order-1 flex gap-3 my-2">
-          {dataToMap.map((tag: string, i: number) => (
+          {dataToMap?.map((tag: string, i: number) => (
             <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
               <p className="text-sm text-gray-400">{tag}</p>
             </span>

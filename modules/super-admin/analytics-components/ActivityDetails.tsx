@@ -9,14 +9,16 @@ const ActivityDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/activities/'); // Replace with your API endpoint
+        const response = await fetch(
+          'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/activities/',
+        ); // Replace with your API endpoint
         if (!response.ok) {
           throw new Error(`Failed to fetch data. Status: ${response.status}`);
         }
 
-        const res= await response.json();
-        
-        const limitedData = res.data.slice(0, 11)
+        const res = await response.json();
+
+        const limitedData = res.data.slice(0, 11);
 
         setActivityDetails(limitedData);
         setLoading(false);
@@ -29,8 +31,7 @@ const ActivityDetails = () => {
     fetchData();
   }, []);
 
-  console.log(activityDetails)
- 
+  console.log(activityDetails);
 
   return (
     <section className="lg:w-[25%]">

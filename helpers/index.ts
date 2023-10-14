@@ -83,7 +83,7 @@ export const getSummary = (items: CartSumaryProp) => {
 }
 
 export const getDiscountPercentage = (costPrice: string, sellingPrice: string) => {
-    const diffrence = Number(costPrice) - Number(sellingPrice);
-    const discountPercentage = (diffrence / Number(costPrice)) * 100;
-    return discountPercentage
-}
+  const diffrence = Number(costPrice) - Number(sellingPrice);
+  const discountPercentage = (diffrence / Number(costPrice)) * 100;
+  return discountPercentage;
+};

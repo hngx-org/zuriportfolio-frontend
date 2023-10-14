@@ -11,8 +11,8 @@ import CartPageSkeleton from '@modules/shop/component/cart/checkout/CartPageSkel
 import { getDiscountPercentage } from '../../helpers';
 
 export default function Cart() {
+  const { auth } = useAuth();
 
-  const {auth} = useAuth()
   const defSummary = {subtotal: 0, discount: 0, VAT: 0, total: 0}
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedProductProp[]>([]);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
@@ -49,21 +49,24 @@ export default function Cart() {
   }
   // auth?.token as string
 
-  const cartProductItems = cartItems.length > 0 ? cartItems.map((cartItem, index) => (
-    <CartItem
-      key={index}
-      id={cartItem.id}
-      productId={cartItem.productId}
-      productColor={cartItem.productColor}
-      productTitle={cartItem.productTitle}
-      productDescription={cartItem.productDescription}
-      productImage={cartItem.productImage}
-      productSeller={cartItem.productSeller}
-      productSize={cartItem.productSize}
-      productPrice={cartItem.productPrice}
-      removeHandler={removeProductHandler}
-    />
-  )) : null;
+  const cartProductItems =
+    cartItems.length > 0
+      ? cartItems.map((cartItem, index) => (
+          <CartItem
+            key={index}
+            id={cartItem.id}
+            productId={cartItem.productId}
+            productColor={cartItem.productColor}
+            productTitle={cartItem.productTitle}
+            productDescription={cartItem.productDescription}
+            productImage={cartItem.productImage}
+            productSeller={cartItem.productSeller}
+            productSize={cartItem.productSize}
+            productPrice={cartItem.productPrice}
+            removeHandler={removeProductHandler}
+          />
+        ))
+      : null;
 
   const recentlyViewedProducts = recentlyViewed.map((product, index) => (
     <ProductCard
@@ -71,8 +74,8 @@ export default function Cart() {
       id={product.product.id}
       productImage={product.product.image_url}
       productPrice={Number(product.product.price)}
-      discountPercentage={getDiscountPercentage(product.product.price,product.product.discount_price) }
-      productRating={product.product.rating ?? (index % 5) + 1 }
+      discountPercentage={getDiscountPercentage(product.product.price, product.product.discount_price)}
+      productRating={product.product.rating ?? (index % 5) + 1}
       productSeller={product.product.shop.name}
       productTitle={product.product.name}
       closeHandler={closeHandler}
@@ -81,9 +84,9 @@ export default function Cart() {
 
   return (
     <MainLayout activePage="home" showDashboardSidebar={false} showTopbar>
-      { isLoading ? 
+      {isLoading ? (
         <CartPageSkeleton></CartPageSkeleton>
-      :
+      ) : (
         <main className="max-w-[1240px] mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
         {cartItems.length > 0 ? (
           <>
@@ -97,21 +100,21 @@ export default function Cart() {
               </div>
             </section>
 
-            <section className="w-full flex flex-col mt-[50px] mb-[10%]">
-              <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
-              <div
-                className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden items-center lg:items-stretch lg:justify-normal 
+              <section className="w-full flex flex-col mt-[50px] mb-[10%]">
+                <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
+                <div
+                  className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden items-center lg:items-stretch lg:justify-normal 
                 md:flex-row md:justify-center md:flex-wrap md:gap-x-4 gap-y-4 lg:gap-x-4 mt-4 "
-              >
-                {recentlyViewedProducts}
-              </div>
-            </section>
-          </>
-        ) : (
-          <EmptyCart></EmptyCart>
-        )}
+                >
+                  {recentlyViewedProducts}
+                </div>
+              </section>
+            </>
+          ) : (
+            <EmptyCart></EmptyCart>
+          )}
         </main>
-      }
+      )}
     </MainLayout>
   );
 }
