@@ -123,13 +123,13 @@ const Index = () => {
             </div>
             <div className="flex items-center justify-left md:justify-between gap-4">
               <SearchProduct handleSearchChange={handleSearch} />
-              {/* {showBanned || showDeleted ? (
+              {showBanned || showDeleted ? (
                 <div></div>
-              ) : ( */}
-              <div className="md:block hidden">
-                <FilterProduct handleFilter={handleFilter} />
-              </div>
-              {/* )} */}
+              ) : (
+                <div className="md:block hidden">
+                  <FilterProduct handleFilter={handleFilter} />
+                </div>
+              )}
 
               <div className="md:hidden block">
                 <Button intent={'primary'} size={'sm'}>
