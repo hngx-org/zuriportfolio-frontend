@@ -16,9 +16,9 @@ import { ProductResult } from '../../@types';
 import { useAuth } from '../../context/AuthContext';
 import isAuthenticated from '../../helpers/isAuthenticated';
 import Logout from '@modules/auth/component/logout/Logout';
+import CustomDropdown from '@modules/explore/components/CustomDropdown';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
-  // change auth to True to see Auth User Header
   const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
@@ -28,6 +28,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [authMenu, setAuthMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
+
+  const [dropDown, setDropDown] = useState<string>('');
 
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
@@ -110,6 +112,11 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     }
   };
 
+  function handleDropdown(option: string) {
+    setDropDown(option);
+    console.log('Select');
+  }
+
   return (
     <>
       <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40] isolate fixed  ">
@@ -159,13 +166,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           {/* Right Items */}
 
           <div
-            className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:w-auto lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
+            className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:justify-end lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
           >
             {/* <Search></Search>
 
           Input */}
-            <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col">
-              <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-[20dvw] w-auto">
+            <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col basis-[100%]">
+              <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-full w-auto">
                 <div className="w-4 h-4 justify-center items-center flex">
                   <div className="w-4 h-4 relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
@@ -191,15 +198,22 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   htmlFor="explore"
                   className="justify-start items-center gap-2 flex lg:border-l-2 border-neutral-200 pl-4 relative"
                 >
-                  <select
+                  {/* <select
                     id="explore"
                     className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
                   bg-opacity-0 hover:cursor-pointer "
                   >
                     <option className="hover:cursor-pointer bg-white-100">Explore</option>
                     <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
-                  </select>
-                  <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
+                  </select> */}
+
+                  <CustomDropdown
+                    selectedValue={dropDown}
+                    onChange={handleDropdown}
+                    options={['Explore', 'Marketplace']}
+                    className="border-none"
+                  />
+                  {/* <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                     <div className="w-6 h-6  ">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <g>
@@ -212,7 +226,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                         </g>
                       </svg>
                     </div>
-                  </div>
+                  </div> */}
                 </label>
               </div>
             </div>
@@ -396,28 +410,12 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     htmlFor="explore"
                     className="justify-start items-center gap-2 flex lg:border-l-2 border-neutral-200 pl-4 relative"
                   >
-                    <select
-                      id="explore"
-                      className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
-                  bg-opacity-0 hover:cursor-pointer  "
-                    >
-                      <option className="hover:cursor-pointer bg-white-100 ">Explore</option>
-                      <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
-                    </select>
-                    <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
-                      <div className="w-6 h-6  ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                          <g>
-                            <g>
-                              <path
-                                fill="#8D9290"
-                                d="M12 16.8c-.7 0-1.4-.27-1.93-.8L3.55 9.48a.754.754 0 010-1.06c.29-.29.77-.29 1.06 0l6.52 6.52c.48.48 1.26.48 1.74 0l6.52-6.52c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L13.93 16c-.53.53-1.23.8-1.93.8z"
-                              ></path>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
+                    <CustomDropdown
+                      selectedValue={dropDown}
+                      onChange={handleDropdown}
+                      options={['Explore', 'Marketplace']}
+                      className="border-none px-1"
+                    />
                   </label>
                 </div>
               </div>
