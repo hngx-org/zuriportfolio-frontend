@@ -43,19 +43,117 @@ const filters: {
 ];
 const OrderDetails = () => {
   const [pageOrders, setPageOrders] = useState<OrderHistory[]>([]);
-  const { orders, changeSortBy, toggleSortOrder, sortBy, changeSearchQuery, searchQuery, orderFilter } =
-    useOrders(pageOrders);
-  const [showFilters, setShowFilters] = useState(false);
+  const { orders, changeSortBy, toggleSortOrder, sortBy, changeSearchQuery } = useOrders(pageOrders);
+
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [searching, setSearching] = useState(false);
   const { push } = useRouter();
   const closeFilter = () => {
     setShowFilters(false);
   };
+  const fetchOrders = async () => {
+    try {
+      setLoadingOrders(true);
+      const data = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order`,
+        method: 'GET',
+      });
+      if (data.data?.errorStatus === true) {
+        setPageOrders([]);
+        return;
+      }
+      if (!data.data.data || data.data.data?.length === 0) {
+        setPageOrders([]);
+        return;
+      }
+      const transformedOrder = data?.data.data?.map((order: any) => ({
+        id: order.order_id,
+        price: order.order_price,
+        date: new Date(order.createdAt),
+        revenue: order.merchant.revenue[0]?.amount,
+        status: order.customer_orders[0]?.status,
+        sales: order.customer_orders[0]?.sales_report[0]?.sales,
+        customerName: order.customer[0]?.username,
+        productName: order.product.name,
+        productType: order.product.categories[0]?.name,
+      }));
+
+      setPageOrders(transformedOrder);
+    } catch (error) {
+      setPageOrders([]);
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
+  const debounce = (func: (...a: any) => any, timeSlice: number = 2000) => {
+    let timeout: NodeJS.Timeout;
+    return function (...arg: any) {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => {
+        func.apply(null, arg);
+      }, timeSlice);
+    };
+  };
+  const getSearchResult = async (query: string) => {
+    try {
+      setSearching(true);
+      if (query.length === 0) {
+        return;
+      }
+      const res = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
+        method: 'GET',
+      });
+      const { data } = res;
+      console.log(data);
+      if (data?.errorStatus) {
+        setPageOrders([]);
+        return;
+      }
+      if (data?.data === 'user not found') {
+        setPageOrders([]);
+        return;
+      }
+      if (!data.data || (data?.data && data.data.length === 0)) {
+        setPageOrders([]);
+        return;
+      } else {
+        const transformedOrder = data.data.map((order: any) => ({
+          id: order.order_id,
+          price: order.order_price,
+          date: new Date(order.createdAt),
+          revenue: order.merchant.revenue[0]?.amount,
+          status: order.customer_orders[0]?.status,
+          sales: order.customer_orders[0]?.sales_report[0]?.sales,
+          customerName: order.customer[0]?.username,
+          productName: order.product.name,
+          productType: order.product.categories[0]?.name,
+        }));
+
+        setPageOrders(transformedOrder);
+      }
+    } catch (error) {
+      setPageOrders([]);
+    } finally {
+      setSearching(false);
+    }
+  };
+  const debounceSearch = debounce(getSearchResult);
+  const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value.trim());
+    if (e.target.value.trim()) {
+      debounceSearch(e.target.value.trim());
+    } else {
+      fetchOrders();
+    }
+  };
   useEffect(() => {}, [currentPage]);
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
     const fetchOrders = async () => {
       try {
         setLoadingOrders(true);
@@ -128,7 +226,7 @@ const OrderDetails = () => {
                     className=" bg-transparent focus-within:outline-none flex-1  text-[1rem] leading-[150%] min-w-0"
                     placeholder="Search"
                     value={searchQuery}
-                    onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
+                    onChange={changeInput}
                   />
                 </div>
                 <div className="relative">
@@ -204,7 +302,7 @@ const OrderDetails = () => {
                   className=" bg-transparent focus-within:outline-none flex-1 text-[1rem] leading-[150%]"
                   placeholder="Search"
                   value={searchQuery}
-                  onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
+                  onChange={changeInput}
                 />
               </div>
               <div className="flex items-center gap-6">
