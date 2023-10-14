@@ -67,4 +67,3 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
 
 
 export default SearchFilter;
-

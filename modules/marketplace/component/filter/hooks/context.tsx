@@ -80,7 +80,7 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
     const price = filterSelection.price.join(',');
     const rating = filterSelection.rating.join(',');
     try {
-      const API_URL = constructApiUrl({ category, subCategory });
+      const API_URL = constructApiUrl({ category, subCategory, discount, price, rating });
 
       // console.log(API_URL)
       const { data, status } = await axios.get(API_URL);
