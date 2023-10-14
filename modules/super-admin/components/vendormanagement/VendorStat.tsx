@@ -11,7 +11,6 @@ const VendorsStat = ({
   data,
   isLoading,
 }: BannedDeletedVendorsProps) => {
-
   return (
     <>
       <section className="my-5 grid md:grid-cols-3 sm:grid-cols-1 gap-4 container mx-auto">

@@ -27,6 +27,7 @@ import Axios, { AxiosResponse } from 'axios';
 // importing toastify
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CategoryLayout from './component/layout/category-layout';
 
 function Wishlist() {
   const [showEmptyWishlistModal, setShowEmptyWishlistModal] = useState(false);
@@ -111,7 +112,8 @@ function Wishlist() {
           </div>
         </div>
       )}
-      <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+      {/* <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}> */}
+       <CategoryLayout>
         <Container>
           <div className="font-manropeL max-w-[1240px] mx-auto my-8">
             <section className="flex flex-col gap-10 mb-20">
@@ -133,7 +135,8 @@ function Wishlist() {
             </section>
           </div>
         </Container>
-      </MainLayout>
+        </CategoryLayout>
+      {/* </MainLayout> */}
     </>
   );
 }
