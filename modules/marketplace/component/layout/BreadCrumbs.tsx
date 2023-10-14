@@ -12,15 +12,18 @@ function Breadcrumbs() {
   const breadcrumbs = routeArr.map((el, i) => (
     <span key={i}>
       <span className="mx-2">{'>'}</span>
-      <Link href={`/${routeArr.slice(0, i + 1).join('/')}`} className={`${i + 1 == routeArr.length ? ' text-white-400' : null}`}>
-        {el.split('-').join(' ').replaceAll("%20", " ")}
+      <Link
+        href={`/${routeArr.slice(0, i + 1).join('/')}`}
+        className={`${i + 1 == routeArr.length ? ' text-white-400' : null}`}
+      >
+        {el.split('-').join(' ').replaceAll('%20', ' ')}
       </Link>
     </span>
   ));
 
   return (
-    <div className="font-manropeB text-brand-green-shade50 capitalize">
-      <div>
+    <div className="font-manropeB py-[5px] md:py[3px] text-brand-green-shade50 capitalize">
+      <div className="flex flex-wrap">
         <Link href="/">Home</Link>
         {breadcrumbs}
       </div>
@@ -29,3 +32,4 @@ function Breadcrumbs() {
 }
 
 export default Breadcrumbs;
+
