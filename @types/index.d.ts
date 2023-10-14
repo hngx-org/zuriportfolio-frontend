@@ -242,39 +242,36 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-
-export type RecentlyViewedProductProp = 
-{
-  user:string
+export type RecentlyViewedProductProp = {
+  user: string;
   product: {
-    id:string
-    name:string
-    description:string
-    quantity: number
-    category: number
-    price:string
-    discount_price:string
-    tax:string
-    admin_status:string
-    is_deleted:string
-    rating: number,
-    is_published: false,
-    currency:string
-    createdat:string
-    updatedat:string
-    user:string
-    image_url:string
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: string;
+    discount_price: string;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
     shop: {
-      merchant:string
-      name:string
-      reviewed: string,
-      rating: number
-    }
-  },
-  interaction_type: string
-  createdat: number
-}
-
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+};
 
 export type CartItemProps = {
   id?: string;
@@ -498,6 +495,8 @@ export type BannedDeletedVendorsProps = {
   setShowBanned: (any: boolean) => void;
   showDeleted: boolean;
   setShowDeleted: (any: boolean) => void;
+  data: any;
+  isLoading: Boolean;
 };
 
 export interface SettingOptionTypes {
@@ -514,7 +513,6 @@ export interface NotificationCheckboxType {
   newMessages: boolean;
   // userId:string
 }
-
 
 export type Graph = {
   id: number;
@@ -573,12 +571,13 @@ export interface ProductInfo {
   status: string;
 }
 export interface DeletedProducts {
-  name: string;
-  vendor: string;
-  id: number;
-  dateAdded: Date;
-  dateDeleted: Date;
-  status: string;
+  admin_status: string;
+  category_id: number;
+  createdAt: string;
+  product_id: string;
+  product_name: string;
+  updatedAt: string;
+  vendor_name: string;
 }
 export interface CardData {
   id: number;
@@ -643,10 +642,9 @@ export type AuthResponse = {
   user: User;
 };
 
-
 type ProductResultImage = {
   url: string;
-}
+};
 export interface ProductResult {
   id: string;
   name: string;

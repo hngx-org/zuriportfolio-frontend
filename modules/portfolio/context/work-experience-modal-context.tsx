@@ -174,9 +174,9 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     getAllWorkExperience();
   }, []);
 
-  useEffect(() => {
-    console.log('User work experience ', workExperiences);
-  }, [workExperiences]);
+  // useEffect(() => {
+  //   console.log('User work experience ', workExperiences);
+  // }, [workExperiences]);
 
   return (
     <WorkExperienceModalContext.Provider
