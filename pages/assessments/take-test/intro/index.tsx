@@ -13,8 +13,8 @@ const TakeTest: FC = () => {
     try{
       const data = await fetchUserTakenAssessment()
       console.log('data',data.statusText)
-      const assessmentData = data.data[0].data
-      // console.log('assessmentData', assessmentData)
+      const assessmentData = data.data.data
+      console.log('assessmentData', assessmentData)
       localStorage.setItem('assessmentData', JSON.stringify(assessmentData))
       if (data) {
         router.push(`/assessments/take-test/questions`)
