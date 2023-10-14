@@ -11,6 +11,7 @@ import Button from '@ui/Button';
 import { useGetAllVendor } from '../../../http';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
+import { DeletedProducts } from '../../../@types';
 const Index = () => {
   const { data, isLoading } = useGetAllVendor();
   //Variables for the pagination
@@ -33,19 +34,15 @@ const Index = () => {
   useEffect(() => {
     setFilteredProducts(data?.data);
   }, [data]);
+  useEffect(() => {
+    handleSearch(searchVal);
+  }, [searchVal]);
   const bannedVendors = filteredProducts?.filter((vendor: any) => vendor.vendor_status === 'Banned');
   const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
   const handleSearch = (searchText: string) => {
-    const filteredProduct: Array<{
-      vendorImgSrc: string;
-      name: string;
-      email: string;
-      amount: string;
-      quantity: number;
-      date: string;
-      statusIndicatorSrc: string;
-      statusText: string;
-    }> = data?.data?.filter((product: any) => product?.name?.toLowerCase().includes(searchText.toLowerCase()));
+    const filteredProduct: any = data?.data?.filter(
+      (product: any) => product?.merchant_name?.toLowerCase().includes(searchText.toLowerCase()),
+    );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
@@ -70,7 +67,7 @@ const Index = () => {
           Banned: 2,
           Deleted: 3,
         };
-        return statusOrder[a.vendorStatus] - statusOrder[b.vendorStatus];
+        return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
       });
     }
     setFilteredProducts(filteredProducts);

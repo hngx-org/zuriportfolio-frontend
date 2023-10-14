@@ -13,8 +13,8 @@ import { formatDate } from '@modules/super-admin/components/product-listing/prod
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
-  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>([]);
   const { data, isLoading } = useGetProd();
+  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>(data);
 
   const sanctionedProd = data?.data?.filter((item: any) => item?.product_status === 'Sanctioned');
 
@@ -22,13 +22,14 @@ const SanctionedProducts = () => {
 
   useEffect(() => {
     setFilteredProducts(sanctionedProd);
-  }, [sanctionedProd]);
+  }, [sanctionedProducts]);
+  useEffect(() => {}, [filteredProducts]);
 
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
       (product: any) =>
         product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
-        product.product_status.toLowerCase().includes('sanctioned'),
+        product?.product_status?.toLowerCase()?.includes('sanctioned'),
     );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
