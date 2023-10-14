@@ -21,7 +21,7 @@ const CategoryLayout = ({ children, ...props }: LayoutProps) => {
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
       {/* <CategoriesNav navItems={navItems as categories} /> */}
-      <CategoriesNav navItems={categories} />
+      <CategoriesNav navItems={categories} isLoading={loading} />
       <div className="max-w-[1240px] mx-auto px-5 md:px-0 -z-30">
         <div className="my-4 md:my-6 lg:my-8">
           <Breadcrumbs />

@@ -16,6 +16,7 @@ type categories = {
 
 interface CategoriesNavProps {
   navItems: CategoryType[];
+  isLoading: boolean;
 }
 
 const CategoriesNav = (props: CategoriesNavProps) => {
@@ -83,7 +84,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
                 <Link href={`/marketplace/wishlist`}>WishList</Link>
               </li>
             )}
-            {navItems.map((category, i: number) => {
+            {props.isLoading ? 'loading...' : navItems.map((category, i: number) => {
               return (
                 <li key={i + 1} className="">
                   <ButtonCat
