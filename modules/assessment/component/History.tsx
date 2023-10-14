@@ -242,7 +242,10 @@ const History: React.FC = () => {
                         {assessment.score}/100
                       </td>
                       <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
-                        <Link href={`/assessments/dashboard/badge/${assessment.skill}`}>View</Link>
+                        <Link href={`/assessments/dashboard/badge/${assessment.skill}`}>
+                          as={`/assessments/dashboard/badge/${assessment.badgeName}`}
+                          View
+                        </Link>
                       </td>
                     </tr>
                     {expandedAssessment === assessment.id && (
