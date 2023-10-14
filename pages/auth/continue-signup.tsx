@@ -98,21 +98,25 @@ function Signup() {
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
       <div className="md:max-w-[517px] mx-auto md:max-xl mb-16 max-w-[390px] ">
         <div className="text-center lg:text-left">
-          <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100">Sign up</h1>
-          <p className="md:text-[22px] text-[#536066]">Let&apos;s get you started</p>
+          <h1 className="mb-1 md:mb-6 font-semibold text-dark-100 font-manropeEB text-2xl md:text-4xl text-[1.5rem]">
+            Sign up
+          </h1>
+          <p className="md:text-[22px] text-[#536066] font-manropeEB">Let&apos;s get you started</p>
         </div>
         <div className="mt-6 md:mt-12">
           <form className="flex flex-col" onSubmit={form.onSubmit((values) => handleSignUp(values))}>
             {/* First name */}
             <div className="flex flex-col gap-2 mb-2">
-              <label htmlFor="firstName" className="leading-[27.04px] font-semibold text-gray-700">
+              <label htmlFor="firstName" className=" font-manropeL leading-[27.04px] font-semibold text-gray-700">
                 First name
               </label>
               <Input
-                placeHolder="Aliu"
+                placeHolder="enter firstname"
                 id="firstName"
                 {...form.getInputProps('firstName')}
-                className={`w-full h-[44px] md:h-[60px] ${form.errors.firstName ? 'border-[red]' : 'border-[#D0D5DD]'}`}
+                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  form.errors.firstName ? 'border-[red]' : 'border-slate-50'
+                }`}
                 type="text"
               />
               <p className="text-[red] text-xs">{form.errors.firstName && form.errors.firstName}</p>
@@ -120,14 +124,16 @@ function Signup() {
 
             {/* last Name */}
             <div className="flex flex-col gap-2 mb-2">
-              <label htmlFor="lastName" className="leading-[27.04px] font-semibold text-gray-700">
+              <label htmlFor="lastName" className=" font-manropeL leading-[27.04px] font-semibold text-gray-700">
                 Last name
               </label>
               <Input
-                placeHolder="Sugar"
+                placeHolder="enter lastname"
                 id="lastName"
                 {...form.getInputProps('lastName')}
-                className={`w-full h-[44px] md:h-[60px] ${form.errors.lastName ? 'border-[red]' : 'border-[#D0D5DD]'}`}
+                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  form.errors.lastName ? 'border-[red]' : 'border-slate-50'
+                }`}
                 type="text"
               />
               <p className="text-[red] text-xs">{form.errors.lastName && form.errors.lastName}</p>
@@ -135,16 +141,16 @@ function Signup() {
 
             {/* Password */}
             <div className="flex flex-col gap-2 mb-2">
-              <label htmlFor="password" className="leading-[27.04px] font-semibold text-gray-700">
+              <label htmlFor="password" className=" font-manropeL leading-[27.04px] font-semibold text-gray-700">
                 Password
               </label>
               <PasswordPopover password={form.values.password}>
                 <Input
-                  placeHolder="Gbemi345"
+                  placeHolder="enter password"
                   id="password"
                   {...form.getInputProps('password')}
-                  className={`w-full h-[44px] md:h-[60px] ${
-                    form.errors.password ? 'border-[red]' : 'border-[#D0D5DD]'
+                  className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                    form.errors.password ? 'border-[red]' : 'border-slate-50'
                   }`}
                   type={passwordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
                   rightIcon={
@@ -197,15 +203,15 @@ function Signup() {
 
             {/* Confirm Password */}
             <div className="flex flex-col gap-2 mb-2">
-              <label htmlFor="confirmPassword" className="leading-[27.04px] font-semibold text-gray-700">
+              <label htmlFor="confirmPassword" className="font-manropeL leading-[27.04px] font-semibold text-gray-700">
                 Confirm password
               </label>
               <Input
-                placeHolder="Gbemi345"
+                placeHolder="enter confirm password"
                 id="confirmPassword"
                 {...form.getInputProps('confirmPassword')}
-                className={`w-full h-[44px] md:h-[60px] ${
-                  form.errors.confirmPassword ? 'border-[red]' : 'border-[#D0D5DD]'
+                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  form.errors.confirmPassword ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type={confirmPasswordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
                 // isPasswordVisible={confirmPasswordVisible} // Pass the visibility state as a prop
@@ -262,10 +268,10 @@ function Signup() {
                   id="agree"
                   type="checkbox"
                   {...form.getInputProps('agree', { type: 'checkbox' })}
-                  className="w-4 border-brand-green-primary"
+                  className="w-4 border-brand-green-primary cursor-pointer"
                 />
               </span>
-              <p className="text-gray-200 text-sm">
+              <label htmlFor="agree" className="text-gray-200 text-sm font-manropeL">
                 I agree with zuri stores{' '}
                 <Link href={'/'} className="text-brand-green-primary hover:text-brand-green-hover">
                   Terms of Service
@@ -275,7 +281,7 @@ function Signup() {
                   Privacy Policy
                 </Link>{' '}
                 .
-              </p>
+              </label>
             </div>
             <style jsx>{`
               input[type='checkbox'] {
@@ -321,7 +327,7 @@ function Signup() {
             </Button>
           </form>
           <div className="mt-8">
-            <p className="text-center text-gray-200">
+            <p className="font-manropeL text-center text-gray-200">
               Already have an account?{' '}
               <Link href="/auth/login" className="text-brand-green-primary hover:text-brand-green-hover">
                 Sign in
