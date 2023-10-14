@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Badges from '@modules/assessment/component/Badges/Badges';
 import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
 import MainLayout from '../../../../../components/Layout/MainLayout';
+import ErrorData from '../../errordata'
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -60,7 +61,7 @@ const Page: React.FC = () => {
               <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
             </div>
           ) : errorMessage ? (
-            <h2>Error Fetching Data</h2>
+            <ErrorData />
           ) : (
             <>
               <BadgesHeader />
