@@ -66,11 +66,11 @@ export default function Index() {
                     <ProductCard
                       id={item.id}
                       currency={`USD`}
-                      image={`/assets/products-banner/Image-11.png`}
+                      image={item?.images[0]?.url}
                       name={item?.name}
                       price={99}
-                      user={`Mark Essien`}
-                      rating={3}
+                      user={item?.category.name}
+                      rating={0}
                       showLimitedOffer={false}
                       showTopPicks={false}
                       showDiscount={true}
