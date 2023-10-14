@@ -27,6 +27,7 @@ import Axios, { AxiosResponse } from 'axios';
 // importing toastify
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CategoryLayout from './component/layout/category-layout';
 
 function Wishlist() {
   const [showEmptyWishlistModal, setShowEmptyWishlistModal] = useState(false);
@@ -78,6 +79,11 @@ function Wishlist() {
     document.body.style.overflow = showEmptyWishlistModal ? 'hidden' : 'unset';
   }, [showEmptyWishlistModal]);
 
+  const moveToCart = (productId: string) => {
+    const newWishlistProducts = wishlistProducts.filter((product: WishlistProduct) => product.productId !== productId);
+    setWishlistProducts(newWishlistProducts);
+    toast.success('Added item to cart');
+  };
   return (
     <>
       <ToastContainer />
@@ -106,7 +112,8 @@ function Wishlist() {
           </div>
         </div>
       )}
-      <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+      {/* <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}> */}
+      <CategoryLayout>
         <Container>
           <div className="font-manropeL max-w-[1240px] mx-auto my-8">
             <section className="flex flex-col gap-10 mb-20">
@@ -118,6 +125,7 @@ function Wishlist() {
               <div className="flex flex-col gap-6  lg:px-[100px]">
                 {wishlistProducts.map((product) => (
                   <WishlistProductCard
+                    moveToCart={moveToCart}
                     key={product.productId}
                     product={product}
                     removeProductFromWishlist={removeProductFromWishlist}
@@ -127,7 +135,8 @@ function Wishlist() {
             </section>
           </div>
         </Container>
-      </MainLayout>
+      </CategoryLayout>
+      {/* </MainLayout> */}
     </>
   );
 }

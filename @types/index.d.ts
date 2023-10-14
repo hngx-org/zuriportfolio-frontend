@@ -28,6 +28,37 @@ export interface ProductData {
   shop: string;
 }
 
+export interface RecentlyViewedData {
+  user: string;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: number;
+    discount_price: number;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
+    shop: {
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+}
+
 export interface Education {
   id: number;
   degreeId: number;
@@ -55,7 +86,7 @@ export interface AllCategoryDetails {
 export interface Products {
   _id: string;
   name: string;
-  image: string;
+  image: any;
   shopOwner: string;
   price: number;
   category: string;
@@ -246,6 +277,8 @@ export type ProductCardProps = {
   tag?: string;
   tagBackground?: string;
 };
+
+export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
 
 export type RecentlyViewedProductProp = {
   user: string;
@@ -454,8 +487,10 @@ export interface filterProps {
 }
 
 export interface reviewProps {
+  reviewId: string;
   buyerName: string;
   adminDate: string;
+  mainDate: string;
   review: string;
   noOfStars: number;
   shopName?: string;
@@ -500,6 +535,8 @@ export type BannedDeletedVendorsProps = {
   setShowBanned: (any: boolean) => void;
   showDeleted: boolean;
   setShowDeleted: (any: boolean) => void;
+  data: any;
+  isLoading: Boolean;
 };
 
 export interface SettingOptionTypes {
@@ -532,14 +569,16 @@ export type Graph = {
 };
 
 export type topListingProduct = {
-  id: number;
-  productName: string;
-  productImage: string;
-  category: string;
-  order: string;
-  price: string;
-  topSales: string;
-  vendor: string;
+  map(arg0: (item: any, id: any) => React.JSX.Element): React.ReactNode;
+  product_id?: number;
+  product_name?: string;
+  productImage?: string;
+  category_name?: string;
+  total_orders?: string;
+  price?: string;
+  top_sales?: string;
+  vendor_name?: string;
+  total_sales?: string;
 };
 
 type activity = {
@@ -574,12 +613,13 @@ export interface ProductInfo {
   status: string;
 }
 export interface DeletedProducts {
-  name: string;
-  vendor: string;
-  id: number;
-  dateAdded: Date;
-  dateDeleted: Date;
-  status: string;
+  admin_status: string;
+  category_id: number;
+  createdAt: string;
+  product_id: string;
+  product_name: string;
+  updatedAt: string;
+  vendor_name: string;
 }
 export interface CardData {
   id: number;
@@ -594,9 +634,8 @@ export interface CardData {
 }
 
 export interface Review {
-  id: number;
-  rating: number;
-  name: string;
+  rateNo: number;
+  customerName: string;
   description: string;
 }
 export interface UserInfo {
@@ -643,3 +682,27 @@ export type AuthResponse = {
   token: string;
   user: User;
 };
+
+type ProductResultImage = {
+  url: string;
+};
+export interface ProductResult {
+  id: string;
+  name: string;
+  description: string;
+  quantity: number;
+  price: string;
+  discount_price: string;
+  tax: string;
+  images: ProductResultImage[];
+  admin_status: string;
+  is_deleted: string;
+  is_published: boolean;
+  currency: string;
+  createdat: string;
+  updatedat: string;
+  shop: string;
+  category: number;
+  rating: number;
+  user: string;
+}

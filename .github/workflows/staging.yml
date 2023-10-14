@@ -1,0 +1,55 @@
+---
+name: Zuri main dev Deployment
+
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: build app
+        run: |
+          yarn install
+          yarn build
+
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: build again
+        run: |
+          yarn install
+          yarn build
+          rm -rf node_modules
+
+      - name: Copy build folder to server
+        uses: Creepios/sftp-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST_STAGING }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          localPath: './'
+          remotePath: '/home/devops/zuri_frontend/zuriportfolio-frontend/'
+
+      - name: run app
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST_STAGING }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /home/devops/zuri_frontend/zuriportfolio-frontend
+            npx yarn install --ignore-engines
+            npx pm2 restart zuri_frontend

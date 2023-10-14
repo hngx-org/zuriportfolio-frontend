@@ -9,7 +9,7 @@ const RatingCard = ({ rating, users }: RatingCardProps) => {
     if (users >= 50) {
       setVolume(50);
     } else {
-      setVolume(Math.floor((users / 50) * 50));
+      setVolume(Math.floor((users / 4) * 50));
     }
   }, [users]);
 

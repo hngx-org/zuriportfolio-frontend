@@ -10,29 +10,20 @@ import { notify } from '@ui/Toast';
 import { useRouter } from 'next/router';
 import { forgetPassword } from '../../../../http/auth';
 
+const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
+
 const ForgotPassword = () => {
-  const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
   const router = useRouter();
 
-  //Error Handler
+  //Success Handler
   const forgotPasswordSuccess = (data: any) => {
     console.log(data.message);
-    if (data.message === 'User not found') {
-      const errorMessage = 'This user does not have an account';
-      notifyError(errorMessage);
-      return;
-    } else if (data.message === 'AxiosError: timeout of 30000ms exceeded') {
-      const timeoutErrorMessage =
-        'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-      notifyError(timeoutErrorMessage);
-      return;
-    } else if (data.message === 'AxiosError: Network Error') {
-      const errorMessage = 'Server is down! Please try again later';
-      notifyError(errorMessage);
+    if (data.status === 200) {
+      router.push('/auth/forgot-password-link-sent');
       return;
     }
-    const errorMessage = 'Oops! An error occurred. If the issue persists, reach out to support.';
-    notifyError(errorMessage);
+
+    notifyError(data.message);
   };
 
   // Form validation
@@ -51,7 +42,6 @@ const ForgotPassword = () => {
   const { mutate, isLoading } = useAuthMutation(forgetPassword, {
     onSuccess: (data) => {
       forgotPasswordSuccess(data);
-      router.push('/auth/reset-password');
     },
     onError: (error: any) => console.log(error),
   });
@@ -63,7 +53,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
+    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown>
       <main className=" flex mx-auto lg:pt-16 lg:gap-[43px] ">
         <section className="flex-col flex lg:w-fit w-full lg:text-start text-center ">
           <div className="font-manropeB flex-1 flex-col  flex justify-center md:py-14  max-w-[517px] mx-auto">
@@ -89,14 +79,14 @@ const ForgotPassword = () => {
                   {...form.getInputProps('email')}
                   type="email"
                   placeholder="Aliusugar@gmail.com"
-                  className={`w-full px-[18px] py-[13.5px] font-manropeL font-light text-custom-color2  rounded-md border-[1.35px] ${
+                  className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.email ? 'border-[red]' : 'border-slate-50'
                   }`}
                 />
                 <p className="text-[red] text-xs">{form.errors.email && form.errors.email}</p>
               </div>
               <Button
-                className="flex justify-center items-center gap-4 py-3 md:w-[100%] w-[100%] h-14 rounded-lg button text-white-100 text-center mt-[1rem]"
+                className="flex justify-center items-center gap-4 py-3 md:w-[100%] w-[100%] h-[44px] md:h-[60px] rounded-lg button text-white-100 text-center"
                 isLoading={isLoading}
               >
                 Submit

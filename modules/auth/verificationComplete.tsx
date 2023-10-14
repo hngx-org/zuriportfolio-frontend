@@ -20,6 +20,7 @@ function VerificationComplete() {
       setMessage(data);
 
       if (data.status === 200) {
+        notify({ message: data.message, type: 'success' });
         router.push('/auth/login');
         return;
       }
@@ -47,6 +48,7 @@ function VerificationComplete() {
     } catch (error) {
       console.log(error);
     }
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [token]);
 
   return (
