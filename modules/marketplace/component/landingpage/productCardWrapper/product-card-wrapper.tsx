@@ -51,7 +51,7 @@ function ProductCardWrapper({
                     image={item?.images && item?.images[0]?.url}
                     name={item?.name}
                     price={item?.price}
-                    user={item?.category ? `${item?.category?.name}` : 'null'}
+                    user={item?.shop ? `${item?.shop?.name}` : 'null'}
                     rating={item?.rating}
                     showDiscount={item?.showDiscount}
                     showTopPicks={showTopPicks}

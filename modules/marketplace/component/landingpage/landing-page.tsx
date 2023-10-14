@@ -28,17 +28,6 @@ function LandingPage() {
     } catch (error) {
       setLimitedOffers({ isLoading: false, items: [] });
     }
-    // Promise.all(['products/limited_offers', 'recommendations' ].map(endpoint => fetchData(endpoint)))
-    //   .then(results => {
-    //     // Handle results from both requests
-    //     const [result1, result2] = results;
-    //     console.log('Result from endpoint 1:', result1);
-    //     console.log('Result from endpoint 2:', result2);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error:', error);
-    //   });
-    // fetchData('products/limited_offers');
   }, []);
 
   console.log(limitedOffers.items);
