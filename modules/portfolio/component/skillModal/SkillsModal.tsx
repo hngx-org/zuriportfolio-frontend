@@ -82,8 +82,10 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       fetchSkillData();
     }, []);
 
+    console.log(values);
 
-  const handleKeyPress = (e: { key: string }) => {
+ // on Enter press append input value to array two(setValues)
+const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
       const trimmedValue = inputValue.trim();
       if (trimmedValue !== '' &&  !values.some(skill => skill.skill === trimmedValue)) {
@@ -127,6 +129,8 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
+      // console.log(response.data.data);
+       console.log(response.data);
       return response.data;
       
     } catch (error) {
