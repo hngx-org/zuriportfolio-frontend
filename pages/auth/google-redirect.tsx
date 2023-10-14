@@ -9,6 +9,7 @@ function GoogleRedirect() {
     const url = `/google/redirect?${query}`;
     const Oauth = async () => {
       const $http = axios.create({
+        // https://staging.zuri.team/auth/google-redirect
         baseURL: 'https://staging.zuri.team/api/auth/api/auth',
         timeout: 30000,
         headers: {
@@ -24,8 +25,9 @@ function GoogleRedirect() {
         localStorage.setItem('zpt', token);
         router.push('/dashboard');
       } catch (e: any) {
-        router.push('/auth/signup');
+        // router.push('/auth/signup');
         // throw new Error(e)
+        console.log(e);
       }
     };
     Oauth();
