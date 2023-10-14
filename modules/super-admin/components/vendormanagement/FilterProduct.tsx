@@ -23,11 +23,11 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
           <SelectValue placeholder="Filter" />
         </SelectTrigger>
         <SelectContent>
+          <SelectItem value="status">Status</SelectItem>
           <SelectItem value="highest">Highest quantity</SelectItem>
           <SelectItem value="lowest">Lowest quantity</SelectItem>
           <SelectItem value="oldest">Oldest Products</SelectItem>
           <SelectItem value="newest">Newest Products</SelectItem>
-          <SelectItem value="status">Status</SelectItem>
         </SelectContent>
       </Select>
     </div>
