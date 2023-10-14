@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import MainLayout from '../../../../components/Layout/MainLayout';
@@ -13,15 +14,17 @@ import { useRouter } from 'next/router';
 const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
   const router = useRouter();
-  const assessmentData = localStorage.getItem('assessmentData')
-  const storedAssessmentData = assessmentData ? JSON.parse(assessmentData) : null
-
+  const [storedAssessment, setStoredAssessment] = React.useState<any>([])
+  
   useEffect(() => {
+    const assessmentData = localStorage.getItem('assessmentData')
+    const storedAssessmentData = assessmentData ? JSON.parse(assessmentData) : null
     console.log('Hellllooooooooooo>>>>>>>>>>>>>>>>>>>',storedAssessmentData)
     if(assessmentData){
       console.log('data message', storedAssessmentData[0].options)
+      setStoredAssessment(storedAssessmentData)
     }
-  },[storedAssessmentData, assessmentData])
+  },[])
 
   return (
     <>
@@ -66,10 +69,10 @@ const Questions: React.FC = () => {
           </div>
           <form action="#">
             <ul className="overscroll md:max-w-xl max-w-xs flex flex-col  w-full gap-y-4 overflow-y-scroll max-h-screen h-full">
-              {storedAssessmentData.map((question: any, index: number) => (
+              {storedAssessment.map((question: any, index: number) => (
                 <li key={index} className="w-full md:max-w-lg py-8 px-4 border border-slate-100 rounded-lg">
                   <h1 className="text-xl text-brand-green-primary text-center font-bold mb-4">
-                    Question {storedAssessmentData.indexOf(question) + 1} of {storedAssessmentData?.length}
+                    Question {storedAssessment.indexOf(question) + 1} of {storedAssessment?.length}
                   </h1>
                   <p className="text-sm pl-4">{question[index]?.question_id}</p>
                   <span className="text-blue-100 text-xs pl-4 ">{question.question_text}</span>

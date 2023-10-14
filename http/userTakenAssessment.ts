@@ -60,16 +60,28 @@ export const fetchUserTakenAssessment = async () => {
     }
 }
 
-// export const submitAssessment = async ({ assessment_id, response={}}) => {
-//   const data = new FormData()
-//   data.append('assessment_id', assessment_id)
-//   try {
-//     const res = await axiosInstance.post(`http://104.248.143.148/api/assessments/submit?fake_token=${fetchToken}`, {
-//       assessment_id,
-//       response{}
-//     })
-//   } catch (error) {
-//     console.error('Error submitting assessment:', error);
-//     throw error;
-//   }
-// }
+export const submitAssessment = async ({ assessment_id, 
+  question_id, 
+  user_answer_id, 
+  answer_text, 
+  }:{
+  assessment_id: number,
+  question_id: number,
+  user_answer_id: number,
+  answer_text: string,
+  }) => {
+  
+  try {
+    const res = await axiosInstance.post(`http://104.248.143.148/api/assessments/submit?fake_token=${fetchToken}`, {
+      assessment_id,
+      response: {
+        "question_id": question_id,
+        "user_answer_id": user_answer_id,
+        "answer_text": answer_text,
+      }
+    })
+  } catch (error) {
+    console.error('Error submitting assessment:', error);
+    throw error;
+  }
+}
