@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, use } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import WorkExperienceSection from '@modules/portfolio/component/work-experience-modal';
 import useDisclosure from '../hooks/useDisclosure';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
@@ -7,9 +7,9 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { interests, sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
+import axios from 'axios';
 
 type PortfolioContext = {
-  setUserData: React.Dispatch<React.SetStateAction<any>>;
   userData: any;
   hasData: boolean;
   sections: Array<any>;
@@ -29,6 +29,7 @@ type PortfolioContext = {
   setHasData: React.Dispatch<React.SetStateAction<boolean>>;
   setModalStates: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>;
   setSections: React.Dispatch<React.SetStateAction<any[]>>;
+  setUserData: React.Dispatch<React.SetStateAction<any>>;
   profileUpdate: () => void;
   buildPortfolio: () => void;
   viewPortfolio: () => void;
@@ -46,7 +47,6 @@ type PortfolioContext = {
 };
 
 const Portfolio = createContext<PortfolioContext>({
-  setUserData: () => {},
   userData: {},
   selectedSections: [],
   hasData: false,
@@ -66,6 +66,7 @@ const Portfolio = createContext<PortfolioContext>({
   onCloseModal: () => {},
   editSection: () => {},
   setSections: () => {},
+  setUserData: () => {},
   profileUpdate: () => {},
   buildPortfolio: () => {},
   viewPortfolio: () => {},
@@ -91,12 +92,12 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [openDelete, setOpenDelete] = useState<boolean>(false);
 
   //landing page
+  const authorize = 'https://auth.akuya.tech/api/authorize';
   const users = [
-    `f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`,
+    `9e36caf3-76ee-47ff-9520-0eb7bc83b72b`,
     `6ba7b810-9dad-11d1-80b4-00c04fd430c8`,
     `8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`,
   ];
-
   const [coverImage, setCoverImage] = useState<File | any>();
   const [avatarImage, setAvatarImage] = useState<File | any>();
   const [showProfileUpdate, setShowProfileUpdate] = useState<boolean>(false);
@@ -116,74 +117,92 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [userId, setUserId] = useState<string>(users[0]);
   const [userSections, setUserSections] = useState<any[]>([]);
   const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
-
-  const getUser = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
-      const data = await response.json();
-      console.log(data);
-      setUserData({
-        firstName: data?.user?.firstName,
-        lastName: data?.user?.lastName,
-        avatarImage: data?.user?.profilePic,
-        city: data?.portfolio?.city,
-        country: data?.portfolio?.country,
-        tracks: data?.tracks,
-        hasDataFromBE: true,
-        coverImage: data?.user?.profileCoverPhoto,
-      });
-      setIsLoading(false);
-    } catch (error: any) {
-      setIsLoading(false);
-      setError({ state: true, error: error.message });
-    }
-  };
-
-  const getUserSections = async () => {
-    try {
-      setIsLoading(true);
-      const data = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-
-      const response = await data.json();
-      const {
-        about,
-        projects,
-        workExperience,
-        education,
-        skills,
-        contact,
-        interests,
-        awards,
-        language,
-        reference,
-        certificate,
-        shop,
-        custom,
-      } = response;
-      setUserSections([
-        { title: 'About', id: 'about', data: about },
-        { title: 'Project', id: 'projects', data: projects },
-        { title: 'Work Experience', id: 'workExperience', data: workExperience },
-        { title: 'Education', id: 'education', data: education },
-        { title: 'Skills', id: 'skills', data: skills },
-        { title: 'Interests', id: 'interests', data: interests },
-        { title: 'Awards', id: 'awards', data: awards },
-        { title: 'Certificate', id: 'certificate', data: certificate },
-        { title: 'Language', id: 'language', data: language },
-        { title: 'Reference', id: 'reference', data: reference },
-        { title: 'Shop', id: 'shop', data: shop },
-        { title: 'Contact', id: 'contact', data: contact },
-        { title: 'Custom', id: 'custom', data: custom },
-      ]);
-      setIsLoading(false);
-    } catch (error: any) {
-      setError({ state: true, error: error });
-    }
-  };
+  const token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllMzZjYWYzLTc2ZWUtNDdmZi05NTIwLTBlYjdiYzgzYjcyYiIsImZpcnN0TmFtZSI6IkVyaWNrIiwiZW1haWwiOiJlcmljay5iYXJhc2FAaW52aXNpYmxlLmVtYWlsIiwiaWF0IjoxNjk3Mjc1NTk1fQ.jvDCu7Zf3f0YEw3PgKw-HlbYlJ6HV4_Mq3wQhmimIbI';
 
   useEffect(() => {
+    // Get an item from localStorage
+    const zpt = localStorage.getItem('zpt');
+
+    // Check if the item exists
+    if (zpt) {
+      axios
+        .post(authorize, { token: token })
+        .then((res) => {
+          setUserId(res.data.user.id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log('Item not found in localStorage');
+    }
+  }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
+        const data = await response.json();
+        setUserData({
+          firstName: data?.user?.firstName,
+          lastName: data?.user?.lastName,
+          avatarImage: data?.user?.avatarImage,
+          city: data?.portfolio?.city,
+          country: data?.portfolio?.country,
+          tracks: data?.tracks,
+          hasDataFromBE: true,
+          coverImage: '',
+        });
+        setIsLoading(false);
+      } catch (error: any) {
+        setError({ state: true, error: error.message });
+      }
+    };
     getUser();
+
+    const getUserSections = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+
+        const response = await data.json();
+        const {
+          about,
+          projects,
+          workExperience,
+          education,
+          skills,
+          contact,
+          interests,
+          awards,
+          language,
+          reference,
+          certificate,
+          shop,
+          custom,
+        } = response;
+        setUserSections([
+          { title: 'About', id: 'about', data: about },
+          { title: 'Project', id: 'projects', data: projects },
+          { title: 'Work Experience', id: 'workExperience', data: workExperience },
+          { title: 'Education', id: 'education', data: education },
+          { title: 'Skills', id: 'skills', data: skills },
+          { title: 'Interests', id: 'interests', data: interests },
+          { title: 'Awards', id: 'awards', data: awards },
+          { title: 'Certificate', id: 'certificate', data: certificate },
+          { title: 'Language', id: 'language', data: language },
+          { title: 'Reference', id: 'reference', data: reference },
+          { title: 'Shop', id: 'shop', data: shop },
+          { title: 'Contact', id: 'contact', data: contact },
+          { title: 'Custom', id: 'custom', data: custom },
+        ]);
+        setIsLoading(false);
+      } catch (error: any) {
+        setError({ state: true, error: error });
+      }
+    };
     getUserSections();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -209,19 +228,24 @@ export function PortfolioCtxProvider(props: { children: any }) {
     onOpen();
   };
 
+  const modal = () => {
+    setShowProfileUpdate(false);
+    setShowBuildPortfolio(false);
+    setShowViewtemplates(false);
+    onClose();
+  };
+
   const uploadCover = async (coverImage: string | Blob) => {
     try {
       setIsLoading(true);
       const formData = new FormData();
-      const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
       formData.append('images', coverImage as string | Blob);
-      formData.append('userId', userId);
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/cover/upload', {
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/cover/photo', {
         method: 'POST',
         body: formData,
       });
       const data = await response.json();
-      setUserData((p: any) => ({ ...p, hasDataFromBE: true, coverImage: data.data.profilePic }));
+      setUserData((p: any) => ({ ...p, hasDataFromBE: true, coverImage: data.data[0] }));
       setHasData(true);
       setIsLoading(false);
     } catch (error) {
@@ -268,16 +292,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setModalStates(updatedModalStates);
   };
 
-  const modal = (sectionTitle?: string) => {
-    setShowProfileUpdate(false);
-    setShowBuildPortfolio(false);
-    setShowViewtemplates(false);
-    onClose();
-    onCloseModal(sectionTitle || '');
-    getUser();
-    getUserSections();
-  };
-
   const onCloseModal = (modalToClose: string) => {
     setModalStates((prevModalStates) => ({
       ...prevModalStates,
@@ -288,23 +302,29 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const modals: any[] = [
     {
       id: 'workExperience',
-      modal: <WorkExperienceSection isOpen={modalStates['workExperience']} onClose={() => modal('workExperience')} />,
+      modal: (
+        <WorkExperienceSection isOpen={modalStates['workExperience']} onClose={() => onCloseModal('workExperience')} />
+      ),
     },
     {
       id: 'education',
-      modal: <EducationSection isOpen={modalStates['education']} onClose={() => modal('education')} />,
+      modal: <EducationSection isOpen={modalStates['education']} onClose={() => onCloseModal('education')} />,
     },
     {
       id: 'language',
-      modal: <LanguageModal isOpen={modalStates['language']} onClose={() => modal('language')} userId={userId} />,
+      modal: (
+        <LanguageModal isOpen={modalStates['language']} onClose={() => onCloseModal('language')} userId={userId} />
+      ),
     },
     {
       id: 'interests',
-      modal: <InterestModal isOpen={modalStates['interests']} onClose={() => modal('interests')} userId={userId} />,
+      modal: (
+        <InterestModal isOpen={modalStates['interests']} onClose={() => onCloseModal('interests')} userId={userId} />
+      ),
     },
     {
       id: 'skills',
-      modal: <SkillModal isOpen={modalStates['skills']} onClose={() => modal('skills')} userId={userId} />,
+      modal: <SkillModal isOpen={modalStates['skills']} onClose={() => onCloseModal('skills')} userId={userId} />,
     },
   ];
 

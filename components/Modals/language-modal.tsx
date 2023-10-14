@@ -1,6 +1,6 @@
 import Modal from '@ui/Modal';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import close_circle from '../../public/assets/icons/close-circle.svg';
 import close1 from '../../public/assets/icons/close1.svg';
 import arrow_left from '../../public/assets/icons/arrow-left.svg';
@@ -11,10 +11,25 @@ import { notify } from '@ui/Toast';
 const endpoint = 'https://hng6-r5y3.onrender.com';
 
 const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
-  console.log(userId);
-
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
+
+  const items = values.map((value) => (
+    <span
+      key={value}
+      className="py-1 px-2 flex items-center gap-3 bg-[#E6F5EA] text-sm font-semibold text-[#003A1B]  rounded-lg"
+    >
+      {value}
+      <Image
+        src={close_circle}
+        width={24}
+        height={24}
+        alt="arrow-left"
+        className="cursor-pointer"
+        onClick={() => handleListItemClick(value)}
+      />
+    </span>
+  ));
 
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -37,27 +52,25 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
     setValues(updatedValues);
   };
 
-  const items = values.map((value) => (
-    <span
-      key={value}
-      className="py-1 px-2 flex items-center gap-3 bg-[#E6F5EA] text-sm font-semibold text-[#003A1B]  rounded-lg"
-    >
-      {value}
-      <Image
-        src={close_circle}
-        width={24}
-        height={24}
-        alt="arrow-left"
-        className="cursor-pointer"
-        onClick={() => handleListItemClick(value)}
-      />
-    </span>
-  ));
+  const getAllLanguages = () => {
+    axios
+      .get(`${endpoint}/api/language/${userId}`)
+      .then((res) => {
+        const languagesArray: string[] = res.data?.data.map((obj: any) => obj.language);
+        setValues(languagesArray ? languagesArray : []);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getAllLanguages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = () => {
     if (values.length === 0) return;
     const data = {
-      userId: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
+      userId: userId,
       languages: values,
     };
     axios
