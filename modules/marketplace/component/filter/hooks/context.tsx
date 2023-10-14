@@ -108,6 +108,7 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error);
+        router.push('/marketplace/error-page');
       }
       if (error instanceof Error) {
         console.log(error);
