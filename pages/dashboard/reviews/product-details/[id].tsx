@@ -42,6 +42,13 @@ interface Params extends ParsedUrlQuery {
 
 const UserReview: NextPage = () => {
   const [data, setData] = useState<ReviewData[] | null>(null);
+  const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
+  const [total5Star, setTotal5Star] = useState<number>(0);
+  const [total4Star, setTotal4Star] = useState<number>(0);
+  const [total3Star, setTotal3Star] = useState<number>(0);
+  const [total2Star, setTotal2Star] = useState<number>(0);
+  const [total1Star, setTotal1Star] = useState<number>(0);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -49,6 +56,47 @@ const UserReview: NextPage = () => {
       .then((res) => res.json())
       .then((data: ReviewApiResponse) => setData(data.data));
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      const total5 = data.filter((review) => review.rating === 5).length;
+      const total4 = data.filter((review) => review.rating === 4).length;
+      const total3 = data.filter((review) => review.rating === 3).length;
+      const total2 = data.filter((review) => review.rating === 2).length;
+      const total1 = data.filter((review) => review.rating === 1).length;
+      setTotal5Star(total5);
+      setTotal4Star(total4);
+      setTotal3Star(total3);
+      setTotal2Star(total2);
+      setTotal1Star(total1);
+    }
+  }, [data]);
+
+  function filterReviews(view: string, rating: string, data: ReviewData[]) {
+    let filteredReviews: ReviewData[] = [];
+    if (rating === 'all') {
+      filteredReviews = data;
+    } else {
+      filteredReviews = data.filter((review) => review.rating === parseInt(rating));
+    }
+
+    if (view === 'topReviews') {
+      filteredReviews.sort((a, b) => b.isHelpful - a.isHelpful);
+    } else if (view === 'newest') {
+      filteredReviews.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } else if (view === 'oldest') {
+      filteredReviews.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    }
+
+    return filteredReviews;
+  }
+
+  function handleFilter(view: string, rating: string) {
+    if (data !== null && data !== undefined) {
+      const filteredReviews = filterReviews(view, rating, data);
+      setFilteredData(filteredReviews); // update the filteredData state with the filtered reviews
+    }
+  }
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
@@ -101,22 +149,26 @@ const UserReview: NextPage = () => {
                 </div>
                 <div className="flex flex-col">
                   <div className="w-full justify-start">
-                    <Filter review={4} rating={4} />
+                    <Filter review={4} rating={4} filterReview={(view, rating) => handleFilter(view, rating)} />
                   </div>
                   <div className="mt-4 mx-1">
-                    {data?.map((review) => (
-                      <SellerReview
-                        key={review.reviewId}
-                        buyerName={review.customerName}
-                        mainDate={review.createdAt}
-                        adminDate={review.reply?.createdAt}
-                        review={review.description}
-                        noOfStars={review.rating}
-                        shopReply={review.reply?.message}
-                        shopName={review.reply?.name}
-                        reviewId={review.reviewId}
-                      />
-                    ))}
+                    {filteredData?.length === 0 ? (
+                      <h2>No results</h2>
+                    ) : (
+                      filteredData?.map((review) => (
+                        <SellerReview
+                          key={review.reviewId}
+                          buyerName={review.customerName}
+                          mainDate={review.createdAt}
+                          adminDate={review.reply?.createdAt}
+                          review={review.description}
+                          noOfStars={review.rating}
+                          shopReply={review.reply?.message}
+                          shopName={review.reply?.name}
+                          reviewId={review.reviewId}
+                        />
+                      ))
+                    )}
                   </div>
                 </div>
               </div>

@@ -446,6 +446,7 @@ export interface RatingCardProps {
 export interface filterProps {
   rating: number;
   review: number;
+  filterReview(view: string, stars: string);
 }
 
 export interface reviewProps {
