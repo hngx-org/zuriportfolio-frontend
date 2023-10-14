@@ -13,6 +13,21 @@ export interface MainLayoutProps {
   showTopbar?: boolean;
   showFooter?: boolean;
 }
+
+export interface ProductData {
+  id: string;
+  name: string;
+  discount_price: string;
+  description: string;
+  price: string;
+  images: any[];
+  url: string[];
+  rating: number;
+  user: string;
+  quantity: Number;
+  shop: string;
+}
+
 export interface Education {
   id: number;
   degree: string;
@@ -33,14 +48,16 @@ export interface AllCategoryDetails {
   discount: number;
 }
 export interface Products {
-  id: number;
+  _id: string;
   name: string;
-  image: string;
+  image: any;
   shopOwner: string;
   price: number;
   category: string;
+  description: string;
+  specification: string;
+  rating: number;
 }
-
 export interface SuperAdminPagination {
   title: any;
 }
@@ -108,6 +125,20 @@ export interface ProductCardProps {
   showTopPicks?: boolean;
   showDiscount?: boolean;
   discount?: number;
+}
+
+export interface MarketPlaceProductCardProps {
+  id: string;
+  currency: string;
+  image: string | null;
+  name: string;
+  price: number;
+  user: string;
+  rating: number;
+  showLimitedOffer?: boolean;
+  showTopPicks?: boolean;
+  showDiscount?: boolean;
+  discount_price?: number;
 }
 
 export interface ratingProps {
@@ -211,12 +242,45 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
+export type RecentlyViewedProductProp = {
+  user: string;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: string;
+    discount_price: string;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
+    shop: {
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+};
+
 export type CartItemProps = {
+  id?: string;
   productId: string;
   productImage: string;
   productTitle: string;
-  productSize: string;
-  productColor: string;
+  productDescription: string;
+  productSize?: string;
+  productColor?: string;
   productSeller: string;
   productPrice: number;
 };
@@ -238,6 +302,7 @@ export type ViewedProductCardProps = {
 export interface ActivityCardProps {
   name: string;
   item: string;
+  isPage: boolean;
 }
 
 export interface MetricCardProps {
@@ -402,11 +467,12 @@ export interface filterProp {
 }
 
 export type SectionModalProps = {
-  openButtonText: string;
-  heading: string;
-  paragraph: string;
-  primaryText: string;
-  onClickAction: () => void;
+  openButtonText?: string;
+  heading?: string;
+  paragraph?: string;
+  primaryText?: string;
+  onClickAction?: () => void;
+  sectionToDelete?: string;
 };
 
 export interface PaymentStatusModalProps {
@@ -429,6 +495,8 @@ export type BannedDeletedVendorsProps = {
   setShowBanned: (any: boolean) => void;
   showDeleted: boolean;
   setShowDeleted: (any: boolean) => void;
+  data: any;
+  isLoading: Boolean;
 };
 
 export interface SettingOptionTypes {
@@ -438,20 +506,14 @@ export interface SettingOptionTypes {
   refer: boolean;
 }
 export interface NotificationCheckboxType {
-  receiveEmail: boolean;
+  emailSummary: boolean;
   specialOffers: boolean;
-  getNotification: boolean;
-  notifyFollow: boolean;
-  notifyMessages: boolean;
+  communityUpdate: boolean;
+  followUpdate: boolean;
+  newMessages: boolean;
+  // userId:string
 }
 
-export type cardinfo = {
-  title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
-};
 export type Graph = {
   id: number;
   title: string;
@@ -477,18 +539,22 @@ export type topListingProduct = {
   vendor: string;
 };
 
-export type activity = {
+type activity = {
   name: string;
+  user_details: {
+    first_name: string;
+    last_name: string;
+  };
+  action: string;
+  title: string;
   purchased: string;
   pItem: string;
   id: number;
 };
-type cardinfo = {
+export type cardinfo = {
   title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
+  amount: any;
+  ratio: number;
 };
 
 export type inputErrorMessage = {
@@ -512,6 +578,14 @@ interface ProductStatistics {
 }
 
 export interface DeletedProducts {
+  // admin_status: string;
+  // category_id: number;
+  // createdAt: string;
+  // product_id : string;
+  product_name: string;
+  // updatedAt: string;
+  // vendor_name: string;
+  //tim type
   name: string;
   vendor: string;
   id: number;
@@ -531,39 +605,77 @@ export interface CardData {
   location: string;
 }
 
-export interface AuthContextProps {
-  user: LoginBodyResponse | undefined;
-  handleUser: (value: LoginBodyResponse) => void;
-}
-
-export type LoginBodyResponse = {
-  id: string;
-  username: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  token: string;
-  section_order: unknown;
-  password: string;
-  provider: unknown;
-  profile_pic: unknown;
-  refresh_token: string;
-  role_id: number;
-  is_verified: boolean;
-  two_factor_auth: boolean;
-  location: unknown;
-  country: unknown;
-  created_at: string;
-};
-export type LoginResponse = {
-  token: string;
-  data: LoginBodyResponse;
-  statusCode: number;
-};
-
 export interface Review {
   id: number;
   rating: number;
   name: string;
   description: string;
+}
+export interface UserInfo {
+  address: string;
+  createdAt: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  location: string;
+  profilePictureUrl: any;
+  profileUrl: string;
+  projects: number;
+  provider: string;
+  ranking: string;
+  skills: string[];
+  tag: string;
+  track: string;
+}
+
+interface ChartProps {
+  isBarChart: boolean;
+  data: any[];
+  isFetching: boolean;
+  isFetched: boolean;
+}
+
+export interface AuthContextProps {
+  auth: AuthResponse | undefined;
+  email: string;
+  redirect: string;
+  handleAuth: (value: AuthResponse) => void;
+  handleEmail: (value: string) => void;
+  handleRedirect: (value: string) => void;
+}
+
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+export type AuthResponse = {
+  token: string;
+  user: User;
+};
+
+type ProductResultImage = {
+  url: string;
+};
+export interface ProductResult {
+  id: string;
+  name: string;
+  description: string;
+  quantity: number;
+  price: string;
+  discount_price: string;
+  tax: string;
+  images: ProductResultImage[];
+  admin_status: string;
+  is_deleted: string;
+  is_published: boolean;
+  currency: string;
+  createdat: string;
+  updatedat: string;
+  shop: string;
+  category: number;
+  rating: number;
+  user: string;
 }
