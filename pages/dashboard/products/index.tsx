@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { SearchNormal1 } from 'iconsax-react';
 import Button from '@ui/Button';
 import ProductCard from '@modules/dashboard/component/products/ProductCard';
 import Link from 'next/link';
+import Pagination from '@ui/Pagination';
 
 const Products = () => {
+  const [pageSize, setPageSize] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  useEffect(() => {
+    // Run code if current page change
+  }, [currentPage]);
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
       <div className="max-w-[1240px] mx-auto my-4 px-6">
@@ -57,6 +63,15 @@ const Products = () => {
           >
             <ProductCard />
           </div>
+          {pageSize > 1 && (
+            <Pagination
+              activePage={currentPage}
+              page={currentPage}
+              pages={pageSize}
+              visiblePaginatedBtn={3}
+              setPage={setCurrentPage}
+            />
+          )}
         </div>
       </div>
     </MainLayout>
