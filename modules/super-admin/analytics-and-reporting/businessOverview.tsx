@@ -48,8 +48,8 @@ const BusinessOveriview: React.FC = (props) => {
 
   return (
     <>
-      <div className="max-[1310px]:px-[1rem] max-[800px]:pr-0 max-[834px]:px-[2.5rem] max-[830px]:px-[1.5rem] max-[778px]:pr-0">
-        <div className="max-w-[77.5rem] w-full mt-[3rem] flex flex-col gap-[0.9375rem] rounded-[0.5rem] border border-[#E1E3E2] bg-[#FFF] mx-auto max-[730px]:max-w-[100%] max-[800px]:rounded-tr-none max-[800px]:rounded-br-none max-[800px]:border-r-0">
+      <div className="max-[1310px]:px-[1rem] w-full max-[760px]:pr-0 max-[834px]:px-[2.5rem] max-[800px]:pl-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0">
+        <div className="max-w-[77.5rem] w-full mt-[3rem] min-[1536px]:max-w-[1536px] flex flex-col gap-[0.9375rem] rounded-[0.5rem] border border-[#E1E3E2] bg-[#FFF] mx-auto max-[730px]:max-w-[100%] max-[800px]:rounded-tr-none max-[760px]:rounded-br-none max-[760px]:border-r-0">
           <div className="px-[1rem] py-[0.75rem] max-w-[77.5rem] w-full border-b-[0.0625rem] border-[#EAECF0]">
             <p className="font-manropeL font-medium leading-[1.75rem] text-[1.25rem] text-gray-900">
               Business Overview
@@ -57,7 +57,7 @@ const BusinessOveriview: React.FC = (props) => {
           </div>
           <div className="w-full">
             <div className="max-[778px]:overflow-x-scroll no-scrollbar">
-              <div className="flex items-center justify-between px-[1.5rem] py-[0.75rem] bg-[#FCFCFD] border-b-[0.0625rem] border-[#EAECF0] max-[730px]:flex max-[730px]:gap-[1.5rem] max-[730px]:pr-0 max-[730px]:w-fit">
+              <div className="flex items-center justify-between px-[1.5rem] py-[0.75rem] bg-[#FCFCFD] border-b-[0.0625rem] border-[#EAECF0] max-[730px]:flex max-[730px]:gap-[1.5rem] max-[730px]:w-fit">
                 <div className="flex items-center gap-0.25rem max-w-[8.5rem] w-full max-[834px]:max-w-[6rem] max-[778px]:min-w-[6rem]">
                   <h6 className="text-[0.875rem] font-manropeL text-[#444846] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[730px]:w-[6rem]">
                     Total Users
@@ -126,7 +126,7 @@ const BusinessOveriview: React.FC = (props) => {
                     {BusinessOverviewArray[4]?.amount}
                   </p>
                 </div>
-                <div className="hidden max-w-[4.5rem] w-full max-[834px]:block max-[778px]:min-w-[5.5rem]">
+                <div className="hidden max-w-[4.5rem] w-full max-[834px]:block max-[834px]:min-w-[5.5rem]">
                   <p className="text-[0.875rem] font-manropeL font-normal text-center leading-[1.25rem] tracking-[0.00088rem] text-[#000] max-[730px]:w-[6rem]">
                     $20000000
                   </p>
@@ -136,7 +136,7 @@ const BusinessOveriview: React.FC = (props) => {
           </div>
           <div>
             <div className="max-w-77.5rem w-full h-[0.3125rem] bg-[#EAECF0]"></div>
-            <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-[#EAECF0] max-[800px]:rounded-br-none"></div>
+            <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-[#EAECF0] max-[760px]:rounded-br-none"></div>
           </div>
         </div>
       </div>

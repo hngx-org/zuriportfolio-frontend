@@ -45,7 +45,7 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange }) => {
 
   return (
     <>
-      <div className="max-w-[77.5rem] w-full mx-auto mt-[1.75rem] max-[1300px]:px-[1.2rem] max-[1300px]:py-0 max-[834px]:hidden">
+      <div className="max-w-[77.5rem] min-[1536px]:max-w-[1536px] w-full mx-auto mt-[1.75rem] max-[1300px]:px-[1.2rem] max-[1300px]:py-0 max-[834px]:hidden">
         <div className="grid grid-cols-4 gap-[1.5rem] max-[1300px]:gap-[1rem]">
           {/* card */}
           <div

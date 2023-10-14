@@ -23,15 +23,15 @@ const AnalyticsAndReport: React.FC = () => {
     const delay = setTimeout(() => {
       setLoading(false);
       clearTimeout(delay);
-    }, 3000);
+    }, 2000);
   }, []);
 
   const fetchAnalyticsData = () => {
     if (selectedDateRange.length === 2) {
-      const startDate = selectedDateRange[0].format('YYYY-MM-DDTHH:mm:ss[Z]');
-      const endDate = selectedDateRange[1].format('YYYY-MM-DDTHH:mm:ss[Z]');
+      const startDate = selectedDateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
+      const endDate = selectedDateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
 
-      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/?start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`;
 
       axios
         .get(apiUrl)
@@ -157,8 +157,8 @@ const AnalyticsAndReport: React.FC = () => {
           )}
           <AnalysisCards dateRange={selectedDateRange} />
           <BusinessOveriview />
-          <PerformanceData />
           <PortfolioCreation />
+          <PerformanceData />
           <TopSellingProducts />
         </>
       )}
