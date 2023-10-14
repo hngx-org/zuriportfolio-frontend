@@ -79,30 +79,16 @@ const Dashboard = () => {
           <div className="mt-[2rem] border-[.58px] border-white-400 rounded-md py-[.6rem] px-[1rem] md:p-[1.9rem] lg:p-[2.3rem] xl:p-[2.7rem] 2xl:p-[4rem]">
             <div className="">
               <h2 className="text-green-950 text-[.875rem] md:text-[.9rem] lg:text-[1.2rem] xl:text-[1.5rem] mb-[.4rem] md:mb-[1.2rem] xl:mb-[1.5rem] font-semibold">
-                Current Skill Level
+                Skill Level
               </h2>
               <div className="md:flex">
                 {LevelData().map((item, index) => (
                   <Link
-                    href={`/assessments/dashboard/badge/${result?.skill_id}`}
-                    as={`/assessments/dashboard/badge/${item.level}`}
+                    href={`/assessments/dashboard/badge/${item.level}`}
                     key={index}
-                    className="flex md:mx-2 xl:mx-4 items-center gap-[.5rem] my-[1rem] md:my-0 md:gap-[.7rem] lg:gap-[1rem] p-[.7rem] lg:p-[1rem] border-[.58px] border-white-400 md:w-[14.4rem] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] rounded-md h-[6rem] md:h-[7rem] lg:h-[9rem] xl:h-[10rem]"
+                    className="flex md:mx-2 xl:mx-4 items-center gap-[.5rem] my-[1rem] md:my-0 md:gap-[.7rem] lg:gap-[1rem] p-[.7rem] lg:p-[1rem] border-[.58px] border-white-400 md:w-[14.4rem] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] rounded-md h-[6rem] md:h-[7rem] lg:h-[9rem]"
                   >
                     <div className="relative group">
-                      <div
-                        className={`${
-                          locked !== item.locked ? 'block' : 'hidden'
-                        } absolute inset-0 rounded-full group:opacity-0 transition duration-300 bg-[rgba(168,172,171,0.8)]`}
-                      >
-                        <Image
-                          src="/assets/dashboard/lock.svg"
-                          alt="lock"
-                          width={30}
-                          height={50}
-                          className="mx-auto w-[25px] md:w-[15px] lg:w-[20px] xl:w-[30px] mt-[.7rem] md:mt-[.5rem] lg:mt-[.7rem] xl:mt-[1rem]"
-                        />
-                      </div>
                       <div className="rounded-full overflow-hidden">
                         <Image
                           src={item.img}
@@ -114,11 +100,8 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div>
-                      <p className="text-brand-green-shade10 font-medium text-[.75rem] md:text-[.85rem] lg:text-[1rem] xl:text-[1.3rem] leading-1">
-                        Level: {item.level}
-                      </p>
-                      <p className="text-brand-green-shade10 font-medium text-[.75rem] md:text-[.85rem] lg:text-[1.3rem] leading-1">
-                        Score: {item.score}
+                      <p className="text-brand-green-shade10 font-medium text-[.75rem] md:text-[.85rem] lg:text-[1rem] xl:text-[1.3rem] leading-1 mb-1">
+                        Level: <span className="capitalize">{item.level}</span>
                       </p>
                       <p className="text-white-650 text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
                         {item.desc}
