@@ -13,28 +13,34 @@ interface CategoriesNavProps {
   navItems: string[];
 }
 
+type categories = {
+  name: string;
+  subcategories: [];
+};
+
 const CategoriesNav = (props: CategoriesNavProps) => {
   const [active, setActive] = useState(-1);
   const [allCatActive, setAllCatActive] = useState(false);
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
 
   const { authenticated } = useAuthentication();
+  const { navItems } = props;
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const data = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+  //       console.log(data);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const { data } = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+  //       setCategories(data.categories);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
 
-        setCategories(data.categories);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    return () => {
-      fetchCategories();
-    };
-  }, []);
+  //   return () => {
+  //     fetchCategories();
+  //   };
+  // }, []);
 
   const navContainerRef = useRef<HTMLDivElement>(null);
 
@@ -76,7 +82,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
                 <Link href={`/marketplace/wishlist`}>WishList</Link>
               </li>
             )}
-            {categories.map((category, i: number) => {
+            {navItems.map((category: string, i: number) => {
               return (
                 <li key={i + 1} className="">
                   <ButtonCat active={active} handleActiveNav={handleActiveNav} category={category} index={i} />
