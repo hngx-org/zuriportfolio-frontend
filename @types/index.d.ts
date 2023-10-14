@@ -50,7 +50,7 @@ export interface AllCategoryDetails {
 export interface Products {
   _id: string;
   name: string;
-  image: string;
+  image: any;
   shopOwner: string;
   price: number;
   category: string;
@@ -571,12 +571,13 @@ export interface ProductInfo {
   status: string;
 }
 export interface DeletedProducts {
-  name: string;
-  vendor: string;
-  id: number;
-  dateAdded: Date;
-  dateDeleted: Date;
-  status: string;
+  admin_status: string;
+  category_id: number;
+  createdAt: string;
+  product_id: string;
+  product_name: string;
+  updatedAt: string;
+  vendor_name: string;
 }
 export interface CardData {
   id: number;
@@ -640,3 +641,27 @@ export type AuthResponse = {
   token: string;
   user: User;
 };
+
+type ProductResultImage = {
+  url: string;
+};
+export interface ProductResult {
+  id: string;
+  name: string;
+  description: string;
+  quantity: number;
+  price: string;
+  discount_price: string;
+  tax: string;
+  images: ProductResultImage[];
+  admin_status: string;
+  is_deleted: string;
+  is_published: boolean;
+  currency: string;
+  createdat: string;
+  updatedat: string;
+  shop: string;
+  category: number;
+  rating: number;
+  user: string;
+}

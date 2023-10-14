@@ -74,7 +74,7 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button disabled={isLoading ?? disabled} className={classNames} {...props}>
+    <button disabled={(isLoading ?? disabled) || disabled} className={classNames} {...props}>
       <div className="w-full h-full absolute top-0 flex flex-col items-center justify-center">
         <svg
           width={spinnerSize ?? '20'}

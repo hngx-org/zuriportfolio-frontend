@@ -85,7 +85,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
           </ul>
         </div>
 
-        <Image className=" cursor-pointer" src={more} alt="move icon" onClick={handleScrollLeft} />
+        <Image className="cursor-pointer" src={more} alt="move icon" onClick={handleScrollLeft} />
       </aside>
     </div>
   );

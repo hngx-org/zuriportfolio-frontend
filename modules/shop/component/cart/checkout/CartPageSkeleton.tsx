@@ -2,7 +2,6 @@ export default function CartPageSkeleton() {
   return (
     <main className="max-w-[1240px] animate-pulse mx-auto flex w-full flex-col items-center md:justify-between mb-8 px-4 lg:px-0">
       <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5">
-      
         <div className="w-full flex flex-col justify-center md:w-full lg:w-4/5">
           <h1 className="text w-[80%] h-[20px] bg-[#f0f0f0] my-[5px] -2xl mb-7 font-manropeEB">Loading...</h1>
 
@@ -36,7 +35,7 @@ export default function CartPageSkeleton() {
             <div className="skeleton-button w-[100px] h-[40px] bg-[#f0f0f0] ml-[auto] mt-[10px] "></div>
           </div>
         </div>
-        
+
         <div className="flex md:flex-none md:mx-0 lg:w-2/5">
           <section className="flex lg:px-10 py-8 w-full">
             <div className="cart-summary_wrapper w-full flex flex-col space-y-6">
