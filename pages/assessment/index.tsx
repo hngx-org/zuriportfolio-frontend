@@ -53,7 +53,7 @@ function Index() {
     const assessmentOverviewData = async () => {
       try {
         // Replace with your API endpoint URL
-        const apiUrl = 'https://piranha-assessment.onrender.com/api/admin/dashboard/';
+        const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/dashboard/';
 
         const response = await fetch(apiUrl);
 
