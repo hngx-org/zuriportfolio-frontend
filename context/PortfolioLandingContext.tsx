@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, use } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import WorkExperienceSection from '@modules/portfolio/component/work-experience-modal';
 import useDisclosure from '../hooks/useDisclosure';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
@@ -7,6 +7,7 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { interests, sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
+import { Line } from '@modules/portfolio/component/landing/landingpage-filled'; 
 
 type PortfolioContext = {
   setUserData: React.Dispatch<React.SetStateAction<any>>;
@@ -335,6 +336,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setAvatarImage,
     handleUploadCover,
     userData,
+    setUserData,
     toggleSection,
     isLoading,
     setIsLoading,
@@ -342,7 +344,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     error,
     openDelete,
     setOpenDelete,
-    setUserData,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;
