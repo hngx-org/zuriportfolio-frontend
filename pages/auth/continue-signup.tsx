@@ -271,7 +271,7 @@ function Signup() {
                   className="w-4 border-brand-green-primary"
                 />
               </span>
-              <p className="text-gray-200 text-sm font-manropeL">
+              <label htmlFor='agree' className="text-gray-200 text-sm font-manropeL">
                 I agree with zuri stores{' '}
                 <Link href={'/'} className="text-brand-green-primary hover:text-brand-green-hover">
                   Terms of Service
@@ -281,7 +281,7 @@ function Signup() {
                   Privacy Policy
                 </Link>{' '}
                 .
-              </p>
+              </label>
             </div>
             <style jsx>{`
               input[type='checkbox'] {
