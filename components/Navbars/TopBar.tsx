@@ -102,7 +102,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       try {
         const results = await searchPosts(searchQuery);
         setSearchResults(results);
-        localStorage.setItem('keyword', searchQuery)
+        localStorage.setItem('keyword', searchQuery);
         localStorage.setItem('search_result', JSON.stringify(results));
         router.push(`/marketplace/search?searchQuery=${searchQuery}`);
       } catch (error) {
