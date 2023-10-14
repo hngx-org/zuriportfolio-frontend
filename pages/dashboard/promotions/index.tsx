@@ -1,5 +1,6 @@
 import MainLayout from '../../../components/Layout/MainLayout';
 import PromotionHistory from '@modules/dashboard/component/promotion/PromotionHistory/PromotionHistory';
+import withAuth from '../../../helpers/withAuth';
 
 const Promotions: React.FC = () => {
   return (
@@ -13,4 +14,4 @@ const Promotions: React.FC = () => {
   );
 };
 
-export default Promotions;
+export default withAuth(Promotions);
