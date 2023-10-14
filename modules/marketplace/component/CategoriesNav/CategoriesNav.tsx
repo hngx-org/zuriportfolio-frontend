@@ -6,7 +6,6 @@ import Image from 'next/image';
 import more from '../../../../public/assets/ic_outline-arrow-back-ios.svg';
 import menu from '../../../../public/assets/ic_outline-menu.svg';
 import { useAuthentication } from '../../../../hooks/useAuthentication';
-
 import axios from 'axios';
 
 interface CategoriesNavProps {
@@ -25,7 +24,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
       try {
         const { data } = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
 
-        setCategories(data.categories);
+        setCategories(data.categories || []);
       } catch (err) {
         console.error(err);
       }
@@ -67,7 +66,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
           }}
         >
           <Image src={menu} alt="menu icon" />
-          <Link href="/marketplace/categories/all">All Categories</Link>
+          <Link href="/marketplace/allcategories">All Categories</Link>
         </button>
         <div className={`overflow-x-scroll  ${styles['hide-scroll']}`} ref={navContainerRef}>
           <ul className={`list flex whitespace-nowrap gap-8 py-5 bg-white-100 text-base `}>
