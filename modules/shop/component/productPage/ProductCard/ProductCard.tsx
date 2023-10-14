@@ -36,9 +36,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="p-2 w-full shadow border border-[#ccc] h-auto rounded-md bg-[#ffffff]  hover:shadow-[#ccc] group overflow-hidden">
       <div className="relative w-full max-w-md h-auto">
-        <Link href={`/shop/product?id=${product._id}`} passHref>
+        <Link href={`/shop/product?id=${product.id}`} passHref>
           <Image
-            src={product.image}
+            src={product.image[0].url}
             alt={product.name}
             width={300}
             height={150}
@@ -54,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <ShoppingCart size={17} />
           </span>
           <Link
-            href={`/shop/product?id=${product._id}`}
+            href={`/shop/product?id=${product.id}`}
             passHref
             className="w-full h-full text-black border-b -[1px] border-b-[#ccc] flex items-center justify-center text-sm bg-transparent hover:bg-[#febd69] hover:text-white-100 cursor-pointer duration-300"
           >
@@ -69,7 +69,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
         <div>
           <p className="text-sm text-[#4F4E4E] font-manropeL">
-            By: <span className="underline text-gray-500">{product.shopOwner}</span>
+            By: <span className="underline text-gray-500">{product.category.name}</span>
           </p>
         </div>
         <div className="flex items-center mt-2">{renderRatingStars(product.rating)}</div>

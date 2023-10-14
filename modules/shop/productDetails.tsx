@@ -47,10 +47,10 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (id) {
-      fetch(`https://tech-v3ey.onrender.com/api/products/${id}`)
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
         .then((response) => response.json())
-        .then((data) => {
-          setProduct(data);
+        .then((response) => {
+          setProduct(response.data);
         })
         .catch((error) => {
           console.error('Error fetching product details:', error);
@@ -185,7 +185,7 @@ export default function ProductDetails() {
             <div className="flex flex-col w-full item-center lg:gap-y-2">
               <div className="img-container w-full lg:h-[27rem] md:h-[20rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-3xl">
                 <Image
-                  src={product.image}
+                  src={product.image && product.image[0] ? product.image[0].url : ''}
                   alt="Main Image"
                   layout="fill"
                   objectFit="cover"
@@ -197,13 +197,13 @@ export default function ProductDetails() {
 
             {/* Product Detail Data */}
             <div className="lg:space-y-2 space-y-4 w-full self-start">
-              <h1 className="md:text-2xl md:font-bold lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
+              <h1 className="md:text-2xl md:font-bold text-black lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
                 {product.name}
               </h1>
               <div className="flex items-center">
                 <ProfileCircle color="#464646" variant="Bulk" className="w-6 h-6 md:w-9 md:h-9" />
                 <p className="w-fit font-manropeL font-bold text-xs tracking-[0.003rem] md:tracking-[0.005rem] ml-1 md:font-semibold md:text-base">
-                  {product.shopOwner}
+                  {product.category.name}
                 </p>
               </div>
               <div>
@@ -235,10 +235,10 @@ export default function ProductDetails() {
                 </p>
                 <p className="flex gap-x-4 items-center">
                   <span className="text-black text-xl md:text-3xl lg:text-3xl font-normal lg:font-semibold font-manropeEB leading-10">
-                    $100.00
+                    {product.currency} {product.price}
                   </span>
                   <span className="text-xl font-light md:text-2xl lg:text-[1.375rem] font-manrope line-through leading-7 text-gray-300">
-                    $120.00
+                    {product.currency} {product.discount_price}
                   </span>
                 </p>
               </div>
