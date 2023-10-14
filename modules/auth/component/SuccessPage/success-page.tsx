@@ -5,6 +5,7 @@ import Button from '@ui/Button';
 import Link from 'next/link';
 import letter from '../../../../public/assets/auth/letter.svg';
 import AuthLayout from '@modules/auth/component/AuthLayout';
+
 const SuccessPage = () => {
   return (
     <AuthLayout isTopRightBlobShown={true} isBottomLeftPadlockShown={false}>

@@ -35,7 +35,7 @@ const VendorLists: React.FC<any> = ({
 
         <Link
           href={{
-            pathname: '/super-admin/vendor-management/vendor-details',
+            // pathname: '/super-admin/vendor-management/vendor-details',
             query: {
               // Vendor details as query parameters
               name,

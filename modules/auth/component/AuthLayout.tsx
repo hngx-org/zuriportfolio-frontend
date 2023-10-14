@@ -7,15 +7,16 @@ import Link from 'next/link';
 
 function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeftPadlockShown }: AuthLayoutProps) {
   return (
-    <div className="relative  h-screen">
+    <div className="relative  h-[100dvh]">
       {/* Header for screens less than 1024px */}
-      <div className="border-b border-b-white-115 lg:hidden bg-white-100">
-        <Link href="/" className="px-6 py-6 md:px-10">
+      <div className=" py-6 pl-6 md:pl-10 md:px-10 border-b border-b-white-115 lg:hidden bg-white-100">
+        <Link href="/" className="  ">
           <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className="w-[126px] h-[24px]" />
         </Link>
       </div>
+
       <div className=" px-6  lg:px-16 2xl:w-[1440px] xl:mx-auto">
-        <div className=" h-screen grid grid-cols-1 gap-20 text-sm lg:flex">
+        <div className=" h-screen grid grid-cols-1 lg:gap-10 xl:gap-20 text-sm lg:flex">
           <div className=" py-12 hidden lg:block lg:w-3/5">
             <div className="h-full rounded-tr-[60px] rounded-bl-[60px] overflow-hidden ">
               {authLeftImage ?? (
@@ -30,14 +31,18 @@ function AuthLayout({ children, authLeftImage, isTopRightBlobShown, isBottomLeft
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-16 lg:w-2/5 ">
+          <div className=" flex flex-col gap-[60px] lg:w-2/5 ">
             {/* Header for screens larger than 1024px */}
             <Link href="/" className="hidden pt-10 lg:block">
-              <Image src={zuriPortfolioLogo} alt="Zuri portfolio logo" className="w-[178px] h-[36px]" />
+              <Image
+                src={zuriPortfolioLogo}
+                alt="Zuri portfolio logo"
+                className=" lg:w-[150px] xl:w-[178px] h-[36px]"
+              />
             </Link>
             {/* give the element on the right of the container a max width of 672px, only on screen size less than 1024px */}
             {/* <div className="max-lg:max-w-2xl mx-auto lg:mx-0 w-full lg:pb-4">{children}</div> */}
-            <div className=" mx-auto lg:mx-0 w-full mt-8 md:mt-20 lg:mt-0 lg:pb-4 lg:overflow-y-scroll scrollbar scrollbar-thumb-white scrollbar-track-white">
+            <div className=" mx-auto lg:mx-0 w-full mt-8 md:mt-[120px] md:px-28 lg:px-0 lg:mt-0 lg:pb-4 lg:overflow-y-scroll scrollbar scrollbar-thumb-white scrollbar-track-white">
               {children}
             </div>
           </div>
