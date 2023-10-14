@@ -34,36 +34,42 @@ const DraftPage = () => {
     const fetchDrafts = async () => {
       try {
         setLoading(true);
+        toast.loading('Loading...'); // Show loading notification
+  
         const response = await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/drafts/', {
           method: 'GET',
           headers: {
             Accept: 'application/json',
-            // 'Authorization': `Token ${user?.token}`,
           },
         });
-
+  
         const data = await response.json();
         if (!response.ok) {
           toast.error(data.detail);
           return;
         }
-
+  
         console.log(data);
         setLoading(false);
-        setDraftList(data); // Assuming the response is an array of drafts
+        toast.dismiss(); // Dismiss the loading notification
+        setDraftList(data);
       } catch (error) {
         console.error('Error fetching drafts:', error);
         setLoading(false);
+        toast.error('Error fetching drafts');
       }
     };
-
+  
     fetchDrafts();
   }, []);
+  
 
+  
   // Handle renaming of draft name
   const handleRename = async (id: number, newTitle: string) => {
     try {
       setLoading(true);
+      toast.loading('Loading...'); // Show loading notification
       const response = await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`, {
         method: 'PUT',
         headers: {
@@ -78,6 +84,7 @@ const DraftPage = () => {
       });
 
       const data = await response.json();
+      toast.dismiss(); 
       if (!response.ok) {
         toast.error(data.detail);
         return;
@@ -98,6 +105,7 @@ const DraftPage = () => {
   const handleDelete = async (id: number) => {
     try {
       setLoading(true);
+      
       const response = await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`, {
         method: 'DELETE',
         headers: {
@@ -109,6 +117,7 @@ const DraftPage = () => {
       });
 
       const data = await response.json();
+      toast.dismiss(); 
       if (!response.ok) {
         toast.error(data.detail);
         return;

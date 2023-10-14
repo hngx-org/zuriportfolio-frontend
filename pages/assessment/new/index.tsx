@@ -67,7 +67,10 @@ const CreateAssessment = () => {
     const requestOptions = {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
+        Authorization: `Token `,
         'Content-Type': 'application/json',
+        'X-CSRFTOKEN': 'csrftoken',
       },
       body: JSON.stringify(newobject),
     };
