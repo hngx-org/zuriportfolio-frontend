@@ -197,7 +197,16 @@ export let projects = [
 
 export let about = 'A place to highlight your professional experience A place to highlight your professional.';
 
-export let skills = 'Skill 1,Skill 2,Skill 3,Skill 4,Skill 5,Skill 6';
+export let skills = [
+  {
+    id: 67867834,
+    skills: 'Skill 1',
+  },
+  {
+    id: 67867834,
+    skills: 'Skill 1',
+  },
+];
 export let interests = 'Interest 1,Interest 2,Interest 3,Interest 4,Interest 5,Interest 6';
 export let languages = 'Language 1,Language 2,Language 3,Language 4,Language 5,Language 6';
 

@@ -5,19 +5,19 @@ import { notify } from '@ui/Toast';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
 import { Eye, EyeSlash } from 'iconsax-react';
-import { loginUser } from '../../../../http';
+import { loginUser } from '../../../../http/auth';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 import { useRouter } from 'next/router';
-import AuthContext from '../../../../context/AuthContext';
+import { useAuth } from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 
 function LoginForm() {
-  const { handleUser } = useContext(AuthContext);
+  const { handleAuth } = useAuth();
   const router = useRouter();
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
 
@@ -40,7 +40,7 @@ function LoginForm() {
 
       if (res.message === 'Login successful') {
         // console.log('Login success:', res);
-        handleUser(res.data);
+        handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
         // console.log(value);
@@ -80,7 +80,8 @@ function LoginForm() {
       loginUserMutation({ email: values.email, password: values.password });
     } catch (error) {}
 
-    form.reset();
+    // No need to reset so if there is error, user can easily find it
+    // form.reset();
   };
 
   return (
@@ -133,11 +134,13 @@ function LoginForm() {
               <p className="text-[red] text-xs pt-1">{form.errors.password && form.errors.password}</p>
             </div>
 
-            <Link href="/auth/forgot-password">
-              <p className=" font-manrope text-brand-green-primary text-right  text-[1.18313rem] mt-[0.62rem]">
-                Forgot Password ?
-              </p>
-            </Link>
+            <div className="flex justify-end">
+              <Link href="/auth/forgot-password">
+                <span className=" font-manrope text-brand-green-primary text-right  text-[1.18313rem] mt-[0.62rem]">
+                  Forgot Password ?
+                </span>
+              </Link>
+            </div>
 
             <Button
               isLoading={isLoginUserMutationLoading}
