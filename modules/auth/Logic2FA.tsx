@@ -1,34 +1,54 @@
-import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
-import jwtDecode from 'jwt-decode';
+import React, { ChangeEvent, useState, useRef, useContext } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
-import { verfiy2FA } from '../../http/auth';
-import isAuthenticated from '../../helpers/isAuthenticated';
+import { useAuth } from '../../context/AuthContext';
+import { verfiy2FA, resend2FACode } from '../../http/auth';
+import Router, { useRouter } from 'next/router';
+import { notify } from '@ui/Toast';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
 function Code2FALogic() {
+  const router = useRouter();
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-  interface DecodedToken {
-    email: string;
-  }
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-
-    if (token !== null) {
-      const decodedToken = jwtDecode(token) as DecodedToken;
-
-      if (isAuthenticated(token)) {
-        const userEmail = decodedToken.email;
-
-        console.log(`User's email: ${userEmail}`);
+  const { auth } = useAuth();
+  const mutateFn = useAuthMutation(verfiy2FA, {
+    onSuccess: (data: any) => {
+      if (data?.data?.status && data?.data?.status == '200') {
+        notify({
+          message: data?.data?.message,
+          type: 'success',
+        });
+        router.push('/dashboard');
+        return;
       } else {
-        console.log('User is not authenticated.');
+        setDigits(['', '', '', '', '', '']);
+        notify({
+          message: data?.response?.message || 'Invalid code',
+          type: 'error',
+        });
       }
-    } else {
-      console.log('Token is null.');
-    }
-  }, []);
+    },
+  });
+
+  const mutateRe = useAuthMutation(resend2FACode, {
+    onSuccess: (data: any) => {
+      if (data?.data?.status && data?.data?.status == '200') {
+        notify({
+          message: data?.data?.message,
+          type: 'success',
+        });
+        return;
+      } else {
+        notify({
+          message: 'Error!',
+          type: 'error',
+        });
+      }
+    },
+  });
 
   function handlePaste(e: React.ClipboardEvent<HTMLInputElement>, index: number) {
     e.preventDefault();
@@ -94,24 +114,38 @@ function Code2FALogic() {
     }
   };
 
-  const loginFn = useAuthMutation(verfiy2FA);
-  const handleSubmit = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    const Token = localStorage.getItem('authToken');
-    if (Token !== null) {
-      const decodedToken = jwtDecode(Token) as DecodedToken; // Assuming you've defined DecodedToken
-      const email = decodedToken.email;
-      const token = digits.toString();
-      loginFn.mutate({ email, token });
-    } else {
-      console.log('Token is null. Unable to proceed.');
-    }
+    const code = digits.join('');
+    setLoading(true);
+    setTimeout(() => {
+      const email = auth?.user?.email;
+      mutateFn.mutate({ email: email as string, code });
+      setLoading(false);
+    }, 700);
   };
 
-  const handleResend = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleResend = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      const email = auth?.user?.email;
+      mutateRe.mutate({ email: email as string });
+      setLoading(false);
+    }, 700);
   };
-  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend };
+
+  return {
+    digits,
+    inputRefs,
+    handlePaste,
+    handleKeyDown,
+    handleDigitChange,
+    handleSubmit,
+    handleResend,
+    loading,
+    auth,
+  };
 }
 
 export default Code2FALogic;

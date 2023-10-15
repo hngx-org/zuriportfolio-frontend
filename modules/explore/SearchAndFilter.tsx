@@ -177,30 +177,30 @@ const SearchAndFilter = (prop: {
             intent={'default'}
             placeHolder="Search by name or role"
             leftIcon={<SearchNormal />}
-            className="w-full border-brand-disabled2 rounded-2xl"
+            className="w-full text-black border-brand-disabled2 rounded-2xl"
           />
 
           <button className="md:hidden">
             <Filter
               size={48}
               color="#1a1c1b"
-              className="border-2 border-brand-disabled2 rounded-xl p-2 hover:bg-brand-green-primary"
+              className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
             />
           </button>
         </div>
 
         <div className="w-full grid grid-cols-2 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
           <CustomDropdown
-            options={[`None`, 'Nigeria', 'Ghana', 'Cameroon']}
+            options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
+            placeholder="Location"
             onChange={handleCustomDropdownChange}
-            setFilters={handleFilters}
           />
           <CustomDropdown
             options={['Trending', 'Featured', 'New Arrival']}
             selectedValue={selectedOption2}
+            placeholder="Sort By"
             onChange={handleCustomDropdownChange2}
-            setFilters={handleFilters}
           />
         </div>
       </div>
@@ -257,7 +257,7 @@ const SearchAndFilter = (prop: {
         )}
       </div>
 
-      {showFilterComponent && <FilterComponent />}
+      {showFilterComponent && <FilterComponent filters={filters} handleFilters={handleFilters} />}
     </div>
   );
 };

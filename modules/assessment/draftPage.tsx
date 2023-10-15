@@ -34,7 +34,7 @@ const DraftPage = () => {
     const fetchDrafts = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://piranha-assessment.onrender.com/api/admin/drafts/', {
+        const response = await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/drafts/', {
           method: 'GET',
           headers: {
             Accept: 'application/json',
@@ -64,7 +64,7 @@ const DraftPage = () => {
   const handleRename = async (id: number, newTitle: string) => {
     try {
       setLoading(true);
-      const response = await fetch(`https://piranha-assessment.onrender.com/api/admin/drafts/${id}/`, {
+      const response = await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`, {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -73,17 +73,7 @@ const DraftPage = () => {
           'X-CSRFTOKEN': 'jRc2ZpP1CpofaUIH2PzCuLJv7ZXzwX478mGc0KeehQACbHBm9aR12Err7zG9xKs1',
         },
         body: JSON.stringify({
-          questions: [
-            {
-              question_no: 0,
-              question_text: 'string',
-              options: ['string'],
-              correct_option: 0,
-            },
-          ],
-          is_published: false,
-          title: newTitle,
-          duration_minutes: 0,
+          title: newTitle, // Only include the title field for update
         }),
       });
 
@@ -108,7 +98,7 @@ const DraftPage = () => {
   const handleDelete = async (id: number) => {
     try {
       setLoading(true);
-      const response = await fetch(`https://piranha-assessment.onrender.com/api/admin/drafts/${id}/`, {
+      const response = await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`, {
         method: 'DELETE',
         headers: {
           Accept: 'application/json',

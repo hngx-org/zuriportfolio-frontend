@@ -1,34 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import { ArrowLeft, ArrowRight, ArrowRight2, ProfileCircle } from 'iconsax-react';
+import { useCart } from './component/CartContext';
+import { Products } from '../../@types';
+import { toast } from 'react-toastify';
+import Image from 'next/image';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
 import Slider from './component/slider';
 import Button from '@ui/Button';
-import { ArrowLeft, ArrowRight, ArrowRight2, ProfileCircle } from 'iconsax-react';
 import ShopProductList from './component/otherProductList';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Link from 'next/link';
-import TabContainer from '../../modules/marketplace/component/Tabbed';
+import TabContainer from '../shop/component/Tabbed';
 import likeIcon from '../../public/assets/icons/like.svg';
 import verifyIcon from '../../public/assets/icons/verify.svg';
 import profileImg from '../../public/assets/images/profile-img.png';
 import Layout from './component/productPage/Layout';
-import { useCart } from './component/CartContext';
-import { Products } from '../../@types';
-import { staticProducts } from './staticProducts';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 export default function ProductDetails() {
   const router = useRouter();
+  const [products, setProducts] = useState<Products[]>([]);
 
   const [product, setProduct] = useState<Products | null>(null);
+  const [currentProducts, setCurrentProducts] = useState<Products[]>([]);
   const [image, setImage] = useState(product?.image);
   const [showAll, setShowAll] = useState(false);
-  const handleShowMoreClick = () => {
-    setShowAll(!showAll);
-  };
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
   const [categoryQuery, setCategoryQuery] = useState('');
   const [cartItemCount, setCartItemCount] = useState(0);
@@ -40,6 +39,13 @@ export default function ProductDetails() {
   const [cartCount, setCartCount] = useState(0);
 
   const handleCategoryChange = () => {};
+  const handleShowMoreClick = () => {
+    setShowAll(!showAll);
+  };
+
+  const handleShowLessClick = () => {
+    setShowAll(!showAll);
+  };
 
   const ZOOM = 250;
 
@@ -47,10 +53,10 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (id) {
-      fetch(`https://tech-v3ey.onrender.com/api/products/${id}`)
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
         .then((response) => response.json())
-        .then((data) => {
-          setProduct(data);
+        .then((response) => {
+          setProduct(response.data);
         })
         .catch((error) => {
           console.error('Error fetching product details:', error);
@@ -60,61 +66,79 @@ export default function ProductDetails() {
   }, [id]);
 
   useEffect(() => {
-    const imgContElm = document.querySelector('.img-container') as HTMLElement | null;
-    const imgElm = document.querySelector('.img') as HTMLElement | null;
-
-    if (imgContElm) {
-      imgContElm.addEventListener('mouseenter', () => {
-        if (imgElm) {
-          imgElm.style.width = ZOOM + '%';
-          imgElm.style.height = ZOOM + '%';
-        }
+    axios
+      .get('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
+      .then((response) => {
+        console.log('Fetched product data:', response.data);
+        setProducts(response.data.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching product data:', error);
       });
-
-      imgContElm.addEventListener('mouseleave', () => {
-        if (imgElm) {
-          imgElm.style.width = '100%';
-          imgElm.style.height = '100%';
-          imgElm.style.top = '0';
-          imgElm.style.left = '0';
-        }
-      });
-
-      imgContElm.addEventListener('mousemove', (event) => {
-        if (imgElm) {
-          let obj: HTMLElement | null = imgContElm;
-          let obj_left = 0;
-          let obj_top = 0;
-          let xpos;
-          let ypos;
-
-          while (obj && obj.offsetParent) {
-            obj_left += obj.offsetLeft;
-            obj_top += obj.offsetTop;
-            obj = obj.offsetParent as HTMLElement | null;
-          }
-
-          if (event) {
-            xpos = (event as MouseEvent).pageX;
-            ypos = (event as MouseEvent).pageY;
-          } else {
-            xpos = (window.event as MouseEvent).x + document.body.scrollLeft - 2;
-            ypos = (window.event as MouseEvent).y + document.body.scrollTop - 2;
-          }
-          xpos -= obj_left;
-          ypos -= obj_top;
-
-          if (imgElm) {
-            const imgWidth = imgElm.clientWidth;
-            const imgHeight = imgElm.clientHeight;
-
-            imgElm.style.top = -(((imgHeight - imgContElm.clientHeight) * ypos) / imgContElm.clientHeight) + 'px';
-            imgElm.style.left = -(((imgWidth - imgContElm.clientWidth) * xpos) / imgContElm.clientWidth) + 'px';
-          }
-        }
-      });
-    }
   }, []);
+
+  const imgContRef = useRef<HTMLDivElement | null>(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    const imgContElm = imgContRef.current;
+    const imgElm = imgRef.current;
+
+    const handleMouseEnter = () => {
+      console.log(imgContElm);
+      if (imgElm) {
+        console.log(imgElm);
+        imgElm.style.width = ZOOM + '%';
+        imgElm.style.height = ZOOM + '%';
+      }
+      console.log('entered');
+    };
+
+    const handleMouseLeave = () => {
+      if (imgElm) {
+        resetImageStyles();
+      }
+      console.log('left');
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (imgElm) {
+        const { clientX, clientY } = event;
+        const { offsetLeft, offsetTop, clientWidth, clientHeight } = imgContElm!;
+        const imgWidth = imgElm.clientWidth;
+        const imgHeight = imgElm.clientHeight;
+
+        const left = -(((imgWidth - clientWidth) * (clientX - offsetLeft)) / clientWidth);
+        const top = -(((imgHeight - clientHeight) * (clientY - offsetTop)) / clientHeight);
+
+        imgElm.style.left = left + 'px';
+        imgElm.style.top = top + 'px';
+      }
+    };
+
+    if (imgContElm && imgElm) {
+      imgContElm.addEventListener('mouseenter', handleMouseEnter);
+      imgContElm.addEventListener('mouseleave', handleMouseLeave);
+      imgContElm.addEventListener('mousemove', handleMouseMove);
+    }
+
+    const resetImageStyles = () => {
+      if (imgElm && imgContElm) {
+        imgElm.style.width = '100%';
+        imgElm.style.height = '100%';
+        imgElm.style.top = '0';
+        imgElm.style.left = '0';
+      }
+    };
+
+    return () => {
+      if (imgContElm) {
+        imgContElm.removeEventListener('mouseenter', handleMouseEnter);
+        imgContElm.removeEventListener('mouseleave', handleMouseLeave);
+        imgContElm.removeEventListener('mousemove', handleMouseMove);
+      }
+    };
+  }, [product]);
 
   if (!product) {
     return null;
@@ -142,7 +166,7 @@ export default function ProductDetails() {
   };
 
   const specificationData = [
-    'Adaptable with HTML5  and CSS3',
+    'Adaptable with HTML5 and CSS3',
     'Comprehensive documentation and customer support',
     'Similar products you might like',
     'WC3 valid HTML codes',
@@ -154,6 +178,21 @@ export default function ProductDetails() {
     'Support recording for later playback and distribution.',
     'Offers tutorials to set up and customize the template.',
   ];
+
+  const readMoreBtn = document.querySelector('.read-more-btn') as HTMLElement | null;
+  const text = document.querySelector('.text-wrapper') as HTMLElement | null;
+
+  const readMore = () => {
+    text?.classList.toggle('line-clamp-3');
+    text?.classList.toggle('line-clamp-none');
+    if (readMoreBtn?.textContent === 'Read more') {
+      readMoreBtn.textContent = 'Read less';
+      console.log('it reads more');
+    } else if (readMoreBtn?.textContent === 'Read less') {
+      readMoreBtn.textContent = 'Read more';
+      console.log('it reads less');
+    }
+  };
 
   return (
     <>
@@ -183,11 +222,14 @@ export default function ProductDetails() {
           <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
             {/* Product Detail Images  */}
             <div className="flex flex-col w-full item-center lg:gap-y-2">
-              <div className="img-container w-full lg:h-[27rem] md:h-[20rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-3xl">
+              <div
+                className="img-container w-full lg:h-[27rem] md:h-[20rem] sm:h-[17rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-lg"
+                ref={imgContRef}
+              >
                 <Image
-                  src={product.image}
-                  alt="Main Image"
-                  layout="fill"
+                  src={product.image && product.image[0] ? product.image[0].url : ''}
+                  alt={product.name}
+                  fill
                   objectFit="cover"
                   className="img max-w-none w-full h-full absolute"
                 />
@@ -197,23 +239,31 @@ export default function ProductDetails() {
 
             {/* Product Detail Data */}
             <div className="lg:space-y-2 space-y-4 w-full self-start">
-              <h1 className="md:text-2xl md:font-bold lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
+              <h1 className="md:text-2xl md:font-bold text-black lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
                 {product.name}
               </h1>
               <div className="flex items-center">
                 <ProfileCircle color="#464646" variant="Bulk" className="w-6 h-6 md:w-9 md:h-9" />
                 <p className="w-fit font-manropeL font-bold text-xs tracking-[0.003rem] md:tracking-[0.005rem] ml-1 md:font-semibold md:text-base">
-                  {product.shopOwner}
+                  {product.category.name}
                 </p>
               </div>
               <div>
                 <p className="lg:hidden text-base font-semibold md:font-bold md:text-lg font-manropeL tracking-[0.00088rem] pb-2 md:pb-1">
                   Description
                 </p>
-                <p className="font-normal font-manropeL text-sm md:text-base lg:text-lg tracking-[0.005rem] w-full line-clamp-3 lg:mt-6">
+                <p className="font-normal font-manropeL text-sm md:text-base lg:text-lg tracking-[0.005rem] w-full line-clamp-3 lg:mt-6 text-wrapper">
                   {product.description}
                 </p>
-                <span className="text-[#009254] font-manropeL font-bold lg:hidden">Read more</span>
+                <span
+                  onClick={() => router.push('#description')}
+                  className="text-[#009254] font-manropeL font-bold md:block hidden"
+                >
+                  Read more
+                </span>
+                <span className="text-[#009254] font-manropeL font-bold md:hidden read-more-btn" onClick={readMore}>
+                  Read more
+                </span>
               </div>
               <div className="lg:flex flex-col gap-y-2 hidden">
                 <div className="flex gap-x-1 mt-4">
@@ -235,10 +285,10 @@ export default function ProductDetails() {
                 </p>
                 <p className="flex gap-x-4 items-center">
                   <span className="text-black text-xl md:text-3xl lg:text-3xl font-normal lg:font-semibold font-manropeEB leading-10">
-                    $100.00
+                    {product.currency} {product.price}
                   </span>
                   <span className="text-xl font-light md:text-2xl lg:text-[1.375rem] font-manrope line-through leading-7 text-gray-300">
-                    $120.00
+                    {product.currency} {product.discount_price}
                   </span>
                 </p>
               </div>
@@ -259,7 +309,9 @@ export default function ProductDetails() {
           </div>
 
           {/* Description, Specification, Reviews (Desktop View)  */}
-          <TabContainer />
+          <span id="description">
+            <TabContainer />
+          </span>
           {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
           <div className="md:hidden block mt-[26px] mr-auto">
             <h2 className="text-green-900 font-manropeB font-semibold text-[22px] text-left">Specifications</h2>
@@ -279,6 +331,14 @@ export default function ProductDetails() {
                 Show more
               </button>
             )}
+            {showAll && (
+              <button
+                onClick={handleShowLessClick}
+                className="text-base mt-3 mb-4 font-bold font-manropeB text-green-600"
+              >
+                Show less
+              </button>
+            )}
 
             <hr className="bg-brand-disabled text-brand-disabled h-[1px] w-full border-0  sm:hidden" />
 
@@ -289,7 +349,7 @@ export default function ProductDetails() {
               </p>
 
               <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
-                <div className="w-6/12 py-8 px-6 flex flex-col gap-[20px] rounded-2xl border-custom-color32 border-[1px] items-center sm:w-full">
+                <div className="w-full py-8 px-6 flex flex-col gap-[20px] rounded-2xl border-custom-color32 border-[1px] items-center">
                   <h2 className="text-4xl font-manropeB font-semibold">3.0/5</h2>
                   <div className="flex mr-[17px]">
                     <Image src={star1} alt="rating star" />
@@ -473,20 +533,20 @@ export default function ProductDetails() {
           <div className="mt-[4.4rem] mb-[2.37rem]">
             <div className="flex justify-between items-center mb-5 md:mb-2 lg:mb-[1.13rem]">
               <h3 className="text-custom-color31 font-manropeL font-bold md:text-2xl text-sm md:px-2 truncate w-[13.1875rem] md:w-full">
-                Other Products By {product.shopOwner}{' '}
+                Other Products By {product.category.name}{' '}
               </h3>
               <span className="flex items-center text-[#00894C] text-xs font-semibold font-manropeL gap-x-2 md:hidden">
                 <Link href={'/shop'}>View all</Link> <ArrowRight2 size="20" color="#00894c" />
               </span>
             </div>
             <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
-              <ShopProductList products={staticProducts.slice(0, 8)} />
+              <ShopProductList products={products.slice(0, 8)} />
             </div>
             <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
-              <ShopProductList products={staticProducts.slice(0, 6)} />
+              <ShopProductList products={products.slice(0, 6)} />
             </div>
             <div className="md:mx-[0.66rem] mx-0 md:hidden block">
-              <ShopProductList products={staticProducts.slice(0, 4)} />
+              <ShopProductList products={products.slice(0, 4)} />
             </div>
             <div className="md:flex w-full justify-end hidden">
               <span className="flex py-3 px-5 gap-1 border-solid border border-white-120 rounded-lg mt-6 mb-[4.44rem] font-manropeL font-semibold tracking-[0.00088rem] text-sm items-center">

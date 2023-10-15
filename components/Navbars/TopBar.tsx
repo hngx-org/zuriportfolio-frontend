@@ -6,16 +6,21 @@ import Button from '@ui/Button';
 import notificationIcon from './assets/notification.svg';
 import cartIcon from './assets/shopping-cart.svg';
 import briefCaseIcon from './assets/briefcase.svg';
-import errorBoxIcon from './assets/bx-error-alt.svg';
 import dashBoard from './assets/home-2.svg';
 import likesIcon from './assets/like-shapes.svg';
 import settingsIcon from './assets/setting-2.svg';
 import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 import MobileNav from '@modules/dashboard/component/MobileNav';
+import { ProductResult } from '../../@types';
+import { useAuth } from '../../context/AuthContext';
+import isAuthenticated from '../../helpers/isAuthenticated';
+import Logout from '@modules/auth/component/logout/Logout';
+import CustomDropdown from '@modules/explore/components/CustomDropdown';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
+  const { auth: globalAuth } = useAuth();
   const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
@@ -23,6 +28,11 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchMobile, setSearchMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
+
+  const [dropDown, setDropDown] = useState<string>('');
+
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
   };
@@ -36,6 +46,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     router.pathname === path
       ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
       : 'text-gray-600 text-base font-semibold  leading-normal tracking-tight';
+
+  useEffect(() => {
+    const token = localStorage.getItem('zpt');
+    const isLoggedIn = isAuthenticated(token as string);
+    if (isLoggedIn) {
+      setAuth(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -62,6 +81,44 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [authMenu, searchMobile, toggle]);
+
+  const searchPosts = async (searchValue: string) => {
+    try {
+      const response = await fetch(
+        `https://coral-app-8bk8j.ondigitalocean.app/api/product-retrieval/?search=${searchValue}`,
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const posts: ProductResult[] = await response.json();
+      const searchResults = posts.filter((post) => post.name.toLowerCase().includes(searchValue.toLowerCase()));
+
+      return searchResults;
+    } catch (error) {
+      throw new Error(`Failed to fetch posts: ${error}`);
+    }
+  };
+
+  const handleSearch = async (e: React.KeyboardEvent) => {
+    e.preventDefault();
+    if (e.key === 'Enter') {
+      try {
+        const results = await searchPosts(searchQuery);
+        setSearchResults(results);
+        localStorage.setItem('keyword', searchQuery);
+        localStorage.setItem('search_result', JSON.stringify(results));
+        router.push(`/marketplace/search?searchQuery=${searchQuery}`);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  function handleDropdown(option: string) {
+    setDropDown(option);
+    console.log('Select');
+  }
 
   return (
     <>
@@ -112,13 +169,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           {/* Right Items */}
 
           <div
-            className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:w-auto lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
+            className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:justify-end lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
           >
             {/* <Search></Search>
 
           Input */}
-            <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col">
-              <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-[20dvw] w-auto">
+            <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col basis-[100%]">
+              <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-full w-auto">
                 <div className="w-4 h-4 justify-center items-center flex">
                   <div className="w-4 h-4 relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
@@ -132,6 +189,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </div>
                 </div>
                 <input
+                  value={searchQuery}
+                  onKeyUp={handleSearch}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search"
                   className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
                 />
@@ -141,15 +201,23 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   htmlFor="explore"
                   className="justify-start items-center gap-2 flex lg:border-l-2 border-neutral-200 pl-4 relative"
                 >
-                  <select
+                  {/* <select
                     id="explore"
                     className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
                   bg-opacity-0 hover:cursor-pointer "
                   >
                     <option className="hover:cursor-pointer bg-white-100">Explore</option>
                     <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
-                  </select>
-                  <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
+                  </select> */}
+
+                  <CustomDropdown
+                    selectedValue={dropDown}
+                    onChange={handleDropdown}
+                    placeholder="Explore"
+                    options={['Explore', 'Marketplace']}
+                    className="border-none"
+                  />
+                  {/* <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
                     <div className="w-6 h-6  ">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <g>
@@ -162,7 +230,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                         </g>
                       </svg>
                     </div>
-                  </div>
+                  </div> */}
                 </label>
               </div>
             </div>
@@ -180,12 +248,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     Sign In
                   </Button>
 
-                  <Button
-                    href="/auth/signup-with-email"
-                    className="rounded-lg px-6 py-3"
-                    intent={'primary'}
-                    size={'md'}
-                  >
+                  <Button href="/auth/signup" className="rounded-lg px-6 py-3" intent={'primary'} size={'md'}>
                     Sign Up
                   </Button>
                 </div>
@@ -202,7 +265,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
                   <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
                   <div className="flex flex-col gap-[2px]">
-                    <h3 className="font-bold ">John Doe</h3>
+                    <h3 className="font-bold ">
+                      {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+                    </h3>
                     <p>View Live Profile</p>
                   </div>
                 </li>
@@ -256,10 +321,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <Image draggable={false} src={settingsIcon} alt="Setting" />
                   <p>Settings</p>
                 </Link>
-                <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 text-[#FF2E2E]">
-                  <Image draggable={false} src={errorBoxIcon} alt="SignOut" />
-                  <p>Sign Out</p>
-                </li>
+
+                {/* Import Logout button */}
+                <Logout />
               </ul>
             </div>
           )}
@@ -281,7 +345,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
-                    <p className=" font-bold ">John Doe</p>
+                    <p className=" font-bold ">
+                      {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+                    </p>
                     <p className="text-sm ">Zuri Team</p>
                   </div>
                   <div className="w-10 h-10 aspect-square relative bg-gray-400 rounded-[100px]" />
@@ -340,6 +406,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     </div>
                   </div>
                   <input
+                    value={searchQuery}
+                    onKeyUp={handleSearch}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search"
                     className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
                   />
@@ -349,28 +418,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     htmlFor="explore"
                     className="justify-start items-center gap-2 flex lg:border-l-2 border-neutral-200 pl-4 relative"
                   >
-                    <select
-                      id="explore"
-                      className="text-zinc-900 text-base font-normal bg-white pr-7 leading-normal tracking-tight appearance-none focus:border-0 focus:outline-none focus:ring-0
-                  bg-opacity-0 hover:cursor-pointer  "
-                    >
-                      <option className="hover:cursor-pointer bg-white-100 ">Explore</option>
-                      <option className="hover:cursor-pointer bg-white-100">Marketplace</option>
-                    </select>
-                    <div className="w-6 h-6 justify-center items-center flex absolute right-0 pointer-events-none">
-                      <div className="w-6 h-6  ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                          <g>
-                            <g>
-                              <path
-                                fill="#8D9290"
-                                d="M12 16.8c-.7 0-1.4-.27-1.93-.8L3.55 9.48a.754.754 0 010-1.06c.29-.29.77-.29 1.06 0l6.52 6.52c.48.48 1.26.48 1.74 0l6.52-6.52c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L13.93 16c-.53.53-1.23.8-1.93.8z"
-                              ></path>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
+                    <CustomDropdown
+                      selectedValue={dropDown}
+                      onChange={handleDropdown}
+                      placeholder="Explore"
+                      options={['Explore', 'Marketplace']}
+                      className="border-none px-1"
+                    />
                   </label>
                 </div>
               </div>
@@ -404,7 +458,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         </span>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           <div className="details">
-            <p className=" font-bold">John Doe</p>
+            <p className=" font-bold">
+              {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+            </p>
             <p className="text-sm ">Zuri Team</p>
           </div>
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
@@ -580,7 +636,7 @@ function MenuUI({
             >
               Sign In
             </Button>
-            <Button href="/auth/signup-with-email" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
+            <Button href="/auth/signup" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
               Sign Up
             </Button>
           </>

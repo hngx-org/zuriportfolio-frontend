@@ -1,13 +1,12 @@
 'use client';
-import Button from '@ui/Button';
 import { CartItemProps } from '../../../../../@types';
 import Image from 'next/image';
 import { useState } from 'react';
 import RemoveCart from '../../../../../components/Modals/Removecart';
-import { BiTrash } from 'react-icons/bi';
-import { removeFromCart } from '../../../../../http';
+import { BiTrash, BiCartAdd } from 'react-icons/bi';
 
 export default function CartItem({
+  id,
   productId,
   productImage,
   productTitle,
@@ -21,7 +20,6 @@ export default function CartItem({
   const [modalClosed, setModalClosed] = useState('hidden');
 
   const removeItem = () => {
-    // removeFromCart()
     setModalClosed('block');
   };
 
@@ -32,7 +30,7 @@ export default function CartItem({
   return (
     <>
       <div className={modalClosed}>
-        <RemoveCart productId={productId} closeModal={closeModal} onRemoveItem={removeHandler} />
+        <RemoveCart productId={id as string} closeModal={closeModal} onRemoveItem={removeHandler} />
       </div>
       <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5 cart-item">
         <div className="">
