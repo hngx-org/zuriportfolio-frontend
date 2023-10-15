@@ -128,6 +128,21 @@ const AddProduct = () => {
     <MainLayout showTopbar activePage="products">
       <form onSubmit={handleFormSubmit} className="relative">
         <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
+          <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
+            <Link href={'/dashboard/products'}>Products</Link>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path
+                d="M4.50002 2.03996L7.76002 5.29996C8.14502 5.68496 8.14502 6.31496 7.76002 6.69996L4.50002 9.95996"
+                stroke="#8D9290"
+                strokeMiterlimit="10"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <Link href={'/dashboard/products/add-product'} className="text-orange-110">
+              Add products
+            </Link>
+          </div>
           <h2 className="text-dark-400 font-manropeEB text-[32px] capitalize">Add new Product</h2>
         </div>
         <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'opacity-0'}`}>
@@ -206,6 +221,31 @@ const AddProduct = () => {
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
+                <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product thumbnail</span>
+                <div className="mt-5 flex flex-col">
+                  <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
+                    <center>
+                      <Image
+                        src={uploadorange}
+                        alt="uploadicon"
+                        className="w-10 object-contain mb-2 cursor-pointer"
+                        onClick={handleImageUploadClick}
+                      />
+
+                      <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px] cursor-pointer">
+                        <span
+                          className="text-[12px] md:text-[16px] text-[#F1AE67] font-manropeL mr-2"
+                          onClick={handleImageUploadClick}
+                        >
+                          Click here
+                        </span>
+                        or drag and drop to upload file
+                      </span>
+                    </center>
+                  </div>
+                </div>
+              </div>
+              <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Pricing</span>
                 <div className="mt-5 flex flex-col">
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Price</label>
@@ -222,13 +262,13 @@ const AddProduct = () => {
                     inputMode="none"
                     name="discountPrice"
                   />
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Quantity</label>
+                  {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Quantity</label>
                   <Input
                     className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="$ 00.00"
                     inputMode="none"
                     name="quantity"
-                  />
+                  /> */}
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Value Added Tax (VAT)</label>
                   <Input
                     className="w-[50%] md:w-[30%] mb-5 mt-2 placeholder:text-[#191C1E] text-black"
@@ -270,7 +310,9 @@ const AddProduct = () => {
               >
                 Upload
               </Button>
-              <Button className="w-full mt-2 bg-[#AEAEAE]">Save Draft</Button>
+              <Link href="/dashboard/products/add-product">
+                <Button className="w-full mt-2 bg-[#AEAEAE]">Cancel</Button>
+              </Link>
             </div>
           </div>
         </div>

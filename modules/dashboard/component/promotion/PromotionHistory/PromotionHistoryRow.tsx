@@ -4,6 +4,7 @@ import { PromotionHistory } from '../../../../../@types';
 import Image from 'next/image';
 import Modal from '@ui/Modal';
 import axios from 'axios';
+import Loader from '@ui/Loader';
 
 const manropeMD = Manrope({
   weight: ['500'],
@@ -62,7 +63,7 @@ interface Promotion {
 
 const PromotionHistoryRow = (props: PromotionHistory) => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [promotions, setPromotions] = useState<Promotion[]>([]);
+  const [promotions, setPromotions] = useState<Promotion[] | undefined>(undefined);
 
   const toggleDeleteModal = () => {
     setDeleteModalOpen(!isDeleteModalOpen);
@@ -73,13 +74,18 @@ const PromotionHistoryRow = (props: PromotionHistory) => {
   };
 
   useEffect(() => {
-    // Make a GET request to the API endpoint
     axios
-      .get('https://zuriportfolio-shop-internal-api.onrender.com/api/discount/promotions')
+      .get('https://zuriportfolio-shop-internal-api.onrender.com/api/discount/promotions', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      })
       .then((response) => {
-        // Set the fetched data in the state
-        setPromotions(response.data);
-        console.log(response.data);
+        console.log('Fetched data:', response.data);
+        if (Array.isArray(response.data)) {
+          setPromotions(response.data);
+          console.error('Data is not an array:', response.data);
+        }
       })
       .catch((error) => {
         console.error('Error fetching data: ', error);
@@ -102,28 +108,29 @@ const PromotionHistoryRow = (props: PromotionHistory) => {
 
   return (
     <>
-      {promotions.map((promotion) => (
-        <tr
-          key={promotion.product.id}
-          className="font-manropeL border-slate-50 border rounded-lg text-center text-[16px] font-normal text-[#667085] [&>*]:px-6  [&>*]:py-4"
-        >
-          <td className="text-left">{promotion.product.name}</td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.discount_type}</td>
-          <td>
-            {getStatus(promotion.promo.valid_from, promotion.promo.valid_to) === 'Active' && <ActivePromo />}
-            {getStatus(promotion.promo.valid_from, promotion.promo.valid_to) === 'Expired' && <ExpiredPromo />}
-            {/* Add a case for 'Deactivated' if needed */}
-          </td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.amount}</td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.quantity}</td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.sales}</td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>
-            <button onClick={toggleDeleteModal}>
-              <Image src="/assets/images/clip.png" width={30} height={20} alt="action-button" />
-            </button>
-          </td>
-        </tr>
-      ))}
+      {promotions &&
+        promotions.map((promotion) => (
+          <tr
+            key={promotion.product.id}
+            className="font-manropeL border-slate-50 border rounded-lg text-center text-[16px] font-normal text-[#667085] [&>*]:px-6  [&>*]:py-4"
+          >
+            <td className="text-left">{promotion.product.name}</td>
+            <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.discount_type}</td>
+            <td>
+              {getStatus(promotion.promo.valid_from, promotion.promo.valid_to) === 'Active' && <ActivePromo />}
+              {getStatus(promotion.promo.valid_from, promotion.promo.valid_to) === 'Expired' && <ExpiredPromo />}
+              {/* Add a case for 'Deactivated' if needed */}
+            </td>
+            <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.amount}</td>
+            <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.quantity}</td>
+            <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.sales}</td>
+            <td className={`text-dark-300 ${manropeMD.className}`}>
+              <button onClick={toggleDeleteModal}>
+                <Image src="/assets/images/clip.png" width={30} height={20} alt="action-button" />
+              </button>
+            </td>
+          </tr>
+        ))}
       {isDeleteModalOpen && (
         <Modal isCloseIconPresent={false} isOpen={isDeleteModalOpen} size="lg" closeModal={toggleDeleteModal} title="">
           <div className="flex flex-col text-center p-0 md:p-10">

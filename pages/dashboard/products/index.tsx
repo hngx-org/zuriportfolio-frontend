@@ -70,7 +70,7 @@ const Products = () => {
         <div className="max-w-[1226px] mx-auto shadow-none md:shadow md:rounded-2xl md:px-[15px] md:py-[13px]">
           <div className="flex gap-5 justify-between mb-[37px]">
             <div
-              className="focus-within:outline max-w-[785px] focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1 min-w-0 "
+              className="focus-within:outline max-w-full focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1 min-w-0 "
               style={{
                 boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
               }}
@@ -80,20 +80,6 @@ const Products = () => {
                 className=" bg-transparent font-manropeL font-normal focus-within:outline-none flex-1 text-[1rem] leading-[150%] text-custom-color2"
                 placeholder="Search"
               />
-            </div>
-            <div className="flex items-center gap-6 relative ">
-              <button className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path
-                    d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
-                    stroke="#344054"
-                    strokeWidth="1.67"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <span className="hidden md:inline">Filters</span>
-              </button>
             </div>
           </div>
           <div

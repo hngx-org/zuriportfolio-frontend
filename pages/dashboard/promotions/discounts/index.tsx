@@ -9,6 +9,7 @@ import Button from '@ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { z } from 'zod';
 import withAuth from '../../../../helpers/withAuth';
+import Link from 'next/link';
 
 type Product = {
   product_id: string;
@@ -173,6 +174,21 @@ function Discounts() {
     <MainLayout activePage="promotions" showDashboardSidebar={true} showTopbar>
       <ToastContainer />
       <div className="w-full">
+        <div className="max-w-[1240px] mt-[-30px] mx-auto my-4 px-5 text-gray-30 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-10 hidden md:flex">
+          <Link href={'/dashboard/promotions'}>Promotions</Link>
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path
+              d="M4.50002 2.03996L7.76002 5.29996C8.14502 5.68496 8.14502 6.31496 7.76002 6.69996L4.50002 9.95996"
+              stroke="#8D9290"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <Link href={'/dashboard/promotions/discounts'} className="text-orange-110">
+            Create discount
+          </Link>
+        </div>
         <section className="mb-16 border-[1px] border-[#E1E3E2] rounded-lg md:p-20 p-6 md:flex md:gap-10 w-[90%] md:w-[1100px] mx-4 md:mx-auto">
           <div className="w-[100%] md:w-[30%]">
             <h2 className="text-dark font-manropeEB text-[22px]">Create discount</h2>
