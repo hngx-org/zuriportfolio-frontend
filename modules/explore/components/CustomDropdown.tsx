@@ -3,12 +3,19 @@ import React, { useState } from 'react';
 
 interface CustomDropdownProps {
   options: string[];
+  placeholder: string;
   selectedValue: string;
   onChange: (option: string) => void;
   className?: React.ComponentProps<'div'>['className'];
 }
 
-const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue, onChange, className }) => {
+const CustomDropdown: React.FC<CustomDropdownProps> = ({
+  options,
+  placeholder,
+  selectedValue,
+  onChange,
+  className,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -29,7 +36,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue,
         onClick={toggleDropdown}
       >
         <div className="text-black text-[0.875rem] font-normal font-manropeEB leading-normal tracking-tight">
-          {selectedValue || options[1]}
+          {selectedValue || placeholder}
         </div>
         <div className="w-6 h-6 justify-center items-center flex">
           <div className="w-6 h-6 relative">
