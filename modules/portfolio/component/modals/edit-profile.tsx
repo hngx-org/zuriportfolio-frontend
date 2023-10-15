@@ -35,7 +35,7 @@ const EditProfile = () => {
       console.log(error);
     }
   };
-  
+
   const getTracks = async () => {
     try {
       const response = await fetch('https://hng6-r5y3.onrender.com/api/tracks');
@@ -126,7 +126,7 @@ const EditProfile = () => {
         body: formData,
       });
       const data = await response.json();
-      setUserData((p: any) => ({ ...p, hasDataFromBE: true, avatarImage: data.data.profilePic }));
+      setUserData((p: any) => ({ ...p, avatarImage: data.data.profilePic }));
     } catch (error) {
       console.log(error);
     }
@@ -142,8 +142,6 @@ const EditProfile = () => {
       await uploadCover(file);
     }
   };
-
- 
 
   return (
     <Modal isOpen={showProfileUpdate} closeModal={() => modal()} isCloseIconPresent={false}>
@@ -260,7 +258,7 @@ const EditProfile = () => {
               />
             </div>
           </div>
-           
+
           <div className="w-full flex  md:flex-row gap-4 justify-between mt-10">
             <div className="w-full md:w-[47%]">
               <Button
