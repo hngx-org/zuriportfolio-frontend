@@ -31,7 +31,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
 
-  const [dropDown, setDropDown] = useState<string>('');
+  const [dropDown, setDropDown] = useState<string>('Explore');
 
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
@@ -102,7 +102,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && dropDown === 'Marketplace') {
       try {
         const results = await searchPosts(searchQuery);
         setSearchResults(results);
@@ -117,7 +117,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   function handleDropdown(option: string) {
     setDropDown(option);
-    console.log('Select');
   }
 
   return (

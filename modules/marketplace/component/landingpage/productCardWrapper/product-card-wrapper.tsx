@@ -36,6 +36,7 @@ function ProductCardWrapper({
             </svg>
           </Link>
         )}
+
       </h3>
       <div>
         {productsList.isLoading ? (

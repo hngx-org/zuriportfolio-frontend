@@ -131,23 +131,20 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         description: formData.description,
       };
       setCertificationCounter(certificationCounter + 1);
-      // console.log('URL:', 'https://hng6-r5y3.onrender.com/api/add-certificate/6ba7b810-9dad-11d1-80b4-00c04fd430c8');
+      // console.log('URL:', 'https://hng6-r5y3.onrender.com/api/add-certificate/${userId}');
       // console.log('Request Data:', JSON.stringify(newCertification));
 
       // setCertifications((prevCertifications) => [...prevCertifications, newCertification]);
       // console.log('Updated Certifications Array:', certifications);
 
       try {
-        const response = await fetch(
-          'https://hng6-r5y3.onrender.com/api/add-certificate/6ba7b810-9dad-11d1-80b4-00c04fd430c8',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newCertification),
+        const response = await fetch('https://hng6-r5y3.onrender.com/api/add-certificate/${userId}', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+          body: JSON.stringify(newCertification),
+        });
         // console.log('Response Status:', response.status);
         // console.log('Response Data:', await response.json());
 
@@ -421,6 +418,7 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
     </Modal>
   );
 };
+const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
 const CertificationList: React.FC<CertificationListProps> = () => {
   const { refreshPage, setError, isModalOpen } = useContext(myContext);
   const [certifications, setCertifications] = useState<Certification[]>([]);
@@ -486,16 +484,13 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   const handleSave = async () => {
     // Send a PUT request to update the certification
     try {
-      const response = await fetch(
-        `https://hng6-r5y3.onrender.com/api/update-certification/6ba7b810-9dad-11d1-80b4-00c04fd430c8/${id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(editedCertification), // Send the edited data
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(editedCertification), // Send the edited data
+      });
       if (response.ok) {
         // console.log(`Certificate with ID ${id} updated.`);
         setRefreshPage(!refreshPage);
