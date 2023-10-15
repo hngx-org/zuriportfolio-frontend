@@ -258,7 +258,7 @@ export const useTempDeleteShop = () => {
 
 export const useDeleteShop = () => {
   const deleteShop = useMutation((id: string) => {
-    return makeRequest(`shop/delete_shop/${id}`, 'patch');
+    return makeRequest(`shop/delete_shop/${id}`, 'delete');
   });
 
   return {
