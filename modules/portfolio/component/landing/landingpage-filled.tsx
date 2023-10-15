@@ -63,8 +63,6 @@ const LandingPageFilled: React.FC = () => {
     }
   }, [setHasData, userSections, userData]);
 
-  
-
   return (
     <>
       {/* Show modals to enter data */}
