@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { CategoryType } from '../filter/hooks/useCategory';
 
 type categories = {
   name: string;
   subcategories: [];
 };
+
 export interface CategoriesProps {
-  category: categories;
+  category: CategoryType;
   index: number;
   handleActiveNav: (arg: number) => void;
   active: number;
@@ -17,6 +19,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const getPostion = async (e: any) => {
+    if (category.subcategories.length === 0) return;
     const el = e.target;
 
     const rect = el.getBoundingClientRect();
@@ -36,7 +39,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onClick={() => handleActiveNav(index)}
         className={`${active === index ? 'text-brand-green-shade50' : 'text-brand-green-shade10'} z-10 relative`}
       >
-        <Link href={`/marketplace/categories/${category}`}>{category.name}</Link>
+        <Link href={`/marketplace/categories/${category.name}`}>{category.name}</Link>
       </div>
       <div
         className={`py-3 flex-col gap-3 ${
@@ -48,12 +51,12 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onMouseOver={() => setPopupClass(true)}
         onMouseLeave={() => setPopupClass(false)}
       >
-        {category.subcategories.map((item: { name: string }, i: number) => (
+        {category.subcategories.map((item, i) => (
           <Link
             onClick={() => handleActiveNav(index)}
             className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"
             key={i + 1}
-            href={`/marketplace/categories/${category.name}/${item.name}`}
+            href={`/marketplace/categories/${category?.name}/${item.name}`}
           >
             {item.name}
           </Link>

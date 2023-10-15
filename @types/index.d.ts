@@ -43,6 +43,7 @@ export interface RecentlyViewedData {
     is_deleted: string;
     rating: number;
     is_published: false;
+    showTopPicks: true;
     currency: string;
     createdat: string;
     updatedat: string;
@@ -57,7 +58,7 @@ export interface RecentlyViewedData {
   };
   interaction_type: string;
   createdat: number;
-};
+}
 
 export interface Education {
   id: number;
@@ -78,16 +79,31 @@ export interface AllCategoryDetails {
   showLimitedOffer: boolean;
   discount: number;
 }
-export interface Products {
-  _id: string;
+interface ImageData {
+  id: string;
+  product_id: string;
+  url: string;
+}
+interface CategoryData {
   name: string;
-  image: any;
+}
+interface Produne {
+  name: string;
+  // Add other properties specific to a product
+}
+export interface Products {
+  id: string;
+  name: string;
+  product: Produne;
+  image: ImageData[];
   shopOwner: string;
   price: number;
-  category: string;
+  category: CategoryData;
   description: string;
   specification: string;
   rating: number;
+  currency: string;
+  discount_price: string;
 }
 export interface SuperAdminPagination {
   title: any;
@@ -170,6 +186,10 @@ export interface MarketPlaceProductCardProps {
   showTopPicks?: boolean;
   showDiscount?: boolean;
   discount_price?: number;
+  shop?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface ratingProps {
@@ -273,13 +293,10 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
+export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
 
-export type CartSumaryProp = {subtotal: number, discount: number, VAT: number, total: number}
-
-
-export type RecentlyViewedProductProp = 
-{
-  user:string
+export type RecentlyViewedProductProp = {
+  user: string;
   product: {
     id: string;
     name: string;
@@ -617,6 +634,7 @@ export interface DeletedProducts {
   createdAt: string;
   product_id: string;
   product_name: string;
+  product_status: string;
   updatedAt: string;
   vendor_name: string;
 }
@@ -675,6 +693,9 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
+  isVerified: boolean;
+  roleId: number;
+  twoFactorAuth: boolean;
 };
 
 export type AuthResponse = {
@@ -690,7 +711,7 @@ type ProductCategory = {
   id: number;
   name: string;
   createdat: string;
-  user: string
+  user: string;
 };
 export interface ProductResult {
   id: string;

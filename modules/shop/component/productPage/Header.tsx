@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Image from 'next/image';
 import SearchBar from './SearchBar/SearchBar';
 import { ShoppingCart, CloseCircle } from 'iconsax-react';
-import ZuriShopLogo from '../../../../public/assets/shop/ZuriShopLogo.png';
+import ZuriShopLogo from '../../../../public/assets/shop/techverse_logo.svg';
 import { useRouter } from 'next/router';
 interface HeaderProps {
   setSearchQuery: Dispatch<SetStateAction<string>>;
@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({
       <div className="container mx-auto px-4 sm:px-6 md:px-3 py-5 flex flex-col md:flex-row  items-center">
         <div className="flex items-center justify-between w-full md:w-auto ">
           <Link href="/" className="text-white text-2xl font-bold">
-            <Image src={ZuriShopLogo} alt="Your Logo" width={100} height={50} />
+            <Image src={ZuriShopLogo} alt="Your Logo" width={100} height={100} objectFit="contain" className="h-auto" />
           </Link>
 
           <div className="md:hidden cursor-pointer ml-2 " onClick={toggleMobileMenu}>
@@ -105,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({
 
         <div className={`relative mt-4 md:mt-0 ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
           {' '}
-          <Link href="/shop/cart" className="mt-4 md:mt-0 relative">
+          <Link href="/marketplace/cart" className="mt-4 md:mt-0 relative">
             <ShoppingCart size={29} />
           </Link>
           <div className="bg-green-700 rounded-full w-4 h-4 text-white-100 text-sm flex items-center justify-center absolute top-0 right-0">

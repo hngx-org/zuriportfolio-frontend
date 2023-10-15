@@ -8,6 +8,7 @@ interface CardType {
   id: string;
   currency: string;
   images: { url: string }[];
+  shop: { name: string };
   name: string;
   price: number;
   rating: number;
