@@ -375,8 +375,18 @@ export function PortfolioCtxProvider(props: { children: any }) {
       ),
     },
     {
-      id: 'about',
-      modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => onCloseModal('about')} userId={userId} />,
+      id: 'certificate',
+      modal: (
+        <Certifications
+          isOpen={modalStates['certificate']}
+          onClose={() => onCloseModal('certificate')}
+          userId={userId}
+        />
+      ),
+    },
+    {
+      id: 'contact',
+      modal: <ContactModal isOpen={modalStates['contact']} onClose={() => onCloseModal('contact')} userId={userId} />,
     },
   ];
 

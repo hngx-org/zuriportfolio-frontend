@@ -173,7 +173,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     whiteSpace: 'normal',
                     overflowWrap: 'break-word',
                   }}
-                  className="font-semibold text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
+                  className="font-semibold text-left sm:text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
                 >
                   {editingExperience?.description}
                 </p>

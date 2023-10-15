@@ -50,7 +50,7 @@ interface CertificationListProps {
   isModalOpen: boolean;
 }
 
-const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const Certifications = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId: string }) => {
   const [formData, setFormData] = useState({
     id: '',
     title: '',

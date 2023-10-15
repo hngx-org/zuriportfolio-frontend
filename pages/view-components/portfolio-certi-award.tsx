@@ -15,7 +15,11 @@ function Tester() {
         <Button onClick={openModalForCerti}>Certification</Button>
         <Button onClick={openModalForAwards}>Awards</Button>
       </div>
-      <Certifications isOpen={isModalOpenForCerti} onClose={closeModalForCerti} />
+      <Certifications
+        userId="f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90"
+        isOpen={isModalOpenForCerti}
+        onClose={closeModalForCerti}
+      />
       <Awards isOpen={isModalOpenForAwards} onClose={closeModalForAwards} />
     </div>
   );
