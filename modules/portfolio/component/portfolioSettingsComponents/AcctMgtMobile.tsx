@@ -2,6 +2,8 @@ import Button from '@ui/Button';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
+import { Input } from '@ui/Input';
+import { useAuth } from '../../../../context/AuthContext';
 
 interface userDetailsI {
   email: string;
@@ -16,13 +18,15 @@ function AccountManagementMobile() {
     newPassword: '',
     confirmNewPassword: '',
   });
+  const { auth } = useAuth();
   const [errorMsg, setErrorMsg] = useState<any>(null);
   const [isPending, setIspending] = useState<boolean>(false);
   const onInputChange = (event: React.ChangeEvent) => {
-    // const formValidate = validateForm()
     // setErrorMsg(errors)
     let { name, value } = event.target as any;
     setErrorMsg((prev: any) => ({ ...prev, [name]: '' }));
+    const formValidate = validateForm();
+
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
     // console.log(formValidate)
   };
@@ -39,7 +43,12 @@ function AccountManagementMobile() {
     if (Object.keys(formValidate).length === 0) {
       setIspending(true);
       axios
-        .patch(`https://hng6-r5y3.onrender.com/api/update-user-account-settings`, userDetails)
+        .post(`https://staging.zuri.team/api/auth/api/auth/reset-password/change`, {
+          token: auth?.token,
+          // email: userDetails?.email,
+          oldPassword: userDetails?.currentPassword,
+          newPassword: userDetails?.newPassword,
+        })
         .then((response) => {
           console.log(response);
           if (response.status === 200) {
@@ -90,7 +99,7 @@ function AccountManagementMobile() {
           <div className="flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Current Email Address</p>
             <div className="relative flex flex-row">
-              <input
+              <Input
                 name="email"
                 type="email"
                 value={userDetails.email}
@@ -132,7 +141,7 @@ function AccountManagementMobile() {
           <div className="flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Current Passowrd</p>
             <div className="relative flex flex-row">
-              <input
+              <Input
                 name="currentPassword"
                 type="password"
                 value={userDetails.currentPassword}
@@ -173,7 +182,7 @@ function AccountManagementMobile() {
               New Password
             </label>
             <div className="relative flex flex-row">
-              <input
+              <Input
                 name="newPassword"
                 type="password"
                 value={userDetails.newPassword}
@@ -212,7 +221,7 @@ function AccountManagementMobile() {
           <div className="flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Confirm New Password</p>
             <div className="relative flex flex-row">
-              <input
+              <Input
                 name="confirmNewPassword"
                 type="password"
                 value={userDetails.confirmNewPassword}
