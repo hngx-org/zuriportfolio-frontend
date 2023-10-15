@@ -1,10 +1,11 @@
 import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { Add, CloseSquare } from 'iconsax-react';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { years } from '../data';
 import Modal from '@ui/Modal';
 import Button from '@ui/Button';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 type Section = {
   type: string; // Type of the section (e.g., 'title', 'sub-title', etc.)
@@ -17,7 +18,14 @@ type CustomSectionModalProps = {
   onClose: () => void;
 };
 
-const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
+//{ isOpen, onClose }: CustomSectionModalProps
+
+const CustomSectionModal = () => {
+  const { openCustom, setOpenCustom } = useContext(Portfolio);
+
+  let isOpen = openCustom,
+    onClose = () => setOpenCustom(false);
+
   const [fields, setFields] = useState<Section[]>([]); // Initialize fields state to store added fields
   // const [sections, setSections] = useState<any>([]);
   const [customTitle, setCustomTitle] = useState('');
@@ -477,7 +485,7 @@ const CustomSectionItem = ({
       </div>
       <div className="flex justify-between gap-4">
         <div>
-          <p className="text-[1.115rem] mb-2 font-manropeB text-[#2E3130]">{subTitle[0].data.title}</p>
+          <p className="text-[1.115rem] mb-2 font-manropeB text-[#2E3130]">{subTitle[0]?.data.title}</p>
           <InputField fields={sectionItem.fields} />
         </div>
         <DescriptionField fields={sectionItem.fields} />

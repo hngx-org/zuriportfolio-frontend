@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import axios from 'axios';
 import Link from 'next/link';
+import CustomSectionModal from '../custom-section-modal';
 
 type AboutProps = {
   bio?: string;
@@ -225,7 +226,7 @@ export const Shop = () => {
   }
 
   //Check if the users shop has items
-  const showShop = Object.keys(shopItems).length > 0;
+  const showShop = Object.keys(shopItems).length > 3;
 
   useEffect(() => {
     //fetchShopItems();
@@ -295,16 +296,23 @@ type CustomProps = {
 };
 
 export const Custom = ({ contacts }: CustomProps) => {
+  const { openCustom, setOpenCustom } = useContext(Portfolio);
+
+  useEffect(() => {
+    setOpenCustom(true);
+  }, []);
+
   return (
-    <div className="flex flex-col">
-      {contacts?.map((contact) => (
-        <div className="flex flex-col gap-2" key={contact.id}>
-          <div className="flex justify-start items-center gap-10">
-            <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
-            <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
-          </div>
-        </div>
-      ))}
-    </div>
+    <CustomSectionModal />
+    // <div className="flex flex-col">
+    //   {contacts?.map((contact) => (
+    //     <div className="flex flex-col gap-2" key={contact.id}>
+    //       <div className="flex justify-start items-center gap-10">
+    //         <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
+    //         <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
+    //       </div>
+    //     </div>
+    //   ))}
+    // </div>
   );
 };

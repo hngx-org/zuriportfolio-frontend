@@ -45,6 +45,8 @@ type PortfolioContext = {
   setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>;
   openShop: boolean;
   setOpenShop: React.Dispatch<React.SetStateAction<boolean>>;
+  openCustom: boolean;
+  setOpenCustom: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Portfolio = createContext<PortfolioContext>({
@@ -84,6 +86,8 @@ const Portfolio = createContext<PortfolioContext>({
   setOpenDelete: () => {},
   openShop: true,
   setOpenShop: () => {},
+  openCustom: false,
+  setOpenCustom: () => {},
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
@@ -94,6 +98,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [sections, setSections] = useState<Array<any>>(s);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [openShop, setOpenShop] = useState<boolean>(true);
+  const [openCustom, setOpenCustom] = useState<boolean>(false);
 
   //landing page
   const users = [
@@ -366,7 +371,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setAvatarImage,
     handleUploadCover,
     userData,
-    
+
     toggleSection,
     isLoading,
     setIsLoading,
@@ -377,6 +382,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setUserData,
     openShop,
     setOpenShop,
+    openCustom,
+    setOpenCustom,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;
