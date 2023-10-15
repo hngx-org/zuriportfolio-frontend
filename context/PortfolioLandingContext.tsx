@@ -148,6 +148,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       const data = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
 
       const response = await data.json();
+      console.log(response);
       const {
         about,
         projects,
@@ -377,7 +378,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setAvatarImage,
     handleUploadCover,
     userData,
-    
+
     toggleSection,
     isLoading,
     setIsLoading,

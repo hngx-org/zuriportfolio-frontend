@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Modal from '@ui/Modal';
 import DynamicInput from '../about/dynamic-input';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 interface formData {
   name: string;
@@ -35,8 +36,6 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
   const [formData, setFormData] = useState<formData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
-  const [message, setMessage] = useState('');
-  const [isError, setisError] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +48,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
 
   const validateAllFieldsNotEmpty = () => {
     let hasEmptyField = false;
-    const fieldsToValidate = ['name', 'email', 'company'];
+    const fieldsToValidate = ['name', 'emailAddress', 'company'];
 
     Object.entries(formData).forEach(([inputName, inputValue]) => {
       // Check if inputName is one of the fields to validate
@@ -97,40 +96,71 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
     setLoading(true);
     console.log(formData);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/references/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-      });
+      const axiosConfig = {
+        method: 'post',
+        url: `${API_BASE_URL}/api/references/${userId}`,
+        data: formData,
+      };
 
-      if (!response.ok) {
+      const response = await axios(axiosConfig);
+
+      if (response.status !== 200 && response.status !== 201) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       setLoading(false);
-      setisError(false);
-      setMessage('Reference section successfully added');
-      const data = await response.json();
-      console.log(data);
-      onClose();
-    } catch (error) {
-      console.error('An error occurred:', error);
-      setMessage(`${error}`);
+      toast.success(`${response.data.message}`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      console.log(response.data);
       setTimeout(() => {
-        setMessage('');
-      }, 5000);
-      setLoading(false);
-      setisError(true);
+        onClose();
+      }, 2000);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('An error occurred:', error);
+        toast.error(`${error.message}`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+        setLoading(false);
+      }
     }
+  };
+
+  const callGet = () => {
+    const response = async () => {
+      const axiosConfig = {
+        method: 'get',
+        url: `${API_BASE_URL}/api/references`,
+        // data: formData,
+      };
+
+      const response = await axios(axiosConfig);
+
+      if (response.status !== 200) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      console.log(response.data);
+      onClose();
+    };
+    response();
   };
   return (
     <Modal isOpen={isOpen} closeModal={onClose} size="lg" isCloseIconPresent={false}>
-      <div
-        className={`${isError ? 'bg-brand-red-hover' : 'bg-brand-green-hover'} ${
-          message === '' ? 'hidden' : 'block'
-        } text-white-100 font-normal text-center rounded shadow-md shadow-[#00000040] mb-3 p-2 transition`}
-      >
-        {message}
-      </div>
       <div className="mx-auto bg-white-100 rounded-md p-3 py-5">
         <div className="flex justify-between items-center border-b-[3.6px]  border-brand-green-primary pb-1">
           <div className="flex gap-4 items-center">
@@ -226,7 +256,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
             pattern={'[0-9]{3}-[0-9]{2}-[0-9]{3}'}
           />
           <div className="flex gap-2 justify-end">
-            <Button intent={'secondary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={onClose}>
+            <Button intent={'secondary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={callGet}>
               Close
             </Button>
             <Button intent={'primary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={handleSubmit}>
