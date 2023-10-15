@@ -5,6 +5,8 @@ import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import Image from 'next/image';
+import axios from 'axios';
+import { notify } from '@ui/Toast';
 
 type ProjectSectionProps = {
   isOpen: boolean;
@@ -12,16 +14,28 @@ type ProjectSectionProps = {
   userId: string;
 };
 
+const endpoint = 'https://hng6-r5y3.onrender.com';
 const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId }) => {
-  const [title, setTitle] = useState<any>();
-  const [year, setYear] = useState<any>();
-  const [link, setLink] = useState<any>();
-  const [thumbnail, setThumbnail] = useState<any>();
-  const [selectedTags, setSelectedTags] = useState<any>([]);
-  const [tagInput, setTagInput] = useState<any>();
-  const [description, setDescription] = useState<any>();
+  const [title, setTitle] = useState<string>('');
+  const [year, setYear] = useState<string>('');
+  const [link, setLink] = useState<string>('');
+  const [thumbnail, setThumbnail] = useState<string>('');
+  const [selectedTags, setSelectedTags] = useState<any[]>([]);
+  const [tagInput, setTagInput] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [media, setMedia] = useState<any>([]);
   const years = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
+
+  const handleDataClear = () => {
+    setTitle('');
+    setYear('');
+    setLink('');
+    setThumbnail('');
+    setSelectedTags([]);
+    setTagInput('');
+    setDescription('');
+    setMedia([]);
+  };
 
   const handleAddTags = (e: any) => {
     if (e.key === 'Enter') {
@@ -68,18 +82,44 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
     onClose();
   };
 
+  // {"title":"Live test for issue ART-36 ", "year":"2023", "url":"https://link-to-project.com", "tags":"all, tags, here, comma separated", "description": "Updated new description", "userId":"2c92b6a8-e672-41c5-af97-a643ce56ce6c", "sectionId":"4"}
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+    const formData = new FormData();
     const data = {
+      userId: userID,
       title,
       year,
-      link,
-      thumbnail,
-      selectedTags,
+      url: link,
+      thumbnail: 0,
+      tags: selectedTags.join(', '),
       description,
-      media,
     };
-    console.log(data);
+    formData.append('jsondata', JSON.stringify(data));
+    formData.append('images', media);
+    axios
+      .post(`${endpoint}/api/projects`, formData)
+      .then((res) => {
+        notify({
+          message: 'Projects created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        handleDataClear();
+        // onClose();
+        console.log(res);
+      })
+      .catch((err) => {
+        notify({
+          message: 'Error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        console.log(err);
+      });
   };
 
   return (
@@ -117,11 +157,11 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
                   value={year}
                 >
                   <SelectTrigger className="w-full h-[50px] font-semibold text-gray-300">
-                    <SelectValue placeholder="Month" />
+                    <SelectValue className="text-gray-300" placeholder="Month" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="text-gray-300">
                     {years.map((year: any, index: any) => (
-                      <SelectItem key={index} value={year}>
+                      <SelectItem className="text-gray-300" key={index} value={year}>
                         {year}
                       </SelectItem>
                     ))}
