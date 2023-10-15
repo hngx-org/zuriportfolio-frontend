@@ -54,7 +54,7 @@ const SanctionedProducts = () => {
     <>
       <SuperAdminNavbar />
 
-      <div className="m-6 font-manropeL max-w-7xl mx-auto border-2 border-custom-color1">
+      <div className=" container  font-manropeL mx-auto border-2 border-custom-color1">
         <div className="py-3 px-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
             <h2 className="text-lg font-medium text-custom-color10">Sanctioned Products</h2>
