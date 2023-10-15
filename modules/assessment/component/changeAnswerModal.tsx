@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import Modal from '@ui/Modal';
 import { QuestionType } from '../mock-data';
@@ -44,9 +44,8 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
   questions,
   setQuestions,
 }) => {
+  const newData = [...questions];
   function selectOption(questionId: number, optionId: number): void {
-    const newData = [...questions];
-
     const question = newData.find((q) => q.id === questionId);
 
     if (question) {
@@ -62,6 +61,10 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
       console.error(`Question with ID ${questionId} not found.`);
     }
   }
+  const handleChange = () => {
+    setQuestions(newData);
+    setShowModal(false);
+  };
 
   return (
     <Modal isOpen={showModal} closeModal={() => setShowModal(false)} isCloseIconPresent={false}>
@@ -101,7 +104,10 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
                 Cancel
               </button>
 
-              <button className="lg:px-[55px] md:px-[45px] px-[35px] py-[12px] border border-[#009444] rounded-xl bg-[#009444] text-white-100 text-base">
+              <button
+                onClick={handleChange}
+                className="lg:px-[55phx] md:px-[45px] px-[35px] py-[12px] border border-[#009444] rounded-xl bg-[#009444] text-white-100 text-base"
+              >
                 Change
               </button>
             </div>

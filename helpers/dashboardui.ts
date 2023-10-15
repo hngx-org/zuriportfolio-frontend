@@ -1,25 +1,19 @@
 export const LevelData = () => {
   return [
     {
-      img: '/assets/dashboard/star.svg',
-      level: 'Beginner',
-      score: 45,
+      img: '/assets/dashboard/beginner-badge.svg',
+      level: 'beginner',
       desc: 'Score 0 to 49 points to attain this badge.',
-      locked: false,
     },
     {
-      img: '/assets/dashboard/star.svg',
-      level: 'Intermediate',
-      score: 0,
+      img: '/assets/dashboard/intermediate-badge.svg',
+      level: 'intermediate',
       desc: 'Score 50 to 79 points to attain this badge.',
-      locked: true,
     },
     {
-      img: '/assets/dashboard/star.svg',
-      level: 'Expert',
-      score: 0,
+      img: '/assets/dashboard/expert-badge.svg',
+      level: 'expert',
       desc: 'Score 80 to 100 points to attain this badge.',
-      locked: true,
     },
   ];
 };

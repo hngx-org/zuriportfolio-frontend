@@ -2,8 +2,8 @@
 import React from 'react';
 
 interface ICountdown {
-  minutes: number;
-  seconds: number;
+  minutes: any;
+  seconds: any;
   action: () => void;
 }
 
