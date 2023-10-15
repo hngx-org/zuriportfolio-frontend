@@ -272,7 +272,7 @@ const History: React.FC = () => {
               </tbody>
             </table>
           </div>
-          <div className="pagination flex justify-between items-center mt-5 w-full">
+          <div className="pagination flex justify-center items-center mt-5 w-full">
             <Pagination
               page={currentPage}
               setPage={setCurrentPage}
