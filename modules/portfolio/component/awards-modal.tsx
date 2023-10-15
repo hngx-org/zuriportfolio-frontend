@@ -483,16 +483,13 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const handleSave = async () => {
     // Send a PUT request to update the award
     try {
-      const response = await fetch(
-        `https://hng6-r5y3.onrender.com/api/award/6ba7b810-9dad-11d1-80b4-00c04fd430c8/${id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(editedAward), // Send the edited data
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(editedAward), // Send the edited data
+      });
       if (response.ok) {
         // console.log(`Award with ID ${id} updated.`);
         setRefreshPage(!refreshPage);
@@ -539,14 +536,14 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
           <div>
             <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
           </div>
-          <div className="flex flex-col gap-2  overflow-hidden text-ellipsis ">
+          <div className="flex flex-col gap-2  overflow-hidden text-ellipsis  ">
             <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left overflow-hidden text-ellipsis whitespace-nowrap">
               {title}
             </h1>
             <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{presented_by}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]">{url}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-full">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>

@@ -553,7 +553,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{organization}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]">{url}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-full">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>
