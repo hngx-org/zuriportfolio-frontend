@@ -84,6 +84,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     onClick={() => {
                       setIsForm(false);
                       setIsEditMode(false);
+                      setIsData(true);
                       resetForm();
                     }}
                   />
@@ -159,7 +160,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
             <article className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}>
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                 <div className="flex gap-3 sm:gap-5 flex-col sm:flex-row">
-                  <p className="text-[#8D9290] font-semibold font-manropeB border-2 border-red-50">
+                  <p className="text-[#8D9290] font-semibold font-manropeB">
                     {editingExperience?.startMonth} {editingExperience?.startYear} - {endYear}
                   </p>
                   <div>

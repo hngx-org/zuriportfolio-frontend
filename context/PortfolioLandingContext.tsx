@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import ProjectSection from '@modules/portfolio/component/modals/projects';
 import PortfolioAbout from '@modules/portfolio/component/about/about';
 import PortfolioReference from '@modules/portfolio/component/reference/reference';
+import Certifications from '@modules/portfolio/component/certification-modal';
 
 type PortfolioContext = {
   hasPortfolio: boolean;
@@ -130,6 +131,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
           setHasData(true);
           setHasPortfolio(true);
           setIsLoading(false);
+          console.log(token);
         } catch (error) {
           setIsLoading(false);
           setError({ state: true, error: error });
@@ -374,6 +376,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'about',
       modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => onCloseModal('about')} userId={userId} />,
+    },
+    {
+      id: 'certificate',
+      modal: <Certifications isOpen={modalStates['certificate']} onClose={() => onCloseModal('certificate')} />,
     },
   ];
 
