@@ -25,7 +25,7 @@ export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
 function VendorDetails() {
   const router = useRouter();
-  const { name, email, amount, quantity, date, statusText } = router.query;
+  const { amount, quantity, statusText } = router.query;
 
   const id = router.query?.id as string;
 
@@ -319,11 +319,24 @@ function VendorDetails() {
                   <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
                 ) : (
                   <>
-                    <div className="products grid grid-cols-2 lg:grid-cols-4 items-center justify-between mt-6">
+
+<!--                     <div className="products grid grid-cols-2 lg:grid-cols-4 items-center justify-between mt-6">
                       {details?.products?.map((item: any, index: number) => (
                         <div key={item?.product_id}>
                           {index < 4 ? (
-                            <div className="product border border-gray-300 p-3 rounded-md m-3">
+                            <div className="product border border-gray-300 p-3 rounded-md m-3"> -->
+
+                    <div className="lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-3 lg:gap-4">
+                      {details?.products?.map((item: any, index: number) => (
+                        <div key={item?.product_id}>
+                          {index < 4 ? (
+                            <div
+                              className="product h-full border border-gray-300 p-3 rounded-md m-3 hover:shadow-lg cursor-pointer transition hover:scale-105"
+                              onClick={() =>
+                                router.push(`/super-admin/product-listing/product-details/${item?.product_id}`)
+                              }
+                            >
+
                               <div className="w-[220px] h-[181px] mx-auto">
                                 <Image
                                   loader={() => brokenImage}

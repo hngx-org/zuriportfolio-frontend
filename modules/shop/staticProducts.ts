@@ -13,6 +13,7 @@ export const staticProducts: Products[] = [
     specification: 'Product specifications',
     currency: 'USD',
     discount_price: '90',
+    product: { name: 'Category 6' },
   },
   {
     id: '2',
@@ -26,6 +27,7 @@ export const staticProducts: Products[] = [
     specification: 'Product specifications',
     currency: 'USD',
     discount_price: '90',
+    product: { name: 'Category 6' },
   },
   {
     id: '3',
@@ -39,6 +41,7 @@ export const staticProducts: Products[] = [
     specification: 'Product specifications',
     currency: '$',
     discount_price: '90',
+    product: { name: 'Category 6' },
   },
   {
     id: '4',
@@ -52,6 +55,7 @@ export const staticProducts: Products[] = [
     specification: 'Product specifications',
     currency: '$',
     discount_price: '90',
+    product: { name: 'Category 6' },
   },
   {
     id: '5',
@@ -66,6 +70,7 @@ export const staticProducts: Products[] = [
     specification: 'Product specifications',
     currency: '$',
     discount_price: '90',
+    product: { name: 'Category 6' },
   },
   {
     id: '6',
@@ -74,6 +79,7 @@ export const staticProducts: Products[] = [
     shopOwner: 'Mark Essien',
     image: [{ id: '1', product_id: '1', url: '/assets/slider4.png' }],
     category: { name: 'Category 6' },
+    product: { name: 'Category 6' },
 
     description: 'hi',
     rating: 4.5,
@@ -88,7 +94,7 @@ export const staticProducts: Products[] = [
     shopOwner: 'Mark Essien',
     image: [{ id: '1', product_id: '1', url: '/assets/slider5.png' }],
     category: { name: 'Category 7' },
-
+    product: { name: 'Category 6' },
     description: 'hi',
     rating: 4.5,
     specification: 'Product specifications',

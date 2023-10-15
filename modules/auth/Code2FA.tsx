@@ -5,7 +5,8 @@ import Logic2FA from '../../modules/auth/Logic2FA';
 import { resend2FACode } from '../../http/auth';
 
 function Code2FAUI() {
-  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, loading, handleResend } = Logic2FA();
+  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, loading, handleResend } =
+    Logic2FA();
 
   return (
     <>

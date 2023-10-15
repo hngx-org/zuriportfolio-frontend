@@ -63,8 +63,6 @@ const LandingPageFilled: React.FC = () => {
     }
   }, [setHasData, userSections, userData]);
 
-  
-
   return (
     <>
       {/* Show modals to enter data */}
@@ -238,7 +236,7 @@ const LandingPageFilled: React.FC = () => {
         section.data.map((el: any, i: any) => {
           return <Education key={i} data={el} />;
         })}
-      {section.id === 'project' &&
+      {section.id === 'projects' &&
         projects.map((el, i) => {
           return <Project key={i} data={el} />;
         })}
