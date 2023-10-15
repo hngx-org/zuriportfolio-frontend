@@ -6,24 +6,37 @@ import VerificationLayout from './component/verificationLayout';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { resendVerification } from '../../http/auth';
 import { useAuth } from '../../context/AuthContext';
+import { notify } from '@ui/Toast';
 
 type Props = {
   handleClick: VerificationLayoutProps['handleClick'];
 };
 
 function VerificationLinkSent({ handleClick }: Props) {
-  const { email } = useAuth();
+  const { email, handleEmail } = useAuth();
 
   const [countdown, setCountdown] = useState(300);
 
   const { mutate, isLoading } = useAuthMutation(resendVerification, {
-    onSuccess: (data) => console.log(data),
+    onSuccess: (data) => {
+      if(data.status === 200) {
+        notify({message: data.message, type: 'success'})
+      }
+    },
     onError: (error: any) => console.log(error),
   });
 
   const handleVerificationLink = () => {
     mutate({ email: email });
   };
+
+  useEffect(() => {
+    if(!email) {
+      const userEmail = localStorage.getItem("user-email");
+      if (userEmail) handleEmail(userEmail);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
