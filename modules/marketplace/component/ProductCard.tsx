@@ -19,14 +19,6 @@ export default function ProductCard({
 }: MarketPlaceProductCardProps) {
   const productNameTrimmed = name?.slice(0, 30);
 
-  const formatPrice = (price: number) => {
-    if (typeof price === 'number') {
-      return price.toLocaleString(undefined, { maximumFractionDigits: 2 });
-    }
-
-    return price;
-  };
-
   const stars: starProps = {
     1: { src: '/assets/images/stars/1StarRating.png', alt: '1 Star' },
     2: { src: '/assets/images/stars/2StarRating.png', alt: '2 Stars' },
@@ -37,6 +29,20 @@ export default function ProductCard({
 
   const starRating = rating in stars;
 
+  function formatPrice(price: number) {
+    if (typeof price === 'string') {
+      price = parseFloat(price);
+    }
+
+    if (isNaN(price)) {
+      return price;
+    }
+
+    return price.toLocaleString('en-US', {
+      useGrouping: true,
+      minimumFractionDigits: 2,
+    });
+  }
   return (
     <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] h-full w-[286px] max-w-full">
       <Link href={`/marketplace/product-details?id=${id}`} className="relative h-full flex flex-col">
@@ -79,11 +85,14 @@ export default function ProductCard({
           </p>
           {/* Product Price */}
           <h1 className="font-manropeL text-brand-green-shade10 text-[18px] font-bold leading-[20px] letter pt-[2px] pb-[8px]">
-            {currency === 'USD' ? `$${formatPrice(price)}` : `$${formatPrice(price)}`}
+            {`$ ${formatPrice(price)}`}
           </h1>
           {/* Product Owner */}
           <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">
-            By: <Link href={shop?.id ? `/shop/${shop.id}`: '/shop'} className="underline">{user}</Link>
+            By:{' '}
+            <Link href={shop?.id ? `/shop/${shop.id}` : '/shop'} className="underline">
+              {user}
+            </Link>
           </p>
           {/* Star rating */}
           <div>

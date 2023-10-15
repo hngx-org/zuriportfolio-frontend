@@ -12,6 +12,7 @@ import { useGetAllVendor } from '../../../http';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
 import { DeletedProducts } from '../../../@types';
+import { log } from 'console';
 const Index = () => {
   const { data, isLoading } = useGetAllVendor();
   //Variables for the pagination
@@ -25,8 +26,7 @@ const Index = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const visibleVendors = filteredProducts?.slice(startIndex, endIndex);
-  const totalItems = 1000;
-  const totalPages = Math.ceil(data?.data?.length / itemsPerPage);
+
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -36,7 +36,7 @@ const Index = () => {
   }, [data]);
   useEffect(() => {
     handleSearch(searchVal);
-  }, [searchVal]);
+  });
   const bannedVendors = filteredProducts?.filter((vendor: any) => vendor.vendor_status === 'Banned');
   const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
   const handleSearch = (searchText: string) => {
@@ -72,6 +72,12 @@ const Index = () => {
   //   }
   //   setFilteredProducts(filteredProduct);
   // };
+
+  const totalPages = showDeleted
+    ? Math.ceil(deletedVendors.length / itemsPerPage)
+    : showBanned
+    ? Math.ceil(bannedVendors.length / itemsPerPage)
+    : Math.ceil(data?.data?.length / itemsPerPage);
 
   const handleFilter = (status: string) => {
     if (data?.data) {
@@ -115,7 +121,7 @@ const Index = () => {
           data={data}
           isLoading={isLoading}
         />
-        <section className="border-white-115 border-2 py-4 rounded-md container mx-auto">
+        <section className="border-white-115 border-2 py-4 rounded-md container mx-auto mb-10">
           <div className=" border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
             <div className="mb-4 md:mb-0">
               <p className="text-lg font-bold">Vendor Management</p>

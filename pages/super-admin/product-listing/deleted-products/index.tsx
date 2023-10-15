@@ -2,7 +2,7 @@ import { ArrowDown } from 'iconsax-react';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import { useEffect, useState } from 'react';
-import Pagination from '../../../view-components/super-admin/pagination';
+import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { useRouter } from 'next/router';
 import { useGetProd } from '../../../../http';
 import { DeletedProducts } from '../../../../@types';
@@ -18,9 +18,22 @@ const SanctionedProducts = () => {
 
   const [filteredProducts, setFilteredProducts] = useState(deletedProd);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Number of items to display per page
+
+  // Calculate the range of products to display
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
   useEffect(() => {
     setFilteredProducts(deletedProd);
-  }, [sanctionedProducts]);
+  }, [deletedProd, sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
   const handleSearch = (searchText: string) => {
@@ -28,6 +41,12 @@ const SanctionedProducts = () => {
       (product: any) =>
         product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
         product?.product_status?.toLowerCase()?.includes('deleted'),
+    );
+  };
+
+  const handleSubmit = (searchText: string) => {
+    const filteredProduct: DeletedProducts[] = sanctionedProducts.filter((product) =>
+      product.product_name.toLowerCase().includes(searchText.toLowerCase()),
     );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
@@ -52,7 +71,7 @@ const SanctionedProducts = () => {
           <LoadingTable />
         ) : (
           <div className="mb-4">
-            {deletedProd?.length > 0 ? (
+            {visibleProducts?.length > 0 ? (
               <>
                 <table className="w-full ">
                   <thead>
@@ -69,7 +88,7 @@ const SanctionedProducts = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredProducts?.map((product: any) => (
+                    {visibleProducts?.map((product: any) => (
                       <tr
                         className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                         key={product?.product_id}
@@ -118,7 +137,11 @@ const SanctionedProducts = () => {
                     ))}
                   </tbody>
                 </table>
-                <Pagination />
+                <SuperAdminPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               </>
             ) : (
               <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
