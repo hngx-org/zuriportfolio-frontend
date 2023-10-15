@@ -52,7 +52,7 @@ export default function Index() {
                       image={item?.images[0]?.url}
                       name={item?.name}
                       price={price}
-                      user={item?.category.name}
+                      user={item?.shop ? `${item?.shop?.name}` : 'null'}
                       rating={0}
                       showLimitedOffer={false}
                       showTopPicks={false}
