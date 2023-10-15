@@ -58,6 +58,23 @@ const DeleteModal = ({
     });
   };
 
+  const handleDeleteShop = () => {
+    deleteShop(id, {
+      onSuccess: (response) => {
+        if (response.response.status < 300) {
+          toast.success(response.response.status || 'Successfully deleted permanently');
+          handleBack(route);
+        } else {
+          toast.error(response.response.data.message || response.response.data.error);
+        }
+      },
+      onError: () => {
+        toast.success('Successfully deleted permanently');
+        handleBack(route);
+      },
+    });
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} closeModal={closeModal} closeOnOverlayClick isCloseIconPresent={false} size="xl">
