@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 export type CategoryType = {
   name: string;
-  subcategories: {name?: string}[];
+  subcategories: { name?: string }[];
 };
 
 const useCategory = () => {

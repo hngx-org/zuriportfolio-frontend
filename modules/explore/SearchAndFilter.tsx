@@ -27,7 +27,10 @@ const SearchAndFilter = (prop: {
   setSearchQuery?: Dispatch<React.SetStateAction<string>>;
   filters: { SortBy?: number; Country?: string };
   handleFilters: (type: string, value: string | number) => void;
+  setFilter: Dispatch<React.SetStateAction<{ SortBy?: number; Country?: string }>>;
+  setPageNumber: () => void;
 }) => {
+  const { setPageNumber } = prop;
   const [activeSection, setActiveSection] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
@@ -45,6 +48,13 @@ const SearchAndFilter = (prop: {
     // setShowRightButton(!isEnd);
   };
 
+  const closeFilterComponent = (option?: 'close' | 'clear') => {
+    if (option === 'clear') {
+      prop.setFilter({});
+    } else {
+      setShowFilterComponent(false);
+    }
+  };
   const slideLeft = () => {
     const slider = sliderRef.current!; // Non-null assertion
     slider.scrollLeft -= 150; // Adjust the scroll distance as needed
@@ -171,6 +181,8 @@ const SearchAndFilter = (prop: {
           <Input
             onChange={(e) => {
               prop.setSearchQuery && prop.setSearchQuery(e.target.value);
+              prop.setFilter({});
+              setPageNumber();
             }}
             type="text"
             name="search input"
@@ -229,10 +241,10 @@ const SearchAndFilter = (prop: {
           ))}
         </div>
       </div>
-      <div className="relative -right-1">
+      <div className="relative -right-1 flex">
         {showLeftButton && (
           <div
-            className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-12 bg-white-100"
+            className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
             onClick={slideLeft}
           >
             <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
@@ -257,7 +269,14 @@ const SearchAndFilter = (prop: {
         )}
       </div>
 
-      {showFilterComponent && <FilterComponent filters={filters} handleFilters={handleFilters} />}
+      {showFilterComponent && (
+        <FilterComponent
+          closeFilterComponent={closeFilterComponent}
+          showFilterComponent={showFilterComponent}
+          filters={filters}
+          handleFilters={handleFilters}
+        />
+      )}
     </div>
   );
 };
