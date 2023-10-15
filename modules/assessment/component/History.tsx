@@ -243,8 +243,8 @@ const History: React.FC = () => {
                       </td>
                       <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
                         <Link
-                          href={`/assessments/dashboard/badge/${assessment.id}`}
-                          as={`/assessments/dashboard/badge/${assessment.id}`}
+                          href={`/assessments/dashboard/[badges]/badge/[id]`}
+                          as={`/assessments/dashboard/${assessment.badgeName}/badge/${assessment.id}`}
                         >
                           View
                         </Link>

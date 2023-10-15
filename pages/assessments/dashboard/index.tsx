@@ -82,7 +82,8 @@ const Dashboard = () => {
               <div className="md:flex">
                 {LevelData().map((item, index) => (
                   <Link
-                    href={`/assessments/dashboard/badge/${item.level}`}
+                    href={`/assessments/dashboard/[badges]`}
+                    as={`/assessments/dashboard/${item.level}`}
                     key={index}
                     className="flex md:mx-2 xl:mx-4 items-center gap-[.5rem] my-[1rem] md:my-0 md:gap-[.7rem] lg:gap-[1rem] p-[.7rem] lg:p-[1rem] border-[.58px] border-white-400 md:w-[14.4rem] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] rounded-md h-[6rem] md:h-[7rem] lg:h-[9rem]"
                   >
