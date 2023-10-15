@@ -20,6 +20,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { auth } = useAuth();
 
   const handleAddToCart = async () => {
+    if (!auth) {
+      toast.error('Please Log in before Adding to the Cart', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    }
     try {
       const response = await axios.post(
         'https://zuri-cart-checkout.onrender.com/api/checkout/api/carts',
