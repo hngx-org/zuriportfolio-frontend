@@ -43,6 +43,7 @@ export interface RecentlyViewedData {
     is_deleted: string;
     rating: number;
     is_published: false;
+    showTopPicks: true;
     currency: string;
     createdat: string;
     updatedat: string;
@@ -185,6 +186,10 @@ export interface MarketPlaceProductCardProps {
   showTopPicks?: boolean;
   showDiscount?: boolean;
   discount_price?: number;
+  shop?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface ratingProps {
@@ -688,6 +693,9 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
+  isVerified: boolean;
+  roleId: number;
+  twoFactorAuth: boolean;
 };
 
 export type AuthResponse = {

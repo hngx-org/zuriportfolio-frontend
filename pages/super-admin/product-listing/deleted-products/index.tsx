@@ -14,12 +14,12 @@ const SanctionedProducts = () => {
   const { data, isLoading } = useGetProd();
   const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>(data);
 
-  const sanctionedProd = data?.data?.filter((item: any) => item?.product_status === 'Deleted');
+  const deletedProd = data?.data?.filter((item: any) => item?.product_status === 'Deleted');
 
-  const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
+  const [filteredProducts, setFilteredProducts] = useState(deletedProd);
 
   useEffect(() => {
-    setFilteredProducts(sanctionedProd);
+    setFilteredProducts(deletedProd);
   }, [sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
@@ -52,7 +52,7 @@ const SanctionedProducts = () => {
           <LoadingTable />
         ) : (
           <div className="mb-4">
-            {sanctionedProd?.length > 0 ? (
+            {deletedProd?.length > 0 ? (
               <>
                 <table className="w-full ">
                   <thead>
@@ -61,7 +61,7 @@ const SanctionedProducts = () => {
                         <p className="">Product Name</p>
                         <ArrowDown size="16" className="" />
                       </th>
-                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item) => (
+                      {['Vendor', 'ID', 'Date Added', 'Date Deleted', 'Status'].map((item) => (
                         <th className="text-gray-500 text-sm font-normal leading-[18px] px-3 py-6 gap-3" key={item}>
                           {item}
                         </th>
@@ -69,7 +69,7 @@ const SanctionedProducts = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {sanctionedProd?.map((product: any) => (
+                    {filteredProducts?.map((product: any) => (
                       <tr
                         className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                         key={product?.product_id}

@@ -177,14 +177,14 @@ const SearchAndFilter = (prop: {
             intent={'default'}
             placeHolder="Search by name or role"
             leftIcon={<SearchNormal />}
-            className="w-full border-brand-disabled2 rounded-2xl"
+            className="w-full text-black border-brand-disabled2 rounded-2xl"
           />
 
           <button className="md:hidden">
             <Filter
               size={48}
               color="#1a1c1b"
-              className="border-2 border-brand-disabled2 rounded-xl p-2 hover:bg-brand-green-primary"
+              className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
             />
           </button>
         </div>
@@ -193,11 +193,13 @@ const SearchAndFilter = (prop: {
           <CustomDropdown
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
+            placeholder="Location"
             onChange={handleCustomDropdownChange}
           />
           <CustomDropdown
             options={['Trending', 'Featured', 'New Arrival']}
             selectedValue={selectedOption2}
+            placeholder="Sort By"
             onChange={handleCustomDropdownChange2}
           />
         </div>
