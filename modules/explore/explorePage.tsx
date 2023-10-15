@@ -3,11 +3,12 @@ import Card from './components/Card';
 import SearchAndFilter from './SearchAndFilter';
 import axios from 'axios';
 import useDebounce from './hooks/deBounce';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 import { UserInfo } from './@types';
+import Pagination from '@ui/Pagination';
 
 const HomePage = () => {
   // States
@@ -15,6 +16,10 @@ const HomePage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pageNumber]);
 
   const handleFilters = (type: string, value: string | number) => {
     setFilters((prev) => {
@@ -24,6 +29,7 @@ const HomePage = () => {
       return { ...prev, [type]: value };
     });
   };
+
   const deBounce = useDebounce(searchQuery, 1200);
   const router = useRouter();
 
@@ -49,7 +55,7 @@ const HomePage = () => {
     const { data } = await axios.get(url, {
       params: {
         PageNumber: pageNumber,
-        PageSize: 12,
+        PageSize: 9,
         ...filters,
       },
     });
@@ -86,9 +92,15 @@ const HomePage = () => {
           </div>
         </div>
       )}
-      {/* 
-      <button onClick={() => setPageNumber((pre) => pre + 1)}>Next Page</button>
-      <button onClick={() => setPageNumber(pageNumber - 1)}>Previous Page</button> */}
+      <div className="w-full mx-auto my-4 flex justify-center">
+        <Pagination
+          visiblePaginatedBtn={5}
+          activePage={pageNumber}
+          pages={2}
+          page={pageNumber}
+          setPage={setPageNumber}
+        />
+      </div>
     </>
   );
 };
