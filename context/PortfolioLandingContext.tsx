@@ -361,7 +361,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setAvatarImage,
     handleUploadCover,
     userData,
-    
+
     toggleSection,
     isLoading,
     setIsLoading,
