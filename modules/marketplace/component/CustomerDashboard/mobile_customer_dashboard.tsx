@@ -10,7 +10,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
         return ['bg-custom-color41', 'text-custom-color35']; // Return an array of background and text colors
       case 'pending':
         return ['bg-custom-color40', 'text-yellow-600'];
-      case 'cancelled':
+      case 'failed':
         return ['bg-pink-120', 'text-custom-color34'];
       default:
         return ['bg-gray-200', 'text-gray-600'];
@@ -47,7 +47,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
                 <span className="flex gap-1 items-center">
                   <p className="font-manropeL text-base">By:</p>
                   <p className="font-manropeL text-base">
-                    {item.merchant.last_name} {item.merchant.first_name}
+                    {item.merchant}
                   </p>
                 </span>
 
