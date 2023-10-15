@@ -21,7 +21,6 @@ function ProductCardWrapper({
     <section className="w-full mb-2.5 md:mb-8 pt-2.5">
       <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
         {title}
-
         {showAll && (
           <Link className="flex items-center gap-2 text-sm font-bold text-brand-green-shade50" href="">
             View All
@@ -41,7 +40,7 @@ function ProductCardWrapper({
       <div>
         {productsList.isLoading ? (
           <div
-            className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+            className={`flex flex-nowrap lg:grid grid-cols-4 gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
           >
             {[1, 2, 3, 4].map((item) => {
               return <CategoryLoading key={item} />;
@@ -51,7 +50,7 @@ function ProductCardWrapper({
           <>
             {productsList.items.length ? (
               <div
-                className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+                className={`flex flex-nowrap lg:grid grid-cols-4 gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
               >
                 {productsList.items.map((item, index) => {
                   if (index <= 7) {

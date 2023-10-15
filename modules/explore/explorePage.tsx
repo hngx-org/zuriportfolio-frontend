@@ -69,8 +69,6 @@ const HomePage = () => {
     return data;
   }
 
-  console.log(filters);
-
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo>({
     queryKey: ['profile', deBounce, filters, pageNumber],

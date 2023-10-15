@@ -60,7 +60,7 @@ const MyPage: React.FC = () => {
         method: 'DELETE',
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU',
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
           'Content-Type': 'application/json',
         },
         body: stringifyData,
@@ -122,7 +122,7 @@ const MyPage: React.FC = () => {
     switch (status.toLowerCase()) {
       case 'completed':
         return ['bg-custom-color41', 'text-custom-color35']; // Return an array of background and text colors
-      case 'failed':
+      case 'pending':
         return ['bg-custom-color40', 'text-yellow-600'];
       case 'failed':
         return ['bg-pink-120', 'text-custom-color34'];
@@ -145,7 +145,7 @@ const MyPage: React.FC = () => {
       const res = await $http.get('https://customer-purchase.onrender.com/api/orders/all-transactions', {
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU',
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
         },
       });
       setData(res?.data?.data);
@@ -165,7 +165,7 @@ const MyPage: React.FC = () => {
       const res = await $http.get(getFilterApi(filterBy, searchInput), {
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlN2EyZWVhLWI3MDgtNGQ5NS1hYjFhLTgxYjhjY2FkZmNiZCIsImlhdCI6MTY5NzEyMjA4NX0.e4fKa18WW2wL0lbUfJkvp2Jk9KP2YadUdAMx1VDGaZU',
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
         },
       });
       setData(res?.data?.data);
