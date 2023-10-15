@@ -135,10 +135,12 @@ const DraftPage = () => {
   };
   return (
     <div className="mx-auto py-4 px-8 md:px-24 sm:py-11 lg:px-12 xl:px-[105px] 2xl:w-[1440px] mb-10">
-      <Link href="/assessment" className="flex gap-1 items-center mb-16 cursor-pointer w-52">
+      <span    onClick={() => {
+            window.history.back();
+          }} className="flex gap-1 items-center mb-16 cursor-pointer w-52">
         <Image src="/assets/arrow-left.svg" alt="arrow left icon" width={20} height={20} />
         <span>Go back</span>
-      </Link>
+      </span>
       {/* <div className="flex justify-center gap-6 flex-wrap"> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 gap-6">
         {draftList.map((item) => (

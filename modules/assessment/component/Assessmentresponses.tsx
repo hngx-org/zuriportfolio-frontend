@@ -108,7 +108,7 @@ function Assessmentresponses(props: PropsAss<any>) {
             </div>
             <div className="flex gap-2 md:gap-8 items-center justify-center">
               <Link
-                href="/assessment/preview-edit/"
+                href="/super-admin/assessment/preview-edit/"
                 className="text-xs md:text-base  flex flex-col items-center cursor-pointer gap-y-1"
               >
                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
