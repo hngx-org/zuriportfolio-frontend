@@ -730,6 +730,11 @@ type ProductCategory = {
   createdat: string;
   user: string;
 };
+
+type ProductShop = {
+  id: number;
+  name: string;
+};
 export interface ProductResult {
   id: string;
   name: string;
@@ -745,7 +750,7 @@ export interface ProductResult {
   currency: string;
   createdat: string;
   updatedat: string;
-  shop: string;
+  shop: ProductShop;
   category: ProductCategory;
   rating: number;
   user: string;
