@@ -45,7 +45,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
         </div>
       </div>
       {isOpen && (
-        <div className="list mt-2 bg-white border hover:bg-white-100 max-h-fit overflow-y-auto absolute z-20 w-full bg-white-100 rounded-xl">
+        <div className="list mt-2 bg-white shadow-lg hover:bg-white-100 max-h-fit overflow-y-auto absolute z-20 w-full bg-white-100 rounded-xl">
           {options.map((option, index) => (
             <div
               key={index}
