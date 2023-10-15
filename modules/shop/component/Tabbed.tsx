@@ -73,7 +73,7 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
   if (tab === 'review')
     return (
       <>
-        <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Review</h2>
+        <h2 className="text-white-700  font-manropeB font-semibold text-2xl text-left">Review</h2>
         <div className="pt-9 flex">
           <div className="flex align-center gap-[5.3px]">
             <Image src={profileImg} alt="Profile Img" />
