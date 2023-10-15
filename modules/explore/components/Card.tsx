@@ -80,26 +80,26 @@ const Card = ({ data }: { data?: UserInfo }) => {
             )}
             {/* <button className="mt-2 border border-gray-100 px-4 py-1 rounded-full">{data.skills[6]}</button> */}
           </div>
-          <div className="mx-auto my-4 gap-2 md:gap-0 justify-center items-center flex">
-            <div className="gap-2 flex ">
+          <div className="mx-auto my-4 gap-2  md:gap-0 justify-center items-center flex">
+            <div className="gap-1 md:gap-2 flex ">
               <Image src={total_projects} className="m-auto" alt="total_projects" width={40} height={40} />
               <div className="grid">
-                <span className="text-gray-500 text-left text-[0.75rem]">Total Projects</span>
+                <span className="text-gray-500 text-left text-[0.75rem]"> Projects</span>
                 <span className="text-left font-bold">{data?.projects}</span>
               </div>
             </div>
-            <div className="gap-2 ml-4 flex">
+            <div className="gap-2  flex">
               <Image src={badge_beginner} alt="badge_beginner" className="m-auto" width={40} height={40} />
               <div className="grid">
                 <span className="text-gray-500 text-left text-[0.75rem] ">Badge</span>
-                <span className="text-left text-sm font-bold">{data?.ranking ?? 'No Ranking'}</span>
+                <span className="text-left font-bold text-[0.55rem]">{data?.ranking ?? 'No Ranking'}</span>
               </div>
             </div>
           </div>
           <div className="flex justify-center items-center gap-1 mt-5">
             <Image src={Location} alt="badge_beginner" width={20} height={20} />
             <div>
-              <span className="text-gray-500">{data?.address ?? 'No Address'}</span>
+              <span className="text-gray-500 ">{data?.address ?? 'No Address'}</span>
             </div>
           </div>
         </div>

@@ -211,6 +211,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <CustomDropdown
                     selectedValue={dropDown}
                     onChange={handleDropdown}
+                    placeholder="Explore"
                     options={['Explore', 'Marketplace']}
                     className="border-none"
                   />
@@ -414,6 +415,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     <CustomDropdown
                       selectedValue={dropDown}
                       onChange={handleDropdown}
+                      placeholder="Explore"
                       options={['Explore', 'Marketplace']}
                       className="border-none px-1"
                     />
