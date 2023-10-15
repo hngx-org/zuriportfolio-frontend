@@ -27,7 +27,7 @@ export default function ProductDetails() {
 
   const [product, setProduct] = useState<Products | null>(null);
   const [currentProducts, setCurrentProducts] = useState<Products[]>([]);
-  const [image, setImage] = useState(product?.image);
+  const [image, setImage] = useState<any>(product?.image);
   const [showAll, setShowAll] = useState(false);
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
   const [categoryQuery, setCategoryQuery] = useState('');
@@ -152,6 +152,12 @@ export default function ProductDetails() {
   };
 
   const handleAddToCart = async () => {
+    if (!auth) {
+      toast.error('Please Log in before Adding to the Cart', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    }
     try {
       const response = await axios.post(
         'https://zuri-cart-checkout.onrender.com/api/checkout/api/carts',
@@ -193,8 +199,6 @@ export default function ProductDetails() {
     return stars;
   }; */
   }
-
-  // ... Other code ...
 
   const handleReadMoreClick = () => {
     setShowFullDescription(!showFullDescription); // Step 2
@@ -269,7 +273,8 @@ export default function ProductDetails() {
                 ref={imgContRef}
               >
                 <Image
-                  src={product.image && product.image[0] ? product.image[0].url : ''}
+                  ref={imgRef}
+                  src={image ? image : product.image && product.image[0] ? product.image[0].url : ''}
                   alt={product.name}
                   fill
                   objectFit="cover"
@@ -286,7 +291,7 @@ export default function ProductDetails() {
                   <h1 className="md:text-2xl md:font-bold text-black capitalize lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
                     {product.product.name}
                   </h1>
-                  <div className="flex py-1 items-center">
+                  <div className="flex py-2 items-center">
                     <ProfileCircle color="#464646" variant="Bulk" className="w-6 h-6 md:w-9 md:h-9" />
                     <p className="w-fit  font-manropeB font-bold capitalize text-xs tracking-[0.003rem] md:tracking-[0.005rem] ml-1 md:font-semibold md:text-base">
                       {product.category.name}
@@ -297,7 +302,7 @@ export default function ProductDetails() {
                   <p className="lg:hidden text-base font-semibold md:font-bold md:text-lg font-manropeL tracking-[0.00088rem] pb-2 md:pb-1">
                     Description
                   </p>
-                  <p className="font-normal font-manropeL capitalize  text-custom-color43 text-sm md:text-base lg:text-lg tracking-[0.005rem] w-full line-clamp-3 lg:mt-6 text-wrapper">
+                  <p className="font-normal font-manropeL capitalize  text-custom-color43 text-sm md:text-base lg:text-lg tracking-[0.005rem] w-full line-clamp-3 lg:mt-6 lg:mb-8 text-wrapper">
                     {description}{' '}
                   </p>
                   {product.description.length > 400 && ( // Step 3
@@ -328,15 +333,15 @@ export default function ProductDetails() {
               </div>
 
               <div className="flex flex-col gap-y-1 md:gap-y-2">
-                <p className="text-base lg:text-lg font-normal font-manropeL leading-normal tracking-tight mt-4">
+                <p className="text-base lg:text-lg font-normal font-manropeL leading-normal tracking-tight mt-2">
                   Total Payment (Incl. taxes)
                 </p>
                 <p className="flex gap-x-4 items-center">
                   <span className="text-black text-xl md:text-3xl lg:text-3xl font-normal lg:font-semibold font-manropeEB leading-10">
-                    {product.currency} {product.price}
+                    {product.currency} {product.price.toLocaleString()}
                   </span>
                   <span className="text-xl font-light md:text-2xl lg:text-[1.375rem] font-manrope line-through leading-7 text-gray-300">
-                    {product.discount_price}
+                    {product.discount_price ? product.currency + product.discount_price : null}
                   </span>
                 </p>
 
@@ -516,7 +521,7 @@ export default function ProductDetails() {
 
                   <div className="mt-5 pt-[18px] pb-[46px] pr-[70px] pl-[16px] bg-custom-color38">
                     <div className="flex items-center justify-between w-full">
-                      <h3 className="font-manropeB text-sm font-semibold">ZuriMarket</h3>
+                      <h3 className="font-manropeB text-sm font-semibold">ZuriMarket</h3> {/*Name of Shop */}
                       <p className="font-manropeL text-xs font-normal text-custom-color39">September 22, 2023.</p>
                     </div>
                     <p className="font-manropeL text-sm font-normal mt-4">
@@ -533,19 +538,6 @@ export default function ProductDetails() {
                     <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
                   </button>
                 </div>
-
-                <form action="" className="block sm:hidden">
-                  <Link href={'/dashboard/reviews/new'}>
-                    <textarea
-                      id="about"
-                      name="about"
-                      rows={3}
-                      className="block w-full rounded-xl text-custom-color39 border-0 border-custom-color32  py-2  shadow-sm ring-1 ring-inset ring-gray-300  min-h-[116px] placeholder:text-custom-color39  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
-                      placeholder="Write a customer review"
-                      required
-                    ></textarea>
-                  </Link>
-                </form>
               </div>
             </div>
           </div>
