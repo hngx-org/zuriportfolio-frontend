@@ -22,7 +22,6 @@ function GoogleRedirect() {
       });
       try {
         const { data } = await $http.get(url);
-        console.log(data);
         const token = data.data.token;
         localStorage.setItem('zpt', token);
         // Checking if user enabled 2fa
@@ -44,7 +43,6 @@ function GoogleRedirect() {
       } catch (e: any) {
         // router.push('/auth/signup');
         // throw new Error(e)
-        console.log(e);
       }
     };
     Oauth();
