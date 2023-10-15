@@ -2,17 +2,25 @@
 name: Zuri main dev Deployment
 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [dev]
-  pull_request:
-    branches: [dev]
+    branches:
+      - dev
+  # pull_request:
+  # branches: [dev]
+  # schedule:
+  # cron job that runs every 2 minutes
+  # - cron: '* * * '
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
 
       - name: build app
         run: |
@@ -26,11 +34,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
       - name: build again
         run: |
           yarn install
           yarn build
           rm -rf node_modules
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-without-markdown
+          path: |
+            .next
 
       - name: Copy build folder to server
         uses: Creepios/sftp-action@v1.0.3
@@ -50,6 +70,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            su - devops
             cd /home/devops/zuri_frontend/zuriportfolio-frontend
-            npx yarn install --ignore-engines
-            npx pm2 restart zuri_frontend
+            yarn install --ignore-engines
+            pm2 restart zuri_frontend

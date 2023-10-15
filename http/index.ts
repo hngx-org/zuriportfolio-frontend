@@ -170,6 +170,25 @@ export const makePayment = async (selectedPaymentMethod: string, token: string) 
   }
 };
 
+export const getAllProducts = async () => {
+  const token = localStorage.getItem('authToken');
+  const $http = axios.create({
+    baseURL: 'https://staging.zuri.team/',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  try {
+    const resp = await $http.get('api/admin/product/all');
+    console.log(resp?.data?.data);
+    return resp?.data?.data;
+  } catch (error) {
+    console.log(error);
+    toast.error('Error loading products');
+  }
+};
+
 export const getCartSummary = async (token: string) => {
   try {
     const apiUrl = `${CART_ENDPOINT}/api/carts/cart-summary`;
