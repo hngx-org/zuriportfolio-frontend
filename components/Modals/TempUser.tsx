@@ -27,8 +27,6 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
     }
     const payment= userForm.get('paymentMethod') as string;
     const tempUser = await createTempUser(data)
-    console.log(tempUser);
-    console.log(tempUser.token);
     
     
     if (tempUser.data.token) {
