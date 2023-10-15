@@ -20,9 +20,7 @@ function Wishlist() {
     const fetchData = async () => {
       try {
 
-        const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token}`);
-
-        const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token?.id}`);
+         const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token?.id}`);
 
         const result = await response.json();
         setData(result);
