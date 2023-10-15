@@ -317,11 +317,16 @@ function VendorDetails() {
                   <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
                 ) : (
                   <>
-                    <div className=" lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-3 lg:gap-4">
+                    <div className="lg:grid-cols-4 md:grid-cols-3 px-0.5 md:px-2 lg:px-2 sm:px-2 grid grid-cols-2 gap-2 md:gap-3 lg:gap-4">
                       {details?.products?.map((item: any, index: number) => (
                         <div key={item?.product_id}>
                           {index < 4 ? (
-                            <div className="product h-full border border-gray-300 p-3 rounded-md m-3">
+                            <div
+                              className="product h-full border border-gray-300 p-3 rounded-md m-3 hover:shadow-lg cursor-pointer transition hover:scale-105"
+                              onClick={() =>
+                                router.push(`/super-admin/product-listing/product-details/${item?.product_id}`)
+                              }
+                            >
                               <div className="w-[220px] h-[181px] mx-auto">
                                 <Image
                                   loader={() => brokenImage}
