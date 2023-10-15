@@ -66,8 +66,12 @@ export interface Education {
   fieldOfStudy: string;
   school: string;
   description: string;
-  dateFrom: string;
-  dateTo: string;
+  from: string;
+  to: string;
+}
+export interface DegreeOption {
+  id: number;
+  type: string;
 }
 export interface AllCategoryDetails {
   price: string;
@@ -713,6 +717,11 @@ type ProductCategory = {
   createdat: string;
   user: string;
 };
+
+type ProductShop = {
+  id: number;
+  name: string;
+};
 export interface ProductResult {
   id: string;
   name: string;
@@ -728,7 +737,7 @@ export interface ProductResult {
   currency: string;
   createdat: string;
   updatedat: string;
-  shop: string;
+  shop: ProductShop;
   category: ProductCategory;
   rating: number;
   user: string;
