@@ -34,6 +34,11 @@ const Previewedit: React.FC = () => {
   const handleClick = (button: string) => {
     setActive(button);
   };
+  const [headInput, setHeadInput] = useState('');
+    
+  // const handleInput = (value: string) => {
+  //   setHeadInput(value);
+  // };
 
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
@@ -88,7 +93,7 @@ const Previewedit: React.FC = () => {
         <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0]">
           {active === 'button1' ? (
             <>
-              <Edithead assessment={assessment} setTitle={setTitle} />
+              <Edithead assessment={assessment} onInputChange={setTitle} />
               <div className="pt-4">
                 <PreviewQuests />
               </div>

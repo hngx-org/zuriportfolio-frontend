@@ -25,9 +25,11 @@ const EditAssesment = () => {
     }],
     updatedAt: new Date() // Similarly for updatedAt
   });
-  
+  // const [headInput, setHeadInput] = useState('');
     
-
+  // const handleInput = (value: string) => {
+  //   setHeadInput(value);
+  // };
   const router = useRouter();
   const { id } = router.query;
   
@@ -59,6 +61,7 @@ const EditAssesment = () => {
     fetchData();
   }, [id])
 
+  
   const setTitle = (data:any) => {
     setAssessment(prevAssessment => ({
         ...prevAssessment,
@@ -118,7 +121,8 @@ const EditAssesment = () => {
         <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0]">
           {active === 'button1' ? (
             <>
-              <Edithead assessment={assessment} setTitle={setTitle} />
+            
+              <Edithead assessment={assessment} onInputChange={setTitle} />
               <div className="pt-4">
                 <EditLayout />
               </div>

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth/api/auth';
-
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
   timeout: 30000,
@@ -10,22 +9,29 @@ const $http = axios.create({
   },
 });
 
-export const verfiy2FA = async (props: { email: string; token: string }) => {
+export const verfiy2FA = async (props: { email: string; code: string }) => {
   try {
     const res = await $http.post('/2fa/verify-code', props);
+    return res;
+  } catch (e: any) {
+    return e.response.data ?? { message: e.message };
+  }
+};
+
+export const resend2FACode = async (props: { email: string }) => {
+  try {
+    const res = await $http.post('/2fa/send-code', props);
     console.log(res);
+    return res;
   } catch (e: any) {
     console.log(e);
-    if (e?.response?.data && e?.response?.data?.message) {
-      console.log(e?.response.data.message);
-    }
     return e.response.data ?? { message: e.message };
   }
 };
 
 export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
   try {
-    const response = await axios.patch('/reset-password', props);
+    const response = await $http.patch('/reset-password', props);
     console.log(response);
     return response?.data;
   } catch (e: any) {
@@ -118,6 +124,34 @@ export const guestSignup = async (props: { email: string; firstName: string; las
 export const forgetPassword = async (props: { email: string }) => {
   try {
     const res = await $http.post('/reset-password', props);
+    console.log(res);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    if (e?.response?.data && e?.response?.data?.message) {
+      console.log(e?.response.data.message);
+    }
+    return e.response.data ?? { message: e.message };
+  }
+};
+
+export const resendForgetPassword = async (props: { email: string }) => {
+  try {
+    const res = await $http.post('/reset-password', props);
+    console.log(res);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    if (e?.response?.data && e?.response?.data?.message) {
+      console.log(e?.response.data.message);
+    }
+    return e.response.data ?? { message: e.message };
+  }
+};
+
+export const revalidateAuth = async (payload: any) => {
+  try {
+    const res = await $http.get('/revalidate-login', payload);
     console.log(res);
     return res?.data;
   } catch (e: any) {
