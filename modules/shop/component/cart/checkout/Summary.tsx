@@ -17,6 +17,7 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
 
   useEffect(() => {
     setModalOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const defaultPrices: PriceData = {
@@ -57,32 +58,24 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
     }
   };
 
-  // const handleCheckoutClick = () => {
-  //   const token = localStorage.getItem('authToken');
-  //   console.log(token);
-
-  //   if (token !== null) {
-  //     const userIsAuthenticated = isAuthenticated(token);
-  //     if (userIsAuthenticated) {
-  //       setAuthUser(true);
-  //       setModalOpen(true);
-  //     }
-  //   } else {
-  //     onOpen();
-  //   }
-  //   // const token = localStorage.getItem('authToken');
-  //   // if(token !== null) {
-  //   //   const value = isAuthenticated(token)
-  //   //   console.log(value)
-  //   // }
-  // };
+  const handleCheckoutClick = () => {
+    const authToken = localStorage.getItem('zpt');
+    console.log(authToken);
+    if (authToken !== null) {
+      const userIsAuthenticated = isAuthenticated(authToken);
+      if (userIsAuthenticated) {
+        setAuthUser(true);
+        setModalOpen(true);
+      } else {
+        onOpen();
+      }
+    } else {
+      onOpen();
+    }
+  };
 
   const closeModal = () => {
     setModalOpen(false);
-  };
-
-  const handleCheckoutClick = () => {
-    setModalOpen(true);
   };
 
   return (
@@ -168,22 +161,16 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
           <div>
             <button
               className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-green-300 hover:shadow-lg hover:font-bold focus:bg-brand-green-focu transition-all duration-300"'
-              // onClick={authUser ? handleCheckoutClick : onOpen}
               onClick={handleCheckoutClick}
             >
               Checkout
             </button>
           </div>
-          {/* {authUser ? (
-            modalOpen ? (
-              <PaymentInformationModal closeModal={closeModal} />
-            ) : null
+          {authUser ? (
+            modalOpen && <PaymentInformationModal token={token} orderTotal={summary?.total} closeModal={closeModal} />
           ) : (
             <TempUser isOpen={isOpen} onClose={onClose} />
-          )} */}
-          {modalOpen ? (
-            <PaymentInformationModal token={token} orderTotal={summary?.total} closeModal={closeModal} />
-          ) : null}
+          )}
         </div>
       </div>
     </section>

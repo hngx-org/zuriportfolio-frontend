@@ -127,13 +127,13 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
             have though.
           </p>
         </div>
-        
+
         <button
-            type="button"
-            className="text-xl font-semibold leading-6 mt-7 font-manropeB text-brand-green-primary flex mx-auto"
-          >
-            <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
-          </button>
+          type="button"
+          className="text-xl font-semibold leading-6 mt-7 font-manropeB text-brand-green-primary flex mx-auto"
+        >
+          <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
+        </button>
       </>
     );
 
