@@ -59,7 +59,7 @@ function VerificationLinkSent({ handleClick }: Props) {
           link.
         </p>
 
-        <Button onClick={handleVerificationLink} className=" w-full rounded-md h-[60px] text-[16px] font-manropeB">
+        <Button isLoading={isLoading} onClick={handleVerificationLink} className=" w-full rounded-md h-[60px] text-[16px] font-manropeB">
           Resend Verification Link
         </Button>
 

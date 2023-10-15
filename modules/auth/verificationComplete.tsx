@@ -44,29 +44,33 @@ function VerificationComplete() {
         router.push('/dashboard');
         return;
       }
+              notify({
+                message: 'Verification Unsuccessful!',
+                type: 'error',
+              });
     },
     onError: ({ response }: any) => {
-      console.log(response.data);
+      console.log("verificaion error z",response);
 
-      if (response.data.message === 'timeout of 30000ms exceeded') {
-        const timeoutErrorMessage =
-          'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+      // if (response.data.message === 'timeout of 30000ms exceeded') {
+      //   const timeoutErrorMessage =
+      //     'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
 
-        console.log(response.data.message);
+      //   console.log(response.data.message);
 
-        notify({
-          message: timeoutErrorMessage,
-          type: 'error',
-        });
+      //   notify({
+      //     message: timeoutErrorMessage,
+      //     type: 'error',
+      //   });
 
-        return;
-      }
+      //   return;
+      // }
 
-      if (response.data.message) {
-        notify({ message: response.data.message, type: 'error' });
-        router.push('/auth/verification');
-        return;
-      }
+      // if (response.data.message) {
+      //   notify({ message: response.data.message, type: 'error' });
+      //   router.push('/auth/verification');
+      //   return;
+      // }
     },
   });
 
