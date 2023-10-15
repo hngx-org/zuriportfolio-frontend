@@ -56,15 +56,15 @@ const Page: React.FC = () => {
     <>
       <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
         <>
+          <BadgesHeader />
           {isLoading ? (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex justify-center items-center h-96">
               <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
             </div>
           ) : errorMessage ? (
             <ErrorData />
           ) : (
             <>
-              <BadgesHeader />
               <Badges
                 scorePercentage={scorePercentage}
                 badgelabel={badgeName}
