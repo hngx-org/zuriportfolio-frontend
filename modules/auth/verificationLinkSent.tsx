@@ -19,48 +19,23 @@ function VerificationLinkSent({ handleClick }: Props) {
 
   const { mutate, isLoading } = useAuthMutation(resendVerification, {
     onSuccess: (data) => {
-      if(data.status === 200) {
-        notify({message: data.message, type: 'success'});
-        return
+      if (data.status === 200) {
+        notify({ message: data.message, type: 'success' });
+        return;
       }
       // for any error returned from the endpoint
-      notify({message: data.message, type: 'error'});
+      notify({ message: data.message, type: 'error' });
     },
     onError: (error: any) => {
       notify({ message: error.message, type: 'error' });
-      console.log(error)
-    }
+      console.log(error);
+    },
   });
 
   const handleVerificationLink = () => {
     setCountdown(300);
     mutate({ email: email });
   };
-
-  useEffect(() => {
-    if(!email) {
-      const userEmail = localStorage.getItem("user-email");
-      if (userEmail) handleEmail(userEmail);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (countdown > 0) {
-        setCountdown(countdown - 1);
-      } else {
-        clearInterval(timer);
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [countdown]);
-
-  const minutes = Math.floor(countdown / 60);
-  const seconds = countdown % 60;
 
   return (
     <VerificationLayout>
@@ -79,16 +54,17 @@ function VerificationLinkSent({ handleClick }: Props) {
           link.
         </p>
 
-        <Button isLoading={isLoading} onClick={handleVerificationLink} className=" w-full rounded-md h-[60px] text-[16px] font-manropeB">
+        <Button
+          isLoading={isLoading}
+          onClick={handleVerificationLink}
+          className=" w-full rounded-md h-[60px] text-[16px] font-manropeB"
+        >
           Resend Verification Link
         </Button>
 
         <div className=" flex gap-2 flex-col sm:flex-row justify-between pt-3">
           <p className=" font-manropeL text-[10px] text-[#737876] md:text-[#000]">
-            Link expires in{' '}
-            <span className=" font-manropeB text-[#003A1B]">
-              {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-            </span>
+            Link expires in <span className=" font-manropeB text-[#003A1B]">4:23</span>
           </p>
 
           {/* Uncomment out when change email endpoint is working */}

@@ -30,7 +30,7 @@ export default function Cart() {
       setIsLoading(false);
     }
     cartFetch();
-  }, []);
+  }, [auth?.token, auth?.user.id]);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
     let id = event.currentTarget.id;
