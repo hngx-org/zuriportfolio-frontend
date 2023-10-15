@@ -1,28 +1,9 @@
-import { notify } from '@ui/Toast';
 import { Information } from 'iconsax-react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
-import { useAuth } from '../../../../context/AuthContext';
+import useUserSession from '../../../../hooks/Auth/useUserSession';
 
 const Logout = () => {
-  const router = useRouter();
-  const {handleAuth} = useAuth();
-
-  const logout = () => {
-    const token = localStorage.getItem('zpt');
-
-    if(token) {
-      localStorage.removeItem('zpt');
-      notify({
-        message: 'Logged out',
-        type: 'success',
-        theme: 'dark',
-      });
-      handleAuth(undefined)
-      router.push('/');
-    }
-  };
+  const { logout } = useUserSession();
 
   return (
     <div
