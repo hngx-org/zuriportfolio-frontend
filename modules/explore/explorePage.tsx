@@ -21,6 +21,13 @@ const HomePage = () => {
     window.scrollTo(0, 0);
   }, [pageNumber]);
 
+  const handleClearFilters = () => {
+    setFilters({});
+  };
+
+  const handleNumberReset = () => {
+    setPageNumber(1);
+  };
   const handleFilters = (type: string, value: string | number) => {
     setFilters((prev) => {
       if (type === 'none') {
@@ -72,7 +79,13 @@ const HomePage = () => {
 
   return (
     <>
-      <SearchAndFilter handleFilters={handleFilters} filters={filters} setSearchQuery={setSearchQuery} />
+      <SearchAndFilter
+        setPageNumber={handleNumberReset}
+        setFilter={handleClearFilters}
+        handleFilters={handleFilters}
+        filters={filters}
+        setSearchQuery={setSearchQuery}
+      />
       {isLoading && (
         <div className="grid place-items-center min-h-[300px]">
           <p>Loading...</p>{' '}
