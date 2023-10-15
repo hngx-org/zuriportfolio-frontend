@@ -15,6 +15,7 @@ export default function ProductCard({
   discount_price,
   id,
   currency,
+  shop,
 }: MarketPlaceProductCardProps) {
   const productNameTrimmed = name?.slice(0, 30);
 
@@ -43,8 +44,8 @@ export default function ProductCard({
     });
   }
   return (
-    <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[286px] max-w-full">
-      <Link href={`/marketplace/product-details?id=${id}`} className="h-full flex flex-col">
+    <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] h-full w-[286px] max-w-full">
+      <Link href={`/marketplace/product-details?id=${id}`} className="relative h-full flex flex-col">
         <div className="flex flex-col h-full items-start">
           {/* Product Image */}
           <div>
@@ -88,7 +89,10 @@ export default function ProductCard({
           </h1>
           {/* Product Owner */}
           <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">
-            By: <span className="underline">{user}</span>
+            By:{' '}
+            <Link href={shop?.id ? `/shop/${shop.id}` : '/shop'} className="underline">
+              {user}
+            </Link>
           </p>
           {/* Star rating */}
           <div>

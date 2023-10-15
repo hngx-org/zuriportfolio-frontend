@@ -46,8 +46,8 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
       let sortedProducts: any = [...data.data]; // Create a copy of the full dataset
 
       sortedProducts = sortedProducts.sort((a: any, b: any) => {
-        const dateA = new Date(formatDate(a.createdAt));
-        const dateB = new Date(formatDate(b.createdAt));
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
 
         if (status === 'newest') {
           return dateB.getTime() - dateA.getTime(); // Newest to oldest
@@ -126,9 +126,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                       onClick={() => route.push(`/super-admin/product-listing/product-details/${product?.product_id}`)}
                     >
                       <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
-                        <Link href="product-listing/product-details">
-                          <p>{product?.product_name} </p>
-                        </Link>
+                        <p>{product?.product_name} </p>
                       </td>
                       <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                         <p>{product?.vendor_name} </p>
@@ -165,7 +163,13 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   ))}
                 </tbody>
               </table>
-              <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+              {filteredProducts?.length > itemsPerPage && (
+                <SuperAdminPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
             </>
           ) : (
             <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

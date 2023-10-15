@@ -18,6 +18,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
+import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -25,10 +26,11 @@ export default function ProductDetailsDescription() {
   const [image, setImage] = useState(null);
   const router = useRouter();
   const { id } = router.query;
+  const token: any = isUserAuthenticated();
   const userId = auth ? auth?.user?.id : '1972d345-44fb-4c9a-a9e3-d286df2510ae';
 
   useEffect(() => {
-    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${userId}/`;
+    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/`;
     // Fetch data using Axios
     const headers = {
       accept: 'application/json',
@@ -39,18 +41,15 @@ export default function ProductDetailsDescription() {
       .then((response) => {
         setProduct(response.data);
         // setImage(product?.images[0].url)
-        // console.log(product)
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [id, userId]);
-
-  console.log(auth);
+  }, [id, userId, token?.id]);
 
   const addToCart = async () => {
     const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
-    if (auth) {
+    if (token?.id) {
       try {
         const response = await axios.post(
           apiUrl,
@@ -78,6 +77,31 @@ export default function ProductDetailsDescription() {
         console.log(products);
         toast.success('Item added to cart🎊');
       }
+    }
+  };
+
+  const addToWishlist = async () => {
+    console.log('user:', token?.id);
+    console.log('product:', product?.id);
+
+    const data = {
+      product_id: product?.id,
+      user_id: token?.id,
+    };
+
+    try {
+      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
+
+      console.log(response);
+      if (response.status === 201) {
+        toast.success(response.data.message);
+      }
+
+      if (response.status === 200) {
+        toast.success(response.data.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -193,12 +217,13 @@ export default function ProductDetailsDescription() {
               </Button>
 
               {/* Remove the "auth &&" to to view it in localhost  */}
-              {auth && (
+              {token?.id && (
                 <Button
                   className="lg:px-6 md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg text-custom-color11 tracking-[0.08px]"
                   rightIcon={<ArrowRight color="#009254" />}
                   intent={'secondary'}
                   size={'lg'}
+                  onClick={() => addToWishlist()}
                 >
                   Add to Wishlist
                 </Button>
@@ -427,3 +452,6 @@ export default function ProductDetailsDescription() {
     </CategoryLayout>
   );
 }
+
+// 656525652ad33a@beaconmessenger.com656525652ad33a@beaconmessenger.com
+// TeaBread1234
