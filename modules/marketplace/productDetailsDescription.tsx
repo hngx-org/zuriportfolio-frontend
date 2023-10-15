@@ -77,12 +77,11 @@ export default function ProductDetailsDescription() {
         productImage: product?.images[0]?.url,
         productTitle: product?.name,
         productSize: product?.quantity,
-        productSeller: `${product?.user?.first_name} ${product?.user.last_name}`,
+        productSeller: product?.user?.username,
         productPrice: product?.price,
       };
       products.push(productData);
       localStorage.setItem('products', JSON.stringify(products));
-      console.log(products);
       toast.success('Item added to cart🎊');
     }
   };
