@@ -12,6 +12,7 @@ import ProjectSection from '@modules/portfolio/component/modals/projects';
 import PortfolioAbout from '@modules/portfolio/component/about/about';
 import PortfolioReference from '@modules/portfolio/component/reference/reference';
 import Certifications from '@modules/portfolio/component/certification-modal';
+import ContactModal from '@modules/portfolio/component/contact-modal';
 
 type PortfolioContext = {
   hasPortfolio: boolean;
@@ -376,10 +377,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'about',
       modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => onCloseModal('about')} userId={userId} />,
-    },
-    {
-      id: 'certificate',
-      modal: <Certifications isOpen={modalStates['certificate']} onClose={() => onCloseModal('certificate')} />,
     },
   ];
 
