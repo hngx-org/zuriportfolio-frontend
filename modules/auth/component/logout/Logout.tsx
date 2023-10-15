@@ -3,18 +3,25 @@ import { Information } from 'iconsax-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useAuth } from '../../../../context/AuthContext';
 
 const Logout = () => {
   const router = useRouter();
+  const {handleAuth} = useAuth();
 
   const logout = () => {
-    localStorage.removeItem('zpt');
-    notify({
-      message: 'Logged out',
-      type: 'success',
-      theme: 'dark',
-    });
-    router.push('/');
+    const token = localStorage.getItem('zpt');
+
+    if(token) {
+      localStorage.removeItem('zpt');
+      notify({
+        message: 'Logged out',
+        type: 'success',
+        theme: 'dark',
+      });
+      handleAuth(undefined)
+      router.push('/');
+    }
   };
 
   return (

@@ -707,7 +707,7 @@ export interface AuthContextProps {
   auth: AuthResponse | undefined;
   email: string;
   redirect: string;
-  handleAuth: (value: AuthResponse) => void;
+  handleAuth: (value: AuthResponse | undefined) => void;
   handleEmail: (value: string) => void;
   handleRedirect: (value: string) => void;
 }
