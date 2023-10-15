@@ -2,7 +2,7 @@ import { ArrowDown } from 'iconsax-react';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import { useState } from 'react';
-import Pagination from '../../../view-components/super-admin/pagination';
+import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { useRouter } from 'next/router';
 import { useGetProd } from '../../../../http';
 import { DeletedProducts } from '../../../../@types';
@@ -13,7 +13,18 @@ const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
   const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>([]);
   const [filteredProduct, setFilteredProducts] = useState(sanctionedProducts);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Number of items to display per page
 
+  // Calculate the range of products to display
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const visibleProducts = filteredProduct?.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredProduct?.length / itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
   const handleSubmit = (searchText: string) => {
     const filteredProduct: DeletedProducts[] = sanctionedProducts.filter((product) =>
       product.product_name.toLowerCase().includes(searchText.toLowerCase()),
@@ -111,7 +122,13 @@ const SanctionedProducts = () => {
                     ))}
                   </tbody>
                 </table>
-                <Pagination />
+                {filteredProduct?.length > itemsPerPage && (
+                  <SuperAdminPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                )}
               </>
             ) : (
               <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
