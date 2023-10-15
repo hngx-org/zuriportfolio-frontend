@@ -28,7 +28,7 @@ function Index() {
 
   const [filteredData, setFilteredData] = useState(Assessmentlist);
 
-  const [assessments, setAssessments] = useState([]);
+  const [assessments, setAssessments] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -216,7 +216,7 @@ function Index() {
           </div>
 
           <ListContext.Provider value={[filteredData, setList]}>
-            <Assessmentresponses assessments={assessments} />
+            <Assessmentresponses assessments={assessments} onDelete={setAssessments} />
           </ListContext.Provider>
         </div>
       </div>
