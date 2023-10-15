@@ -70,7 +70,7 @@ const CreateAssessment = () => {
         Accept: 'application/json',
         Authorization: `Token `,
         'Content-Type': 'application/json',
-        'X-CSRFTOKEN': 'csrftoken',
+        'X-CSRFTOKEN': 'phX6OfBmuFCxT8gMaYz2K0E8KSqQ6ME1LHO5AmZU1ITnB0MfRIfOBvzX12YBnIPV',
       },
       body: JSON.stringify(newobject),
     };

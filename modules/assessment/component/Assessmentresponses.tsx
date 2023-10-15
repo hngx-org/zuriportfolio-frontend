@@ -14,7 +14,7 @@ interface Assessment {
 }
 
 function Assessmentresponses({ assessments }: { assessments: Assessment[] }) {
-  console.log(assessments);
+  console.log('assesment::::',assessments);
   //Uses and updates the list from the index page
   const [list, setList]: any = useContext(ListContext);
   //todel is a state, booleen, to be updated when the user tries to delete a project
@@ -90,7 +90,7 @@ function Assessmentresponses({ assessments }: { assessments: Assessment[] }) {
             <div className="flex gap-2 md:gap-8">
               <div className="flex flex-col items-center cursor-pointer">
                 <Image src={editmessage} height="24" width="24" alt="edit message" />
-                <Link href="/assessment/preview-edit/" className="text-xs md:text-base pt-[6px]">
+                <Link href={`/assessment/preview-edit/${child?.id}` }className="text-xs md:text-base pt-[6px]">
                   Edit
                 </Link>
               </div>

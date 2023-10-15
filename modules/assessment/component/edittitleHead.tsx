@@ -1,7 +1,26 @@
 import React, { useState } from 'react';
 import { Edit } from 'iconsax-react';
-const Edithead = () => {
+
+
+type EditheadProps = {
+  assessment: {
+    title: string;
+    createdAt: Date;
+    duration_minutes: number;
+    questions: [];
+    updatedAt: Date;
+  };
+  setTitle: (data: any) => void;
+};
+
+
+const Edithead: React.FC<EditheadProps> = ({ assessment, setTitle }) => {
+  console.log(assessment)
   const [disable, setDisable] = useState(true);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+}
 
   return (
     <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
@@ -12,8 +31,9 @@ const Edithead = () => {
             type="text"
             id="input_assessment"
             className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
-            placeholder="Untitled Assessment"
+            placeholder={assessment.title}
             disabled={disable}
+            onChange={handleChange}
           />
         </div>
         <div>

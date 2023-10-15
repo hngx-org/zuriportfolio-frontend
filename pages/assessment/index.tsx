@@ -43,6 +43,7 @@ function Index() {
         }
 
         const data = await response.json();
+        console.log('asessmentdata::',data)
         setAssessments(data);
         console.log(data);
       } catch (error) {
