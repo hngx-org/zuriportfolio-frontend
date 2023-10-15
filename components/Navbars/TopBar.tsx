@@ -31,7 +31,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
 
-  const [dropDown, setDropDown] = useState<string>('');
+  const [dropDown, setDropDown] = useState<string>('Explore');
 
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
@@ -102,7 +102,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && dropDown === 'Marketplace') {
       try {
         const results = await searchPosts(searchQuery);
         setSearchResults(results);
@@ -117,7 +117,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   function handleDropdown(option: string) {
     setDropDown(option);
-    console.log('Select');
   }
 
   return (
@@ -301,6 +300,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p>Customer Dashboard</p>
                 </Link>
                 <Link
+                  href="/user/customer-purchase-dashboard"
+                  className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
+                >
+                  <Image draggable={false} src={dashBoard} alt="Setting" />
+                  <p>Customer Purchase Dashboard</p>
+                </Link>
+                <Link
                   href="/portfolio"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
@@ -308,7 +314,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p>Manage Portfolio</p>
                 </Link>
                 <Link
-                  href="/assessments"
+                  href="/assessments/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={likesIcon} alt="Like" />
@@ -601,10 +607,12 @@ function MenuUI({
               {router.pathname === '/portfolio' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
-              <Link className={activeLink('/assessments')} href={'/assessments'}>
+              <Link className={activeLink('/assessments/dashboard')} href={'/assessments/dashboard'}>
                 Assessments & Badges
               </Link>
-              {router.pathname === '/assessments' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+              {router.pathname === '/assessments/dashboard' ? (
+                <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
+              ) : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
               <Link className={activeLink('/settings')} href={'/settings'}>
