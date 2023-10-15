@@ -3,7 +3,7 @@ import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import ScoringScreen from '@modules/assessment/scoringScreen';
-import backarrow from '../../../modules/assessment/component/backarrow.svg';
+import backarrow from '../../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
