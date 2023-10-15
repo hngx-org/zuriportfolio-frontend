@@ -69,8 +69,9 @@ function VendorDetails(): React.ReactElement {
             {data?.data?.length > 0
               ? records.map((item: any) => (
                   <div
-                    className="product m-3 rounded-md p-1.5 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL"
+                    className="product m-3 rounded-md p-1.5 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL hover:shadow-lg cursor-pointer transition hover:scale-105"
                     key={item?.id}
+                    onClick={() => router.push(`/super-admin/product-listing/product-details/${item?.product_id}`)}
                   >
                     <div className="mx-auto">
                       <Image
