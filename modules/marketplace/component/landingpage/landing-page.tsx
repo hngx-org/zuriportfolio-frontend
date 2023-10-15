@@ -6,11 +6,13 @@ import ExperienceCard from './experience-cards/experience-card';
 import AllCategorySlider from '../AllCategorySlider';
 import CategoriesNav from '../CategoriesNav/CategoriesNav';
 import RecentlyViewed from './recentlyViewed/recentlyViewed';
+import useCategory from '../filter/hooks/useCategory';
 
 function LandingPage() {
   const [recommendedProduct, setRecommendedProduct] = useState({ isLoading: true, items: [] });
   const [limitedOffers, setLimitedOffers] = useState({ isLoading: true, items: [] });
   const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
+  const { categories, loading } = useCategory();
 
   useEffect(() => {
     try {
@@ -20,7 +22,7 @@ function LandingPage() {
     } catch (error) {
       setRecommendedProduct({ isLoading: false, items: [] });
     }
-
+//Limited Offer was routed to description page
     try {
       fetch(`${baseUrl}products/limited_offers/`)
         .then((res) => res.json())
@@ -34,37 +36,20 @@ function LandingPage() {
 
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <CategoriesNav
-        navItems={[
-          ' Design & Graphics',
-          ' Development & Programming',
-          ' Content Creation',
-          ' Digital Arts & Media',
-          ' Audio & Sound',
-          ' Photography',
-          'Writing & Copywriting',
-          'Video & motion',
-          'Data & Analytics',
-          'Marketing & Advertising',
-          'eCommerce & Business',
-          'Gaming & Entertainment',
-          'Virtual Reality & Augmented Reality',
-          'e-Books',
-        ]}
-      />
+      <CategoriesNav navItems={categories} isLoading={loading} />
 
       <div className="py-6 px-4 overflow-hidden w-full">
         <div className="max-w-[1240px] mx-auto">
           <ProductCardWrapper
             title="Handpicked For You"
-            productsList={recommendedProduct.items}
+            productsList={recommendedProduct}
             showTopPicks={true}
             showAll={false}
           />
 
           <ProductCardWrapper
             title="Limited Offers"
-            productsList={limitedOffers.items}
+            productsList={limitedOffers}
             showTopPicks={false}
             showAll={false}
           />

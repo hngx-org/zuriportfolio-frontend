@@ -12,17 +12,14 @@ interface Props {
   products: ProductList[];
 }
 
-export default function Index({products}:Props) {
-
+export default function Index({ products }: Props) {
   return (
     <Fragment>
       {Array.isArray(products) && products?.length === 0 ? (
         <Error />
       ) : (
         <CategoryLayout>
-          <div className="max-w-[1240px] mx-auto">
-           
-          </div>
+          <div className="max-w-[1240px] mx-auto"></div>
           <div className="px-4 max-w-[1240px] mx-auto">
             <h1 className="text-custom-color31 font-manropeL mt-5 lg:pt-5 md:mb-1 font-bold md:text-2xl leading-normal flex items-center justify-between">
               Search Result for Products
@@ -40,10 +37,10 @@ export default function Index({products}:Props) {
                     <ProductCard
                       id={item.id}
                       currency={`USD`}
-                      image={item.images[0].url ||`/assets/products-banner/Image-11.png`}
+                      image={item.images[0].url || `/assets/products-banner/Image-11.png`}
                       name={item?.name}
                       price={parseInt(item.price) || 99}
-                      user={ item?.shop.name ? item?.shop.name : ``}
+                      user={item?.shop.name ? item?.shop.name : ``}
                       rating={item.rating || 3}
                       showLimitedOffer={false}
                       showTopPicks={false}
@@ -61,14 +58,7 @@ export default function Index({products}:Props) {
   );
 }
 
-
-function constructApiUrl({
-  category = '',
-  subCategory = '',
-  discount = '',
-  price = '',
-  rating = ''
-}) {
+function constructApiUrl({ category = '', subCategory = '', discount = '', price = '', rating = '' }) {
   // Initialize the base URL
   let apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/products-filter?';
 
@@ -97,7 +87,6 @@ function constructApiUrl({
   return apiUrl;
 }
 
-
 export const getServerSideProps = (async (context) => {
   const category = context.query.category as string;
   const subCategory = context.query.subCategory as string;
@@ -105,15 +94,17 @@ export const getServerSideProps = (async (context) => {
   const discount = context.query.discount as string;
   const rating = context.query.rating as string;
 
-  console.log(category, subCategory, price)
-  let apiUrl = constructApiUrl({category, subCategory});
-  console.log(apiUrl + `/products-filter`)
-  const {data, status} = await axios.get<{products: ProductList[]}>(apiUrl)
-  if(status === 400 || status === 500) {console.log("something went wrong")}
+  console.log(category, subCategory, price);
+  let apiUrl = constructApiUrl({ category, subCategory });
+  console.log(apiUrl + `/products-filter`);
+  const { data, status } = await axios.get<{ products: ProductList[] }>(apiUrl);
+  if (status === 400 || status === 500) {
+    console.log('something went wrong');
+  }
 
-  console.log(data.products);  
+  console.log(data.products);
   const res = data.products ? data.products : [];
-  return { props: { products: res} }
+  return { props: { products: res } };
 }) satisfies GetServerSideProps<{
-  products: ProductList[]
-}>
+  products: ProductList[];
+}>;

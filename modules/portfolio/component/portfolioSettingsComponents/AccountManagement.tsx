@@ -27,8 +27,10 @@ function AccountManagement() {
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
     // console.log(formValidate)
   };
-  const notifySuccess = (toastContent: string) => toast.success(toastContent, { closeOnClick: true, autoClose: 3000 });
-  const notifyError = (toastContent: string) => toast.error(toastContent, { closeOnClick: true, autoClose: 3000 });
+  const notifySuccess = (toastContent: string) =>
+    toast.success(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'success' });
+  const notifyError = (toastContent: string) =>
+    toast.error(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'error' });
   let errors: any = {};
 
   const handleUpdateAccount = (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,7 +51,7 @@ function AccountManagement() {
         .catch((error) => {
           console.log(error);
           setIspending(false);
-          notifyError(`Error: ${error?.response.data.message}`);
+          notifyError(`Error: ${error?.response.data.message || error?.message}`);
         });
     }
   };
