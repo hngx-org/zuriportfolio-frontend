@@ -24,7 +24,7 @@ export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
 function VendorDetails() {
   const router = useRouter();
-  const { name, email, amount, quantity, date, statusText } = router.query;
+  const { amount, quantity, statusText } = router.query;
 
   const id = router.query?.id as string;
 
@@ -154,8 +154,6 @@ function VendorDetails() {
   function allProducts() {
     router.push(`/super-admin/vendor-management/vendor-details/${id}/all`);
   }
-
-  console.log(data?.data);
 
   return (
     <>
