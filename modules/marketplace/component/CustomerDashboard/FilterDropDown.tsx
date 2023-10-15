@@ -11,7 +11,7 @@ type FilterList = {
 
 const filterByList: FilterList[] = [
   {
-    name: 'item',
+    name: 'month',
     id: 1,
   },
   {

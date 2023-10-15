@@ -18,6 +18,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
 import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
+import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
+import { destructureProducts } from '../../helpers';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -40,6 +42,7 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
+        console.log(response.data);
         setProduct(response.data);
       })
       .catch((error) => {

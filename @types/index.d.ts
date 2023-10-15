@@ -659,17 +659,24 @@ export type inputErrorMessage = {
 };
 // product listing types
 export interface ProductInfo {
-  productName: string;
-  vendor: string;
-  id: number;
-  dateAdded: string;
+  product_name: string;
+  vendor_name: string;
+  product_id: number;
+  date_added: string;
   status: string;
 }
+
+interface ProductStatistics {
+  total_deleted_products: number;
+  total_products: number;
+  total_sanctioned_products: number;
+}
+
 export interface DeletedProducts {
-  admin_status: string;
-  category_id: number;
-  createdAt: string;
-  product_id: string;
+  // admin_status: string;
+  // category_id: number;
+  // createdAt: string;
+  // product_id : string;
   product_name: string;
   product_status: string;
   updatedAt: string;
