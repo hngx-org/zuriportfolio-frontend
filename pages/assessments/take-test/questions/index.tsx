@@ -26,7 +26,7 @@ const Questions: React.FC = () => {
     if (assessmentData) {
       setStoredAssessment(storedAssessmentData);
     }
-  }, [data]);
+  }, []);
 
   return (
     <>
