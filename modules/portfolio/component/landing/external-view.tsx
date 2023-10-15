@@ -59,6 +59,15 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
                 </React.Fragment>
               )}
 
+              {section?.id === 'language' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <ExternalWrapper id={section.id} title={section.title}>
+                    <Language key={i} data={section.data[0]} />
+                  </ExternalWrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
               {section?.id === 'about' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <ExternalWrapper id={section.id} title={section.title}>
@@ -80,6 +89,15 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
                 <React.Fragment key={i}>
                   <ExternalWrapper id={section.id} title={section.title}>
                     <Project key={i} data={section.data} />
+                  </ExternalWrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {section?.id === 'contact' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <ExternalWrapper id={section.id} title={section.title}>
+                    <Contact key={i} data={section.data} />
                   </ExternalWrapper>
                   <Line />
                 </React.Fragment>
