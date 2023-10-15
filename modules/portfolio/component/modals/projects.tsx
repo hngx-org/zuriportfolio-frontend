@@ -23,7 +23,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
   const [tagInput, setTagInput] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [media, setMedia] = useState<any>([]);
+  const [media, setMedia] = useState<any[]>([]);
   const years = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
 
   const handleDataClear = () => {
@@ -88,16 +88,22 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
     const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
     const formData = new FormData();
     const data = {
-      userId: userID,
+      sectionid: 5,
+      userid: userID,
       title,
       year,
       url: link,
       thumbnail: 0,
       tags: selectedTags.join(', '),
       description,
+      media,
     };
+    console.log(data);
+
+    media.map((item) => {
+      formData.append('images', item);
+    });
     formData.append('jsondata', JSON.stringify(data));
-    formData.append('images', media);
     axios
       .post(`${endpoint}/api/projects`, formData)
       .then((res) => {
