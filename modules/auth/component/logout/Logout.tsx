@@ -14,7 +14,7 @@ const Logout = () => {
       type: 'success',
       theme: 'dark',
     });
-    router.push('/auth/login');
+    router.push('/');
   };
 
   return (
