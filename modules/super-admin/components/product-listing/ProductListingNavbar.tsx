@@ -33,7 +33,7 @@ const ProductsListingNavbar = ({ data, isLoading }: { data: any; isLoading: bool
         <div className="flex items-center justify-between">
           {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold ">{data?.total_deleted_products}</h2>}
           <button className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl">
-            <Link href="/super-admin/product-listing/deleted-products"> View</Link>
+            <Link href="/super-admin/product-listing/deleted-products">View</Link>
           </button>
         </div>
       </div>
