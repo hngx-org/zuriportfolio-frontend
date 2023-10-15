@@ -31,7 +31,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
 
-  const [dropDown, setDropDown] = useState<string>('');
+  const [dropDown, setDropDown] = useState<string>('Explore');
 
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
@@ -102,7 +102,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && dropDown === 'Marketplace') {
       try {
         const results = await searchPosts(searchQuery);
         setSearchResults(results);
@@ -117,7 +117,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   function handleDropdown(option: string) {
     setDropDown(option);
-    console.log('Select');
   }
 
   return (
@@ -600,6 +599,14 @@ function MenuUI({
                 Customer Dashboard
               </Link>
               {router.pathname === '/dashboard' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/dashboard')} href={'/user/customer-purchase-dashboard'}>
+                Customer Purchase Dashboard
+              </Link>
+              {router.pathname === '/user/customer-purchase-dashboard' ? (
+                <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
+              ) : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
               <Link className={activeLink('/portfolio')} href={'/portfolio'}>
