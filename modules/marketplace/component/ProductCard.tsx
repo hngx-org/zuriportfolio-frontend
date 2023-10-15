@@ -37,9 +37,9 @@ export default function ProductCard({
   const starRating = rating in stars;
 
   return (
-    <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[286px] max-w-full">
-      <Link href={`/marketplace/product-details?id=${id}`}>
-        <div className="flex flex-col items-start">
+    <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] h-full w-[286px] max-w-full">
+      <Link href={`/marketplace/product-details?id=${id}`} className="h-full flex flex-col">
+        <div className="flex flex-col h-full items-start">
           {/* Product Image */}
           <div>
             <div>
@@ -59,7 +59,9 @@ export default function ProductCard({
             </div>
 
             {image ? (
-              <Image src={image} alt={name} width={254} height={209} className="rounded-[8px]" />
+              <div className="h-[120px] md:h-[209px] overflow-hidden">
+                <Image src={image} alt={name} width={254} height={209} className="rounded-[8px] object-cover" />
+              </div>
             ) : (
               <Image
                 src="/assets/dummyImage.jpg"
@@ -71,7 +73,7 @@ export default function ProductCard({
             )}
           </div>
           {/* Product Name */}
-          <p className="font-manropeL text-brand-green-shade10 text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
+          <p className="font-manropeL mt-auto text-brand-green-shade10 w-full text-ellipsis whitespace-nowrap overflow-hidden text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
             {name?.length > 30 ? <span>{productNameTrimmed}...</span> : name}
           </p>
           {/* Product Price */}

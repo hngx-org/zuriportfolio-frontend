@@ -22,8 +22,8 @@ function Breadcrumbs() {
   ));
 
   return (
-    <div className="font-manropeB text-brand-green-shade50 capitalize">
-      <div>
+    <div className="font-manropeB py-[5px] md:py[3px] text-brand-green-shade50 capitalize">
+      <div className="flex flex-wrap">
         <Link href="/">Home</Link>
         {breadcrumbs}
       </div>

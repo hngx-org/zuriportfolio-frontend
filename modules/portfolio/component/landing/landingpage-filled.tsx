@@ -1,5 +1,5 @@
 'use-client';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
@@ -35,10 +35,33 @@ import {
 import { SectionDeleteModal } from '../warningModals';
 
 const LandingPageFilled: React.FC = () => {
-  const { selectedSections, buildPortfolio, setOpenDelete, editSection, modals, modalStates, userSections } =
-    useContext(Portfolio);
+  const {
+    selectedSections,
+    buildPortfolio,
+    setOpenDelete,
+    editSection,
+    setHasData,
+    modals,
+    modalStates,
+    userSections,
+    userData,
+  } = useContext(Portfolio);
 
   const deleteSection = () => setOpenDelete(true);
+
+  useEffect(() => {
+    userSections?.map((section) => {
+      if (section?.data?.length !== 0) {
+        setHasData(true);
+      } else {
+        setHasData(false);
+      }
+    });
+    if (userData) {
+      const hasUserData = userData.firstName && userData.lastName && userData.tracks;
+      setHasData(hasUserData);
+    }
+  }, [setHasData, userSections, userData]);
 
   return (
     <>
@@ -130,6 +153,21 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
+
+              {section?.id === 'projects' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <Project key={i} data={section.data} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
             </React.Fragment>
           );
         })}
@@ -162,7 +200,7 @@ const LandingPageFilled: React.FC = () => {
                     educations.map((el: any, i: any) => {
                       return <Education key={i} data={el} />;
                     })}
-                  {section.id === 'project' &&
+                  {section.id === 'projects' &&
                     projects.map((el, i) => {
                       return <Project key={i} data={el} />;
                     })}

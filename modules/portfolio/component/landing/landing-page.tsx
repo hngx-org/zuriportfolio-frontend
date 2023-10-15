@@ -1,7 +1,6 @@
 'use-client';
 import Image from 'next/image';
 import React, { useContext, useEffect } from 'react';
-import Modal from '@ui/Modal';
 import LandinEmptyState from './landingpage-empty';
 import LandingPageFilled from './landingpage-filled';
 import Cover from './cover-avatar';
@@ -41,21 +40,17 @@ const Landing = () => {
   }, [setHasData, userSections]);
 
   const headerMargin =
-    'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen';
+    'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen object-cover';
 
   const cover = coverImage ? (
-    <Image src={coverImage} unoptimized width={0} height={0} alt="" className={`${headerMargin}`} />
+    <Image src={coverImage} priority unoptimized width={0} height={0} alt="" className={`${headerMargin}`} />
   ) : (
     <CoverDiv className={`bg-[#F0F1F0] opacity-80 ${headerMargin}`} />
   );
   return (
     <>
       <div onClick={modal}>
-        {showProfileUpdate && (
-          <Modal isOpen={isOpen} closeModal={modal}>
-            <EditProfile />
-          </Modal>
-        )}
+        {showProfileUpdate && <EditProfile />}
         {showBuildPortfolio && <Home />}
         {showViewtemplates && <ViewTemplate />}
       </div>
@@ -75,12 +70,12 @@ const Landing = () => {
                 </h1>
                 {tracks && tracks.length > 0 && (
                   <div className="flex items-center space-x-2">
-                    {tracks.map((track: any, index: number) => (
+                    {/* {tracks.map((track: any, index: number) => (
                       <p key={index} className="text-gray-500 font-semibold text-[14px] md:text-[14px]">
                         {track.track}
                         {index !== tracks.length - 1 && ','}
                       </p>
-                    ))}
+                    ))} */}
                   </div>
                 )}
                 <p className="text-gray-500 font-semibold text-[14px] md:text-[14px]">

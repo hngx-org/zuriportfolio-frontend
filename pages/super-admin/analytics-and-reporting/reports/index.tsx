@@ -16,6 +16,8 @@ const AnalyticsAndReport: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(true);
   const [reportModalOpen, setReportModalOpen] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [getReport, setGetReport] = useState<Boolean>(false);
+  const [reportClicked, setReportClicked] = useState<Boolean>(false);
   const [selectedDateRange, setSelectedDateRange] = useState<DateObject[]>([]);
   const [storeExport, setStoreExport] = useState<any[]>([]);
 
@@ -30,6 +32,7 @@ const AnalyticsAndReport: React.FC = () => {
     if (selectedDateRange.length === 2) {
       const startDate = selectedDateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
       const endDate = selectedDateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
+      setGetReport(true);
 
       const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`;
 
@@ -40,8 +43,11 @@ const AnalyticsAndReport: React.FC = () => {
           setStoreExport(response.data.data);
         })
         .catch((error) => {
+          setGetReport(false);
           console.error('Error fetching top-selling products:', error);
         });
+      setGetReport(false);
+      setReportClicked(!reportClicked);
     }
   };
 
@@ -94,7 +100,11 @@ const AnalyticsAndReport: React.FC = () => {
                   className="w-[9.6875rem] p-[0.75rem] flex justify-center items-center rounded-[0.5rem] bg-[#009254] tracking-[0.005rem] text-[1rem] leading-[1.5rem] font-manropeL text-[#FFF] cursor-pointer font-normal max-[850px]:w-[8.375rem] max-[500px]:py-[0.5rem] max-[375px]:text-[0.875rem]"
                   onClick={fetchAnalyticsData}
                 >
-                  Get Report
+                  {getReport ? (
+                    <div className="w-6 h-6 border-t-2 border-[#fff] border-solid rounded-full animate-spin"></div>
+                  ) : (
+                    'Get Report'
+                  )}
                 </div>
                 <div
                   onClick={() => openModal()}
@@ -155,11 +165,11 @@ const AnalyticsAndReport: React.FC = () => {
               </Modal>
             </section>
           )}
-          <AnalysisCards />
-          <BusinessOveriview />
-          <PortfolioCreation />
-          <PerformanceData />
-          <TopSellingProducts />
+          <AnalysisCards dateRange={selectedDateRange} reportClicked={reportClicked} />
+          {/* <BusinessOveriview dateRange={selectedDateRange} reportClicked={reportClicked} /> */}
+          <PortfolioCreation dateRange={selectedDateRange} reportClicked={reportClicked} />
+          <PerformanceData dateRange={selectedDateRange} reportClicked={reportClicked} />
+          <TopSellingProducts reportClicked={reportClicked} dateRange={selectedDateRange} />
         </>
       )}
     </>

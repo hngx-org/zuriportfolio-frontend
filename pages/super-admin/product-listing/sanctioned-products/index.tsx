@@ -6,15 +6,15 @@ import { useEffect, useState } from 'react';
 import { sanctionedProducts } from '../../../../helpers/sanctionedProducts';
 import Pagination from '../../../view-components/super-admin/pagination';
 import { useRouter } from 'next/router';
-import { getAllProducts, useGetProd } from '../../../../http';
+import { useGetProd } from '../../../../http';
 import { DeletedProducts } from '../../../../@types';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
-  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>([]);
   const { data, isLoading } = useGetProd();
+  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>(data);
 
   const sanctionedProd = data?.data?.filter((item: any) => item?.product_status === 'Sanctioned');
 
@@ -22,11 +22,14 @@ const SanctionedProducts = () => {
 
   useEffect(() => {
     setFilteredProducts(sanctionedProd);
-  }, [sanctionedProd]);
+  }, [sanctionedProducts]);
+  useEffect(() => {}, [filteredProducts]);
 
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
-      (product: any) => product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()),
+      (product: any) =>
+        product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
+        product?.product_status?.toLowerCase()?.includes('sanctioned'),
     );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
@@ -38,7 +41,7 @@ const SanctionedProducts = () => {
     <>
       <SuperAdminNavbar />
 
-      <div className="m-6 font-manropeL max-w-7xl mx-auto border-2 border-custom-color1">
+      <div className=" container  font-manropeL max-w-7xl mx-auto border-2 border-custom-color1">
         <div className="py-3 px-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
             <h2 className="text-lg font-medium text-custom-color10">Sanctioned Products</h2>

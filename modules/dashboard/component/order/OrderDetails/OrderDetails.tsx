@@ -42,53 +42,53 @@ const filters: {
   },
 ];
 const OrderDetails = () => {
-  const [pageOrders, setPageOrders] = useState<OrderHistory[]>([]);
-  const { orders, changeSortBy, toggleSortOrder, sortBy, changeSearchQuery, searchQuery, orderFilter } =
-    useOrders(pageOrders);
-  const [showFilters, setShowFilters] = useState(false);
-  const [loadingOrders, setLoadingOrders] = useState(true);
+  const {
+    orders: pageOrders,
+    orderFilter,
+    changeFilter,
+    changeSortBy,
+    sortBy,
+    changeSearchQuery,
+    fetchOrders,
+    getSearchResult,
+    insertOrders,
+    searchQuery,
+    filterFunc,
+    sortOrders,
+    loading: loadingOrders,
+    searching,
+  } = useOrders();
+
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [showFilters, setShowFilters] = useState(false);
+
   const { push } = useRouter();
   const closeFilter = () => {
     setShowFilters(false);
   };
+
+  const changeInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeSearchQuery(e.target.value.trim());
+    let order;
+    if (e.target.value.trim()) {
+      order = await getSearchResult(e.target.value.trim());
+    } else {
+      order = await fetchOrders();
+    }
+    const sortedOrders = sortOrders(order);
+    console.log(sortedOrders);
+    insertOrders(sortedOrders);
+  };
   useEffect(() => {}, [currentPage]);
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const fetchOrders = async () => {
-      try {
-        setLoadingOrders(true);
-
-        const data = await axios({
-          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/Orders`,
-          method: 'GET',
-        });
-        if (data.data?.errorStatus === true) {
-          setPageOrders([]);
-          push('/dashboard/orders');
-          return;
-        }
-
-        if (!data.data.data || data.data.data?.length === 0) {
-          push('/dashboard/orders');
-          return;
-        }
-        const transformedOrder = data?.data.map((order: any) => ({
-          productName: order.product.name,
-          id: order.id,
-          status: order.merchant.customer_orders[0]?.status,
-          customerName: order.customer.username,
-          date: new Date(order.createdAt),
-        }));
-        setPageOrders(transformedOrder);
-        setLoadingOrders(false);
-      } catch (error) {
-        push(`/dashboard/orders`);
-        setPageOrders([]);
-      }
+    const changeStatus = async () => {
+      changeSearchQuery('');
+      const order = await fetchOrders();
+      const sortedOrders = sortOrders(order);
+      insertOrders(sortedOrders);
     };
-    fetchOrders();
+    changeStatus();
   }, []);
   return (
     <main className="max-w-[1240px] mx-auto md:px-10 px-6 relative min-h-[400px]">
@@ -128,7 +128,7 @@ const OrderDetails = () => {
                     className=" bg-transparent focus-within:outline-none flex-1  text-[1rem] leading-[150%] min-w-0"
                     placeholder="Search"
                     value={searchQuery}
-                    onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
+                    onChange={changeInput}
                   />
                 </div>
                 <div className="relative">
@@ -204,7 +204,7 @@ const OrderDetails = () => {
                   className=" bg-transparent focus-within:outline-none flex-1 text-[1rem] leading-[150%]"
                   placeholder="Search"
                   value={searchQuery}
-                  onChange={(e) => changeSearchQuery(e.target.value, orderFilter)}
+                  onChange={changeInput}
                 />
               </div>
               <div className="flex items-center gap-6">
@@ -270,26 +270,39 @@ const OrderDetails = () => {
                 </button>
               </div>
             </div>
-            {orders.length === 0 ? (
-              <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                No Order to Show
-              </p>
-            ) : (
-              <OrderDetailsTable
-                pageItem={orders}
-                changeSort={changeSortBy}
-                toggleSort={toggleSortOrder}
-                currentSort={sortBy}
-              />
-            )}
+            <div className="relative">
+              {!searching ? (
+                <>
+                  {pageOrders.length === 0 ? (
+                    <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                      No Order to Show
+                    </p>
+                  ) : (
+                    <OrderDetailsTable pageItem={pageOrders} changeSort={changeSortBy} currentSort={sortBy} />
+                  )}
+                </>
+              ) : (
+                <div className="absolute z-50 inset-0 min-h-[300px]">
+                  <Loader />
+                </div>
+              )}
+            </div>
           </section>
-          <div className="md:hidden flex flex-col gap-4 mb-4">
-            {orders.length > 0 ? (
-              orders.map((item) => <OrderDetailsMobile key={item.id} {...item} />)
+          <div className="md:hidden flex flex-col gap-4 mb-4 relative">
+            {!searching ? (
+              <>
+                {pageOrders.length > 0 ? (
+                  pageOrders.map((item) => <OrderDetailsMobile key={item.id} {...item} />)
+                ) : (
+                  <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                    No Order to Show
+                  </p>
+                )}
+              </>
             ) : (
-              <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                No Order to Show
-              </p>
+              <div className="absolute z-50 inset-0 min-h-[300px] bg-white-100">
+                <Loader />
+              </div>
             )}
           </div>
           <div className="flex justify-center my-6">
