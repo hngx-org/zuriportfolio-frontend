@@ -1,7 +1,7 @@
 import { ArrowDown } from 'iconsax-react';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { useRouter } from 'next/router';
 import { useGetProd } from '../../../../http';
@@ -11,20 +11,39 @@ import { formatDate } from '@modules/super-admin/components/product-listing/prod
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
-  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>([]);
-  const [filteredProduct, setFilteredProducts] = useState(sanctionedProducts);
+  const { data, isLoading } = useGetProd();
+  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>(data);
+
+  const deletedProd = data?.data?.filter((item: any) => item?.product_status === 'Deleted');
+
+  const [filteredProducts, setFilteredProducts] = useState(deletedProd);
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items to display per page
 
   // Calculate the range of products to display
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const visibleProducts = filteredProduct?.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredProduct?.length / itemsPerPage);
+  const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+
+  useEffect(() => {
+    setFilteredProducts(deletedProd);
+  }, [sanctionedProducts]);
+  useEffect(() => {}, [filteredProducts]);
+
+  const handleSearch = (searchText: string) => {
+    const filteredProduct: any = data?.data?.filter(
+      (product: any) =>
+        product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
+        product?.product_status?.toLowerCase()?.includes('deleted'),
+    );
+  };
+
   const handleSubmit = (searchText: string) => {
     const filteredProduct: DeletedProducts[] = sanctionedProducts.filter((product) =>
       product.product_name.toLowerCase().includes(searchText.toLowerCase()),
@@ -34,10 +53,6 @@ const SanctionedProducts = () => {
   };
 
   const route = useRouter();
-
-  const { data, isLoading } = useGetProd();
-
-  const sanctionedProd = data?.data?.filter((item: any) => item?.product_status === 'Deleted');
 
   return (
     <>
@@ -49,14 +64,14 @@ const SanctionedProducts = () => {
             <p className="text-custom-color2 text-sm">List of all deleted products and their details</p>
           </div>
           <div>
-            <SearchProduct handleSearchChange={handleSubmit} />
+            <SearchProduct handleSearchChange={handleSearch} />
           </div>
         </div>
         {isLoading ? (
           <LoadingTable />
         ) : (
           <div className="mb-4">
-            {sanctionedProd?.length > 0 ? (
+            {visibleProducts?.length > 0 ? (
               <>
                 <table className="w-full ">
                   <thead>
@@ -65,7 +80,7 @@ const SanctionedProducts = () => {
                         <p className="">Product Name</p>
                         <ArrowDown size="16" className="" />
                       </th>
-                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item) => (
+                      {['Vendor', 'ID', 'Date Added', 'Date Deleted', 'Status'].map((item) => (
                         <th className="text-gray-500 text-sm font-normal leading-[18px] px-3 py-6 gap-3" key={item}>
                           {item}
                         </th>
@@ -73,7 +88,7 @@ const SanctionedProducts = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {sanctionedProd?.map((product: any) => (
+                    {visibleProducts?.map((product: any) => (
                       <tr
                         className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                         key={product?.product_id}
@@ -122,7 +137,7 @@ const SanctionedProducts = () => {
                     ))}
                   </tbody>
                 </table>
-                {filteredProduct?.length > itemsPerPage && (
+                {filteredProducts?.length > itemsPerPage && (
                   <SuperAdminPagination
                     currentPage={currentPage}
                     totalPages={totalPages}

@@ -10,6 +10,8 @@ import FilterProduct from '@modules/super-admin/components/vendormanagement/Filt
 import Button from '@ui/Button';
 import { useGetAllVendor } from '../../../http';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
+import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
+import { DeletedProducts } from '../../../@types';
 import { log } from 'console';
 const Index = () => {
   const { data, isLoading } = useGetAllVendor();
@@ -32,22 +34,44 @@ const Index = () => {
   useEffect(() => {
     setFilteredProducts(data?.data);
   }, [data]);
+  useEffect(() => {
+    handleSearch(searchVal);
+  }, [searchVal]);
   const bannedVendors = filteredProducts?.filter((vendor: any) => vendor.vendor_status === 'Banned');
   const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
   const handleSearch = (searchText: string) => {
-    const filteredProduct: Array<{
-      vendorImgSrc: string;
-      name: string;
-      email: string;
-      amount: string;
-      quantity: number;
-      date: string;
-      statusIndicatorSrc: string;
-      statusText: string;
-    }> = data?.data?.filter((product: any) => product?.name?.toLowerCase().includes(searchText.toLowerCase()));
+    const filteredProduct: any = data?.data?.filter(
+      (product: any) => product?.merchant_name?.toLowerCase().includes(searchText.toLowerCase()),
+    );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
+  // const handleFilter = (status: string) => {
+  //   let filteredProduct = data?.data;
+  //   if (status === 'oldest') {
+  //     filteredProduct = filteredProduct.sort(
+  //       (a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  //     );
+  //   } else if (status === 'highest') {
+  //     filteredProduct = filteredProduct.sort((a: any, b: any) => b.total_products - a.total_products);
+  //   } else if (status === 'lowest') {
+  //     filteredProduct = filteredProduct.sort((a: any, b: any) => a.total_products - b.total_products);
+  //   } else if (status === 'newest') {
+  //     filteredProduct = filteredProduct.sort((a: any, b: any) => {
+  //       return new Date(formatDate(b.createdAt)).getTime() - new Date(formatDate(a.createdAt)).getTime();
+  //     });
+  //   } else{
+  //     filteredProduct = filteredProduct.sort((a: any, b: any) => {
+  //       const statusOrder: { [key: string]: number } = {
+  //         Active: 1,
+  //         Banned: 2,
+  //         Deleted: 3,
+  //       };
+  //       return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
+  //     });
+  //   }
+  //   setFilteredProducts(filteredProduct);
+  // };
 
   const totalPages = showDeleted
     ? Math.ceil(deletedVendors.length / itemsPerPage)
@@ -56,33 +80,36 @@ const Index = () => {
     : Math.ceil(data?.data?.length / itemsPerPage);
 
   const handleFilter = (status: string) => {
-    let filteredProducts = data?.data;
-    if (status === 'oldest') {
-      filteredProducts = filteredProducts.sort(
-        (a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-      );
-    } else if (status === 'highest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => b.quantity - a.quantity);
-    } else if (status === 'lowest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => a.quantity - b.quantity);
-    } else if (status === 'newest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+    if (data?.data) {
+      let sortedProducts: any = [...data.data]; // Create a copy of the full dataset
+
+      sortedProducts = sortedProducts.sort((a: any, b: any) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+
+        if (status === 'newest') {
+          return dateB.getTime() - dateA.getTime(); // Newest to oldest
+        } else if (status === 'oldest') {
+          return dateA.getTime() - dateB.getTime(); // Oldest to newest
+        } else if (status === 'lowest') {
+          return a.total_products - b.total_products;
+        } else if (status === 'highest') {
+          return b.total_products - a.total_products;
+        } else {
+          const statusOrder: { [key: string]: number } = {
+            Active: 1,
+            Banned: 2,
+            Deleted: 3,
+          };
+          return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
+        }
       });
-    } else if (status === 'status') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => {
-        const statusOrder: { [key: string]: number } = {
-          Active: 1,
-          Banned: 2,
-          Deleted: 3,
-        };
-        return statusOrder[a.statusText] - statusOrder[b.statusText];
-      });
+
+      setFilteredProducts(sortedProducts);
     }
-    setFilteredProducts(filteredProducts);
   };
   return (
-    <main className="">
+    <div className="">
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto">
@@ -102,9 +129,14 @@ const Index = () => {
             </div>
             <div className="flex items-center justify-left md:justify-between gap-4">
               <SearchProduct handleSearchChange={handleSearch} />
-              <div className="md:block hidden">
-                <FilterProduct handleFilter={handleFilter} />
-              </div>
+              {showBanned || showDeleted ? (
+                <div></div>
+              ) : (
+                <div className="md:block hidden">
+                  <FilterProduct handleFilter={handleFilter} />
+                </div>
+              )}
+
               <div className="md:hidden block">
                 <Button intent={'primary'} size={'sm'}>
                   <Sort />
@@ -152,7 +184,7 @@ const Index = () => {
           )}
         </section>
       </section>
-    </main>
+    </div>
   );
 };
 export default Index;

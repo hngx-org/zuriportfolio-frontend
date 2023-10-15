@@ -87,22 +87,22 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
           discount,
         )}&price=${parseInt(price)}&rating=${rating}`,
       );
-      console.log(API_URL)
+      // console.log(API_URL);
       const { data, status } = await axios.get(API_URL);
-      console.log(data, status);
+      // console.log(data, status);
       if (status === 200) {
-        console.log(data);
+        // console.log(data);
         if (data.products.length === 0) {
           router.push('/marketplace/error-page');
           console.log('no data');
         } else {
-          console.log(data, 'data ready for redirection');
-          toggle();
+          // console.log(data, 'data ready for redirection');
           router.push(
             `/marketplace/search-filter?category=${category}&subCategory=${subCategory}&discount=${parseInt(
               discount,
             )}&price=${parseInt(price)}&rating=${rating}`,
           );
+          // toggle();
         }
       }
     } catch (error) {
