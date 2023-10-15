@@ -12,6 +12,7 @@ import { useGetAllVendor } from '../../../http';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
 import { DeletedProducts } from '../../../@types';
+import { log } from 'console';
 const Index = () => {
   const { data, isLoading } = useGetAllVendor();
   //Variables for the pagination
@@ -25,8 +26,7 @@ const Index = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const visibleVendors = filteredProducts?.slice(startIndex, endIndex);
-  const totalItems = 1000;
-  const totalPages = Math.ceil(data?.data?.length / itemsPerPage);
+
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -72,6 +72,12 @@ const Index = () => {
   //   }
   //   setFilteredProducts(filteredProduct);
   // };
+
+  const totalPages = showDeleted
+    ? Math.ceil(deletedVendors.length / itemsPerPage)
+    : showBanned
+    ? Math.ceil(bannedVendors.length / itemsPerPage)
+    : Math.ceil(data?.data?.length / itemsPerPage);
 
   const handleFilter = (status: string) => {
     if (data?.data) {
@@ -163,11 +169,13 @@ const Index = () => {
                       ? deletedVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)
                       : visibleVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)}
                   </div>
-                  <SuperAdminPagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
+                  {filteredProducts?.length > itemsPerPage && (
+                    <SuperAdminPagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange}
+                    />
+                  )}
                 </>
               ) : (
                 <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

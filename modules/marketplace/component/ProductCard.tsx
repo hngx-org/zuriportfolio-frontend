@@ -83,7 +83,10 @@ export default function ProductCard({
           </h1>
           {/* Product Owner */}
           <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">
-            By: <Link href={shop?.id ? `/shop/${shop.id}`: '/shop'} className="underline">{user}</Link>
+            By:{' '}
+            <Link href={shop?.id ? `/shop/${shop.id}` : '/shop'} className="underline">
+              {user}
+            </Link>
           </p>
           {/* Star rating */}
           <div>
