@@ -173,6 +173,7 @@ const MyPage: React.FC = () => {
   const onSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+    setIsLoading(true);
     try {
       const res = await $http.get(getFilterApi(searchInput), {
         headers: {
