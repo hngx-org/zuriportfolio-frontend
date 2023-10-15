@@ -1,187 +1,118 @@
 // pages/index.tsx
-import { CardData } from '../../@types';
 import Card from './components/Card';
-import photoImage1 from '../../public/assets/images/explore_img/photo1.svg';
-import bg1 from '../../public/assets/images/explore_img/bg1.svg';
-import bg2 from '../../public/assets/images/explore_img/bg2.png';
-import bg3 from '../../public/assets/images/explore_img/bg3.png';
-import bg4 from '../../public/assets/images/explore_img/bg4.png';
-import bg5 from '../../public/assets/images/explore_img/bg5.png';
-import bg6 from '../../public/assets/images/explore_img/bg6.png';
-import bg7 from '../../public/assets/images/explore_img/bg7.png';
-import bg8 from '../../public/assets/images/explore_img/bg8.png';
-import bg9 from '../../public/assets/images/explore_img/bg9.png';
-import bg10 from '../../public/assets/images/explore_img/bg10.png';
-import bg11 from '../../public/assets/images/explore_img/bg11.png';
-import bg12 from '../../public/assets/images/explore_img/bg12.png';
-import photo2 from '../../public/assets/images/explore_img/photo2.png';
-import photo3 from '../../public/assets/images/explore_img/photo3.png';
-import photo4 from '../../public/assets/images/explore_img/photo4.png';
-import photo5 from '../../public/assets/images/explore_img/photo5.png';
-import photo6 from '../../public/assets/images/explore_img/photo6.png';
-import photo7 from '../../public/assets/images/explore_img/photo7.png';
-import photo8 from '../../public/assets/images/explore_img/photo8.png';
-import photo9 from '../../public/assets/images/explore_img/photo9.png';
-import photo10 from '../../public/assets/images/explore_img/photo10.png';
-import photo11 from '../../public/assets/images/explore_img/photo11.png';
-import photo12 from '../../public/assets/images/explore_img/photo12.png';
+import SearchAndFilter from './SearchAndFilter';
+import axios from 'axios';
+import useDebounce from './hooks/deBounce';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
+import { UserInfo } from './@types';
+import Pagination from '@ui/Pagination';
 
-// Interface
+const HomePage = () => {
+  // States
+  const searchParam = useSearchParams();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
 
-// id: number;
-// bgImage: string;
-// photoImage: string;
-// name: string;
-// role: string;
-// skills:string[]
-// totalProjects: number;
-// badge: string;
-// location: string;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pageNumber]);
 
-const cardData: CardData[] = [
-  {
-    id: 1,
-    bgImage: bg1,
-    photoImage: photoImage1,
-    name: 'Theresa Webb',
-    role: 'Product Designer',
-    skills: ['UI Design', 'User Research', 'Prototyping', 'Figma', 'Interaction Design', '+5'],
-    totalProjects: 11,
-    badge: 'Beginner',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 2,
-    bgImage: bg1,
-    photoImage: photo2,
-    name: 'Jacob Jones',
-    role: 'Frontend Developer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Vue JS', 'Figma', '+3'],
-    totalProjects: 8,
-    badge: 'Expert',
-    location: 'Port Harcourt, Nigeria',
-  },
-  {
-    id: 3,
-    bgImage: bg3,
-    photoImage: photo3,
-    name: 'Bessie Cooper',
-    role: 'Full Stack Engineer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 5,
-    badge: 'Intermediate',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 4,
-    bgImage: bg4,
-    photoImage: photo4,
-    name: 'Jenny Wilson',
-    role: 'Cyber Security',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 8,
-    badge: 'Expert',
-    location: 'Port Harcourt, Nigeria',
-  },
-  {
-    id: 5,
-    bgImage: bg5,
-    photoImage: photo5,
-    name: 'Annette Black',
-    role: 'Data Science',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 5,
-    badge: 'Intermediate',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 6,
-    bgImage: bg6,
-    photoImage: photo6,
-    name: 'Guy Hawkins',
-    role: 'Graphic Designer',
-    skills: ['Photoshop', 'Illustrator', 'Adobe CC', 'Motion', 'Figma', '+5'],
-    totalProjects: 11,
-    badge: 'Beginner',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 7,
-    bgImage: bg7,
-    photoImage: photo7,
-    name: 'Robert Fox',
-    role: 'Video Marketer',
-    skills: ['UI Design', 'User Research', 'Prototyping', 'Figma', 'Interaction Design', '+5'],
-    totalProjects: 8,
-    badge: 'Intermediate',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 8,
-    bgImage: bg8,
-    photoImage: photo8,
-    name: 'Darlene Robertson',
-    role: 'Product Designer',
-    skills: ['UI Design', 'User Research', 'Prototyping', 'Figma', 'Interaction Design', '+5'],
-    totalProjects: 8,
-    badge: 'Beginner',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 9,
-    bgImage: bg9,
-    photoImage: photo9,
-    name: 'Jerome Bell',
-    role: 'Mobile Developer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 8,
-    badge: 'Expert',
-    location: 'Port Harcourt, Nigeria',
-  },
-  {
-    id: 10,
-    bgImage: bg10,
-    photoImage: photo10,
-    name: 'Leslie Alexander',
-    role: 'Cloud Computing',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 8,
-    badge: 'Beginner',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 11,
-    bgImage: bg11,
-    photoImage: photo11,
-    name: 'Kathryn Murphy',
-    role: 'Full Stack Engineer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Figma', '+3'],
-    totalProjects: 5,
-    badge: 'Intermediate',
-    location: 'Lagos, Nigeria',
-  },
-  {
-    id: 12,
-    bgImage: bg12,
-    photoImage: photo12,
-    name: 'Albert Flores',
-    role: 'Frontend Developer',
-    skills: ['Node JS', 'JavaScript', 'React', 'Python', 'Vue JS', '+3'],
-    totalProjects: 8,
-    badge: 'Expert',
-    location: 'Port Harcourt, Nigeria',
-  },
-];
+  const handleClearFilters = () => {
+    setFilters({});
+  };
 
-const HomePage: React.FC = () => {
+  const handleNumberReset = () => {
+    setPageNumber(1);
+  };
+  const handleFilters = (type: string, value: string | number) => {
+    setFilters((prev) => {
+      if (type === 'none') {
+        return {};
+      }
+      return { ...prev, [type]: value };
+    });
+  };
+
+  const deBounce = useDebounce(searchQuery, 1200);
+  const router = useRouter();
+
+  const explorePageParam = {
+    page: searchParam.get('page'),
+    itemsPerPage: searchParam.get('itemsPerPage'),
+  };
+
+  const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
+    searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
+    filterUrl = `${baseUrl}/explore/filter`,
+    allUsers = `${baseUrl}/explore/GetAllPortfolio`;
+
+  const pa = `?SortBy=1&Location=nigeria&Country=lagos&Provider=ee&Skill=ee&Track=ee&Ranking=ee&RoleId=1&Tag=a&PageSize=12&PageNumber=1`;
+  async function fetchUsers(query?: string) {
+    let url = allUsers;
+    if (query) {
+      url = searchUrl(query);
+    }
+    if (Object.keys(filters).length > 0) {
+      url = filterUrl;
+    }
+    const { data } = await axios.get(url, {
+      params: {
+        PageNumber: pageNumber,
+        PageSize: 9,
+        ...filters,
+      },
+    });
+    return data;
+  }
+
+  // Data fetching
+  const { data, isLoading } = useQuery<UserInfo>({
+    queryKey: ['profile', deBounce, filters, pageNumber],
+    queryFn: () => fetchUsers(searchQuery),
+  });
+
   return (
-    <div className="m-auto p-6">
-      <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
-        {cardData.map((card) => (
-          <Card key={card.id} data={card} />
-        ))}
+    <>
+      <SearchAndFilter
+        setPageNumber={handleNumberReset}
+        setFilter={handleClearFilters}
+        handleFilters={handleFilters}
+        filters={filters}
+        setSearchQuery={setSearchQuery}
+      />
+      {isLoading && (
+        <div className="grid place-items-center min-h-[300px]">
+          <p>Loading...</p>{' '}
+        </div>
+      )}
+      {data?.data?.length === 0 && (
+        <div className="grid place-items-center min-h-[300px]">
+          <p>No Results</p>
+        </div>
+      )}
+      {data && (
+        <div className="m-auto p-6">
+          <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
+            {data.data.map((card, key) => (
+              <Card key={key} data={card} />
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="w-full mx-auto my-4 mb-12 flex justify-center">
+        <Pagination
+          visiblePaginatedBtn={5}
+          activePage={pageNumber}
+          pages={2}
+          page={pageNumber}
+          setPage={setPageNumber}
+        />
       </div>
-    </div>
+    </>
   );
 };
 

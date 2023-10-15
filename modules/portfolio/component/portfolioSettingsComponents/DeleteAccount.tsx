@@ -1,9 +1,13 @@
 import Button from '@ui/Button';
 import Modal from '@ui/Modal';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { redirect } from 'next/navigation';
 
 function DeleteAccount() {
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [isPending, setIspending] = useState<boolean>(false);
   const handleToggleModal = () => {
     setOpenModal((prev: boolean) => !prev);
   };
@@ -13,6 +17,32 @@ function DeleteAccount() {
       <span>Deleting your account is irreversible</span>
     </p>
   );
+  const notifySuccess = (toastContent: string) => toast.success(toastContent, { closeOnClick: true, autoClose: 3000 });
+
+  const notifyError = (toastContent: string) => toast.error(toastContent);
+  const userId: string = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+
+  const handleDeleteAccount = useCallback(() => {
+    setIspending(true);
+    console.log('hello');
+    axios
+      .delete(`https://hng6-r5y3.onrender.com/api/delete-user-account/${userId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          notifySuccess('Account Delete Successful!');
+          setIspending(false);
+          redirect('/');
+        }
+      })
+      .catch((error) => {
+        setIspending(false);
+        console.log(error);
+        if (error) {
+          notifyError(`Error: ${error.response.data.message}`);
+        }
+      })
+      .finally(() => console.log(''));
+  }, []);
   return (
     <div className="w-full sm:w-[465px] mt-[2rem] sm:mt-0">
       <div className="flex flex-col gap-y-[1rem]">
@@ -53,6 +83,8 @@ function DeleteAccount() {
               Cancel
             </Button>
             <Button
+              disabled={isPending}
+              onClick={handleDeleteAccount}
               size="sm"
               intent="error"
               className="w-fit rounded-[0.5rem] py-[0.5rem] px-[1rem] sm:text-[0.875rem] lg:text-[1rem] font-manropeB bg-[#FF2E2E]"

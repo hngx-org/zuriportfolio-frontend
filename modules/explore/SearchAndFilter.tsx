@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { Dispatch, useRef, useState } from 'react';
 import {
   Airdrop,
   ArrowDown2,
+  ArrowLeft2,
   ArrowRight2,
   Category,
   Cloud,
@@ -9,29 +10,54 @@ import {
   CommandSquare,
   Data,
   Filter,
+  FilterSquare,
   MobileProgramming,
   PenTool2,
   Radar,
+  SearchNormal,
   SearchNormal1,
 } from 'iconsax-react';
 import FilterComponent from './components/FilterComponent';
 import CustomDropdown from './components/CustomDropdown';
+import { Input, SelectInput } from '@ui/Input';
+import { useExploreParams } from './hooks/exploreParam';
+// import Breadcrumbs from '../../components/Breadcrumbs';
 
-const SearchAndFilter: React.FC = () => {
+const SearchAndFilter = (prop: {
+  setSearchQuery?: Dispatch<React.SetStateAction<string>>;
+  filters: { SortBy?: number; Country?: string };
+  handleFilters: (type: string, value: string | number) => void;
+  setFilter: Dispatch<React.SetStateAction<{ SortBy?: number; Country?: string }>>;
+  setPageNumber: () => void;
+}) => {
+  const { setPageNumber } = prop;
   const [activeSection, setActiveSection] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
+  const [showLeftButton, setShowLeftButton] = useState<boolean>(true);
   const [showRightButton, setShowRightButton] = useState<boolean>(true);
   const [showFilterComponent, setShowFilterComponent] = useState<boolean>(false);
 
+  const { filters, handleFilters } = prop;
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
     const slider = sliderRef.current!; // Non-null assertion
 
-    const isEnd = slider.scrollLeft + slider.clientWidth >= slider.scrollWidth;
+    // setShowLeftButton(!isStart);
+    // setShowRightButton(!isEnd);
+  };
 
-    setShowRightButton(!isEnd);
+  const closeFilterComponent = (option?: 'close' | 'clear') => {
+    if (option === 'clear') {
+      prop.setFilter({});
+    } else {
+      setShowFilterComponent(false);
+    }
+  };
+  const slideLeft = () => {
+    const slider = sliderRef.current!; // Non-null assertion
+    slider.scrollLeft -= 150; // Adjust the scroll distance as needed
   };
 
   const slideRight = () => {
@@ -41,9 +67,28 @@ const SearchAndFilter: React.FC = () => {
 
   const handleCustomDropdownChange = (option: string) => {
     setSelectedOption(option);
+
+    if (option === 'Nigeria' || option === 'Ghana' || option === 'Cameroon') {
+      return handleFilters('Country', option);
+    }
+
+    delete filters.Country;
   };
   const handleCustomDropdownChange2 = (option: string) => {
     setSelectedOption2(option);
+    let sort = 0;
+    if (option === 'Featured') {
+      sort = 1;
+
+      return handleFilters('SortBy', sort);
+    }
+    if (option === 'New Arrival') {
+      sort = 2;
+
+      return handleFilters('SortBy', sort);
+    }
+
+    delete filters.SortBy;
   };
 
   const sectionsData = [
@@ -52,130 +97,164 @@ const SearchAndFilter: React.FC = () => {
       activeIcon: <Filter size={26} color="black" />,
       text: 'All Filter',
       id: 1,
+      filterType: 'none',
     },
     {
       icon: <Category size={26} color="white" />,
       activeIcon: <Category size={26} color="#737373" />,
       text: 'All',
+      filterType: 'none',
     },
     {
       icon: <PenTool2 size={26} color="white" />,
       activeIcon: <PenTool2 size={26} color="#737373" />,
       text: 'Design',
+      filterType: 'Track',
     },
     {
       icon: <Code size="26" color="white" />,
       activeIcon: <Code size={26} color="#737373" />,
       text: 'Frontend',
+      filterType: 'Track',
     },
     {
       icon: <CommandSquare size="26" color="white" />,
       activeIcon: <CommandSquare size={26} color="#737373" />,
       text: 'Backend',
+      filterType: 'Track',
     },
     {
       icon: <MobileProgramming size="26" color="white" />,
       activeIcon: <MobileProgramming size={26} color="#737373" />,
       text: 'Mobile',
+      filterType: 'Track',
     },
     {
       icon: <Cloud size="26" color="white" />,
       activeIcon: <Cloud size={26} color="#737373" />,
       text: 'Cloud Computing',
+      filterType: 'Track',
     },
     {
       icon: <Data size="26" color="white" />,
       activeIcon: <Data size={26} color="#737373" />,
       text: 'Data Science',
+      filterType: 'Track',
     },
     {
       icon: <Airdrop size="26" color="white" />,
       activeIcon: <Airdrop size={26} color="#737373" />,
       text: 'Cybersecurity',
+      filterType: 'Track',
     },
     {
       icon: <Code size="26" color="white" />,
       activeIcon: <Code size={26} color="#737373" />,
       text: 'Devops',
+      filterType: 'Track',
     },
   ];
 
   return (
-    <div className="md:container m-auto md:px-10 mb-2 px-3 py-8">
-      <div className="flex-col justify-start items-start gap-3 flex mb-10 w-[90vw] px-3 sm:px-6">
-        <h1 className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
-          Explore
-        </h1>
-        <div className="text-neutral-500 text-[14px] md:text-[22px] font-normal font-manropeBL leading-5 md:leading-7">
-          Customize and refine your search results to suit your specific preferences
+    <div className="mx-auto mb-2 py-8 px-6 font-manropeL xl:max-w-[77.5rem] xl:px-0">
+      {/* <Breadcrumbs /> */}
+      <section className="mb-4">
+        <div>
+          <h1 className=" font-manropeEB text-[2.25rem] text-custom-color11 md:text-[2.815rem] xl:text-[3.5rem]">
+            Explore
+          </h1>
+          <p className="text-base text-custom-color43 xl:text-[1.375rem]">Find your perfect creative match</p>
         </div>
-      </div>
-      <div className="md:justify-between w-[90vw] justify-center items-center md:items-start gap-[24px] flex flex-col md:flex-row">
-        <div className="w-full md:w-[55vw] h-[45px] md:h-[60px] justify-center items-center flex relative">
-          <div className="flex justify-start items-center gap-3 flex-grow w-[100vw] h-12 md:h-14 pl-3">
-            <div className="flex justify-between min-w-full gap-1">
-              <div>
-                <div className="h-6 absolute md:left-3 sm:left-7 mx-3 md:mx-0 bottom-3 md:bottom-5 cursor-pointer">
-                  <SearchNormal1 color="#737373" />
-                </div>
-                <input
-                  type="text"
-                  className="flex-grow h-[50px] sm:w-full ml-1 md:-mx-2 mb-6 pl-9 md:pl-12 sm:pl-14 rounded-2xl border border-stone-300 focus:outline-none w-[83vw] md:max-w-[50vw] md:w-[50vw] mt-4 focus:border-brand-green-focused focus:border-2 outline-none"
-                  placeholder="Search by name or role"
-                />
-              </div>
-              <div
-                className={`md:hidden mt-4 p-2 pt-3  h-14 bg-white rounded-xl border border-stone-300 justify-center items-center ${
-                  activeSection === 0 ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-                }`}
-                onClick={() => {
-                  setActiveSection(0);
-                  setShowFilterComponent(!false);
-                }}
-              >
-                {activeSection === 0 ? sectionsData[0].icon : sectionsData[0].activeIcon}
-              </div>
-            </div>
+
+        <div className="hidden flex-col justify-start items-start gap-3 mb-10">
+          <h1 className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
+            Filter
+          </h1>
+          <div className="text-neutral-500 text-[14px] md:text-[22px] font-normal font-manropeBL leading-5 md:leading-7">
+            Customize and refine your search results to suit your specific preferences
           </div>
         </div>
-        <div className="flex gap-6 md:flex-row">
+      </section>
+
+      <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
+        <div className="w-full grid grid-cols-[1fr_auto] gap-4 md:w-[22rem] xl:w-[37.5rem]">
+          <Input
+            onChange={(e) => {
+              prop.setSearchQuery && prop.setSearchQuery(e.target.value);
+              prop.setFilter({});
+              setPageNumber();
+            }}
+            type="text"
+            name="search input"
+            intent={'default'}
+            placeHolder="Search by name or role"
+            leftIcon={<SearchNormal />}
+            className="w-full text-black border-brand-disabled2 rounded-2xl"
+          />
+
+          <button className="md:hidden">
+            <Filter
+              size={48}
+              color="#1a1c1b"
+              className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
+            />
+          </button>
+        </div>
+
+        <div className="w-full grid grid-cols-2 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
           <CustomDropdown
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
+            placeholder="Location"
             onChange={handleCustomDropdownChange}
           />
           <CustomDropdown
-            options={['Trending', 'Music', 'Drama']}
+            options={['Trending', 'Featured', 'New Arrival']}
             selectedValue={selectedOption2}
+            placeholder="Sort By"
             onChange={handleCustomDropdownChange2}
           />
         </div>
       </div>
 
       <div
-        className=" w-[90vw] h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-none px-1 sm:px-2"
+        className="h-full overflow-x-scroll mt-4 mr-[6.5rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
         ref={sliderRef}
         onScroll={handleScroll}
       >
-        <div className="justify-start items-center gap-2 inline-flex mt-4">
+        <div className="justify-start items-center inline-flex mt-4 gap-6">
           {sectionsData.map((section, index) => (
             <div
               key={index}
-              className={`px-[20px] py-[10px] mx-4 rounded-2xl justify-center items-center gap-4 flex cursor-pointer ${
+              className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeB text-[0.875rem] ${
                 activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-              } ${section.text === 'All_Filter' ? 'border hidden sm:flex' : ''}`}
+              } ${section.text === 'All' ? 'hidden sm:flex' : ''}`}
               onClick={() => {
                 setActiveSection(index);
-                setShowFilterComponent(section.text === 'All_Filter');
+                handleFilters(section.filterType, section.text);
+                setShowFilterComponent(section.text === 'All Filter');
               }}
             >
               <div className="w-6 h-6 relative">{activeSection === index ? section.icon : section.activeIcon}</div>
-              <div className="text-center text-xs font-manropeEB leading-none tracking-tight">{section.text}</div>
+              <div className="text-center">{section.text}</div>
             </div>
           ))}
         </div>
       </div>
-      <div className="relative -right-1 w-[91vw]">
+      <div className="relative -right-1 flex">
+        {showLeftButton && (
+          <div
+            className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
+            onClick={slideLeft}
+          >
+            <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
+              <div className="w-6 h-6 relative">
+                <ArrowLeft2 color="#737373" />
+              </div>
+            </div>
+          </div>
+        )}
+
         {showRightButton && (
           <div
             className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
@@ -190,7 +269,14 @@ const SearchAndFilter: React.FC = () => {
         )}
       </div>
 
-      {showFilterComponent && <FilterComponent />}
+      {showFilterComponent && (
+        <FilterComponent
+          closeFilterComponent={closeFilterComponent}
+          showFilterComponent={showFilterComponent}
+          filters={filters}
+          handleFilters={handleFilters}
+        />
+      )}
     </div>
   );
 };

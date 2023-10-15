@@ -1,16 +1,25 @@
 import { Fragment } from 'react';
-import { category, discount, keyword, price, rating, subCategory } from './data/search-data';
+import { category, discount, keyword, price, priceRange, rating, subCategory } from './data/search-data';
 import FilterSection from './filter-section';
 import Button from '@ui/Button';
 import { CancelIcon } from './icons';
 import Badge from './Badge';
 import useSearchFilter from './hooks/useSearchFilter';
 import { manropeL } from '../../../../config/font';
+import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
+import useCategory from './hooks/useCategory';
 
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
   const { resetFilter, handleSearch, loading } = useSearchFilter();
+  const { categories, loading: isLoading, products } = useCategory();
+  const sub_categories = categories.flatMap((category) => category.subcategories).map((sub: any) => sub?.name);
+  const prices = products.map((product) => product.price);
+  const uniquePrices = Array.from(new Set(prices)).map((price) => formatToNigerianNaira(price));
+  const discounts = products.map((product) => product.discount_price);
+  const discount_price = Array.from(new Set(discounts)).map((discount) => discount);
+
   return (
-    <Fragment>
+    <div>
       {isOpen ? (
         <div
           className={`flex items-center justify-center absolute z-50  w-full top-0 min-h-screen bg-black bg-opacity-50 py-10 px-5 backdrop-blur-sm transition duration-300 ease-in-out ${manropeL.className}`}
@@ -21,15 +30,16 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <CancelIcon onClick={toggle} />
             </section>
             <Fragment>
-              <FilterSection data={category} sectionTitle="Category" />
-              <FilterSection data={subCategory} sectionTitle="Sub Category" />
-              <FilterSection data={discount} sectionTitle="By Discount" />
-              <FilterSection data={keyword} sectionTitle="By Keywords" />
-              <FilterSection data={rating} sectionTitle="By Rating" />
-              <FilterSection data={price} sectionTitle="By Price">
-                <PriceRanges data={['$80', '$500']} />
-              </FilterSection>
-              {/* Please do not make children a props element */}
+              <FilterSection tag="category" data={categories.map((c) => c.name)} sectionTitle="Category" />
+              {isLoading ? (
+                'loading...'
+              ) : (
+                <FilterSection tag="subCategory" data={sub_categories} sectionTitle="Sub Category" />
+              )}
+              <FilterSection tag="discount" data={discount_price} sectionTitle="By Discount" />
+              <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
+              <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
+              <FilterSection tag="price" data={uniquePrices} sectionTitle="By Price"></FilterSection>
             </Fragment>
 
             <div className="flex items-center justify-center gap-4 mt-10 mb-4">
@@ -47,20 +57,6 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
           </div>
         </div>
       ) : null}
-    </Fragment>
-  );
-};
-
-const PriceRanges = ({ data }: { data: string[] }) => {
-  return (
-    <div className="ml-10 flex gap-10">
-      {Array.isArray(data) &&
-        data.length > 0 &&
-        data.map((item, i) => (
-          <Badge key={i} className="px-7 border rounded-lg text-sm items-center py-1 border-gray-700 text-gray-600">
-            {item}
-          </Badge>
-        ))}
     </div>
   );
 };

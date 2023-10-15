@@ -47,74 +47,9 @@ export const cardData = [
 ];
 
 export const ratingData = [
-  { rating: 5, users: 48 },
-  { rating: 4, users: 36 },
-  { rating: 3, users: 24 },
-  { rating: 2, users: 12 },
-  { rating: 1, users: 6 },
-];
-
-export const reviewData = [
-  {
-    buyerName: 'Dorcas',
-    adminDate: 'September 22, 2023.',
-    review:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    noOfStars: 5,
-  },
-  {
-    buyerName: 'Dorcas',
-    adminDate: 'September 22, 2023.',
-    review:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    noOfStars: 5,
-  },
-  {
-    buyerName: 'Dorcas',
-    adminDate: 'September 22, 2023.',
-    review:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    noOfStars: 2,
-    shopReply:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    shopName: 'Zuri Admin',
-  },
-  {
-    buyerName: 'Dorcas',
-    adminDate: 'September 22, 2023.',
-    review:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    noOfStars: 3,
-  },
-  {
-    buyerName: 'Dorcas',
-    adminDate: 'September 22, 2023.',
-    review:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    noOfStars: 2,
-  },
-  {
-    buyerName: 'Dorcas',
-    adminDate: 'September 22, 2023.',
-    review:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    noOfStars: 4,
-    shopReply:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    shopName: 'Zuri Admin',
-  },
-  {
-    buyerName: 'Dorcas',
-    adminDate: 'September 22, 2023.',
-    review:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    noOfStars: 2,
-  },
-  {
-    buyerName: 'Dorcas',
-    adminDate: 'September 22, 2023.',
-    review:
-      "I recently purchased this digital product and I'm thrilled with it! It's been a game-changer for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to navigate. The product's functionality is top-notch, and it hasexceeded my expectations. It's incredibly fast and efficient, saving me both time and frustration. Customer support has been exceptional.",
-    noOfStars: 3,
-  },
+  { rating: 5, users: 2 },
+  { rating: 4, users: 0 },
+  { rating: 3, users: 1 },
+  { rating: 2, users: 1 },
+  { rating: 1, users: 0 },
 ];

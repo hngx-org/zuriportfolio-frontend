@@ -6,70 +6,65 @@ import slider3 from '../../../public/assets/slider3.jpg';
 import slider4 from '../../../public/assets/slider4.jpg';
 import slider5 from '../../../public/assets/slider5.jpg';
 import mainImage from '../../../public/assets/mainImage.png';
-import slider from '../../../public/assets/icons/slider.svg';
+import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 
-const slides = [mainImage, slider1, slider2, slider3, slider4, slider5];
+const slides = [mainImage, slider1, slider2, slider3, slider4];
 
 export default function Slider({ updateImage }: any) {
-  const handleUpdateImage1 = () => {
-    updateImage(slides[0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
   };
 
-  const handleUpdateImage2 = () => {
-    updateImage(slides[1]);
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
   };
 
-  const handleUpdateImage3 = () => {
-    updateImage(slides[2]);
+  const getDisplayImages = () => {
+    const displayIndexes = [
+      (currentIndex - 4 + slides.length) % slides.length,
+      (currentIndex - 3 + slides.length) % slides.length,
+      (currentIndex - 2 + slides.length) % slides.length,
+      (currentIndex - 1 + slides.length) % slides.length,
+      currentIndex,
+    ];
+
+    return displayIndexes.map((index) => (
+      <Image
+        key={index}
+        onClick={() => handleUpdateImage(index)}
+        src={slides[index]}
+        alt={`Image ${index + 1}`}
+        className={`object-cover lg:w-[105px] md:w-[180px] w-[90px] lg:h-[94px] md:h-[131px] h-[95px] rounded-lg cursor-pointer`}
+      />
+    ));
+  };
+  const handleUpdateImage = (i: number) => {
+    updateImage(slides[i]);
   };
 
-  const handleUpdateImage4 = () => {
-    updateImage(slides[3]);
-  };
-
-  const handleUpdateImage5 = () => {
-    updateImage(slides[4]);
-  };
-  const handleUpdateImage6 = () => {
-    updateImage(slides[5]);
-  };
   return (
     <div className="relative w-full mx-auto">
-      <div className="flex w-full max-w-[700px]  md:justify-between justify-around md:gap-x-2 gap-x-2 mx-auto overflow-hidden">
-        <Image
-          src={slides[0]}
-          onClick={handleUpdateImage1}
-          alt="slider image 1"
-          className="object-cover lg:w-[105px] md:w-[180px] w-[90px] lg:h-[94px] md:h-[131px] h-[95px] rounded-lg"
-        />
-        <Image
-          src={slides[1]}
-          onClick={handleUpdateImage2}
-          alt="slider image 2"
-          className="object-cover lg:w-[105px] md:w-[180px] w-[90px] lg:h-[94px] md:h-[131px] h-[95px] rounded-lg "
-        />
-        <Image
-          src={slides[2]}
-          onClick={handleUpdateImage3}
-          alt="slider image 3"
-          className="object-cover lg:w-[105px] md:w-[180px] w-[90px] lg:h-[94px] md:h-[131px] h-[95px] rounded-lg"
-        />
-        <Image
-          src={slides[3]}
-          onClick={handleUpdateImage4}
-          alt="slider image 4"
-          className="object-cover lg:w-[105px] md:w-[180px] lg:h-[94px] md:h-[131px]  rounded-lg md:block hidden"
-        />
-        <Image
-          src={slides[4]}
-          onClick={handleUpdateImage5}
-          alt="slider image 5"
-          className="object-cover lg:w-[105px] md:w-[180px] h-[94px] rounded-lg lg:block hidden"
-        />
+      <button
+        disabled={currentIndex === 0}
+        onClick={handlePrev}
+        className="px-2 py-2 rounded-full shadow-lg w-fit absolute bg-white-100 top-8 -left-[10px] lg:block hidden cursor-pointer"
+      >
+        <ArrowLeft2 size="8" color="#444846" />
+      </button>
+
+      <div className="flex w-full max-w-[700px]  justify-evenly md:gap-x-2 gap-x-2 mx-auto overflow-hidden overflow-x-hidden">
+        {getDisplayImages()}
       </div>
-      <div className="px-2.5 py-2 rounded-full shadow-lg w-fit absolute bg-white-100 top-8 -right-[10px] lg:block hidden">
-        <Image src={slider} alt="slider" />
-      </div>
+
+      <button
+        disabled={currentIndex === slides.length - 1}
+        onClick={handleNext}
+        className="px-2 py-2 rounded-full shadow-lg w-fit absolute bg-white-100 top-8 -right-[10px] lg:block hidden cursor-pointer"
+      >
+        <ArrowRight2 size="8" color="#444846" />
+      </button>
     </div>
   );
 }

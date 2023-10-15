@@ -1,160 +1,149 @@
-import React, { FormEvent, useState, useContext } from 'react';
-import Image from 'next/image';
+import React, { useState, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import google from '../../../../public/assets/loginPageAssets/google.svg';
-import github from '../../../../public/assets/loginPageAssets/github.svg';
-import facebook from '../../../../public/assets/loginPageAssets/facebook.svg';
+import { notify } from '@ui/Toast';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
 import { Eye, EyeSlash } from 'iconsax-react';
-
-import InputError from '../InputError';
-import useInputError from '../../../../hooks/useInputError';
-import { loginUser } from '../../../../http';
+import { loginUser } from '../../../../http/auth';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWithGoogle';
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 import { useRouter } from 'next/router';
-import AuthContext from '../../../../context/AuthContext';
+import { useAuth } from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
+import z from 'zod';
+import { useForm, zodResolver } from '@mantine/form';
+import { resend2FACode } from '../../../../http/auth';
+
+export const ADMIN_ID = 3;
 
 function LoginForm() {
-  const { handleUser } = useContext(AuthContext);
+  const { handleAuth } = useAuth();
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
-  const { handleSubmit, inputErrors } = useInputError();
 
+  const schema = z.object({
+    email: z.string().email(),
+    password: z.string().min(1, { message: 'Password is required' }),
+  });
+
+  const form = useForm({
+    validate: zodResolver(schema),
+    initialValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const send2FaCode = useAuthMutation(resend2FACode);
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
-    // onSuccess: async (res) => {
-    //    console.log("responseoutside", res);
-    //   if (res.statusCode === 200 && res.token) {
-    //     console.log('response', res);
-    //     router.push('/dashboard/orders');
-    //   }
-
-    //   // router.push('/dashboard/orders');
-    // },
-
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
-      if (res.statusCode === 200 && res.data.token) {
-        // Successful login
-        console.log('Login success:', res);
-        handleUser(res.data);
-        localStorage.setItem('zpt', res.token);
-        const value = isAuthenticated(res.token);
-        console.log(value);
+      if (res.message === 'Login successful') {
+        handleAuth(res.data);
+        localStorage.setItem('zpt', res?.data?.token);
+        const value = isAuthenticated(res?.data?.token);
+        // console.log(value);
 
-        router.push('/dashboard/orders');
-      } else if (res.statusCode === 400 && 'Please verify your email.') {
-        // Unverified user
-        console.error('Unverified user:');
-        // Handle unverified user logic (e.g., show a message to verify the email).
-      } else if (res.statusCode === 400 && 'Password or email is not correct') {
-        // Incorrect password
-        console.error('Incorrect password:');
-        // Handle incorrect password logic (e.g., show a password error message).
-      } else if (res.statusCode === 400 && 'User not found') {
-        // User not found
-        console.error('User not found:');
-        // Handle user not found logic (e.g., show an error message).
-      } else {
-        // Handle other error cases
-        console.error('sign up');
-        router.push('/access-denied');
+        // Checking if user enabled 2fa
+        if (res.data.user.twoFactorAuth) {
+          const email = res?.data?.user?.email;
+
+          // uncomment if the 2fa message is not being sent automatically
+          // send2FaCode.mutate({ email });
+          router.push('/auth/2fa');
+          return;
+        }
+
+        // redirecting the user  to admin dashbord if they are an admin
+        if (res.data.user.roleId === ADMIN_ID) {
+          router.push('/super-admin/product-listing');
+          return;
+        }
+        notify({
+          message: 'Login Successful',
+          type: 'success',
+        });
+        router.push('/dashboard');
+      } else if (res.message === 'Invalid password') {
+        notify({
+          message: 'Invalid password',
+          type: 'error',
+        });
+      } else if (res.message === 'User not found') {
+        notify({
+          message: 'User not found',
+          type: 'error',
+        });
+      } else if (res.message === 'Please verify your account') {
+        notify({
+          message: 'Please verify your account',
+          type: 'error',
+        });
       }
     },
     onError: (e) => {
       console.error({ e });
-      router.push('/access-denied');
+      notify({
+        message: 'Error logging in',
+        type: 'error',
+      });
     },
   });
 
-  //  const { mutate: loginUserMutation, isLoading } = useMutation(loginUser, {
-  //   onSuccess: async res => {
-  //     handleAuthState(res.data)
-  //     navigate('/dashboard')
-  //   },
-  //   onError: e => {
-  //     console.error({ e })
-  //     toast.error('Incorrect login credentials')
-  //   },
-  // })
+  const handleLogin = (values: any) => {
+    try {
+      loginUserMutation({ email: values.email, password: values.password });
+    } catch (error) {}
 
-  // const handleSubmit = (values: any) => {
-  //   loginUserMutation(values)
-  // }
-
-  // const loginFn = useAuthMutation(loginUser, {
-  //   onSuccess: (data) => {
-  //     if (data === 'User not found ') {
-
-  //       // router.push('/access-denied');
-  //     }else {
-  //            router.push('/dashboard/orders');
-  //     }
-  //     // console.log(data);
-
-  //   },
-  //   // onError: (err: any) => {
-  //   // //  router.push('/access-denied');
-  //   // },
-  // });
-
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('heloooooooooo');
-
-    if (email.length !== 0 && password.length !== 0) {
-      loginUserMutation({ email: email, password: password });
-    }
-    // To clear the input filed after submission
-    setEmail('');
-    setPassword('');
+    // No need to reset so if there is error, user can easily find it
+    // form.reset();
   };
 
   return (
-    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
-      <div className="md:mx-auto lg:mb-10 font-manropeL">
+    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown>
+      <div className="md:mx-auto lg:mb-20 font-manropeL">
         <div className="md:flex sm:flex flex-col items-center justify-center lg:items-start">
-          <p className=" md:text-4xl text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
-          <p className="text-custom-color30  mt-[1rem] md:text-[1.375rem]  lg:font-semibold sm:tracking-[0.00375rem] text-center md:text-left">
+          <p className=" font-manropeEB text-2xl md:text-4xl  text-[1.5rem] mb-1 md:mb-6 text-center lg:text-left ">
+            Log In
+          </p>
+          <p className="text-[#6B797F]  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
             Log in to continue using zuriportfolio
           </p>
         </div>
 
         <div className="pt-[2.25rem]">
-          <form onSubmit={handleLogin}>
-            <div>
+          <form onSubmit={form.onSubmit((values) => handleLogin(values))}>
+            <div className="flex flex-col gap-2">
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
               </label>
               <Input
-                placeHolder="Allusugar@gmail.com"
+                placeHolder="enter email"
                 id="email"
-                name="email"
-                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
+                {...form.getInputProps('email')}
+                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  form.errors.email ? 'border-[red]' : 'border-slate-50'
+                }`}
                 type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
-              <InputError inputError={inputErrors} inputName="email" />
+              <p className="text-[red] text-xs pt-1">{form.errors.email && form.errors.email}</p>
             </div>
-            <div className="mt-[1rem]">
-              <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
+
+            <div className=" flex flex-col gap-2">
+              <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-2">
                 Password
               </label>
               <Input
-                placeHolder="Gbemi345"
+                placeHolder="enter password"
                 id="password"
-                name="password"
-                className="w-full border-slate-50 mt-[0.5rem] py-[0.84rem] bg-transparent "
+                {...form.getInputProps('password')}
+                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  form.errors.password ? 'border-[red]' : 'border-slate-50'
+                }`}
                 type={isPasswordShown ? 'text' : 'password'}
                 rightIcon={
                   isPasswordShown ? (
@@ -163,35 +152,33 @@ function LoginForm() {
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
                   )
                 }
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
-              <InputError inputError={inputErrors} inputName="password" />
+              <p className="text-[red] text-xs pt-1">{form.errors.password && form.errors.password}</p>
             </div>
 
-            <Link href="/auth/forgot-password">
-              <p className=" font-manrope text-brand-green-primary text-right  text-[1.18313rem] mt-[0.62rem]">
-                Forgot Password ?
-              </p>
-            </Link>
+            <div className="flex justify-end mt-3 mb-[17px]">
+              <Link href="/auth/forgot-password">
+                <span className=" font-manrope text-brand-green-primary text-right  text-xs md:text-sm ">
+                  Forgot Password ?
+                </span>
+              </Link>
+            </div>
 
             <Button
-              // href="/auth/2fa"
               isLoading={isLoginUserMutationLoading}
               intent={'primary'}
               type="submit"
               size={'md'}
-              className="w-full rounded-lg mt-[1rem]"
+              className="w-full rounded-lg h-[44px] md:h-[60px]"
             >
               Continue
             </Button>
           </form>
           <div>
             <p className=" text-custom-color20 text-center text-[0.875rem] font-semibold mt-[1rem] leading-5">
-              Already have an account?{' '}
-              <Link href="/auth/login">
-                <span className="text-brand-green-primary">Sign in</span>
+              Don&apos;t have an account?
+              <Link href="/auth/signup">
+                <span className="text-brand-green-primary"> Sign Up</span>
               </Link>
             </p>
           </div>

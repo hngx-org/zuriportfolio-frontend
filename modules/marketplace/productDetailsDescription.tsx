@@ -8,20 +8,117 @@ import profileImg from '../../public/assets/images/profile-img.png';
 import Slider from './component/slider';
 import { useRouter } from 'next/router';
 import Button from '@ui/Button';
-import MainLayout from '../../components/Layout/MainLayout';
 import TabContainer from './component/Tabbed';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import CategoryLayout from './component/layout/category-layout';
+import { ArrowRight } from 'iconsax-react';
+import axios from 'axios';
+import { ProductData } from '../../@types';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../context/AuthContext';
+import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 
 export default function ProductDetailsDescription() {
-  const [image, setImage] = useState(mainImage);
+  const { auth } = useAuth();
+  const [product, setProduct] = useState<ProductData | null>(null);
+  const [image, setImage] = useState(null);
+  const router = useRouter();
+  const { id } = router.query;
+  const token: any = isUserAuthenticated();
+  const userId = auth ? auth?.user?.id : '1972d345-44fb-4c9a-a9e3-d286df2510ae';
+
+  useEffect(() => {
+    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/`;
+    // Fetch data using Axios
+    const headers = {
+      accept: 'application/json',
+      'X-CSRFToken': 'auL3OR9xSygssFcGGBdq8TOqKbedQO41syRGOb1XXFCvkhMssKudWDxIrgEQp2YC',
+    };
+    axios
+      .get<ProductData>(apiUrl, { headers })
+      .then((response) => {
+        setProduct(response.data);
+        // setImage(product?.images[0].url)
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [id, userId, token?.id]);
+
+  const addToCart = async () => {
+    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
+    if (token?.id) {
+      try {
+        const response = await axios.post(
+          apiUrl,
+          { product_ids: [`${id}`] },
+          {
+            headers: {
+              Authorization: `Bearer ${auth?.token}`,
+            },
+          },
+        );
+
+        if (response.status === 200) {
+          toast.success('Added to Cart');
+          console.log('success');
+        }
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error.message);
+      }
+    } else {
+      const products: any[] = [];
+      if (product) {
+        products.push(product);
+        localStorage.setItem('products', JSON.stringify(products));
+        console.log(products);
+        toast.success('Item added to cart🎊');
+      }
+    }
+  };
+
+  const addToWishlist = async () => {
+    console.log('user:', token?.id);
+    console.log('product:', product?.id);
+
+    const data = {
+      product_id: product?.id,
+      user_id: token?.id,
+    };
+
+    try {
+      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
+
+      console.log(response);
+      if (response.status === 201) {
+        toast.success(response.data.message);
+      }
+
+      if (response.status === 200) {
+        toast.success(response.data.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const renderRatingStars = (rating: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      const starType = i <= rating ? 'star1' : 'star2';
+      stars.push(<Image src={starType === 'star1' ? star1 : star2} alt={`Star ${i}`} key={i} />);
+    }
+    return stars;
+  };
 
   const updateImage = (newImage: any) => {
     setImage(newImage);
   };
   const [showAll, setShowAll] = useState(false);
-  const router = useRouter();
   const specificationData = [
-    'Adaptable with HTML5  and CSS3',
+    'Adaptable with HTML5  and CSS3',
     'Comprehensive documentation and customer support',
     'Similar products you might like',
     'WC3 valid HTML codes',
@@ -39,46 +136,53 @@ export default function ProductDetailsDescription() {
   };
 
   return (
-    <MainLayout activePage="product-details" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+    <CategoryLayout>
       <div className="whitespace-nowrap overflow-hidden ml-[70px]"></div>
       {/* lg:px-[100px] md:px-10*/}
-      <main className={`flex flex-col items-center max-w-[1240px] mx-auto lg:pt-6 pt-4 lg:pb-6 pb-4`}>
+      <main className={`flex flex-col items-center max-w-[1240px] mx-auto lg:px-0 px-4 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
         {/* Product Details  */}
         <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
           {/* Product Detail Images  */}
-          <div className="flex flex-col w-full item-center gap-y-4 gap-x-10 mx-auto pb-6">
+          <div className="flex flex-col w-full item-center lg:gap-y-4 md:gap-y-2 gap-y-3 gap-x-10 mx-auto pb-6">
             <Image
-              src={image}
+              src={product?.images[0].url}
+              width={500}
+              height={500}
               alt="Main Image"
-              className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
+              className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover lg:rounded-3xl rounded-lg"
             />
             <Slider updateImage={updateImage} />
           </div>
 
           {/* Product Detail Data */}
           <div className="space-y-6 w-full">
-            <h1 className="md:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px]">
-              Webinar and Course Slide
-              <span> Templates by Sarah Rino (Soft Copy)</span>
+            <h1 className="sm:text-4xl text-base font-semibold font-manropeEB md:leading-[44px] leading-[24px] tracking-tighter">
+              {product?.name}
             </h1>
 
             <div>
               <p className="lg:hidden block sm:text-2xl text-sm sm:leading-8 leading-5 font-semibold">Description</p>
               <p className="text-base font-normal font-manropeL leading-normal tracking-tight flex flex-col">
-                Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
-                experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions
-                to enrich <b className="text-green-600 lg:hidden flex">Read More...</b>
+                {product?.description} <b className="text-green-600 hidden">Read More...</b>
               </p>
             </div>
 
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-1">
-                <p className=" text-base font-semibold font-manropeB leading-normal tracking-tight">3.3/5</p>
-                <Image src={star1} alt="rating star" />
-                <Image src={star1} alt="rating star" />
-                <Image src={star1} alt="rating star" />
-                <Image src={star2} alt="rating star" />
-                <Image src={star2} alt="rating star" />
+                <p className=" text-base font-semibold font-manropeB leading-normal tracking-tight">
+                  {product?.rating ? product?.rating : '3'}/5
+                </p>
+                {product?.rating ? (
+                  renderRatingStars(product?.rating)
+                ) : (
+                  <>
+                    <Image src={star1} alt="rating star" />
+                    <Image src={star1} alt="rating star" />
+                    <Image src={star1} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                  </>
+                )}
               </div>
               <p className="text-black text-base font-normal font-manropeL leading-normal tracking-tight">
                 (50 Customers)
@@ -92,21 +196,44 @@ export default function ProductDetailsDescription() {
                 Total Payment (Incl. taxes)
               </p>
               <p className="flex gap-x-4 items-center">
-                <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">$100.00</span>
+                <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
+                  ${product?.discount_price === '0.00' ? product?.price : product?.discount_price}
+                </span>
                 <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
-                  $120.00
+                  {product?.discount_price === '0.00' ? null : `${product?.price}`}
                 </span>
               </p>
             </div>
 
-            <Button intent={'primary'} size={'lg'} className="lg:px-5 md:px-14 sm:w-fit  w-full">
-              Add to cart
-            </Button>
+            <div className="flex md:flex-row flex-col gap-[10px] font-normal font-base leading-6">
+              <Button
+                onClick={() => addToCart()}
+                intent={'primary'}
+                size={'lg'}
+                className="md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg tracking-[0.08px]"
+              >
+                Add to cart
+              </Button>
+
+              {/* Remove the "auth &&" to to view it in localhost  */}
+              {token?.id && (
+                <Button
+                  className="lg:px-6 md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg text-custom-color11 tracking-[0.08px]"
+                  rightIcon={<ArrowRight color="#009254" />}
+                  intent={'secondary'}
+                  size={'lg'}
+                  onClick={() => addToWishlist()}
+                >
+                  Add to Wishlist
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Description, Specification, Reviews (Desktop View)  */}
-        <TabContainer />
+        {/* Pass all the data down to this component as props  */}
+        <TabContainer desc={product?.description} />
 
         {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
         <div className="md:hidden block mt-[26px] mr-auto">
@@ -318,6 +445,10 @@ export default function ProductDetailsDescription() {
         {/* favorite products  */}
         <div></div>
       </main>
-    </MainLayout>
+      <ToastContainer />
+    </CategoryLayout>
   );
 }
+
+// 656525652ad33a@beaconmessenger.com656525652ad33a@beaconmessenger.com
+// TeaBread1234

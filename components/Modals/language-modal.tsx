@@ -1,12 +1,18 @@
 import Modal from '@ui/Modal';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import close_circle from '../../public/assets/icons/close-circle.svg';
 import close1 from '../../public/assets/icons/close1.svg';
 import arrow_left from '../../public/assets/icons/arrow-left.svg';
 import Button from '@ui/Button';
+import axios from 'axios';
+import { notify } from '@ui/Toast';
 
-const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const endpoint = 'https://hng6-r5y3.onrender.com';
+
+const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
+  console.log(userId);
+
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
 
@@ -14,17 +20,16 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent the default form submission
       if (inputValue.trim() !== '' && !values.includes(inputValue)) {
+        const empty = '';
         setValues((prevValues) => [...prevValues, inputValue]);
-        setInputValue('');
+        setInputValue(empty);
       }
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
-    if (value !== '') {
-      setInputValue(e.target.value);
-    }
+    setInputValue(value);
   };
 
   const handleListItemClick = (clickedValue: string) => {
@@ -48,6 +53,50 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
       />
     </span>
   ));
+
+  const handleSubmit = () => {
+    if (values.length === 0) return;
+    const data = {
+      userId: userId,
+      languages: values,
+    };
+    axios
+      .post(`${endpoint}/api/language`, data)
+      .then((res) => {
+        notify({
+          message: 'Language created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        setValues([]);
+        onClose();
+      })
+      .catch((err) => {
+        notify({
+          message: 'Error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        console.log(err);
+      });
+  };
+
+  const getAllLanguages = () => {
+    axios
+      .get(`${endpoint}/api/language/${userId}`)
+      .then((res) => {
+        const languagesArray: string[] = res.data?.data.map((obj: any) => obj.language);
+        setValues(languagesArray ? languagesArray : []);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getAllLanguages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
@@ -76,11 +125,14 @@ const LanguageModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-2.5">
           <Button
             onClick={onClose}
-            className="border flex justify-center border-[#009444] bg-white-100 py-3 px-5 text-sm sm:text-base font-normal text-text-green-600 text-center rounded-lg hover:bg-white-100 hover:text-[#009444]"
+            className="border flex justify-center border-[#009444] bg-white-100 py-3 px-5 text-sm sm:text-base font-normal text-text-green-600 text-center rounded-lg hover:bg-white-100 text-[#009444] hover:text-[#009444]"
           >
             Cancel
           </Button>
-          <Button className="border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg">
+          <Button
+            onClick={handleSubmit}
+            className="border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg"
+          >
             {' '}
             Save{' '}
           </Button>

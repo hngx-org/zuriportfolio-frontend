@@ -6,6 +6,7 @@ import star1 from '../../../public/assets/star1.svg';
 import star2 from '../../../public/assets/star2.svg';
 import profileImg from '../../../public/assets/images/profile-img.png';
 import verifyIcon from '../../../public/assets/icons/verify.svg';
+import Link from 'next/link';
 
 const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) => void; tab: string }) => {
   return (
@@ -53,21 +54,13 @@ const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) 
   );
 };
 
-const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
+const TabContent = ({ tab, desc }: { tab: string; desc: any }): React.ReactElement | null => {
   if (tab === 'description')
     return (
       <>
         {' '}
         <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Description</h2>
-        <p className="mt-6 font-manropeL">
-          Empower your educational endeavors with our Webinar and Course Template. Craft immersive online learning
-          experiences that captivate audiences. Seamlessly integrate multimedia elements, quizzes, and discussions to
-          enrich the learning journey. Tailor the template to your brand with customizable design options. Track learner
-          progress, foster collaboration, and gain insights through built-in analytics. Whether you&apos;re an educator
-          or a business, this template streamlines course creation, webinar hosting, and community building. Elevate
-          your online education with a user-friendly, responsive, and feature-rich solution that engages and enlightens
-          learners.
-        </p>
+        <p className="mt-6 font-manropeL">{desc}</p>
       </>
     );
 
@@ -75,7 +68,7 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
     return (
       <>
         <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Specifications</h2>
-        <ul className="mt-6 flex flex-col gap-4 list-inside">
+        {/* <ul className="mt-6 flex flex-col gap-4 list-inside">
           <li className="list-disc font-manropeL">Adaptable with HTML5 and CSS3</li>
           <li className="list-disc font-manropeL">
             Comprehensive documentation and customer support to assist users in setting up
@@ -85,7 +78,8 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
           <li className="list-disc font-manropeL">Compatible with all device interfaces</li>
           <li className="list-disc font-manropeL">Compatible with all Google web fonts</li>
           <li className="list-disc font-manropeL">Active and Hover options</li>
-        </ul>
+        </ul> */}
+        <p className="font-manropeL mt-6">{desc}</p>
       </>
     );
 
@@ -150,19 +144,21 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
         <form action="#" className="mt-6">
           <h3 className="text-base font-manropeB font-semibold">Review this product</h3>
           <p className="text-sm font-manropeL font-normal mt-[0.8px]">Share your thoughts with other customers</p>
-          <textarea
-            id="about"
-            name="about"
-            rows={3}
-            className="block w-full rounded-xl mt-4 text-[#A1ADB2] border-0 border-custom-color32 text-base font-bold py-2  shadow-sm ring-1 ring-inset ring-gray-300 pl-2 min-h-[116px] placeholder:text-[#A1ADB2]  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
-            placeholder="Write a customer review"
-            required
-          ></textarea>
+          <Link href={'/dashboard/reviews/new'}>
+            <textarea
+              id="about"
+              name="about"
+              rows={3}
+              className="block w-full rounded-xl mt-4 text-[#A1ADB2] border-0 border-custom-color32 text-base font-bold py-2  shadow-sm ring-1 ring-inset ring-gray-300 pl-2 min-h-[116px] placeholder:text-[#A1ADB2]  sm:text-sm sm:leading-6 pl-2 text-base font-bold "
+              placeholder="Write a customer review"
+              required
+            ></textarea>
+          </Link>
           <button
             type="button"
             className="text-xl font-semibold leading-6 mt-7 text-base font-manropeB font-bold text-brand-green-primary flex mx-auto"
           >
-            See more reviews
+            <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
           </button>
         </form>
       </>
@@ -171,7 +167,7 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
   return null;
 };
 
-const TabContainer = () => {
+const TabContainer = ({ desc }: { desc: any }) => {
   const [tab, setTab] = useState<string>('description');
 
   const handleTabClick = useMemo(() => {
@@ -184,7 +180,7 @@ const TabContainer = () => {
     <div className="md:block hidden w-full">
       <TabButton handleTabClick={handleTabClick} tab={tab} />
       <div className="w-full rounded-[10px] border-[1px] border-white-110 mt-4 p-10">
-        <TabContent tab={tab} />
+        <TabContent tab={tab} desc={desc} />
       </div>
     </div>
   );

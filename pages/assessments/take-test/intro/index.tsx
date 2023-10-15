@@ -5,8 +5,24 @@ import Link from 'next/link';
 import Button from '@ui/Button';
 import { useRouter } from 'next/router';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
+import { fetchUserTakenAssessment } from '../../../../http/userTakenAssessment';
 const TakeTest: FC = () => {
   const router = useRouter();
+
+  const handleGetStarted = async () => {
+    try {
+      const data = await fetchUserTakenAssessment();
+      console.log('data', data.statusText);
+      const assessmentData = data.data.data;
+      console.log('assessmentData', assessmentData);
+      localStorage.setItem('assessmentData', JSON.stringify(assessmentData));
+      if (data) {
+        router.push(`/assessments/take-test/questions`);
+      }
+    } catch (error) {
+      console.log('catch error', error);
+    }
+  };
   return (
     <>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
@@ -17,17 +33,17 @@ const TakeTest: FC = () => {
         />
         <div className="container mx-auto pt-16 px-8 pb-36 md-pb-4 md:h-screen">
           <div className="mx-auto sm:w  md:w-fit rounded-lg border border-slate-100 pt-10 pb-5 md:pb-10 md:px-10 px-5">
-            <button onClick={() => router.back()}>
+            <button className="text-custom-color43" onClick={() => router.back()}>
               <ArrowLeft />
             </button>
             <h1 className="text-brand-green-primary font-manropeEB mt-4 mb-6 font-extrabold text-2xl">
               Welcome to the User persorna quiz
             </h1>
-            <p className="mb-8 text-sm md:text-base">
+            <p className="mb-8 text-sm md:text-base text-custom-color43">
               Test Duration: This assessment would take approximately one minute to complete
             </p>
-            <h5>Instructions:</h5>
-            <ul className="pl-5 list-decimal text-sm md:text-base">
+            <h5 className="text-custom-color43">Instructions:</h5>
+            <ul className="pl-5 list-decimal text-sm md:text-base text-custom-color43">
               <li>Focus: Find a quite, distraction free environment.</li>
               <li>Tech Requirements: Ensure a stable internet connection and device.</li>
               <li>Honesty: Answer honestly to access your skills accurately.</li>
@@ -42,6 +58,7 @@ const TakeTest: FC = () => {
                   size={'md'}
                   isLoading={false}
                   spinnerColor="#000"
+                  onClick={handleGetStarted}
                   className="px-5 py-0 md:py-2 md:px-10 text-sm md:text-base font-manropeL"
                 >
                   Start assessment

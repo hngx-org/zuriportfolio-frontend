@@ -1,10 +1,54 @@
-import React, { ChangeEvent, useState, useRef } from 'react';
+import React, { ChangeEvent, useState, useRef, useContext } from 'react';
+import useAuthMutation from '../../hooks/Auth/useAuthMutation';
+import { useAuth } from '../../context/AuthContext';
+import { verfiy2FA, resend2FACode } from '../../http/auth';
+import Router, { useRouter } from 'next/router';
+import { notify } from '@ui/Toast';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
 function Code2FALogic() {
+  const router = useRouter();
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+  const { auth } = useAuth();
+  const mutateFn = useAuthMutation(verfiy2FA, {
+    onSuccess: (data: any) => {
+      if (data?.data?.status && data?.data?.status == '200') {
+        notify({
+          message: data?.data?.message,
+          type: 'success',
+        });
+        router.push('/dashboard');
+        return;
+      } else {
+        setDigits(['', '', '', '', '', '']);
+        notify({
+          message: data?.response?.message || 'Invalid code',
+          type: 'error',
+        });
+      }
+    },
+  });
+
+  const mutateRe = useAuthMutation(resend2FACode, {
+    onSuccess: (data: any) => {
+      if (data?.data?.status && data?.data?.status == '200') {
+        notify({
+          message: data?.data?.message,
+          type: 'success',
+        });
+        return;
+      } else {
+        notify({
+          message: 'Error!',
+          type: 'error',
+        });
+      }
+    },
+  });
 
   function handlePaste(e: React.ClipboardEvent<HTMLInputElement>, index: number) {
     e.preventDefault();
@@ -70,7 +114,38 @@ function Code2FALogic() {
     }
   };
 
-  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    const code = digits.join('');
+    setLoading(true);
+    setTimeout(() => {
+      const email = auth?.user?.email;
+      mutateFn.mutate({ email: email as string, code });
+      setLoading(false);
+    }, 700);
+  };
+
+  const handleResend = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      const email = auth?.user?.email;
+      mutateRe.mutate({ email: email as string });
+      setLoading(false);
+    }, 700);
+  };
+
+  return {
+    digits,
+    inputRefs,
+    handlePaste,
+    handleKeyDown,
+    handleDigitChange,
+    handleSubmit,
+    handleResend,
+    loading,
+    auth,
+  };
 }
 
 export default Code2FALogic;

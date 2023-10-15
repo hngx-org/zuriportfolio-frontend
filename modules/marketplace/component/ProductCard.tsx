@@ -1,20 +1,31 @@
 import React from 'react';
-import { ProductCardProps, starProps } from '../../../@types';
+import { MarketPlaceProductCardProps, starProps } from '../../../@types';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function ProductCard({
   image,
-  productName,
-  productPrice,
-  productOwner,
-  productRating,
+  name,
+  price,
+  user,
+  rating,
   showLimitedOffer,
   showTopPicks,
   showDiscount,
-  discount,
-}: ProductCardProps) {
-  const productNameTrimmed = productName?.slice(0, 30);
+  discount_price,
+  id,
+  currency,
+  shop,
+}: MarketPlaceProductCardProps) {
+  const productNameTrimmed = name?.slice(0, 30);
+
+  const formatPrice = (price: number) => {
+    if (typeof price === 'number') {
+      return price.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    }
+
+    return price;
+  };
 
   const stars: starProps = {
     1: { src: '/assets/images/stars/1StarRating.png', alt: '1 Star' },
@@ -24,12 +35,12 @@ export default function ProductCard({
     5: { src: '/assets/images/stars/5StarRating.png', alt: '5 Stars' },
   };
 
-  const starRating = productRating in stars;
+  const starRating = rating in stars;
 
   return (
-    <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[286px] max-w-full">
-      <Link href="">
-        <div className="flex flex-col items-start">
+    <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] h-full w-[286px] max-w-full">
+      <Link href={`/marketplace/product-details?id=${id}`} className="relative h-full flex flex-col">
+        <div className="flex flex-col h-full items-start">
           {/* Product Image */}
           <div>
             <div>
@@ -39,7 +50,7 @@ export default function ProductCard({
                 </div>
               ) : showDiscount ? (
                 <div className="absolute w-[100px] h-[36px] bg-brand-green-shade95 rounded-[8px] flex items-center justify-center text-brand-green-shade50 tracking-[0.4%] font-manropeL font-semibold text-[12px]">
-                  {`${discount}% Off`}
+                  {`${discount_price}% Off`}
                 </div>
               ) : showLimitedOffer ? (
                 <div className="absolute w-[100px] h-[36px] bg-custom-color24 rounded-[8px] flex items-center justify-center text-custom-color25 tracking-[0.4%] font-manropeL font-semibold text-[12px]">
@@ -47,26 +58,42 @@ export default function ProductCard({
                 </div>
               ) : null}
             </div>
-            <Image src={image} alt="Landscape picture" width={254} height={209} className="rounded-[8px]" />
+
+            {image ? (
+              <div className="h-[120px] md:h-[209px] overflow-hidden">
+                <Image src={image} alt={name} width={254} height={209} className="rounded-[8px] object-cover" />
+              </div>
+            ) : (
+              <Image
+                src="/assets/dummyImage.jpg"
+                alt="dummy image"
+                width={254}
+                height={209}
+                className="rounded-[8px]"
+              />
+            )}
           </div>
           {/* Product Name */}
-          <p className="font-manropeL text-brand-green-shade10 text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
-            {productName?.length > 30 ? <span>{productNameTrimmed}...</span> : productName}
+          <p className="font-manropeL mt-auto text-brand-green-shade10 w-full text-ellipsis whitespace-nowrap overflow-hidden text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
+            {name?.length > 30 ? <span>{productNameTrimmed}...</span> : name}
           </p>
           {/* Product Price */}
           <h1 className="font-manropeL text-brand-green-shade10 text-[18px] font-bold leading-[20px] letter pt-[2px] pb-[8px]">
-            {`$${productPrice}`}
+            {currency === 'USD' ? `$${formatPrice(price)}` : `$${formatPrice(price)}`}
           </h1>
           {/* Product Owner */}
           <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">
-            By: <span className="underline">{productOwner}</span>
+            By:{' '}
+            <Link href={shop?.id ? `/shop/${shop.id}` : '/shop'} className="underline">
+              {user}
+            </Link>
           </p>
           {/* Star rating */}
           <div>
             {starRating ? (
               <div className="flex flex-row items-center gap-[5px]">
-                <Image src={stars[productRating].src} alt="" width={111} height={20} className="" />
-                <p className="font-manropeL font-semibold text-[14px] leading-[20px] tracking-[0.25%] text-custom-color15">{`(${productRating})`}</p>
+                <Image src={stars[rating].src} alt="" width={111} height={20} className="" />
+                <p className="font-manropeL font-semibold text-[14px] leading-[20px] tracking-[0.25%] text-custom-color15">{`(${rating})`}</p>
               </div>
             ) : (
               <p>No Rating for this product</p>

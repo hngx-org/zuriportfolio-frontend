@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { Add } from 'iconsax-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-const CreateTemplate = () => {
+
+type CreateassProps = {
+  // data: () => void;
+  dataValues: (dataObject: { [key: string]: string }) => void;
+};
+const CreateTemplate: React.FC<CreateassProps> = ({ dataValues }) => {
   const [mockArr, setMcokarr] = useState(new Array(1).fill(null));
   const [mockData, setMockData] = useState(new Array(1).fill(null));
 
@@ -30,6 +35,23 @@ const CreateTemplate = () => {
       setMcokarr(updatedArr);
     }
   };
+  //handling sending post rrquests
+
+  const [inputsVal, setInputsVal] = useState<{ [key: string]: string }>({});
+  const [drop, setDrop] = useState<string>('');
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setInputsVal((prevValues) => ({ ...prevValues, [name]: value }));
+  };
+  //pushing the select input to the lists
+  useEffect(() => {
+    inputsVal.correct_option = drop;
+    dataValues(inputsVal);
+  }, [inputsVal, drop]);
+
+  //demo-post
 
   return (
     <>
@@ -43,16 +65,16 @@ const CreateTemplate = () => {
               <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${index + 1}`}</div>
               <div className="flex items-center pt-4 gap-x-4">
                 <Input
-                  className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                  }}
+                  className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100 text-[18px]"
+                  onChange={handleChange}
                   type="text"
-                  name="question"
-                  placeHolder=""
+                  name={`Question${index + 1}`}
+                  placeholder=""
                   intent={'default'}
+                  value={inputsVal[`Question${index + 1}`] || ''}
                   size={15}
                 />
+
                 <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M33.0204 25.94L28.3254 14.975C26.7354 11.255 23.8104 11.105 21.8454 14.645L19.0104 19.76C17.5704 22.355 14.8854 22.58 13.0254 20.255L12.6954 19.835C10.7604 17.405 8.03038 17.705 6.63538 20.48L4.05538 25.655C2.24038 29.255 4.86538 33.5 8.88538 33.5H28.0254C31.9254 33.5 34.5504 29.525 33.0204 25.94Z"
@@ -80,15 +102,13 @@ const CreateTemplate = () => {
                         <circle cx="14" cy="14.5" r="13.5" stroke="#009254" />
                       </svg>
                       <Input
-                        className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
-                        onChange={(e) => {
-                          console.log(e.target.value);
-                        }}
+                        className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100 text-[17px]"
+                        onChange={handleChange}
                         type="text"
-                        name="opt-1"
-                        placeHolder=""
+                        name={`option${index + 1}`}
+                        placeholder=""
+                        value={inputsVal[`option${index + 1}`] || ''}
                         intent={'default'}
-                        size={15}
                       />
                       <svg
                         width="28"
@@ -136,18 +156,20 @@ const CreateTemplate = () => {
               <div className="pt-4 w-full ">
                 <Select
                   onValueChange={(value) => {
-                    console.log(value);
+                    setDrop(value);
                   }}
+                  name="selectDrop"
+                  value={drop || 'option1'}
                 >
                   <SelectTrigger className="w-full p-6">
                     <SelectValue placeholder="Option1" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="light">Option1</SelectItem>
-                    <SelectItem value="dark">Option2</SelectItem>
-                    <SelectItem value="system">Option3</SelectItem>
-                    <SelectItem value="system">Option4</SelectItem>
-                    <SelectItem value="system">Option5</SelectItem>
+                    <SelectItem value="option1">Option1</SelectItem>
+                    <SelectItem value="option2">Option2</SelectItem>
+                    <SelectItem value="option3">Option3</SelectItem>
+                    <SelectItem value="option4">Option4</SelectItem>
+                    <SelectItem value="option5">Option5</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

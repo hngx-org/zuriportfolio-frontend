@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { OrderHistory } from '../@types';
 import { clearTimeout } from 'timers';
+import axios from 'axios';
 
 const dummyOrders: OrderHistory[] = [
   {
@@ -90,27 +91,107 @@ const useOrders = (initialOrders = dummyOrders) => {
     sortOrder: 'asc' | 'desc';
   }>({ sortBy: 'id', sortOrder: 'asc' });
   const [searchQuery, setSearchQuery] = useState('');
-
-  const filterFunc = useCallback((filter: string, shouldChangeSort: boolean = true) => {
-    let filteredOrders = [...initialOrders];
+  const [loading, setLoadingOrders] = useState(true);
+  const [searching, setSearching] = useState(false);
+  const filterFunc = useCallback((filter: string, order: any[]) => {
+    let filteredOrders = [...order];
     if (filter !== 'all') {
-      filteredOrders = initialOrders.filter((order) => order.status === filter);
+      filteredOrders = order.filter((order) => order.status === filter);
     }
 
-    setOrders(filteredOrders);
-    // Change sort to default
-    if (shouldChangeSort) {
-      changeSortBy('id');
-    }
     return filteredOrders;
   }, []);
   const changeFilter = (val: string) => {
     // show orders by status which is either all | completed | cancelled or pending
     setOrderFilter(val);
-
-    filterFunc(val);
   };
+  const fetchOrders = async () => {
+    try {
+      setLoadingOrders(true);
+      const data = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
+        method: 'GET',
+      });
 
+      if (data.data?.errorStatus === true) {
+        return [];
+      }
+      if (!data.data.data || data.data.data?.length === 0) {
+        return [];
+      }
+      const transformedOrder = data?.data.data?.map((order: any) => ({
+        productName: order.product.name,
+        id: order.order_id,
+        status: order.merchant.customer_orders[0]?.status,
+        customerName: order.customer.first_name + order.customer.last_name,
+        date: new Date(order.createdAt),
+      }));
+
+      return transformedOrder;
+    } catch (error) {
+      return [];
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
+  const debounce = (func: (...a: any) => any, timeSlice: number = 1000) => {
+    let timeout: NodeJS.Timeout;
+    return async function (...arg: any) {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(async () => {
+        const order = await func.apply(null, arg);
+      }, timeSlice);
+    };
+  };
+  const getSearchResult = async (query: string) => {
+    try {
+      setSearching(true);
+      if (query.length === 0) {
+        return;
+      }
+      const res = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
+        method: 'GET',
+      });
+      const { data } = res;
+      if (!!data?.errorStatus) {
+        console.log('Error');
+
+        return [];
+      }
+      if (data?.data === 'user not found') {
+        console.log('no data');
+
+        return [];
+      }
+      if (!data.data) {
+        return [];
+      }
+
+      const transformedOrder = data.data.map((order: any) => {
+        return {
+          id: order.order_id,
+          price: order.product.price,
+          date: new Date(order.createdAt),
+          revenue: order.merchant.revenue[0]?.amount,
+          status: order.customer_orders[0]?.status,
+          sales: order.customer_orders[0]?.sales_report[0]?.sales,
+          customerName: order.customer[0]?.username,
+          productName: order.product.name,
+          productType: order.product.categories[0]?.name,
+        };
+      });
+
+      return transformedOrder;
+    } catch (error) {
+      return [];
+    } finally {
+      setSearching(false);
+    }
+  };
+  const debounceSearch = debounce(getSearchResult);
   const changeSortBy = (val: keyof OrderHistory) => {
     setSort((prevSort) => {
       if (prevSort.sortBy === val) {
@@ -126,64 +207,57 @@ const useOrders = (initialOrders = dummyOrders) => {
       }
     });
   };
+  const sortOrders = (orders: OrderHistory[]) => {
+    let filteredOrders = [...orders];
 
+    const { sortBy, sortOrder } = sort;
+
+    const sortedOrders = [...filteredOrders].sort((a, b) => {
+      const aVal = a[sortBy];
+      const bVal = b[sortBy];
+
+      if (typeof aVal === 'number' && typeof bVal === 'number') {
+        return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
+      } else if (aVal instanceof Date && bVal instanceof Date) {
+        return sortOrder === 'asc' ? aVal.getTime() - bVal.getTime() : bVal.getTime() - aVal.getTime();
+      } else if (typeof aVal === 'string' && typeof bVal === 'string') {
+        return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      }
+
+      return 0;
+    });
+
+    return sortedOrders;
+  };
+  const insertOrders = (order: any[]) => {
+    setOrders(order);
+  };
   useEffect(() => {
-    const sortOrders = (orders: OrderHistory[]) => {
-      let filteredOrders = [...orders];
-
-      const { sortBy, sortOrder } = sort;
-
-      const sortedOrders = [...filteredOrders].sort((a, b) => {
-        const aVal = a[sortBy];
-        const bVal = b[sortBy];
-
-        if (typeof aVal === 'number' && typeof bVal === 'number') {
-          return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
-        } else if (aVal instanceof Date && bVal instanceof Date) {
-          return sortOrder === 'asc' ? aVal.getTime() - bVal.getTime() : bVal.getTime() - aVal.getTime();
-        } else if (typeof aVal === 'string' && typeof bVal === 'string') {
-          return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
-        }
-
-        return 0;
-      });
-
-      return sortedOrders;
-    };
-
-    setOrders((prev) => sortOrders(prev));
+    const order = sortOrders(orders);
+    insertOrders(order);
   }, [initialOrders, sort]);
   //  Search Logic
 
-  const searchFunc = useCallback((query: string, filter: string) => {
-    if (query.trim().length === 0) {
-      filterFunc(filter as string);
-      return;
-    }
-    // Filter initial Orders by status
-    const orders = filterFunc(filter, false);
-    setOrders(orders.filter((order) => order.productName.toLowerCase().includes(query.trim().toLowerCase())));
-  }, []);
-
-  const changeSearchQuery = (val: string, filter: string) => {
+  const changeSearchQuery = (val: string) => {
     setSearchQuery(val);
-    searchFunc(val, filter);
   };
 
   return {
-    orders,
-    changeFilter,
-    orderFilter,
-    changeSortBy,
-    sortBy: sort.sortBy,
-    toggleSortOrder: () => {
-      setSort((prevSort) => ({
-        ...prevSort,
-        sortOrder: prevSort.sortOrder === 'asc' ? 'desc' : 'asc',
-      }));
-    },
     changeSearchQuery,
     searchQuery,
+    filterFunc,
+    fetchOrders,
+    debounceSearch,
+    sortOrders,
+    sortBy: sort.sortBy,
+    insertOrders,
+    orders,
+    changeSortBy,
+    changeFilter,
+    orderFilter,
+    loading,
+    searching,
+    getSearchResult,
   };
 };
 
