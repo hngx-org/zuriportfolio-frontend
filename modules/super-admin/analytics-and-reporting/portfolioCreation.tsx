@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { DateObject } from 'react-multi-date-picker';
+import { ImSpinner8 } from 'react-icons/im';
 
 interface zaProps {
   dateRange: DateObject[];
@@ -10,6 +11,7 @@ interface zaProps {
 
 const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const [portfolioCreationArray, setPortfolioCreationArray] = React.useState<any>([]);
+  const [loadingState, setLoadingState] = useState<Boolean>(false);
   // React.useEffect(() => {
   //   fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/')
   //     .then((res) => res.json())
@@ -25,6 +27,7 @@ const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
     if (reportClicked && dateRange.length === 2) {
       const startDate = dateRange[0].format('YYYY-MM-DD');
       const endDate = dateRange[1].format('YYYY-MM-DD');
+      setLoadingState(true);
 
       const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/?start_date=${startDate}&end_date=${endDate}`;
 
@@ -33,21 +36,26 @@ const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         .then((response) => {
           console.log(response.data.data);
           setPortfolioCreationArray(response.data.data);
+          setLoadingState(false);
         })
         .catch((error) => {
           console.error('Error fetching top-selling products:', error);
+          setLoadingState(false);
         });
     } else {
       const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary';
 
+      setLoadingState(true);
       axios
         .get(apiUrl)
         .then((response) => {
           console.log(response.data.data);
           setPortfolioCreationArray(response.data.data);
+          setLoadingState(false);
         })
         .catch((error) => {
           console.error('Error fetching top-selling products:', error);
+          setLoadingState(false);
         });
     }
   }, [reportClicked]);
@@ -105,40 +113,44 @@ const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   </p>
                 </div>
               </div>
-              {portfolioCreationArray?.map((e: any) => {
-                return (
-                  <div
-                    key={e.index}
-                    className="flex items-center justify-between px-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0"
-                  >
-                    <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[9.969rem]">
-                      <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                        {e.total_portfolios_created}
-                      </h6>
+              {loadingState ? (
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[1rem] text-brand-success-primary animate-spin" />
+              ) : (
+                portfolioCreationArray?.map((e: any, index: any) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between px-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0"
+                    >
+                      <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[9.969rem]">
+                        <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                          {e.total_portfolios_created}
+                        </h6>
+                      </div>
+                      <div className="max-w-[19.8rem] w-full max-[778px]:min-w-[9.8rem]">
+                        <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                          {e.portfolio_category}
+                        </p>
+                      </div>
+                      <div className="max-w-[11.8rem] w-full max-[778px]:min-w-[11.8rem]">
+                        <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                          {e.total_category}
+                        </p>
+                      </div>
+                      <div className="max-w-[12.4rem] w-full max-[778px]:min-w-[12.4rem]">
+                        <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                          {e.percentage}
+                        </p>
+                      </div>
+                      <div className="max-w-[10.8rem] w-full max-[778px]:min-w-[10.8rem]">
+                        <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
+                          {e.active_user}
+                        </p>
+                      </div>
                     </div>
-                    <div className="max-w-[19.8rem] w-full max-[778px]:min-w-[9.8rem]">
-                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                        {e.portfolio_category}
-                      </p>
-                    </div>
-                    <div className="max-w-[11.8rem] w-full max-[778px]:min-w-[11.8rem]">
-                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                        {e.total_category}
-                      </p>
-                    </div>
-                    <div className="max-w-[12.4rem] w-full max-[778px]:min-w-[12.4rem]">
-                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                        {e.percentage}
-                      </p>
-                    </div>
-                    <div className="max-w-[10.8rem] w-full max-[778px]:min-w-[10.8rem]">
-                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem]">
-                        {e.active_user}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           </div>
           <div>
