@@ -180,7 +180,12 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               </div>
               <div className="self-end flex gap-4 font-manropeL">
                 <span className="font-semibold cursor-pointer text-[#5B8DEF]">Edit</span>
-                <span className="font-semibold cursor-pointer text-brand-red-hover">Delete</span>
+                <span
+                  className="font-semibold cursor-pointer text-brand-red-hover"
+                  onClick={(e) => handleDeleteExperience(editingExperience?.id, e)}
+                >
+                  Delete
+                </span>
               </div>
             </article>
           )}
