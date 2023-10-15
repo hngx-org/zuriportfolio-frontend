@@ -17,6 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
       - name: build app
         run: |
           yarn install
@@ -29,11 +34,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
       - name: build again
         run: |
           yarn install
           yarn build
           rm -rf node_modules
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-without-markdown
+          path: |
+            .next
 
       - name: Copy build folder to server
         uses: Creepios/sftp-action@v1.0.3
@@ -53,6 +70,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            su - devops
             cd /home/devops/zuri_frontend/zuriportfolio-frontend
             yarn install --ignore-engines
             pm2 restart zuri_frontend

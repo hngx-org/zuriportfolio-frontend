@@ -44,20 +44,25 @@ const LandingPageFilled: React.FC = () => {
     modals,
     modalStates,
     userSections,
+    userData,
   } = useContext(Portfolio);
 
   const deleteSection = () => setOpenDelete(true);
   console.log(userSections);
 
-  // useEffect(() => {
-  //   userSections?.map((section) => {
-  //     if (section?.data?.length !== 0) {
-  //       setHasData(true);
-  //     } else {
-  //       setHasData(false);
-  //     }
-  //   });
-  // }, [setHasData, userSections]);
+  useEffect(() => {
+    userSections?.map((section) => {
+      if (section?.data?.length !== 0) {
+        setHasData(true);
+      } else {
+        setHasData(false);
+      }
+    });
+    if (userData) {
+      const hasUserData = userData.firstName && userData.lastName && userData.tracks;
+      setHasData(hasUserData);
+    }
+  }, [setHasData, userSections, userData]);
 
   return (
     <>
