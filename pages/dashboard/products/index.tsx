@@ -19,12 +19,15 @@ const Products = () => {
   const [product, setProducts] = useState<Product[]>([]);
   const [loading, setIsLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const fetchProducts = async () => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const fetchProducts = async (searchQuery: string = '') => {
     // Fetch the product data from the server
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace');
+      const url = 'https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace';
+      const res = await fetch(url);
       const data = await res.json();
       if (Array.isArray(data.data)) {
         return data.data;
@@ -43,16 +46,24 @@ const Products = () => {
   const insertSelectedProduct = (product: any) => {
     setSelectedProduct(product);
   };
+
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    console.log('Search query changed:', value);
+    setSearchQuery(value);
+  };
+
   useEffect(() => {
     // Run code if current page change
   }, [currentPage]);
+
   useEffect(() => {
     const setProducts = async () => {
-      const product = await fetchProducts();
+      const product = await fetchProducts(searchQuery);
       insertProduct(product || []);
     };
     setProducts();
-  }, []);
+  }, [searchQuery]);
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
       <div className="max-w-[1240px] mx-auto my-4 px-6">
@@ -78,7 +89,9 @@ const Products = () => {
               <SearchNormal1 size="16" color="#667085" />
               <input
                 className=" bg-transparent font-manropeL font-normal focus-within:outline-none flex-1 text-[1rem] leading-[150%] text-custom-color2"
-                placeholder="Search"
+                placeholder="Search products here..."
+                onChange={handleSearchInputChange}
+                value={searchQuery}
               />
             </div>
           </div>

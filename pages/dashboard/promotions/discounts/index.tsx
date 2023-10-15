@@ -96,7 +96,11 @@ function Discounts() {
   }
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -142,13 +146,14 @@ function Discounts() {
 
     console.log('userData', userData);
     try {
-      const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData);
+      const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
 
       toast.success('Discount created successfully', {
         autoClose: 5000,
-        // onClose: () => {
-        //   router?.push('/dashboard/promotions');
-        // },
       });
       router.push('/dashboard/promotions');
       console.log('success', response?.data);

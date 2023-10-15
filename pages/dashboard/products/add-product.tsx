@@ -24,7 +24,11 @@ const AddProduct = () => {
 
   useEffect(() => {
     // Fetch product categories
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories')
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -67,6 +71,11 @@ const AddProduct = () => {
       const response = await axios.post(
         'https://zuriportfolio-shop-internal-api.onrender.com/api/product/add',
         formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+        },
       );
 
       // Handle the response, e.g., show a success message or redirect
@@ -262,13 +271,13 @@ const AddProduct = () => {
                     inputMode="none"
                     name="discountPrice"
                   />
-                  {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Quantity</label>
+                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] ">Product Quantity</label>
                   <Input
                     className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="$ 00.00"
                     inputMode="none"
                     name="quantity"
-                  /> */}
+                  />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Value Added Tax (VAT)</label>
                   <Input
                     className="w-[50%] md:w-[30%] mb-5 mt-2 placeholder:text-[#191C1E] text-black"
