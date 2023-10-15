@@ -45,6 +45,7 @@ function LoginForm() {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
+        // console.log(value);
 
         // Checking if user enabled 2fa
         if (res.data.user.two_factor_auth) {
@@ -53,8 +54,9 @@ function LoginForm() {
         }
 
         // redirecting the user  to admin dashbord if they are an admin
-        if (res.data.user.role_id === ADMIN_ID) {
-          router.push('/super-admin/analytics-and-reporting');
+        if (res.data.user.roleId === ADMIN_ID) {
+          router.push('/super-admin/product-listing');
+
           return;
         }
         notify({
@@ -62,12 +64,10 @@ function LoginForm() {
           type: 'success',
         });
         router.push('/dashboard');
-        // console.log(value);
         // notify({
         //   message: 'Login successful',
         //   type: 'success',
         // });
-        // router.push('/');
       } else if (res.message === 'Invalid password') {
         notify({
           message: 'Invalid password',
