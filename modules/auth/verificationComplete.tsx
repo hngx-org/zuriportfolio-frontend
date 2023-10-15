@@ -33,8 +33,8 @@ function VerificationComplete() {
       console.log(isSuccess);
 
       if (response.status === 200) {
-        handleAuth(response);
-        localStorage.setItem('zpt', response?.data?.newtoken);
+        handleAuth(response.data);
+        localStorage.setItem('zpt', response?.data?.token);
 
         notify({
           message: 'Verification Successful!',
@@ -44,9 +44,14 @@ function VerificationComplete() {
         router.push('/dashboard');
         return;
       }
+      
+      notify({
+        message: 'Verification Unsuccessful!',
+        type: 'error',
+      });
     },
     onError: ({ response }: any) => {
-      console.log(response.data);
+      console.log('verificaion error z', response);
 
       if (response.data.message === 'timeout of 30000ms exceeded') {
         const timeoutErrorMessage =
