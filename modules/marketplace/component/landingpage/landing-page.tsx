@@ -11,8 +11,7 @@ import useCategory from '../filter/hooks/useCategory';
 function LandingPage() {
   const [recommendedProduct, setRecommendedProduct] = useState({ isLoading: true, items: [] });
   const [limitedOffers, setLimitedOffers] = useState({ isLoading: true, items: [] });
-  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api';
-
+  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
   const { categories, loading } = useCategory();
 
   useEffect(() => {

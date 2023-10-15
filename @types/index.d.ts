@@ -203,6 +203,10 @@ export interface IntrestedProducts {
   description: string;
   images: { url: string }[];
   category: { name: string };
+  shop?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface ratingProps {

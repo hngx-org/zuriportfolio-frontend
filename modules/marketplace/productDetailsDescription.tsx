@@ -17,8 +17,8 @@ import { ProductData } from '../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
-import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
+import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
