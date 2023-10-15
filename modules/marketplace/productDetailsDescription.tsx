@@ -17,6 +17,7 @@ import { ProductData } from '../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
+import { destructureProducts } from '../../helpers';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -36,6 +37,7 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
+        console.log(response.data)
         setProduct(response.data);
         // setImage(product?.images[0].url)
         // console.log(product)
@@ -52,14 +54,12 @@ export default function ProductDetailsDescription() {
     if (auth) {
       try {
         const response = await axios.post(
-          apiUrl,
-          { product_ids: [`${id}`] },
+          apiUrl, { product_ids: [`${id}`] },
           {
             headers: {
               Authorization: `Bearer ${auth?.token}`,
             },
-          },
-        );
+          },);
 
         if (response.status === 200) {
           toast.success('Added to Cart');
@@ -70,9 +70,12 @@ export default function ProductDetailsDescription() {
         toast.error(error.message);
       }
     } else {
-      const products: any[] = [];
+      const products: any[] = localStorage.getItem('products') ? 
+                                   JSON.parse(localStorage.getItem('products') as string) : []
       if (product) {
-        products.push(product);
+        const productTemp = destructureProducts([product])
+        
+        products.push(...productTemp);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
         toast.success('Item added to cart🎊');

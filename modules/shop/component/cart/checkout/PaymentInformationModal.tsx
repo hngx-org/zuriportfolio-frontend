@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
-import { makePayment } from '../../../../../http';
+import { makePayment } from '../../../../../http/checkout';
 
 const PaymentInformationModal = ({ closeModal, orderTotal,token }: { closeModal: () => void; orderTotal: number,token:string }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

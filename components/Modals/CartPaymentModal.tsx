@@ -5,7 +5,7 @@ import checkedPayment from '../../public/assets/images/check-1.png';
 const CartPaymentModal = () => {
 
   useEffect(()=> {
-    setTimeout(()=> {window.location.href = "https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart"},5000)
+    // setTimeout(()=> {window.location.href = "https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart"},5000)
   })
 
   return (

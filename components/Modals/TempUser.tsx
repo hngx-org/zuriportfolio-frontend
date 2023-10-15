@@ -1,37 +1,42 @@
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
 import Image from 'next/image';
-import React, { RefObject, useRef, useState } from 'react';
 import flutterwave from '../../public/assets/futterwave.png';
 import paystack from '../../public/assets/paystack.png';
 import cancel from '../../public/assets/images/logo/otp-modal-cancel.svg';
 import Button from '@ui/Button';
+import { createTempUser, makePayment } from '../../http/checkout';
+import { useAuth } from '../../context/AuthContext';
 
 interface TempUser {
   isOpen: boolean;
   onClose: () => void;
 }
 
+
 const TempUser = ({ isOpen, onClose }: TempUser) => {
-  const inputRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const emailRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const paystackRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const flutterwaveRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
+  const {auth} = useAuth();
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    const isFlutterChecked = flutterwaveRef.current?.checked;
-    const isPaystackChecked = paystackRef.current?.checked;
-
-    const inputValue = inputRef.current ? inputRef.current.value : '';
-    const emailValue = emailRef.current ? emailRef.current.value : '';
-    const paystackValue = isPaystackChecked ? 'paystack' : '';
-    const flutterwaveValue = isFlutterChecked ? 'flutterwave' : '';
-
-    console.log(`name: ${inputValue}`);
-    console.log(`email: ${emailValue}`);
-    console.log(`paystack: ${paystackValue}`);
-    console.log(`flutter: ${flutterwaveValue}`);
+    const userForm = new FormData(event.currentTarget);
+    const data = {
+      email: userForm.get('email') as string,
+      firstName: userForm.get('first_name') as string,
+      lastName: userForm.get('last_name') as string,
+    }
+    const payment= userForm.get('paymentMethod') as string;
+    const tempUser = await createTempUser(data)
+    console.log(tempUser);
+    console.log(tempUser.token);
+    
+    
+    if (tempUser.data.token) {
+      const response = await makePayment(payment,tempUser.data.token);
+      window.location.href = response.transaction_url;
+    }
+      
+    
   };
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
@@ -47,10 +52,22 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             Fullname
           </label>
           <input
-            ref={inputRef}
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
-            placeholder="Mark Essein"
+            placeholder="Mark"
             type="text"
+            name='first_name'
+            required
+          />
+        </div>
+        <div className="flex w-full flex-col items-start gap-[6px]">
+          <label className="text-[16px] font-manropeL not-italic font-semibold leading-[24px] tracking-[0.024px]">
+            Lastname
+          </label>
+          <input
+            className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
+            placeholder="Essein"
+            type="text"
+            name='last_name'
             required
           />
         </div>
@@ -59,17 +76,16 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             Email
           </label>
           <input
-            ref={emailRef}
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
             placeholder="example@email.com"
             type="email"
+            name='email'
             required
           />
         </div>
         <div className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4">
           <label className="inline-flex items-center flex-grow">
             <input
-              ref={paystackRef}
               type="radio"
               className="form-radio h-4 w-4 text-indigo-600 "
               required
@@ -83,7 +99,6 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
         <div className="flex items-center justify-between w-full border rounded-lg p-4 mb-4 border-[#E1E3E2]">
           <label className="inline-flex items-center flex-grow">
             <input
-              ref={flutterwaveRef}
               type="radio"
               className="form-radio h-4 w-4 text-indigo-600 "
               required
