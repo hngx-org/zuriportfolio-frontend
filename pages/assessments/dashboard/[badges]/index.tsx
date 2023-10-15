@@ -1,9 +1,10 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+import BadgeComponent from '@modules/assessment/component/Badges/BadgeComponent';
 import Image from 'next/image';
 import MainLayout from '../../../../components/Layout/MainLayout';
-import BadgeComponent from '@modules/assessment/component/Badges/BadgeComponent';
+import React from 'react';
+import { useRouter } from 'next/router';
 
 const Earnedbadges: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -57,7 +58,7 @@ const Earnedbadges: React.FC = () => {
               priority={true}
             />
           </div>
-          <div className="absolute right-[5%] md:right-[6%] hidden lg:block mix-blend-burn  overflow-hidden">
+          <div className="absolute right-[5%] md:right-[5.5%] hidden lg:block mix-blend-burn  overflow-hidden">
             <Image
               src="/assets/images/badges/expertbadgebanner.svg"
               width={430}
