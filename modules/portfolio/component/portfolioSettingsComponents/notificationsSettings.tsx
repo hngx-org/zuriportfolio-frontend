@@ -4,6 +4,7 @@ import { MdCheck } from 'react-icons/md';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { type } from 'os';
+import { useAuth } from '../../../../context/AuthContext';
 type pros = {
   checkboxState: {
     emailSummary: boolean;
@@ -16,6 +17,7 @@ type pros = {
 };
 
 export default function NotificationsSettings(props: pros) {
+  const { auth } = useAuth();
   const handleLabelClick = (checkboxName: keyof NotificationCheckboxType) => {
     props.setCheckboxState((prevState) => ({
       ...prevState,

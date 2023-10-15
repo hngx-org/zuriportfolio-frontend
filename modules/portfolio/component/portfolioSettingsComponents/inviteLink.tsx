@@ -8,9 +8,10 @@ import Social2 from '../../../../public/assets/inviteAssets/Social2.svg';
 import Social3 from '../../../../public/assets/inviteAssets/Social3.svg';
 import Social1 from '../../../../public/assets/inviteAssets/Social1.svg';
 import Share from '../../../../public/assets/inviteAssets/share-01.svg';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { useAuth } from '../../../../context/AuthContext';
 
 export default function InviteLink() {
+  const { auth } = useAuth();
   const websiteURL = 'https://zuriportfolio-frontend-pw1h.vercel.app';
   const copyInvite = useRef<any>(null);
   const handleCopyToClipboard = () => {
@@ -22,7 +23,7 @@ export default function InviteLink() {
   };
 
   const [openModal, setOPenModal] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string>('');
+  const [userName, setUserName] = useState();
   const toggleModal = () => {
     setOPenModal((prev: boolean) => !prev);
   };
@@ -35,7 +36,6 @@ export default function InviteLink() {
       if (response.ok) {
         const data = await response.json();
         console.log('Success:', data);
-        setUserName(data.user.username);
       } else {
         console.error('Failed');
       }
@@ -69,7 +69,7 @@ export default function InviteLink() {
            outline-none px-[8px] border-[1px] leading-6  grow max-w-[232px]
             md:max-w-[268px] height-[24px] border-[#D0D5DD]
              lg:px-[12px] py-[10px] text-[12px] md:text-[14px] rounded-l-md text-[#667085]"
-          value={`portfolio.zuri/invite?=${userName}`}
+          value={`portfolio.zuri/invite?=${auth?.user.firstName}`}
           readOnly
         />
 

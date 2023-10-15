@@ -77,9 +77,9 @@ function AccountManagement() {
   return (
     <div className="flex flex-col gap-y-[1rem]">
       <ToastContainer />
-      <h3 className=" font-manropeEB lg:font-manropeB text-[1rem] lg:text-[1.375rem] text-[#2E3130] leading-[1.5rem] lg:leading-[1.75rem]">
+      {/* <h3 className=" font-manropeEB lg:font-manropeB text-[1rem] lg:text-[1.375rem] text-[#2E3130] leading-[1.5rem] lg:leading-[1.75rem]">
         Account Management
-      </h3>
+      </h3> */}
       <form onSubmit={handleUpdateAccount} className="flex flex-col gap-y-[2rem]">
         <div className="flex flex-col gap-y-[0.5rem]">
           <label

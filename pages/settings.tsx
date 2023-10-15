@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import withAuth from '../helpers/withAuth';
 import Image from 'next/image';
 import { profileData } from '../modules/portfolio/component/landing/data';
+import { useAuth } from '../context/AuthContext';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -24,6 +25,8 @@ const SettingPage = () => {
     refer: false,
   });
 
+  const { auth } = useAuth();
+  console.log(auth);
   const router = useRouter();
 
   const openEachSeting = Object.values(settingOption).some((value) => value === true);
@@ -87,10 +90,10 @@ const SettingPage = () => {
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
-      const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
+      const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
       const method = storedNotificationData ? 'PATCH' : 'POST';
 
-      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${userId}`;
+      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${auth?.user.id}}`;
       const response = await fetch(url, {
         method: method,
 
@@ -289,17 +292,24 @@ const SettingPage = () => {
                   {settingOption.deleteAccount && <DeleteAccount />}
                   {settingOption.accountManagement && (
                     <div>
-                      <div className="w-[180px] h-[180px] rounded-full bg-black ">
-                        <label htmlFor="profilepics">
+                      <h3 className=" font-manropeEB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
+                        Account Management
+                      </h3>
+                      <div className=" rounded-full  ">
+                        <label
+                          htmlFor="profilepics"
+                          className="flex rounded-full items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
+                        >
                           <Image
                             src={userPic}
                             width={280}
                             height={180}
                             alt=""
-                            className=" w-[180px] h-[180px] rounded-full"
+                            className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
                           ></Image>
+                          <p className="mb-4">Edit</p>
                         </label>
-                        <input type="file" name="profilepics" id="profilepics" className="apperance-none" />
+                        <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
                       </div>
 
                       <AccountManagement />
@@ -413,7 +423,31 @@ const SettingPage = () => {
                     <NotificationSettings checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
                   )}
                   {settingOption.deleteAccount && <DeleteAccount />}
-                  {settingOption.accountManagement && <AccountManagementMobile />}
+                  {settingOption.accountManagement && (
+                    <div>
+                      <h3 className=" font-manropeEB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
+                        Account Management
+                      </h3>
+                      <div className=" rounded-full  ">
+                        <label
+                          htmlFor="profilepics"
+                          className="flex rounded-full items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
+                        >
+                          <Image
+                            src={userPic}
+                            width={280}
+                            height={180}
+                            alt=""
+                            className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
+                          ></Image>
+                          <p className="mb-4">Edit</p>
+                        </label>
+                        <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
+                      </div>
+
+                      <AccountManagementMobile />
+                    </div>
+                  )}{' '}
                   {settingOption.refer && <InviteLink />}
                 </div>
               </div>
