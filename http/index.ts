@@ -324,7 +324,7 @@ export const useGetAllVendor = () => {
 };
 
 export const useGetShop = (id: string) => {
-  return useQuery(['get-shop'], async () => {
+  return useQuery(['get-shop', id], async () => {
     return makeRequest(`shop/${id}`, 'get');
   });
 };

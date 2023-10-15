@@ -154,7 +154,12 @@ const SuperAdminProdDetails = ({
                   </div>
                   <div className="flex font-manropeB text-custom-color43  gap-[18px] text-[12px]">
                     <p className="font-bold">
-                      Date {route.pathname.includes('sanctioned-products') ? 'Sanctioned' : 'Deleted'}
+                      Date{' '}
+                      {route.pathname.includes('sanctioned-products')
+                        ? 'Sanctioned'
+                        : route.pathname.includes('deleted-products')
+                        ? 'Deleted'
+                        : 'Updated'}{' '}
                     </p>
                     <p>{formatDate(data?.updatedAt)}</p>
                   </div>
