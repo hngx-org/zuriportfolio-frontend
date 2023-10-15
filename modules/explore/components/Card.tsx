@@ -39,7 +39,9 @@ const Card = ({ data }: { data?: UserInfo }) => {
     // btnPortfolioRef.current && (btnPortfolioRef.current.style.display = 'none');
   };
 
-  const copyUrl = () => {
+  const copyUrl = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     if (urlInputRef.current) {
       navigator.clipboard.writeText(urlInputRef.current.value).then(() => {
         notify({
@@ -65,84 +67,79 @@ const Card = ({ data }: { data?: UserInfo }) => {
       onMouseLeave={hideButtons}
     >
       {/* <CardHover openCard={isOpen} /> */}
-      <Link href={`/portfolio/${data?.id}`}>
-        <div className="max-w-[22rem] p-2 pb-4 border-1 min-h-[434px] border mx-auto  border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm lg:min-w-[22.5rem] xl:min-w-[24rem]">
-          <Image className="w-full rounded-t-2xl object-cover" src={bg1} alt="Card Header" width={100} height={76} />
-          <Image
-            className="-mt-11 rounded-full mx-auto aspect-square object-cover bg-center"
-            src={data?.profilePictureUrl ?? photo2}
-            alt="Avatar"
-            width={112}
-            height={112}
-          />
-          <div className="mt-3 text-center">
-            <h3 className="text-gray-800 font-manropeEB text-base md:text-[1.375rem]">
+
+      <div className="max-w-[22rem] p-2 pb-4 border-1 min-h-[434px] border mx-auto  border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm lg:min-w-[22.5rem] xl:min-w-[24rem]">
+        <Image className="w-full rounded-t-2xl object-cover" src={bg1} alt="Card Header" width={100} height={76} />
+        <Image
+          className="-mt-11 rounded-full mx-auto aspect-square object-cover bg-center"
+          src={data?.profilePictureUrl ?? photo2}
+          alt="Avatar"
+          width={112}
+          height={112}
+        />
+        <div className="mt-3 text-center">
+          <Link onClick={(e) => e.stopPropagation} href={`/portfolio/${data?.id}`}>
+            <h3 className="text-gray-800 font-manropeEB text-base md:text-[1.375rem] hover:underline">
               {data?.firstName} {data?.lastName}
             </h3>
-            <h4 className="text-gray-500 md:text-base">{data?.track}</h4>
+          </Link>
+          <h4 className="text-gray-500 md:text-base">{data?.track}</h4>
 
-            <div className="flex flex-wrap justify-center items-center gap-2 my-5 px-4 text-[0.75rem] font-manropeB text-gray-600 text-center md:text-sm md:px-3">
-              {data?.skills.length === 0 ? (
-                <button className="border border-gray-100 px-2 rounded-full">No Skills</button>
-              ) : (
-                data?.skills.map((skill, id) => (
-                  <button key={id} className="border border-gray-100 px-2 rounded-full">
-                    {skill}
-                  </button>
-                ))
-              )}
-              {/* <button className="mt-2 border border-gray-100 px-4 py-1 rounded-full">{data.skills[6]}</button> */}
-            </div>
-            <div className="mx-auto my-4 gap-2 md:gap-0 justify-center items-center flex">
-              <div className="gap-2 flex ">
-                <Image src={total_projects} className="m-auto" alt="total_projects" width={40} height={40} />
-                <div className="grid">
-                  <span className="text-gray-500 text-left text-[0.75rem]">Total Projects</span>
-                  <span className="text-left font-bold">{data?.projects}</span>
-                </div>
-              </div>
-              <div className="gap-2 ml-4 flex">
-                <Image src={badge_beginner} alt="badge_beginner" className="m-auto" width={40} height={40} />
-                <div className="grid">
-                  <span className="text-gray-500 text-left text-[0.75rem] ">Badge</span>
-                  <span className="text-left text-sm font-bold">{data?.ranking ?? 'No Ranking'}</span>
-                </div>
+          <div className="flex flex-wrap justify-center items-center gap-2 my-5 px-4 text-[0.75rem] font-manropeB text-gray-600 text-center md:text-sm md:px-3">
+            {data?.skills.length === 0 ? (
+              <button className="border border-gray-100 px-2 rounded-full">No Skills</button>
+            ) : (
+              data?.skills.map((skill, id) => (
+                <button key={id} className="border border-gray-100 px-2 rounded-full">
+                  {skill}
+                </button>
+              ))
+            )}
+            {/* <button className="mt-2 border border-gray-100 px-4 py-1 rounded-full">{data.skills[6]}</button> */}
+          </div>
+          <div className="mx-auto my-4 gap-2 md:gap-0 justify-center items-center flex">
+            <div className="gap-2 flex ">
+              <Image src={total_projects} className="m-auto" alt="total_projects" width={40} height={40} />
+              <div className="grid">
+                <span className="text-gray-500 text-left text-[0.75rem]">Total Projects</span>
+                <span className="text-left font-bold">{data?.projects}</span>
               </div>
             </div>
-            <div className="flex justify-center items-center gap-1 mt-5">
-              <Image src={Location} alt="badge_beginner" width={20} height={20} />
-              <div>
-                <span className="text-gray-500">{data?.address ?? 'No Address'}</span>
+            <div className="gap-2 ml-4 flex">
+              <Image src={badge_beginner} alt="badge_beginner" className="m-auto" width={40} height={40} />
+              <div className="grid">
+                <span className="text-gray-500 text-left text-[0.75rem] ">Badge</span>
+                <span className="text-left text-sm font-bold">{data?.ranking ?? 'No Ranking'}</span>
               </div>
             </div>
           </div>
-
-          <div
-            ref={shareBtnRef}
-            className="absolute -right-8 top-[30%] w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce"
-            onClick={copyUrl}
-          >
-            <button>
-              <ExportCurve color="#000" className="border-2 border-black w-[30px] h-[30px] rounded-full p-1" />
-            </button>
+          <div className="flex justify-center items-center gap-1 mt-5">
+            <Image src={Location} alt="badge_beginner" width={20} height={20} />
+            <div>
+              <span className="text-gray-500">{data?.address ?? 'No Address'}</span>
+            </div>
           </div>
-          <Link
+        </div>
+
+        <div
+          ref={shareBtnRef}
+          className="absolute -right-8 top-[30%] w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce z-[2]"
+          onClick={copyUrl}
+        >
+          <button>
+            <ExportCurve color="#000" className="border-2 border-black w-[30px] h-[30px] rounded-full p-1" />
+          </button>
+        </div>
+        {/* <Link
             ref={btnPortfolioRef}
             href={`/portfolio/${data?.id}`}
             className=" hidden mx-auto mt-4 w-[15rem] bg-[rgba(255,255,255,0.15)] cursor-pointer font-manropeB border border-solid rounded-2xl py-3 text-center text-brand-green-primary hover:bg-brand-green-primary hover:text-custom-color38 transition-all ease-in-out duration-500"
           >
             View Portfolio
-          </Link>
-        </div>
+          </Link> */}
+      </div>
 
-        <input
-          type="text"
-          value={`${homepageURl}portfolio/${data?.id}`}
-          disabled
-          ref={urlInputRef}
-          className="hidden"
-        />
-      </Link>
+      <input type="text" value={`${homepageURl}portfolio/${data?.id}`} disabled ref={urlInputRef} className="hidden" />
     </div>
   );
 };
