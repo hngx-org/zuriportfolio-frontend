@@ -225,7 +225,7 @@ export const Shop = () => {
   }
 
   //Check if the users shop has items
-  const showShop = Object.keys(shopItems).length > 0;
+  const showShop = Object.keys(shopItems).length > 3;
 
   useEffect(() => {
     //fetchShopItems();
