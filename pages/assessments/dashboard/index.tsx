@@ -23,7 +23,6 @@ type AssessmentDetails = {
 };
 
 const Dashboard = () => {
-  const [locked, setLocked] = React.useState<boolean>(false);
   const [result, setResult] = React.useState<AssessmentDetails[]>();
   const router = useRouter();
 

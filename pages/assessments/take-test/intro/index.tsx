@@ -6,35 +6,32 @@ import Button from '@ui/Button';
 import { useRouter } from 'next/router';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { fetchUserTakenAssessment } from '../../../../http/userTakenAssessment';
+
 const TakeTest: FC = () => {
   const router = useRouter();
-  // const { duration_minutes } = router.query;
-  const tokenRef = useRef<string | null>(null)
-  // const { skill_id, duration_minutes } = router.query
-   const { data } = router.query
-   const { duration } = router.query
+  const tokenRef = useRef<string | null>(null);
+  const { data } = router.query;
+  const { duration } = router.query;
 
-  console.log(`${duration} minutes`)
-  console.log('skill_id', data);
   useEffect(() => {
-    tokenRef.current = localStorage.getItem('zpt')
-  }, [])
+    tokenRef.current = localStorage.getItem('zpt');
+  }, []);
+
   const handleGetStarted = async () => {
-    const token = tokenRef.current
-    console.log('local token',token);
+    const token = tokenRef.current;
+
     try {
       const res = await fetchUserTakenAssessment(token as string, data as string);
-      console.log('data', res.statusText);
-      const assessmentData = res.data.data.questions
-      console.log('assessmentData', assessmentData);
+      const assessmentData = res.data.data.questions;
       localStorage.setItem('assessmentData', JSON.stringify(assessmentData));
+
       if (res.status) {
         router.push(`/assessments/take-test/questions?data=${duration}`);
       }
     } catch (error) {
       console.log('catch error', error);
     }
-    };
+  };
 
   return (
     <>
@@ -53,7 +50,7 @@ const TakeTest: FC = () => {
               Welcome to the User persorna quiz
             </h1>
             <p className="mb-8 text-sm md:text-base text-custom-color43">
-              Test Duration: This assessment would take approximately one minute to complete
+              Test Duration: This assessment would take approximately {data} minute to complete
             </p>
             <h5 className="text-custom-color43">Instructions:</h5>
             <ul className="pl-5 list-decimal text-sm md:text-base text-custom-color43">
