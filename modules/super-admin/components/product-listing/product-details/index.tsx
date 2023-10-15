@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import mainImage from '../../../../../public/assets/mainImage.png';
 import profileimage from '../../../../../public/assets/profile.png';
-import star1 from '../../../../../public/assets/star1.svg';
-import star2 from '../../../../../public/assets/star2.svg';
 import Button from '@ui/Button';
 import Slider from '../../../../../modules/shop/component/slider';
 import arrowRight from '../../../../../public/assets/arrowtoRight.svg';
 import { NextRouter, useRouter } from 'next/router';
 import { useRemoveSanction, useRestore, useSanction, useTempDeleteProd } from '../../../../../http';
 import { toast } from 'react-toastify';
+import StarRating from '../../StarRating';
 
 export function formatDate(inputDate: string) {
   const date = new Date(inputDate);
@@ -155,7 +154,12 @@ const SuperAdminProdDetails = ({
                   </div>
                   <div className="flex font-manropeB text-custom-color43  gap-[18px] text-[12px]">
                     <p className="font-bold">
-                      Date {route.pathname.includes('sanctioned-products') ? 'Sanctioned' : 'Deleted'}
+                      Date{' '}
+                      {route.pathname.includes('sanctioned-products')
+                        ? 'Sanctioned'
+                        : route.pathname.includes('deleted-products')
+                        ? 'Deleted'
+                        : 'Updated'}{' '}
                     </p>
                     <p>{formatDate(data?.updatedAt)}</p>
                   </div>
@@ -191,15 +195,13 @@ const SuperAdminProdDetails = ({
 
                 <div className="flex flex-col gap-y-2 ">
                   <div className="flex gap-x-1">
-                    <p className=" text-base font-semibold font-manropeB leading-normal tracking-[0.08px]">3.3/5</p>
-                    <Image src={star1} alt="rating star" />
-                    <Image src={star1} alt="rating star" />
-                    <Image src={star1} alt="rating star" />
-                    <Image src={star2} alt="rating star" />
-                    <Image src={star2} alt="rating star" />
+                    <p className=" text-base font-semibold font-manropeB leading-normal tracking-[0.08px]">
+                      {data?.rating_id ?? 0}/5
+                    </p>
+                    <StarRating rating={data?.rating_id ?? 0} />
                   </div>
                   <p className="text-base font-manropeL text-[14px] leading-normal tracking-[0.035px] md:text-[16px] lg:tracking-[0.08px]">
-                    (50 Customers)
+                    ({data?.rating_id ?? 0} Customer{data?.rating_id > 0 ? 's' : ''})
                   </p>
                 </div>
               </div>

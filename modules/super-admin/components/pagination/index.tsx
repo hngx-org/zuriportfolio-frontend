@@ -20,7 +20,9 @@ const PaginationBtn = ({ handleClick, disabledFn, title }: PaginationBtn) => {
 
 const SuperAdminPagination = ({ currentPage, totalPages, onPageChange }: AdminTablePagination) => {
   const handlePrevClick = () => {
-    if (currentPage > 1) {
+    if (currentPage < 1) {
+      onPageChange(1);
+    } else {
       onPageChange(currentPage - 1);
     }
   };
