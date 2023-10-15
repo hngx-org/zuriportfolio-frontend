@@ -7,7 +7,7 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
-import ContactModal from '@modules/portfolio/component/contact-modal';
+// import ContactModal from '@modules/portfolio/component/contact-modal';
 import { useRouter } from 'next/router';
 import ProjectSection from '@modules/portfolio/component/modals/projects';
 
@@ -358,10 +358,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
       id: 'skills',
       modal: <SkillModal isOpen={modalStates['skills']} onClose={() => modal('skills')} userId={userId} />,
     },
-    {
-      id: 'contact',
-      modal: <ContactModal isOpen={modalStates['skills']} onClose={() => modal('skills')} userId={userId} />,
-    },
+    // {
+    //   id: 'contact',
+    //   modal: <ContactModal isOpen={modalStates['skills']} onClose={() => modal('skills')} userId={userId} />,
+    // },
   ];
 
   const contextValue = {

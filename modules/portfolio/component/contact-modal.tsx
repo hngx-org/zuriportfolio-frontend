@@ -4,7 +4,7 @@ import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import Modal from '@ui/Modal';
 import { Add, CloseSquare } from 'iconsax-react';
-import { Contact } from '../../../@types';
+// import { Contact } from '../../../@types';
 import useDisclosure from '../../../hooks/useDisclosure';
 // type contactModalProps = {
 //   onClose: () => void;
@@ -14,7 +14,7 @@ import useDisclosure from '../../../hooks/useDisclosure';
 // const ContactModal: React.FC<contactModalProps> = ({ isOpen, onClose }) => {
 function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: boolean; onClose: () => void }) {
   // const { isOpen, onClose, onOpen } = useDisclosure();
-  const [contact, setContact] = useState<Contact[]>([]);
+  // const [contact, setContact] = useState<Contact[]>([]);
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
   const [socialmediaid, setSocialMediaId] = useState('');
@@ -166,9 +166,9 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
           </div>
         </div>
       </Modal>
-      <Button onClick={onOpen} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      {/* <Button onClick={onOpen} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         Open Modal
-      </Button>
+      </Button> */}
     </>
   );
 }

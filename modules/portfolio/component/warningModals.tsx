@@ -94,7 +94,6 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
   const deleteSection = async () => {
     if (deleteFromBe) {
-      d(section);
     } else if (deleteLocal) {
       const parts = sectionToDelete.split(' ');
       const section = parts.slice(1).join(' ');

@@ -115,7 +115,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
               <div className="w-full md:w-[50%]">
                 <p className="font-semibold text-gray-200 pb-2">Year*</p>
                 <Select
-                  className="w-full md:w-[50%] h-[60px] text-gray-300"
+                  // className="w-full md:w-[50%] h-[60px] text-gray-300"
                   onValueChange={(value: string) => {
                     setYear(value);
                   }}
