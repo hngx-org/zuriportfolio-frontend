@@ -6,7 +6,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import Link from 'next/link';
 import { Product } from '../wishlist';
 
-export const WishlistProductCard = ({ product }: { product: Product }) => {
+export const WishlistProductCard = ({ product, moveToCart }: { product: Product; moveToCart: any }) => {
   console.log(product);
   return (
     <>
@@ -99,6 +99,7 @@ export const WishlistProductCard = ({ product }: { product: Product }) => {
         </div>
         <div className="hidden md:block">
           <Button
+            onClick={() => moveToCart(product?.id)}
             className="bg-white rounded-md border border-custom-color17 text-brand-green-shade50"
             size={'sm'}
             intent={'tertiary'}
