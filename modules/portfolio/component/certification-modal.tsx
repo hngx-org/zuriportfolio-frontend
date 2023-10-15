@@ -71,7 +71,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
   const [createCertificate, setCreateCertificate] = useState('');
 
   const validateUrl = (url: string) => {
-    const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
+    const urlPattern = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/);
     return urlPattern.test(url);
   };
 
@@ -457,9 +457,13 @@ const CertificationList: React.FC<CertificationListProps> = () => {
 
   return (
     <div>
-      {certifications.map((certification, index) => (
-        <CertificationItem key={certification.id} certification={certification} />
-      ))}
+      {certifications.length === 0 ? (
+        <p>No Certification available</p>
+      ) : (
+        certifications.map((certification, index) => (
+          <CertificationItem key={certification.id} certification={certification} />
+        ))
+      )}
     </div>
   );
 };
@@ -542,7 +546,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
           <div>
             <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
           </div>
-          <div className="flex flex-col gap-2  ">
+          <div className="flex flex-col gap-2  overflow-hidden text-ellipsis ">
             <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left overflow-hidden text-ellipsis whitespace-nowrap">
               {title}
             </h1>
@@ -604,7 +608,7 @@ const EditForm: React.FC<{
 }> = ({ isOpen, certification, setCertification, onClose, handleSave }) => {
   const { urlError, setUrlError, setRender, error, render, setError } = useContext(myContext);
   const validateUrl = (url: string) => {
-    const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
+    const urlPattern = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/);
     return urlPattern.test(url);
   };
 
@@ -671,7 +675,7 @@ const EditForm: React.FC<{
         onClose();
       } else {
         // Character count is not within the desired range, display an error message
-        setError('Description should be between 30 and 100 characters.');
+        setError('Description should be between 30 and 200 characters.');
         // console.log(error);
       }
     } else {
