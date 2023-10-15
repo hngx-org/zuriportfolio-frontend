@@ -301,6 +301,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p>Customer Dashboard</p>
                 </Link>
                 <Link
+                  href="/user/customer-purchase-dashboard"
+                  className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
+                >
+                  <Image draggable={false} src={dashBoard} alt="Setting" />
+                  <p>Customer Purchase Dashboard</p>
+                </Link>
+                <Link
                   href="/portfolio"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
