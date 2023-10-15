@@ -16,10 +16,11 @@ function LandingPage() {
 
   useEffect(() => {
     try {
-      fetch(`${baseUrl}recommendations`)
+      fetch(`${baseUrl}recommendations/`)
         .then((res) => res.json())
         .then((data) => setRecommendedProduct({ isLoading: false, items: data }));
     } catch (error) {
+      console.log(error);
       setRecommendedProduct({ isLoading: false, items: [] });
     }
     //Limited Offer was routed to description page
@@ -31,8 +32,6 @@ function LandingPage() {
       setLimitedOffers({ isLoading: false, items: [] });
     }
   }, []);
-
-  console.log(limitedOffers.items);
 
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>

@@ -18,6 +18,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
 import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
+import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
+import { destructureProducts } from '../../helpers';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -38,6 +40,7 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
+        console.log(response.data);
         setProduct(response.data);
         // setImage(product?.images[0].url)
       })
@@ -69,9 +72,13 @@ export default function ProductDetailsDescription() {
         toast.error(error.message);
       }
     } else {
-      const products: any[] = [];
+      const products: any[] = localStorage.getItem('products')
+        ? JSON.parse(localStorage.getItem('products') as string)
+        : [];
       if (product) {
-        products.push(product);
+        const productTemp = destructureProducts([product]);
+
+        products.push(...productTemp);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
         toast.success('Item added to cart🎊');
@@ -442,8 +449,10 @@ export default function ProductDetailsDescription() {
           </div>
         </div>
 
-        {/* favorite products  */}
-        <div></div>
+        {/* Products We thought might Intrest you  */}
+        <div>
+          <ProductWeThoughtMightInterestYou id={id} />
+        </div>
       </main>
       <ToastContainer />
     </CategoryLayout>
