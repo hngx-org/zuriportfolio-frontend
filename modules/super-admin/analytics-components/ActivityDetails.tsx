@@ -31,7 +31,7 @@ const ActivityDetails = () => {
     fetchData();
   }, []);
 
-  console.log(activityDetails);
+  // console.log(activityDetails);
 
   return (
     <section className="lg:w-[25%]">

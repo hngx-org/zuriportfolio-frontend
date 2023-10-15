@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 export type CategoryType = {
   name: string;
-  subcategories: string[];
+  subcategories: { name?: string }[];
 };
 
 const useCategory = () => {
@@ -32,11 +32,8 @@ const useCategory = () => {
   }
 
   async function getProducts() {
-    const { data } = await axios.get<ProductList[]>(
-        'https://coral-app-8bk8j.ondigitalocean.app/api/product-list/',
-      );
-      setProducts(data)
-
+    const { data } = await axios.get<ProductList[]>('https://coral-app-8bk8j.ondigitalocean.app/api/product-list/');
+    setProducts(data);
   }
 
   return { categories, loading, products };

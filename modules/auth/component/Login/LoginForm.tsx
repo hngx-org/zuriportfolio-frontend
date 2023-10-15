@@ -60,7 +60,7 @@ function LoginForm() {
           return;
         }
         notify({
-          message: 'Login successful',
+          message: 'Login Successful',
           type: 'success',
         });
         router.push('/dashboard');

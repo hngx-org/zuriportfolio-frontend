@@ -54,7 +54,7 @@ function ReviewForms() {
       const config = {
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       };
-      await axios.post('https://team-liquid-repo.onrender.com/api/review/products/1/reviews', newReview);
+      await axios.post('https://team-liquid-repo.onrender.com/api/review/products/9/reviews', newReview);
 
       console.log(newReview);
       router.push('/dashboard/reviews/product-details/1');

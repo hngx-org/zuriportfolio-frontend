@@ -16,6 +16,11 @@ const EditProfile = () => {
   const [selectedTrack, setSelectedTrack] = useState<any>();
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
+  const [availableTracks, setAvailableTracks] = useState([]);
+
+  // const handleTrackSelect = (selectedTrack: any) => {
+  //   setSelectedTrack(selectedTrack);
+  // };
 
   const getUser = async () => {
     try {
@@ -30,11 +35,12 @@ const EditProfile = () => {
       console.log(error);
     }
   };
+
   const getTracks = async () => {
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/tracks`);
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/tracks');
       const data = await response.json();
-      setTracks(data.data);
+      setAvailableTracks(data.data);
     } catch (error: any) {
       console.log(error);
     }
@@ -120,7 +126,7 @@ const EditProfile = () => {
         body: formData,
       });
       const data = await response.json();
-      setUserData((p: any) => ({ ...p, hasDataFromBE: true, avatarImage: data.data.profilePic }));
+      setUserData((p: any) => ({ ...p, avatarImage: data.data.profilePic }));
     } catch (error) {
       console.log(error);
     }
@@ -136,6 +142,7 @@ const EditProfile = () => {
       await uploadCover(file);
     }
   };
+
   return (
     <Modal isOpen={showProfileUpdate} closeModal={() => modal()} isCloseIconPresent={false}>
       <form
@@ -152,7 +159,7 @@ const EditProfile = () => {
                 width={0}
                 height={0}
                 alt="profile"
-                className="w-full aspect-square rounded-full "
+                className="w-full aspect-square rounded-full"
               />
             </div>
           ) : (
@@ -195,9 +202,9 @@ const EditProfile = () => {
             <label className="mb-5">Track *</label>
             <Select
               onValueChange={(value: string) => {
-                setTrack(value);
+                setSelectedTrack(value);
               }}
-              value={track}
+              value={selectedTrack}
             >
               <SelectTrigger className="border-[#59595977] text-gray-300 h-[50px] rounded-[10px]">
                 <SelectValue
@@ -207,7 +214,7 @@ const EditProfile = () => {
                 />
               </SelectTrigger>
               <SelectContent className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100">
-                {tracks?.map((track: any, index: number) => (
+                {availableTracks?.map((track: any, index: number) => (
                   <SelectItem className="text-gray-300" key={index} value={track.track}>
                     {track.track}
                   </SelectItem>
@@ -251,6 +258,7 @@ const EditProfile = () => {
               />
             </div>
           </div>
+
           <div className="w-full flex  md:flex-row gap-4 justify-between mt-10">
             <div className="w-full md:w-[47%]">
               <Button
