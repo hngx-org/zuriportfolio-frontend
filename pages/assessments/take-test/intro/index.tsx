@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { ArrowLeft } from 'iconsax-react';
 import Link from 'next/link';
@@ -8,21 +8,34 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { fetchUserTakenAssessment } from '../../../../http/userTakenAssessment';
 const TakeTest: FC = () => {
   const router = useRouter();
+  // const { duration_minutes } = router.query;
+  const tokenRef = useRef<string | null>(null)
+  // const { skill_id, duration_minutes } = router.query
+   const { data } = router.query
+   const { duration } = router.query
 
+  console.log(`${duration} minutes`)
+  console.log('skill_id', data);
+  useEffect(() => {
+    tokenRef.current = localStorage.getItem('zpt')
+  }, [])
   const handleGetStarted = async () => {
+    const token = tokenRef.current
+    console.log('local token',token);
     try {
-      const data = await fetchUserTakenAssessment();
-      console.log('data', data.statusText);
-      const assessmentData = data.data.data;
+      const res = await fetchUserTakenAssessment(token as string, data as string);
+      console.log('data', res.statusText);
+      const assessmentData = res.data.data.questions
       console.log('assessmentData', assessmentData);
       localStorage.setItem('assessmentData', JSON.stringify(assessmentData));
-      if (data) {
-        router.push(`/assessments/take-test/questions`);
+      if (res.status) {
+        router.push(`/assessments/take-test/questions?data=${duration}`);
       }
     } catch (error) {
       console.log('catch error', error);
     }
-  };
+    };
+
   return (
     <>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
