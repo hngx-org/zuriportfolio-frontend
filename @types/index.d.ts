@@ -181,6 +181,10 @@ export interface MarketPlaceProductCardProps {
   showTopPicks?: boolean;
   showDiscount?: boolean;
   discount_price?: number;
+  shop?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface ratingProps {
