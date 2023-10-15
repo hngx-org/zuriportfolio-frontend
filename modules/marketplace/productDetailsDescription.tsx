@@ -18,7 +18,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
 import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
-import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -27,9 +26,11 @@ export default function ProductDetailsDescription() {
   const router = useRouter();
   const { id } = router.query;
   const token: any = isUserAuthenticated();
+
   const apiUrl: string = token
     ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
     : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
+
   useEffect(() => {
     // Fetch data using Axios
     const headers = {
@@ -70,12 +71,19 @@ export default function ProductDetailsDescription() {
       }
     } else {
       const products: any[] = [];
-      if (product) {
-        products.push(product);
-        localStorage.setItem('products', JSON.stringify(products));
-        console.log(products);
-        toast.success('Item added to cart🎊');
-      }
+
+      let productData = {
+        productId: product?.id,
+        productImage: product?.images[0]?.url,
+        productTitle: product?.name,
+        productSize: product?.quantity,
+        productSeller: `${product?.user?.first_name} ${product?.user.last_name}`,
+        productPrice: product?.price,
+      };
+      products.push(productData);
+      localStorage.setItem('products', JSON.stringify(products));
+      console.log(products);
+      toast.success('Item added to cart🎊');
     }
   };
 
@@ -142,13 +150,13 @@ export default function ProductDetailsDescription() {
           {/* Product Detail Images  */}
           <div className="flex flex-col w-full item-center lg:gap-y-4 md:gap-y-2 gap-y-3 gap-x-10 mx-auto pb-6">
             <Image
-              src={image}
+              src={product?.images[0]?.url}
               width={500}
               height={500}
               alt="Main Image"
               className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover lg:rounded-3xl rounded-lg"
             />
-            <Slider updateImage={updateImage} slider0={product?.images[0]?.url} />
+            {product?.images[0]?.url > 1 && <Slider updateImage={updateImage} slider0={product?.images[0]?.url} />}
           </div>
 
           {/* Product Detail Data */}
@@ -443,10 +451,8 @@ export default function ProductDetailsDescription() {
           </div>
         </div>
 
-        {/* Products We thought might Intrest you  */}
-        <div>
-          <ProductWeThoughtMightInterestYou id={id} />
-        </div>
+        {/* favorite products  */}
+        <div></div>
       </main>
       <ToastContainer />
     </CategoryLayout>
