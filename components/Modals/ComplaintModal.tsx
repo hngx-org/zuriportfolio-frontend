@@ -5,10 +5,9 @@ import { toast } from 'react-toastify';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  status: string;
 }
 
-const Home: React.FC<ModalProps> = ({ isOpen, onClose, status }) => {
+const ComplaintModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -67,7 +66,6 @@ const Home: React.FC<ModalProps> = ({ isOpen, onClose, status }) => {
 
   if (!isOpen) return null;
 
-  if (status === 'pending' || status === 'failed') {
     return (
       <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
         <div className="p-4 container">
@@ -108,8 +106,7 @@ const Home: React.FC<ModalProps> = ({ isOpen, onClose, status }) => {
         </div>
       </Modal>
     );
-  }
 
 };
 
-export default Home;
+export default ComplaintModal;

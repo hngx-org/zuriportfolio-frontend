@@ -53,11 +53,6 @@ const MyPage: React.FC = () => {
   // modal open and close state
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // status state
-  const [status, setStatus] = useState<string>('pending');
-  const handleClickStatus = (newStatus: string) => {
-    setStatus(newStatus);
-  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -379,7 +374,7 @@ const MyPage: React.FC = () => {
         </div>
 
         {}
-        <ComplaintsModal isOpen={isModalOpen} onClose={closeModal} status={status} />
+        <ComplaintsModal isOpen={isModalOpen} onClose={closeModal} />
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
       </div>
