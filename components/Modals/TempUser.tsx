@@ -13,9 +13,8 @@ interface TempUser {
   onClose: () => void;
 }
 
-
 const TempUser = ({ isOpen, onClose }: TempUser) => {
-  const {auth} = useAuth();
+  const { auth } = useAuth();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -24,17 +23,14 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
       email: userForm.get('email') as string,
       firstName: userForm.get('first_name') as string,
       lastName: userForm.get('last_name') as string,
-    }
-    const payment= userForm.get('paymentMethod') as string;
-    const tempUser = await createTempUser(data)
-    
-    
+    };
+    const payment = userForm.get('paymentMethod') as string;
+    const tempUser = await createTempUser(data);
+
     if (tempUser.data.token) {
-      const response = await makePayment(payment,tempUser.data.token);
+      const response = await makePayment(payment, tempUser.data.token);
       window.location.href = response.transaction_url;
     }
-      
-    
   };
 
   return (
@@ -54,7 +50,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
             placeholder="Mark"
             type="text"
-            name='first_name'
+            name="first_name"
             required
           />
         </div>
@@ -66,7 +62,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
             placeholder="Essein"
             type="text"
-            name='last_name'
+            name="last_name"
             required
           />
         </div>
@@ -78,7 +74,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
             placeholder="example@email.com"
             type="email"
-            name='email'
+            name="email"
             required
           />
         </div>

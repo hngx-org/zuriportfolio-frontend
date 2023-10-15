@@ -33,7 +33,7 @@ const SanctionedProducts = () => {
 
   useEffect(() => {
     setFilteredProducts(deletedProd);
-  }, [deletedProd, sanctionedProducts]);
+  }, [sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
   const handleSearch = (searchText: string) => {
@@ -41,16 +41,19 @@ const SanctionedProducts = () => {
       (product: any) =>
         product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
         product?.product_status?.toLowerCase()?.includes('deleted'),
-    );
-  };
-
-  const handleSubmit = (searchText: string) => {
-    const filteredProduct: DeletedProducts[] = sanctionedProducts.filter((product) =>
-      product.product_name.toLowerCase().includes(searchText.toLowerCase()),
+      // product?.product_status?.toLowerCase()?.includes('deleted'),
     );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
+
+  // const handleSubmit = (searchText: string) => {
+  //   const filteredProduct: DeletedProducts[] = sanctionedProducts.filter((product) =>
+  //     product.product_name.toLowerCase().includes(searchText.toLowerCase()),
+  //   );
+  //   setSearchVal(searchText);
+  //   setFilteredProducts(filteredProduct);
+  // };
 
   const route = useRouter();
 
@@ -88,7 +91,7 @@ const SanctionedProducts = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {visibleProducts?.map((product: any) => (
+                    {filteredProducts?.map((product: any) => (
                       <tr
                         className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                         key={product?.product_id}
