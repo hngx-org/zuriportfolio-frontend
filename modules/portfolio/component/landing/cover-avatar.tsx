@@ -7,10 +7,11 @@ import EditCover from './editCover-takeAssessment';
 
 type Props = {
   isLoggedIn: boolean;
+  userData: any;
 };
 
-const Cover = ({ isLoggedIn }: Props) => {
-  const { handleUploadCover, profileUpdate, userData } = useContext(Portfolio);
+const Cover = ({ isLoggedIn, userData }: Props) => {
+  const { handleUploadCover, profileUpdate } = useContext(Portfolio);
   const { avatarImage, tracks } = userData;
 
   const link = ``;

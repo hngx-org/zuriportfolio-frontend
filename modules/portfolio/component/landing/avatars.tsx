@@ -1,5 +1,5 @@
 type PortfolioContext = {
-  profileUpdate: () => void;
+  profileUpdate?: () => void;
   isLoggedIn: boolean;
 };
 
@@ -26,7 +26,7 @@ const Profile = ({ profileUpdate, isLoggedIn }: PortfolioContext) => {
       {isLoggedIn && (
         <label
           className="absolute md:bottom-4 bottom-1 -right-2 w-[33%] md:w-[30%] bg-brand-green-primary aspect-square rounded-full grid place-content-center cursor-pointer"
-          onClick={() => profileUpdate()}
+          onClick={() => profileUpdate && profileUpdate()}
         >
           <svg
             className="w-[30px] md:w-[25px] md:h-25px h-[30px]"

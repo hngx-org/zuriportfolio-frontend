@@ -64,7 +64,7 @@ const Landing = () => {
           <>
             <div className="h-[200px] md:h-[250px] lg:h-[300px]">
               {cover}
-              <Cover isLoggedIn={true} />
+              <Cover userData={userData} isLoggedIn={true} />
             </div>
             <div className="flex justify-between items-center pt-8 md:pt-14">
               <div>

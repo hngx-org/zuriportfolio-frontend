@@ -7,7 +7,6 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
-// import ContactModal from '@modules/portfolio/component/contact-modal';
 import { useRouter } from 'next/router';
 import ProjectSection from '@modules/portfolio/component/modals/projects';
 
@@ -91,23 +90,52 @@ const Portfolio = createContext<PortfolioContext>({
 
 export function PortfolioCtxProvider(props: { children: any }) {
   const router = useRouter();
+  const [userId, setUserId] = useState<string>('' as string);
+  const [token, setToken] = useState<string>('' as string);
+
   useEffect(() => {
     if (!router.isReady) return;
     if (router?.query?.id) {
+      console.log(router.query.id);
       const authUser = async () => {
         const token = localStorage.getItem('zpt');
         const response = await fetch(`https://staging.zuri.team/api/auth/api/auth/verify/${token}`);
         const data = await response.json();
-        console.log(data);
+        setUserId(data?.data?.user?.id);
+        setToken(data?.data?.newtoken);
         if (data?.data?.user?.id === router?.query?.id) {
+          setIsLoading(true);
+          await getUser(userId);
+          await getUserSections(userId);
           router.push('/portfolio');
+          setIsLoading(false);
         } else {
-          setUserId(router?.query?.id as string);
+        }
+      };
+      authUser();
+    } else {
+      const authUser = async () => {
+        try {
+          setIsLoading(true);
+          const token = localStorage.getItem('zpt');
+          const response = await fetch(`https://staging.zuri.team/api/auth/api/auth/verify/${token}`);
+          const data = await response.json();
+          // if (!response.ok) throw new Error(data.message);
+          setUserId(data?.data?.user?.id);
+          setToken(data?.data?.newtoken);
+          getUser(users[0]);
+          getUserSections(users[0]);
+          setHasData(true);
+          setHasPortfolio(true);
+          setIsLoading(false);
+        } catch (error) {
+          setIsLoading(false);
+          setError({ state: true, error: error });
         }
       };
       authUser();
     }
-  }, [router, router.isReady, router?.query?.id]);
+  }, [router, router.isReady, router.query.id, userId]);
 
   const users = [
     `f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`,
@@ -115,7 +143,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     `8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`,
   ];
 
-  // const [idFromExplore, setIdFromExplore] = useState<any>(router.query.id);
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [hasData, setHasData] = useState<boolean>(false);
@@ -133,9 +160,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [showBuildPortfolio, setShowBuildPortfolio] = useState<boolean>(false);
   const [showViewtemplates, setShowViewtemplates] = useState<boolean>(false);
 
-  const [userId, setUserId] = useState<string>('' as string);
-  const [token, setToken] = useState<string>('' as string);
-
   const [userData, setUserData] = useState<any>({
     firstName: '',
     lastName: '',
@@ -145,17 +169,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     country: '',
     tracks: [],
   });
-
-  const authUser = async () => {
-    try {
-      const token = localStorage.getItem('zpt');
-      const response = await fetch(`https://staging.zuri.team/api/auth/api/auth/verify/${token}`);
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const getUser = async (userId: string) => {
     try {
@@ -221,45 +234,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
       setError({ state: true, error: error });
     }
   };
-
-  // // endpoint to get dynamic userId
-  // const authorize = 'https://auth.akuya.tech/api/authorize';
-
-  // // gets the zpt access token to that lets us get a dynamic userId
-  // const getTokenFromStorage = () => {
-  //   // Get an item from localStorage
-  //   const zpt = localStorage.getItem('zpt');
-
-  //   // Check if the item exists
-  //   if (zpt) {
-  //     axios
-  //       .post(authorize, { token: zpt })
-  //       .then((res) => {
-  //         console.log(res.data, "info gotten from sending token");
-
-  //         // setUserId(res.data.user.id);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   } else {
-  //     console.log('Item not found in localStorage');
-  //   }
-  // };
-
-  useEffect(() => {
-    const main = async () => {
-      const data = await authUser();
-      console.log(data);
-      setUserId(data?.data?.user?.id);
-      setToken(data?.data?.newtoken);
-      await getUser(users[0]);
-      await getUserSections(users[0]);
-    };
-
-    main();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const profileUpdate = () => {
     setShowProfileUpdate(true);

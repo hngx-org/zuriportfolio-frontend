@@ -48,7 +48,6 @@ const LandingPageFilled: React.FC = () => {
   } = useContext(Portfolio);
 
   const deleteSection = () => setOpenDelete(true);
-  console.log(userSections);
 
   useEffect(() => {
     userSections?.map((section) => {

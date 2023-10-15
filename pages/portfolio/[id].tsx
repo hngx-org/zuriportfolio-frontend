@@ -1,6 +1,6 @@
 'use-client';
-import React, { useContext, useEffect, useState } from 'react';
-import Portfolio, { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
+import React, { useEffect, useState } from 'react';
+import { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
 import ExternalView from '@modules/portfolio/component/landing/external-view';
 import MainLayout from '../../components/Layout/MainLayout';
 import Cover from '@modules/portfolio/component/landing/cover-avatar';
@@ -17,11 +17,27 @@ const View = () => {
       setIsLoading(true);
     } else if (id) {
       getUser(id);
+      getUserSections(id);
     }
   }, [id, router.isReady]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ state: false, error: '' });
+  const [userSections, setUserSections] = useState([
+    { title: 'About', id: 'about', data: [] },
+    { title: 'Project', id: 'projects', data: [] },
+    { title: 'Work Experience', id: 'workExperience', data: [] },
+    { title: 'Education', id: 'education', data: [] },
+    { title: 'Skills', id: 'skills', data: [] },
+    { title: 'Interests', id: 'interests', data: [] },
+    { title: 'Awards', id: 'awards', data: [] },
+    { title: 'Certificate', id: 'certificate', data: [] },
+    { title: 'Language', id: 'language', data: [] },
+    { title: 'Reference', id: 'reference', data: [] },
+    { title: 'Shop', id: 'shop', data: [] },
+    { title: 'Contact', id: 'contact', data: [] },
+    { title: 'Custom', id: 'custom', data: [] },
+  ]);
   const [userData, setUserData] = useState({
     firstName: '',
     lastName: '',
@@ -53,7 +69,47 @@ const View = () => {
     }
   };
 
-  const {} = useContext(Portfolio);
+  const getUserSections = async (userId: string) => {
+    try {
+      setIsLoading(true);
+      const data = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+
+      const response = await data.json();
+      const {
+        about,
+        projects,
+        workExperience,
+        education,
+        skills,
+        contact,
+        interests,
+        awards,
+        language,
+        reference,
+        certificate,
+        shop,
+        custom,
+      } = response;
+      setUserSections([
+        { title: 'About', id: 'about', data: about },
+        { title: 'Project', id: 'projects', data: projects },
+        { title: 'Work Experience', id: 'workExperience', data: workExperience },
+        { title: 'Education', id: 'education', data: education },
+        { title: 'Skills', id: 'skills', data: skills },
+        { title: 'Interests', id: 'interests', data: interests },
+        { title: 'Awards', id: 'awards', data: awards },
+        { title: 'Certificate', id: 'certificate', data: certificate },
+        { title: 'Language', id: 'language', data: language },
+        { title: 'Reference', id: 'reference', data: reference },
+        { title: 'Shop', id: 'shop', data: shop },
+        { title: 'Contact', id: 'contact', data: contact },
+        { title: 'Custom', id: 'custom', data: custom },
+      ]);
+      setIsLoading(false);
+    } catch (error: any) {
+      setError({ state: true, error: error });
+    }
+  };
   const { firstName, lastName, city, country, coverImage } = userData;
 
   const headerMargin =
@@ -75,7 +131,7 @@ const View = () => {
             <>
               <div className="h-[200px] md:h-[250px] lg:h-[300px]">
                 {cover}
-                <Cover isLoggedIn={false} />
+                <Cover userData={userData} isLoggedIn={false} />
               </div>
               <div className="flex justify-between items-center pt-8 md:pt-14">
                 <div>
@@ -91,7 +147,9 @@ const View = () => {
                 </div>
               </div>
               <div className="mt-10 md:mt-20">
-                <ExternalView />
+                <>
+                  <ExternalView userSections={userSections} />
+                </>
               </div>
             </>
           )}

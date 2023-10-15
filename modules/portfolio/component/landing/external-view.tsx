@@ -1,6 +1,5 @@
 'use-client';
 import React, { useContext } from 'react';
-import Portfolio from '../../../../context/PortfolioLandingContext';
 import {
   WorkExperience,
   Education,
@@ -17,26 +16,21 @@ import {
   Certificate,
 } from './Skeleton';
 
-const ExternalView: React.FC = () => {
-  const { userSections, setOpenDelete, editSection } = useContext(Portfolio);
+type Props = {
+  userSections: any;
+};
 
-  const deleteSection = () => setOpenDelete(true);
-
+const ExternalView: React.FC<Props> = ({ userSections }) => {
   return (
     <>
       {/* data from backend */}
       <div className="w-full flex flex-col justify-start items-start gap-8">
-        {userSections?.map((section, i) => {
+        {userSections?.map((section: any, i: any) => {
           return (
             <React.Fragment key={i}>
               {section?.id === 'workExperience' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <ExternalWrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={deleteSection}
-                  >
+                  <ExternalWrapper id={section.id} title={section.title}>
                     {section.data.map((el: any, i: any) => {
                       return <WorkExperience key={i} data={el} />;
                     })}
@@ -47,12 +41,7 @@ const ExternalView: React.FC = () => {
 
               {section?.id === 'education' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <ExternalWrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={deleteSection}
-                  >
+                  <ExternalWrapper id={section.id} title={section.title}>
                     {section.data.map((el: any, i: any) => {
                       return <Education key={i} data={el} />;
                     })}
@@ -63,12 +52,7 @@ const ExternalView: React.FC = () => {
 
               {section?.id === 'interests' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <ExternalWrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={deleteSection}
-                  >
+                  <ExternalWrapper id={section.id} title={section.title}>
                     <Interests key={i} data={section.data[0]} />
                   </ExternalWrapper>
                   <Line />
@@ -77,12 +61,7 @@ const ExternalView: React.FC = () => {
 
               {section?.id === 'about' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <ExternalWrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={deleteSection}
-                  >
+                  <ExternalWrapper id={section.id} title={section.title}>
                     <About key={i} bio={section.data[0]} />
                   </ExternalWrapper>
                   <Line />
@@ -90,12 +69,7 @@ const ExternalView: React.FC = () => {
               )}
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <ExternalWrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={deleteSection}
-                  >
+                  <ExternalWrapper id={section.id} title={section.title}>
                     <Skill key={i} data={section.data} />
                   </ExternalWrapper>
                   <Line />
@@ -104,12 +78,7 @@ const ExternalView: React.FC = () => {
 
               {section?.id === 'projects' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <ExternalWrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={deleteSection}
-                  >
+                  <ExternalWrapper id={section.id} title={section.title}>
                     <Project key={i} data={section.data} />
                   </ExternalWrapper>
                   <Line />

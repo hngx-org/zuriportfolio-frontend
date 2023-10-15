@@ -22,11 +22,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
   const [description, setDescription] = useState<any>();
   const [media, setMedia] = useState<any>([]);
   const years = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
-  const suggestedTags = ['UI/UX', 'Frontend', 'Backend', 'Fullstack', 'Mobile', 'Web', 'Design', 'Product Design'];
-
-  useEffect(() => {
-    if (thumbnail) setMedia((p: any) => [...p, thumbnail]);
-  }, [thumbnail]);
 
   const handleAddTags = (e: any) => {
     if (e.key === 'Enter') {
@@ -226,7 +221,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
                         alt=""
                         className="rounded-lg object-cover object-center w-full aspect-square"
                       />
-                      <CloseCircle className="text-white-100 absolute top-2 right-2" size={24} />
+                      <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
                     </div>
                   </div>
                 ))}

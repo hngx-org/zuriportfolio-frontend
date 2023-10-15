@@ -16,4 +16,4 @@ const Portfolio = () => {
   );
 };
 
-export default withAuth(Portfolio);
+export default Portfolio;
