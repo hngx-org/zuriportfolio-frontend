@@ -129,25 +129,25 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     }
   };
 
-  const handleSaveEdit = async (id: number) => {
-    try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/educationDetail/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(editedEducation),
-      });
+  // const handleSaveEdit = async (id: number) => {
+  //   try {
+  //     const response = await fetch(`https://hng6-r5y3.onrender.com/api/educationDetail/${id}`, {
+  //       method: 'PATCH',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(editedEducation),
+  //     });
 
-      if (response.ok) {
-        console.log('Education details updated successfully.');
-      } else {
-        console.error('Failed to update education details.');
-      }
-    } catch (error) {
-      console.error('Error updating education details:', error);
-    }
-  };
+  //     if (response.ok) {
+  //       console.log('Education details updated successfully.');
+  //     } else {
+  //       console.error('Failed to update education details.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error updating education details:', error);
+  //   }
+  // };
 
   const handleDelete = async (id: number) => {
     try {
