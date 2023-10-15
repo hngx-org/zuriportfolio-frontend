@@ -172,7 +172,7 @@ export const makePayment = async (selectedPaymentMethod: string, token: string) 
 };
 
 export const getAllProducts = async () => {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('zpt');
   const $http = axios.create({
     baseURL: 'https://staging.zuri.team/',
     headers: {
@@ -249,7 +249,7 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
 //super-admin1
 const makeRequest = async (apiUrl: string, method = 'get', data = null, config = {}) => {
   try {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('zpt');
     const requestConfig = {
       headers: {
         Authorization: `Bearer ${token}`,
