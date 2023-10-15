@@ -71,15 +71,14 @@ const AnalyticsAndReport: React.FC = () => {
   };
 
   function saveFile(data: BlobPart, filename: string) {
-    const blob = new Blob([data], { type: 'application/octet-stream' });
+    const blob = new Blob([data], { type: 'application/zip' }); // Set the content type as 'application/zip'
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename;
+    a.download = filename; // You can specify the filename here, e.g., 'file.zip'
     a.click();
     window.URL.revokeObjectURL(url);
   }
-
   const handleExport = () => {
     console.log('handleExport called');
     if (selectedDateRange.length === 2) {
@@ -94,7 +93,7 @@ const AnalyticsAndReport: React.FC = () => {
         .then((response) => {
           const filename = `Data.${selectedFileFormat}`;
           console.log(response);
-          saveFile(response.data, filename);
+          saveFile(response.data, 'Analytics Data');
           setGetReport(false);
         })
         .catch((error) => {
