@@ -63,7 +63,7 @@
         </mj-text>
 
 
-        <mj-image padding-top="2%" align="center" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo.png" alt="zuriportfolio logo" width="120px" />
+        <mj-image padding-top="2%" align="center" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo2.png" alt="zuriportfolio logo" width="120px" />
         <mj-text padding-top="2%" align="center" font-family="Manrope" color="#5B5F5E" font-weight="700" line-height="20px" font-size="12px">
         Copyright © Zuriportfolio, All rights reserved.
         </mj-text>
