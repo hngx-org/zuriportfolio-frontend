@@ -24,7 +24,11 @@ export const CountdownTimer = ({ minutes, seconds, action }: ICountdown) => {
   const reset = () => setTime({ minutes: time.minutes, seconds: time.seconds, action });
 
   React.useEffect(() => {
-    const timerId = setInterval(() => tick(), 1000);
+    const timerId = setInterval(() => {
+      tick();
+      localStorage.setItem('minute', `${time.minutes}`);
+      localStorage.setItem('second', `${time.seconds}`);
+    }, 1000);
     return () => clearInterval(timerId);
   });
 
