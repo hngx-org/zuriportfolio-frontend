@@ -22,7 +22,7 @@ function LandingPage() {
     } catch (error) {
       setRecommendedProduct({ isLoading: false, items: [] });
     }
-
+    //Limited Offer was routed to description page
     try {
       fetch(`${baseUrl}products/limited_offers/`)
         .then((res) => res.json())
