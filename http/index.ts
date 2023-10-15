@@ -33,7 +33,6 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
-
 export const signUpUserWithEmail = async (props: { email: string }) => {
   try {
     const res = await $http.post('https://auth.akuya.tech/api/auth/check-email', props);
@@ -91,8 +90,6 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
 // }
 // https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart
 
-
-
 export const verfiy2FA = async (props: { email: string; token: string }) => {
   const $http = axios.create({
     baseURL: 'https://auth.akuya.tech',
@@ -114,7 +111,7 @@ export const verfiy2FA = async (props: { email: string; token: string }) => {
 //super-admin1
 const makeRequest = async (apiUrl: string, method = 'get', data = null, config = {}) => {
   try {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('zpt');
     const requestConfig = {
       headers: {
         Authorization: `Bearer ${token}`,
