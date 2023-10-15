@@ -4,7 +4,7 @@ name: Zuri main dev Deployment
 on:
   push:
     branches:
-      - dev
+      - staging
   # pull_request:
   # branches: [dev]
   # schedule:
@@ -50,8 +50,7 @@ jobs:
         with:
           name: dist-without-markdown
           path: |
-            dist
-            !dist/**/*.md
+            .next
 
       - name: Copy build folder to server
         uses: Creepios/sftp-action@v1.0.3
@@ -63,14 +62,14 @@ jobs:
           localPath: './'
           remotePath: '/home/devops/zuri_frontend/zuriportfolio-frontend/'
 
-      - name: ssh scp ssh pipelines
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      - name: run app
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.DEPLOY_HOST_STAGING }}
-          user: ${{ secrets.USERNAME }}
-          pass: ${{ secrets.PASSWORD }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          first_ssh: |
+          script: |
             su - devops
             cd /home/devops/zuri_frontend/zuriportfolio-frontend
             yarn install --ignore-engines
