@@ -189,7 +189,7 @@ const SearchAndFilter = (prop: {
             intent={'default'}
             placeHolder="Search by name or role"
             leftIcon={<SearchNormal />}
-            className="w-full text-black border-brand-disabled2 rounded-2xl"
+            className="w-full text-grey-900 border-brand-disabled2 rounded-2xl"
           />
 
           <button className="md:hidden">
@@ -201,7 +201,7 @@ const SearchAndFilter = (prop: {
           </button>
         </div>
 
-        <div className="w-full grid grid-cols-2 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
+        <div className="w-full grid grid-cols-2 placeholder-gray-400 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
           <CustomDropdown
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}

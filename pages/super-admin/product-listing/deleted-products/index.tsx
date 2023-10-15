@@ -33,7 +33,7 @@ const SanctionedProducts = () => {
 
   useEffect(() => {
     setFilteredProducts(deletedProd);
-  }, [sanctionedProducts]);
+  }, [deletedProd, sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
   const handleSearch = (searchText: string) => {
@@ -137,13 +137,11 @@ const SanctionedProducts = () => {
                     ))}
                   </tbody>
                 </table>
-                {filteredProducts?.length > itemsPerPage && (
-                  <SuperAdminPagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                )}
+                <SuperAdminPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               </>
             ) : (
               <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
