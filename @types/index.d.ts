@@ -28,14 +28,50 @@ export interface ProductData {
   shop: string;
 }
 
+export interface RecentlyViewedData {
+  user: string;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: number;
+    discount_price: number;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    showTopPicks: true;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
+    shop: {
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+}
+
 export interface Education {
   id: number;
   degree: string;
   fieldOfStudy: string;
   school: string;
   description: string;
-  dateFrom: string;
-  dateTo: string;
+  from: string;
+  to: string;
+}
+export interface DegreeOption {
+  id: number;
+  type: string;
 }
 export interface AllCategoryDetails {
   price: string;
@@ -47,16 +83,31 @@ export interface AllCategoryDetails {
   showLimitedOffer: boolean;
   discount: number;
 }
-export interface Products {
-  _id: string;
+interface ImageData {
+  id: string;
+  product_id: string;
+  url: string;
+}
+interface CategoryData {
   name: string;
-  image: string;
+}
+interface Produne {
+  name: string;
+  // Add other properties specific to a product
+}
+export interface Products {
+  id: string;
+  name: string;
+  product: Produne;
+  image: ImageData[];
   shopOwner: string;
   price: number;
-  category: string;
+  category: CategoryData;
   description: string;
   specification: string;
   rating: number;
+  currency: string;
+  discount_price: string;
 }
 export interface SuperAdminPagination {
   title: any;
@@ -139,6 +190,10 @@ export interface MarketPlaceProductCardProps {
   showTopPicks?: boolean;
   showDiscount?: boolean;
   discount_price?: number;
+  shop?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface ratingProps {
@@ -242,7 +297,41 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
+export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+
+export type RecentlyViewedProductProp = {
+  user: string;
+  product: {
+    id: string;
+    name: string;
+    description: string;
+    quantity: number;
+    category: number;
+    price: string;
+    discount_price: string;
+    tax: string;
+    admin_status: string;
+    is_deleted: string;
+    rating: number;
+    is_published: false;
+    currency: string;
+    createdat: string;
+    updatedat: string;
+    user: string;
+    image_url: string;
+    shop: {
+      merchant: string;
+      name: string;
+      reviewed: string;
+      rating: number;
+    };
+  };
+  interaction_type: string;
+  createdat: number;
+};
+
 export type CartItemProps = {
+  id?: string;
   productId: string;
   productImage: string;
   productTitle: string;
@@ -414,11 +503,14 @@ export interface RatingCardProps {
 export interface filterProps {
   rating: number;
   review: number;
+  filterReview(view: string, stars: string);
 }
 
 export interface reviewProps {
+  reviewId: string;
   buyerName: string;
   adminDate: string;
+  mainDate: string;
   review: string;
   noOfStars: number;
   shopName?: string;
@@ -463,6 +555,8 @@ export type BannedDeletedVendorsProps = {
   setShowBanned: (any: boolean) => void;
   showDeleted: boolean;
   setShowDeleted: (any: boolean) => void;
+  data: any;
+  isLoading: Boolean;
 };
 
 export interface SettingOptionTypes {
@@ -480,13 +574,6 @@ export interface NotificationCheckboxType {
   // userId:string
 }
 
-export type cardinfo = {
-  title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
-};
 export type Graph = {
   id: number;
   title: string;
@@ -502,28 +589,34 @@ export type Graph = {
 };
 
 export type topListingProduct = {
-  id: number;
-  productName: string;
-  productImage: string;
-  category: string;
-  order: string;
-  price: string;
-  topSales: string;
-  vendor: string;
+  map(arg0: (item: any, id: any) => React.JSX.Element): React.ReactNode;
+  product_id?: number;
+  product_name?: string;
+  productImage?: string;
+  category_name?: string;
+  total_orders?: string;
+  price?: string;
+  top_sales?: string;
+  vendor_name?: string;
+  total_sales?: string;
 };
 
-export type activity = {
+type activity = {
   name: string;
+  user_details: {
+    first_name: string;
+    last_name: string;
+  };
+  action: string;
+  title: string;
   purchased: string;
   pItem: string;
   id: number;
 };
-type cardinfo = {
+export type cardinfo = {
   title: string;
-  kMenu: string;
-  price: number;
-  arUp: string;
-  id: number;
+  amount: any;
+  ratio: number;
 };
 
 export type inputErrorMessage = {
@@ -540,12 +633,14 @@ export interface ProductInfo {
   status: string;
 }
 export interface DeletedProducts {
-  name: string;
-  vendor: string;
-  id: number;
-  dateAdded: Date;
-  dateDeleted: Date;
-  status: string;
+  admin_status: string;
+  category_id: number;
+  createdAt: string;
+  product_id: string;
+  product_name: string;
+  product_status: string;
+  updatedAt: string;
+  vendor_name: string;
 }
 export interface CardData {
   id: number;
@@ -560,9 +655,8 @@ export interface CardData {
 }
 
 export interface Review {
-  id: number;
-  rating: number;
-  name: string;
+  rateNo: number;
+  customerName: string;
   description: string;
 }
 export interface UserInfo {
@@ -603,9 +697,43 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
+  isVerified: boolean;
+  roleId: number;
+  twoFactorAuth: boolean;
 };
 
 export type AuthResponse = {
   token: string;
   user: User;
 };
+
+type ProductResultImage = {
+  url: string;
+};
+
+type ProductCategory = {
+  id: number;
+  name: string;
+  createdat: string;
+  user: string;
+};
+export interface ProductResult {
+  id: string;
+  name: string;
+  description: string;
+  quantity: number;
+  price: string;
+  discount_price: string;
+  tax: string;
+  images: ProductResultImage[];
+  admin_status: string;
+  is_deleted: string;
+  is_published: boolean;
+  currency: string;
+  createdat: string;
+  updatedat: string;
+  shop: string;
+  category: ProductCategory;
+  rating: number;
+  user: string;
+}

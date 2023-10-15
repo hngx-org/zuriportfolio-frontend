@@ -15,6 +15,9 @@ import { useAuth } from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
+import { resend2FACode } from '../../../../http/auth';
+
+export const ADMIN_ID = 3;
 
 function LoginForm() {
   const { handleAuth } = useAuth();
@@ -34,21 +37,37 @@ function LoginForm() {
     },
   });
 
+  const send2FaCode = useAuthMutation(resend2FACode);
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
       if (res.message === 'Login successful') {
-        // console.log('Login success:', res);
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
         // console.log(value);
+
+        // Checking if user enabled 2fa
+        if (res.data.user.twoFactorAuth) {
+          const email = res?.data?.user?.email;
+
+          // uncomment if the 2fa message is not being sent automatically
+          // send2FaCode.mutate({ email });
+          router.push('/auth/2fa');
+          return;
+        }
+
+        // redirecting the user  to admin dashbord if they are an admin
+        if (res.data.user.roleId === ADMIN_ID) {
+          router.push('/super-admin/product-listing');
+          return;
+        }
         notify({
-          message: 'Login successful',
+          message: 'Login Successful',
           type: 'success',
         });
-        router.push('/');
+        router.push('/dashboard');
       } else if (res.message === 'Invalid password') {
         notify({
           message: 'Invalid password',
@@ -80,45 +99,49 @@ function LoginForm() {
       loginUserMutation({ email: values.email, password: values.password });
     } catch (error) {}
 
-    form.reset();
+    // No need to reset so if there is error, user can easily find it
+    // form.reset();
   };
 
   return (
-    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
-      <div className="md:mx-auto lg:mb-10 font-manropeL">
+    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown>
+      <div className="md:mx-auto lg:mb-20 font-manropeL">
         <div className="md:flex sm:flex flex-col items-center justify-center lg:items-start">
-          <p className=" md:text-4xl mt-[1.75rem] md:mt-0 text-[1.5rem] font-bold  text-center lg:text-left ">Log In</p>
-          <p className="text-custom-color30  mt-[1rem] md:text-[1.375rem]  lg:font-semibold sm:tracking-[0.00375rem] text-center md:text-left">
+          <p className=" font-manropeEB text-2xl md:text-4xl  text-[1.5rem] mb-1 md:mb-6 text-center lg:text-left ">
+            Log In
+          </p>
+          <p className="text-[#6B797F]  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
             Log in to continue using zuriportfolio
           </p>
         </div>
 
         <div className="pt-[2.25rem]">
           <form onSubmit={form.onSubmit((values) => handleLogin(values))}>
-            <div>
+            <div className="flex flex-col gap-2">
               <label htmlFor="email" className="text-slate-300 font-semibold leading-7">
                 Email Address
               </label>
               <Input
-                placeHolder="Allusugar@gmail.com"
+                placeHolder="enter email"
                 id="email"
                 {...form.getInputProps('email')}
-                className={`w-full mt-[0.5rem] py-[0.84rem] bg-transparent ${
+                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.email ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type="email"
               />
               <p className="text-[red] text-xs pt-1">{form.errors.email && form.errors.email}</p>
             </div>
-            <div className="mt-[1rem]">
-              <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-4">
+
+            <div className=" flex flex-col gap-2">
+              <label htmlFor="password" className="text-slate-300 font-semibold leading-7 mt-2">
                 Password
               </label>
               <Input
-                placeHolder="Gbemi345"
+                placeHolder="enter password"
                 id="password"
                 {...form.getInputProps('password')}
-                className={`w-full mt-[0.5rem] py-[0.84rem] bg-transparent ${
+                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.password ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type={isPasswordShown ? 'text' : 'password'}
@@ -133,18 +156,20 @@ function LoginForm() {
               <p className="text-[red] text-xs pt-1">{form.errors.password && form.errors.password}</p>
             </div>
 
-            <Link href="/auth/forgot-password">
-              <p className=" font-manrope text-brand-green-primary text-right  text-[1.18313rem] mt-[0.62rem]">
-                Forgot Password ?
-              </p>
-            </Link>
+            <div className="flex justify-end mt-3 mb-[17px]">
+              <Link href="/auth/forgot-password">
+                <span className=" font-manrope text-brand-green-primary text-right  text-xs md:text-sm ">
+                  Forgot Password ?
+                </span>
+              </Link>
+            </div>
 
             <Button
               isLoading={isLoginUserMutationLoading}
               intent={'primary'}
               type="submit"
               size={'md'}
-              className="w-full rounded-lg mt-[1rem]"
+              className="w-full rounded-lg h-[44px] md:h-[60px]"
             >
               Continue
             </Button>

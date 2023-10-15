@@ -6,47 +6,43 @@ import ExperienceCard from './experience-cards/experience-card';
 import AllCategorySlider from '../AllCategorySlider';
 import CategoriesNav from '../CategoriesNav/CategoriesNav';
 import RecentlyViewed from './recentlyViewed/recentlyViewed';
-
-const limitedOffers: MarketPlaceProductCardProps[] = [];
+import useCategory from '../filter/hooks/useCategory';
 
 function LandingPage() {
-  const [product, setProduct] = useState({ isLoading: true, items: [] });
+  const [recommendedProduct, setRecommendedProduct] = useState({ isLoading: true, items: [] });
+  const [limitedOffers, setLimitedOffers] = useState({ isLoading: true, items: [] });
+  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
+  const { categories, loading } = useCategory();
+
   useEffect(() => {
     try {
-      fetch('https://coral-app-8bk8j.ondigitalocean.app/api/recommendations')
+      fetch(`${baseUrl}recommendations`)
         .then((res) => res.json())
-        .then((data) => setProduct({ isLoading: false, items: data }));
+        .then((data) => setRecommendedProduct({ isLoading: false, items: data }));
     } catch (error) {
-      setProduct({ isLoading: false, items: [] });
+      setRecommendedProduct({ isLoading: false, items: [] });
+    }
+    //Limited Offer was routed to description page
+    try {
+      fetch(`${baseUrl}products/limited_offers/`)
+        .then((res) => res.json())
+        .then((data) => setLimitedOffers({ isLoading: false, items: data.results }));
+    } catch (error) {
+      setLimitedOffers({ isLoading: false, items: [] });
     }
   }, []);
 
+  console.log(limitedOffers.items);
+
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <CategoriesNav
-        navItems={[
-          ' Design & Graphics',
-          ' Development & Programming',
-          ' Content Creation',
-          ' Digital Arts & Media',
-          ' Audio & Sound',
-          ' Photography',
-          'Writing & Copywriting',
-          'Video & motion',
-          'Data & Analytics',
-          'Marketing & Advertising',
-          'eCommerce & Business',
-          'Gaming & Entertainment',
-          'Virtual Reality & Augmented Reality',
-          'e-Books',
-        ]}
-      />
+      <CategoriesNav navItems={categories} isLoading={loading} />
 
       <div className="py-6 px-4 overflow-hidden w-full">
         <div className="max-w-[1240px] mx-auto">
           <ProductCardWrapper
             title="Handpicked For You"
-            productsList={product.items}
+            productsList={recommendedProduct}
             showTopPicks={true}
             showAll={false}
           />

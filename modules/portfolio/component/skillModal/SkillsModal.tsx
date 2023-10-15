@@ -1,11 +1,9 @@
-import { Item } from '@radix-ui/react-select';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
 import { useEffect, useState, MouseEvent } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
-import { number } from 'zod';
 
 type skillModalProps = {
   onClose: () => void;
@@ -25,98 +23,100 @@ type skillListRes = {
 
 const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
-  const [arrayOne, setArrayOne] = useState<Array<string>>([
-    'Version Control',
-    'DevOps',
-    'Testing',
-    'Art',
-    'Sketch',
-    'Visual Branding',
-    'Graphics Design',
-    'Color Theory',
-    'Illustration',
-    'Animation',
-    'API Intergration',
+  const [arrayOne, setArrayOne] = useState<Array<skillListRes>>([
+    { skill: 'Version Control', skillId: 1 },
+    { skill: 'DeveOps', skillId: 2 },
+    { skill: 'Testing', skillId: 3 },
+    { skill: 'Art', skillId: 4 },
+    { skill: 'Sketch', skillId: 5 },
+    { skill: 'Visual Branding', skillId: 6 },
+    { skill: 'Graphics Design', skillId: 7 },
+    { skill: 'Color Theory', skillId: 8 },
+    { skill: 'Illustration', skillId: 9 },
+    { skill: 'Animation', skillId: 10 },
+    { skill: 'API Intergration', skillId: 11 },
   ]);
-  const [arrayTwo, setArrayTwo] = useState<Array<string>>([]);
-  const [response, setResponse] = useState([]);
-  const [skillData, setSkillData] = useState<Array<skillListRes>>([]);
+  const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
+  const [values, setValues] = useState<Array<skillListRes>>([]);
+  const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
 
   const fetchSkillData = async () => {
     try {
       // Make a GET request to the API
-      const response = await axios.get('https://hng6-r5y3.onrender.com/api/skills-details');
-      // const suggestionRes = await axios.get('https://piranha-assessment.onrender.com/api/admin/skills/');
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/skills-details/${userID}`);
       const data = response.data.data;
-      // const skillList = data.map((item:skillListRes) => item.skill)
-      // Set the data in the state
-      setSkillData(data);
+      setValues(data);
     } catch (error) {
       // Handle errors
       console.error('Error fetching data:', error);
     }
   };
+  // set the data in the db on the modal onload
 
   useEffect(() => {
-    // Call the fetchData function
     fetchSkillData();
   }, []);
 
-  const handleMoveToTwo = (item: string) => {
-    setArrayOne(arrayOne.filter((el: string) => el !== item));
-    setArrayTwo((prevArrayTwo) => [...prevArrayTwo, item]);
-  };
-  const handleSetSkillData = (item: skillListRes) => {
-    setSkillData((prevArray) => [...prevArray, item]); // Use the callback
-  };
-
-  const handleMoveToOne = (item: string) => {
-    setArrayTwo((prevArrayTwo) => prevArrayTwo.filter((el) => el !== item));
-    setArrayOne([...arrayOne, item]);
-  };
-
-  const handleArrayOneSetSkill = (item: skillListRes) => {
-    setSkillData((prevArray) => prevArray.filter((el) => el !== item));
-  };
-
+  // on Enter press append input value to array two(setValues)
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
       const trimmedValue = inputValue.trim();
-
-      if (trimmedValue !== '') {
-        setArrayTwo((prevArray) => [...prevArray, trimmedValue]);
-        setToLocalStorage(trimmedValue);
+      if (trimmedValue !== '' && !values.some((skill) => skill.skill === trimmedValue)) {
+        setValues([...values, { skillId: new Date().getTime(), skill: String(trimmedValue) }]);
+        setInputValue('');
       }
     }
-    setInputValue(''); // Clear the input field after pushing the value
   };
 
-  const cancelBtnFn = () => {
-    localStorage.removeItem('arrayTwo');
-    setArrayTwo([]);
+  // handle input change
+  const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputChangeValue = e.target.value.trim();
+    if (inputChangeValue !== '') {
+      setInputValue(e.target.value);
+    }
   };
 
-  const setToLocalStorage = (trimmedValue: string) => {
-    localStorage.setItem('arrayTwo', JSON.stringify([...arrayTwo, trimmedValue]));
+  const arrayTwolist = (item: skillListRes) => {
+    setInputValue('');
+    const updatedValues = values.filter((value) => value !== item);
+    setValues(updatedValues);
+  };
+
+  const arrayOneItemAddition = (item: skillListRes) => {
+    if (!values.some((skill) => skill.skill === item.skill)) {
+      //avoid duplicates
+      setValues((values) => [...values, item]);
+    }
+  };
+
+  const skillsArray = values.map((obj) => obj.skill);
+
+  // update skill items on the landing page with reloading the page
+  const getAllSkill = async () => {
+    try {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userID}`);
+
+      if (response.ok) {
+        const data = await response.json();
+        const { skills } = data;
+        console.log(data);
+        arrayTwolist(skills);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
-  // const customHeaders = {
-  //   Authorization: `Bearer ${token}`,
-  //   'Content-Type': 'application/json',
-  // { headers: customHeaders }
-  // };
-
   const requestData = {
-    skills: arrayTwo,
+    skills: skillsArray,
     sectionId: 5,
-    userId: userId,
+    userId: userID,
   };
 
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
-      console.log(response.data.data);
       return response.data;
     } catch (error) {
       console.error('Error:', error);
@@ -126,24 +126,29 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
 
   async function deleteSkillsData(id: number) {
     try {
-      const response = await axios.delete(`https://hng6-r5y3.onrender.com/api/delete-skills/${id}`);
+      const response = await axios.delete(`https://hng6-r5y3.onrender.com/api/delete-skills/${id}}`);
       if (response.data.successful) {
         fetchSkillData();
       }
-      console.log(response.data.data);
       return response.data;
-    } catch (error) {
-      console.error('Error:', error);
-      throw error; // You can handle the error further if needed
+    } catch (error: any) {
+      if (error.message !== 'Request failed with status code 404') {
+        throw error;
+      }
     }
   }
 
-  console.log(skillData);
-
+  // onclick of save button, it saves data to the endpoint
   function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
     postSkillData();
+    getAllSkill();
     onClose();
   }
+
+  // clear array two on cancel btn click
+  const cancelBtnFn = () => {
+    setValues([]);
+  };
 
   return (
     <section className="w-full flex items-center justify-center fontFamily-manropeEL">
@@ -159,14 +164,14 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
             </button>
           </div>
           <div className="w-full">
-            {skillData?.length > 0 && (
+            {values?.length > 0 && (
               <ul className="w-full flex flex-wrap gap-4 my-12">
-                {skillData?.map((item: skillListRes) => (
+                {values?.map((item: skillListRes) => (
                   <li key={item.skillId}>
                     <Button
-                      className=" group/skillsbtn text-brand-green-shade20 h-10 bg-brand-green-shade95  hover:text-white-100 hover: text-sm font-semibold leading-5 rounded-lg px-2 py-4 flex items-center gap-4"
+                      className=" group/skillsbtn text-brand-green-shade20 h-10 bg-brand-green-shade95  hover:text-white-100   text-sm font-semibold leading-5 rounded-lg px-2 py-4 flex items-center gap-4"
                       onClick={() => {
-                        handleMoveToOne(item.skill);
+                        arrayTwolist(item);
                         deleteSkillsData(item.skillId);
                       }}
                       type="button"
@@ -187,8 +192,9 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
               type="text"
               placeHolder='Enter your skill and press "ENTER'
               className="w-full rounded-lg p-4 mb-6 border-2 border-[#C4C7C6] max-sm:p-2"
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={inputChange}
               onKeyDown={handleKeyPress}
+              value={inputValue}
             />
           </div>
 
@@ -197,16 +203,15 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
             {arrayOne.length > 0 && (
               <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">
                 {arrayOne.map((item) => (
-                  <li key={item}>
+                  <li key={item.skillId}>
                     <Button
-                      className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100"
+                      className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100 focus:text-white-100 "
                       onClick={() => {
-                        handleMoveToTwo(item);
-                        handleSetSkillData({ skillId: Math.random(), skill: item });
+                        arrayOneItemAddition(item);
                       }}
                       type="button"
                     >
-                      {item}
+                      {item.skill}
                       <span className="group-hover/skillsbtn:border-white-100">
                         <AiOutlinePlus />
                       </span>

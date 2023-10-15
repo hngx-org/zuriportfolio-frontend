@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '@ui/Input';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { useForm, zodResolver } from '@mantine/form';
-import { z } from 'zod';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@ui/Button';
+import { ToastContainer, toast } from 'react-toastify';
+import { z } from 'zod';
+import withAuth from '../../../../helpers/withAuth';
+
+type Product = {
+  product_id: string;
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  price: string;
+  image: any[];
+};
 
 function Discounts() {
   const [selectedOptionType, setSelectedOptionType] = useState('');
   const [selectedOptionProduct, setSelectedOptionProduct] = useState('');
   const [selectedDateTime, setSelectedDateTime] = useState('');
   const [selectedDateTimeExpire, setSelectedDateTimeExpire] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Add loading state
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [productNames, setProductNames] = useState<string[]>([]);
 
   const handleOptionChangeProduct = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOptionProduct(event.target.value);
@@ -81,35 +94,63 @@ function Discounts() {
     }
   }
 
+  useEffect(() => {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data.data)) {
+          setProducts(data.data);
+          // Extract product names from the fetched data
+          const names = data.data.map((product: any) => product.name);
+          setProductNames(names);
+        }
+      })
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
+
   const handleCreateDiscount = async (values: any) => {
     setIsLoading(true); // Set loading state to true
+    const selectedProduct = products.find((product) => product.name === selectedOptionProduct);
 
-    const productIds = [generateUUID()];
+    if (!selectedProduct) {
+      // Handle the case where the selected product doesn't exist
+      toast.error('Selected product does not exist');
+      setIsLoading(false); // Set loading state back to false
+      return;
+    }
+
+    const productIds = [selectedProduct.id];
+
+    const newDate = new Date(selectedDateTime).toISOString();
+    const newExpireDate = new Date(selectedDateTimeExpire).toISOString();
 
     const userData = {
       discount_type: selectedOptionType,
-      amount: parseFloat(values.amount),
+      amount: parseInt(values.amount),
       quantity: parseInt(values.quantity),
-      maximum_discount_price: parseFloat(values.maxDiscount),
+      maximum_discount_price: parseInt(values.maxDiscount),
       product_ids: productIds,
-      valid_from: selectedDateTime,
-      valid_to: selectedDateTimeExpire,
+      valid_from: newDate,
+      valid_to: newExpireDate,
     };
 
     console.log('userData', userData);
     try {
       const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/discount', userData);
-      if (response.status === 200) {
-        toast.success('Discount created successfully', {
-          autoClose: 5000,
-          onClose: () => {
-            router?.push('/dashboard/promotions');
-          },
-        });
-        console.log('success', response?.data);
-      } else {
-        // Handle other successful status codes if needed
-      }
+
+      toast.success('Discount created successfully', {
+        autoClose: 5000,
+        // onClose: () => {
+        //   router?.push('/dashboard/promotions');
+        // },
+      });
+      router.push('/dashboard/promotions');
+      console.log('success', response?.data);
     } catch (error: any) {
       console.error('Error:', error);
       if (error.response) {
@@ -150,6 +191,7 @@ function Discounts() {
                       value={selectedOptionType}
                       onChange={handleOptionChangeType}
                     >
+                      <option value="type">Select type</option>
                       <option value="percentage">Percentage</option>
                       <option value="fixed">Fixed</option>
                     </select>
@@ -159,7 +201,7 @@ function Discounts() {
                     <Input
                       id="amount"
                       {...form.getInputProps('amount')}
-                      className="w-full text-[14px] mt-2"
+                      className="w-full text-[14px] mt-2 placeholder:text-[#191C1E] text-black"
                       placeHolder="e.g 12%"
                       type="text"
                     />
@@ -169,7 +211,7 @@ function Discounts() {
                     <Input
                       id="quantity"
                       {...form.getInputProps('quantity')}
-                      className="w-full text-[14px] mt-2"
+                      className="w-full text-[14px] mt-2 placeholder:text-[#191C1E] text-black"
                       placeHolder="e.g 2"
                     />
                   </div>
@@ -179,7 +221,7 @@ function Discounts() {
                   <Input
                     id="maxDiscount"
                     {...form.getInputProps('maxDiscount')}
-                    className="w-full text-[14px] mt-2"
+                    className="w-full text-[14px] mt-2 placeholder:text-[#191C1E] text-black"
                     placeHolder="Enter price here"
                   />
                 </div>
@@ -196,16 +238,18 @@ function Discounts() {
                     <option className="text-dark font-manropeB font-bold" value="">
                       No items selected
                     </option>
-                    <option value="option1">Rice and beans</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
+                    {productNames.map((productName, index) => (
+                      <option key={index} value={productName}>
+                        {productName}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="md:flex md:gap-10 gap-6 mt-7 w-full">
                   <div className="flex flex-col w-full">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid From</label>
                     <input
-                      className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTime}
                       onChange={handleDateFrom}
@@ -214,7 +258,7 @@ function Discounts() {
                   <div className="flex flex-col w-full md:mt-0 mt-6 ">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid To</label>
                     <input
-                      className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTimeExpire}
                       onChange={handleDateTo}
@@ -248,4 +292,4 @@ function Discounts() {
   );
 }
 
-export default Discounts;
+export default withAuth(Discounts);

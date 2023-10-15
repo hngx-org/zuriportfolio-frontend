@@ -7,10 +7,10 @@ function GithubRedirect() {
 
   useEffect(() => {
     const query = window.location.search.split('?')[1];
-    const url = `/api/auth/github/redirect?${query}`;
+    const url = `/github/redirect?${query}`;
     const Oauth = async () => {
       const $http = axios.create({
-        baseURL: 'https://auth.akuya.tech',
+        baseURL: 'https://staging.zuri.team/api/auth/api/auth',
         timeout: 30000,
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -24,7 +24,7 @@ function GithubRedirect() {
         localStorage.setItem('zpt', token);
         router.push('/dashboard');
       } catch (e: any) {
-        router.push('/auth/signup-with-email');
+        router.push('/auth/signup');
       }
     };
     Oauth();
