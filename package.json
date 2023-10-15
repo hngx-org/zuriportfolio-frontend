@@ -43,6 +43,7 @@
     "react": "^18.2.0",
     "react-code-blocks": "^0.1.4",
     "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-icons": "^4.11.0",
     "react-multi-date-picker": "^4.3.3",
     "react-to-pdf": "^1.0.1",
