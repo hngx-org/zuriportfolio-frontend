@@ -26,7 +26,6 @@ const CategoriesNav = (props: CategoriesNavProps) => {
 
   const { authenticated } = useAuthentication();
   const { navItems } = props;
-  console.log(navItems)
   // useEffect(() => {
   //   const fetchCategories = async () => {
   //     try {
