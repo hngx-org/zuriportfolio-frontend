@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import { error } from 'console';
 import Spinner from '@ui/Spinner';
 import Link from 'next/link';
+import ComplaintsModal from '../../../components/Modals/ComplaintModal';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -48,6 +49,17 @@ const MyPage: React.FC = () => {
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
+
+  // modal open and close state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const payload = { orderItemIds: checkedItems };
   const stringifyData = JSON.stringify(payload);
@@ -338,9 +350,11 @@ const MyPage: React.FC = () => {
                         <td className="text-[0.75rem] px-4 py-2">{item.merchant}</td>
                         <td className="text-[0.75rem] px-4 py-2">
                           <span
-                            className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
+                            className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl cursor-pointer ${
                               getStatusBackgroundColor(item.order.status)[0]
                             }`}
+                            onClick={openModal}
+                            // onClick={() => handleClickStatus('failed')}
                           >
                             <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.order.status)[1]}`}>
                               {item.order.status}
@@ -357,6 +371,9 @@ const MyPage: React.FC = () => {
           {/* error page */}
           {data.length === 0 && <PurchaseNotFound back={onBack} />}
         </div>
+
+        {}
+        <ComplaintsModal isOpen={isModalOpen} onClose={closeModal} />
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
       </div>
