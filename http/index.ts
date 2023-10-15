@@ -143,6 +143,7 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
 // }
 // https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart
 
+//cart
 export const makePayment = async (selectedPaymentMethod: string, token: string) => {
   if (selectedPaymentMethod) {
     try {
@@ -204,6 +205,26 @@ export const getCartSummary = async (token: string) => {
   } catch (error) {
     console.error('Error making payment:', error);
     return {};
+  }
+};
+
+type createUserData = {
+  first_name: string;
+  last_name: string;
+  email: string;
+};
+
+export const createGusetUser = async (data: createUserData) => {
+  try {
+    const response = await $http.post('', data);
+
+    if (response.status === 200) {
+      console.log('Response from the server:', response.data);
+    } else {
+      console.error('Request failed with status:', response.status);
+    }
+  } catch (error) {
+    console.error('Error making the POST request:', error);
   }
 };
 

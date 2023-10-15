@@ -8,13 +8,13 @@ const Footer: React.FC = () => {
       <div className="container mx-auto py-10 px-4 sm:px-6 md:px-3">
         <div className="flex  md:flex-row flex-col  items-center justify-between">
           <div className="flex md:flex-col flex-row items-center md:gap-2 gap-6 md:text-left mb-4 md:mb-0">
-            <Image src={TechVerse} alt="Your Logo" width={100} height={50} />
-            <p className="text-base font-manropeEL">by Mark Essien</p>
+            <Image src={TechVerse} alt="Your Logo" width={100} height={50} /> {/* Name of Shop*/}
+            <p className="text-base font-manropeEL">by {} Shop</p> {/* Name of Shop Owner*/}
           </div>
           <div className=" flex md:flex-row flex-col md:space-y-0 space-y-6 md:items-center items-start   md:space-x-6">
             <div className="flex flex-row items-center gap-6 justify-between">
               <h1 className="text-sm cursor-pointer font-manropeEL text-normal">Contact Us</h1>
-              <h1 className="font-manropeB cursor-pointer text-base">info@techverse.com</h1>
+              <h1 className="font-manropeB cursor-pointer text-base">{}</h1> {/* EMAIL OF SHOP*/}
             </div>
 
             <div className="flex flex-row items-center gap-6 justify-between">
@@ -32,15 +32,13 @@ const Footer: React.FC = () => {
                 <a href="" className="bg-[#F00073] cursor-pointer rounded-full p-2 text-white">
                   <Instagram size={18} color="#fff" />
                 </a>
-                <a href="#" className="text-white cursor-pointer bg-[#000] rounded-full p-2">
-                  <svg width="20" height="20" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <a href="#" className="text-white cursor-pointer rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="39" height="39" viewBox="0 0 48 48">
+                    <path fill="#039be5" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"></path>
                     <path
-                      id="githab"
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M11.4671 0.5C5.52607 0.5 0.707275 5.31879 0.707275 11.2598C0.707275 16.0126 3.80979 20.0392 8.03448 21.4915C8.56257 21.5575 8.7606 21.2274 8.7606 20.9634C8.7606 20.6993 8.7606 20.0392 8.7606 19.1151C5.79011 19.7752 5.13 17.6628 5.13 17.6628C4.66793 16.4086 3.94181 16.0786 3.94181 16.0786C2.95165 15.4185 4.00782 15.4185 4.00782 15.4185C5.06399 15.4845 5.65809 16.5406 5.65809 16.5406C6.64826 18.1909 8.16651 17.7288 8.7606 17.4648C8.82662 16.7387 9.15667 16.2766 9.42071 16.0126C7.04432 15.7485 4.53591 14.8244 4.53591 10.6657C4.53591 9.47748 4.93197 8.55333 5.65809 7.7612C5.59208 7.56316 5.19602 6.44098 5.79011 4.98874C5.79011 4.98874 6.71427 4.7247 8.7606 6.11092C9.61875 5.84688 10.5429 5.78087 11.4671 5.78087C12.3912 5.78087 13.3154 5.91289 14.1735 6.11092C16.2198 4.7247 17.144 4.98874 17.144 4.98874C17.7381 6.44098 17.342 7.56316 17.276 7.82721C17.9361 8.55333 18.3982 9.54349 18.3982 10.7317C18.3982 14.8904 15.8898 15.7485 13.5134 16.0126C13.9095 16.3426 14.2395 17.0027 14.2395 17.9929C14.2395 19.4451 14.2395 20.5673 14.2395 20.9634C14.2395 21.2274 14.4375 21.5575 14.9656 21.4915C19.2563 20.0392 22.2928 16.0126 22.2928 11.2598C22.2268 5.31879 17.408 0.5 11.4671 0.5Z"
-                      fill="white"
-                    />
+                      fill="#fff"
+                      d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"
+                    ></path>
                   </svg>
                 </a>
               </div>

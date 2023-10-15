@@ -121,7 +121,7 @@ const Index = () => {
           data={data}
           isLoading={isLoading}
         />
-        <section className="border-white-115 border-2 py-4 rounded-md container mx-auto">
+        <section className="border-white-115 border-2 py-4 rounded-md container mx-auto mb-10">
           <div className=" border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
             <div className="mb-4 md:mb-0">
               <p className="text-lg font-bold">Vendor Management</p>
@@ -169,13 +169,11 @@ const Index = () => {
                       ? deletedVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)
                       : visibleVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)}
                   </div>
-                  {filteredProducts?.length > itemsPerPage && (
-                    <SuperAdminPagination
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={handlePageChange}
-                    />
-                  )}
+                  <SuperAdminPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
                 </>
               ) : (
                 <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

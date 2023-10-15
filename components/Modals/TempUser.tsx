@@ -6,33 +6,48 @@ import flutterwave from '../../public/assets/futterwave.png';
 import paystack from '../../public/assets/paystack.png';
 import cancel from '../../public/assets/images/logo/otp-modal-cancel.svg';
 import Button from '@ui/Button';
+import { createGusetUser } from '../../http';
 
 interface TempUser {
   isOpen: boolean;
   onClose: () => void;
 }
 
+type createUserData = {
+  first_name: string;
+  last_name: string;
+  email: string;
+};
+
 const TempUser = ({ isOpen, onClose }: TempUser) => {
-  const inputRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
+  const firstnameRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
+  const lastnameRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
   const emailRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const paystackRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const flutterwaveRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    const isFlutterChecked = flutterwaveRef.current?.checked;
-    const isPaystackChecked = paystackRef.current?.checked;
 
-    const inputValue = inputRef.current ? inputRef.current.value : '';
+    const firstnameValue = firstnameRef.current ? firstnameRef.current.value : '';
+    const lastnameValue = lastnameRef.current ? lastnameRef.current.value : '';
     const emailValue = emailRef.current ? emailRef.current.value : '';
-    const paystackValue = isPaystackChecked ? 'paystack' : '';
-    const flutterwaveValue = isFlutterChecked ? 'flutterwave' : '';
 
-    console.log(`name: ${inputValue}`);
+    console.log(`Firstname: ${firstnameValue}`);
+    console.log(`Lastname: ${lastnameValue}`);
     console.log(`email: ${emailValue}`);
-    console.log(`paystack: ${paystackValue}`);
-    console.log(`flutter: ${flutterwaveValue}`);
+
+    const userData: createUserData = {
+      email: emailValue,
+      first_name: firstnameValue,
+      last_name: lastnameValue,
+    };
+
+    try {
+      await createGusetUser(userData);
+    } catch (error) {
+      console.error('Error making guest user:', error);
+    }
   };
+
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
       <div className="flex items-end justify-end">
@@ -44,12 +59,24 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
       >
         <div className="flex w-full flex-col items-start gap-[6px]">
           <label className="text-[16px] font-manropeL not-italic font-semibold leading-[24px] tracking-[0.024px]">
-            Fullname
+            Firstname
           </label>
           <input
-            ref={inputRef}
+            ref={firstnameRef}
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
-            placeholder="Mark Essein"
+            placeholder="Mark"
+            type="text"
+            required
+          />
+        </div>
+        <div className="flex w-full flex-col items-start gap-[6px]">
+          <label className="text-[16px] font-manropeL not-italic font-semibold leading-[24px] tracking-[0.024px]">
+            Lastname
+          </label>
+          <input
+            ref={lastnameRef}
+            className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
+            placeholder="Essein"
             type="text"
             required
           />
@@ -66,7 +93,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             required
           />
         </div>
-        <div className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4">
+        {/* <div className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4">
           <label className="inline-flex items-center flex-grow">
             <input
               ref={paystackRef}
@@ -93,7 +120,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             <span className="ml-2">Pay with Flutterwave</span>
           </label>
           <Image src={flutterwave} alt="mastercard" width={76} height={76} />
-        </div>
+        </div> */}
         <div className="flex w-[360px]">
           <Button
             type="submit"
