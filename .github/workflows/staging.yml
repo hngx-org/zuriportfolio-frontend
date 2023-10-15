@@ -4,7 +4,7 @@ name: Zuri main dev Deployment
 on:
   push:
     branches:
-      - dev
+      - staging
   # pull_request:
   # branches: [dev]
   # schedule:

@@ -1,4 +1,3 @@
-
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
@@ -92,7 +91,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
 
   const skillsArray = values.map((obj) => obj.skill);
 
-  // update skill items on the landing page with reloading the page 
+  // update skill items on the landing page with reloading the page
   const getAllSkill = async () => {
     try {
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userID}`);
@@ -107,7 +106,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       console.error(error);
     }
   };
-
 
   const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
   const requestData = {
