@@ -27,7 +27,9 @@ const SanctionedProducts = () => {
 
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
-      (product: any) => product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()),
+      (product: any) =>
+        product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
+        product?.product_status?.toLowerCase()?.includes('sanctioned'),
     );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);

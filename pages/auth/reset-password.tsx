@@ -41,7 +41,17 @@ function ResetPassword() {
 
   // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(resetPassword, {
-    onSuccess: () => setPasswordChanged(true),
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        setPasswordChanged(true);
+        return;
+      }
+
+      notify({
+        message: data?.message,
+        type: 'error',
+      });
+    },
     onError: (error: any) => onResetPasswordError(error),
   });
 
@@ -103,7 +113,7 @@ function ResetPassword() {
                     className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                       form.errors.password ? 'border-red-200' : ''
                     }`}
-                    placeHolder="Daniel345"
+                    placeHolder="enter password"
                     rightIcon={
                       <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
                         {/* Update the icon based on the visibility state of the password. */}
@@ -127,7 +137,7 @@ function ResetPassword() {
                   className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.confirmPassword ? 'border-red-200' : ''
                   }`}
-                  placeHolder="Daniel345"
+                  placeHolder="enter confirm password"
                   rightIcon={
                     <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
                       {/* Update the icon based on the visibility state of the password. */}

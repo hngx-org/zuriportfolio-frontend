@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styles from './product-card-wrapper.module.css';
 import ProductCard from '../../ProductCard';
 import NoEndpoint from '../../no-endpoint/no-endpoint';
+import CategoryLoading from '../../categories/CategoryLoading';
 
 function ProductCardWrapper({
   productsList,
@@ -11,7 +12,7 @@ function ProductCardWrapper({
   showTopPicks,
   showAll,
 }: {
-  productsList: any[];
+  productsList: { items: any[]; isLoading: boolean };
   title: string;
   showTopPicks: boolean;
   showAll: boolean;
@@ -37,34 +38,48 @@ function ProductCardWrapper({
           </Link>
         )}
       </h3>
-      {productsList.length ? (
-        <div
-          className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
-        >
-          {productsList.map((item, index) => {
-            if (index <= 7) {
-              return (
-                <div key={index} className="relative w-1/2 md:w-1/3 lg:w-full pr-2 md:pr-4 lg:pr-0">
-                  <ProductCard
-                    id={item?.id}
-                    currency={item?.currency}
-                    image={item?.images && item?.images[0]?.url}
-                    name={item?.name}
-                    price={item?.price}
-                    user={item?.shop ? `${item?.shop?.name}` : 'null'}
-                    rating={item?.rating}
-                    showDiscount={item?.showDiscount}
-                    showTopPicks={showTopPicks}
-                    discount_price={item?.discount_price}
-                  />
-                </div>
-              );
-            }
-          })}
-        </div>
-      ) : (
-        <NoEndpoint />
-      )}
+      <div>
+        {productsList.isLoading ? (
+          <div
+            className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+          >
+            {[1, 2, 3, 4].map((item) => {
+              return <CategoryLoading key={item} />;
+            })}
+          </div>
+        ) : (
+          <>
+            {productsList.items.length ? (
+              <div
+                className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+              >
+                {productsList.items.map((item, index) => {
+                  if (index <= 7) {
+                    return (
+                      <div key={index} className="relative w-1/2 md:w-1/3 lg:w-full pr-2 md:pr-4 lg:pr-0">
+                        <ProductCard
+                          id={item?.id}
+                          currency={item?.currency}
+                          image={item?.images && item?.images[0]?.url}
+                          name={item?.name}
+                          price={item?.price}
+                          user={item?.shop ? `${item?.shop?.name}` : 'null'}
+                          rating={item?.rating}
+                          showDiscount={item?.showDiscount}
+                          showTopPicks={showTopPicks}
+                          discount_price={item?.discount_price}
+                        />
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            ) : (
+              <NoEndpoint />
+            )}
+          </>
+        )}
+      </div>
     </section>
   );
 }

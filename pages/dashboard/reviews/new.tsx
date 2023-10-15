@@ -6,56 +6,18 @@ import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBa
 import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
 import { ratingData } from '../../../db/reviews';
 import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
+import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 
 export default function UserReview() {
+  const {categories, loading} = useCategoryNav()
   return (
     <div className="">
       <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
         <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
+          {/* from marketplace: this component you are using is from marketplace and it has been updated and we have updated it on your end also, this is important to allow sync without error take note  */}
           <CategoriesNav
-            navItems={[
-              {
-                name: 'software enginering',
-                subcategories: [],
-              },
-              {
-                name: 'enginering',
-                subcategories: [
-                  {
-                    name: 'software girl era',
-                  },
-                ],
-              },
-              {
-                name: 'computer enginering',
-                subcategories: [
-                  {
-                    name: 'backend enginering',
-                  },
-                ],
-              },
-              {
-                name: 'Joshua_Shop',
-                subcategories: [
-                  {
-                    name: 'backend enginering',
-                  },
-                  {
-                    name: 'health',
-                  },
-                  {
-                    name: 'health',
-                  },
-                  {
-                    name: 'computer enginering',
-                  },
-                ],
-              },
-              {
-                name: 's enginering',
-                subcategories: [],
-              },
-            ]}
+            navItems={categories}
+            isLoading={loading}
           />
         </div>
         <Container>

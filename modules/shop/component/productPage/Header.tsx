@@ -105,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({
 
         <div className={`relative mt-4 md:mt-0 ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
           {' '}
-          <Link href="/shop/cart" className="mt-4 md:mt-0 relative">
+          <Link href="/marketplace/cart" className="mt-4 md:mt-0 relative">
             <ShoppingCart size={29} />
           </Link>
           <div className="bg-green-700 rounded-full w-4 h-4 text-white-100 text-sm flex items-center justify-center absolute top-0 right-0">

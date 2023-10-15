@@ -66,13 +66,33 @@ function SectionModal({
   );
 }
 
+const deleteSection = (sections: string) => {
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+
+  const raw = JSON.stringify({
+    section: 'workExperience',
+  });
+
+  const requestOptions: any = {
+    method: 'DELETE',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  fetch('https://hng6-r5y3.onrender.com/api/profile/details/:userID', requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log('error', error));
+};
+
 //A Modal function for the deleting of a section
 export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   const { toggleSection, setOpenDelete } = useContext(Portfolio);
   const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
   const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
-
-  const deleteSection = () => {
+  const deleteSection = async () => {
     if (deleteFromBe) {
     } else if (deleteLocal) {
       const parts = sectionToDelete.split(' ');

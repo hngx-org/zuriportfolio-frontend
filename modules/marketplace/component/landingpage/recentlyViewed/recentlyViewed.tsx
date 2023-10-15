@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Cancel from '../../../../../public/assets/recentlyviewed/cancel.svg';
 import styles from '../productCardWrapper/product-card-wrapper.module.css';
 
-
 function RecentlyViewed() {
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedData[]>([]);
   const { auth } = useAuth();

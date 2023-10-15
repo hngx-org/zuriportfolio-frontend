@@ -19,6 +19,7 @@ import profileImg from '../../public/assets/images/profile-img.png';
 import Layout from './component/productPage/Layout';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -34,9 +35,9 @@ export default function ProductDetails() {
   const categories: string[] = [];
   const [selectedCategory, setSelectedCategory] = useState('');
   const { addToCart } = useCart();
-  const [addedToCart, setAddedToCart] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [cartCount, setCartCount] = useState(0);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const { auth } = useAuth();
 
   const handleCategoryChange = () => {};
   const handleShowMoreClick = () => {
@@ -49,9 +50,8 @@ export default function ProductDetails() {
 
   const ZOOM = 250;
 
-  const { id } = router.query;
-
   useEffect(() => {
+    const { id } = router.query;
     if (id) {
       fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
         .then((response) => response.json())
@@ -63,7 +63,8 @@ export default function ProductDetails() {
           setProduct(null);
         });
     }
-  }, [id]);
+  }, [router.query]);
+  console.log('Product:', product);
 
   useEffect(() => {
     axios
@@ -76,6 +77,8 @@ export default function ProductDetails() {
         console.error('Error fetching product data:', error);
       });
   }, []);
+
+  console.log('Product Name:', product ? product.product.name : 'N/A');
 
   const imgContRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -148,22 +151,61 @@ export default function ProductDetails() {
     setImage(newImage);
   };
 
-  const handleAddToCart = () => {
-    addToCart(product);
-    toast.success('Added to Cart', {
-      position: 'top-right',
-      autoClose: 3000,
-    });
+  const handleAddToCart = async () => {
+    try {
+      const response = await axios.post(
+        'https://zuri-cart-checkout.onrender.com/api/checkout/api/carts',
+        {
+          product_ids: [product.id],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${auth?.token}`,
+          },
+        },
+      );
+      if (response.status === 200) {
+        addToCart(product);
+
+        toast.success('Added to Cart', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
+        console.log('Database Response Message:', response.data);
+      } else {
+        toast.error('Failed to add to Cart', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
   };
 
-  const renderRatingStars = (rating: number) => {
+  {
+    /*const renderRatingStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       const starType = i <= rating ? 'star1' : 'star2';
       stars.push(<Image src={starType === 'star1' ? star1 : star2} alt={`Star ${i}`} key={i} />);
     }
     return stars;
+  }; */
+  }
+
+  // ... Other code ...
+
+  const handleReadMoreClick = () => {
+    setShowFullDescription(!showFullDescription); // Step 2
   };
+
+  const description =
+    product.description?.length <= 400
+      ? product.description
+      : showFullDescription
+      ? product.description
+      : product.description?.slice(0, 400);
 
   const specificationData = [
     'Adaptable with HTML5 and CSS3',
@@ -219,9 +261,9 @@ export default function ProductDetails() {
           </a>
 
           {/* Product Details  */}
-          <div className="flex lg:flex-row flex-col items-center justify-center gap-x-6 w-full">
+          <div className="flex lg:flex-row h-[542px] flex-col items-center justify-center gap-x-6 w-full">
             {/* Product Detail Images  */}
-            <div className="flex flex-col w-full item-center lg:gap-y-2">
+            <div className="flex flex-col w-full h-[542px] item-center lg:gap-y-2">
               <div
                 className="img-container w-full lg:h-[27rem] md:h-[20rem] sm:h-[17rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-lg"
                 ref={imgContRef}
@@ -231,52 +273,61 @@ export default function ProductDetails() {
                   alt={product.name}
                   fill
                   objectFit="cover"
-                  className="img max-w-none w-full h-full absolute"
+                  className="img max-w-none w-full h-auto absolute"
                 />
               </div>
               <Slider updateImage={updateImage} />
             </div>
 
             {/* Product Detail Data */}
-            <div className="lg:space-y-2 space-y-4 w-full self-start">
-              <h1 className="md:text-2xl md:font-bold text-black lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
-                {product.name}
-              </h1>
-              <div className="flex items-center">
-                <ProfileCircle color="#464646" variant="Bulk" className="w-6 h-6 md:w-9 md:h-9" />
-                <p className="w-fit font-manropeL font-bold text-xs tracking-[0.003rem] md:tracking-[0.005rem] ml-1 md:font-semibold md:text-base">
-                  {product.category.name}
-                </p>
-              </div>
+            <div className="lg:space-y-0 space-y-4 w-full h-[542px] flex flex-col justify-between">
               <div>
-                <p className="lg:hidden text-base font-semibold md:font-bold md:text-lg font-manropeL tracking-[0.00088rem] pb-2 md:pb-1">
-                  Description
-                </p>
-                <p className="font-normal font-manropeL text-sm md:text-base lg:text-lg tracking-[0.005rem] w-full line-clamp-3 lg:mt-6 text-wrapper">
-                  {product.description}
-                </p>
-                <span
-                  onClick={() => router.push('#description')}
-                  className="text-[#009254] font-manropeL font-bold md:block hidden"
-                >
-                  Read more
-                </span>
-                <span className="text-[#009254] font-manropeL font-bold md:hidden read-more-btn" onClick={readMore}>
-                  Read more
-                </span>
-              </div>
-              <div className="lg:flex flex-col gap-y-2 hidden">
-                <div className="flex gap-x-1 mt-4">
-                  <p className=" text-base font-semibold font-manropeB leading-normal tracking-tight">3.0/5</p>
-                  <div className="flex items-center ">{renderRatingStars(product.rating)}</div>
+                <div>
+                  <h1 className="md:text-2xl md:font-bold text-black capitalize lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
+                    {product.product.name}
+                  </h1>
+                  <div className="flex py-1 items-center">
+                    <ProfileCircle color="#464646" variant="Bulk" className="w-6 h-6 md:w-9 md:h-9" />
+                    <p className="w-fit  font-manropeB font-bold capitalize text-xs tracking-[0.003rem] md:tracking-[0.005rem] ml-1 md:font-semibold md:text-base">
+                      {product.category.name}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-black text-base font-normal font-manropeL leading-normal tracking-tight">
-                  (50 Customers)
-                </p>
-              </div>
+                <div>
+                  <p className="lg:hidden text-base font-semibold md:font-bold md:text-lg font-manropeL tracking-[0.00088rem] pb-2 md:pb-1">
+                    Description
+                  </p>
+                  <p className="font-normal font-manropeL capitalize  text-custom-color43 text-sm md:text-base lg:text-lg tracking-[0.005rem] w-full line-clamp-3 lg:mt-6 text-wrapper">
+                    {description}{' '}
+                  </p>
+                  {product.description.length > 400 && ( // Step 3
+                    <span
+                      onClick={handleReadMoreClick}
+                      className="text-[#009254] font-manropeL font-bold md:block hidden"
+                    >
+                      {showFullDescription ? 'Read less' : 'Read more'}
+                    </span>
+                  )}
+                  <span className="text-[#009254] font-manropeL font-bold md:hidden read-more-btn" onClick={readMore}>
+                    Read more
+                  </span>
 
+                  <div className="lg:flex flex-col gap-y-2 hidden">
+                    <div className="flex gap-x-1 mt-">
+                      <p className=" text-base font-semibold font-manropeB leading-normal tracking-tight">3.0/5</p>
+                      <div className="flex items-center ">
+                        <Image src={star1} alt="rating star" />
+                        <Image src={star1} alt="rating star" />
+                        <Image src={star1} alt="rating star" />
+                        <Image src={star2} alt="rating star" />
+                        <Image src={star2} alt="rating star" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div>
-                <hr className="bg-white-110 text-white-110 h-[2px] border-0 lg:block hidden mt-[4.625rem] mb-[3.625rem]" />
+                <hr className="bg-white-110 text-white-110 h-[2px] border-0 lg:block hidden  mb-[3.625rem]" />
               </div>
 
               <div className="flex flex-col gap-y-1 md:gap-y-2">
@@ -288,23 +339,22 @@ export default function ProductDetails() {
                     {product.currency} {product.price}
                   </span>
                   <span className="text-xl font-light md:text-2xl lg:text-[1.375rem] font-manrope line-through leading-7 text-gray-300">
-                    {product.currency} {product.discount_price}
+                    {product.discount_price}
                   </span>
                 </p>
-              </div>
 
-              <div>
-                <hr className="bg-white-110 text-white-110 h-[2px] border-0 block md:hidden" />
+                <div>
+                  <hr className="bg-white-110 text-white-110 h-[2px] border-0 block md:hidden" />
+                </div>
+                <Button
+                  intent={'primary'}
+                  size={'md'}
+                  className="md:w-1/3 lg:w-1/2 w-full text-base font-manropeL tracking-[0.005rem] rounded-lg"
+                  onClick={handleAddToCart}
+                >
+                  Add to cart
+                </Button>
               </div>
-
-              <Button
-                intent={'primary'}
-                size={'md'}
-                className="md:w-1/3 lg:w-1/2 w-full text-base font-manropeL tracking-[0.005rem] rounded-lg"
-                onClick={handleAddToCart}
-              >
-                Add to cart
-              </Button>
             </div>
           </div>
 
@@ -314,32 +364,6 @@ export default function ProductDetails() {
           </span>
           {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
           <div className="md:hidden block mt-[26px] mr-auto">
-            <h2 className="text-green-900 font-manropeB font-semibold text-[22px] text-left">Specifications</h2>
-
-            <ul className="mt-6 flex flex-col gap-4 list-inside">
-              {specificationData.slice(0, showAll ? specificationData.length : 4).map((item) => (
-                <li key={item} className="list-disc font-manropeL text-base">
-                  {item}
-                </li>
-              ))}
-            </ul>
-            {!showAll && (
-              <button
-                onClick={handleShowMoreClick}
-                className="text-base mt-3 mb-4 font-bold font-manropeB text-green-600"
-              >
-                Show more
-              </button>
-            )}
-            {showAll && (
-              <button
-                onClick={handleShowLessClick}
-                className="text-base mt-3 mb-4 font-bold font-manropeB text-green-600"
-              >
-                Show less
-              </button>
-            )}
-
             <hr className="bg-brand-disabled text-brand-disabled h-[1px] w-full border-0  sm:hidden" />
 
             <div className="mt-4">
@@ -535,9 +559,6 @@ export default function ProductDetails() {
               <h3 className="text-custom-color31 font-manropeL font-bold md:text-2xl text-sm md:px-2 truncate w-[13.1875rem] md:w-full">
                 Other Products By {product.category.name}{' '}
               </h3>
-              <span className="flex items-center text-[#00894C] text-xs font-semibold font-manropeL gap-x-2 md:hidden">
-                <Link href={'/shop'}>View all</Link> <ArrowRight2 size="20" color="#00894c" />
-              </span>
             </div>
             <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
               <ShopProductList products={products.slice(0, 8)} />
@@ -547,14 +568,6 @@ export default function ProductDetails() {
             </div>
             <div className="md:mx-[0.66rem] mx-0 md:hidden block">
               <ShopProductList products={products.slice(0, 4)} />
-            </div>
-            <div className="md:flex w-full justify-end hidden">
-              <span className="flex py-3 px-5 gap-1 border-solid border border-white-120 rounded-lg mt-6 mb-[4.44rem] font-manropeL font-semibold tracking-[0.00088rem] text-sm items-center">
-                <span className="text-[#009444]">
-                  <Link href={'/shop'}>View All</Link>
-                </span>
-                <ArrowRight size="24" color="#009254" />
-              </span>
             </div>
           </div>
         </main>
