@@ -13,10 +13,6 @@ const ProductsListingNavbar = ({ data, isLoading }: { data: any; isLoading: bool
         </div>
         <div className="flex items-center justify-between">
           {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold">{data?.total_products}</h2>}
-          {/* <div className="flex items-center mr-2  text-gray-500 text-1xl px-3 rounded-xl bg-green-20">
-            <ArrowUp size="16" />
-            <p>10%</p>
-          </div> */}
         </div>
       </div>
       <div className=" p-4 border-solid rounded-md border-white-115 border-2">

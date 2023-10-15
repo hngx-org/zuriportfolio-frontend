@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useDeleteProd } from '../../../../../http';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { handleBack } from '.';
 
 const DeleteModal = ({
   isOpen,
@@ -41,15 +42,15 @@ const DeleteModal = ({
       onSuccess: (response) => {
         if (response.response.status < 300) {
           toast.success(response.response.status || 'Product deleted successfully');
-          route.push('.');
+          handleBack(route);
         } else {
           toast.error(response.response.data.message || 'Error deleting the product');
         }
       },
       onError: (error) => {
-        console.log(error);
+        console.error(error);
         toast.success('Product permanently deleted');
-        route.push('.');
+        handleBack(route);
       },
     });
   };
