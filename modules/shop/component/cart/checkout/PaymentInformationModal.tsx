@@ -3,7 +3,15 @@ import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import { makePayment } from '../../../../../http';
 
-const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () => void; orderTotal: number }) => {
+const PaymentInformationModal = ({
+  closeModal,
+  orderTotal,
+  token,
+}: {
+  closeModal: () => void;
+  orderTotal: number;
+  token: string;
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalOpen, setModalOpen] = useState(true);
   const [showOTP, setShowOTP] = useState(true);
@@ -20,7 +28,7 @@ const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () =>
     setPaymentButtonClicked(true);
     if (selectedPaymentMethod) {
       try {
-        const response = await makePayment(selectedPaymentMethod);
+        const response = await makePayment(selectedPaymentMethod, token);
         window.location.href = response.transaction_url;
       } catch (error) {
         console.error('Error making payment:', error);
@@ -34,7 +42,7 @@ const PaymentInformationModal = ({ closeModal, orderTotal }: { closeModal: () =>
     return (
       <>
         <div className=" fixed  inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[50%] lg:w-[28%] animate-slideIn">
+          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[55%] lg:w-[40%] animate-slideIn">
             <svg
               onClick={closeModal}
               className="ml-auto cursor-pointer"

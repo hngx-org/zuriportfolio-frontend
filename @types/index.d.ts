@@ -43,6 +43,7 @@ export interface RecentlyViewedData {
     is_deleted: string;
     rating: number;
     is_published: false;
+    showTopPicks: true;
     currency: string;
     createdat: string;
     updatedat: string;
@@ -78,16 +79,26 @@ export interface AllCategoryDetails {
   showLimitedOffer: boolean;
   discount: number;
 }
-export interface Products {
-  _id: string;
+interface ImageData {
+  id: string;
+  product_id: string;
+  url: string;
+}
+interface CategoryData {
   name: string;
-  image: any;
+}
+export interface Products {
+  id: string;
+  name: string;
+  image: ImageData[];
   shopOwner: string;
   price: number;
-  category: string;
+  category: CategoryData;
   description: string;
   specification: string;
   rating: number;
+  currency: string;
+  discount_price: string;
 }
 export interface SuperAdminPagination {
   title: any;
@@ -272,6 +283,8 @@ export type ProductCardProps = {
   tag?: string;
   tagBackground?: string;
 };
+
+export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
 
 export type RecentlyViewedProductProp = {
   user: string;
@@ -477,6 +490,7 @@ export interface RatingCardProps {
 export interface filterProps {
   rating: number;
   review: number;
+  filterReview(view: string, stars: string);
 }
 
 export interface reviewProps {
@@ -611,6 +625,7 @@ export interface DeletedProducts {
   createdAt: string;
   product_id: string;
   product_name: string;
+  product_status: string;
   updatedAt: string;
   vendor_name: string;
 }
@@ -682,6 +697,13 @@ export type AuthResponse = {
 type ProductResultImage = {
   url: string;
 };
+
+type ProductCategory = {
+  id: number;
+  name: string;
+  createdat: string;
+  user: string;
+};
 export interface ProductResult {
   id: string;
   name: string;
@@ -698,7 +720,7 @@ export interface ProductResult {
   createdat: string;
   updatedat: string;
   shop: string;
-  category: number;
+  category: ProductCategory;
   rating: number;
   user: string;
 }
