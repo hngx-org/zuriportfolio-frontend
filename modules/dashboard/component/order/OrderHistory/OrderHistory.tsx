@@ -178,7 +178,7 @@ const OrderHistory: React.FC = () => {
     try {
       setLoadingOrders(true);
       const { data } = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all?page=${currentPage}`,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -191,7 +191,7 @@ const OrderHistory: React.FC = () => {
       if (!data.data || data.data?.length === 0) {
         return [];
       }
-      console.log(data.data);
+
       const transformedOrder = data.data.orders.map((order: any) => ({
         revenue: 3000,
         id: order.id.slice(0, 4),
@@ -333,7 +333,7 @@ const OrderHistory: React.FC = () => {
       insertOrders(sortedOrders);
     };
     changeStatus();
-  }, [orderFilter]);
+  }, [orderFilter, currentPage]);
 
   return (
     <>
