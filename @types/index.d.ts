@@ -66,8 +66,12 @@ export interface Education {
   fieldOfStudy: string;
   school: string;
   description: string;
-  dateFrom: string;
-  dateTo: string;
+  from: string;
+  to: string;
+}
+export interface DegreeOption {
+  id: number;
+  type: string;
 }
 export interface AllCategoryDetails {
   price: string;
