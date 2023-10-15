@@ -1,202 +1,237 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import Button from '@ui/Button';
-import { Edit } from 'iconsax-react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
+import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
-import backarrow from '../../../modules/assessment/component/backarrow.svg';
-import Image from 'next/image';
-import { useCreatingAssessmentContext } from '../../../context/assessment/CreatingAssessmentContext';
+import Modal from '@modules/assessment/modals/Loadingpopup';
+import { FaSpinner } from 'react-icons/fa';
 
-export const ToPushContext = React.createContext({});
-export const UpdateContext: any = React.createContext({});
 const CreateAssessment = () => {
-  const { examDuration } = useCreatingAssessmentContext();
-  const router = useRouter();
-  const data = router.query;
-  const skillid = data.name;
-  const [newobject, setObject] = useState({
-    skill_id: skillid,
-    questions_and_answers: [
-      {
-        question_no: 0,
-        question_text: '',
-        question_type: 'multiple_choice',
-        options: [''],
-        correct_option: 0,
-      },
-    ],
-    assessment_name: '',
-    duration_in_minutes: 0,
-  });
-
   const [active, setActive] = useState<null | string>('button1');
-  const [listupdate, setListupdate] = useState('waiting');
+  const [requestValues, setRequestValues] = useState<{ [key: string]: string }>({});
+  const [headInput, setHeadInput] = useState('');
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [err, setErr] = useState('');
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const handleClick = (button: string) => {
     setActive(button);
   };
 
-  const publishClick = () => {
-    const durationInMinutes = parseInt(examDuration, 10); // Convert the string to a number
-    if (!isNaN(durationInMinutes)) {
-      // Check if the conversion was successful
-      const newt = { ...newobject, duration_in_minutes: durationInMinutes };
-      setObject(newt);
-      setListupdate('post');
-      console.log('This is before the post request', newt);
-    } else {
-      // Handle the case where examDuration is not a valid number
-      console.error('Invalid examDuration:', examDuration);
+  const [ass, setAss] = useState(true);
+  const handleInput = (value: string) => {
+    setHeadInput(value);
+  };
+  // Merge headInput with other requestValues
+
+  const mergedValues = {
+    ...requestValues,
+    headInput: headInput,
+  };
+
+  useEffect(() => {
+    setRequestValues(mergedValues);
+  }, [headInput, mergedValues]);
+  const publishAssessment = async () => {
+    const { headInput, correct_option, Question1, option1, option2, option3, option4 } = requestValues;
+    if ((headInput || Question1 || option1) === undefined) {
+      window.alert('Fields cannot be Empty');
+      return;
     }
-  };
+    setRequestValues(mergedValues);
+    setModalOpen(true);
 
-  const draftsClick = () => {
-    setListupdate('save');
-  };
-  const [disable, setDisable] = useState(true);
-
-  const readInput = (e: any) => {
-    const newt = { ...newobject };
-    newt.assessment_name = e.target.value;
-    setObject(newt);
-    console.log(newobject);
-  };
-
-  if (listupdate === 'post') {
-    console.log('posting');
-    console.log(newobject.questions_and_answers);
-    postObject();
-  }
-
-  function postObject() {
-    // The API endpoint URL
-    const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments';
-
-    // Create the request options
-    const requestOptions = {
+    // split question and string and number
+    const url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
+    const reqOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': 'csrftoken',
+        'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
       },
-      body: JSON.stringify(newobject),
+      body: JSON.stringify({
+        skill_id: 2,
+        questions_and_answers: [
+          {
+            question_no: Question1?.match(/\d+/)?.[0] ?? 1,
+            question_text: Question1?.match(/([a-zA-Z])+/)?.[0] ?? '',
+            question_type: 'multiple_choice',
+            options: [option1, option2, option3, option4],
+            correct_option: correct_option?.match(/\d+/)?.[0] ?? 2,
+          },
+        ],
+        assessment_name: headInput || `New Assessment${Math.floor(Math.random() * 0.5)}`,
+        duration_in_minutes: 30,
+      }),
     };
+    console.log(reqOptions);
+    const postEnd = await fetch(url, reqOptions);
 
-    // Send the POST request using the fetch API
-    fetch(apiUrl, requestOptions)
-      .then((response) => {
-        console.log(response);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json(); // Parse the JSON response
-      })
-      .then((responseData) => {
-        // Handle the response data here
-        console.log('Response:', responseData);
-      })
-      .catch((error) => {
-        // Handle any errors that occurred during the request
-        console.error('Error:', error);
-      });
-  }
+    if (!postEnd.ok) {
+      console.log(requestValues);
+      console.log('Error' + postEnd.status);
+      // setModalOpen(false);
+      setErr(`Failed: Error${postEnd.status}`);
+      setTimeout(() => {
+        setModalOpen(false);
+      }, 4000);
+    }
+    const response = await postEnd.json();
+    if (postEnd.ok) {
+      setErr(`Succesfully Created!`);
+    }
+    console.log(response);
+    setTimeout(() => {
+      setModalOpen(false);
+    }, 4000);
+  };
 
+  // save to drafts
+  const saveDrafts = async () => {
+    const { headInput, correct_option, Question1, option1, option2, option3, option4 } = requestValues;
+    if ((headInput || Question1 || option1) === undefined) {
+      window.alert('Fields cannot be Empty');
+      return;
+    }
+    setAss(false);
+    setRequestValues(mergedValues);
+    setModalOpen(true);
+
+    // split question and string and number
+    const url = 'https://piranha-assessment-jco5.onrender.com/api/admin/drafts/';
+
+    const reqOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
+      },
+      body: JSON.stringify({
+        skill_id: 2,
+        questions_and_answers: [
+          {
+            question_no: Question1?.match(/\d+/)?.[0] ?? 1,
+            question_text: Question1?.match(/([a-zA-Z])+/)?.[0] ?? '',
+            question_type: 'multiple_choice',
+            options: [option1, option2, option3, option4],
+            correct_option: correct_option?.match(/\d+/)?.[0] ?? 2,
+          },
+        ],
+        assessment_name: headInput || `New Assessment${Math.floor(Math.random() * 0.5)}`,
+        duration_in_minutes: 30,
+      }),
+    };
+    console.log(reqOptions);
+    const postEnd = await fetch(url, reqOptions);
+
+    if (!postEnd.ok) {
+      console.log(requestValues);
+      console.log('Error' + postEnd.status);
+      // setModalOpen(false);
+      setErr(`Failed: Error${postEnd.status}`);
+      setTimeout(() => {
+        setModalOpen(false);
+      }, 4000);
+    }
+    const response = await postEnd.json();
+    if (postEnd.ok) {
+      setErr(`Saved Created!`);
+    }
+    console.log(response);
+    setTimeout(() => {
+      setModalOpen(false);
+    }, 4000);
+  };
   return (
-    <ToPushContext.Provider value={[newobject, setObject]}>
-      <UpdateContext.Provider value={[listupdate, setListupdate]}>
-        <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
-          <main className="w-full">
-            <AssessmentBanner
-              title="Create New Assessment"
-              subtitle="Create single choice quiz with scoring conditions"
-              bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
-            />
-            <div className="pt-10 pb-10 flex justify-between flex-wrap px-[24px] md:px-[40px] lg:px-[100px] gap-y-4 :">
-              <div
-                className="flex space-x-1 items-center cursor-pointer"
-                onClick={() => {
-                  window.history.back();
-                }}
-              >
-                <Image alt="go back" src={backarrow} width={'20'} height={'20'} />
-                <p className="text-dark[100]">Go back</p>
-              </div>
-              {active === 'button1' ? (
-                <div className="flex space-x-4 items-center">
-                  <Button intent={'secondary'} size={'sm'} spinnerColor="#000" onClick={draftsClick}>
-                    Save To Drafts
-                  </Button>
-                  <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={publishClick}>
-                    Publish Assesments
-                  </Button>
+    <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
+      <main className="w-full">
+        <AssessmentBanner
+          title="Create New Assessment"
+          subtitle="Create single choice quiz with scoring conditions"
+          bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
+        />
+        <div className="pt-10 pb-10 flex justify-between flex-wrap px-[24px] md:px-[40px] lg:px-[100px] gap-y-4 :">
+          <div
+            className="flex space-x-1 items-center cursor-pointer"
+            onClick={() => {
+              window.history.back();
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12.4984 17.225C12.3401 17.225 12.1818 17.1667 12.0568 17.0417L6.62344 11.6084C5.7401 10.725 5.7401 9.27502 6.62344 8.39168L12.0568 2.95835C12.2984 2.71668 12.6984 2.71668 12.9401 2.95835C13.1818 3.20002 13.1818 3.60002 12.9401 3.84168L7.50677 9.27502C7.10677 9.67502 7.10677 10.325 7.50677 10.725L12.9401 16.1583C13.1818 16.4 13.1818 16.8 12.9401 17.0417C12.8151 17.1584 12.6568 17.225 12.4984 17.225Z"
+                fill="#1A1C1B"
+              />
+            </svg>
+            <p className="text-dark[100]">Go back</p>
+          </div>
+          <div className="flex space-x-4 items-center">
+            <Button
+              className="p-4 border-2 border-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100"
+              onClick={saveDrafts}
+            >
+              Save To Drafts
+            </Button>
+            <Button className="p-3 text-white-100 text-center" onClick={publishAssessment}>
+              Publish Assesments
+            </Button>
+          </div>
+        </div>
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div className="text-center text-white-100 text-[25px] font-semibold w-max">
+            {ass ? 'Creating Assessment' : 'Saving Drafts'}
+          </div>
+          <FaSpinner color="#fff" className="animate-spin" size={100} />
+          {err ? (
+            <p className={`${err.includes('Error') ? 'text-red-200' : 'text-white-100'} w-max text-center text-[20px]`}>
+              {err}
+            </p>
+          ) : null}
+        </Modal>
+        <div className="pt-4 pb-2 flex space-x-10 justify-center">
+          <div
+            className={` cursor-pointer ${
+              active === 'button1' ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443] ' : 'text-dark-100'
+            }`}
+            onClick={() => handleClick('button1')}
+          >
+            Questions &amp; Answers
+          </div>
+          <div
+            className={` cursor-pointer ${
+              active === 'button2' ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443]' : 'text-dark-100'
+            }`}
+            onClick={() => handleClick('button2')}
+          >
+            Scoring
+          </div>
+        </div>
+        <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
+        {/* Actual layouts */}
+
+        <div className="">
+          <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0] ">
+            {active === 'button1' ? (
+              <>
+                <Edithead onInputChange={handleInput} />
+                <div className="pt-4 ">
+                  <CreateTemplate
+                    dataValues={(dataContent) => {
+                      setRequestValues(dataContent);
+                    }}
+                  />
                 </div>
-              ) : (
-                <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000">
-                  Save Changes
-                </Button>
-              )}
-            </div>
-            <div className="pt-4 pb-2 flex space-x-10 justify-center">
-              <div
-                className={` cursor-pointer ${
-                  active === 'button1'
-                    ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443] '
-                    : 'text-dark-100 rounded-sm'
-                }`}
-                onClick={() => handleClick('button1')}
-              >
-                Questions &amp; Answers
-              </div>
-              <div
-                className={` cursor-pointer ${
-                  active === 'button2'
-                    ? 'text-[#BF8443] font-bold rounded-sm border-b-4 border-[#BF8443]'
-                    : 'text-dark-100'
-                }`}
-                onClick={() => handleClick('button2')}
-              >
-                Scoring
-              </div>
-            </div>
-            <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
-            {/* Actual layouts */}
-            <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
-              {active === 'button1' ? (
-                <>
-                  <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
-                    <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
-                    <div className="p-4 flex justify-between items-center">
-                      <div className="text-[20px]">
-                        <input
-                          type="text"
-                          id="input_assessment"
-                          className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
-                          placeholder="Untitled Assessment"
-                          disabled={disable}
-                          onChange={(e) => readInput(e)}
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="input_assessment">
-                          <Edit className="w-[25px] cursor-pointer" onClick={() => setDisable(false)} />
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pt-4">
-                    <CreateTemplate />
-                  </div>
-                </>
-              ) : (
-                <ScoringScreen />
-              )}
-            </div>
-          </main>
-        </MainLayout>
-      </UpdateContext.Provider>
-    </ToPushContext.Provider>
+              </>
+            ) : (
+              <ScoringScreen />
+            )}
+          </div>
+        </div>
+      </main>
+    </MainLayout>
   );
 };
 
