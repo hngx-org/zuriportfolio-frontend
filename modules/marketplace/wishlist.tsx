@@ -12,8 +12,6 @@ function Wishlist() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const token = isUserAuthenticated();
-
   const token: any = isUserAuthenticated();
 
   console.log(token);
