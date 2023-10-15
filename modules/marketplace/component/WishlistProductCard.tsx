@@ -6,8 +6,15 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import Link from 'next/link';
 import { Product } from '../wishlist';
 
-export const WishlistProductCard = ({ product }: { product: Product }) => {
+export const WishlistProductCard = ({
+  product,
+  handleRemoveFromWishlist,
+}: {
+  product: Product;
+  handleRemoveFromWishlist: (productId: any) => void;
+}) => {
   console.log(product);
+
   return (
     <>
       <div className="flex items-center justify-between gap-4">
@@ -77,6 +84,7 @@ export const WishlistProductCard = ({ product }: { product: Product }) => {
                 className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 focus:outline-none  focus:bg-red-200 focus:text-white-100 active:bg-red-200 active:text-white-100"
                 size={'sm'}
                 spinnerColor="#D5DBDB"
+                onClick={() => handleRemoveFromWishlist(product.id)}
               >
                 <RiDeleteBin6Line className="text-[18px] text-white-650 group-hover:fill-white-100" />
                 Remove

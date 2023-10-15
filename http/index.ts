@@ -1,5 +1,6 @@
 import axios from 'axios';
 import $http from './axios';
+import { AxiosResponse } from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 const AUTH_HTTP_URL = 'https://auth.akuya.tech';
@@ -382,4 +383,22 @@ export const useDeleteShop = () => {
     deleteShop: deleteShop.mutate,
     isLoading: deleteShop.isLoading,
   };
+};
+
+// https://zuri-cart-checkout.onrender.com/api/checkout/api/carts
+
+export const removeFromWishlist = async (userId: any, productId: any, token: any): Promise<AxiosResponse> => {
+  try {
+    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/delete/${userId}/${productId}`;
+    const response = await axios.delete(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.error('Error deleting:', error);
+    throw error;
+  }
 };
