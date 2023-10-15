@@ -41,6 +41,7 @@ const CreateAssessment = () => {
   };
   // Merge headInput with other requestValues
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const mergedValues = {
     ...requestValues,
     headInput: headInput,
