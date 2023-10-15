@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { MdArrowBackIosNew } from 'react-icons/md';
 import BadgeModal from '../../../../components/Modals/BadgesModal';
 import Image from 'next/image';
@@ -13,12 +14,18 @@ interface BadgesProps {
 }
 
 const Badges: React.FC<BadgesProps> = ({ scorePercentage, badgelabel, setIsdownloadOpen, isdownloadOpen, onClose }) => {
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <section className="bg-[#F2F4F5]">
       <div className="hidden lg:flex pl-6  sm:pl-[96px] pt-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
-        <Link href="/assessments/dashboard">
+        <div onClick={handleBack}>
           <MdArrowBackIosNew />
-        </Link>
+        </div>
       </div>
 
       <div className="h-full w-full flex flex-col items-center justify-center  ">

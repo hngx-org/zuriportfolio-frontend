@@ -5,7 +5,7 @@ import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { DegreeOption, Education } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import { months, years } from '../data';
+import { years } from '../data';
 
 type EducationModalProps = {
   isOpen: boolean;
@@ -16,7 +16,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
   const [educations, setEducations] = useState<Education[]>([]);
   const [degreeOptions, setDegreeOptions] = useState<DegreeOption[]>([]);
   const [degree, setDegree] = useState('');
-  // const [educationDetails, setEducationDetails] = useState<EducationDetail[]>([]);
   const [fieldOfStudy, setFieldOfStudy] = useState('');
   const [description, setDescription] = useState('');
   const [school, setSchool] = useState('');
@@ -26,8 +25,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
   const [editedEducation, setEditedEducation] = useState<Education | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [educationId, setEducationId] = useState(0);
-  const [startYear, setStartYear] = useState('');
-  const [endYear, setEndYear] = useState('');
 
   useEffect(() => {
     fetch('https://hng6-r5y3.onrender.com/api/degree')
@@ -59,10 +56,16 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const fromYear = parseInt(from);
+    const toYear = parseInt(to);
+    if (toYear < fromYear) {
+      alert('To date cannot be earlier than From date');
+      return;
+    }
     const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
     const educationObj = {
-      // sectionId: 22,
-      degreeId: 1,
+      section_id: 22,
+      degree_id: selectedDegreeOption,
       fieldOfStudy: fieldOfStudy,
       school: school,
       description: description,
@@ -116,16 +119,14 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
   const handleEdit = async (id: number) => {
     const editedEducation = educations.find((education) => education.id === id);
     if (editedEducation) {
-      setDegree(degree + 'bachelor of science');
+      setDegree(editedEducation.degree);
       setFieldOfStudy(editedEducation.fieldOfStudy);
       setDescription(editedEducation.description);
       setSchool(editedEducation.school);
       setFrom(editedEducation.from);
       setTo(editedEducation.to);
-      // setIsForm(true);
       setEditMode(true);
       setEducationId(editedEducation.id);
-      // setEditedEducation(editedEducation);
     }
     if (editedEducation) {
       console.log('yes', editMode);
@@ -163,20 +164,15 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     } catch (error) {
       console.error('Error updating education details:', error);
     }
-
-    // setEditMode(false);
-    // setEditedEducation(null);
   };
 
   const handleDelete = async (id: number) => {
     try {
-      // console.log(`Deleting education entry with degreeId`);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/education/${id}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        // console.log('Education details deleted successfully.');
         setEducations((prevEducation) => prevEducation.filter((education) => education.id !== id));
       } else {
         console.error('Failed to delete education details.');
@@ -329,7 +325,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                           value={from}
                         >
                           <SelectTrigger className="w-[265px]">
-                            <SelectValue placeholder="2023" />
+                            <SelectValue placeholder="2020" />
                           </SelectTrigger>
                           <>
                             <SelectContent>
@@ -369,11 +365,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     <Button type="button" onClick={onClose} className="w-full rounded-md sm:w-[6rem]">
                       Cancel
                     </Button>
-                    <Button
-                      type="submit"
-                      className="w-full rounded-md sm:w-[6rem]"
-                      // onClick={() => handleSaveEdit(educations)}
-                    >
+                    <Button type="submit" className="w-full rounded-md sm:w-[6rem]">
                       Save
                     </Button>
                   </div>
@@ -394,11 +386,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                   <Button type="button" onClick={onClose} className="w-full rounded-md sm:w-[6rem]">
                     Cancel
                   </Button>
-                  <Button
-                    type="submit"
-                    className="w-full rounded-md sm:w-[6rem]"
-                    // onClick={() => handleSaveEdit(education.id)}
-                  >
+                  <Button type="submit" className="w-full rounded-md sm:w-[6rem]">
                     Save
                   </Button>
                 </div>
