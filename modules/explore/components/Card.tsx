@@ -78,8 +78,8 @@ const Card = ({ data }: { data?: UserInfo }) => {
           height={112}
         />
         <div className="mt-3 text-center">
-          <Link onClick={(e) => e.stopPropagation} href={`/portfolio/${data?.id}`}>
-            <h3 className="text-gray-800 font-manropeEB text-base md:text-[1.375rem] hover:underline">
+          <Link onClick={(e) => e.stopPropagation} href={`/portfolio/${data?.id}`} className="block w-fit mx-auto">
+            <h3 className="w-fit text-gray-800 font-manropeEB text-base md:text-[1.375rem] hover:underline">
               {data?.firstName} {data?.lastName}
             </h3>
           </Link>
