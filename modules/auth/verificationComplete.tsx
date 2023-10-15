@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
 import isAuthenticated from '../../helpers/isAuthenticated';
 import { useAuth } from '../../context/AuthContext';
+import persistedToken from '../../helpers/persistedToken';
 
 function VerificationComplete() {
   const router = useRouter();
@@ -14,6 +15,16 @@ function VerificationComplete() {
   const { handleAuth } = useAuth();
 
   console.log(token);
+
+  let tokenFromLocalStorage: string = '';
+
+  if (typeof window !== 'undefined') {
+    tokenFromLocalStorage = localStorage.getItem('zpt') as string;
+  }
+
+  const decodedToken = persistedToken(tokenFromLocalStorage as string);
+
+  console.log(decodedToken);
 
   const { mutate, isLoading, isSuccess } = useAuthMutation(verifyUser, {
     onSuccess: (response) => {
@@ -25,12 +36,31 @@ function VerificationComplete() {
         handleAuth(response);
         localStorage.setItem('zpt', response?.data?.newtoken);
 
+        notify({
+          message: 'Verification Successful!',
+          type: 'success',
+        });
+
         router.push('/dashboard');
         return;
       }
     },
     onError: ({ response }: any) => {
-      // console.log(response.data);
+      console.log(response.data);
+
+      if (response.data.message === 'timeout of 30000ms exceeded') {
+        const timeoutErrorMessage =
+          'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+
+        console.log(response.data.message);
+
+        notify({
+          message: timeoutErrorMessage,
+          type: 'error',
+        });
+
+        return;
+      }
 
       if (response.data.message) {
         notify({ message: response.data.message, type: 'error' });
@@ -85,6 +115,3 @@ function VerificationComplete() {
 }
 
 export default VerificationComplete;
-function handleAuth(data: any) {
-  throw new Error('Function not implemented.');
-}

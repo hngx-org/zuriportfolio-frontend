@@ -142,3 +142,17 @@ export const resendForgetPassword = async (props: { email: string }) => {
     return e.response.data ?? { message: e.message };
   }
 };
+
+export const revalidateAuth = async (payload: any) => {
+  try {
+    const res = await $http.get('/revalidate-login', payload);
+    console.log(res);
+    return res?.data;
+  } catch (e: any) {
+    console.log(e);
+    if (e?.response?.data && e?.response?.data?.message) {
+      console.log(e?.response.data.message);
+    }
+    return e.response.data ?? { message: e.message };
+  }
+};
