@@ -31,6 +31,10 @@ const orderNavs: {
     id: 'cancelled',
     title: 'Cancelled',
   },
+  {
+    id: 'pending',
+    title: 'Pending',
+  },
 ];
 const filters: {
   id: keyof OrderHistory;
@@ -156,7 +160,7 @@ const OrderHistory: React.FC = () => {
     sortOrder: 'asc' | 'desc';
   }>({ sortBy: 'id', sortOrder: 'asc' });
   const [searchQuery, setSearchQuery] = useState('');
-  const [loadingOrders, setLoadingOrders] = useState(false);
+  const [loadingOrders, setLoadingOrders] = useState(true);
   const [searching, setSearching] = useState(false);
   const [totalPage, setTotalPage] = useState(1);
   const filterFunc = useCallback((filter: string, order: any[]) => {
@@ -173,29 +177,29 @@ const OrderHistory: React.FC = () => {
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
-      const data = await axios({
+      const { data } = await axios({
         url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
       });
-      console.log(data);
-      if (data.data?.errorStatus === true) {
-        return [];
-      }
-      if (!data.data.data || data.data.data?.length === 0) {
-        return [];
-      }
-      const transformedOrder = data?.data.data?.data?.orders?.map((order: any) => ({
-        productName: order.product.name,
-        id: order.order_id,
-        status: order.merchant.customer_orders[0]?.status,
-        customerName: order.customer.first_name + ' ' + order.customer.last_name,
-        date: new Date(order.createdAt),
-        price: order.product.price,
-      }));
 
+      if (data?.errorStatus === true) {
+        return [];
+      }
+      if (!data.data || data.data?.length === 0) {
+        return [];
+      }
+      console.log(data.data);
+      const transformedOrder = data.data.orders.map((order: any) => ({
+        revenue: 3000,
+        id: order.id.slice(0, 4),
+        status: order.order_status,
+        customerName: order.customerInfo.firstName + ' ' + order.customerInfo.lastName,
+        date: new Date(order.date),
+      }));
+      setTotalPage(data.data.totalPages);
       return transformedOrder ?? [];
     } catch (error) {
       return [];
@@ -328,19 +332,9 @@ const OrderHistory: React.FC = () => {
       const sortedOrders = sortOrders(filterdOrder);
       insertOrders(sortedOrders);
     };
-  }, []);
-  const changeInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    changeSearchQuery(e.target.value.trim());
-    let order;
-    if (e.target.value.trim()) {
-      order = await getSearchResult(e.target.value.trim());
-    } else {
-      order = await fetchOrders();
-    }
-    const filterdOrder = filterFunc(orderFilter, order);
-    const sortedOrders = sortOrders(filterdOrder);
-    insertOrders(sortedOrders);
-  };
+    changeStatus();
+  }, [orderFilter]);
+
   return (
     <>
       <main className="max-w-[1240px] mx-auto md:px-10 px-4 relative min-h-[400px]">
@@ -399,7 +393,7 @@ const OrderHistory: React.FC = () => {
                   </div>
                 </div>
               ))}
-            <nav className="flex flex-col md:gap-4 gap-5">
+            <nav className="flex flex-col md:gap-4 gap-5 mb-5">
               <ul className="lg:text-[22px] text-[14px]   mx-auto md:mx-0 leading-[127.273%] text-dark-110 flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
                 {orderNavs.map((orderNav) => (
                   <li
@@ -417,14 +411,6 @@ const OrderHistory: React.FC = () => {
                   </li>
                 ))}
               </ul>
-              {pageOrders.length > 0 && (
-                <Link
-                  href={'/dashboard/orders/details'}
-                  className="text-brand-green-primary md:text-[22px] text-[14px] leading-[127.273%] text-end w-fit ml-auto self-end mb-[22px]"
-                >
-                  View Order Details
-                </Link>
-              )}
             </nav>
             <section className="relative">
               {pageOrders.length > 0 || searchQuery.trim().length > 0 ? (
@@ -543,9 +529,9 @@ const OrderHistory: React.FC = () => {
             </div>
           </section>
         )}
-        {pageOrders.length > 0 && !loadingOrders && totalPage > 0 && (
+        {pageOrders.length > 0 && !loadingOrders && totalPage > 1 && (
           <div className="flex justify-center my-6">
-            <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={3} />
+            <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={totalPage} />
           </div>
         )}
       </main>
