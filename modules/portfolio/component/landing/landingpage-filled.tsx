@@ -120,6 +120,21 @@ const LandingPageFilled: React.FC = () => {
                 </React.Fragment>
               )}
 
+              {section?.id === 'language' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <Language key={i} data={section.data[0]} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
               {section?.id === 'about' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <SectionDeleteModal sectionToDelete={`be ${section.id}`} />

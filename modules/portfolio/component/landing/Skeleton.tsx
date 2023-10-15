@@ -165,7 +165,6 @@ export const Skill = ({ data }: SkeletonProps) => {
 
 export const Interests = ({ data }: SkeletonProps) => {
   const dataToMap = data?.interest?.split(',');
-  console.log(dataToMap, 'dataToMap');
 
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
