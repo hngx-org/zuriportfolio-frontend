@@ -13,7 +13,6 @@ import { useRouter } from 'next/router';
 import withAuth from '../../../helpers/withAuth';
 
 const AddProduct = () => {
-  const [selectedOption, setSelectedOption] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
   const { push } = useRouter();

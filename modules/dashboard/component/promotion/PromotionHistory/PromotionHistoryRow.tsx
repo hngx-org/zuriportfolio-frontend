@@ -1,8 +1,9 @@
 import { Manrope } from 'next/font/google';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PromotionHistory } from '../../../../../@types';
 import Image from 'next/image';
 import Modal from '@ui/Modal';
+import axios from 'axios';
 
 const manropeMD = Manrope({
   weight: ['500'],
@@ -39,8 +40,29 @@ const DeactivatedPromo: React.FC = () => {
   );
 };
 
+interface Product {
+  id: string;
+  name: string;
+}
+
+interface Promo {
+  discount_type: string;
+  quantity: number;
+  amount: number;
+  valid_from: string;
+  valid_to: string;
+}
+
+interface Promotion {
+  product: Product;
+  promo: Promo;
+  sales: number;
+  id: string;
+}
+
 const PromotionHistoryRow = (props: PromotionHistory) => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
 
   const toggleDeleteModal = () => {
     setDeleteModalOpen(!isDeleteModalOpen);
@@ -50,25 +72,58 @@ const PromotionHistoryRow = (props: PromotionHistory) => {
     toggleDeleteModal();
   };
 
+  useEffect(() => {
+    // Make a GET request to the API endpoint
+    axios
+      .get('https://zuriportfolio-shop-internal-api.onrender.com/api/discount/promotions')
+      .then((response) => {
+        // Set the fetched data in the state
+        setPromotions(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data: ', error);
+      });
+  }, []);
+
+  const getStatus = (validFrom: string, validTo: string) => {
+    const currentDate = new Date();
+    const validFromDate = new Date(validFrom);
+    const validToDate = new Date(validTo);
+
+    if (currentDate < validFromDate) {
+      return 'Active';
+    } else if (currentDate >= validFromDate && currentDate <= validToDate) {
+      return 'Active';
+    } else {
+      return 'Expired';
+    }
+  };
+
   return (
     <>
-      <tr className="font-manropeL border-slate-50 border rounded-lg text-center text-[16px] font-normal text-[#667085] [&>*]:px-6  [&>*]:py-4">
-        <td className="text-left">{props.productName}</td>
-        <td className={`text-dark-300 ${manropeMD.className}`}>{props.type}</td>
-        <td>
-          {props.status === 'active' && <ActivePromo />}
-          {props.status === 'expired' && <ExpiredPromo />}
-          {props.status === 'deactivated' && <DeactivatedPromo />}
-        </td>
-        <td className={`text-dark-300 ${manropeMD.className}`}>{props.discount}</td>
-        <td className={`text-dark-300 ${manropeMD.className}`}>{props.quantity}</td>
-        <td className={`text-dark-300 ${manropeMD.className}`}>{props.sales}</td>
-        <td className={`text-dark-300 ${manropeMD.className}`}>
-          <button onClick={toggleDeleteModal}>
-            <Image src="/assets/images/clip.png" width={30} height={20} alt="action-button" />
-          </button>
-        </td>
-      </tr>
+      {promotions.map((promotion) => (
+        <tr
+          key={promotion.product.id}
+          className="font-manropeL border-slate-50 border rounded-lg text-center text-[16px] font-normal text-[#667085] [&>*]:px-6  [&>*]:py-4"
+        >
+          <td className="text-left">{promotion.product.name}</td>
+          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.discount_type}</td>
+          <td>
+            {getStatus(promotion.promo.valid_from, promotion.promo.valid_to) === 'Active' && <ActivePromo />}
+            {getStatus(promotion.promo.valid_from, promotion.promo.valid_to) === 'Expired' && <ExpiredPromo />}
+            {/* Add a case for 'Deactivated' if needed */}
+          </td>
+          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.amount}</td>
+          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.quantity}</td>
+          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.sales}</td>
+          <td className={`text-dark-300 ${manropeMD.className}`}>
+            <button onClick={toggleDeleteModal}>
+              <Image src="/assets/images/clip.png" width={30} height={20} alt="action-button" />
+            </button>
+          </td>
+        </tr>
+      ))}
       {isDeleteModalOpen && (
         <Modal isCloseIconPresent={false} isOpen={isDeleteModalOpen} size="lg" closeModal={toggleDeleteModal} title="">
           <div className="flex flex-col text-center p-0 md:p-10">
