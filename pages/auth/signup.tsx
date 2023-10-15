@@ -62,7 +62,7 @@ function SignUpWithEmail() {
     console.log('email', values.email);
     setUserEmail(values.email as string);
     handleEmail(values.email);
-    localStorage.setItem("user-email", values.email);
+    localStorage.setItem('user-email', values.email);
     signUpUser({ email: values.email });
   };
 
