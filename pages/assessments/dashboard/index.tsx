@@ -11,6 +11,7 @@ import medal from '../../../public/assets/dashboard/medal-star.svg';
 import { useRouter } from 'next/router';
 
 type AssessmentDetails = {
+  id?: string
   assessment_id: number;
   skill_id: number;
   title?: string;

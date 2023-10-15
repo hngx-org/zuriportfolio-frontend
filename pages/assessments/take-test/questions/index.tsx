@@ -4,7 +4,7 @@ import Head from 'next/head';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { TimerStart } from 'iconsax-react';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
-import { DATA } from '@modules/assessment/mock-data';
+// import { DATA } from '@modules/assessment/mock-data';
 import Link from 'next/link';
 import Button from '@ui/Button';
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
