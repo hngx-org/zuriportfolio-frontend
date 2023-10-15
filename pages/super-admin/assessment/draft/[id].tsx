@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
 
-
 export default function DraftPreview() {
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
 
@@ -33,8 +32,8 @@ export default function DraftPreview() {
 
     fetch(apiUrl, {
       headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${csrfToken}`,
+        Accept: 'application/json',
+        Authorization: `Bearer ${csrfToken}`,
         'X-CSRFTOKEN': csrfToken,
       },
     })
@@ -56,7 +55,6 @@ export default function DraftPreview() {
         toast.error('Error loading draft data');
       });
   }, [draftId]);
-
 
   const [disable, setDisable] = useState(true);
 
