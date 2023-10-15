@@ -54,10 +54,15 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
           {/* card */}
           <div
             // key={hero.index}
-            className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+            className={`${
+              loadingState
+                ? 'h-[7.375rem] max-[1536px]:max-w-[25.25rem] w-full max-w-[18.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[25.25rem]'
+            }`}
           >
             {loadingState ? (
-              <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              <div className=""></div>
             ) : (
               <>
                 <div className="flex w-full justify-between gap-[0.5rem]">
@@ -137,10 +142,15 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
           {/* card */}
           <div
             // key={hero.index}
-            className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+            className={`${
+              loadingState
+                ? 'h-[7.375rem] max-[1536px]:max-w-[25.25rem] w-full max-w-[18.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[25.25rem]'
+            }`}
           >
             {loadingState ? (
-              <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              <div className=""></div>
             ) : (
               <>
                 <div className="flex w-full justify-between gap-[0.5rem]">
@@ -219,10 +229,15 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
           {/* card */}
           <div
             // key={hero.index}
-            className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+            className={`${
+              loadingState
+                ? 'h-[7.375rem] w-full max-w-[18.25rem] max-[1536px]:max-w-[25.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[25.25rem]'
+            }`}
           >
             {loadingState ? (
-              <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              <div className=""></div>
             ) : (
               <>
                 <div className="flex w-full justify-between gap-[0.5rem]">
@@ -301,10 +316,15 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
           {/* card */}
           <div
             // key={hero.index}
-            className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]"
+            className={`${
+              loadingState
+                ? 'h-[7.375rem] w-full max-w-[18.25rem] max-[1536px]:max-w-[25.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[25.25rem]'
+            }`}
           >
             {loadingState ? (
-              <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              <div className=""></div>
             ) : (
               <>
                 <div className="flex w-full justify-between gap-[0.5rem]">
@@ -382,9 +402,17 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-[1.5rem] max-[1300px]:gap-[1rem] mt-[1.5rem] max-[1024px]:mt-[1rem]">
-          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]">
+          <div
+            // key={hero.index}
+            className={`${
+              loadingState
+                ? 'h-[7.375rem] max-[1536px]:max-w-[47rem] w-full max-w-[38rem] max-[1024px]:max-w-[30.301rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[47rem]'
+            }`}
+          >
             {loadingState ? (
-              <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              <div className=""></div>
             ) : (
               <>
                 <div className="flex w-full justify-between gap-[0.5rem]">
@@ -460,9 +488,17 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
               </>
             )}
           </div>
-          <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem]">
+          <div
+            // key={hero.index}
+            className={`${
+              loadingState
+                ? 'h-[7.375rem] max-[1536px]:max-w-[47rem] w-full max-w-[38rem] max-[1024px]:max-w-[30.301rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[47rem]'
+            }`}
+          >
             {loadingState ? (
-              <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              // <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+              <div className=""></div>
             ) : (
               <>
                 <div className="flex w-full justify-between gap-[0.5rem]">

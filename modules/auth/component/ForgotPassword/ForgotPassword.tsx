@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@ui/Button';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
@@ -9,11 +9,14 @@ import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import { notify } from '@ui/Toast';
 import { useRouter } from 'next/router';
 import { forgetPassword } from '../../../../http/auth';
+import { useAuth } from '../../../../context/AuthContext';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
 const ForgotPassword = () => {
   const router = useRouter();
+
+  const { email, handleEmail } = useAuth();
 
   //Success Handler
   const forgotPasswordSuccess = (data: any) => {
@@ -51,6 +54,14 @@ const ForgotPassword = () => {
     console.log('email', values.email);
     mutate({ email: values.email });
   };
+
+  useEffect(() => {
+    if (!email) {
+      const userEmail = localStorage.getItem('user-email');
+      if (userEmail) handleEmail(userEmail);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown>

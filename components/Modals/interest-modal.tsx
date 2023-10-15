@@ -68,7 +68,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
       sectionId: 323,
     };
     axios
-      .post(`${endpoint}/interests`, data)
+      .post(`${endpoint}/api/interests`, data)
       .then((res) => {
         notify({
           message: 'Interests created successfully',
@@ -122,6 +122,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const getAllInterests = () => {
+    console.log(userId);
     axios
       .get(`${endpoint}/api/interests/${userId}`)
       .then((res) => {

@@ -31,7 +31,7 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
         });
     } else {
       const apiUrl =
-        'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?page=1&page_size=10';
+        'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?start_date=2023-01-10&end_date=2023-11-12';
 
       axios
         .get(apiUrl)

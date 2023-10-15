@@ -14,7 +14,7 @@ interface CardType {
   id: string;
   currency: string;
   images: { url: string }[];
-  shop: { name: string };
+  shop: { name: string; id: string };
   name: string;
   price: number;
   rating: number;
@@ -159,6 +159,7 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
                       name={productCard.name}
                       price={productCard.price}
                       user={productCard?.shop?.name || 'No user'}
+                      shop={productCard?.shop}
                       rating={productCard.rating}
                       showDiscount={productCard.showDiscount}
                       showLimitedOffer={productCard.showLimitedOffer}

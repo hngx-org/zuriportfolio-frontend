@@ -16,13 +16,13 @@ function LandingPage() {
 
   useEffect(() => {
     try {
-      fetch(`${baseUrl}recommendations`)
+      fetch(`${baseUrl}/recommendations/`)
         .then((res) => res.json())
         .then((data) => setRecommendedProduct({ isLoading: false, items: data }));
     } catch (error) {
       setRecommendedProduct({ isLoading: false, items: [] });
     }
-//Limited Offer was routed to description page
+    //Limited Offer was routed to description page
     try {
       fetch(`${baseUrl}products/limited_offers/`)
         .then((res) => res.json())

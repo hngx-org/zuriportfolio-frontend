@@ -6,6 +6,7 @@ import ProductCard from '@modules/dashboard/component/products/ProductCard';
 import Link from 'next/link';
 import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
+import PaginationBar from '@modules/dashboard/component/order/PaginationBar';
 type Product = {
   product_id: any;
   image: any;
@@ -19,6 +20,7 @@ const Products = () => {
   const [product, setProducts] = useState<Product[]>([]);
   const [loading, setIsLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const searchProduct = (product: Product[]) => {};
   const fetchProducts = async () => {
     // Fetch the product data from the server
     setIsLoading(true);
@@ -118,13 +120,7 @@ const Products = () => {
           </div>
           <div className="flex justify-center my-4">
             {pageSize > 1 && (
-              <Pagination
-                activePage={currentPage}
-                page={currentPage}
-                pages={pageSize}
-                visiblePaginatedBtn={3}
-                setPage={setCurrentPage}
-              />
+              <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={3} />
             )}
           </div>
         </div>

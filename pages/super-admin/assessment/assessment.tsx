@@ -1,6 +1,6 @@
 import React from 'react';
-import Preview from '../../modules/assessment/component/AssessmentPreview';
-import MainLayout from '../../components/Layout/MainLayout';
+import Preview from '../../../modules/assessment/component/AssessmentPreview';
+import MainLayout from '../../../components/Layout/MainLayout';
 
 export default function PreviewCreatedResponse() {
   return (
