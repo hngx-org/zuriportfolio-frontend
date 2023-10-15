@@ -26,11 +26,10 @@ export default function ProductDetailsDescription() {
   const router = useRouter();
   const { id } = router.query;
   const token: any = isUserAuthenticated();
-
+  const apiUrl: string = token
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
   useEffect(() => {
-    const apiUrl: string = token
-      ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
-      : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
     // Fetch data using Axios
     const headers = {
       accept: 'application/json',
@@ -44,7 +43,7 @@ export default function ProductDetailsDescription() {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [id, token?.id, token]);
+  }, [apiUrl, id]);
 
   const addToCart = async () => {
     const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
