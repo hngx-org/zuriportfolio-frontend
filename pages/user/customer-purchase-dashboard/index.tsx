@@ -38,7 +38,7 @@ export type PurchaseData = {
   };
 };
 
-export type SearchFilter = 'item' | 'price';
+export type SearchFilter = 'month' | 'price';
 
 const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -162,7 +162,7 @@ const MyPage: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await $http.get(getFilterApi(filterBy, searchInput), {
+      const res = await $http.get(getFilterApi(searchInput), {
         headers: {
           Authorization:
             'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
@@ -177,12 +177,12 @@ const MyPage: React.FC = () => {
     setSearchInput('');
   };
 
-  const getFilterApi = (filterBy: string, filterParams: string) => {
-    return `https://customer-purchase.onrender.com/api/orders/filter-transactions?${filterBy}=${filterParams}`;
+  const getFilterApi = (filterParams: string) => {
+    return `https://customer-purchase.onrender.com/api/orders/search-transactions?search=${filterParams}`;
   };
 
   // handle filter dropdown
-  const [filterBy, setFilterBy] = useState<SearchFilter>('item');
+  const [filterBy, setFilterBy] = useState<SearchFilter>('month');
   const onChooseFilter = (filter: SearchFilter) => {
     setFilterBy(filter);
   };
@@ -288,7 +288,7 @@ const MyPage: React.FC = () => {
                 onChange={(e) => handleSearchInput(e)}
                 leftIcon={<SearchNormal1 color="black" />}
                 className="border-2 border-solid border-white-200 pl-6 w-full h-[2.5rem] pr-[1rem] rounded flex-1"
-                placeholder={`Search by ${filterBy} or select a filter to search by`}
+                placeholder={`Search by item, seller or use the filter`}
               />
             </form>
 
