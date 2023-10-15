@@ -41,7 +41,7 @@ function VerificationComplete() {
           type: 'success',
         });
 
-        // router.push('/dashboard');
+        router.push('/dashboard');
         return;
       }
 
