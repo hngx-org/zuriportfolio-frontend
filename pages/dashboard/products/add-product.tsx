@@ -9,12 +9,16 @@ import Image from 'next/image';
 import Button from '@ui/Button';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import withAuth from '../../../helpers/withAuth';
+import Loader from '@ui/Loader';
 
 const AddProduct = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
-
+  const [loading, setLoading] = useState(false);
+  const { push } = useRouter();
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setProducts({ ...products, categoryId: event.target.value });
   };
@@ -49,6 +53,7 @@ const AddProduct = () => {
   });
 
   const handleFormSubmit = async (event: any) => {
+    setLoading(true);
     event.preventDefault();
     const formData = new FormData(event.target);
     formData.append('currency', '$');
@@ -66,11 +71,12 @@ const AddProduct = () => {
       );
 
       // Handle the response, e.g., show a success message or redirect
-      console.log('Success:', response.data);
+
       toast.success(`Product added successfully`, {
         position: 'top-right',
         autoClose: 5000,
       });
+      push('/dashboard/products');
     } catch (error: any) {
       // Handle errors, e.g., show an error message
       console.error('Error:', error);
@@ -89,6 +95,8 @@ const AddProduct = () => {
           autoClose: 5000,
         });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,11 +127,11 @@ const AddProduct = () => {
 
   return (
     <MainLayout showTopbar activePage="products">
-      <form onSubmit={handleFormSubmit}>
-        <div className="max-w-[1240px] mx-auto my-4 px-3">
+      <form onSubmit={handleFormSubmit} className="relative">
+        <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
           <h2 className="text-dark-400 font-manropeEB text-[32px] capitalize">Add new Product</h2>
         </div>
-        <div className="border-t-[1px] border-[#E1E3E2] mt-[50px]">
+        <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'opacity-0'}`}>
           <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-10 my-4">
             <div className="border-r-[1px] border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
@@ -145,14 +153,13 @@ const AddProduct = () => {
                       onClick={handleImageUploadClick}
                     />
 
-                    <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px]">
-                      <Link
+                    <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px] cursor-pointer">
+                      <span
                         className="text-[12px] md:text-[16px] text-[#F1AE67] font-manropeL mr-2"
-                        href="/"
                         onClick={handleImageUploadClick}
                       >
                         Click here
-                      </Link>
+                      </span>
                       or drag and drop to upload file
                     </span>
                   </center>
@@ -162,10 +169,15 @@ const AddProduct = () => {
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product details</span>
                 <div className="mt-5 flex flex-col">
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Name</label>
-                  <Input className="w-full mb-5 mt-2" placeholder="Add product name" inputMode="none" name="name" />
+                  <Input
+                    className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    placeholder="Add product name"
+                    inputMode="none"
+                    name="name"
+                  />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Description</label>
                   <Input
-                    className="w-full  mb-5 mt-2"
+                    className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="Add product description"
                     inputMode="none"
                     name="description"
@@ -181,7 +193,11 @@ const AddProduct = () => {
                     {categoriesData.map((category: any) => (
                       <optgroup label={category.name} key={category.id}>
                         {category.sub_categories.map((subCategory: any) => (
-                          <option value={subCategory.id} key={subCategory.id}>
+                          <option
+                            value={subCategory.id}
+                            key={subCategory.id}
+                            className="placeholder:text-[#191C1E] text-black"
+                          >
                             {subCategory.name}
                           </option>
                         ))}
@@ -195,27 +211,32 @@ const AddProduct = () => {
                 <div className="mt-5 flex flex-col">
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Price</label>
                   <Input
-                    className="w-[100%] md:w-[50%] mb-5 mt-2"
+                    className="w-[100%] md:w-[50%] mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="$ 00.00"
                     inputMode="none"
                     name="price"
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Discount Price</label>
                   <Input
-                    className="w-[100%] md:w-[50%]  mb-5 mt-2"
+                    className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="$ 00.00"
                     inputMode="none"
                     name="discountPrice"
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Quantity</label>
                   <Input
-                    className="w-[100%] md:w-[50%]  mb-5 mt-2"
+                    className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="$ 00.00"
                     inputMode="none"
                     name="quantity"
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Value Added Tax (VAT)</label>
-                  <Input className="w-[50%] md:w-[30%] mb-5 mt-2" placeholder="00.00%" inputMode="none" name="tax" />
+                  <Input
+                    className="w-[50%] md:w-[30%] mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    placeholder="00.00%"
+                    inputMode="none"
+                    name="tax"
+                  />
                 </div>
               </div>
             </div>
@@ -254,9 +275,14 @@ const AddProduct = () => {
             </div>
           </div>
         </div>
+        {loading && (
+          <div className="absolute z-50 inset-0 min-h-[300px] max-h-[70vh]  bg-white-100">
+            <Loader />
+          </div>
+        )}
       </form>
     </MainLayout>
   );
 };
 
-export default AddProduct;
+export default withAuth(AddProduct);

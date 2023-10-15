@@ -14,39 +14,94 @@ import CategoryLayout from './component/layout/category-layout';
 import { ArrowRight } from 'iconsax-react';
 import axios from 'axios';
 import { ProductData } from '../../@types';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../context/AuthContext';
+import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 
 export default function ProductDetailsDescription() {
-  const [image, setImage] = useState(mainImage);
+  const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
+  const [image, setImage] = useState(null);
   const router = useRouter();
   const { id } = router.query;
+  const token: any = isUserAuthenticated();
+  const userId = auth ? auth?.user?.id : '1972d345-44fb-4c9a-a9e3-d286df2510ae';
 
   useEffect(() => {
-    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/fecfd17b-51a3-4288-9bd0-77ac4b7d60a0/`;
+    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/`;
     // Fetch data using Axios
     const headers = {
       accept: 'application/json',
-      'X-CSRFToken': 'SZsrPtDcQVaCAGj1y6i2APFbPOSb3lYXa3y4PNvCV2wFsiTNkfzPozotwTiOCzSy',
+      'X-CSRFToken': 'auL3OR9xSygssFcGGBdq8TOqKbedQO41syRGOb1XXFCvkhMssKudWDxIrgEQp2YC',
     };
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
         setProduct(response.data);
-        // console.log(product)
+        // setImage(product?.images[0].url)
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [id]);
+  }, [id, userId, token?.id]);
 
-  const handleAddToCart = () => {
-    addToCart(product);
-    toast.success('Added to Cart', {
-      position: 'top-right',
-      autoClose: 3000,
-    });
+  const addToCart = async () => {
+    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
+    if (token?.id) {
+      try {
+        const response = await axios.post(
+          apiUrl,
+          { product_ids: [`${id}`] },
+          {
+            headers: {
+              Authorization: `Bearer ${auth?.token}`,
+            },
+          },
+        );
+
+        if (response.status === 200) {
+          toast.success('Added to Cart');
+          console.log('success');
+        }
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error.message);
+      }
+    } else {
+      const products: any[] = [];
+      if (product) {
+        products.push(product);
+        localStorage.setItem('products', JSON.stringify(products));
+        console.log(products);
+        toast.success('Item added to cart🎊');
+      }
+    }
+  };
+
+  const addToWishlist = async () => {
+    console.log('user:', token?.id);
+    console.log('product:', product?.id);
+
+    const data = {
+      product_id: product?.id,
+      user_id: token?.id,
+    };
+
+    try {
+      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
+
+      console.log(response);
+      if (response.status === 201) {
+        toast.success(response.data.message);
+      }
+
+      if (response.status === 200) {
+        toast.success(response.data.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   const renderRatingStars = (rating: number) => {
@@ -63,7 +118,7 @@ export default function ProductDetailsDescription() {
   };
   const [showAll, setShowAll] = useState(false);
   const specificationData = [
-    'Adaptable with HTML5  and CSS3',
+    'Adaptable with HTML5  and CSS3',
     'Comprehensive documentation and customer support',
     'Similar products you might like',
     'WC3 valid HTML codes',
@@ -142,38 +197,43 @@ export default function ProductDetailsDescription() {
               </p>
               <p className="flex gap-x-4 items-center">
                 <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
-                  ${product?.discount_price}
+                  ${product?.discount_price === '0.00' ? product?.price : product?.discount_price}
                 </span>
                 <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
-                  ${product?.price}
+                  {product?.discount_price === '0.00' ? null : `${product?.price}`}
                 </span>
               </p>
             </div>
 
             <div className="flex md:flex-row flex-col gap-[10px] font-normal font-base leading-6">
               <Button
-                onClick={handleAddToCart}
+                onClick={() => addToCart()}
                 intent={'primary'}
                 size={'lg'}
                 className="md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg tracking-[0.08px]"
               >
                 Add to cart
               </Button>
-              <Button
-                className="lg:px-6 md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg text-custom-color11 tracking-[0.08px]"
-                rightIcon={<ArrowRight color="#009254" />}
-                intent={'secondary'}
-                size={'lg'}
-              >
-                Add to Wishlist
-              </Button>
+
+              {/* Remove the "auth &&" to to view it in localhost  */}
+              {token?.id && (
+                <Button
+                  className="lg:px-6 md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg text-custom-color11 tracking-[0.08px]"
+                  rightIcon={<ArrowRight color="#009254" />}
+                  intent={'secondary'}
+                  size={'lg'}
+                  onClick={() => addToWishlist()}
+                >
+                  Add to Wishlist
+                </Button>
+              )}
             </div>
           </div>
         </div>
 
         {/* Description, Specification, Reviews (Desktop View)  */}
         {/* Pass all the data down to this component as props  */}
-        <TabContainer />
+        <TabContainer desc={product?.description} />
 
         {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
         <div className="md:hidden block mt-[26px] mr-auto">
@@ -385,9 +445,10 @@ export default function ProductDetailsDescription() {
         {/* favorite products  */}
         <div></div>
       </main>
+      <ToastContainer />
     </CategoryLayout>
   );
 }
-function addToCart(product: ProductData | null) {
-  throw new Error('Function not implemented.');
-}
+
+// 656525652ad33a@beaconmessenger.com656525652ad33a@beaconmessenger.com
+// TeaBread1234

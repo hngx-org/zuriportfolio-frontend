@@ -7,7 +7,8 @@ import { FilterContextProvider } from '@modules/marketplace/component/filter/hoo
 interface CardType {
   id: string;
   currency: string;
-  image: string | null;
+  images: { url: string }[];
+  shop: { name: string };
   name: string;
   price: number;
   rating: number;

@@ -1,47 +1,33 @@
 // pages/index.tsx
-import { CardData } from '../../@types';
 import Card from './components/Card';
-import photoImage1 from '../../public/assets/images/explore_img/photo1.svg';
-import bg1 from '../../public/assets/images/explore_img/bg1.svg';
-import bg2 from '../../public/assets/images/explore_img/bg2.png';
-import bg3 from '../../public/assets/images/explore_img/bg3.png';
-import bg4 from '../../public/assets/images/explore_img/bg4.png';
-import bg5 from '../../public/assets/images/explore_img/bg5.png';
-import bg6 from '../../public/assets/images/explore_img/bg6.png';
-import bg7 from '../../public/assets/images/explore_img/bg7.png';
-import bg8 from '../../public/assets/images/explore_img/bg8.png';
-import bg9 from '../../public/assets/images/explore_img/bg9.png';
-import bg10 from '../../public/assets/images/explore_img/bg10.png';
-import bg11 from '../../public/assets/images/explore_img/bg11.png';
-import bg12 from '../../public/assets/images/explore_img/bg12.png';
-import photo2 from '../../public/assets/images/explore_img/photo2.png';
-import photo3 from '../../public/assets/images/explore_img/photo3.png';
-import photo4 from '../../public/assets/images/explore_img/photo4.png';
-import photo5 from '../../public/assets/images/explore_img/photo5.png';
-import photo6 from '../../public/assets/images/explore_img/photo6.png';
-import photo7 from '../../public/assets/images/explore_img/photo7.png';
-import photo8 from '../../public/assets/images/explore_img/photo8.png';
-import photo9 from '../../public/assets/images/explore_img/photo9.png';
-import photo10 from '../../public/assets/images/explore_img/photo10.png';
-import photo11 from '../../public/assets/images/explore_img/photo11.png';
-import photo12 from '../../public/assets/images/explore_img/photo12.png';
 import SearchAndFilter from './SearchAndFilter';
 import axios from 'axios';
 import useDebounce from './hooks/deBounce';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 import { UserInfo } from './@types';
-
+import Pagination from '@ui/Pagination';
 
 const HomePage = () => {
   // States
   const searchParam = useSearchParams();
-
+  const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pageNumber]);
+
+  const handleClearFilters = () => {
+    setFilters({});
+  };
+
+  const handleNumberReset = () => {
+    setPageNumber(1);
+  };
   const handleFilters = (type: string, value: string | number) => {
     setFilters((prev) => {
       if (type === 'none') {
@@ -50,6 +36,7 @@ const HomePage = () => {
       return { ...prev, [type]: value };
     });
   };
+
   const deBounce = useDebounce(searchQuery, 1200);
   const router = useRouter();
 
@@ -74,25 +61,29 @@ const HomePage = () => {
     }
     const { data } = await axios.get(url, {
       params: {
-        page: 1,
-        itemsPerPage: 12,
+        PageNumber: pageNumber,
+        PageSize: 9,
         ...filters,
       },
     });
     return data;
   }
 
-  console.log(filters);
-
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo>({
-    queryKey: ['profile', deBounce, filters],
+    queryKey: ['profile', deBounce, filters, pageNumber],
     queryFn: () => fetchUsers(searchQuery),
   });
 
   return (
     <>
-      <SearchAndFilter handleFilters={handleFilters} filters={filters} setSearchQuery={setSearchQuery} />
+      <SearchAndFilter
+        setPageNumber={handleNumberReset}
+        setFilter={handleClearFilters}
+        handleFilters={handleFilters}
+        filters={filters}
+        setSearchQuery={setSearchQuery}
+      />
       {isLoading && (
         <div className="grid place-items-center min-h-[300px]">
           <p>Loading...</p>{' '}
@@ -112,6 +103,15 @@ const HomePage = () => {
           </div>
         </div>
       )}
+      <div className="w-full mx-auto my-4 mb-12 flex justify-center">
+        <Pagination
+          visiblePaginatedBtn={5}
+          activePage={pageNumber}
+          pages={2}
+          page={pageNumber}
+          setPage={setPageNumber}
+        />
+      </div>
     </>
   );
 };

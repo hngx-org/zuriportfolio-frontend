@@ -5,27 +5,62 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { verifyUser } from '../../http/auth';
 import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
+import isAuthenticated from '../../helpers/isAuthenticated';
+import { useAuth } from '../../context/AuthContext';
+import persistedToken from '../../helpers/persistedToken';
 
 function VerificationComplete() {
   const router = useRouter();
   const { token } = router.query;
+  const { handleAuth } = useAuth();
 
   console.log(token);
 
-  const [message, setMessage] = useState({ success: null, message: '' });
+  let tokenFromLocalStorage: string = '';
+
+  if (typeof window !== 'undefined') {
+    tokenFromLocalStorage = localStorage.getItem('zpt') as string;
+  }
+
+  const decodedToken = persistedToken(tokenFromLocalStorage as string);
+
+  console.log(decodedToken);
 
   const { mutate, isLoading, isSuccess } = useAuthMutation(verifyUser, {
-    onSuccess: (data) => {
-      console.log(data);
-      setMessage(data);
+    onSuccess: (response) => {
+      console.log(response);
 
-      if (data.status === 200) {
-        router.push('/auth/login');
+      console.log(isSuccess);
+
+      if (response.status === 200) {
+        handleAuth(response);
+        localStorage.setItem('zpt', response?.data?.newtoken);
+
+        notify({
+          message: 'Verification Successful!',
+          type: 'success',
+        });
+
+        router.push('/dashboard');
         return;
       }
     },
     onError: ({ response }: any) => {
-      // console.log(response.data);
+      console.log(response.data);
+
+      if (response.data.message === 'timeout of 30000ms exceeded') {
+        const timeoutErrorMessage =
+          'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+
+        console.log(response.data.message);
+
+        notify({
+          message: timeoutErrorMessage,
+          type: 'error',
+        });
+
+        return;
+      }
 
       if (response.data.message) {
         notify({ message: response.data.message, type: 'error' });

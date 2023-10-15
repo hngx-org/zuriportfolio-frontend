@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { VerificationLayoutProps } from '../../@types';
@@ -14,6 +14,8 @@ type Props = {
 function VerificationLinkSent({ handleClick }: Props) {
   const { email } = useAuth();
 
+  const [countdown, setCountdown] = useState(300);
+
   const { mutate, isLoading } = useAuthMutation(resendVerification, {
     onSuccess: (data) => console.log(data),
     onError: (error: any) => console.log(error),
@@ -22,6 +24,23 @@ function VerificationLinkSent({ handleClick }: Props) {
   const handleVerificationLink = () => {
     mutate({ email: email });
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (countdown > 0) {
+        setCountdown(countdown - 1);
+      } else {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [countdown]);
+
+  const minutes = Math.floor(countdown / 60);
+  const seconds = countdown % 60;
 
   return (
     <VerificationLayout>
@@ -46,7 +65,10 @@ function VerificationLinkSent({ handleClick }: Props) {
 
         <div className=" flex gap-2 flex-col sm:flex-row justify-between pt-3">
           <p className=" font-manropeL text-[10px] text-[#737876] md:text-[#000]">
-            Link expires in <span className=" font-manropeB text-[#003A1B]">4:23</span>
+            Link expires in{' '}
+            <span className=" font-manropeB text-[#003A1B]">
+              {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+            </span>
           </p>
 
           {/* Uncomment out when change email endpoint is working */}
