@@ -42,21 +42,22 @@ function LoginForm() {
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
+      // Checking if user enabled 2fa
+      if (res.response.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+        const email = res?.data?.user?.email;
+
+        // uncomment if the 2fa message is not being sent automatically
+        // send2FaCode.mutate({ email });
+        router.push('/auth/2fa');
+        return;
+      }
+      
       if (res.message === 'Login successful') {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
         // console.log(value);
 
-        // Checking if user enabled 2fa
-        if (res.data.user.twoFactorAuth) {
-          const email = res?.data?.user?.email;
-
-          // uncomment if the 2fa message is not being sent automatically
-          // send2FaCode.mutate({ email });
-          router.push('/auth/2fa');
-          return;
-        }
 
         // redirecting the user  to admin dashbord if they are an admin
         if (res.data.user.roleId === ADMIN_ID) {
