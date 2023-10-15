@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../../../context/AuthContext';
-import { RecentlyViewedData } from '../../../../../@types';
+import { RecentlyViewedData, ProductCardProps } from '../../../../../@types';
 import ProductCard from '../../ProductCard';
 import Image from 'next/image';
 import Cancel from '../../../../../public/assets/recentlyviewed/cancel.svg';
@@ -52,6 +52,7 @@ function RecentlyViewed() {
                 price={item?.product?.price}
                 user={item?.product?.shop?.name}
                 rating={item?.product?.rating}
+                showTopPicks={item?.product?.showTopPicks}
                 discount_price={item?.product?.discount_price}
               />
             </div>

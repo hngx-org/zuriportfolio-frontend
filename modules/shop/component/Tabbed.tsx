@@ -26,19 +26,7 @@ const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) 
           }`}
         ></span>
       </button>
-      <button
-        className={`font-normal font-manropeL tracking-[0.08px] ${
-          tab === 'specification' ? 'text-green-400' : 'text-dark-115'
-        }`}
-        onClick={() => handleTabClick('specification')}
-      >
-        Specification
-        <span
-          className={`h-[2px] w-[40px] bg-green-400 block mx-auto mt-[2px] ${
-            tab === 'specification' ? 'opacity-1' : 'opacity-0'
-          }`}
-        ></span>
-      </button>
+
       <button
         className={`font-normal font-manropeL tracking-[0.08px] ${
           tab === 'review' ? 'text-green-400' : 'text-dark-115'
@@ -82,28 +70,10 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
       </>
     );
 
-  if (tab === 'specification')
-    return (
-      <>
-        <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Specifications</h2>
-        <ul className="mt-6 flex flex-col gap-4 list-inside">
-          <li className="list-disc font-manropeL">Adaptable with HTML5 and CSS3</li>
-          <li className="list-disc font-manropeL">
-            Comprehensive documentation and customer support to assist users in setting up
-          </li>
-          <li className="list-disc font-manropeL">Similar products you might like</li>
-          <li className="list-disc font-manropeL">WC3 valid HTML codes</li>
-          <li className="list-disc font-manropeL">Compatible with all device interfaces</li>
-          <li className="list-disc font-manropeL">Compatible with all Google web fonts</li>
-          <li className="list-disc font-manropeL">Active and Hover options</li>
-        </ul>
-      </>
-    );
-
   if (tab === 'review')
     return (
       <>
-        <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Review</h2>
+        <h2 className="text-white-700  font-manropeB font-semibold text-2xl text-left">Review</h2>
         <div className="pt-9 flex">
           <div className="flex align-center gap-[5.3px]">
             <Image src={profileImg} alt="Profile Img" />
