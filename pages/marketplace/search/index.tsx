@@ -54,6 +54,7 @@ export default function Index() {
                       price={price}
                       user={item?.shop ? `${item?.shop?.name}` : 'null'}
                       rating={0}
+                      shop={item?.shop}
                       showLimitedOffer={false}
                       showTopPicks={false}
                       showDiscount={true}
