@@ -5,6 +5,7 @@ import { LevelData, AssesMentData } from '../../../helpers/dashboardui';
 import MainLayout from '../../../components/Layout/MainLayout';
 import Link from 'next/link';
 import { getAllAssessments } from '../../../http/userTakenAssessment';
+
 import task from '../../../public/assets/dashboard/task.svg';
 import timer from '../../../public/assets/dashboard/timer.svg';
 import medal from '../../../public/assets/dashboard/medal-star.svg';
@@ -22,6 +23,7 @@ type AssessmentDetails = {
 };
 
 const Dashboard = () => {
+
   const [result, setResult] = React.useState<AssessmentDetails[]>([]);
 
   React.useEffect(() => {
@@ -41,6 +43,7 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
+
 
   return (
     <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
@@ -130,6 +133,7 @@ const Dashboard = () => {
 
                 <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
                   <Image
+
                     src={task}
                     alt="task"
                     width={20}
@@ -143,6 +147,7 @@ const Dashboard = () => {
                 <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
                   <Image
                     src={timer}
+
                     alt="timer"
                     width={20}
                     height={30}
