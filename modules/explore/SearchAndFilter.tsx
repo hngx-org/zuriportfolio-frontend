@@ -193,11 +193,13 @@ const SearchAndFilter = (prop: {
           <CustomDropdown
             options={['Nigeria', 'Ghana', 'Cameroon']}
             selectedValue={selectedOption}
+            placeholder="Location"
             onChange={handleCustomDropdownChange}
           />
           <CustomDropdown
             options={['Trending', 'Featured', 'New Arrival']}
             selectedValue={selectedOption2}
+            placeholder="Sort By"
             onChange={handleCustomDropdownChange2}
           />
         </div>

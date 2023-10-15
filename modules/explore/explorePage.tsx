@@ -86,9 +86,9 @@ const HomePage = () => {
           </div>
         </div>
       )}
-
+      {/* 
       <button onClick={() => setPageNumber((pre) => pre + 1)}>Next Page</button>
-      <button onClick={() => setPageNumber(pageNumber - 1)}>Previous Page</button>
+      <button onClick={() => setPageNumber(pageNumber - 1)}>Previous Page</button> */}
     </>
   );
 };

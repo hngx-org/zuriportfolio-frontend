@@ -63,33 +63,39 @@ const FilterComponent = (prop: Option) => {
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-[90vw] mx-auto lg:px-6 lg:mb-0 mb-6 mt-5 lg:grid-cols-6 sm:grid-cols-2 md:mx-auto lg:flex lg:justify-between lg:w-[90vw]">
         <CustomDropdown
-          options={['Location', 'Ibadan', 'Lagos', 'Abuja', 'Portharcourt', 'Abeokuta', 'Kaduna']}
+          options={['Ibadan', 'Lagos', 'Abuja', 'Portharcourt', 'Abeokuta', 'Kaduna']}
           selectedValue={selectedOption}
+          placeholder="Location"
           onChange={handleCustomDropdownChange}
         />
         <CustomDropdown
-          options={['Skill', 'C++', 'Javascript', 'Vue', 'React', 'Angular', 'Python']}
+          options={['C++', 'Javascript', 'Vue', 'React', 'Angular', 'Python']}
           selectedValue={selectedOption2}
+          placeholder="Skill"
           onChange={handleCustomDropdownChange2}
         />
         <CustomDropdown
-          options={['Track', 'Frontend', 'Design', 'Backend', 'Video Marketing']}
+          options={['Frontend', 'Design', 'Backend', 'Video Marketing']}
           selectedValue={selectedOption3}
+          placeholder="Track"
           onChange={handleCustomDropdownChange3}
         />
         <CustomDropdown
-          options={['level', 'Intern', 'Junior', 'Associate', 'Mid-Senior', 'Senior']}
+          options={['Intern', 'Junior', 'Associate', 'Mid-Senior', 'Senior']}
           selectedValue={selectedOption4}
+          placeholder="Level"
           onChange={handleCustomDropdownChange4}
         />
         <CustomDropdown
-          options={['Tag', 'E-Commerce', 'Proptech', 'Entertainment', 'Health', 'Fintech', 'Edtech']}
+          options={['E-Commerce', 'Proptech', 'Entertainment', 'Health', 'Fintech', 'Edtech']}
           selectedValue={selectedOption5}
+          placeholder="Tag"
           onChange={handleCustomDropdownChange5}
         />
         <CustomDropdown
-          options={['Ranking', 'Beginner', 'Intermediate', 'Expert']}
+          options={['Beginner', 'Intermediate', 'Expert']}
           selectedValue={selectedOption6}
+          placeholder="Ranking"
           onChange={handleCustomDropdownChange6}
         />
       </div>
