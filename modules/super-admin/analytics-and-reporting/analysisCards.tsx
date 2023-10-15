@@ -65,13 +65,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                     {/* {hero.Title} */}
                     {CardDataOne[0]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -147,13 +147,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[1]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -193,13 +193,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   )}
                   {CardDataOne[1]?.ratio > 0 && (
                     <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                      <Image
+                      {/* <Image
                         src={percentile}
                         alt="Percentage-rate"
                         width={16}
                         height={16}
                         className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
-                      />
+                      /> */}
                       <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                         {Math.floor(CardDataOne[1]?.ratio)}%
                       </p>
@@ -229,13 +229,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[2]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -275,13 +275,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   )}
                   {CardDataOne[2]?.ratio > 0 && (
                     <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                      <Image
+                      {/* <Image
                         src={percentile}
                         alt="Percentage-rate"
                         width={16}
                         height={16}
                         className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
-                      />
+                      /> */}
                       <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                         {CardDataOne[2]?.ratio}%
                       </p>
@@ -311,13 +311,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[5]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -357,13 +357,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   )}
                   {CardDataOne[5]?.ratio > 0 && (
                     <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                      <Image
+                      {/* <Image
                         src={percentile}
                         alt="Percentage-rate"
                         width={16}
                         height={16}
                         className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
-                      />
+                      /> */}
                       <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                         {Math.floor(CardDataOne[5]?.ratio)}%
                       </p>
@@ -391,13 +391,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[3]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -437,13 +437,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   )}
                   {CardDataOne[3]?.ratio > 0 && (
                     <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                      <Image
+                      {/* <Image
                         src={percentile}
                         alt="Percentage-rate"
                         width={16}
                         height={16}
                         className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem]"
-                      />
+                      /> */}
                       <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                         {CardDataOne[3]?.ratio}%
                       </p>
@@ -469,13 +469,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[4]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -551,13 +551,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
                   {hero?.title}
                 </p>
-                <Image
+                {/* <Image
                   src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
                   className="w-[1.25rem] h-[1.25rem]"
-                />
+                /> */}
               </div>
               <div className="flex w-full justify-between gap-[1rem] items-center">
                 <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
@@ -595,13 +595,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                 )}
                 {hero?.ratio > 0 && (
                   <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                    <Image
+                    {/* <Image
                       src={percentile}
                       alt="Percentage-rate"
                       width={16}
                       height={16}
                       className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
-                    />
+                    /> */}
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                       {Math.floor(hero?.ratio)}%
                     </p>
@@ -631,13 +631,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
                   {hero?.title}
                 </p>
-                <Image
+                {/* <Image
                   src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
                   className="w-[1.25rem] h-[1.25rem]"
-                />
+                /> */}
               </div>
               <div className="flex w-full justify-between gap-[1rem] items-center">
                 <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
@@ -675,13 +675,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                 )}
                 {hero?.ratio > 0 && (
                   <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                    <Image
+                    {/* <Image
                       src={percentile}
                       alt="Percentage-rate"
                       width={16}
                       height={16}
                       className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
-                    />
+                    /> */}
                     <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
                       {Math.floor(hero?.ratio)}%
                     </p>
