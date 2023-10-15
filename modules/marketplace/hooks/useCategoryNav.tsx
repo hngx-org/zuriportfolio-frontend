@@ -1,9 +1,9 @@
-import axios, { isAxiosError } from "axios";
-import { useEffect, useState } from "react";
-import { CategoryType } from "../component/filter/hooks/useCategory";
+import axios, { isAxiosError } from 'axios';
+import { useEffect, useState } from 'react';
+import { CategoryType } from '../component/filter/hooks/useCategory';
 
 const useCategoryNav = () => {
-    const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(true);
@@ -22,9 +22,9 @@ const useCategoryNav = () => {
     } finally {
       setLoading(false);
     }
-}
+  }
 
-return {categories, loading}
-}
- 
+  return { categories, loading };
+};
+
 export default useCategoryNav;

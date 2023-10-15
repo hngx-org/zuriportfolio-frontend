@@ -12,7 +12,7 @@ function LandingPage() {
   const [recommendedProduct, setRecommendedProduct] = useState({ isLoading: true, items: [] });
   const [limitedOffers, setLimitedOffers] = useState({ isLoading: true, items: [] });
   const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
-  const {categories, loading} = useCategory()
+  const { categories, loading } = useCategory();
 
   useEffect(() => {
     try {
@@ -36,10 +36,7 @@ function LandingPage() {
 
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <CategoriesNav
-        navItems={categories}
-        isLoading={loading}
-      />
+      <CategoriesNav navItems={categories} isLoading={loading} />
 
       <div className="py-6 px-4 overflow-hidden w-full">
         <div className="max-w-[1240px] mx-auto">

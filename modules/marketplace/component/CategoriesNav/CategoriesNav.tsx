@@ -83,18 +83,15 @@ const CategoriesNav = (props: CategoriesNavProps) => {
                 <Link href={`/marketplace/wishlist`}>WishList</Link>
               </li>
             )}
-            {!props.isLoading && Array.isArray(navItems) &&  navItems.map((category, i: number) => {
-              return (
-                <li key={i + 1} className="">
-                  <ButtonCat
-                    active={active}
-                    handleActiveNav={handleActiveNav}
-                    category={category}
-                    index={i}
-                  />
-                </li>
-              );
-            })}
+            {!props.isLoading &&
+              Array.isArray(navItems) &&
+              navItems.map((category, i: number) => {
+                return (
+                  <li key={i + 1} className="">
+                    <ButtonCat active={active} handleActiveNav={handleActiveNav} category={category} index={i} />
+                  </li>
+                );
+              })}
           </ul>
         </div>
 
