@@ -93,9 +93,14 @@ interface ImageData {
 interface CategoryData {
   name: string;
 }
+interface Produne {
+  name: string;
+  // Add other properties specific to a product
+}
 export interface Products {
   id: string;
   name: string;
+  product: Produne;
   image: ImageData[];
   shopOwner: string;
   price: number;
@@ -187,6 +192,10 @@ export interface MarketPlaceProductCardProps {
   showTopPicks?: boolean;
   showDiscount?: boolean;
   discount_price?: number;
+  shop?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface ratingProps {
@@ -690,6 +699,9 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
+  isVerified: boolean;
+  roleId: number;
+  twoFactorAuth: boolean;
 };
 
 export type AuthResponse = {
