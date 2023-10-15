@@ -6,6 +6,7 @@ import ProductCard from '@modules/dashboard/component/products/ProductCard';
 import Link from 'next/link';
 import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
+import PaginationBar from '@modules/dashboard/component/order/PaginationBar';
 type Product = {
   product_id: any;
   image: any;
@@ -19,15 +20,13 @@ const Products = () => {
   const [product, setProducts] = useState<Product[]>([]);
   const [loading, setIsLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const fetchProducts = async (searchQuery: string = '') => {
+  const searchProduct = (product: Product[]) => {};
+  const fetchProducts = async () => {
     // Fetch the product data from the server
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const url = 'https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace';
-      const res = await fetch(url);
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace');
       const data = await res.json();
       if (Array.isArray(data.data)) {
         return data.data;
@@ -46,24 +45,16 @@ const Products = () => {
   const insertSelectedProduct = (product: any) => {
     setSelectedProduct(product);
   };
-
-  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    console.log('Search query changed:', value);
-    setSearchQuery(value);
-  };
-
   useEffect(() => {
     // Run code if current page change
   }, [currentPage]);
-
   useEffect(() => {
     const setProducts = async () => {
-      const product = await fetchProducts(searchQuery);
+      const product = await fetchProducts();
       insertProduct(product || []);
     };
     setProducts();
-  }, [searchQuery]);
+  }, []);
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
       <div className="max-w-[1240px] mx-auto my-4 px-6">
@@ -81,7 +72,7 @@ const Products = () => {
         <div className="max-w-[1226px] mx-auto shadow-none md:shadow md:rounded-2xl md:px-[15px] md:py-[13px]">
           <div className="flex gap-5 justify-between mb-[37px]">
             <div
-              className="focus-within:outline max-w-full focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1 min-w-0 "
+              className="focus-within:outline max-w-[785px] focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1 min-w-0 "
               style={{
                 boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
               }}
@@ -89,10 +80,22 @@ const Products = () => {
               <SearchNormal1 size="16" color="#667085" />
               <input
                 className=" bg-transparent font-manropeL font-normal focus-within:outline-none flex-1 text-[1rem] leading-[150%] text-custom-color2"
-                placeholder="Search products here..."
-                onChange={handleSearchInputChange}
-                value={searchQuery}
+                placeholder="Search"
               />
+            </div>
+            <div className="flex items-center gap-6 relative ">
+              <button className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
+                    stroke="#344054"
+                    strokeWidth="1.67"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span className="hidden md:inline">Filters</span>
+              </button>
             </div>
           </div>
           <div
@@ -117,13 +120,7 @@ const Products = () => {
           </div>
           <div className="flex justify-center my-4">
             {pageSize > 1 && (
-              <Pagination
-                activePage={currentPage}
-                page={currentPage}
-                pages={pageSize}
-                visiblePaginatedBtn={3}
-                setPage={setCurrentPage}
-              />
+              <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={3} />
             )}
           </div>
         </div>
