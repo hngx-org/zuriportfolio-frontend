@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
 import { DateObject } from 'react-multi-date-picker';
 
 interface zaProps {
@@ -9,16 +10,47 @@ interface zaProps {
 
 const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const [portfolioCreationArray, setPortfolioCreationArray] = React.useState<any>([]);
-  React.useEffect(() => {
-    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/')
-      .then((res) => res.json())
-      .then((data) => {
-        setPortfolioCreationArray(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // React.useEffect(() => {
+  //   fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/')
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setPortfolioCreationArray(data.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    if (reportClicked && dateRange.length === 2) {
+      const startDate = dateRange[0].format('YYYY-MM-DD');
+      const endDate = dateRange[1].format('YYYY-MM-DD');
+
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/?start_date=${startDate}&end_date=${endDate}`;
+
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response.data.data);
+          setPortfolioCreationArray(response.data.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching top-selling products:', error);
+        });
+    } else {
+      const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary';
+
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response.data.data);
+          setPortfolioCreationArray(response.data.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching top-selling products:', error);
+        });
+    }
+  }, [reportClicked]);
 
   // DateQuery
 
