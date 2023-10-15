@@ -11,6 +11,8 @@ import { useRouter } from 'next/router';
 import ProjectSection from '@modules/portfolio/component/modals/projects';
 import PortfolioAbout from '@modules/portfolio/component/about/about';
 import PortfolioReference from '@modules/portfolio/component/reference/reference';
+import Certifications from '@modules/portfolio/component/certification-modal';
+import ContactModal from '@modules/portfolio/component/contact-modal';
 
 type PortfolioContext = {
   hasPortfolio: boolean;
@@ -130,6 +132,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
           setHasData(true);
           setHasPortfolio(true);
           setIsLoading(false);
+          console.log(token);
         } catch (error) {
           setIsLoading(false);
           setError({ state: true, error: error });
