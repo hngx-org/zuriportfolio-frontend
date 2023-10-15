@@ -294,7 +294,10 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     />
                   </div>
                   <div className="mb-4 w-full">
-                    <label className="block mb-1 text-[16px] font-semibold" htmlFor="description">
+                    <label
+                      className="block mb-1 text-right text-[16px] max-w-full sm:pl-[2rem] text-ellipsis font-semibold"
+                      htmlFor="description"
+                    >
                       Description
                     </label>
                     <Input
