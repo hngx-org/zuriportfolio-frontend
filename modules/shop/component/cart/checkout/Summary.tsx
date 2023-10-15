@@ -114,7 +114,7 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
             )}
           </div>
         </div>
-        <div className="cart-summary__details cart-summary__header border border-[#EBEEEF] rounded-md px-6 rounded-lg py-8 shadow-sm">
+        <div className="cart-summary__details cart-summary__header border border-[#EBEEEF] rounded-md px-6 py-8 shadow-sm">
           <div className="cart-summary__prices flex flex-col space-y-3">
             <div className="sum flex justify-between">
               <p className="font-bold">Subtotal</p>

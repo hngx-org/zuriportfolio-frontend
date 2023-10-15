@@ -44,7 +44,7 @@ function VerificationComplete() {
         router.push('/dashboard');
         return;
       }
-      
+
       notify({
         message: 'Verification Unsuccessful!',
         type: 'error',

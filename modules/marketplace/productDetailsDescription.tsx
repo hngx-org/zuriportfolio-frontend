@@ -17,8 +17,9 @@ import { ProductData } from '../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
+import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
+import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 import { destructureProducts } from '../../helpers';
-import { isUserAuthenticated } from './hooks/useAuthHelper';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -445,8 +446,10 @@ export default function ProductDetailsDescription() {
           </div>
         </div>
 
-        {/* favorite products  */}
-        <div></div>
+        {/* Products We thought might Intrest you  */}
+        <div>
+          <ProductWeThoughtMightInterestYou id={id} />
+        </div>
       </main>
       <ToastContainer />
     </CategoryLayout>

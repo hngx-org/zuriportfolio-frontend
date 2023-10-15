@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
 import { DateObject } from 'react-multi-date-picker';
 import { ImSpinner8 } from 'react-icons/im';
 
@@ -10,38 +11,69 @@ interface zaProps {
 
 const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const [portfolioCreationArray, setPortfolioCreationArray] = React.useState<any>([]);
-  const [loadingState, setLoading] = React.useState(true);
+  const [loadingState, setLoadingState] = useState<Boolean>(false);
+  // React.useEffect(() => {
+  //   fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/')
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setPortfolioCreationArray(data.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (reportClicked && dateRange.length === 2) {
-      const starttDate = dateRange[0].format('YYYY-MM-DD');
-      const enddDate = dateRange[1].format('YYYY-MM-DD');
-      setLoading(true);
-      fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/?start_date=${starttDate}&end_date=${enddDate}`,
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setPortfolioCreationArray(data.data);
-          setLoading(false);
+      const startDate = dateRange[0].format('YYYY-MM-DD');
+      const endDate = dateRange[1].format('YYYY-MM-DD');
+      setLoadingState(true);
+
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/?start_date=${startDate}&end_date=${endDate}`;
+
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response.data.data);
+          setPortfolioCreationArray(response.data.data);
+          setLoadingState(false);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.error('Error fetching top-selling products:', error);
+          setLoadingState(false);
         });
     } else {
-      setLoading(true);
-      fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary/')
-        .then((res) => res.json())
-        .then((data) => {
-          setPortfolioCreationArray(data.data.slice(0, 10));
-          setLoading(false);
+      const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/portfolio_summary';
+
+      setLoadingState(true);
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          console.log(response.data.data);
+          setPortfolioCreationArray(response.data.data);
+          setLoadingState(false);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.error('Error fetching top-selling products:', error);
+          setLoadingState(false);
         });
     }
   }, [reportClicked]);
+
+  // DateQuery
+
+  //   React.useEffect((()=>{
+  //     fetch(`https://team-mirage-super-amind2.onrender.com/api/admin/analytics/data/?start_date=${startDate}&end_date=${endDate}`)
+  //    .then(res => res.json())
+  //    .then(data =>  {
+  //      setCardDataOne(data.data)
+  //      // console.log(data.data)
+  //    })
+  //    .catch(err => {
+  //      console.log(err)
+  //    });
+  //  }),[])
+
   return (
     <>
       <div className="max-[1310px]:px-[1rem] w-full max-[834px]:px-[2.5rem] max-[760px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0">
@@ -82,7 +114,7 @@ const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                 </div>
               </div>
               {loadingState ? (
-                <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[1rem] text-brand-success-primary animate-spin" />
               ) : (
                 portfolioCreationArray?.map((e: any, index: any) => {
                   return (
