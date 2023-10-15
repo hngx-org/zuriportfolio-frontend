@@ -289,10 +289,14 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     />
                   </div>
                   <div className="w-full">
-                    <span className="flex">
-                      <label>From*</label>
-                      <label>To*</label>{' '}
-                    </span>
+                    <div className="flex gap-4">
+                      <div className="w-1/2 font-semibold">
+                        <label>From*</label>
+                      </div>
+                      <div className="w-1/2 font-semibold">
+                        <label>To*</label>
+                      </div>
+                    </div>
 
                     <div className="w-full flex gap-2">
                       <>
