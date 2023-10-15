@@ -33,8 +33,8 @@ function VerificationComplete() {
     onSuccess: (response) => {
       if (response.status === 200) {
         setIsError(false);
-        handleAuth(response);
-        localStorage.setItem('zpt', response?.data?.newtoken);
+        handleAuth(response.data);
+        localStorage.setItem('zpt', response?.data?.token);
 
         notify({
           message: 'Verification Successful!',
@@ -53,6 +53,11 @@ function VerificationComplete() {
         });
         return;
       }
+
+      notify({
+        message: 'Verification Unsuccessful!',
+        type: 'error',
+      });
     },
     onError: ({ response }: any) => {
       if (!isSuccess) {
@@ -62,6 +67,7 @@ function VerificationComplete() {
         setIsError(true);
         return;
       }
+      console.log('verificaion error z', response);
 
       if (response.data.message === 'timeout of 30000ms exceeded') {
         const timeoutErrorMessage =
