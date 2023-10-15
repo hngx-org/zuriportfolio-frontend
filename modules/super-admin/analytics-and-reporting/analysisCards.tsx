@@ -542,9 +542,9 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
       </div>
       <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] max-[834px]:block max-[800px]:px-[1.5rem]">
         <div className="grid grid-cols-3 gap-[1rem] max-[800px]:grid-cols-2 max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
-          {CardDataOne?.map((hero: any) => (
+          {CardDataOne?.map((hero: any, index: any) => (
             <div
-              key={hero?.index}
+              key={index}
               className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
             >
               <div className="flex w-full justify-between gap-[0.5rem]">
@@ -621,10 +621,10 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
       </div>
       <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] pl-[1.5rem] max-[500px]:block pr-0">
         <div className="flex gap-[1.5rem] overflow-x-scroll no-scrollbar">
-          {CardDataOne?.map((hero: any) => (
+          {CardDataOne?.map((hero: any, index: any) => (
             // {loadingState ? <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />:}
             <div
-              key={hero?.index}
+              key={index}
               className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
             >
               <div className="flex w-full justify-between gap-[0.5rem]">
