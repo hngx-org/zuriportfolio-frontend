@@ -1,5 +1,6 @@
 import { CartItemProps, CartSumaryProp } from "../@types";
 
+
 // sleep method
 export const sleep = async (sec = 1) => {
   return new Promise((res) => setTimeout(res, sec * 1000));

@@ -38,6 +38,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
       
     
   };
+
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
       <div className="flex items-end justify-end">
@@ -49,7 +50,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
       >
         <div className="flex w-full flex-col items-start gap-[6px]">
           <label className="text-[16px] font-manropeL not-italic font-semibold leading-[24px] tracking-[0.024px]">
-            Fullname
+            Firstname
           </label>
           <input
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"

@@ -53,26 +53,6 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
     }
   };
 
-  // const handleCheckoutClick = () => {
-  //   const token = localStorage.getItem('authToken');
-  //   console.log(token);
-
-  //   if (token !== null) {
-  //     const userIsAuthenticated = isAuthenticated(token);
-  //     if (userIsAuthenticated) {
-  //       setAuthUser(true);
-  //       setModalOpen(true);
-  //     }
-  //   } else {
-  //     onOpen();
-  //   }
-  //   // const token = localStorage.getItem('authToken');
-  //   // if(token !== null) {
-  //   //   const value = isAuthenticated(token)
-  //   //   console.log(value)
-  //   // }
-  // };
-
   const closeModal = () => {
     setModalOpen(false);
   };
