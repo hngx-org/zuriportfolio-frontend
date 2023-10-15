@@ -3,21 +3,58 @@ import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import ScoringScreen from '@modules/assessment/scoringScreen';
-import backarrow from '../../../../modules/assessment/component/backarrow.svg';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Edit } from 'iconsax-react';
-import Link from 'next/link';
 import EditDraft from '@modules/assessment/component/editDraft';
 import Edithead from '@modules/assessment/component/edittitleHead';
+import Loader from '@ui/Loader';
+import Modal from '@modules/assessment/modals/Loadingpopup';
+import { FaSpinner } from 'react-icons/fa';
+import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
 
-const DraftPreviewEdit = () => {
-  const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
+interface AssessmentData {
+  questions: Array<{
+    question_no: number;
+    question_text: string;
+    question_type: string;
+    answers: Array<{
+      options: string[];
+      correct_option: string;
+    }>;
+  }>;
+  title: string;
+  duration_minutes: number;
+  assessment_name: string;
+}
+
+interface AssessmentEditorProps {
+  draftData: AssessmentData;
+  setDraftData: React.Dispatch<React.SetStateAction<AssessmentData>>;
+  accessToken: string; // Pass the user's access token as a prop
+}
+
+const DraftPreviewEdit: React.FC = () => {
+  const [draftData, setDraftData] = useState<AssessmentData>({
+    questions: [],
+    assessment_name: '',
+    duration_minutes: 0,
+    title: '',
+  });
+
+  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
   const data = router.query;
   const draftId = data.id;
 
   const [active, setActive] = useState<null | string>('button1');
+  const [requestValues, setRequestValues] = useState<{ [key: string]: string }>({});
+  const [headInput, setHeadInput] = useState('');
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [err, setErr] = useState('');
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const handleClick = (button: string) => {
     setActive(button);
   };
@@ -35,15 +72,81 @@ const DraftPreviewEdit = () => {
       .then((responseData) => {
         console.log('This is the data', responseData);
         setDraftData(responseData);
-        // setLoading(false);
+        setLoading(false);
       })
       .catch((error) => {
         console.error('Error:', error);
-        // setLoading(false);
+        setLoading(false);
       });
   }, [draftId]);
 
   const [disable, setDisable] = useState(true);
+
+  const updateDraft = (updatedData: AssessmentData) => {
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
+
+    fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
+        // Add any authorization headers you need here
+      },
+      body: JSON.stringify({
+        questions_and_answers: [
+          {
+            question_no: 1,
+            question_text: 'string',
+            question_type: 'multiple_choice',
+            options: ['string'],
+            correct_option: 1,
+          },
+        ],
+        assessment_name: 'string',
+        duration_in_minutes: 0,
+      }), // Convert the updated data to JSON
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to update draft');
+          console.log('this faild', updatedData);
+        }
+        return response.json();
+      })
+      .then((responseData) => {
+        console.log('Draft updated:', responseData);
+
+        // Show a success message in the modal
+        setErr('Successfully Updated!');
+
+        // Close the modal after a delay (4 seconds in this case)
+        setTimeout(() => {
+          setModalOpen(false);
+          router.push('/assessment/drafts');
+        }, 4000);
+      })
+      .catch((error) => {
+        console.error('Error updating draft:', error);
+        console.log('error side', updatedData);
+
+        // Show an error message in the modal
+        setErr('Failed to update draft');
+
+        // Close the modal after a delay (4 seconds in this case)
+        setTimeout(() => {
+          setModalOpen(false);
+        }, 4000);
+      });
+  };
+
+  if (loading) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
@@ -68,7 +171,15 @@ const DraftPreviewEdit = () => {
             <p className="text-dark[100]">Go back</p>
           </div>
           <div className="flex space-x-4 items-center">
-            <Button className="p-3 text-white-100 text-center ">Save Changes</Button>
+            <Button
+              className="p-3 text-white-100 text-center "
+              onClick={() => {
+                setModalOpen(true);
+                updateDraft(draftData); // Call the updateDraft function with the updated data
+              }}
+            >
+              Save Changes
+            </Button>
           </div>
         </div>
         <div className="pt-4 pb-2 flex space-x-10 justify-center">
@@ -103,6 +214,10 @@ const DraftPreviewEdit = () => {
             <ScoringScreen />
           )}
         </div>
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div className="text-center text-white-100 text-[25px] font-semibold w-max">{err}</div>
+          <FaSpinner color="#fff" className="animate-spin" size={100} />
+        </Modal>
       </main>
     </MainLayout>
   );

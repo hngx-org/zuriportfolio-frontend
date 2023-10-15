@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import Link from 'next/link';
+import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
 
 export default function DraftPreview() {
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
@@ -143,6 +144,9 @@ export default function DraftPreview() {
                 </div>
               </div>
             ))}
+            <div className="mt-8">
+              <CreateDraftQuestion />
+            </div>
           </>
         ) : (
           <ScoringScreen />

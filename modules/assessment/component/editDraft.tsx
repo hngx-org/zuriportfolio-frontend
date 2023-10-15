@@ -10,18 +10,63 @@ interface EditDraftProps {
   setDraftData: (data: { questions: any[]; title: string }) => void;
 }
 
-const EditDraft = ({ draftData, setDraftData }: EditDraftProps) => {
+interface AssessmentData {
+  questions: Array<{
+    question_no: number;
+    question_text: string;
+    question_type: string;
+    answers: Array<{
+      options: string[];
+      correct_option: string;
+    }>;
+  }>;
+  title: string;
+  duration_minutes: number;
+  assessment_name: string;
+}
+
+interface AssessmentEditorProps {
+  draftData: AssessmentData;
+  setDraftData: React.Dispatch<React.SetStateAction<AssessmentData>>;
+}
+
+const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData }) => {
   console.log('draftData in edit', draftData);
   const router = useRouter();
   const id = router.query.id;
   console.log(id);
-  const [quest, setQuest] = useState('');
   const [mockArr, setMcokarr] = useState(new Array(4).fill(null));
-  const [options, setOptions] = useState(draftData?.questions[0].answers[0].options || []);
+  const [options, setOptions] = useState(draftData?.questions[0]?.answers[0]?.options || []);
+  const [questionText, setQuestionText] = useState(draftData?.questions[0]?.question_text);
+  const [correctOption, setCorrectOption] = useState(draftData?.questions[0]?.answers[0]?.correct_option);
 
   const handleDelete = (indexToDelete: number) => {
+    console.log('Before deletion:', options);
     const updatedOptions = options.filter((item: string, index: number) => index !== indexToDelete);
-    setMcokarr(updatedOptions);
+    console.log('After deletion:', updatedOptions);
+    setOptions(updatedOptions);
+    const updatedQuestions = [...draftData.questions];
+    updatedQuestions[0].answers[0].options = updatedOptions;
+
+    setDraftData({
+      ...draftData,
+      questions: updatedQuestions,
+    });
+  };
+
+  const handleAssessmentNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDraftData({ ...draftData, assessment_name: event.target.value });
+  };
+
+  const handleQuestionTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedQuestions = [...draftData.questions];
+    updatedQuestions[0].question_text = event.target.value;
+
+    setDraftData({
+      ...draftData,
+      questions: updatedQuestions,
+    });
+    setQuestionText(event.target.value); // Update local state
   };
 
   const handleIncreaseLength = () => {
@@ -30,6 +75,33 @@ const EditDraft = ({ draftData, setDraftData }: EditDraftProps) => {
       const updatedArr = [...mockArr, lastElement];
       setMcokarr(updatedArr);
     }
+  };
+
+  const handleOptionChange = (index: number, value: string) => {
+    const updatedOptions = [...options];
+    updatedOptions[index] = value;
+
+    setOptions(updatedOptions);
+
+    const updatedQuestions = [...draftData.questions];
+    updatedQuestions[0].answers[0].options = updatedOptions;
+
+    setDraftData({
+      ...draftData,
+      questions: updatedQuestions,
+    });
+  };
+
+  const handleCorrectOptionChange = (value: string) => {
+    setCorrectOption(value);
+
+    const updatedQuestions = [...draftData.questions];
+    updatedQuestions[0].answers[0].correct_option = value;
+
+    setDraftData({
+      ...draftData,
+      questions: updatedQuestions,
+    });
   };
 
   const handleAddOption = () => {
@@ -41,9 +113,7 @@ const EditDraft = ({ draftData, setDraftData }: EditDraftProps) => {
       <div className="flex items-center pt-4 gap-x-4">
         <Input
           className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
-          onChange={(e) => {
-            console.log(e.target.value);
-          }}
+          onChange={handleQuestionTextChange}
           type="text"
           name="question"
           placeHolder={`${draftData?.title}`}
@@ -81,11 +151,7 @@ const EditDraft = ({ draftData, setDraftData }: EditDraftProps) => {
                 type="text"
                 placeholder={`Option ${index + 1}`}
                 value={item}
-                onChange={(e) => {
-                  const updatedOptions = [...options];
-                  updatedOptions[index] = e.target.value;
-                  setOptions(updatedOptions);
-                }}
+                onChange={(e) => handleOptionChange(index, e.target.value)}
                 size={15}
               />
               <svg
@@ -132,20 +198,18 @@ const EditDraft = ({ draftData, setDraftData }: EditDraftProps) => {
       </div>
       <div className=" text-[20px] font-semibold  text-[#1A1C1B] pt-3">Choose Correct Answer</div>
       <div className="pt-4 w-full ">
-        <Select
-          onValueChange={(value) => {
-            console.log(value);
-          }}
-        >
+        <Select onValueChange={handleCorrectOptionChange} defaultValue={correctOption}>
           <SelectTrigger className="w-full p-6">
             <SelectValue placeholder={``} />
           </SelectTrigger>
           <SelectContent>
-            {options.map((option: string, index: number) => (
-              <SelectItem key={index} value={`option${index + 1}`}>
-                {option}
-              </SelectItem>
-            ))}
+            {options
+              .filter((option) => option !== '')
+              .map((option: string, index: number) => (
+                <SelectItem key={index} value={option} placeholder={''}>
+                  {option}
+                </SelectItem>
+              ))}
           </SelectContent>
         </Select>
       </div>
