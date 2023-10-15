@@ -40,10 +40,10 @@ function LoginForm() {
   const send2FaCode = useAuthMutation(resend2FACode);
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      console.log('responseoutside', res);
+      console.log('responseoutside', res.message);
 
       // Checking if user enabled 2fa
-      if (res.response.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+      if (res.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
         const email = res?.data?.user?.email;
 
         // uncomment if the 2fa message is not being sent automatically
@@ -64,30 +64,35 @@ function LoginForm() {
           router.push('/super-admin/product-listing');
           return;
         }
+
         notify({
           message: 'Login Successful',
           type: 'success',
         });
         router.push('/dashboard');
+        return
       } else if (res.message === 'Invalid password') {
         notify({
           message: 'Invalid password',
           type: 'error',
         });
+        return
       } else if (res.message === 'User not found') {
         notify({
           message: 'User not found',
           type: 'error',
         });
+        return
       } else if (res.message === 'Please verify your account') {
         notify({
           message: 'Please verify your account',
           type: 'error',
         });
+        return
       }
     },
     onError: (e) => {
-      console.error({ e });
+      console.error({ error: e });
       notify({
         message: 'Error logging in',
         type: 'error',

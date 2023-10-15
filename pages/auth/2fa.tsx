@@ -17,4 +17,4 @@ function _2FA() {
     </AuthLayout>
   );
 }
-export default withAuth(_2FA);
+export default _2FA;
