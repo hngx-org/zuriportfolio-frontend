@@ -601,6 +601,14 @@ function MenuUI({
               {router.pathname === '/dashboard' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/dashboard')} href={'/user/customer-purchase-dashboard'}>
+                Customer Purchase Dashboard
+              </Link>
+              {router.pathname === '/user/customer-purchase-dashboard' ? (
+                <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
+              ) : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
               <Link className={activeLink('/portfolio')} href={'/portfolio'}>
                 Manage Portfolio
               </Link>
