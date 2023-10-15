@@ -4,7 +4,6 @@ import Head from 'next/head';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { TimerStart } from 'iconsax-react';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
-// import { DATA } from '@modules/assessment/mock-data';
 import Link from 'next/link';
 import Button from '@ui/Button';
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
@@ -15,17 +14,16 @@ const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
   const router = useRouter();
   const [storedAssessment, setStoredAssessment] = React.useState<any>([]);
-  const {data} = router.query
+  const { data } = router.query;
 
   useEffect(() => {
-    if(data){
-      console.log('duration', data)
+    if (data) {
+      console.log('duration', data);
     }
     const assessmentData = localStorage.getItem('assessmentData');
     const storedAssessmentData = assessmentData ? JSON.parse(assessmentData) : null;
-    // console.log('Hellllooooooooooo>>>>>>>>>>>>>>>>>>>', storedAssessmentData);
+
     if (assessmentData) {
-      
       setStoredAssessment(storedAssessmentData);
     }
   }, [data]);

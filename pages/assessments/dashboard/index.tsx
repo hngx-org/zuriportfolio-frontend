@@ -11,7 +11,7 @@ import medal from '../../../public/assets/dashboard/medal-star.svg';
 import { useRouter } from 'next/router';
 
 type AssessmentDetails = {
-  id?: string
+  id?: string;
   assessment_id: number;
   skill_id: number;
   title?: string;
@@ -25,7 +25,7 @@ type AssessmentDetails = {
 const Dashboard = () => {
   const [locked, setLocked] = React.useState<boolean>(false);
   const [result, setResult] = React.useState<AssessmentDetails[]>();
-  const router = useRouter()
+  const router = useRouter();
 
   React.useEffect(() => {
     const token = localStorage.getItem('zpt');
@@ -46,13 +46,12 @@ const Dashboard = () => {
 
   const tap = result?.map((item) => item.title);
   console.log(tap);
-  const skill_id = result?.map((item) => item.id).toString();
-  const duration_minutes = result?.map((item) => item.duration_minutes).toString();
+  const skill_id = result?.map((item) => item.id)?.toString();
+  const duration_minutes = result?.map((item) => item.duration_minutes)?.toString();
   console.log(duration_minutes);
   const all = result?.map((item) => item);
   console.log(all);
   console.log(skill_id);
-  
 
   return (
     <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
@@ -181,7 +180,7 @@ const Dashboard = () => {
               <Button
                 href={`/assessments/take-test/intro`}
                 onClick={() => {
-                  router.push(`/assessments/take-test/intro?data=${skill_id}&duration=${duration_minutes}`)
+                  router.push(`/assessments/take-test/intro?data=${skill_id}&duration=${duration_minutes}`);
                 }}
                 className="mt-[1.5rem] lg:mt-[1.8rem] xl:mt-[2.9rem] mx-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1.125rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md"
               >
