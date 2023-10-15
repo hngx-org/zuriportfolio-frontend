@@ -20,13 +20,20 @@ function VerificationLinkSent({ handleClick }: Props) {
   const { mutate, isLoading } = useAuthMutation(resendVerification, {
     onSuccess: (data) => {
       if(data.status === 200) {
-        notify({message: data.message, type: 'success'})
+        notify({message: data.message, type: 'success'});
+        return
       }
+      // for any error returned from the endpoint
+      notify({message: data.message, type: 'error'});
     },
-    onError: (error: any) => console.log(error),
+    onError: (error: any) => {
+      notify({ message: error.message, type: 'error' });
+      console.log(error)
+    }
   });
 
   const handleVerificationLink = () => {
+    setCountdown(300);
     mutate({ email: email });
   };
 

@@ -33,8 +33,8 @@ function VerificationComplete() {
       console.log(isSuccess);
 
       if (response.status === 200) {
-        handleAuth(response);
-        localStorage.setItem('zpt', response?.data?.newtoken);
+        handleAuth(response.data);
+        localStorage.setItem('zpt', response?.data?.token);
 
         notify({
           message: 'Verification Successful!',
@@ -44,33 +44,34 @@ function VerificationComplete() {
         router.push('/dashboard');
         return;
       }
-              notify({
-                message: 'Verification Unsuccessful!',
-                type: 'error',
-              });
+      
+      notify({
+        message: 'Verification Unsuccessful!',
+        type: 'error',
+      });
     },
     onError: ({ response }: any) => {
-      console.log("verificaion error z",response);
+      console.log('verificaion error z', response);
 
-      // if (response.data.message === 'timeout of 30000ms exceeded') {
-      //   const timeoutErrorMessage =
-      //     'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
+      if (response.data.message === 'timeout of 30000ms exceeded') {
+        const timeoutErrorMessage =
+          'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
 
-      //   console.log(response.data.message);
+        console.log(response.data.message);
 
-      //   notify({
-      //     message: timeoutErrorMessage,
-      //     type: 'error',
-      //   });
+        notify({
+          message: timeoutErrorMessage,
+          type: 'error',
+        });
 
-      //   return;
-      // }
+        return;
+      }
 
-      // if (response.data.message) {
-      //   notify({ message: response.data.message, type: 'error' });
-      //   router.push('/auth/verification');
-      //   return;
-      // }
+      if (response.data.message) {
+        notify({ message: response.data.message, type: 'error' });
+        router.push('/auth/verification');
+        return;
+      }
     },
   });
 
