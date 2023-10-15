@@ -182,6 +182,15 @@ export interface MarketPlaceProductCardProps {
   discount_price?: number;
 }
 
+export interface IntrestedProducts {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  images: { url: string }[];
+  category: { name: string };
+}
+
 export interface ratingProps {
   src: string;
   alt: string;

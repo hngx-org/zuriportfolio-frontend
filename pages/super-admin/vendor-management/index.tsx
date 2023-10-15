@@ -36,7 +36,7 @@ const Index = () => {
   }, [data]);
   useEffect(() => {
     handleSearch(searchVal);
-  }, [searchVal]);
+  });
   const bannedVendors = filteredProducts?.filter((vendor: any) => vendor.vendor_status === 'Banned');
   const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
   const handleSearch = (searchText: string) => {

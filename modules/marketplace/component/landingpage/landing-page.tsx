@@ -10,11 +10,11 @@ import RecentlyViewed from './recentlyViewed/recentlyViewed';
 function LandingPage() {
   const [recommendedProduct, setRecommendedProduct] = useState({ isLoading: true, items: [] });
   const [limitedOffers, setLimitedOffers] = useState({ isLoading: true, items: [] });
-  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
+  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api';
 
   useEffect(() => {
     try {
-      fetch(`${baseUrl}recommendations`)
+      fetch(`${baseUrl}/recommendations/`)
         .then((res) => res.json())
         .then((data) => setRecommendedProduct({ isLoading: false, items: data }));
     } catch (error) {
