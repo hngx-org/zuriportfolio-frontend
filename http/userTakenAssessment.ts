@@ -66,6 +66,20 @@ export const getAllAssessments = async (token: string) => {
   }
 };
 
+export const getAssessmentDetails = async () => {
+  try {
+    const response = await $http.get(`${assessmentBaseUrl}/assessments`, {
+      headers: {
+        token: token,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    fetchErrorToast('All Assessment Error');
+    console.log(error);
+  }
+};
+
 const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',

@@ -21,6 +21,13 @@ const HomePage = () => {
     window.scrollTo(0, 0);
   }, [pageNumber]);
 
+  const handleClearFilters = () => {
+    setFilters({});
+  };
+
+  const handleNumberReset = () => {
+    setPageNumber(1);
+  };
   const handleFilters = (type: string, value: string | number) => {
     setFilters((prev) => {
       if (type === 'none') {
@@ -62,8 +69,6 @@ const HomePage = () => {
     return data;
   }
 
-  console.log(filters);
-
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo>({
     queryKey: ['profile', deBounce, filters, pageNumber],
@@ -72,7 +77,13 @@ const HomePage = () => {
 
   return (
     <>
-      <SearchAndFilter handleFilters={handleFilters} filters={filters} setSearchQuery={setSearchQuery} />
+      <SearchAndFilter
+        setPageNumber={handleNumberReset}
+        setFilter={handleClearFilters}
+        handleFilters={handleFilters}
+        filters={filters}
+        setSearchQuery={setSearchQuery}
+      />
       {isLoading && (
         <div className="grid place-items-center min-h-[300px]">
           <p>Loading...</p>{' '}
@@ -92,7 +103,7 @@ const HomePage = () => {
           </div>
         </div>
       )}
-      <div className="w-full mx-auto my-4 flex justify-center">
+      <div className="w-full mx-auto my-4 mb-12 flex justify-center">
         <Pagination
           visiblePaginatedBtn={5}
           activePage={pageNumber}
