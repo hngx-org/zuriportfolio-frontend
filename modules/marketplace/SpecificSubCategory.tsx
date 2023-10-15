@@ -159,7 +159,7 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
                       name={productCard.name}
                       price={productCard.price}
                       user={productCard?.shop?.name || 'No user'}
-                      shop={productCard.shop}
+                      shop={productCard?.shop}
                       rating={productCard.rating}
                       showDiscount={productCard.showDiscount}
                       showLimitedOffer={productCard.showLimitedOffer}
