@@ -11,13 +11,21 @@ function Wishlist() {
   const [data, setData] = useState<ProductEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
   const token = isUserAuthenticated();
+
+  const token: any = isUserAuthenticated();
+
   console.log(token);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+
         const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token}`);
+
+        const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token?.id}`);
+
         const result = await response.json();
         setData(result);
         setLoading(false);
