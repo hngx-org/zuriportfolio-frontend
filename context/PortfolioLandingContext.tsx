@@ -135,6 +135,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       };
       authUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, router.isReady, router.query.id, userId]);
 
   const users = [
