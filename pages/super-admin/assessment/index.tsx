@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../modules/assessment/component/Header';
-import addmessage from '../../public/assets/assessment/message-add.png';
-import draftsimg from '../../public/assets/assessment/drafts.png';
-import ratioimg from '../../public/assets/assessment/ratio.png';
-import searchimg from '../../public/assets/assessment/search.png';
-import bookimg from '../../public/assets/assessment/book.png';
-import booksaved from '../../public/assets/assessment/book-saved.png';
+import Header from '../../../modules/assessment/component/Header';
+import addmessage from '../../../public/assets/assessment/message-add.png';
+import draftsimg from '../../../public/assets/assessment/drafts.png';
+import ratioimg from '../../../public/assets/assessment/ratio.png';
+import searchimg from '../../../public/assets/assessment/search.png';
+import bookimg from '../../../public/assets/assessment/book.png';
+import booksaved from '../../../public/assets/assessment/book-saved.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import Description from '../../modules/assessment/component/Description';
-import Assessmentlist from '../../modules/assessment/component/assessmentlist';
-import Assessmentresponses from '../../modules/assessment/component/Assessmentresponses';
-import MainLayout from '../../components/Layout/MainLayout';
-import backarrow from '../../modules/assessment/component/backarrow.svg';
+import Description from '../../../modules/assessment/component/Description';
+import Assessmentlist from '../../../modules/assessment/component/assessmentlist';
+import Assessmentresponses from '../../../modules/assessment/component/Assessmentresponses';
+import MainLayout from '../../../components/Layout/MainLayout';
+import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 export const ListContext = React.createContext([{}]);
 
@@ -33,17 +33,23 @@ function Index() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Replace with your API endpoint URL
         const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
 
-        const response = await fetch(apiUrl);
+        const csrfToken = localStorage.getItem('zpt') ?? '';
+
+        const response = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${csrfToken}`,
+            'X-CSRFTOKEN': csrfToken,
+          },
+        });
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
 
         const data = await response.json();
-        console.log('asessmentdata::',data)
         setAssessments(data);
         console.log(data);
       } catch (error) {
@@ -53,17 +59,23 @@ function Index() {
 
     const assessmentOverviewData = async () => {
       try {
-        // Replace with your API endpoint URL
         const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/dashboard/';
 
-        const response = await fetch(apiUrl);
+        const csrfToken = localStorage.getItem('zpt') ?? '';
+
+        const response = await fetch(apiUrl, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${csrfToken}`,
+            'X-CSRFTOKEN': csrfToken,
+          },
+        });
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
 
         const data = await response.json();
-        // setAssessments(data);
         setAssessmentOverviewData(data);
         console.log(data);
       } catch (error) {
@@ -75,13 +87,13 @@ function Index() {
     assessmentOverviewData();
   }, []);
 
-  const onFilter = (e: any) => {
+  const onFilter = (e:any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
 
   useEffect(() => {
     setFilteredData(
-      list.filter((child: any) => {
+      assessments.filter((child) => {
         if (filterParam === '') {
           return true; // Return true to include all items when filterParam is empty
         } else {
@@ -89,7 +101,8 @@ function Index() {
         }
       }),
     );
-  }, [filterParam, list]);
+  }, [filterParam, assessments]);
+
 
   useEffect(() => {
     const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
@@ -119,7 +132,7 @@ function Index() {
     );
   }
   return (
-    <MainLayout activePage="/assessment/" className="assessmentheader" showTopbar showDashboardSidebar={false}>
+    <MainLayout activePage="/super-admin/assessment/" className="assessmentheader" showTopbar showDashboardSidebar={false}>
       {newModal && (
         <div className="fixed bg-dark-600 top-0 left-0 w-full h-full grid place-items-center z-20">
           <div className="bg-white-100 w-[300px] md:w-[558px] text-center font-semibold py-[60px] md:py-[80px] px-[20px] rounded-2xl">
@@ -152,7 +165,7 @@ function Index() {
                 Cancel
               </div>
               <Link
-                href={{ pathname: track === null ? '/assessment' : '/assessment/new', query: { name: track } }}
+                href={{ pathname: track === null ? '/super-admin/assessment' : '/super-admin/assessment/new', query: { name: track } }}
                 onClick={() => {
                   setnewModal(false);
                 }}
@@ -181,7 +194,7 @@ function Index() {
               </div>
             </div>
             <div className="flex-1 center border-[1px] border-[#A8ACAB] p-2 md:p-6 rounded-lg hover:text-brand-green-shade40">
-              <Link className="grid place-items-center w-full" href="/assessment/drafts">
+              <Link className="grid place-items-center w-full" href="/super-admin/assessment/drafts">
                 <Image src={draftsimg} width="33" height="33" alt="go to drafts" />
                 <div className="grid place-items-center text-sm md:text-base font-semibold font-ManropeB pt-[9px]">
                   My drafts

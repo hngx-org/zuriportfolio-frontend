@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@ui/Button';
-import MainLayout from '../../../components/Layout/MainLayout';
+import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
@@ -52,6 +52,7 @@ const CreateAssessment = () => {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
+        Authorization: `Token ${localStorage.getItem('zpt')}`,
       },
       body: JSON.stringify({
         skill_id: 2,
@@ -108,9 +109,10 @@ const CreateAssessment = () => {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        Authorization: `Token `,
+        Authorization: `Token ${localStorage.getItem('zpt')}`,
         'Content-Type': 'application/json',
         'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
+        
       },
       body: JSON.stringify({
         skill_id: 2,
@@ -135,13 +137,15 @@ const CreateAssessment = () => {
       console.log('Error' + postEnd.status);
       // setModalOpen(false);
       setErr(`Failed: Error${postEnd.status}`);
+      
       setTimeout(() => {
         setModalOpen(false);
       }, 4000);
     }
     const response = await postEnd.json();
     if (postEnd.ok) {
-      setErr(`Saved Created!`);
+      setErr(`Draft saved!`);
+      
     }
     console.log(response);
     setTimeout(() => {

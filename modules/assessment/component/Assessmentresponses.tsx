@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ListContext } from '../../../pages/assessment';
+import { ListContext } from '../../../pages/super-admin/assessment';
 import Image from 'next/image';
 import trash from '../../../public/assets/assessment/trash.png';
 import editmessage from '../../../public/assets/assessment/message-edit.png';
