@@ -1,15 +1,65 @@
 import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import Link from 'next/link';
-import Nav from '../../view-components/super-admin/navbar';
+import Nav from '../../../view-components/super-admin/navbar';
 
 import Image from 'next/image';
 import axios from 'axios';
 
 import { useState, FormEvent, useEffect } from 'react';
-import index from '../../marketplace/error-page';
+import index from '../../../marketplace/error-page';
+
+import { useRouter } from 'next/router';
+
+interface ComplaintDetails {
+  data: {
+    complaint_text: string;
+    createdAt: string;
+    user_details: {
+      first_name: string;
+      last_name: string;
+      email: string;
+      profile_pic: string;
+
+      // Add other properties as needed
+    };
+    // Add other properties as needed
+  };
+  // Add other properties as needed
+}
 
 function ComplaintsDetails() {
+  const [complainDetails, setcomplainDetails] = useState<ComplaintDetails | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const { complaintsId } = router.query;
+    console.log(complaintsId);
+
+    if (complaintsId) {
+      fetchcomplaindetails(complaintsId);
+    }
+  }, [router.query]);
+
+  const fetchcomplaindetails = async (complaintsId: any) => {
+    console.log(complaintsId);
+
+    try {
+      const response = await axios.get(
+        `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/${complaintsId}/`,
+      );
+      if (response.status === 200) {
+        const data = await response.data;
+        setcomplainDetails(data);
+        console.log(data);
+      } else {
+        console.error('Failed to fetch complaint details');
+      }
+    } catch (error) {
+      console.error('Error fetching complaint details:', error);
+    }
+  };
+
   const [showform, setshowForm] = useState(false);
   const [text, setText] = useState('');
   const [profile, setProfile] = useState(false);
@@ -88,12 +138,33 @@ function ComplaintsDetails() {
         <div>
           <div>
             <div className="flex items-center gap-4 my-6">
-              <div className="rounded-full bg-black w-20 h-20">
-                <Image src="/assets/complaintsassets/Ellipse 32.png" alt="profilepic" width={100} height={100} />
+              <div className="rounded-full bg-black w-20 h-20 ">
+                <Image
+                  className="rounded-full"
+                  src="https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVuJTIwcG9ydHJhaXR8ZW58MHx8MHx8fDA%3D&w=1000&q=80" // Replace '/default-profile-pic.png' with the actual path to your default profile picture
+                  alt="profilepic"
+                  width={100}
+                  height={100}
+                />
               </div>
               <div>
-                <h1 className="text-3xl">Gustavo Silas</h1>
-                <p className="text-base text-gray-500">gustavosilass@gmail.com</p>
+                <div className="flex gap-2">
+                  <h1 className="text-3xl">
+                    {complainDetails && 'data' in complainDetails && complainDetails.data.user_details.first_name
+                      ? complainDetails.data.user_details.first_name
+                      : 'Loading...'}
+                  </h1>
+                  <h1 className="text-3xl">
+                    {complainDetails && 'data' in complainDetails && complainDetails.data.user_details.last_name
+                      ? complainDetails.data.user_details.last_name
+                      : 'Loading...'}
+                  </h1>
+                </div>
+                <p className="text-sm text-gray-100">
+                  {complainDetails && 'data' in complainDetails && complainDetails.data.user_details.email
+                    ? complainDetails.data.user_details.email
+                    : 'Loading...'}
+                </p>
               </div>
 
               {resolve ? (
@@ -108,13 +179,17 @@ function ComplaintsDetails() {
                 </div>
               )}
             </div>
-            <h1 className="text-2xl">
+            <h1 className="text-1xl">
               A UX Designer loves to make UX and the career easier for others, no fancy stuff.
             </h1>
           </div>
 
           <div className="flex gap-10 my-2">
-            <h1 className="text-sm font-bold text-gray-500">12th April, 2023.</h1>
+            <p className="text-sm font-bold text-gray-500">
+              {complainDetails && 'data' in complainDetails && complainDetails.data.createdAt
+                ? complainDetails.data.createdAt
+                : 'Loading...'}
+            </p>
             <h1 className="text-sm font-bold text-gray-500">3.3/5</h1>
           </div>
 
@@ -122,12 +197,11 @@ function ComplaintsDetails() {
             <div className="mb-2 flex flex-col ">
               <h1 className="mb-2 text-base">Feedback</h1>
               <p className="mb-2 text-xs">Order not recieved</p>
-              <p className="mb-2 text-sm">
-                I recently purchased this digital product and I&apos;m thrilled with it! It&apos;s been a game-changer
-                for me. The user interface is incredibly intuitive, making it easy for even a tech novice like me to
-                navigate. The product&apos;s functionality is top-notch, and it has exceeded my expectations. It&apos;s
-                incredibly fast and efficient, saving me both time and frustration. Customer support has been
-                exceptional
+
+              <p className="mb-2 text-2xl">
+                {complainDetails && 'data' in complainDetails && complainDetails.data.complaint_text
+                  ? complainDetails.data.complaint_text
+                  : 'Loading...'}
               </p>
 
               <div className="mt-5 mb-8">

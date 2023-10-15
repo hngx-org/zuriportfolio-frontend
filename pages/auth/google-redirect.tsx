@@ -29,7 +29,7 @@ function GoogleRedirect() {
       }
     };
     Oauth();
-  }, []);
+  }, [router]);
   return <div className="flex item-center justify-center mt-[2rem]">Please Wait...</div>;
 }
 export default GoogleRedirect;

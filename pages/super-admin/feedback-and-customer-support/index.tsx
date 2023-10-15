@@ -11,6 +11,8 @@ export default function Complaintss() {
       complaint_text:
         'Decade again may. Toward wear data serve black treat onto. Once share happy space.\nState hotel civil nation tax against tree. Measure enter media charge recent.',
       status: 'pending',
+      next: 'next-url',
+      prev: 'prev-url',
       user_details: {
         id: '109f3686-c72a-4d7a-92bd-f91800dd83d3', // User details
         first_name: 'Megan',
