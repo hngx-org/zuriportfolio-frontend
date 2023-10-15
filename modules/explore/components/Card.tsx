@@ -130,7 +130,7 @@ const Card = ({ data }: { data: UserInfo }) => {
           onClick={copyUrl}
         >
           <button>
-            <ExportCurve color="#000" className="border-2 border-black w-[30px] h-[30px] rounded-full p-1" />
+            <ExportCurve color="#000" className=" bg-white shadow-lg  w-[30px] h-[30px] rounded-full p-1" />
           </button>
         </div>
         {/* <Link
