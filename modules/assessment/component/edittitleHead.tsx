@@ -3,13 +3,18 @@ import { Edit } from 'iconsax-react';
 
 
 type EditheadProps = {
-  assessment: {
+   assessment: {
     title: string;
     createdAt: Date;
     duration_minutes: number;
-    questions: [];
+    questions: {
+        answers: {}[];
+        question_no: number;
+        question_text: string;
+        question_type: string;
+    }[];
     updatedAt: Date;
-  };
+  }
   onInputChange?: (value: string) => void;
 };
 

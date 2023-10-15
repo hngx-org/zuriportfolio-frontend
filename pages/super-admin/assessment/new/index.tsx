@@ -8,6 +8,7 @@ import ScoringScreen from '@modules/assessment/scoringScreen';
 import Modal from '@modules/assessment/modals/Loadingpopup';
 import { FaSpinner } from 'react-icons/fa';
 import Assessmentresponses from '@modules/assessment/component/Assessmentresponses';
+import AssessmentResponse from '../response';
 
 const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
@@ -21,6 +22,18 @@ const CreateAssessment = () => {
   const handleClick = (button: string) => {
     setActive(button);
   };
+  const [assessment, setAssessment] = useState({
+    title: '',
+    createdAt: new Date(), // Initialize with a default date or null if needed
+    duration_minutes: 0,
+    questions: [{ 
+      answers: [{}], 
+      question_no: 1, 
+      question_text: "question", 
+      question_type: "multiple_choice"
+    }],
+    updatedAt: new Date() // Similarly for updatedAt
+  });
 
   const [ass, setAss] = useState(true);
   const handleInput = (value: string) => {
@@ -223,7 +236,7 @@ const CreateAssessment = () => {
           <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0] ">
             {active === 'button1' ? (
               <>
-                <Edithead assessment={Assessmentresponses} onInputChange={handleInput} />
+                <Edithead assessment={assessment} onInputChange={handleInput} />
                 <div className="pt-4 ">
                   <CreateTemplate
                     dataValues={(dataContent) => {
