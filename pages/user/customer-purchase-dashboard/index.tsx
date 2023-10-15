@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import { error } from 'console';
 import Spinner from '@ui/Spinner';
 import Link from 'next/link';
-import ComplaintsModal from "../../../components/Modals/ComplaintModal";
+import ComplaintsModal from '../../../components/Modals/ComplaintModal';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -52,7 +52,6 @@ const MyPage: React.FC = () => {
 
   // modal open and close state
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   const openModal = () => {
     setIsModalOpen(true);
