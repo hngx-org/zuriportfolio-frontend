@@ -82,8 +82,6 @@ interface BadgeData {
   UserAssessment: UserAssessment;
 }
 
-const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-
 const Earnedbadges: React.FC = () => {
   const router = useRouter();
 
@@ -110,7 +108,7 @@ const Earnedbadges: React.FC = () => {
         console.log(badgelabel);
         if (badgelabel) {
           console.log('e dey');
-          const apiUrl = `https://demerzel-badges-production.up.railway.app/api/user/009bb007-25c7-414d-96b4-bf28ef149f5d/badges?badge=${badgelabel}`;
+          const apiUrl = `https://demerzel-badges-production.up.railway.app/api/user/d7955c27-4d61-4cd6-a6bb-e6402151d51f/badges?badge=${badgelabel}`;
           const response = await fetch(apiUrl, { method: 'GET', redirect: 'follow' });
 
           if (!response.ok) {
@@ -139,23 +137,23 @@ const Earnedbadges: React.FC = () => {
         <BadgesComponentHeader />
 
         {isLoading ? (
-          <div className="flex justify-center items-center h-50">
+          <div className="flex justify-center items-center h-96">
             <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
           </div>
         ) : errorMessage ? (
           <ErrorData />
         ) : (
           <div className="h-full lg:px-[60px] xl:px-[150px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
-            <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start">
+            <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start capitalize">
               {router.query?.badges} Badges
             </h1>
             {badges.length <= 0 ? (
               <>
-                <h2>Oops You Have Not Earned A {router.query?.badges} Badge Yet </h2>
+                <h2 className="capitalize">Oops You Have Not Earned A {router.query?.badges} Badge Yet </h2>
                 <Button href="/assessments/take-test/intro">Take Assessment</Button>
               </>
             ) : (
-              <div className="badgecomponents flex flex-col md:flex-row items-center justify-between gap-[30px]  md:gap-[24px]  ">
+              <div className="badgecomponents flex flex-col md:flex-row items-center justif gap-[30px]  md:gap-[24px]  ">
                 {badges.map((badge, index) => (
                   <BadgeComponent
                     key={badge.id}
@@ -166,7 +164,7 @@ const Earnedbadges: React.FC = () => {
                     earnedDate={`Earned on: ${formatDate(badge.Badge.Skill.created_at)}`}
                     badgelabel={'nfj'}
                     href="/assessments/dashboard/[badges]/badge/[id]"
-                    as={`/assessments/dashboard/${router.query.badges}/badge/${badge.Badge.Skill.id}`}
+                    as={`/assessments/dashboard/${router.query.badges}/badge/${badge.id}`}
                   />
                 ))}
               </div>
