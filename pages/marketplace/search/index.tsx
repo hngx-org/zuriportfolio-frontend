@@ -8,18 +8,19 @@ import styles from '../../../modules/marketplace/component/landingpage/productCa
 import { ProductResult } from '../../../@types';
 import Link from 'next/link';
 import Error from '@modules/marketplace/component/landingpageerror/ErrorPage';
-import { useRouter } from 'next/router';
+import CategoryLayout from '@modules/marketplace/component/layout/category-layout';
 
 export default function Index() {
-  const route = useRouter();
   const [results, setResults] = useState<ProductResult[]>([]);
-  const { searchQuery } = route.query;
+  const searchquery = typeof window !== 'undefined' ? localStorage.getItem('keyword') : null;
 
   useEffect(() => {
-    const getresult = localStorage.getItem('search_result');
-    if (getresult) {
-      const result = JSON.parse(getresult);
-      setResults(result);
+    if (typeof window !== 'undefined') {
+      const getresult = localStorage.getItem('search_result');
+      if (getresult) {
+        const result = JSON.parse(getresult);
+        setResults(result);
+      }
     }
   }, [results]);
 
@@ -28,35 +29,17 @@ export default function Index() {
       {results?.length === 0 ? (
         <Error />
       ) : (
-        <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-          <div className="max-w-[1240px] mx-auto">
-            <CategoriesNav
-              navItems={[
-                ' Design & Graphics',
-                ' Development & Programming',
-                ' Content Creation',
-                ' Digital Arts & Media',
-                ' Audio & Sound',
-                ' Photography',
-                'Writing & Copywriting',
-                'Video & motion',
-                'Data & Analytics',
-                'Marketing & Advertising',
-                'eCommerce & Business',
-                'Gaming & Entertainment',
-                'Virtual Reality & Augmented Reality',
-                'e-Books',
-              ]}
-            />
-          </div>
-          <div className="px-4 max-w-[1240px] mx-auto">
+        <CategoryLayout>
+          <div className="px-4 py-4 sm:py-2 max-w-[1240px] mx-auto">
             <h1 className="text-custom-color31 font-manropeL mt-5 lg:pt-5 md:mb-1 font-bold md:text-2xl leading-normal flex items-center justify-between">
-              Search Result for &apos;{searchQuery}&apos;
+              Search Result for &apos;{searchquery}&apos;
             </h1>
             <div
               className={`flex py-8 flex-nowrap lg:flex-wrap gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
             >
               {results?.map((item) => {
+                const stringFromEndpoint = item.price;
+                const price = parseInt(stringFromEndpoint, 10);
                 return (
                   <Link
                     href={`marketplace/product-details?id=${item.id}`}
@@ -66,11 +49,11 @@ export default function Index() {
                     <ProductCard
                       id={item.id}
                       currency={`USD`}
-                      image={`/assets/products-banner/Image-11.png`}
+                      image={item?.images[0]?.url}
                       name={item?.name}
-                      price={99}
-                      user={`Mark Essien`}
-                      rating={3}
+                      price={price}
+                      user={item?.category.name}
+                      rating={0}
                       showLimitedOffer={false}
                       showTopPicks={false}
                       showDiscount={true}
@@ -81,7 +64,7 @@ export default function Index() {
               })}
             </div>
           </div>
-        </MainLayout>
+        </CategoryLayout>
       )}
     </>
   );
