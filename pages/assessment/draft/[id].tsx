@@ -7,11 +7,10 @@ import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
+import Link from 'next/link';
 
 export default function DraftPreview() {
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
-
-  const arr = [1, 2, 3];
   const router = useRouter();
   const data = router.query;
   const draftId = data.id;
@@ -123,7 +122,9 @@ export default function DraftPreview() {
                 <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
                   <div className="flex justify-between mb-4">
                     <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <button className="text-md font-manropeB text-black">Edit</button>
+                    <Link href={`/assessment/draft/edit/${draftId}`}>
+                      <button className="text-md font-manropeB text-black">Edit</button>
+                    </Link>
                   </div>
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
@@ -138,14 +139,6 @@ export default function DraftPreview() {
                         </div>
                       )),
                     )}
-                  </div>
-                  <div className="flex justify-center gap-12 mt-8">
-                    <Button className="text-sm p-4 hover:bg-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100">
-                      End assessment
-                    </Button>
-                    <Button className="text-sm py-2 px-14 border-2 border-green-500 text-white-100 text-center  bg-green-500">
-                      Next
-                    </Button>
                   </div>
                 </div>
               </div>
