@@ -173,7 +173,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     whiteSpace: 'normal',
                     overflowWrap: 'break-word',
                   }}
-                  className="font-semibold text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
+                  className="font-semibold text-left sm:text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
                 >
                   {editingExperience?.description}
                 </p>
@@ -394,7 +394,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
           {!isForm && (
             <div className="px-3 gap-2 flex justify-between flex-col sm:flex-row">
               <button
-                className="text-brand-green-primary self-center text-[12px] sm:text-[15px] flex items-center gap-1 font-semibold font-manropeB"
+                className="text-brand-green-primary self-center text-[12px] sm:text-[15px] flex items-center gap-1 font-semibold font-manropeB outline-none"
                 onClick={() => {
                   setIsForm(true);
                   setIsData(false);

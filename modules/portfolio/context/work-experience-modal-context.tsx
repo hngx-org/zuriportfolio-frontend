@@ -46,7 +46,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const [isChecked, setIsChecked] = useState(false);
   const [isForm, setIsForm] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isData, setIsData] = useState(true);
+  const [isData, setIsData] = useState(false);
   const resetForm = () => {
     setRole('');
     setCompany('');
