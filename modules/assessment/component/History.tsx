@@ -202,74 +202,84 @@ const History: React.FC = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {filteredAssessments.map((assessment) => (
-                  <React.Fragment key={assessment.id}>
-                    <tr onClick={() => toggleExpand(assessment.id)} className="bg-white border ">
-                      <td className="border-r whitespace-nowrap  border-l-[0] border-b-0 border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer">
-                        <FaClipboardList className="text-green-200 text-[2em] " />
-                        {assessment.assessment}
-                        <Image src="/assets/expand.svg" width={20} height={20} alt="icon" className="ml-2 sm:hidden" />
-                      </td>
-                      <td
-                        onClick={() => toggleExpand(assessment.id)}
-                        className="whitespace-nowrap border-r border-b-0 cursor-pointer border-gray-300 py-2 px-4"
-                      >
-                        {assessment.badgeName === 'beginner' && (
-                          <span className="flex items-center">
-                            <FaUser className="mr-1 text-blue-500" />
-                            Beginner
-                          </span>
-                        )}
-                        {assessment.badgeName === 'intermediate' && (
-                          <span className="flex items-center">
-                            <FaUserTie className="mr-1 text-green-200" />
-                            Intermediate
-                          </span>
-                        )}
-                        {assessment.badgeName === 'expert' && (
-                          <span className="flex items-center">
-                            <FaStar className="mr-1 text-[#f8eb3b]" />
-                            Expert
-                          </span>
-                        )}
-                      </td>
-
-                      <td className="whitespace-nowrap border-r hidden sm:table-cell  border-gray-300 border-b-0 py-2 px-4">
-                        {formatDate(assessment.date)}
-                      </td>
-                      <td className="whitespace-nowrap border-r hidden sm:table-cell  border-b-0 border-gray-300 py-2 px-4">
-                        {assessment.score}/100
-                      </td>
-                      <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
-                        <Link
-                          href={`/assessments/dashboard/[badges]/badge/[id]`}
-                          as={`/assessments/dashboard/${assessment.badgeName}/badge/${assessment.id}`}
+              {filteredAssessments.length === 0 ? (
+                <p className="text-center text-gray-500 font-bold text-lg">You have not taken any assessments.</p>
+              ) : (
+                <tbody>
+                  {filteredAssessments.map((assessment) => (
+                    <React.Fragment key={assessment.id}>
+                      <tr onClick={() => toggleExpand(assessment.id)} className="bg-white border ">
+                        <td className="border-r whitespace-nowrap  border-l-[0] border-b-0 border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer">
+                          <FaClipboardList className="text-green-200 text-[2em] " />
+                          {assessment.assessment}
+                          <Image
+                            src="/assets/expand.svg"
+                            width={20}
+                            height={20}
+                            alt="icon"
+                            className="ml-2 sm:hidden"
+                          />
+                        </td>
+                        <td
+                          onClick={() => toggleExpand(assessment.id)}
+                          className="whitespace-nowrap border-r border-b-0 cursor-pointer border-gray-300 py-2 px-4"
                         >
-                          View
-                        </Link>
-                      </td>
-                    </tr>
-                    {expandedAssessment === assessment.id && (
-                      <tr className="sm:hidden w-full col-span-2 p-4" aria-colspan={2}>
-                        <td className=" p-4  gap-4 " colSpan={2}>
-                          <div className="p-2">Date: {formatDate(assessment.date)}</div>
-                          <div className="p-2">Score: {assessment.score}/100</div>
+                          {assessment.badgeName === 'beginner' && (
+                            <span className="flex items-center">
+                              <FaUser className="mr-1 text-blue-500" />
+                              Beginner
+                            </span>
+                          )}
+                          {assessment.badgeName === 'intermediate' && (
+                            <span className="flex items-center">
+                              <FaUserTie className="mr-1 text-green-200" />
+                              Intermediate
+                            </span>
+                          )}
+                          {assessment.badgeName === 'expert' && (
+                            <span className="flex items-center">
+                              <FaStar className="mr-1 text-[#f8eb3b]" />
+                              Expert
+                            </span>
+                          )}
+                        </td>
 
-                          <a
-                            href={assessment.downloadLink}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center p-2 text-brand-green-primary hover:text-brand-green-hover"
+                        <td className="whitespace-nowrap border-r hidden sm:table-cell  border-gray-300 border-b-0 py-2 px-4">
+                          {formatDate(assessment.date)}
+                        </td>
+                        <td className="whitespace-nowrap border-r hidden sm:table-cell  border-b-0 border-gray-300 py-2 px-4">
+                          {assessment.score}/100
+                        </td>
+                        <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
+                          <Link
+                            href={`/assessments/dashboard/[badges]/badge/[id]`}
+                            as={`/assessments/dashboard/${assessment.badgeName}/badge/${assessment.id}`}
                           >
-                            <FaDownload className="mr-1" /> Download
-                          </a>
+                            View
+                          </Link>
                         </td>
                       </tr>
-                    )}
-                  </React.Fragment>
-                ))}
-              </tbody>
+                      {expandedAssessment === assessment.id && (
+                        <tr className="sm:hidden w-full col-span-2 p-4" aria-colspan={2}>
+                          <td className=" p-4  gap-4 " colSpan={2}>
+                            <div className="p-2">Date: {formatDate(assessment.date)}</div>
+                            <div className="p-2">Score: {assessment.score}/100</div>
+
+                            <a
+                              href={assessment.downloadLink}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="flex items-center p-2 text-brand-green-primary hover:text-brand-green-hover"
+                            >
+                              <FaDownload className="mr-1" /> Download
+                            </a>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              )}
             </table>
           </div>
           <div className="pagination flex justify-center items-center mt-5 w-full">

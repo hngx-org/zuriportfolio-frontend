@@ -30,15 +30,15 @@ const Dashboard = () => {
       try {
         const data = await getAllAssessments(token as string);
         const res = data.assessments;
-        // console.log(res);
 
-        setResult(res);
+        if (res && res.length > 0) {
+          setResult(res);
+        }
       } catch (error) {
         // Handle errors, e.g., set an error state or display an error message.
         console.error(error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -109,71 +109,78 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          {result?.map((item, index) => (
-            <div key={index} className="mt-[2.5rem] border-[.58px] p-[1rem] lg:p-[1.5rem] rounded-md border-[#A8ACAB]">
-              <div className="flex gap-[.8rem] md:gap-[.98rem] xl:gap-[1.5rem] items-center border-b-[1px] border-b-[#A8ACAB]">
-                <Image
-                  src="/assets/dashboard/assesment.svg"
-                  alt="progress"
-                  width={150}
-                  height={200}
-                  className="w-[70px] md:w-[76px] lg:w-[100px] xl:w-[116px]"
-                />
-                <h2 className="text-[#191C1E] leading-1 font-medium text-[.875rem] md:text-[1rem] lg:text-[1.5rem] uppercase">
-                  {item.title}
-                </h2>
-              </div>
-              <div className="mt-[1rem]">
-                <p className="text-[#2E3130] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1.rem] leading-1">
-                  Unlock your potential and level up your skills – take the assessment now!
-                </p>
-
-                <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
-                  <Image
-                    src={task}
-                    alt="task"
-                    width={20}
-                    height={30}
-                    className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
-                  />
-                  <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
-                    10 multiple choice questions
-                  </span>
-                </div>
-                <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
-                  <Image
-                    src={timer}
-                    alt="timer"
-                    width={20}
-                    height={30}
-                    className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
-                  />
-                  <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
-                    {item.duration_minutes} minutes assessment
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
-                  <Image
-                    src={medal}
-                    alt="medal"
-                    width={20}
-                    height={30}
-                    className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
-                  />
-                  <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
-                    Score points to earn a badge
-                  </span>
-                </div>
-              </div>
-              <Button
-                href={`/assessments/take-test/intro`}
-                className="mt-[1.5rem] lg:mt-[1.8rem] xl:mt-[2.9rem] mx-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1.125rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md"
+          {result ? (
+            result.map((item, index) => (
+              <div
+                key={index}
+                className="mt-[2.5rem] border-[.58px] p-[1rem] lg:p-[1.5rem] rounded-md border-[#A8ACAB]"
               >
-                Take Assessment
-              </Button>
-            </div>
-          ))}
+                <div className="flex gap-[.8rem] md:gap-[.98rem] xl:gap-[1.5rem] items-center border-b-[1px] border-b-[#A8ACAB]">
+                  <Image
+                    src="/assets/dashboard/assesment.svg"
+                    alt="progress"
+                    width={150}
+                    height={200}
+                    className="w-[70px] md:w-[76px] lg:w-[100px] xl:w-[116px]"
+                  />
+                  <h2 className="text-[#191C1E] leading-1 font-medium text-[.875rem] md:text-[1rem] lg:text-[1.5rem] uppercase">
+                    {item.title}
+                  </h2>
+                </div>
+                <div className="mt-[1rem]">
+                  <p className="text-[#2E3130] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1.rem] leading-1">
+                    Unlock your potential and level up your skills – take the assessment now!
+                  </p>
+
+                  <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
+                    <Image
+                      src={task}
+                      alt="task"
+                      width={20}
+                      height={30}
+                      className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
+                    />
+                    <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
+                      10 multiple choice questions
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
+                    <Image
+                      src={timer}
+                      alt="timer"
+                      width={20}
+                      height={30}
+                      className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
+                    />
+                    <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
+                      {item.duration_minutes} minutes assessment
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
+                    <Image
+                      src={medal}
+                      alt="medal"
+                      width={20}
+                      height={30}
+                      className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
+                    />
+                    <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
+                      Score points to earn a badge
+                    </span>
+                  </div>
+                </div>
+                <Button
+                  href={`/assessments/take-test/intro`}
+                  className="mt-[1.5rem] lg:mt-[1.8rem] xl:mt-[2.9rem] mx-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1.125rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md"
+                >
+                  Take Assessment
+                </Button>
+              </div>
+            ))
+          ) : (
+            <p>No assessments available for the user.</p>
+          )}
         </div>
       </div>
     </MainLayout>
