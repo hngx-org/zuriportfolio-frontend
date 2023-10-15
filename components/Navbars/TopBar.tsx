@@ -19,6 +19,8 @@ import Logout from '@modules/auth/component/logout/Logout';
 import CustomDropdown from '@modules/explore/components/CustomDropdown';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
+  // change auth to True to see Auth User Header
+  const { auth: globalAuth } = useAuth();
   const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
@@ -263,7 +265,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
                   <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
                   <div className="flex flex-col gap-[2px]">
-                    <h3 className="font-bold ">John Doe</h3>
+                    <h3 className="font-bold ">
+                      {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+                    </h3>
                     <p>View Live Profile</p>
                   </div>
                 </li>
@@ -341,7 +345,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
-                    <p className=" font-bold ">John Doe</p>
+                    <p className=" font-bold ">
+                      {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+                    </p>
                     <p className="text-sm ">Zuri Team</p>
                   </div>
                   <div className="w-10 h-10 aspect-square relative bg-gray-400 rounded-[100px]" />
@@ -452,7 +458,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         </span>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           <div className="details">
-            <p className=" font-bold">John Doe</p>
+            <p className=" font-bold">
+              {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+            </p>
             <p className="text-sm ">Zuri Team</p>
           </div>
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
