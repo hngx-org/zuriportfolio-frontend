@@ -42,7 +42,7 @@ function AddShopErrorModal() {
           <h1 className="text-[#FF5C5C] text-xl font-manropeEB">uh oh!</h1>
 
           <p className="text-sm text-[#737876] block mx-auto font-manropeE">
-            You’ll need to create a shop to add this section to your porfolio
+            You cannot add your shop when there are no items in the shop
           </p>
 
           <Button
@@ -53,7 +53,7 @@ function AddShopErrorModal() {
             onClick={() => router.push('/shops/id')}
             className="w-full rounded-lg"
           >
-            Create a Shop
+            Go to Shop
           </Button>
         </div>
       </Modal>
