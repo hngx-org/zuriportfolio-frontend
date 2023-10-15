@@ -25,14 +25,19 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
 
     const inputValue = inputRef.current ? inputRef.current.value : '';
     const emailValue = emailRef.current ? emailRef.current.value : '';
-    const paystackValue = isPaystackChecked ? 'paystack' : '';
-    const flutterwaveValue = isFlutterChecked ? 'flutterwave' : '';
+
+    let selectedPaymentMethod = '';
+    if (isPaystackChecked) {
+      selectedPaymentMethod = 'paystack';
+    } else if (isFlutterChecked) {
+      selectedPaymentMethod = 'flutterwave';
+    }
 
     console.log(`name: ${inputValue}`);
     console.log(`email: ${emailValue}`);
-    console.log(`paystack: ${paystackValue}`);
-    console.log(`flutter: ${flutterwaveValue}`);
+    console.log(`selected payment method: ${selectedPaymentMethod}`);
   };
+
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
       <div className="flex items-end justify-end">
