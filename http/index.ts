@@ -33,17 +33,17 @@ export const loginUser = async (props: { email: string; password: string }) => {
   }
 };
 
-
-const CART_ENDPOINT = process.env.NEXT_PUBLIC_CART_API_URL || "https://zuri-cart-checkout.onrender.com/api/checkout"
-const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || "https://zuriportfolio-frontend-pw1h.vercel.app"
-const RECENTLY_VIEWED_ENDPOINT = process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || "https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed"
+const CART_ENDPOINT = process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout';
+const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://zuriportfolio-frontend-pw1h.vercel.app';
+const RECENTLY_VIEWED_ENDPOINT =
+  process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed';
 
 export const getUserCart = async (token: string) => {
   try {
-    const response = await $http.get(`${CART_ENDPOINT}/api/carts`,{
+    const response = await $http.get(`${CART_ENDPOINT}/api/carts`, {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response.data;
   } catch (error) {
@@ -52,13 +52,12 @@ export const getUserCart = async (token: string) => {
 };
 // https://zuri-cart-checkout.onrender.com/api/checkout/api/carts
 
-export const removeFromCart = async (productId: string,token: string) => {
-  
+export const removeFromCart = async (productId: string, token: string) => {
   try {
     const apiUrl = `${CART_ENDPOINT}/api/carts/${productId}`;
     const response = await $http.delete(apiUrl, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -77,14 +76,13 @@ export const getRecentlyViewedProducts = async (user_id: string, token: string) 
     const apiUrl = `${RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
     const response = await $http.get(apiUrl, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
-    return response.data
-     
+    return response.data;
   } catch (error) {
     console.error('Error fetching data', error);
-    return []
+    return [];
   }
 };
 
@@ -145,7 +143,8 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
 // }
 // https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart
 
-export const makePayment = async (selectedPaymentMethod: string,token: string) => {
+//cart
+export const makePayment = async (selectedPaymentMethod: string, token: string) => {
   if (selectedPaymentMethod) {
     try {
       const apiUrl = `${CART_ENDPOINT}/api/orders`;
@@ -157,7 +156,7 @@ export const makePayment = async (selectedPaymentMethod: string,token: string) =
       const response = await $http.post(apiUrl, data, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -172,26 +171,62 @@ export const makePayment = async (selectedPaymentMethod: string,token: string) =
   }
 };
 
-
-export const getCartSummary = async (token:string) => {
-    try {
-      const apiUrl = `${CART_ENDPOINT}/api/carts/cart-summary`;
-
-      const response = await $http.get(apiUrl, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error('Error making payment:', error);
-      return {}
-    }
+export const getAllProducts = async () => {
+  const token = localStorage.getItem('authToken');
+  const $http = axios.create({
+    baseURL: 'https://staging.zuri.team/',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  try {
+    const resp = await $http.get('api/admin/product/all');
+    console.log(resp?.data?.data);
+    return resp?.data?.data;
+  } catch (error) {
+    console.log(error);
+    toast.error('Error loading products');
+  }
 };
 
+export const getCartSummary = async (token: string) => {
+  try {
+    const apiUrl = `${CART_ENDPOINT}/api/carts/cart-summary`;
 
+    const response = await $http.get(apiUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error making payment:', error);
+    return {};
+  }
+};
+
+type createUserData = {
+  first_name: string;
+  last_name: string;
+  email: string;
+};
+
+export const createGusetUser = async (data: createUserData) => {
+  try {
+    const response = await $http.post('', data);
+
+    if (response.status === 200) {
+      console.log('Response from the server:', response.data);
+    } else {
+      console.error('Request failed with status:', response.status);
+    }
+  } catch (error) {
+    console.error('Error making the POST request:', error);
+  }
+};
 
 export const verfiy2FA = async (props: { email: string; token: string }) => {
   const $http = axios.create({
@@ -310,7 +345,7 @@ export const useGetAllVendor = () => {
 };
 
 export const useGetShop = (id: string) => {
-  return useQuery(['get-shop'], async () => {
+  return useQuery(['get-shop', id], async () => {
     return makeRequest(`shop/${id}`, 'get');
   });
 };

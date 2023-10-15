@@ -6,30 +6,16 @@ import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBa
 import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
 import { ratingData } from '../../../db/reviews';
 import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
+import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 
 export default function UserReview() {
+  const { categories, loading } = useCategoryNav();
   return (
     <div className="">
       <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
         <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
-          <CategoriesNav
-            navItems={[
-              ' Design & Graphics',
-              ' Development & Programming',
-              ' Content Creation',
-              ' Digital Arts & Media',
-              ' Audio & Sound',
-              ' Photography',
-              'Writing & Copywriting',
-              'Video & motion',
-              'Data & Analytics',
-              'Marketing & Advertising',
-              'eCommerce & Business',
-              'Gaming & Entertainment',
-              'Virtual Reality & Augmented Reality',
-              'e-Books',
-            ]}
-          />
+          {/* from marketplace: this component you are using is from marketplace and it has been updated and we have updated it on your end also, this is important to allow sync without error take note  */}
+          <CategoriesNav navItems={categories} isLoading={loading} />
         </div>
         <Container>
           <div className="flex flex-col  md:flex-row md:items-start items-center content-center  justify-center m-0">

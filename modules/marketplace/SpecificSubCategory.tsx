@@ -14,6 +14,7 @@ interface CardType {
   id: string;
   currency: string;
   images: { url: string }[];
+  shop: { name: string };
   name: string;
   price: number;
   rating: number;
@@ -105,8 +106,8 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
   };
 
   return (
-    <div>
-      <CategoryLayout>
+    <CategoryLayout>
+      <div>
         <div
           className={`${manropeL.className} w-[100%] flex flex-col px-[1rem] mb-[2rem] md:px-[1.5rem] xl:px-[4rem] lg:max-w-[1350px] mx-auto`}
         >
@@ -157,7 +158,7 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
                       image={productCard?.images[0] ? productCard.images[0]['url'] : ''}
                       name={productCard.name}
                       price={productCard.price}
-                      user={'null'}
+                      user={productCard?.shop?.name || 'No user'}
                       rating={productCard.rating}
                       showDiscount={productCard.showDiscount}
                       showLimitedOffer={productCard.showLimitedOffer}
@@ -195,9 +196,9 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
             </div>
           )}
         </div>
-      </CategoryLayout>
-      <SearchFilter isOpen={isOpen} toggle={toggle} />
-    </div>
+        <SearchFilter isOpen={isOpen} toggle={toggle} />
+      </div>
+    </CategoryLayout>
   );
 };
 export default SpecificSubCategory;
