@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { ArrowRight2 } from 'iconsax-react';
@@ -11,6 +11,10 @@ import MobileCustomerDashboard from '@modules/marketplace/component/CustomerDash
 import FilterDropDown from '@modules/marketplace/component/CustomerDashboard/FilterDropDown';
 import MainLayout from '../../../components/Layout/MainLayout';
 import $http from '../../../http/axios';
+import { toast } from 'react-toastify';
+import { error } from 'console';
+import Spinner from '@ui/Spinner';
+import Link from 'next/link';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -25,10 +29,7 @@ export type PurchaseData = {
   promo_id: string | null;
   createdAt: string;
   updatedAt: string;
-  merchant: {
-    first_name: string;
-    last_name: string;
-  };
+  merchant: string;
   product: {
     name: string;
   };
@@ -37,103 +38,147 @@ export type PurchaseData = {
   };
 };
 
-const DUMMYDATA: PurchaseData[] = [
-  {
-    id: 7,
-    order_id: '04f49648-9664-4ffe-a876-91e816dfbd22',
-    product_id: 'f7c1a7f3-6a53-4c0c-8959-ecdd87fbf3e9',
-    customer_id: '4e8f65c7-d21b-4a5e-98ab-2f2560973c34',
-    merchant_id: '4e8f65c7-d21b-4a5e-98ab-2f2560973c34',
-    order_price: '1000.00',
-    order_VAT: '30.00',
-    order_discount: '50',
-    promo_id: null,
-    createdAt: '2023-10-12T14:59:09.906Z',
-    updatedAt: '2023-10-12T14:59:09.906Z',
-    merchant: {
-      first_name: 'John',
-      last_name: 'Doe',
-    },
-    product: {
-      name: 'Product 1',
-    },
-    order: {
-      status: 'pending',
-    },
-  },
-  {
-    id: 8,
-    order_id: '04f49648-9664-4ffe-a876-91e816dfbd22',
-    product_id: 'f7c1a7f3-6a53-4c0c-8959-ecdd87fbf3e9',
-    customer_id: '4e8f65c7-d21b-4a5e-98ab-2f2560973c34',
-    merchant_id: '4e8f65c7-d21b-4a5e-98ab-2f2560973c34',
-    order_price: '1000.00',
-    order_VAT: '30.00',
-    order_discount: '50',
-    promo_id: null,
-    createdAt: '2023-10-12T14:59:09.906Z',
-    updatedAt: '2023-10-12T14:59:09.906Z',
-    merchant: {
-      first_name: 'John',
-      last_name: 'Doe',
-    },
-    product: {
-      name: 'Product 1',
-    },
-    order: {
-      status: 'pending',
-    },
-  },
-];
-
 export type SearchFilter = 'item' | 'price';
 
 const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [filter, setFilter] = useState<string | null>(null);
-  const [data, setData] = useState<PurchaseData[]>(DUMMYDATA);
+  const [data, setData] = useState<PurchaseData[]>([]);
+  const [checkedItems, setCheckedItems] = useState<number[]>([]);
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
 
+  const payload = { orderItemIds: checkedItems };
+  const stringifyData = JSON.stringify(payload);
+
   // function to handle delete
-  const onDelete = () => {
-    onClose();
+  const onDelete = async () => {
+    try {
+      console.log('Deleting items...');
+      const response = await fetch(`https://customer-purchase.onrender.com/api/orders/delete-transactions`, {
+        method: 'DELETE',
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
+          'Content-Type': 'application/json',
+        },
+        body: stringifyData,
+      });
+
+      console.log('Delete API response:', response);
+
+      if (response.ok) {
+        toast.success('Deleted, Successfuly', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+        const res = await response.json();
+        console.log(res.data());
+        getAllPurchase();
+      }
+      getAllPurchase();
+    } catch (err) {
+      console.log('Error:', err);
+      toast.error('An error occurred while deleting', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+  };
+
+  // const handle select for delete
+  const isSelected = (orderId: number) => checkedItems.includes(orderId);
+  const handleCheckboxChange = (orderID: number) => {
+    if (isSelected(orderID)) {
+      // Item is already selected, remove it from the selected list
+      setCheckedItems(checkedItems.filter((id) => id !== orderID));
+    } else {
+      // Item is not selected, add it to the selected list
+      setCheckedItems([...checkedItems, orderID]);
+    }
   };
 
   // Calculate counts for each category
   const allPurchasesCount = data.length;
   const pendingPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'pending').length;
-  const completedPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'successful').length;
-  const failedPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'cancelled').length;
+  const completedPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'completed').length;
+  const failedPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'failed').length;
 
   // Function to determine the background color based on status
   const getStatusBackgroundColor = (status: string): string[] => {
     switch (status.toLowerCase()) {
-      case 'successful':
+      case 'completed':
         return ['bg-custom-color41', 'text-custom-color35']; // Return an array of background and text colors
       case 'pending':
         return ['bg-custom-color40', 'text-yellow-600'];
-      case 'cancelled':
+      case 'failed':
         return ['bg-pink-120', 'text-custom-color34'];
       default:
         return ['bg-gray-200', 'text-gray-600'];
     }
   };
 
+  useEffect(() => {
+    async function fetchData() {
+      await getAllPurchase();
+    }
+
+    fetchData();
+  }, []);
+
+  const getAllPurchase = async () => {
+    setIsLoading(true);
+    try {
+      const res = await $http.get('https://customer-purchase.onrender.com/api/orders/all-transactions', {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
+        },
+      });
+      setData(res?.data?.data);
+      setIsLoading(false);
+    } catch (error) {
+      setData([]);
+      setIsLoading(false);
+    }
+    setSearchInput('');
+  };
+
   // api search
   const onSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      const res = await $http.get(getFilterApi(filterBy, searchInput));
+      const res = await $http.get(getFilterApi(filterBy, searchInput), {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
+        },
+      });
       setData(res?.data?.data);
+      setIsLoading(false);
     } catch (error) {
       setData([]);
+      setIsLoading(false);
     }
     setSearchInput('');
   };
 
   const getFilterApi = (filterBy: string, filterParams: string) => {
-    return `https://customer-purchase.onrender.com/api/filter-transactions?${filterBy}=${filterParams}`;
+    return `https://customer-purchase.onrender.com/api/orders/filter-transactions?${filterBy}=${filterParams}`;
   };
 
   // handle filter dropdown
@@ -151,9 +196,9 @@ const MyPage: React.FC = () => {
     setSearchInput(e.target.value);
   };
 
-  const onBack = () => {
+  const onBack = async () => {
     // call purchase data here again
-    setData(DUMMYDATA);
+    await getAllPurchase();
   };
 
   return (
@@ -161,11 +206,15 @@ const MyPage: React.FC = () => {
       <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
         <div className="mt-9 mb-1 md:mb-12">
           <div className="flex items-center">
-            <p className="text-base text-brand-green-primary">Settings</p>
+            <Link href="/settings">
+              <p className="text-base text-brand-green-primary">Settings</p>
+            </Link>
             <span className="mx-[5px]">
               <ArrowRight2 size="16" color="green" />
             </span>
-            <p className="text-base text-gray-100">Dashboard</p>
+            <Link href="/dashboard">
+              <p className="text-base text-gray-100">Dashboard</p>
+            </Link>
           </div>
         </div>
         <h3 className="font-semibold text-3xl hidden sm:block">Customer Purchase Dashboard</h3>
@@ -202,13 +251,13 @@ const MyPage: React.FC = () => {
           </div>
           <div
             className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
-              filter === 'Successful' ? 'border-brand-green-primary' : 'border-white-100'
+              filter === 'Completed' ? 'border-brand-green-primary' : 'border-white-100'
             }`}
-            onClick={() => handleFilterClick('Successful')}
+            onClick={() => handleFilterClick('Completed')}
           >
             <p
               className={`text-sm cursor-pointer lg:text-base ${
-                filter === 'Successful' ? 'text-brand-green-primary' : 'border-white-100'
+                filter === 'Completed' ? 'text-brand-green-primary' : 'border-white-100'
               }`}
             >
               Completed Purchases ({completedPurchasesCount})
@@ -216,16 +265,16 @@ const MyPage: React.FC = () => {
           </div>
           <div
             className={`h-[2.8rem] w-[12.5rem] flex items-center justify-center border-b-2 border-solid ${
-              filter === 'cancelled' ? 'border-brand-green-primary' : 'border-white-100'
+              filter === 'failed' ? 'border-brand-green-primary' : 'border-white-100'
             }`}
-            onClick={() => handleFilterClick('cancelled')}
+            onClick={() => handleFilterClick('failed')}
           >
             <p
               className={`text-sm cursor-pointer lg:text-base ${
-                filter === 'Failed' ? 'text-brand-green-primary' : 'border-white-100'
+                filter === 'failed' ? 'text-brand-green-primary' : 'border-white-100'
               }`}
             >
-              Cancelled Purchases ({failedPurchasesCount})
+              Failed Purchases ({failedPurchasesCount})
             </p>
           </div>
         </div>
@@ -237,23 +286,17 @@ const MyPage: React.FC = () => {
               <Input
                 value={searchInput}
                 onChange={(e) => handleSearchInput(e)}
-                leftIcon={<SearchNormal1 color="#777" />}
+                leftIcon={<SearchNormal1 color="black" />}
                 className="border-2 border-solid border-white-200 pl-6 w-full h-[2.5rem] pr-[1rem] rounded flex-1"
                 placeholder={`Search by ${filterBy} or select a filter to search by`}
               />
             </form>
 
             <FilterDropDown onChooseFilter={onChooseFilter} />
-
-            <Button
-              onClick={onOpen}
-              className="h-[2.5rem] flex items-center justify-center border-2 border-solid border-white-200 w-max py-2 rounded text-red-306 bg-white-100 hover:bg-red-100 hover:border-bg-[#FDCDCD] hover:border-[#FDCDCD] active:border-[#FDCDCD] active:bg-[#FDCDCD] text-[0.88rem]"
-            >
-              <Trash size="16" /> <span className="hidden sm:block">Delete</span>
-            </Button>
           </div>
-
+          {isLoading && <Spinner />}
           {/* table */}
+
           {data.length > 0 && (
             <div className="hidden sm:block w-full overflow-x-auto">
               <table className="w-max md:w-full mt-6 mb-8">
@@ -281,16 +324,18 @@ const MyPage: React.FC = () => {
                         <td className="text-[0.75rem] flex items-center mt-5">
                           <span className="px-4 ml-[1rem]">
                             {' '}
-                            <input type="checkbox" />
+                            <input
+                              type="checkbox"
+                              checked={checkedItems.includes(item.id)}
+                              onChange={() => handleCheckboxChange(item.id)}
+                            />
                           </span>
                           {item.product.name}
                         </td>
                         <td className="text-[0.75rem] px-4 py-2">{item.order_id}</td>
                         <td className="text-[0.75rem] px-4 py-2">{item.order_price}</td>
                         <td className="text-[0.75rem] px-4 py-2">{item.createdAt.split('T')[0]}</td>
-                        <td className="text-[0.75rem] px-4 py-2">
-                          {item.merchant.last_name} {item.merchant.first_name}
-                        </td>
+                        <td className="text-[0.75rem] px-4 py-2">{item.merchant}</td>
                         <td className="text-[0.75rem] px-4 py-2">
                           <span
                             className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${

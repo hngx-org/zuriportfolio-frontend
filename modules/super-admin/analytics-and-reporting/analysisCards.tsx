@@ -401,7 +401,7 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
-                    {CardDataOne[3]?.amount}
+                    ${CardDataOne[3]?.amount}
                   </p>
                   {CardDataOne[3]?.ratio < 0 && (
                     <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">

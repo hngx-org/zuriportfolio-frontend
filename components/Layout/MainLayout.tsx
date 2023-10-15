@@ -7,6 +7,7 @@ import MainLayoutContext from '../../context/LayoutContext';
 import Footer from '../Footer';
 import SideBar from '../Navbars/Sidebar';
 import TopBar from '../Navbars/TopBar';
+import useAuthRevalidate from '../../hooks/Auth/useAuthRevalidate';
 
 function MainLayout({
   children,
@@ -17,6 +18,8 @@ function MainLayout({
   showTopbar,
 }: MainLayoutProps) {
   const { setActivePage } = useContext(MainLayoutContext);
+
+  useAuthRevalidate();
 
   useEffect(() => {
     setActivePage(activePage as string);

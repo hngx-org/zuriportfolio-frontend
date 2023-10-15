@@ -42,10 +42,11 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
         value={value}
         placeHolder={placeholder}
         key={InputId}
-        className="w-full border"
+        className="w-full border text-dark-800 placeholder-white-110"
         required={required}
         leftIcon={leftIcon}
         pattern={pattern}
+        autoComplete="off"
       />
       <span className="text-brand-red-primary mt-1 inline-block">{error}</span>
     </div>

@@ -33,8 +33,8 @@ export default function Slider({ updateImage }: any) {
   };
 
   return (
-    <div className="flex items-center lg:justify-start md:justify-center mt-2 w-full lg:w-5/6 overflow-x-scroll scroll-smooth ">
-      <div className="flex w-full gap-x-3">
+    <div className="flex items-center lg:justify-start md:justify-center mt-1 w-full h-24 overflow-x-scroll scroll-smooth ">
+      <div className="flex w-full gap-x-3 h-24">
         <Image
           src={slider1}
           alt="slider image 1"
