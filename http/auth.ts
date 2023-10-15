@@ -101,11 +101,9 @@ export const verifyUser = async (props: { token: string }) => {
 
 export const resendVerification = async (props: { email: string }) => {
   try {
-    const res = await $http.post('/resend-verification/', props);
-    console.log(res?.data);
+    const res = await $http.post('/verify/resend', props);
     return res?.data;
   } catch (e: any) {
-    console.log(e);
     return e.response.data ?? { message: e.message };
   }
 };
