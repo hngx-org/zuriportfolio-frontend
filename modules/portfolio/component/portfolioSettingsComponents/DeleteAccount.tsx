@@ -4,10 +4,12 @@ import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { redirect } from 'next/navigation';
+import { useAuth } from '../../../../context/AuthContext';
 
 function DeleteAccount() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isPending, setIspending] = useState<boolean>(false);
+  const { auth } = useAuth();
   const handleToggleModal = () => {
     setOpenModal((prev: boolean) => !prev);
   };
@@ -20,7 +22,7 @@ function DeleteAccount() {
   const notifySuccess = (toastContent: string) => toast.success(toastContent, { closeOnClick: true, autoClose: 3000 });
 
   const notifyError = (toastContent: string) => toast.error(toastContent);
-  const userId: string = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+  const userId: string | undefined = auth?.user.id;
 
   const handleDeleteAccount = useCallback(() => {
     setIspending(true);
@@ -52,7 +54,7 @@ function DeleteAccount() {
         <p className="text-[#737876] font-manropeL text-[0.875rem] leading-[1.25rem] ">
           Would you like to delete your portfolio account:{' '}
           <span className="text-[#009254] text-[0.875rem] sm:text-[1rem]  font-manropeEL leading-[1.5rem]">
-            @pleroma
+            @{auth?.user.firstName}
           </span>
           ?
         </p>
