@@ -15,16 +15,20 @@ const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
   const router = useRouter();
   const [storedAssessment, setStoredAssessment] = React.useState<any>([]);
+  const {data} = router.query
 
   useEffect(() => {
+    if(data){
+      console.log('duration', data)
+    }
     const assessmentData = localStorage.getItem('assessmentData');
     const storedAssessmentData = assessmentData ? JSON.parse(assessmentData) : null;
-    console.log('Hellllooooooooooo>>>>>>>>>>>>>>>>>>>', storedAssessmentData);
+    // console.log('Hellllooooooooooo>>>>>>>>>>>>>>>>>>>', storedAssessmentData);
     if (assessmentData) {
-      console.log('data message', storedAssessmentData[0].options);
+      
       setStoredAssessment(storedAssessmentData);
     }
-  }, []);
+  }, [data]);
 
   return (
     <>
@@ -61,7 +65,7 @@ const Questions: React.FC = () => {
         <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
           <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary">
             <span className="text-white-100 text-2xl font-bold">
-              <CountdownTimer action={() => setIsTimeOut(true)} minutes={2} seconds={0} />
+              <CountdownTimer action={() => setIsTimeOut(true)} minutes={data} seconds={0} />
             </span>
             <span>
               <TimerStart color="#fff" />

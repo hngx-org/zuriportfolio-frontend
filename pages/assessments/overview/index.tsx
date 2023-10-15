@@ -20,7 +20,7 @@ function AssessmentOverview() {
 
   const handleOnChangeClick = (question: QuestionType) => {
     setSelectedQuestion(question);
-    setShow(true);
+    setShow(!show);
   };
 
   return (

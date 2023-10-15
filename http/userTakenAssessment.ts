@@ -72,18 +72,23 @@ const axiosInstance = axios.create({
   },
 });
 
-export const fetchUserTakenAssessment = async () => {
+export const fetchUserTakenAssessment = async (token: string, skill_id: any) => {
   try {
     const res = await axiosInstance.post(
-      `http://104.248.143.148/api/assessments/start-assessment?
-         fake_token=${fetchToken}`,
-      { assessment_id: 20 },
-    );
-    console.log(res);
+      `http://104.248.143.148/api/assessments/start-assessment`,
+      {assessment_id: skill_id},
+      { 
+        headers: {
+          'Content-Type': 'application/json',
+          token: token
+        },
+      }
+    )
+    // console.log(res);
     return res;
   } catch (error) {
     console.error('Error fetching user taken assessment:', error);
-    throw error;
+    throw new Error('Failed to fetch user taken assessment')
   }
 };
 
@@ -92,12 +97,20 @@ export const submitAssessment = async ({
   question_id,
   user_answer_id,
   answer_text,
+  token,
 }: {
   assessment_id: number;
   question_id: number;
   user_answer_id: number;
   answer_text: string;
+  token: string;
 }) => {
+  const axiosInstance = axios.create({
+    headers: {
+      'Content-Type': 'application/json',
+      token: token
+    },
+  });
   try {
     const res = await axiosInstance.post(`http://104.248.143.148/api/assessments/submit?fake_token=${fetchToken}`, {
       assessment_id,
