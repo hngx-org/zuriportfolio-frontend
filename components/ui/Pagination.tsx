@@ -35,11 +35,11 @@ function Pagination({ page, pages, activePage, visiblePaginatedBtn, setPage }: P
   }
 
   return (
-    <div className="w-fit mt-3 rounded-[20px] p-2 flex items-center justify-center gap-3 text-gray-600 bg-white-200">
+    <div className="w-fit mt-3 rounded-[20px] p-1 flex items-center justify-center gap-3 text-gray-600 bg-white-200">
       <Button
         onClick={handlePrevious}
         className={twMerge(
-          'px-2 py-3 disabled:bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent rounded-md bg-transparent text-dark-100 text-[12px]',
+          'px-2 py-1 disabled:bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent rounded-md bg-transparent text-dark-100 text-[12px]',
         )}
         disabled={page <= 1}
       >
@@ -50,7 +50,7 @@ function Pagination({ page, pages, activePage, visiblePaginatedBtn, setPage }: P
         <Button
           key={idx}
           className={twMerge(
-            'w-12 text-[15px] hover:bg-transparent focus:bg-transparent focus-within:bg-transparent active:bg-transparent scale-[.95] px-5 py-2 rounded-[10px]',
+            'w-12 text-[15px] hover:bg-transparent focus:bg-transparent focus-within:bg-transparent active:bg-transparent scale-[.95] px-5 py-1 rounded-[10px]',
             activePage === p
               ? 'bg-brand-green-primary text-white-100 hover:bg-brand-green-primary focus:bg-brand-green-primary active:bg-brand-green-primary'
               : 'bg-transparent text-white-400',
@@ -67,7 +67,7 @@ function Pagination({ page, pages, activePage, visiblePaginatedBtn, setPage }: P
       {pages > 1 && activePage !== pages && (
         <Button
           className={twMerge(
-            'w-12 text-[15px] hover:bg-transparent focus:bg-transparent focus-within:bg-transparent active:bg-transparent scale-[.95] px-5 py-2 rounded-[10px]',
+            'w-12 text-[15px] hover:bg-transparent focus:bg-transparent focus-within:bg-transparent active:bg-transparent scale-[.95] px-5 py-1 rounded-[10px]',
             'bg-transparent text-white-400',
           )}
           onClick={() => setPage(pages)}
@@ -79,7 +79,7 @@ function Pagination({ page, pages, activePage, visiblePaginatedBtn, setPage }: P
       <Button
         onClick={handleNext}
         className={twMerge(
-          'px-2 py-3 disabled:bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent rounded-md bg-transparent text-dark-100 text-[12px]',
+          'px-2 py-1 disabled:bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent rounded-md bg-transparent text-dark-100 text-[12px]',
         )}
         disabled={pages === 0 || page === pages}
       >

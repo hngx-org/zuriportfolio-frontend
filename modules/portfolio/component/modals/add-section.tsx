@@ -6,7 +6,7 @@ import Portfolio from '../../../../context/PortfolioLandingContext';
 import CustomSectionModal from '../custom-section-modal';
 
 function Home() {
-  const { isOpen, onClose, toggleSection, setOpenCustom, sections, userSections } = useContext(Portfolio);
+  const { isOpen, onClose, toggleSection, setOpenCustom, sections, userSections, setUserData } = useContext(Portfolio);
 
   const nonMatchingSections = sections.filter((section) => {
     return !userSections.some((selected) => {
@@ -23,7 +23,16 @@ function Home() {
               <p className="text-4xl sm:text-[1.5rem] text-[#2E3130] font-manropeL font-bold leading-10">
                 Add a section
               </p>
-              <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+              <CloseSquare
+                size="32"
+                color="#009254"
+                variant="Bold"
+                onClick={() => {
+                  onClose();
+                  setUserData((p: any) => ({ ...p, showBuildPortfolio: false }));
+                }}
+                className="cursor-pointer"
+              />
             </div>
           </div>
 

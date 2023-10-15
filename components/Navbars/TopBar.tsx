@@ -19,6 +19,8 @@ import Logout from '@modules/auth/component/logout/Logout';
 import CustomDropdown from '@modules/explore/components/CustomDropdown';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
+  // change auth to True to see Auth User Header
+  const { auth: globalAuth } = useAuth();
   const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
@@ -29,7 +31,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
 
-  const [dropDown, setDropDown] = useState<string>('');
+  const [dropDown, setDropDown] = useState<string>('Explore');
 
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
@@ -100,7 +102,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && dropDown === 'Marketplace') {
       try {
         const results = await searchPosts(searchQuery);
         setSearchResults(results);
@@ -115,7 +117,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   function handleDropdown(option: string) {
     setDropDown(option);
-    console.log('Select');
   }
 
   return (
@@ -211,6 +212,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <CustomDropdown
                     selectedValue={dropDown}
                     onChange={handleDropdown}
+                    placeholder="Explore"
                     options={['Explore', 'Marketplace']}
                     className="border-none"
                   />
@@ -262,7 +264,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
                   <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
                   <div className="flex flex-col gap-[2px]">
-                    <h3 className="font-bold ">John Doe</h3>
+                    <h3 className="font-bold ">
+                      {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+                    </h3>
                     <p>View Live Profile</p>
                   </div>
                 </li>
@@ -296,6 +300,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p>Customer Dashboard</p>
                 </Link>
                 <Link
+                  href="/user/customer-purchase-dashboard"
+                  className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
+                >
+                  <Image draggable={false} src={dashBoard} alt="Setting" />
+                  <p>Customer Purchase Dashboard</p>
+                </Link>
+                <Link
                   href="/portfolio"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
@@ -303,7 +314,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p>Manage Portfolio</p>
                 </Link>
                 <Link
-                  href="/assessments"
+                  href="/assessments/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={likesIcon} alt="Like" />
@@ -340,7 +351,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
-                    <p className=" font-bold ">John Doe</p>
+                    <p className=" font-bold ">
+                      {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+                    </p>
                     <p className="text-sm ">Zuri Team</p>
                   </div>
                   <div className="w-10 h-10 aspect-square relative bg-gray-400 rounded-[100px]" />
@@ -414,6 +427,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     <CustomDropdown
                       selectedValue={dropDown}
                       onChange={handleDropdown}
+                      placeholder="Explore"
                       options={['Explore', 'Marketplace']}
                       className="border-none px-1"
                     />
@@ -450,7 +464,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         </span>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           <div className="details">
-            <p className=" font-bold">John Doe</p>
+            <p className=" font-bold">
+              {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+            </p>
             <p className="text-sm ">Zuri Team</p>
           </div>
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
@@ -591,10 +607,12 @@ function MenuUI({
               {router.pathname === '/portfolio' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
-              <Link className={activeLink('/assessments')} href={'/assessments'}>
+              <Link className={activeLink('/assessments/dashboard')} href={'/assessments/dashboard'}>
                 Assessments & Badges
               </Link>
-              {router.pathname === '/assessments' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+              {router.pathname === '/assessments/dashboard' ? (
+                <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
+              ) : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
               <Link className={activeLink('/settings')} href={'/settings'}>

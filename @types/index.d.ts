@@ -66,8 +66,12 @@ export interface Education {
   fieldOfStudy: string;
   school: string;
   description: string;
-  dateFrom: string;
-  dateTo: string;
+  from: string;
+  to: string;
+}
+export interface DegreeOption {
+  id: number;
+  type: string;
 }
 export interface AllCategoryDetails {
   price: string;
@@ -87,9 +91,14 @@ interface ImageData {
 interface CategoryData {
   name: string;
 }
+interface Produne {
+  name: string;
+  // Add other properties specific to a product
+}
 export interface Products {
   id: string;
   name: string;
+  product: Produne;
   image: ImageData[];
   shopOwner: string;
   price: number;
@@ -181,6 +190,10 @@ export interface MarketPlaceProductCardProps {
   showTopPicks?: boolean;
   showDiscount?: boolean;
   discount_price?: number;
+  shop?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface ratingProps {
@@ -684,6 +697,9 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
+  isVerified: boolean;
+  roleId: number;
+  twoFactorAuth: boolean;
 };
 
 export type AuthResponse = {
@@ -701,6 +717,11 @@ type ProductCategory = {
   createdat: string;
   user: string;
 };
+
+type ProductShop = {
+  id: number;
+  name: string;
+};
 export interface ProductResult {
   id: string;
   name: string;
@@ -716,7 +737,7 @@ export interface ProductResult {
   currency: string;
   createdat: string;
   updatedat: string;
-  shop: string;
+  shop: ProductShop;
   category: ProductCategory;
   rating: number;
   user: string;
