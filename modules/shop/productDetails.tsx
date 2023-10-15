@@ -261,9 +261,9 @@ export default function ProductDetails() {
           </a>
 
           {/* Product Details  */}
-          <div className="flex lg:flex-row h-[542px] flex-col items-center justify-center gap-x-6 w-full">
+          <div className="flex lg:flex-row lg:h-[542px] h-full flex-col items-center justify-center gap-x-6 w-full">
             {/* Product Detail Images  */}
-            <div className="flex flex-col w-full h-[542px] item-center lg:gap-y-2">
+            <div className="flex flex-col w-full lg:h-[542px] h-full item-center lg:gap-y-2">
               <div
                 className="img-container w-full lg:h-[27rem] md:h-[20rem] sm:h-[17rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-lg"
                 ref={imgContRef}
@@ -280,7 +280,7 @@ export default function ProductDetails() {
             </div>
 
             {/* Product Detail Data */}
-            <div className="lg:space-y-0 space-y-4 w-full h-[542px] flex flex-col justify-between">
+            <div className="lg:space-y-0 space-y-4 w-full lg:h-[542px] h-full flex flex-col justify-between">
               <div>
                 <div>
                   <h1 className="md:text-2xl md:font-bold text-black capitalize lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
@@ -308,9 +308,6 @@ export default function ProductDetails() {
                       {showFullDescription ? 'Read less' : 'Read more'}
                     </span>
                   )}
-                  <span className="text-[#009254] font-manropeL font-bold md:hidden read-more-btn" onClick={readMore}>
-                    Read more
-                  </span>
 
                   <div className="lg:flex flex-col gap-y-2 hidden">
                     <div className="flex gap-x-1 mt-">
@@ -359,7 +356,7 @@ export default function ProductDetails() {
           </div>
 
           {/* Description, Specification, Reviews (Desktop View)  */}
-          <span id="description">
+          <span id="description" className="mt-10">
             <TabContainer />
           </span>
           {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
