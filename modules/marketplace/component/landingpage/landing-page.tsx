@@ -16,7 +16,7 @@ function LandingPage() {
 
   useEffect(() => {
     try {
-      fetch(`${baseUrl}recommendations`)
+      fetch(`${baseUrl}/recommendations/`)
         .then((res) => res.json())
         .then((data) => setRecommendedProduct({ isLoading: false, items: data }));
     } catch (error) {
