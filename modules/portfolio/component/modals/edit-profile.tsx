@@ -120,7 +120,7 @@ const EditProfile = () => {
         body: formData,
       });
       const data = await response.json();
-      setUserData((p: any) => ({ ...p, hasDataFromBE: true, avatarImage: data.data.profilePic }));
+      setUserData((p: any) => ({ ...p, avatarImage: data.data.profilePic }));
     } catch (error) {
       console.log(error);
     }

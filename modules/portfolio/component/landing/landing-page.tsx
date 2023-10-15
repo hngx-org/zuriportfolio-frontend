@@ -1,6 +1,6 @@
 'use-client';
 import Image from 'next/image';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import LandinEmptyState from './landingpage-empty';
 import LandingPageFilled from './landingpage-filled';
 import Cover from './cover-avatar';
@@ -13,6 +13,8 @@ import ViewTemplate from '../modals/view-template';
 
 const Landing = () => {
   const {
+    hasPortfolio,
+    setHasPortfolio,
     hasData,
     profileUpdate,
     isOpen,
@@ -47,6 +49,7 @@ const Landing = () => {
   ) : (
     <CoverDiv className={`bg-[#F0F1F0] opacity-80 ${headerMargin}`} />
   );
+
   return (
     <>
       <div onClick={modal}>
@@ -61,12 +64,13 @@ const Landing = () => {
           <>
             <div className="h-[200px] md:h-[250px] lg:h-[300px]">
               {cover}
-              <Cover />
+              <Cover isLoggedIn={true} />
             </div>
             <div className="flex justify-between items-center pt-8 md:pt-14">
               <div>
                 <h1 className="font-semibold text-lg md:text-2xl text-gray-600">
-                  {firstName ? firstName : ''} {lastName ? lastName : ''}
+                  {firstName === 'undefined' || !firstName ? '' : firstName}{' '}
+                  {lastName === 'undefined' || !lastName ? '' : lastName}
                 </h1>
                 {tracks && tracks.length > 0 && (
                   <div className="flex items-center space-x-2">
@@ -87,13 +91,13 @@ const Landing = () => {
                 Edit
               </p>
             </div>
-            {!hasData ? (
-              <div>
-                <LandinEmptyState />
-              </div>
-            ) : (
+            {hasPortfolio && hasData ? (
               <div className="mt-10 md:mt-20">
                 <LandingPageFilled />
+              </div>
+            ) : (
+              <div>
+                <LandinEmptyState />
               </div>
             )}
           </>
@@ -102,5 +106,4 @@ const Landing = () => {
     </>
   );
 };
-
 export default Landing;

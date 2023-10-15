@@ -47,16 +47,17 @@ const LandingPageFilled: React.FC = () => {
   } = useContext(Portfolio);
 
   const deleteSection = () => setOpenDelete(true);
+  console.log(userSections);
 
-  useEffect(() => {
-    userSections?.map((section) => {
-      if (section?.data?.length !== 0) {
-        setHasData(true);
-      } else {
-        setHasData(false);
-      }
-    });
-  }, [setHasData, userSections]);
+  // useEffect(() => {
+  //   userSections?.map((section) => {
+  //     if (section?.data?.length !== 0) {
+  //       setHasData(true);
+  //     } else {
+  //       setHasData(false);
+  //     }
+  //   });
+  // }, [setHasData, userSections]);
 
   return (
     <>
@@ -231,7 +232,7 @@ const LandingPageFilled: React.FC = () => {
         section.data.map((el: any, i: any) => {
           return <Education key={i} data={el} />;
         })}
-      {section.id === 'project' &&
+      {section.id === 'projects' &&
         projects.map((el, i) => {
           return <Project key={i} data={el} />;
         })}
