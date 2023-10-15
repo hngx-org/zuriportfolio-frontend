@@ -264,7 +264,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
                   <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
                   <div className="flex flex-col gap-[2px]">
-                    <h3 className="font-bold ">John Doe</h3>
+                    <h3 className="font-bold ">
+                      {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
+                    </h3>
                     <p>View Live Profile</p>
                   </div>
                 </li>
