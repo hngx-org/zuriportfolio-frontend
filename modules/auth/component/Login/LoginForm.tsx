@@ -49,9 +49,11 @@ function LoginForm() {
         // console.log(value);
 
         // Checking if user enabled 2fa
-        if (res.data.user.two_factor_auth) {
+        if (res.data.user.twoFactorAuth) {
           const email = res?.data?.user?.email;
-          send2FaCode.mutate({ email });
+
+          // uncomment if the 2fa message is not being sent automatically
+          // send2FaCode.mutate({ email });
           router.push('/auth/2fa');
           return;
         }
