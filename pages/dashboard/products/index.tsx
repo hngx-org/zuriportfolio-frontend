@@ -1,11 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { SearchNormal1 } from 'iconsax-react';
 import Button from '@ui/Button';
 import ProductCard from '@modules/dashboard/component/products/ProductCard';
 import Link from 'next/link';
-
+import Pagination from '@ui/Pagination';
+import Loader from '@ui/Loader';
+import PaginationBar from '@modules/dashboard/component/order/PaginationBar';
+type Product = {
+  product_id: any;
+  image: any;
+  name: any;
+  price: any;
+  url: any;
+};
 const Products = () => {
+  const [pageSize, setPageSize] = useState(2);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [product, setProducts] = useState<Product[]>([]);
+  const [loading, setIsLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const searchProduct = (product: Product[]) => {};
+  const fetchProducts = async () => {
+    // Fetch the product data from the server
+    setIsLoading(true);
+    try {
+      setIsLoading(true);
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace');
+      const data = await res.json();
+      if (Array.isArray(data.data)) {
+        return data.data;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const insertProduct = (product: any) => {
+    setProducts(product);
+  };
+  const insertSelectedProduct = (product: any) => {
+    setSelectedProduct(product);
+  };
+  useEffect(() => {
+    // Run code if current page change
+  }, [currentPage]);
+  useEffect(() => {
+    const setProducts = async () => {
+      const product = await fetchProducts();
+      insertProduct(product || []);
+    };
+    setProducts();
+  }, []);
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
       <div className="max-w-[1240px] mx-auto my-4 px-6">
@@ -55,7 +104,24 @@ const Products = () => {
               filter: `drop-shadow(0px 28px 38px rgba(201, 213, 216, 0.30))`,
             }}
           >
-            <ProductCard />
+            {loading ? (
+              <div className="absolute z-50 inset-0 min-h-[300px]">
+                <Loader />
+              </div>
+            ) : (
+              <ProductCard
+                product={product}
+                fetchProducts={fetchProducts}
+                insertProduct={insertProduct}
+                insertSelectedProduct={insertSelectedProduct}
+                selectedProduct={selectedProduct}
+              />
+            )}
+          </div>
+          <div className="flex justify-center my-4">
+            {pageSize > 1 && (
+              <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={3} />
+            )}
           </div>
         </div>
       </div>

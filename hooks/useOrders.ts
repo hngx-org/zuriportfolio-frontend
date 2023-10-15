@@ -83,33 +83,117 @@ const dummyOrders: OrderHistory[] = [
   },
 ];
 
-const useOrders = (initialOrders = dummyOrders) => {
-  const [orders, setOrders] = useState(initialOrders);
+const useOrders = () => {
+  const [orders, setOrders] = useState<OrderHistory[]>([]);
   const [orderFilter, setOrderFilter] = useState('all');
   const [sort, setSort] = useState<{
     sortBy: keyof OrderHistory;
     sortOrder: 'asc' | 'desc';
   }>({ sortBy: 'id', sortOrder: 'asc' });
   const [searchQuery, setSearchQuery] = useState('');
-
-  const filterFunc = useCallback((filter: string, shouldChangeSort: boolean = true, defaultOrder?: any[]) => {
-    let filteredOrders = defaultOrder ? [...defaultOrder] : [...initialOrders];
+  const [loading, setLoadingOrders] = useState(true);
+  const [searching, setSearching] = useState(false);
+  const [totalPage, setTotalPage] = useState(1);
+  const filterFunc = useCallback((filter: string, order: any[]) => {
+    let filteredOrders = [...order];
     if (filter !== 'all') {
-      filteredOrders = initialOrders.filter((order) => order.status === filter);
-    }
-    // Change sort to default
-    if (shouldChangeSort) {
-      changeSortBy('id');
+      filteredOrders = order.filter((order) => order.status === filter);
     }
     return filteredOrders;
   }, []);
   const changeFilter = (val: string) => {
     // show orders by status which is either all | completed | cancelled or pending
     setOrderFilter(val);
-
-    filterFunc(val);
   };
+  const fetchOrders = async () => {
+    try {
+      setLoadingOrders(true);
+      const data = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
+        method: 'GET',
+      });
 
+      if (data.data?.errorStatus === true) {
+        return [];
+      }
+      if (!data.data.data || data.data.data?.length === 0) {
+        return [];
+      }
+      const transformedOrder = data?.data.data?.data?.orders?.map((order: any) => ({
+        productName: order.product.name,
+        id: order.order_id,
+        status: order.merchant.customer_orders[0]?.status,
+        customerName: order.customer.first_name + ' ' + order.customer.last_name,
+        date: new Date(order.createdAt),
+        price: order.product.price,
+      }));
+
+      return transformedOrder ?? [];
+    } catch (error) {
+      return [];
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
+  const debounce = (func: (...a: any) => any, timeSlice: number = 1000) => {
+    let timeout: NodeJS.Timeout;
+    return async function (...arg: any) {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(async () => {
+        const order = await func.apply(null, arg);
+      }, timeSlice);
+    };
+  };
+  const getSearchResult = async (query: string) => {
+    try {
+      setSearching(true);
+      if (query.length === 0) {
+        return;
+      }
+      const res = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
+        method: 'GET',
+      });
+      const { data } = res;
+      if (!!data?.errorStatus) {
+        console.log('Error');
+
+        return [];
+      }
+      if (data?.data === 'user not found') {
+        console.log('no data');
+
+        return [];
+      }
+      if (!data.data) {
+        return [];
+      }
+
+      const transformedOrder =
+        data.data?.data?.orders?.map((order: any) => {
+          return {
+            id: order.order_id,
+            price: order.product.price,
+            date: new Date(order.createdAt),
+            revenue: order.product.price,
+            status: order.customer_orders[0]?.status,
+            sales: order.customer_orders[0]?.sales_report[0]?.sales,
+            customerName: order.customer[0]?.username,
+            productName: order.product.name,
+            productType: order.product.categories[0]?.name,
+          };
+        }) || [];
+
+      return transformedOrder;
+    } catch (error) {
+      return [];
+    } finally {
+      setSearching(false);
+    }
+  };
+  const debounceSearch = debounce(getSearchResult);
   const changeSortBy = (val: keyof OrderHistory) => {
     setSort((prevSort) => {
       if (prevSort.sortBy === val) {
@@ -125,63 +209,58 @@ const useOrders = (initialOrders = dummyOrders) => {
       }
     });
   };
+  const sortOrders = (orders: OrderHistory[]) => {
+    let filteredOrders = [...orders];
 
-  useEffect(() => {
-    const sortOrders = (orders: OrderHistory[]) => {
-      let filteredOrders = [...orders];
+    const { sortBy, sortOrder } = sort;
 
-      const { sortBy, sortOrder } = sort;
+    const sortedOrders = [...filteredOrders].sort((a, b) => {
+      const aVal = a[sortBy];
+      const bVal = b[sortBy];
 
-      const sortedOrders = [...filteredOrders].sort((a, b) => {
-        const aVal = a[sortBy];
-        const bVal = b[sortBy];
+      if (typeof aVal === 'number' && typeof bVal === 'number') {
+        return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
+      } else if (aVal instanceof Date && bVal instanceof Date) {
+        return sortOrder === 'asc' ? aVal.getTime() - bVal.getTime() : bVal.getTime() - aVal.getTime();
+      } else if (typeof aVal === 'string' && typeof bVal === 'string') {
+        return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      }
 
-        if (typeof aVal === 'number' && typeof bVal === 'number') {
-          return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
-        } else if (aVal instanceof Date && bVal instanceof Date) {
-          return sortOrder === 'asc' ? aVal.getTime() - bVal.getTime() : bVal.getTime() - aVal.getTime();
-        } else if (typeof aVal === 'string' && typeof bVal === 'string') {
-          return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
-        }
-
-        return 0;
-      });
-
-      return sortedOrders;
-    };
-
-    setOrders((prev) => sortOrders(prev));
-  }, [initialOrders, sort]);
-  //  Search Logic
-
-  const searchFunc = useCallback(async (query: string) => {
-    const data = await axios({
-      url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/search/${query}`,
-      method: 'GET',
+      return 0;
     });
-    return data.data;
-  }, []);
+
+    return sortedOrders;
+  };
+  const insertOrders = (order: OrderHistory[]) => {
+    setOrders(order);
+  };
+  useEffect(() => {
+    const order = sortOrders(orders);
+    insertOrders(order);
+  }, [sort]);
+  //  Search Logic
 
   const changeSearchQuery = (val: string) => {
     setSearchQuery(val);
   };
 
   return {
-    orders,
-    changeFilter,
-    orderFilter,
-    changeSortBy,
-    sortBy: sort.sortBy,
-    toggleSortOrder: () => {
-      setSort((prevSort) => ({
-        ...prevSort,
-        sortOrder: prevSort.sortOrder === 'asc' ? 'desc' : 'asc',
-      }));
-    },
     changeSearchQuery,
     searchQuery,
     filterFunc,
-    searchFunc,
+    fetchOrders,
+    debounceSearch,
+    sortOrders,
+    sortBy: sort.sortBy,
+    insertOrders,
+    orders,
+    changeSortBy,
+    changeFilter,
+    orderFilter,
+    loading,
+    searching,
+    getSearchResult,
+    totalPage,
   };
 };
 

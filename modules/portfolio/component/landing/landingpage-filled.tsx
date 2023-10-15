@@ -44,6 +44,7 @@ const LandingPageFilled: React.FC = () => {
     modals,
     modalStates,
     userSections,
+    userData,
   } = useContext(Portfolio);
 
   const deleteSection = () => setOpenDelete(true);
@@ -56,7 +57,11 @@ const LandingPageFilled: React.FC = () => {
         setHasData(false);
       }
     });
-  }, [setHasData, userSections]);
+    if (userData) {
+      const hasUserData = userData.firstName && userData.lastName && userData.tracks;
+      setHasData(hasUserData);
+    }
+  }, [setHasData, userSections, userData]);
 
   return (
     <>
@@ -115,6 +120,21 @@ const LandingPageFilled: React.FC = () => {
                     remove={deleteSection}
                   >
                     <Interests key={i} data={section.data[0]} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {section?.id === 'language' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    <Language key={i} data={section.data[0]} />
                   </Wrapper>
                   <Line />
                 </React.Fragment>
@@ -231,7 +251,7 @@ const LandingPageFilled: React.FC = () => {
         section.data.map((el: any, i: any) => {
           return <Education key={i} data={el} />;
         })}
-      {section.id === 'project' &&
+      {section.id === 'projects' &&
         projects.map((el, i) => {
           return <Project key={i} data={el} />;
         })}

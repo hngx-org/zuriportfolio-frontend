@@ -21,7 +21,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   const removeFromCart = (productId: string) => {
-    const updatedCart = cart.filter((product) => product._id !== productId);
+    const updatedCart = cart.filter((product) => product.id !== productId);
     setCart(updatedCart);
   };
 

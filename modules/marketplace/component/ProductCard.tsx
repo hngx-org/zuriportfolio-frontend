@@ -15,16 +15,9 @@ export default function ProductCard({
   discount_price,
   id,
   currency,
+  shop,
 }: MarketPlaceProductCardProps) {
   const productNameTrimmed = name?.slice(0, 30);
-
-  const formatPrice = (price: number) => {
-    if (typeof price === 'number') {
-      return price.toLocaleString(undefined, { maximumFractionDigits: 2 });
-    }
-
-    return price;
-  };
 
   const stars: starProps = {
     1: { src: '/assets/images/stars/1StarRating.png', alt: '1 Star' },
@@ -36,10 +29,24 @@ export default function ProductCard({
 
   const starRating = rating in stars;
 
+  function formatPrice(price: number) {
+    if (typeof price === 'string') {
+      price = parseFloat(price);
+    }
+
+    if (isNaN(price)) {
+      return price;
+    }
+
+    return price.toLocaleString('en-US', {
+      useGrouping: true,
+      minimumFractionDigits: 2,
+    });
+  }
   return (
-    <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[286px] max-w-full">
-      <Link href={`/marketplace/product-details?id=${id}`}>
-        <div className="flex flex-col items-start">
+    <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] h-full w-[286px] max-w-full">
+      <Link href={`/marketplace/product-details?id=${id}`} className="relative h-full flex flex-col">
+        <div className="flex flex-col h-full items-start">
           {/* Product Image */}
           <div>
             <div>
@@ -59,7 +66,9 @@ export default function ProductCard({
             </div>
 
             {image ? (
-              <Image src={image} alt={name} width={254} height={209} className="rounded-[8px]" />
+              <div className="h-[120px] md:h-[209px] overflow-hidden">
+                <Image src={image} alt={name} width={254} height={209} className="rounded-[8px] object-cover" />
+              </div>
             ) : (
               <Image
                 src="/assets/dummyImage.jpg"
@@ -71,16 +80,19 @@ export default function ProductCard({
             )}
           </div>
           {/* Product Name */}
-          <p className="break-all font-manropeL text-brand-green-shade10 text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
+          <p className="font-manropeL mt-auto text-brand-green-shade10 w-full text-ellipsis whitespace-nowrap overflow-hidden text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
             {name?.length > 30 ? <span>{productNameTrimmed}...</span> : name}
           </p>
           {/* Product Price */}
           <h1 className="font-manropeL text-brand-green-shade10 text-[18px] font-bold leading-[20px] letter pt-[2px] pb-[8px]">
-            {currency === 'USD' ? `$${formatPrice(price)}` : `$${formatPrice(price)}`}
+            {`$ ${formatPrice(price)}`}
           </h1>
           {/* Product Owner */}
           <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">
-            By: <span className="underline">{user}</span>
+            By:{' '}
+            <Link href={shop?.id ? `/shop/${shop.id}` : '/shop'} className="underline">
+              {user}
+            </Link>
           </p>
           {/* Star rating */}
           <div>

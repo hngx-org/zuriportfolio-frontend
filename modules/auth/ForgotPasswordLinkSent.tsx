@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import VerificationLayout from './component/verificationLayout';
@@ -8,11 +8,11 @@ import { useAuth } from '../../context/AuthContext';
 import { notify } from '@ui/Toast';
 
 function ForgotPasswordLinkSent() {
-  const { email } = useAuth();
+  const { email, handleEmail } = useAuth();
   const onResetLinkSentSuccess = (data: any) => {
     console.log(data);
     if (data.status === 200) {
-      notify({message: "Reset Link has been resent.", type:"success"})
+      notify({ message: 'Reset Link has been resent.', type: 'success' });
       return;
     }
 
@@ -27,6 +27,14 @@ function ForgotPasswordLinkSent() {
   const handleResetLinkResent = () => {
     mutate({ email: email });
   };
+
+  useEffect(() => {
+    if (!email) {
+      const userEmail = localStorage.getItem('user-email');
+      if (userEmail) handleEmail(userEmail);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <VerificationLayout>
@@ -58,3 +66,6 @@ function ForgotPasswordLinkSent() {
 }
 
 export default ForgotPasswordLinkSent;
+function handleEmail(userEmail: string) {
+  throw new Error('Function not implemented.');
+}

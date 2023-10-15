@@ -15,6 +15,9 @@ import { useAuth } from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
+import { resend2FACode } from '../../../../http/auth';
+
+export const ADMIN_ID = 3;
 
 function LoginForm() {
   const { handleAuth } = useAuth();
@@ -34,21 +37,37 @@ function LoginForm() {
     },
   });
 
+  const send2FaCode = useAuthMutation(resend2FACode);
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
       if (res.message === 'Login successful') {
-        // console.log('Login success:', res);
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
         // console.log(value);
+
+        // Checking if user enabled 2fa
+        if (res.data.user.twoFactorAuth) {
+          const email = res?.data?.user?.email;
+
+          // uncomment if the 2fa message is not being sent automatically
+          // send2FaCode.mutate({ email });
+          router.push('/auth/2fa');
+          return;
+        }
+
+        // redirecting the user  to admin dashbord if they are an admin
+        if (res.data.user.roleId === ADMIN_ID) {
+          router.push('/super-admin/product-listing');
+          return;
+        }
         notify({
-          message: 'Login successful',
+          message: 'Login Successful',
           type: 'success',
         });
-        router.push('/');
+        router.push('/dashboard');
       } else if (res.message === 'Invalid password') {
         notify({
           message: 'Invalid password',
