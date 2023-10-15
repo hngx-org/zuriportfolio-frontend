@@ -68,7 +68,7 @@ const TabContent = ({ tab, desc }: { tab: string; desc: any }): React.ReactEleme
     return (
       <>
         <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Specifications</h2>
-        <ul className="mt-6 flex flex-col gap-4 list-inside">
+        {/* <ul className="mt-6 flex flex-col gap-4 list-inside">
           <li className="list-disc font-manropeL">Adaptable with HTML5 and CSS3</li>
           <li className="list-disc font-manropeL">
             Comprehensive documentation and customer support to assist users in setting up
@@ -78,7 +78,8 @@ const TabContent = ({ tab, desc }: { tab: string; desc: any }): React.ReactEleme
           <li className="list-disc font-manropeL">Compatible with all device interfaces</li>
           <li className="list-disc font-manropeL">Compatible with all Google web fonts</li>
           <li className="list-disc font-manropeL">Active and Hover options</li>
-        </ul>
+        </ul> */}
+        <p className="font-manropeL mt-6">{desc}</p>
       </>
     );
 
