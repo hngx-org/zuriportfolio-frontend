@@ -68,6 +68,7 @@ const OrderHistory: React.FC = () => {
     sortOrders,
     loading: loadingOrders,
     searching,
+    totalPage,
   } = useOrders();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,7 +89,7 @@ const OrderHistory: React.FC = () => {
     };
 
     changeStatus();
-  }, [orderFilter]);
+  }, []);
   const changeInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     changeSearchQuery(e.target.value.trim());
     let order;
@@ -286,15 +287,9 @@ const OrderHistory: React.FC = () => {
             </div>
           </section>
         )}
-        {pageOrders.length > 0 && !loadingOrders && (
+        {pageOrders.length > 0 && !loadingOrders && totalPage > 0 && (
           <div className="flex justify-center my-6">
-            <Pagination
-              activePage={currentPage}
-              page={currentPage}
-              pages={3}
-              visiblePaginatedBtn={3}
-              setPage={setCurrentPage}
-            />
+            <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={3} />
           </div>
         )}
       </main>
