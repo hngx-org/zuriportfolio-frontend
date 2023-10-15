@@ -46,9 +46,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
               <div className="flex justify-between gap-5">
                 <span className="flex gap-1 items-center">
                   <p className="font-manropeL text-base">By:</p>
-                  <p className="font-manropeL text-base">
-                    {item.merchant}
-                  </p>
+                  <p className="font-manropeL text-base">{item.merchant}</p>
                 </span>
 
                 <span
