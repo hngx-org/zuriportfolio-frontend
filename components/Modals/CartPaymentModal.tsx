@@ -3,18 +3,11 @@ import Image from 'next/image';
 import checkedPayment from '../../public/assets/images/check-1.png';
 
 const CartPaymentModal = () => {
-<<<<<<< HEAD
-
-  useEffect(()=> {
-    // setTimeout(()=> {window.location.href = "https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart"},5000)
-  })
-=======
   useEffect(() => {
     setTimeout(() => {
       window.location.href = 'https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart';
     }, 5000);
   });
->>>>>>> 00fbfd7e791dd4d7a42cb141fa53bb81d3cfc1ac
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
