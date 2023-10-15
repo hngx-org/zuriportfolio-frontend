@@ -36,7 +36,6 @@ function ProductCardWrapper({
             </svg>
           </Link>
         )}
-
       </h3>
       <div>
         {productsList.isLoading ? (
@@ -68,6 +67,7 @@ function ProductCardWrapper({
                           showDiscount={item?.showDiscount}
                           showTopPicks={showTopPicks}
                           discount_price={item?.discount_price}
+                          shop={item?.shop}
                         />
                       </div>
                     );
