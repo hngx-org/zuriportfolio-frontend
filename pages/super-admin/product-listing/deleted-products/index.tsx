@@ -61,7 +61,7 @@ const SanctionedProducts = () => {
                         <p className="">Product Name</p>
                         <ArrowDown size="16" className="" />
                       </th>
-                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item) => (
+                      {['Vendor', 'ID', 'Date Added', 'Date Deleted', 'Status'].map((item) => (
                         <th className="text-gray-500 text-sm font-normal leading-[18px] px-3 py-6 gap-3" key={item}>
                           {item}
                         </th>

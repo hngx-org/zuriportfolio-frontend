@@ -21,7 +21,14 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     setRedirect(value);
   };
 
-  const contextValue: AuthContextProps = { auth, handleAuth, email, handleEmail, redirect, handleRedirect };
+  const contextValue: AuthContextProps = {
+    auth,
+    handleAuth,
+    email,
+    handleEmail,
+    redirect,
+    handleRedirect,
+  };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }

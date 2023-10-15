@@ -164,7 +164,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                       }}
                       value={degree}
                     >
-                      <SelectTrigger className="w-full focus:outline-none border focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-120">
+                      <SelectTrigger className="w-full focus:outline-none focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-120">
                         <SelectValue placeholder="Select a degree" />
                       </SelectTrigger>
                       <SelectContent>

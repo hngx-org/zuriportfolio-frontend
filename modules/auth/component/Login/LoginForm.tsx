@@ -45,7 +45,7 @@ function LoginForm() {
         const value = isAuthenticated(res?.data?.token);
         // console.log(value);
         notify({
-          message: 'Login successful',
+          message: 'Login Successful',
           type: 'success',
         });
         router.push('/');

@@ -1,438 +1,114 @@
 import React, { useEffect, useState } from 'react';
-import ProductCard from '../component/ProductCard';
-import { MarketPlaceProductCardProps } from '../../../@types';
 import ProductCardWrapper from '../component/landingpage/productCardWrapper/product-card-wrapper';
+import styles from '../component/landingpage/productCardWrapper/product-card-wrapper.module.css';
 import Link from 'next/link';
-import ProductDetails from '../../../pages/marketplace/product-details';
+import CategoryLoading from '../component/categories/CategoryLoading';
 
-interface ProductCardWrapperProps {
-  productsList: ProductData[];
-  title: string;
-  labelText: string;
-}
-
-interface ProductData {
-  id: string;
-  currency: string;
-  image: string | null;
-  name: string;
-  price: number;
-  user: string;
-  rating: number;
-  showLimitedOffer?: boolean;
-  showTopPicks?: boolean;
-  showDiscount?: boolean;
-  discount?: number;
+interface Cat {
+  isLoading: boolean;
+  items: any[];
 }
 
 export default function AllCategoriesPage() {
   const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
-  const [categories, setCategories] = useState([]);
-  const [categoryProducts, setCategoryProducts] = useState([]);
+  const [categories, setCategories] = useState({ items: [], isLoading: true });
+  const [categoryProducts, setCategoryProducts] = useState<Cat>({ isLoading: true, items: [] });
 
   useEffect(() => {
+    if (categoryProducts.items.length) return;
     try {
       fetch(`${baseUrl}categoryNames/`)
         .then((res) => res.json())
         .then((data) => {
-          setCategories(data['categories name']);
+          setCategories({ items: data['categories name'], isLoading: false });
+          const cats: string[] = data['categories name'];
+          console.log(cats);
+          cats.forEach((item) => {
+            fetch(`${baseUrl}products/${item}`)
+              .then((res) => res.json())
+              .then((data) =>
+                setCategoryProducts((prevData) => {
+                  return { ...prevData, items: [...prevData.items, { title: item, product: data }] };
+                }),
+              );
+          });
         });
     } catch (error) {
-      setCategories([]);
+      setCategories({ items: [], isLoading: false });
+    } finally {
+      setCategoryProducts((prevData) => {
+        return { ...prevData, isLoading: false };
+      });
     }
   }, []);
-  console.log(categories);
-  // try {
-  //   fetch(`${baseUrl}products/limited_offers/`)
-  //     .then((res) => res.json())
-  //     .then((data) => setLimitedOffers({ isLoading: false, items: data.results }));
-  // } catch (error) {
-  //   setLimitedOffers({ isLoading: false, items: [] });
-  // }
-  // Sample product data (you can replace this with your actual data)
-  const products: MarketPlaceProductCardProps[] = [
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-1.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 100,
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: true,
-      showDiscount: false,
-      discount_price: 60,
-      currency: 'USD',
-    },
 
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-2.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-3.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: true,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-4.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: true,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-8.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-9.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: true,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-10.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-11.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: true,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-5.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-4.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-6.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-7.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-8.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-9.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: true,
-      discount_price: 60,
-    },
-
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-10.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-11.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: true,
-      discount_price: 60,
-    },
-
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-5.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-4.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: true,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-6.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-7.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-9.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: true,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-4.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: false,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-7.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: false,
-      showDiscount: true,
-      discount_price: 60,
-    },
-    {
-      id: '1',
-      image: '/assets/products-banner/Image-3.png',
-      name: 'Webinar and Course Slide Templa...',
-      price: 120.0,
-      currency: 'USD',
-      user: 'Mark Essien',
-      rating: 3,
-      showLimitedOffer: false,
-      showTopPicks: true,
-      showDiscount: false,
-      discount_price: 60,
-    },
-  ];
-
-  // Array of paragraph texts for each row
-  const paragraphTexts = [
-    'Design & Graphics',
-    'Development & Programming',
-    'Content Creation & Education',
-    'Degital Arts & Media',
-    'Audio & Sound',
-    'Photography',
-  ];
-
-  const labelTExt = ['+5,000,000', '+2,050,000', '+550,000', '+150,000', '+50,000', '+25,000'];
-
-  // Function to group products into rows
-  const groupProductsIntoRows = (products: MarketPlaceProductCardProps[], itemsPerRow: number) => {
-    const rows: MarketPlaceProductCardProps[][] = [];
-    for (let i = 0; i < products.length; i += itemsPerRow) {
-      rows.push(products.slice(i, i + itemsPerRow));
-    }
-    return rows;
-  };
-
-  const itemsPerRow: number = 4; // Number of cards per row on larger screens
-  const productRows: MarketPlaceProductCardProps[][] = groupProductsIntoRows(products, itemsPerRow);
-  function fetchProducts(product: string): any[] {
-    let products: any[] = [];
-    // const res = await fetch(`${baseUrl}products/${product}`)
-    // const data = await res.json()
-    // products = data;
-    // console.log(data)
-    return [];
+  function uniqueArray(): any[] {
+    const uniqueArray = categoryProducts.items.filter((object, index) => {
+      return categoryProducts.items.findIndex((otherObject) => otherObject.title === object.title) === index;
+    });
+    return uniqueArray;
   }
-  return (
-    <div className="category">
-      {categories.map((row, index) => (
-        <div key={index} className="">
-          <div className="flex gap-6 items-center">
-            <div className="text-custom-color31 font-manropeL font-bold md:text-2xl leading-normal ">{row}</div>
-            <div className="text-neutral-400 text-base font-semibold font-Manrope leading-normal tracking-tight pt-2">
-              {labelTExt[index]}
-            </div>
-            <Link
-              className="flex items-center gap-2 text-sm font-bold ml-auto text-brand-green-shade50"
-              href={`/marketplace/categories/${row}`}
-            >
-              View All
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M7.42578 16.5999L12.8591 11.1666C13.5008 10.5249 13.5008 9.4749 12.8591 8.83324L7.42578 3.3999"
-                  className=" stroke-green-300"
-                  strokeWidth="1.5"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
-          </div>
 
-          <ProductCardWrapper productsList={fetchProducts(row)} title={''} showTopPicks={false} showAll={false} />
+  function reduceItem(array: any[]): any[] {
+    // Check the length of the array.
+    if (array.length > 4) {
+      // Slice the array to the first 4 items.
+      array = array.slice(0, 4);
+    }
+
+    // Return the reduced array.
+    return array;
+  }
+
+  return (
+    <>
+      {categoryProducts.isLoading ? (
+        <div
+          className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+        >
+          {[1, 2, 3, 4].map((item) => {
+            return <CategoryLoading key={item} />;
+          })}
         </div>
-      ))}
-    </div>
+      ) : (
+        <div className="category">
+          {uniqueArray().map((row, index) => (
+            <div key={index} className="">
+              <div className="flex gap-4 items-center">
+                <div className="text-custom-color31 font-manropeL font-bold md:text-2xl leading-normal ">
+                  {row?.title}
+                </div>
+                <div className="text-neutral-400 text-base font-semibold font-Manrope leading-normal tracking-tight pt-2">
+                  {row?.product?.length}
+                </div>
+                <Link
+                  className="flex items-center gap-2 text-sm font-bold ml-auto leading-normal text-brand-green-shade50"
+                  href={`/marketplace/categories/${row.title}`}
+                >
+                  View All
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M7.42578 16.5999L12.8591 11.1666C13.5008 10.5249 13.5008 9.4749 12.8591 8.83324L7.42578 3.3999"
+                      className=" stroke-green-300"
+                      strokeWidth="1.5"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Link>
+              </div>
+
+              <ProductCardWrapper
+                productsList={{ isLoading: categoryProducts?.isLoading, items: reduceItem(row?.product) }}
+                title={''}
+                showTopPicks={false}
+                showAll={false}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 }

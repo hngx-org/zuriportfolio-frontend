@@ -114,7 +114,6 @@ export let projects = [
 ];
 
 export const Project = ({ data }: SkeletonProps) => {
-  console.log(data);
   const dataToMap = data?.tags?.split('#');
   const image = data?.img ? (
     <Image

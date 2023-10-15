@@ -5,17 +5,21 @@ import Image from 'next/image';
 import { WishlistProductCard } from './component/WishlistProductCard';
 import Container from '@modules/auth/component/Container/Container';
 import CategoryLayout from './component/layout/category-layout';
+import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
+
 
 function Wishlist() {
   const [data, setData] = useState<ProductEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const token = isUserAuthenticated()
+  console.log(token);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/1972d345-44fb-4c9a-a9e3-d286df2510ae/',
+          `https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token}`,
         );
         const result = await response.json();
         setData(result);
@@ -36,10 +40,32 @@ function Wishlist() {
             <section className="flex flex-col gap-10 mb-20">
               <div className="flex justify-between items-center">
                 <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">
-                  My Wishlist (<span>{data.length}</span> items)
+                  My Wishlist (<span>{data.length || "no wishlist"}</span> items)
                 </h2>
               </div>
               <div className="flex flex-col gap-6  lg:px-[100px]">
+              {
+                loading && (
+                  <div className="flex justify-center items-center">
+                    <Image src={loadingIllustration} alt="loading" width={100} height={100} />
+                  </div>
+                )
+              }
+              {
+                error && (
+                  <div className="flex justify-center items-center">
+                    <p className="text-red-500">{error}</p>
+                  </div>
+                )
+              }
+              {
+                data.length === 0 && (
+                  <div className="flex justify-center items-center">
+                    <p className="text-red-500">No wishlist yet</p>
+                  </div>
+                )
+              }
+              
                 {data.map(({ id, product }) => (
                   <WishlistProductCard key={id} product={product} />
                 ))}

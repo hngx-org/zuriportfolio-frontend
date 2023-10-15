@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState, useRef, useContext } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { useAuth } from '../../context/AuthContext';
-import { verfiy2FA, resend2FACode } from "../../http/auth"
+import { verfiy2FA, resend2FACode } from '../../http/auth';
 import Router, { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
 
@@ -17,7 +17,7 @@ function Code2FALogic() {
   const mutateFn = useAuthMutation(verfiy2FA, {
     onSuccess: (data: any) => {
       if (data?.data?.status && data?.data?.status == '200') {
-            notify({
+        notify({
           message: data?.data?.message,
           type: 'success',
         });
@@ -36,7 +36,7 @@ function Code2FALogic() {
   const mutateRe = useAuthMutation(resend2FACode, {
     onSuccess: (data: any) => {
       if (data?.data?.status && data?.data?.status == '200') {
-            notify({
+        notify({
           message: data?.data?.message,
           type: 'success',
         });
@@ -135,7 +135,17 @@ function Code2FALogic() {
     }, 700);
   };
 
-  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend, loading, auth };
+  return {
+    digits,
+    inputRefs,
+    handlePaste,
+    handleKeyDown,
+    handleDigitChange,
+    handleSubmit,
+    handleResend,
+    loading,
+    auth,
+  };
 }
 
 export default Code2FALogic;
