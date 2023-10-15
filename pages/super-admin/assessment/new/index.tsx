@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@ui/Button';
-import MainLayout from '../../../components/Layout/MainLayout';
+import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Edithead from '@modules/assessment/component/edittitleHead';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import Modal from '@modules/assessment/modals/Loadingpopup';
 import { FaSpinner } from 'react-icons/fa';
+import Assessmentresponses from '@modules/assessment/component/Assessmentresponses';
+import AssessmentResponse from '../response';
 
 const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
@@ -20,6 +22,18 @@ const CreateAssessment = () => {
   const handleClick = (button: string) => {
     setActive(button);
   };
+  const [assessment, setAssessment] = useState({
+    title: '',
+    createdAt: new Date(), // Initialize with a default date or null if needed
+    duration_minutes: 0,
+    questions: [{ 
+      answers: [{}], 
+      question_no: 1, 
+      question_text: "question", 
+      question_type: "multiple_choice"
+    }],
+    updatedAt: new Date() // Similarly for updatedAt
+  });
 
   const [ass, setAss] = useState(true);
   const handleInput = (value: string) => {
@@ -27,6 +41,7 @@ const CreateAssessment = () => {
   };
   // Merge headInput with other requestValues
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const mergedValues = {
     ...requestValues,
     headInput: headInput,
@@ -51,6 +66,7 @@ const CreateAssessment = () => {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
+        Authorization: `Token ${localStorage.getItem('zpt')}`,
       },
       body: JSON.stringify({
         skill_id: 2,
@@ -106,8 +122,11 @@ const CreateAssessment = () => {
     const reqOptions = {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
+        Authorization: `Token ${localStorage.getItem('zpt')}`,
         'Content-Type': 'application/json',
         'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
+        
       },
       body: JSON.stringify({
         skill_id: 2,
@@ -132,13 +151,15 @@ const CreateAssessment = () => {
       console.log('Error' + postEnd.status);
       // setModalOpen(false);
       setErr(`Failed: Error${postEnd.status}`);
+      
       setTimeout(() => {
         setModalOpen(false);
       }, 4000);
     }
     const response = await postEnd.json();
     if (postEnd.ok) {
-      setErr(`Saved Created!`);
+      setErr(`Draft saved!`);
+      
     }
     console.log(response);
     setTimeout(() => {
@@ -216,7 +237,7 @@ const CreateAssessment = () => {
           <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0] ">
             {active === 'button1' ? (
               <>
-                <Edithead onInputChange={handleInput} />
+                <Edithead assessment={assessment} onInputChange={handleInput} />
                 <div className="pt-4 ">
                   <CreateTemplate
                     dataValues={(dataContent) => {

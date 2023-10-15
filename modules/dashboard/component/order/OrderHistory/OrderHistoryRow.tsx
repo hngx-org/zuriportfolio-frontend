@@ -6,7 +6,10 @@ const manropeMD = Manrope({
   weight: ['500'],
   subsets: ['latin'],
 });
-
+const formatNum = (num: number) => {
+  const formatter = new Intl.NumberFormat();
+  return formatter.format(num);
+};
 const CancelledTab: React.FC = () => {
   return (
     <div
@@ -72,7 +75,7 @@ const OrderHistoryRow = (props: OrderHistory) => {
   return (
     <tr className="font-manropeL border border-custom-color1 font-normal text-custom-color2 [&>*]:px-6  [&>*]:py-4">
       <td className={`text-custom-color10 ${manropeMD.className} text-center`}>#{props.id}</td>
-      <td>{props.productName}</td>
+      <td>#{props.revenue}</td>
       <td className={`text-custom-color10 ${manropeMD.className}`}>{props.customerName}</td>
       <td>{formatDate()}</td>
       <td>
@@ -101,9 +104,10 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
       }}
     >
       <div className="flex flex-col">
-        <h2 className=" text-[14px] font-semibold mb-2 text-custom-color11  tracking-[0.014px] leading-[144%]">
-          {props.productName}
-        </h2>
+        <p className="text-custom-color2 font-normal text-[14px] leading-[142.857%] tracking-[0.014px]">
+          {' '}
+          Revenue: #{formatNum(props.revenue)}
+        </p>
         <p className="text-[12px] mb-3  text-dark-110">{props.customerName}</p>
         <p className="text-custom-color22 font-semibold">
           Order ID: <span className="text-dark-110 font-manropeL font-normal">#{props.id}</span>

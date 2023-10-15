@@ -10,8 +10,8 @@ const tableHeaders: {
     title: 'Order iD',
   },
   {
-    id: 'productName',
-    title: 'Product Name',
+    id: 'revenue',
+    title: 'Total Revenue',
   },
   {
     id: 'customerName',

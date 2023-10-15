@@ -34,36 +34,42 @@ const DraftPage = () => {
     const fetchDrafts = async () => {
       try {
         setLoading(true);
+        toast.loading('Loading...'); // Show loading notification
+  
         const response = await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/drafts/', {
           method: 'GET',
           headers: {
             Accept: 'application/json',
-            // 'Authorization': `Token ${user?.token}`,
           },
         });
-
+  
         const data = await response.json();
         if (!response.ok) {
           toast.error(data.detail);
           return;
         }
-
+  
         console.log(data);
         setLoading(false);
-        setDraftList(data); // Assuming the response is an array of drafts
+        toast.dismiss(); // Dismiss the loading notification
+        setDraftList(data);
       } catch (error) {
         console.error('Error fetching drafts:', error);
         setLoading(false);
+        toast.error('Error fetching drafts');
       }
     };
-
+  
     fetchDrafts();
   }, []);
+  
 
+  
   // Handle renaming of draft name
   const handleRename = async (id: number, newTitle: string) => {
     try {
       setLoading(true);
+      toast.loading('Loading...'); // Show loading notification
       const response = await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`, {
         method: 'PUT',
         headers: {
@@ -78,6 +84,7 @@ const DraftPage = () => {
       });
 
       const data = await response.json();
+      toast.dismiss(); 
       if (!response.ok) {
         toast.error(data.detail);
         return;
@@ -98,6 +105,7 @@ const DraftPage = () => {
   const handleDelete = async (id: number) => {
     try {
       setLoading(true);
+      
       const response = await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`, {
         method: 'DELETE',
         headers: {
@@ -109,6 +117,7 @@ const DraftPage = () => {
       });
 
       const data = await response.json();
+      toast.dismiss(); 
       if (!response.ok) {
         toast.error(data.detail);
         return;
@@ -126,10 +135,12 @@ const DraftPage = () => {
   };
   return (
     <div className="mx-auto py-4 px-8 md:px-24 sm:py-11 lg:px-12 xl:px-[105px] 2xl:w-[1440px] mb-10">
-      <Link href="/assessment" className="flex gap-1 items-center mb-16 cursor-pointer w-52">
+      <span    onClick={() => {
+            window.history.back();
+          }} className="flex gap-1 items-center mb-16 cursor-pointer w-52">
         <Image src="/assets/arrow-left.svg" alt="arrow left icon" width={20} height={20} />
         <span>Go back</span>
-      </Link>
+      </span>
       {/* <div className="flex justify-center gap-6 flex-wrap"> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 gap-6">
         {draftList.map((item) => (

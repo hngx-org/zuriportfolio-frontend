@@ -10,8 +10,6 @@ const OrderDetailsRow = (props: OrderHistory) => {
       <td className="hidden lg:table-cell">{props.productName}</td>
       <td className={`text-custom-color10 font-manropeB`}>{props.productType}</td>
       <td>#{formatNum(props.price)}</td>
-      <td className="text-center">{props.sales}</td>
-      <td>#{formatNum(props.revenue)}</td>
     </tr>
   );
 };
@@ -36,14 +34,6 @@ export const OrderDetailsMobile = (props: OrderHistory) => {
       <div className="flex flex-col justify-center items-end gap-2 whitespace-nowrap">
         <p className="text-custom-color11 leading-[166.667%] text-[12px] tracking-[0.06px]">
           #{formatNum(props.price)} units
-        </p>
-        <p className="text-custom-color2 font-normal text-[14px] leading-[142.857%] tracking-[0.014px]">
-          {' '}
-          No. of sales: {props.sales}
-        </p>
-        <p className="text-custom-color2 font-normal text-[14px] leading-[142.857%] tracking-[0.014px]">
-          {' '}
-          Revenue: #{formatNum(props.revenue)}
         </p>
       </div>
     </div>

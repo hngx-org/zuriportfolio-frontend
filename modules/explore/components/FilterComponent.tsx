@@ -2,7 +2,7 @@ import { ArrowDown2 } from 'iconsax-react';
 import React, { useState } from 'react';
 import CustomDropdown from './CustomDropdown';
 import Button from '@ui/Button';
-
+import Loader from '@ui/Loader';
 interface Option {
   label?: string;
   value?: string;
@@ -21,63 +21,65 @@ interface Option {
 }
 
 const FilterComponent = (prop: Option) => {
-  //   const [selectedOption, setSelectedOption] = useState('');
-  const [selectedOption, setSelectedOption] = useState<string>('');
-  const [selectedOption2, setSelectedOption2] = useState<string>('');
-  const [selectedOption3, setSelectedOption3] = useState<string>('');
-  const [selectedOption4, setSelectedOption4] = useState<string>('');
-  const [selectedOption5, setSelectedOption5] = useState<string>('');
-  const [selectedOption6, setSelectedOption6] = useState<string>('');
+  const [selectedOptions, setSelectedOptions] = useState({
+    Location: '',
+    Skill: '',
+    Track: '',
+    Ranking: '',
+    Tag: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const applyFilters = () => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      handleFilters('Location', selectedOptions.Location);
+      handleFilters('Skill', selectedOptions.Skill);
+      handleFilters('Track', selectedOptions.Track);
+      handleFilters('Ranking', selectedOptions.Ranking);
+      handleFilters('Tag', selectedOptions.Tag);
+
+      setIsLoading(false);
+    }, 2000);
+  };
 
   const { filters, handleFilters, closeFilterComponent } = prop;
 
-  const handleCustomDropdownChange = (option: string) => {
-    setSelectedOption(option);
-    if (option !== 'location') {
-      return handleFilters('Location', option);
-    }
-
-    delete filters.Location;
+  const handleCustomDropdownChange = (option: string, fieldName: string) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      [fieldName]: option,
+    });
   };
-  const handleCustomDropdownChange2 = (option: string) => {
-    setSelectedOption2(option);
-    if (option !== 'Skill') {
-      return handleFilters('Skill', option);
-    }
 
-    delete filters.Skill;
-  };
-  const handleCustomDropdownChange3 = (option: string) => {
-    setSelectedOption3(option);
-    if (option !== 'Track') {
-      return handleFilters('Track', option);
-    }
+  // const applyFilters = () => {
+  //   // Apply the selected filters
+  //   setTimeout(() => {
+  //     handleFilters('Location', selectedOptions.Location);
+  //     handleFilters('Skill', selectedOptions.Skill);
+  //     handleFilters('Track', selectedOptions.Track);
+  //     handleFilters('Ranking', selectedOptions.Ranking);
+  //     handleFilters('Tag', selectedOptions.Tag);
+  //     setIsLoading(false);
+  //   }, 1000);
+  // };
 
-    delete filters.Track;
-  };
-  const handleCustomDropdownChange4 = (option: string) => {
-    setSelectedOption4(option);
-    if (option !== 'Track') {
-      return handleFilters('Track', option);
-    }
+  const clearAllOptions = () => {
+    setSelectedOptions({
+      Location: '',
+      Skill: '',
+      Track: '',
+      Ranking: '',
+      Tag: '',
+    });
 
-    delete filters.Track;
-  };
-  const handleCustomDropdownChange5 = (option: string) => {
-    setSelectedOption5(option);
-    if (option !== 'Tag') {
-      return handleFilters('Tag', option);
-    }
-
-    delete filters.Tag;
-  };
-  const handleCustomDropdownChange6 = (option: string) => {
-    setSelectedOption6(option);
-    if (option !== 'Ranking') {
-      return handleFilters('Ranking', option);
-    }
-
-    delete filters.Ranking;
+    // Also, clear the corresponding filter options in the state if needed
+    handleFilters('Location', '');
+    handleFilters('Skill', '');
+    handleFilters('Track', '');
+    handleFilters('Ranking', '');
+    handleFilters('Tag', '');
   };
 
   return (
@@ -85,12 +87,14 @@ const FilterComponent = (prop: Option) => {
       <div className="max-w-[1280px] mt-8">
         <div className="w-full flex justify-between items-center">
           <div className="btn flex gap-3">
-            <Button className="px-4">Apply Filter</Button>
-            <Button onClick={() => closeFilterComponent('clear')} className="px-6" intent={'secondary'}>
+            <Button onClick={applyFilters} className="px-4">
+              Apply Filter
+            </Button>
+            <Button onClick={clearAllOptions} className="px-6" intent={'secondary'}>
               Clear
             </Button>
           </div>
-
+          {/* {isLoading && <Loader />} */}
           <div className=" cursor-pointer" onClick={() => closeFilterComponent('close')}>
             <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" fill="none" viewBox="0 0 33 32">
               <path
@@ -106,39 +110,33 @@ const FilterComponent = (prop: Option) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-[1280px] mx-auto  lg:mb-0 mb-6 mt-5 lg:grid-cols-6 sm:grid-cols-2 md:mx-auto lg:flex lg:justify-between ">
           <CustomDropdown
             options={['Ibadan', 'Lagos', 'Abuja', 'Portharcourt', 'Abeokuta', 'Kaduna']}
-            selectedValue={selectedOption}
+            selectedValue={selectedOptions.Location}
             placeholder="Location"
-            onChange={handleCustomDropdownChange}
+            onChange={(option) => handleCustomDropdownChange(option, 'Location')}
           />
           <CustomDropdown
             options={['C++', 'Javascript', 'Vue', 'React', 'Angular', 'Python']}
-            selectedValue={selectedOption2}
+            selectedValue={selectedOptions.Skill}
             placeholder="Skill"
-            onChange={handleCustomDropdownChange2}
+            onChange={(option) => handleCustomDropdownChange(option, 'Skill')}
           />
           <CustomDropdown
             options={['Frontend', 'Design', 'Backend', 'Video Marketing']}
-            selectedValue={selectedOption3}
+            selectedValue={selectedOptions.Track}
             placeholder="Track"
-            onChange={handleCustomDropdownChange3}
-          />
-          <CustomDropdown
-            options={['Intern', 'Junior', 'Associate', 'Mid-Senior', 'Senior']}
-            selectedValue={selectedOption4}
-            placeholder="Level"
-            onChange={handleCustomDropdownChange4}
-          />
-          <CustomDropdown
-            options={['E-Commerce', 'Proptech', 'Entertainment', 'Health', 'Fintech', 'Edtech']}
-            selectedValue={selectedOption5}
-            placeholder="Tag"
-            onChange={handleCustomDropdownChange5}
+            onChange={(option) => handleCustomDropdownChange(option, 'Track')}
           />
           <CustomDropdown
             options={['Beginner', 'Intermediate', 'Expert']}
-            selectedValue={selectedOption6}
+            selectedValue={selectedOptions.Ranking}
             placeholder="Ranking"
-            onChange={handleCustomDropdownChange6}
+            onChange={(option) => handleCustomDropdownChange(option, 'Ranking')}
+          />
+          <CustomDropdown
+            options={['E-Commerce', 'Proptech', 'Entertainment', 'Health', 'Fintech', 'Edtech']}
+            selectedValue={selectedOptions.Tag}
+            placeholder="Tag"
+            onChange={(option) => handleCustomDropdownChange(option, 'Tag')}
           />
         </div>
       </div>

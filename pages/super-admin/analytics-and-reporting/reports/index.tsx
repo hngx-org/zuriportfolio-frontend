@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import Modal from '@ui/Modal';
 import { DateObject } from 'react-multi-date-picker';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const AnalyticsAndReport: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(true);
@@ -100,6 +101,8 @@ const AnalyticsAndReport: React.FC = () => {
           setGetReport(false);
           console.error('Error exporting report:', error);
         });
+    } else {
+      toast.warning('Kindly select a date range!');
     }
   };
 
@@ -236,6 +239,7 @@ const AnalyticsAndReport: React.FC = () => {
           <PortfolioCreation dateRange={selectedDateRange} reportClicked={reportClicked} />
           <PerformanceData dateRange={selectedDateRange} reportClicked={reportClicked} />
           <TopSellingProducts reportClicked={reportClicked} dateRange={selectedDateRange} />
+          <ToastContainer />
         </>
       )}
     </>

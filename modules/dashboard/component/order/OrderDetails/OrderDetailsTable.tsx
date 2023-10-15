@@ -21,14 +21,6 @@ const tableHeaders: {
     id: 'price',
     title: 'Price/unit',
   },
-  {
-    id: 'sales',
-    title: 'No. of sales',
-  },
-  {
-    id: 'revenue',
-    title: 'Total Revenue',
-  },
 ];
 
 const OrderDetailsTable: React.FC<{

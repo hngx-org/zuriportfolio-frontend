@@ -7,6 +7,8 @@ const fetchErrorToast = (data: string) => notify({ type: 'error', message: `Erro
 const userID = '3e9a1d54-826a-4d0b-8a48-a4e92f857fd5';
 const baseURL = `https://demerzel-badges-production.up.railway.app/api`;
 
+const assessmentBaseUrl = `http://104.248.143.148/api`;
+
 // const TaskeAssessmentURL = 'http://104.248.143.148/api'
 const fetchToken = 'l3h5.34jb3%2C4mh346gv%2C34h63vk3j4h5k43hjg54kjhkg4j6h45g6kjh45gk6jh6k6g34hj6';
 
@@ -26,6 +28,41 @@ export const fetchAssessmentHistory = async () => {
     fetchErrorToast('Assessment History');
     console.error('Error Assessment History:', error);
     throw error;
+  }
+};
+
+// export const getAssessmentDetails = async (id: string, token: string) => {
+//   try {
+//   //   const id = getAllAssessments(token).then((response) => {
+//   //     response.assessments.map((item: any) => {
+//   //       return item.skill_id
+//   //     })
+//   //   })
+//     const response = await $http.get(
+//       `${assessmentBaseUrl}/assessments/${id}`,
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`
+//         }
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+export const getAllAssessments = async (token: string) => {
+  try {
+    const response = await $http.get(`${assessmentBaseUrl}/assessments`, {
+      headers: {
+        token: token,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    fetchErrorToast('All Assessment Error');
+    console.log(error);
   }
 };
 
