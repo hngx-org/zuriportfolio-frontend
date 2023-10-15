@@ -16,7 +16,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
   const [educations, setEducations] = useState<Education[]>([]);
   const [degreeOptions, setDegreeOptions] = useState<DegreeOption[]>([]);
   const [degree, setDegree] = useState('');
-  // const [educationDetails, setEducationDetails] = useState<EducationDetail[]>([]);
   const [fieldOfStudy, setFieldOfStudy] = useState('');
   const [description, setDescription] = useState('');
   const [school, setSchool] = useState('');
@@ -26,8 +25,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
   const [editedEducation, setEditedEducation] = useState<Education | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [educationId, setEducationId] = useState(0);
-  const [startYear, setStartYear] = useState('');
-  const [endYear, setEndYear] = useState('');
 
   useEffect(() => {
     fetch('https://hng6-r5y3.onrender.com/api/degree')
@@ -56,28 +53,18 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
   useEffect(() => {
     getAllEducationDetail();
   }, []);
-  // useEffect(() => {
-  //   console.log(educationDetails)
-  //   fetch('https://hng6-r5y3.onrender.com/api/educationDetail/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90')
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setEducationDetails(data.data);
-  //     });
-  // }, []);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
     const educationObj = {
-      // sectionId: 22,
+      sectionId: 22,
       degreeId: 1,
       fieldOfStudy: fieldOfStudy,
       school: school,
       description: description,
-      from,
-      to,
+      from: from,
+      to: to,
     };
     if (editMode) {
       console.log(editMode);
@@ -135,7 +122,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
       // setIsForm(true);
       setEditMode(true);
       setEducationId(editedEducation.id);
-      // setEditedEducation(editedEducation);
     }
     if (editedEducation) {
       console.log('yes', editMode);
@@ -144,19 +130,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
   };
 
   const handleSaveEdit = async (id: number) => {
-    // const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
-    // const editEducationObj = {
-    //   sectionId: 22,
-    //   id:
-    //   degreeId: selectedDegreeOption,
-    //   fieldOfStudy: fieldOfStudy,
-    //   school: school,
-    //   description: description,
-    //   from: dateFrom,
-    //   to: dateTo,
-    // };
     try {
-      // console.log(`Editing education entry with degree`);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/educationDetail/${id}`, {
         method: 'PATCH',
         headers: {
@@ -173,20 +147,15 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     } catch (error) {
       console.error('Error updating education details:', error);
     }
-
-    // setEditMode(false);
-    // setEditedEducation(null);
   };
 
   const handleDelete = async (id: number) => {
     try {
-      // console.log(`Deleting education entry with degreeId`);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/education/${id}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        // console.log('Education details deleted successfully.');
         setEducations((prevEducation) => prevEducation.filter((education) => education.id !== id));
       } else {
         console.error('Failed to delete education details.');
@@ -210,7 +179,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
           <div className="">
             <div className="">
               {educations.map((education, index) => {
-                // console.log(educations);
                 return (
                   <article
                     className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0 rounded-md shadow-md bg-white mb-4`}
@@ -268,7 +236,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                       }}
                       value={degree}
                     >
-                      <SelectTrigger className="w-full focus:outline-none border focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-120">
+                      <SelectTrigger className="w-full focus:outline-none focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-120">
                         <SelectValue placeholder="Select a degree" />
                       </SelectTrigger>
                       <SelectContent>
@@ -290,7 +258,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     </label>
                     <Input
                       type="text"
-                      intent={'default'}
                       placeHolder="Enter field of study"
                       value={fieldOfStudy}
                       onChange={(e) => setFieldOfStudy(e.target.value)}
@@ -303,7 +270,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     </label>
                     <Input
                       type="text"
-                      intent={'default'}
                       placeHolder="Enter name of school"
                       value={school}
                       onChange={(e) => setSchool(e.target.value)}
@@ -316,7 +282,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     </label>
                     <Input
                       type="text"
-                      intent={'default'}
                       placeHolder="Add more details"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
@@ -324,7 +289,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     />
                   </div>
                   <div className="w-full">
-                    <span className="flex justify-between pr-10">
+                    <span className="flex">
                       <label>From*</label>
                       <label>To*</label>{' '}
                     </span>
@@ -333,7 +298,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                       <>
                         <Select
                           onValueChange={(value: string) => {
-                            setStartYear(value);
+                            setFrom(value);
                           }}
                           value={from}
                         >
@@ -354,7 +319,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                       <>
                         <Select
                           onValueChange={(value: string) => {
-                            setEndYear(value);
+                            setTo(value);
                           }}
                           value={to}
                         >
@@ -375,21 +340,10 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     </div>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end mt-12">
-                    <Button
-                      type="button"
-                      onClick={onClose}
-                      intent={'secondary'}
-                      className="w-full rounded-md sm:w-[6rem]"
-                      size={'lg'}
-                    >
+                    <Button type="button" onClick={onClose} className="w-full rounded-md sm:w-[6rem]">
                       Cancel
                     </Button>
-                    <Button
-                      type="submit"
-                      className="w-full rounded-md sm:w-[6rem]"
-                      size={'lg'}
-                      // onClick={() => handleSaveEdit(educations)}
-                    >
+                    <Button type="submit" className="w-full rounded-md sm:w-[6rem]">
                       Save
                     </Button>
                   </div>
@@ -407,21 +361,10 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                   <Add size="16" color="#009254" /> Add new Education
                 </button>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Button
-                    type="button"
-                    onClick={onClose}
-                    intent={'secondary'}
-                    className="w-full rounded-md sm:w-[6rem]"
-                    size={'lg'}
-                  >
+                  <Button type="button" onClick={onClose} className="w-full rounded-md sm:w-[6rem]">
                     Cancel
                   </Button>
-                  <Button
-                    type="submit"
-                    className="w-full rounded-md sm:w-[6rem]"
-                    size={'lg'}
-                    // onClick={() => handleSaveEdit(education.id)}
-                  >
+                  <Button type="submit" className="w-full rounded-md sm:w-[6rem]">
                     Save
                   </Button>
                 </div>
