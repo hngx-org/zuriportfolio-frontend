@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+
+export const ADMIN_ID = 3;
 function GoogleRedirect() {
   const router = useRouter();
   useEffect(() => {
@@ -9,6 +11,7 @@ function GoogleRedirect() {
     const url = `/google/redirect?${query}`;
     const Oauth = async () => {
       const $http = axios.create({
+        // https://staging.zuri.team/auth/google-redirect
         baseURL: 'https://staging.zuri.team/api/auth/api/auth',
         timeout: 30000,
         headers: {
@@ -19,12 +22,26 @@ function GoogleRedirect() {
       });
       try {
         const { data } = await $http.get(url);
-        console.log(data);
-        const token = data.token;
+        const token = data.data.token;
         localStorage.setItem('zpt', token);
+        // Checking if user enabled 2fa
+        if (data.data.user.twoFactorAuth) {
+          const email = data?.data?.user?.email;
+
+          // uncomment if the 2fa message is not being sent automatically
+          // send2FaCode.mutate({ email });
+          router.push('/auth/2fa');
+          return;
+        }
+
+        // redirecting the user  to admin dashbord if they are an admin
+        if (data.data.user.roleId === ADMIN_ID) {
+          router.push('/super-admin/product-listing');
+          return;
+        }
         router.push('/dashboard');
       } catch (e: any) {
-        router.push('/auth/signup');
+        // router.push('/auth/signup');
         // throw new Error(e)
       }
     };
