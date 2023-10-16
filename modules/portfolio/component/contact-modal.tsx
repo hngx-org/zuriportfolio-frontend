@@ -21,6 +21,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
   const [socials, setSocials] = useState<any[]>([]);
   const [socialmediaid, setSocialMediaId] = useState('');
   const [isForm, setIsForm] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleAddNewSocial = () => {
     setSocials((prevValues) => [
@@ -75,7 +76,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setLoading(true);
     // const contactObj = {
     //   url: "link.com",
     //   social_media_id: 11,
@@ -93,7 +94,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
 
     sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
       .then((res) => {
-        console.log(res, 'response from contact');
+        setLoading(false);
         notify({
           message: 'Contact created successfully',
           position: 'top-center',
@@ -103,7 +104,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
         onClose();
       })
       .catch((err) => {
-        console.log(err, 'error from contact');
+        setLoading(false);
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -227,8 +228,9 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
                 Cancel
               </Button>
               <Button
+                disabled={loading}
                 type="submit"
-                className="w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]"
+                className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]`}
                 size={'sm'}
                 onClick={handleSubmit}
               >

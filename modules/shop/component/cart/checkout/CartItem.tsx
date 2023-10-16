@@ -40,14 +40,15 @@ export default function CartItem({
         <div className="flex flex-col md:w-2/4">
           <h3 className="text-2xl font-manropeEB">{productTitle}</h3>
           <p className="text-[#6c7983] lg:w-[350px] md:mt-4 leading-6 font-manropeL">{productDescription}</p>
-          
-          { productDiscount !== "0.00" ?
-          <div  className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">
-            <span className="">₦ {productDiscount}</span>
-            <span className="lg:ms-[30px] line-through text-gray-300"> ₦{productPrice}</span>
-          </div>: 
-          <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">₦ {productPrice}</p>
-          }
+
+          {productDiscount !== '0.00' ? (
+            <div className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">
+              <span className="">₦ {productDiscount}</span>
+              <span className="lg:ms-[30px] line-through text-gray-300"> ₦{productPrice}</span>
+            </div>
+          ) : (
+            <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">₦ {productPrice}</p>
+          )}
         </div>
         <div className="md:mt-3 md:ml-auto md:flex md:items-center">
           <button
@@ -55,7 +56,7 @@ export default function CartItem({
             onClick={removeItem}
             className="group relative w-[100px] h-[40px] overflow-hidden border border-[#d5dbdd] rounded-md cursor-pointer bg-white font-manropeB"
           >
-            <div className="absolute inset-0 w-[0px] bg-brand-green-hover transition-all duration-[250ms] ease-out group-hover:w-full"></div>
+            <div className="absolute inset-0 w-[0px] bg-brand-green-hover group-hover:w-full"></div>
             <div className="relative w-full flex items-center justify-center text-gray-300 group-hover:text-[#fff]">
               <BiTrash />
               <span>Remove</span>
