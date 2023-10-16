@@ -397,10 +397,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
       id: 'contact',
       modal: <ContactModal isOpen={modalStates['contact']} onClose={() => onCloseModal('contact')} userId={userId} />,
     },
-    {
-      id: 'contact',
-      modal: <ContactModal isOpen={modalStates['contact']} onClose={() => onCloseModal('contact')} userId={userId} />,
-    },
+    // {
+    //   id: 'contact',
+    //   modal: <ContactModal isOpen={modalStates['contact']} onClose={() => onCloseModal('contact')} userId={userId} />,
+    // },
   ];
 
   const contextValue = {
