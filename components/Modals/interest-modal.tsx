@@ -7,12 +7,14 @@ import add from '../../public/assets/icons/add.svg';
 import Button from '@ui/Button';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
+import { TrushSquare } from 'iconsax-react';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 
 const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -61,6 +63,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const handleSubmit = () => {
+    setLoading(true);
     if (values.length === 0) return;
     const data = {
       userId: userId,
@@ -68,8 +71,9 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
       sectionId: 323,
     };
     axios
-      .post(`${endpoint}/interests`, data)
+      .post(`${endpoint}/api/interests`, data)
       .then((res) => {
+        setLoading(false);
         notify({
           message: 'Interests created successfully',
           position: 'top-center',
@@ -80,6 +84,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
         onClose();
       })
       .catch((err) => {
+        setLoading(false);
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -88,7 +93,6 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
         });
         console.log(err);
       });
-    // console.log(values);
   };
 
   const suggestionsArray = [
@@ -122,8 +126,9 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const getAllInterests = () => {
+    const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
     axios
-      .get(`${endpoint}/api/interests/${userId}`)
+      .get(`${endpoint}/api/interests/${userID}`)
       .then((res) => {
         const interestsArray: string[] = res.data?.interestArray;
         setValues(interestsArray ? interestsArray : []);
@@ -172,8 +177,11 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             Cancel
           </Button>
           <Button
+            disabled={loading}
             onClick={handleSubmit}
-            className="border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg"
+            className={`${
+              loading ? 'opacity-50' : 'opacity-100'
+            } border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg`}
           >
             {' '}
             Save{' '}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import useDisclosure from '../../../../../hooks/useDisclosure';
-import { makePayment } from '../../../../../http';
+import { makePayment } from '../../../../../http/checkout';
 
 const PaymentInformationModal = ({
   closeModal,
@@ -12,7 +12,6 @@ const PaymentInformationModal = ({
   orderTotal: number;
   token: string;
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalOpen, setModalOpen] = useState(true);
   const [showOTP, setShowOTP] = useState(true);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -42,7 +41,7 @@ const PaymentInformationModal = ({
     return (
       <>
         <div className=" fixed  inset-0 flex items-center justify-center z-50 bg-[#00000080] bg-opacity-30">
-          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[55%] lg:w-[40%] animate-slideIn">
+          <div className="bg-white-100 p-12 rounded-lg  w-[90%] md:w-[55%] lg:w-[28%] animate-slideIn">
             <svg
               onClick={closeModal}
               className="ml-auto cursor-pointer"
@@ -64,28 +63,13 @@ const PaymentInformationModal = ({
               />
             </svg>
 
-            <h1 className="text-lg font-semibold mb-6 font-manropeB">Choose Payment Modal</h1>
-            <div className="flex justify-between items-center mb-4">
-              <label className="text-gray-600">Order Summary</label>
-              <div className="flex items-center space-x-2">
-                <span className="text-[#00894C] font-semibold">See Details</span>
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-[#00894C]"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M7.293 4.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L11.586 11H4a1 1 0 010-2h7.586l-4.293-4.293a1 1 0 010-1.414z" />
-                </svg>
-              </div>
-            </div>
+            <h1 className="text-lg font-semibold mb-6 font-manropeB">Choose Payment</h1>
 
             <div className="relative">
               <input
                 type="text"
                 className="w-full py-2 pr-10 pl-4 border  border-[#E1E3E2] rounded-lg"
-                placeholder="Order details"
+                placeholder="Order Total"
                 readOnly
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">

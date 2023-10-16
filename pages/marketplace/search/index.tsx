@@ -8,6 +8,7 @@ import styles from '../../../modules/marketplace/component/landingpage/productCa
 import { ProductResult } from '../../../@types';
 import Link from 'next/link';
 import Error from '@modules/marketplace/component/landingpageerror/ErrorPage';
+import CategoryLayout from '@modules/marketplace/component/layout/category-layout';
 
 export default function Index() {
   const [results, setResults] = useState<ProductResult[]>([]);
@@ -28,54 +29,7 @@ export default function Index() {
       {results?.length === 0 ? (
         <Error />
       ) : (
-        <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-          <div className="max-w-[1240px] mx-auto">
-            <CategoriesNav
-              navItems={[
-                {
-                  name: 'software enginering',
-                  subcategories: [],
-                },
-                {
-                  name: 'enginering',
-                  subcategories: [
-                    {
-                      name: 'software girl era',
-                    },
-                  ],
-                },
-                {
-                  name: 'computer enginering',
-                  subcategories: [
-                    {
-                      name: 'backend enginering',
-                    },
-                  ],
-                },
-                {
-                  name: 'Joshua_Shop',
-                  subcategories: [
-                    {
-                      name: 'backend enginering',
-                    },
-                    {
-                      name: 'health',
-                    },
-                    {
-                      name: 'health',
-                    },
-                    {
-                      name: 'computer enginering',
-                    },
-                  ],
-                },
-                {
-                  name: 's enginering',
-                  subcategories: [],
-                },
-              ]}
-            />
-          </div>
+        <CategoryLayout>
           <div className="px-4 py-4 sm:py-2 max-w-[1240px] mx-auto">
             <h1 className="text-custom-color31 font-manropeL mt-5 lg:pt-5 md:mb-1 font-bold md:text-2xl leading-normal flex items-center justify-between">
               Search Result for &apos;{searchquery}&apos;
@@ -98,7 +52,7 @@ export default function Index() {
                       image={item?.images[0]?.url}
                       name={item?.name}
                       price={price}
-                      user={item?.category.name}
+                      user={item?.shop ? `${item?.shop?.name}` : 'null'}
                       rating={0}
                       showLimitedOffer={false}
                       showTopPicks={false}
@@ -110,7 +64,7 @@ export default function Index() {
               })}
             </div>
           </div>
-        </MainLayout>
+        </CategoryLayout>
       )}
     </>
   );
