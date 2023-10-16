@@ -15,12 +15,14 @@ import MobileNav from '@modules/dashboard/component/MobileNav';
 import { ProductResult } from '../../@types';
 import { useAuth } from '../../context/AuthContext';
 import isAuthenticated from '../../helpers/isAuthenticated';
-import Logout from '@modules/auth/component/logout/Logout';
+import Logout, { MobileLogout } from '@modules/auth/component/logout/Logout';
 import CustomDropdown from '@modules/explore/components/CustomDropdown';
+import useUserSession from '../../hooks/Auth/useUserSession';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
   const { auth: globalAuth } = useAuth();
+  const { signIn, signUp } = useUserSession();
   const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
@@ -236,10 +238,11 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {/* Action Buttons */}
             {auth || (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
-                <Cart items={6} />
+                <Cart items={0} />
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
                     href="/auth/login"
+                    onClick={signIn}
                     className="rounded-lg py-3 px-6 border-0 bg-green-50 bg-opacity-50"
                     intent={'secondary'}
                     size={'md'}
@@ -247,7 +250,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     Sign In
                   </Button>
 
-                  <Button href="/auth/signup" className="rounded-lg px-6 py-3" intent={'primary'} size={'md'}>
+                  <Button
+                    href="/auth/signup"
+                    onClick={signUp}
+                    className="rounded-lg px-6 py-3"
+                    intent={'primary'}
+                    size={'md'}
+                  >
                     Sign Up
                   </Button>
                 </div>
@@ -347,7 +356,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       </g>
                     </svg>
                   </span>
-                  <Cart items={7} />
+                  <Cart items={0} />
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
@@ -543,6 +552,7 @@ function MenuUI({
   refMenu?: any;
 }) {
   const router = useRouter();
+  const { signIn, signUp } = useUserSession();
   const activeLink = (path: string) =>
     router.pathname === path
       ? 'text-green-950 group-hover:text-white text-base font-semibold  leading-normal tracking-tight'
@@ -628,7 +638,7 @@ function MenuUI({
               </Link>
               {router.pathname === '/settings' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
-            <Link
+            {/* <Link
               className="rounded-lg relative px-4 flex items-center justify-center gap-5 h-[48px] font-manropeB focus:shadow-brand-green-shd   border-solid text-base py-3  border-0 bg-pink-50 text-[#FF2E2E] w-[100%]"
               href="/"
             >
@@ -639,20 +649,28 @@ function MenuUI({
                 </g>
               </svg>
               Sign Out
-            </Link>
+            </Link> */}
+            <MobileLogout />
           </div>
         )}
         {!auth && (
           <>
             <Button
               href="/auth/login"
+              onClick={signIn}
               className="rounded-lg border-0 bg-green-50 bg-opacity-50  w-[100%]"
               intent={'secondary'}
               size={'md'}
             >
               Sign In
             </Button>
-            <Button href="/auth/signup" className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
+            <Button
+              href="/auth/signup"
+              onClick={signUp}
+              className="rounded-lg  w-[100%]"
+              intent={'primary'}
+              size={'md'}
+            >
               Sign Up
             </Button>
           </>
@@ -662,11 +680,11 @@ function MenuUI({
   );
 }
 
-function Cart({ items, style }: { items?: number; style?: {} }) {
+function Cart({ items, style }: { items: number; style?: {} }) {
   return (
     <Link style={style} href={'/marketplace/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
       <div className="w-6 h-6 relative">
-        {items && (
+        {items > 0 && (
           <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
             {items}
           </span>
@@ -679,11 +697,11 @@ function Cart({ items, style }: { items?: number; style?: {} }) {
   );
 }
 
-function Cart2({ items, style }: { items?: number; style?: {} }) {
+function Cart2({ items, style }: { items: number; style?: {} }) {
   return (
     <Link style={style} href={'/marketplace/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
       <div className="w-6 h-6 relative lg:hidden">
-        {items && (
+        {items > 0 && (
           <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
             {items}
           </span>
