@@ -255,7 +255,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </div>
                 </li>
                 <Link
-                  href={'/marketplace/cart'}
+                  href={'/shop'}
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
