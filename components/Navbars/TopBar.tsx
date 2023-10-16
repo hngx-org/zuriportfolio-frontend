@@ -12,12 +12,14 @@ import settingsIcon from './assets/setting-2.svg';
 import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 import MobileNav from '@modules/dashboard/component/MobileNav';
-import { ProductResult } from '../../@types';
+import { CartItemProps, ProductResult } from '../../@types';
 import { useAuth } from '../../context/AuthContext';
 import isAuthenticated from '../../helpers/isAuthenticated';
 import Logout, { MobileLogout } from '@modules/auth/component/logout/Logout';
 import CustomDropdown from '@modules/explore/components/CustomDropdown';
 import useUserSession from '../../hooks/Auth/useUserSession';
+import { getUserCart } from '../../http/checkout';
+import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -32,8 +34,29 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [authMenu, setAuthMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
+  const [cartItems, setCartItems] = useState(0);
+  // const token: any = isUserAuthenticated();
 
   const [dropDown, setDropDown] = useState<string>('Explore');
+
+  useEffect(() => {
+    async function cartFetch() {
+      let carts;
+      let token = localStorage.getItem('zpt') as string;
+
+      if (token) {
+        carts = await getUserCart(token as string);
+      } else {
+        carts = JSON.parse(localStorage.getItem('products') as string);
+        // const cart_items: CartItemProps[] = carts;
+        // console.log(cart_items)
+      }
+      setCartItems(carts?.length);
+      // setIsLoading(false);
+    }
+    cartFetch();
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, []);
 
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
@@ -236,9 +259,11 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
               </div>
             </div>
             {/* Action Buttons */}
-            {auth || (
+            {!globalAuth && (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
-                <Cart items={0} />
+                {/* <Cart items={0} /> */}
+                <Cart items={cartItems} />
+
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
                     href="/auth/login"
@@ -262,7 +287,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </div>
               </div>
             )}
-            {auth && AuthUser()}
+            {globalAuth && AuthUser()}
           </div>
           {authMenu && (
             <div
@@ -280,7 +305,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </div>
                 </li>
                 <Link
-                  href={'/marketplace/cart'}
+                  href={'/shop'}
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -356,7 +381,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       </g>
                     </svg>
                   </span>
-                  <Cart items={0} />
+                  {/* <Cart items={0} /> */}
+                  <Cart items={cartItems} />
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
@@ -466,7 +492,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </svg>
         </span>
 
-        <Cart items={7} />
+        {/* <Cart items={7} /> */}
+        <Cart items={cartItems} />
+
         <span>
           <Image draggable={false} src={notificationIcon} alt="notification icon" />
         </span>

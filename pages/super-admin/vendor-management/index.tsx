@@ -25,6 +25,7 @@ const Index = () => {
   const visibleVendors = filteredProducts?.slice(startIndex, endIndex);
 
   const handlePageChange = (newPage: number) => {
+    window.scroll(0, 10);
     setCurrentPage(newPage);
   };
 
@@ -33,8 +34,9 @@ const Index = () => {
   }, [data]);
   useEffect(() => {
     handleSearch(searchVal);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const bannedVendors = filteredProducts?.filter((vendor: any) => vendor.vendor_status === 'Banned');
+  const bannedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Banned');
   const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
@@ -119,19 +121,16 @@ const Index = () => {
             <LoadingTable />
           ) : (
             <>
-              {bannedVendors?.length > 0 || deletedVendors?.legnth > 0 || visibleVendors?.length > 0 ? (
+              {bannedVendors?.length > 0 || deletedVendors?.legnth > 0 || filteredProducts?.length > 0 ? (
                 <>
                   <div className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-5 md:grid-cols-4 grid-cols-1 text-gray-500 text-center text-sm overflow-x-auto ">
                     <div className="flex items-center">
-                      {/* <input type="checkbox" name="" id="" /> */}
                       <p className="px-2">Vendor Name</p>
-                      {/* <ArrowDown size="16" className="" /> */}
                     </div>
                     <p className="hidden md:block">Total Sales</p>
                     <p className="hidden md:block">Number of Products</p>
                     <p className="hidden md:block">Date Joined</p>
                     <p className="hidden lg:block">Status</p>
-                    {/* <p className="hidden lg:block">Action</p> */}
                   </div>
                   <div>
                     {showBanned

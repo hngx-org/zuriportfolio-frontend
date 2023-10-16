@@ -374,6 +374,7 @@ export type CartItemProps = {
   productColor?: string;
   productSeller: string;
   productPrice: number;
+  productDiscount?: string;
 };
 
 export type ViewedProductCardProps = {
@@ -527,11 +528,13 @@ export interface ProjectModalProps {
 
 export interface RatingBarProps {
   avgRating: number;
+  verUser: number;
 }
 
 export interface RatingCardProps {
   rating: number;
   users: number;
+  totalReviews: number;
 }
 
 export interface filterProps {
