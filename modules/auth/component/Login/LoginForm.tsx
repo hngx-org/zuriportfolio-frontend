@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { notify } from '@ui/Toast';
@@ -12,7 +12,6 @@ import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWi
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 import { useRouter } from 'next/router';
 import { ADMIN_ID, useAuth } from '../../../../context/AuthContext';
-import isAuthenticated from '../../../../helpers/isAuthenticated';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 
@@ -37,8 +36,6 @@ function LoginForm() {
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      console.log('responseoutside', res);
-
       if(res?.response && res?.response?.message === "TWO FACTOR AUTHENTICATION CODE SENT")
       {
         localStorage.setItem('zpt', res?.response?.token);
@@ -54,8 +51,6 @@ function LoginForm() {
       if (res.message === 'Login successful') {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
-        const value = isAuthenticated(res?.data?.token);
-        // console.log(value);
 
         // redirecting the user  to admin dashbord if they are an admin
         if (res.data.user.roleId === ADMIN_ID) {
