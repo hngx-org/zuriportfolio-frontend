@@ -37,7 +37,7 @@ interface Award {
   sectionId: number;
   year: string;
   title: string;
-  presented_by: string;
+  presentedBy: string;
   url: string;
   description: string;
 }
@@ -56,7 +56,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
     title: '',
     year: '',
     sectionId: 22,
-    presented_by: '',
+    presentedBy: '',
     url: '',
     description: '',
   });
@@ -76,7 +76,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
   };
 
   const isValid =
-    formData.year && formData.title && formData.presented_by && formData.url && formData.description && !urlError;
+    formData.year && formData.title && formData.presentedBy && formData.url && formData.description && !urlError;
 
   const openModal = async (e: React.FormEvent) => {
     // console.log('openModal function called');
@@ -86,8 +86,8 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
     if (!formData.title) {
       missingFields.push('Title');
     }
-    if (!formData.presented_by) {
-      missingFields.push('presented_by');
+    if (!formData.presentedBy) {
+      missingFields.push('Organization');
     }
     if (!formData.url) {
       missingFields.push('URL');
@@ -107,10 +107,11 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
         setUrlError('');
       }
     }
+    console.log('This is the formdata', formData);
 
     if (
       !formData.title ||
-      !formData.presented_by ||
+      !formData.presentedBy ||
       !formData.url ||
       !formData.description ||
       !formData.year ||
@@ -126,7 +127,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
         year: formData.year,
         section_id: formData.sectionId,
         title: formData.title,
-        presented_by: formData.presented_by,
+        presentedBy: formData.presentedBy,
         url: formData.url,
         description: formData.description,
       };
@@ -147,7 +148,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
           setCreateAward('Award created successfully');
           setTimeout(() => {
             setCreateAward('');
-          }, 3000);
+          }, 2000);
           setError('');
 
           setTimeout(() => {
@@ -156,7 +157,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
               sectionId: 22,
               title: '',
               year: '',
-              presented_by: '',
+              presentedBy: '',
               url: '',
               description: '',
             });
@@ -261,7 +262,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                       id="title"
                       name="title"
                       placeholder="My best yet"
-                      className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-white-650   rounded-lg border-[1px]"
+                      className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                       value={formData.title}
                       onChange={handleInputChange}
                     />
@@ -294,16 +295,16 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                 </div>
                 <div className="flex flex-col sm:flex-row w-full gap-[10px]">
                   <div className="flex  flex-col gap-[10px] flex-1">
-                    <label htmlFor="presented_by" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                    <label htmlFor="presentedBy" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                       Organization*
                     </label>
                     <Input
                       type="text"
-                      id="presented_by"
-                      name="presented_by"
+                      id="presentedBy"
+                      name="presentedBy"
                       placeholder="Google"
-                      className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-white-650  rounded-lg border-[1px]"
-                      value={formData.presented_by}
+                      className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
+                      value={formData.presentedBy}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -316,7 +317,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                       id="url"
                       name="url"
                       placeholder="Type link"
-                      className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-white-650   rounded-lg border-[1px]"
+                      className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                       value={formData.url}
                       onChange={handleInputChange}
                     />
@@ -331,12 +332,12 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                     id="description"
                     name="description"
                     placeholder=""
-                    className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-white-650   rounded-lg border-[1px]"
+                    className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                     value={formData.description}
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
                   <div>
                     <div>
                       <p className="text-green-200 text-sm">{createAward}</p>
@@ -352,14 +353,18 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                   <div className="flex gap-4  items-center">
                     <Button
                       onClick={onClose}
-                      className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover-bg-zinc-100"
+                      intent={'secondary'}
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
                     >
                       Cancel
                     </Button>{' '}
                     <Button
                       type="submit"
                       // disabled={!isValid}
-                      className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100"
+
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
                     >
                       Save
                     </Button>
@@ -395,16 +400,10 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
             </p>
           </div>
           <div className="flex gap-4 justify-start items-center">
-            <Button
-              onClick={onClose}
-              className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] active:text-white-100 focus:text-white-100  hover:bg-zinc-100 "
-            >
+            <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Cancel
             </Button>{' '}
-            <Button
-              onClick={onClose}
-              className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100"
-            >
+            <Button className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Save
             </Button>
           </div>
@@ -422,7 +421,7 @@ const AwardList: React.FC<AwardListProps> = () => {
       const response = await fetch('https://hng6-r5y3.onrender.com/api/awards');
       if (response.ok) {
         const data = await response.json();
-        console.log('Fetched awards data:', data);
+        console.log('Fetched awards data:', data.awards);
         setAwards(data.awards);
       } else {
         setError('Error fetching awards data.');
@@ -440,24 +439,27 @@ const AwardList: React.FC<AwardListProps> = () => {
     }
   }, [isModalOpen, refreshPage]);
   useEffect(() => {
-    // console.log('this is the data', awards);
+    console.log('this is the data', awards);
   }, [isModalOpen]);
 
   return (
     <div>
-      {awards.map((award, index) => (
-        <AwardItem key={award.id} award={award} />
-      ))}
+      {awards.length > 0 ? (
+        awards.map((award, index) => <AwardItem key={award.id} award={award} />)
+      ) : (
+        <p>There are no awards available.</p>
+      )}
     </div>
   );
 };
 
 const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
-  const { id, year, title, presented_by, url, description } = award;
+  const { id, year, title, presentedBy, url, description } = award;
   const [deletedMessage, setDeletedMessage] = useState('');
   const [editedMessage, setEditedMessage] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const { refreshPage, setRefreshPage } = useContext(myContext);
+  console.log('these are the awards', award);
 
   // State to store the edited data
   const [editedAward, setEditedAward] = useState(award);
@@ -528,14 +530,12 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
           <div>
             <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
           </div>
-          <div className="flex flex-col gap-2  ">
-            <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left overflow-hidden text-ellipsis whitespace-nowrap">
-              {title}
-            </h1>
-            <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{presented_by}</h2>
+          <div className="flex flex-col gap-2 w-full overflow-hidden text-ellipsis whitespace-nowrap ">
+            <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left ">{title}</h1>
+            <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{presentedBy}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]">{url}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis w-full">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>
@@ -594,14 +594,14 @@ const EditForm: React.FC<{
     return urlPattern.test(url);
   };
 
-  const isValidEdit = award.year && award.title && award.presented_by && award.url && award.description && !urlError;
+  const isValidEdit = award.year && award.title && award.presentedBy && award.url && award.description && !urlError;
   const missingFields: string[] = [];
 
   if (!award.title) {
     missingFields.push('Title');
   }
-  if (!award.presented_by) {
-    missingFields.push('presented_by');
+  if (!award.presentedBy) {
+    missingFields.push('presentedBy');
   }
   if (!award.url) {
     missingFields.push('URL');
@@ -684,7 +684,7 @@ const EditForm: React.FC<{
                 id="title"
                 name="title"
                 placeholder="My best yet"
-                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-white-650   rounded-lg border-[1px]"
+                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                 value={award.title}
                 onChange={handleInputChange}
               />
@@ -717,16 +717,16 @@ const EditForm: React.FC<{
           </div>
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-[10px] flex-1">
-              <label htmlFor="presented_by" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                presented_by*
+              <label htmlFor="presentedBy" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                presentedBy*
               </label>
               <Input
                 type="text"
-                id="presented_by"
-                name="presented_by"
+                id="presentedBy"
+                name="presentedBy"
                 placeholder="Google"
-                className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-white-650  rounded-lg border-[1px]"
-                value={award.presented_by}
+                className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
+                value={award.presentedBy}
                 onChange={handleInputChange}
               />
             </div>
@@ -739,7 +739,7 @@ const EditForm: React.FC<{
                 id="url"
                 name="url"
                 placeholder="Type link"
-                className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-white-650   rounded-lg border-[1px]"
+                className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                 value={award.url}
                 onChange={handleInputChange}
               />
@@ -754,7 +754,7 @@ const EditForm: React.FC<{
               id="description"
               name="description"
               placeholder=""
-              className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-white-650   rounded-lg border-[1px]"
+              className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
               value={award.description}
               onChange={handleInputChange}
             />
@@ -768,17 +768,10 @@ const EditForm: React.FC<{
               )}
             </div>
             <div className="flex gap-4  items-center">
-              <Button
-                onClick={onClose}
-                className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover-bg-zinc-100"
-              >
+              <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
                 Cancel
               </Button>{' '}
-              <Button
-                type="submit"
-                // disabled={!isValid}
-                className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100"
-              >
+              <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'md'}>
                 Save
               </Button>
             </div>
