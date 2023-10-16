@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import uploadorange from '../../../public/assets/images/uploadorange.png';
 import placeholder from '../../../public/assets/images/placeholder.png';
@@ -12,12 +12,53 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import withAuth from '../../../helpers/withAuth';
 import Loader from '@ui/Loader';
+import { MultipleFileUpload } from '@modules/dashboard/component/products/MultipleFileUpload';
 
 const AddProduct = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
+  const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
+  const linkRef = useRef<HTMLInputElement | null>(null);
+
+  const [selectedCurrency, setSelectedCurrency] = useState('');
+
+  const toggleNewCategoryInput = () => {
+    setShowNewCategoryInput(!showNewCategoryInput);
+  };
+
+  const handleNewCategoryChange = (event: any) => {
+    setNewCategoryName(event.target.value);
+  };
+
+  const handleCopyLink = () => {
+    if (linkRef.current) {
+      linkRef.current.select();
+      document.execCommand('copy');
+      linkRef.current.blur();
+
+      toast.success('Link copied to clipboard', {
+        position: 'top-right',
+        autoClose: 2000,
+      });
+    }
+  };
+
+  const handleAddNewCategory = () => {
+    // Implement logic to add the new category to your data here
+    // For example, you might want to update your state with the new category.
+    // Ensure proper data handling, e.g., sending a request to the server or updating state, depending on your application's structure.
+    console.log('New Category Name:', newCategoryName);
+  };
+
+  const handleCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCurrency(event.target.value);
+
+    // Blur the select element to remove focus
+    event.target.blur();
+  };
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setProducts({ ...products, categoryId: event.target.value });
   };
@@ -168,24 +209,7 @@ const AddProduct = () => {
               />
               <div className="p-3 border border-[#00000024] rounded-md mt-3">
                 <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
-                  <center>
-                    <Image
-                      src={uploadorange}
-                      alt="uploadicon"
-                      className="w-10 object-contain mb-2 cursor-pointer"
-                      onClick={handleImageUploadClick}
-                    />
-
-                    <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px] cursor-pointer">
-                      <span
-                        className="text-[12px] md:text-[16px] text-[#F1AE67] font-manropeL mr-2"
-                        onClick={handleImageUploadClick}
-                      >
-                        Click here
-                      </span>
-                      or drag and drop to upload file
-                    </span>
-                  </center>
+                  <MultipleFileUpload />
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
@@ -205,7 +229,19 @@ const AddProduct = () => {
                     inputMode="none"
                     name="description"
                   />
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
+                  <div className="flex flex-row items-center justify-between">
+                    <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
+                    <Button onClick={handleAddNewCategory} className="p-2 bg-gray-500">
+                      Add new
+                    </Button>
+                  </div>
+                  <Input
+                    className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    placeholder="Add new category"
+                    inputMode="none"
+                    name="category"
+                  />
+                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select more categories</label>
                   <select
                     className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
                     value={products.categoryId}
@@ -260,21 +296,42 @@ const AddProduct = () => {
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Price</label>
                   <Input
                     className="w-[100%] md:w-[50%] mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-                    placeholder="$ 00.00"
+                    placeholder="00.00"
                     inputMode="none"
                     name="price"
+                    size={100}
+                    rightIcon={
+                      <select
+                        className="border-solid border-[0px] p-0 h-10  border-white-400 text-dark-600 text-[14px] rounded-lg text-left pl-2 hover:border-brand-green-primary"
+                        onChange={handleCurrencyChange}
+                        name="categoryId"
+                        value={selectedCurrency}
+                      >
+                        <option value="$" style={{ width: '30px' }}>
+                          $
+                        </option>
+                        <option value="₦" style={{ width: '30px' }}>
+                          ₦
+                        </option>
+                      </select>
+                    }
                   />
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Discount Price</label>
+                  <div className="flex flex-row justify-between w-[100%] md:w-[50%] items-center">
+                    <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">
+                      Product Discount Price
+                    </label>
+                    <Input type="checkbox" className="border-hidden p-0" />
+                  </div>
                   <Input
                     className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-                    placeholder="$ 00.00"
+                    placeholder="00.00"
                     inputMode="none"
                     name="discountPrice"
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] ">Product Quantity</label>
                   <Input
                     className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-                    placeholder="$ 00.00"
+                    placeholder="00.00"
                     inputMode="none"
                     name="quantity"
                   />
@@ -304,23 +361,30 @@ const AddProduct = () => {
               <div className="flex flex-row gap-2 justify-between items-center">
                 <div>
                   <p>Product Link</p>
+                  <input
+                    ref={linkRef}
+                    type="text"
+                    value="https://zuristore/store/product_name"
+                    style={{ position: 'absolute', left: '-9999px' }}
+                    readOnly
+                  />
                   <Link className="text-[#536066] font-manropeL" href="/">
-                    https://zuristore/product_name
+                    https://zuristore/store/product_name
                   </Link>
                 </div>
-                <div>
+                <div onClick={handleCopyLink} className="cursor-pointer">
                   <Image src={copy} alt="copy" width={20} height={20} />
                 </div>
               </div>
 
               <Button
                 type="submit"
-                className={isNameAndPriceEntered ? 'w-full mt-8 bg-[#33A467]' : 'w-full mt-8 bg-[#AEAEAE]'}
+                className={isNameAndPriceEntered ? 'w-[300px] mt-8 bg-[#33A467]' : 'w-[300px] mt-8 bg-[#33A467]'}
               >
                 Upload
               </Button>
               <Link href="/dashboard/products/add-product">
-                <Button className="w-full mt-2 bg-[#AEAEAE]">Cancel</Button>
+                <Button className="w-[300px] mt-2 bg-[#AEAEAE]">Cancel</Button>
               </Link>
             </div>
           </div>
