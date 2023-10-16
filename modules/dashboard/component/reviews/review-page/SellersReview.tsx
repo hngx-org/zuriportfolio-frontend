@@ -33,7 +33,6 @@ export default function SellerReview(props: reviewProps) {
   function handleSubmit(id: string) {
     const payload = { name: 'Zuri', feedback: reply! };
     postReplyByReviewId({ id }, payload).then((res) => {
-      console.log(res);
       router.reload();
     });
   }

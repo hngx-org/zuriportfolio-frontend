@@ -75,8 +75,16 @@ function VendorDetails(): React.ReactElement {
                   >
                     <div className="md:min-w-[220px] h-[181px] mx-auto">
                       <Image
-                        loader={() => item?.product_image[0][0] || brokenImage}
-                        src={item?.product_image[0][0] || brokenImage}
+                        loader={() =>
+                          item?.product_image && item.product_image[0] && item.product_image[0][0]
+                            ? item.product_image[0][0]
+                            : brokenImage
+                        }
+                        src={
+                          item?.product_image && item.product_image[0] && item.product_image[0][0]
+                            ? item.product_image[0][0]
+                            : brokenImage
+                        }
                         alt="product"
                         width={100}
                         height={100}

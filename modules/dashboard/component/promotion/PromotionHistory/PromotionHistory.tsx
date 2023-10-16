@@ -68,7 +68,7 @@ const PromotionHistory: React.FC = () => {
               </Link>
             </div>
           </div>
-          <section className="rounded-2xl md:block relative min-h-[400px]">
+          <section className="rounded-2xl md:block relative min-h-[400px] mb-6">
             {isLoading ? (
               <div className="absolute z-50 inset-0 min-h-[300px]">
                 <Loader />
@@ -79,7 +79,7 @@ const PromotionHistory: React.FC = () => {
                   <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] md:m-[200px] flex-col items-center justify-center">
                     <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
                     <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">
-                      You don’t have any promotion running
+                      You don&apos;t have any promotion running
                     </h2>
                     <p className="text-[16px] md:text-[24px] font-medium text-center font-manropeB">
                       Create your first promotion on products
