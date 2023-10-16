@@ -18,7 +18,7 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <CancelIcon onClick={toggle} />
             </section>
             <Fragment>
-            <FilterSection tag="category" data={category} sectionTitle="Category" />
+              <FilterSection tag="category" data={category} sectionTitle="Category" />
               <FilterSection tag="subCategory" data={subCategory} sectionTitle="Sub Category" />
               <FilterSection tag="discount" data={discount} sectionTitle="By Discount" />
               <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />

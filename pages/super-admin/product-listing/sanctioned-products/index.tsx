@@ -4,29 +4,46 @@ import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperA
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import { useEffect, useState } from 'react';
 import { sanctionedProducts } from '../../../../helpers/sanctionedProducts';
-import Pagination from '../../../view-components/super-admin/pagination';
+import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { useRouter } from 'next/router';
-import { getAllProducts, useGetProd } from '../../../../http';
+import { useGetProd } from '../../../../http';
 import { DeletedProducts } from '../../../../@types';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
-  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>([]);
   const { data, isLoading } = useGetProd();
+  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>(data);
 
   const sanctionedProd = data?.data?.filter((item: any) => item?.product_status === 'Sanctioned');
 
   const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Number of items to display per page
+
+  // Calculate the range of products to display
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
   useEffect(() => {
     setFilteredProducts(sanctionedProd);
-  }, [sanctionedProd]);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [sanctionedProducts]);
+  useEffect(() => {}, [filteredProducts]);
 
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
-      (product: any) => product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()),
+      (product: any) =>
+        product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
+        product?.product_status?.toLowerCase()?.includes('sanctioned'),
     );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
@@ -38,44 +55,51 @@ const SanctionedProducts = () => {
     <>
       <SuperAdminNavbar />
 
-      <div className="m-6 font-manropeL max-w-7xl mx-auto border-2 border-custom-color1">
+      <div className=" container  font-manropeL mx-auto border-2 border-custom-color1">
         <div className="py-3 px-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
             <h2 className="text-lg font-medium text-custom-color10">Sanctioned Products</h2>
             <p className="text-custom-color2 text-sm">List of all sanctioned products and their details</p>
           </div>
           <div>
-          <SearchProduct handleSearchChange={handleSearch} />
+            <SearchProduct handleSearchChange={handleSearch} />
           </div>
         </div>
         {isLoading ? (
           <LoadingTable />
         ) : (
           <div className="mb-4">
-            {filteredProducts?.length > 0 ? (
+            {visibleProducts?.length > 0 ? (
               <>
-                <table className="w-full ">
+                <table className="w-full md:table-fixed">
                   <thead>
                     <tr>
                       <th className="text-gray-500 text-sm font-normal leading-[18px] px-6 py-6 gap-3 text-left flex items-center">
                         <p className="">Product Name</p>
                         <ArrowDown size="16" className="" />
                       </th>
-                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item) => (
-                        <th className="text-gray-500 text-sm font-normal leading-[18px] px-3 py-6 gap-3" key={item}>
+                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item, index) => (
+                        <th
+                          className={`text-gray-500 ${
+                            index === 0 ? 'table-cell' : 'hidden md:table-cell'
+                          } text-sm font-normal leading-[18px] px-3 py-6 gap-3`}
+                          key={item}
+                        >
                           {item}
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredProducts?.map((product: any) => (
+                    {visibleProducts?.map((product: any) => (
                       <tr
                         className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                         key={product?.product_id}
-                        onClick={() => route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)}
+                        onClick={() =>
+                          route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)
+                        }
                       >
-                        <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
+                        <td className="max-w-[10vw] md:full tracking-wide font-manropeL text-base text-gray-900 px-6 py-6">
                           <p>{product?.product_name} </p>
                         </td>
                         <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
@@ -116,7 +140,11 @@ const SanctionedProducts = () => {
                     ))}
                   </tbody>
                 </table>
-                <Pagination />
+                <SuperAdminPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               </>
             ) : (
               <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

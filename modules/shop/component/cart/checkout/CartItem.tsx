@@ -1,11 +1,9 @@
 'use client';
-import Button from '@ui/Button';
 import { CartItemProps } from '../../../../../@types';
 import Image from 'next/image';
 import { useState } from 'react';
 import RemoveCart from '../../../../../components/Modals/Removecart';
-import { BiTrash } from 'react-icons/bi';
-import { removeFromCart } from '../../../../../http';
+import { BiTrash, BiCartAdd } from 'react-icons/bi';
 
 export default function CartItem({
   id,
@@ -16,13 +14,13 @@ export default function CartItem({
   productColor,
   productSeller,
   productDescription,
+  productDiscount,
   productPrice,
   removeHandler,
 }: CartItemProps & { removeHandler: (productId: string) => void }) {
   const [modalClosed, setModalClosed] = useState('hidden');
 
   const removeItem = () => {
-    // removeFromCart()
     setModalClosed('block');
   };
 
@@ -42,7 +40,14 @@ export default function CartItem({
         <div className="flex flex-col md:w-2/4">
           <h3 className="text-2xl font-manropeEB">{productTitle}</h3>
           <p className="text-[#6c7983] lg:w-[350px] md:mt-4 leading-6 font-manropeL">{productDescription}</p>
-          <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">${productPrice}</p>
+          
+          { productDiscount !== "0.00" ?
+          <div  className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">
+            <span className="">₦ {productDiscount}</span>
+            <span className="lg:ms-[30px] line-through text-gray-300"> ₦{productPrice}</span>
+          </div>: 
+          <p className="mt-4 text-xl md:mt-auto font-bold font-manropeEB">₦ {productPrice}</p>
+          }
         </div>
         <div className="md:mt-3 md:ml-auto md:flex md:items-center">
           <button

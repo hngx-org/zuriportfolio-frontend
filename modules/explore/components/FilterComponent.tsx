@@ -1,73 +1,144 @@
 import { ArrowDown2 } from 'iconsax-react';
 import React, { useState } from 'react';
 import CustomDropdown from './CustomDropdown';
-
+import Button from '@ui/Button';
+import Loader from '@ui/Loader';
 interface Option {
-  label: string;
-  value: string;
+  label?: string;
+  value?: string;
+  filters: {
+    SortBy?: number;
+    Location?: string;
+    Skill?: string;
+    Track?: string;
+    Ranking?: string;
+    Tag?: string;
+    Provider?: string;
+  };
+  handleFilters: (type: string, value: string | number) => void;
+  showFilterComponent: boolean;
+  closeFilterComponent: (option?: 'close' | 'clear') => void;
 }
 
-const FilterComponent: React.FC = () => {
-  //   const [selectedOption, setSelectedOption] = useState('');
-  const [selectedOption, setSelectedOption] = useState<string>('');
-  const [selectedOption2, setSelectedOption2] = useState<string>('');
-  const [selectedOption3, setSelectedOption3] = useState<string>('');
-  const [selectedOption4, setSelectedOption4] = useState<string>('');
-  const [selectedOption5, setSelectedOption5] = useState<string>('');
-  const [selectedOption6, setSelectedOption6] = useState<string>('');
+const FilterComponent = (prop: Option) => {
+  const [selectedOptions, setSelectedOptions] = useState({
+    Location: '',
+    Skill: '',
+    Track: '',
+    Ranking: '',
+    Tag: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCustomDropdownChange = (option: string) => {
-    setSelectedOption(option);
+  const applyFilters = () => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      handleFilters('Location', selectedOptions.Location);
+      handleFilters('Skill', selectedOptions.Skill);
+      handleFilters('Track', selectedOptions.Track);
+      handleFilters('Ranking', selectedOptions.Ranking);
+      handleFilters('Tag', selectedOptions.Tag);
+
+      setIsLoading(false);
+    }, 2000);
   };
-  const handleCustomDropdownChange2 = (option: string) => {
-    setSelectedOption2(option);
+
+  const { filters, handleFilters, closeFilterComponent } = prop;
+
+  const handleCustomDropdownChange = (option: string, fieldName: string) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      [fieldName]: option,
+    });
   };
-  const handleCustomDropdownChange3 = (option: string) => {
-    setSelectedOption3(option);
-  };
-  const handleCustomDropdownChange4 = (option: string) => {
-    setSelectedOption4(option);
-  };
-  const handleCustomDropdownChange5 = (option: string) => {
-    setSelectedOption5(option);
-  };
-  const handleCustomDropdownChange6 = (option: string) => {
-    setSelectedOption6(option);
+
+  // const applyFilters = () => {
+  //   // Apply the selected filters
+  //   setTimeout(() => {
+  //     handleFilters('Location', selectedOptions.Location);
+  //     handleFilters('Skill', selectedOptions.Skill);
+  //     handleFilters('Track', selectedOptions.Track);
+  //     handleFilters('Ranking', selectedOptions.Ranking);
+  //     handleFilters('Tag', selectedOptions.Tag);
+  //     setIsLoading(false);
+  //   }, 1000);
+  // };
+
+  const clearAllOptions = () => {
+    setSelectedOptions({
+      Location: '',
+      Skill: '',
+      Track: '',
+      Ranking: '',
+      Tag: '',
+    });
+
+    // Also, clear the corresponding filter options in the state if needed
+    handleFilters('Location', '');
+    handleFilters('Skill', '');
+    handleFilters('Track', '');
+    handleFilters('Ranking', '');
+    handleFilters('Tag', '');
   };
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-[90vw] mx-auto lg:px-6 lg:mb-0 mb-6 mt-5 lg:grid-cols-6 sm:grid-cols-2 md:mx-auto lg:flex lg:justify-between lg:w-[90vw]">
-        <CustomDropdown
-          options={['Location', 'Ibadan', 'Lagos', 'Abuja', 'Portharcourt', 'Abeokuta', 'Kaduna']}
-          selectedValue={selectedOption}
-          onChange={handleCustomDropdownChange}
-        />
-        <CustomDropdown
-          options={['Skill', 'C++', 'Javascript', 'Vue', 'React', 'Angular', 'Python']}
-          selectedValue={selectedOption2}
-          onChange={handleCustomDropdownChange2}
-        />
-        <CustomDropdown
-          options={['Track', 'Frontend', 'Design', 'Backend', 'Video Marketing']}
-          selectedValue={selectedOption3}
-          onChange={handleCustomDropdownChange3}
-        />
-        <CustomDropdown
-          options={['level', 'Intern', 'Junior', 'Associate', 'Mid-Senior', 'Senior']}
-          selectedValue={selectedOption4}
-          onChange={handleCustomDropdownChange4}
-        />
-        <CustomDropdown
-          options={['Tag', 'E-Commerce', 'Proptech', 'Entertainment', 'Health', 'Fintech', 'Edtech']}
-          selectedValue={selectedOption5}
-          onChange={handleCustomDropdownChange5}
-        />
-        <CustomDropdown
-          options={['Ranking', 'Beginner', 'Intermediate', 'Expert']}
-          selectedValue={selectedOption6}
-          onChange={handleCustomDropdownChange6}
-        />
+      <div className="max-w-[1280px] mt-8">
+        <div className="w-full flex justify-between items-center">
+          <div className="btn flex gap-3">
+            <Button onClick={applyFilters} className="px-4">
+              Apply Filter
+            </Button>
+            <Button onClick={clearAllOptions} className="px-6" intent={'secondary'}>
+              Clear
+            </Button>
+          </div>
+          {/* {isLoading && <Loader />} */}
+          <div className=" cursor-pointer" onClick={() => closeFilterComponent('close')}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" fill="none" viewBox="0 0 33 32">
+              <path
+                stroke="#464646"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M16.5 29.333c7.333 0 13.333-6 13.333-13.333s-6-13.333-13.333-13.333c-7.334 0-13.334 6-13.334 13.333s6 13.333 13.334 13.333zM12.727 19.773l7.546-7.546M20.273 19.773l-7.546-7.546"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 max-w-[1280px] mx-auto  lg:mb-0 mb-6 mt-5 lg:grid-cols-6 sm:grid-cols-2 md:mx-auto lg:flex lg:justify-between ">
+          <CustomDropdown
+            options={['Ibadan', 'Lagos', 'Abuja', 'Portharcourt', 'Abeokuta', 'Kaduna']}
+            selectedValue={selectedOptions.Location}
+            placeholder="Location"
+            onChange={(option) => handleCustomDropdownChange(option, 'Location')}
+          />
+          <CustomDropdown
+            options={['C++', 'Javascript', 'Vue', 'React', 'Angular', 'Python']}
+            selectedValue={selectedOptions.Skill}
+            placeholder="Skill"
+            onChange={(option) => handleCustomDropdownChange(option, 'Skill')}
+          />
+          <CustomDropdown
+            options={['Frontend', 'Design', 'Backend', 'Video Marketing']}
+            selectedValue={selectedOptions.Track}
+            placeholder="Track"
+            onChange={(option) => handleCustomDropdownChange(option, 'Track')}
+          />
+          <CustomDropdown
+            options={['Beginner', 'Intermediate', 'Expert']}
+            selectedValue={selectedOptions.Ranking}
+            placeholder="Ranking"
+            onChange={(option) => handleCustomDropdownChange(option, 'Ranking')}
+          />
+          <CustomDropdown
+            options={['E-Commerce', 'Proptech', 'Entertainment', 'Health', 'Fintech', 'Edtech']}
+            selectedValue={selectedOptions.Tag}
+            placeholder="Tag"
+            onChange={(option) => handleCustomDropdownChange(option, 'Tag')}
+          />
+        </div>
       </div>
 
       <div className="lg:hidden mx-auto">

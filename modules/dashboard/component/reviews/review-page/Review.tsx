@@ -33,7 +33,7 @@ export default function Review(props: reviewProps) {
               {props.buyerName}
             </Link>
             <Image src="/assets/reviewsAssets/ShortLine.svg" width={2} height={1} alt="Line" className=" mx-3 my-0" />
-            <div className="date">September 22, 2023.</div>
+            <div className="date">{props.mainDate}</div>
           </div>
           <div className=" my-3 mx-0 flex text-sm tracking-tight font-manropeL text-black">{props.review}</div>
           <p className=" flex text-xs m-0 mb-3 text-dark-600 tracking-tight">{props.help} people found this helpful</p>

@@ -2,9 +2,11 @@
 import React, { ChangeEvent } from 'react';
 import Button from '../../components/ui/Button';
 import Logic2FA from '../../modules/auth/Logic2FA';
+import { resend2FACode } from '../../http/auth';
 
 function Code2FAUI() {
-  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, loading } = Logic2FA();
+  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, loading, handleResend } =
+    Logic2FA();
 
   return (
     <>
@@ -46,7 +48,7 @@ function Code2FAUI() {
         </Button>
       </form>
       <Button
-        onClick={(e) => e.preventDefault()}
+        onClick={handleResend}
         aria-label="Resend code"
         className="bg-tranparent text-gray-700 hover-bg-transparent
         mx-auto p-0 justtify-self-center self-center font-base text-center

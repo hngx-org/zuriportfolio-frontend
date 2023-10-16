@@ -10,8 +10,8 @@ const tableHeaders: {
     title: 'Order iD',
   },
   {
-    id: 'productName',
-    title: 'Product Name',
+    id: 'revenue',
+    title: 'Total Revenue',
   },
   {
     id: 'customerName',
@@ -29,12 +29,11 @@ const tableHeaders: {
 const OrderHistoryTable: React.FC<{
   pageItem: any[];
   changeSort: (val: keyof OrderHistory) => void;
-  toggleSort: () => void;
   currentSort: string;
-}> = ({ pageItem, currentSort, changeSort, toggleSort }) => {
+}> = ({ pageItem, currentSort, changeSort }) => {
   const OnCLick = (val: keyof OrderHistory) => {
     if (val === currentSort) {
-      toggleSort();
+      return;
     } else {
       changeSort(val);
     }
@@ -55,8 +54,8 @@ const OrderHistoryTable: React.FC<{
         </tr>
       </thead>
       <tbody>
-        {pageItem.map((order) => (
-          <OrderHistoryRow key={order.id} {...order} />
+        {pageItem.map((order, i) => (
+          <OrderHistoryRow key={`${order.id}${i}`} {...order} />
         ))}
       </tbody>
     </table>

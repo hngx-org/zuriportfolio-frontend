@@ -1,6 +1,44 @@
 import Image from 'next/image';
+import React from 'react';
+import { DateObject } from 'react-multi-date-picker';
 
-const PerformanceData: React.FC = () => {
+interface zaProps {
+  dateRange: DateObject[];
+  reportClicked: Boolean;
+}
+
+const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
+  const [performanceDataArray, setPerformanceDataArray] = React.useState<any>([]);
+  const [startDate, setStartDate] = React.useState('');
+  const [endDate, setEndDate] = React.useState('');
+
+  React.useEffect(() => {
+    if (reportClicked && dateRange.length === 2) {
+      const starttDate = dateRange[0].format('YYYY-MM-DD');
+      const enddDate = dateRange[1].format('YYYY-MM-DD');
+      fetch(
+        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/performance-data/?start_date=${starttDate}&end_date=${enddDate}`,
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setPerformanceDataArray(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/performance-data/')
+        .then((res) => res.json())
+        .then((data) => {
+          setPerformanceDataArray(data.data);
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [reportClicked]);
   return (
     <>
       <div className="max-[1310px]:px-[1rem] w-full max-[834px]:px-[2.5rem] max-[760px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0">
@@ -50,228 +88,50 @@ const PerformanceData: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
-                <div className="max-w-[10rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    2023-09-25
-                  </h6>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    $43000
-                  </p>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    250
-                  </p>
-                </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    150
-                  </p>
-                </div>
-                <div className="max-w-[7.19rem] w-full max-[778px]:min-w-[7.19rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    300
-                  </p>
-                </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
-                  <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    400
-                  </p>
-                </div>
-                <div className="max-w-[8.25rem] w-full max-[1000px]:hidden">
-                  <p className="text-[0.75rem] text-center font-manropeL text-[#667085] font-normal leading-[1rem] tracking-[0.0025rem]">
-                    Product Design Course by mark essen
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[834px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
-                <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    2023-09-26
-                  </h6>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    $56000
-                  </p>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    278
-                  </p>
-                </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    168
-                  </p>
-                </div>
-                <div className="max-w-[7.19rem] w-full max-[778px]:min-w-[7.19rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    343
-                  </p>
-                </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
-                  <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    400
-                  </p>
-                </div>
-                <div className="max-w-[8.25rem] w-full max-[1000px]:hidden">
-                  <p className="text-[0.75rem] text-center font-manropeL text-[#667085] font-normal leading-[1rem] tracking-[0.0025rem]">
-                    Product Design Course by mark essen
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
-                <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    2023-09-27
-                  </h6>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    $77000
-                  </p>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    322
-                  </p>
-                </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    223
-                  </p>
-                </div>
-                <div className="max-w-[7.19rem] w-full max-[778px]:min-w-[7.19rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    412
-                  </p>
-                </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
-                  <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    400
-                  </p>
-                </div>
-                <div className="max-w-[8.25rem] w-full max-[1000px]:hidden">
-                  <p className="text-[0.75rem] text-center font-manropeL text-[#667085] font-normal leading-[1rem] tracking-[0.0025rem]">
-                    Product Design Course by mark essen
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[834px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
-                <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    2023-09-28
-                  </h6>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    $62000
-                  </p>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    300
-                  </p>
-                </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    208
-                  </p>
-                </div>
-                <div className="max-w-[7.19rem] w-full max-[778px]:min-w-[7.19rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    378
-                  </p>
-                </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
-                  <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    400
-                  </p>
-                </div>
-                <div className="max-w-[8.25rem] w-full max-[1000px]:hidden">
-                  <p className="text-[0.75rem] text-center font-manropeL text-[#667085] font-normal leading-[1rem] tracking-[0.0025rem]">
-                    Product Design Course by mark essen
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
-                <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    2023-09-29
-                  </h6>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    $57000
-                  </p>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    199
-                  </p>
-                </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    134
-                  </p>
-                </div>
-                <div className="max-w-[7.19rem] w-full max-[778px]:min-w-[7.19rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    233
-                  </p>
-                </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
-                  <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    400
-                  </p>
-                </div>
-                <div className="max-w-[8.25rem] w-full max-[1000px]:hidden">
-                  <p className="text-[0.75rem] text-center font-manropeL text-[#667085] font-normal leading-[1rem] tracking-[0.0025rem]">
-                    Product Design Course by mark essen
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[778px]:pr-0 max-[1110px]:gap-0 max-[778px]:w-fit">
-                <div className="max-w-[9.969rem] w-full max-[778px]:min-w-[5rem]">
-                  <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#444846] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    2023-09-30
-                  </h6>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    $47000
-                  </p>
-                </div>
-                <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    175
-                  </p>
-                </div>
-                <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[7.63rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    145
-                  </p>
-                </div>
-                <div className="max-w-[7.19rem] w-full max-[778px]:min-w-[7.19rem]">
-                  <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    222
-                  </p>
-                </div>
-                <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[6.06rem]">
-                  <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                    400
-                  </p>
-                </div>
-                <div className="max-w-[8.25rem] w-full max-[1000px]:hidden">
-                  <p className="text-[0.75rem] text-center font-manropeL text-[#667085] font-normal leading-[1rem] tracking-[0.0025rem]">
-                    Product Design Course by mark essen
-                  </p>
-                </div>
-              </div>
+              {performanceDataArray.map((performance: any) => {
+                return (
+                  <div
+                    key={performance.index}
+                    className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[1110px]:gap-0"
+                  >
+                    <div className="max-w-[10rem] w-full max-[778px]:min-w-[5rem]">
+                      <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                        2023-09-25
+                      </h6>
+                    </div>
+                    <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                        {performance.transaction_value}
+                      </p>
+                    </div>
+                    <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                        {performance.transaction_volume}
+                      </p>
+                    </div>
+                    <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
+                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                        {performance.active_users}
+                      </p>
+                    </div>
+                    <div className="max-w-[7.19rem] w-full max-[778px]:min-w-[7.19rem]">
+                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                        {performance.total_orders}
+                      </p>
+                    </div>
+                    <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
+                      <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                        {performance.total_users}
+                      </p>
+                    </div>
+                    <div className="max-w-[8.25rem] w-full max-[1000px]:hidden">
+                      <p className="text-[0.75rem] text-center font-manropeL text-[#667085] font-normal leading-[1rem] tracking-[0.0025rem]">
+                        {performance.best_selling_product}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div>

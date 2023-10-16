@@ -1,38 +1,57 @@
 import { useRouter } from 'next/router';
-import MainLayout from '../../../../components/Layout/MainLayout';
-import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
-import AllCategoriesPage from '@modules/marketplace/AllCategories/AllCategoriesPage';
 import CategoriesPage from '@modules/marketplace/component/categories/CategoriesPage';
+import axios from 'axios';
 
-export default function CategoryPage() {
+export const getServerSideProps = async (context: any) => {
+  const { category } = context.query;
+  // console.log(category);
+
+  if (!category) {
+    return {
+      redirect: {
+        destination: '/404',
+        permanent: false,
+      },
+    };
+  }
+
+  try {
+    const res = await axios('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+    const isCategoryAvailable = res.data.categories.filter((el: any) => el.name === category);
+
+    if (isCategoryAvailable.length === 0) {
+      return {
+        props: {
+          error: true,
+          errorMessage: `No product category found in ${category}`,
+          data: [],
+        },
+      };
+    }
+
+    return {
+      props: {
+        error: false,
+        errorMessage: '',
+        data: isCategoryAvailable[0],
+      },
+    };
+  } catch (e: any) {
+    return {
+      redirect: {
+        destination: '/404',
+        permanent: false,
+      },
+    };
+  }
+};
+
+export default function CategoryPage(props: any) {
+  // console.log(props);
+
   const router = useRouter();
   const { category } = router.query;
+  // console.log(category);
 
-  return (
-    <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="max-w-[1240px] mx-auto">
-        <CategoriesNav
-          navItems={[
-            ' Design & Graphics',
-            ' Development & Programming',
-            ' Content Creation',
-            ' Digital Arts & Media',
-            ' Audio & Sound',
-            ' Photography',
-            'Writing & Copywriting',
-            'Video & motion',
-            'Data & Analytics',
-            'Marketing & Advertising',
-            'eCommerce & Business',
-            'Gaming & Entertainment',
-            'Virtual Reality & Augmented Reality',
-            'e-Books',
-          ]}
-        />
-      </div>
-      <div className="py-6 px-4 overflow-hidden w-full">
-        <div className="max-w-[1240px] mx-auto">{category === 'all' ? <AllCategoriesPage /> : <CategoriesPage />}</div>
-      </div>
-    </MainLayout>
-  );
+  return <CategoriesPage error={props.error} errorMessage={props.errorMessage} data={props.data} />;
 }

@@ -25,6 +25,8 @@ export default function Filter(props: filterProps) {
     return stars;
   }
 
+  props.filterReview(viewValue, starValue);
+
   return (
     <div className="hidden md:block w-max">
       <p className="text-sm font-semibold mb-2">SORT BY</p>
@@ -61,7 +63,7 @@ export default function Filter(props: filterProps) {
               setStarValue(value);
             }}
           >
-            <SelectTrigger className="custom-select-trigger font-manropeB text-bold text-[#747171] outline-none  focus:border-2 focus:border-green-300 focus:text-green-300 h-[44px] w-[200px] px-6">
+            <SelectTrigger className="custom-select-trigger font-manropeB text-bold text-[#747171] outline-none focus:border-2 focus:border-green-300 focus:text-green-300 h-[44px] w-[250px] px-6">
               <SelectValue placeholder="All Stars" className="text-[#747171]" />
             </SelectTrigger>
 

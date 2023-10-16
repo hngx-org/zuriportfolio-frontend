@@ -30,7 +30,7 @@ const RatingBar = ({ avgRating }: RatingBarProps) => {
           {getStars(avgRating)}
         </span>
         <p className="font-Manrope lg:font-[16.1px] lg:leading-[24.15px] md:leading-6 md:text-base text-sm leading-4 tracking-tight">
-          12,000 verified users
+          100 verified users
         </p>
       </div>
     </div>

@@ -1,7 +1,9 @@
 import Button from '@ui/Button';
+import { Input } from '@ui/Input';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+import { useAuth } from '../../../../context/AuthContext';
 
 interface userDetailsI {
   email: string;
@@ -11,6 +13,8 @@ interface userDetailsI {
 }
 
 function AccountManagement() {
+  const { auth } = useAuth();
+  console.log(auth);
   const [userDetails, setUserDetails] = useState<userDetailsI>({
     email: '',
     currentPassword: '',
@@ -27,8 +31,10 @@ function AccountManagement() {
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
     // console.log(formValidate)
   };
-  const notifySuccess = (toastContent: string) => toast.success(toastContent, { closeOnClick: true, autoClose: 3000 });
-  const notifyError = (toastContent: string) => toast.error(toastContent, { closeOnClick: true, autoClose: 3000 });
+  const notifySuccess = (toastContent: string) =>
+    toast.success(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'success' });
+  const notifyError = (toastContent: string) =>
+    toast.error(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'error' });
   let errors: any = {};
 
   const handleUpdateAccount = (event: React.FormEvent<HTMLFormElement>) => {
@@ -38,7 +44,12 @@ function AccountManagement() {
     if (Object.keys(formValidate).length === 0) {
       setIspending(true);
       axios
-        .patch(`https://hng6-r5y3.onrender.com/api/update-user-account-settings`, userDetails)
+        .post(`https://staging.zuri.team/api/auth/api/auth/reset-password/change`, {
+          token: auth?.token,
+          // email: userDetails?.email,
+          oldPassword: userDetails?.currentPassword,
+          newPassword: userDetails?.newPassword,
+        })
         .then((response) => {
           console.log(response);
           if (response.status === 200) {
@@ -49,7 +60,7 @@ function AccountManagement() {
         .catch((error) => {
           console.log(error);
           setIspending(false);
-          notifyError(`Error: ${error?.response.data.message}`);
+          notifyError(`Error: ${error?.response?.data?.message || error?.message}`);
         });
     }
   };
@@ -86,15 +97,15 @@ function AccountManagement() {
           >
             Email
           </label>
-          <div className="flex flex-col gap-y-[0.375rem]">
+          <div className="w-full flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Current Email Address</p>
-            <div className="relative w-[35rem] flex flex-row">
-              <input
+            <div className="relative w-[32rem] flex flex-row">
+              <Input
                 name="email"
                 type="email"
                 value={userDetails.email}
                 onChange={onInputChange}
-                placeholder="Enter Email"
+                placeholder="yourname@gmail.com"
                 className="w-full border py-[0.625rem] px-[0.875rem] pr-7 rounded-[0.5rem] font-manropeL text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#667085]"
               />
               <svg
@@ -124,17 +135,17 @@ function AccountManagement() {
             <p className="text-red-300 text-sm">{errorMsg?.email && errorMsg.email}</p>
           </div>
         </div>
-        <div className="flex flex-col gap-y-[1.2rem]">
+        <div className="w-full flex flex-col gap-y-[1.2rem]">
           <label
             htmlFor="currentPassword"
             className=" font-manropeEB text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#344054]"
           >
             Change Password
           </label>
-          <div className="flex flex-col gap-y-[0.375rem]">
+          <div className="w-full flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Current Passowrd</p>
-            <div className="relative w-[35rem] flex flex-row">
-              <input
+            <div className="relative w-[32rem] flex flex-row">
+              <Input
                 name="currentPassword"
                 type="password"
                 value={userDetails.currentPassword}
@@ -170,15 +181,15 @@ function AccountManagement() {
             </div>
             <p className="text-red-300 text-sm">{errorMsg?.password && errorMsg.password}</p>
           </div>
-          <div className="flex flex-col gap-y-[0.375rem]">
+          <div className="w-full flex flex-col gap-y-[0.375rem]">
             <label
               htmlFor="newPassword"
               className=" font-manropeB lg:font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]"
             >
               New Password
             </label>
-            <div className="relative w-[35rem] flex flex-row">
-              <input
+            <div className="relative w-[32rem] flex flex-row">
+              <Input
                 name="newPassword"
                 type="password"
                 value={userDetails.newPassword}
@@ -214,10 +225,10 @@ function AccountManagement() {
             </div>
             <p className="text-red-300 text-sm">{errorMsg?.newPassword && errorMsg.newPassword}</p>
           </div>
-          <div className="flex flex-col gap-y-[0.375rem]">
+          <div className="w-full flex flex-col gap-y-[0.375rem]">
             <p className=" font-manropeB text-[0.875rem] leading-[1.25rem] text-[#344054]">Confirm New Password</p>
-            <div className="relative w-[35rem] flex flex-row">
-              <input
+            <div className="relative w-[32rem] flex flex-row">
+              <Input
                 name="confirmNewPassword"
                 type="password"
                 value={userDetails.confirmNewPassword}

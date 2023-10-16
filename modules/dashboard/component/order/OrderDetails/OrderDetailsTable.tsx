@@ -21,25 +21,16 @@ const tableHeaders: {
     id: 'price',
     title: 'Price/unit',
   },
-  {
-    id: 'sales',
-    title: 'No. of sales',
-  },
-  {
-    id: 'revenue',
-    title: 'Total Revenue',
-  },
 ];
 
 const OrderDetailsTable: React.FC<{
   pageItem: any[];
   changeSort: (val: keyof OrderHistory) => void;
-  toggleSort: () => void;
   currentSort: string;
-}> = ({ changeSort, pageItem, toggleSort, currentSort }) => {
+}> = ({ changeSort, pageItem, currentSort }) => {
   const OnCLick = (val: keyof OrderHistory) => {
     if (val === currentSort) {
-      toggleSort();
+      return;
     } else {
       changeSort(val);
     }

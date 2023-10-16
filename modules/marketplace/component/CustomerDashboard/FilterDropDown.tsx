@@ -11,13 +11,13 @@ type FilterList = {
 
 const filterByList: FilterList[] = [
   {
-    name: 'item',
+    name: 'month',
     id: 1,
   },
   {
     name: 'price',
     id: 4,
-  }
+  },
 ];
 
 const FilterDropDown = ({ onChooseFilter }: { onChooseFilter: (filter: SearchFilter) => void }) => {

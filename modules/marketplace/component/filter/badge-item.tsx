@@ -15,15 +15,15 @@ const BadgeItems = <T,>({ data, tag }: GenericProp<T>) => {
 
 export default BadgeItems;
 
-const BadgeItem = ({ value, tag }: { value: unknown, tag: string }) => {
+const BadgeItem = ({ value, tag }: { value: unknown; tag: string }) => {
   const [selected, setSelected] = useState<VariantType>('outline');
-  const  {handleSelection, selection} = useSearchFilter()
+  const { handleSelection, selection } = useSearchFilter();
 
   function toggleSelection(value: string) {
     if (selected === 'outline') {
       setSelected('fill');
-      handleSelection(value, tag)
-      console.log(selection)
+      handleSelection(value, tag);
+      console.log(selection);
     } else {
       setSelected('outline');
     }

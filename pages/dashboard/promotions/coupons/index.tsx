@@ -5,6 +5,7 @@ import NavDashBoard from '@modules/dashboard/component/Navbar';
 import TopBar from '../../../../components/Navbars/TopBar';
 import Footer from '../../../../components/Footer';
 import MainLayout from '../../../../components/Layout/MainLayout';
+import withAuth from '../../../../helpers/withAuth';
 
 function Coupons() {
   const [selectedOption, setSelectedOption] = useState('');
@@ -131,4 +132,4 @@ function Coupons() {
   );
 }
 
-export default Coupons;
+export default withAuth(Coupons);
