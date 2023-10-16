@@ -13,7 +13,6 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
   const [invalid, setInvalid] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(false);
-  
 
   const defaultPrices: PriceData = {
     subtotal: 600,
@@ -128,9 +127,7 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
 
             <div className="sum flex justify-between">
               <p className="font-bold">Vat</p>
-              <span className="text-brand-red-primary transition-all duration-300">
-                +₦ {summary.VAT.toFixed(2)}
-              </span>
+              <span className="text-brand-red-primary transition-all duration-300">+₦ {summary.VAT.toFixed(2)}</span>
             </div>
           </div>
 
@@ -151,10 +148,11 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
               Checkout
             </button>
           </div>
-          {token.length > 0 && modalOpen ? 
-            <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} /> :
+          {token.length > 0 && modalOpen ? (
+            <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} />
+          ) : (
             <TempUser isOpen={modalOpen} onClose={closeModal} />
-          }
+          )}
         </div>
       </div>
     </section>
