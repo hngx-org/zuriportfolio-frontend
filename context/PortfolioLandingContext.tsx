@@ -13,6 +13,7 @@ import PortfolioAbout from '@modules/portfolio/component/about/about';
 import PortfolioReference from '@modules/portfolio/component/reference/reference';
 
 type PortfolioContext = {
+  userId: string;
   hasPortfolio: boolean;
   setHasPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
   setUserData: React.Dispatch<React.SetStateAction<any>>;
@@ -39,7 +40,6 @@ type PortfolioContext = {
   buildPortfolio: () => void;
   viewPortfolio: () => void;
   modal: () => void;
-  setCoverImage: React.Dispatch<React.SetStateAction<File | undefined>>;
   setAvatarImage: React.Dispatch<React.SetStateAction<File | undefined>>;
   handleUploadCover: (e: React.ChangeEvent<HTMLInputElement>) => void;
   toggleSection: (sectionTitle: string) => void;
@@ -52,6 +52,7 @@ type PortfolioContext = {
 };
 
 const Portfolio = createContext<PortfolioContext>({
+  userId: '',
   hasPortfolio: false,
   setHasPortfolio: () => {},
   setUserData: () => {},
@@ -78,7 +79,6 @@ const Portfolio = createContext<PortfolioContext>({
   buildPortfolio: () => {},
   viewPortfolio: () => {},
   modal: () => {},
-  setCoverImage: () => {},
   setAvatarImage: () => {},
   handleUploadCover: () => {},
   toggleSection: () => {},
@@ -95,56 +95,60 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [userId, setUserId] = useState<string>('' as string);
   const [token, setToken] = useState<string>('' as string);
 
+  const getUserId = async () => {
+    const token = localStorage.getItem('zpt');
+    // const response = await fetch(`https://staging.zuri.team/api/auth/api/auth/verify/${token}`);
+    const response = await fetch(`https://staging.zuri.team/api/auth/api/authorize`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1NDkzNDVhLTQ2MWMtNGM2Yy1iZTNjLWU3YWZlMzg4ZWIyOSIsImlhdCI6MTY5NzQxNzU4Nn0.Lm7HAisj-TWpmP2TivhqMhYGqPpnw_c8G62p3Tdf-F8',
+        permission: 'product.read',
+      }),
+    });
+    const data = await response.json();
+    return data;
+  };
+
   useEffect(() => {
-    if (!router.isReady) return;
-    if (router?.query?.id) {
-      console.log(router.query.id);
-      const authUser = async () => {
-        const token = localStorage.getItem('zpt');
-        const response = await fetch(`https://staging.zuri.team/api/auth/api/auth/verify/${token}`);
-        const data = await response.json();
-        setUserId(data?.data?.user?.id);
-        setToken(data?.data?.newtoken);
-        if (data?.data?.user?.id === router?.query?.id) {
-          setIsLoading(true);
-          await getUser(userId);
-          await getUserSections(userId);
-          router.push('/portfolio');
-          setIsLoading(false);
-        } else {
-        }
-      };
-      authUser();
+    if (!router.isReady) {
+      console.log('not ready');
+      setIsLoading(true);
     } else {
-      const authUser = async () => {
-        try {
-          setIsLoading(true);
-          const token = localStorage.getItem('zpt');
-          const response = await fetch(`https://staging.zuri.team/api/auth/api/auth/verify/${token}`);
-          const data = await response.json();
-          // if (!response.ok) throw new Error(data.message);
+      if (router?.query?.id) {
+        setIsLoading(true);
+        const authUser = async () => {
+          const data = await getUserId();
           setUserId(data?.data?.user?.id);
-          setToken(data?.data?.newtoken);
-          getUser(users[0]);
-          getUserSections(users[0]);
-          setHasData(true);
-          setHasPortfolio(true);
-          setIsLoading(false);
-        } catch (error) {
-          setIsLoading(false);
-          setError({ state: true, error: error });
-        }
-      };
-      authUser();
+          if (data?.data?.user?.id === router?.query?.id) {
+            await getUser(userId);
+            router.push(`/portfolio/${userId}`);
+            setIsLoading(false);
+          }
+        };
+        authUser();
+      } else {
+        const authUser = async () => {
+          try {
+            const data = await getUserId();
+            setUserId(data?.user?.id);
+            getUser(userId);
+            // setHasData(true);
+            // setHasPortfolio(true);
+            // setIsLoading(false);
+          } catch (error) {
+            setIsLoading(false);
+            setError({ state: true, error: error });
+          }
+        };
+        authUser();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, router.isReady, router.query.id, userId]);
-
-  const users = [
-    `f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90`,
-    `6ba7b810-9dad-11d1-80b4-00c04fd430c8`,
-    `8abf86e2-24f1-4d8e-b7c1-5b13e5f994a1`,
-  ];
 
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -157,7 +161,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [userSections, setUserSections] = useState<any[]>([]);
   const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
 
-  const [coverImage, setCoverImage] = useState<File | any>();
+  // const [coverImage, setCoverImage] = useState<File | any>();
   const [avatarImage, setAvatarImage] = useState<File | any>();
   const [showProfileUpdate, setShowProfileUpdate] = useState<boolean>(false);
   const [showBuildPortfolio, setShowBuildPortfolio] = useState<boolean>(false);
@@ -176,7 +180,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const getUser = async (userId: string) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
       const data = await response.json();
       setUserData({
         firstName: data?.user?.firstName,
@@ -187,22 +191,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
         tracks: data?.tracks,
         coverImage: data?.user?.profileCoverPhoto,
       });
-      setHasPortfolio(true);
-      setHasData(true);
-      setIsLoading(false);
-    } catch (error: any) {
-      setIsLoading(false);
-      setError({ state: true, error: error.message });
-    }
-  };
-
-  const getUserSections = async (userId: string) => {
-    try {
-      setIsLoading(true);
-      const data = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-
-      const response = await data.json();
-      console.log(response);
       const {
         about,
         projects,
@@ -217,7 +205,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         certificate,
         shop,
         custom,
-      } = response;
+      } = data;
       setUserSections([
         { title: 'About', id: 'about', data: about },
         { title: 'Project', id: 'projects', data: projects },
@@ -235,9 +223,12 @@ export function PortfolioCtxProvider(props: { children: any }) {
       ]);
       setIsLoading(false);
     } catch (error: any) {
-      setError({ state: true, error: error });
+      setIsLoading(false);
+      setError({ state: true, error: error.message });
     }
   };
+
+  console.log(userSections);
 
   const profileUpdate = () => {
     setShowProfileUpdate(true);
@@ -250,6 +241,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowBuildPortfolio(true);
     setShowProfileUpdate(false);
     setShowViewtemplates(false);
+    setHasData(true);
+    setHasPortfolio(true);
     onOpen();
   };
 
@@ -264,7 +257,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     try {
       setIsLoading(true);
       const formData = new FormData();
-      const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
       const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/cover/upload', {
@@ -272,8 +264,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         body: formData,
       });
       const data = await response.json();
-      setUserData((p: any) => ({ ...p, hasDataFromBE: true, coverImage: data.data.profilePic }));
-      setHasData(true);
+      setUserData((p: any) => ({ ...p, hasDataFromBE: true, coverImage: data?.data?.profilePic }));
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -285,7 +276,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     if (file) {
       const image = URL.createObjectURL(file);
       if (e.target.id === 'coverUpload') {
-        setCoverImage(image);
         await uploadCover(file);
       }
     }
@@ -383,7 +373,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     hasData,
     sections,
     modals,
-    coverImage,
     avatarImage,
     showProfileUpdate,
     showBuildPortfolio,
@@ -400,11 +389,9 @@ export function PortfolioCtxProvider(props: { children: any }) {
     buildPortfolio,
     viewPortfolio,
     modal,
-    setCoverImage,
     setAvatarImage,
     handleUploadCover,
     userData,
-
     toggleSection,
     isLoading,
     setIsLoading,

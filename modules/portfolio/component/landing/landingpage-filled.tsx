@@ -49,19 +49,19 @@ const LandingPageFilled: React.FC = () => {
 
   const deleteSection = () => setOpenDelete(true);
 
-  useEffect(() => {
-    userSections?.map((section) => {
-      if (section?.data?.length !== 0) {
-        setHasData(true);
-      } else {
-        setHasData(false);
-      }
-    });
-    if (userData) {
-      const hasUserData = userData.firstName && userData.lastName && userData.tracks;
-      setHasData(hasUserData);
-    }
-  }, [setHasData, userSections, userData]);
+  // useEffect(() => {
+  //   userSections?.map((section) => {
+  //     if (section?.data?.length !== 0) {
+  //       setHasData(true);
+  //     } else {
+  //       setHasData(false);
+  //     }
+  //   });
+  //   if (userData) {
+  //     const hasUserData = userData.firstName && userData.lastName && userData.tracks;
+  //     setHasData(hasUserData);
+  //   }
+  // }, [setHasData, userSections, userData]);
 
   return (
     <>

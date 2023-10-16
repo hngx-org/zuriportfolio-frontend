@@ -1,5 +1,6 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { WorkExperience } from '../../../@types';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 interface WorkExperienceModalContextType {
   workExperiences: WorkExperience[];
@@ -56,6 +57,8 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setIsChecked(false);
     setIsForm(true);
   };
+
+  const { userId } = useContext(Portfolio);
 
   const getUserWorkExperience = async () => {
     const data = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
@@ -129,7 +132,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       console.log(error);
     }
   };
-  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -153,10 +155,10 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
           sectionId: 2,
         }),
       });
-
       if (response.ok) {
         // Request was successful, you can handle the response here
         const data = await response.json(); // Parse the response as JSON
+        console.log(data);
         getAllWorkExperience();
         resetForm();
       } else {
