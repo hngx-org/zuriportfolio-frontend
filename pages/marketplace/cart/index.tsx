@@ -49,7 +49,7 @@ export default function Cart() {
             const cartItems = (localStorage.getItem('products')) ? JSON.parse(localStorage.getItem('products') as string): [];
             console.log(carts);
             
-             carts = destructureProducts(cartItems)
+            carts = destructureProducts(cartItems)
             console.log(carts);
 
             const productIdArray = carts.map((product) => product.productId)

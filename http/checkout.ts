@@ -15,7 +15,7 @@ export const addToCart = async (cartItems: string[],token: string) => {
         'Authorization': `Bearer ${token}`
       }});
     if (response.status == 200) {
-      return {status: true}
+      return {status: true,data: response.data}
     }
     return {status: false}
   } catch (error) {

@@ -91,8 +91,10 @@ export const destructureProducts = (products: any[]) => {
 
 
 export const getCardItemsId = async(cartsItems: any[]) => {
-  return cartsItems.map((product) => product.productId)
+  return cartsItems.map((product) => product.id)
 }
+
+
 export const getGuestCartSummary = async (carts: any) => {};
 
 export const getDiscountPercentage = (costPrice: string, sellingPrice: string) => {

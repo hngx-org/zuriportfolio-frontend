@@ -73,7 +73,7 @@ const PaymentInformationModal = ({
                 readOnly
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-[#00894C] font-semibold">$ {orderTotal}</span>
+                <span className="text-[#00894C] font-semibold">₦ {orderTotal}</span>
               </div>
             </div>
 
