@@ -31,11 +31,21 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
             </section>
             <Fragment>
               <FilterSection tag="category" data={['All', ...categories.map((c) => c.name)]} sectionTitle="Category" />
-              {isLoading ? null : <FilterSection tag="subCategory" data={['All', ...sub_categories]} sectionTitle="Sub Category" />}
-              <FilterSection tag="discount" data={['All', ...discount_price.map((d) => `${d}% off`)]} sectionTitle="By Discount" />
+              {isLoading ? null : (
+                <FilterSection tag="subCategory" data={['All', ...sub_categories]} sectionTitle="Sub Category" />
+              )}
+              <FilterSection
+                tag="discount"
+                data={['All', ...discount_price.map((d) => `${d}% off`)]}
+                sectionTitle="By Discount"
+              />
               <FilterSection tag="keyword" data={['All']} sectionTitle="By Keywords" />
               <FilterSection tag="rating" data={['All']} sectionTitle="By Rating" />
-              <FilterSection tag="price" data={['All', 'Lowest Price', 'Highest Price', ...uniquePrices]} sectionTitle="By Price"></FilterSection>
+              <FilterSection
+                tag="price"
+                data={['All', 'Lowest Price', 'Highest Price', ...uniquePrices]}
+                sectionTitle="By Price"
+              ></FilterSection>
             </Fragment>
 
             <div className="flex items-center justify-center gap-4 mt-10 mb-4">

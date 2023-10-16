@@ -84,7 +84,7 @@ export default function ProductDetailsDescription() {
 
       if (product) {
         console.log(product);
-        
+
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
