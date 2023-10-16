@@ -40,7 +40,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
 
- 
   const fetchSkillData = useCallback(async () => {
     try {
       // Make a GET request to the API
@@ -51,7 +50,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       // Handle errors
       console.error('Error fetching data:', error);
     }
-  },[userId]);
+  }, [userId]);
   // set the data in the db on the modal onload
 
   useEffect(() => {
@@ -89,7 +88,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       setValues((values) => [...values, item]);
     }
   };
-
 
   // update skill items on the landing page with reloading the page
   const getAllSkill = async () => {

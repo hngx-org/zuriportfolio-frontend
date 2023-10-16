@@ -378,7 +378,7 @@ export type CartItemProps = {
   productColor?: string;
   productSeller: string;
   productPrice: number;
-  productDiscount?: string
+  productDiscount?: string;
 };
 
 export type ViewedProductCardProps = {
