@@ -114,32 +114,17 @@ export function PortfolioCtxProvider(props: { children: any }) {
   };
 
   useEffect(() => {
-    if (!router.isReady) {
-      return;
-    } else {
-      if (router?.query?.id) {
-        const authUser = async () => {
-          const data = await getUserId();
-          setUserId(data?.data?.user?.id);
-          if (data?.data?.user?.id === router?.query?.id) {
-            await getUser(userId);
-            router.push(`/portfolio/${userId}`);
-          }
-        };
-        authUser();
-      } else {
-        const authUser = async () => {
-          try {
-            const data = await getUserId();
-            setUserId(data?.user?.id);
-            await getUser(userId);
-          } catch (error) {
-            setError({ state: true, error: error });
-          }
-        };
-        authUser();
+    const authUser = async () => {
+      try {
+        const data = await getUserId();
+        setUserId(data?.user?.id);
+        await getUser(userId);
+      } catch (error) {
+        setError({ state: true, error: error });
       }
-    }
+    };
+    authUser();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, router.isReady, router.query.id, userId]);
 
