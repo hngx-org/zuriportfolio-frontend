@@ -27,23 +27,23 @@ export const resend2FACode = async (props: { email: string }) => {
   }
 };
 
-export const enabled2FA = async (props: { email: string; token: string }) => {
+export const enabled2FA = async (props: {token: string}) => {
   try {
     const res = await $http.post('/2fa/enable', props);
     return res?.data;
   } catch (e: any) {
     return e.response.data ?? { message: e.message };
   }
-};
+}
 
-export const disable2FA = async (props: { email: string; token: string }) => {
+export const disable2FA = async (props: {token: string}) => {
   try {
     const res = await $http.post('/2fa/disable', props);
     return res?.data;
   } catch (e: any) {
     return e.response.data ?? { message: e.message };
   }
-};
+}
 
 export const resetPassword = async (props: { token: string | string[] | undefined; password: string }) => {
   try {
