@@ -70,6 +70,8 @@ const EditProfile = () => {
       country: country,
     };
 
+    console.log(body);
+
     try {
       setIsLoading(true);
       const update = await fetch(`https://hng6-r5y3.onrender.com/api/update-profile-details/${userId}`, {
@@ -80,6 +82,7 @@ const EditProfile = () => {
         body: JSON.stringify(body),
       });
       await update.json();
+      console.log(update);
       await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
       setIsLoading(false);
       modal();
