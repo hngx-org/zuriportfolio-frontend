@@ -19,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
 import { destructureProducts } from '../../helpers';
 import { isUserAuthenticated } from './hooks/useAuthHelper';
+import { CART_ENDPOINT } from '../../http/checkout';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -50,11 +51,8 @@ export default function ProductDetailsDescription() {
   }, [apiUrl, id]);
 
   const addToCart = async () => {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/api/carts`;
     if (auth?.token) {
-      console.log("available token");
-      console.log(auth.token);
-      
       
       try {
         const response = await axios.post(
@@ -70,6 +68,8 @@ export default function ProductDetailsDescription() {
         if (response.status === 200) {
           toast.success('Added to Cart');
           console.log('success');
+          console.log(auth.token);
+          
         }
       } catch (error: any) {
         console.error(error);
@@ -81,12 +81,7 @@ export default function ProductDetailsDescription() {
       console.log("no auth");
       
       if (product) {
-        console.log(product);
-        
-        console.log("product is available");
-        const productTemp = destructureProducts([product])
-        
-        products.push(...productTemp);
+        products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
         toast.success('Item added to cart🎊');
