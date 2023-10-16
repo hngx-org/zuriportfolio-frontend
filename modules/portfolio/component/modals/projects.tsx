@@ -91,7 +91,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
     const formData = new FormData();
     const data = {
       sectionid: 5,
-      userid: '9e36caf3-76ee-47ff-9520-0eb7bc83b72b',
+      userid: userId,
       title,
       year,
       url: link,

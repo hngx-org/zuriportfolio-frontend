@@ -57,7 +57,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
       updatedData[index] = {
         ...updatedData[index],
         social_media_id: newId,
-        user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
+        user_id: userId,
       };
 
       // Update the state with the new array
