@@ -28,7 +28,7 @@ const TakeTest: FC = () => {
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
     handleGetStarted();
-  }, []);
+  });
 
   const handleGetStarted = async () => {
     const token = tokenRef.current;

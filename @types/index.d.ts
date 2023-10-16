@@ -16,8 +16,8 @@ export interface MainLayoutProps {
   includeMarginTop?: boolean;
 }
 export interface DegreeOption {
-  id: number;
-  type: string;
+  degree_id: number;
+  degree_type: string;
 }
 
 export interface ProductData {

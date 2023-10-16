@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Modal from '@ui/Modal';
 import { Add, CloseSquare } from 'iconsax-react';
 import { Input } from '@ui/Input';
@@ -7,6 +7,7 @@ import { notify } from '@ui/Toast';
 import { DegreeOption, Education } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { years } from '../data';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 type EducationModalProps = {
   isOpen: boolean;
@@ -41,12 +42,15 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
         return res.json();
       })
       .then((data) => {
+        // console.log(data.data.degree_id.id)
+        console.log(data.data);
         setDegreeOptions(data.data);
-      });
+      })
+      .catch((error) => console.log({ error: error }));
   }, []);
 
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
-  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+  const { userId } = useContext(Portfolio);
   const getAllEducationDetail = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
@@ -62,7 +66,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
   };
   useEffect(() => {
     getAllEducationDetail();
-  }, []);
+  });
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,8 +78,8 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     }
     const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
     const educationObj = {
-      section_id: 22,
-      degree_id: selectedDegreeOption,
+      section_id: 2,
+      degree_id: selectedDegreeOption.id,
       fieldOfStudy: fieldOfStudy,
       school: school,
       description: description,
@@ -105,7 +109,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     } else {
       try {
         const response = await fetch(
-          'https://hng6-r5y3.onrender.com/api/education/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
+          'https://hng6-r5y3.onrender.com/api/education/0549345a-461c-4c6c-be3c-e7afe388eb29',
           {
             method: 'POST',
             headers: {
@@ -196,7 +200,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     <>
       <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
         <div className="space-y-6 bg-white-100 p-4 py-5">
-          <div className="flex flex-col gap-3 px-10 mb-6">
+          <div className="flex flex-col gap-3 px-6 mb-6">
             <div className="flex justify-between items-center">
               <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Education</p>
               <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
@@ -232,7 +236,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                         {education.description}
                       </p>
                     </div>
-                    <div className="self-end flex gap-4 font-manropeL px-8">
+                    <div className="self-end flex gap-4 font-manropeL px-10">
                       <span
                         onClick={() => handleEdit(education.id)}
                         className="font-semibold cursor-pointer text-[#5B8DEF]"

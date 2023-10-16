@@ -36,7 +36,7 @@ const Questions: React.FC = () => {
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
     handleGetStarted();
-  }, []);
+  });
 
   const handleGetStarted = async () => {
     const token = tokenRef.current;
