@@ -19,7 +19,7 @@ const PromotionHistory: React.FC = () => {
         <section className="font-manropeB font-semibold mt-4">
           <div className="mb-[25px] gap-[35px] flex justify-end">
             <div className="hidden md:justify-end md:flex  justify-center">
-              <Link href="/dashboard/promotions/promotions-type">
+              <Link href="/dashboard/promotions/discounts">
                 <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
                   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
                     <path
