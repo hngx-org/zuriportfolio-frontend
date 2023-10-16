@@ -5,8 +5,9 @@ import PaginationBar from '@modules/dashboard/component/order/PaginationBar';
 import MainLayout from '../../../components/Layout/MainLayout';
 import Container from '@modules/auth/component/Container/Container';
 import { cardData } from '../../../db/reviews';
+import withAuth from '../../../helpers/withAuth';
 
-export default function reviewDashboard() {
+function reviewDashboard() {
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
@@ -36,3 +37,5 @@ export default function reviewDashboard() {
     </MainLayout>
   );
 }
+
+export default withAuth(reviewDashboard);
