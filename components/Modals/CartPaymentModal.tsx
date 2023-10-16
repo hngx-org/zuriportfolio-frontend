@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import checkedPayment from '../../public/assets/images/check-1.png';
+import { STAGING_URL } from '../../http/checkout';
 
 const CartPaymentModal = () => {
   useEffect(() => {
     setTimeout(() => {
-      window.location.href = 'http://localhost:3000/marketplace/cart';
+      window.location.href = `${STAGING_URL}/marketplace/cart`;
     }, 5000);
   });
   // https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart
