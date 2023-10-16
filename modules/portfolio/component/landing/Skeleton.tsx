@@ -1,9 +1,11 @@
-import { ExportSquare } from 'iconsax-react';
+import { ArrowUp, ExportSquare } from 'iconsax-react';
 import Image from 'next/image';
 import AddShopErrorModal from '../addShopErrorModal';
 import { useContext, useEffect, useState } from 'react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import axios from 'axios';
+import Link from 'next/link';
+import CustomSectionModal from '../custom-section-modal';
 
 type AboutProps = {
   bio?: string;
@@ -118,7 +120,6 @@ export let projects = [
 ];
 
 export const Project = ({ data }: SkeletonProps) => {
-  console.log(data);
   const dataToMap = data?.tags?.split('#');
   const image = data?.img ? (
     <Image
@@ -169,6 +170,7 @@ export const Skill = ({ data }: SkeletonProps) => {
 
 export const Interests = ({ data }: SkeletonProps) => {
   const dataToMap = data?.interest?.split(',');
+
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
       {dataToMap?.map((interest: string, i: number) => (
@@ -187,12 +189,12 @@ export const Language = ({ data }: SkeletonProps) => {
   const dataToMap = data.split(',');
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {dataToMap?.map((interest: string, i: number) => (
+      {dataToMap?.map((language: string, i: number) => (
         <span
           className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
           key={i}
         >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
+          <p className="text-sm text-gray-400 font-semibold opacity-70">{language}</p>
         </span>
       ))}
     </div>
@@ -200,6 +202,7 @@ export const Language = ({ data }: SkeletonProps) => {
 };
 
 export const Shop = () => {
+  //demo data
   const shop = [
     {
       id: 1,
@@ -207,36 +210,40 @@ export const Shop = () => {
     },
   ];
 
-  const [shops, setShops] = useState(shop);
+  //state holding the shop items
+  const [shopItems, setShopItems] = useState(shop);
 
   const { openShop, setOpenShop } = useContext(Portfolio);
 
-  async function fetchShops() {
+  async function fetchShopItems() {
     try {
       let shopsData: { id: number; image: string }[];
       shopsData = await axios.get('/shops/id');
-      setShops(shopsData);
+      setShopItems(shopsData);
     } catch (error) {
       //console.log(error)
     }
   }
 
-  const showShop = Object.keys(shops).length > 3;
+  //Check if the users shop has items
+  const showShop = Object.keys(shopItems).length > 3;
 
   useEffect(() => {
-    //fetchShops();
+    //fetchShopItems();
+    setOpenShop(true);
   }, []);
 
   return showShop ? (
     <div className="flex flex-col gap-5 min-w-full">
-      {shops.map((shop) => (
+      {/* map through at most 5 shop images */}
+      {shopItems.slice(0, 5).map((shop) => (
         <div className="" key={shop.id}>
           <Image width={0} height={0} src={shop?.image} alt="" className="w-[290px] aspect-square rounded-xl" />
         </div>
       ))}
-      <a className="text-blue-100 font-semibold" href="">
-        Go to shop
-      </a>
+      <Link href={'/portfolio'} className="text-blue-100 font-semibold">
+        Go to Shop <ArrowUp size={20} className="rotate-45 inline ms-1" />
+      </Link>
     </div>
   ) : (
     <AddShopErrorModal />
@@ -289,16 +296,23 @@ type CustomProps = {
 };
 
 export const Custom = ({ contacts }: CustomProps) => {
+  const { openCustom, setOpenCustom } = useContext(Portfolio);
+
+  useEffect(() => {
+    setOpenCustom(true);
+  }, []);
+
   return (
-    <div className="flex flex-col">
-      {contacts?.map((contact) => (
-        <div className="flex flex-col gap-2" key={contact.id}>
-          <div className="flex justify-start items-center gap-10">
-            <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
-            <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
-          </div>
-        </div>
-      ))}
-    </div>
+    <CustomSectionModal />
+    // <div className="flex flex-col">
+    //   {contacts?.map((contact) => (
+    //     <div className="flex flex-col gap-2" key={contact.id}>
+    //       <div className="flex justify-start items-center gap-10">
+    //         <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
+    //         <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
+    //       </div>
+    //     </div>
+    //   ))}
+    // </div>
   );
 };

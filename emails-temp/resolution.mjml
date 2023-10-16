@@ -1,0 +1,136 @@
+<mjml>
+<mj-head>
+    <mj-title>
+        E-mail Verification / Order Fulfillment
+    </mj-title>
+    <mj-font name="Nanum Gothic" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic" />
+
+    <mj-style inline>
+       .header img { max-width: 50%; margin: auto; } 
+       .bold {  
+          font-weight: 800; 
+          padding-bottom: 3%; 
+          color: #2E3130; 
+          line-height: 24px; 
+          font-size: 16px;
+        } 
+        .body { 
+          padding-block: 5rem 
+        } 
+        
+        @media only screen and (max-width: 500px) { 
+            .flex{
+              display: block;
+            }
+        }
+    </mj-style>
+</mj-head>
+  <mj-body background-color="#F0ECE6">
+    <mj-wrapper border="1px solid #F0ECE6" padding="0px" full-width="full-width">
+      <mj-section>
+        <mj-column>
+          <mj-image width="180px" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo.png" alt="zuri portfolio logo" width="180px" />
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+
+      <mj-section background-color="#ffffff">
+        <mj-column padding="1%">
+          <mj-text font-family="Nanum Gothic" color="#2E3130" font-size="18px" font-weight="600" line-height="32px">
+              Hi Dare,<br>
+
+              <p style="color: #009254; font-weight: 700; font-size: 24px; line-height: 52px;">Resolution update - your complaints have been addressed</p>
+          </mj-text>
+          <mj-text font-family="Nanum Gothic" font-size="16px" line-height="24px" font-weight="400">
+            We are pleased to share that we have resolved the concerns you recently brought to our attention.
+            After a thorough review, we have successfully addressed the following complaints with ID6576ZURI:
+          </mj-text>
+          <mj-text font-family="Nanum Gothic" padding-top="1%" padding-bottom="1%" font-size="16px" line-height="24px">
+            <div class="flex" style="display: flex; align-items: center;">
+              <p>
+                Complaints filed:
+              </p>  
+              <ul style="padding-top: 2%; line-height: 24px;">
+                <li style="font-weight: 800; color: #2E3130;">Payment issues</li>
+                <li style="font-weight: 800; color: #2E3130;">Lengthy review process</li>
+              </ul>
+            </div>
+          </mj-text>
+          <mj-text font-weight="400" padding-bottom="3%" color="#2E3130" font-family="Nanum Gothic" line-height="24px" font-size="16px">
+            We have updated our payment processing issues to minimize future hiccups and will ensure your proceeds are paid directly into your provided bank account upon request.
+          </mj-text>
+          <!-- </mj-text> -->
+          
+          <mj-text font-family="Nanum Gothic" color="#2E3130" font-size="16px" line-height="24px" padding-bottom="3%">
+            <mj-text align="center" font-weight="400">We have also reviewed our review system and are pleased to announce that it has been shortened from 2 weeks to 10 days. This is to ensure we do not compromise on the quality o our reviews while making sure the process is shorter for our sellers</mj-text>
+          </mj-text>
+
+          <mj-text font-family="Nanum Gothic" color="#2E3130" line-height="24px" padding-bottom="4%">
+            <span style="font-size: 16px; font-weight: 400;">We consider your feedback essential in our quest to enhance our services on zuriportfolio and maintain a positive working relationship with you. Our commitment to provide you with unlimited support is unlimited</span> 
+          </mj-text>
+          <mj-text font-family="Nanum Gothic" color="#2E3130" line-height="24px" padding-bottom="4%">
+            <span style="font-size: 16px; font-weight: 400;">
+              If you have any further complaints or issues, please contact support at <p style="color: #00894C;">support@zuriportolio.com.</span> 
+            </span>
+          </mj-text>
+
+          <mj-text font-family="Nanum Gothic" font-weight="400" line-height="24px" font-size="16px" color="#191C1D" padding-top="5%">
+            Thank you for choosing Zuriportfolio! 
+            <p style="color: #865311; font-weight: 700; font-size: 16px; line-height: 20px;">Zuri Team</p>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <!-- <mj-section background-color="#ffffff">
+        <mj-column>
+        </mj-column>
+      </mj-section> -->
+
+      <mj-section background-color="#009254">
+       <mj-column width="100%">
+         <mj-image
+           width="124px"
+           src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo2.png"
+         />
+       </mj-column>
+       <mj-column width="100%">
+         <mj-social inner-padding="12px">
+           <mj-social-element
+             icon-size="24px"
+             background-color="transparent"
+             src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/instagram.png"
+             name="instagram"
+             href="https://www.instagram.com/hnginternship"
+           />
+           <mj-social-element
+             icon-size="24px"
+             background-color="transparent"
+             src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/facebook.png"
+             name="facebook"
+             href="https://www.facebook.com/HNG.INC"
+           />
+           <mj-social-element
+             icon-size="24px"
+             background-color="transparent"
+             src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/twitter.png"
+             name="twitter"
+             href="https://twitter.com/hnginternship"
+           />
+           <mj-social-element
+             icon-size="24px"
+             background-color="transparent"
+             src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/purchase-confirmation/icons/linkedin.png"
+             name="linkedin"
+             href="https://ng.linkedin.com/company/hng-internship"
+           />
+         </mj-social>
+       </mj-column>
+       <mj-column width="100%">
+         <mj-text align="center" mj-class="p-2" color="#fff"> Beaverto, Oregon,Washington County, USA </mj-text>
+         <mj-text align="center" mj-class="p-2" color="#fff" padding="8px 0 12px">
+           Copyright &copy;2023 Zuriportfolio, All rights reserved.
+         </mj-text>
+       </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

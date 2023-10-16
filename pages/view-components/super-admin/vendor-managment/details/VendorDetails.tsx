@@ -69,17 +69,18 @@ function VendorDetails(): React.ReactElement {
             {data?.data?.length > 0
               ? records.map((item: any) => (
                   <div
-                    className="product m-3 rounded-md p-1.5 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL"
+                    className="product m-3 rounded-md p-1.5 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL hover:shadow-lg cursor-pointer transition hover:scale-105"
                     key={item?.id}
+                    onClick={() => router.push(`/super-admin/product-listing/product-details/${item?.product_id}`)}
                   >
-                    <div className="mx-auto">
+                    <div className="md:min-w-[220px] h-[181px] mx-auto">
                       <Image
-                        loader={() => brokenImage}
-                        src={brokenImage}
+                        loader={() => item?.product_image[0][0] || brokenImage}
+                        src={item?.product_image[0][0] || brokenImage}
                         alt="product"
                         width={100}
-                        height={20}
-                        className="object-cover mb-4 rounded-lg min-w-[100%]"
+                        height={100}
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <p className="mt-2 text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%] text-green-850">

@@ -3,7 +3,15 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['res.cloudinary.com', 'staging.zuri.team', 'zuri.team'],
+    domains: [
+      'res.cloudinary.com',
+      'placekitten.com',
+      'dummyimage.com',
+      'picsum.photos',
+      'images.unsplash.com',
+      'ugc.futurelearn.com',
+      'themeforest.img.customer.envatousercontent.com',
+    ],
   },
 };
 

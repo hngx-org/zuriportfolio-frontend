@@ -17,17 +17,25 @@ import { ProductData } from '../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
+import { destructureProducts } from '../../helpers';
+import { isUserAuthenticated } from './hooks/useAuthHelper';
+import { CART_ENDPOINT } from '../../http/checkout';
+import { useCart } from '@modules/shop/component/CartContext';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(product?.images[0].url);
   const router = useRouter();
   const { id } = router.query;
-  const userId = auth ? auth?.user?.id : '1972d345-44fb-4c9a-a9e3-d286df2510ae';
+  const token: any = isUserAuthenticated();
+  const { setCartCountNav, cartCount } = useCart();
+
+  const apiUrl: string = token
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
 
   useEffect(() => {
-    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${userId}/`;
     // Fetch data using Axios
     const headers = {
       accept: 'application/json',
@@ -36,20 +44,17 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
+        console.log(response.data);
         setProduct(response.data);
-        // setImage(product?.images[0].url)
-        // console.log(product)
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [id, userId]);
-
-  console.log(auth);
+  }, [apiUrl, id]);
 
   const addToCart = async () => {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
-    if (auth) {
+    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    if (auth?.token) {
       try {
         const response = await axios.post(
           apiUrl,
@@ -63,20 +68,49 @@ export default function ProductDetailsDescription() {
 
         if (response.status === 200) {
           toast.success('Added to Cart');
+          setCartCountNav(cartCount + 1);
           console.log('success');
+          console.log(auth.token);
         }
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
       }
     } else {
-      const products: any[] = [];
+      const products: any[] = localStorage.getItem('products')
+        ? JSON.parse(localStorage.getItem('products') as string)
+        : [];
+      console.log('no auth');
+
       if (product) {
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
         toast.success('Item added to cart🎊');
+        setCartCountNav(cartCount + 1);
       }
+    }
+  };
+
+  const addToWishlist = async () => {
+    const data = {
+      product_id: product?.id,
+      user_id: token?.id,
+    };
+
+    try {
+      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
+
+      console.log(response);
+      if (response.status === 201) {
+        toast.success(response.data.message);
+      }
+
+      if (response.status === 200) {
+        toast.success(response.data.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -121,13 +155,13 @@ export default function ProductDetailsDescription() {
           {/* Product Detail Images  */}
           <div className="flex flex-col w-full item-center lg:gap-y-4 md:gap-y-2 gap-y-3 gap-x-10 mx-auto pb-6">
             <Image
-              src={product?.images[0].url}
+              src={product?.images[0]?.url}
               width={500}
               height={500}
               alt="Main Image"
               className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover lg:rounded-3xl rounded-lg"
             />
-            <Slider updateImage={updateImage} />
+            {product?.images[0]?.url > 1 && <Slider updateImage={updateImage} slider0={product?.images[0]?.url} />}
           </div>
 
           {/* Product Detail Data */}
@@ -173,7 +207,11 @@ export default function ProductDetailsDescription() {
               </p>
               <p className="flex gap-x-4 items-center">
                 <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
-                  ${product?.discount_price === '0.00' ? product?.price : product?.discount_price}
+                  {product?.discount_price === '0.00'
+                    ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+                        parseFloat(product?.price),
+                      )
+                    : product?.discount_price}
                 </span>
                 <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
                   {product?.discount_price === '0.00' ? null : `${product?.price}`}
@@ -192,12 +230,13 @@ export default function ProductDetailsDescription() {
               </Button>
 
               {/* Remove the "auth &&" to to view it in localhost  */}
-              {auth && (
+              {token?.id && (
                 <Button
                   className="lg:px-6 md:px-14 sm:w-fit w-full font-normal text-base leading-6 rounded-lg text-custom-color11 tracking-[0.08px]"
                   rightIcon={<ArrowRight color="#009254" />}
                   intent={'secondary'}
                   size={'lg'}
+                  onClick={() => addToWishlist()}
                 >
                   Add to Wishlist
                 </Button>
@@ -424,3 +463,6 @@ export default function ProductDetailsDescription() {
     </CategoryLayout>
   );
 }
+
+// 656525652ad33a@beaconmessenger.com656525652ad33a@beaconmessenger.com
+// TeaBread1234
