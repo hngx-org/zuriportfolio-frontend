@@ -252,9 +252,9 @@ const AddProduct = () => {
                 name="image"
               />
               <div className="p-3 border border-[#00000024] rounded-md mt-3">
-                <div className="bg-[#F8F9FA] p-2 rounded-sm items-center text-center">
+                {/* <div className="bg-[#F8F9FA] p-2 rounded-sm items-center text-center">
                   <MultipleFileUpload />
-                </div>
+                </div> */}
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product details</span>

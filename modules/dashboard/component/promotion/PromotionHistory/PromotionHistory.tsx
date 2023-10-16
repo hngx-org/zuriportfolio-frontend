@@ -17,10 +17,10 @@ const PromotionHistory: React.FC = () => {
       <main className="max-w-[1240px] mx-auto mb-10 md:px-10 px-4">
         <section className="font-manropeB font-semibold mt-4">
           <div className="mb-[25px] gap-[35px] flex justify-end">
-            <div className="hidden md:justify-end md:flex  justify-center">
+            {promotions.length > 0 && (
               <Link href="/dashboard/promotions/discounts">
                 <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                  <svg xmlns="http://w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
                     <path
                       d="M6.5 12H18.5"
                       stroke="white"
@@ -39,7 +39,7 @@ const PromotionHistory: React.FC = () => {
                   <span>Add New Promotion</span>
                 </Button>
               </Link>
-            </div>
+            )}
             <div className="mb-[25px] gap-[35px] flex justify-end md:hidden">
               <button
                 className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
@@ -74,7 +74,7 @@ const PromotionHistory: React.FC = () => {
             ) : (
               <>
                 {promotions.length === 0 ? (
-                  <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] md:m-[200px] flex-col items-center justify-center">
+                  <main className="max-w-[1240px] mx-auto flex m-[100px] md:m-[200px] flex-col items-center justify-center">
                     <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
                     <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">
                       You don’t have any promotion running
@@ -83,7 +83,7 @@ const PromotionHistory: React.FC = () => {
                       Create your first promotion on products
                     </p>
                     <Link
-                      href="/promotions/promotions-type"
+                      href="/dashboard/promotions/discounts"
                       className="text-[16px] dark:text-white-100 font-manropeB bg-brand-green-primary px-10 py-2 rounded-md mt-8"
                     >
                       Create Promotion
