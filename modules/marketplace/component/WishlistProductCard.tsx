@@ -6,8 +6,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import Link from 'next/link';
 import { Product } from '../wishlist';
 
-export const WishlistProductCard = ({ product }: { product: Product }) => {
-  console.log(product);
+export const WishlistProductCard = ({ product, moveToCart }: { product: Product; moveToCart: any }) => {
   return (
     <>
       <div className="flex items-center justify-between gap-4">
@@ -17,8 +16,8 @@ export const WishlistProductCard = ({ product }: { product: Product }) => {
               src={product.images[0].url}
               alt={product.name}
               width={145}
-              height={145}
-              className="h-full min-w-[145px] md:min-w-[165px]"
+              height={150}
+              className="h-[150px] min-w-[145px] md:min-w-[165px] object-cover"
             />
           </div>
 
@@ -99,6 +98,7 @@ export const WishlistProductCard = ({ product }: { product: Product }) => {
         </div>
         <div className="hidden md:block">
           <Button
+            onClick={() => moveToCart(product?.id)}
             className="bg-white rounded-md border border-custom-color17 text-brand-green-shade50"
             size={'sm'}
             intent={'tertiary'}

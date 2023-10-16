@@ -4,6 +4,7 @@ import Modal from '@ui/Modal';
 import { useEffect, useState, MouseEvent } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
+import { notify } from '@ui/Toast';
 
 type skillModalProps = {
   onClose: () => void;
@@ -38,13 +39,13 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
-  const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
 
   const fetchSkillData = async () => {
     try {
       // Make a GET request to the API
-      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/skills-details/${userID}`);
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/skills-details/${userId}`);
       const data = response.data.data;
+      console.log(data);
       setValues(data);
     } catch (error) {
       // Handle errors
@@ -94,7 +95,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   // update skill items on the landing page with reloading the page
   const getAllSkill = async () => {
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userID}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -111,14 +112,30 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   const requestData = {
     skills: skillsArray,
     sectionId: 5,
-    userId: userID,
+    userId: userId,
   };
 
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
+      const responseData = response.data;
+      if (responseData.successful) {
+        notify({
+          message: 'Skills created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+      }
+      console.log(response);
       return response.data;
     } catch (error) {
+      notify({
+        message: 'Error occurred',
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
       console.error('Error:', error);
       throw error; // You can handle the error further if needed
     }

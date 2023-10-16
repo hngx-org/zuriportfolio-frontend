@@ -94,7 +94,7 @@ export const verifyUser = async (props: { token: string }) => {
     console.log(props.token);
     return res?.data;
   } catch (e: any) {
-    console.log("api call ", e);
+    console.log('api call ', e);
     return e.response.data ?? { message: e.message };
   }
 };
@@ -105,7 +105,6 @@ export const resendVerification = async (props: { email: string }) => {
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {
-    console.log(e);
     return e.response.data ?? { message: e.message };
   }
 };

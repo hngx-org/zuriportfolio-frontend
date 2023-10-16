@@ -50,7 +50,7 @@ const SuperAdminPagination = ({ currentPage, totalPages, onPageChange }: AdminTa
           key={i}
           onClick={() => onPageChange(i)}
           className={`w-9 h-8 rounded-md ${
-            i === currentPage ? 'bg-brand-green-primary text-white' : 'text-[gray-600] hover:bg-white-140'
+            i === currentPage ? 'bg-brand-green-primary text-white-100' : 'text-[gray-600] hover:bg-white-140'
           }`}
         >
           {i}
