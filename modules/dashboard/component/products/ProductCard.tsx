@@ -9,6 +9,8 @@ import { Input } from '@ui/Input';
 import Link from 'next/link';
 import Button from '@ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
+import { RiCloseCircleFill } from 'react-icons/ri';
+import { MultipleFileUpload } from './MultipleFileUpload';
 
 type Product = {
   product_id: any;
@@ -95,10 +97,14 @@ const DeleteModal = (props: any) => {
   return (
     <Modal
       isOpen={props.isOpen}
+      size="lg"
       closeModal={props.closeModal}
       closeBtnClass="bg-transparent text-custom-color34 hover:bg-transparent "
     >
-      <div className="md:mt-28 md:mb-[70px] mt-24 mb-14 md:max-w-[464px] max-w-[244px] mx-auto">
+      <div className="flex flex-row cursor-pointer justify-end px-5">
+        <RiCloseCircleFill size={25} color="red" onClick={props.closeModal} />
+      </div>
+      <div className="md:mt-18 md:mb-[70px] mt-14 mb-14 md:max-w-[464px] max-w-[244px] mx-auto">
         <h2 className="text-black font-manropeB md:text-[28px] text-[16px] font-semibold leading-[128.571%] mx-auto text-center mb-[4.4rem]">
           Are you sure you want to delete &quot;{props.product.name}&quot;?
         </h2>
@@ -206,14 +212,11 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
   };
 
   return (
-    <Modal
-      isOpen={props.isOpen}
-      title="EDIT PRODUCT"
-      size="lg"
-      closeModal={props.closeEditModal}
-      closeBtnClass="bg-transparent text-custom-color34 hover:bg-transparent "
-    >
+    <Modal isOpen={props.isOpen} isCloseIconPresent={true} title="EDIT PRODUCT" closeModal={props.closeEditModal}>
       <div>
+        <div className="flex flex-row cursor-pointer justify-end mt-[-20px]">
+          <RiCloseCircleFill size={20} color="red" onClick={props.closeEditModal} />
+        </div>
         <ToastContainer />
         <form className="mt-6 flex flex-col" onSubmit={handleSubmit}>
           <label className="font-manropeB text-[16px]">Product name</label>
@@ -234,14 +237,21 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
             onChange={(e) => setProducts({ ...products, description: e.target.value })}
             inputMode="none"
           />
-          <label className="font-manropeB text-[16px] mt-6">Add Product File</label>
+          <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
           <input
             type="file"
             accept="image/*"
             onChange={(e) => handleImageUpload(e.target.files)}
             style={{ display: 'none' }}
             id="imageUploadInput"
+            name="image"
           />
+          <div className="p-3 border border-[#00000024] rounded-md">
+            <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
+              <MultipleFileUpload />
+            </div>
+          </div>
+          <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
           <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
             {selectedImage ? (
               <Image
@@ -290,13 +300,13 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
           >
             <option value="">Select product category</option>
             {categoriesData.map((category: any) => (
-              <optgroup label={category.name} key={category.id}>
-                {category.sub_categories.map((subCategory: any) => (
-                  <option value={subCategory.id} key={subCategory.id}>
-                    {subCategory.name}
-                  </option>
-                ))}
-              </optgroup>
+              <option
+                value={category.id}
+                key={category.id}
+                className="placeholder:text-[#191C1E] text-black capitalize"
+              >
+                {category.name}
+              </option>
             ))}
           </select>
 

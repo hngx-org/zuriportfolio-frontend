@@ -347,7 +347,7 @@ const OrderHistory: React.FC = () => {
         ) : (
           <section className="font-manropeB font-semibold mt-4">
             <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
-              <Link href={'/dashboard/orders'}>Order manegement</Link>
+              <Link href={'/dashboard/orders'}>Order management</Link>
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path
                   d="M4.50002 2.03996L7.76002 5.29996C8.14502 5.68496 8.14502 6.31496 7.76002 6.69996L4.50002 9.95996"

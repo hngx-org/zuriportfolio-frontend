@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Loader from '@ui/Loader';
 import PaginationBar from '@modules/dashboard/component/order/PaginationBar';
 import { Input } from '@ui/Input';
+import Pagination from '@ui/Pagination';
 type Product = {
   product_id: any;
   image: any;
@@ -19,6 +20,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [product, setProducts] = useState<Product[]>([]);
   const [loading, setIsLoading] = useState(true);
+  const productsPerPage = 8;
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -30,6 +32,7 @@ const Products = () => {
       const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace');
       const data = await res.json();
       if (Array.isArray(data.data)) {
+        setProducts(data.data);
         return data.data;
       } else {
         return [];
@@ -40,15 +43,20 @@ const Products = () => {
       setIsLoading(false);
     }
   };
+
+  const totalPageCount = Math.ceil(product.length / productsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
   const insertProduct = (product: any) => {
     setProducts(product);
   };
   const insertSelectedProduct = (product: any) => {
     setSelectedProduct(product);
   };
-  useEffect(() => {
-    // Run code if current page change
-  }, [currentPage]);
+
   useEffect(() => {
     const setProducts = async () => {
       const product = await fetchProducts();
@@ -60,6 +68,8 @@ const Products = () => {
   const filteredProducts = product.filter((product) => {
     return product.name.toLowerCase().includes(searchQuery.toLowerCase());
   });
+
+  const productsToDisplay = filteredProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
 
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
@@ -104,7 +114,7 @@ const Products = () => {
               </div>
             ) : (
               <ProductCard
-                product={filteredProducts}
+                product={productsToDisplay}
                 fetchProducts={fetchProducts}
                 insertProduct={insertProduct}
                 insertSelectedProduct={insertSelectedProduct}
@@ -113,9 +123,13 @@ const Products = () => {
             )}
           </div>
           <div className="flex justify-center my-4">
-            {pageSize > 1 && (
-              <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={3} />
-            )}
+            <Pagination
+              visiblePaginatedBtn={5}
+              activePage={currentPage}
+              pages={totalPageCount}
+              page={currentPage}
+              setPage={handlePageChange}
+            />
           </div>
         </div>
       </div>
