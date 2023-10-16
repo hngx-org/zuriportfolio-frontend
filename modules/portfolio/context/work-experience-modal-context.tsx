@@ -1,6 +1,7 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { WorkExperience } from '../../../@types';
 import { notify } from '@ui/Toast';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 interface WorkExperienceModalContextType {
   workExperiences: WorkExperience[];
@@ -56,6 +57,16 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setStartYear('');
     setEndYear('');
     setIsChecked(false);
+    setIsForm(true);
+  };
+
+  const { userId } = useContext(Portfolio);
+
+  const getUserWorkExperience = async () => {
+    const data = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+    const response = await data.json();
+    const { workExperience } = response;
+    console.log('User work experience', workExperience);
   };
 
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
@@ -128,8 +139,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     }
   };
 
-  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
-
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -192,7 +201,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
           sectionId: 2,
         }),
       });
-
       if (response.ok) {
         getAllWorkExperience();
         notify({

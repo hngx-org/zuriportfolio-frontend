@@ -37,9 +37,15 @@ const EditCover = ({ handleUploadCover, Link, link }: Props) => {
           />
         </svg>
       </label>
-      <input id="coverUpload" type="file" className="hidden" accept="image/png, image/jpeg" />
+      <input
+        id="coverUpload"
+        type="file"
+        className="hidden"
+        accept="image/png, image/jpeg"
+        onChange={handleUploadCover}
+      />
       <Link
-        href={link}
+        href={'/assessments/dashboard'}
         className="rounded-lg bg-brand-green-primary text-white-100 focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled   px-4 py-3 flex items-center justify-center gap-5 w-fit h-[48px] font-manropeB"
       >
         Take Assesment

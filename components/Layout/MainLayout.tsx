@@ -16,6 +16,7 @@ function MainLayout({
   showDashboardSidebar = true,
   showFooter = true,
   showTopbar,
+  includeMarginTop = true,
 }: MainLayoutProps) {
   const { setActivePage } = useContext(MainLayoutContext);
 
@@ -31,7 +32,7 @@ function MainLayout({
       {showTopbar && <TopBar activePage={activePage} showDashBorad={showDashboardSidebar} />}
 
       {showDashboardSidebar && <SideBar activePage={activePage} />}
-      {children}
+      <div className={`w-full ${includeMarginTop ? 'mt-5' : ''}`}>{children}</div>
 
       {showFooter && <Footer />}
     </div>

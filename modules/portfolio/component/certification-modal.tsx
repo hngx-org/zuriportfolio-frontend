@@ -138,16 +138,13 @@ const Certifications = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose:
       // console.log('Updated Certifications Array:', certifications);
 
       try {
-        const response = await fetch(
-          'https://hng6-r5y3.onrender.com/api/add-certificate/6ba7b810-9dad-11d1-80b4-00c04fd430c8',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newCertification),
+        const response = await fetch(`https://hng6-r5y3.onrender.com/api/add-certificate/${userId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+          body: JSON.stringify(newCertification),
+        });
         // console.log('Response Status:', response.status);
         // console.log('Response Data:', await response.json());
 

@@ -28,7 +28,7 @@ const tableHeaders: {
   },
   {
     id: 'sales',
-    title: 'Useage/Sales',
+    title: 'Usage/Sales',
   },
   {
     id: 'action',
