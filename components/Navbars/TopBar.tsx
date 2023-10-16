@@ -12,12 +12,16 @@ import settingsIcon from './assets/setting-2.svg';
 import { Input, SelectInput } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
 import MobileNav from '@modules/dashboard/component/MobileNav';
-import { ProductResult } from '../../@types';
+import { CartItemProps, ProductResult } from '../../@types';
 import { useAuth } from '../../context/AuthContext';
 import isAuthenticated from '../../helpers/isAuthenticated';
 import Logout, { MobileLogout } from '@modules/auth/component/logout/Logout';
 import CustomDropdown from '@modules/explore/components/CustomDropdown';
+import { searchProducts } from '../../http/api/searchProducts';
 import useUserSession from '../../hooks/Auth/useUserSession';
+import { getUserCart } from '../../http/checkout';
+import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
+import { useCart } from '@modules/shop/component/CartContext';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -32,8 +36,24 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [authMenu, setAuthMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
-
   const [dropDown, setDropDown] = useState<string>('Explore');
+  const { cartCount, setCartCountNav } = useCart();
+
+  useEffect(() => {
+    async function cartFetch() {
+      let carts;
+      let token = localStorage.getItem('zpt') as string;
+
+      if (token) {
+        carts = await getUserCart(token as string);
+      } else {
+        carts = localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products') as string) : [];
+      }
+      setCartCountNav(carts.length);
+    }
+    cartFetch();
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, []);
 
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
@@ -84,36 +104,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     };
   }, [authMenu, searchMobile, toggle]);
 
-  const searchPosts = async (searchValue: string) => {
-    try {
-      const response = await fetch(
-        `https://coral-app-8bk8j.ondigitalocean.app/api/product-retrieval/?search=${searchValue}`,
-      );
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const posts: ProductResult[] = await response.json();
-      const searchResults = posts.filter((post) => post.name.toLowerCase().includes(searchValue.toLowerCase()));
-
-      return searchResults;
-    } catch (error) {
-      throw new Error(`Failed to fetch posts: ${error}`);
-    }
-  };
-
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
     if (e.key === 'Enter' && dropDown === 'Marketplace') {
-      try {
-        const results = await searchPosts(searchQuery);
-        setSearchResults(results);
-        localStorage.setItem('keyword', searchQuery);
-        localStorage.setItem('search_result', JSON.stringify(results));
-        router.push(`/marketplace/search?searchQuery=${searchQuery}`);
-      } catch (error) {
-        console.error(error);
-      }
+      router.push(`/marketplace/search?query=${searchQuery}`);
     }
   };
 
@@ -236,9 +230,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
               </div>
             </div>
             {/* Action Buttons */}
-            {auth || (
+            {!globalAuth && (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
-                <Cart items={0} />
+                <Cart items={cartCount} />
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
                     href="/auth/login"
@@ -262,7 +256,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </div>
               </div>
             )}
-            {auth && AuthUser()}
+            {globalAuth && AuthUser()}
           </div>
           {authMenu && (
             <div
@@ -356,7 +350,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       </g>
                     </svg>
                   </span>
-                  <Cart items={0} />
+                  <Cart items={cartCount} />
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
@@ -382,7 +376,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </svg>
                 </span>
                 <Cart2
-                  items={6}
+                  items={cartCount}
                   style={{
                     marginRight: '20px',
                   }}
@@ -466,7 +460,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </svg>
         </span>
 
-        <Cart items={7} />
+        <Cart items={cartCount} />
+
         <span>
           <Image draggable={false} src={notificationIcon} alt="notification icon" />
         </span>

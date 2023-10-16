@@ -5,6 +5,8 @@ interface CartContextType {
   cart: Products[];
   addToCart: (product: Products) => void;
   removeFromCart: (productId: string) => void;
+  setCartCountNav: (value: number) => void;
+  cartCount: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -15,6 +17,7 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cart, setCart] = useState<Products[]>([]);
+  const [cartCount, setCartCount] = useState(0);
 
   const addToCart = (product: Products) => {
     setCart([...cart, product]);
@@ -25,7 +28,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     setCart(updatedCart);
   };
 
-  return <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>{children}</CartContext.Provider>;
+  const setCartCountNav = (value: number) => {
+    setCartCount(value);
+  };
+
+  return (
+    <CartContext.Provider value={{ cart, cartCount, setCartCountNav, addToCart, removeFromCart }}>
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 export const useCart = () => {

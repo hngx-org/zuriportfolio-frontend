@@ -40,9 +40,7 @@ export default function CartPageSkeleton() {
           <section className="flex lg:px-10 py-8 w-full">
             <div className="cart-summary_wrapper w-full flex flex-col space-y-6">
               <div className="cart-summary__header border border-gray-300 rounded-md shadow-sm">
-                <h1 className="font-bold capitalize text w-[100%] h-[20px] bg-[#f0f0f0] my-[5px] -xl px-4 py-4">
-                  
-                </h1>
+                <h1 className="font-bold capitalize text w-[100%] h-[20px] bg-[#f0f0f0] my-[5px] -xl px-4 py-4"></h1>
                 <hr className="border-b-1 border-gray-500" />
                 <div className="coupon flex flex-col py-4 px-4">
                   <div className="skeleton-text w-[100%] h-[20px] bg-[#f0f0f0] my-[5px] "></div>
@@ -72,9 +70,7 @@ export default function CartPageSkeleton() {
       </section>
 
       <section className="w-full flex flex-col mt-[50px] mb-[10%]">
-        <h1 className="text w-[100%] h-[20px] bg-[#f0f0f0] my-[5px] py-[15px] font-bold md:ml-0 font-manropeEB">
-          
-        </h1>
+        <h1 className="text w-[100%] h-[20px] bg-[#f0f0f0] my-[5px] py-[15px] font-bold md:ml-0 font-manropeEB"></h1>
 
         <div className="w-full flex flex-row overflow-scroll gap-x-8 md:overflow-hidden items-center lg:items-start lg:justify-between md:flex-row md:justify-center md:flex-wrap md:gap-x-4 gap-y-4 lg:gap-x-2 mt-4">
           <div className="skeleton-recently-viewed w-[250px] h-[270px] bg-[#f0f0f0] mt-[10px] rounded-md "></div>
