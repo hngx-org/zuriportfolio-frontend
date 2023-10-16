@@ -94,8 +94,8 @@ const ZuriLandingPage = () => {
       <div className="px-4 sm:px-6 md:px-3 py-5 container mx-auto">
         {shop && (
           <div className="space-y-12 py-10">
-            {/* ... */}
             <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
+
             <p className="md:text-base text-xs font-normal font-manropeL">
               Explore our store for courses and E-books that will elevate your skills from novice to expert.
             </p>
@@ -110,6 +110,8 @@ const ZuriLandingPage = () => {
             page={currentPage}
             setPage={handlePageChange}
           />
+         
+           
         </div>
       </div>
       <Footer />

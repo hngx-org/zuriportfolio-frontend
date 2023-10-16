@@ -9,16 +9,16 @@ import CardHover from './CardHover';
 import { UserInfo } from '../../../@types';
 
 import bg1 from '../../../public/assets/images/explore_img/bg1.svg';
-import photo2 from '../../../public/assets/images/explore_img/photo2.png';
+import photo2 from '../assets/photo2.png';
 import Link from 'next/link';
-import { ExportCurve } from 'iconsax-react';
+import { Copy } from 'iconsax-react';
 import { notify } from '@ui/Toast';
 
 interface CardProps {
   data: CardData;
 }
 
-const Card = ({ data }: { data?: UserInfo }) => {
+const Card = ({ data }: { data: UserInfo }) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -59,6 +59,8 @@ const Card = ({ data }: { data?: UserInfo }) => {
     }
   };
 
+  const skillArray = data?.skills.slice(0, 5),
+    skillExcess = data?.skills.length - data?.skills.slice(0, 5).length;
   return (
     <div
       className="relative transition-all ease-in-out duration-500 hover:scale-105 overflow-hidden"
@@ -89,15 +91,16 @@ const Card = ({ data }: { data?: UserInfo }) => {
             {data?.skills.length === 0 ? (
               <button className="border border-gray-100 px-2 rounded-full">No Skills</button>
             ) : (
-              data?.skills.map((skill, id) => (
+              skillArray.map((skill, id) => (
                 <button key={id} className="border border-gray-100 px-2 rounded-full">
                   {skill}
                 </button>
               ))
             )}
+            {skillExcess > 0 && <button className="border border-gray-100 px-2 rounded-full">+{skillExcess}</button>}
             {/* <button className="mt-2 border border-gray-100 px-4 py-1 rounded-full">{data.skills[6]}</button> */}
           </div>
-          <div className="mx-auto my-4 gap-2  md:gap-0 justify-center items-center flex">
+          <div className="mx-auto my-4 gap-2  md:gap-3 justify-around max-w-[300px] items-center flex">
             <div className="gap-1 md:gap-2 flex ">
               <Image src={total_projects} className="m-auto" alt="total_projects" width={40} height={40} />
               <div className="grid">
@@ -109,16 +112,18 @@ const Card = ({ data }: { data?: UserInfo }) => {
               <Image src={badge_beginner} alt="badge_beginner" className="m-auto" width={40} height={40} />
               <div className="grid">
                 <span className="text-gray-500 text-left text-[0.75rem] ">Badge</span>
-                <span className="text-left font-bold text-[0.55rem]">{data?.ranking ?? 'No Ranking'}</span>
+                <span className="text-left font-bold text-[0.65rem]">{data?.ranking ?? 'No Ranking'}</span>
               </div>
             </div>
           </div>
-          <div className="flex justify-center items-center gap-1 mt-5">
-            <Image src={Location} alt="badge_beginner" width={20} height={20} />
-            <div>
-              <span className="text-gray-500 ">{data?.address ?? 'No Address'}</span>
+          {data?.address ?? (
+            <div className="flex justify-center items-center gap-1 mt-5">
+              <Image src={Location} alt="badge_beginner" width={20} height={20} />
+              <div>
+                <span className="text-gray-500 ">{data?.address ?? 'No Address'}</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div
@@ -127,7 +132,7 @@ const Card = ({ data }: { data?: UserInfo }) => {
           onClick={copyUrl}
         >
           <button>
-            <ExportCurve color="#000" className="border-2 border-black w-[30px] h-[30px] rounded-full p-1" />
+            <Copy color="#000" size="4" className=" bg-white shadow-lg  w-[25px] h-[30px] rounded-full p-1" />
           </button>
         </div>
         {/* <Link
@@ -139,7 +144,13 @@ const Card = ({ data }: { data?: UserInfo }) => {
           </Link> */}
       </div>
 
-      <input type="text" value={`${homepageURl}portfolio/${data?.id}`} disabled ref={urlInputRef} className="hidden" />
+      <input
+        type="text"
+        value={`${homepageURl}portfolio/${data?.firstName.toLowerCase()}-${data?.lastName.toLowerCase()}`}
+        disabled
+        ref={urlInputRef}
+        className="hidden"
+      />
     </div>
   );
 };
