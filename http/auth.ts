@@ -9,10 +9,10 @@ const $http = axios.create({
   },
 });
 
-export const verfiy2FA = async (props: { email: string; code: string }) => {
+export const verfiy2FA = async (props: { token: string; code: string }) => {
   try {
     const res = await $http.post('/2fa/verify-code', props);
-    return res;
+    return res?.data;
   } catch (e: any) {
     return e.response.data ?? { message: e.message };
   }
@@ -21,10 +21,26 @@ export const verfiy2FA = async (props: { email: string; code: string }) => {
 export const resend2FACode = async (props: { email: string }) => {
   try {
     const res = await $http.post('/2fa/send-code', props);
-    console.log(res);
-    return res;
+    return res?.data;
   } catch (e: any) {
-    console.log(e);
+    return e.response.data ?? { message: e.message };
+  }
+};
+
+export const enabled2FA = async (props: { email: string; token: string }) => {
+  try {
+    const res = await $http.post('/2fa/enable', props);
+    return res?.data;
+  } catch (e: any) {
+    return e.response.data ?? { message: e.message };
+  }
+};
+
+export const disable2FA = async (props: { email: string; token: string }) => {
+  try {
+    const res = await $http.post('/2fa/disable', props);
+    return res?.data;
+  } catch (e: any) {
     return e.response.data ?? { message: e.message };
   }
 };

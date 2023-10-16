@@ -54,6 +54,8 @@ type PortfolioContext = {
   setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>;
   openShop: boolean;
   setOpenShop: React.Dispatch<React.SetStateAction<boolean>>;
+  openCustom: boolean;
+  setOpenCustom: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Portfolio = createContext<PortfolioContext>({
@@ -94,6 +96,8 @@ const Portfolio = createContext<PortfolioContext>({
   setOpenDelete: () => {},
   openShop: true,
   setOpenShop: () => {},
+  openCustom: false,
+  setOpenCustom: () => {},
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
@@ -152,6 +156,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [sections, setSections] = useState<Array<any>>(s);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [openShop, setOpenShop] = useState<boolean>(true);
+  const [openCustom, setOpenCustom] = useState<boolean>(false);
   const [hasPortfolio, setHasPortfolio] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
   const [userSections, setUserSections] = useState<any[]>([]);
@@ -417,6 +422,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setHasPortfolio,
     openShop,
     setOpenShop,
+    openCustom,
+    setOpenCustom,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;
