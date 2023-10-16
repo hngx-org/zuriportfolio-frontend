@@ -70,7 +70,7 @@ function SignUpWithEmail() {
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
       <div className="text-center lg:text-left">
         <h1 className="mb-1 md:mb-6 text-2xl md:text-[36px] font-semibold text-dark-100 font-manropeEB">Sign up</h1>
-        <p className="md:text-[22px] text-custom-color20 font-manropeB">Let&apos;s get you started</p>
+        <p className="md:text-[22px] text-custom-color20 font-manropeB">Let&apos;s get you started.</p>
       </div>
       <div className="mt-6 md:my-12">
         <form className="flex flex-col gap-6" onSubmit={form.onSubmit((values) => handleSignUpWithEmail(values))}>
@@ -108,7 +108,7 @@ function SignUpWithEmail() {
             </Link>
           </p>
         </div>
-        <div className="text-white-650 flex justify-between items-center my-6 lg:my-10">
+        <div className="text-white-650 flex justify-between items-center my-6 lg:my-8">
           <span className="w-full h-[1px] bg-white-650"></span>
           <span className=" manropeL text-sm px-3">OR</span>
           <span className="w-full h-[1px] bg-white-650"></span>
