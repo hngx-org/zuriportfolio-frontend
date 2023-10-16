@@ -39,13 +39,14 @@ export default function Index({ products }: Props) {
                       currency={`USD`}
                       image={item.images[0].url || `/assets/products-banner/Image-11.png`}
                       name={item?.name}
-                      price={parseInt(item.price) || 99}
+                      price={parseInt(item.price)}
                       user={item?.shop.name ? item?.shop.name : ``}
-                      rating={item.rating || 3}
+                      rating={item.rating || 0}
                       showLimitedOffer={false}
                       showTopPicks={false}
                       showDiscount={true}
                       discount_price={50}
+                      shop={item.shop}
                     />
                   </Link>
                 );

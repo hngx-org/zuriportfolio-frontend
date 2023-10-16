@@ -6,7 +6,7 @@ function Breadcrumbs() {
   const router = useRouter();
 
   // Extract dynamic route parameters from the pathname
-  const routeArr = router.asPath.split('/').filter(Boolean);
+  const routeArr = router.asPath.split('?')[0].split('/').filter(Boolean);
 
   // Build the breadcrumb elements
   const breadcrumbs = routeArr.map((el, i) => (
@@ -14,7 +14,7 @@ function Breadcrumbs() {
       <span className="mx-2">{'>'}</span>
       <Link
         href={`/${routeArr.slice(0, i + 1).join('/')}`}
-        className={`${i + 1 == routeArr.length ? ' text-white-400' : null}`}
+        className={`${i + 1 === routeArr.length ? 'text-white-400' : ''}`}
       >
         {el.split('-').join(' ').replaceAll('%20', ' ')}
       </Link>
@@ -22,7 +22,7 @@ function Breadcrumbs() {
   ));
 
   return (
-    <div className="font-manropeB py-[5px] md:py[3px] text-brand-green-shade50 capitalize">
+    <div className="font-manropeB py-5 md:py-3 text-brand-green-shade50 capitalize">
       <div className="flex flex-wrap">
         <Link href="/">Home</Link>
         {breadcrumbs}

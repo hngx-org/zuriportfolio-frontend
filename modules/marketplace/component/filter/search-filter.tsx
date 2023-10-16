@@ -32,12 +32,12 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
             <Fragment>
               <FilterSection tag="category" data={categories.map((c) => c.name)} sectionTitle="Category" />
               {isLoading ? (
-                'loading...'
+                null
               ) : (
                 <FilterSection tag="subCategory" data={sub_categories} sectionTitle="Sub Category" />
               )}
-              <FilterSection tag="discount" data={discount_price} sectionTitle="By Discount" />
-              <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
+              <FilterSection tag="discount" data={discount_price.map(d => `${parseInt(d)}%`)} sectionTitle="By Discount" />
+              <FilterSection tag="keyword" data={['All']} sectionTitle="By Keywords" />
               <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
               <FilterSection tag="price" data={uniquePrices} sectionTitle="By Price"></FilterSection>
             </Fragment>
