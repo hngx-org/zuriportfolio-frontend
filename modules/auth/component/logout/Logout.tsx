@@ -35,5 +35,5 @@ export const MobileLogout = () => {
       Sign Out
     </Link>
   );
-}
+};
 export default Logout;
