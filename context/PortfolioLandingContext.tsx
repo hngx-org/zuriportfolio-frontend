@@ -212,7 +212,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Contact', id: 'contact', data: contact },
         { title: 'Custom', id: 'custom', data: custom },
       ]);
-      console.log(data);
       setIsLoading(false);
     } catch (error: any) {
       setError({ state: true, error: error.message });

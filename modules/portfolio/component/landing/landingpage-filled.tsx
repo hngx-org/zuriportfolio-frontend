@@ -117,7 +117,7 @@ const LandingPageFilled: React.FC = () => {
                 </React.Fragment>
               )}
 
-              {section?.id === 'about' && section?.data?.length > 0 && (
+              {/* {section?.id === 'about' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
                   <Wrapper
@@ -130,7 +130,8 @@ const LandingPageFilled: React.FC = () => {
                   </Wrapper>
                   <Line />
                 </React.Fragment>
-              )}
+              )} */}
+
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
