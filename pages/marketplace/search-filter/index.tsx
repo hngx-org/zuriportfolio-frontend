@@ -95,15 +95,15 @@ export const getServerSideProps = (async (context) => {
   const discount = context.query.discount as string;
   const rating = context.query.rating as string;
 
-  console.log(category, subCategory, price);
-  let apiUrl = constructApiUrl({ category, subCategory });
-  console.log(apiUrl + `/products-filter`);
+  // console.log(category, subCategory, price);
+  let apiUrl = constructApiUrl({ category, subCategory,price, discount, rating });
+  // console.log(apiUrl + `/products-filter`);
   const { data, status } = await axios.get<{ products: ProductList[] }>(apiUrl);
   if (status === 400 || status === 500) {
     console.log('something went wrong');
   }
 
-  console.log(data.products);
+  // console.log(data.products);
   const res = data.products ? data.products : [];
   return { props: { products: res } };
 }) satisfies GetServerSideProps<{
