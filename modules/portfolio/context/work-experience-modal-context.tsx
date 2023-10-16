@@ -46,7 +46,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const [isChecked, setIsChecked] = useState(false);
   const [isForm, setIsForm] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isData, setIsData] = useState(false);
+  const [isData, setIsData] = useState(true);
   const resetForm = () => {
     setRole('');
     setCompany('');
@@ -78,6 +78,10 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
           sectionId: 2,
         }),
       });
+      if (response.ok) {
+        setIsEditMode(false);
+        setIsData(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -109,7 +113,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         message: 'Was not able to delete work experience 😞',
         position: 'top-center',
         theme: 'light',
-        type: 'success',
+        type: 'error',
       });
     }
   };
