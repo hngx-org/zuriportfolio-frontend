@@ -1,4 +1,6 @@
 import React from 'react';
+import PaginationBar from '../PaginationBar';
+import { SearchNormal1 } from 'iconsax-react';
 import PromotionHistoryTable from './PromotionHistoryTable';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,32 +16,34 @@ const PromotionHistory: React.FC = () => {
 
   return (
     <>
-      <main className="max-w-[1240px] mx-auto mb-10 md:px-10 px-4">
+      <main className="max-w-[1240px] mx-auto md:px-10 px-4">
         <section className="font-manropeB font-semibold mt-4">
           <div className="mb-[25px] gap-[35px] flex justify-end">
-            {promotions.length > 0 && (
-              <Link href="/dashboard/promotions/discounts">
-                <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
-                  <svg xmlns="http://w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                    <path
-                      d="M6.5 12H18.5"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M12.5 18V6"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <span>Add New Promotion</span>
-                </Button>
-              </Link>
-            )}
+            <div className="hidden md:justify-end md:flex  justify-center">
+              {promotions.length > 0 && (
+                <Link href="/dashboard/promotions/discounts">
+                  <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                      <path
+                        d="M6.5 12H18.5"
+                        stroke="white"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12.5 18V6"
+                        stroke="white"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span>Add New Promotion</span>
+                  </Button>
+                </Link>
+              )}
+            </div>
             <div className="mb-[25px] gap-[35px] flex justify-end md:hidden">
               <button
                 className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
@@ -66,7 +70,7 @@ const PromotionHistory: React.FC = () => {
               </Link>
             </div>
           </div>
-          <section className="rounded-2xl md:block relative min-h-[400px]">
+          <section className="rounded-2xl md:block relative min-h-[400px] mb-6">
             {isLoading ? (
               <div className="absolute z-50 inset-0 min-h-[300px]">
                 <Loader />
@@ -74,10 +78,10 @@ const PromotionHistory: React.FC = () => {
             ) : (
               <>
                 {promotions.length === 0 ? (
-                  <main className="max-w-[1240px] mx-auto flex m-[100px] md:m-[200px] flex-col items-center justify-center">
+                  <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] mt-[-10px] md:mt-[-10px] md:m-[200px] flex-col items-center justify-center">
                     <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
                     <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">
-                      You don’t have any promotion running
+                      You don&apos;t have any promotion running
                     </h2>
                     <p className="text-[16px] md:text-[24px] font-medium text-center font-manropeB">
                       Create your first promotion on products
@@ -91,7 +95,12 @@ const PromotionHistory: React.FC = () => {
                   </main>
                 ) : (
                   <div className="table-container border rounded-lg border-slate-50 mb-10 overflow-x-auto">
-                    <PromotionHistoryTable pageItem={promotions} />
+                    <PromotionHistoryTable
+                      pageItem={promotions}
+                      changeSort={changeSortBy}
+                      toggleSort={toggleSortOrder}
+                      currentSort={sortBy}
+                    />
                   </div>
                 )}
               </>
