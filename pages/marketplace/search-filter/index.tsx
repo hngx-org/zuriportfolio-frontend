@@ -64,19 +64,19 @@ function constructApiUrl({ category = '', subCategory = '', discount = '', price
   let apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/products-filter?';
 
   // Check each query parameter and append to the URL if not empty
-  if (category) {
+  if (category && category !== 'All') {
     apiUrl += `category=${category}&`;
   }
-  if (subCategory) {
+  if (subCategory && subCategory !== 'All') {
     apiUrl += `subCategory=${subCategory}&`;
   }
-  if (discount) {
+  if (discount && !isNaN(parseFloat(discount)) && discount !== 'All') {
     apiUrl += `discount=${discount}&`;
   }
-  if (price) {
+  if (price && !isNaN(parseInt(price)) && price !== 'All') {
     apiUrl += `price=${price}&`;
   }
-  if (rating) {
+  if (rating && rating !== 'All') {
     apiUrl += `rating=${rating}&`;
   }
 

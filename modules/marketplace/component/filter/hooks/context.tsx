@@ -72,8 +72,8 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
 
   async function handleSearch() {
     setLoading(true);
-    console.log('handle submit');
-    console.log(filterSelection);
+    // console.log('handle submit');
+    // console.log(filterSelection);
     const category = filterSelection.category.join(',');
     const subCategory = filterSelection.subCategory.join(',');
     const discount = filterSelection.discount.join(',');
