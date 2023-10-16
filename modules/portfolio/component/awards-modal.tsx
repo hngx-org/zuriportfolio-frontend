@@ -108,7 +108,7 @@ const AwardRead = ({ isOpen, onClose, awards }: { isOpen: boolean; onClose: () =
   );
 };
 
-const Awards = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId: string }) => {
   const [formData, setFormData] = useState({
     title: '',
     year: '', // This field is initially empty

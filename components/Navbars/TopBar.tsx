@@ -123,7 +123,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   return (
     <>
-      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40] isolate fixed  ">
+      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40] isolate sticky top-0  ">
         <div className="max-w-[1240px] mx-auto flex items-center justify-between  relative gap-1">
           <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] gap-14">
             <div className="flex items-center gap-1">
@@ -280,7 +280,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </div>
                 </li>
                 <Link
-                  href={'/marketplace/cart'}
+                  href={'/shop'}
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -447,7 +447,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
       </nav>
-      <div className="mb-24 md:mb-28 lg:mb-32 "></div>
     </>
   );
 

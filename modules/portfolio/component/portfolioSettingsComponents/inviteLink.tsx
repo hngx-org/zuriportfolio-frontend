@@ -8,51 +8,35 @@ import Social2 from '../../../../public/assets/inviteAssets/Social2.svg';
 import Social3 from '../../../../public/assets/inviteAssets/Social3.svg';
 import Social1 from '../../../../public/assets/inviteAssets/Social1.svg';
 import Share from '../../../../public/assets/inviteAssets/share-01.svg';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { useAuth } from '../../../../context/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function InviteLink() {
+  const { auth } = useAuth();
   const websiteURL = 'https://zuriportfolio-frontend-pw1h.vercel.app';
   const copyInvite = useRef<any>(null);
   const handleCopyToClipboard = () => {
     if (copyInvite.current) {
       copyInvite.current.select();
       document.execCommand('copy');
-      alert('Text copied to clipboard!');
+      toast('copy to clipboard', {
+        position: 'top-right',
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
     }
   };
 
   const [openModal, setOPenModal] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string>('');
+
   const toggleModal = () => {
     setOPenModal((prev: boolean) => !prev);
   };
-
-  const handleInvite = async (): Promise<void> => {
-    try {
-      const url = 'https://hng6-r5y3.onrender.com/api/users/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
-      const response = await fetch(url);
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Success:', data);
-        setUserName(data.user.username);
-      } else {
-        console.error('Failed');
-      }
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
-  };
-
-  useEffect(() => {
-    handleInvite()
-      .then((data) => {
-        // Do something when the promise resolves (optional).
-      })
-      .catch((error) => {
-        console.error('Error in handleInvite:', error);
-      });
-  }, []);
 
   return (
     <div className={`  space-y-4 font-manropeB container mx-auto  `}>
@@ -69,7 +53,7 @@ export default function InviteLink() {
            outline-none px-[8px] border-[1px] leading-6  grow max-w-[232px]
             md:max-w-[268px] height-[24px] border-[#D0D5DD]
              lg:px-[12px] py-[10px] text-[12px] md:text-[14px] rounded-l-md text-[#667085]"
-          value={`portfolio.zuri/invite?=${userName}`}
+          value={`portfolio.zuri/invite?=${auth?.user.firstName}`}
           readOnly
         />
 
@@ -133,6 +117,18 @@ export default function InviteLink() {
           </div>
         </div>
       </Modal>
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

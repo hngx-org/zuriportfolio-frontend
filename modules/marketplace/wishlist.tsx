@@ -12,13 +12,10 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function Wishlist() {
   const [data, setData] = useState<ProductEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [dataCheck, setDataCheck] = useState(false);
   const { auth } = useAuth();
 
   const token: any = isUserAuthenticated();
-
-  console.log(token);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,12 +23,11 @@ function Wishlist() {
         const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token?.id}`);
 
         const result = await response.json();
+        if (Array.isArray(result) && result.length === 0) setDataCheck(true);
         setData(result);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
-        setError('Error fetching data. Please try again later.');
-        setLoading(false);
+        toast.error('Error fetching data.');
       }
     };
     fetchData();
@@ -70,23 +66,14 @@ function Wishlist() {
             <section className="flex flex-col gap-10 mb-20">
               <div className="flex justify-between items-center">
                 <h2 className="sm:text-[28px] text-[16px] font-semibold text-brand-green-shade10">
-                  My Wishlist (<span>{data.length || 'no wishlist'}</span> items)
+                  My Wishlist {data.length > 0 && <span>({data.length || 'no wishlist'} items)</span>}
                 </h2>
               </div>
               <div className="flex flex-col gap-6  lg:px-[100px]">
-                {loading && (
-                  <div className="flex justify-center items-center">
+                {dataCheck && (
+                  <div className="flex flex-col mx-auto items-center ">
                     <Image src={loadingIllustration} alt="loading" width={100} height={100} />
-                  </div>
-                )}
-                {error && (
-                  <div className="flex justify-center items-center">
-                    <p className="text-red-500">{error}</p>
-                  </div>
-                )}
-                {data.length === 0 && (
-                  <div className="flex justify-center items-center">
-                    <p className="text-red-500">No wishlist yet</p>
+                    <p className="text-lg mt-2">Looks like you have no items in your wishlist</p>
                   </div>
                 )}
 

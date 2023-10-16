@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { Product } from '../wishlist';
 
 export const WishlistProductCard = ({ product, moveToCart }: { product: Product; moveToCart: any }) => {
-  console.log(product);
   return (
     <>
       <div className="flex items-center justify-between gap-4">
@@ -17,8 +16,8 @@ export const WishlistProductCard = ({ product, moveToCart }: { product: Product;
               src={product.images[0].url}
               alt={product.name}
               width={145}
-              height={145}
-              className="h-full min-w-[145px] md:min-w-[165px]"
+              height={150}
+              className="h-[150px] min-w-[145px] md:min-w-[165px] object-cover"
             />
           </div>
 
