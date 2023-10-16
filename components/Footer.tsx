@@ -55,11 +55,6 @@ function Footer() {
 
             <ul className="flex flex-col gap-2 font-normal">
               <li>
-                <Link href="/portfolio" className="hover:underline">
-                  Portfolio
-                </Link>
-              </li>
-              <li>
                 <Link href="/explore" className="hover:underline">
                   Explore
                 </Link>
@@ -67,11 +62,6 @@ function Footer() {
               <li>
                 <Link href="/marketplace" className="hover:underline">
                   Marketplace
-                </Link>
-              </li>
-              <li>
-                <Link href="/shop" className="hover:underline">
-                  Shop
                 </Link>
               </li>
             </ul>
