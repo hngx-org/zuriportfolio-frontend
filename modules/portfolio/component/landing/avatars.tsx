@@ -1,8 +1,9 @@
 type PortfolioContext = {
-  profileUpdate: () => void;
+  profileUpdate?: () => void;
+  isLoggedIn: boolean;
 };
 
-const Profile = ({ profileUpdate }: PortfolioContext) => {
+const Profile = ({ profileUpdate, isLoggedIn }: PortfolioContext) => {
   return (
     <div className="grid place-content-center absolute w-[120px] md:w-[170px] object-fill object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full bg-emerald-50">
       <svg width="57" height="56" viewBox="0 0 57 56" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,40 +23,42 @@ const Profile = ({ profileUpdate }: PortfolioContext) => {
         />
       </svg>
 
-      <label
-        className="absolute md:bottom-4 bottom-1 -right-2 w-[33%] md:w-[30%] bg-brand-green-primary aspect-square rounded-full grid place-content-center cursor-pointer"
-        onClick={() => profileUpdate()}
-      >
-        <svg
-          className="w-[30px] md:w-[25px] md:h-25px h-[30px]"
-          viewBox="0 0 25 25"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      {isLoggedIn && (
+        <label
+          className="absolute md:bottom-4 bottom-1 -right-2 w-[33%] md:w-[30%] bg-brand-green-primary aspect-square rounded-full grid place-content-center cursor-pointer"
+          onClick={() => profileUpdate && profileUpdate()}
         >
-          <path
-            d="M12.2871 22.3994C17.7871 22.3994 22.2871 17.8994 22.2871 12.3994C22.2871 6.89941 17.7871 2.39941 12.2871 2.39941C6.78711 2.39941 2.28711 6.89941 2.28711 12.3994C2.28711 17.8994 6.78711 22.3994 12.2871 22.3994Z"
-            stroke="white"
-            strokeWidth="2.66667"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M8.28711 12.3994H16.2871"
-            stroke="white"
-            strokeWidth="2.66667"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M12.2871 16.3994V8.39941"
-            stroke="white"
-            strokeWidth="2.66667"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <input disabled={true} id="avatarUpload" type="file" className="hidden" accept="image/png, image/jpeg" />
-      </label>
+          <svg
+            className="w-[30px] md:w-[25px] md:h-25px h-[30px]"
+            viewBox="0 0 25 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12.2871 22.3994C17.7871 22.3994 22.2871 17.8994 22.2871 12.3994C22.2871 6.89941 17.7871 2.39941 12.2871 2.39941C6.78711 2.39941 2.28711 6.89941 2.28711 12.3994C2.28711 17.8994 6.78711 22.3994 12.2871 22.3994Z"
+              stroke="white"
+              strokeWidth="2.66667"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M8.28711 12.3994H16.2871"
+              stroke="white"
+              strokeWidth="2.66667"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M12.2871 16.3994V8.39941"
+              stroke="white"
+              strokeWidth="2.66667"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <input disabled={true} id="avatarUpload" type="file" className="hidden" accept="image/png, image/jpeg" />
+        </label>
+      )}
     </div>
   );
 };

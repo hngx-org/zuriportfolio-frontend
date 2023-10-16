@@ -1,0 +1,127 @@
+<mjml>
+  <mj-head>
+    <mj-title> E-mail Verification / Order Fulfillment </mj-title>
+    <mj-font name="Manrope" href="https://fonts.googleapis.com/css2?family=Manrope" />
+  </mj-head>
+  <mj-body background-color="#F0ECE6">
+    <mj-wrapper border="1px solid #F0ECE6" padding="0px" full-width="full-width">
+      <mj-section>
+        <mj-column>
+          <mj-image
+            width="180px"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo.png"
+            alt="zuri portfolio logo"
+            width="180px"
+          />
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+
+    <mj-section background-color="#ffffff">
+      <mj-column padding="3%">
+        <mj-text font-family="Manrope" color="#2E3130" font-size="24px" font-weight="600" line-height="32px">
+          Hi Dare,<br />
+
+          <p style="color: #009254; font-weight: 700; font-size: 24px; line-height: 52px">Notice of store review</p>
+        </mj-text>
+        <mj-text font-family="Manrope" font-size="16px" line-height="24px" font-weight="400">
+          This email is to formally notify you that your Zuriportfolio store ‘Road to marketing’ is currently undergoing
+          a comprehensive review. This process is a standard procedure designed to assess and ensure the quality,
+          compliance, and overall excellence of all stores within our platform.
+        </mj-text>
+        <mj-text font-family="Manrope" padding-top="3%" padding-bottom="3%" font-size="16px" font-weight="400">
+          The review will encompass a thorough examination of the following critical aspects of your store:
+        </mj-text>
+        <!-- <mj-text mode="horizontal"> -->
+        <mj-text
+          font-weight="600"
+          padding-bottom="3%"
+          font-family="Manrope"
+          font-weight="bold"
+          line-height="24px"
+          color="#2E3130"
+          font-size="16px"
+        >
+          Product Listings: This evaluation will focus on the accuracy, comprehensiveness, and appropriateness of your
+          product descriptions, pricing, and imagery.</mj-text
+        >
+        <!-- </mj-text> -->
+
+        <mj-text font-family="Manrope" color="#2E3130" font-size="16px" line-height="24px" padding-bottom="3%">
+          <mj-text font-weight="bold" align="center">Store Policies:</mj-text>
+          <mj-text align="center" font-weight="600"
+            >We will meticulously inspect your store's policies, including complying with brand guidelines, terms of
+            use.</mj-text
+          >
+        </mj-text>
+
+        <mj-text
+          font-family="Manrope"
+          font-weight="600"
+          color="#2E3130"
+          font-size="16px"
+          line-height="24px"
+          padding-bottom="3%"
+        >
+          User Experience: The overall user experience, including user satisfaction, end-of-use, and user reviews
+        </mj-text>
+
+        <mj-text font-family="Manrope" font-weight="400" line-height="24px" padding-bottom="3%" font-size="15px">
+          The review will be carried out over a period of 2 weeks.
+        </mj-text>
+
+        <mj-button
+          font-family="Helvetica"
+          border-radius="12px"
+          font-weight="600"
+          font-size="12px"
+          inner-padding="18px 16px"
+          padding="30px 14px"
+          background-color="#009254"
+          color="white"
+        >
+          Go to your store
+        </mj-button>
+
+        <mj-text font-family="Manrope" font-weight="400" line-height="24px" font-size="16px">
+          We encourage you to continue managing and updating your store as usual during this period, as this review
+          process will not affect your regular operations. Should any specific actions or additional information be
+          required from you, we will promptly communicate with detailed guidance.
+        </mj-text>
+
+        <mj-text font-family="Manrope" font-weight="400" color="#2E3130" font-size="16px" line-height="24px">
+          If you have any questions or issues, please contact support at
+          <mj-text style="color: #009254">support@zuriportolio.com.</mj-text>
+        </mj-text>
+
+        <mj-text font-family="Manrope" font-weight="400" line-height="24px" font-size="16px" color="#191C1D">
+          Thank you for choosing Zuriportfolio!
+          <p style="color: #865311; font-weight: 700; font-size: 14px; line-height: 20px">Zuri Team</p>
+        </mj-text>
+
+        <mj-image
+          padding-top="2%"
+          align="center"
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/emailVerification/logo2.png"
+          alt="zuriportfolio logo"
+          width="120px"
+        />
+        <mj-text
+          padding-top="2%"
+          align="center"
+          font-family="Manrope"
+          color="#5B5F5E"
+          font-weight="700"
+          line-height="20px"
+          font-size="12px"
+        >
+          Copyright © Zuriportfolio, All rights reserved.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <!-- <mj-section border="1px solid #E1E3E2">
+    <mj-column>
+    </mj-column>
+    </mj-section> -->
+  </mj-body>
+</mjml>

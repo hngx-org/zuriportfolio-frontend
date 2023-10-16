@@ -87,9 +87,10 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
                 id={item.id}
                 image={item?.images[0]['url'] ? item?.images[0]['url'] : ''}
                 name={item.name}
+                shop={item?.shop}
                 price={item.price}
                 rating={item.rating}
-                user="No user"
+                user={item?.shop?.name || 'No user'}
               />
             ))}
         </div>

@@ -6,28 +6,35 @@ import Logo from '../../../public/assets/tsImages/image 12.png';
 
 export default function Page() {
   const [products, setProducts] = useState<topListingProduct | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const totalPages = 7;
 
   useEffect(() => {
     async function getData() {
       try {
+        setLoading(true);
         const res = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/',
+          'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?page=' +
+            currentPage,
         );
+
         if (!res.ok) {
+          setLoading(false);
           throw new Error('Failed to fetch data');
         }
+
         const data = await res.json();
         setProducts(data.data);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.error('Error fetching data:', error);
       }
     }
 
     getData();
-  }, []);
-
-  const currentPage = 1;
-  const totalPages = 10;
+  }, [currentPage]);
 
   return (
     <section className=" px-6 mb-10 font-manropeL">
@@ -52,7 +59,7 @@ export default function Page() {
           </div>
         </div>
         <div className="min-w-[1000px]">
-          {products
+          {products && !loading
             ? products.map((product) => (
                 <div
                   key={product.product_id}
@@ -71,9 +78,15 @@ export default function Page() {
                   </div>
                 </div>
               ))
-            : 'Fetching...'}
+            : 'Loading...'}
         </div>
-        <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={() => {}} />
+        <SuperAdminPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(value) => {
+            setCurrentPage(value);
+          }}
+        />
       </div>
     </section>
   );

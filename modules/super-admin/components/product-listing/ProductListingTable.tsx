@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-
 import { ArrowDown, Sort } from 'iconsax-react';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import FilterProduct from '@modules/super-admin/components/product-listing/filterProduct';
 import Button from '@ui/Button';
-import Link from 'next/link';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { formatDate } from './product-details';
 import { useRouter } from 'next/router';
@@ -46,20 +44,18 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
       let sortedProducts: any = [...data.data]; // Create a copy of the full dataset
 
       sortedProducts = sortedProducts.sort((a: any, b: any) => {
-        const dateA = new Date(formatDate(a.createdAt));
-        const dateB = new Date(formatDate(b.createdAt));
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
 
         if (status === 'newest') {
           return dateB.getTime() - dateA.getTime(); // Newest to oldest
         } else if (status === 'oldest') {
           return dateA.getTime() - dateB.getTime(); // Oldest to newest
-        } else {
-          const statusOrder: { [key: string]: number } = {
-            Active: 1,
-            Sanctioned: 2,
-            Deleted: 3,
-          };
-          return statusOrder[a.product_status] - statusOrder[b.product_status];
+        } else if (status === 'status') {
+          if (a.product_status === 'Active' && b.product_status !== 'Active') return -1;
+          if (a.product_status !== 'Active' && b.product_status === 'Active') return 1;
+          if (a.product_status === 'Sanctioned' && b.product_status === 'Deleted') return -1;
+          if (a.product_status === 'Deleted' && b.product_status === 'Sanctioned') return 1;
         }
       });
 
@@ -99,7 +95,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         <div className="mb-4">
           {visibleProducts?.length > 0 ? (
             <>
-              <table className="w-full ">
+              <table className="w-full md:table-fixed">
                 <thead>
                   <tr>
                     <th className="text-gray-500 text-sm font-normal leading-[18px] px-6 py-6 gap-3 text-left flex items-center">
@@ -125,10 +121,10 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                       key={product?.product_id}
                       onClick={() => route.push(`/super-admin/product-listing/product-details/${product?.product_id}`)}
                     >
-                      <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
+                      <td className="max-w-[10vw] md:w-full font-manropeL text-base text-gray-900 px-6 py-6">
                         <p>{product?.product_name} </p>
                       </td>
-                      <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
+                      <td className=" font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                         <p>{product?.vendor_name} </p>
                       </td>
                       <td className="hidden md:table-cell tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
