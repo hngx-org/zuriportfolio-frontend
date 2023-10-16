@@ -30,16 +30,7 @@ const Landing = () => {
   } = useContext(Portfolio);
 
   const { firstName, lastName, tracks, city, country, coverImage } = userData;
-
-  useEffect(() => {
-    userSections?.map((section) => {
-      if (section?.data?.length !== 0) {
-        setHasData(true);
-      } else {
-        setHasData(false);
-      }
-    });
-  }, [setHasData, userSections]);
+  console.log(userData);
 
   const headerMargin =
     'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen object-cover';
@@ -49,7 +40,6 @@ const Landing = () => {
   ) : (
     <CoverDiv className={`bg-[#F0F1F0] opacity-80 ${headerMargin}`} />
   );
-
   return (
     <>
       <div onClick={modal}>
