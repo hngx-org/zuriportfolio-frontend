@@ -24,7 +24,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
   const handleUserCameFrom = (value: string) => {
     setUserCameFrom(value);
-  }
+  };
 
   const contextValue: AuthContextProps = {
     auth,
@@ -34,7 +34,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     redirect,
     handleRedirect,
     userCameFrom,
-    handleUserCameFrom
+    handleUserCameFrom,
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

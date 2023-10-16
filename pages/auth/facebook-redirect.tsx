@@ -4,14 +4,14 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 
 export const ADMIN_ID = 3;
-
-function GithubRedirect() {
+function FacebookRedirect() {
   const router = useRouter();
   useEffect(() => {
     const query = window.location.search.split('?')[1];
-    const url = `/github/redirect?${query}`;
+    const url = `/facebook/redirect?${query}`;
     const Oauth = async () => {
       const $http = axios.create({
+        // https://staging.zuri.team/auth/google-redirect
         baseURL: 'https://staging.zuri.team/api/auth/api/auth',
         timeout: 30000,
         headers: {
@@ -23,7 +23,6 @@ function GithubRedirect() {
       try {
         const { data } = await $http.get(url);
         const token = data.data.token;
-        console.log(data);
         localStorage.setItem('zpt', token);
         // Checking if user enabled 2fa
         if (data.data.user.twoFactorAuth) {
@@ -40,11 +39,12 @@ function GithubRedirect() {
         }
         router.push('/dashboard');
       } catch (e: any) {
-        router.push('/auth/signup');
+        console.log(e);
       }
     };
     Oauth();
-  }, [router]);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, []);
   return <div className="flex item-center justify-center mt-[2rem]">Please Wait...</div>;
 }
-export default GithubRedirect;
+export default FacebookRedirect;

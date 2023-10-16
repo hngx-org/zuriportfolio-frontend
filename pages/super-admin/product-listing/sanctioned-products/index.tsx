@@ -35,7 +35,7 @@ const SanctionedProducts = () => {
 
   useEffect(() => {
     setFilteredProducts(sanctionedProd);
-  }, [sanctionedProd, sanctionedProducts]);
+  }, [sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
   const handleSearch = (searchText: string) => {
@@ -78,7 +78,12 @@ const SanctionedProducts = () => {
                         <ArrowDown size="16" className="" />
                       </th>
                       {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item, index) => (
-                        <th className={`text-gray-500 ${index === 0 ? 'table-cell' : 'hidden md:table-cell'} text-sm font-normal leading-[18px] px-3 py-6 gap-3`} key={item}>
+                        <th
+                          className={`text-gray-500 ${
+                            index === 0 ? 'table-cell' : 'hidden md:table-cell'
+                          } text-sm font-normal leading-[18px] px-3 py-6 gap-3`}
+                          key={item}
+                        >
                           {item}
                         </th>
                       ))}

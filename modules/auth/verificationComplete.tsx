@@ -42,7 +42,7 @@ function VerificationComplete() {
           type: 'success',
         });
 
-        router.push(userCameFrom || "/dashboard");
+        router.push(userCameFrom || '/dashboard');
         return;
       }
 
