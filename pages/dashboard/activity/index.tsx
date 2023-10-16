@@ -3,6 +3,7 @@ import React from 'react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import Container from '@modules/auth/component/Container/Container';
 import { Activity } from '@modules/dashboard/component/dashboard/activity';
+import withAuth from '../../../helpers/withAuth';
 
 function activity() {
   return (
@@ -19,5 +20,5 @@ function activity() {
 }
 
 // uncomment after auth is implemented
-// export default withAuth(activity);
-export default activity;
+export default withAuth(activity);
+// export default activity;
