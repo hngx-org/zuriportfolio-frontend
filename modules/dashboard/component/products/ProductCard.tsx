@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import product from '../../../../public/assets/dashboard/products.png';
 import Image from 'next/image';
 
 import Modal from '@ui/Modal';
@@ -10,7 +9,6 @@ import { Input } from '@ui/Input';
 import Link from 'next/link';
 import Button from '@ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
-import Loader from '@ui/Loader';
 
 type Product = {
   product_id: any;
@@ -24,7 +22,11 @@ const DeleteModal = (props: any) => {
   const [products, setProducts] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products')
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -40,7 +42,7 @@ const DeleteModal = (props: any) => {
   }, []);
 
   const handleDelete = () => {
-    const productId = props.product.id;
+    const productId = props.product.product_id;
     const productName = props.product.name;
 
     // Make an API request to delete the product using productId
@@ -48,6 +50,7 @@ const DeleteModal = (props: any) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     })
       .then(async (response) => {
@@ -324,8 +327,6 @@ const ProductCard = (props: {
 }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  // const [products, setProducts] = useState<Product[]>([]);
-  // const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const closeDeleteModal = () => {
     setDeleteModal(false);
   };
@@ -356,7 +357,7 @@ const ProductCard = (props: {
             />
           </figure>
           <p className="font-manropeL font-normal text-[14px] capitalize leading-[142.857%] tracking-[0.035px] text-custom-color43 mb-[2px]">
-            {product.name}
+            {product?.name}
           </p>
           <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
             ${product.price}
