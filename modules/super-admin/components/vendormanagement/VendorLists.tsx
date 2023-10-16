@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { brokenImage } from '../../../../pages/super-admin/vendor-management/vendor-details/[id]';
 export const imageUrl =
   'https://media.istockphoto.com/id/1321856038/photo/portrait-beautiful-young-woman-with-clean-fresh-skin.jpg?s=612x612&w=0&k=20&c=jP4pZTdV_7hHPMhFUaFNZSAbIDQAOUEcrMPMwSKFLqk=';
 
@@ -15,8 +16,8 @@ const VendorLists = ({ data }: any) => {
         <div className="flex items-center">
           <div className="w-10 h-10 mx-2 rounded-full overflow-hidden">
             <Image
-              loader={() => imageUrl}
-              src={imageUrl}
+              loader={() => data?.vendor_profile_pic[0] || brokenImage}
+              src={data?.vendor_profile_pic[0] || brokenImage}
               alt="profile picture"
               width={40}
               height={40}
