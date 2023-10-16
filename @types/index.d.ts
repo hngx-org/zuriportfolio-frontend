@@ -611,6 +611,10 @@ export interface NotificationCheckboxType {
   // userId:string
 }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> ac0e1341fe2e6118e4fc723f51d17e28395caa79
 export type Graph = {
   id: number;
   title: string;

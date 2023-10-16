@@ -1,14 +1,15 @@
 import React from 'react';
-import AnalyticsAndReportingCards from '../analytics-components/AnalyticsAndReportingCards';
+
 import AnalyticsAndReportingGraphs from '../analytics-components/AnalyticsAndReportingGraphs';
 import AnalyticsAndReportingTopSelling from '../analytics-components/AnalyticsAndReportingTopSelling';
+import AnalyticsAndReportingCards from '../analytics-components/AnalyticsAndReportingCards';
 
 const Layouts = () => {
   return (
     <div>
-      <AnalyticsAndReportingCards />
+     <AnalyticsAndReportingCards />
       <AnalyticsAndReportingGraphs />
-      <AnalyticsAndReportingTopSelling />
+     <AnalyticsAndReportingTopSelling />
     </div>
   );
 };
