@@ -49,10 +49,10 @@ const EditProfile = () => {
 
   useEffect(() => {
     const getData = async () => {
-      // setIsLoading(true);
+      setIsLoading(true);
       await getUser();
       await getTracks();
-      // setIsLoading(false);
+      setIsLoading(false);
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps

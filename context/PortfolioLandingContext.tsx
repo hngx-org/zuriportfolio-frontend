@@ -109,14 +109,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
       setUserId(auth.user.id);
       getUser(auth.user.id);
     }
-
-    userSections.map((el) => {
-      if (el.data?.length) {
-        setHasData(true);
-        setHasPortfolio(true);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth?.user?.id]);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -174,6 +166,24 @@ export function PortfolioCtxProvider(props: { children: any }) {
         shop,
         custom,
       } = data;
+      if (
+        about ||
+        projects ||
+        workExperience ||
+        education ||
+        skills ||
+        contact ||
+        interests ||
+        awards ||
+        language ||
+        reference ||
+        certificate ||
+        shop ||
+        custom
+      ) {
+        setHasData(true);
+        setHasPortfolio(true);
+      }
       setUserSections([
         { title: 'About', id: 'about', data: about },
         { title: 'Project', id: 'projects', data: projects },
