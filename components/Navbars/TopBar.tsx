@@ -236,7 +236,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
               </div>
             </div>
             {/* Action Buttons */}
-            {auth || (
+            {!globalAuth && (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
                 <Cart items={0} />
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
@@ -262,7 +262,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </div>
               </div>
             )}
-            {auth && AuthUser()}
+            {globalAuth && AuthUser()}
           </div>
           {authMenu && (
             <div
