@@ -83,6 +83,8 @@ export default function ProductDetailsDescription() {
       console.log('no auth');
 
       if (product) {
+        console.log(product);
+        
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
