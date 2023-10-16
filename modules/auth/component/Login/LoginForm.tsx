@@ -43,6 +43,7 @@ function LoginForm() {
       console.log('responseoutside', res);
 
       if (res.message === 'Login successful') {
+        console.log(res.data);
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
