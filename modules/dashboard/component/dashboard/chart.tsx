@@ -64,17 +64,18 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 function getTooltipMessage(label: any, payload: any[]) {
   let message = `Your total revenue `;
-
-  if (twelveMonths.includes(label)) {
-    message += `in ${label} was $${payload[0]?.value}`;
-  } else if (sevenDays.includes(label)) {
-    message += `on ${label} was $${payload[0]?.value}`;
-  } else if (thirtyDays.includes(label)) {
-    message += `on the ${label} was $${payload[0]?.value}`;
-  } else if (twentyFourHours.includes(label)) {
-    message += `at ${label} was $${payload[0]?.value}`;
-  } else {
-    message += `for ${label} was $${payload[0]?.value}`;
+  if (label && payload && payload[0]) {
+    if (twelveMonths.includes(label)) {
+      message += `in ${label} was $${payload[0]?.value}`;
+    } else if (sevenDays.includes(label)) {
+      message += `on ${label} was $${payload[0]?.value}`;
+    } else if (thirtyDays.includes(label)) {
+      message += `on the ${label} was $${payload[0]?.value}`;
+    } else if (twentyFourHours.includes(label)) {
+      message += `at ${label} was $${payload[0]?.value}`;
+    } else {
+      message += `for ${label} was $${payload[0]?.value}`;
+    }
   }
 
   return message;
