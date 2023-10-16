@@ -78,6 +78,7 @@ export default function Index() {
           </div>
         </CategoryLayout>
       )}
+
       <ToastContainer />
     </>
   );
