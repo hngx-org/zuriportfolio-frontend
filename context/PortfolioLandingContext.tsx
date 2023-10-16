@@ -288,7 +288,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowViewtemplates(false);
     onClose();
     onCloseModal(sectionTitle || '');
-    // getUser(userId);
+    getUser(userId);
   };
 
   const onCloseModal = (modalToClose: string) => {
