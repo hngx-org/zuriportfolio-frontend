@@ -27,7 +27,6 @@ type PortfolioContext = {
   showBuildPortfolio: boolean;
   showViewtemplates: boolean;
   selectedSections: Array<any>;
-  coverImage: string | StaticImport;
   avatarImage: string | StaticImport;
   onOpen: () => void;
   onClose: () => void;
@@ -66,7 +65,6 @@ const Portfolio = createContext<PortfolioContext>({
   showProfileUpdate: false,
   showBuildPortfolio: false,
   showViewtemplates: false,
-  coverImage: '' as string | StaticImport,
   avatarImage: '' as string | StaticImport,
   setHasData: () => {},
   onOpen: () => {},
@@ -160,8 +158,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [error, setError] = useState<any>(null);
   const [userSections, setUserSections] = useState<any[]>([]);
   const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
-
-  // const [coverImage, setCoverImage] = useState<File | any>();
   const [avatarImage, setAvatarImage] = useState<File | any>();
   const [showProfileUpdate, setShowProfileUpdate] = useState<boolean>(false);
   const [showBuildPortfolio, setShowBuildPortfolio] = useState<boolean>(false);
