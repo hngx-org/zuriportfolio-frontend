@@ -61,8 +61,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   };
 
   const { userId } = useContext(Portfolio);
-  
-  
+
   const getUserWorkExperience = async () => {
     const data = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
     const response = await data.json();
@@ -127,10 +126,10 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   };
 
   const getAllWorkExperience = useCallback(async () => {
-     console.log("workEx",userId);
+    console.log('workEx', userId);
     try {
       const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
-     
+
       if (response.ok) {
         const data = await response.json();
         const { workExperience } = data;
@@ -230,10 +229,9 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     }
   };
 
-  
   useEffect(() => {
     if (userId.trim().length > 0) {
-      getAllWorkExperience()
+      getAllWorkExperience();
     }
   }, [getAllWorkExperience, userId]);
 

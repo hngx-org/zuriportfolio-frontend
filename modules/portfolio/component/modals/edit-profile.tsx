@@ -70,7 +70,7 @@ const EditProfile = () => {
       country: country,
     };
     console.log(body);
-    
+
     try {
       setIsLoading(true);
       const update = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`, {
