@@ -13,6 +13,7 @@ export interface MainLayoutProps {
   showDashboardSidebar?: boolean;
   showTopbar?: boolean;
   showFooter?: boolean;
+  includeMarginTop?: boolean;
 }
 export interface DegreeOption {
   id: number;
