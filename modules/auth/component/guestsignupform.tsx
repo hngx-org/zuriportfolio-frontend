@@ -92,7 +92,7 @@ const Guestsignupform: React.FC = () => {
               First name
             </label>
             <Input
-              placeHolder="Enter first name"
+              placeHolder="Enter firstname"
               id="firstname"
               name="firstname"
               {...form.getInputProps('firstname')}
@@ -111,7 +111,7 @@ const Guestsignupform: React.FC = () => {
               Last name
             </label>
             <Input
-              placeHolder="enter last name"
+              placeHolder="Enter lastname"
               id="lastname"
               name="lastname"
               {...form.getInputProps('lastname')}
@@ -132,7 +132,7 @@ const Guestsignupform: React.FC = () => {
             <div style={{ position: 'relative' }}>
               <PasswordPopover password={form.values.password}>
                 <Input
-                  placeHolder="enter password"
+                  placeHolder="Enter password"
                   id="password"
                   {...form.getInputProps('password')}
                   className={`w-full text-black h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
@@ -161,7 +161,7 @@ const Guestsignupform: React.FC = () => {
             </label>
             <div style={{ position: 'relative' }}>
               <Input
-                placeHolder="enter confirm password"
+                placeHolder="Confirm password"
                 id="confirmPassword"
                 {...form.getInputProps('confirmPassword')}
                 className={`w-full text-black h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${

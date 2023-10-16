@@ -79,8 +79,8 @@ function SignUpWithEmail() {
               Email Address
             </label>
             <Input
-              placeHolder="enter email"
-              id="email"
+              placeHolder="Enter email"
+              id="Enter your email"
               {...form.getInputProps('email')}
               className={`w-full border text-black h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                 form.errors.email ? 'border-red-200' : 'border-slate-50'

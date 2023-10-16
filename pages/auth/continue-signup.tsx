@@ -111,7 +111,7 @@ function Signup() {
                 First name
               </label>
               <Input
-                placeHolder="enter firstname"
+                placeHolder="Enter firstname"
                 id="firstName"
                 {...form.getInputProps('firstName')}
                 className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
@@ -128,7 +128,7 @@ function Signup() {
                 Last name
               </label>
               <Input
-                placeHolder="enter lastname"
+                placeHolder="Enter lastname"
                 id="lastName"
                 {...form.getInputProps('lastName')}
                 className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
@@ -146,7 +146,7 @@ function Signup() {
               </label>
               <PasswordPopover password={form.values.password}>
                 <Input
-                  placeHolder="enter password"
+                  placeHolder="Enter password"
                   id="password"
                   {...form.getInputProps('password')}
                   className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
@@ -207,7 +207,7 @@ function Signup() {
                 Confirm password
               </label>
               <Input
-                placeHolder="enter confirm password"
+                placeHolder="Confirm password"
                 id="confirmPassword"
                 {...form.getInputProps('confirmPassword')}
                 className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${

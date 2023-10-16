@@ -40,15 +40,14 @@ function LoginForm() {
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
-      if(res?.response && res?.response?.message === "TWO FACTOR AUTHENTICATION CODE SENT")
-      {
+      if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
         localStorage.setItem('zpt', res?.response?.token);
-        localStorage.setItem('email', res?.response?.email)
-         notify({
+        localStorage.setItem('email', res?.response?.email);
+        notify({
           message: 'Two Factor Authentication Code Sent',
           type: 'success',
         });
-        router.push("/auth/2fa");
+        router.push('/auth/2fa');
         return;
       }
 
@@ -128,7 +127,7 @@ function LoginForm() {
                 Email Address
               </label>
               <Input
-                placeHolder="enter email"
+                placeHolder="Enter email"
                 id="email"
                 {...form.getInputProps('email')}
                 className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
@@ -144,7 +143,7 @@ function LoginForm() {
                 Password
               </label>
               <Input
-                placeHolder="enter password"
+                placeHolder="Enter password"
                 id="password"
                 {...form.getInputProps('password')}
                 className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${

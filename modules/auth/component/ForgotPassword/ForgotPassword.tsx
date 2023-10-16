@@ -89,7 +89,7 @@ const ForgotPassword = () => {
                   id="email"
                   {...form.getInputProps('email')}
                   type="email"
-                  placeholder="enter email"
+                  placeholder="Enter email"
                   className={`w-full text-black  h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.email ? 'border-[red]' : 'border-slate-50'
                   }`}
