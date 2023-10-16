@@ -10,9 +10,6 @@ import FilterProduct from '@modules/super-admin/components/vendormanagement/Filt
 import Button from '@ui/Button';
 import { useGetAllVendor } from '../../../http';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
-import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
-import { DeletedProducts } from '../../../@types';
-import { log } from 'console';
 const Index = () => {
   const { data, isLoading } = useGetAllVendor();
   //Variables for the pagination

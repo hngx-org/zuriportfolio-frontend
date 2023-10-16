@@ -8,8 +8,9 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
   const [auth, setAuth] = useState<AuthResponse>();
   const [email, setEmail] = useState('');
   const [redirect, setRedirect] = useState('');
+  const [userCameFrom, setUserCameFrom] = useState('');
 
-  const handleAuth = (value: AuthResponse) => {
+  const handleAuth = (value: AuthResponse | undefined) => {
     setAuth(value);
   };
 
@@ -21,6 +22,10 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     setRedirect(value);
   };
 
+  const handleUserCameFrom = (value: string) => {
+    setUserCameFrom(value);
+  }
+
   const contextValue: AuthContextProps = {
     auth,
     handleAuth,
@@ -28,6 +33,8 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     handleEmail,
     redirect,
     handleRedirect,
+    userCameFrom,
+    handleUserCameFrom
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

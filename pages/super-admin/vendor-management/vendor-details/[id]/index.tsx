@@ -2,23 +2,21 @@ import SuperAdminNavbar from '../../../../../modules/super-admin/components/navi
 import Image from 'next/image';
 import right from '/public/assets/vendor/arrow-right.svg';
 import Button from '@ui/Button';
-import Modal from '@ui/Modal';
 import { ArrowRight } from 'iconsax-react';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   useBanShop,
-  useDeleteShop,
   useGetShop,
   useRemoveBan,
   useRestoreShop,
   useTempDeleteShop,
 } from '../../../../../http';
 import Loader from '@modules/portfolio/component/landing/Loader';
-import { imageUrl } from '@modules/super-admin/components/vendormanagement/VendorLists';
 import { formatDate, handleBack } from '@modules/super-admin/components/product-listing/product-details';
 import { toast } from 'react-toastify';
 import StarRating from '@modules/super-admin/components/StarRating';
+import DeleteModal from '@modules/super-admin/components/product-listing/product-details/DeleteModal';
 
 export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
@@ -40,7 +38,7 @@ function VendorDetails() {
   const { restoreShop, isLoading: isRestoringShop } = useRestoreShop();
   const { banShop, isLoading: isBanningShop } = useBanShop();
   const { tempDeleteShop, isLoading: isTempDeletingShop } = useTempDeleteShop();
-  const { deleteShop, isLoading: isDeletingShop } = useDeleteShop();
+  const [reasons, setReasons] = useState(new Map());
 
   const handleRemoveBan = () => {
     removeBan(id, {
@@ -112,23 +110,6 @@ function VendorDetails() {
     });
   };
 
-  const handleDeleteShop = () => {
-    deleteShop(id, {
-      onSuccess: (response) => {
-        if (response.response.status < 300) {
-          toast.success(response.response.status || 'Successfully deleted permanently');
-          handleBack(router);
-        } else {
-          toast.error(response.response.data.message || response.response.data.error);
-        }
-      },
-      onError: () => {
-        toast.success('Successfully deleted permanently');
-        handleBack(router);
-      },
-    });
-  };
-
   if (statusText && statusText === 'Banned') {
     setAction('Delete Permanently');
   }
@@ -136,20 +117,6 @@ function VendorDetails() {
     setAction('Recover');
   }
 
-  function openModal() {
-    setIsModal(true);
-  }
-  function closeModal() {
-    setIsModal(false);
-  }
-  function deleteModal() {
-    setIsModal(false);
-    setDeleteModal(true);
-  }
-
-  function closeDeleteModal() {
-    setDeleteModal(false);
-  }
 
   function allProducts() {
     router.push(`/super-admin/vendor-management/vendor-details/${id}/all`);
@@ -196,14 +163,12 @@ function VendorDetails() {
                 </div>
               </div>
 
-              {/* Vendor Profile */}
-
               <div className="profile mt-10  w-full lg:w-1/2 lg:ml-12 lg:mr-5 lg:mt-0">
                 <div className="header flex items-center ml-5 lg:ml-0">
                   <div className="w-20 h-20 mx-2 rounded-full overflow-hidden">
                     <Image
-                      loader={() => imageUrl}
-                      src={imageUrl}
+                      loader={() => details?.vendor_profile_pic[0] || brokenImage}
+                      src={details?.vendor_profile_pic[0] || brokenImage}
                       alt="profile picture"
                       width={40}
                       height={40}
@@ -220,7 +185,7 @@ function VendorDetails() {
                     A UX Designer loves to make UX and the career easier for others, no fancy stuff.
                   </h1>
                 </div>
-                <div className="bio">
+                <div className="bio ml-5 lg:ml-0">
                   <div className="rating flex items-center justify-between mr-3 mb-3">
                     <aside className="left flex items-center ">
                       <p className=" text-base font-semibold font-manropeB leading-normal tracking-[0.08px]">
@@ -232,7 +197,7 @@ function VendorDetails() {
                   </div>
 
                   <div className="status flex items-center justify-between mb-3">
-                    <p className="ml-5 lg:ml-0">
+                    <p>
                       ({data?.rating_id ?? 0} Customer{data?.rating_id > 0 ? 's' : ''})
                     </p>
                     <div
@@ -255,19 +220,16 @@ function VendorDetails() {
                       ></span>
                       <span>{details?.vendor_status}</span>
                     </div>
-                    {/* {statusText ? statusText : <Image src={active} alt="active" className="mr-5 lg:mr-0"></Image>} */}
                   </div>
-
-                  {/* Toggle the modal for deleting or banning vendors */}
                   <div className="buttons w-full flex items-center justify-between mt-6"></div>
                   <div className="flex py-8 justify-center space-x-9">
                     <Button
                       intent={'secondary'}
                       size={'md'}
-                      isLoading={isTempDeletingShop || isDeletingShop}
+                      isLoading={isTempDeletingShop}
                       className="text-brand-red-primary active:bg-brand-red-pressed hover:bg-brand-red-hover hover:text-white-100 border-brand-red-primary lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px]"
                       onClick={() => {
-                        details?.vendor_status === 'Deleted' ? handleDeleteShop() : handleTempDeleteShop();
+                        details?.vendor_status === 'Deleted' ? setIsModal(true) : handleTempDeleteShop();
                       }}
                     >
                       <span className="font-manropeL text-[12px]">
@@ -327,10 +289,10 @@ function VendorDetails() {
                                 router.push(`/super-admin/product-listing/product-details/${item?.product_id}`)
                               }
                             >
-                              <div className="w-[220px] h-[181px] mx-auto">
+                              <div className="md:min-w-[220px] h-[181px] mx-auto">
                                 <Image
-                                  loader={() => brokenImage}
-                                  src={brokenImage}
+                                  loader={() => item?.product_image[0][0] || brokenImage}
+                                  src={item?.product_image[0][0] || brokenImage}
                                   alt="product"
                                   width={100}
                                   height={100}
@@ -366,92 +328,15 @@ function VendorDetails() {
                 )}
               </div>
             </section>
-            <Modal
+            <DeleteModal
               isOpen={isModal}
-              closeOnOverlayClick={false}
-              size="md"
-              isCloseIconPresent={false}
-              closeModal={function (): void {
-                throw new Error('Function not implemented.');
-              }}
-            >
-              <h1 className="font-bold text-xl mb-5">Delete Vendor</h1>
-              <p>
-                <span className="font-bold">Gustavo Silas</span> will be deleted as a vendor from Zuri Marketplace and
-                all their products as well. They will get a notification email.
-              </p>
-              <h1 className="mt-5 mb-2">Reasons for deleting</h1>
-              <ul className="p-3">
-                <li className="m-3 p-3">
-                  <input type="checkbox" className="mr-5"></input>Policy Violation
-                </li>
-                <li className="m-3 p-3">
-                  <input type="checkbox" className="mr-5"></input>Offensive words
-                </li>
-                <li className="m-3 p-3">
-                  <input type="checkbox" className="mr-5"></input>Just feel like it
-                </li>
-                <li className="m-3 p-3">
-                  <input type="checkbox" className="mr-5"></input>Other
-                </li>
-              </ul>
-              <div className="buttons flex items-center mt-6  w-1/2 ml-auto justify-between mr-3">
-                <Button
-                  intent={'secondary'}
-                  size={'md'}
-                  isLoading={false}
-                  spinnerColor="#000"
-                  className="text-black bg-white-100 p-3 w-1/2 rounded-md z-0"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </Button>
-
-                <Button
-                  size={'md'}
-                  isLoading={false}
-                  spinnerColor="#000"
-                  className="p-3 w-1/2  ml-5 rounded-md mr-6"
-                  onClick={deleteModal}
-                >
-                  Delete
-                </Button>
-              </div>
-            </Modal>
-
-            <Modal
-              closeOnOverlayClick={false}
-              isOpen={isDeleteModal}
-              isCloseIconPresent={false}
-              closeModal={function (): void {
-                throw new Error('Function not implemented.');
-              }}
-            >
-              <h1 className="text-center text-black font-bold">Are you sure you want to delete this vendor?</h1>
-              <p className="text-center">Vendor will be permanently deleted from list</p>
-              <div className="buttons flex flex-col items-center mt-6 w-full justify-between p-5">
-                <Button
-                  intent={'error'}
-                  size={'md'}
-                  isLoading={false}
-                  spinnerColor="#000"
-                  className=" p-3 w-full rounded-md lg:mr-0 z-0  mb-5"
-                  onClick={closeDeleteModal}
-                >
-                  Delete Permanently
-                </Button>
-                <Button
-                  intent={'primary'}
-                  size={'md'}
-                  isLoading={false}
-                  spinnerColor="#000"
-                  onClick={closeDeleteModal}
-                  className="p-3 mb-5 w-full text-green-500 lg:ml-0 ml-auto rounded-md bg-transparent border border-green-500 hover:text-white-100"
-                >
-                  Cancel
-                </Button>
-              </div>
-            </Modal>
+              closeModal={() => setIsModal(false)}
+              reasons={reasons}
+              setReasons={setReasons}
+              id={id}
+              data={details}
+              type="vendor"
+            />
           </>
         )}
       </div>

@@ -35,20 +35,20 @@ const DraftPage = () => {
       try {
         setLoading(true);
         toast.loading('Loading...'); // Show loading notification
-  
+
         const response = await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/drafts/', {
           method: 'GET',
           headers: {
             Accept: 'application/json',
           },
         });
-  
+
         const data = await response.json();
         if (!response.ok) {
           toast.error(data.detail);
           return;
         }
-  
+
         console.log(data);
         setLoading(false);
         toast.dismiss(); // Dismiss the loading notification
@@ -59,12 +59,10 @@ const DraftPage = () => {
         toast.error('Error fetching drafts');
       }
     };
-  
+
     fetchDrafts();
   }, []);
-  
 
-  
   // Handle renaming of draft name
   const handleRename = async (id: number, newTitle: string) => {
     try {
@@ -84,7 +82,7 @@ const DraftPage = () => {
       });
 
       const data = await response.json();
-      toast.dismiss(); 
+      toast.dismiss();
       if (!response.ok) {
         toast.error(data.detail);
         return;
@@ -105,7 +103,7 @@ const DraftPage = () => {
   const handleDelete = async (id: number) => {
     try {
       setLoading(true);
-      
+
       const response = await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`, {
         method: 'DELETE',
         headers: {
@@ -117,7 +115,7 @@ const DraftPage = () => {
       });
 
       const data = await response.json();
-      toast.dismiss(); 
+      toast.dismiss();
       if (!response.ok) {
         toast.error(data.detail);
         return;
@@ -135,9 +133,12 @@ const DraftPage = () => {
   };
   return (
     <div className="mx-auto py-4 px-8 md:px-24 sm:py-11 lg:px-12 xl:px-[105px] 2xl:w-[1440px] mb-10">
-      <span    onClick={() => {
-            window.history.back();
-          }} className="flex gap-1 items-center mb-16 cursor-pointer w-52">
+      <span
+        onClick={() => {
+          window.history.back();
+        }}
+        className="flex gap-1 items-center mb-16 cursor-pointer w-52"
+      >
         <Image src="/assets/arrow-left.svg" alt="arrow left icon" width={20} height={20} />
         <span>Go back</span>
       </span>
