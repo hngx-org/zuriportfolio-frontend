@@ -50,7 +50,6 @@ function RecentlyViewed() {
         <div className={`flex flex-nowrap gap-x-3 mt-10 w-full overflow-x-scroll ${styles['hide-scroll']}`}>
           {recentlyViewed.map((item, index) => (
             <div key={index} className="relative w-1/2 md:w-1/3 lg:w-1/4 pr-2 md:pr-4 lg:pr-8">
-              
               <ProductCard
                 id={item?.product?.id}
                 currency={item?.product?.currency}
