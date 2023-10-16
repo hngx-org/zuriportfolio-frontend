@@ -137,22 +137,6 @@ const dummyOrders: OrderHistory[] = [
   },
 ];
 const OrderHistory: React.FC = () => {
-  // const {
-  //   orders: pageOrders,
-  //   orderFilter,
-  //   changeFilter,
-  //   changeSortBy,
-  //   sortBy,
-  //   changeSearchQuery,
-  //   fetchOrders,
-  //   getSearchResult,
-  //   insertOrders,
-  //   searchQuery,
-  //   filterFunc,
-  //   sortOrders,
-  //   loading: loadingOrders,
-  //   searching,
-  //   totalPage,
   const [pageOrders, setOrders] = useState<OrderHistory[]>(dummyOrders);
   const [orderFilter, setOrderFilter] = useState('all');
   const [sort, setSort] = useState<{
@@ -172,6 +156,7 @@ const OrderHistory: React.FC = () => {
   }, []);
   const changeFilter = (val: string) => {
     // show orders by status which is either all | completed | cancelled or pending
+    if (loadingOrders) return;
     setOrderFilter(val);
   };
 
