@@ -7,6 +7,7 @@ export const sendArrayOfObjects = async (objectsArray: any[], endpoint: string) 
 
   try {
     const responses = await Promise.all(promises);
+
     // Map over the responses and extract the data
     const responseDataArray = responses.map((response) => response.data);
     return responseDataArray;
