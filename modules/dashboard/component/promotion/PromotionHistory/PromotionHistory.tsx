@@ -1,6 +1,4 @@
 import React from 'react';
-import PaginationBar from '../PaginationBar';
-import { SearchNormal1 } from 'iconsax-react';
 import PromotionHistoryTable from './PromotionHistoryTable';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,7 +14,7 @@ const PromotionHistory: React.FC = () => {
 
   return (
     <>
-      <main className="max-w-[1240px] mx-auto md:px-10 px-4">
+      <main className="max-w-[1240px] mx-auto mb-10 md:px-10 px-4">
         <section className="font-manropeB font-semibold mt-4">
           <div className="mb-[25px] gap-[35px] flex justify-end">
             <div className="hidden md:justify-end md:flex  justify-center">
@@ -93,12 +91,7 @@ const PromotionHistory: React.FC = () => {
                   </main>
                 ) : (
                   <div className="table-container border rounded-lg border-slate-50 mb-10 overflow-x-auto">
-                    <PromotionHistoryTable
-                      pageItem={promotions}
-                      changeSort={changeSortBy}
-                      toggleSort={toggleSortOrder}
-                      currentSort={sortBy}
-                    />
+                    <PromotionHistoryTable pageItem={promotions} />
                   </div>
                 )}
               </>
