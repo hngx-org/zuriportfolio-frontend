@@ -126,8 +126,6 @@ export const forgetPassword = async (props: { email: string }) => {
     const res = await $http.post('/reset-password', props);
     return res?.data;
   } catch (e: any) {
-    if (e?.response?.data && e?.response?.data?.message) {
-    }
     return e.response.data ?? { message: e.message };
   }
 };
@@ -137,8 +135,6 @@ export const resendForgetPassword = async (props: { email: string }) => {
     const res = await $http.post('/reset-password', props);
     return res?.data;
   } catch (e: any) {
-    if (e?.response?.data && e?.response?.data?.message) {
-    }
     return e.response.data ?? { message: e.message };
   }
 };
@@ -148,8 +144,15 @@ export const revalidateAuth = async (props: { token: string }) => {
     const res = await $http.get(`/revalidate-login/${props.token}`);
     return res?.data;
   } catch (e: any) {
-    if (e?.response?.data && e?.response?.data?.message) {
-    }
     return e.response.data ?? { message: e.message };
   }
 };
+
+export const signUpWithFacebook = async (props: {query: string}) => {
+  try {
+    const res = await $http.get(`/facebook/redirect?${props.query}`);
+    return res?.data;
+  } catch (e: any) {
+    return e.response.data ?? { message: e.message };
+  }
+}
