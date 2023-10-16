@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import mainImage from '../../../../../public/assets/mainImage.png';
 import profileimage from '../../../../../public/assets/profile.png';
 import Button from '@ui/Button';
-import Slider from '../../../../../modules/shop/component/slider';
 import arrowRight from '../../../../../public/assets/arrowtoRight.svg';
 import { NextRouter, useRouter } from 'next/router';
 import { useRemoveSanction, useRestore, useSanction, useTempDeleteProd } from '../../../../../http';
 import { toast } from 'react-toastify';
 import StarRating from '../../StarRating';
+import { brokenImage } from '../../../../../pages/super-admin/vendor-management/vendor-details/[id]';
 
 export function formatDate(inputDate: string) {
   const date = new Date(inputDate);
@@ -36,15 +35,10 @@ const SuperAdminProdDetails = ({
   id: string;
 }) => {
   const route = useRouter();
-  const [image, setImage] = useState(mainImage);
   const { removeSanction, isLoading } = useRemoveSanction();
   const { restoreProd, isLoading: isRestoring } = useRestore();
   const { deleteSanction, isLoading: isTempDeleting } = useTempDeleteProd();
   const { santionProd, isLoading: isSanctioning } = useSanction();
-
-  const updateImage = (newImage: any) => {
-    setImage(newImage);
-  };
 
   const handleRemoveSaction = () => {
     removeSanction(id, {
@@ -125,14 +119,16 @@ const SuperAdminProdDetails = ({
             <Image src={arrowRight} alt="arrowRight" onClick={() => handleBack(route)} className="cursor-pointer" />
             <p className="font-manropeB text-[18px] font-medium text-gray-900">Products Details</p>
           </div>
-          <div className="flex gap-[28px] items-center flex-col lg:flex-row mb-8">
-            <div className="flex flex-col mt-6 gap-[16px] lg:w-1/2">
+          <div className="mt-6 md:mt-0 flex gap-[28px] items-center flex-col lg:flex-row mb-8">
+            <div className="flex flex-col gap-[16px] lg:h-[520px] md:h-[600px] h-[340px] w-full lg:w-1/2">
               <Image
-                src={image}
-                alt="Main Image"
-                className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover rounded-3xl"
+                loader={() => data?.product_image[0][0] || brokenImage}
+                src={data?.product_image[0][0] || brokenImage}
+                alt="Product Image"
+                width={100}
+                height={100}
+                className="w-full h-full  object-cover rounded-3xl"
               />
-              <Slider updateImage={updateImage} />
             </div>
 
             <div className="flex w-full lg:w-1/2 lg:mt-6 flex-col">
@@ -211,21 +207,23 @@ const SuperAdminProdDetails = ({
                     <p className="font-manropeB text-[14px]  tracking-[0.035px] text-custom-color43  md:text-[16px]">
                       Sales Price (Incl. taxes)
                     </p>
-                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px]"> ${data?.tax}</p>
+                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px]">
+                      {' '}
+                      ${new Intl.NumberFormat('en-US').format(+data?.price + +data?.tax)}
+                    </p>
                   </div>
                   <div className="flex justify-between items-center">
                     <p className="font-manropeB text-[14px]  tracking-[0.035px] text-custom-color43  md:text-[16px]">
                       Collection(s)
                     </p>
-                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px]"> Templates, Courses</p>
+                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px]">{data?.category_name}</p>
                   </div>
                   <div className="flex justify-between items-center">
                     <p className="font-manropeB text-[14px]  tracking-[0.035px] text-custom-color43  md:text-[16px]">
                       Total Sold
                     </p>
                     <p className="font-manropeB text-[16px]  font-semibold md:text-[24px] ">
-                      {' '}
-                      {new Intl.NumberFormat('en-US').format(data?.price)}
+                      {new Intl.NumberFormat('en-US').format(data?.quantity)}
                     </p>
                   </div>
                 </div>
