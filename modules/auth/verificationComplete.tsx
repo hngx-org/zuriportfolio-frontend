@@ -15,7 +15,6 @@ function VerificationComplete() {
   const router = useRouter();
   const { token } = router.query;
   const { handleAuth, userCameFrom } = useAuth();
-  // const { handleAuth } = useAuth();
   const [isError, setIsError] = useState(false);
 
   // console.log(token);
@@ -42,7 +41,7 @@ function VerificationComplete() {
           type: 'success',
         });
 
-        router.push(userCameFrom || '/dashboard');
+        router.push(userCameFrom || '/explore');
         return;
       }
 
