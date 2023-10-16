@@ -35,6 +35,7 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="emailSummary"
             id="emailSummary"
+            onChange={() => handleLabelClick('emailSummary')}
             checked={props.checkboxState.emailSummary}
             className="appearance-none hidden"
           />
@@ -43,7 +44,7 @@ export default function NotificationsSettings(props: pros) {
             className=" flex gap-2 items-center justify-start"
             onClick={() => handleLabelClick('emailSummary')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex  justify-center relative ${props.checkboxState.emailSummary && 'block'}   w-[16px] 
                  h-[16px]`}
@@ -56,7 +57,7 @@ export default function NotificationsSettings(props: pros) {
                   />
                 )}
               </p>{' '}
-            </p>{' '}
+            </div>{' '}
             Receive an email summary of notification
           </label>
         </div>
@@ -65,6 +66,7 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="specialOffers"
             id="specialOffers"
+            onChange={() => handleLabelClick('specialOffers')}
             checked={props.checkboxState.specialOffers}
             className="appearance-none hidden"
           />
@@ -73,7 +75,7 @@ export default function NotificationsSettings(props: pros) {
             className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('specialOffers')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex  justify-center relative ${props.checkboxState.specialOffers && 'block'}   w-[16px] 
                  h-[16px]`}
@@ -86,7 +88,7 @@ export default function NotificationsSettings(props: pros) {
                   />
                 )}
               </p>{' '}
-            </p>
+            </div>
             Announcement on special offers
           </label>
         </div>
@@ -95,6 +97,7 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="communityUpdate"
             id="communityUpdate"
+            onChange={() => handleLabelClick('communityUpdate')}
             checked={props.checkboxState.communityUpdate}
             className="appearance-none hidden"
           />
@@ -103,7 +106,7 @@ export default function NotificationsSettings(props: pros) {
             className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('communityUpdate')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex  justify-center relative ${props.checkboxState.communityUpdate && 'block'}   w-[16px] 
                  h-[16px]`}
@@ -116,7 +119,7 @@ export default function NotificationsSettings(props: pros) {
                   />
                 )}
               </p>{' '}
-            </p>
+            </div>
             Get Notification to stay up-to-date with Zuri portfolio community
           </label>
         </div>
@@ -125,6 +128,7 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="followUpdate"
             id="followUpdate"
+            onChange={() => handleLabelClick('followUpdate')}
             checked={props.checkboxState.followUpdate}
             className="appearance-none hidden"
           />
@@ -133,7 +137,7 @@ export default function NotificationsSettings(props: pros) {
             className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('followUpdate')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex justify-center relative w-[16px]
                  h-[16px]`}
@@ -141,7 +145,7 @@ export default function NotificationsSettings(props: pros) {
                 {' '}
                 {props.checkboxState.followUpdate && <MdCheck className={`text-brand-green-primary`} />}
               </p>
-            </p>
+            </div>
             Notify when someone follows you
           </label>
         </div>
@@ -150,6 +154,7 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="newMessages"
             id="newMessages"
+            onChange={() => handleLabelClick('newMessages')}
             checked={props.checkboxState.newMessages}
             className="appearance-none hidden"
           />
@@ -158,7 +163,7 @@ export default function NotificationsSettings(props: pros) {
             className=" flex gap-2 items-center"
             onClick={() => handleLabelClick('newMessages')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex  justify-center relative ${props.checkboxState.newMessages && 'block'}   w-[16px] 
                  h-[16px]`}
@@ -171,7 +176,7 @@ export default function NotificationsSettings(props: pros) {
                   />
                 )}
               </p>{' '}
-            </p>
+            </div>
             Notify about new messages or interactions
           </label>
         </div>

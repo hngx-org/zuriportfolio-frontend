@@ -14,9 +14,8 @@ import { NotificationCheckboxType } from '../@types';
 import { useRouter } from 'next/router';
 import withAuth from '../helpers/withAuth';
 import Image from 'next/image';
-import Modal from '@ui/Modal';
-import { profileData } from '../modules/portfolio/component/landing/data';
 import { useAuth } from '../context/AuthContext';
+import Twofa from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -35,13 +34,9 @@ const SettingPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [local, setlocal] = useState<boolean>(false);
   const [showNotInfo, setShowNotInfo] = useState<boolean>(false);
-  const [open2Fa, setOpen2Fa] = useState<boolean>(false);
+
   const [showReferInfo, setShowReferInfo] = useState<boolean>(false);
   const [userPic, setUserPic] = useState<string>('');
-
-  const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
-    setter((prev: boolean) => !prev);
-  };
 
   const changeSettingOptions = (optionsSettings: keyof SettingOptionTypes) => {
     setSettingOption((prevSettingOption) => {
@@ -95,9 +90,9 @@ const SettingPage = () => {
       const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
       const method = storedNotificationData ? 'PATCH' : 'POST';
 
-      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${userId}}`;
+      const url = `${baseUrl}/api/update-notification-settings/1141fae0-14eb-4e70-824b-fcbfaa5cad6a}`;
       const response = await fetch(url, {
-        method: method,
+        method: 'PATCH',
 
         headers: {
           'Content-Type': 'application/json',
@@ -149,9 +144,7 @@ const SettingPage = () => {
       setlocal((prv) => !prv);
     }
   };
-  const toggleModal = () => {
-    setOpen2Fa((prev: boolean) => !prev);
-  };
+
   const getNotificationSettingsFromLocalStorage = () => {
     const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
     if (storedNotificationData) {
@@ -188,6 +181,9 @@ const SettingPage = () => {
     };
     userDetails();
   }, []);
+  const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setter((prev: boolean) => !prev);
+  };
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
@@ -316,58 +312,7 @@ const SettingPage = () => {
                       </div>
 
                       <AccountManagement />
-
-                      <div className="space-y-[4px] mb-6 text-dark-110 text-[14px]">
-                        <div className="space-y-[4px] mb-6 text-dark-110">
-                          <p className="font-manropeB text-[14px] ">2FA security</p>
-                          <span className="font-manropeL text-[14px] ">
-                            Add an extra layer of security to your system
-                          </span>
-                        </div>
-                        <div
-                          className="flex justify-between font-manropeL  text-[ #555555;
-] "
-                        >
-                          <p>Two factor authentication</p>
-                          <label htmlFor="" className="flex gap-[12px] items-center">
-                            Disabled{' '}
-                            <input
-                              type="checkbox"
-                              name=""
-                              id=""
-                              checked={open2Fa}
-                              value={'Disabled'}
-                              onChange={() => setOpen2Fa((prv) => !prv)}
-                            />
-                          </label>
-                        </div>
-                        <Modal isOpen={open2Fa} closeModal={toggleModal} size={'sm'} isCloseIconPresent={false}>
-                          <div className=" relative  max-w-[440px] px-5 text-[14px] py-[40px]">
-                            <button onClick={toggleModal} className="absolute right-0 top-[-10px]">
-                              {' '}
-                              <CloseCircle size="20" color="#009254" />
-                            </button>
-                            <h3 className="w-full text-center mb-[8px] text-[#252525] font-manropeB">Turn on 2FA </h3>
-                            <p>Enhance your security by enabling a verification code to verify your identity</p>
-                            <p>Enter your phone number to receive a one-time-code</p>
-                            <label htmlFor="" className="flex my-[24px] flex-col gap-[6px] text-[ #344054]">
-                              Enter phone number
-                              <input
-                                type="text"
-                                readOnly
-                                value={auth?.user.email}
-                                className="border-[1px] outline-none  rounded-lg py-[10px] px-[14px] border-[#D0D5DD]"
-                              />
-                            </label>
-                            <button
-                              className="w-full bg-brand-green-primary text-white-100 text-center
-                             font-manropeB text-[16px] py-[14px] rounded-lg "
-                            >
-                              Continue
-                            </button>
-                          </div>
-                        </Modal>
-                      </div>
+                      <Twofa />
                     </div>
                   )}
                 </div>
@@ -503,6 +448,7 @@ const SettingPage = () => {
                       </div>
 
                       <AccountManagementMobile />
+                      <Twofa />
                     </div>
                   )}{' '}
                   {settingOption.refer && <InviteLink />}
