@@ -109,7 +109,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
   };
   return (
     <div className="w-full border-[1px] border-[#DFE3E6] rounded-[18px] py-10 px-6 relative text-left">
-      <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${draftData?.questions[0].question_no}`}</div>
+      <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${draftData?.questions[0]?.question_no}`}</div>
       <div className="flex items-center pt-4 gap-x-4">
         <Input
           className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"

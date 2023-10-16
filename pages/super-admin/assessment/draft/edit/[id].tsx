@@ -85,27 +85,17 @@ const DraftPreviewEdit: React.FC = () => {
 
   const updateDraft = (updatedData: AssessmentData) => {
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
+    const zptToken = localStorage.getItem('zpt') ?? '';
+    console.log(updatedData);
 
     fetch(apiUrl, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
+        Authorization: `Bearer ${zptToken}`,
         // Add any authorization headers you need here
       },
-      body: JSON.stringify({
-        questions_and_answers: [
-          {
-            question_no: 1,
-            question_text: 'string',
-            question_type: 'multiple_choice',
-            options: ['string'],
-            correct_option: 1,
-          },
-        ],
-        assessment_name: 'string',
-        duration_in_minutes: 0,
-      }), // Convert the updated data to JSON
+      body: JSON.stringify(updatedData), // Convert the updated data to JSON
     })
       .then((response) => {
         if (!response.ok) {
@@ -139,14 +129,6 @@ const DraftPreviewEdit: React.FC = () => {
         }, 4000);
       });
   };
-
-  if (loading) {
-    return (
-      <div>
-        <Loader />
-      </div>
-    );
-  }
 
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
@@ -226,9 +208,15 @@ const DraftPreviewEdit: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="pt-4">
-                <EditDraft draftData={draftData} setDraftData={setDraftData} />
-              </div>
+              {loading ? (
+                <div className="mt-8">
+                  <Loader />
+                </div>
+              ) : (
+                <div className="pt-4">
+                  <EditDraft draftData={draftData} setDraftData={setDraftData} />
+                </div>
+              )}
             </>
           ) : (
             <ScoringScreen />

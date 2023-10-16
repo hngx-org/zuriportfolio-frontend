@@ -46,8 +46,7 @@ function GoogleRedirect() {
       }
     };
     Oauth();
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, []);
+  }, [router]);
   return <div className="flex item-center justify-center mt-[2rem]">Please Wait...</div>;
 }
 export default GoogleRedirect;
