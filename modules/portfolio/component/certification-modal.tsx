@@ -4,6 +4,7 @@ import { Input } from '@ui/Input';
 import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import Link from 'next/link';
 import Modal from '@ui/Modal';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 interface Context {
   refreshPage: boolean;
@@ -49,8 +50,8 @@ interface CertificationListProps {
   // certifications: Certification[];
   isModalOpen: boolean;
 }
-
-const Certifications = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId: string }) => {
+const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const { userId } = useContext(Portfolio);
   const [formData, setFormData] = useState({
     id: '',
     title: '',
@@ -430,14 +431,10 @@ const CertificationList: React.FC<CertificationListProps> = () => {
         // console.log('Fetched certifications data:', data);
         setCertifications(data.data);
       } else {
-        if (typeof setError === 'function') {
-          setError('Error fetching certifications data.');
-        }
+        setError('Error fetching certifications data.');
       }
     } catch (error) {
-      if (typeof setError === 'function') {
-        setError('An error occurred while fetching certifications data.');
-      }
+      setError('An error occurred while fetching certifications data.');
 
       // console.error(error);
     }
@@ -462,9 +459,11 @@ const CertificationList: React.FC<CertificationListProps> = () => {
 };
 
 const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) => {
+  const { userId } = useContext(Portfolio);
   const { id, year, title, organization, url, description } = certification;
   const [deletedMessage, setDeletedMessage] = useState('');
   const [editedMessage, setEditedMessage] = useState('');
+  const [editMessageError, setEditMessageError] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const { refreshPage, setRefreshPage } = useContext(myContext);
 
@@ -483,16 +482,15 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   const handleSave = async () => {
     // Send a PUT request to update the certification
     try {
-      const response = await fetch(
-        `https://hng6-r5y3.onrender.com/api/update-certification/6ba7b810-9dad-11d1-80b4-00c04fd430c8/${id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(editedCertification), // Send the edited data
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}/10`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(editedCertification), // Send the edited data
+      });
+      console.log('Response Status:', response.status);
+      console.log('Response Data:', await response.json());
       if (response.ok) {
         // console.log(`Certificate with ID ${id} updated.`);
         setRefreshPage(!refreshPage);
@@ -503,10 +501,11 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
 
         closeEditForm(); // Close the Edit form
       } else {
-        // console.error(`Error updating certificate with ID ${id}`);
+        console.error(`Error updating certificate with ID ${id}`);
+        setEditMessageError('Error updating certificate');
       }
     } catch (error) {
-      // console.error('An error occurred while updating the certificate.', error);
+      console.error('An error occurred while updating the certificate.', error);
     }
   };
 
@@ -562,6 +561,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         <div>
           <p className="text-red-205 text-sm">{deletedMessage}</p>
           <p className="text-green-200 text-sm">{editedMessage}</p>
+          <p className="text-red-205 text-sm">{editMessageError}</p>
         </div>
         <div className="flex justify-between items-center">
           {' '}
