@@ -10,6 +10,8 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 
+import { removeFromWishlist } from '../../http';
+
 function Wishlist() {
   const [data, setData] = useState<ProductEntry[]>([]);
   const [dataCheck, setDataCheck] = useState(false);
@@ -17,19 +19,20 @@ function Wishlist() {
 
   const token: any = isUserAuthenticated();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token?.id}`);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token?.id}`);
 
-        const result = await response.json();
-        if (Array.isArray(result) && result.length === 0) setDataCheck(true);
-        setData(result);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        toast.error('Error fetching data.');
-      }
-    };
+      const result = await response.json();
+      if (Array.isArray(result) && result.length === 0) setDataCheck(true);
+      setData(result);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      toast.error('Error fetching data.');
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -58,6 +61,24 @@ function Wishlist() {
     }
   };
 
+  const handleRemoveFromWishlist = async (productId: any) => {
+    const userToken = localStorage.getItem('zpt') as string;
+
+    try {
+      const response = await removeFromWishlist(token?.id, productId, userToken);
+
+      if (response.status === 200) {
+        toast.success('Item removed from wishlist successfully');
+        fetchData();
+      } else {
+        toast.error('Failed to remove item from wishlist');
+      }
+    } catch (error) {
+      toast.error('Failed to remove item from wishlist');
+      console.error('Failed to remove item from wishlist', error);
+    }
+  };
+
   return (
     <>
       <CategoryLayout>
@@ -78,7 +99,12 @@ function Wishlist() {
                 )}
 
                 {data.map(({ id, product }) => (
-                  <WishlistProductCard key={id} product={product} moveToCart={moveToCart} />
+                  <WishlistProductCard
+                    key={id}
+                    product={product}
+                    moveToCart={moveToCart}
+                    handleRemoveFromWishlist={handleRemoveFromWishlist}
+                  />
                 ))}
               </div>
             </section>

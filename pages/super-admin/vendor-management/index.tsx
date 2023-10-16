@@ -33,6 +33,7 @@ const Index = () => {
   }, [data]);
   useEffect(() => {
     handleSearch(searchVal);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const bannedVendors = filteredProducts?.filter((vendor: any) => vendor.vendor_status === 'Banned');
   const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
