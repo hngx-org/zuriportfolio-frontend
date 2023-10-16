@@ -83,7 +83,7 @@ export const destructureProducts = (products: any[]) => {
     productTitle: product.name,
     productDescription: product.description,
     productPrice: +product.price,
-    productImage: product.images[0].url,
+    productImage: product?.images[0].url,
     productDiscount: product.discount_price
   }));
   return cartProducts;

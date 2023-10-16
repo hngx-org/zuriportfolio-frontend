@@ -46,13 +46,15 @@ export default function Cart() {
             setCartSummary(summary)
 
         } else {
-            const cartItems = (localStorage.getItem('products') as string) ? JSON.parse(localStorage.getItem('products') as string): [];
+            const cartItems = (localStorage.getItem('products')) ? JSON.parse(localStorage.getItem('products') as string): [];
             console.log(carts);
             
              carts = destructureProducts(cartItems)
-            // console.log(cart_items);
+            console.log(carts);
 
             const productIdArray = carts.map((product) => product.productId)
+            console.log(productIdArray);
+            
             const cartSum =  await getGuestCartSummary(productIdArray);
             setCartSummary(cartSum)
         } 
