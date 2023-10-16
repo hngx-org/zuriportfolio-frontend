@@ -1,4 +1,4 @@
-import { CartSumaryProp } from '../@types';
+import { CartItemProps, CartSumaryProp } from '../@types';
 
 // sleep method
 export const sleep = async (sec = 1) => {
@@ -76,7 +76,23 @@ export const formatNumberWithCommas = (value: number): string | null => {
   return new Intl.NumberFormat('en-US').format(value);
 };
 
-export const getSummary = (items: CartSumaryProp) => {};
+export const destructureProducts = (products: any[]) => {
+  const cartProducts: CartItemProps[] = products.map((product) => ({
+    productId: product.id,
+    productSeller: product.user ? product?.user?.first_name + ' ' + product?.user?.last_name : '',
+    productTitle: product.name,
+    productDescription: product.description,
+    productPrice: +product.price,
+    productImage: product?.images[0].url,
+    productDiscount: product.discount_price,
+  }));
+  return cartProducts;
+};
+
+export const getCardItemsId = async (cartsItems: any[]) => {
+  return cartsItems.map((product) => product.productId);
+};
+export const getGuestCartSummary = async (carts: any) => {};
 
 export const getDiscountPercentage = (costPrice: string, sellingPrice: string) => {
   const diffrence = Number(costPrice) - Number(sellingPrice);
