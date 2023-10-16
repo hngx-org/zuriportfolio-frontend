@@ -258,9 +258,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {/* Action Buttons */}
             {!globalAuth && (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
-                {/* <Cart items={0} /> */}
+                
                 <Cart items={cartCount} />
-
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
                     href="/auth/login"
@@ -378,7 +377,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       </g>
                     </svg>
                   </span>
-                  {/* <Cart items={0} /> */}
                   <Cart items={cartCount} />
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
