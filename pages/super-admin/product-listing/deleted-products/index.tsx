@@ -76,15 +76,15 @@ const SanctionedProducts = () => {
           <div className="mb-4">
             {visibleProducts?.length > 0 ? (
               <>
-                <table className="w-full ">
+                <table className="w-full md:table-fixed">
                   <thead>
                     <tr>
                       <th className="text-gray-500 text-sm font-normal leading-[18px] px-6 py-6 gap-3 text-left flex items-center">
                         <p className="">Product Name</p>
                         <ArrowDown size="16" className="" />
                       </th>
-                      {['Vendor', 'ID', 'Date Added', 'Date Deleted', 'Status'].map((item) => (
-                        <th className="text-gray-500 text-sm font-normal leading-[18px] px-3 py-6 gap-3" key={item}>
+                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item, index) => (
+                        <th className={`text-gray-500 ${index === 0 ? 'table-cell' : 'hidden md:table-cell'} text-sm font-normal leading-[18px] px-3 py-6 gap-3`} key={item}>
                           {item}
                         </th>
                       ))}
@@ -99,7 +99,7 @@ const SanctionedProducts = () => {
                           route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)
                         }
                       >
-                        <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
+                        <td className="max-w-[10vw] md:full tracking-wide font-manropeL text-base text-gray-900 px-6 py-6">
                           <p>{product?.product_name} </p>
                         </td>
                         <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
