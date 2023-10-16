@@ -34,7 +34,7 @@ const SettingPage = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [local, setlocal] = useState<boolean>(false);
-  const [showNotInfo, setShowNotInfo] = useState<boolean>(false);
+  const [closeAcc, setCloseAcc] = useState<boolean>(true);
 
   const [showReferInfo, setShowReferInfo] = useState<boolean>(false);
   const [userPic, setUserPic] = useState<string>('');
@@ -62,6 +62,7 @@ const SettingPage = () => {
       refer: false,
     };
     setSettingOption(newSettingOption);
+    setCloseAcc(true);
   };
 
   useEffect(() => {
@@ -295,7 +296,7 @@ const SettingPage = () => {
                       </div>
 
                       <AccountManagement />
-                      <Twofa />
+                      <Twofa closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
                     </div>
                   )}
                 </div>
@@ -342,7 +343,6 @@ const SettingPage = () => {
                   >
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('refer');
                       }}
                       className="pb-4 md:py-3 w-full
@@ -360,7 +360,6 @@ const SettingPage = () => {
                   >
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('accountManagement');
                       }}
                       className="pb-4 md:py-3 w-full  
@@ -370,7 +369,6 @@ const SettingPage = () => {
                     </li>
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('notificationSettings');
                       }}
                       className="py-4 md:py-3 w-full hover:bg-brand-green-shade95 min-w-[50vw] border-b-[1px] border-white-500 "
@@ -379,7 +377,6 @@ const SettingPage = () => {
                     </li>
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('deleteAccount');
                       }}
                       className="py-4  md:py-3 w-full border-b-[1px] md:border-none hover:bg-brand-green-shade95 min-w-[50vw] border-white-500 
@@ -408,30 +405,34 @@ const SettingPage = () => {
                   {settingOption.deleteAccount && <DeleteAccount />}
                   {settingOption.accountManagement && (
                     <div>
-                      <h3 className=" font-manropeEB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
-                        Account Management
-                      </h3>
-                      <div className=" rounded-full  ">
-                        <label
-                          htmlFor="profilepics"
-                          className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
-                        >
-                          <>
-                            <Image
-                              src={userPic}
-                              width={280}
-                              height={180}
-                              alt=""
-                              className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
-                            ></Image>
-                          </>
-                          <p className="mb-4">Edit</p>
-                        </label>
-                        <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
-                      </div>
+                      {closeAcc && (
+                        <>
+                          <h3 className=" font-manropeEB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
+                            Account Management
+                          </h3>
+                          <div className=" rounded-full  ">
+                            <label
+                              htmlFor="profilepics"
+                              className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
+                            >
+                              <>
+                                <Image
+                                  src={userPic}
+                                  width={280}
+                                  height={180}
+                                  alt=""
+                                  className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
+                                ></Image>
+                              </>
+                              <p className="mb-4">Edit</p>
+                            </label>
+                            <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
+                          </div>
 
-                      <AccountManagementMobile />
-                      <Twofa />
+                          <AccountManagementMobile />
+                        </>
+                      )}
+                      <Twofa closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
                     </div>
                   )}{' '}
                   {settingOption.refer && <InviteLink />}
