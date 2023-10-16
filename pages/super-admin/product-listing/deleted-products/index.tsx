@@ -33,7 +33,7 @@ const SanctionedProducts = () => {
 
   useEffect(() => {
     setFilteredProducts(deletedProd);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
