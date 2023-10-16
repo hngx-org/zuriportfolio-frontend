@@ -95,7 +95,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
       title,
       year,
       url: link,
-      thumbnail: 0,
+      thumbnail: files[0],
       tags: selectedTags.join(', '),
       description,
     };
