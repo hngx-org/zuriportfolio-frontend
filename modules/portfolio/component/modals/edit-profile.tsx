@@ -56,81 +56,38 @@ const EditProfile = () => {
     getData();
   }, []);
 
-  const { setHasData, setUserData, showProfileUpdate, modal } = useContext(Portfolio);
+  const { setUserData, showProfileUpdate, modal } = useContext(Portfolio);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-    // const tracks: { track: string; id: number }[] = [
-    //   {
-    //     id: 1,
-    //     track: 'Frontend',
-    //   },
-    //   {
-    //     id: 2,
-    //     track: 'Backend',
-    //   },
-    //   {
-    //     id: 3,
-    //     track: 'Design',
-    //   },
-    // ];
-
     const firstName = name.split(' ')[0];
     const lastName = name.split(' ')[1];
-    // const trackId = tracks.find((el: { track: string; id: number }) => el.track === selectedTrack)?.id;
 
-    // const axios = require('axios');
-    // let data = JSON.stringify({
-    //   name: firstName + ' ' + lastName,
-    //   trackId: trackId,
-    //   city: city,
-    //   country: country,
-    // });
-    // let config = {
-    //   method: 'put',
-    //   maxBodyLength: Infinity,
-    //   url: `https://hng6-r5y3.onrender.com/api/update-profile-details/${userId}`,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   data: data,
-    // };
-    // axios
-    //   .request(config)
-    //   .then((response: any) => {
-    //     const { data } = response;
-    //     console.log(data);
-    //     // setUserData({
-    //     //   firstName: data?.user?.firstName,
-    //     //   lastName: data?.user?.lastName,
-    //     //   avatarImage: data?.user?.profilePic,
-    //     //   city: data?.portfolio?.city,
-    //     //   country: data?.portfolio?.country,
-    //     //   tracks: data?.tracks,
-    //     //   hasDataFromBE: true,
-    //     //   coverImage: data?.user?.profileCoverPhoto,
-    //     // });
-    //     // modal();
-    //   })
-    //   .catch((error: any) => {
-    //     console.log(error);
-    //   });
+    const body = {
+      name: firstName + ' ' + lastName,
+      trackId: 1,
+      city: city,
+      country: country,
+    };
 
-    const update = await fetch(`https://hng6-r5y3.onrender.com/api/update-profile-details/${userId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: firstName + ' ' + lastName,
-        trackId: 1,
-        city: city,
-        country: country,
-      }),
-    });
-    const response = await update.json();
-    console.log(response);
+    try {
+      setIsLoading(true);
+      const update = await fetch(`https://hng6-r5y3.onrender.com/api/update-profile-details/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      await update.json();
+      await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      setIsLoading(false);
+      modal();
+    } catch (error) {
+      console.error(error);
+      await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      setIsLoading(false);
+    }
   };
 
   const uploadProfile = async (coverImage: string | Blob) => {
@@ -295,13 +252,7 @@ const EditProfile = () => {
                 </Button>
               </div>
               <div className="w-full md:w-[47%]">
-                <Button
-                  onClick={handleSubmit}
-                  intent={'primary'}
-                  size={'sm'}
-                  className="w-full rounded-lg cursor-pointer"
-                  type="submit"
-                >
+                <Button intent={'primary'} size={'sm'} className="w-full rounded-lg cursor-pointer" type="submit">
                   Save
                 </Button>
               </div>

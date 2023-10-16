@@ -13,6 +13,7 @@ import PortfolioAbout from '@modules/portfolio/component/about/about';
 import PortfolioReference from '@modules/portfolio/component/reference/reference';
 import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
+import Awards from '@modules/portfolio/component/awards-modal';
 
 type PortfolioContext = {
   userId: string;
@@ -97,7 +98,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getUserId = async () => {
     const token = localStorage.getItem('zpt');
-    // const response = await fetch(`https://staging.zuri.team/api/auth/api/auth/verify/${token}`);
     const response = await fetch(`https://staging.zuri.team/api/auth/api/authorize`, {
       method: 'POST',
       headers: {
@@ -115,18 +115,15 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   useEffect(() => {
     if (!router.isReady) {
-      console.log('not ready');
-      setIsLoading(true);
+      return;
     } else {
       if (router?.query?.id) {
-        setIsLoading(true);
         const authUser = async () => {
           const data = await getUserId();
           setUserId(data?.data?.user?.id);
           if (data?.data?.user?.id === router?.query?.id) {
             await getUser(userId);
             router.push(`/portfolio/${userId}`);
-            setIsLoading(false);
           }
         };
         authUser();
@@ -135,12 +132,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
           try {
             const data = await getUserId();
             setUserId(data?.user?.id);
-            getUser(userId);
-            // setHasData(true);
-            // setHasPortfolio(true);
-            // setIsLoading(false);
+            await getUser(userId);
           } catch (error) {
-            setIsLoading(false);
             setError({ state: true, error: error });
           }
         };
@@ -221,12 +214,9 @@ export function PortfolioCtxProvider(props: { children: any }) {
       ]);
       setIsLoading(false);
     } catch (error: any) {
-      setIsLoading(false);
       setError({ state: true, error: error.message });
     }
   };
-
-  console.log(userSections);
 
   const profileUpdate = () => {
     setShowProfileUpdate(true);
@@ -314,7 +304,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     onClose();
     onCloseModal(sectionTitle || '');
     // getUser(userId);
-    // getUserSections(userId);
   };
 
   const onCloseModal = (modalToClose: string) => {
@@ -374,8 +363,12 @@ export function PortfolioCtxProvider(props: { children: any }) {
       modal: <ContactModal isOpen={modalStates['contact']} onClose={() => onCloseModal('contact')} userId={userId} />,
     },
     {
-      id: 'contact',
-      modal: <ContactModal isOpen={modalStates['contact']} onClose={() => onCloseModal('contact')} userId={userId} />,
+      id: 'about',
+      modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => onCloseModal('about')} userId={userId} />,
+    },
+    {
+      id: 'awards',
+      modal: <Awards isOpen={modalStates['awards']} onClose={() => onCloseModal('awards')} userId={userId} />,
     },
   ];
 
