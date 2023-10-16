@@ -1,5 +1,4 @@
 // pages/index.tsx
-import Card from './components/Card';
 import SearchAndFilter from './SearchAndFilter';
 import axios from 'axios';
 import useDebounce from './hooks/deBounce';
@@ -10,6 +9,8 @@ import { useSearchParams } from 'next/navigation';
 import { UserInfo } from './@types';
 import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
+import Banner from './components/Banner';
+import Card from './components/Card';
 
 const HomePage = () => {
   // States
@@ -78,6 +79,7 @@ const HomePage = () => {
 
   return (
     <>
+      <Banner />
       <SearchAndFilter
         setPageNumber={handleNumberReset}
         setFilter={handleClearFilters}
