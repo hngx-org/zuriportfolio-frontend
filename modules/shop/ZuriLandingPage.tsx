@@ -16,7 +16,7 @@ const ZuriLandingPage = () => {
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
   const [categoryQuery, setCategoryQuery] = useState('');
   const [currentPage, setCurrentPage] = React.useState(1);
-  const productsPerPage = 3;
+  const productsPerPage = 8;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [currentProducts, setCurrentProducts] = useState<Products[]>([]);
 
@@ -30,10 +30,10 @@ const ZuriLandingPage = () => {
 
   useEffect(() => {
     axios
-      .get('https://tech-v3ey.onrender.com/products')
+      .get('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
       .then((response) => {
         console.log('Fetched product data:', response.data);
-        setProducts(response.data as Products[]);
+        setProducts(response.data.data);
       })
       .catch((error) => {
         console.error('Error fetching product data:', error);
@@ -87,12 +87,14 @@ const ZuriLandingPage = () => {
           </svg>
         </div>
         <div className="py-10">
-          <ShopProductList
-            products={products}
-            searchQuery={searchQuery}
-            currentPage={currentPage}
-            productsPerPage={productsPerPage}
-          />
+          {products.length > 0 && (
+            <ShopProductList
+              products={products}
+              searchQuery={searchQuery}
+              currentPage={currentPage}
+              productsPerPage={productsPerPage}
+            />
+          )}
         </div>
         <div className="w-full mx-auto flex justify-center">
           <Pagination

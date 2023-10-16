@@ -42,151 +42,53 @@ const filters: {
   },
 ];
 const OrderDetails = () => {
-  const [pageOrders, setPageOrders] = useState<OrderHistory[]>([]);
-  const { orders, changeSortBy, toggleSortOrder, sortBy, changeSearchQuery } = useOrders(pageOrders);
+  const {
+    orders: pageOrders,
+    orderFilter,
+    changeFilter,
+    changeSortBy,
+    sortBy,
+    changeSearchQuery,
+    fetchOrders,
+    getSearchResult,
+    insertOrders,
+    searchQuery,
+    filterFunc,
+    sortOrders,
+    loading: loadingOrders,
+    searching,
+  } = useOrders();
 
-  const [loadingOrders, setLoadingOrders] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
+
   const [showFilters, setShowFilters] = useState(false);
-  const [searching, setSearching] = useState(false);
+
   const { push } = useRouter();
   const closeFilter = () => {
     setShowFilters(false);
   };
-  const fetchOrders = async () => {
-    try {
-      setLoadingOrders(true);
-      const data = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order`,
-        method: 'GET',
-      });
-      if (data.data?.errorStatus === true) {
-        setPageOrders([]);
-        return;
-      }
-      if (!data.data.data || data.data.data?.length === 0) {
-        setPageOrders([]);
-        return;
-      }
-      const transformedOrder = data?.data.data?.map((order: any) => ({
-        id: order.order_id,
-        price: order.order_price,
-        date: new Date(order.createdAt),
-        revenue: order.merchant.revenue[0]?.amount,
-        status: order.customer_orders[0]?.status,
-        sales: order.customer_orders[0]?.sales_report[0]?.sales,
-        customerName: order.customer[0]?.username,
-        productName: order.product.name,
-        productType: order.product.categories[0]?.name,
-      }));
 
-      setPageOrders(transformedOrder);
-    } catch (error) {
-      setPageOrders([]);
-    } finally {
-      setLoadingOrders(false);
-    }
-  };
-  const debounce = (func: (...a: any) => any, timeSlice: number = 2000) => {
-    let timeout: NodeJS.Timeout;
-    return function (...arg: any) {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-      timeout = setTimeout(() => {
-        func.apply(null, arg);
-      }, timeSlice);
-    };
-  };
-  const getSearchResult = async (query: string) => {
-    try {
-      setSearching(true);
-      if (query.length === 0) {
-        return;
-      }
-      const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
-        method: 'GET',
-      });
-      const { data } = res;
-      console.log(data);
-      if (data?.errorStatus) {
-        setPageOrders([]);
-        return;
-      }
-      if (data?.data === 'user not found') {
-        setPageOrders([]);
-        return;
-      }
-      if (!data.data || (data?.data && data.data.length === 0)) {
-        setPageOrders([]);
-        return;
-      } else {
-        const transformedOrder = data.data.map((order: any) => ({
-          id: order.order_id,
-          price: order.order_price,
-          date: new Date(order.createdAt),
-          revenue: order.merchant.revenue[0]?.amount,
-          status: order.customer_orders[0]?.status,
-          sales: order.customer_orders[0]?.sales_report[0]?.sales,
-          customerName: order.customer[0]?.username,
-          productName: order.product.name,
-          productType: order.product.categories[0]?.name,
-        }));
-
-        setPageOrders(transformedOrder);
-      }
-    } catch (error) {
-      setPageOrders([]);
-    } finally {
-      setSearching(false);
-    }
-  };
-  const debounceSearch = debounce(getSearchResult);
-  const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value.trim());
+  const changeInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeSearchQuery(e.target.value.trim());
+    let order;
     if (e.target.value.trim()) {
-      debounceSearch(e.target.value.trim());
+      order = await getSearchResult(e.target.value.trim());
     } else {
-      fetchOrders();
+      order = await fetchOrders();
     }
+    const sortedOrders = sortOrders(order);
+    console.log(sortedOrders);
+    insertOrders(sortedOrders);
   };
   useEffect(() => {}, [currentPage]);
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setLoadingOrders(true);
-
-        const data = await axios({
-          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/Orders`,
-          method: 'GET',
-        });
-        if (data.data?.errorStatus === true) {
-          setPageOrders([]);
-          push('/dashboard/orders');
-          return;
-        }
-
-        if (!data.data.data || data.data.data?.length === 0) {
-          push('/dashboard/orders');
-          return;
-        }
-        const transformedOrder = data?.data.map((order: any) => ({
-          productName: order.product.name,
-          id: order.id,
-          status: order.merchant.customer_orders[0]?.status,
-          customerName: order.customer.username,
-          date: new Date(order.createdAt),
-        }));
-        setPageOrders(transformedOrder);
-        setLoadingOrders(false);
-      } catch (error) {
-        push(`/dashboard/orders`);
-        setPageOrders([]);
-      }
+    const changeStatus = async () => {
+      changeSearchQuery('');
+      const order = await fetchOrders();
+      const sortedOrders = sortOrders(order);
+      insertOrders(sortedOrders);
     };
-    fetchOrders();
+    changeStatus();
   }, []);
   return (
     <main className="max-w-[1240px] mx-auto md:px-10 px-6 relative min-h-[400px]">
@@ -368,26 +270,39 @@ const OrderDetails = () => {
                 </button>
               </div>
             </div>
-            {orders.length === 0 ? (
-              <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                No Order to Show
-              </p>
-            ) : (
-              <OrderDetailsTable
-                pageItem={orders}
-                changeSort={changeSortBy}
-                toggleSort={toggleSortOrder}
-                currentSort={sortBy}
-              />
-            )}
+            <div className="relative">
+              {!searching ? (
+                <>
+                  {pageOrders.length === 0 ? (
+                    <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                      No Order to Show
+                    </p>
+                  ) : (
+                    <OrderDetailsTable pageItem={pageOrders} changeSort={changeSortBy} currentSort={sortBy} />
+                  )}
+                </>
+              ) : (
+                <div className="absolute z-50 inset-0 min-h-[300px]">
+                  <Loader />
+                </div>
+              )}
+            </div>
           </section>
-          <div className="md:hidden flex flex-col gap-4 mb-4">
-            {orders.length > 0 ? (
-              orders.map((item) => <OrderDetailsMobile key={item.id} {...item} />)
+          <div className="md:hidden flex flex-col gap-4 mb-4 relative">
+            {!searching ? (
+              <>
+                {pageOrders.length > 0 ? (
+                  pageOrders.map((item) => <OrderDetailsMobile key={item.id} {...item} />)
+                ) : (
+                  <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                    No Order to Show
+                  </p>
+                )}
+              </>
             ) : (
-              <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                No Order to Show
-              </p>
+              <div className="absolute z-50 inset-0 min-h-[300px] bg-white-100">
+                <Loader />
+              </div>
             )}
           </div>
           <div className="flex justify-center my-6">

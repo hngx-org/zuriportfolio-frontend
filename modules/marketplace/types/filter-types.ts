@@ -33,14 +33,14 @@ export type ProductList = {
     username: string;
     first_name: string;
     last_name: string;
-  },
+  };
   price: string;
   images: { url: string }[];
   discount_price: string;
   tax: string;
   admin_status: string;
   is_deleted: string;
-  rating: null | number; 
+  rating: null | number;
   is_published: boolean;
   currency: string;
   createdat: string;

@@ -18,8 +18,8 @@ const Trending: React.FC<TrendingProps> = ({ products }) => {
         </div>
         <div className="w-full h-full py-10 overflow-x-auto whitespace-nowrap  flex gap-5">
           {products.map((product, index) => (
-            <div key={product._id} className="product-card flex-none">
-              <Image src={product.image} alt={product.name} width={300} height={100} className="h-52" />
+            <div key={product.id} className="product-card flex-none">
+              <Image src={product.image[0].url} alt={product.name} width={300} height={100} className="h-52" />
               <h3 className="text-xl font-manropeB mt-2">{product.name}</h3>
 
               <div className="py-4">

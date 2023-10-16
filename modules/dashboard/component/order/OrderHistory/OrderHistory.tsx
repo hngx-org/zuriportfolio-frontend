@@ -53,130 +53,53 @@ const filters: {
   },
 ];
 const OrderHistory: React.FC = () => {
-  const [pageOrders, setPageOrders] = useState<OrderHistory[]>([]);
-  const [loadingOrders, setLoadingOrders] = useState(false);
-  const { orders, orderFilter, changeFilter, changeSortBy, sortBy, toggleSortOrder, changeSearchQuery } =
-    useOrders(pageOrders);
+  const {
+    orders: pageOrders,
+    orderFilter,
+    changeFilter,
+    changeSortBy,
+    sortBy,
+    changeSearchQuery,
+    fetchOrders,
+    getSearchResult,
+    insertOrders,
+    searchQuery,
+    filterFunc,
+    sortOrders,
+    loading: loadingOrders,
+    searching,
+  } = useOrders();
 
-  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
-  const [searching, setSearching] = useState(false);
   const closeFilter = () => {
     setShowFilters(false);
   };
-  const filterFunc = useCallback((filter: string, order: any[]) => {
-    let filteredOrders = [...pageOrders];
-    if (filter !== 'all') {
-      filteredOrders = pageOrders.filter((order) => order.status === filter);
-    }
 
-    return filteredOrders;
-  }, []);
-  const fetchOrders = async () => {
-    try {
-      setLoadingOrders(true);
-      const data = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order`,
-        method: 'GET',
-      });
-      if (data.data?.errorStatus === true) {
-        setPageOrders([]);
-        return;
-      }
-      if (!data.data.data || data.data.data?.length === 0) {
-        setPageOrders([]);
-        return;
-      }
-      const transformedOrder = data?.data.data?.map((order: any) => ({
-        productName: order.product.name,
-        id: order.id,
-        status: order.merchant.customer_orders[0]?.status,
-        customerName: order.customer.username,
-        date: new Date(order.createdAt),
-      }));
-      const filteredOrders = filterFunc(orderFilter, transformedOrder);
-      setPageOrders(filteredOrders);
-    } catch (error) {
-      setPageOrders([]);
-    } finally {
-      setLoadingOrders(false);
-    }
-  };
-  const debounce = (func: (...a: any) => any, timeSlice: number = 2000) => {
-    let timeout: NodeJS.Timeout;
-    return function (...arg: any) {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-      timeout = setTimeout(() => {
-        func.apply(null, arg);
-      }, timeSlice);
-    };
-  };
-  const getSearchResult = async (query: string) => {
-    try {
-      setSearching(true);
-      if (query.length === 0) {
-        return;
-      }
-      const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
-        method: 'GET',
-      });
-      const { data } = res;
-      console.log(data);
-      if (data?.errorStatus) {
-        setPageOrders([]);
-        return;
-      }
-      if (data?.data === 'user not found') {
-        setPageOrders([]);
-        return;
-      }
-      if (!data.data || (data?.data && data.data.length === 0)) {
-        setPageOrders([]);
-        return;
-      } else {
-        const transformedOrder = data.data.map((order: any) => ({
-          id: order.order_id,
-          price: order.order_price,
-          date: new Date(order.createdAt),
-          revenue: order.merchant.revenue[0]?.amount,
-          status: order.customer_orders[0]?.status,
-          sales: order.customer_orders[0]?.sales_report[0]?.sales,
-          customerName: order.customer[0]?.username,
-          productName: order.product.name,
-          productType: order.product.categories[0]?.name,
-        }));
-        const filteredOrders = filterFunc(orderFilter, transformedOrder);
-        setPageOrders(filteredOrders);
-      }
-    } catch (error) {
-      setPageOrders([]);
-    } finally {
-      setSearching(false);
-    }
-  };
-  const debounceSearch = debounce(getSearchResult);
   useEffect(() => {}, [currentPage]);
+
   useEffect(() => {
-    fetchOrders();
-  }, []);
-  useEffect(() => {
-    const changeStatus = () => {
-      setSearchQuery('');
-      fetchOrders();
+    const changeStatus = async () => {
+      changeSearchQuery('');
+      const order = await fetchOrders();
+      const filterdOrder = filterFunc(orderFilter, order);
+      const sortedOrders = sortOrders(filterdOrder);
+      insertOrders(sortedOrders);
     };
+
     changeStatus();
   }, [orderFilter]);
-  const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value.trim());
+  const changeInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeSearchQuery(e.target.value.trim());
+    let order;
     if (e.target.value.trim()) {
-      debounceSearch(e.target.value.trim());
+      order = await getSearchResult(e.target.value.trim());
     } else {
-      fetchOrders();
+      order = await fetchOrders();
     }
+    const filterdOrder = filterFunc(orderFilter, order);
+    const sortedOrders = sortOrders(filterdOrder);
+    insertOrders(sortedOrders);
   };
   return (
     <>
@@ -203,7 +126,7 @@ const OrderHistory: React.FC = () => {
               </Link>
             </div>
             <h1 className="text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order History</h1>
-            {orders.length > 0 ||
+            {pageOrders.length > 0 ||
               (searchQuery.trim().length > 0 && (
                 <div className="justify-between items-center mb-[25px] gap-[35px] flex md:hidden relative">
                   <div
@@ -260,7 +183,7 @@ const OrderHistory: React.FC = () => {
                     } cursor-pointer whitespace-nowrap`}
                     onClick={() => {
                       changeFilter(orderNav.id);
-                      setSearchQuery('');
+                      changeSearchQuery('');
                     }}
                   >
                     {orderNav.title}
@@ -277,7 +200,7 @@ const OrderHistory: React.FC = () => {
               )}
             </nav>
             <section className="relative">
-              {orders.length > 0 || searchQuery.trim().length > 0 ? (
+              {pageOrders.length > 0 || searchQuery.trim().length > 0 ? (
                 <section
                   className="rounded-2xl pt-5 hidden md:block"
                   style={{
@@ -296,7 +219,7 @@ const OrderHistory: React.FC = () => {
                         className=" bg-transparent focus-within:outline-none flex-1 text-[1rem] leading-[150%]"
                         placeholder="Search"
                         value={searchQuery}
-                        onChange={(e) => changeSearchQuery(e.target.value)}
+                        onChange={changeInput}
                       />
                     </div>
                     <div className="flex items-center gap-6 relative">
@@ -329,22 +252,20 @@ const OrderHistory: React.FC = () => {
                     </div>
                   </div>
                   <div className={`relative ${searching && 'min-h-[400px]'} `}>
-                    {pageOrders.length > 0 ? (
-                      <OrderHistoryTable
-                        pageItem={orders}
-                        changeSort={changeSortBy}
-                        toggleSort={toggleSortOrder}
-                        currentSort={sortBy}
-                      />
-                    ) : (
-                      <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                        No Order to Show
-                      </p>
-                    )}
-                    {searching && (
+                    {searching ? (
                       <div className="absolute z-50 inset-0 min-h-[300px]">
                         <Loader />
                       </div>
+                    ) : (
+                      <>
+                        {pageOrders.length > 0 ? (
+                          <OrderHistoryTable pageItem={pageOrders} changeSort={changeSortBy} currentSort={sortBy} />
+                        ) : (
+                          <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                            No Order to Show
+                          </p>
+                        )}
+                      </>
                     )}
                   </div>
                 </section>
@@ -355,8 +276,8 @@ const OrderHistory: React.FC = () => {
               )}
             </section>
             <div className="md:hidden flex flex-col gap-4 mb-4">
-              {orders.length > 0 ? (
-                orders.map((item) => <OrderHistoryMobile key={item.id} {...item} />)
+              {pageOrders.length > 0 ? (
+                pageOrders.map((item, i) => <OrderHistoryMobile key={`${item.id}${i}`} {...item} />)
               ) : (
                 <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
                   No Order to Show
@@ -365,7 +286,7 @@ const OrderHistory: React.FC = () => {
             </div>
           </section>
         )}
-        {pageOrders.length > 0 && (
+        {pageOrders.length > 0 && !loadingOrders && (
           <div className="flex justify-center my-6">
             <Pagination
               activePage={currentPage}

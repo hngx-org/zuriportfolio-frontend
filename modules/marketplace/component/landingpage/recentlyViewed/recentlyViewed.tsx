@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../../../context/AuthContext';
-import { RecentlyViewedData } from '../../../../../@types';
+import { RecentlyViewedData, ProductCardProps } from '../../../../../@types';
 import ProductCard from '../../ProductCard';
 import Image from 'next/image';
 import Cancel from '../../../../../public/assets/recentlyviewed/cancel.svg';
 import styles from '../productCardWrapper/product-card-wrapper.module.css';
+
 
 function RecentlyViewed() {
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedData[]>([]);
@@ -52,6 +53,7 @@ function RecentlyViewed() {
                 price={item?.product?.price}
                 user={item?.product?.shop?.name}
                 rating={item?.product?.rating}
+                showTopPicks={item?.product?.showTopPicks}
                 discount_price={item?.product?.discount_price}
               />
             </div>
@@ -63,7 +65,7 @@ function RecentlyViewed() {
         </div>
       )}
     </section>
-  ); 
+  );
 }
 
 export default RecentlyViewed;

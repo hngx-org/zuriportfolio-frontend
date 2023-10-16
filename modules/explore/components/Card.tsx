@@ -47,16 +47,16 @@ const Card = ({ data }: { data?: UserInfo }) => {
       </div>
       <Link
         ref={btnPortfolioRef}
-        href={'/portfolio'}
+        href={`/portfolio/${data?.id}`}
         className="hidden absolute bg-[rgba(255,255,255,0.15)] w-[80%] top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer font-manropeB text-white-100 border border-white-100 border-solid rounded-2xl py-3 text-center hover:bg-brand-green-primary hover:text-custom-color38 z-[1]"
       >
         View Portfolio
       </Link>
       {/* <CardHover openCard={isOpen} /> */}
-      <div className="max-w-[22rem] p-2 pb-4 border-1 border mx-auto  border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm lg:min-w-[22.5rem] xl:min-w-[24rem]">
+      <div className="max-w-[22rem] p-2 pb-4 border-1 min-h-[434px] border mx-auto  border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm lg:min-w-[22.5rem] xl:min-w-[24rem]">
         <Image className="w-full rounded-t-2xl object-cover" src={bg1} alt="Card Header" width={100} height={76} />
         <Image
-          className="-mt-11 rounded-full mx-auto aspect-square"
+          className="-mt-11 rounded-full mx-auto aspect-square object-cover bg-center"
           src={data?.profilePictureUrl ?? photo2}
           alt="Avatar"
           width={112}

@@ -105,8 +105,8 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
   };
 
   return (
-    <div>
-      <CategoryLayout>
+    <CategoryLayout>
+      <div>
         <div
           className={`${manropeL.className} w-[100%] flex flex-col px-[1rem] mb-[2rem] md:px-[1.5rem] xl:px-[4rem] lg:max-w-[1350px] mx-auto`}
         >
@@ -195,9 +195,9 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
             </div>
           )}
         </div>
-      </CategoryLayout>
-      <SearchFilter isOpen={isOpen} toggle={toggle} />
-    </div>
+        <SearchFilter isOpen={isOpen} toggle={toggle} />
+      </div>
+    </CategoryLayout>
   );
 };
 export default SpecificSubCategory;

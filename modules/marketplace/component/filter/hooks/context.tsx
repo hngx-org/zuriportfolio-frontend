@@ -87,7 +87,7 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
           discount,
         )}&price=${parseInt(price)}&rating=${rating}`,
       );
-      console.log(API_URL)
+      console.log(API_URL);
       const { data, status } = await axios.get(API_URL);
       console.log(data, status);
       if (status === 200) {

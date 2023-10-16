@@ -5,7 +5,6 @@ import { useState } from 'react';
 import RemoveCart from '../../../../../components/Modals/Removecart';
 import { BiTrash, BiCartAdd } from 'react-icons/bi';
 
-
 export default function CartItem({
   id,
   productId,

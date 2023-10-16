@@ -17,6 +17,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const getPostion = async (e: any) => {
+    if (category.subcategories.length === 0) return;
     const el = e.target;
 
     const rect = el.getBoundingClientRect();
@@ -48,7 +49,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
         onMouseOver={() => setPopupClass(true)}
         onMouseLeave={() => setPopupClass(false)}
       >
-        {category.subcategories.map((item: { name: string }, i) => (
+        {category.subcategories.map((item: { name: string }, i: number) => (
           <Link
             onClick={() => handleActiveNav(index)}
             className="px-4 py-2 items-center hover:bg-white-200 w-full flex justify-between text-brand-green-shade10"

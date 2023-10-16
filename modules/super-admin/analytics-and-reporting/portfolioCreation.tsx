@@ -73,7 +73,7 @@ const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   </p>
                 </div>
               </div>
-              {portfolioCreationArray.map((e: any) => {
+              {portfolioCreationArray?.map((e: any) => {
                 return (
                   <div
                     key={e.index}

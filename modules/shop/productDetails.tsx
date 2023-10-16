@@ -22,6 +22,7 @@ import axios from 'axios';
 
 export default function ProductDetails() {
   const router = useRouter();
+  const [products, setProducts] = useState<Products[]>([]);
 
   const [product, setProduct] = useState<Products | null>(null);
   const [currentProducts, setCurrentProducts] = useState<Products[]>([]);
@@ -52,10 +53,10 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (id) {
-      fetch(`https://tech-v3ey.onrender.com/api/products/${id}`)
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
         .then((response) => response.json())
-        .then((data) => {
-          setProduct(data);
+        .then((response) => {
+          setProduct(response.data);
         })
         .catch((error) => {
           console.error('Error fetching product details:', error);
@@ -66,10 +67,10 @@ export default function ProductDetails() {
 
   useEffect(() => {
     axios
-      .get('https://tech-v3ey.onrender.com/products')
+      .get('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
       .then((response) => {
         console.log('Fetched product data:', response.data);
-        setCurrentProducts(response.data as Products[]);
+        setProducts(response.data.data);
       })
       .catch((error) => {
         console.error('Error fetching product data:', error);
@@ -226,9 +227,8 @@ export default function ProductDetails() {
                 ref={imgContRef}
               >
                 <Image
-                  ref={imgRef}
-                  src={image ? image : product.image}
-                  alt="Main Image"
+                  src={product.image && product.image[0] ? product.image[0].url : ''}
+                  alt={product.name}
                   fill
                   objectFit="cover"
                   className="img max-w-none w-full h-full absolute"
@@ -239,13 +239,13 @@ export default function ProductDetails() {
 
             {/* Product Detail Data */}
             <div className="lg:space-y-2 space-y-4 w-full self-start">
-              <h1 className="md:text-2xl md:font-bold lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
+              <h1 className="md:text-2xl md:font-bold text-black lg:text-3xl lg:font-semibold md:mt-4 text-base font-semibold font-manropeL mt-6 tracking-[0.005rem] lg:mt-0">
                 {product.name}
               </h1>
               <div className="flex items-center">
                 <ProfileCircle color="#464646" variant="Bulk" className="w-6 h-6 md:w-9 md:h-9" />
                 <p className="w-fit font-manropeL font-bold text-xs tracking-[0.003rem] md:tracking-[0.005rem] ml-1 md:font-semibold md:text-base">
-                  {product.shopOwner}
+                  {product.category.name}
                 </p>
               </div>
               <div>
@@ -285,10 +285,10 @@ export default function ProductDetails() {
                 </p>
                 <p className="flex gap-x-4 items-center">
                   <span className="text-black text-xl md:text-3xl lg:text-3xl font-normal lg:font-semibold font-manropeEB leading-10">
-                    $100.00
+                    {product.currency} {product.price}
                   </span>
                   <span className="text-xl font-light md:text-2xl lg:text-[1.375rem] font-manrope line-through leading-7 text-gray-300">
-                    $120.00
+                    {product.currency} {product.discount_price}
                   </span>
                 </p>
               </div>
@@ -533,20 +533,20 @@ export default function ProductDetails() {
           <div className="mt-[4.4rem] mb-[2.37rem]">
             <div className="flex justify-between items-center mb-5 md:mb-2 lg:mb-[1.13rem]">
               <h3 className="text-custom-color31 font-manropeL font-bold md:text-2xl text-sm md:px-2 truncate w-[13.1875rem] md:w-full">
-                Other Products By {product.shopOwner}{' '}
+                Other Products By {product.category.name}{' '}
               </h3>
               <span className="flex items-center text-[#00894C] text-xs font-semibold font-manropeL gap-x-2 md:hidden">
                 <Link href={'/shop'}>View all</Link> <ArrowRight2 size="20" color="#00894c" />
               </span>
             </div>
             <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
-              <ShopProductList products={currentProducts.slice(0, 8)} />
+              <ShopProductList products={products.slice(0, 8)} />
             </div>
             <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
-              <ShopProductList products={currentProducts.slice(0, 6)} />
+              <ShopProductList products={products.slice(0, 6)} />
             </div>
             <div className="md:mx-[0.66rem] mx-0 md:hidden block">
-              <ShopProductList products={currentProducts.slice(0, 4)} />
+              <ShopProductList products={products.slice(0, 4)} />
             </div>
             <div className="md:flex w-full justify-end hidden">
               <span className="flex py-3 px-5 gap-1 border-solid border border-white-120 rounded-lg mt-6 mb-[4.44rem] font-manropeL font-semibold tracking-[0.00088rem] text-sm items-center">

@@ -1,7 +1,7 @@
 import { ArrowDown } from 'iconsax-react';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pagination from '../../../view-components/super-admin/pagination';
 import { useRouter } from 'next/router';
 import { useGetProd } from '../../../../http';
@@ -11,22 +11,29 @@ import { formatDate } from '@modules/super-admin/components/product-listing/prod
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
-  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>([]);
-  const [filteredProduct, setFilteredProducts] = useState(sanctionedProducts);
+  const { data, isLoading } = useGetProd();
+  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>(data);
 
-  const handleSubmit = (searchText: string) => {
-    const filteredProduct: DeletedProducts[] = sanctionedProducts.filter((product) =>
-      product.product_name.toLowerCase().includes(searchText.toLowerCase()),
+  const sanctionedProd = data?.data?.filter((item: any) => item?.product_status === 'Deleted');
+
+  const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
+
+  useEffect(() => {
+    setFilteredProducts(sanctionedProd);
+  }, [sanctionedProducts]);
+  useEffect(() => {}, [filteredProducts]);
+
+  const handleSearch = (searchText: string) => {
+    const filteredProduct: any = data?.data?.filter(
+      (product: any) =>
+        product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
+        product?.product_status?.toLowerCase()?.includes('deleted'),
     );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
 
   const route = useRouter();
-
-  const { data, isLoading } = useGetProd();
-
-  const sanctionedProd = data?.data?.filter((item: any) => item?.product_status === 'Deleted');
 
   return (
     <>
@@ -38,7 +45,7 @@ const SanctionedProducts = () => {
             <p className="text-custom-color2 text-sm">List of all deleted products and their details</p>
           </div>
           <div>
-            <SearchProduct handleSearchChange={handleSubmit} />
+            <SearchProduct handleSearchChange={handleSearch} />
           </div>
         </div>
         {isLoading ? (

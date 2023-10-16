@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import CustomDropdown from './CustomDropdown';
 
 interface Option {
-  label: string;
-  value: string;
+  label?: string;
+  value?: string;
+  filters: { SortBy?: number; Location?: string; Skill?: string; Track?: string; Ranking?: string };
+  handleFilters: (type: string, value: string | number) => void;
 }
 
-const FilterComponent: React.FC = () => {
+const FilterComponent = (prop: Option) => {
   //   const [selectedOption, setSelectedOption] = useState('');
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
@@ -16,14 +18,31 @@ const FilterComponent: React.FC = () => {
   const [selectedOption5, setSelectedOption5] = useState<string>('');
   const [selectedOption6, setSelectedOption6] = useState<string>('');
 
+  const { filters, handleFilters } = prop;
+
   const handleCustomDropdownChange = (option: string) => {
     setSelectedOption(option);
+    if (option !== 'location') {
+      return handleFilters('Location', option);
+    }
+
+    delete filters.Location;
   };
   const handleCustomDropdownChange2 = (option: string) => {
     setSelectedOption2(option);
+    if (option !== 'Skill') {
+      return handleFilters('Skill', option);
+    }
+
+    delete filters.Skill;
   };
   const handleCustomDropdownChange3 = (option: string) => {
     setSelectedOption3(option);
+    if (option !== 'Track') {
+      return handleFilters('Track', option);
+    }
+
+    delete filters.Track;
   };
   const handleCustomDropdownChange4 = (option: string) => {
     setSelectedOption4(option);
@@ -33,6 +52,11 @@ const FilterComponent: React.FC = () => {
   };
   const handleCustomDropdownChange6 = (option: string) => {
     setSelectedOption6(option);
+    if (option !== 'Ranking') {
+      return handleFilters('Ranking', option);
+    }
+
+    delete filters.Ranking;
   };
 
   return (

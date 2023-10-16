@@ -40,13 +40,8 @@ function Wishlist() {
                 </h2>
               </div>
               <div className="flex flex-col gap-6  lg:px-[100px]">
-               
                 {data.map(({ id, product }) => (
-                  <WishlistProductCard
-                    key={id}
-                    product={product}
-                   
-                  />
+                  <WishlistProductCard key={id} product={product} />
                 ))}
               </div>
             </section>
@@ -112,4 +107,3 @@ interface ProductEntry {
   createdat: string;
   updatedat: string;
 }
-

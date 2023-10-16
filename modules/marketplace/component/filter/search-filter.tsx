@@ -13,10 +13,10 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
   const { resetFilter, handleSearch, loading } = useSearchFilter();
   const { categories, loading: isLoading, products } = useCategory();
   const sub_categories = categories.flatMap((category) => category.subcategories).map((sub: any) => sub?.name);
-  const prices = products.map((product) => product.price)
-  const uniquePrices = Array.from(new Set(prices)).map(price => formatToNigerianNaira(price));
-  const discounts = products.map((product) => product.discount_price)
-  const discount_price = Array.from(new Set(discounts)).map(discount => discount)
+  const prices = products.map((product) => product.price);
+  const uniquePrices = Array.from(new Set(prices)).map((price) => formatToNigerianNaira(price));
+  const discounts = products.map((product) => product.discount_price);
+  const discount_price = Array.from(new Set(discounts)).map((discount) => discount);
 
   return (
     <div>
@@ -39,11 +39,7 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <FilterSection tag="discount" data={discount_price} sectionTitle="By Discount" />
               <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
               <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
-              <FilterSection
-                tag="price"
-                data={uniquePrices}
-                sectionTitle="By Price"
-              ></FilterSection>
+              <FilterSection tag="price" data={uniquePrices} sectionTitle="By Price"></FilterSection>
             </Fragment>
 
             <div className="flex items-center justify-center gap-4 mt-10 mb-4">
@@ -64,6 +60,5 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
     </div>
   );
 };
-
 
 export default SearchFilter;
