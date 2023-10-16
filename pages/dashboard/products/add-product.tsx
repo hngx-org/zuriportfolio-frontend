@@ -287,7 +287,6 @@ const AddProduct = () => {
                       <Button
                         onClick={handleAddNewCategory}
                         className="w-[150px] h-[30px] rounded-sm text-[14px] bg-gray-500"
-                        disabled={loading}
                       >
                         {loading ? 'Loading...' : 'Add new'}
                       </Button>
