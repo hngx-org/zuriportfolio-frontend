@@ -40,7 +40,7 @@ function LoginForm() {
   const send2FaCode = useAuthMutation(resend2FACode);
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      console.log('responseoutside', res);
+      console.log('responseoutside', res.message);
 
       if (res.message === 'Login successful') {
         handleAuth(res.data);
@@ -48,45 +48,50 @@ function LoginForm() {
         const value = isAuthenticated(res?.data?.token);
         // console.log(value);
 
-        // Checking if user enabled 2fa
-        if (res.data.user.twoFactorAuth) {
-          const email = res?.data?.user?.email;
-
-          // uncomment if the 2fa message is not being sent automatically
-          // send2FaCode.mutate({ email });
-          router.push('/auth/2fa');
-          return;
-        }
-
         // redirecting the user  to admin dashbord if they are an admin
         if (res.data.user.roleId === ADMIN_ID) {
           router.push('/super-admin/product-listing');
           return;
         }
+
         notify({
           message: 'Login Successful',
           type: 'success',
         });
         router.push('/dashboard');
+        return;
       } else if (res.message === 'Invalid password') {
         notify({
           message: 'Invalid password',
           type: 'error',
         });
+        return;
       } else if (res.message === 'User not found') {
         notify({
           message: 'User not found',
           type: 'error',
         });
+        return;
       } else if (res.message === 'Please verify your account') {
         notify({
           message: 'Please verify your account',
           type: 'error',
         });
+        return;
+      }
+
+      // Checking if user enabled 2fa
+      if (res.response.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+        const email = res?.data?.user?.email;
+
+        // uncomment if the 2fa message is not being sent automatically
+        // send2FaCode.mutate({ email });
+        router.push('/auth/2fa');
+        return;
       }
     },
     onError: (e) => {
-      console.error({ e });
+      console.error({ error: e });
       notify({
         message: 'Error logging in',
         type: 'error',
