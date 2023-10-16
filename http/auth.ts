@@ -27,7 +27,7 @@ export const resend2FACode = async (props: { email: string }) => {
   }
 };
 
-export const enabled2FA = async (props: {email: string, token: string}) => {
+export const enabled2FA = async (props: {token: string}) => {
   try {
     const res = await $http.post('/2fa/enable', props);
     return res?.data;
@@ -36,7 +36,7 @@ export const enabled2FA = async (props: {email: string, token: string}) => {
   }
 }
 
-export const disable2FA = async (props: {email: string, token: string}) => {
+export const disable2FA = async (props: {token: string}) => {
   try {
     const res = await $http.post('/2fa/disable', props);
     return res?.data;
