@@ -45,11 +45,3 @@ export const cardData = [
     price: 7500,
   },
 ];
-
-export const ratingData = [
-  { rating: 5, users: 2 },
-  { rating: 4, users: 0 },
-  { rating: 3, users: 1 },
-  { rating: 2, users: 1 },
-  { rating: 1, users: 0 },
-];

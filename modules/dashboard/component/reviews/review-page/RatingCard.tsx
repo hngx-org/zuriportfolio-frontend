@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { RatingCardProps } from '../../../../../@types';
 
-const RatingCard = ({ rating, users }: RatingCardProps) => {
+const RatingCard = ({ rating, users, totalReviews }: RatingCardProps) => {
   const [volume, setVolume] = useState<number>(40);
 
   useEffect(() => {
     if (users >= 50) {
       setVolume(50);
     } else {
-      setVolume(Math.floor((users / 4) * 50));
+      setVolume(Math.floor((users / totalReviews) * 50));
     }
   }, [users]);
 

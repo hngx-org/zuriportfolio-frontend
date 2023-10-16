@@ -1,6 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
-import { ArrowUp } from 'iconsax-react';
 import { BannedDeletedVendorsProps } from '../../../../@types';
 import { LoadingText } from '../product-listing/ProductListingNavbar';
 const VendorsStat = ({
@@ -19,7 +17,7 @@ const VendorsStat = ({
             <p className="text-lg">Total Vendors</p>
           </div>
           <div className="flex items-center justify-between">
-            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold">{data?.total_shops}</h2>}
+            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold">{data?.data?.length}</h2>}
           </div>
         </div>
         <div className=" p-4 border-solid rounded-md border-white-115 border-2">
@@ -27,7 +25,13 @@ const VendorsStat = ({
             <p className="text-lg text-gray-500">Banned Vendors</p>
           </div>
           <div className="flex items-center justify-between">
-            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold ">{data?.total_banned_shops}</h2>}
+            {isLoading ? (
+              <LoadingText />
+            ) : (
+              <h2 className="text-4xl font-bold ">
+                {data?.data?.filter((item: any) => item?.vendor_status === 'Banned')?.length}
+              </h2>
+            )}
             <button
               className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl"
               onClick={() => setShowBanned(!showBanned)}
@@ -41,7 +45,7 @@ const VendorsStat = ({
             <p className="text-lg text-gray-500">Deleted Vendors</p>
           </div>
           <div className="flex items-center justify-between">
-            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold">{data?.total_deleted_shops}</h2>}
+            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold">{data?.data?.filter((item: any) => item?.vendor_status === 'Deleted')?.length}</h2>}
             <button
               className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl"
               onClick={() => setShowDeleted(!showDeleted)}
