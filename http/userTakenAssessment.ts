@@ -2,15 +2,9 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import $http from './axios';
 
-const fetchErrorToast = (data: string) => notify({ type: 'error', message: `Error fetching ${data}`, theme: 'light' });
-
 const userID = '3e9a1d54-826a-4d0b-8a48-a4e92f857fd5';
 const baseURL = `https://demerzel-badges-production.up.railway.app/api`;
-
 const assessmentBaseUrl = `http://104.248.143.148/api`;
-
-// const TaskeAssessmentURL = 'http://104.248.143.148/api'
-const fetchToken = 'l3h5.34jb3%2C4mh346gv%2C34h63vk3j4h5k43hjg54kjhkg4j6h45g6kjh45gk6jh6k6g34hj6';
 
 const $httpInstance = axios.create({
   baseURL,
@@ -25,32 +19,24 @@ export const fetchAssessmentHistory = async () => {
     // console.log(res);
     return res.data.data.badges;
   } catch (error) {
-    fetchErrorToast('Assessment History');
     console.error('Error Assessment History:', error);
     throw error;
   }
 };
 
-// export const getAssessmentDetails = async (id: string, token: string) => {
-//   try {
-//   //   const id = getAllAssessments(token).then((response) => {
-//   //     response.assessments.map((item: any) => {
-//   //       return item.skill_id
-//   //     })
-//   //   })
-//     const response = await $http.get(
-//       `${assessmentBaseUrl}/assessments/${id}`,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`
-//         }
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const getAssessmentDetails = async (token: string, data: string) => {
+  try {
+    const response = await $http.get(`${assessmentBaseUrl}/assessments/${data}`, {
+      headers: {
+        token: token,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
 export const getAllAssessments = async (token: string) => {
   try {
@@ -61,19 +47,8 @@ export const getAllAssessments = async (token: string) => {
     });
     return response.data;
   } catch (error) {
-    fetchErrorToast('All Assessment Error');
     console.log(error);
-  }
-};
-
-export const getAssessmentDetails = async () => {
-  try {
-    const response = await $http.get(
-      'http://104.248.143.148/api/assessments/4?fake_token=l3h5.34jb3%2C4mh346gv%2C34h63vk3j4h5k43hjg54kjhkg4j6h45g6kjh45gk6jh6k6g34hj6',
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
@@ -83,18 +58,23 @@ const axiosInstance = axios.create({
   },
 });
 
-export const fetchUserTakenAssessment = async () => {
+export const fetchUserTakenAssessment = async (token: string, id: any) => {
   try {
     const res = await axiosInstance.post(
-      `http://104.248.143.148/api/assessments/start-assessment?
-         fake_token=${fetchToken}`,
-      { assessment_id: 20 },
+      `${assessmentBaseUrl}/assessments/start-assessment`,
+      { assessment_id: id },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      },
     );
-    console.log(res);
-    return res;
+    console.log(res.data.data);
+    return res.data.data;
   } catch (error) {
     console.error('Error fetching user taken assessment:', error);
-    throw error;
+    throw new Error('Failed to fetch user taken assessment');
   }
 };
 
@@ -103,14 +83,22 @@ export const submitAssessment = async ({
   question_id,
   user_answer_id,
   answer_text,
+  token,
 }: {
   assessment_id: number;
   question_id: number;
   user_answer_id: number;
   answer_text: string;
+  token: string;
 }) => {
+  const axiosInstance = axios.create({
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+  });
   try {
-    const res = await axiosInstance.post(`http://104.248.143.148/api/assessments/submit?fake_token=${fetchToken}`, {
+    const res = await axiosInstance.post(`http://104.248.143.148/api/assessments/submit`, {
       assessment_id,
       response: {
         question_id: question_id,
@@ -118,6 +106,7 @@ export const submitAssessment = async ({
         answer_text: answer_text,
       },
     });
+    console.log(res);
   } catch (error) {
     console.error('Error submitting assessment:', error);
     throw error;

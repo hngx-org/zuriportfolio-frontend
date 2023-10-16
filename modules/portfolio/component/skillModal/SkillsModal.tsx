@@ -1,7 +1,7 @@
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useCallback } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
@@ -40,23 +40,23 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
 
-  const fetchSkillData = async () => {
+ 
+  const fetchSkillData = useCallback(async () => {
     try {
       // Make a GET request to the API
       const response = await axios.get(`https://hng6-r5y3.onrender.com/api/skills-details/${userId}`);
       const data = response.data.data;
-      console.log(data);
       setValues(data);
     } catch (error) {
       // Handle errors
       console.error('Error fetching data:', error);
     }
-  };
+  },[userId]);
   // set the data in the db on the modal onload
 
   useEffect(() => {
     fetchSkillData();
-  }, []);
+  }, [fetchSkillData]);
 
   // on Enter press append input value to array two(setValues)
   const handleKeyPress = (e: { key: string }) => {
@@ -90,7 +90,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     }
   };
 
-  const skillsArray = values.map((obj) => obj.skill);
 
   // update skill items on the landing page with reloading the page
   const getAllSkill = async () => {
@@ -100,7 +99,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       if (response.ok) {
         const data = await response.json();
         const { skills } = data;
-        console.log(data);
         arrayTwolist(skills);
       }
     } catch (error) {
@@ -108,9 +106,9 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     }
   };
 
-  const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
+  const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills/';
   const requestData = {
-    skills: skillsArray,
+    skills: values?.map((obj) => obj.skill),
     sectionId: 5,
     userId: userId,
   };
@@ -127,7 +125,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
           type: 'success',
         });
       }
-      console.log(response);
       return response.data;
     } catch (error) {
       notify({
