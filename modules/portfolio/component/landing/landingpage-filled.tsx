@@ -76,9 +76,9 @@ const LandingPageFilled: React.FC = () => {
         {userSections?.map((section, i) => {
           return (
             <React.Fragment key={i}>
+              <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
               {section?.id === 'workExperience' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}

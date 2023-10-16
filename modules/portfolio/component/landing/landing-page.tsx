@@ -30,17 +30,19 @@ const Landing = () => {
 
   const { firstName, lastName, tracks, city, country, coverImage } = userData;
 
-  // useEffect(() => {
-  //   userSections.map((el) => {
-  //     if (el?.data?.length) {
-  //       setHasData(true);
-  //       setHasPortfolio(true);
-  //     } else {
-  //       setHasData(false);
-  //       setHasPortfolio(false);
-  //     }
-  //   });
-  // }, [setHasData, setHasPortfolio, userSections, userSections.length]);
+  useEffect(() => {
+    userSections.map((el) => {
+      if (el?.data?.length) {
+        setHasData(true);
+        setHasPortfolio(true);
+      } else {
+        setHasData(false);
+        setHasPortfolio(false);
+      }
+    });
+  }, [setHasData, setHasPortfolio, userSections, userSections.length]);
+
+  console.log('userSections', userSections);
 
   const headerMargin =
     'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen object-cover';

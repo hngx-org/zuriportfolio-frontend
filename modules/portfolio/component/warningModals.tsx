@@ -95,6 +95,7 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   console.log(sectionToDelete);
   const deleteSection = async () => {
     if (deleteFromBe) {
+      console.log('delete from be', deleteFromBe);
     } else if (deleteLocal) {
       const parts = sectionToDelete.split(' ');
       const section = parts.slice(1).join(' ');
