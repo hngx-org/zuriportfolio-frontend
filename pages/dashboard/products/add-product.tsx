@@ -255,6 +255,13 @@ const AddProduct = () => {
                 {/* <div className="bg-[#F8F9FA] p-2 rounded-sm items-center text-center">
                   <MultipleFileUpload />
                 </div> */}
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
+                <Input
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  name="name"
+                />
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product details</span>
@@ -268,7 +275,7 @@ const AddProduct = () => {
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Description</label>
                   <textarea
-                    className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    className="w-full border-solid border-[2px] border-white-400 placeholder:text-[#191C1E] focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2"
                     placeholder="Add product description"
                     inputMode="none"
                     name="description"
