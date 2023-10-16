@@ -37,8 +37,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
   const [dropDown, setDropDown] = useState<string>('Explore');
-  const  {cartCount,setCartCountNav} = useCart()
-
+  const { cartCount, setCartCountNav } = useCart();
 
   useEffect(() => {
     async function cartFetch() {
@@ -233,7 +232,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {/* Action Buttons */}
             {!globalAuth && (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
-                
                 <Cart items={cartCount} />
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button

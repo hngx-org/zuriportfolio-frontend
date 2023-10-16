@@ -63,10 +63,10 @@ export default function Index({ products }: Props) {
 export const getServerSideProps = (async (context) => {
   let category = context.query.category as string;
   let subCategory = context.query.subCategory as string;
-  let price = !isNaN(parseInt(context.query.price as string)) ?  context.query.price as string : '';
-  let discount = !isNaN(parseInt(context.query.discount as string)) ?  context.query.discount as string : '';
+  let price = !isNaN(parseInt(context.query.price as string)) ? (context.query.price as string) : '';
+  let discount = !isNaN(parseInt(context.query.discount as string)) ? (context.query.discount as string) : '';
   let rating = context.query.rating as string;
-  const queryParams = { category, subCategory, price, discount, rating};
+  const queryParams = { category, subCategory, price, discount, rating };
   let apiUrl = constructApiUrl('https://coral-app-8bk8j.ondigitalocean.app/api/products-filter', queryParams);
   const { data, status } = await axios.get<{ products: ProductList[] }>(apiUrl.toString());
   if (status === 400 || status === 500) {

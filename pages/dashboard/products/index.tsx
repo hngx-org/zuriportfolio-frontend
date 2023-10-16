@@ -28,7 +28,7 @@ const Products = () => {
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace');
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products');
       const data = await res.json();
       if (Array.isArray(data.data)) {
         setProducts(data.data);
