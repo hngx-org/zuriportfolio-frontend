@@ -5,6 +5,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 const AUTH_HTTP_URL = 'https://auth.akuya.tech';
 import { toast } from 'react-toastify';
 
+import { AxiosResponse } from 'axios';
+
 export const getUserByName = async (props: { name: string }) => {
   try {
     const res = await $http.get(`/user/${props?.name}`);
@@ -258,11 +260,29 @@ export const useTempDeleteShop = () => {
 
 export const useDeleteShop = () => {
   const deleteShop = useMutation((id: string) => {
-    return makeRequest(`shop/delete_shop/${id}`, 'patch');
+    return makeRequest(`shop/delete_shop/${id}`, 'delete');
   });
 
   return {
     deleteShop: deleteShop.mutate,
     isLoading: deleteShop.isLoading,
   };
+};
+
+// remove from wishlist
+
+export const removeFromWishlist = async (userId: any, productId: any, token: any): Promise<AxiosResponse> => {
+  try {
+    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/delete/${userId}/${productId}`;
+    const response = await axios.delete(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.error('Error deleting:', error);
+    throw error;
+  }
 };
