@@ -17,9 +17,9 @@ import { ProductData } from '../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
-import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
-import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 import { destructureProducts } from '../../helpers';
+import { isUserAuthenticated } from './hooks/useAuthHelper';
+import { CART_ENDPOINT } from '../../http/checkout';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -51,8 +51,8 @@ export default function ProductDetailsDescription() {
   }, [apiUrl, id]);
 
   const addToCart = async () => {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
-    if (token?.id) {
+    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    if (auth?.token) {
       try {
         const response = await axios.post(
           apiUrl,
@@ -67,25 +67,24 @@ export default function ProductDetailsDescription() {
         if (response.status === 200) {
           toast.success('Added to Cart');
           console.log('success');
+          console.log(auth.token);
         }
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
       }
     } else {
-      const products: any[] = [];
+      const products: any[] = localStorage.getItem('products')
+        ? JSON.parse(localStorage.getItem('products') as string)
+        : [];
+      console.log('no auth');
 
-      let productData = {
-        productId: product?.id,
-        productImage: product?.images[0]?.url,
-        productTitle: product?.name,
-        productSize: product?.quantity,
-        productSeller: product?.user?.username,
-        productPrice: product?.price,
-      };
-      products.push(productData);
-      localStorage.setItem('products', JSON.stringify(products));
-      toast.success('Item added to cart🎊');
+      if (product) {
+        products.push(product);
+        localStorage.setItem('products', JSON.stringify(products));
+        console.log(products);
+        toast.success('Item added to cart🎊');
+      }
     }
   };
 

@@ -35,7 +35,8 @@ const SanctionedProducts = () => {
 
   useEffect(() => {
     setFilteredProducts(sanctionedProd);
-  }, [sanctionedProd, sanctionedProducts]);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
   const handleSearch = (searchText: string) => {

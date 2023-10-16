@@ -33,7 +33,8 @@ const Index = () => {
   }, [data]);
   useEffect(() => {
     handleSearch(searchVal);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const bannedVendors = filteredProducts?.filter((vendor: any) => vendor.vendor_status === 'Banned');
   const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
   const handleSearch = (searchText: string) => {
@@ -43,32 +44,6 @@ const Index = () => {
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
-  // const handleFilter = (status: string) => {
-  //   let filteredProduct = data?.data;
-  //   if (status === 'oldest') {
-  //     filteredProduct = filteredProduct.sort(
-  //       (a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-  //     );
-  //   } else if (status === 'highest') {
-  //     filteredProduct = filteredProduct.sort((a: any, b: any) => b.total_products - a.total_products);
-  //   } else if (status === 'lowest') {
-  //     filteredProduct = filteredProduct.sort((a: any, b: any) => a.total_products - b.total_products);
-  //   } else if (status === 'newest') {
-  //     filteredProduct = filteredProduct.sort((a: any, b: any) => {
-  //       return new Date(formatDate(b.createdAt)).getTime() - new Date(formatDate(a.createdAt)).getTime();
-  //     });
-  //   } else{
-  //     filteredProduct = filteredProduct.sort((a: any, b: any) => {
-  //       const statusOrder: { [key: string]: number } = {
-  //         Active: 1,
-  //         Banned: 2,
-  //         Deleted: 3,
-  //       };
-  //       return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
-  //     });
-  //   }
-  //   setFilteredProducts(filteredProduct);
-  // };
 
   const totalPages = showDeleted
     ? Math.ceil(deletedVendors.length / itemsPerPage)

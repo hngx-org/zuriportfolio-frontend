@@ -9,12 +9,14 @@ import styles from '../productCardWrapper/product-card-wrapper.module.css';
 
 function RecentlyViewed() {
   const [isLoading, setLoading] = useState(true);
+  const [isReady, setReady] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedData[]>([]);
   const token: any = isUserAuthenticated();
 
   const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${token?.id}`;
 
   useEffect(() => {
+    setReady(true);
     const fetchRecentlyViewed = async () => {
       try {
         const response = await fetch(API_URL);
@@ -39,6 +41,10 @@ function RecentlyViewed() {
     const updatedRecentlyViewed = recentlyViewed.filter((item) => item?.product?.id !== id);
     setRecentlyViewed(updatedRecentlyViewed);
   };
+
+  console.log(token);
+
+  if (!token?.id && isReady) return <div></div>;
 
   return (
     <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-[60px]">
