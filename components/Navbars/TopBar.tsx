@@ -123,7 +123,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   return (
     <>
-      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40] isolate fixed  ">
+      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40] isolate sticky top-0  ">
         <div className="max-w-[1240px] mx-auto flex items-center justify-between  relative gap-1">
           <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] gap-14">
             <div className="flex items-center gap-1">
@@ -447,7 +447,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </div>
         )}
       </nav>
-      <div className="mb-24 md:mb-28 lg:mb-32 "></div>
     </>
   );
 
