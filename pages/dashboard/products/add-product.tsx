@@ -280,7 +280,9 @@ const AddProduct = () => {
                     className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="Add new category"
                     inputMode="none"
-                    name="category"
+                    name="newCategory"
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select more categories</label>
                   <select
