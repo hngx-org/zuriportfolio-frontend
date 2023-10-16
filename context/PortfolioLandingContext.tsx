@@ -242,6 +242,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
       const formData = new FormData();
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
+      console.log(formData, 'formData for upload');
+
       const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/cover/upload', {
         method: 'POST',
         body: formData,
