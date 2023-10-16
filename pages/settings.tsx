@@ -90,9 +90,9 @@ const SettingPage = () => {
       const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
       const method = storedNotificationData ? 'PATCH' : 'POST';
 
-      const url = `${baseUrl}/api/update-notification-settings/1141fae0-14eb-4e70-824b-fcbfaa5cad6a}`;
+      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${auth?.user.id}}`;
       const response = await fetch(url, {
-        method: 'PATCH',
+        method: method,
 
         headers: {
           'Content-Type': 'application/json',
