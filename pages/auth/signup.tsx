@@ -22,9 +22,7 @@ function SignUpWithEmail() {
   const [userEmail, setUserEmail] = useState('');
   const router = useRouter();
   const onSignUpWithEmailSuccess = (data: any) => {
-    console.log(data);
     if (data.status === 200) {
-      console.log(data.message);
       router.push(`/auth/continue-signup?email=${userEmail}`);
       return;
     }
@@ -59,7 +57,6 @@ function SignUpWithEmail() {
   });
 
   const handleSignUpWithEmail = (values: any) => {
-    console.log('email', values.email);
     setUserEmail(values.email as string);
     handleEmail(values.email);
     localStorage.setItem('user-email', values.email);
