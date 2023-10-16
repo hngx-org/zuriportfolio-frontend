@@ -19,7 +19,8 @@ export const metadata: Metadata = {
 
 export default function Cart() {
   const { auth } = useAuth();
-
+  console.log(auth?.token);
+  
   const defSummary = {subtotal: 1, discount: 0, VAT: 0, total: 1}
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedProductProp[]>([]);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
@@ -39,7 +40,7 @@ export default function Cart() {
             setCartSummary(summary)
 
         } else {
-            carts = JSON.parse(localStorage.getItem('products') as string);
+            carts = (localStorage.getItem('products') as string) ? JSON.parse(localStorage.getItem('products') as string): [];
             const cart_items: CartItemProps[] = carts
             const productIdArray = cart_items.map((product) => product.productId)
             const cartSum =  await getGuestCartSummary(productIdArray);
@@ -48,6 +49,10 @@ export default function Cart() {
         setCartItems(carts)
         setIsLoading(false)
       }
+      console.log(auth);
+      
+      console.log(auth?.token as string);
+      
       cartFetch()
   },[])
 

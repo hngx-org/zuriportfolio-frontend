@@ -81,7 +81,7 @@ export const formatNumberWithCommas = (value: number): string | null => {
 export const destructureProducts = (products: any[]) => {
   const cartProducts: CartItemProps[] = products.map((product) => ({
     productId: product.id,
-    productSeller: product.user.first_name + " " + product.user.last_name ,
+    productSeller: product.user? (product?.user?.first_name + " " + product?.user?.last_name) : "" ,
     productTitle: product.name,
     productDescription: product.description,
     productPrice: +product.price,
@@ -90,7 +90,9 @@ export const destructureProducts = (products: any[]) => {
   return cartProducts;
 }
 
-export const getGuestCartSummary = async(carts: any) => {}
+export const getCardItemsId = async(cartsItems: any[]) => {
+  return cartsItems.map((product) => product.productId)
+}
 
 export const getDiscountPercentage = (costPrice: string, sellingPrice: string) => {
   const diffrence = Number(costPrice) - Number(sellingPrice);

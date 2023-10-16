@@ -17,9 +17,8 @@ import { ProductData } from '../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
-import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
-import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 import { destructureProducts } from '../../helpers';
+import { isUserAuthenticated } from './hooks/useAuthHelper';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -51,7 +50,11 @@ export default function ProductDetailsDescription() {
 
   const addToCart = async () => {
     const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
-    if (token?.id) {
+    if (auth?.token) {
+      console.log("available token");
+      console.log(auth.token);
+      
+      
       try {
         const response = await axios.post(
           apiUrl, { product_ids: [`${id}`] },
@@ -72,7 +75,12 @@ export default function ProductDetailsDescription() {
     } else {
       const products: any[] = localStorage.getItem('products') ? 
                                    JSON.parse(localStorage.getItem('products') as string) : []
+      console.log("no auth");
+      
       if (product) {
+        console.log(product);
+        
+        console.log("product is available");
         const productTemp = destructureProducts([product])
         
         products.push(...productTemp);
@@ -446,10 +454,8 @@ export default function ProductDetailsDescription() {
           </div>
         </div>
 
-        {/* Products We thought might Intrest you  */}
-        <div>
-          <ProductWeThoughtMightInterestYou id={id} />
-        </div>
+        {/* favorite products  */}
+        <div></div>
       </main>
       <ToastContainer />
     </CategoryLayout>
