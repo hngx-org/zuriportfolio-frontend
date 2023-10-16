@@ -1,9 +1,7 @@
 import { Fragment } from 'react';
-import { category, discount, keyword, price, priceRange, rating, subCategory } from './data/search-data';
 import FilterSection from './filter-section';
 import Button from '@ui/Button';
 import { CancelIcon } from './icons';
-import Badge from './Badge';
 import useSearchFilter from './hooks/useSearchFilter';
 import { manropeL } from '../../../../config/font';
 import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
@@ -16,7 +14,9 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
   const prices = products.map((product) => product.price);
   const uniquePrices = Array.from(new Set(prices)).map((price) => formatToNigerianNaira(price));
   const discounts = products.map((product) => product.discount_price);
-  const discount_price = Array.from(new Set(discounts)).map((discount) => discount);
+  const productsRating = products.map((product) => product.rating?.toString());
+  const rating = Array.from(new Set(productsRating)).map((rating) => rating);
+  const discount_price = [5, 10, 20, 30, 40, 50];
 
   return (
     <div>
@@ -30,16 +30,12 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
               <CancelIcon onClick={toggle} />
             </section>
             <Fragment>
-              <FilterSection tag="category" data={categories.map((c) => c.name)} sectionTitle="Category" />
-              {isLoading ? (
-                'loading...'
-              ) : (
-                <FilterSection tag="subCategory" data={sub_categories} sectionTitle="Sub Category" />
-              )}
-              <FilterSection tag="discount" data={discount_price} sectionTitle="By Discount" />
-              <FilterSection tag="keyword" data={keyword} sectionTitle="By Keywords" />
-              <FilterSection tag="rating" data={rating} sectionTitle="By Rating" />
-              <FilterSection tag="price" data={uniquePrices} sectionTitle="By Price"></FilterSection>
+              <FilterSection tag="category" data={['All', ...categories.map((c) => c.name)]} sectionTitle="Category" />
+              {isLoading ? null : <FilterSection tag="subCategory" data={['All', ...sub_categories]} sectionTitle="Sub Category" />}
+              <FilterSection tag="discount" data={['All', ...discount_price.map((d) => `${d}% off`)]} sectionTitle="By Discount" />
+              <FilterSection tag="keyword" data={['All']} sectionTitle="By Keywords" />
+              <FilterSection tag="rating" data={['All']} sectionTitle="By Rating" />
+              <FilterSection tag="price" data={['All', 'Lowest Price', 'Highest Price', ...uniquePrices]} sectionTitle="By Price"></FilterSection>
             </Fragment>
 
             <div className="flex items-center justify-center gap-4 mt-10 mb-4">
