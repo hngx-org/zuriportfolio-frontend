@@ -333,7 +333,7 @@ const MyPage: React.FC = () => {
                   {data
                     .filter((item) => (filter ? item.order.status.toLowerCase() === filter.toLowerCase() : true))
                     .map((item) => (
-                      <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
+                      <tr key={item.id} onClick={openModal} className="border-b cursor-pointer border-white-200 border-solid border-1 h-[3.75rem]">
                         <td className="text-[0.75rem] flex items-center mt-5">
                           <span className="px-4 ml-[1rem]">
                             {' '}
@@ -354,7 +354,6 @@ const MyPage: React.FC = () => {
                             className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl cursor-pointer ${
                               getStatusBackgroundColor(item.order.status)[0]
                             }`}
-                            onClick={openModal}
                             // onClick={() => handleClickStatus('failed')}
                           >
                             <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.order.status)[1]}`}>
