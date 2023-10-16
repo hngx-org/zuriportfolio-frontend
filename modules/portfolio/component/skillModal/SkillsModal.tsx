@@ -1,10 +1,10 @@
-
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useCallback } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
+import { notify } from '@ui/Toast';
 
 type skillModalProps = {
   onClose: () => void;
@@ -39,24 +39,23 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
-  const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
 
-  const fetchSkillData = async () => {
+  const fetchSkillData = useCallback(async () => {
     try {
       // Make a GET request to the API
-      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/skills-details/${userID}`);
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/skills-details/${userId}`);
       const data = response.data.data;
       setValues(data);
     } catch (error) {
       // Handle errors
       console.error('Error fetching data:', error);
     }
-  };
+  }, [userId]);
   // set the data in the db on the modal onload
 
   useEffect(() => {
     fetchSkillData();
-  }, []);
+  }, [fetchSkillData]);
 
   // on Enter press append input value to array two(setValues)
   const handleKeyPress = (e: { key: string }) => {
@@ -90,17 +89,14 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     }
   };
 
-  const skillsArray = values.map((obj) => obj.skill);
-
-  // update skill items on the landing page with reloading the page 
+  // update skill items on the landing page with reloading the page
   const getAllSkill = async () => {
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userID}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
 
       if (response.ok) {
         const data = await response.json();
         const { skills } = data;
-        console.log(data);
         arrayTwolist(skills);
       }
     } catch (error) {
@@ -108,19 +104,33 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     }
   };
 
-
-  const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills';
+  const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills/';
   const requestData = {
-    skills: skillsArray,
+    skills: values?.map((obj) => obj.skill),
     sectionId: 5,
-    userId: userID,
+    userId: userId,
   };
 
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
+      const responseData = response.data;
+      if (responseData.successful) {
+        notify({
+          message: 'Skills created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+      }
       return response.data;
     } catch (error) {
+      notify({
+        message: 'Error occurred',
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
       console.error('Error:', error);
       throw error; // You can handle the error further if needed
     }

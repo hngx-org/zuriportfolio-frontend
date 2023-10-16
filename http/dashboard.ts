@@ -29,7 +29,6 @@ export const fetchTodaysRevenue = async () => {
 export const fetchTodaysOrders = async () => {
   try {
     const res: any = await axiosDashboardInstance.get(`/orders?timeframe=today`);
-    // console.log(res);
     const orderCount: number = res?.data?.data?.orderCount;
     return orderCount;
   } catch (error) {
@@ -42,8 +41,8 @@ export const fetchTodaysOrders = async () => {
 export const fetchTodaysAverageOrderValue = async () => {
   try {
     const res: any = await axiosDashboardInstance.get(`/orders/average?timeframe=today`);
-    console.log(res);
-    return res.data;
+    const todaysAverageOrderValue = res?.data?.data?.averageSales;
+    return todaysAverageOrderValue;
   } catch (error) {
     // fetchErrorToast('todays average order value');
     // console.error('Error fetching order/average:', error);
@@ -80,8 +79,8 @@ export const fetchYesterdaysOrders = async () => {
 export const fetchYesterdaysAverageOrderValue = async () => {
   try {
     const res: any = await axiosDashboardInstance.get(`/orders/average?timeframe=yesterday`);
-    console.log(res);
-    return res.data;
+    const yesterdaysAverageOrderValue = res?.data?.data?.averageSales;
+    return yesterdaysAverageOrderValue;
   } catch (error) {
     // fetchErrorToast('yesterdays average order value');
     // console.error('Error fetching order/average:', error);

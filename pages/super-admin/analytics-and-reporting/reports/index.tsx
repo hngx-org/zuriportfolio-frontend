@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import Modal from '@ui/Modal';
 import { DateObject } from 'react-multi-date-picker';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const AnalyticsAndReport: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(true);
@@ -20,6 +21,7 @@ const AnalyticsAndReport: React.FC = () => {
   const [getReport, setGetReport] = useState<Boolean>(false);
   const [reportClicked, setReportClicked] = useState<Boolean>(false);
   const [selectedDateRange, setSelectedDateRange] = useState<DateObject[]>([]);
+  const [get, setGet] = useState<Boolean>(false);
   const [storeExport, setStoreExport] = useState<any[]>([]);
 
   useEffect(() => {
@@ -33,21 +35,29 @@ const AnalyticsAndReport: React.FC = () => {
     if (selectedDateRange.length === 2) {
       const startDate = selectedDateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
       const endDate = selectedDateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
-      setGetReport(true);
+      setGet(true);
+
+      const bearerToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
 
       const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`;
 
       axios
-        .get(apiUrl)
+        .get(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            'Content-Type': 'application/json',
+          },
+        })
         .then((response) => {
           console.log(response.data.data);
           setStoreExport(response.data.data);
+          setGet(false);
         })
         .catch((error) => {
-          setGetReport(false);
           console.error('Error fetching top-selling products:', error);
+          setGet(false);
         });
-      setGetReport(false);
       setReportClicked(!reportClicked);
     }
   };
@@ -71,11 +81,11 @@ const AnalyticsAndReport: React.FC = () => {
   };
 
   function saveFile(data: BlobPart, filename: string) {
-    const blob = new Blob([data], { type: 'application/zip' }); // Set the content type as 'application/zip'
+    const blob = new Blob([data], { type: 'application/zip' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename; // You can specify the filename here, e.g., 'file.zip'
+    a.download = filename;
     a.click();
     window.URL.revokeObjectURL(url);
   }
@@ -84,14 +94,21 @@ const AnalyticsAndReport: React.FC = () => {
     if (selectedDateRange.length === 2) {
       const startDate = selectedDateRange[0].format('YYYY-MM-DD');
       const endDate = selectedDateRange[1].format('YYYY-MM-DD');
+      const bearerToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
       setGetReport(true);
 
       const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/export_report/?file_format=${selectedFileFormat}&start_date=${startDate}&end_date=${endDate}&page=1&page_size=10`;
 
       axios
-        .get(apiUrl, { responseType: 'arraybuffer' })
+        .get(apiUrl, {
+          responseType: 'arraybuffer',
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            'Content-Type': 'application/zip',
+          },
+        })
         .then((response) => {
-          const filename = `Data.${selectedFileFormat}`;
           console.log(response);
           saveFile(response.data, 'Analytics Data');
           setGetReport(false);
@@ -100,6 +117,8 @@ const AnalyticsAndReport: React.FC = () => {
           setGetReport(false);
           console.error('Error exporting report:', error);
         });
+    } else {
+      toast.warning('Kindly select a date range!');
     }
   };
 
@@ -138,7 +157,7 @@ const AnalyticsAndReport: React.FC = () => {
                   className="w-[9.6875rem] p-[0.75rem] flex justify-center items-center rounded-[0.5rem] bg-[#009254] tracking-[0.005rem] text-[1rem] leading-[1.5rem] font-manropeL text-[#FFF] cursor-pointer font-normal max-[850px]:w-[8.375rem] max-[500px]:py-[0.5rem] max-[375px]:text-[0.875rem]"
                   onClick={fetchAnalyticsData}
                 >
-                  {getReport ? (
+                  {get ? (
                     <div className="w-6 h-6 border-t-2 border-[#fff] border-solid rounded-full animate-spin"></div>
                   ) : (
                     'Get Report'
@@ -236,6 +255,7 @@ const AnalyticsAndReport: React.FC = () => {
           <PortfolioCreation dateRange={selectedDateRange} reportClicked={reportClicked} />
           <PerformanceData dateRange={selectedDateRange} reportClicked={reportClicked} />
           <TopSellingProducts reportClicked={reportClicked} dateRange={selectedDateRange} />
+          <ToastContainer />
         </>
       )}
     </>

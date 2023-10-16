@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 import { UserInfo } from './@types';
 import Pagination from '@ui/Pagination';
+import Loader from '@ui/Loader';
 
 const HomePage = () => {
   // States
@@ -69,8 +70,6 @@ const HomePage = () => {
     return data;
   }
 
-  console.log(filters);
-
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo>({
     queryKey: ['profile', deBounce, filters, pageNumber],
@@ -88,7 +87,7 @@ const HomePage = () => {
       />
       {isLoading && (
         <div className="grid place-items-center min-h-[300px]">
-          <p>Loading...</p>{' '}
+          <Loader />
         </div>
       )}
       {data?.data?.length === 0 && (

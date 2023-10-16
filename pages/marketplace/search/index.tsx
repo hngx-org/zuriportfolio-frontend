@@ -1,7 +1,5 @@
 'use client';
 
-import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
-import MainLayout from '../../../components/Layout/MainLayout';
 import { useEffect, useState } from 'react';
 import ProductCard from '@modules/marketplace/component/ProductCard';
 import styles from '../../../modules/marketplace/component/landingpage/productCardWrapper/product-card-wrapper.module.css';
@@ -9,20 +7,33 @@ import { ProductResult } from '../../../@types';
 import Link from 'next/link';
 import Error from '@modules/marketplace/component/landingpageerror/ErrorPage';
 import CategoryLayout from '@modules/marketplace/component/layout/category-layout';
+import { useRouter } from 'next/router';
+import { searchProducts } from '../../../http/api/searchProducts';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Index() {
   const [results, setResults] = useState<ProductResult[]>([]);
-  const searchquery = typeof window !== 'undefined' ? localStorage.getItem('keyword') : null;
+  const {
+    query: { query },
+  } = useRouter();
+
+  const searchQuery = Array.isArray(query) ? query[0] : query;
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const getresult = localStorage.getItem('search_result');
-      if (getresult) {
-        const result = JSON.parse(getresult);
-        setResults(result);
-      }
+    if (searchQuery) {
+      const fetchData = async () => {
+        try {
+          const results = await searchProducts(searchQuery);
+          setResults(results);
+        } catch (error) {
+          toast.error('An error occurred. Please try again.');
+        }
+      };
+
+      fetchData();
     }
-  }, [results]);
+  }, [searchQuery]);
 
   return (
     <>
@@ -32,7 +43,7 @@ export default function Index() {
         <CategoryLayout>
           <div className="px-4 py-4 sm:py-2 max-w-[1240px] mx-auto">
             <h1 className="text-custom-color31 font-manropeL mt-5 lg:pt-5 md:mb-1 font-bold md:text-2xl leading-normal flex items-center justify-between">
-              Search Result for &apos;{searchquery}&apos;
+              Search Result for &apos;{searchQuery}&apos;
             </h1>
             <div
               className={`flex py-8 flex-nowrap lg:flex-wrap gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
@@ -52,8 +63,9 @@ export default function Index() {
                       image={item?.images[0]?.url}
                       name={item?.name}
                       price={price}
-                      user={item?.category.name}
+                      user={item?.shop ? `${item?.shop?.name}` : 'null'}
                       rating={0}
+                      shop={item?.shop}
                       showLimitedOffer={false}
                       showTopPicks={false}
                       showDiscount={true}
@@ -66,6 +78,8 @@ export default function Index() {
           </div>
         </CategoryLayout>
       )}
+
+      <ToastContainer />
     </>
   );
 }

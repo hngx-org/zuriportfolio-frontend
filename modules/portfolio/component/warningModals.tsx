@@ -92,6 +92,7 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   const { toggleSection, setOpenDelete } = useContext(Portfolio);
   const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
   const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
+  console.log(sectionToDelete);
   const deleteSection = async () => {
     if (deleteFromBe) {
     } else if (deleteLocal) {
