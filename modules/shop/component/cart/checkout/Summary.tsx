@@ -74,7 +74,7 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
             </div>
 
             <div className="sum flex justify-between">
-              <p className="font-bold">Discount</p>
+              <p className="font-bold">Promo</p>
               <span className="text-green-500 transition-all duration-300">-₦ {summary.discount}</span>
             </div>
 
