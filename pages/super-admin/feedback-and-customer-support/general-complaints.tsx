@@ -8,6 +8,8 @@ import VendorComplaint from '../../../public/assets/images/vendorComplaint.png';
 import { useRouter } from 'next/navigation';
 import Button from '@ui/Button';
 
+import ReactPaginate from 'react-paginate';
+
 interface ComplainType {
   total_complaints: number;
   percentage_increment: number;
@@ -128,7 +130,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   }
 
   React.useEffect(() => {
-    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint/')
+    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -146,9 +148,14 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
       });
   }, []);
 
-  const startIndex = (currentPage - 1) * resultsPerPage;
-  const endIndex = startIndex + resultsPerPage;
-  const displayedData = fetchComplains && fetchComplains.length > 0 ? fetchComplains.slice(startIndex, endIndex) : [];
+  const pageComplain = async (currentPage: any) => {
+    const res = await fetch(
+      `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint/?page=${currentPage}`,
+    );
+    const data = await res.json();
+    const result = data.results.data;
+    return result;
+  };
 
   // State to store the API data
   const [totalComplaint, settotalComplaint] = useState<ComplainType | null>(null);
@@ -246,24 +253,16 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     fetchData();
   }, []);
 
-  const [next, setNext] = useState('#');
+  const handlePageClick = async (data: any) => {
+    console.log(data.selected);
 
-  async function apiData() {
-    try {
-      const response = await fetch(
-        'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/resolved/',
-      );
-      if (!response.ok) {
-        throw new Error('network issues');
-      }
-      const data = await response.json();
-      setNext(data);
-      const url = data.next;
-      console.log(url, 'url');
-    } catch (error) {
-      console.log('unable to get link');
-    }
-  }
+    let currentPage = data.selected + 1;
+
+    const serverComplaint = await pageComplain(currentPage);
+
+    setfetchComplains(serverComplaint);
+    console.log(fetchComplains);
+  };
 
   return (
     <>
@@ -622,11 +621,22 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                     );
                   })
               ) : (
-                <p>Loading....</p>
+                <p className="bg-green-">Loading....</p>
               )}
             </div>
           </div>
-          <div className="p-10  w-full rounded"></div>
+          <ReactPaginate
+            previousLabel={'Prev'}
+            nextLabel={'Next'}
+            breakLabel={0}
+            pageCount={25}
+            marginPagesDisplayed={0}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={'flex gap-4 p-4 items-center'}
+            pageClassName={'p-2 text-gray-100'}
+            activeClassName={'bg-green-600 px-4 text-white-100 rounded'}
+          />
         </div>
       </div>
     </>
