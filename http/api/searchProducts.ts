@@ -10,18 +10,14 @@ const axiosSearchInstance = axios.create({
 });
 
 export const searchProducts = async (searchValue: string) => {
-  try {
-    const response = await axiosSearchInstance.get(`?search=${searchValue}`);
+  const response = await axiosSearchInstance.get(`?search=${searchValue}`);
 
-    if (response.status !== 200) {
-      throw new Error('Network response was not ok');
-    }
-
-    const products: ProductResult[] = response.data;
-    const searchResults = products.filter((product) => product.name.toLowerCase().includes(searchValue.toLowerCase()));
-
-    return searchResults;
-  } catch (error) {
-    throw new Error(`Failed to fetch products: ${error}`);
+  if (response.status !== 200) {
+    throw new Error('Network response was not OK');
   }
+
+  const products: ProductResult[] = response.data;
+  const searchResults = products.filter((product) => product.name.toLowerCase().includes(searchValue.toLowerCase()));
+
+  return searchResults;
 };
