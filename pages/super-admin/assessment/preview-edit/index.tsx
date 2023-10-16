@@ -1,17 +1,46 @@
-import MainLayout from '../../../components/Layout/MainLayout';
+import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
-import React, { useState } from 'react';
-import EditLayout from '@modules/assessment/component/editLayout';
-// import ScoringS from '@modules/assessment/component/scoreDropdown';
+import { useState } from 'react';
+import PreviewQuests from '@modules/assessment/component/previewQuests';
 import ScoringScreen from '@modules/assessment/scoringScreen';
-const EditAssesment = () => {
+
+const Previewedit: React.FC = () => {
+  //demo-question-...
+  // eslint-disable-next-line react/no-unescaped-entities
+  const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
+  const [assessment, setAssessment] = useState({
+    title: '',
+    createdAt: new Date(), // Initialize with a default date or null if needed
+    duration_minutes: 0,
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: 'question',
+        question_type: 'multiple_choice',
+      },
+    ],
+    updatedAt: new Date(), // Similarly for updatedAt
+  });
+
+  const setTitle = (data: any) => {
+    setAssessment((prevAssessment) => ({
+      ...prevAssessment,
+      title: data,
+    }));
+  };
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {
     setActive(button);
   };
+  const [headInput, setHeadInput] = useState('');
+
+  // const handleInput = (value: string) => {
+  //   setHeadInput(value);
+  // };
 
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
@@ -66,9 +95,9 @@ const EditAssesment = () => {
         <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0]">
           {active === 'button1' ? (
             <>
-              <Edithead />
+              <Edithead assessment={assessment} onInputChange={setTitle} />
               <div className="pt-4">
-                <EditLayout />
+                <PreviewQuests />
               </div>
             </>
           ) : (
@@ -80,4 +109,4 @@ const EditAssesment = () => {
   );
 };
 
-export default EditAssesment;
+export default Previewedit;
