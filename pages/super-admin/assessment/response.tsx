@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft2 } from 'iconsax-react';
 import { ArrowRight2 } from 'iconsax-react';
 import styles from './assessment_response.module.css';
-import MainLayout from '../../components/Layout/MainLayout';
+import MainLayout from '../../../components/Layout/MainLayout';
 
 export default function AssessmentResponse() {
   const [currentPage, setCurrentPage] = useState<number>(1);

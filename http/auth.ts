@@ -105,7 +105,6 @@ export const resendVerification = async (props: { email: string }) => {
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {
-    console.log(e);
     return e.response.data ?? { message: e.message };
   }
 };

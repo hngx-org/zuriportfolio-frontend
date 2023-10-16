@@ -5,6 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Modal from '@ui/Modal';
 import { Add, CloseSquare } from 'iconsax-react';
 import useDisclosure from '../../../hooks/useDisclosure';
+import axios from 'axios';
+import { sendArrayOfObjects } from '../functions/sendArrayOfObjects';
+import { notify } from '@ui/Toast';
 
 const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -52,7 +55,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     if (index !== -1) {
       // Creates a new array with the updated content for the specific input
       const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], socialId: newId };
+      updatedData[index] = { ...updatedData[index], socialId: newId, user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90' };
 
       // Update the state with the new array
       setSocials(updatedData);
@@ -75,22 +78,26 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
       user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
     };
 
-    try {
-      const res = await fetch('https://hng6-r5y3.onrender.com/api/contacts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(contactObj),
+    sendArrayOfObjects(socials, 'https://hng6-r5y3.onrender.com/api/contacts')
+      .then((res) => {
+        console.log(res);
+        notify({
+          message: 'Contact created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        onClose();
+      })
+      .catch((err) => {
+        console.log(err);
+        notify({
+          message: 'Error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       });
-      if (res.ok) {
-        console.log('Contact created successfully');
-      } else {
-        console.log('Failed to create contact');
-      }
-    } catch (err) {
-      console.log('error', err);
-    }
   };
   const handleDelete = async (e: React.FormEvent) => {
     console.log('delete clicked');
