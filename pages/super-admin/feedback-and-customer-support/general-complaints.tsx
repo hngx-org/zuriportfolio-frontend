@@ -7,8 +7,7 @@ import Link from 'next/link';
 import VendorComplaint from '../../../public/assets/images/vendorComplaint.png';
 import { useRouter } from 'next/navigation';
 import Button from '@ui/Button';
-
-import ReactPaginate from 'react-paginate';
+import SuperAdminPagination from '@modules/super-admin/components/pagination';
 
 interface ComplainType {
   total_complaints: number;
@@ -129,6 +128,8 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     setTag('In Review');
   }
 
+  const [pageCount, setpageCount] = useState(0);
+
   React.useEffect(() => {
     fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint')
       .then((response) => {
@@ -139,6 +140,10 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
       })
       .then((data) => {
         const dataArray = data.results.data;
+        const total = data.count;
+        setpageCount(total / 10);
+        console.log(total);
+
         setfetchComplains(dataArray);
         console.log(dataArray);
       })
@@ -148,13 +153,19 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
       });
   }, []);
 
-  const pageComplain = async (currentPage: any) => {
+  const pageComplain = async (currentPage: number) => {
     const res = await fetch(
       `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint/?page=${currentPage}`,
     );
     const data = await res.json();
-    const result = data.results.data;
-    return result;
+    if (data && data.results && data.results.data) {
+      const result = data.results.data;
+      return result;
+      // Now you can safely work with 'result'
+    } else {
+      // Handle the case where 'data' or its properties are undefined
+      console.log('error');
+    }
   };
 
   // State to store the API data
@@ -253,14 +264,18 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     fetchData();
   }, []);
 
-  const handlePageClick = async (data: any) => {
-    console.log(data.selected);
+  const [pageNum, setpageNum] = useState(1);
 
-    let currentPage = data.selected + 1;
+  const handlePageClick = async (data: number) => {
+    console.log(data);
+
+    let currentPage = data + 1;
 
     const serverComplaint = await pageComplain(currentPage);
 
     setfetchComplains(serverComplaint);
+    setpageNum(pageNum + 1);
+
     console.log(fetchComplains);
   };
 
@@ -625,18 +640,8 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
               )}
             </div>
           </div>
-          <ReactPaginate
-            previousLabel={'Prev'}
-            nextLabel={'Next'}
-            breakLabel={0}
-            pageCount={25}
-            marginPagesDisplayed={0}
-            pageRangeDisplayed={5}
-            onPageChange={handlePageClick}
-            containerClassName={'flex gap-4 p-4 items-center'}
-            pageClassName={'p-2 text-gray-100'}
-            activeClassName={'bg-green-600 px-4 text-white-100 rounded'}
-          />
+
+          <SuperAdminPagination currentPage={pageNum} totalPages={pageCount} onPageChange={handlePageClick} />
         </div>
       </div>
     </>
