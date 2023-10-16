@@ -14,7 +14,8 @@ import ResendVerification from './resendVerification';
 function VerificationComplete() {
   const router = useRouter();
   const { token } = router.query;
-  const { handleAuth } = useAuth();
+  const { handleAuth, userCameFrom } = useAuth();
+  // const { handleAuth } = useAuth();
   const [isError, setIsError] = useState(false);
 
   // console.log(token);
@@ -41,7 +42,7 @@ function VerificationComplete() {
           type: 'success',
         });
 
-        router.push('/dashboard');
+        router.push(userCameFrom || "/dashboard");
         return;
       }
 
