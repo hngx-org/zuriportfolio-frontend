@@ -5,8 +5,9 @@ import flutterwave from '../../public/assets/futterwave.png';
 import paystack from '../../public/assets/paystack.png';
 import cancel from '../../public/assets/images/logo/otp-modal-cancel.svg';
 import Button from '@ui/Button';
-import { createTempUser, makePayment } from '../../http/checkout';
+import { addToCart, createTempUser, makePayment } from '../../http/checkout';
 import { useAuth } from '../../context/AuthContext';
+import { getCardItemsId } from '../../helpers';
 
 interface TempUser {
   isOpen: boolean;
@@ -23,13 +24,20 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
       email: userForm.get('email') as string,
       firstName: userForm.get('first_name') as string,
       lastName: userForm.get('last_name') as string,
-    };
-    const payment = userForm.get('paymentMethod') as string;
-    const tempUser = await createTempUser(data);
-
+    }
+    const payment= userForm.get('paymentMethod') as string;
+    const tempUser = await createTempUser(data)
+    
+    
     if (tempUser.data.token) {
-      const response = await makePayment(payment, tempUser.data.token);
-      window.location.href = response.transaction_url;
+      const cartItems = JSON.parse(localStorage.getItem('products') as string)
+      const cartIds = await getCardItemsId(cartItems)
+      const cartResponse = await addToCart(cartIds,tempUser.data.token)
+      if (cartResponse.status) {
+        localStorage.setItem('products','')
+        const response = await makePayment(payment,tempUser.data.token);
+        window.location.href = response.transaction_url;
+      }  
     }
   };
 
