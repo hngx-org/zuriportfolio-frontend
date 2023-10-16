@@ -368,8 +368,8 @@ const AddProduct = () => {
                     style={{ position: 'absolute', left: '-9999px' }}
                     readOnly
                   />
-                  <Link className="text-[#536066] font-manropeL" href="/">
-                    https://zuristore/store/product_name
+                  <Link className="text-[#536066] text-[10px] font-manropeL" href="/">
+                    https://staging.zuri.team/store/product_name
                   </Link>
                 </div>
                 <div onClick={handleCopyLink} className="cursor-pointer">

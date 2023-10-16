@@ -95,7 +95,6 @@ const DeleteModal = (props: any) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      size="lg"
       closeModal={props.closeModal}
       closeBtnClass="bg-transparent text-custom-color34 hover:bg-transparent "
     >
@@ -223,8 +222,8 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
             placeholder={products.name}
             rightIcon={<Image src={editImg} alt="edit" />}
           />
-          <span className="text-[#3F484F] text-[1rem] lowercase mt-2">
-            https://zuri.store/{products.name.replace(/[ |]+/g, '-')}
+          <span className="text-[#3F484F] text-[10px] lowercase mt-2">
+            https://staging.zuri.team/{products.name.replace(/[ |]+/g, '-')}
           </span>
 
           <label className="font-manropeB text-[16px] mt-6">Product Description</label>
