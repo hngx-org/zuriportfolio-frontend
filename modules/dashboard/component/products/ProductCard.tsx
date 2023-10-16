@@ -231,8 +231,8 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
           </span>
 
           <label className="font-manropeB text-[16px] mt-6">Product Description</label>
-          <Input
-            className="w-full my-2 placeholder:text-[#191C1E] text-black"
+          <textarea
+            className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
             value={products.description}
             onChange={(e) => setProducts({ ...products, description: e.target.value })}
             inputMode="none"

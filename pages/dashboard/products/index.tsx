@@ -5,7 +5,6 @@ import Button from '@ui/Button';
 import ProductCard from '@modules/dashboard/component/products/ProductCard';
 import Link from 'next/link';
 import Loader from '@ui/Loader';
-import PaginationBar from '@modules/dashboard/component/order/PaginationBar';
 import { Input } from '@ui/Input';
 import Pagination from '@ui/Pagination';
 type Product = {

@@ -264,8 +264,8 @@ const AddProduct = () => {
                     name="name"
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Description</label>
-                  <Input
-                    className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                  <textarea
+                    className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="Add product description"
                     inputMode="none"
                     name="description"
