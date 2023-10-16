@@ -24,20 +24,19 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
       email: userForm.get('email') as string,
       firstName: userForm.get('first_name') as string,
       lastName: userForm.get('last_name') as string,
-    }
-    const payment= userForm.get('paymentMethod') as string;
-    const tempUser = await createTempUser(data)
-    
-    
+    };
+    const payment = userForm.get('paymentMethod') as string;
+    const tempUser = await createTempUser(data);
+
     if (tempUser.data.token) {
-      const cartItems = JSON.parse(localStorage.getItem('products') as string)
-      const cartIds = await getCardItemsId(cartItems)
-      const cartResponse = await addToCart(cartIds,tempUser.data.token)
+      const cartItems = JSON.parse(localStorage.getItem('products') as string);
+      const cartIds = await getCardItemsId(cartItems);
+      const cartResponse = await addToCart(cartIds, tempUser.data.token);
       if (cartResponse.status) {
-        localStorage.setItem('products','')
-        const response = await makePayment(payment,tempUser.data.token);
+        localStorage.setItem('products', '');
+        const response = await makePayment(payment, tempUser.data.token);
         window.location.href = response.transaction_url;
-      }  
+      }
     }
   };
 
