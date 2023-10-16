@@ -59,6 +59,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await axios.post(
         'https://zuriportfolio-shop-internal-api.onrender.com/api/product/category',
         { name: newCategoryName },
@@ -91,6 +92,8 @@ const AddProduct = () => {
         position: 'top-right',
         autoClose: 5000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -284,8 +287,9 @@ const AddProduct = () => {
                       <Button
                         onClick={handleAddNewCategory}
                         className="w-[150px] h-[30px] rounded-sm text-[14px] bg-gray-500"
+                        disabled={loading}
                       >
-                        Add new
+                        {loading ? 'Loading...' : 'Add new'}
                       </Button>
                     }
                   />
