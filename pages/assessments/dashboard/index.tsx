@@ -8,6 +8,7 @@ import { getAllAssessments } from '../../../http/userTakenAssessment';
 import task from '../../../public/assets/dashboard/task.svg';
 import timer from '../../../public/assets/dashboard/timer.svg';
 import medal from '../../../public/assets/dashboard/medal-star.svg';
+import { useRouter } from 'next/router';
 
 type AssessmentDetails = {
   id?: string;
@@ -23,6 +24,7 @@ type AssessmentDetails = {
 
 const Dashboard = () => {
   const [result, setResult] = React.useState<AssessmentDetails[]>([]);
+  const router = useRouter();
 
   React.useEffect(() => {
     const token = localStorage.getItem('zpt');
@@ -30,10 +32,7 @@ const Dashboard = () => {
       try {
         const data = await getAllAssessments(token as string);
         const res = data.assessments;
-
-        if (res && res.length > 0) {
-          setResult(res);
-        }
+        setResult(res);
       } catch (error) {
         // Handle errors, e.g., set an error state or display an error message.
         console.error(error);
@@ -109,7 +108,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          {result ? (
+          {result.length > 0 ? (
             result.map((item, index) => (
               <div
                 key={index}
@@ -141,7 +140,7 @@ const Dashboard = () => {
                       className="overflow-hidden w-[.819rem] md:w-[1rem] lg:w-[1.5rem]"
                     />
                     <span className="text-[#444846] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1rem]">
-                      10 multiple choice questions
+                      multiple choice questions
                     </span>
                   </div>
                   <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
@@ -172,6 +171,9 @@ const Dashboard = () => {
                 </div>
                 <Button
                   href={`/assessments/take-test/intro`}
+                  onClick={() => {
+                    router.push(`/assessments/take-test/intro?data=${item.skill_id}`);
+                  }}
                   className="mt-[1.5rem] lg:mt-[1.8rem] xl:mt-[2.9rem] mx-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1.125rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md"
                 >
                   Take Assessment
@@ -179,7 +181,9 @@ const Dashboard = () => {
               </div>
             ))
           ) : (
-            <p>No assessments available for the user.</p>
+            <div className="mt-[2.5rem] border-[.58px] p-[1rem] lg:p-[1.5rem] rounded-md border-[#A8ACAB]">
+              <p>No assessments available for the user.</p>
+            </div>
           )}
         </div>
       </div>
