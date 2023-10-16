@@ -1,7 +1,6 @@
 'use-client';
 import React, { useState, useEffect, useContext } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Image from 'next/image';
 import Portfolio from '../../../../context/PortfolioLandingContext';
@@ -9,7 +8,7 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
 
-const inputStyle = `placeholder-gray-500 placeholder-opacity-50 font-semibold text-gray-400 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
+const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
 const EditProfile = () => {
   const [picture, setPicture] = useState<string | StaticImport>();
@@ -50,20 +49,22 @@ const EditProfile = () => {
 
   useEffect(() => {
     const getData = async () => {
-      setIsLoading(true);
+      // setIsLoading(true);
       await getUser();
       await getTracks();
-      setIsLoading(false);
+      // setIsLoading(false);
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const firstName = name.split(' ')[0];
+  const lastName = name.split(' ')[1];
 
   const { setUserData, showProfileUpdate, modal } = useContext(Portfolio);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const firstName = name.split(' ')[0];
-    const lastName = name.split(' ')[1];
 
     const body = {
       name: firstName + ' ' + lastName,

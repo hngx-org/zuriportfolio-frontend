@@ -35,33 +35,10 @@ import {
 import { SectionDeleteModal } from '../warningModals';
 
 const LandingPageFilled: React.FC = () => {
-  const {
-    selectedSections,
-    buildPortfolio,
-    setOpenDelete,
-    editSection,
-    setHasData,
-    modals,
-    modalStates,
-    userSections,
-    userData,
-  } = useContext(Portfolio);
+  const { selectedSections, buildPortfolio, setOpenDelete, editSection, modals, modalStates, userSections, userData } =
+    useContext(Portfolio);
 
   const deleteSection = () => setOpenDelete(true);
-
-  // useEffect(() => {
-  //   userSections?.map((section) => {
-  //     if (section?.data?.length !== 0) {
-  //       setHasData(true);
-  //     } else {
-  //       setHasData(false);
-  //     }
-  //   });
-  //   if (userData) {
-  //     const hasUserData = userData.firstName && userData.lastName && userData.tracks;
-  //     setHasData(hasUserData);
-  //   }
-  // }, [setHasData, userSections, userData]);
 
   return (
     <>

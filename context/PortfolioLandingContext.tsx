@@ -102,12 +102,21 @@ const Portfolio = createContext<PortfolioContext>({
 export function PortfolioCtxProvider(props: { children: any }) {
   const [userId, setUserId] = useState('');
   const { auth } = useAuth();
+  const [userSections, setUserSections] = useState<any[]>([]);
 
   useEffect(() => {
     if (auth?.user?.id) {
       setUserId(auth.user.id);
       getUser(auth.user.id);
     }
+
+    userSections.map((el) => {
+      if (el.data?.length) {
+        setHasData(true);
+        setHasPortfolio(true);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth?.user?.id]);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -120,7 +129,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [openCustom, setOpenCustom] = useState<boolean>(false);
   const [hasPortfolio, setHasPortfolio] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
-  const [userSections, setUserSections] = useState<any[]>([]);
   const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
   const [avatarImage, setAvatarImage] = useState<File | any>();
   const [showProfileUpdate, setShowProfileUpdate] = useState<boolean>(false);
@@ -216,7 +224,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
       const formData = new FormData();
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
-      console.log(formData, 'formData for upload');
 
       const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/cover/upload', {
         method: 'POST',
@@ -225,8 +232,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
       const data = await response.json();
       setUserData((p: any) => ({ ...p, hasDataFromBE: true, coverImage: data?.data?.profilePic }));
       setIsLoading(false);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      setError({ state: true, error: error.message });
     }
   };
 
