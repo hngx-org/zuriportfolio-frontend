@@ -42,7 +42,7 @@ export default function NotificationsSettings(props: pros) {
           <label
             htmlFor="emailSummary"
             className=" flex gap-2 items-center justify-start"
-            onClick={() => handleLabelClick('emailSummary')}
+            // onClick={() => handleLabelClick('emailSummary')}
           >
             <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
@@ -73,7 +73,7 @@ export default function NotificationsSettings(props: pros) {
           <label
             htmlFor="specialOffers"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('specialOffers')}
+            // onClick={() => handleLabelClick('specialOffers')}
           >
             <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
@@ -104,7 +104,7 @@ export default function NotificationsSettings(props: pros) {
           <label
             htmlFor="communityUpdate"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('communityUpdate')}
+            //  onClick={() => handleLabelClick('communityUpdate')}
           >
             <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
@@ -135,7 +135,7 @@ export default function NotificationsSettings(props: pros) {
           <label
             htmlFor="followUpdate"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('followUpdate')}
+            //onClick={() => handleLabelClick('followUpdate')}
           >
             <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
@@ -161,7 +161,7 @@ export default function NotificationsSettings(props: pros) {
           <label
             htmlFor="newMessages"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('newMessages')}
+            //onClick={() => handleLabelClick('newMessages')}
           >
             <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p

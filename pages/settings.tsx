@@ -74,8 +74,6 @@ const SettingPage = () => {
     }
   }, []);
 
-  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
-
   const [checkboxState, setCheckboxState] = useState<NotificationCheckboxType>({
     emailSummary: false,
     specialOffers: false,
@@ -136,6 +134,14 @@ const SettingPage = () => {
           progress: undefined,
           theme: 'light',
         });
+
+        setCheckboxState({
+          emailSummary: false,
+          specialOffers: false,
+          communityUpdate: false,
+          followUpdate: false,
+          newMessages: false,
+        });
       }
     } catch (error) {
       console.error('An error occurred while updating notification settings:', error);
@@ -146,7 +152,7 @@ const SettingPage = () => {
   };
 
   const getNotificationSettingsFromLocalStorage = () => {
-    const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
+    const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
     if (storedNotificationData) {
       const parsedData = JSON.parse(storedNotificationData);
       setCheckboxState(parsedData);
@@ -157,30 +163,6 @@ const SettingPage = () => {
     getNotificationSettingsFromLocalStorage();
   }, [local]);
 
-  useEffect(() => {});
-
-  useEffect(() => {
-    const userDetails = async () => {
-      try {
-        const url = `${baseUrl}/api/users/${userId}`;
-        const response = await fetch(url);
-
-        if (response.ok) {
-          console.log('Request type:');
-          const data = await response.json();
-          console.log(data);
-          setUserPic(data.user.profilePic);
-        } else {
-          console.error('failed to get');
-        }
-      } catch (error) {
-        console.error('failed:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    userDetails();
-  }, []);
   const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
     setter((prev: boolean) => !prev);
   };
