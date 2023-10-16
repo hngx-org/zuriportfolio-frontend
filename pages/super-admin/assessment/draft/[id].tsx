@@ -17,6 +17,7 @@ export default function DraftPreview() {
   const router = useRouter();
   const data = router.query;
   const draftId = data.id;
+  const id =2
 
   const [active, setActive] = useState<null | string>('button1');
   const handleClick = (button: string) => {
@@ -27,15 +28,15 @@ export default function DraftPreview() {
   useEffect(() => {
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
 
-    const csrfToken = localStorage.getItem('zpt') ?? '';
+    const token = localStorage.getItem('zpt') ?? '';
 
     toast.info('Loading draft data...');
 
     fetch(apiUrl, {
       headers: {
         'Accept': 'application/json',
-        'Authorization': `Bearer ${csrfToken}`,
-        'X-CSRFTOKEN': csrfToken,
+        Authorization: `Bearer ${token}`,
+        'X-CSRFTOKEN': token,
       },
     })
       .then((response) => {
@@ -168,7 +169,7 @@ export default function DraftPreview() {
             ))}
           </>
         ) : (
-          <ScoringScreen />
+          <ScoringScreen skillId={id} />
         )}
       </div>
     </MainLayout>

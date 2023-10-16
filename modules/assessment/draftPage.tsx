@@ -40,11 +40,13 @@ const DraftPage = () => {
           method: 'GET',
           headers: {
             Accept: 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
           },
         });
   
         const data = await response.json();
         if (!response.ok) {
+          toast.dismiss(); 
           toast.error(data.detail);
           return;
         }
@@ -57,7 +59,9 @@ const DraftPage = () => {
         console.error('Error fetching drafts:', error);
         setLoading(false);
         toast.error('Error fetching drafts');
+        toast.dismiss(); 
       }
+      toast.dismiss(); 
     };
   
     fetchDrafts();
@@ -74,7 +78,7 @@ const DraftPage = () => {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: `Token ${auth?.token}`,
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
           'Content-Type': 'application/json',
           'X-CSRFTOKEN': 'jRc2ZpP1CpofaUIH2PzCuLJv7ZXzwX478mGc0KeehQACbHBm9aR12Err7zG9xKs1',
         },
@@ -87,9 +91,10 @@ const DraftPage = () => {
       toast.dismiss(); 
       if (!response.ok) {
         toast.error(data.detail);
+        toast.dismiss(); 
         return;
       }
-
+      toast.dismiss(); 
       const updatedList = draftList.map((item) => (item.id === id ? { ...item, title: newTitle } : item));
       setDraftList(updatedList);
       toast.success(data.message);
@@ -97,8 +102,10 @@ const DraftPage = () => {
     } catch (error) {
       console.error('Error renaming draft:', error);
       toast.error('Error renaming draft');
+      toast.dismiss(); 
       setLoading(false);
     }
+    toast.dismiss(); 
   };
 
   // Handle deleting of draft
@@ -110,7 +117,7 @@ const DraftPage = () => {
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
-          Authorization: `Token ${auth?.token}`,
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
           'Content-Type': 'application/json',
           'X-CSRFTOKEN': 'jRc2ZpP1CpofaUIH2PzCuLJv7ZXzwX478mGc0KeehQACbHBm9aR12Err7zG9xKs1',
         },
@@ -120,6 +127,7 @@ const DraftPage = () => {
       toast.dismiss(); 
       if (!response.ok) {
         toast.error(data.detail);
+        toast.dismiss(); 
         return;
       }
 
