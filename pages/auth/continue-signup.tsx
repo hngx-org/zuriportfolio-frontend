@@ -114,7 +114,7 @@ function Signup() {
                 placeHolder="enter firstname"
                 id="firstName"
                 {...form.getInputProps('firstName')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.firstName ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type="text"
@@ -131,7 +131,7 @@ function Signup() {
                 placeHolder="enter lastname"
                 id="lastName"
                 {...form.getInputProps('lastName')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.lastName ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type="text"
@@ -149,7 +149,7 @@ function Signup() {
                   placeHolder="enter password"
                   id="password"
                   {...form.getInputProps('password')}
-                  className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.password ? 'border-[red]' : 'border-slate-50'
                   }`}
                   type={passwordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
@@ -210,7 +210,7 @@ function Signup() {
                 placeHolder="enter confirm password"
                 id="confirmPassword"
                 {...form.getInputProps('confirmPassword')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.confirmPassword ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type={confirmPasswordVisible ? 'text' : 'password'} // Toggle input type based on visibility state

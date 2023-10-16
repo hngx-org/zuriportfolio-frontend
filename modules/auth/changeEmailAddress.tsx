@@ -81,7 +81,7 @@ function ChangeEmailAddress() {
                 type="text"
                 {...form.getInputProps('email')}
                 placeHolder="user@example.com"
-                className={`w-full text-[#667085] h-[60px] border ${
+                className={`w-full text-black h-[60px] border ${
                   form.errors.email ? 'border-[#EF4444]' : 'border-[#D0D5DD]'
                 }`}
               />
