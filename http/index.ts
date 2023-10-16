@@ -134,7 +134,7 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
 
 // products
 export const useGetProdDetails = (id: string) => {
-  return useQuery(['get-sanctioned-prod-details', id], async () => {
+  return useQuery(['get-prod', id], async () => {
     return makeRequest(`product/${id}`, 'get');
   });
 };
@@ -209,7 +209,7 @@ export const useGetAllVendor = () => {
 };
 
 export const useGetShop = (id: string) => {
-  return useQuery(['get-shop', id], async () => {
+  return useQuery(['get-vendor', id], async () => {
     return makeRequest(`shop/${id}`, 'get');
   });
 };
