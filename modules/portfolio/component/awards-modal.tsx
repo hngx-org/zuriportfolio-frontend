@@ -37,9 +37,10 @@ interface Award {
   sectionId: number;
   year: string;
   title: string;
-  presentedBy: string;
+  presented_by: string;
   url: string;
   description: string;
+  presentedBy?: string;
 }
 
 interface AwardItemProps {
@@ -56,7 +57,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
     title: '',
     year: '',
     sectionId: 22,
-    presentedBy: '',
+    presented_by: '',
     url: '',
     description: '',
   });
@@ -76,7 +77,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
   };
 
   const isValid =
-    formData.year && formData.title && formData.presentedBy && formData.url && formData.description && !urlError;
+    formData.year && formData.title && formData.presented_by && formData.url && formData.description && !urlError;
 
   const openModal = async (e: React.FormEvent) => {
     // console.log('openModal function called');
@@ -86,7 +87,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
     if (!formData.title) {
       missingFields.push('Title');
     }
-    if (!formData.presentedBy) {
+    if (!formData.presented_by) {
       missingFields.push('Organization');
     }
     if (!formData.url) {
@@ -111,7 +112,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
 
     if (
       !formData.title ||
-      !formData.presentedBy ||
+      !formData.presented_by ||
       !formData.url ||
       !formData.description ||
       !formData.year ||
@@ -127,7 +128,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
         year: formData.year,
         section_id: formData.sectionId,
         title: formData.title,
-        presentedBy: formData.presentedBy,
+        presented_by: formData.presented_by,
         url: formData.url,
         description: formData.description,
       };
@@ -157,7 +158,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
               sectionId: 22,
               title: '',
               year: '',
-              presentedBy: '',
+              presented_by: '',
               url: '',
               description: '',
             });
@@ -295,16 +296,16 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                 </div>
                 <div className="flex flex-col sm:flex-row w-full gap-[10px]">
                   <div className="flex  flex-col gap-[10px] flex-1">
-                    <label htmlFor="presentedBy" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                    <label htmlFor="presented_by" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                       Organization*
                     </label>
                     <Input
                       type="text"
-                      id="presentedBy"
-                      name="presentedBy"
+                      id="presented_by"
+                      name="presented_by"
                       placeholder="Google"
                       className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
-                      value={formData.presentedBy}
+                      value={formData.presented_by}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -594,14 +595,14 @@ const EditForm: React.FC<{
     return urlPattern.test(url);
   };
 
-  const isValidEdit = award.year && award.title && award.presentedBy && award.url && award.description && !urlError;
+  const isValidEdit = award.year && award.title && award.presented_by && award.url && award.description && !urlError;
   const missingFields: string[] = [];
 
   if (!award.title) {
     missingFields.push('Title');
   }
-  if (!award.presentedBy) {
-    missingFields.push('presentedBy');
+  if (!award.presented_by) {
+    missingFields.push('presented_by');
   }
   if (!award.url) {
     missingFields.push('URL');
@@ -717,16 +718,16 @@ const EditForm: React.FC<{
           </div>
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-[10px] flex-1">
-              <label htmlFor="presentedBy" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                presentedBy*
+              <label htmlFor="presented_by" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                presented_by*
               </label>
               <Input
                 type="text"
-                id="presentedBy"
-                name="presentedBy"
+                id="presented_by"
+                name="presented_by"
                 placeholder="Google"
                 className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
-                value={award.presentedBy}
+                value={award.presented_by}
                 onChange={handleInputChange}
               />
             </div>
