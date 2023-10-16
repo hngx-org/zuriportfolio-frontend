@@ -1,6 +1,7 @@
 import React from 'react';
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
+import { boolean } from 'zod';
 
 // export all interfaces and types
 declare module 'nprogress';
@@ -23,7 +24,26 @@ export interface ProductData {
   images: any[];
   url: string[];
   rating: number;
-  user: string;
+  user: {
+    id: string;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    section: string;
+    password: string;
+    provider: string;
+    phone_number: string;
+    is_verified: boolean;
+    two_factor_auth: boolean;
+    location: string;
+    country: string;
+    profile_pic: string;
+    profile_cover_photo: string;
+    refresh_token: string;
+    createdat: string;
+    role: number;
+  };
   quantity: Number;
   shop: string;
 }

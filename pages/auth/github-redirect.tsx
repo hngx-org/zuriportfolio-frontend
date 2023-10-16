@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-
 export const ADMIN_ID = 3;
 
 function GithubRedirect() {
@@ -26,19 +25,19 @@ function GithubRedirect() {
         const token = data.data.token;
         console.log(data);
         localStorage.setItem('zpt', token);
-           // Checking if user enabled 2fa
-           if (data.data.user.twoFactorAuth) {
-            const email = data?.data?.user?.email;
-            // uncomment if the 2fa message is not being sent automatically
-            // send2FaCode.mutate({ email });
-            router.push('/auth/2fa');
-            return;
-          }
-          // redirecting the user  to admin dashbord if they are an admin
-          if (data.data.user.roleId === ADMIN_ID) {
-            router.push('/super-admin/product-listing');
-            return;
-          }
+        // Checking if user enabled 2fa
+        if (data.data.user.twoFactorAuth) {
+          const email = data?.data?.user?.email;
+          // uncomment if the 2fa message is not being sent automatically
+          // send2FaCode.mutate({ email });
+          router.push('/auth/2fa');
+          return;
+        }
+        // redirecting the user  to admin dashbord if they are an admin
+        if (data.data.user.roleId === ADMIN_ID) {
+          router.push('/super-admin/product-listing');
+          return;
+        }
         router.push('/dashboard');
       } catch (e: any) {
         router.push('/auth/signup');
