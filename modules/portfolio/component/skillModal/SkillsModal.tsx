@@ -118,24 +118,23 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   async function postSkillData(): Promise<PostSkillResponse> {
     try {
       const response = await axios.post(apiUrl, requestData);
-       const responseData = response.data;
-       if (responseData.successful) {
-          notify({
-            message: 'Skills created successfully',
-            position: 'top-center',
-            theme: 'light',
-            type: 'success',
-          });
-       }
+      const responseData = response.data;
+      if (responseData.successful) {
+        notify({
+          message: 'Skills created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+      }
       return response.data;
-      
     } catch (error) {
-       notify({
-         message: 'Error occurred',
-         position: 'top-center',
-         theme: 'light',
-         type: 'error',
-       });
+      notify({
+        message: 'Error occurred',
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
       console.error('Error:', error);
       throw error; // You can handle the error further if needed
     }
