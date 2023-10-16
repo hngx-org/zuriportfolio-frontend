@@ -31,7 +31,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
 
-  const [dropDown, setDropDown] = useState<string>('');
+  const [dropDown, setDropDown] = useState<string>('Explore');
 
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
@@ -102,7 +102,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && dropDown === 'Marketplace') {
       try {
         const results = await searchPosts(searchQuery);
         setSearchResults(results);
@@ -117,7 +117,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   function handleDropdown(option: string) {
     setDropDown(option);
-    console.log('Select');
   }
 
   return (
@@ -237,7 +236,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {/* Action Buttons */}
             {auth || (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
-                <Cart items={6} />
+                <Cart items={0} />
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
                     href="/auth/login"
@@ -315,7 +314,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p>Manage Portfolio</p>
                 </Link>
                 <Link
-                  href="/assessments"
+                  href="/assessments/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={likesIcon} alt="Like" />
@@ -348,7 +347,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       </g>
                     </svg>
                   </span>
-                  <Cart items={7} />
+                  <Cart items={0} />
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
@@ -602,16 +601,26 @@ function MenuUI({
               {router.pathname === '/dashboard' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link className={activeLink('/dashboard')} href={'/user/customer-purchase-dashboard'}>
+                Customer Purchase Dashboard
+              </Link>
+              {router.pathname === '/user/customer-purchase-dashboard' ? (
+                <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
+              ) : null}
+            </div>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
               <Link className={activeLink('/portfolio')} href={'/portfolio'}>
                 Manage Portfolio
               </Link>
               {router.pathname === '/portfolio' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
-              <Link className={activeLink('/assessments')} href={'/assessments'}>
+              <Link className={activeLink('/assessments/dashboard')} href={'/assessments/dashboard'}>
                 Assessments & Badges
               </Link>
-              {router.pathname === '/assessments' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
+              {router.pathname === '/assessments/dashboard' ? (
+                <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
+              ) : null}
             </div>
             <div className=" group flex flex-col ali justify-center  gap-1 ">
               <Link className={activeLink('/settings')} href={'/settings'}>
@@ -653,11 +662,11 @@ function MenuUI({
   );
 }
 
-function Cart({ items, style }: { items?: number; style?: {} }) {
+function Cart({ items, style }: { items: number; style?: {} }) {
   return (
     <Link style={style} href={'/marketplace/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
       <div className="w-6 h-6 relative">
-        {items && (
+        {items > 0 && (
           <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
             {items}
           </span>
@@ -670,11 +679,11 @@ function Cart({ items, style }: { items?: number; style?: {} }) {
   );
 }
 
-function Cart2({ items, style }: { items?: number; style?: {} }) {
+function Cart2({ items, style }: { items: number; style?: {} }) {
   return (
     <Link style={style} href={'/marketplace/cart'} className="w-6 h-6 justify-center items-center flex  gap-2">
       <div className="w-6 h-6 relative lg:hidden">
-        {items && (
+        {items > 0 && (
           <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
             {items}
           </span>

@@ -32,42 +32,276 @@ const filters: {
     id: 'price',
     title: 'Price/unit',
   },
+];
+const dummyOrders: OrderHistory[] = [
   {
-    id: 'sales',
-    title: 'No. of sales',
+    id: 3066,
+    productName: 'Learning Design 101',
+    customerName: 'Jenny Wilson',
+    date: new Date(2023, 9, 18),
+    status: 'completed',
+    productType: 'Course',
+    price: 3000,
+    sales: 123,
+    revenue: 369000,
   },
   {
-    id: 'revenue',
-    title: 'Total Revenue',
+    id: 3065,
+    productName: 'Your Soul Is a River Ebook',
+    customerName: 'Jane Cooper',
+    date: new Date(2023, 9, 11),
+    status: 'cancelled',
+    productType: 'Ebook',
+    price: 45000,
+    sales: 64,
+    revenue: 2880000,
+  },
+  {
+    id: 3064,
+    productName: `YOU vs YOU Course`,
+    customerName: 'Wade Warren',
+    date: new Date(2023, 9, 3),
+    status: 'completed',
+    productType: 'Membership',
+    price: 73000,
+    sales: 236,
+    revenue: 17228000,
+  },
+  {
+    id: 3063,
+    productName: 'Landing Page Template',
+    customerName: 'Jacob Jones',
+    date: new Date(2023, 9, 23),
+    status: 'cancelled',
+    productType: 'Themes',
+    price: 12000,
+    sales: 1043,
+    revenue: 12516000,
+  },
+  {
+    id: 3062,
+    productName: 'Elementor PRO',
+    customerName: 'Guy Hawkins',
+    date: new Date(2023, 9, 17),
+    status: 'completed',
+    productType: 'Template',
+    price: 6500,
+    sales: 1022,
+    revenue: 6779500,
+  },
+  {
+    id: 3061,
+    productName: 'Artistic Sketchbook',
+    status: 'cancelled',
+    date: new Date(2023, 9, 18),
+    customerName: 'Bello Akim',
+    productType: 'Arts',
+    price: 200000,
+    sales: 75,
+    revenue: 15000000,
+  },
+  {
+    id: 3060,
+    productName: 'Elementor PRO',
+    customerName: 'Guy Hawkins',
+    status: 'cancelled',
+    date: new Date(2023, 9, 19),
+    productType: 'Software',
+    price: 85000,
+    sales: 32,
+    revenue: 1120000,
   },
 ];
 const OrderDetails = () => {
-  const {
-    orders: pageOrders,
-    orderFilter,
-    changeFilter,
-    changeSortBy,
-    sortBy,
-    changeSearchQuery,
-    fetchOrders,
-    getSearchResult,
-    insertOrders,
-    searchQuery,
-    filterFunc,
-    sortOrders,
-    loading: loadingOrders,
-    searching,
-  } = useOrders();
+  // const {
+  //   orders: pageOrders,
+  //   orderFilter,
+  //   changeFilter,
+  //   changeSortBy,
+  //   sortBy,
+  //   changeSearchQuery,
+  //   fetchOrders,
+  //   getSearchResult,
+  //   insertOrders,
+  //   searchQuery,
+  //   filterFunc,
+  //   sortOrders,
+  //   loading: loadingOrders,
+  //   searching,
+  //   totalPage,
+  const [pageOrders, setOrders] = useState<OrderHistory[]>(dummyOrders);
+  const [orderFilter, setOrderFilter] = useState('all');
+  const [sort, setSort] = useState<{
+    sortBy: keyof OrderHistory;
+    sortOrder: 'asc' | 'desc';
+  }>({ sortBy: 'id', sortOrder: 'asc' });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loadingOrders, setLoadingOrders] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const [totalPage, setTotalPage] = useState(1);
+
+  const changeFilter = (val: string) => {
+    // show orders by status which is either all | completed | cancelled or pending
+    setOrderFilter(val);
+  };
+  const fetchOrders = async () => {
+    try {
+      setLoadingOrders(true);
+      const data = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
+      console.log(data);
+      if (data.data?.errorStatus === true) {
+        return [];
+      }
+      if (!data.data.data || data.data.data?.length === 0) {
+        return [];
+      }
+      const transformedOrder = data?.data.data?.data?.orders?.map((order: any) => ({
+        productName: order.product.name,
+        id: order.order_id,
+        status: order.merchant.customer_orders[0]?.status,
+        customerName: order.customer.first_name + ' ' + order.customer.last_name,
+        date: new Date(order.createdAt),
+        price: order.product.price,
+      }));
+
+      return transformedOrder ?? [];
+    } catch (error) {
+      return [];
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
+  const debounce = (func: (...a: any) => any, timeSlice: number = 1000) => {
+    let timeout: NodeJS.Timeout;
+    return async function (...arg: any) {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(async () => {
+        const order = await func.apply(null, arg);
+      }, timeSlice);
+    };
+  };
+  const getSearchResult = async (query: string) => {
+    try {
+      setSearching(true);
+      if (query.length === 0) {
+        return;
+      }
+      const res = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
+        method: 'GET',
+      });
+      const { data } = res;
+      if (!!data?.errorStatus) {
+        console.log('Error');
+
+        return [];
+      }
+      if (data?.data === 'user not found') {
+        console.log('no data');
+
+        return [];
+      }
+      if (!data.data) {
+        return [];
+      }
+
+      const transformedOrder =
+        data.data?.data?.orders?.map((order: any) => {
+          return {
+            id: order.order_id,
+            price: order.product.price,
+            date: new Date(order.createdAt),
+            revenue: order.product.price,
+            status: order.customer_orders[0]?.status,
+            sales: order.customer_orders[0]?.sales_report[0]?.sales,
+            customerName: order.customer[0]?.username,
+            productName: order.product.name,
+            productType: order.product.categories[0]?.name,
+          };
+        }) || [];
+
+      return transformedOrder;
+    } catch (error) {
+      return [];
+    } finally {
+      setSearching(false);
+    }
+  };
+  const debounceSearch = debounce(getSearchResult);
+  const changeSortBy = (val: keyof OrderHistory) => {
+    setSort((prevSort) => {
+      if (prevSort.sortBy === val) {
+        return {
+          sortBy: val,
+          sortOrder: prevSort.sortOrder === 'asc' ? 'desc' : 'asc',
+        };
+      } else {
+        return {
+          sortBy: val,
+          sortOrder: 'asc',
+        };
+      }
+    });
+  };
+  const sortOrders = (orders: OrderHistory[]) => {
+    let filteredOrders = [...orders];
+
+    const { sortBy, sortOrder } = sort;
+
+    const sortedOrders = [...filteredOrders].sort((a, b) => {
+      const aVal = a[sortBy];
+      const bVal = b[sortBy];
+
+      if (typeof aVal === 'number' && typeof bVal === 'number') {
+        return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
+      } else if (aVal instanceof Date && bVal instanceof Date) {
+        return sortOrder === 'asc' ? aVal.getTime() - bVal.getTime() : bVal.getTime() - aVal.getTime();
+      } else if (typeof aVal === 'string' && typeof bVal === 'string') {
+        return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      }
+
+      return 0;
+    });
+
+    return sortedOrders;
+  };
+  const insertOrders = (order: OrderHistory[]) => {
+    setOrders(order);
+  };
+  useEffect(() => {
+    const order = sortOrders(pageOrders);
+    insertOrders(order);
+  }, [sort]);
+  //  Search Logic
+
+  const changeSearchQuery = (val: string) => {
+    setSearchQuery(val);
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
-
   const [showFilters, setShowFilters] = useState(false);
-
-  const { push } = useRouter();
   const closeFilter = () => {
     setShowFilters(false);
   };
 
+  useEffect(() => {}, [currentPage]);
+
+  useEffect(() => {
+    const changeStatus = async () => {
+      changeSearchQuery('');
+      const order = await fetchOrders();
+      const sortedOrders = sortOrders(order);
+      insertOrders(sortedOrders);
+    };
+  }, []);
   const changeInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     changeSearchQuery(e.target.value.trim());
     let order;
@@ -76,20 +310,10 @@ const OrderDetails = () => {
     } else {
       order = await fetchOrders();
     }
+
     const sortedOrders = sortOrders(order);
-    console.log(sortedOrders);
     insertOrders(sortedOrders);
   };
-  useEffect(() => {}, [currentPage]);
-  useEffect(() => {
-    const changeStatus = async () => {
-      changeSearchQuery('');
-      const order = await fetchOrders();
-      const sortedOrders = sortOrders(order);
-      insertOrders(sortedOrders);
-    };
-    changeStatus();
-  }, []);
   return (
     <main className="max-w-[1240px] mx-auto md:px-10 px-6 relative min-h-[400px]">
       {loadingOrders ? (
@@ -116,21 +340,7 @@ const OrderDetails = () => {
             </div>
             <div className="flex flex-col gap-[60px]">
               <h1 className=" text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order Details</h1>
-              <div className="justify-between items-center mb-[25px] gap-[19px] flex md:hidden">
-                <div
-                  className="focus-within:outline focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg md:hidden flex-1 min-w-0"
-                  style={{
-                    boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-                  }}
-                >
-                  <SearchNormal1 size="16" color="#667085" />
-                  <input
-                    className=" bg-transparent focus-within:outline-none flex-1  text-[1rem] leading-[150%] min-w-0"
-                    placeholder="Search"
-                    value={searchQuery}
-                    onChange={changeInput}
-                  />
-                </div>
+              <div className="justify-end items-center mb-[25px] gap-[19px] flex md:hidden">
                 <div className="relative">
                   <button
                     className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
@@ -154,7 +364,7 @@ const OrderDetails = () => {
                     <Filters
                       filters={filters}
                       changeFilter={changeSortBy}
-                      currentFilter={sortBy}
+                      currentFilter={sort.sortBy}
                       closeFilter={closeFilter}
                     />
                   )}
@@ -192,21 +402,7 @@ const OrderDetails = () => {
               boxShadow: `0px 0px 2px 0px rgba(0, 0, 0, 0.14)`,
             }}
           >
-            <div className="px-8 justify-between items-center gap-[129px] mb-[25px] hidden md:flex">
-              <div
-                className="focus-within:outline focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1"
-                style={{
-                  boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-                }}
-              >
-                <SearchNormal1 size="16" color="#667085" />
-                <input
-                  className=" bg-transparent focus-within:outline-none flex-1 text-[1rem] leading-[150%]"
-                  placeholder="Search"
-                  value={searchQuery}
-                  onChange={changeInput}
-                />
-              </div>
+            <div className="px-8 justify-end items-center gap-[129px] mb-[25px] hidden md:flex">
               <div className="flex items-center gap-6">
                 <div className="relative">
                   <button
@@ -232,42 +428,11 @@ const OrderDetails = () => {
                     <Filters
                       filters={filters}
                       changeFilter={changeSortBy}
-                      currentFilter={sortBy}
+                      currentFilter={sort.sortBy}
                       closeFilter={closeFilter}
                     />
                   )}
                 </div>
-                <button
-                  className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
-                  style={{
-                    boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path
-                      d="M10.8335 9.16683L17.6668 2.3335"
-                      stroke="#464646"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M18.3335 5.6665V1.6665H14.3335"
-                      stroke="#464646"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M9.1665 1.6665H7.49984C3.33317 1.6665 1.6665 3.33317 1.6665 7.49984V12.4998C1.6665 16.6665 3.33317 18.3332 7.49984 18.3332H12.4998C16.6665 18.3332 18.3332 16.6665 18.3332 12.4998V10.8332"
-                      stroke="#464646"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <span>Export</span>
-                </button>
               </div>
             </div>
             <div className="relative">
@@ -278,7 +443,7 @@ const OrderDetails = () => {
                       No Order to Show
                     </p>
                   ) : (
-                    <OrderDetailsTable pageItem={pageOrders} changeSort={changeSortBy} currentSort={sortBy} />
+                    <OrderDetailsTable pageItem={pageOrders} changeSort={changeSortBy} currentSort={sort.sortBy} />
                   )}
                 </>
               ) : (

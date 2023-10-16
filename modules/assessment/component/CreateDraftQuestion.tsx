@@ -10,7 +10,7 @@ type CreateassProps = {
 
 const CreateDraftQuestion: React.FC<CreateassProps> = ({ dataValues }) => {
   const [questions, setQuestions] = useState<Array<{ question: string; options: string[]; correctOption: string }>>([
-    { question: '', options: [], correctOption: '' },
+    // { question: '', options: [], correctOption: '' },
   ]);
 
   // Add a new question field

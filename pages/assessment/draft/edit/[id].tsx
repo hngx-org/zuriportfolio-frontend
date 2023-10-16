@@ -10,6 +10,7 @@ import Loader from '@ui/Loader';
 import Modal from '@modules/assessment/modals/Loadingpopup';
 import { FaSpinner } from 'react-icons/fa';
 import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
+import { Edit } from 'iconsax-react';
 
 interface AssessmentData {
   questions: Array<{
@@ -205,7 +206,23 @@ const DraftPreviewEdit: React.FC = () => {
         <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0]">
           {active === 'button1' ? (
             <>
-              <Edithead />
+              <div className="p-4 flex justify-between items-center">
+                <div className="text-[20px]">
+                  <input
+                    type="text"
+                    id="input_assessment"
+                    className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
+                    placeholder={draftData.title}
+                    disabled={disable}
+                    onChange={(e) => {}}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="input_assessment">
+                    <Edit className="w-[25px] cursor-pointer" onClick={() => setDisable(false)} />
+                  </label>
+                </div>
+              </div>
               <div className="pt-4">
                 <EditDraft draftData={draftData} setDraftData={setDraftData} />
               </div>

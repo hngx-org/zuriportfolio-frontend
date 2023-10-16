@@ -66,8 +66,12 @@ export interface Education {
   fieldOfStudy: string;
   school: string;
   description: string;
-  dateFrom: string;
-  dateTo: string;
+  from: string;
+  to: string;
+}
+export interface DegreeOption {
+  id: number;
+  type: string;
 }
 export interface AllCategoryDetails {
   price: string;
@@ -186,6 +190,19 @@ export interface MarketPlaceProductCardProps {
   showTopPicks?: boolean;
   showDiscount?: boolean;
   discount_price?: number;
+  shop?: {
+    id: string;
+    name: string;
+  };
+}
+
+export interface IntrestedProducts {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  images: { url: string }[];
+  category: { name: string };
   shop?: {
     id: string;
     name: string;
@@ -622,17 +639,24 @@ export type inputErrorMessage = {
 };
 // product listing types
 export interface ProductInfo {
-  productName: string;
-  vendor: string;
-  id: number;
-  dateAdded: string;
+  product_name: string;
+  vendor_name: string;
+  product_id: number;
+  date_added: string;
   status: string;
 }
+
+interface ProductStatistics {
+  total_deleted_products: number;
+  total_products: number;
+  total_sanctioned_products: number;
+}
+
 export interface DeletedProducts {
-  admin_status: string;
-  category_id: number;
-  createdAt: string;
-  product_id: string;
+  // admin_status: string;
+  // category_id: number;
+  // createdAt: string;
+  // product_id : string;
   product_name: string;
   product_status: string;
   updatedAt: string;
@@ -713,6 +737,11 @@ type ProductCategory = {
   createdat: string;
   user: string;
 };
+
+type ProductShop = {
+  id: number;
+  name: string;
+};
 export interface ProductResult {
   id: string;
   name: string;
@@ -728,7 +757,7 @@ export interface ProductResult {
   currency: string;
   createdat: string;
   updatedat: string;
-  shop: string;
+  shop: ProductShop;
   category: ProductCategory;
   rating: number;
   user: string;
