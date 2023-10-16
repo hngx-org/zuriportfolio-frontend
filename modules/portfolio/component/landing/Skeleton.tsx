@@ -1,5 +1,10 @@
-import { ExportSquare } from 'iconsax-react';
+import { ArrowUp, ExportSquare } from 'iconsax-react';
 import Image from 'next/image';
+import AddShopErrorModal from '../addShopErrorModal';
+import { useContext, useEffect, useState } from 'react';
+import Portfolio from '../../../../context/PortfolioLandingContext';
+import axios from 'axios';
+import Link from 'next/link';
 
 type AboutProps = {
   bio?: string;
@@ -196,23 +201,51 @@ export const Language = ({ data }: SkeletonProps) => {
 };
 
 export const Shop = () => {
-  const shops = [
+  //demo data
+  const shop = [
     {
       id: 1,
       image: '',
     },
   ];
-  return (
+
+  //state holding the shop items
+  const [shopItems, setShopItems] = useState(shop);
+
+  const { openShop, setOpenShop } = useContext(Portfolio);
+
+  async function fetchShopItems() {
+    try {
+      let shopsData: { id: number; image: string }[];
+      shopsData = await axios.get('/shops/id');
+      setShopItems(shopsData);
+    } catch (error) {
+      //console.log(error)
+    }
+  }
+
+  //Check if the users shop has items
+  const showShop = Object.keys(shopItems).length > 3;
+
+  useEffect(() => {
+    //fetchShopItems();
+    setOpenShop(true);
+  }, []);
+
+  return showShop ? (
     <div className="flex flex-col gap-5 min-w-full">
-      {shops.map((shop) => (
+      {/* map through at most 5 shop images */}
+      {shopItems.slice(0, 5).map((shop) => (
         <div className="" key={shop.id}>
           <Image width={0} height={0} src={shop?.image} alt="" className="w-[290px] aspect-square rounded-xl" />
         </div>
       ))}
-      <a className="text-blue-100 font-semibold" href="">
-        Go to shop
-      </a>
+      <Link href={'/portfolio'} className="text-blue-100 font-semibold">
+        Go to Shop <ArrowUp size={20} className="rotate-45 inline ms-1" />
+      </Link>
     </div>
+  ) : (
+    <AddShopErrorModal />
   );
 };
 
