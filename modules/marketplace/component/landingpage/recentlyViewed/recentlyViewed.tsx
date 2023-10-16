@@ -22,8 +22,9 @@ function RecentlyViewed() {
         const response = await fetch(API_URL);
         if (response.ok) {
           const data = await response.json();
-          setRecentlyViewed(data);
-          console.log(data);
+          // Limit the recentlyViewed array to the first 8 items
+          const limitedRecentlyViewed = data.slice(0, 8);
+          setRecentlyViewed(limitedRecentlyViewed);
         } else {
           throw new Error('Network response was not ok.');
         }
@@ -37,13 +38,6 @@ function RecentlyViewed() {
     fetchRecentlyViewed();
   }, [API_URL]);
 
-  const handleRemoveItem = (id: string) => {
-    const updatedRecentlyViewed = recentlyViewed.filter((item) => item?.product?.id !== id);
-    setRecentlyViewed(updatedRecentlyViewed);
-  };
-
-  console.log(token);
-
   if (!token?.id && isReady) return <div></div>;
 
   return (
@@ -56,12 +50,6 @@ function RecentlyViewed() {
         <div className={`flex flex-nowrap gap-x-3 mt-10 w-full overflow-x-scroll ${styles['hide-scroll']}`}>
           {recentlyViewed.map((item, index) => (
             <div key={index} className="relative w-1/2 md:w-1/3 lg:w-1/4 pr-2 md:pr-4 lg:pr-8">
-              <button
-                className=" absolute bg-white-100 z-10 rounded-full top-3 right-4 sm:right-6 md:right-10 p-1"
-                onClick={() => handleRemoveItem(item?.product?.id)}
-              >
-                <Image src={Cancel} alt="Cancel Icon" />
-              </button>
               <ProductCard
                 id={item?.product?.id}
                 currency={item?.product?.currency}
