@@ -4,19 +4,17 @@ import { useAuth } from '../../context/AuthContext';
 
 const useUserSession = () => {
     const router = useRouter();
-    const url = router.route;
+    const url = router.asPath;
     const { handleAuth, handleUserCameFrom } = useAuth();
 
     const signUp = () => {
       // set the route the user came from to context
       handleUserCameFrom(url);
-      router.push('/auth/signup')
     }
 
     const signIn = () => {
       // set the route the user came from to context
       handleUserCameFrom(url);
-      router.push('/auth/login');
     }
 
     const logout = () => {

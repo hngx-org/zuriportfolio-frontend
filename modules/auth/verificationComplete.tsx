@@ -12,7 +12,7 @@ import persistedToken from '../../helpers/persistedToken';
 function VerificationComplete() {
   const router = useRouter();
   const { token } = router.query;
-  const { handleAuth } = useAuth();
+  const { handleAuth, userCameFrom } = useAuth();
 
   console.log(token);
 
@@ -41,7 +41,7 @@ function VerificationComplete() {
           type: 'success',
         });
 
-        router.push('/dashboard');
+        router.push(userCameFrom || "/dashboard");
         return;
       }
 
