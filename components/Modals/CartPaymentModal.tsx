@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import checkedPayment from '../../public/assets/images/check-1.png';
+import { STAGING_URL } from '../../http/checkout';
 
 const CartPaymentModal = () => {
   useEffect(() => {
     setTimeout(() => {
-      window.location.href = 'https://zuriportfolio-frontend-pw1h.vercel.app/marketplace/cart';
+      window.location.href = `${STAGING_URL}/marketplace/cart`;
     }, 5000);
   });
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
       <div className="bg-white-100 py-6 rounded text-center w-72">
