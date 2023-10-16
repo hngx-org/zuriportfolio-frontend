@@ -132,7 +132,7 @@ const Card = ({ data }: { data: UserInfo }) => {
           onClick={copyUrl}
         >
           <button>
-            <Copy color="#000" className=" bg-white shadow-lg  w-[30px] h-[30px] rounded-full p-1" />
+            <Copy color="#000" size="4" className=" bg-white shadow-lg  w-[25px] h-[30px] rounded-full p-1" />
           </button>
         </div>
         {/* <Link
