@@ -53,7 +53,6 @@ export default function ProductDetailsDescription() {
   const addToCart = async () => {
     const apiUrl = `${CART_ENDPOINT}/api/carts`;
     if (auth?.token) {
-      
       try {
         const response = await axios.post(
           apiUrl,
@@ -69,17 +68,17 @@ export default function ProductDetailsDescription() {
           toast.success('Added to Cart');
           console.log('success');
           console.log(auth.token);
-          
         }
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
       }
     } else {
-      const products: any[] = localStorage.getItem('products') ? 
-                                   JSON.parse(localStorage.getItem('products') as string) : []
-      console.log("no auth");
-      
+      const products: any[] = localStorage.getItem('products')
+        ? JSON.parse(localStorage.getItem('products') as string)
+        : [];
+      console.log('no auth');
+
       if (product) {
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
