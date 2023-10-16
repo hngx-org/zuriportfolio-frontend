@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { Education, DegreeOption } from '../../../@types';
 import { notify } from '@ui/Toast';
 import Portfolio from '../../../context/PortfolioLandingContext';
@@ -7,7 +7,7 @@ interface EducationModalContextType {
   educations: Education[];
   handleDelete: (id: string) => void;
   getAllEducationDetail: () => void;
-  addNewEducation: (education: Education) => void;
+  addNewEducation: (e: React.FormEvent<HTMLFormElement>) => void;
   handleEditEducation: (id: string) => void;
   degree: string;
   fieldOfStudy: string;
@@ -15,7 +15,8 @@ interface EducationModalContextType {
   school: string;
   from: string;
   to: string;
-  degreeId: string;
+  degreeOptions: DegreeOption[];
+  setDegreeOptions: (text: DegreeOption[]) => void;
   isForm: boolean;
   setDegree: (text: string) => void;
   setFieldOfStudy: (text: string) => void;
@@ -31,9 +32,12 @@ interface EducationModalContextType {
   setIsData: (value: boolean) => void;
 }
 
-export const EducationModalContext = createContext<any>('');
+export const EducationModalContext = createContext<EducationModalContextType>({
+  setIsData: (value) => console.log('hi', value),
+} as EducationModalContextType);
 
 export const EducationModalContextProvider = ({ children }: { children: React.ReactNode }) => {
+  console.log('favour');
   const [degree, setDegree] = useState('');
   const [fieldOfStudy, setFieldOfStudy] = useState('');
   const [description, setDescription] = useState('');
@@ -56,7 +60,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const { userId } = useContext(Portfolio);
 
-  const getAllEducationDetail = async () => {
+  const getAllEducationDetail = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}api/educationDetail/${userId}`, {
         method: 'GET',
@@ -70,15 +74,14 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [userId]);
   useEffect(() => {
     getAllEducationDetail();
   });
 
   const [educations, setEducations] = useState<Education[] | []>([]);
 
-  const handleDelete = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleDelete = async (id: string) => {
     try {
       const response = await fetch(`${API_BASE_URL}api/education/${id}`, {
         method: 'DELETE',
@@ -90,7 +93,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
           theme: 'light',
           type: 'success',
         });
-        setEducations((prevEducation) => prevEducation.filter((education) => education.id !== id));
+        setEducations((prevEducation) => prevEducation.filter((education) => String(education.id) !== id));
       }
     } catch (error) {
       console.log(error);
@@ -211,12 +214,13 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
 
   useEffect(() => {
     getAllEducationDetail();
-  }, []);
+  }, [getAllEducationDetail]);
 
   return (
     <EducationModalContext.Provider
       value={{
         degree,
+        setFieldOfStudy,
         fieldOfStudy,
         description,
         school,
@@ -228,6 +232,8 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         isData,
         resetForm,
         setDegree,
+        degreeOptions,
+        setDegreeOptions,
         setDescription,
         setFrom,
         setTo,

@@ -8,6 +8,7 @@ import Loader from '@ui/Loader';
 import Image from 'next/image';
 import { CoverDiv } from '@modules/portfolio/component/landing/avatars';
 import { useRouter } from 'next/router';
+import { EducationModalContextProvider } from '@modules/portfolio/context/education-context';
 
 const View = () => {
   const router = useRouter();
@@ -121,38 +122,40 @@ const View = () => {
 
   return (
     <PortfolioCtxProvider>
-      <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
-        <div className="mx-auto w-[min(90vw,1200px)] font-manropeB pb-20 min-h-[50vh]">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <>
-              <div className="h-[200px] md:h-[250px] lg:h-[300px]">
-                {cover}
-                <Cover userData={userData} isLoggedIn={false} />
-              </div>
-              <div className="flex justify-between items-center pt-8 md:pt-14">
-                <div>
-                  <h1 className="font-semibold text-lg md:text-2xl text-gray-600">
-                    {firstName === 'undefined' || !firstName ? '' : firstName}{' '}
-                    {lastName === 'undefined' || !lastName ? '' : lastName}
-                  </h1>
-
-                  <p className="text-gray-500 font-semibold text-[14px] md:text-[14px]">
-                    {city ? city : ``}
-                    {`${city && country ? ',' : ''}`} {country ? country : ''}
-                  </p>
+      <EducationModalContextProvider>
+        <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
+          <div className="mx-auto w-[min(90vw,1200px)] font-manropeB pb-20 min-h-[50vh]">
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <>
+                <div className="h-[200px] md:h-[250px] lg:h-[300px]">
+                  {cover}
+                  <Cover userData={userData} isLoggedIn={false} />
                 </div>
-              </div>
-              <div className="mt-10 md:mt-20">
-                <>
-                  <ExternalView userSections={userSections} />
-                </>
-              </div>
-            </>
-          )}
-        </div>
-      </MainLayout>
+                <div className="flex justify-between items-center pt-8 md:pt-14">
+                  <div>
+                    <h1 className="font-semibold text-lg md:text-2xl text-gray-600">
+                      {firstName === 'undefined' || !firstName ? '' : firstName}{' '}
+                      {lastName === 'undefined' || !lastName ? '' : lastName}
+                    </h1>
+
+                    <p className="text-gray-500 font-semibold text-[14px] md:text-[14px]">
+                      {city ? city : ``}
+                      {`${city && country ? ',' : ''}`} {country ? country : ''}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-10 md:mt-20">
+                  <>
+                    <ExternalView userSections={userSections} />
+                  </>
+                </div>
+              </>
+            )}
+          </div>
+        </MainLayout>
+      </EducationModalContextProvider>
     </PortfolioCtxProvider>
   );
 };
