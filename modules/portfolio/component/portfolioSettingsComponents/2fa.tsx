@@ -1,12 +1,67 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Modal from '@ui/Modal';
 import { useAuth } from '../../../../context/AuthContext';
 import { CloseCircle } from 'iconsax-react';
 import Help from '../../../../public/assets/inviteAssets/Help.svg';
 import Image from 'next/image';
+
+interface OTPValues {
+  otp1: string;
+  otp2: string;
+  otp3: string;
+  otp4: string;
+  otp5: string;
+  [key: string]: string;
+}
+
 const Twofa = () => {
   const [open2Fa, setOpen2Fa] = useState<boolean>(false);
   const [countinue2Fa, setContinue2Fa] = useState<boolean>(false);
+  const [otpValues, setOtpValues] = useState<OTPValues>({
+    otp1: '',
+    otp2: '',
+    otp3: '',
+    otp4: '',
+    otp5: '',
+  });
+
+  const inputRefs: React.RefObject<HTMLInputElement>[] = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ];
+  const [error, setError] = useState<string>('');
+  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const { value } = e.target;
+
+    // Make sure the value is a number and limit it to a single digit
+    if (/^\d*$/.test(value) && value.length <= 1) {
+      setOtpValues({
+        ...otpValues,
+        [`otp${index + 1}`]: value,
+      });
+
+      // Focus on the next input field if available
+      if (index < inputRefs.length - 1) {
+        const nextInputRef = inputRefs[index + 1];
+        if (nextInputRef.current) {
+          nextInputRef.current.focus();
+        }
+      }
+    }
+  };
+  const [inputError, setInputError] = useState(false);
+  const handleContinue = () => {
+    if (Object.values(otpValues).some((value) => value === '')) {
+      setError('Please fill in all OTP fields');
+      setInputError(true);
+    } else {
+      setError('');
+    }
+  };
+
   const toggleModal = () => {
     setOpen2Fa((prev: boolean) => !prev);
   };
@@ -16,6 +71,7 @@ const Twofa = () => {
     setOpen2Fa(false);
   };
   const { auth } = useAuth();
+
   return (
     <div className="space-y-[4px] mb-6 text-dark-110 text-[14px]">
       <div className="space-y-[4px] mb-6 text-dark-110">
@@ -45,7 +101,9 @@ const Twofa = () => {
      after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all
        peer-checked:bg-brand-green-primary`}
           ></div>
-          <span className="ml-3 text-sm font-medium text-gray-900 ">Checked toggle</span>
+          <span className="ml-3 text-sm font-medium text-gray-900 ">
+            {open2Fa || countinue2Fa ? 'Enabled' : 'Disabled'}
+          </span>
         </label>
       </div>
       <Modal isOpen={open2Fa} closeModal={toggleModal} size={'sm'} isCloseIconPresent={false}>
@@ -85,40 +143,26 @@ const Twofa = () => {
       </Modal>
 
       <Modal isOpen={countinue2Fa} closeModal={toggleModal2} size={'sm'} isCloseIconPresent={false}>
-        <div className=" relative  max-w-[440px] px-5 text-[14px] py-6   md:py-[40px]">
+        <div className=" relative  max-w-[440px] px-5 text-[14px] py-6 flex flex-col self-center   md:py-[40px]">
           <button onClick={toggleModal2} className="absolute right-0 top-[-10px]">
             {' '}
             <CloseCircle size="20" color="#009254" />
           </button>
           <h3 className="w-full text-center mb-[8px] text-[#252525] font-manropeB">Confirm Email </h3>
-          <p className="mt-3 mb-5">Enter the OTP sent to your Email</p>
-          <div className="space-x-3 mb-6 ">
+          <p className="mt-3 mb-5 mx-auto">Enter the OTP sent to your Email</p>
+          <div className="space-x-3 mb-6  mx-auto">
             {' '}
-            <input
-              type="text"
-              readOnly
-              className="border-[1px]  w-[30px] h-[30px] outline-none  rounded-lg py-[10px] px-[14px] border-[#D0D5DD]"
-            />
-            <input
-              type="text"
-              readOnly
-              className="border-[1px] w-[30px] h-[30px] outline-none  rounded-lg py-[10px] px-[14px] border-[#D0D5DD]"
-            />
-            <input
-              type="text"
-              readOnly
-              className="border-[1px] w-[30px] h-[30px] outline-none  rounded-lg py-[10px] px-[14px] border-[#D0D5DD]"
-            />
-            <input
-              type="text"
-              readOnly
-              className="border-[1px] w-[30px] h-[30px] outline-none  rounded-lg py-[10px] px-[14px] border-[#D0D5DD]"
-            />
-            <input
-              type="text"
-              readOnly
-              className="border-[1px] w-[30px] h-[30px] outline-none  rounded-lg py-[10px] px-[14px] border-[#D0D5DD]"
-            />
+            {Object.keys(otpValues).map((key, index) => (
+              <input
+                key={key}
+                name={key}
+                value={otpValues[key]}
+                onChange={(e) => handleOtpChange(e, index)}
+                ref={inputRefs[index]}
+                className={`border-[1px] w-[30px] h-[30px] text-center text-dark-110 outline-none
+              rounded-lg py-[10px]  border-[#D0D5DD] ${otpValues[key] == '' && inputError && 'border-red-200'}`}
+              />
+            ))}
           </div>
 
           <button
@@ -129,6 +173,7 @@ const Twofa = () => {
           </button>
 
           <button
+            onClick={handleContinue}
             className="w-full bg-brand-green-primary text-white-100 text-center
                              font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg "
           >

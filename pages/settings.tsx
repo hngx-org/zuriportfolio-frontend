@@ -16,6 +16,7 @@ import withAuth from '../helpers/withAuth';
 import Image from 'next/image';
 import { useAuth } from '../context/AuthContext';
 import Twofa from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
+import defaultpic from '../public/assets/inviteAssets/profile.svg';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -281,7 +282,7 @@ const SettingPage = () => {
                         >
                           <>
                             <Image
-                              src={userPic}
+                              src={userPic || defaultpic}
                               width={280}
                               height={180}
                               alt=""
