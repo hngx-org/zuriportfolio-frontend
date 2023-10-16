@@ -13,7 +13,7 @@ function Code2FALogic() {
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-  const { auth } = useAuth();
+  const { auth, userCameFrom } = useAuth();
   const mutateFn = useAuthMutation(verfiy2FA, {
     onSuccess: (data: any) => {
       if (data?.data?.status && data?.data?.status == '200') {
@@ -21,7 +21,7 @@ function Code2FALogic() {
           message: data?.data?.message,
           type: 'success',
         });
-        router.push('/dashboard');
+        router.push(userCameFrom || '/dashboard');
         return;
       } else {
         setDigits(['', '', '', '', '', '']);

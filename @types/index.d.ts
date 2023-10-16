@@ -727,9 +727,11 @@ export interface AuthContextProps {
   auth: AuthResponse | undefined;
   email: string;
   redirect: string;
-  handleAuth: (value: AuthResponse) => void;
+  userCameFrom: string;
+  handleAuth: (value: AuthResponse | undefined) => void;
   handleEmail: (value: string) => void;
   handleRedirect: (value: string) => void;
+  handleUserCameFrom: (value: string) => void;
 }
 
 export type User = {

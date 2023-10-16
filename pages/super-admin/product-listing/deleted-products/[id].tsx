@@ -35,7 +35,7 @@ const SanctionedProductDetails = () => {
             setReasons={setReasons}
             id={id}
             data={data?.data[0]}
-            type='product'
+            type="product"
           />
         </>
       ) : (

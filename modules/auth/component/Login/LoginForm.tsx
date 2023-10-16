@@ -20,7 +20,7 @@ import { resend2FACode } from '../../../../http/auth';
 export const ADMIN_ID = 3;
 
 function LoginForm() {
-  const { handleAuth } = useAuth();
+  const { handleAuth, userCameFrom } = useAuth();
   const router = useRouter();
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
 
@@ -58,7 +58,8 @@ function LoginForm() {
           message: 'Login Successful',
           type: 'success',
         });
-        router.push('/dashboard');
+
+        router.push(userCameFrom || '/dashboard');
         return;
       } else if (res.message === 'Invalid password') {
         notify({
