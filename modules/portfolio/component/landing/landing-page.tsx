@@ -37,7 +37,7 @@ const Landing = () => {
   );
   return (
     <>
-      <div onClick={modal}>
+      <div>
         {showProfileUpdate && <EditProfile />}
         {showBuildPortfolio && <Home />}
         {showViewtemplates && <ViewTemplate />}
@@ -57,14 +57,9 @@ const Landing = () => {
                   {firstName === 'undefined' || !firstName ? '' : firstName}{' '}
                   {lastName === 'undefined' || !lastName ? '' : lastName}
                 </h1>
-                {tracks && tracks.length > 0 && (
+                {tracks && (
                   <div className="flex items-center space-x-2">
-                    {/* {tracks.map((track: any, index: number) => (
-                      <p key={index} className="text-gray-500 font-semibold text-[14px] md:text-[14px]">
-                        {track.track}
-                        {index !== tracks.length - 1 && ','}
-                      </p>
-                    ))} */}
+                    {<p className="text-gray-500 font-semibold text-[14px] md:text-[14px]">{tracks?.track}</p>}
                   </div>
                 )}
                 <p className="text-gray-500 font-semibold text-[14px] md:text-[14px]">

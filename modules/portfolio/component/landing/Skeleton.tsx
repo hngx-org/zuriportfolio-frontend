@@ -73,7 +73,7 @@ export const Certificate = ({ data }: SkeletonProps) => {
           rel="noreferrer"
         >
           {data?.linkTitle}
-          <ExportSquare size="17" color="#009254" />
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
       <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
@@ -85,21 +85,19 @@ export const Awards = ({ data }: SkeletonProps) => {
   return (
     <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
       <p className="text-gray-300 font-semibold text-base flex-1">
-        <span>
-          {data?.month} {data?.year}
-        </span>
+        <span>{data?.year}</span>
       </p>
       <div className="flex flex-col items-start gap-1 mb-4 flex-1">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.award}</h3>
+        <h3 className="text-lg font-semibold text-gray-200">{data?.title}</h3>
         <p className="text-base font-manropeB text-gray-200">{data?.org}</p>
         <a
           className="flex gap-2 justify-center items-center text-base font-manropeB text-brand-green-primary"
           target="_blank"
-          href={data?.link}
+          href={data?.url}
           rel="noreferrer"
         >
-          {data?.linkTitle}
-          <ExportSquare size="17" color="#009254" />
+          {data?.url}
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
       <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>

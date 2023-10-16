@@ -156,8 +156,24 @@ const LandingPageFilled: React.FC = () => {
                     remove={deleteSection}
                   >
                     {section.data.map((el: any, i: number) => {
-                      console.log(el);
                       return <Project key={i} data={el} />;
+                    })}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {section?.id === 'awards' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.map((el: any, i: number) => {
+                      return <Awards key={i} data={el} />;
                     })}
                   </Wrapper>
                   <Line />

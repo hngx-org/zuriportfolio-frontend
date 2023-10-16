@@ -108,6 +108,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     if (auth?.user?.id) {
       setUserId(auth.user.id);
       getUser(auth.user.id);
+      getUserSections(auth.user.id);
     }
   }, [auth?.user?.id]);
 
@@ -140,7 +141,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const getUser = async (userId: string) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
       const data = await response.json();
       setUserData({
         firstName: data?.user?.firstName,
@@ -148,9 +149,21 @@ export function PortfolioCtxProvider(props: { children: any }) {
         avatarImage: data?.user?.profilePic,
         city: data?.portfolio?.city,
         country: data?.portfolio?.country,
-        tracks: data?.tracks,
+        tracks: data?.userTracks,
         coverImage: data?.user?.profileCoverPhoto,
       });
+      console.log(data);
+      setIsLoading(false);
+    } catch (error: any) {
+      setError({ state: true, error: error.message });
+    }
+  };
+
+  const getUserSections = async (userId: string) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      const data = await response.json();
       const {
         about,
         projects,
@@ -199,9 +212,12 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Contact', id: 'contact', data: contact },
         { title: 'Custom', id: 'custom', data: custom },
       ]);
+      console.log(data);
       setIsLoading(false);
     } catch (error: any) {
       setError({ state: true, error: error.message });
+      setHasData(false);
+      setHasPortfolio(false);
     }
   };
 
