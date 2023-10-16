@@ -25,13 +25,15 @@ const CreateAssessment = () => {
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
     duration_minutes: 0,
-    questions: [{ 
-      answers: [{}], 
-      question_no: 1, 
-      question_text: "question", 
-      question_type: "multiple_choice"
-    }],
-    updatedAt: new Date() // Similarly for updatedAt
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: 'question',
+        question_type: 'multiple_choice',
+      },
+    ],
+    updatedAt: new Date(), // Similarly for updatedAt
   });
 
   const [ass, setAss] = useState(true);
@@ -125,7 +127,6 @@ const CreateAssessment = () => {
         Authorization: `Token ${localStorage.getItem('zpt')}`,
         'Content-Type': 'application/json',
         'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
-        
       },
       body: JSON.stringify({
         skill_id: 2,
@@ -150,7 +151,7 @@ const CreateAssessment = () => {
       console.log('Error' + postEnd.status);
       // setModalOpen(false);
       setErr(`Failed: Error${postEnd.status}`);
-      
+
       setTimeout(() => {
         setModalOpen(false);
       }, 4000);
@@ -158,7 +159,6 @@ const CreateAssessment = () => {
     const response = await postEnd.json();
     if (postEnd.ok) {
       setErr(`Draft saved!`);
-      
     }
     console.log(response);
     setTimeout(() => {

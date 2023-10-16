@@ -5,6 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Modal from '@ui/Modal';
 import { Add, CloseSquare } from 'iconsax-react';
 import useDisclosure from '../../../hooks/useDisclosure';
+import axios from 'axios';
+import { sendArrayOfObjects } from '../functions/sendArrayOfObjects';
+import { notify } from '@ui/Toast';
 
 const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -13,7 +16,6 @@ const generateUniqueId = () => {
 };
 
 function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: boolean; onClose: () => void }) {
-  // const { isOpen, onClose, onOpen } = useDisclosure();
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
   const [socials, setSocials] = useState<any[]>([]);
@@ -26,7 +28,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
       {
         id: generateUniqueId(),
         url: '',
-        socialId: '',
+        social_media_id: '',
       },
     ]);
   };
@@ -38,7 +40,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     if (index !== -1) {
       // Creates a new array with the updated content for the specific input
       const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], url: newValue };
+      updatedData[index] = { ...updatedData[index], url: newValue, email: email };
 
       // Update the state with the new array
       setSocials(updatedData);
@@ -52,7 +54,11 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     if (index !== -1) {
       // Creates a new array with the updated content for the specific input
       const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], socialId: newId };
+      updatedData[index] = {
+        ...updatedData[index],
+        social_media_id: newId,
+        user_id: userId,
+      };
 
       // Update the state with the new array
       setSocials(updatedData);
@@ -69,28 +75,42 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const contactObj = {
-      url: url,
-      social_media_id: socialmediaid,
-      user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
-    };
 
-    try {
-      const res = await fetch('https://hng6-r5y3.onrender.com/api/contacts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(contactObj),
+    // const contactObj = {
+    //   url: "link.com",
+    //   social_media_id: 11,
+    //   user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
+    // };
+    // axios.post('https://hng6-r5y3.onrender.com/api/contacts', contactObj)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    const data = socials.map(({ id, email, social_media_id, ...rest }) => ({
+      ...rest,
+      social_media_id: Number(social_media_id),
+    }));
+    console.log(data);
+
+    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
+      .then((res) => {
+        console.log(res, 'response from contact');
+        notify({
+          message: 'Contact created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        onClose();
+      })
+      .catch((err) => {
+        console.log(err, 'error from contact');
+        notify({
+          message: 'Error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       });
-      if (res.ok) {
-        console.log('Contact created successfully');
-      } else {
-        console.log('Failed to create contact');
-      }
-    } catch (err) {
-      console.log('error', err);
-    }
   };
   const handleDelete = async (e: React.FormEvent) => {
     console.log('delete clicked');
@@ -144,7 +164,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
                         onValueChange={(value: string) => {
                           handleSocialSelectChange(social.id, value);
                         }}
-                        value={social.socialId}
+                        value={social.social_media_id}
                       >
                         <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
                           <SelectValue placeholder="Select Social" />

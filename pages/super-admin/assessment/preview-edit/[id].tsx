@@ -1,4 +1,3 @@
-
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
@@ -9,31 +8,35 @@ import { useRouter } from 'next/router';
 // import ScoringS from '@modules/assessment/component/scoreDropdown';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 
-
-
 const EditAssesment = () => {
   const [active, setActive] = useState<null | string>('button1');
   const [assessment, setAssessment] = useState({
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
     duration_minutes: 0,
-    questions: [{ 
-      answers: [{}], 
-      question_no: 1, 
-      question_text: "question", 
-      question_type: "multiple_choice"
-    }],
-    updatedAt: new Date() // Similarly for updatedAt
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: 'question',
+        question_type: 'multiple_choice',
+      },
+    ],
+    updatedAt: new Date(), // Similarly for updatedAt
   });
   // const [headInput, setHeadInput] = useState('');
-    
+
   // const handleInput = (value: string) => {
   //   setHeadInput(value);
   // };
   const router = useRouter();
   const { id } = router.query;
+<<<<<<< HEAD
   const { name } = router.query;
   const skillId = parseInt(name as string, 10);
+=======
+
+>>>>>>> 0e62ad250500c778e6fdcea9912c8c90ecb23226
   const handleClick = (button: string) => {
     setActive(button);
   };
@@ -42,19 +45,19 @@ const EditAssesment = () => {
       try {
         const url = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${id}/`;
         const csrfToken = localStorage.getItem('zpt') ?? '';
-  
+
         const response = await fetch(url, {
           headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${csrfToken}`, 
-            'X-CSRFTOKEN': csrfToken, 
+            Accept: 'application/json',
+            Authorization: `Bearer ${csrfToken}`,
+            'X-CSRFTOKEN': csrfToken,
           },
         });
-  
+
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-  
+
         const data = await response.json();
         setAssessment(data);
         console.log('assessment data:', data);
@@ -64,15 +67,13 @@ const EditAssesment = () => {
     };
     fetchData();
   }, [id]);
-  
 
-  
-  const setTitle = (data:any) => {
-    setAssessment(prevAssessment => ({
-        ...prevAssessment,
-        title: data
+  const setTitle = (data: any) => {
+    setAssessment((prevAssessment) => ({
+      ...prevAssessment,
+      title: data,
     }));
-  }
+  };
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
@@ -126,7 +127,6 @@ const EditAssesment = () => {
         <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0]">
           {active === 'button1' ? (
             <>
-            
               <Edithead assessment={assessment} onInputChange={setTitle} />
               <div className="pt-4">
                 <EditLayout />
