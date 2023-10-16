@@ -16,7 +16,6 @@ const generateUniqueId = () => {
 };
 
 function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: boolean; onClose: () => void }) {
-  // const { isOpen, onClose, onOpen } = useDisclosure();
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
   const [socials, setSocials] = useState<any[]>([]);
@@ -29,7 +28,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
       {
         id: generateUniqueId(),
         url: '',
-        socialId: '',
+        social_media_id: '',
       },
     ]);
   };
@@ -41,7 +40,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     if (index !== -1) {
       // Creates a new array with the updated content for the specific input
       const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], url: newValue };
+      updatedData[index] = { ...updatedData[index], url: newValue, email: email };
 
       // Update the state with the new array
       setSocials(updatedData);
@@ -55,7 +54,11 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     if (index !== -1) {
       // Creates a new array with the updated content for the specific input
       const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], socialId: newId, user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90' };
+      updatedData[index] = {
+        ...updatedData[index],
+        social_media_id: newId,
+        user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
+      };
 
       // Update the state with the new array
       setSocials(updatedData);
@@ -72,15 +75,25 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const contactObj = {
-      url: url,
-      social_media_id: socialmediaid,
-      user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
-    };
 
-    sendArrayOfObjects(socials, 'https://hng6-r5y3.onrender.com/api/contacts')
+    // const contactObj = {
+    //   url: "link.com",
+    //   social_media_id: 11,
+    //   user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
+    // };
+    // axios.post('https://hng6-r5y3.onrender.com/api/contacts', contactObj)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    const data = socials.map(({ id, email, social_media_id, ...rest }) => ({
+      ...rest,
+      social_media_id: Number(social_media_id),
+    }));
+    console.log(data);
+
+    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
       .then((res) => {
-        console.log(res);
+        console.log(res, 'response from contact');
         notify({
           message: 'Contact created successfully',
           position: 'top-center',
@@ -90,7 +103,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
         onClose();
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err, 'error from contact');
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -151,7 +164,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
                         onValueChange={(value: string) => {
                           handleSocialSelectChange(social.id, value);
                         }}
-                        value={social.socialId}
+                        value={social.social_media_id}
                       >
                         <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
                           <SelectValue placeholder="Select Social" />
