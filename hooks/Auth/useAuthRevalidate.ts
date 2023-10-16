@@ -31,6 +31,7 @@ const useAuthRevalidate = () => {
         return;
       }
     },
+    enabled: !!token,
   });
 };
 

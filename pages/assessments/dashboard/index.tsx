@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
-import { LevelData, AssesMentData } from '../../../helpers/dashboardui';
+import { LevelData } from '../../../helpers/dashboardui';
 import MainLayout from '../../../components/Layout/MainLayout';
 import Link from 'next/link';
 import { getAllAssessments } from '../../../http/userTakenAssessment';
@@ -32,6 +32,7 @@ const Dashboard = () => {
       try {
         const data = await getAllAssessments(token as string);
         const res = data.assessments;
+        console.log(res);
         setResult(res);
       } catch (error) {
         // Handle errors, e.g., set an error state or display an error message.
@@ -182,7 +183,7 @@ const Dashboard = () => {
             ))
           ) : (
             <div className="mt-[2.5rem] border-[.58px] p-[1rem] lg:p-[1.5rem] rounded-md border-[#A8ACAB]">
-              <p>No assessments available for the user.</p>
+              <p>No assessments available</p>
             </div>
           )}
         </div>
