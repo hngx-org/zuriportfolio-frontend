@@ -20,7 +20,13 @@ const ProductsListingNavbar = ({ data, isLoading }: { data: any; isLoading: bool
           <p className="text-lg">Sanctioned Products </p>
         </div>
         <div className="flex items-center justify-between">
-          {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold ">{data?.data?.filter((item: any) => item.product_status === 'Sanctioned')?.length}</h2>}
+          {isLoading ? (
+            <LoadingText />
+          ) : (
+            <h2 className="text-4xl font-bold ">
+              {data?.data?.filter((item: any) => item.product_status === 'Sanctioned')?.length}
+            </h2>
+          )}
           <button className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl">
             <Link href="/super-admin/product-listing/sanctioned-products"> View</Link>
           </button>
@@ -31,7 +37,13 @@ const ProductsListingNavbar = ({ data, isLoading }: { data: any; isLoading: bool
           <p className="text-lg">Deleted Products</p>
         </div>
         <div className="flex items-center justify-between">
-          {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold ">{data?.data?.filter((item: any) => item.product_status === 'Deleted')?.length}</h2>}
+          {isLoading ? (
+            <LoadingText />
+          ) : (
+            <h2 className="text-4xl font-bold ">
+              {data?.data?.filter((item: any) => item.product_status === 'Deleted')?.length}
+            </h2>
+          )}
           <button className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl">
             <Link href="/super-admin/product-listing/deleted-products">View</Link>
           </button>
