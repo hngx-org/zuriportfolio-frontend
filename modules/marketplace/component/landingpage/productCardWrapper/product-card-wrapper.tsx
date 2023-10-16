@@ -67,6 +67,7 @@ function ProductCardWrapper({
                           showDiscount={item?.showDiscount}
                           showTopPicks={showTopPicks}
                           discount_price={item?.discount_price}
+                          shop={item?.shop}
                         />
                       </div>
                     );
