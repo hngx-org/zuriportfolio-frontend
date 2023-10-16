@@ -31,14 +31,10 @@ const Previewedit: React.FC = () => {
       ...prevAssessment,
       title: data,
     }));
-<<<<<<< HEAD
   }
   const router = useRouter();
   const { name } = router.query;
   const skillId = parseInt(name as string, 10);
-=======
-  };
->>>>>>> 0e62ad250500c778e6fdcea9912c8c90ecb23226
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {

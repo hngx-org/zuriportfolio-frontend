@@ -31,12 +31,9 @@ const EditAssesment = () => {
   // };
   const router = useRouter();
   const { id } = router.query;
-<<<<<<< HEAD
   const { name } = router.query;
   const skillId = parseInt(name as string, 10);
-=======
 
->>>>>>> 0e62ad250500c778e6fdcea9912c8c90ecb23226
   const handleClick = (button: string) => {
     setActive(button);
   };

@@ -33,15 +33,10 @@ export default function DraftPreview() {
 
     fetch(apiUrl, {
       headers: {
-<<<<<<< HEAD
         'Accept': 'application/json',
         Authorization: `Bearer ${token}`,
+     
         'X-CSRFTOKEN': token,
-=======
-        Accept: 'application/json',
-        Authorization: `Bearer ${csrfToken}`,
-        'X-CSRFTOKEN': csrfToken,
->>>>>>> 0e62ad250500c778e6fdcea9912c8c90ecb23226
       },
     })
       .then((response) => {
