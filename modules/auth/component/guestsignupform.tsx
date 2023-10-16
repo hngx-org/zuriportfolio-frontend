@@ -79,10 +79,11 @@ const Guestsignupform: React.FC = () => {
   return (
     <AuthLayout isBottomLeftPadlockShown isTopRightBlobShown>
       <div className="text-center lg:text-left">
-        <h1 className="mb-1 md:mb-6 font-semibold text-dark-100 font-manropeEB text-2xl md:text-4xl text-[1.5rem]">
-          Finish setting up your account
+        <h1 className="mb-1 md:mb-6 text-dark-100 font-manropeEB text-2xl md:text-4xl font-bold text-[1.5rem]">
+          Finish setting up your account.
         </h1>
-        <p className="md:text-[22px] text-[#6b797f] leading-7 font-manropeL">{`${email}`}</p>
+        {/* no need to show the email, let's have the same looks on all pages */}
+        {/* <p className="md:text-[22px] text-[#6b797f] leading-7 font-manropeL">{`${email}`}</p> */}
       </div>
       <div className="mt-6 md:mt-12">
         <form className="flex flex-col" onSubmit={form.onSubmit((values) => handleGuestSignUp(values))}>
@@ -142,9 +143,9 @@ const Guestsignupform: React.FC = () => {
                   type={passwordVisible ? 'text' : 'password'}
                   rightIcon={
                     passwordVisible ? (
-                      <EyeSlash onClick={togglePasswordVisibility} className="cursor-pointer" />
-                    ) : (
                       <Eye onClick={togglePasswordVisibility} className="cursor-pointer" />
+                    ) : (
+                      <EyeSlash onClick={togglePasswordVisibility} className="cursor-pointer" />
                     )
                   }
                   style={{ fontSize: '16px' }}
@@ -171,9 +172,9 @@ const Guestsignupform: React.FC = () => {
                 type={confirmPasswordVisible ? 'text' : 'password'}
                 rightIcon={
                   confirmPasswordVisible ? (
-                    <EyeSlash onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />
-                  ) : (
                     <Eye onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />
+                  ) : (
+                    <EyeSlash onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />
                   )
                 }
                 style={{ fontSize: '16px' }}
