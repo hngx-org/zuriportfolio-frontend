@@ -38,7 +38,7 @@ function VendorDetails() {
     removeBan(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
-          client.invalidateQueries(['get-vendor'])
+          client.invalidateQueries(['get-vendor']);
           toast.success(response.response.status || 'This vendor is no longer banned');
           handleBack(router);
         } else {
@@ -46,7 +46,7 @@ function VendorDetails() {
         }
       },
       onError: () => {
-        client.invalidateQueries(['get-vendor'])
+        client.invalidateQueries(['get-vendor']);
         toast.success('This vendor is no longer banned');
         handleBack(router);
       },
@@ -57,7 +57,7 @@ function VendorDetails() {
     restoreShop(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
-          client.invalidateQueries(['get-vendor'])
+          client.invalidateQueries(['get-vendor']);
           toast.success(response.response.status || 'Successfully restored');
           router.push('/super-admin/vendor-management');
         } else {
@@ -65,7 +65,7 @@ function VendorDetails() {
         }
       },
       onError: () => {
-        client.invalidateQueries(['get-vendor'])
+        client.invalidateQueries(['get-vendor']);
         toast.success('Successfully restored');
         router.push('/super-admin/vendor-management');
       },
@@ -76,7 +76,7 @@ function VendorDetails() {
     banShop(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
-          client.invalidateQueries(['get-vendor'])
+          client.invalidateQueries(['get-vendor']);
           toast.success(response.response.status || 'Successfully banned');
           handleBack(router);
         } else {
@@ -84,7 +84,7 @@ function VendorDetails() {
         }
       },
       onError: () => {
-        client.invalidateQueries(['get-vendor'])
+        client.invalidateQueries(['get-vendor']);
         toast.success('Successfully banned');
         handleBack(router);
       },
@@ -95,7 +95,7 @@ function VendorDetails() {
     tempDeleteShop(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
-          client.invalidateQueries(['get-vendor'])
+          client.invalidateQueries(['get-vendor']);
           toast.success(response.response.status || 'Successfully deleted temporarily');
           handleBack(router);
         } else {
@@ -103,7 +103,7 @@ function VendorDetails() {
         }
       },
       onError: () => {
-        client.invalidateQueries(['get-vendor'])
+        client.invalidateQueries(['get-vendor']);
         toast.success('Successfully deleted temporarily');
         handleBack(router);
       },
@@ -284,8 +284,16 @@ function VendorDetails() {
                             >
                               <div className="md:min-w-[220px] h-[181px] mx-auto">
                                 <Image
-                                  loader={() => (item?.product_image && item.product_image[0] && item.product_image[0][0]) ? item.product_image[0][0] : brokenImage}
-                                  src={(item?.product_image && item.product_image[0] && item.product_image[0][0]) ? item.product_image[0][0] : brokenImage}
+                                  loader={() =>
+                                    item?.product_image && item.product_image[0] && item.product_image[0][0]
+                                      ? item.product_image[0][0]
+                                      : brokenImage
+                                  }
+                                  src={
+                                    item?.product_image && item.product_image[0] && item.product_image[0][0]
+                                      ? item.product_image[0][0]
+                                      : brokenImage
+                                  }
                                   alt="product"
                                   width={100}
                                   height={100}

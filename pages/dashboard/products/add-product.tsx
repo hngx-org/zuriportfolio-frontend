@@ -59,6 +59,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await axios.post(
         'https://zuriportfolio-shop-internal-api.onrender.com/api/product/category',
         { name: newCategoryName },
@@ -91,6 +92,8 @@ const AddProduct = () => {
         position: 'top-right',
         autoClose: 5000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -249,9 +252,16 @@ const AddProduct = () => {
                 name="image"
               />
               <div className="p-3 border border-[#00000024] rounded-md mt-3">
-                <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
+                {/* <div className="bg-[#F8F9FA] p-2 rounded-sm items-center text-center">
                   <MultipleFileUpload />
-                </div>
+                </div> */}
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
+                <Input
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  name="name"
+                />
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product details</span>
@@ -265,16 +275,13 @@ const AddProduct = () => {
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Description</label>
                   <textarea
-                    className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    className="w-full border-solid border-[2px] border-white-400 placeholder:text-[#191C1E] focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2"
                     placeholder="Add product description"
                     inputMode="none"
                     name="description"
                   />
                   <div className="flex flex-row items-center justify-between">
                     <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
-                    <Button onClick={handleAddNewCategory} className="p-2 bg-gray-500">
-                      Add new
-                    </Button>
                   </div>
                   <Input
                     className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
@@ -283,6 +290,14 @@ const AddProduct = () => {
                     name="newCategory"
                     value={newCategoryName}
                     onChange={(e) => setNewCategoryName(e.target.value)}
+                    rightIcon={
+                      <Button
+                        onClick={handleAddNewCategory}
+                        className="w-[150px] h-[30px] rounded-sm text-[14px] bg-gray-500"
+                      >
+                        {loading ? 'Loading...' : 'Add new'}
+                      </Button>
+                    }
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select more categories</label>
                   <select
@@ -308,8 +323,8 @@ const AddProduct = () => {
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product thumbnail</span>
-                <div className="mt-5 flex flex-col">
-                  <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
+                <div className="mt-3 flex flex-col">
+                  <div className="bg-[#F8F9FA] p-2 rounded-sm items-center text-center">
                     <center>
                       <Image
                         src={uploadorange}
@@ -392,7 +407,7 @@ const AddProduct = () => {
               ) : (
                 <Image src={placeholder} className="w-[300px] object-contain rounded-sm my-3" alt="placeholder" />
               )}
-              <div className="flex flex-row gap-2 justify-between items-center">
+              <div className="flex flex-row gap-2 w-[300px] justify-between items-center">
                 <div>
                   <p>Product Link</p>
                   <input
