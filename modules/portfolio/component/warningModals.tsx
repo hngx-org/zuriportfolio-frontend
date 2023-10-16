@@ -18,6 +18,7 @@ function SectionModal({
   //Destructure the useDisclosure hook
   const { openDelete, setOpenDelete } = useContext(Portfolio);
   const onClose = () => setOpenDelete(false);
+  console.log(sectionToDelete);
 
   return (
     <>
