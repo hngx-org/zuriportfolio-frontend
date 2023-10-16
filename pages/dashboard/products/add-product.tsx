@@ -285,7 +285,7 @@ const AddProduct = () => {
                   </div>
                   <Input
                     className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-                    placeholder="Add new category"
+                    placeholder="Add subcategory"
                     inputMode="none"
                     name="newCategory"
                     value={newCategoryName}
