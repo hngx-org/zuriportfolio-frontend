@@ -60,7 +60,7 @@ interface Promotion {
   id: string;
 }
 
-const PromotionHistoryRow = (props: PromotionHistory) => {
+const PromotionHistoryRow = (props: any) => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -73,28 +73,28 @@ const PromotionHistoryRow = (props: PromotionHistory) => {
     toggleDeleteModal();
   };
 
-  useEffect(() => {
-    if (isLoading === true) {
-      getPromo();
-    }
-  }, [isLoading]);
+  // useEffect(() => {
+  //   if (isLoading === true) {
+  //     getPromo();
+  //   }
+  // }, [isLoading]);
 
-  const getPromo = () => {
-    axios
-      .get('https://zuriportfolio-shop-internal-api.onrender.com/api/discount/promotions', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-        },
-      })
-      .then((response) => {
-        setPromotions(response.data.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching data: ', error);
-        setIsLoading(false);
-      });
-  };
+  // const getPromo = () => {
+  //   axios
+  //     .get('https://zuriportfolio-shop-internal-api.onrender.com/api/discount/promotions', {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setPromotions(response.data.data);
+  //       setIsLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching data: ', error);
+  //       setIsLoading(false);
+  //     });
+  // };
 
   const getStatus = (validFrom: string, validTo: string) => {
     const currentDate = new Date();
@@ -112,27 +112,26 @@ const PromotionHistoryRow = (props: PromotionHistory) => {
 
   return (
     <>
-      {promotions.map((promotion) => (
-        <tr
-          key={promotion.product.id}
-          className="font-manropeL border-slate-50 border rounded-lg text-center text-[16px] font-normal text-[#667085] [&>*]:px-6  [&>*]:py-4"
-        >
-          <td className="text-left">{promotion.product.name}</td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.discount_type}</td>
-          <td>
-            {getStatus(promotion.promo.valid_from, promotion.promo.valid_to) === 'Active' && <ActivePromo />}
-            {getStatus(promotion.promo.valid_from, promotion.promo.valid_to) === 'Expired' && <ExpiredPromo />}
-          </td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.amount}</td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.promo.quantity}</td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>{promotion.sales}</td>
-          <td className={`text-dark-300 ${manropeMD.className}`}>
-            <button onClick={toggleDeleteModal}>
-              <Image src="/assets/images/clip.png" width={30} height={20} alt="action-button" />
-            </button>
-          </td>
-        </tr>
-      ))}
+      <tr
+        key={props.product.id}
+        className="font-manropeL border-slate-50 border rounded-lg text-center text-[16px] font-normal text-[#667085] [&>*]:px-6  [&>*]:py-4"
+      >
+        <td className="text-left">{props.product.name}</td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>{props.promo.discount_type}</td>
+        <td>
+          {getStatus(props.promo.valid_from, props.promo.valid_to) === 'Active' && <ActivePromo />}
+          {getStatus(props.promo.valid_from, props.promo.valid_to) === 'Expired' && <ExpiredPromo />}
+        </td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>{props.promo.amount}</td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>{props.promo.quantity}</td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>{props.sales}</td>
+        <td className={`text-dark-300 ${manropeMD.className}`}>
+          <button onClick={toggleDeleteModal}>
+            <Image src="/assets/images/clip.png" width={30} height={20} alt="action-button" />
+          </button>
+        </td>
+      </tr>
+
       {isDeleteModalOpen && (
         <Modal isCloseIconPresent={false} isOpen={isDeleteModalOpen} size="lg" closeModal={toggleDeleteModal} title="">
           <div className="flex flex-col text-center p-0 md:p-10">

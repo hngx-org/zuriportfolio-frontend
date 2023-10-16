@@ -79,12 +79,12 @@ export const formatNumberWithCommas = (value: number): string | null => {
 export const destructureProducts = (products: any[]) => {
   const cartProducts: CartItemProps[] = products.map((product) => ({
     productId: product.id,
-    productSeller: product.user? (product?.user?.first_name + " " + product?.user?.last_name) : "" ,
+    productSeller: product.user ? product?.user?.first_name + ' ' + product?.user?.last_name : '',
     productTitle: product.name,
     productDescription: product.description,
     productPrice: +product.price,
     productImage: product?.images[0].url,
-    productDiscount: product.discount_price
+    productDiscount: product.discount_price,
   }));
   return cartProducts;
 };
