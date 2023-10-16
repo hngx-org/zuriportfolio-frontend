@@ -4,7 +4,7 @@ import { ActivityCardProps } from '../../../../@types';
 import { activityData } from '../../../../db/dashboard';
 
 export const Activity: React.FC<{ isPage: boolean }> = ({ isPage }) => {
-  const displayedData = isPage ? activityData : activityData.slice(0, 10);
+  const displayedData = isPage ? activityData : activityData.slice(activityData.length - 10, activityData.length);
 
   return (
     <div className={isPage ? 'pb-[50px]' : ''}>

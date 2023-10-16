@@ -67,48 +67,47 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
           <h1 className="font-bold capitalize text-xl px-4 py-4 ">cart summary</h1>
           <hr className="border-b-1 border-[#EBEEEF]" />
           <div className="cart-summary__details cart-summary__header border border-[#EBEEEF] rounded-md px-6 py-8 shadow-sm">
-          <div className="cart-summary__prices flex flex-col space-y-3">
-            <div className="sum flex justify-between">
-              <p className="font-bold">Subtotal</p>
-              <span className="text-gray-200">₦ {summary.subtotal.toFixed(2)}</span>
+            <div className="cart-summary__prices flex flex-col space-y-3">
+              <div className="sum flex justify-between">
+                <p className="font-bold">Subtotal</p>
+                <span className="text-gray-200">₦ {summary.subtotal.toFixed(2)}</span>
+              </div>
+
+              <div className="sum flex justify-between">
+                <p className="font-bold">Promo</p>
+                <span className="text-green-500 transition-all duration-300">-₦ {summary.discount}</span>
+              </div>
+
+              <div className="sum flex justify-between">
+                <p className="font-bold">Vat</p>
+                <span className="text-brand-red-primary transition-all duration-300">+₦ {summary.VAT.toFixed(2)}</span>
+              </div>
             </div>
 
-            <div className="sum flex justify-between">
-              <p className="font-bold">Promo</p>
-              <span className="text-green-500 transition-all duration-300">-₦ {summary.discount}</span>
+            <hr className="border-b-5 border-[#EBEEEF] my-4 mx-3" />
+
+            <div className="cart-total">
+              <div className="sum flex justify-between">
+                <p className="font-bold">Total:</p>
+                <span className="font-bold text-xl transition-all duration-300">₦ {summary.total.toFixed(2)}</span>
+              </div>
             </div>
 
-            <div className="sum flex justify-between">
-              <p className="font-bold">Vat</p>
-              <span className="text-brand-red-primary transition-all duration-300">+₦ {summary.VAT.toFixed(2)}</span>
+            <div>
+              <button
+                className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-green-300 hover:shadow-lg hover:font-bold focus:bg-brand-green-focu transition-all duration-300"'
+                onClick={handleCheckoutClick}
+              >
+                Checkout
+              </button>
             </div>
+            {token.length > 0 && modalOpen ? (
+              <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} />
+            ) : (
+              <TempUser isOpen={modalOpen} onClose={closeModal} />
+            )}
           </div>
-
-          <hr className="border-b-5 border-[#EBEEEF] my-4 mx-3" />
-
-          <div className="cart-total">
-            <div className="sum flex justify-between">
-              <p className="font-bold">Total:</p>
-              <span className="font-bold text-xl transition-all duration-300">₦ {summary.total.toFixed(2)}</span>
-            </div>
-          </div>
-
-          <div>
-            <button
-              className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-green-300 hover:shadow-lg hover:font-bold focus:bg-brand-green-focu transition-all duration-300"'
-              onClick={handleCheckoutClick}
-            >
-              Checkout
-            </button>
-          </div>
-          {token.length > 0 && modalOpen ? (
-            <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} />
-          ) : (
-            <TempUser isOpen={modalOpen} onClose={closeModal} />
-          )}
         </div>
-        </div>
-        
       </div>
     </section>
   );

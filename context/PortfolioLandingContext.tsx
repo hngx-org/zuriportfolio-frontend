@@ -98,20 +98,19 @@ const Portfolio = createContext<PortfolioContext>({
 
 export function PortfolioCtxProvider(props: { children: any }) {
   const router = useRouter();
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState('');
   // const [token, setToken] = useState<string>('' as string);
- const { auth } = useAuth();
+  const { auth } = useAuth();
 
-  console.log("Auth", auth?.user);
- 
+  console.log('Auth', auth?.user);
+
   console.log('Auth', auth?.user.id);
-
 
   useEffect(() => {
     if (auth?.user?.id) {
-      setUserId(auth.user.id)
+      setUserId(auth.user.id);
     }
-  }, [auth?.user?.id])
+  }, [auth?.user?.id]);
 
   // const getUserId = async () => {
 
@@ -143,7 +142,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
   //   };
   //   authUser();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [router, router.isReady, router.query.id, userId]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -176,7 +175,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     try {
       setIsLoading(true);
       console.log('USER ID', userId);
-      
+
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
       const data = await response.json();
       setUserData({
