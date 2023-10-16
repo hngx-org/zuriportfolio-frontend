@@ -219,17 +219,19 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
           <label className="font-manropeB text-[16px]">Product name</label>
           <Input
             className="w-full my-2 placeholder:text-[#191C1E] text-black"
-            placeholder={products.name}
+            value={products.name}
+            onChange={(e) => setProducts({ ...products, name: e.target.value })}
             rightIcon={<Image src={editImg} alt="edit" />}
           />
-          <span className="text-[#3F484F] text-[10px] lowercase mt-2">
+          <span className="text-[#3F484F] text-[12px] lowercase mt-2">
             https://staging.zuri.team/{products.name.replace(/[ |]+/g, '-')}
           </span>
 
           <label className="font-manropeB text-[16px] mt-6">Product Description</label>
           <Input
             className="w-full my-2 placeholder:text-[#191C1E] text-black"
-            placeholder={products.description}
+            value={products.description}
+            onChange={(e) => setProducts({ ...products, description: e.target.value })}
             inputMode="none"
           />
           <label className="font-manropeB text-[16px] mt-6">Add Product File</label>
@@ -311,7 +313,12 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
               <option value="option1 placeholder:text-[#191C1E] text-black">NGN</option>
               <option value="option2 placeholder:text-[#191C1E] text-black">EUR</option>
             </select>
-            <Input className="w-full my-2" placeholder={products.price} inputMode="none" />
+            <Input
+              className="w-full my-2 text-dark-100"
+              value={products.price}
+              onChange={(e) => setProducts({ ...products, price: e.target.value })}
+              inputMode="none"
+            />
           </div>
           <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition w-full mt-4">
             Save Changes

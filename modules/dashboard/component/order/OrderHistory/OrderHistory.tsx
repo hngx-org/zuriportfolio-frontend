@@ -174,6 +174,7 @@ const OrderHistory: React.FC = () => {
     // show orders by status which is either all | completed | cancelled or pending
     setOrderFilter(val);
   };
+
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
@@ -207,6 +208,7 @@ const OrderHistory: React.FC = () => {
       setLoadingOrders(false);
     }
   };
+
   const debounce = (func: (...a: any) => any, timeSlice: number = 1000) => {
     let timeout: NodeJS.Timeout;
     return async function (...arg: any) {
