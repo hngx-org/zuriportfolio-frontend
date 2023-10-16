@@ -94,18 +94,17 @@ export const verifyUser = async (props: { token: string }) => {
     console.log(props.token);
     return res?.data;
   } catch (e: any) {
-    console.log(e);
+    console.log('api call ', e);
     return e.response.data ?? { message: e.message };
   }
 };
 
 export const resendVerification = async (props: { email: string }) => {
   try {
-    const res = await $http.post('/resend-verification/', props);
+    const res = await $http.post('/verify/resend', props);
     console.log(res?.data);
     return res?.data;
   } catch (e: any) {
-    console.log(e);
     return e.response.data ?? { message: e.message };
   }
 };
@@ -149,9 +148,9 @@ export const resendForgetPassword = async (props: { email: string }) => {
   }
 };
 
-export const revalidateAuth = async (payload: any) => {
+export const revalidateAuth = async (props: { token: string }) => {
   try {
-    const res = await $http.get('/revalidate-login', payload);
+    const res = await $http.get(`/revalidate-login/${props.token}`);
     console.log(res);
     return res?.data;
   } catch (e: any) {

@@ -1,7 +1,7 @@
 import React from 'react';
-import DraftPage from '../../modules/assessment/draftPage';
+import DraftPage from '../../../modules/assessment/draftPage';
 import Header from '@modules/assessment/component/Header';
-import MainLayout from '../../components/Layout/MainLayout';
+import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 
 const Draft = () => {
