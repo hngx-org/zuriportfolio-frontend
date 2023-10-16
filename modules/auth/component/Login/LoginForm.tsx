@@ -15,7 +15,6 @@ import { useAuth } from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
-import { resend2FACode } from '../../../../http/auth';
 
 export const ADMIN_ID = 3;
 
@@ -37,10 +36,20 @@ function LoginForm() {
     },
   });
 
-  const send2FaCode = useAuthMutation(resend2FACode);
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      console.log('responseoutside', res.message);
+      console.log('responseoutside', res);
+
+      if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+        localStorage.setItem('zpt', res?.response?.token);
+        localStorage.setItem('email', res?.response?.email);
+        notify({
+          message: 'Two Factor Authentication Code Sent',
+          type: 'success',
+        });
+        router.push('/auth/2fa');
+        return;
+      }
 
       if (res.message === 'Login successful') {
         handleAuth(res.data);
@@ -59,7 +68,7 @@ function LoginForm() {
           type: 'success',
         });
 
-        router.push(userCameFrom || '/dashboard');
+        router.push(userCameFrom || '/explore');
         return;
       } else if (res.message === 'Invalid password') {
         notify({
@@ -78,16 +87,6 @@ function LoginForm() {
           message: 'Please verify your account',
           type: 'error',
         });
-        return;
-      }
-
-      // Checking if user enabled 2fa
-      if (res.response.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
-        const email = res?.data?.user?.email;
-
-        // uncomment if the 2fa message is not being sent automatically
-        // send2FaCode.mutate({ email });
-        router.push('/auth/2fa');
         return;
       }
     },
