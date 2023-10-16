@@ -13,6 +13,7 @@ const endpoint = 'https://hng6-r5y3.onrender.com';
 const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -53,7 +54,7 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const handleSubmit = () => {
-    const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+    setLoading(true);
     if (values.length === 0) return;
     const data = {
       userId: userId,
@@ -62,6 +63,7 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
     axios
       .post(`${endpoint}/api/language`, data)
       .then((res) => {
+        setLoading(false);
         notify({
           message: 'Language created successfully',
           position: 'top-center',
@@ -72,6 +74,7 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
         onClose();
       })
       .catch((err) => {
+        setLoading(false);
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -130,8 +133,11 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             Cancel
           </Button>
           <Button
+            disabled={loading}
             onClick={handleSubmit}
-            className="border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg"
+            className={`${
+              loading ? 'opacity-50' : 'opacity-100'
+            } border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg`}
           >
             {' '}
             Save{' '}
