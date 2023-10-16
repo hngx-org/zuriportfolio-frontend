@@ -14,6 +14,7 @@ import PortfolioReference from '@modules/portfolio/component/reference/reference
 import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
+import { useAuth } from './AuthContext';
 
 type PortfolioContext = {
   userId: string;
@@ -97,40 +98,53 @@ const Portfolio = createContext<PortfolioContext>({
 
 export function PortfolioCtxProvider(props: { children: any }) {
   const router = useRouter();
-  const [userId, setUserId] = useState<string>('' as string);
-  const [token, setToken] = useState<string>('' as string);
+  const [userId, setUserId] = useState("");
+  // const [token, setToken] = useState<string>('' as string);
+ const { auth } = useAuth();
 
-  const getUserId = async () => {
-    const token = localStorage.getItem('zpt');
-    const response = await fetch(`https://staging.zuri.team/api/auth/api/authorize`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1NDkzNDVhLTQ2MWMtNGM2Yy1iZTNjLWU3YWZlMzg4ZWIyOSIsImlhdCI6MTY5NzQxNzU4Nn0.Lm7HAisj-TWpmP2TivhqMhYGqPpnw_c8G62p3Tdf-F8',
-        permission: 'product.read',
-      }),
-    });
-    const data = await response.json();
-    return data;
-  };
+  console.log("Auth", auth?.user);
+ 
+  console.log('Auth', auth?.user.id);
+
 
   useEffect(() => {
-    const authUser = async () => {
-      try {
-        const data = await getUserId();
-        setUserId(data?.user?.id);
-        await getUser(userId);
-      } catch (error) {
-        setError({ state: true, error: error });
-      }
-    };
-    authUser();
+    if (auth?.user?.id) {
+      setUserId(auth.user.id)
+    }
+  }, [auth?.user?.id])
+
+  // const getUserId = async () => {
+
+  //   const token = localStorage.getItem('zpt');
+  //   const response = await fetch(`https://staging.zuri.team/api/auth/api/authorize`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       token:
+  //         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1NDkzNDVhLTQ2MWMtNGM2Yy1iZTNjLWU3YWZlMzg4ZWIyOSIsImlhdCI6MTY5NzQxNzU4Nn0.Lm7HAisj-TWpmP2TivhqMhYGqPpnw_c8G62p3Tdf-F8',
+  //       permission: 'product.read',
+  //     }),
+  //   });
+  //   const data = await response.json();
+  //   return data;
+  // };
+
+  // useEffect(() => {
+  //   const authUser = async () => {
+  //     try {
+  //       const data = await getUserId();
+  //       setUserId(data?.user?.id);
+  //       await getUser(userId);
+  //     } catch (error) {
+  //       setError({ state: true, error: error });
+  //     }
+  //   };
+  //   authUser();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, router.isReady, router.query.id, userId]);
+  // }, [router, router.isReady, router.query.id, userId]);
 
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -158,9 +172,11 @@ export function PortfolioCtxProvider(props: { children: any }) {
     tracks: [],
   });
 
-  const getUser = async (userId: string) => {
+  const getUser = async () => {
     try {
       setIsLoading(true);
+      console.log('USER ID', userId);
+      
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
       const data = await response.json();
       setUserData({
@@ -295,7 +311,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowViewtemplates(false);
     onClose();
     onCloseModal(sectionTitle || '');
-    getUser(userId);
+    getUser();
   };
 
   const onCloseModal = (modalToClose: string) => {
