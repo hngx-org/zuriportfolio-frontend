@@ -61,14 +61,15 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const handleSubmit = () => {
+    const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
     if (values.length === 0) return;
     const data = {
-      userId: userId,
+      userId: userID,
       interests: values,
       sectionId: 323,
     };
     axios
-      .post(`${endpoint}/interests`, data)
+      .post(`${endpoint}/api/interests`, data)
       .then((res) => {
         notify({
           message: 'Interests created successfully',
@@ -88,7 +89,6 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
         });
         console.log(err);
       });
-    // console.log(values);
   };
 
   const suggestionsArray = [
@@ -122,8 +122,9 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const getAllInterests = () => {
+    const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
     axios
-      .get(`${endpoint}/api/interests/${userId}`)
+      .get(`${endpoint}/api/interests/${userID}`)
       .then((res) => {
         const interestsArray: string[] = res.data?.interestArray;
         setValues(interestsArray ? interestsArray : []);
