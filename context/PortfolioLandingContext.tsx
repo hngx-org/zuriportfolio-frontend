@@ -97,7 +97,7 @@ const Portfolio = createContext<PortfolioContext>({
 
 export function PortfolioCtxProvider(props: { children: any }) {
   const [userId, setUserId] = useState('');
-  const { auth } = useAuth();
+  const { auth } = useAuth()
 
   useEffect(() => {
     if (auth?.user?.id) {
