@@ -17,7 +17,7 @@ import { useAuth } from '../../context/AuthContext';
 import isAuthenticated from '../../helpers/isAuthenticated';
 import Logout from '@modules/auth/component/logout/Logout';
 import CustomDropdown from '@modules/explore/components/CustomDropdown';
-import { searchPosts } from '../../http/api/searchPost';
+import { searchProducts } from '../../http/api/searchProducts';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -83,36 +83,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     };
   }, [authMenu, searchMobile, toggle]);
 
-  // const searchPosts = async (searchValue: string) => {
-  //   try {
-  //     const response = await fetch(
-  //       `https://coral-app-8bk8j.ondigitalocean.app/api/product-retrieval/?search=${searchValue}`,
-  //     );
-  //     if (!response.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
-
-  //     const posts: ProductResult[] = await response.json();
-  //     const searchResults = posts.filter((post) => post.name.toLowerCase().includes(searchValue.toLowerCase()));
-
-  //     return searchResults;
-  //   } catch (error) {
-  //     throw new Error(`Failed to fetch posts: ${error}`);
-  //   }
-  // };
-
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
     if (e.key === 'Enter' && dropDown === 'Marketplace') {
-      try {
-        const results = await searchPosts(searchQuery);
-        setSearchResults(results);
-        // localStorage.setItem('keyword', searchQuery);
-        // localStorage.setItem('search_result', JSON.stringify(results));
-        router.push(`/marketplace/search/${searchQuery}`);
-      } catch (error) {
-        console.error(error);
-      }
+      router.push(`/marketplace/search?query=${searchQuery}`);
     }
   };
 

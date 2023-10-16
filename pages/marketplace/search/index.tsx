@@ -8,23 +8,26 @@ import Link from 'next/link';
 import Error from '@modules/marketplace/component/landingpageerror/ErrorPage';
 import CategoryLayout from '@modules/marketplace/component/layout/category-layout';
 import { useRouter } from 'next/router';
-import { searchPosts } from '../../../http/api/searchPost';
+import { searchProducts } from '../../../http/api/searchProducts';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Index() {
   const [results, setResults] = useState<ProductResult[]>([]);
-  const router = useRouter();
-  const { query } = router.query;
+  const {
+    query: { query },
+  } = useRouter();
+
   const searchQuery = Array.isArray(query) ? query[0] : query;
 
   useEffect(() => {
     if (searchQuery) {
       const fetchData = async () => {
         try {
-          const results = await searchPosts(searchQuery);
+          const results = await searchProducts(searchQuery);
           setResults(results);
-          console.log(results)
         } catch (error) {
-          console.error(error);
+          toast.error('An error occurred. Please try again.');
         }
       };
 
@@ -34,7 +37,7 @@ export default function Index() {
 
   return (
     <>
-    {results?.length === 0 ? (
+      {results?.length === 0 ? (
         <Error />
       ) : (
         <CategoryLayout>
@@ -75,7 +78,7 @@ export default function Index() {
           </div>
         </CategoryLayout>
       )}
+      <ToastContainer />
     </>
   );
 }
-      
