@@ -40,6 +40,7 @@ function Code2FALogic() {
           message: data?.data?.message,
           type: 'success',
         });
+        router.push(userCameFrom || '/dashboard');
         return;
       } else {
         notify({

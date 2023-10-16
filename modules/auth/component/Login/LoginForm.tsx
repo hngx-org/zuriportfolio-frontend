@@ -59,7 +59,7 @@ function LoginForm() {
           type: 'success',
         });
 
-        router.push(userCameFrom || "/dashbaord");
+        router.push(userCameFrom || "/dashboard");
         return;
       } else if (res.message === 'Invalid password') {
         notify({
