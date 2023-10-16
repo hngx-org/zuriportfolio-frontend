@@ -22,7 +22,7 @@ import useUserSession from '../../hooks/Auth/useUserSession';
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
   const { auth: globalAuth } = useAuth();
-  const {signIn, signUp} = useUserSession();
+  const { signIn, signUp } = useUserSession();
   const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
@@ -664,7 +664,13 @@ function MenuUI({
             >
               Sign In
             </Button>
-            <Button href="/auth/signup" onClick={signUp} className="rounded-lg  w-[100%]" intent={'primary'} size={'md'}>
+            <Button
+              href="/auth/signup"
+              onClick={signUp}
+              className="rounded-lg  w-[100%]"
+              intent={'primary'}
+              size={'md'}
+            >
               Sign Up
             </Button>
           </>
