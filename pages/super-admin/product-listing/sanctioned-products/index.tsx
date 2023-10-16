@@ -30,11 +30,13 @@ const SanctionedProducts = () => {
   const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
+    window.scroll(0, 10);
     setCurrentPage(newPage);
   };
 
   useEffect(() => {
     setFilteredProducts(sanctionedProd);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
@@ -54,7 +56,7 @@ const SanctionedProducts = () => {
     <>
       <SuperAdminNavbar />
 
-      <div className="m-6 font-manropeL max-w-7xl mx-auto border-2 border-custom-color1">
+      <div className=" container  font-manropeL mx-auto border-2 border-custom-color1">
         <div className="py-3 px-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
             <h2 className="text-lg font-medium text-custom-color10">Sanctioned Products</h2>
@@ -70,15 +72,20 @@ const SanctionedProducts = () => {
           <div className="mb-4">
             {visibleProducts?.length > 0 ? (
               <>
-                <table className="w-full ">
+                <table className="w-full md:table-fixed">
                   <thead>
                     <tr>
                       <th className="text-gray-500 text-sm font-normal leading-[18px] px-6 py-6 gap-3 text-left flex items-center">
                         <p className="">Product Name</p>
                         <ArrowDown size="16" className="" />
                       </th>
-                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item) => (
-                        <th className="text-gray-500 text-sm font-normal leading-[18px] px-3 py-6 gap-3" key={item}>
+                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item, index) => (
+                        <th
+                          className={`text-gray-500 ${
+                            index === 0 ? 'table-cell' : 'hidden md:table-cell'
+                          } text-sm font-normal leading-[18px] px-3 py-6 gap-3`}
+                          key={item}
+                        >
                           {item}
                         </th>
                       ))}
@@ -93,7 +100,7 @@ const SanctionedProducts = () => {
                           route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)
                         }
                       >
-                        <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
+                        <td className="max-w-[10vw] md:full tracking-wide font-manropeL text-base text-gray-900 px-6 py-6">
                           <p>{product?.product_name} </p>
                         </td>
                         <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
@@ -134,13 +141,11 @@ const SanctionedProducts = () => {
                     ))}
                   </tbody>
                 </table>
-                {filteredProducts?.length > itemsPerPage && (
-                  <SuperAdminPagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                )}
+                <SuperAdminPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               </>
             ) : (
               <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

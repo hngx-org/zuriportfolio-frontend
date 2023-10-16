@@ -21,7 +21,7 @@ const useAuthRevalidate = () => {
       // console.log(isSuccess);
 
       if (response.status === 200) {
-        handleAuth(response);
+        handleAuth(response.data);
 
         return;
       }
@@ -31,6 +31,7 @@ const useAuthRevalidate = () => {
         return;
       }
     },
+    enabled: !!token,
   });
 };
 

@@ -4,6 +4,7 @@ import { Input } from '@ui/Input';
 import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import Link from 'next/link';
 import Modal from '@ui/Modal';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 interface Context {
   refreshPage: boolean;
@@ -49,8 +50,8 @@ interface CertificationListProps {
   // certifications: Certification[];
   isModalOpen: boolean;
 }
-
 const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const { userId } = useContext(Portfolio);
   const [formData, setFormData] = useState({
     id: '',
     title: '',
@@ -138,16 +139,13 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       // console.log('Updated Certifications Array:', certifications);
 
       try {
-        const response = await fetch(
-          'https://hng6-r5y3.onrender.com/api/add-certificate/6ba7b810-9dad-11d1-80b4-00c04fd430c8',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newCertification),
+        const response = await fetch(`https://hng6-r5y3.onrender.com/api/add-certificate/${userId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+          body: JSON.stringify(newCertification),
+        });
         // console.log('Response Status:', response.status);
         // console.log('Response Data:', await response.json());
 
@@ -155,7 +153,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
           setCreateCertificate('Certificate created successfully');
           setTimeout(() => {
             setCreateCertificate('');
-          }, 3000);
+          }, 2000);
           setError('');
 
           setTimeout(() => {
@@ -269,7 +267,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                       id="title"
                       name="title"
                       placeholder="My best yet"
-                      className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-white-650   rounded-lg border-[1px]"
+                      className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                       value={formData.title}
                       onChange={handleInputChange}
                     />
@@ -282,7 +280,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                     <select
                       id="year"
                       name="year"
-                      className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px] "
+                      className="p-2 px-4 h-[48px] text-gray-900 focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px] "
                       value={formData.year}
                       onChange={handleInputChange}
                     >
@@ -310,7 +308,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                       id="organization"
                       name="organization"
                       placeholder="Google"
-                      className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-white-650  rounded-lg border-[1px]"
+                      className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900 rounded-lg border-[1px]"
                       value={formData.organization}
                       onChange={handleInputChange}
                     />
@@ -324,7 +322,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                       id="url"
                       name="url"
                       placeholder="Type link"
-                      className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-white-650   rounded-lg border-[1px]"
+                      className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                       value={formData.url}
                       onChange={handleInputChange}
                     />
@@ -339,12 +337,12 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                     id="description"
                     name="description"
                     placeholder="Certificate ID & details "
-                    className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-white-650   rounded-lg border-[1px]"
+                    className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900  rounded-lg border-[1px]"
                     value={formData.description}
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
                   <div>
                     <div>
                       <p className="text-green-200 text-sm">{createCertificate}</p>
@@ -360,14 +358,18 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                   <div className="flex gap-4  items-center">
                     <Button
                       onClick={onClose}
-                      className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover-bg-zinc-100"
+                      intent={'secondary'}
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
                     >
                       Cancel
                     </Button>{' '}
                     <Button
                       type="submit"
                       // disabled={!isValid}
-                      className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100"
+
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
                     >
                       Save
                     </Button>
@@ -403,16 +405,10 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             </p>
           </div>
           <div className="flex gap-4 justify-start items-center">
-            <Button
-              onClick={onClose}
-              className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] active:text-white-100 focus:text-white-100  hover:bg-zinc-100 "
-            >
+            <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Cancel
             </Button>{' '}
-            <Button
-              onClick={onClose}
-              className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100"
-            >
+            <Button onClick={onClose} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Save
             </Button>
           </div>
@@ -433,14 +429,10 @@ const CertificationList: React.FC<CertificationListProps> = () => {
         // console.log('Fetched certifications data:', data);
         setCertifications(data.data);
       } else {
-        if (typeof setError === 'function') {
-          setError('Error fetching certifications data.');
-        }
+        setError('Error fetching certifications data.');
       }
     } catch (error) {
-      if (typeof setError === 'function') {
-        setError('An error occurred while fetching certifications data.');
-      }
+      setError('An error occurred while fetching certifications data.');
 
       // console.error(error);
     }
@@ -457,17 +449,23 @@ const CertificationList: React.FC<CertificationListProps> = () => {
 
   return (
     <div>
-      {certifications.map((certification, index) => (
-        <CertificationItem key={certification.id} certification={certification} />
-      ))}
+      {certifications.length > 0 ? (
+        certifications.map((certification, index) => (
+          <CertificationItem key={certification.id} certification={certification} />
+        ))
+      ) : (
+        <p>There are no certificates available.</p>
+      )}
     </div>
   );
 };
 
 const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) => {
+  const { userId } = useContext(Portfolio);
   const { id, year, title, organization, url, description } = certification;
   const [deletedMessage, setDeletedMessage] = useState('');
   const [editedMessage, setEditedMessage] = useState('');
+  const [editMessageError, setEditMessageError] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const { refreshPage, setRefreshPage } = useContext(myContext);
 
@@ -481,21 +479,40 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   const closeEditForm = () => {
     setIsEditFormOpen(false);
   };
+  const fetchCertifications = async () => {
+    try {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${id}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('fetched data', data);
+        // console.log('Fetched certifications data:', data);
+      } else {
+        console.log('Error fetching certifications data.');
+      }
+    } catch (error) {
+      console.log('An error occurred while fetching certifications data.');
 
+      // console.error(error);
+    }
+  };
   // Function to handle the save action
   const handleSave = async () => {
     // Send a PUT request to update the certification
+    fetchCertifications();
+    return;
     try {
-      const response = await fetch(
-        `https://hng6-r5y3.onrender.com/api/update-certification/6ba7b810-9dad-11d1-80b4-00c04fd430c8/${id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(editedCertification), // Send the edited data
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}/1`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(editedCertification), // Send the edited data
+      });
+      console.log('this is the id ', id);
+      console.log(userId);
+
+      console.log('Response Status:', response.status);
+      console.log('Response Data:', await response.json());
       if (response.ok) {
         // console.log(`Certificate with ID ${id} updated.`);
         setRefreshPage(!refreshPage);
@@ -506,10 +523,11 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
 
         closeEditForm(); // Close the Edit form
       } else {
-        // console.error(`Error updating certificate with ID ${id}`);
+        console.error(`Error updating certificate with ID ${id}`);
+        setEditMessageError('Error updating certificate');
       }
     } catch (error) {
-      // console.error('An error occurred while updating the certificate.', error);
+      console.error('An error occurred while updating the certificate.', error);
     }
   };
 
@@ -542,14 +560,12 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
           <div>
             <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
           </div>
-          <div className="flex flex-col gap-2  ">
-            <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left overflow-hidden text-ellipsis whitespace-nowrap">
-              {title}
-            </h1>
+          <div className="flex flex-col gap-2 overflow-hidden w-full text-ellipsis whitespace-nowrap ">
+            <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left ">{title}</h1>
             <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{organization}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]">{url}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis w-full">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>
@@ -565,6 +581,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         <div>
           <p className="text-red-205 text-sm">{deletedMessage}</p>
           <p className="text-green-200 text-sm">{editedMessage}</p>
+          <p className="text-red-205 text-sm">{editMessageError}</p>
         </div>
         <div className="flex justify-between items-center">
           {' '}
@@ -704,7 +721,7 @@ const EditForm: React.FC<{
                 id="title"
                 name="title"
                 placeholder="My best yet"
-                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-white-650   rounded-lg border-[1px]"
+                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                 value={certification.title}
                 onChange={handleInputChange}
               />
@@ -745,7 +762,7 @@ const EditForm: React.FC<{
                 id="organization"
                 name="organization"
                 placeholder="Google"
-                className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-white-650  rounded-lg border-[1px]"
+                className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
                 value={certification.organization}
                 onChange={handleInputChange}
               />
@@ -759,7 +776,7 @@ const EditForm: React.FC<{
                 id="url"
                 name="url"
                 placeholder="Type link"
-                className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-white-650   rounded-lg border-[1px]"
+                className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                 value={certification.url}
                 onChange={handleInputChange}
               />
@@ -774,12 +791,12 @@ const EditForm: React.FC<{
               id="description"
               name="description"
               placeholder="Certificate ID & details "
-              className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-white-650   rounded-lg border-[1px]"
+              className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]   text-gray-900  rounded-lg border-[1px]"
               value={certification.description}
               onChange={handleInputChange}
             />
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
             <div>
               {render ? (
                 <pre className="text-red-205 font-manropeL">{error}</pre>
@@ -788,16 +805,15 @@ const EditForm: React.FC<{
               )}
             </div>
             <div className="flex gap-4  items-center">
-              <Button
-                onClick={onClose}
-                className="py-3 px-5 rounded-lg bg-white-100 border-[#009444] border-[1px] text-[#009444] hover-bg-zinc-100"
-              >
+              <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
                 Cancel
               </Button>{' '}
               <Button
                 type="submit"
                 // disabled={!isValid}
-                className="py-3 px-5 rounded-lg bg-[#009444] border-white-100 border-[1px] text-white-100"
+
+                className="w-full rounded-md sm:w-[6rem]"
+                size={'md'}
               >
                 Save
               </Button>
