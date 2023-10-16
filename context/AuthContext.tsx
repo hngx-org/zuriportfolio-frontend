@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState } from 'react';
 import { AuthContextProps } from '../@types';
 import { AuthResponse } from '../@types';
 
+export const ADMIN_ID = 3;
+
 const AuthContext = createContext<AuthContextProps>({} as any);
 
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {

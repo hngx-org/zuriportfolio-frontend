@@ -11,12 +11,11 @@ import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWi
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../../../context/AuthContext';
+import { ADMIN_ID, useAuth } from '../../../../context/AuthContext';
 import isAuthenticated from '../../../../helpers/isAuthenticated';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 
-export const ADMIN_ID = 3;
 
 function LoginForm() {
   const { handleAuth, userCameFrom } = useAuth();
