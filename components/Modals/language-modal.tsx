@@ -56,7 +56,7 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
     const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
     if (values.length === 0) return;
     const data = {
-      userId: userID,
+      userId: userId,
       languages: values,
     };
     axios
@@ -85,7 +85,7 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   const getAllLanguages = () => {
     const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
     axios
-      .get(`${endpoint}/api/language/${userID}`)
+      .get(`${endpoint}/api/language/${userId}`)
       .then((res) => {
         const languagesArray: string[] = res.data?.data.map((obj: any) => obj.language);
         setValues(languagesArray ? languagesArray : []);
