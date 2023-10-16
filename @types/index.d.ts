@@ -335,7 +335,14 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+//export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+
+export type CartSumaryProp = {
+  subtotal: number;
+  discount: number;
+  VAT: number;
+  total: number;
+};
 
 export type RecentlyViewedProductProp = {
   user: string;
@@ -532,11 +539,13 @@ export interface ProjectModalProps {
 
 export interface RatingBarProps {
   avgRating: number;
+  verUser: number;
 }
 
 export interface RatingCardProps {
   rating: number;
   users: number;
+  totalReviews: number;
 }
 
 export interface filterProps {
@@ -767,7 +776,7 @@ type ProductCategory = {
 };
 
 type ProductShop = {
-  id: number;
+  id: string;
   name: string;
 };
 export interface ProductResult {
