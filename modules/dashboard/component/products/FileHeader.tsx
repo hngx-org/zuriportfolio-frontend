@@ -7,10 +7,15 @@ export interface FileHeaderProps {
 }
 
 export function FileHeader({ file, onDelete }: FileHeaderProps) {
+  const handleDeleteClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    onDelete(file);
+  };
+
   return (
     <div className="container flex flex-row justify-between align-middle items-center m-2 ml-4 pr-6">
       <div>{file.name}</div>
-      <Button className="w-4 h-4 p-4 bg-red-400" onClick={() => onDelete(file)}>
+      <Button className="w-4 h-4 p-4 bg-red-400" onClick={handleDeleteClick}>
         x
       </Button>
     </div>
