@@ -19,6 +19,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
   const [title, setTitle] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [link, setLink] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
   const [tagInput, setTagInput] = useState<string>('');
@@ -87,6 +88,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
 
   // {"title":"Live test for issue ART-36 ", "year":"2023", "url":"https://link-to-project.com", "tags":"all, tags, here, comma separated", "description": "Updated new description", "userId":"2c92b6a8-e672-41c5-af97-a643ce56ce6c", "sectionId":"4"}
   const handleSubmit = (e: any) => {
+    setLoading(true);
     e.preventDefault();
     const formData = new FormData();
     const data = {
@@ -110,6 +112,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
     axios
       .post(`${endpoint}/api/projects`, formData)
       .then((res) => {
+        setLoading(false);
         notify({
           message: 'Projects created successfully',
           position: 'top-center',
@@ -121,6 +124,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
         console.log(res);
       })
       .catch((err) => {
+        setLoading(false);
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -295,7 +299,11 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
               <Button intent={'secondary'} className="rounded-lg min-w-[100px]">
                 Cancel
               </Button>
-              <Button className="rounded-lg min-w-[100px]" onClick={handleSubmit}>
+              <Button
+                disabled={loading}
+                className={`${loading ? 'opacity-50' : 'opacity-100'} rounded-lg min-w-[100px]`}
+                onClick={handleSubmit}
+              >
                 Save
               </Button>
             </div>
