@@ -5,20 +5,15 @@ import PaymentInformationModal from './PaymentInformationModal';
 import TempUser from './../../../../../components/Modals/TempUser';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import isAuthenticated from '../../../../../helpers/isAuthenticated';
+import CartPaymentModal from '../../../../../components/Modals/CartPaymentModal';
 
 const Summary = ({ prices, summary, token }: SummaryProps & { token: string; summary: CartSumaryProp }) => {
   const [couponValue, setCouponValue] = useState<string>('');
   const [couponErrorState, setCouponErrorState] = useState<boolean>(false);
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
   const [invalid, setInvalid] = useState<boolean>(false);
-  const [modalOpen, setModalOpen] = useState(true);
-  const [authUser, setAuthUser] = useState<boolean>(false); // setAuthUser to true to see the modal of the Authenticated user
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  useEffect(() => {
-    setModalOpen(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [modalOpen, setModalOpen] = useState(false);
+  
 
   const defaultPrices: PriceData = {
     subtotal: 600,
@@ -58,24 +53,12 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
     }
   };
 
-  const handleCheckoutClick = () => {
-    const authToken = localStorage.getItem('zpt');
-    console.log(authToken);
-    if (authToken !== null) {
-      const userIsAuthenticated = isAuthenticated(authToken);
-      if (userIsAuthenticated) {
-        setAuthUser(true);
-        setModalOpen(true);
-      } else {
-        onOpen();
-      }
-    } else {
-      onOpen();
-    }
-  };
-
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const handleCheckoutClick = () => {
+    setModalOpen(true);
   };
 
   return (
@@ -135,17 +118,19 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
           <div className="cart-summary__prices flex flex-col space-y-3">
             <div className="sum flex justify-between">
               <p className="font-bold">Subtotal</p>
-              <span className="text-gray-200">₦ {summary?.subtotal?.toFixed(2)}</span>
+              <span className="text-gray-200">₦ {summary.subtotal.toFixed(2)}</span>
             </div>
 
             <div className="sum flex justify-between">
               <p className="font-bold">Discount</p>
-              <span className="text-green-500 transition-all duration-300">-₦ {summary?.discount}</span>
+              <span className="text-green-500 transition-all duration-300">-₦ {summary.discount}</span>
             </div>
 
             <div className="sum flex justify-between">
               <p className="font-bold">Vat</p>
-              <span className="text-brand-red-primary transition-all duration-300">+₦ {summary?.VAT?.toFixed(2)}</span>
+              <span className="text-brand-red-primary transition-all duration-300">
+                +₦ {summary.VAT.toFixed(2)}
+              </span>
             </div>
           </div>
 
@@ -154,7 +139,7 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
           <div className="cart-total">
             <div className="sum flex justify-between">
               <p className="font-bold">Total:</p>
-              <span className="font-bold text-xl transition-all duration-300">₦ {summary?.total?.toFixed(2)}</span>
+              <span className="font-bold text-xl transition-all duration-300">₦ {summary.total.toFixed(2)}</span>
             </div>
           </div>
 
@@ -166,11 +151,10 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
               Checkout
             </button>
           </div>
-          {authUser ? (
-            modalOpen && <PaymentInformationModal token={token} orderTotal={summary?.total} closeModal={closeModal} />
-          ) : (
-            <TempUser isOpen={isOpen} onClose={onClose} />
-          )}
+          {token.length > 0 && modalOpen ? 
+            <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} /> :
+            <TempUser isOpen={modalOpen} onClose={closeModal} />
+          }
         </div>
       </div>
     </section>
