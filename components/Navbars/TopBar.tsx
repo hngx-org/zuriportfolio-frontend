@@ -20,6 +20,7 @@ import CustomDropdown from '@modules/explore/components/CustomDropdown';
 import useUserSession from '../../hooks/Auth/useUserSession';
 import { getUserCart } from '../../http/checkout';
 import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
+import { useCart } from '@modules/shop/component/CartContext';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -34,10 +35,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [authMenu, setAuthMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
-  const [cartItems, setCartItems] = useState(0);
-  // const token: any = isUserAuthenticated();
-
   const [dropDown, setDropDown] = useState<string>('Explore');
+  const  {cartCount,setCartCountNav} = useCart()
+
 
   useEffect(() => {
     async function cartFetch() {
@@ -47,12 +47,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       if (token) {
         carts = await getUserCart(token as string);
       } else {
-        carts = JSON.parse(localStorage.getItem('products') as string);
-        // const cart_items: CartItemProps[] = carts;
-        // console.log(cart_items)
+        carts = localStorage.getItem('products') ? JSON.parse(localStorage.getItem('products') as string) : [];
       }
-      setCartItems(carts?.length);
-      // setIsLoading(false);
+      setCartCountNav(carts.length);
     }
     cartFetch();
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
@@ -262,7 +259,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {!globalAuth && (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
                 {/* <Cart items={0} /> */}
-                <Cart items={cartItems} />
+                <Cart items={cartCount} />
 
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
@@ -382,7 +379,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     </svg>
                   </span>
                   {/* <Cart items={0} /> */}
-                  <Cart items={cartItems} />
+                  <Cart items={cartCount} />
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
@@ -408,7 +405,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </svg>
                 </span>
                 <Cart2
-                  items={6}
+                  items={cartCount}
                   style={{
                     marginRight: '20px',
                   }}
@@ -492,8 +489,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           </svg>
         </span>
 
-        {/* <Cart items={7} /> */}
-        <Cart items={cartItems} />
+        <Cart items={cartCount} />
 
         <span>
           <Image draggable={false} src={notificationIcon} alt="notification icon" />
