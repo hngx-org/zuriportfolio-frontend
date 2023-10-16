@@ -65,7 +65,7 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
       setLoading(false);
     }
   }
-  
+
   function resetFilter() {
     setSelection([]);
     setLoading(false);
