@@ -24,14 +24,16 @@ import { destructureProducts } from '../../helpers';
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(product?.images[0].url);
   const router = useRouter();
   const { id } = router.query;
   const token: any = isUserAuthenticated();
-  const userId = auth ? auth?.user?.id : '1972d345-44fb-4c9a-a9e3-d286df2510ae';
+
+  const apiUrl: string = token
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
 
   useEffect(() => {
-    const apiUrl: string = `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/`;
     // Fetch data using Axios
     const headers = {
       accept: 'application/json',
@@ -42,12 +44,11 @@ export default function ProductDetailsDescription() {
       .then((response) => {
         console.log(response.data);
         setProduct(response.data);
-        // setImage(product?.images[0].url)
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [id, userId, token?.id]);
+  }, [apiUrl, id]);
 
   const addToCart = async () => {
     const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
@@ -72,24 +73,23 @@ export default function ProductDetailsDescription() {
         toast.error(error.message);
       }
     } else {
-      const products: any[] = localStorage.getItem('products')
-        ? JSON.parse(localStorage.getItem('products') as string)
-        : [];
-      if (product) {
-        const productTemp = destructureProducts([product]);
+      const products: any[] = [];
 
-        products.push(...productTemp);
-        localStorage.setItem('products', JSON.stringify(products));
-        console.log(products);
-        toast.success('Item added to cart🎊');
-      }
+      let productData = {
+        productId: product?.id,
+        productImage: product?.images[0]?.url,
+        productTitle: product?.name,
+        productSize: product?.quantity,
+        productSeller: product?.user?.username,
+        productPrice: product?.price,
+      };
+      products.push(productData);
+      localStorage.setItem('products', JSON.stringify(products));
+      toast.success('Item added to cart🎊');
     }
   };
 
   const addToWishlist = async () => {
-    console.log('user:', token?.id);
-    console.log('product:', product?.id);
-
     const data = {
       product_id: product?.id,
       user_id: token?.id,
@@ -152,13 +152,13 @@ export default function ProductDetailsDescription() {
           {/* Product Detail Images  */}
           <div className="flex flex-col w-full item-center lg:gap-y-4 md:gap-y-2 gap-y-3 gap-x-10 mx-auto pb-6">
             <Image
-              src={product?.images[0].url}
+              src={product?.images[0]?.url}
               width={500}
               height={500}
               alt="Main Image"
               className="w-full lg:h-[520px] md:h-[600px] h-[340px] object-cover lg:rounded-3xl rounded-lg"
             />
-            <Slider updateImage={updateImage} />
+            {product?.images[0]?.url > 1 && <Slider updateImage={updateImage} slider0={product?.images[0]?.url} />}
           </div>
 
           {/* Product Detail Data */}
@@ -204,7 +204,11 @@ export default function ProductDetailsDescription() {
               </p>
               <p className="flex gap-x-4 items-center">
                 <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
-                  ${product?.discount_price === '0.00' ? product?.price : product?.discount_price}
+                  {product?.discount_price === '0.00'
+                    ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+                        parseFloat(product?.price),
+                      )
+                    : product?.discount_price}
                 </span>
                 <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
                   {product?.discount_price === '0.00' ? null : `${product?.price}`}
@@ -449,10 +453,8 @@ export default function ProductDetailsDescription() {
           </div>
         </div>
 
-        {/* Products We thought might Intrest you  */}
-        <div>
-          <ProductWeThoughtMightInterestYou id={id} />
-        </div>
+        {/* favorite products  */}
+        <div></div>
       </main>
       <ToastContainer />
     </CategoryLayout>

@@ -39,8 +39,8 @@ function Index() {
 
         const response = await fetch(apiUrl, {
           headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${csrfToken}`,
+            Accept: 'application/json',
+            Authorization: `Bearer ${csrfToken}`,
             'X-CSRFTOKEN': csrfToken,
           },
         });
@@ -65,8 +65,8 @@ function Index() {
 
         const response = await fetch(apiUrl, {
           headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${csrfToken}`,
+            Accept: 'application/json',
+            Authorization: `Bearer ${csrfToken}`,
             'X-CSRFTOKEN': csrfToken,
           },
         });
@@ -87,7 +87,7 @@ function Index() {
     assessmentOverviewData();
   }, []);
 
-  const onFilter = (e:any) => {
+  const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
 
@@ -102,7 +102,6 @@ function Index() {
       }),
     );
   }, [filterParam, assessments]);
-
 
   useEffect(() => {
     const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
@@ -132,7 +131,12 @@ function Index() {
     );
   }
   return (
-    <MainLayout activePage="/super-admin/assessment/" className="assessmentheader" showTopbar showDashboardSidebar={false}>
+    <MainLayout
+      activePage="/super-admin/assessment/"
+      className="assessmentheader"
+      showTopbar
+      showDashboardSidebar={false}
+    >
       {newModal && (
         <div className="fixed bg-dark-600 top-0 left-0 w-full h-full grid place-items-center z-20">
           <div className="bg-white-100 w-[300px] md:w-[558px] text-center font-semibold py-[60px] md:py-[80px] px-[20px] rounded-2xl">
@@ -165,7 +169,10 @@ function Index() {
                 Cancel
               </div>
               <Link
-                href={{ pathname: track === null ? '/super-admin/assessment' : '/super-admin/assessment/new', query: { name: track } }}
+                href={{
+                  pathname: track === null ? '/super-admin/assessment' : '/super-admin/assessment/new',
+                  query: { name: track },
+                }}
                 onClick={() => {
                   setnewModal(false);
                 }}

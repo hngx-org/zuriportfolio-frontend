@@ -14,28 +14,30 @@ const Previewedit: React.FC = () => {
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
     duration_minutes: 0,
-    questions: [{ 
-      answers: [{}], 
-      question_no: 1, 
-      question_text: "question", 
-      question_type: "multiple_choice"
-    }],
-    updatedAt: new Date() // Similarly for updatedAt
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: 'question',
+        question_type: 'multiple_choice',
+      },
+    ],
+    updatedAt: new Date(), // Similarly for updatedAt
   });
 
-  const setTitle = (data:any) => {
-    setAssessment(prevAssessment => ({
-        ...prevAssessment,
-        title: data
+  const setTitle = (data: any) => {
+    setAssessment((prevAssessment) => ({
+      ...prevAssessment,
+      title: data,
     }));
-  }
+  };
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {
     setActive(button);
   };
   const [headInput, setHeadInput] = useState('');
-    
+
   // const handleInput = (value: string) => {
   //   setHeadInput(value);
   // };
