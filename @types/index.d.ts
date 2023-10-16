@@ -13,6 +13,10 @@ export interface MainLayoutProps {
   showTopbar?: boolean;
   showFooter?: boolean;
 }
+export interface DegreeOption {
+  id: number;
+  type: string;
+}
 
 export interface ProductData {
   id: string;
