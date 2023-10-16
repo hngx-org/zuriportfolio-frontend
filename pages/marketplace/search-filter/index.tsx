@@ -7,6 +7,7 @@ import axios from 'axios';
 import { ProductList } from '@modules/marketplace/types/filter-types';
 import CategoryLayout from '@modules/marketplace/component/layout/category-layout';
 import { Fragment } from 'react';
+import { constructApiUrl } from '@modules/marketplace/component/filter/helper';
 
 interface Props {
   products: ProductList[];
@@ -59,51 +60,19 @@ export default function Index({ products }: Props) {
   );
 }
 
-function constructApiUrl({ category = '', subCategory = '', discount = '', price = '', rating = '' }) {
-  // Initialize the base URL
-  let apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/products-filter?';
-
-  // Check each query parameter and append to the URL if not empty
-  if (category && category !== 'All') {
-    apiUrl += `category=${category}&`;
-  }
-  if (subCategory && subCategory !== 'All') {
-    apiUrl += `subCategory=${subCategory}&`;
-  }
-  if (discount && !isNaN(parseFloat(discount)) && discount !== 'All') {
-    apiUrl += `discount=${discount}&`;
-  }
-  if (price && !isNaN(parseInt(price)) && price !== 'All') {
-    apiUrl += `price=${price}&`;
-  }
-  if (rating && rating !== 'All') {
-    apiUrl += `rating=${rating}&`;
-  }
-
-  // Remove the trailing '&' if it exists
-  if (apiUrl.endsWith('&')) {
-    apiUrl = apiUrl.slice(0, -1);
-  }
-
-  return apiUrl;
-}
-
 export const getServerSideProps = (async (context) => {
-  const category = context.query.category as string;
-  const subCategory = context.query.subCategory as string;
-  const price = context.query.price as string;
-  const discount = context.query.discount as string;
-  const rating = context.query.rating as string;
-
-  // console.log(category, subCategory, price);
-  let apiUrl = constructApiUrl({ category, subCategory,price, discount, rating });
-  // console.log(apiUrl + `/products-filter`);
-  const { data, status } = await axios.get<{ products: ProductList[] }>(apiUrl);
+  let category = context.query.category as string;
+  let subCategory = context.query.subCategory as string;
+  let price = !isNaN(parseInt(context.query.price as string)) ?  context.query.price as string : '';
+  let discount = !isNaN(parseInt(context.query.discount as string)) ?  context.query.discount as string : '';
+  let rating = context.query.rating as string;
+  const queryParams = { category, subCategory, price, discount, rating};
+  let apiUrl = constructApiUrl('https://coral-app-8bk8j.ondigitalocean.app/api/products-filter', queryParams);
+  const { data, status } = await axios.get<{ products: ProductList[] }>(apiUrl.toString());
   if (status === 400 || status === 500) {
-    console.log('something went wrong');
+    console.error('Bad request');
   }
 
-  // console.log(data.products);
   const res = data.products ? data.products : [];
   return { props: { products: res } };
 }) satisfies GetServerSideProps<{
