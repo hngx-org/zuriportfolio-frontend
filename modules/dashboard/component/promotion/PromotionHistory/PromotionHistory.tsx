@@ -8,10 +8,11 @@ import usePaginate from '../../../../../hooks/usePaginatePromo';
 import usePromotions from '../../../../../hooks/usePromotions';
 import Button from '@ui/Button';
 import { RiAddLine } from 'react-icons/ri';
+import Loader from '@ui/Loader';
 
 const PromotionHistory: React.FC = () => {
-  const { promotions, changeSortBy, sortBy, toggleSortOrder } = usePromotions();
-  const { changeCurrentPage, pageItem, currentPage, pageLength } = usePaginate(promotions, 8);
+  const { promotions, changeSortBy, sortBy, toggleSortOrder, getPromotions, isLoading } = usePromotions();
+  // const { changeCurrentPage, pageItem, currentPage, pageLength } = usePaginate(promotions, 8);
 
   return (
     <>
@@ -19,7 +20,7 @@ const PromotionHistory: React.FC = () => {
         <section className="font-manropeB font-semibold mt-4">
           <div className="mb-[25px] gap-[35px] flex justify-end">
             <div className="hidden md:justify-end md:flex  justify-center">
-              <Link href="/dashboard/promotions/promotions-type">
+              <Link href="/dashboard/promotions/discounts">
                 <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
                   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
                     <path
@@ -67,34 +68,42 @@ const PromotionHistory: React.FC = () => {
               </Link>
             </div>
           </div>
-          <section className="rounded-2xl md:block">
-            {pageItem.length === 0 ? (
-              <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] md:m-[200px] flex-col items-center justify-center">
-                <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
-                <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">
-                  You don’t have any promotion running
-                </h2>
-                <p className="text-[16px] md:text-[24px] font-medium text-center font-manropeB">
-                  Create your first promotion on products
-                </p>
-                <Link
-                  href="/promotions/promotions-type"
-                  className="text-[16px] dark:text-white-100 font-manropeB bg-brand-green-primary px-10 py-2 rounded-md mt-8"
-                >
-                  Create Promotion
-                </Link>
-              </main>
-            ) : (
-              <div className="table-container border rounded-lg border-slate-50 mb-10 overflow-x-auto">
-                <PromotionHistoryTable
-                  pageItem={pageItem}
-                  changeSort={changeSortBy}
-                  toggleSort={toggleSortOrder}
-                  currentSort={sortBy}
-                />
+          <section className="rounded-2xl md:block relative min-h-[400px] mb-6">
+            {isLoading ? (
+              <div className="absolute z-50 inset-0 min-h-[300px]">
+                <Loader />
               </div>
+            ) : (
+              <>
+                {promotions.length === 0 ? (
+                  <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] md:m-[200px] flex-col items-center justify-center">
+                    <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
+                    <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">
+                      You don&apos;t have any promotion running
+                    </h2>
+                    <p className="text-[16px] md:text-[24px] font-medium text-center font-manropeB">
+                      Create your first promotion on products
+                    </p>
+                    <Link
+                      href="/promotions/promotions-type"
+                      className="text-[16px] dark:text-white-100 font-manropeB bg-brand-green-primary px-10 py-2 rounded-md mt-8"
+                    >
+                      Create Promotion
+                    </Link>
+                  </main>
+                ) : (
+                  <div className="table-container border rounded-lg border-slate-50 mb-10 overflow-x-auto">
+                    <PromotionHistoryTable
+                      pageItem={promotions}
+                      changeSort={changeSortBy}
+                      toggleSort={toggleSortOrder}
+                      currentSort={sortBy}
+                    />
+                  </div>
+                )}
+              </>
             )}
-            <PaginationBar {...{ changeCurrentPage, currentPage, pageLength }} />
+            {/* <PaginationBar {...{ changeCurrentPage, currentPage, pageLength }} /> */}
           </section>
         </section>
       </main>

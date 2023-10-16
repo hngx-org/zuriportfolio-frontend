@@ -28,11 +28,13 @@ const SanctionedProducts = () => {
   const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
+    window.scroll(0,10)
     setCurrentPage(newPage);
   };
 
   useEffect(() => {
     setFilteredProducts(deletedProd);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 

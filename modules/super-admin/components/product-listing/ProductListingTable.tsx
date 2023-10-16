@@ -51,13 +51,11 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
           return dateB.getTime() - dateA.getTime(); // Newest to oldest
         } else if (status === 'oldest') {
           return dateA.getTime() - dateB.getTime(); // Oldest to newest
-        } else {
-          const statusOrder: { [key: string]: number } = {
-            Active: 1,
-            Sanctioned: 2,
-            Deleted: 3,
-          };
-          return statusOrder[a.product_status] - statusOrder[b.product_status];
+        } else if (status === 'status') {
+          if (a.product_status === 'Active' && b.product_status !== 'Active') return -1;
+          if (a.product_status !== 'Active' && b.product_status === 'Active') return 1;
+          if (a.product_status === 'Sanctioned' && b.product_status === 'Deleted') return -1;
+          if (a.product_status === 'Deleted' && b.product_status === 'Sanctioned') return 1;
         }
       });
 
@@ -66,6 +64,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
   };
 
   const handlePageChange = (newPage: number) => {
+    window.scroll(0,10)
     setCurrentPage(newPage);
   };
 
