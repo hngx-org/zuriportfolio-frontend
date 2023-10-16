@@ -22,13 +22,11 @@ function AccountManagementMobile() {
   const [errorMsg, setErrorMsg] = useState<any>(null);
   const [isPending, setIspending] = useState<boolean>(false);
   const onInputChange = (event: React.ChangeEvent) => {
-    // setErrorMsg(errors)
     let { name, value } = event.target as any;
-    setErrorMsg((prev: any) => ({ ...prev, [name]: '' }));
-    const formValidate = validateForm();
-
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
-    // console.log(formValidate)
+    // console.log(formValidate)setErrorMsg((prev: any) => ({ ...prev, [name]: '' }));
+    // setErrorMsg(errors)
+    // const formValidate = validateForm();
   };
   const notifySuccess = (toastContent: string) =>
     toast.success(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'sucess2' });

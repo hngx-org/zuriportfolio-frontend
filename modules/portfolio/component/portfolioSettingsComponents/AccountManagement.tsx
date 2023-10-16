@@ -14,7 +14,7 @@ interface userDetailsI {
 
 function AccountManagement() {
   const { auth } = useAuth();
-  console.log(auth);
+  // console.log(auth);
   const [userDetails, setUserDetails] = useState<userDetailsI>({
     email: '',
     currentPassword: '',
@@ -24,12 +24,12 @@ function AccountManagement() {
   const [errorMsg, setErrorMsg] = useState<any>(null);
   const [isPending, setIspending] = useState<boolean>(false);
   const onInputChange = (event: React.ChangeEvent) => {
-    // const formValidate = validateForm()
-    // setErrorMsg(errors)
-    setErrorMsg((prev: any) => ({ ...prev, [name]: '' }));
     let { name, value } = event.target as any;
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
-    // console.log(formValidate)
+    //   setErrorMsg((prev: any) => ({ ...prev, [name]: '' }));
+    //   setErrorMsg(errors)
+    //   const formValidate = validateForm()
+    //   console.log(formValidate)
   };
   const notifySuccess = (toastContent: string) =>
     toast.success(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'success' });
@@ -55,12 +55,20 @@ function AccountManagement() {
           if (response.status === 200) {
             notifySuccess('Account Update Successful!');
             setIspending(false);
+            setUserDetails((prevVals) => ({
+              ...prevVals,
+              email: '',
+              currentPassword: '',
+              newPassword: '',
+              confirmNewPassword: '',
+            }));
           }
         })
         .catch((error) => {
           console.log(error);
           setIspending(false);
           notifyError(`Error: ${error?.response?.data?.message || error?.message}`);
+          // setUserDetails((prevVals)=>({...prevVals, email: '', currentPassword:'', newPassword: '', confirmNewPassword: '' }))
         });
     }
   };
@@ -150,8 +158,6 @@ function AccountManagement() {
                 type="password"
                 value={userDetails.currentPassword}
                 onChange={onInputChange}
-                minLength={5}
-                maxLength={18}
                 placeholder="Enter password"
                 className="w-full border py-[0.625rem] px-[0.875rem] pr-7 rounded-[0.5rem] font-manropeL text-[0.875rem] lg:text-[1rem] leading-[1.5rem] text-[#667085]"
               />
