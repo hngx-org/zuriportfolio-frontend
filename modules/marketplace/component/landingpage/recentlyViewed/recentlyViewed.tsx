@@ -9,21 +9,22 @@ import styles from '../productCardWrapper/product-card-wrapper.module.css';
 
 function RecentlyViewed() {
   const [isLoading, setLoading] = useState(true);
+  const [isReady, setReady] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedData[]>([]);
   const token: any = isUserAuthenticated();
-  
+
   const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${token?.id}`;
 
-  
-
   useEffect(() => {
+    setReady(true);
     const fetchRecentlyViewed = async () => {
       try {
         const response = await fetch(API_URL);
         if (response.ok) {
           const data = await response.json();
-          setRecentlyViewed(data);
-          console.log(data)
+          // Limit the recentlyViewed array to the first 8 items
+          const limitedRecentlyViewed = data.slice(0, 8);
+          setRecentlyViewed(limitedRecentlyViewed);
         } else {
           throw new Error('Network response was not ok.');
         }
@@ -37,11 +38,7 @@ function RecentlyViewed() {
     fetchRecentlyViewed();
   }, [API_URL]);
 
-  const handleRemoveItem = (id: string) => {
-    const updatedRecentlyViewed = recentlyViewed.filter((item) => item?.product?.id !== id);
-    setRecentlyViewed(updatedRecentlyViewed);
-    
-  };
+  if (!token?.id && isReady) return <div></div>;
 
   return (
     <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-[60px]">
@@ -49,35 +46,29 @@ function RecentlyViewed() {
         Recently Viewed
       </h3>
 
-        {recentlyViewed.length > 0 ? (
-          <div className={`flex flex-nowrap gap-x-3 mt-10 w-full overflow-x-scroll ${styles['hide-scroll']}`}>
-            {recentlyViewed.map((item, index) => (
-              <div key={index} className="relative w-1/2 md:w-1/3 lg:w-1/4 pr-2 md:pr-4 lg:pr-8">
-                <button
-                  className=" absolute bg-white-100 z-10 rounded-full top-3 right-4 sm:right-6 md:right-10 p-1"
-                  onClick={() => handleRemoveItem(item?.product?.id)}
-                >
-                  <Image src={Cancel} alt="Cancel Icon" />
-                </button>
-                <ProductCard
-                  id={item?.product?.id}
-                  currency={item?.product?.currency}
-                  image={item?.product?.image_url}
-                  name={item?.product?.name}
-                  price={item?.product?.price}
-                  user={item?.product?.shop?.name}
-                  rating={item?.product?.rating}
-                  showTopPicks={item?.product?.showTopPicks}
-                  discount_price={item?.product?.discount_price}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="py-8 px-4 text-center rounded-2xl border border-dark-110/20 text-dark-110 font-manropeL text-xl md:text-2xl font-semibold">
-            No Product To Show
-          </div>
-        )}
+      {recentlyViewed.length > 0 ? (
+        <div className={`flex flex-nowrap gap-x-3 mt-10 w-full overflow-x-scroll ${styles['hide-scroll']}`}>
+          {recentlyViewed.map((item, index) => (
+            <div key={index} className="relative w-1/2 md:w-1/3 lg:w-1/4 pr-2 md:pr-4 lg:pr-8">
+              <ProductCard
+                id={item?.product?.id}
+                currency={item?.product?.currency}
+                image={item?.product?.image_url}
+                name={item?.product?.name}
+                price={item?.product?.price}
+                user={item?.product?.shop?.name}
+                rating={item?.product?.rating}
+                showTopPicks={item?.product?.showTopPicks}
+                discount_price={item?.product?.discount_price}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="py-8 px-4 text-center rounded-2xl border border-dark-110/20 text-dark-110 font-manropeL text-xl md:text-2xl font-semibold">
+          No Product To Show
+        </div>
+      )}
     </section>
   );
 }

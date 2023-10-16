@@ -1,18 +1,74 @@
-import MainLayout from '../../../components/Layout/MainLayout';
+import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
-import { useState } from 'react';
-import PreviewQuests from '@modules/assessment/component/previewQuests';
+import React, { useState, useEffect } from 'react';
+import EditLayout from '@modules/assessment/component/editLayout';
+import { useRouter } from 'next/router';
+// import ScoringS from '@modules/assessment/component/scoreDropdown';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 
-const Previewedit: React.FC = () => {
+const EditAssesment = () => {
   const [active, setActive] = useState<null | string>('button1');
+  const [assessment, setAssessment] = useState({
+    title: '',
+    createdAt: new Date(), // Initialize with a default date or null if needed
+    duration_minutes: 0,
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: 'question',
+        question_type: 'multiple_choice',
+      },
+    ],
+    updatedAt: new Date(), // Similarly for updatedAt
+  });
+  // const [headInput, setHeadInput] = useState('');
+
+  // const handleInput = (value: string) => {
+  //   setHeadInput(value);
+  // };
+  const router = useRouter();
+  const { id } = router.query;
 
   const handleClick = (button: string) => {
     setActive(button);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const url = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${id}/`;
+        const csrfToken = localStorage.getItem('zpt') ?? '';
 
+        const response = await fetch(url, {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${csrfToken}`,
+            'X-CSRFTOKEN': csrfToken,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setAssessment(data);
+        console.log('assessment data:', data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  const setTitle = (data: any) => {
+    setAssessment((prevAssessment) => ({
+      ...prevAssessment,
+      title: data,
+    }));
+  };
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
@@ -66,9 +122,9 @@ const Previewedit: React.FC = () => {
         <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[12px] sm:px-[0]">
           {active === 'button1' ? (
             <>
-              <Edithead />
+              <Edithead assessment={assessment} onInputChange={setTitle} />
               <div className="pt-4">
-                <PreviewQuests />
+                <EditLayout />
               </div>
             </>
           ) : (
@@ -80,4 +136,4 @@ const Previewedit: React.FC = () => {
   );
 };
 
-export default Previewedit;
+export default EditAssesment;
