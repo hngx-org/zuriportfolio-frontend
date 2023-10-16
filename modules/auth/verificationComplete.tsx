@@ -42,16 +42,7 @@ function VerificationComplete() {
           type: 'success',
         });
 
-        router.push(userCameFrom || "/dashboard");
-        return;
-      }
-
-      if (response.status !== 200) {
-        setIsError(true);
-        notify({
-          message: response.data.message,
-          type: 'error',
-        });
+        router.push(userCameFrom || '/dashboard');
         return;
       }
 

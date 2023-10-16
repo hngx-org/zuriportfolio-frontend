@@ -37,6 +37,31 @@ function VerificationLinkSent({ handleClick }: Props) {
     mutate({ email: email });
   };
 
+  useEffect(() => {
+    if (!email) {
+      const userEmail = localStorage.getItem('user-email');
+      if (userEmail) handleEmail(userEmail);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (countdown > 0) {
+        setCountdown(countdown - 1);
+      } else {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [countdown]);
+
+  const minutes = Math.floor(countdown / 60);
+  const seconds = countdown % 60;
+
   return (
     <VerificationLayout>
       <Image
