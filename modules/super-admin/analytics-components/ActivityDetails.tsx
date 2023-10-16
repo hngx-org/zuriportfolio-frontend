@@ -12,7 +12,6 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoadingState(true);
       try {
         const response = await fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/activities/', {
           headers: {
@@ -29,10 +28,8 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
         const limitedData = res.data.slice(0, 11);
         console.log(limitedData);
         setActivityDetails(limitedData);
-        setLoadingState(false);
       } catch (error) {
         setError('Error fetching data. Please try again.');
-        setLoadingState(false);
       }
     };
 

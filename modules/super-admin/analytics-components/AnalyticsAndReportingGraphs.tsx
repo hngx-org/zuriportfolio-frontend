@@ -46,10 +46,6 @@ const formatSalesData = (data: any) => {
 const AnalyticsAndReportingGraphs = () => {
   const [isGraph, setIsGraph] = useState(false);
   const [graphData, setGraphData] = useState<any[][]>([]);
-  const [loadingStates, setLoadingStates] = useState<{ [key: number]: boolean }>({
-    0: false,
-    1: false,
-  });
   const [activePeriodGraph1, setActivePeriodGraph1] = useState('12months');
   const [activePeriodGraph2, setActivePeriodGraph2] = useState('12months');
 
@@ -57,10 +53,7 @@ const AnalyticsAndReportingGraphs = () => {
 
   useEffect(() => {
     const fetchDataForGraph = async (period: any, graphIndex: number) => {
-      setLoadingStates((prevLoadingStates) => ({
-        ...prevLoadingStates,
-        [graphIndex]: true,
-      }));
+    
 
       try {
         const url = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/total-sales-orders-users/?last=${period}`;
@@ -109,10 +102,6 @@ const AnalyticsAndReportingGraphs = () => {
       } catch (error) {
         console.error('Error fetching data for period:', error);
       } finally {
-        setLoadingStates((prevLoadingStates) => ({
-          ...prevLoadingStates,
-          [graphIndex]: false,
-        }));
       }
     };
 
@@ -134,10 +123,6 @@ const AnalyticsAndReportingGraphs = () => {
   }, []);
 
   const handlePeriodChange = (period: any, graphIndex: number) => {
-    setLoadingStates((prevLoadingStates) => ({
-      ...prevLoadingStates,
-      [graphIndex]: false,
-    }));
 
     if (graphIndex === 0) {
       setActivePeriodGraph1(period);
@@ -281,11 +266,6 @@ const AnalyticsAndReportingGraphs = () => {
                         <Bar dataKey="users" fill="#A46A26" barSize={10} />
                       </BarChart>
                     </ResponsiveContainer>
-                  )}
-                
-                  {loadingStates[index] && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 shadow-lg rounded-md animate-pulse">
-                    </div>
                   )}
                 </div>
               </div>
