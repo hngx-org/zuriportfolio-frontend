@@ -7,7 +7,6 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
-import { useRouter } from 'next/router';
 import ProjectSection from '@modules/portfolio/component/modals/projects';
 import PortfolioAbout from '@modules/portfolio/component/about/about';
 import PortfolioReference from '@modules/portfolio/component/reference/reference';
@@ -97,55 +96,17 @@ const Portfolio = createContext<PortfolioContext>({
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
-  const router = useRouter();
   const [userId, setUserId] = useState('');
-  // const [token, setToken] = useState<string>('' as string);
   const { auth } = useAuth();
-
-  console.log('Auth', auth?.user);
-
-  console.log('Auth', auth?.user.id);
 
   useEffect(() => {
     if (auth?.user?.id) {
       setUserId(auth.user.id);
+      getUser(auth.user.id);
     }
   }, [auth?.user?.id]);
 
-  // const getUserId = async () => {
-
-  //   const token = localStorage.getItem('zpt');
-  //   const response = await fetch(`https://staging.zuri.team/api/auth/api/authorize`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       token:
-  //         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1NDkzNDVhLTQ2MWMtNGM2Yy1iZTNjLWU3YWZlMzg4ZWIyOSIsImlhdCI6MTY5NzQxNzU4Nn0.Lm7HAisj-TWpmP2TivhqMhYGqPpnw_c8G62p3Tdf-F8',
-  //       permission: 'product.read',
-  //     }),
-  //   });
-  //   const data = await response.json();
-  //   return data;
-  // };
-
-  // useEffect(() => {
-  //   const authUser = async () => {
-  //     try {
-  //       const data = await getUserId();
-  //       setUserId(data?.user?.id);
-  //       await getUser(userId);
-  //     } catch (error) {
-  //       setError({ state: true, error: error });
-  //     }
-  //   };
-  //   authUser();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [router, router.isReady, router.query.id, userId]);
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [hasData, setHasData] = useState<boolean>(false);
   const [modalStates, setModalStates] = useState<{ [key: string]: boolean }>({});
@@ -171,11 +132,9 @@ export function PortfolioCtxProvider(props: { children: any }) {
     tracks: [],
   });
 
-  const getUser = async () => {
+  const getUser = async (userId: string) => {
     try {
       setIsLoading(true);
-      console.log('USER ID', userId);
-
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
       const data = await response.json();
       setUserData({
@@ -310,7 +269,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowViewtemplates(false);
     onClose();
     onCloseModal(sectionTitle || '');
-    getUser();
+    getUser(userId);
   };
 
   const onCloseModal = (modalToClose: string) => {
@@ -417,6 +376,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setHasPortfolio,
     openShop,
     setOpenShop,
+    getUser,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

@@ -178,7 +178,10 @@ const LandingPageFilled: React.FC = () => {
                     edit={() => editSection(section.id)}
                     remove={deleteSection}
                   >
-                    <Project key={i} data={section.data} />
+                    {section.data.map((el: any, i: number) => {
+                      console.log(el);
+                      return <Project key={i} data={el} />;
+                    })}
                   </Wrapper>
                   <Line />
                 </React.Fragment>

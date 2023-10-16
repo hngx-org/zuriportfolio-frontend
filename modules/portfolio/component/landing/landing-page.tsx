@@ -14,10 +14,10 @@ import ViewTemplate from '../modals/view-template';
 const Landing = () => {
   const {
     hasPortfolio,
+    setHasData,
     setHasPortfolio,
     hasData,
     profileUpdate,
-    isOpen,
     modal,
     showProfileUpdate,
     showBuildPortfolio,
@@ -26,11 +26,21 @@ const Landing = () => {
     isLoading,
     error,
     userSections,
-    setHasData,
   } = useContext(Portfolio);
 
   const { firstName, lastName, tracks, city, country, coverImage } = userData;
-  console.log(userData);
+
+  // useEffect(() => {
+  //   userSections.map((el) => {
+  //     if (el?.data?.length) {
+  //       setHasData(true);
+  //       setHasPortfolio(true);
+  //     } else {
+  //       setHasData(false);
+  //       setHasPortfolio(false);
+  //     }
+  //   });
+  // }, [setHasData, setHasPortfolio, userSections, userSections.length]);
 
   const headerMargin =
     'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen object-cover';

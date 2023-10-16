@@ -111,20 +111,19 @@ export let projects = [
     id: 11,
     title: 'Project title',
     description: 'Description',
-    tags: 'Tag 1#Tag 2',
-    linkTitle: 'Link Title',
-    link: 'Link',
-    img: '',
+    tags: 'Tag 1,Tag 2',
+    url: 'Link',
+    thumbnail: '',
   },
 ];
 
 export const Project = ({ data }: SkeletonProps) => {
-  const dataToMap = data?.tags?.split('#');
+  const dataToMap = data?.tags?.split(',');
   const image = data?.img ? (
     <Image
       width={0}
       height={0}
-      src={data?.img}
+      src={data?.thumbnail}
       alt="project image "
       className="w-[290px] aspect-square rounded-xl order-2 md:order-1 border-[1px] border-gray-300 border-opacity-50"
     />
@@ -144,8 +143,8 @@ export const Project = ({ data }: SkeletonProps) => {
             </span>
           ))}
         </div>
-        <a className="text-blue-100 font-semibold" href={data?.url}>
-          Link to project
+        <a className="text-blue-100 font-semibold" target="_blank" href={data?.url} rel="noreferrer">
+          Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
     </div>
