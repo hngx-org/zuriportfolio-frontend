@@ -49,10 +49,10 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
   const [product, setProduct] = useState<Products | null>(null);
   useEffect(() => {
     if (id) {
-      fetch(`https://tech-v3ey.onrender.com/api/products/${id}`)
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
         .then((response) => response.json())
-        .then((data) => {
-          setProduct(data);
+        .then((response) => {
+          setProduct(response.data);
         })
         .catch((error) => {
           console.error('Error fetching product details:', error);
@@ -66,7 +66,7 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
       <>
         {' '}
         <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Description</h2>
-        <p className="mt-6 font-manropeL">{product?.description}</p>
+        {product ? <p className="mt-6 font-manropeL">{product.description}</p> : null}
       </>
     );
 

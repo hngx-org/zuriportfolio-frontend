@@ -1,6 +1,6 @@
 // components/ProductCard.tsx
 import Image from 'next/image';
-import { Products } from '../../../../../@types';
+import { Products, ShopData } from '../../../../../@types';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
 import Link from 'next/link';
@@ -13,13 +13,20 @@ import { useAuth } from '../../../../../context/AuthContext';
 
 interface ProductCardProps {
   product: Products;
+  shopName: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
   const { addToCart } = useCart();
   const { auth } = useAuth();
 
   const handleAddToCart = async () => {
+    if (!auth) {
+      toast.error('Please Log in before Adding to the Cart', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    }
     try {
       const response = await axios.post(
         'https://zuri-cart-checkout.onrender.com/api/checkout/api/carts',
@@ -100,12 +107,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div>
           <h3 className=" md:text-sm text-xs text-[#052011] font-normal font-manropeEL capitalize">{product.name}</h3>
           <p className="text-[#052011] md:text-lg text-base font-manropeB ">${product.price}</p>
-
-          <div>
-            <p className="md:text-sm text-xs text-custom-color15 font-manropeL">
-              By: <span className="underline text-custom-color15">{product.category.name}</span>
-            </p>
-          </div>
+          {shopName && (
+            <div>
+              <p className="md:text-sm text-xs text-custom-color15 font-manropeL">
+                By: <span className="underline text-custom-color15">{shopName}</span>
+              </p>
+            </div>
+          )}
         </div>
         <div className="inline-flex items-center gap-2 mt-4">
           <div className="flex items-center ">
