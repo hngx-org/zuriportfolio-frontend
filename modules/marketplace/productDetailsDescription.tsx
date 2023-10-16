@@ -20,6 +20,7 @@ import { useAuth } from '../../context/AuthContext';
 import { destructureProducts } from '../../helpers';
 import { isUserAuthenticated } from './hooks/useAuthHelper';
 import { CART_ENDPOINT } from '../../http/checkout';
+import { useCart } from '@modules/shop/component/CartContext';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -28,6 +29,7 @@ export default function ProductDetailsDescription() {
   const router = useRouter();
   const { id } = router.query;
   const token: any = isUserAuthenticated();
+  const { setCartCountNav, cartCount } = useCart();
 
   const apiUrl: string = token
     ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
@@ -66,6 +68,7 @@ export default function ProductDetailsDescription() {
 
         if (response.status === 200) {
           toast.success('Added to Cart');
+          setCartCountNav(cartCount + 1);
           console.log('success');
           console.log(auth.token);
         }
@@ -84,6 +87,7 @@ export default function ProductDetailsDescription() {
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
         toast.success('Item added to cart🎊');
+        setCartCountNav(cartCount + 1);
       }
     }
   };
