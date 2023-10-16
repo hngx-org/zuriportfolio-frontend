@@ -11,7 +11,7 @@ import { UserInfo } from '../../../@types';
 import bg1 from '../../../public/assets/images/explore_img/bg1.svg';
 import photo2 from '../assets/photo2.png';
 import Link from 'next/link';
-import { ExportCurve } from 'iconsax-react';
+import { Copy } from 'iconsax-react';
 import { notify } from '@ui/Toast';
 
 interface CardProps {
@@ -97,7 +97,7 @@ const Card = ({ data }: { data: UserInfo }) => {
                 </button>
               ))
             )}
-            {skillExcess > 0 && <button className="border border-gray-100 px-2 rounded-full">{skillExcess}</button>}
+            {skillExcess > 0 && <button className="border border-gray-100 px-2 rounded-full">+{skillExcess}</button>}
             {/* <button className="mt-2 border border-gray-100 px-4 py-1 rounded-full">{data.skills[6]}</button> */}
           </div>
           <div className="mx-auto my-4 gap-2  md:gap-3 justify-around max-w-[300px] items-center flex">
@@ -112,16 +112,18 @@ const Card = ({ data }: { data: UserInfo }) => {
               <Image src={badge_beginner} alt="badge_beginner" className="m-auto" width={40} height={40} />
               <div className="grid">
                 <span className="text-gray-500 text-left text-[0.75rem] ">Badge</span>
-                <span className="text-left font-bold text-[0.55rem]">{data?.ranking ?? 'No Ranking'}</span>
+                <span className="text-left font-bold text-[0.65rem]">{data?.ranking ?? 'No Ranking'}</span>
               </div>
             </div>
           </div>
-          <div className="flex justify-center items-center gap-1 mt-5">
-            <Image src={Location} alt="badge_beginner" width={20} height={20} />
-            <div>
-              <span className="text-gray-500 ">{data?.address ?? 'No Address'}</span>
+          {data?.address ?? (
+            <div className="flex justify-center items-center gap-1 mt-5">
+              <Image src={Location} alt="badge_beginner" width={20} height={20} />
+              <div>
+                <span className="text-gray-500 ">{data?.address ?? 'No Address'}</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div
@@ -130,7 +132,7 @@ const Card = ({ data }: { data: UserInfo }) => {
           onClick={copyUrl}
         >
           <button>
-            <ExportCurve color="#000" className=" bg-white shadow-lg  w-[30px] h-[30px] rounded-full p-1" />
+            <Copy color="#000" className=" bg-white shadow-lg  w-[30px] h-[30px] rounded-full p-1" />
           </button>
         </div>
         {/* <Link
