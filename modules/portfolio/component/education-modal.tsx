@@ -1,12 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '@ui/Modal';
-import { Add, ArrowLeft2, CloseSquare } from 'iconsax-react';
+import { Add, CloseSquare } from 'iconsax-react';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
+import { notify } from '@ui/Toast';
 import { DegreeOption, Education } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { years } from '../data';
-import { EducationModalContext, EducationModalContextProvider } from '../context/education-context';
 
 type EducationModalProps = {
   isOpen: boolean;
@@ -14,189 +14,246 @@ type EducationModalProps = {
 };
 
 const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) => {
-  const {
-    isData,
-    setIsData,
-    educations,
-    degreeOptions,
-    setDegreeOptions,
-    degree,
-    setDegree,
-    fieldOfStudy,
-    setFieldOfStudy,
-    description,
-    setDescription,
-    handleDelete,
-    school,
-    setSchool,
-    addNewEducation,
-    resetForm,
-    from,
-    setFrom,
-    to,
-    setTo,
-    editMode,
-    setEditMode,
-  } = useContext(EducationModalContext);
-  const [editingEducationId, setEditingEducationId] = useState<string | null>();
-  const [editingEducation, setEditingEducation] = useState<Education | null>(null);
-  const [isForm, setIsForm] = useState(false);
+  const [educations, setEducations] = useState<Education[]>([]);
+  const [degreeOptions, setDegreeOptions] = useState<DegreeOption[]>([]);
+  const [degree, setDegree] = useState('');
+  const [fieldOfStudy, setFieldOfStudy] = useState('');
+  const [description, setDescription] = useState('');
+  const [school, setSchool] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [isForm, setIsForm] = useState(true);
+  const [editedEducation, setEditedEducation] = useState<Education | null>(null);
+  const [editMode, setEditMode] = useState(false);
+  const [educationId, setEducationId] = useState(0);
+  const resetForm = () => {
+    setDegree('');
+    setFieldOfStudy('');
+    setDescription('');
+    setFrom('');
+    setTo('');
+    setSchool('');
+  };
 
-  const prefillForm = (education: Education) => {
-    setEditingEducationId(String(education.id));
-    setDegree(education.degree);
-    setFieldOfStudy(education.fieldOfStudy);
-    setDescription(education.description);
-    setSchool(education.school);
-    setFrom(education.from);
-    setTo(education.to);
+  useEffect(() => {
+    fetch('https://hng6-r5y3.onrender.com/api/degree')
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setDegreeOptions(data.data);
+      });
+  }, []);
+
+  const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
+  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+  const getAllEducationDetail = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        const { education } = data;
+        console.log(education);
+        setEducations(education);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getAllEducationDetail();
+  }, []);
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const fromYear = parseInt(from);
+    const toYear = parseInt(to);
+    if (toYear < fromYear) {
+      alert('To date cannot be earlier than From date');
+      return;
+    }
+    const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
+    const educationObj = {
+      section_id: 22,
+      degree_id: selectedDegreeOption,
+      fieldOfStudy: fieldOfStudy,
+      school: school,
+      description: description,
+      from: from,
+      to: to,
+    };
+    if (editMode) {
+      console.log(editMode);
+      console.log(educationObj);
+      try {
+        const response = await fetch(`https://hng6-r5y3.onrender.com/api/updateEducationDetail/${educationId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(educationObj),
+        });
+        if (response.ok) {
+          console.log('Education details created successfully.');
+          setIsForm(false);
+        } else {
+          console.error('Failed to create Education details.');
+        }
+      } catch (error) {
+        console.error('Error creating education details:', error);
+      }
+    } else {
+      try {
+        const response = await fetch(
+          'https://hng6-r5y3.onrender.com/api/education/f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(educationObj),
+          },
+        );
+
+        if (response.ok) {
+          console.log('Education details created successfully.');
+          setIsForm(false);
+        } else {
+          console.error('Failed to create Education details.');
+        }
+      } catch (error) {
+        console.error('Error creating education details:', error);
+      }
+    }
+  };
+  const handleEdit = async (id: number) => {
+    const editedEducation = educations.find((education) => education.id === id);
+    if (editedEducation) {
+      setDegree(editedEducation.degree);
+      setFieldOfStudy(editedEducation.fieldOfStudy);
+      setDescription(editedEducation.description);
+      setSchool(editedEducation.school);
+      setFrom(editedEducation.from);
+      setTo(editedEducation.to);
+      setEditMode(true);
+      setEducationId(editedEducation.id);
+    }
+    if (editedEducation) {
+      console.log('yes', editMode);
+      console.log('yes', educationId);
+    }
+  };
+
+  const handleSaveEdit = async (id: number) => {
+    // const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
+    // const editEducationObj = {
+    //   sectionId: 22,
+    //   id:
+    //   degreeId: selectedDegreeOption,
+    //   fieldOfStudy: fieldOfStudy,
+    //   school: school,
+    //   description: description,
+    //   from: dateFrom,
+    //   to: dateTo,
+    // };
+    try {
+      // console.log(`Editing education entry with degree`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/educationDetail/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedEducation),
+      });
+
+      if (response.ok) {
+        console.log('Education details updated successfully.');
+      } else {
+        console.error('Failed to update education details.');
+      }
+    } catch (error) {
+      console.error('Error updating education details:', error);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/education/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setEducations((prevEducation) => prevEducation.filter((education) => education.id !== id));
+      } else {
+        console.error('Failed to delete education details.');
+      }
+    } catch (error) {
+      console.error('Error deleting education details:', error);
+    }
   };
 
   return (
-    <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
-      <EducationModalContextProvider>
+    <>
+      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
         <div className="space-y-6 bg-white-100 p-4 py-5">
           <div className="flex flex-col gap-3 px-10 mb-6">
             <div className="flex justify-between items-center">
-              <>
-                {editMode && (
-                  <ArrowLeft2
-                    size="32"
-                    color="#009254"
-                    onClick={() => {
-                      setIsForm(false);
-                      setEditMode(false);
-                      setIsData(true);
-                      resetForm();
-                    }}
-                  />
-                )}
-              </>
               <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Education</p>
               <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
             </div>
             <div className="bg-brand-green-primary h-1 rounded-sm"></div>
           </div>
-          <>
-            {isData && (
-              <div className="">
-                {educations.map((education: Education, index: number) => {
-                  const year = new Date().getFullYear();
-                  const currYear = String(year);
-                  const endYear = education.to === currYear ? 'Present' : education.to;
-
-                  return (
-                    <article
-                      className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0 rounded-md shadow-md bg-white mb-4`}
-                      key={index}
-                    >
-                      <div className="flex justify-around">
-                        <p className="text-[#8D9290] font-semibold whitespace-normal font-manropeB">
-                          {education.from} - {education.to}
-                        </p>
-                        <div className="">
-                          <p className="text-[#2E3130] mb-1 text-[1.375rem] whitespace-normal font-semibold">
-                            {education.fieldOfStudy}
-                          </p>
-                          <p className="font-normal text-brand-green-primary font-semibold text-md">
-                            {education.school}
-                          </p>
-                          <p className="font-normal text-brand-green-primary font-semibold text-md">
-                            {education.degree}
-                          </p>
-                        </div>
-                        <p
-                          style={{
-                            whiteSpace: 'normal',
-                            overflowWrap: 'break-word',
-                          }}
-                          className="font-semibold whitespace-normal font-manropeEB text-[14px]  text-[#737876] "
-                        >
-                          {education.description}
-                        </p>
-                      </div>
-                      <div className="self-end flex gap-4 font-manropeL px-8">
-                        <span
-                          onClick={(e) => {
-                            setEditMode(true);
-                            setEditingEducation(education);
-                            prefillForm(education);
-                            setIsData(false);
-                          }}
-                          className="font-semibold cursor-pointer text-[#5B8DEF]"
-                        >
-                          Edit
-                        </span>
-                        <span
-                          className="font-semibold cursor-pointer text-brand-red-hover"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleDelete(String(education.id));
-                          }}
-                        >
-                          Delete
-                        </span>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            )}
-          </>
-          <div>
-            {editMode && (
-              <article className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}>
-                <div className="flex flex-col gap-[.5rem] w-full mb-4">
-                  <label className="font-semibold text-[#444846] text-[1rem] mt-6">Degree</label>
-                  <Select
-                    onValueChange={(value: string) => {
-                      setDegree(value);
-                    }}
-                    value={degree}
+          <div className="">
+            <div className="">
+              {educations.map((education, index) => {
+                return (
+                  <article
+                    className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0 rounded-md shadow-md bg-white mb-4`}
+                    key={index}
                   >
-                    <SelectTrigger className="w-full focus:outline-none border focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-120">
-                      <SelectValue placeholder="Select a degree" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {degreeOptions.map((option: DegreeOption, index: number) => (
-                        <SelectItem key={index} value={option.type} className="hover:text-[#009254] hover:bg-[#F4FBF6]">
-                          {option.type}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <p className="text-[#2E3130] mb-1 text-[1.375rem] font-semibold">{editingEducation?.fieldOfStudy}</p>
-                  <p className="font-normal text-brand-green-primary text-sm">{editingEducation?.school}</p>
-                </div>
-                <p
-                  style={{
-                    whiteSpace: 'normal',
-                    overflowWrap: 'break-word',
-                  }}
-                  className="font-semibold text-left font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
-                >
-                  {editingEducation?.description}
-                </p>
-                <div className="self-end flex gap-4 font-manropeL">
-                  <span className="font-semibold cursor-pointer text-[#5B8DEF]">Edit</span>
-                  <span
-                    className="font-semibold cursor-pointer text-brand-red-hover"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleDelete(String(editingEducation?.id));
-                    }}
-                  >
-                    Delete
-                  </span>
-                </div>
-              </article>
-            )}
+                    <div className="flex justify-around">
+                      <p className="text-[#8D9290] font-semibold whitespace-normal font-manropeB">
+                        {education.from} - {education.to}
+                      </p>
+                      <div className="">
+                        <p className="text-[#2E3130] mb-1 text-[1.375rem] whitespace-normal font-semibold">
+                          {education.fieldOfStudy}
+                        </p>
+                        <p className="font-normal text-brand-green-primary font-semibold text-md">{education.school}</p>
+                        <p className="font-normal text-brand-green-primary font-semibold text-md">{education.degree}</p>
+                      </div>
+                      <p
+                        style={{
+                          whiteSpace: 'normal',
+                          overflowWrap: 'break-word',
+                        }}
+                        className="font-semibold whitespace-normal font-manropeEB text-[14px] px-6 max-w-full text-ellipsis text-[#737876] "
+                      >
+                        {education.description}
+                      </p>
+                    </div>
+                    <div className="self-end flex gap-4 font-manropeL px-8">
+                      <span
+                        onClick={() => handleEdit(education.id)}
+                        className="font-semibold cursor-pointer text-[#5B8DEF]"
+                      >
+                        Edit
+                      </span>
+                      <span
+                        className="font-semibold cursor-pointer text-brand-red-hover"
+                        onClick={() => handleDelete(education.id)}
+                      >
+                        Delete
+                      </span>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </div>
           <>
             {isForm && (
-              <form onSubmit={(e) => addNewEducation(e)} className="w-full gap-y-7 px-12">
+              <form onSubmit={handleFormSubmit} className="w-full gap-y-7 px-12">
                 <div className="w-full">
                   <div className="flex flex-col gap-[.5rem] w-full mb-4">
                     <label className="font-semibold text-[#444846] text-[1rem] mt-6">Degree</label>
@@ -210,7 +267,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                         <SelectValue placeholder="Select a degree" />
                       </SelectTrigger>
                       <SelectContent>
-                        {degreeOptions.map((option: DegreeOption, index: number) => (
+                        {degreeOptions.map((option, index) => (
                           <SelectItem
                             key={index}
                             value={option.type}
@@ -247,10 +304,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     />
                   </div>
                   <div className="mb-4 w-full">
-                    <label
-                      className="block mb-1 text-[16px] max-w-full  text-ellipsis font-semibold"
-                      htmlFor="description"
-                    >
+                    <label className="block mb-1 text-[16px]  font-semibold" htmlFor="description">
                       Description
                     </label>
                     <Input
@@ -262,7 +316,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     />
                   </div>
                   <div className="w-full">
-                    <div className="flex gap-4 w-full">
+                    <div className="flex gap-4">
                       <div className="w-1/2 font-semibold">
                         <label>From*</label>
                       </div>
@@ -280,7 +334,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                           }}
                           value={from}
                         >
-                          <SelectTrigger className="w-[400px]">
+                          <SelectTrigger className="w-[265px]">
                             <SelectValue placeholder="2020" />
                           </SelectTrigger>
                           <>
@@ -301,7 +355,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                           }}
                           value={to}
                         >
-                          <SelectTrigger className="w-[400px]">
+                          <SelectTrigger className="w-[265px]">
                             <SelectValue placeholder="Present" />
                           </SelectTrigger>
                           <>
@@ -318,16 +372,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     </div>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end mt-12">
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        onClose();
-                        resetForm();
-                        setEditMode(false);
-                        setIsForm(false);
-                      }}
-                      className="w-full rounded-md sm:w-[6rem]"
-                    >
+                    <Button type="button" onClick={onClose} className="w-full rounded-md sm:w-[6rem]">
                       Cancel
                     </Button>
                     <Button type="submit" className="w-full rounded-md sm:w-[6rem]">
@@ -342,25 +387,13 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
             {!isForm && (
               <div className="px-3 gap-2 flex justify-between flex-col sm:flex-row">
                 <button
-                  className="text-brand-green-primary self-center text-[12px] sm:text-[15px] flex items-center gap-1 font-semibold font-manropeB outline-none"
-                  onClick={() => {
-                    setIsForm(true);
-                    setIsData(false);
-                  }}
+                  className="text-brand-green-primary self-center text-[12px] sm:text-[15px] flex items-center gap-1 font-semibold font-manropeB"
+                  onClick={() => setIsForm(true)}
                 >
                   <Add size="16" color="#009254" /> Add new Education
                 </button>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      onClose();
-                      resetForm();
-                      setEditMode(false);
-                      setIsForm(false);
-                    }}
-                    className="w-full rounded-md sm:w-[6rem]"
-                  >
+                  <Button type="button" onClick={onClose} className="w-full rounded-md sm:w-[6rem]">
                     Cancel
                   </Button>
                   <Button type="submit" className="w-full rounded-md sm:w-[6rem]">
@@ -371,8 +404,8 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
             )}
           </>
         </div>
-      </EducationModalContextProvider>
-    </Modal>
+      </Modal>
+    </>
   );
 };
 
