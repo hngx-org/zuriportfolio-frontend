@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
-import { ArrowLeft2, Import } from 'iconsax-react';
+import { ArrowLeft2, Import, CloseCircle } from 'iconsax-react';
 import MainLayout from '../components/Layout/MainLayout';
 import InviteLink from '../modules/portfolio/component/portfolioSettingsComponents/inviteLink';
 import NotificationSettings from '../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
@@ -14,6 +14,7 @@ import { NotificationCheckboxType } from '../@types';
 import { useRouter } from 'next/router';
 import withAuth from '../helpers/withAuth';
 import Image from 'next/image';
+import Modal from '@ui/Modal';
 import { profileData } from '../modules/portfolio/component/landing/data';
 import { useAuth } from '../context/AuthContext';
 
@@ -34,6 +35,7 @@ const SettingPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [local, setlocal] = useState<boolean>(false);
   const [showNotInfo, setShowNotInfo] = useState<boolean>(false);
+  const [open2Fa, setOpen2Fa] = useState<boolean>(false);
   const [showReferInfo, setShowReferInfo] = useState<boolean>(false);
   const [userPic, setUserPic] = useState<string>('');
 
@@ -93,7 +95,7 @@ const SettingPage = () => {
       const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
       const method = storedNotificationData ? 'PATCH' : 'POST';
 
-      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${auth?.user.id}}`;
+      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${userId}}`;
       const response = await fetch(url, {
         method: method,
 
@@ -139,9 +141,6 @@ const SettingPage = () => {
           progress: undefined,
           theme: 'light',
         });
-        setTimeout(() => {
-          router.push('/');
-        }, 3100);
       }
     } catch (error) {
       console.error('An error occurred while updating notification settings:', error);
@@ -150,7 +149,9 @@ const SettingPage = () => {
       setlocal((prv) => !prv);
     }
   };
-
+  const toggleModal = () => {
+    setOpen2Fa((prev: boolean) => !prev);
+  };
   const getNotificationSettingsFromLocalStorage = () => {
     const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
     if (storedNotificationData) {
@@ -298,21 +299,75 @@ const SettingPage = () => {
                       <div className=" rounded-full  ">
                         <label
                           htmlFor="profilepics"
-                          className="flex rounded-full items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
+                          className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
                         >
-                          <Image
-                            src={userPic}
-                            width={280}
-                            height={180}
-                            alt=""
-                            className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
-                          ></Image>
+                          <>
+                            <Image
+                              src={userPic}
+                              width={280}
+                              height={180}
+                              alt=""
+                              className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
+                            ></Image>
+                          </>
                           <p className="mb-4">Edit</p>
                         </label>
                         <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
                       </div>
 
                       <AccountManagement />
+
+                      <div className="space-y-[4px] mb-6 text-dark-110 text-[14px]">
+                        <div className="space-y-[4px] mb-6 text-dark-110">
+                          <p className="font-manropeB text-[14px] ">2FA security</p>
+                          <span className="font-manropeL text-[14px] ">
+                            Add an extra layer of security to your system
+                          </span>
+                        </div>
+                        <div
+                          className="flex justify-between font-manropeL  text-[ #555555;
+] "
+                        >
+                          <p>Two factor authentication</p>
+                          <label htmlFor="" className="flex gap-[12px] items-center">
+                            Disabled{' '}
+                            <input
+                              type="checkbox"
+                              name=""
+                              id=""
+                              checked={open2Fa}
+                              value={'Disabled'}
+                              onChange={() => setOpen2Fa((prv) => !prv)}
+                            />
+                          </label>
+                        </div>
+                        <Modal isOpen={open2Fa} closeModal={toggleModal} size={'sm'} isCloseIconPresent={false}>
+                          <div className=" relative  max-w-[440px] px-5 text-[14px] py-[40px]">
+                            <button onClick={toggleModal} className="absolute right-0 top-[-10px]">
+                              {' '}
+                              <CloseCircle size="20" color="#009254" />
+                            </button>
+                            <h3 className="w-full text-center mb-[8px] text-[#252525] font-manropeB">Turn on 2FA </h3>
+                            <p>Enhance your security by enabling a verification code to verify your identity</p>
+                            <p>Enter your phone number to receive a one-time-code</p>
+                            <label htmlFor="" className="flex my-[24px] flex-col gap-[6px] text-[ #344054]">
+                              Enter phone number
+                              <input
+                                type="text"
+                                readOnly
+                                value={auth?.user.email}
+                                className="border-[1px] outline-none  rounded-lg py-[10px] px-[14px] border-[#D0D5DD]"
+                              />
+                            </label>
+                            <button
+                              className="w-full bg-brand-green-primary text-white-100 text-center
+                             font-manropeB text-[16px] py-[14px] rounded-lg "
+                            >
+                              Continue
+                            </button>
+                          </div>
+                        </Modal>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -431,15 +486,17 @@ const SettingPage = () => {
                       <div className=" rounded-full  ">
                         <label
                           htmlFor="profilepics"
-                          className="flex rounded-full items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
+                          className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
                         >
-                          <Image
-                            src={userPic}
-                            width={280}
-                            height={180}
-                            alt=""
-                            className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
-                          ></Image>
+                          <>
+                            <Image
+                              src={userPic}
+                              width={280}
+                              height={180}
+                              alt=""
+                              className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
+                            ></Image>
+                          </>
                           <p className="mb-4">Edit</p>
                         </label>
                         <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
