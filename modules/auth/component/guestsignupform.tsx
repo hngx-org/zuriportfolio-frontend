@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Link from 'next/link';
@@ -11,7 +11,6 @@ import PasswordPopover from '@modules/auth/component/PasswordPopover';
 import useAuthMutation from '../../../hooks/Auth/useAuthMutation';
 import { guestSignup } from '../../../http/auth';
 import { useRouter } from 'next/router';
-import { notify } from '@ui/Toast';
 
 const Guestsignupform: React.FC = () => {
   const router = useRouter();
@@ -20,7 +19,6 @@ const Guestsignupform: React.FC = () => {
 
   const { mutate: guestSignupFn, isLoading: isLoginUserMutationLoading } = useAuthMutation(guestSignup, {
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === 200) {
         router.push('/auth/verification');
       }
@@ -235,6 +233,7 @@ const Guestsignupform: React.FC = () => {
             className="w-full h-14 text-lg rounded-lg mt-1"
             type="submit"
             disabled={form.values.agree === true ? false : true}
+            isLoading={isLoginUserMutationLoading}
           >
             Continue
           </Button>
