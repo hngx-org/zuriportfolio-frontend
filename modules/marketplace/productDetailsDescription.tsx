@@ -21,6 +21,7 @@ import { destructureProducts } from '../../helpers';
 import { isUserAuthenticated } from './hooks/useAuthHelper';
 import { CART_ENDPOINT } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
+import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -70,8 +71,8 @@ export default function ProductDetailsDescription() {
         );
 
         if (response.status === 200) {
-          toast.success('Added to Cart');
           setCartCountNav(cartCount + 1);
+          setCartLoading(false);
         }
       } catch (error: any) {
         console.error(error);
@@ -208,19 +209,11 @@ export default function ProductDetailsDescription() {
                 <p className="flex gap-x-4 items-center">
                   <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
                     {product?.discount_price === '0.00'
-                      ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-                          parseFloat(product?.price),
-                        )
-                      : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-                          parseFloat(product?.discount_price),
-                        )}
+                      ? formatToNigerianNaira(product?.price)
+                      : formatToNigerianNaira(product?.discount_price)}
                   </span>
                   <span className="text-[22px] font-normal font-manrope line-through leading-7 text-gray-300">
-                    {product?.discount_price === '0.00'
-                      ? null
-                      : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-                          parseFloat(product?.price),
-                        )}
+                    {product?.discount_price === '0.00' ? null : formatToNigerianNaira(product?.price)}
                   </span>
                 </p>
               </div>
