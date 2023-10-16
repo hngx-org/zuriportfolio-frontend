@@ -14,27 +14,33 @@ type EducationModalProps = {
 };
 
 const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) => {
+  const {
+    isData,
+    setIsData,
+    educations,
+    degreeOptions,
+    setDegreeOptions,
+    degree,
+    setDegree,
+    fieldOfStudy,
+    setFieldOfStudy,
+    description,
+    setDescription,
+    handleDelete,
+    school,
+    setSchool,
+    addNewEducation,
+    resetForm,
+    from,
+    setFrom,
+    to,
+    setTo,
+    editMode,
+    setEditMode,
+  } = useContext(EducationModalContext);
   const [editingEducationId, setEditingEducationId] = useState<string | null>();
   const [editingEducation, setEditingEducation] = useState<Education | null>(null);
   const [isForm, setIsForm] = useState(false);
-  const [isData, setIsData] = useState(false);
-  const [educations, setEducations] = useState<Education[]>([]);
-  const [degreeOptions, setDegreeOptions] = useState<DegreeOption[] | []>([]);
-  const [degree, setDegree] = useState('');
-  const [fieldOfStudy, setFieldOfStudy] = useState('');
-  const [description, setDescription] = useState('');
-  const [school, setSchool] = useState('');
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
-  const [editMode, setEditMode] = useState(false);
-  const resetForm = () => {
-    setDegree('');
-    setFieldOfStudy('');
-    setDescription('');
-    setFrom('');
-    setTo('');
-    setSchool('');
-  };
 
   const prefillForm = (education: Education) => {
     setEditingEducationId(String(education.id));
@@ -44,30 +50,10 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     setSchool(education.school);
     setFrom(education.from);
     setTo(education.to);
-    setIsForm(true);
   };
 
-  function handleDelete(id: number | undefined, e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void {
-    throw new Error('Function not implemented.');
-  }
-  useEffect(() => {
-    fetch('https://hng6-r5y3.onrender.com/api/degree')
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setDegreeOptions(data.data);
-      });
-  }, []);
-
-  function addNewEducation(e: React.FormEvent<HTMLFormElement>): void {
-    throw new Error('Function not implemented.');
-  }
-
   return (
-    // <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
-    <div>
+    <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="space-y-6 bg-white-100 p-4 py-5">
         <div className="flex flex-col gap-3 px-10 mb-6">
           <div className="flex justify-between items-center">
@@ -341,7 +327,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
           {!isForm && (
             <div className="px-3 gap-2 flex justify-between flex-col sm:flex-row">
               <button
-                className="text-brand-green-primary self-center text-[12px] sm:text-[15px] flex items-center gap-1 font-semibold font-manropeB"
+                className="text-brand-green-primary self-center text-[12px] sm:text-[15px] flex items-center gap-1 font-semibold font-manropeB outline-none"
                 onClick={() => {
                   setIsForm(true);
                   setIsData(false);
@@ -370,7 +356,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
           )}
         </>
       </div>
-    </div>
+    </Modal>
   );
 };
 

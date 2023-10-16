@@ -1,6 +1,7 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Education, DegreeOption } from '../../../@types';
 import { notify } from '@ui/Toast';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 interface EducationModalContextType {
   educations: Education[];
@@ -53,7 +54,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   };
 
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
-  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+  const { userId } = useContext(Portfolio);
 
   const getAllEducationDetail = async () => {
     try {
@@ -72,7 +73,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   };
   useEffect(() => {
     getAllEducationDetail();
-  }, []);
+  });
 
   const [educations, setEducations] = useState<Education[] | []>([]);
 
@@ -101,6 +102,17 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       });
     }
   };
+  useEffect(() => {
+    fetch('https://hng6-r5y3.onrender.com/api/degree')
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setDegreeOptions(data.data);
+      });
+  }, []);
+
   const handleEditEducation = async (id: string) => {
     console.log(id);
     const selectedDegreeOption = degreeOptions.find((option) => option.type === degree)!;
@@ -115,7 +127,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
           from,
           to,
           description,
-          sectionId: 22,
+          section_id: 22,
         }),
       });
     } catch (error) {
@@ -164,9 +176,10 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
           fieldOfStudy,
           school,
           from,
+          userId,
           to,
           description,
-          sectionId: 22,
+          section_id: 22,
         }),
       });
 
