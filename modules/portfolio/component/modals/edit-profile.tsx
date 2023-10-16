@@ -9,6 +9,8 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
 
+const inputStyle = `placeholder-gray-500 placeholder-opacity-50 font-semibold text-gray-400 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
+
 const EditProfile = () => {
   const [picture, setPicture] = useState<string | StaticImport>();
   const [name, setName] = useState('');
@@ -168,15 +170,14 @@ const EditProfile = () => {
           <div className="mt-[150px] md:mt-[170px] w-[100%]">
             <div className="w-[100%]">
               <label>Name *</label>
-              <Input
-                className="w-[100%] mt-3"
+              <input
+                className={`w-[100%] mt-3 ${inputStyle}`}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
                 type="text"
-                intent={'default'}
                 disabled={false}
-                placeHolder="Enter your name"
+                placeholder="Enter your name"
                 value={name}
               />
             </div>
@@ -210,15 +211,14 @@ const EditProfile = () => {
                   City
                   <span> (optional) </span>
                 </label>
-                <Input
-                  className="w-[100%] mt-3"
+                <input
+                  className={`w-[100%] mt-3 ${inputStyle}`}
                   onChange={(e) => {
                     setCity(e.target.value);
                   }}
                   type="text"
-                  intent={'default'}
                   disabled={false}
-                  placeHolder="Lagos"
+                  placeholder="Lagos"
                   value={city}
                 />
               </div>
@@ -227,15 +227,14 @@ const EditProfile = () => {
                   Country
                   <span> (optional) </span>
                 </label>
-                <Input
-                  className="w-[100%] mt-3"
+                <input
+                  className={`w-[100%] mt-3 ${inputStyle}`}
                   onChange={(e) => {
                     setCountry(e.target.value);
                   }}
                   type="text"
-                  intent={'default'}
                   disabled={false}
-                  placeHolder="Nigeria"
+                  placeholder="Nigeria"
                   value={country}
                 />
               </div>
