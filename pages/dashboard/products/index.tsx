@@ -4,9 +4,9 @@ import { SearchNormal1 } from 'iconsax-react';
 import Button from '@ui/Button';
 import ProductCard from '@modules/dashboard/component/products/ProductCard';
 import Link from 'next/link';
-import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
 import PaginationBar from '@modules/dashboard/component/order/PaginationBar';
+import { Input } from '@ui/Input';
 type Product = {
   product_id: any;
   image: any;
@@ -20,8 +20,7 @@ const Products = () => {
   const [product, setProducts] = useState<Product[]>([]);
   const [loading, setIsLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  const searchProduct = (product: Product[]) => {};
+  const [searchQuery, setSearchQuery] = useState('');
 
   const fetchProducts = async () => {
     // Fetch the product data from the server
@@ -57,6 +56,11 @@ const Products = () => {
     };
     setProducts();
   }, []);
+
+  const filteredProducts = product.filter((product) => {
+    return product.name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
       <div className="max-w-[1240px] mx-auto my-4 px-6">
@@ -80,9 +84,11 @@ const Products = () => {
               }}
             >
               <SearchNormal1 size="16" color="#667085" />
-              <input
-                className=" bg-transparent font-manropeL font-normal focus-within:outline-none flex-1 text-[1rem] leading-[150%] text-custom-color2"
+              <Input
+                className=" bg-transparent font-manropeL border-hidden font-normal focus-within:outline-none flex-1 text-[1rem] leading-[150%] text-custom-color2"
                 placeholder="Search products here..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
@@ -98,7 +104,7 @@ const Products = () => {
               </div>
             ) : (
               <ProductCard
-                product={product}
+                product={filteredProducts}
                 fetchProducts={fetchProducts}
                 insertProduct={insertProduct}
                 insertSelectedProduct={insertSelectedProduct}

@@ -423,31 +423,6 @@ const OrderHistory: React.FC = () => {
                   <div className="px-8 justify-end items-center gap-[129px] mb-[25px] hidden md:flex">
                     <div className="flex items-center gap-6">
                       <div className="relative">
-                        <button
-                          className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
-                          style={{
-                            boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-                          }}
-                          onClick={() => setShowFilters((prev) => !prev)}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                          >
-                            <path
-                              d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
-                              stroke="#344054"
-                              strokeWidth="1.67"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <span>Filters</span>
-                        </button>
-
                         {showFilters && (
                           <Filters
                             filters={filters}

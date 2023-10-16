@@ -149,7 +149,12 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
 
   useEffect(() => {
     // Fetch product categories
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories')
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -219,7 +224,7 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
             rightIcon={<Image src={editImg} alt="edit" />}
           />
           <span className="text-[#3F484F] text-[1rem] lowercase mt-2">
-            https://zuri.store/{products.name.replace(/\s+/g, '-')}
+            https://zuri.store/{products.name.replace(/[ |]+/g, '-')}
           </span>
 
           <label className="font-manropeB text-[16px] mt-6">Product Description</label>
