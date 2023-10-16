@@ -130,12 +130,12 @@ export const Project = ({ data }: SkeletonProps) => {
     ''
   );
   return (
-    <div className="flex md:flex-row flex-col gap-4 mb-5 md:gap-10">
+    <div className="flex md:flex-row flex-col mb-8 gap-1 md:gap-2">
       {image}
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className="font-semibold text-sm text-gray-400">{data?.description}</p>
-        <div className="order-2 md:order-1 flex gap-3 my-2">
+        <div className="order-2 md:order-1 flex gap-2">
           {dataToMap?.map((tag: string, i: number) => (
             <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
               <p className="text-sm text-gray-400">{tag}</p>
