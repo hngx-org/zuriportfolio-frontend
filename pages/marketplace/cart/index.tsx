@@ -14,8 +14,9 @@ import {
 import { useAuth } from '../../../context/AuthContext';
 import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 import CartPageSkeleton from '@modules/shop/component/cart/checkout/CartPageSkeleton';
-import { getDiscountPercentage } from '../../../helpers';
+import { destructureProducts, getDiscountPercentage } from '../../../helpers';
 import { Metadata } from 'next';
+import { useCart } from '@modules/shop/component/CartContext';
 
 export const metadata: Metadata = {
   title: 'Cart Summary',
@@ -24,27 +25,38 @@ export const metadata: Metadata = {
 
 export default function Cart() {
   const { auth } = useAuth();
+  console.log(auth?.token);
 
   const defSummary = { subtotal: 1, discount: 0, VAT: 0, total: 1 };
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedProductProp[]>([]);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [cartSummary, setCartSummary] = useState(defSummary);
+  const { setCartCountNav } = useCart();
 
   useEffect(() => {
     async function cartFetch() {
       let carts;
       let summary;
+      const token = localStorage.getItem('zpt');
 
-      if (auth?.token) {
-        carts = await getUserCart(auth?.token as string);
-        summary = await getCartSummary(auth?.token as string);
+      if (token) {
+        carts = await getUserCart(token);
+        summary = await getCartSummary(token);
         summary = summary;
         setCartSummary(summary);
       } else {
-        carts = JSON.parse(localStorage.getItem('products') as string);
-        const cart_items: CartItemProps[] = carts;
-        const productIdArray = cart_items.map((product) => product.productId);
+        const cartItems = localStorage.getItem('products')
+          ? JSON.parse(localStorage.getItem('products') as string)
+          : [];
+        console.log(carts);
+
+        carts = destructureProducts(cartItems);
+        console.log(carts);
+
+        const productIdArray = carts.map((product) => product.productId);
+        console.log(productIdArray);
+
         const cartSum = await getGuestCartSummary(productIdArray);
         setCartSummary(cartSum);
       }
@@ -52,7 +64,6 @@ export default function Cart() {
       setIsLoading(false);
     }
     cartFetch();
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
@@ -69,10 +80,14 @@ export default function Cart() {
     if (auth?.token) {
       removeFromCart(productId, auth?.token as string);
       const summary = await getCartSummary(auth?.token as string);
+
+      setCartCountNav(items.length - 1);
       setCartSummary(summary);
       setCartItems(cartProductsItems);
     } else {
       let cartItems = items.filter((product) => product.productId != productId);
+      setCartCountNav(cartItems.length);
+
       localStorage.setItem('products', JSON.stringify(cartItems));
       setCartItems(cartItems);
     }
@@ -92,6 +107,7 @@ export default function Cart() {
             productSeller={cartItem.productSeller}
             productSize={cartItem.productSize}
             productPrice={cartItem.productPrice}
+            productDiscount={cartItem.productDiscount}
             removeHandler={removeProductHandler}
           />
         ))
@@ -124,20 +140,22 @@ export default function Cart() {
                   <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
                   {cartProductItems}
                 </div>
-                <div className="flex md:flex-none justify-center md:mx-0">
+                <div className="flex md:flex-none justify-center lg:w-2/5 md:mx-0">
                   <Summary token={auth?.token ? (auth.token as string) : ''} summary={cartSummary} />
                 </div>
               </section>
 
-              <section className="w-full flex flex-col mt-[50px] mb-[10%]">
-                <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
-                <div
-                  className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden items-center lg:items-stretch lg:justify-normal 
+              {auth?.token && (
+                <section className="w-full flex flex-col mt-[50px] mb-[10%]">
+                  <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
+                  <div
+                    className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden items-center lg:items-stretch lg:justify-normal 
                 md:flex-row md:justify-center md:flex-wrap md:gap-x-4 gap-y-4 lg:gap-x-4 mt-4 "
-                >
-                  {recentlyViewedProducts}
-                </div>
-              </section>
+                  >
+                    {recentlyViewedProducts}
+                  </div>
+                </section>
+              )}
             </>
           ) : (
             <EmptyCart></EmptyCart>
