@@ -58,7 +58,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const name = e.target.name;
-    skillId
+    skillId;
     if (newValue === '') {
       setExamTime((prevExamTime) => ({
         ...prevExamTime,
@@ -136,16 +136,15 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
   const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
     useCreatingAssessmentContext();
 
-  
   const saveScore = async (level: string) => {
     const token = localStorage.getItem('zpt');
-  
+
     try {
       const response = await fetch('https://demerzel-badges-production.up.railway.app/api/badges/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           min_score: gradingValues[level].minScore,
@@ -154,7 +153,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
           skill_id: skillId,
         }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         toast.success(`Scoring for ${level} saved successfully!`);
@@ -170,8 +169,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
       // Handle error if needed
     }
   };
-  
-  
 
   // useEffect(() => {
   //   async function fetchData() {

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Link from 'next/link';
@@ -11,7 +11,6 @@ import PasswordPopover from '@modules/auth/component/PasswordPopover';
 import useAuthMutation from '../../../hooks/Auth/useAuthMutation';
 import { guestSignup } from '../../../http/auth';
 import { useRouter } from 'next/router';
-import { notify } from '@ui/Toast';
 
 const Guestsignupform: React.FC = () => {
   const router = useRouter();
@@ -20,7 +19,6 @@ const Guestsignupform: React.FC = () => {
 
   const { mutate: guestSignupFn, isLoading: isLoginUserMutationLoading } = useAuthMutation(guestSignup, {
     onSuccess: (data) => {
-      console.log(data);
       if (data?.status === 200) {
         router.push('/auth/verification');
       }
@@ -82,7 +80,8 @@ const Guestsignupform: React.FC = () => {
         <h1 className="mb-1 md:mb-6 font-semibold text-dark-100 font-manropeEB text-2xl md:text-4xl text-[1.5rem]">
           Finish setting up your account
         </h1>
-        <p className="md:text-[22px] text-[#6b797f] leading-7 font-manropeL">{`${email}`}</p>
+        {/* No need to the email, let's keep both sign up pages have the same looks */}
+        {/* <p className="md:text-[22px] text-[#6b797f] leading-7 font-manropeL">{`${email}`}</p> */}
       </div>
       <div className="mt-6 md:mt-12">
         <form className="flex flex-col" onSubmit={form.onSubmit((values) => handleGuestSignUp(values))}>
@@ -142,9 +141,9 @@ const Guestsignupform: React.FC = () => {
                   type={passwordVisible ? 'text' : 'password'}
                   rightIcon={
                     passwordVisible ? (
-                      <EyeSlash onClick={togglePasswordVisibility} className="cursor-pointer" />
-                    ) : (
                       <Eye onClick={togglePasswordVisibility} className="cursor-pointer" />
+                    ) : (
+                      <EyeSlash onClick={togglePasswordVisibility} className="cursor-pointer" />
                     )
                   }
                   style={{ fontSize: '16px' }}
@@ -171,9 +170,9 @@ const Guestsignupform: React.FC = () => {
                 type={confirmPasswordVisible ? 'text' : 'password'}
                 rightIcon={
                   confirmPasswordVisible ? (
-                    <EyeSlash onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />
-                  ) : (
                     <Eye onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />
+                  ) : (
+                    <EyeSlash onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />
                   )
                 }
                 style={{ fontSize: '16px' }}
@@ -186,7 +185,7 @@ const Guestsignupform: React.FC = () => {
           {/* Checkbox and Submit Button (unchanged) */}
 
           <div className="flex items-start leading-[27.04px] my-4 mb-8 h-5">
-            <label className="flex items-start my-auto">
+            <label className="flex items-center my-auto">
               <span className="flex mr-2 mt-2 md:mt-1.5">
                 <input
                   type="checkbox"
@@ -195,8 +194,8 @@ const Guestsignupform: React.FC = () => {
                   className="custom-checkbox cursor-pointer"
                 />
               </span>
-              <span className="text-gray-200 text-sm font-manropeL">
-                I agree with Zuri stores <Link href="/">Terms of Service</Link> & <Link href="/">Privacy Policy</Link>.
+              <span className="text-gray-200 text-sm mt-1 font-manropeL">
+                I agree with Zuri <Link href="/">Terms of Service</Link> & <Link href="/">Privacy Policy</Link>.
               </span>
             </label>
             <style jsx>{`
@@ -235,6 +234,7 @@ const Guestsignupform: React.FC = () => {
             className="w-full h-14 text-lg rounded-lg mt-1"
             type="submit"
             disabled={form.values.agree === true ? false : true}
+            isLoading={isLoginUserMutationLoading}
           >
             Continue
           </Button>

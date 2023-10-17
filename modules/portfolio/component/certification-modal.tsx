@@ -5,6 +5,7 @@ import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import Link from 'next/link';
 import Modal from '@ui/Modal';
 import Portfolio from '../../../context/PortfolioLandingContext';
+import { Certification, CertificationListProps, CertificationItemProps } from '../../../@types';
 
 interface Context {
   refreshPage: boolean;
@@ -17,6 +18,7 @@ interface Context {
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
   render: boolean;
+  setCloseAllModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const initialContextValue: Context = {
   refreshPage: false,
@@ -29,27 +31,11 @@ const initialContextValue: Context = {
   setUrlError: () => {},
   error: '',
   render: false,
+  setCloseAllModal: () => {},
 };
 
 const myContext = createContext(initialContextValue);
-// Interfaces
-interface Certification {
-  id: string;
-  sectionId: number;
-  year: string;
-  title: string;
-  organization: string;
-  url: string;
-  description: string;
-}
 
-interface CertificationItemProps {
-  certification: Certification;
-}
-interface CertificationListProps {
-  // certifications: Certification[];
-  isModalOpen: boolean;
-}
 const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const { userId } = useContext(Portfolio);
   const [formData, setFormData] = useState({
@@ -70,6 +56,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
   const [certificationCounter, setCertificationCounter] = useState(0);
   const [acceptedDescription, setAcceptedDescription] = useState(false);
   const [createCertificate, setCreateCertificate] = useState('');
+  const [closeAllModal, setCloseAllModal] = useState(false);
 
   const validateUrl = (url: string) => {
     const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
@@ -241,159 +228,177 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         setRender,
         render,
         error,
+        setCloseAllModal,
       }}
     >
       <div>
-        {!isModalOpen && (
-          <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
-            <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
-              <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-                <div className="flex items-center gap-6" onClick={onClose}>
-                  <ArrowLeft2 />
-                  <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
-                </div>
-                <div onClick={onClose}>
-                  <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
-                </div>
-              </div>
-              <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={openModal}>
-                <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-                  <div className="flex  flex-col gap-2 flex-1">
-                    <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Certification Title*
-                    </label>
-                    <Input
-                      type="text"
-                      id="title"
-                      name="title"
-                      placeholder="My best yet"
-                      className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
-                      value={formData.title}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-
-                  <div className="flex  flex-col gap-2 flex-1">
-                    <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Year
-                    </label>
-                    <select
-                      id="year"
-                      name="year"
-                      className="p-2 px-4 h-[48px] text-gray-900 focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px] "
-                      value={formData.year}
-                      onChange={handleInputChange}
-                    >
-                      {Array.from({ length: 124 }, (_, index) => {
-                        const year = 2023 - index;
-                        if (year >= 1900) {
-                          return (
-                            <option key={year} value={year}>
-                              {year}
-                            </option>
-                          );
-                        }
-                        return null;
-                      })}
-                    </select>
-                  </div>
-                </div>
-                <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-                  <div className="flex  flex-col gap-[10px] flex-1">
-                    <label htmlFor="organization" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      organization*
-                    </label>
-                    <Input
-                      type="text"
-                      id="organization"
-                      name="organization"
-                      placeholder="Google"
-                      className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900 rounded-lg border-[1px]"
-                      value={formData.organization}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="flex  flex-col gap-[10px] flex-1">
-                    <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Url
-                    </label>
-                    <Input
-                      type="text"
-                      id="url"
-                      name="url"
-                      placeholder="Type link"
-                      className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
-                      value={formData.url}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-                <div className="flex  flex-col gap-[10px]">
-                  <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                    Description
-                  </label>
-                  <Input
-                    type="text"
-                    id="description"
-                    name="description"
-                    placeholder="Certificate ID & details "
-                    className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900  rounded-lg border-[1px]"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
-                  <div>
-                    <div>
-                      <p className="text-green-200 text-sm">{createCertificate}</p>
+        {!closeAllModal && (
+          <div>
+            {' '}
+            {!isModalOpen && (
+              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+                <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
+                  <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
+                    <div className="flex items-center gap-6" onClick={onClose}>
+                      <ArrowLeft2 />
+                      <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
                     </div>
-                    <div>
-                      {render ? (
-                        <pre className="text-red-205 font-manropeL">{error}</pre>
-                      ) : (
-                        urlError && <div className="text-red-205 text-sm">{urlError}</div>
-                      )}
+                    <div onClick={onClose}>
+                      <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
                     </div>
                   </div>
-                  <div className="flex gap-4  items-center">
-                    <Button
-                      onClick={onClose}
-                      intent={'secondary'}
-                      className="w-full rounded-md sm:w-[6rem]"
-                      size={'md'}
-                    >
-                      Cancel
-                    </Button>{' '}
-                    <Button
-                      type="submit"
-                      // disabled={!isValid}
+                  <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={openModal}>
+                    <div className="flex flex-col sm:flex-row w-full gap-[10px]">
+                      <div className="flex  flex-col gap-2 flex-1">
+                        <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                          Certification Title*
+                        </label>
+                        <Input
+                          type="text"
+                          id="title"
+                          name="title"
+                          placeholder="My best yet"
+                          className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
+                          value={formData.title}
+                          onChange={handleInputChange}
+                        />
+                      </div>
 
-                      className="w-full rounded-md sm:w-[6rem]"
-                      size={'md'}
-                    >
-                      Save
-                    </Button>
-                  </div>
+                      <div className="flex  flex-col gap-2 flex-1">
+                        <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                          Year
+                        </label>
+                        <select
+                          id="year"
+                          name="year"
+                          className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
+                          value={formData.year}
+                          onChange={handleInputChange}
+                        >
+                          {/* Add the default placeholder option */}
+                          <option value="" disabled>
+                            Year
+                          </option>
+                          {Array.from({ length: 124 }, (_, index) => {
+                            const year = 2023 - index;
+                            if (year >= 1900) {
+                              return (
+                                <option key={year} value={year}>
+                                  {year}
+                                </option>
+                              );
+                            }
+                            return null;
+                          })}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row w-full gap-[10px]">
+                      <div className="flex  flex-col gap-[10px] flex-1">
+                        <label
+                          htmlFor="organization"
+                          className="font-semibold text-[16px] leading-[24px]  text-[#444846]"
+                        >
+                          organization*
+                        </label>
+                        <Input
+                          type="text"
+                          id="organization"
+                          name="organization"
+                          placeholder="Google"
+                          className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900 rounded-lg border-[1px]"
+                          value={formData.organization}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div className="flex  flex-col gap-[10px] flex-1">
+                        <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                          Url
+                        </label>
+                        <Input
+                          type="text"
+                          id="url"
+                          name="url"
+                          placeholder="Type link"
+                          className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
+                          value={formData.url}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex  flex-col gap-[10px]">
+                      <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                        Description
+                      </label>
+                      <Input
+                        type="text"
+                        id="description"
+                        name="description"
+                        placeholder="Certificate ID & details "
+                        className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900  rounded-lg border-[1px]"
+                        value={formData.description}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
+                      <div>
+                        <div>
+                          <p className="text-green-200 text-sm">{createCertificate}</p>
+                        </div>
+                        <div>
+                          {render ? (
+                            <pre className="text-red-205 font-manropeL">{error}</pre>
+                          ) : (
+                            urlError && <div className="text-red-205 text-sm">{urlError}</div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex gap-4  items-center">
+                        <Button
+                          onClick={onClose}
+                          intent={'secondary'}
+                          className="w-full rounded-md sm:w-[6rem]"
+                          size={'md'}
+                        >
+                          Cancel
+                        </Button>{' '}
+                        <Button
+                          type="submit"
+                          // disabled={!isValid}
+
+                          className="w-full rounded-md sm:w-[6rem]"
+                          size={'md'}
+                        >
+                          Save
+                        </Button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-              </form>
-            </div>
-          </Modal>
+              </Modal>
+            )}
+            {isModalOpen && <CertificationRead isOpen={isModalOpen} onClose={closeModal} />}
+          </div>
         )}
-        {isModalOpen && <CertificationRead isOpen={isModalOpen} onClose={closeModal} />}
       </div>
     </myContext.Provider>
   );
 };
 const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const { setCloseAllModal } = useContext(myContext);
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
         <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-          <div className="flex items-center gap-6">
+          <div onClick={onClose} className="flex items-center gap-6">
             <ArrowLeft2 />
             <h1 className="font-bold text-2xl text-white-700 ">Certifications</h1>
           </div>
-          <div onClick={onClose}>
+          <div
+            onClick={() => {
+              setCloseAllModal(true);
+            }}
+          >
             <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
           </div>
         </div>
@@ -408,7 +413,13 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Cancel
             </Button>{' '}
-            <Button onClick={onClose} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
+            <Button
+              onClick={() => {
+                setCloseAllModal(true);
+              }}
+              className="w-full rounded-md sm:w-[6rem]"
+              size={'md'}
+            >
               Save
             </Button>
           </div>
@@ -468,6 +479,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   const [editMessageError, setEditMessageError] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const { refreshPage, setRefreshPage } = useContext(myContext);
+  const [sectionId, setSectionId] = useState('');
 
   // State to store the edited data
   const [editedCertification, setEditedCertification] = useState(certification);
@@ -482,24 +494,30 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   const fetchCertifications = async () => {
     try {
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${id}`);
-      if (response.ok) {
-        const data = await response.json();
-        console.log('fetched data', data);
-        // console.log('Fetched certifications data:', data);
-      } else {
-        console.log('Error fetching certifications data.');
-      }
+      const data = await response.json();
+      console.log('fetched data', data);
+      console.log('this is the section id ', data.section.id);
+      setSectionId(data.section.id);
+      // if (response.ok) {
+
+      //
+      //   // console.log('Fetched certifications data:', data);
+      // } else {
+      //   console.log('Error fetching certifications data.');
+      // }
     } catch (error) {
       console.log('An error occurred while fetching certifications data.');
 
       // console.error(error);
     }
   };
+  useEffect(() => {
+    fetchCertifications();
+  }, []);
   // Function to handle the save action
   const handleSave = async () => {
     // Send a PUT request to update the certification
-    fetchCertifications();
-    return;
+
     try {
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}/1`, {
         method: 'PUT',
@@ -511,7 +529,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
       console.log('this is the id ', id);
       console.log(userId);
 
-      console.log('Response Status:', response.status);
+      console.log('Response Status:', response.ok);
       console.log('Response Data:', await response.json());
       if (response.ok) {
         // console.log(`Certificate with ID ${id} updated.`);
@@ -560,12 +578,16 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
           <div>
             <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
           </div>
-          <div className="flex flex-col gap-2 overflow-hidden w-full text-ellipsis whitespace-nowrap ">
-            <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left ">{title}</h1>
-            <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{organization}</h2>
+          <div className="flex flex-col gap-2 overflow-hidden  text-ellipsis whitespace-nowrap ">
+            <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left first-letter: overflow-hidden  text-ellipsis whitespace-nowrap ">
+              {title}
+            </h1>
+            <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left overflow-hidden  text-ellipsis whitespace-nowrap  ">
+              {organization}
+            </h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis w-full">{url}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>
@@ -734,10 +756,14 @@ const EditForm: React.FC<{
               <select
                 id="year"
                 name="year"
-                className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px] "
+                className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
                 value={certification.year}
                 onChange={handleSelectChange}
               >
+                {/* Add the default placeholder option */}
+                <option value="" disabled>
+                  Year
+                </option>
                 {Array.from({ length: 124 }, (_, index) => {
                   const year = 2023 - index;
                   if (year >= 1900) {

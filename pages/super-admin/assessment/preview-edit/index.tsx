@@ -31,7 +31,7 @@ const Previewedit: React.FC = () => {
       ...prevAssessment,
       title: data,
     }));
-  }
+  };
   const router = useRouter();
   const { name } = router.query;
   const skillId = parseInt(name as string, 10);
