@@ -454,9 +454,9 @@ export default function ProductDetailsDescription() {
 
           {/* favorite products  */}
           <div></div>
-           <div>
-          <ProductWeThoughtMightInterestYou id={id} />
-        </div>
+          <div>
+            <ProductWeThoughtMightInterestYou id={id} />
+          </div>
         </main>
       )}
       {/* lg:px-[100px] md:px-10*/}
