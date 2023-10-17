@@ -23,8 +23,7 @@ const Banner = () => {
         <Image
           src={heroMan}
           alt="Hero Section image"
-          objectFit="contain"
-          className="hidden absolute right-0 bottom-0 lg:block"
+          className="hidden absolute right-0 bottom-0 object-contain lg:block"
         />
       </div>
     </section>
