@@ -7,6 +7,7 @@ import { WorkExperience } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { months, years } from '../data';
 import { WorkExperienceModalContext } from '../context/work-experience-modal-context';
+import Loader from '@ui/Loader';
 
 type WorkExperienceModalProps = {
   isOpen: boolean;
@@ -27,6 +28,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     addWorkExperience,
     setRole,
     setCompany,
+    isLoading,
     setEndMonth,
     setStartMonth,
     setEndYear,
@@ -43,11 +45,11 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     isData,
     setIsData,
   } = useContext(WorkExperienceModalContext);
-  const [editingExperienceId, setEditingExperienceId] = useState<string | null>();
+  const [editingExperienceId, setEditingExperienceId] = useState<number | null>(null);
   const [editingExperience, setEditingExperience] = useState<WorkExperience | null>(null);
 
   const prefillForm = (experience: WorkExperience) => {
-    setEditingExperienceId(String(experience.id));
+    setEditingExperienceId(experience.id);
     setRole(experience.role);
     setCompany(experience.company);
     setDescription(experience.description);
@@ -96,13 +98,14 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
+        <>{isLoading && <Loader />}</>
         <>
           {isData && (
-            <div className="">
+            <div>
               {workExperiences.map((experience: WorkExperience, index: number) => {
                 const year = new Date().getFullYear();
                 const currYear = String(year);
-                const endYear = experience.endYear === currYear ? 'Present' : experience.endYear;
+                const endYear = experience.isEmployee ? 'Present' : experience.endYear;
 
                 return (
                   <article
@@ -193,7 +196,8 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
         <>
           {isForm && (
             <form
-              onSubmit={(e) => addWorkExperience(e)}
+              onSubmit={(e) => (isEditMode ? handleEditExperience(editingExperienceId, e) : addWorkExperience(e))}
+              // onSubmit={(e) => addWorkExperience(e)}
               // onSubmit={(e) => (isEditMode ? editExperience(editingExperience!, e) : addWorkExperience(e))}
               className="flex flex-col gap-y-7"
             >
@@ -366,11 +370,12 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
-                  onClick={() => {
+                  onClick={(e) => {
                     onClose();
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
+                    isEditMode ? handleEditExperience() : addWorkExperience();
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"

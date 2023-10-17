@@ -160,7 +160,7 @@ const SettingPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('user', data);
-        setUserPic(data?.user.profilePic);
+        setUserPic(data?.user?.profilePic);
       } else {
       }
     } catch (error) {
@@ -172,7 +172,7 @@ const SettingPage = () => {
 
   useEffect(() => {
     handleGetUser();
-  }, []);
+  }, [settingOption]);
   const getNotificationSettingsFromLocalStorage = () => {
     const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
     if (storedNotificationData) {
@@ -189,54 +189,54 @@ const SettingPage = () => {
     setter((prev: boolean) => !prev);
   };
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const handlePics = async () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('profilepics', selectedFile);
+
+      try {
+        const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/image/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          console.log('File uploaded successfully');
+          notify({
+            message: 'Uploaded succefully',
+            type: 'success',
+          });
+        } else {
+          console.error('File upload failed');
+          notify({
+            message: 'faile to upload',
+            type: 'error',
+          });
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+    } else {
+      console.error('Please select a file to upload');
+    }
+  };
+
+  const [selectedFile, setSelectedFile] = useState<string>('');
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
-    if (files && files.length > 0) {
-      setSelectedFile(files[0]);
+    if (files) {
+      const file = files[0];
+      setSelectedFile(URL.createObjectURL(file));
     } else {
-      setSelectedFile(null);
+      setSelectedFile('');
     }
   };
 
-  //   const handlePics = async () => {
-  //     if (selectedFile) {
-  //       const formData = new FormData();
-  //       formData.append('profilepics', selectedFile);
-
-  //       try {
-  //         const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/image/upload', {
-  //           method: 'POST',
-  //           body: formData,
-  //         });
-
-  //       if (response.ok) {
-  //         console.log('File uploaded successfully');
-  //         notify({
-  //           message: 'Uploaded succefully',
-  //           type: 'success',
-  //         });
-
-  //       } else {
-  //         console.error('File upload failed');
-  //         notify({
-  //           message: 'faile to upload',
-  //           type: 'error',
-  //         });
-
-  //       }
-  //     } catch (error) {
-  //       console.error('An error occurred:', error);
-
-  //     }
-  //   } else {
-  //     console.error('Please select a file to upload');
-
-  //   }
-  // };
-
+  useEffect(() => {
+    handlePics();
+  }, [selectedFile]);
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
       <div className="w-full   relative font-manropeEB mb-4  lg:mb-2   flex flex-col  ">
@@ -351,7 +351,7 @@ const SettingPage = () => {
                         >
                           <>
                             <Image
-                              src={userPic || defaultpic}
+                              src={userPic || selectedFile || defaultpic}
                               width={280}
                               height={180}
                               alt=""
@@ -493,17 +493,23 @@ const SettingPage = () => {
                             >
                               <>
                                 <Image
-                                  src={userPic}
+                                  src={userPic || selectedFile || defaultpic}
                                   width={280}
                                   height={180}
                                   alt=""
-                                  className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
+                                  className=" w-[140px] h-[140px]  rounded-full  "
                                 ></Image>
                               </>
-                              <button className="mb-4">Edit</button>
-                              {selectedFile && <button className="text-brand-green-primary"></button>}
+                              {/* <button
+                               className="mb-4">Edit</button> */}
                             </label>
-                            <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
+                            <input
+                              type="file"
+                              onChange={handleFileChange}
+                              name="profilepics"
+                              id="profilepics"
+                              className=" hidden outline-none"
+                            />
                           </div>
 
                           <AccountManagementMobile />
@@ -532,7 +538,7 @@ const SettingPage = () => {
              settingOption.accountManagement || settingOption.deleteAccount || settingOption.refer
                ? 'md:block lg:block hidden'
                : ''
-           }
+           } ${settingOption.notificationSettings && 'md:block'}
            hover:bg-brand-green-hover hover:text-white-100 `}
         >
           Save <span className={` ${showReferInfo && 'hidden md:inline'}`}>& Close </span>

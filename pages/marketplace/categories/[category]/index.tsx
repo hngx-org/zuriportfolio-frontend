@@ -5,8 +5,8 @@ import { useContext, useEffect } from 'react';
 import { PreviousUrlContext } from '@modules/marketplace/context/PreviousUrlProvider';
 
 export const getServerSideProps = async (context: any) => {
-  const { category } = context.query;
-  // console.log(category);
+  const { category: _category } = context.query;
+  const category = _category?.replace(/_/g, ' ');
 
   if (!category) {
     return {

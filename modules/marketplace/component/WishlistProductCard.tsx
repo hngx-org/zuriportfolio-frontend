@@ -105,7 +105,13 @@ export const WishlistProductCard = ({
         </div>
 
         <div className="md:hidden self-start mt-1 cursor-pointer">
-          <Image src={deleteIcon} alt="delete" width={35} height={35} />
+          <Image
+            src={deleteIcon}
+            alt="delete"
+            width={35}
+            height={35}
+            onClick={() => handleRemoveFromWishlist(product.id)}
+          />
         </div>
         <div className="hidden md:block">
           <Button

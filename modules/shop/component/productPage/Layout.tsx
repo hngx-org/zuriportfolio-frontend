@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import { useCart } from '../CartContext';
+import { ShopData } from '../../../../@types';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ interface LayoutProps {
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
   handleCategoryChange: (category: string) => void;
+  shop: ShopData | null;
 }
 
 const Layout: React.FC<LayoutProps> = ({
@@ -26,6 +28,7 @@ const Layout: React.FC<LayoutProps> = ({
   setSelectedCategory,
   setShopOwnerQuery,
   handleCategoryChange,
+  shop,
 }) => {
   const { cart } = useCart();
 
@@ -42,7 +45,7 @@ const Layout: React.FC<LayoutProps> = ({
         handleCategoryChange={handleCategoryChange}
       />
       {children}
-      <Footer />
+      <Footer shopName={shop ? shop.data?.name : ''} />
     </div>
   );
 };
