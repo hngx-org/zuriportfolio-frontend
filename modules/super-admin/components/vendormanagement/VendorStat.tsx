@@ -45,7 +45,13 @@ const VendorsStat = ({
             <p className="text-lg text-gray-500">Deleted Vendors</p>
           </div>
           <div className="flex items-center justify-between">
-            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold">{data?.data?.filter((item: any) => item?.vendor_status === 'Deleted')?.length}</h2>}
+            {isLoading ? (
+              <LoadingText />
+            ) : (
+              <h2 className="text-4xl font-bold">
+                {data?.data?.filter((item: any) => item?.vendor_status === 'Deleted')?.length}
+              </h2>
+            )}
             <button
               className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl"
               onClick={() => setShowDeleted(!showDeleted)}

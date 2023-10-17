@@ -16,7 +16,7 @@ const CartPaymentModal = () => {
           <Image src={checkedPayment} alt="checked" />
         </div>
         <h3 className="text-sm w-min-[40px] mx-auto font-bold my-4">Payment Successful!</h3>
-        <button className="bg-green-700 rounded text-white-100 text-sm h-9 px-3">Redirecting to Cart...</button>
+        <span className="bg-green-700 rounded text-white-100 text-sm h-9 py-3 px-5">Redirecting to Cart...</span>
       </div>
     </div>
   );
