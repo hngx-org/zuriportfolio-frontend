@@ -37,6 +37,7 @@ function RecentlyViewed() {
   if (!token?.id && isReady) return <div></div>;
 
   return (
+    
     <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-[60px]">
       <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal">
         Recently Viewed
