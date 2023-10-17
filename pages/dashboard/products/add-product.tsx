@@ -25,9 +25,11 @@ const AddProduct = () => {
   const linkRef = useRef<HTMLInputElement | null>(null);
   const [shops, setShops] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState('');
+
   const toggleNewCategoryInput = () => {
     setShowNewCategoryInput(!showNewCategoryInput);
   };
+
   const productScehema = z.object({
     image: z.string().min(4, { message: 'Add image' }),
     name: z.string().min(5, { message: 'Add Product Name' }),
@@ -87,58 +89,6 @@ const AddProduct = () => {
 
     fetchCategoriesData();
   }, []);
-
-  const handleAddNewCategory = async (e: any) => {
-    e.preventDefault();
-
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/category',
-        { name: newCategoryName },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-          },
-        },
-      );
-
-      if (response.status === 201) {
-        toast.success('Category created successfully', {
-          position: 'top-right',
-          autoClose: 5000,
-        });
-
-        // Clear the input field
-        setNewCategoryName('');
-
-        // Fetch and update the categories list
-        const updatedCategories = await fetchCategories();
-        setCategoriesData(updatedCategories);
-      } else {
-        console.error('Failed to create category:', response.data);
-      }
-    } catch (error: any) {
-      console.error('Error creating category:', error);
-      toast.error(error, {
-        position: 'top-right',
-        autoClose: 5000,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCurrency(event.target.value);
-
-    // Blur the select element to remove focus
-    event.target.blur();
-  };
-  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setProducts({ ...products, sub_category_id: event.target.value });
-  };
 
   const fetchCategories = async () => {
     try {
@@ -533,7 +483,7 @@ const AddProduct = () => {
                     className={`w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
                       form.errors.discountPrice ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    placeholder="00.00"
+                    placeholder="₦00.00"
                     inputMode="none"
                     {...form.getInputProps('discountPrice')}
                   />
