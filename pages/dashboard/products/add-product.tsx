@@ -25,9 +25,11 @@ const AddProduct = () => {
   const linkRef = useRef<HTMLInputElement | null>(null);
   const [shops, setShops] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState('');
+
   const toggleNewCategoryInput = () => {
     setShowNewCategoryInput(!showNewCategoryInput);
   };
+
   const productScehema = z.object({
     image: z.string().min(4, { message: 'Add image' }),
     name: z.string().min(5, { message: 'Add Product Name' }),
@@ -533,7 +535,7 @@ const AddProduct = () => {
                     className={`w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
                       form.errors.discountPrice ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    placeholder="00.00"
+                    placeholder="₦00.00"
                     inputMode="none"
                     {...form.getInputProps('discountPrice')}
                   />
