@@ -85,6 +85,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
     const newValue = e.target.value;
     const name = e.target.name;
 
+    skillId;
     if (newValue === '') {
       setExamTime((prevExamTime) => ({
         ...prevExamTime,
@@ -151,16 +152,15 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
   const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
     useCreatingAssessmentContext();
 
-  
   const saveScore = async (level: string) => {
     const token = localStorage.getItem('zpt');
-  
+
     try {
       const response = await fetch('https://staging.zuri.team/api/badges', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           min_score: gradingValues[level].minScore,
@@ -169,7 +169,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
           skill_id: skillId,
         }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         toast.success(`Scoring for ${level} saved successfully!`);
@@ -185,8 +185,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
       // Handle error if needed
     }
   };
-  
-  
 
   const handleFormSubmit = async () => {
     const { hours, minutes, seconds } = examTime;

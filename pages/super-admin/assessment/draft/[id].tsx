@@ -80,9 +80,9 @@ const id = params?.id
     fetch(apiUrl, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
-     
+
         'X-CSRFTOKEN': token,
       },
     })

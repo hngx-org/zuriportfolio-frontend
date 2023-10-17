@@ -18,6 +18,7 @@ function SectionModal({
   //Destructure the useDisclosure hook
   const { openDelete, setOpenDelete } = useContext(Portfolio);
   const onClose = () => setOpenDelete(false);
+  console.log(sectionToDelete, 'sectiontodelete');
 
   return (
     <>
@@ -92,7 +93,6 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   const { toggleSection, setOpenDelete } = useContext(Portfolio);
   const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
   const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
-  console.log(sectionToDelete);
   const deleteSection = async () => {
     if (deleteFromBe) {
     } else if (deleteLocal) {

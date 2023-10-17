@@ -1,4 +1,3 @@
-import React from 'react';
 import JumboBg from '../../../public/assets/home/jumbo_background.png';
 import JumboIconOne from '../../../public/assets/home/jumbo-circle-one.png';
 import JumboIconTwo from '../../../public/assets/home/jumbo-circle-two.png';
@@ -38,7 +37,7 @@ const Jumbotron = () => {
             </Button>
             <Button
               href="/explore"
-              className="text-[16px] bg-white-100 hover:bg-white-100 text-green-500 underline underline-offset-[12px]"
+              className="text-[16px] bg-white-100 active:bg-white-100 visited:bg-white-100 focus:bg-white-100 hover:bg-white-100 text-green-500 underline underline-offset-[12px]"
             >
               Portfolio Explore
             </Button>
