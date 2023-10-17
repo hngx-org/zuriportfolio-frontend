@@ -48,7 +48,7 @@ function ProductCardWrapper({
           </div>
         ) : (
           <>
-            {productsList.items.length ? (
+            {productsList?.items?.length ? (
               <div
                 className={`flex flex-nowrap lg:grid grid-cols-4 gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
               >
