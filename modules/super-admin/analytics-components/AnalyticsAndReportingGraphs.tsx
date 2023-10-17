@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  BarChart,
-  Bar,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  ReferenceLine,
-  ResponsiveContainer,
-  Tooltip,
-} from 'recharts';
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
 import Link from 'next/link';
 import Image from 'next/image';
 import ActivityDetails from './ActivityDetails';
@@ -63,7 +53,8 @@ const AnalyticsAndReportingGraphs = () => {
   const [activePeriodGraph1, setActivePeriodGraph1] = useState('12months');
   const [activePeriodGraph2, setActivePeriodGraph2] = useState('12months');
 
-  const bearerToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+  const bearerToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
 
   useEffect(() => {
     const fetchDataForGraph = async (period: any, graphIndex: number) => {
@@ -76,7 +67,7 @@ const AnalyticsAndReportingGraphs = () => {
         const url = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/total-sales-orders-users/?last=${period}`;
         const response = await fetch(url, {
           headers: {
-            'Authorization': `Bearer ${bearerToken}`,
+            Authorization: `Bearer ${bearerToken}`,
           },
         });
 
@@ -144,12 +135,27 @@ const AnalyticsAndReportingGraphs = () => {
   }, []);
 
   const handlePeriodChange = (period: any, graphIndex: number) => {
+    setLoadingStates((prevLoadingStates) => ({
+      ...prevLoadingStates,
+      [graphIndex]: true,
+    }));
+  
     if (graphIndex === 0) {
       setActivePeriodGraph1(period);
     } else if (graphIndex === 1) {
       setActivePeriodGraph2(period);
     }
+  
+    // Reset the loading state for the other graph
+    const otherGraphIndex = graphIndex === 0 ? 1 : 0;
+    setLoadingStates((prevLoadingStates) => ({
+      ...prevLoadingStates,
+      [otherGraphIndex]: false,
+    }));
   };
+  
+  
+  
 
   const graphDetails = [
     {
@@ -218,8 +224,7 @@ const AnalyticsAndReportingGraphs = () => {
                           handlePeriodChange(value, index);
                         }}
                         className={`${
-                          (index === 0 && activePeriodGraph1 === value) ||
-                          (index === 1 && activePeriodGraph2 === value)
+                          (index === 0 && activePeriodGraph1 === value) || (index === 1 && activePeriodGraph2 === value)
                             ? 'selected rounded-md bg-[#E6F5EA] py-1.5 px-2 text-brand-green-focused'
                             : ''
                         }`}
@@ -269,9 +274,7 @@ const AnalyticsAndReportingGraphs = () => {
                   {index === 0 ? (
                     <ResponsiveContainer height={230} width="95%" className="mx-auto text-[14px]">
                       {loadingStates[0] ? (
-                       
-                          <div className="h-[13rem] w-full bg-black bg-opacity-20 shadow-lg mx-auto rounded-md animate-pulse" />
-                      
+                        <div className="h-[13rem] w-full bg-black bg-opacity-10 shadow-lg mx-auto rounded-md animate-pulse" />
                       ) : (
                         <LineChart data={graphData[0]}>
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
@@ -289,7 +292,7 @@ const AnalyticsAndReportingGraphs = () => {
                   ) : (
                     <ResponsiveContainer height={230} width="95%" className="mx-auto text-[14px]">
                       {loadingStates[1] ? (
-                         <div className="h-[13rem] w-full bg-black bg-opacity-20 shadow-lg mx-auto rounded-md animate-pulse" />
+                        <div className="h-[13rem] w-full bg-black bg-opacity-10 shadow-lg mx-auto rounded-md animate-pulse" />
                       ) : (
                         <BarChart data={graphData[1]}>
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
