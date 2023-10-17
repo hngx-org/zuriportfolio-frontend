@@ -814,6 +814,7 @@ export type User = {
   isVerified: boolean;
   roleId: number;
   twoFactorAuth: boolean;
+  two_factor_auth: boolean;
 };
 
 export type AuthResponse = {
