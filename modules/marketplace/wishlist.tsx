@@ -9,15 +9,20 @@ import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
+import { LoadingSkeleton } from '../marketplace/component/LoadingSkeleton';
 
 import { removeFromWishlist } from '../../http';
 
 function Wishlist() {
   const [data, setData] = useState<ProductEntry[]>([]);
   const [dataCheck, setDataCheck] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const { auth } = useAuth();
 
   const token: any = isUserAuthenticated();
+
+  const loadingCards = new Array(3).fill(0);
 
   const fetchData = async () => {
     try {
@@ -26,6 +31,7 @@ function Wishlist() {
       const result = await response.json();
       if (Array.isArray(result) && result.length === 0) setDataCheck(true);
       setData(result);
+      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
       toast.error('Error fetching data.');
@@ -91,21 +97,28 @@ function Wishlist() {
                 </h2>
               </div>
               <div className="flex flex-col gap-6  lg:px-[100px]">
-                {dataCheck && (
-                  <div className="flex flex-col mx-auto items-center ">
-                    <Image src={loadingIllustration} alt="loading" width={100} height={100} />
-                    <p className="text-lg mt-2">Looks like you have no items in your wishlist</p>
-                  </div>
-                )}
+                {isLoading ? (
+                  loadingCards.map((_, index) => <LoadingSkeleton key={index} />)
+                ) : (
+                  // Conditionally render product cards or empty message
+                  <>
+                    {dataCheck && (
+                      <div className="flex flex-col mx-auto items-center">
+                        <Image src={loadingIllustration} alt="loading" width={100} height={100} />
+                        <p className="text-lg mt-2">Looks like you have no items in your wishlist</p>
+                      </div>
+                    )}
 
-                {data.map(({ id, product }) => (
-                  <WishlistProductCard
-                    key={id}
-                    product={product}
-                    moveToCart={moveToCart}
-                    handleRemoveFromWishlist={handleRemoveFromWishlist}
-                  />
-                ))}
+                    {data.map(({ id, product }) => (
+                      <WishlistProductCard
+                        key={id}
+                        product={product}
+                        moveToCart={moveToCart}
+                        handleRemoveFromWishlist={handleRemoveFromWishlist}
+                      />
+                    ))}
+                  </>
+                )}
               </div>
             </section>
           </div>
