@@ -16,7 +16,6 @@ const Landing = () => {
     hasPortfolio,
     hasData,
     profileUpdate,
-    modal,
     showProfileUpdate,
     showBuildPortfolio,
     showViewtemplates,
