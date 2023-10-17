@@ -8,6 +8,7 @@ import Loader from '@ui/Loader';
 import { Input } from '@ui/Input';
 import Image from 'next/image';
 import erroEmpty from './assets/Error.svg';
+import { useSearchParams } from 'next/navigation';
 
 // You can now access the data array with the specified objects as needed in your application.
 
@@ -22,6 +23,8 @@ export default function SearchModule() {
     [key: string]: number | string | undefined;
   }>({});
   const [revealFilters, setRevealFilters] = useState(false);
+  const searchParam = useSearchParams();
+  const query = searchParam.get('query');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -44,7 +47,7 @@ export default function SearchModule() {
     });
   };
 
-  const deBounce = useDebounce(searchQuery, 1200);
+  const deBounce = useDebounce(`${query}`, 1200);
 
   const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
     searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
@@ -72,8 +75,8 @@ export default function SearchModule() {
 
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo>({
-    queryKey: ['profile', deBounce, filters, pageNumber],
-    queryFn: () => fetchUsers(searchQuery),
+    queryKey: ['profile', query, filters, pageNumber],
+    queryFn: () => fetchUsers(`${query}`),
   });
 
   const filterUI = ['HTML', 'REACT', 'C+', 'Figma', 'Css', 'Typography'];
@@ -84,7 +87,7 @@ export default function SearchModule() {
   return (
     <div className="ss min-h-screen m-auto max-w-[1264px]">
       <div className="flex justify-between items-end">
-        <h2 className="text-zinc-900 text-4xl font-bold  leading-[44px]">Search Results for “Mary Doe”</h2>
+        <h2 className="text-zinc-900 text-4xl font-bold  leading-[44px]">Search Results for “{query}”</h2>
         <div className="text-zinc-700 text-[22px] font-normal  leading-7">{data?.data?.length} Results</div>
       </div>
       <div className="mt-10  flex gap-3">
