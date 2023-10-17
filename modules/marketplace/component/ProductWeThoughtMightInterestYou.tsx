@@ -5,12 +5,19 @@ import { IntrestedProducts, ProductData } from '../../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from "../../../context/AuthContext";
+import { isUserAuthenticated } from './hooks/useAuthHelper';
+import { CART_ENDPOINT } from '../../../http/checkout';
+import { useCart } from '@modules/shop/component/CartContext';
+  
+
 
 export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { auth } = useAuth();
   const [response, setResponse] = useState<IntrestedProducts[]>([]);
   const [product, setProduct] = useState<ProductData | null>(null);
+  const { setCartCountNav, cartCount } = useCart();
+  const [cartLoading, setCartLoading] = useState<boolean>(true);
 
   const url = `https://coral-app-8bk8j.ondigitalocean.app/api/similar_products/${id}/`;
   useEffect(() => {
@@ -37,9 +44,9 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
     });
   }
 
-  const addToCart = async (ids: string) => {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
-    if (auth) {
+  const addToCart = async (ids: any) => {
+    const apiUrl = `${CART_ENDPOINT}/carts`;
+    if (auth?.token) {
       try {
         const response = await axios.post(
           apiUrl,
@@ -52,20 +59,26 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
         );
 
         if (response.status === 200) {
-          toast.success('Added to Cart');
-          console.log('success');
+          setCartCountNav(cartCount + 1);
+          setCartLoading(false);
         }
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
       }
+      toast.success('Added to Cart');
     } else {
-      const products: any[] = [];
+      const products: any[] = localStorage.getItem('products')
+        ? JSON.parse(localStorage.getItem('products') as string)
+        : [];
+
       if (product) {
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
         toast.success('Item added to cart🎊');
+        setCartLoading(false);
+        setCartCountNav(cartCount + 1);
       }
     }
   };
@@ -125,6 +138,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
             </Link>
             <div className="flex flex-row items-center gap-[8px] mt-[24px]">
               <button
+                disabled={!cartLoading}
                 className="w-[48px] py-[12px] px-[8px] border-[1px] border-custom-color32 rounded-[8px]"
                 onClick={() => addToCart(item?.id)}
               >
