@@ -458,6 +458,7 @@ export default function ProductDetailsDescription() {
           </div>
 
           {/* favorite products  */}
+          <div></div>
           <div>
             <ProductWeThoughtMightInterestYou id={id} />
           </div>
