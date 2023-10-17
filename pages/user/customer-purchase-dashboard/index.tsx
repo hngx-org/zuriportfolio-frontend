@@ -15,6 +15,8 @@ import { toast } from 'react-toastify';
 import { error } from 'console';
 import Spinner from '@ui/Spinner';
 import Link from 'next/link';
+import ComplaintsModal from '../../../components/Modals/ComplaintModal';
+import FilterModal from '@modules/marketplace/component/CustomerDashboard/FilterModal';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -38,7 +40,7 @@ export type PurchaseData = {
   };
 };
 
-export type SearchFilter = 'item' | 'price';
+export type SearchFilter = 'year' | 'month' | 'price' | null;
 
 const MyPage: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -48,9 +50,28 @@ const MyPage: React.FC = () => {
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
+  const [selectedOrder, setSelectedOrder] = useState<PurchaseData | null>(null);
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJlYTg1OWExLThlOTYtNDE3MC1hNTEzLTg4MDQ1MTVkYjY0MCIsImlhdCI6MTY5NzQ3NjQ4Mn0.MFvxxYGyOfGdJ-obnPcMOaAfnhT5JNwkERqWukBzyqU"
+
+  // modal open and close state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const payload = { orderItemIds: checkedItems };
   const stringifyData = JSON.stringify(payload);
+
+  // Function to open the ComplaintsModal and set the selected order
+  const openModalWithOrder = (order: PurchaseData) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
+  };
 
   // function to handle delete
   const onDelete = async () => {
@@ -60,7 +81,7 @@ const MyPage: React.FC = () => {
         method: 'DELETE',
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
+            `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs`,
           'Content-Type': 'application/json',
         },
         body: stringifyData,
@@ -145,7 +166,7 @@ const MyPage: React.FC = () => {
       const res = await $http.get('https://customer-purchase.onrender.com/api/orders/all-transactions', {
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
+            `Bearer ${token}`,
         },
       });
       setData(res?.data?.data);
@@ -161,11 +182,12 @@ const MyPage: React.FC = () => {
   const onSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+    setIsLoading(true);
     try {
-      const res = await $http.get(getFilterApi(filterBy, searchInput), {
+      const res = await $http.get(getSearchApi(searchInput), {
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs',
+            `Bearer ${token}`,
         },
       });
       setData(res?.data?.data);
@@ -177,15 +199,24 @@ const MyPage: React.FC = () => {
     setSearchInput('');
   };
 
-  const getFilterApi = (filterBy: string, filterParams: string) => {
-    return `https://customer-purchase.onrender.com/api/orders/filter-transactions?${filterBy}=${filterParams}`;
+
+  const getSearchApi = (filterParams: string) => {
+    return `https://customer-purchase.onrender.com/api/orders/search-transactions?search=${filterParams}`;
   };
 
   // handle filter dropdown
-  const [filterBy, setFilterBy] = useState<SearchFilter>('item');
+  const [filterBy, setFilterBy] = useState<SearchFilter>(null);
+  const [openFilterModal, setOpenFilterModal] = useState<boolean>(false);
   const onChooseFilter = (filter: SearchFilter) => {
     setFilterBy(filter);
+    closeFilterModal();
   };
+  function closeFilterModal(){
+    setOpenFilterModal(!openFilterModal)
+  }
+  function setFilteredData(data: PurchaseData[]){
+    setData(data)
+  }
 
   // handle search and filter functionality
   const handleFilterClick = (filterName: string | null) => {
@@ -288,7 +319,7 @@ const MyPage: React.FC = () => {
                 onChange={(e) => handleSearchInput(e)}
                 leftIcon={<SearchNormal1 color="black" />}
                 className="border-2 border-solid border-white-200 pl-6 w-full h-[2.5rem] pr-[1rem] rounded flex-1"
-                placeholder={`Search by ${filterBy} or select a filter to search by`}
+                placeholder={`Search by item, seller or use the filter`}
               />
             </form>
 
@@ -303,9 +334,7 @@ const MyPage: React.FC = () => {
                 <thead className="h-[3rem]">
                   <tr className="bg-white-200">
                     <th className="text-left px-4 py-2 text-[0.75rem]">
-                      <span className="px-4">
-                        <input type="checkbox" />
-                      </span>
+                      <span className="px-4"></span>
                       Items
                     </th>
                     <th className="text-left px-4 py-2 text-[0.75rem]">Order ID</th>
@@ -320,27 +349,33 @@ const MyPage: React.FC = () => {
                   {data
                     .filter((item) => (filter ? item.order.status.toLowerCase() === filter.toLowerCase() : true))
                     .map((item) => (
-                      <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
-                        <td className="text-[0.75rem] flex items-center mt-5">
-                          <span className="px-4 ml-[1rem]">
-                            {' '}
-                            <input
-                              type="checkbox"
-                              checked={checkedItems.includes(item.id)}
-                              onChange={() => handleCheckboxChange(item.id)}
-                            />
-                          </span>
+                      <tr
+                        key={item.id}
+                        className="border-b border-white-200 border-solid border-1 h-[3.75rem]"
+                        onClick={() => openModalWithOrder(item)}
+                      >
+                        <td className="text-[0.75rem] flex items-center mt-5 cursor-pointer" onClick={openModal}>
+                          <span className="px-4 ml-[1rem] cursor-pointer"> </span>
                           {item.product.name}
                         </td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.order_id}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.order_price}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.createdAt.split('T')[0]}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.merchant}</td>
-                        <td className="text-[0.75rem] px-4 py-2">
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
+                          {item.order_id}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
+                          {item.order_price}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
+                          {item.createdAt.split('T')[0]}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
+                          {item.merchant}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
                           <span
-                            className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
+                            className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl cursor-pointer ${
                               getStatusBackgroundColor(item.order.status)[0]
                             }`}
+                            // onClick={() => handleClickStatus('failed')}
                           >
                             <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.order.status)[1]}`}>
                               {item.order.status}
@@ -355,10 +390,20 @@ const MyPage: React.FC = () => {
           )}
           {data.length > 0 && <MobileCustomerDashboard data={data} />}
           {/* error page */}
-          {data.length === 0 && <PurchaseNotFound back={onBack} />}
+          {(data.length === 0 && !isLoading) && <PurchaseNotFound back={onBack} />}
         </div>
+
+        {}
+        <ComplaintsModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          product={selectedOrder?.product_id || ''}
+          customerID={selectedOrder?.customer_id || ''}
+        />
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
+        {/* filter modal */}
+        <FilterModal isOpen={openFilterModal} onClose={closeFilterModal} filter={filterBy} token={token} setData={setFilteredData}/>
       </div>
     </MainLayout>
   );

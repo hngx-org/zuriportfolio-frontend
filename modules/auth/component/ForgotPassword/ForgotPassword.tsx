@@ -20,7 +20,6 @@ const ForgotPassword = () => {
 
   //Success Handler
   const forgotPasswordSuccess = (data: any) => {
-    console.log(data.message);
     if (data.status === 200) {
       router.push('/auth/forgot-password-link-sent');
       return;
@@ -51,7 +50,6 @@ const ForgotPassword = () => {
 
   // Handling email input
   const handleForgotPassword = (values: any) => {
-    console.log('email', values.email);
     mutate({ email: values.email });
   };
 
@@ -89,8 +87,8 @@ const ForgotPassword = () => {
                   id="email"
                   {...form.getInputProps('email')}
                   type="email"
-                  placeholder="enter email"
-                  className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  placeholder="Enter email"
+                  className={`w-full text-black  h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.email ? 'border-[red]' : 'border-slate-50'
                   }`}
                 />
@@ -106,7 +104,7 @@ const ForgotPassword = () => {
             <p className="text-[14px] text-center text-custom-color20 font-medium">
               Go back to{' '}
               <Link href="/auth/login" className="text-brand-green-primary">
-                Login
+                Sign in
               </Link>
             </p>
           </div>

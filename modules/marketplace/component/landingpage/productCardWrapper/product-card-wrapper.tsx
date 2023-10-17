@@ -36,7 +36,6 @@ function ProductCardWrapper({
             </svg>
           </Link>
         )}
-
       </h3>
       <div>
         {productsList.isLoading ? (
@@ -49,7 +48,7 @@ function ProductCardWrapper({
           </div>
         ) : (
           <>
-            {productsList.items.length ? (
+            {productsList?.items?.length ? (
               <div
                 className={`flex flex-nowrap lg:grid grid-cols-4 gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
               >
@@ -68,6 +67,7 @@ function ProductCardWrapper({
                           showDiscount={item?.showDiscount}
                           showTopPicks={showTopPicks}
                           discount_price={item?.discount_price}
+                          shop={item?.shop}
                         />
                       </div>
                     );

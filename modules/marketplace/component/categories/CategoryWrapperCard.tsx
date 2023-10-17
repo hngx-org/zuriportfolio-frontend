@@ -40,7 +40,7 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
   //   console.log(data, loading, error);
 
   if (error) {
-    return <CategoryError message={`No products found in ${category}`} />;
+    return <CategoryError message={`No products found in ${category} with subcategory of ${subCategory}`} />;
   }
 
   return (
@@ -87,6 +87,7 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
                 id={item.id}
                 image={item?.images[0]['url'] ? item?.images[0]['url'] : ''}
                 name={item.name}
+                shop={item?.shop}
                 price={item.price}
                 rating={item.rating}
                 user={item?.shop?.name || 'No user'}
