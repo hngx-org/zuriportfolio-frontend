@@ -96,7 +96,7 @@ function Discounts() {
   }
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
