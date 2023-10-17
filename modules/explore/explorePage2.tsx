@@ -46,7 +46,7 @@
 
 // pages/index.tsx
 import React, { useEffect, useState } from 'react';
-import Card from '../explore/components/Card';
+import Card from './components/Card-old';
 import { UserInfo } from '../../@types';
 import { Key } from 'iconsax-react';
 import SearchAndFilter from './SearchAndFilter';
