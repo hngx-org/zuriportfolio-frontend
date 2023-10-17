@@ -141,7 +141,7 @@ const Questions: React.FC = () => {
                 </li>
               ))}
             </ul>
-            <Link href="/assessments/overview">
+            <Link href={`/assessments/overview?data=${result?.assessment_id}`}>
               <Button
                 intent={'primary'}
                 size={'md'}
