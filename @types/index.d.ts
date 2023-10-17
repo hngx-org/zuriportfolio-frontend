@@ -520,6 +520,7 @@ export interface WorkExperience {
   endYear: string;
   endMonth: string;
   id: number;
+  isEmployee: boolean;
 }
 export interface VerificationProps {
   handleClick(): void;
