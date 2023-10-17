@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../modules/assessment/component/Header';
+import { FaSpinner } from 'react-icons/fa';
 import addmessage from '../../../public/assets/assessment/message-add.png';
 import draftsimg from '../../../public/assets/assessment/drafts.png';
 import ratioimg from '../../../public/assets/assessment/ratio.png';
@@ -39,8 +40,8 @@ function Index() {
 
         const response = await fetch(apiUrl, {
           headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${csrfToken}`,
+            Accept: 'application/json',
+            Authorization: `Bearer ${csrfToken}`,
             'X-CSRFTOKEN': csrfToken,
           },
         });
@@ -65,8 +66,8 @@ function Index() {
 
         const response = await fetch(apiUrl, {
           headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${csrfToken}`,
+            Accept: 'application/json',
+            Authorization: `Bearer ${csrfToken}`,
             'X-CSRFTOKEN': csrfToken,
           },
         });
@@ -87,7 +88,7 @@ function Index() {
     assessmentOverviewData();
   }, []);
 
-  const onFilter = (e:any) => {
+  const onFilter = (e: any) => {
     setfilterParam(e.target.value.toLowerCase());
   };
 
@@ -102,7 +103,6 @@ function Index() {
       }),
     );
   }, [filterParam, assessments]);
-
 
   useEffect(() => {
     const apiUrl = 'https://hng6-r5y3.onrender.com/api/tracks';
@@ -127,12 +127,19 @@ function Index() {
   if (loading) {
     return (
       <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
-        <div className=" items-center text-white-100 text-2xl">Loading...</div>
+        <div className=" items-center ">
+          <FaSpinner color="#fff" className="animate-spin" size={100} />
+        </div>
       </div>
     );
   }
   return (
-    <MainLayout activePage="/super-admin/assessment/" className="assessmentheader" showTopbar showDashboardSidebar={false}>
+    <MainLayout
+      activePage="/super-admin/assessment/"
+      className="assessmentheader"
+      showTopbar
+      showDashboardSidebar={false}
+    >
       {newModal && (
         <div className="fixed bg-dark-600 top-0 left-0 w-full h-full grid place-items-center z-20">
           <div className="bg-white-100 w-[300px] md:w-[558px] text-center font-semibold py-[60px] md:py-[80px] px-[20px] rounded-2xl">
@@ -165,7 +172,10 @@ function Index() {
                 Cancel
               </div>
               <Link
-                href={{ pathname: track === null ? '/super-admin/assessment' : '/super-admin/assessment/new', query: { name: track } }}
+                href={{
+                  pathname: track === null ? '/super-admin/assessment' : '/super-admin/assessment/new',
+                  query: { name: track },
+                }}
                 onClick={() => {
                   setnewModal(false);
                 }}

@@ -5,6 +5,7 @@ import Edithead from '@modules/assessment/component/edittitleHead';
 import { useState } from 'react';
 import PreviewQuests from '@modules/assessment/component/previewQuests';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+import { useRouter } from 'next/router';
 
 const Previewedit: React.FC = () => {
   //demo-question-...
@@ -14,28 +15,33 @@ const Previewedit: React.FC = () => {
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
     duration_minutes: 0,
-    questions: [{ 
-      answers: [{}], 
-      question_no: 1, 
-      question_text: "question", 
-      question_type: "multiple_choice"
-    }],
-    updatedAt: new Date() // Similarly for updatedAt
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: 'question',
+        question_type: 'multiple_choice',
+      },
+    ],
+    updatedAt: new Date(), // Similarly for updatedAt
   });
 
-  const setTitle = (data:any) => {
-    setAssessment(prevAssessment => ({
-        ...prevAssessment,
-        title: data
+  const setTitle = (data: any) => {
+    setAssessment((prevAssessment) => ({
+      ...prevAssessment,
+      title: data,
     }));
-  }
+  };
+  const router = useRouter();
+  const { name } = router.query;
+  const skillId = parseInt(name as string, 10);
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {
     setActive(button);
   };
   const [headInput, setHeadInput] = useState('');
-    
+
   // const handleInput = (value: string) => {
   //   setHeadInput(value);
   // };
@@ -99,7 +105,7 @@ const Previewedit: React.FC = () => {
               </div>
             </>
           ) : (
-            <ScoringScreen />
+            <ScoringScreen skillId={skillId} />
           )}
         </div>
       </main>

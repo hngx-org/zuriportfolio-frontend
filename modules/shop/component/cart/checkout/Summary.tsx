@@ -13,7 +13,6 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
   const [showDiscount, setShowDiscount] = useState<boolean>(false);
   const [invalid, setInvalid] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(false);
-  
 
   const defaultPrices: PriceData = {
     subtotal: 600,
@@ -62,99 +61,52 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
   };
 
   return (
-    <section className="flex lg:px-10 py-8">
-      <div className="cart-summary_wrapper flex flex-col space-y-6">
-        <div className="cart-summary__header border border-[#EBEEEF] rounded-md shadow-sm">
+    <section className="flex lg:px-10 py-8 lg:w-full md:w-1/2">
+      <div className="cart-summary_wrapper flex flex-col space-y-6 lg:w-full md:w-full">
+        <div className="cart-summary__header border border-[#EBEEEF] rounded-md shadow-sm ">
           <h1 className="font-bold capitalize text-xl px-4 py-4 ">cart summary</h1>
           <hr className="border-b-1 border-[#EBEEEF]" />
-          <div className="coupon flex flex-col py-4 px-4">
-            <span></span> <span className="text-sm">Have a coupon?</span>
-            <div className="coupon w-full py-0 flex items-center">
-              <input
-                type="text"
-                placeholder="50 SALE"
-                className={`border border-green-100 focus:border-green-400 my-0 border-r-0 h-[100%] placeholder-green-100 outline-none py-2 px-4  rounded-l-lg ₦{
-                  couponErrorState ? 'border-brand-red-primary' : ''
-                }`}
-                onFocus={() => {
-                  setCouponErrorState(false);
-                  setInvalid(false);
-                }}
-                onChange={onChangeInputHandler}
-              />
+          <div className="cart-summary__details cart-summary__header border border-[#EBEEEF] rounded-md px-6 py-8 shadow-sm">
+            <div className="cart-summary__prices flex flex-col space-y-3">
+              <div className="sum flex justify-between">
+                <p className="font-bold">Subtotal</p>
+                <span className="text-gray-200">₦ {summary.subtotal.toFixed(2)}</span>
+              </div>
 
+              <div className="sum flex justify-between">
+                <p className="font-bold">Promo</p>
+                <span className="text-green-500 transition-all duration-300">-₦ {summary.discount}</span>
+              </div>
+
+              <div className="sum flex justify-between">
+                <p className="font-bold">Vat</p>
+                <span className="text-brand-red-primary transition-all duration-300">+₦ {summary.VAT.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <hr className="border-b-5 border-[#EBEEEF] my-4 mx-3" />
+
+            <div className="cart-total">
+              <div className="sum flex justify-between">
+                <p className="font-bold">Total:</p>
+                <span className="font-bold text-xl transition-all duration-300">₦ {summary.total.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <div>
               <button
-                type="submit"
-                className={`bg-green-300 text-white-100 py-1.5 px-6 rounded-r-md capitalize hover:bg-brand-green-primary border-0 focus:bg-brand-green-focus transition-all duration-300 ₦{
-                  couponErrorState ? 'bg-gray-200' : ''
-                }`}
-                onClick={couponHandler}
+                className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-green-300 hover:shadow-lg hover:font-bold focus:bg-brand-green-focu transition-all duration-300"'
+                onClick={handleCheckoutClick}
               >
-                apply
+                Checkout
               </button>
             </div>
-            {/* {discount > 0 ? (
-              <div className="discount flex items-center space-x-1">
-                <Image src="/assets/check.svg" alt="check-svg" width={10} height={10} />
-                <span className="text-sm text-green-300 transition-all duration-300">Hurray! you got a discount!</span>
-              </div>
+            {token.length > 0 && modalOpen ? (
+              <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} />
             ) : (
-              ''
-            )} */}
-            {invalid ? (
-              <div className="discount flex items-center space-x-1">
-                <Image src="/assets/x.svg" alt="check-svg" width={10} height={10} />
-
-                <span className="text-sm text-brand-red-primary transition-all duration-300">
-                  Oh No! The Coupon code you entered is invalid
-                </span>
-              </div>
-            ) : (
-              ''
+              <TempUser isOpen={modalOpen} onClose={closeModal} />
             )}
           </div>
-        </div>
-        <div className="cart-summary__details cart-summary__header border border-[#EBEEEF] rounded-md px-6 py-8 shadow-sm">
-          <div className="cart-summary__prices flex flex-col space-y-3">
-            <div className="sum flex justify-between">
-              <p className="font-bold">Subtotal</p>
-              <span className="text-gray-200">₦ {summary.subtotal.toFixed(2)}</span>
-            </div>
-
-            <div className="sum flex justify-between">
-              <p className="font-bold">Discount</p>
-              <span className="text-green-500 transition-all duration-300">-₦ {summary.discount}</span>
-            </div>
-
-            <div className="sum flex justify-between">
-              <p className="font-bold">Vat</p>
-              <span className="text-brand-red-primary transition-all duration-300">
-                +₦ {summary.VAT.toFixed(2)}
-              </span>
-            </div>
-          </div>
-
-          <hr className="border-b-5 border-[#EBEEEF] my-4 mx-3" />
-
-          <div className="cart-total">
-            <div className="sum flex justify-between">
-              <p className="font-bold">Total:</p>
-              <span className="font-bold text-xl transition-all duration-300">₦ {summary.total.toFixed(2)}</span>
-            </div>
-          </div>
-
-          <div>
-            <button
-              className='bg-brand-green-primary w-full text-white-100 checkout-btn py-3 px-10 rounded-md cursor-pointer my-4 hover:bg-green-300 hover:shadow-lg hover:font-bold focus:bg-brand-green-focu transition-all duration-300"'
-              onClick={handleCheckoutClick}
-            >
-              Checkout
-            </button>
-          </div>
-          {token.length > 0 && modalOpen ? 
-            <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} /> :
-            <TempUser isOpen={modalOpen} onClose={closeModal} />
-          }
         </div>
       </div>
     </section>

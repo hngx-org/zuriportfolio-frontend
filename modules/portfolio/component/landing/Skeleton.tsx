@@ -1,5 +1,11 @@
-import { ExportSquare } from 'iconsax-react';
+import { ArrowUp, ExportSquare } from 'iconsax-react';
 import Image from 'next/image';
+import AddShopErrorModal from '../addShopErrorModal';
+import { useContext, useEffect, useState } from 'react';
+import Portfolio from '../../../../context/PortfolioLandingContext';
+import axios from 'axios';
+import Link from 'next/link';
+import CustomSectionModal from '../custom-section-modal';
 
 type AboutProps = {
   bio?: string;
@@ -67,7 +73,7 @@ export const Certificate = ({ data }: SkeletonProps) => {
           rel="noreferrer"
         >
           {data?.linkTitle}
-          <ExportSquare size="17" color="#009254" />
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
       <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
@@ -79,21 +85,19 @@ export const Awards = ({ data }: SkeletonProps) => {
   return (
     <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
       <p className="text-gray-300 font-semibold text-base flex-1">
-        <span>
-          {data?.month} {data?.year}
-        </span>
+        <span>{data?.year}</span>
       </p>
       <div className="flex flex-col items-start gap-1 mb-4 flex-1">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.award}</h3>
+        <h3 className="text-lg font-semibold text-gray-200">{data?.title}</h3>
         <p className="text-base font-manropeB text-gray-200">{data?.org}</p>
         <a
           className="flex gap-2 justify-center items-center text-base font-manropeB text-brand-green-primary"
           target="_blank"
-          href={data?.link}
+          href={data?.url}
           rel="noreferrer"
         >
-          {data?.linkTitle}
-          <ExportSquare size="17" color="#009254" />
+          {data?.url}
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
       <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
@@ -106,20 +110,19 @@ export let projects = [
     id: 11,
     title: 'Project title',
     description: 'Description',
-    tags: 'Tag 1#Tag 2',
-    linkTitle: 'Link Title',
-    link: 'Link',
-    img: '',
+    tags: 'Tag 1,Tag 2',
+    url: 'Link',
+    thumbnail: '',
   },
 ];
 
 export const Project = ({ data }: SkeletonProps) => {
-  const dataToMap = data?.tags?.split('#');
+  const dataToMap = data?.tags?.split(',');
   const image = data?.img ? (
     <Image
       width={0}
       height={0}
-      src={data?.img}
+      src={data?.thumbnail}
       alt="project image "
       className="w-[290px] aspect-square rounded-xl order-2 md:order-1 border-[1px] border-gray-300 border-opacity-50"
     />
@@ -127,20 +130,20 @@ export const Project = ({ data }: SkeletonProps) => {
     ''
   );
   return (
-    <div className="flex md:flex-row flex-col gap-4 md:gap-10">
+    <div className="flex md:flex-row flex-col mb-8 gap-1 md:gap-2">
       {image}
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className="font-semibold text-sm text-gray-400">{data?.description}</p>
-        <div className="order-2 md:order-1 flex gap-3 my-2">
+        <div className="order-2 md:order-1 flex gap-2">
           {dataToMap?.map((tag: string, i: number) => (
             <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
               <p className="text-sm text-gray-400">{tag}</p>
             </span>
           ))}
         </div>
-        <a className="text-blue-100 font-semibold" href={data?.url}>
-          Link to project
+        <a className="text-blue-100 font-semibold" target="_blank" href={data?.url} rel="noreferrer">
+          Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
     </div>
@@ -196,23 +199,51 @@ export const Language = ({ data }: SkeletonProps) => {
 };
 
 export const Shop = () => {
-  const shops = [
+  //demo data
+  const shop = [
     {
       id: 1,
       image: '',
     },
   ];
-  return (
+
+  //state holding the shop items
+  const [shopItems, setShopItems] = useState(shop);
+
+  const { openShop, setOpenShop } = useContext(Portfolio);
+
+  async function fetchShopItems() {
+    try {
+      let shopsData: { id: number; image: string }[];
+      shopsData = await axios.get('/shops/id');
+      setShopItems(shopsData);
+    } catch (error) {
+      //console.log(error)
+    }
+  }
+
+  //Check if the users shop has items
+  const showShop = Object.keys(shopItems).length > 3;
+
+  useEffect(() => {
+    //fetchShopItems();
+    setOpenShop(true);
+  }, []);
+
+  return showShop ? (
     <div className="flex flex-col gap-5 min-w-full">
-      {shops.map((shop) => (
+      {/* map through at most 5 shop images */}
+      {shopItems.slice(0, 5).map((shop) => (
         <div className="" key={shop.id}>
           <Image width={0} height={0} src={shop?.image} alt="" className="w-[290px] aspect-square rounded-xl" />
         </div>
       ))}
-      <a className="text-blue-100 font-semibold" href="">
-        Go to shop
-      </a>
+      <Link href={'/portfolio'} className="text-blue-100 font-semibold">
+        Go to Shop <ArrowUp size={20} className="rotate-45 inline ms-1" />
+      </Link>
     </div>
+  ) : (
+    <AddShopErrorModal />
   );
 };
 
@@ -262,16 +293,23 @@ type CustomProps = {
 };
 
 export const Custom = ({ contacts }: CustomProps) => {
+  const { openCustom, setOpenCustom } = useContext(Portfolio);
+
+  useEffect(() => {
+    setOpenCustom(true);
+  }, []);
+
   return (
-    <div className="flex flex-col">
-      {contacts?.map((contact) => (
-        <div className="flex flex-col gap-2" key={contact.id}>
-          <div className="flex justify-start items-center gap-10">
-            <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
-            <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
-          </div>
-        </div>
-      ))}
-    </div>
+    <CustomSectionModal />
+    // <div className="flex flex-col">
+    //   {contacts?.map((contact) => (
+    //     <div className="flex flex-col gap-2" key={contact.id}>
+    //       <div className="flex justify-start items-center gap-10">
+    //         <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
+    //         <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
+    //       </div>
+    //     </div>
+    //   ))}
+    // </div>
   );
 };

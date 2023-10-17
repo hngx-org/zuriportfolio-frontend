@@ -1,6 +1,7 @@
 import React from 'react';
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
+import { boolean } from 'zod';
 
 // export all interfaces and types
 declare module 'nprogress';
@@ -12,6 +13,7 @@ export interface MainLayoutProps {
   showDashboardSidebar?: boolean;
   showTopbar?: boolean;
   showFooter?: boolean;
+  includeMarginTop?: boolean;
 }
 
 export interface ProductData {
@@ -23,7 +25,26 @@ export interface ProductData {
   images: any[];
   url: string[];
   rating: number;
-  user: string;
+  user: {
+    id: string;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    section: string;
+    password: string;
+    provider: string;
+    phone_number: string;
+    is_verified: boolean;
+    two_factor_auth: boolean;
+    location: string;
+    country: string;
+    profile_pic: string;
+    profile_cover_photo: string;
+    refresh_token: string;
+    createdat: string;
+    role: number;
+  };
   quantity: Number;
   shop: string;
 }
@@ -58,6 +79,39 @@ export interface RecentlyViewedData {
   };
   interaction_type: string;
   createdat: number;
+}
+export interface Award {
+  id: number;
+  sectionId: number;
+  year: string;
+  title: string;
+  presented_by: string;
+  url: string;
+  description: string;
+}
+
+export interface AwardItemProps {
+  award: Award;
+}
+export interface AwardListProps {
+  // awards: Award[];
+  isModalOpen: boolean;
+}
+export interface Certification {
+  id: string;
+  sectionId: number;
+  year: string;
+  title: string;
+  organization: string;
+  url: string;
+  description: string;
+}
+
+export interface CertificationItemProps {
+  certification: Certification;
+}
+export interface CertificationListProps {
+  isModalOpen: boolean;
 }
 
 export interface Education {
@@ -108,6 +162,33 @@ export interface Products {
   rating: number;
   currency: string;
   discount_price: string;
+}
+
+interface Data {
+  id: string;
+  merchant_id: string;
+  name: string;
+  policy_confirmation: string | null;
+  restricted: string;
+  admin_status: string;
+  is_deleted: string;
+  reviewed: string | null;
+  rating: number | null;
+  createdAt: string;
+  updatedAt: string;
+  products: Product;
+}
+interface ShopData {
+  products: Product;
+  data?: Data;
+
+  // Add other properties here
+}
+
+interface Shop {
+  id: number;
+  name: string;
+  // Add other properties as needed
 }
 export interface SuperAdminPagination {
   title: any;
@@ -310,7 +391,14 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+//export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+
+export type CartSumaryProp = {
+  subtotal: number;
+  discount: number;
+  VAT: number;
+  total: number;
+};
 
 export type RecentlyViewedProductProp = {
   user: string;
@@ -353,6 +441,7 @@ export type CartItemProps = {
   productColor?: string;
   productSeller: string;
   productPrice: number;
+  productDiscount?: string;
 };
 
 export type ViewedProductCardProps = {
@@ -506,11 +595,13 @@ export interface ProjectModalProps {
 
 export interface RatingBarProps {
   avgRating: number;
+  verUser: number;
 }
 
 export interface RatingCardProps {
   rating: number;
   users: number;
+  totalReviews: number;
 }
 
 export interface filterProps {
@@ -639,17 +730,24 @@ export type inputErrorMessage = {
 };
 // product listing types
 export interface ProductInfo {
-  productName: string;
-  vendor: string;
-  id: number;
-  dateAdded: string;
+  product_name: string;
+  vendor_name: string;
+  product_id: number;
+  date_added: string;
   status: string;
 }
+
+interface ProductStatistics {
+  total_deleted_products: number;
+  total_products: number;
+  total_sanctioned_products: number;
+}
+
 export interface DeletedProducts {
-  admin_status: string;
-  category_id: number;
-  createdAt: string;
-  product_id: string;
+  // admin_status: string;
+  // category_id: number;
+  // createdAt: string;
+  // product_id : string;
   product_name: string;
   product_status: string;
   updatedAt: string;
@@ -700,9 +798,11 @@ export interface AuthContextProps {
   auth: AuthResponse | undefined;
   email: string;
   redirect: string;
-  handleAuth: (value: AuthResponse) => void;
+  userCameFrom: string;
+  handleAuth: (value: AuthResponse | undefined) => void;
   handleEmail: (value: string) => void;
   handleRedirect: (value: string) => void;
+  handleUserCameFrom: (value: string) => void;
 }
 
 export type User = {
@@ -732,7 +832,7 @@ type ProductCategory = {
 };
 
 type ProductShop = {
-  id: number;
+  id: string;
   name: string;
 };
 export interface ProductResult {

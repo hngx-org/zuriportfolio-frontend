@@ -5,17 +5,18 @@ import flutterwave from '../../public/assets/futterwave.png';
 import paystack from '../../public/assets/paystack.png';
 import cancel from '../../public/assets/images/logo/otp-modal-cancel.svg';
 import Button from '@ui/Button';
-import { createTempUser, makePayment } from '../../http/checkout';
+import { addToCart, createTempUser, makePayment } from '../../http/checkout';
 import { useAuth } from '../../context/AuthContext';
+import { getCardItemsId } from '../../helpers';
+import { ToastContainer } from 'react-toastify';
 
 interface TempUser {
   isOpen: boolean;
   onClose: () => void;
 }
 
-
 const TempUser = ({ isOpen, onClose }: TempUser) => {
-  const {auth} = useAuth();
+  const { auth } = useAuth();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -24,20 +25,26 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
       email: userForm.get('email') as string,
       firstName: userForm.get('first_name') as string,
       lastName: userForm.get('last_name') as string,
-    }
-    const payment= userForm.get('paymentMethod') as string;
-    const tempUser = await createTempUser(data)
-    
-    
+    };
+    const payment = userForm.get('paymentMethod') as string;
+    const tempUser = await createTempUser(data);
+
     if (tempUser.data.token) {
-      const response = await makePayment(payment,tempUser.data.token);
-      window.location.href = response.transaction_url;
-    }
+      const cartItems = JSON.parse(localStorage.getItem('products') as string);
+      const cartIds = await getCardItemsId(cartItems);
       
-    
+      const cartResponse = await addToCart(cartIds, tempUser.data.token);
+      if (cartResponse.status) {
+        const response = await makePayment(payment, tempUser.data.token);
+        if (response.statug)
+        localStorage.setItem('products', '');
+        window.location.href = response.transaction_url;
+      }
+    }
   };
 
-  return (
+  return (<>
+    <ToastContainer/>
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
       <div className="flex items-end justify-end">
         <Image className="cursor-pointer" src={cancel} alt="cancel modal" onClick={onClose} />
@@ -54,7 +61,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
             placeholder="Mark"
             type="text"
-            name='first_name'
+            name="first_name"
             required
           />
         </div>
@@ -66,7 +73,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
             placeholder="Essein"
             type="text"
-            name='last_name'
+            name="last_name"
             required
           />
         </div>
@@ -78,7 +85,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             className="flex items-center justify-between w-full border border-[#E1E3E2] rounded-lg p-4 mb-4 focus:outline-none focus:border-brand-green-primary"
             placeholder="example@email.com"
             type="email"
-            name='email'
+            name="email"
             required
           />
         </div>
@@ -118,6 +125,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
         </div>
       </form>
     </Modal>
+    </>
   );
 };
 
