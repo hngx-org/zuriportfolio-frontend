@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
+import { useParams } from 'next/navigation';
 
 
 type Props = {
@@ -31,9 +32,11 @@ const DraftPreview = () => {
 
   const arr = [1, 2, 3];
   const router = useRouter();
-  const data = router.query;
-  const draftId = data.id;
-  const id =2
+  const params  = useParams();
+const id = params?.id
+  console.log(params)
+  // const draftId = data.id;
+  const skillid =2
 
   const [assessment, setAssessment] = useState({
     id: 0,
@@ -65,15 +68,15 @@ const DraftPreview = () => {
 
 
 
-// make put request to PUT /api/admin/assessments/{assessment_id}/
+
 
   useEffect(() => {
-    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`;
 
     const token = localStorage.getItem('zpt') ?? '';
 
-    toast.info('Loading draft data...');
-
+    if(id != null) {
+      
     fetch(apiUrl, {
       headers: {
         'Accept': 'application/json',
@@ -82,7 +85,8 @@ const DraftPreview = () => {
         'X-CSRFTOKEN': token,
       },
     })
-      .then((response) => {
+    .then((response) => {
+      toast.info('Loading draft data...');
         if (!response.ok) {
           throw new Error(`Network response was not ok: ${response.status}`);
         }
@@ -100,7 +104,8 @@ const DraftPreview = () => {
         setLoading(false);
         toast.error('Error loading draft data');
       });
-  }, [draftId]);
+    }
+  }, [id]);
 
   const [disable, setDisable] = useState(true);
 
@@ -188,7 +193,7 @@ const DraftPreview = () => {
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
                   <div className="mt-8 flex flex-col gap-[22px]">
-                    {item.answers.map((answer: any, index: number) =>
+                    {item?.answers?.map((answer: any, index: number) =>
                       answer.options.map((option: any, optionIndex: any) => (
                         <div key={index} className="flex gap-4">
                           <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
@@ -212,7 +217,7 @@ const DraftPreview = () => {
             ))}
           </>
         ) : (
-          <ScoringScreen assessment={assessment} skillId={id} />
+          <ScoringScreen assessment={assessment} skillId={skillid} />
         )}
       </div>
     </MainLayout>

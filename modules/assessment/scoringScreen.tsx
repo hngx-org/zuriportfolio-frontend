@@ -42,13 +42,23 @@ interface ScoringScreenProps {
 
 }
 
+
+const debounce = <F extends (...args: any[]) => void>(func: F, delay: number) => {
+  let timeout: NodeJS.Timeout;
+  
+  return (...args: Parameters<F>): void => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), delay);
+  };
+};
+
 const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => {
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
-    hours: '',
-    minutes: '',
-    seconds: '',
+    hours: '00',
+    minutes: '00',
+    seconds: '00',
   });
 
   const initialGradingValues: MyGradingRangeType = {
@@ -74,31 +84,24 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const name = e.target.name;
-    skillId
+
     if (newValue === '') {
       setExamTime((prevExamTime) => ({
         ...prevExamTime,
-        [name]: newValue,
+        [name]: '00',
       }));
     } else {
       const numericValue = parseInt(newValue, 10);
       if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 60) {
         setExamTime((prevExamTime) => ({
           ...prevExamTime,
-          [name]: numericValue.toString(),
+          [name]: numericValue.toString().padStart(2, '0'),
         }));
-        if (examTime.hours || examTime.minutes || examTime.seconds) {
-          const hours = parseInt(examTime.hours, 10) || 0;
-          const minutes = parseInt(examTime.minutes, 10) || 0;
-          const seconds = parseInt(examTime.seconds, 10) || 0;
-          const totalMinutes = hours * 60 + minutes + seconds / 60;
-
-          setExamDuration(totalMinutes.toString());
-        }
       }
-
     }
-    handleFormSubmit()
+
+    // Call the debounced function instead of handleFormSubmit directly
+    debouncedHandleFormSubmit();
   };
 
 
@@ -183,13 +186,14 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
     }
   };
   
-  console.log('assessment scoring screen',assessment)
+  
+
   const handleFormSubmit = async () => {
     const { hours, minutes, seconds } = examTime;
     const durationInMinutes = Math.round(parseInt(hours, 10) * 60 + parseInt(minutes, 10) + parseInt(seconds, 10) / 60);
-  
+
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessment.id}/`;
-  
+
     try {
       const response = await fetch(apiUrl, {
         method: 'PUT',
@@ -203,17 +207,18 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
           title: assessment.title,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.status}`);
       }
-  
+
       toast.success('Assessment duration updated successfully');
     } catch (error) {
       console.error('Error:', error);
       toast.error('Error updating assessment data');
     }
   };
+  const debouncedHandleFormSubmit = debounce(handleFormSubmit, 1000);
   
   
 
