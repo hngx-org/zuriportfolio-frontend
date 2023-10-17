@@ -13,7 +13,6 @@ import Loader from '@ui/Loader';
 
 const HomePage = () => {
   // States
-  const searchParam = useSearchParams();
   const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
@@ -39,12 +38,6 @@ const HomePage = () => {
   };
 
   const deBounce = useDebounce(searchQuery, 1200);
-  const router = useRouter();
-
-  const explorePageParam = {
-    page: searchParam.get('page'),
-    itemsPerPage: searchParam.get('itemsPerPage'),
-  };
 
   const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
     searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
