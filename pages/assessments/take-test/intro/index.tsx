@@ -6,6 +6,7 @@ import Button from '@ui/Button';
 import { useRouter } from 'next/router';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { fetchUserTakenAssessment } from '../../../../http/userTakenAssessment';
+import withAuth from '../../../../helpers/withAuth';
 const TakeTest: FC = () => {
   const router = useRouter();
   // const { duration_minutes } = router.query;
@@ -84,4 +85,4 @@ const TakeTest: FC = () => {
     </>
   );
 };
-export default TakeTest;
+export default withAuth(TakeTest);
