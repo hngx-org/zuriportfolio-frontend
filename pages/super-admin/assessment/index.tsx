@@ -173,7 +173,7 @@ function Index() {
               </div>
               <Link
                 href={{
-                  pathname: track === null ? '/super-admin/assessment' : '/super-admin/assessment/new',
+                  pathname: track === null ? '' : '/super-admin/assessment/new',
                   query: { name: track },
                 }}
                 onClick={() => {
