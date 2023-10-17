@@ -11,6 +11,8 @@ export interface OverviewItemProps {
 
 export const OverviewItem: FC<OverviewItemProps> = ({ data, token, assessment_id, setResult }) => {
   const [show, setShow] = useState(false);
+  console.log('test', data);
+  console.log('test', assessment_id);
 
   return (
     <>
