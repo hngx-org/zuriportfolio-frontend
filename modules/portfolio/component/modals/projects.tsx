@@ -7,15 +7,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Image from 'next/image';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
+import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 
 type ProjectSectionProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   isOpen: boolean;
-  onClose: () => void;
   userId: string;
 };
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
-const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId }) => {
+const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onCloseModal, onSaveModal, userId }) => {
   const [title, setTitle] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [link, setLink] = useState<string>('');
@@ -28,6 +30,17 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
   const [files, setFiles] = useState<any[]>([]);
   const years = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
 
+  const items = {
+    sectionid: 5,
+    userid: userId,
+    title,
+    year,
+    url: link,
+    tags: selectedTags.join(', '),
+    description,
+  };
+  const { allChecksPassed, failedChecks } = checkObjectProperties(items);
+
   const handleDataClear = () => {
     setTitle('');
     setYear('');
@@ -37,6 +50,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
     setTagInput('');
     setDescription('');
     setMedia([]);
+    setFiles([]);
   };
 
   const handleAddTags = (e: any) => {
@@ -83,56 +97,49 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
   };
 
   const close = () => {
-    onClose();
+    onCloseModal();
   };
 
-  // {"title":"Live test for issue ART-36 ", "year":"2023", "url":"https://link-to-project.com", "tags":"all, tags, here, comma separated", "description": "Updated new description", "userId":"2c92b6a8-e672-41c5-af97-a643ce56ce6c", "sectionId":"4"}
   const handleSubmit = (e: any) => {
-    setLoading(true);
     e.preventDefault();
     const formData = new FormData();
-    const data = {
-      sectionid: 5,
-      userid: userId,
-      title,
-      year,
-      url: link,
-      thumbnail: files[0],
-      tags: selectedTags.join(', '),
-      description,
-    };
-    console.log(data);
-
-    files.map((item) => {
-      formData.append('images', item);
-    });
-    formData.append('jsondata', JSON.stringify(data));
-    console.log(formData);
-
-    axios
-      .post(`${endpoint}/api/projects`, formData)
-      .then((res) => {
-        setLoading(false);
-        notify({
-          message: 'Projects created successfully',
-          position: 'top-center',
-          theme: 'light',
-          type: 'success',
-        });
-        handleDataClear();
-        onClose();
-        console.log(res);
-      })
-      .catch((err) => {
-        setLoading(false);
-        notify({
-          message: 'Error occurred',
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
-        console.log(err);
+    if (allChecksPassed) {
+      setLoading(true);
+      const data = {
+        ...items,
+        thumbnail: files[0],
+      };
+      files.map((item) => {
+        formData.append('images', item);
       });
+      formData.append('jsondata', JSON.stringify(data));
+      console.log(formData);
+
+      axios
+        .post(`${endpoint}/api/projects`, formData)
+        .then((res) => {
+          setLoading(false);
+          notify({
+            message: 'Projects created successfully',
+            position: 'top-center',
+            theme: 'light',
+            type: 'success',
+          });
+          handleDataClear();
+          onSaveModal();
+          console.log(res);
+        })
+        .catch((err) => {
+          setLoading(false);
+          notify({
+            message: 'Error occurred',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -162,24 +169,35 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
               </div>
               <div className="w-full md:w-[50%]">
                 <p className="font-semibold text-gray-200 pb-2">Year*</p>
-                <Select
+                <select
+                  onChange={(e) => setYear(e.target.value)}
+                  placeholder="Year"
+                  className="w-full h-[50px] bg-transparent border-2 rounded-md px-4 border-white-300 font-semibold !text-gray-300"
+                >
+                  {years.map((year, index) => (
+                    <option className="text-gray-300 bg-transparent" key={index} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+                {/* <Select
                   // className="w-full md:w-[50%] h-[60px] text-gray-300"
                   onValueChange={(value: string) => {
                     setYear(value);
                   }}
                   value={year}
                 >
-                  <SelectTrigger className="w-full h-[50px] font-semibold text-gray-300">
-                    <SelectValue className="text-gray-300" placeholder="Month" />
+                  <SelectTrigger className="w-full h-[50px] font-semibold !text-gray-300">
+                    <SelectValue className="!text-gray-300" placeholder="Month" />
                   </SelectTrigger>
-                  <SelectContent className="text-gray-300">
+                  <SelectContent className="!text-gray-300">
                     {years.map((year: any, index: any) => (
-                      <SelectItem className="text-gray-300" key={index} value={year}>
+                      <SelectItem className="!text-gray-300" key={index} value={year}>
                         {year}
                       </SelectItem>
                     ))}
                   </SelectContent>
-                </Select>
+                </Select> */}
               </div>
             </div>
             {/* Link */}
@@ -294,6 +312,20 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
                 </label>
               )}
             </div>
+            <div className="flex flex-col gap-2">
+              {failedChecks.length > 0 && (
+                <p className="mt-4 text-base font-medium text-start text-red-300">
+                  {' '}
+                  Kindly fill the following fields:{' '}
+                </p>
+              )}
+              {failedChecks.map((item) => (
+                <span className="text-sm text-start text-red-300 pl-5" key={item}>
+                  {' '}
+                  {item}{' '}
+                </span>
+              ))}
+            </div>
             {/* buttons */}
             <div className="my-10 flex gap-4 justify-end items-center">
               <Button intent={'secondary'} className="rounded-lg min-w-[100px]">
@@ -301,7 +333,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
               </Button>
               <Button
                 disabled={loading}
-                className={`${loading ? 'opacity-50' : 'opacity-100'} rounded-lg min-w-[100px]`}
+                className={`${loading ? 'opacity-90' : 'opacity-100'} rounded-lg min-w-[100px]`}
                 onClick={handleSubmit}
               >
                 Save

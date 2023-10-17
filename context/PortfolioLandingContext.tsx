@@ -16,6 +16,8 @@ import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
 
 type PortfolioContext = {
+  setShowBuildPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowProfileUpdate: React.Dispatch<React.SetStateAction<boolean>>;
   gettinSection: boolean;
   userId: string;
   hasPortfolio: boolean;
@@ -42,7 +44,7 @@ type PortfolioContext = {
   profileUpdate: () => void;
   buildPortfolio: () => void;
   viewPortfolio: () => void;
-  modal: () => void;
+  onSaveModal: (sectionTitle?: string) => void;
   setAvatarImage: React.Dispatch<React.SetStateAction<File | undefined>>;
   handleUploadCover: (e: React.ChangeEvent<HTMLInputElement>) => void;
   toggleSection: (sectionTitle: string) => void;
@@ -61,6 +63,8 @@ type PortfolioContext = {
 };
 
 const Portfolio = createContext<PortfolioContext>({
+  setShowBuildPortfolio: () => {},
+  setShowProfileUpdate: () => {},
   gettinSection: true,
   userId: '',
   hasPortfolio: false,
@@ -87,7 +91,7 @@ const Portfolio = createContext<PortfolioContext>({
   profileUpdate: () => {},
   buildPortfolio: () => {},
   viewPortfolio: () => {},
-  modal: () => {},
+  onSaveModal: () => {},
   setAvatarImage: () => {},
   handleUploadCover: () => {},
   toggleSection: () => {},
@@ -307,7 +311,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setModalStates(updatedModalStates);
   };
 
-  const modal = (sectionTitle?: string) => {
+  const onSaveModal = (sectionTitle?: string) => {
     setShowProfileUpdate(false);
     setShowBuildPortfolio(false);
     setShowViewtemplates(false);
@@ -327,49 +331,121 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const modals: any[] = [
     {
       id: 'workExperience',
-      modal: <WorkExperienceSection isOpen={modalStates['workExperience']} onClose={() => modal('workExperience')} />,
+      modal: (
+        <WorkExperienceSection
+          isOpen={modalStates['workExperience']}
+          onCloseModal={() => onCloseModal('workExperience')}
+          onSaveModal={() => onSaveModal('workExperience')}
+        />
+      ),
     },
     {
       id: 'education',
-      modal: <EducationSection isOpen={modalStates['education']} onClose={() => modal('education')} />,
+      modal: (
+        <EducationSection
+          isOpen={modalStates['education']}
+          onCloseModal={() => onCloseModal('education')}
+          onSaveModal={() => onSaveModal('education')}
+        />
+      ),
     },
     {
       id: 'projects',
-      modal: <ProjectSection isOpen={modalStates['projects']} onClose={() => modal('projects')} userId={userId} />,
+      modal: (
+        <ProjectSection
+          isOpen={modalStates['projects']}
+          onCloseModal={() => onCloseModal('projects')}
+          onSaveModal={() => onSaveModal('projects')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'language',
-      modal: <LanguageModal isOpen={modalStates['language']} onClose={() => modal('language')} userId={userId} />,
+      modal: (
+        <LanguageModal
+          isOpen={modalStates['language']}
+          onCloseModal={() => onCloseModal('language')}
+          onSaveModal={() => onSaveModal('language')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'interests',
-      modal: <InterestModal isOpen={modalStates['interests']} onClose={() => modal('interests')} userId={userId} />,
+      modal: (
+        <InterestModal
+          isOpen={modalStates['interests']}
+          onCloseModal={() => onCloseModal('interests')}
+          onSaveModal={() => onSaveModal('interests')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'skills',
-      modal: <SkillModal isOpen={modalStates['skills']} onClose={() => modal('skills')} userId={userId} />,
+      modal: (
+        <SkillModal
+          isOpen={modalStates['skills']}
+          onCloseModal={() => onCloseModal('skills')}
+          onSaveModal={() => onSaveModal('skills')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'reference',
       modal: (
-        <PortfolioReference isOpen={modalStates['reference']} onClose={() => modal('reference')} userId={userId} />
+        <PortfolioReference
+          isOpen={modalStates['reference']}
+          onCloseModal={() => onCloseModal('reference')}
+          onSaveModal={() => onSaveModal('reference')}
+          userId={userId}
+        />
       ),
     },
     {
       id: 'certificate',
-      modal: <Certifications isOpen={modalStates['certificate']} onClose={() => modal('certificate')} />,
+      modal: (
+        <Certifications
+          isOpen={modalStates['certificate']}
+          onCloseModal={() => onCloseModal('certificate')}
+          onSaveModal={() => onSaveModal('certificate')}
+        />
+      ),
     },
     {
       id: 'contact',
-      modal: <ContactModal isOpen={modalStates['contact']} onClose={() => modal('contact')} userId={userId} />,
+      modal: (
+        <ContactModal
+          isOpen={modalStates['contact']}
+          onCloseModal={() => onCloseModal('contact')}
+          onSaveModal={() => onSaveModal('contact')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'about',
-      modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => modal('about')} userId={userId} />,
+      modal: (
+        <PortfolioAbout
+          isOpen={modalStates['about']}
+          onCloseModal={() => onCloseModal('about')}
+          onSaveModal={() => onSaveModal('about')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'awards',
-      modal: <Awards isOpen={modalStates['awards']} onClose={() => modal('awards')} userId={userId} />,
+      modal: (
+        <Awards
+          isOpen={modalStates['awards']}
+          onCloseModal={() => onCloseModal('awards')}
+          onSaveModal={() => onSaveModal('awards')}
+          userId={userId}
+        />
+      ),
     },
   ];
 
@@ -394,7 +470,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     profileUpdate,
     buildPortfolio,
     viewPortfolio,
-    modal,
+    onSaveModal,
     setAvatarImage,
     handleUploadCover,
     userData,
@@ -417,6 +493,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
     gettinSection,
     idToDelete,
     setIdToDelete,
+    setShowProfileUpdate,
+    setShowBuildPortfolio,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

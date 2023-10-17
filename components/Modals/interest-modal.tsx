@@ -7,14 +7,28 @@ import add from '../../public/assets/icons/add.svg';
 import Button from '@ui/Button';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
-import { TrushSquare } from 'iconsax-react';
+import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 
-const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
+type interestModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  isOpen: boolean;
+  userId: string;
+};
+
+const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestModalProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const interestItems = {
+    interests: values,
+  };
+
+  // checks if all input paramters has been filled, allChecksPassed - returns a boolean, failedChecks returns an array of calues that failed the checks
+  const { allChecksPassed, failedChecks } = checkObjectProperties(interestItems);
 
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -63,36 +77,37 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const handleSubmit = () => {
-    setLoading(true);
-    if (values.length === 0) return;
-    const data = {
-      userId: userId,
-      interests: values,
-      sectionId: 323,
-    };
-    axios
-      .post(`${endpoint}/api/interests`, data)
-      .then((res) => {
-        setLoading(false);
-        notify({
-          message: 'Interests created successfully',
-          position: 'top-center',
-          theme: 'light',
-          type: 'success',
+    if (allChecksPassed) {
+      setLoading(true);
+      const data = {
+        ...interestItems,
+        sectionId: 5,
+        userId: userId,
+      };
+      axios
+        .post(`${endpoint}/api/interests`, data)
+        .then((res) => {
+          setLoading(false);
+          notify({
+            message: 'Interests created successfully',
+            position: 'top-center',
+            theme: 'light',
+            type: 'success',
+          });
+          setValues([]);
+          onSaveModal();
+        })
+        .catch((err) => {
+          setLoading(false);
+          notify({
+            message: 'Error occurred',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+          console.log(err);
         });
-        setValues([]);
-        onClose();
-      })
-      .catch((err) => {
-        setLoading(false);
-        notify({
-          message: 'Error occurred',
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
-        console.log(err);
-      });
+    }
   };
 
   const suggestionsArray = [
@@ -142,13 +157,20 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   }, []);
 
   return (
-    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
+    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
       <section className="">
         <section className="flex justify-between items-center border-b-4 pb-3 border-b-[#009254]">
           <section className="flex items-center">
             <h4 className="text-2xl font-bold text-[#2E3130]"> Interest </h4>
           </section>
-          <Image src={close1} width={24} height={24} alt="arrow-left" className="cursor-pointer" onClick={onClose} />
+          <Image
+            src={close1}
+            width={24}
+            height={24}
+            alt="arrow-left"
+            className="cursor-pointer"
+            onClick={onCloseModal}
+          />
         </section>
 
         {values.length > 0 && <section className="flex items-center flex-wrap gap-2.5 mt-2 mb-5">{items}</section>}
@@ -163,6 +185,18 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
           />
         </section>
 
+        <section className="flex flex-col gap-2">
+          {failedChecks.length > 0 && (
+            <p className="mt-4 text-base font-medium text-start text-red-300"> Kindly fill the following fields: </p>
+          )}
+          {failedChecks.map((item) => (
+            <span className="text-sm text-start text-red-300 pl-5" key={item}>
+              {' '}
+              {item}{' '}
+            </span>
+          ))}
+        </section>
+
         <section className="mt-2.5">
           <h5 className="text-green-600 text-base font-bold"> Suggestions </h5>
 
@@ -171,7 +205,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
 
         <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-2.5">
           <Button
-            onClick={onClose}
+            onClick={onCloseModal}
             className="border flex justify-center border-[#009444] bg-white-100 py-3 px-5 text-sm sm:text-base font-normal text-[#009444] text-center rounded-lg hover:bg-white-100 hover:text-[#009444]"
           >
             Cancel
@@ -180,7 +214,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             disabled={loading}
             onClick={handleSubmit}
             className={`${
-              loading ? 'opacity-50' : 'opacity-100'
+              loading ? 'opacity-80' : 'opacity-100'
             } border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg`}
           >
             {' '}

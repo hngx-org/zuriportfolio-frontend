@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router';
 import CategoriesPage from '@modules/marketplace/component/categories/CategoriesPage';
 import axios from 'axios';
+import { useContext, useEffect } from 'react';
+import { PreviousUrlContext } from '@modules/marketplace/context/PreviousUrlProvider';
 
 export const getServerSideProps = async (context: any) => {
-  const { category } = context.query;
-  // console.log(category);
+  const { category: _category } = context.query;
+  const category = _category?.replace(/_/g, ' ');
 
   if (!category) {
     return {
@@ -51,6 +53,13 @@ export default function CategoryPage(props: any) {
 
   const router = useRouter();
   const { category } = router.query;
+  const { updatePath } = useContext(PreviousUrlContext);
+
+  useEffect(() => {
+    updatePath(router.asPath);
+    // console.log('category page');
+  }, [router.asPath, updatePath]);
+
   // console.log(category);
 
   return <CategoriesPage error={props.error} errorMessage={props.errorMessage} data={props.data} />;
