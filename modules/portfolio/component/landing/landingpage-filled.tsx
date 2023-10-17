@@ -51,6 +51,7 @@ const LandingPageFilled: React.FC = () => {
       {/* data from backend */}
       <div className="w-full flex flex-col justify-start items-start gap-8">
         {userSections?.map((section, i) => {
+          console.log(section);
           return (
             <React.Fragment key={i}>
               <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
@@ -117,20 +118,20 @@ const LandingPageFilled: React.FC = () => {
                 </React.Fragment>
               )}
 
-              {/* {section?.id === 'about' && section?.data?.length > 0 && (
+              {section?.id === 'about' && section?.data && (
                 <React.Fragment key={i}>
                   <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
                   <Wrapper
-                    id={section.id}
+                    id={section?.id}
                     title={section.title}
-                    edit={() => editSection(section.id)}
+                    edit={() => editSection(section?.data?.id)}
                     remove={deleteSection}
                   >
-                    <About key={i} bio={section.data[0]} />
+                    <About key={i} bio={section?.data?.bio} />
                   </Wrapper>
                   <Line />
                 </React.Fragment>
-              )} */}
+              )}
 
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>

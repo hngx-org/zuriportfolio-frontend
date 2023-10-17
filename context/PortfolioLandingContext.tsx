@@ -152,7 +152,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
         tracks: data?.userTracks,
         coverImage: data?.user?.profileCoverPhoto,
       });
-      console.log(data);
       setIsLoading(false);
     } catch (error: any) {
       setError({ state: true, error: error.message });
