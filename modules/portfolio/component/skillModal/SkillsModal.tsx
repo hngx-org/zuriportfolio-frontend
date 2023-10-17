@@ -7,7 +7,8 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 
 type skillModalProps = {
-  onClose: () => void;
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   isOpen: boolean;
   userId: string;
 };
@@ -22,7 +23,7 @@ type skillListRes = {
   skill: string;
 };
 
-const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
+const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<skillListRes>>([
     { skill: 'Version Control', skillId: 1 },
@@ -159,7 +160,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
   function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
     postSkillData();
     getAllSkill();
-    onClose();
+    onSaveModal();
   }
 
   // clear array two on cancel btn click
@@ -169,13 +170,13 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
 
   return (
     <section className="w-full flex items-center justify-center fontFamily-manropeEL">
-      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL max-sm:px-2 ">
           <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
             <h1 className="font-bold text-2xl ">Skill</h1>
             <button
               className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
-              onClick={onClose}
+              onClick={onCloseModal}
             >
               <AiOutlineClose />
             </button>
@@ -245,7 +246,7 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
             <Button
               className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
               onClick={() => {
-                onClose();
+                onCloseModal();
                 cancelBtnFn();
               }}
             >
