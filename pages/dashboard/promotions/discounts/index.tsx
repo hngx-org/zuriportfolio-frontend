@@ -96,7 +96,7 @@ function Discounts() {
   }
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -108,12 +108,10 @@ function Discounts() {
         return response.json();
       })
       .then((data) => {
-        if (Array.isArray(data.data)) {
-          setProducts(data.data);
-          // Extract product names from the fetched data
-          const names = data.data.map((product: any) => product.name);
-          setProductNames(names);
-        }
+        setProducts(data.data.products);
+        // Extract product names from the fetched data
+        const names = data.data.products.map((product: any) => product.name);
+        setProductNames(names);
       })
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
