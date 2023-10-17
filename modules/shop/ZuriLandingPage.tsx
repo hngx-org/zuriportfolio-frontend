@@ -95,7 +95,7 @@ const ZuriLandingPage = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
@@ -105,7 +105,7 @@ const ZuriLandingPage = () => {
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       />
-      <div className="px-4 sm:px-6 md:px-3 py-5 container mx-auto">
+      <div className=" flex-grow px-4 sm:px-6 md:px-3 py-5 container mx-auto">
         {shop ? (
           <div className="space-y-12 py-10">
             <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
@@ -115,23 +115,12 @@ const ZuriLandingPage = () => {
             </p>
           </div>
         ) : loading ? (
-          <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              background: 'rgba(255, 255, 255, 0.8)',
-              zIndex: 9999,
-            }}
-          >
+          <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-white bg-opacity-80 z-50">
             <Loader />
           </div>
-        ) : null}
+        ) : (
+          <div className="text-center py-10">No products available.</div>
+        )}
         <div className="py-10">
           {shop ? (
             <ShopProductList
@@ -155,7 +144,7 @@ const ZuriLandingPage = () => {
           ) : null}
         </div>
       </div>
-      <Footer />
+      <Footer shopName={shop ? shop.data?.name : ''} />
     </div>
   );
 };
