@@ -38,7 +38,7 @@ export default function Index({ products }: Props) {
                     <ProductCard
                       id={item.id}
                       currency={`USD`}
-                      image={item.images[0].url || `/assets/products-banner/Image-11.png`}
+                      image={item.images[0]?.url || `/assets/products-banner/Image-11.png`}
                       name={item?.name}
                       price={parseInt(item.price)}
                       user={item?.shop.name ? item?.shop.name : ``}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import Button from '@ui/Button';
 import { ArrowLeft2, Import, CloseCircle } from 'iconsax-react';
 import MainLayout from '../components/Layout/MainLayout';
@@ -17,7 +17,7 @@ import Image from 'next/image';
 import { useAuth } from '../context/AuthContext';
 import Twofa from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 import defaultpic from '../public/assets/inviteAssets/profile.svg';
-
+import { notify } from '@ui/Toast';
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
     accountManagement: false,
@@ -27,7 +27,6 @@ const SettingPage = () => {
   });
 
   const { auth } = useAuth();
-  console.log(auth);
   const router = useRouter();
 
   const openEachSeting = Object.values(settingOption).some((value) => value === true);
@@ -83,14 +82,14 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-  const baseUrl = 'https://hng6-r5y3.onrender.com';
+  const baseUrl = 'https://hng6-r5y3.onrender.com/api/';
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
       const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
       const method = storedNotificationData ? 'PATCH' : 'POST';
 
-      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${auth?.user.id}}`;
+      const url = `${baseUrl}${storedNotificationData ? 'update' : 'set'}-notification-settings/${auth?.user.id}`;
       const response = await fetch(url, {
         method: method,
 
@@ -108,7 +107,7 @@ const SettingPage = () => {
 
         setCheckboxState(notificationData);
 
-        localStorage.setItem(`notificationData${userId}`, JSON.stringify(notificationData));
+        localStorage.setItem(`notificationData${auth?.user.id}`, JSON.stringify(notificationData));
 
         toast.success('Updated Successfully', {
           position: 'top-center',
@@ -153,6 +152,27 @@ const SettingPage = () => {
     }
   };
 
+  const handleGetUser = async () => {
+    try {
+      const url = `${baseUrl}users/${auth?.user.id}`;
+      const response = await fetch(url);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('user', data);
+        setUserPic(data?.user.profilePic);
+      } else {
+      }
+    } catch (error) {
+      console.error('An error occurred while updating notification settings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetUser();
+  }, []);
   const getNotificationSettingsFromLocalStorage = () => {
     const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
     if (storedNotificationData) {
@@ -168,6 +188,54 @@ const SettingPage = () => {
   const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
     setter((prev: boolean) => !prev);
   };
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (files && files.length > 0) {
+      setSelectedFile(files[0]);
+    } else {
+      setSelectedFile(null);
+    }
+  };
+
+  //   const handlePics = async () => {
+  //     if (selectedFile) {
+  //       const formData = new FormData();
+  //       formData.append('profilepics', selectedFile);
+
+  //       try {
+  //         const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/image/upload', {
+  //           method: 'POST',
+  //           body: formData,
+  //         });
+
+  //       if (response.ok) {
+  //         console.log('File uploaded successfully');
+  //         notify({
+  //           message: 'Uploaded succefully',
+  //           type: 'success',
+  //         });
+
+  //       } else {
+  //         console.error('File upload failed');
+  //         notify({
+  //           message: 'faile to upload',
+  //           type: 'error',
+  //         });
+
+  //       }
+  //     } catch (error) {
+  //       console.error('An error occurred:', error);
+
+  //     }
+  //   } else {
+  //     console.error('Please select a file to upload');
+
+  //   }
+  // };
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
@@ -290,9 +358,17 @@ const SettingPage = () => {
                               className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
                             ></Image>
                           </>
-                          <p className="mb-4">Edit</p>
+                          {/* <button className="mb-4">Edit</button>
+                          {selectedFile && <button onClick={handlePics}
+                               className='text-brand-green-primary'></button>} */}
                         </label>
-                        <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
+                        <input
+                          type="file"
+                          name="profilepics"
+                          id="profilepics"
+                          className="hidden outline-none"
+                          onChange={handleFileChange}
+                        />
                       </div>
 
                       <AccountManagement />
@@ -424,7 +500,8 @@ const SettingPage = () => {
                                   className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
                                 ></Image>
                               </>
-                              <p className="mb-4">Edit</p>
+                              <button className="mb-4">Edit</button>
+                              {selectedFile && <button className="text-brand-green-primary"></button>}
                             </label>
                             <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
                           </div>
