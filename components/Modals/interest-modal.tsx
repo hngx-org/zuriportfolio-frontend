@@ -7,7 +7,7 @@ import add from '../../public/assets/icons/add.svg';
 import Button from '@ui/Button';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
-import { TrushSquare } from 'iconsax-react';
+import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 
@@ -15,6 +15,13 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const interestItems = {
+    interests: values,
+  };
+
+  // checks if all input paramters has been filled, allChecksPassed - returns a boolean, failedChecks returns an array of calues that failed the checks
+  const { allChecksPassed, failedChecks } = checkObjectProperties(interestItems);
 
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -63,36 +70,37 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const handleSubmit = () => {
-    setLoading(true);
-    if (values.length === 0) return;
-    const data = {
-      userId: userId,
-      interests: values,
-      sectionId: 5,
-    };
-    axios
-      .post(`${endpoint}/api/interests`, data)
-      .then((res) => {
-        setLoading(false);
-        notify({
-          message: 'Interests created successfully',
-          position: 'top-center',
-          theme: 'light',
-          type: 'success',
+    if (allChecksPassed) {
+      setLoading(true);
+      const data = {
+        ...interestItems,
+        sectionId: 5,
+        userId: userId,
+      };
+      axios
+        .post(`${endpoint}/api/interests`, data)
+        .then((res) => {
+          setLoading(false);
+          notify({
+            message: 'Interests created successfully',
+            position: 'top-center',
+            theme: 'light',
+            type: 'success',
+          });
+          setValues([]);
+          onClose();
+        })
+        .catch((err) => {
+          setLoading(false);
+          notify({
+            message: 'Error occurred',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+          console.log(err);
         });
-        setValues([]);
-        onClose();
-      })
-      .catch((err) => {
-        setLoading(false);
-        notify({
-          message: 'Error occurred',
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
-        console.log(err);
-      });
+    }
   };
 
   const suggestionsArray = [
@@ -161,6 +169,18 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             onChange={handleInputChange}
             onKeyDown={handleEnterKeyPress}
           />
+        </section>
+
+        <section className="flex flex-col gap-2">
+          {failedChecks.length > 0 && (
+            <p className="mt-4 text-base font-medium text-start text-red-300"> Kindly fill the following fields: </p>
+          )}
+          {failedChecks.map((item) => (
+            <span className="text-sm text-start text-red-300 pl-5" key={item}>
+              {' '}
+              {item}{' '}
+            </span>
+          ))}
         </section>
 
         <section className="mt-2.5">

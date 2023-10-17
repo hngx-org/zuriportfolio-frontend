@@ -100,10 +100,10 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
   };
 
   const handleSubmit = (e: any) => {
-    setLoading(true);
     e.preventDefault();
     const formData = new FormData();
     if (allChecksPassed) {
+      setLoading(true);
       const data = {
         ...items,
         thumbnail: files[0],
