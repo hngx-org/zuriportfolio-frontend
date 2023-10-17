@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import { LoadingSkeleton } from '../marketplace/component/LoadingSkeleton';
+import { CART_ENDPOINT } from '../../http/checkout';
 
 import { removeFromWishlist } from '../../http';
 
@@ -43,7 +44,7 @@ function Wishlist() {
   }, []);
 
   const moveToCart = async (id: string) => {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/carts;
     if (token?.id) {
       try {
         const response = await axios.post(
