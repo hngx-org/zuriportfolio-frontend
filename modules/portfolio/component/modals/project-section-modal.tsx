@@ -7,18 +7,22 @@ type allRouteOptions = 'add-project' | 'view-projects';
 
 const ProjectSectionModal = ({
   isOpen,
-  onClose,
+  onCloseModal,
+  onSaveModal,
   userId,
 }: {
   isOpen: boolean;
-  onClose: () => void;
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   userId?: string;
 }) => {
   const allRoutes = ['add-project', 'view-projects'];
   const [route, setRoute] = useState<allRouteOptions>('add-project');
   return (
-    <Modal isOpen={isOpen} closeModal={close} isCloseIconPresent={false} size="xxl">
-      {route === allRoutes[0] && <ProjectSection onClose={onClose} userId={userId ? userId : ''} />}
+    <Modal size="xxl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
+      {route === allRoutes[0] && (
+        <ProjectSection onSaveModal={onSaveModal} onCloseModal={onCloseModal} userId={userId ? userId : ''} />
+      )}
       {/* { route === allRoutes[1] && <AllProjectsModal /> } */}
     </Modal>
   );

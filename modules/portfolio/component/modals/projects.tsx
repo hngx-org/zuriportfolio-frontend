@@ -11,12 +11,13 @@ import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectP
 import AllProjectsModal from '../all-projects-modal';
 
 type ProjectSectionProps = {
-  onClose: () => void;
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   userId: string;
 };
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
-const ProjectSection: React.FC<ProjectSectionProps> = ({ onClose, userId }) => {
+const ProjectSection: React.FC<ProjectSectionProps> = ({ onCloseModal, userId, onSaveModal }) => {
   const [title, setTitle] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [link, setLink] = useState<string>('');
@@ -96,7 +97,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ onClose, userId }) => {
   };
 
   const close = () => {
-    onClose();
+    onCloseModal();
   };
 
   const handleSubmit = (e: any) => {
@@ -125,7 +126,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ onClose, userId }) => {
             type: 'success',
           });
           handleDataClear();
-          onClose();
+          onSaveModal();
           console.log(res);
         })
         .catch((err) => {
