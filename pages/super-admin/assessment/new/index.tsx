@@ -7,8 +7,7 @@ import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import Modal from '@modules/assessment/modals/Loadingpopup';
 import { FaSpinner } from 'react-icons/fa';
-import Assessmentresponses from '@modules/assessment/component/Assessmentresponses';
-import AssessmentResponse from '../response';
+import { useRouter } from 'next/router';
 
 const CreateAssessment = () => {
   const [active, setActive] = useState<null | string>('button1');
@@ -166,6 +165,12 @@ const CreateAssessment = () => {
       setModalOpen(false);
     }, 4000);
   };
+
+  const router = useRouter();
+
+  const { name } = router.query;
+  const skillId = parseInt(name as string, 10);
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
@@ -247,7 +252,7 @@ const CreateAssessment = () => {
                 </div>
               </>
             ) : (
-              <ScoringScreen />
+              <ScoringScreen skillId={skillId} />
             )}
           </div>
         </div>

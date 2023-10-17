@@ -5,6 +5,7 @@ import Edithead from '@modules/assessment/component/edittitleHead';
 import { useState } from 'react';
 import PreviewQuests from '@modules/assessment/component/previewQuests';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+import { useRouter } from 'next/router';
 
 const Previewedit: React.FC = () => {
   //demo-question-...
@@ -31,6 +32,9 @@ const Previewedit: React.FC = () => {
       title: data,
     }));
   };
+  const router = useRouter();
+  const { name } = router.query;
+  const skillId = parseInt(name as string, 10);
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {
@@ -101,7 +105,7 @@ const Previewedit: React.FC = () => {
               </div>
             </>
           ) : (
-            <ScoringScreen />
+            <ScoringScreen skillId={skillId} />
           )}
         </div>
       </main>
