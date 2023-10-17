@@ -76,7 +76,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
   return (
     <div className="p-2 w-full  max-w-[274px] shadow border border-custom-color32 h-auto rounded-lg bg-white-100  hover:shadow-[#ccc] group overflow-hidden">
       <div className="relative w-full max-w-[254px] h-auto">
-        <Link href={`/shop/product?id=${product.id}`} passHref>
+        <Link href={`/shop/product?id=${product.id}&shopName=${shopName}`} passHref>
           <Image
             src={product.image[0].url}
             alt={product.name}
@@ -95,7 +95,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
             <ShoppingCart size={17} />
           </span>
           <Link
-            href={`/shop/product?id=${product.id}`}
+            href={`/shop/product?id=${product.id}&shopName=${shopName}`}
             passHref
             className="w-full h-full text-black border-b -[1px] border-b-[#ccc] flex items-center justify-center text-sm bg-transparent hover:bg-[#febd69] hover:text-white-100 cursor-pointer duration-300"
           >
@@ -106,11 +106,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
       <div className="flex flex-col gap-2 flex-grow py-1 px-2">
         <div>
           <h3 className=" md:text-sm text-xs text-[#052011] font-normal font-manropeEL capitalize">{product.name}</h3>
-          <p className="text-[#052011] md:text-lg text-base font-manropeB ">${product.price}</p>
+          <p className="text-[#052011] md:text-lg text-base font-manropeB ">₦{product.price.toLocaleString()}</p>
           {shopName && (
             <div>
               <p className="md:text-sm text-xs text-custom-color15 font-manropeL">
-                By: <span className="underline text-custom-color15">{shopName}</span>
+                By: <span className=" text-custom-color15">{shopName}</span>
               </p>
             </div>
           )}

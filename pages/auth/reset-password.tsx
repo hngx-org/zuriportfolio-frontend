@@ -23,7 +23,6 @@ function ResetPassword() {
 
   const onResetPasswordError = (error: any) => {
     // Handle different error scenarios and display relevant error messages for each situation.
-    console.log(error.message);
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
@@ -81,8 +80,6 @@ function ResetPassword() {
 
   // handle form submission
   const handleResetPassword = (values: any) => {
-    console.log('password', values.password);
-    console.log('confirmPassword', values.confirmPassword);
     mutate({ token: token, password: values.password });
   };
 
@@ -117,7 +114,7 @@ function ResetPassword() {
                     rightIcon={
                       <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
                         {/* Update the icon based on the visibility state of the password. */}
-                        {showPassword[0] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
+                        {showPassword[0] ? <Eye color="#464646" /> : <EyeSlash color="#464646" />}
                       </div>
                     }
                   />
@@ -141,7 +138,7 @@ function ResetPassword() {
                   rightIcon={
                     <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
                       {/* Update the icon based on the visibility state of the password. */}
-                      {showPassword[1] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
+                      {showPassword[1] ? <Eye color="#464646" /> : <EyeSlash color="#464646" />}
                     </div>
                   }
                 />

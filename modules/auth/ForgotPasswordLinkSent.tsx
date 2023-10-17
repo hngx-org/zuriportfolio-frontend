@@ -10,7 +10,6 @@ import { notify } from '@ui/Toast';
 function ForgotPasswordLinkSent() {
   const { email, handleEmail } = useAuth();
   const onResetLinkSentSuccess = (data: any) => {
-    console.log(data);
     if (data.status === 200) {
       notify({ message: 'Reset Link has been resent.', type: 'success' });
       return;
@@ -31,6 +30,8 @@ function ForgotPasswordLinkSent() {
   useEffect(() => {
     if (!email) {
       const userEmail = localStorage.getItem('user-email');
+
+      // if email exists in localStorage, set it to authContext
       if (userEmail) handleEmail(userEmail);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
