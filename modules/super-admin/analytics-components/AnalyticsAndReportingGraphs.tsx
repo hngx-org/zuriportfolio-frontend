@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
 import {
   BarChart,
   Bar,
@@ -11,9 +10,6 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
-=======
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
 import Link from 'next/link';
 import Image from 'next/image';
 import ActivityDetails from './ActivityDetails';
@@ -60,13 +56,10 @@ const formatSalesData = (data: any) => {
 const AnalyticsAndReportingGraphs = () => {
   const [isGraph, setIsGraph] = useState(false);
   const [graphData, setGraphData] = useState<any[][]>([]);
-<<<<<<< HEAD
   const [loadingStates, setLoadingStates] = useState<{ [key: number]: boolean }>({
     0: false,
     1: false,
   });
-=======
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
   const [activePeriodGraph1, setActivePeriodGraph1] = useState('12months');
   const [activePeriodGraph2, setActivePeriodGraph2] = useState('12months');
 
@@ -74,14 +67,10 @@ const AnalyticsAndReportingGraphs = () => {
 
   useEffect(() => {
     const fetchDataForGraph = async (period: any, graphIndex: number) => {
-<<<<<<< HEAD
       setLoadingStates((prevLoadingStates) => ({
         ...prevLoadingStates,
         [graphIndex]: true,
       }));
-=======
-    
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
 
       try {
         const url = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/total-sales-orders-users/?last=${period}`;
@@ -130,13 +119,10 @@ const AnalyticsAndReportingGraphs = () => {
       } catch (error) {
         console.error('Error fetching data for period:', error);
       } finally {
-<<<<<<< HEAD
         setLoadingStates((prevLoadingStates) => ({
           ...prevLoadingStates,
           [graphIndex]: false,
         }));
-=======
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
       }
     };
 
@@ -158,10 +144,6 @@ const AnalyticsAndReportingGraphs = () => {
   }, []);
 
   const handlePeriodChange = (period: any, graphIndex: number) => {
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
     if (graphIndex === 0) {
       setActivePeriodGraph1(period);
     } else if (graphIndex === 1) {
@@ -216,7 +198,6 @@ const AnalyticsAndReportingGraphs = () => {
                 <div className="flex justify-between items-center px-6 mt-5 text-custom-color15">
                   <h3 className="text-[18px] font-light">{item.title}</h3>
                   <Link href="/super-admin/analytics-and-reporting/reports">
-<<<<<<< HEAD
                     <button
                       className={`${
                         index === 0
@@ -224,9 +205,6 @@ const AnalyticsAndReportingGraphs = () => {
                           : 'rounded-lg border-0 border-opacity-0 py-2.5 px-4 opacity-0 cursor-default'
                       }`}
                     >
-=======
-                    <button className={`${index === 0 ? "font-light rounded-lg border border-white-300 py-2.5 px-4  text-[14px] md:bg-brand-green-primary md:text-[15px] md:text-white-100 md:border-0" : "rounded-lg border-0 border-opacity-0 py-2.5 px-4 opacity-0 cursor-default"}`}>
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
                       {item.btn}
                     </button>
                   </Link>
@@ -240,12 +218,8 @@ const AnalyticsAndReportingGraphs = () => {
                           handlePeriodChange(value, index);
                         }}
                         className={`${
-<<<<<<< HEAD
                           (index === 0 && activePeriodGraph1 === value) ||
                           (index === 1 && activePeriodGraph2 === value)
-=======
-                          (index === 0 && activePeriodGraph1 === value) || (index === 1 && activePeriodGraph2 === value)
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
                             ? 'selected rounded-md bg-[#E6F5EA] py-1.5 px-2 text-brand-green-focused'
                             : ''
                         }`}
@@ -290,7 +264,6 @@ const AnalyticsAndReportingGraphs = () => {
                     </div>
                   )}
                 </div>
-<<<<<<< HEAD
 
                 <div style={{ position: 'relative' }} className="mt-6">
                   {index === 0 ? (
@@ -329,36 +302,6 @@ const AnalyticsAndReportingGraphs = () => {
                           <Bar dataKey="users" fill="#A46A26" barSize={10} />
                         </BarChart>
                       )}
-=======
-                
-                <div style={{ position: 'relative' }} className="mt-6">
-                  {index === 0 ? (
-                    <ResponsiveContainer height={230} width="95%" className="mx-auto">
-                      <LineChart data={graphData[0]}>
-                        <XAxis dataKey="combinedInfo" height={60} width={80} />
-                        <Tooltip />
-                        <YAxis tickFormatter={formatCurrency} />
-                        <ReferenceLine y={1000} stroke="#00000" />
-                        <ReferenceLine y={3200} stroke="#F2F4F7" />
-                        <ReferenceLine y={5200} stroke="#F2F4F7" />
-                        <ReferenceLine y={7200} stroke="#F2F4F7" />
-                        <ReferenceLine y={9200} stroke="#F2F4F7" />
-                        <Line type="natural" dataKey="sales" stroke="#EABE95" strokeWidth={3} dot={false} />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  ) : (
-                    <ResponsiveContainer height={230} width="95%" className="mx-auto">
-                      <BarChart data={graphData[1]}>
-                        <XAxis dataKey="combinedInfo" height={60} width={80} />
-                        <Tooltip />
-                        <ReferenceLine y={1800} stroke="#F2F4F7" />
-                        <ReferenceLine y={3600} stroke="#F2F4F7" />
-                        <ReferenceLine y={7200} stroke="#F2F4F7" />
-                        <Bar dataKey="sales" fill="#F1AE67" barSize={10} />
-                        <Bar dataKey="orders" fill="#06C270" barSize={10} />
-                        <Bar dataKey="users" fill="#A46A26" barSize={10} />
-                      </BarChart>
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
                     </ResponsiveContainer>
                   )}
                 </div>
@@ -366,11 +309,7 @@ const AnalyticsAndReportingGraphs = () => {
             </div>
           ))}
         </div>
-<<<<<<< HEAD
         <ActivityDetails token={bearerToken} />
-=======
-        <ActivityDetails token={bearerToken}/>
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
       </section>
     </>
   );

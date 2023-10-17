@@ -5,17 +5,11 @@ interface ActivityDetailsProps {
   token: string;
 }
 
-<<<<<<< HEAD
 
 
 const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
   const [activityDetails, setActivityDetails] = useState<activity[]>([]);
   const [loadingState, setLoadingState] = useState<boolean>(false); // Corrected: Specify the type as boolean
-=======
-const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
-  const [activityDetails, setActivityDetails] = useState<activity[]>([]);
-  const [loadingState, setLoadingState] = useState(false);
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -39,11 +33,8 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
         setActivityDetails(limitedData);
       } catch (error) {
         setError('Error fetching data. Please try again.');
-<<<<<<< HEAD
       } finally {
         setLoadingState(false); // Corrected: Set loading state to false in the finally block
-=======
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
       }
     };
 
