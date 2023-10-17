@@ -135,11 +135,23 @@ const AnalyticsAndReportingGraphs = () => {
   }, []);
 
   const handlePeriodChange = (period: any, graphIndex: number) => {
+    setLoadingStates((prevLoadingStates) => ({
+      ...prevLoadingStates,
+      [graphIndex]: true,
+    }));
+
     if (graphIndex === 0) {
       setActivePeriodGraph1(period);
     } else if (graphIndex === 1) {
       setActivePeriodGraph2(period);
     }
+
+    // Reset the loading state for the other graph
+    const otherGraphIndex = graphIndex === 0 ? 1 : 0;
+    setLoadingStates((prevLoadingStates) => ({
+      ...prevLoadingStates,
+      [otherGraphIndex]: false,
+    }));
   };
 
   const graphDetails = [
@@ -259,7 +271,7 @@ const AnalyticsAndReportingGraphs = () => {
                   {index === 0 ? (
                     <ResponsiveContainer height={230} width="95%" className="mx-auto text-[14px]">
                       {loadingStates[0] ? (
-                        <div className="h-[13rem] w-full bg-black bg-opacity-20 shadow-lg mx-auto rounded-md animate-pulse" />
+                        <div className="h-[13rem] w-full bg-black bg-opacity-10 shadow-lg mx-auto rounded-md animate-pulse" />
                       ) : (
                         <LineChart data={graphData[0]}>
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
@@ -277,7 +289,7 @@ const AnalyticsAndReportingGraphs = () => {
                   ) : (
                     <ResponsiveContainer height={230} width="95%" className="mx-auto text-[14px]">
                       {loadingStates[1] ? (
-                        <div className="h-[13rem] w-full bg-black bg-opacity-20 shadow-lg mx-auto rounded-md animate-pulse" />
+                        <div className="h-[13rem] w-full bg-black bg-opacity-10 shadow-lg mx-auto rounded-md animate-pulse" />
                       ) : (
                         <BarChart data={graphData[1]}>
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
