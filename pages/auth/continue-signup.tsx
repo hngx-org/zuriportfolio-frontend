@@ -101,7 +101,7 @@ function Signup() {
           <h1 className="mb-1 md:mb-6 font-semibold text-dark-100 font-manropeEB text-2xl md:text-4xl text-[1.5rem]">
             Sign up
           </h1>
-          <p className="md:text-[22px] text-[#536066] font-manropeEB">Let&apos;s get you started</p>
+          <p className="md:text-[22px] text-[#536066] font-manropeEB">Let&apos;s get you started.</p>
         </div>
         <div className="mt-6 md:mt-12">
           <form className="flex flex-col" onSubmit={form.onSubmit((values) => handleSignUp(values))}>
@@ -272,7 +272,7 @@ function Signup() {
                 />
               </span>
               <label htmlFor="agree" className="text-gray-200 text-sm font-manropeL">
-                I agree with zuri stores{' '}
+                I agree with Zuri{' '}
                 <Link href={'/'} className="text-brand-green-primary hover:text-brand-green-hover">
                   Terms of Service
                 </Link>{' '}

@@ -196,7 +196,7 @@ const Guestsignupform: React.FC = () => {
                 />
               </span>
               <span className="text-gray-200 text-sm font-manropeL">
-                I agree with Zuri stores <Link href="/">Terms of Service</Link> & <Link href="/">Privacy Policy</Link>.
+                I agree with Zuri <Link href="/">Terms of Service</Link> & <Link href="/">Privacy Policy</Link>.
               </span>
             </label>
             <style jsx>{`
