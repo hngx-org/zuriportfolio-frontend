@@ -94,14 +94,7 @@ const SearchAndFilter = (prop: {
   const sectionsData = [
     {
       icon: <Filter size={26} color="white" />,
-      activeIcon: <Filter size={26} color="black" />,
-      text: 'All Filter',
-      id: 1,
-      filterType: 'none',
-    },
-    {
-      icon: <Category size={26} color="white" />,
-      activeIcon: <Category size={26} color="#737373" />,
+      activeIcon: <Filter size={26} color="blac" />,
       text: 'All',
       filterType: 'none',
     },
@@ -157,45 +150,52 @@ const SearchAndFilter = (prop: {
 
   return (
     <section className="p-4 xl:px-0">
-      <div className="relative -mt-[5.5rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
+      <div className="relative -mt-[6.35rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
         <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
-          <div className="w-full grid grid-cols-[1fr_auto] gap-4 md:w-[22rem] xl:w-[37.5rem]">
-            <Input
-              onChange={(e) => {
-                prop.setSearchQuery && prop.setSearchQuery(e.target.value);
-                prop.setFilter({});
-                setPageNumber();
-              }}
-              type="text"
-              name="search input"
-              intent={'default'}
-              placeHolder="Search by name or role"
-              leftIcon={<SearchNormal />}
-              className="w-full text-grey-900 border-brand-disabled2 rounded-2xl"
-            />
+          <div className="w-full grid grid-cols-[1fr_auto] gap-4 xl:grid-cols-[1fr_auto_auto]">
+            <div className="col-span-full grid gap-3">
+              <label htmlFor="Search query title">Search by name or role</label>
+              <Input
+                onChange={(e) => {
+                  prop.setSearchQuery && prop.setSearchQuery(e.target.value);
+                  prop.setFilter({});
+                  setPageNumber();
+                }}
+                type="text"
+                name="search input"
+                intent={'default'}
+                placeHolder="Search by name or role"
+                className="w-full text-grey-900 border-brand-disabled2 rounded-lg"
+              />
+            </div>
 
-            <button className="md:hidden">
+            <div className="grid gap-3">
+              <label htmlFor="Badge">Badge</label>
+              <CustomDropdown
+                options={['Beginner', 'Intermediate', 'Expert']}
+                selectedValue={selectedOption}
+                placeholder="Location"
+                onChange={handleCustomDropdownChange}
+              />
+            </div>
+
+            <div className="grid gap-3">
+              <label htmlFor="Location">Location</label>
+              <CustomDropdown
+                options={['Lagos, Nigeria', 'Accra, Ghana', 'Nairobi, Kenya']}
+                selectedValue={selectedOption2}
+                placeholder="Sort By"
+                onChange={handleCustomDropdownChange2}
+              />
+            </div>
+
+            <button className="hidden">
               <Filter
                 size={48}
                 color="#1a1c1b"
                 className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
               />
             </button>
-          </div>
-
-          <div className="w-full grid grid-cols-2 placeholder-gray-400 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
-            <CustomDropdown
-              options={['Nigeria', 'Ghana', 'Cameroon']}
-              selectedValue={selectedOption}
-              placeholder="Location"
-              onChange={handleCustomDropdownChange}
-            />
-            <CustomDropdown
-              options={['Trending', 'Featured', 'New Arrival']}
-              selectedValue={selectedOption2}
-              placeholder="Sort By"
-              onChange={handleCustomDropdownChange2}
-            />
           </div>
         </div>
 
@@ -251,14 +251,14 @@ const SearchAndFilter = (prop: {
           )}
         </div>
 
-        {showFilterComponent && (
+        {/* {showFilterComponent && (
           <FilterComponent
             closeFilterComponent={closeFilterComponent}
             showFilterComponent={showFilterComponent}
             filters={filters}
             handleFilters={handleFilters}
           />
-        )}
+        )} */}
       </div>
     </section>
   );
