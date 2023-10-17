@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { notify } from '@ui/Toast';
@@ -11,12 +11,9 @@ import SignUpWithGoogle from '@modules/auth/component/AuthSocialButtons/SignUpWi
 import SignUpWithGithub from '@modules/auth/component/AuthSocialButtons/SignUpWithGithub';
 import SignUpWithFacebook from '@modules/auth/component/AuthSocialButtons/SignUpWithFacebook';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../../../context/AuthContext';
-import isAuthenticated from '../../../../helpers/isAuthenticated';
+import { ADMIN_ID, useAuth } from '../../../../context/AuthContext';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
-
-export const ADMIN_ID = 3;
 
 function LoginForm() {
   const { handleAuth, userCameFrom } = useAuth();
@@ -38,8 +35,6 @@ function LoginForm() {
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      console.log('responseoutside', res);
-
       if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
         localStorage.setItem('zpt', res?.response?.token);
         localStorage.setItem('email', res?.response?.email);
@@ -54,8 +49,6 @@ function LoginForm() {
       if (res.message === 'Login successful') {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
-        const value = isAuthenticated(res?.data?.token);
-        // console.log(value);
 
         // redirecting the user  to admin dashbord if they are an admin
         if (res.data.user.roleId === ADMIN_ID) {
@@ -116,7 +109,7 @@ function LoginForm() {
             Log In
           </p>
           <p className="text-[#6B797F]  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
-            Log in to continue using zuriportfolio
+            Log in to continue using zuriportfolio.
           </p>
         </div>
 
