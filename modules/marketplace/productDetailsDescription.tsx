@@ -190,7 +190,16 @@ export default function ProductDetailsDescription() {
                       (50 Customers)
                     </p>
                   </div>
-                ) : null}
+                ) : (
+                  <div className="flex flex-wrap items-center">
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <p>(no ratings for this product)</p>
+                  </div>
+                )}
               </div>
 
               <hr className="bg-white-110 text-white-110 h-[2px] border-0 lg:block hidden" />
