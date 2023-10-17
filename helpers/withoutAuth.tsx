@@ -10,7 +10,7 @@ const withoutAuth = <P extends { children: React.ReactNode }>(WrappedComponent: 
       const isLoggedIn = isAuthenticated(token as string);
 
       if (isLoggedIn) {
-        router.push('/dashboard');
+        router.push('/');
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
