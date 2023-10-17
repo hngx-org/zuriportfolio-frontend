@@ -1,65 +1,51 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from './Button';
-import { twMerge } from 'tailwind-merge';
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
 
 interface PaginationProps {
-  page: any;
-  setPage: (page: number) => void;
+  page: number;
   pages: number;
-  activePage: any;
+  activePage: number;
   visiblePaginatedBtn: number;
+  setPage: (page: number) => void;
 }
 
 function Pagination({ page, pages, activePage, visiblePaginatedBtn, setPage }: PaginationProps) {
+  if (pages <= 1) {
+    // If there's only one page or no pages, don't render pagination.
+    return null;
+  }
+
   const pageNumbers = [];
+  const maxVisiblePage = Math.min(pages, visiblePaginatedBtn);
 
-  if (visiblePaginatedBtn >= pages) {
-    // If visiblePaginatedBtn is greater than or equal to total pages, display all pages
-    pageNumbers.push(...Array.from({ length: pages }, (_, i) => i + 1));
-  } else {
-    // pageNumbers.push(...Array.from({ length: visiblePaginatedBtn }, (_, i) => i + 1));
-    const minPage = Math.max(1, activePage - Math.floor(visiblePaginatedBtn / 2));
-    const maxPage = Math.min(pages, minPage + visiblePaginatedBtn - 1);
-    pageNumbers.push(...Array.from({ length: maxPage - minPage + 1 }, (_, i) => minPage + i));
-  }
+  const startPage = Math.max(1, Math.min(activePage - Math.floor(maxVisiblePage / 2), pages - maxVisiblePage + 1));
 
-  // 🆕 handler for the next button
-  function handleNext() {
-    if (pages > 1) setPage(page + 1);
-  }
-
-  // 🆕 handler for the previous button
-  function handlePrevious() {
-    if (page > 1) setPage(page - 1);
+  for (let i = startPage; i < startPage + maxVisiblePage; i++) {
+    pageNumbers.push(i);
   }
 
   return (
     <div className="w-fit mt-3 rounded-[20px] p-1 flex items-center justify-center gap-3 text-gray-600 bg-white-200">
       <Button
-        onClick={handlePrevious}
-        className={twMerge(
-          'px-2 py-1 disabled:bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent rounded-md bg-transparent text-dark-100 text-[12px]',
-        )}
+        onClick={() => setPage(Math.max(1, page - 1))}
+        className={`px-2 py-1 disabled:bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent rounded-md bg-transparent text-dark-100 text-[12px] ${
+          page <= 1 ? 'text-gray-400' : ''
+        }`}
         disabled={page <= 1}
       >
-        <RiArrowLeftSLine size={30} color={twMerge(page <= 1 ? '#ccc' : '#777')} />
+        <RiArrowLeftSLine size={30} color={page <= 1 ? '#ccc' : '#777'} />
       </Button>
 
       {pageNumbers.map((p, idx) => (
         <Button
           key={idx}
-          className={twMerge(
-            'w-12 text-[15px] hover:bg-transparent focus:bg-transparent focus-within:bg-transparent active:bg-transparent scale-[.95] px-5 py-1 rounded-[10px]',
+          className={`w-12 text-[15px] hover:bg-transparent focus-bg-transparent focus-within-bg-transparent active-bg-transparent scale-[.95] px-5 py-1 rounded-[10px] ${
             activePage === p
-              ? 'bg-brand-green-primary text-white-100 hover:bg-brand-green-primary focus:bg-brand-green-primary active:bg-brand-green-primary'
-              : 'bg-transparent text-white-400',
-          )}
-          onClick={() => {
-            if (p !== page) {
-              setPage(p);
-            }
-          }}
+              ? 'bg-brand-green-primary text-white-100 hover-bg-brand-green-primary focus-bg-brand-green-primary active-bg-brand-green-primary'
+              : 'bg-transparent text-white-400'
+          }`}
+          onClick={() => setPage(p)}
         >
           {p}
         </Button>
@@ -77,13 +63,13 @@ function Pagination({ page, pages, activePage, visiblePaginatedBtn, setPage }: P
       )}
 
       <Button
-        onClick={handleNext}
-        className={twMerge(
-          'px-2 py-1 disabled:bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent rounded-md bg-transparent text-dark-100 text-[12px]',
-        )}
-        disabled={pages === 0 || page === pages}
+        onClick={() => setPage(Math.min(pages, page + 1))}
+        className={`px-2 py-1 disabled:bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent rounded-md bg-transparent text-dark-100 text-[12px] ${
+          page === pages ? 'text-gray-400' : ''
+        }`}
+        disabled={page === pages}
       >
-        <RiArrowRightSLine size={30} color={twMerge(pages === 0 || page === pages ? '#ccc' : '#777')} />
+        <RiArrowRightSLine size={30} color={page === pages ? '#ccc' : '#777'} />
       </Button>
     </div>
   );

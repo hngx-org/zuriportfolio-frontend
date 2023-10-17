@@ -1,23 +1,16 @@
 import axios from 'axios';
-import { notify } from '@ui/Toast';
 import $http from './axios';
 
-const userID = '3e9a1d54-826a-4d0b-8a48-a4e92f857fd5';
-const baseURL = `https://demerzel-badges-production.up.railway.app/api`;
-const assessmentBaseUrl = `http://104.248.143.148/api`;
+const assessmentBaseUrl = `https://assessment.cofucan.tech/api`;
 
-const $httpInstance = axios.create({
-  baseURL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-export const fetchAssessmentHistory = async () => {
+export const fetchAssessmentHistory = async (token: string) => {
   try {
-    const res: any = await $httpInstance.get(`/user/${userID}/badges`, {});
-    // console.log(res);
-    return res.data.data.badges;
+    const res: any = await $http.get(`${assessmentBaseUrl}/assessments/get-user-assessments`, {
+      headers: {
+        token: token,
+      },
+    });
+    return res.data;
   } catch (error) {
     console.error('Error Assessment History:', error);
     throw error;
@@ -98,7 +91,7 @@ export const submitAssessment = async ({
     },
   });
   try {
-    const res = await axiosInstance.post(`http://104.248.143.148/api/assessments/submit`, {
+    const res = await axiosInstance.post(`${assessmentBaseUrl}/assessments/submit`, {
       assessment_id,
       response: {
         question_id: question_id,
