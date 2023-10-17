@@ -54,7 +54,6 @@ const MyPage: React.FC = () => {
   
   // useAuth
   const { auth } = useAuth();
-  console.log(auth?.token)
   const token = auth?.token
 
   // modal open and close state
