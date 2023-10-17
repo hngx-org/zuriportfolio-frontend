@@ -32,18 +32,13 @@ const CreateTemplate = () => {
     return resultArray;
   }
   //deleting options
-  const handleDelete = (index: number, opt: string) => {
-    var num = 0;
+  const handleDelete = (index: number, n: number) => {
     var updatedData = [...list];
-    updatedData[index].options.filter((data) => {
-      if (data == opt) {
-        num = updatedData[index].options.indexOf(data);
-      }
-    });
-    const newdata = splicearr(updatedData[index].options, num);
+    const newdata = splicearr(updatedData[index].options, n);
     console.log(newdata);
     updatedData[index].options = newdata;
     setList(updatedData);
+    console.log(list);
   };
   //adding options
   const handleIncreaseOption = (index: number) => {
@@ -51,6 +46,7 @@ const CreateTemplate = () => {
     //updatedData[indextoadd]?.options.push('')
     updatedData[index].options.push('');
     setList(updatedData);
+    console.log(list[index]);
   };
 
   //handling Adding questions
@@ -78,7 +74,7 @@ const CreateTemplate = () => {
   return (
     <>
       <div className="flex flex-col gap-y-8">
-        {list?.map((item, index) => {
+        {list.map((item, index) => {
           return (
             <div
               key={index}
@@ -100,9 +96,9 @@ const CreateTemplate = () => {
                 </div>
               </div>
               <div className=" text-[20px] font-semibold pt-4 text-[#1A1C1B]">Answers</div>
-              {list[index]?.options.map((opt, n) => {
+              {list[index].options.map((opt, n) => {
                 return (
-                  <div key={index} className="pt-4 flex flex-col gap-y-[10px]">
+                  <div key={index + '-' + n} className="pt-4 flex flex-col gap-y-[10px]">
                     <div className=" text-[18px] font-semibold  text-[#1A1C1B]">{`Option ${n + 1}`}</div>
                     <div className="flex items-center justify-between gap-x-2">
                       <svg width="28" height="29" viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -114,14 +110,14 @@ const CreateTemplate = () => {
                           handleinputOption(e, index, n);
                         }}
                         type="text"
-                        name={`opt-${n + 1}`}
+                        value={opt}
                         placeHolder=""
                         intent={'default'}
                         size={15}
                       />
                       <div
                         onClick={() => {
-                          handleDelete(index, opt);
+                          handleDelete(index, n);
                         }}
                       >
                         <Image src={minus} alt="minus" width={28} height={28} />
@@ -154,7 +150,7 @@ const CreateTemplate = () => {
                   <SelectContent>
                     {list[index].options.map((optt: any, n: number) => {
                       return (
-                        <SelectItem key={`${index}${n}`} value={`${n + 1}`}>
+                        <SelectItem key={index + '-' + n} value={`${n + 1}`}>
                           Option {n + 1}
                         </SelectItem>
                       );

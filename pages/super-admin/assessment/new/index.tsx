@@ -108,7 +108,7 @@ const CreateAssessment = () => {
       body: JSON.stringify(newobject),
     };
     const postEnd = await fetch(url, reqOptions);
-
+    setModalOpen(true);
     if (!postEnd.ok) {
       console.log('Error' + postEnd.status);
       // setModalOpen(false);
@@ -124,7 +124,6 @@ const CreateAssessment = () => {
       setErrstate(false);
     }
     console.log(response);
-    setModalOpen(true);
   };
 
   useEffect(() => {
@@ -187,7 +186,7 @@ const CreateAssessment = () => {
                 ) : (
                   <Button
                     className="p-3"
-                    intent={'primary'}
+                    intent={'secondary'}
                     size={'md'}
                     spinnerColor="#000"
                     href={'/super-admin/assessment'}
