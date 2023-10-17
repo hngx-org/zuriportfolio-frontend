@@ -193,7 +193,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
             onSubmit={handleSubmit}
             className="p-4 mt-10 border-[.4px] flex flex-col gap-2 rounded-lg border-brand-disabled"
           >
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <DynamicInput
                 onChange={handleInputChange}
                 type="text"
