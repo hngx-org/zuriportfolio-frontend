@@ -9,9 +9,16 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 
+type languageModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  isOpen: boolean;
+  userId: string;
+};
+
 const endpoint = 'https://hng6-r5y3.onrender.com';
 
-const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
+const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageModalProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -78,7 +85,7 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             type: 'success',
           });
           setValues([]);
-          onClose();
+          onSaveModal();
         })
         .catch((err) => {
           setLoading(false);
@@ -113,14 +120,21 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   }, []);
 
   return (
-    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
+    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
       <section className="">
         <section className="flex justify-between items-center border-b-4 pb-3 border-b-[#009254]">
           <section className="flex items-center gap-5">
             <Image src={arrow_left} width={24} height={24} alt="arrow-left" />
             <h4 className="text-2xl font-bold text-[#2E3130]"> Language </h4>
           </section>
-          <Image src={close1} width={24} height={24} alt="arrow-left" className="cursor-pointer" onClick={onClose} />
+          <Image
+            src={close1}
+            width={24}
+            height={24}
+            alt="arrow-left"
+            className="cursor-pointer"
+            onClick={onCloseModal}
+          />
         </section>
 
         {values.length > 0 && <section className="flex items-center flex-wrap gap-2.5 mt-2 mb-5">{items}</section>}
@@ -151,7 +165,7 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
 
         <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-2.5">
           <Button
-            onClick={onClose}
+            onClick={onCloseModal}
             className="border flex justify-center border-[#009444] bg-white-100 py-3 px-5 text-sm sm:text-base font-normal text-text-green-600 text-center rounded-lg hover:bg-white-100 text-[#009444] hover:text-[#009444]"
           >
             Cancel
