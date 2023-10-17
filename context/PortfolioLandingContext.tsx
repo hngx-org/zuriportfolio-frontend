@@ -14,6 +14,7 @@ import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
+import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
 
 type PortfolioContext = {
   gettinSection: boolean;
@@ -330,7 +331,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     },
     {
       id: 'projects',
-      modal: <ProjectSection isOpen={modalStates['projects']} onClose={() => modal('projects')} userId={userId} />,
+      modal: <ProjectSectionModal isOpen={modalStates['projects']} onClose={() => modal('projects')} userId={userId} />,
     },
     {
       id: 'language',

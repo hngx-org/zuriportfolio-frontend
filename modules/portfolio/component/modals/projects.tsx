@@ -8,15 +8,15 @@ import Image from 'next/image';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
+import AllProjectsModal from '../all-projects-modal';
 
 type ProjectSectionProps = {
-  isOpen: boolean;
   onClose: () => void;
   userId: string;
 };
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
-const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId }) => {
+const ProjectSection: React.FC<ProjectSectionProps> = ({ onClose, userId }) => {
   const [title, setTitle] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [link, setLink] = useState<string>('');
@@ -142,15 +142,16 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
   };
 
   return (
-    <Modal isOpen={true} closeModal={close} isCloseIconPresent={false} size="xl">
+    <>
+      {/* header */}
+      <div className="flex justify-between items-center">
+        <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Projects</p>
+        <CloseSquare size="32" color="#009254" variant="Bold" onClick={close} className="cursor-pointer" />
+      </div>
+      <hr className="border-2 rounded-lg border-brand-green-primary md:mb-1 mb-10" />
+      <AllProjectsModal />
       <div className="w-full flex-col bg-white-100 p-4 py-5 font-manropeL">
         <div className="flex flex-col gap-5 w-full">
-          {/* header */}
-          <div className="flex justify-between items-center">
-            <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Projects</p>
-            <CloseSquare size="32" color="#009254" variant="Bold" onClick={close} className="cursor-pointer" />
-          </div>
-          <hr className="border-2 rounded-lg border-brand-green-primary md:mb-1 mb-10" />
           <form className="flex flex-col gap-5 w-full">
             {/* title */}
             <div className="flex justify-center items-center flex-col md:flex-row gap-5">
@@ -347,7 +348,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
           </form>
         </div>
       </div>
-    </Modal>
+    </>
   );
 };
 
