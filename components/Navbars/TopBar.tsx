@@ -109,6 +109,9 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     if (e.key === 'Enter' && dropDown === 'Marketplace') {
       router.push(`/marketplace/search?query=${searchQuery}`);
     }
+    if (e.key === 'Enter' && dropDown === 'Explore') {
+      router.push(`/explore/search?query=${searchQuery}`);
+    }
   };
 
   function handleDropdown(option: string) {
