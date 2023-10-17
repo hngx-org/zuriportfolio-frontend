@@ -5,6 +5,7 @@ import FeatureThree from '../../../../public/assets/home/featureThree.png';
 import FeatureFour from '../../../../public/assets/home/featureFour.png';
 import LogoSlider from '../../../../public/assets/home/logoSlider.png';
 import LogoCarousel from '@modules/home/carousel/logos/logosCarousel';
+import HeroSection from '@modules/home/features/Hero';
 
 const data = [
   {
@@ -63,6 +64,14 @@ const slides = [
 const SectionTwo = () => {
   return (
     <div className="flex flex-col w-full">
+      <div className="flex justify-center items-center py-5  w-full">
+        <HeroSection
+          title="How exactly does Zuri Portfolio help Talents?"
+          desc="Explore a world of talents, create your personalized portfolio, and sell your digital products in your very own shop. Your dreams, your creations, your success – all in one place. Start your journey today."
+          slug="Get Started"
+          href="/dashboard"
+        />
+      </div>
       <div className="flex justify-center items-center py-12 w-full">
         <Features data={data} />
       </div>

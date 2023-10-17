@@ -3,7 +3,7 @@ import PortfolioCarousel from '@modules/home/carousel/portfolios/portfolioCarous
 
 const SectionOne = () => {
   return (
-    <div className="pb-10 border-b-2 border-[#14141411]">
+    <div className="pb-10 md:border-b-2 border-[#96969611]">
       <div className="flex justify-center items-center pb-10 flex-col">
         <Jumbotron />
       </div>
