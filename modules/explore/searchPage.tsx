@@ -206,7 +206,7 @@ export default function SearchModule() {
             </div>
           )}
           {!isLoading && data?.data?.length === 0 && (
-            <div className="grid  max-w-[600px] w-[100%] justify-center py-14 min-h-[300px] ">
+            <div className="grid   w-[100%] justify-center py-14 min-h-[300px] ">
               <Image src={erroEmpty} alt="No Result" />
             </div>
           )}
