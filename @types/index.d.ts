@@ -80,6 +80,39 @@ export interface RecentlyViewedData {
   interaction_type: string;
   createdat: number;
 }
+export interface Award {
+  id: number;
+  sectionId: number;
+  year: string;
+  title: string;
+  presented_by: string;
+  url: string;
+  description: string;
+}
+
+export interface AwardItemProps {
+  award: Award;
+}
+export interface AwardListProps {
+  // awards: Award[];
+  isModalOpen: boolean;
+}
+export interface Certification {
+  id: string;
+  sectionId: number;
+  year: string;
+  title: string;
+  organization: string;
+  url: string;
+  description: string;
+}
+
+export interface CertificationItemProps {
+  certification: Certification;
+}
+export interface CertificationListProps {
+  isModalOpen: boolean;
+}
 
 export interface Education {
   id: number;
