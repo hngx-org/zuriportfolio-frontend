@@ -82,9 +82,8 @@ export default function ProductDetailsDescription() {
       const products: any[] = localStorage.getItem('products')
         ? JSON.parse(localStorage.getItem('products') as string)
         : [];
-      
+
       if (product) {
-                
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
