@@ -44,8 +44,8 @@ const AllProjectsModal = () => {
       </section>
 
       <section className="flex justify-end gap-2.5 mt-5 text-base font-semibold pr-5">
-        <span className="text-[#5B8DEF]"> Edit </span>
-        <span className="text-[#FF5C5C]"> Delete </span>
+        <span className="text-[#5B8DEF] cursor-pointer"> Edit </span>
+        <span className="text-[#FF5C5C] cursor-pointer"> Delete </span>
       </section>
     </>
   );
