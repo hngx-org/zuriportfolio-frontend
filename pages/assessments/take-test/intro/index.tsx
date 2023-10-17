@@ -6,6 +6,7 @@ import Button from '@ui/Button';
 import { useRouter } from 'next/router';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { getAssessmentDetails } from '../../../../http/userTakenAssessment';
+import withAuth from '../../../../helpers/withAuth';
 
 type AssessmentDetails = {
   assessment_id: number;
@@ -90,4 +91,4 @@ const TakeTest: FC = () => {
     </>
   );
 };
-export default TakeTest;
+export default withAuth(TakeTest);
