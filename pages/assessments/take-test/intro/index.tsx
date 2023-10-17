@@ -72,18 +72,13 @@ const TakeTest: FC = () => {
               <li>Submission: Complete all questions and submit within the time limit</li>
             </ul>
             <div className="flex items-center justify-end mt-8">
-              <Link href="/assessments/take-test/questions">
+              <Link href={`/assessments/take-test/questions?data=${result?.skill_id}&id=${result?.assessment_id}`}>
                 <Button
                   intent={'primary'}
                   size={'md'}
                   isLoading={false}
                   spinnerColor="#000"
                   className="px-5 py-0 md:py-2 md:px-10 text-sm md:text-base font-manropeL"
-                  onClick={() => {
-                    router.push(
-                      `/assessments/take-test/questions?data=${result?.skill_id}&id=${result?.assessment_id}`,
-                    );
-                  }}
                 >
                   Start assessment
                 </Button>

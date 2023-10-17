@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import ScoreDropdown from './component/scoreDropdown';
 import { Input } from '@ui/Input';
+import { ToastContainer, toast } from 'react-toastify';
 import { useCreatingAssessmentContext } from '../../context/assessment/CreatingAssessmentContext';
-
+import axios from 'axios';
 type TimingSystemType = {
   hours: string;
   minutes: string;
   seconds: string;
-  // Add more properties as needed
 };
 
 type AssessmentScoringType = {
@@ -20,22 +20,21 @@ type AssessmentScoringType = {
 type MyGradingRangeType = {
   minScore: string;
   maxScore: string;
-  // Add more properties as needed
 };
 
-const ScoringScreen = () => {
-  const arr = ['Beginner', 'Intermediate', 'Expert'];
-  // const [isAutoSubmitOn, setIsAutoSubmitOn] = useState<boolean>(false);
-  const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
+interface ScoringScreenProps {
+  skillId: number; // Define skillId as a prop
+}
 
-  //State for the timing value
+const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
+  const arr = ['Beginner', 'Intermediate', 'Expert'];
+  const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
     hours: '',
     minutes: '',
     seconds: '',
   });
 
-  //State for the grading values
   const initialGradingValues: MyGradingRangeType = {
     minScore: '',
     maxScore: '',
@@ -59,8 +58,7 @@ const ScoringScreen = () => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const name = e.target.name;
-
-    // Check if the new value is an empty string (no characters entered)
+    skillId;
     if (newValue === '') {
       setExamTime((prevExamTime) => ({
         ...prevExamTime,
@@ -78,7 +76,6 @@ const ScoringScreen = () => {
           const minutes = parseInt(examTime.minutes, 10) || 0;
           const seconds = parseInt(examTime.seconds, 10) || 0;
           const totalMinutes = hours * 60 + minutes + seconds / 60;
-          console.log('Total time in minutes:', totalMinutes);
 
           setExamDuration(totalMinutes.toString());
         }
@@ -93,73 +90,6 @@ const ScoringScreen = () => {
     return hoursInMinutes + minutesValue + secondsValue;
   };
 
-  // const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
-  //   const newValue = e.target.value;
-  //   const name = e.target.name;
-
-  //   if (name === 'minScore') {
-  //     const minScore = newValue;
-  //     const maxScore = gradingValues[level].maxScore;
-
-  //     // Update grading values
-  //     setGradingValues((prevValues) => ({
-  //       ...prevValues,
-  //       [level]: {
-  //         ...prevValues[level],
-  //         minScore,
-  //       },
-  //     }));
-
-  //     // Update assessmentScoring state based on the level
-  //     if (maxScore) {
-  //       const range = `${minScore}% - ${maxScore}%`;
-  //       setAssessmentScoring((prevAssessmentScoring) => ({
-  //         ...prevAssessmentScoring,
-  //         [`${level.toLowerCase()}_score_range`]: range,
-  //       }));
-  //     }
-
-  //     // Update incomplete levels
-  //     if (maxScore === '') {
-  //       if (!incompleteLevels.includes(level)) {
-  //         setIncompleteLevels([...incompleteLevels, level]);
-  //       }
-  //     } else {
-  //       setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
-  //     }
-  //   } else if (name === 'maxScore') {
-  //     const minScore = gradingValues[level].minScore;
-  //     const maxScore = newValue;
-
-  //     // Update grading values
-  //     setGradingValues((prevValues) => ({
-  //       ...prevValues,
-  //       [level]: {
-  //         ...prevValues[level],
-  //         maxScore,
-  //       },
-  //     }));
-
-  //     // Update assessmentScoring state based on the level
-  //     if (minScore) {
-  //       const range = `${minScore}% - ${maxScore}%`;
-  //       setAssessmentScoring((prevAssessmentScoring) => ({
-  //         ...prevAssessmentScoring,
-  //         [`${level.toLowerCase()}_score_range`]: range,
-  //       }));
-  //     }
-
-  //     // Update incomplete levels
-  //     if (minScore === '') {
-  //       if (!incompleteLevels.includes(level)) {
-  //         setIncompleteLevels([...incompleteLevels, level]);
-  //       }
-  //     } else {
-  //       setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
-  //     }
-  //   }
-  //   console.log(assessmentScoring);
-  // };
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
     const newValue = e.target.value;
     const name = e.target.name;
@@ -171,7 +101,6 @@ const ScoringScreen = () => {
         newValue === '' ||
         (!isNaN(numericValue as number) && (numericValue as number) >= 0 && (numericValue as number) <= 100)
       ) {
-        // Update grading values
         setGradingValues((prevValues) => ({
           ...prevValues,
           [level]: {
@@ -180,7 +109,6 @@ const ScoringScreen = () => {
           },
         }));
 
-        // Update assessmentScoring state based on the level
         const minScore = name === 'minScore' ? newValue : gradingValues[level].minScore;
         const maxScore = name === 'maxScore' ? newValue : gradingValues[level].maxScore;
         const range = `${minScore}% - ${maxScore}%`;
@@ -189,7 +117,6 @@ const ScoringScreen = () => {
           [`${level.toLowerCase()}_score_range`]: range,
         }));
 
-        // Update incomplete levels
         if (minScore === '' || maxScore === '') {
           if (!incompleteLevels.includes(level)) {
             setIncompleteLevels([...incompleteLevels, level]);
@@ -198,38 +125,74 @@ const ScoringScreen = () => {
           setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
         }
       }
-      console.log(assessmentScoring);
     }
+    saveScore(level);
   };
 
   const handleSlider = () => {
     setIsAutoSubmitOn(!isAutoSubmitOn);
   };
 
-  // const [drafts, setDrafts] = useState([]);
+  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
+    useCreatingAssessmentContext();
+
+  const saveScore = async (level: string) => {
+    const token = localStorage.getItem('zpt');
+
+    try {
+      const response = await fetch('https://demerzel-badges-production.up.railway.app/api/badges/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          min_score: gradingValues[level].minScore,
+          max_score: gradingValues[level].maxScore,
+          name: level.toLowerCase(),
+          skill_id: skillId,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast.success(`Scoring for ${level} saved successfully!`);
+        // Handle success if needed
+      } else {
+        const errorData = await response.json();
+        toast.error(`Failed to save scoring for ${level}: ${errorData.message}`);
+        // Handle error if needed
+      }
+    } catch (error) {
+      console.error(`Error while saving scoring for ${level}:`, error);
+      toast.error(`Error while saving scoring for ${level}`);
+      // Handle error if needed
+    }
+  };
 
   // useEffect(() => {
   //   async function fetchData() {
   //     try {
-  //       const response = await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/drafts/');
+  //       const response = await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${skillId}`, {
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`,
+  //         },
+  //       });
   //       if (!response.ok) {
   //         console.log('Failed to fetch data');
   //         throw new Error('Failed to fetch data');
   //       }
   //       const data = await response.json();
-  //       setDrafts(data);
+  //       // setDrafts(data);
   //       console.log(data);
   //     } catch (error) {
-  //       // Handle the error, e.g., display an error message
   //       console.error('Error fetching data:', error);
   //     }
   //   }
-  //   fetchData();
-  //   console.log('draft', drafts);
-  // }, []);
-
-  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
-    useCreatingAssessmentContext();
+  //   if (token) {
+  //     fetchData();
+  //   }
+  // }, [token, skillId]);
 
   return (
     <div>

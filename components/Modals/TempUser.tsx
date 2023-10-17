@@ -8,6 +8,7 @@ import Button from '@ui/Button';
 import { addToCart, createTempUser, makePayment } from '../../http/checkout';
 import { useAuth } from '../../context/AuthContext';
 import { getCardItemsId } from '../../helpers';
+import { ToastContainer } from 'react-toastify';
 
 interface TempUser {
   isOpen: boolean;
@@ -31,16 +32,19 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
     if (tempUser.data.token) {
       const cartItems = JSON.parse(localStorage.getItem('products') as string);
       const cartIds = await getCardItemsId(cartItems);
+      
       const cartResponse = await addToCart(cartIds, tempUser.data.token);
       if (cartResponse.status) {
-        localStorage.setItem('products', '');
         const response = await makePayment(payment, tempUser.data.token);
+        if (response.statug)
+        localStorage.setItem('products', '');
         window.location.href = response.transaction_url;
       }
     }
   };
 
-  return (
+  return (<>
+    <ToastContainer/>
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm">
       <div className="flex items-end justify-end">
         <Image className="cursor-pointer" src={cancel} alt="cancel modal" onClick={onClose} />
@@ -121,6 +125,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
         </div>
       </form>
     </Modal>
+    </>
   );
 };
 

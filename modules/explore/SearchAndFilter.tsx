@@ -157,25 +157,6 @@ const SearchAndFilter = (prop: {
 
   return (
     <div className="mx-auto mb-2 py-8 px-6 font-manropeL xl:max-w-[77.5rem] xl:px-0">
-      {/* <Breadcrumbs /> */}
-      <section className="mb-4">
-        <div>
-          <h1 className=" font-manropeEB text-[2.25rem] text-custom-color11 md:text-[2.815rem] xl:text-[3.5rem]">
-            Explore
-          </h1>
-          <p className="text-base text-custom-color43 xl:text-[1.375rem]">Find your perfect creative match</p>
-        </div>
-
-        <div className="hidden flex-col justify-start items-start gap-3 mb-10">
-          <h1 className="text-zinc-900 text-[32px] md:text-[57px] font-bold font-manropeL leading-[40px] md:leading-[64px]">
-            Filter
-          </h1>
-          <div className="text-neutral-500 text-[14px] md:text-[22px] font-normal font-manropeBL leading-5 md:leading-7">
-            Customize and refine your search results to suit your specific preferences
-          </div>
-        </div>
-      </section>
-
       <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
         <div className="w-full grid grid-cols-[1fr_auto] gap-4 md:w-[22rem] xl:w-[37.5rem]">
           <Input
