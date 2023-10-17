@@ -138,6 +138,7 @@ const FilterModal = ({filter, isOpen, onClose, token, setData}: Props) => {
       </Modal>}
       {/* filter by month */}
       {filter === 'month' && <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
+      <h5 className='mb-[1rem] font-bold'>Choose a month</h5>
         <div className="grid grid-cols-3 gap-3">
           {MONTH.map((item, i) => (
             <div onClick={() => filterByMonth(item)} key={i} className="border-slate-200 border rounded-md cursor-pointer p-[1rem] font-semibold hover:text-white-100 hover:bg-brand-green-hover">{item}</div>
