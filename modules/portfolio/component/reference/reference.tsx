@@ -6,16 +6,18 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 interface formData {
-  name: string;
+  referer: string;
   company: string;
   position: string;
-  emailAddress: string;
+  email: string;
   phoneNumber: string;
+  userId: string;
+  sectionid: number;
 }
 interface Errors {
-  name?: string;
+  referer?: string;
   company?: string;
-  emailAddress?: string;
+  email?: string;
 }
 
 type referenceModalProps = {
@@ -26,17 +28,20 @@ type referenceModalProps = {
 
 const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, userId }) => {
   const initialFormData: formData = {
-    name: '',
+    referer: '',
     company: '',
     position: '',
-    emailAddress: '',
+    email: '',
     phoneNumber: '',
+    userId: userId,
+    sectionid: 25,
   };
 
   const [formData, setFormData] = useState<formData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [editing, setEditing] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -48,7 +53,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
 
   const validateAllFieldsNotEmpty = () => {
     let hasEmptyField = false;
-    const fieldsToValidate = ['name', 'emailAddress', 'company'];
+    const fieldsToValidate = ['referer', 'email', 'company'];
 
     Object.entries(formData).forEach(([inputName, inputValue]) => {
       // Check if inputName is one of the fields to validate
@@ -84,7 +89,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
     if (!validateAllFieldsNotEmpty()) {
       validateAllFieldsNotEmpty();
     } else {
-      setErrors({ ...errors, name: '', emailAddress: '', company: '' });
+      setErrors({ ...errors, referer: '', email: '', company: '' });
       if (!loading) {
         response();
       }
@@ -120,9 +125,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
         theme: 'light',
       });
       console.log(response.data);
-      setTimeout(() => {
-        onClose();
-      }, 2000);
+      setEditing(false);
     } catch (error) {
       if (error instanceof Error) {
         console.error('An error occurred:', error);
@@ -185,106 +188,239 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
             x
           </div>
         </div>
-        <form
-          onSubmit={handleSubmit}
-          className="p-4 mt-10 border-[.4px] flex flex-col gap-2 rounded-lg border-brand-disabled"
-        >
-          <DynamicInput
-            onChange={handleInputChange}
-            type="text"
-            placeholder="Let’s meet your referee"
-            InputId="ptfl-fullname"
-            name="name"
-            label="Name*"
-            labelFor="fullname"
-            value={formData.name}
-            required={true}
-            error={errors.name}
-          />
-          <div className="w-full flex flex-col md:flex-row gap-2 justify-between">
-            <div className="w-full md:w-[47%]">
+        {editing ? (
+          <form
+            onSubmit={handleSubmit}
+            className="p-4 mt-10 border-[.4px] flex flex-col gap-2 rounded-lg border-brand-disabled"
+          >
+            <div className="flex flex-col gap-2">
               <DynamicInput
                 onChange={handleInputChange}
                 type="text"
-                placeholder="Google"
-                InputId="ptfl-company"
-                name="company"
-                label="Company*"
-                labelFor="company"
-                value={formData.company}
+                placeholder="Let’s meet your referee"
+                InputId="ptfl-fullname"
+                name="referer"
+                label="Name*"
+                labelFor="referer"
+                value={formData.referer}
                 required={true}
-                error={errors.company}
+                error={errors.referer}
               />
-            </div>
-            <div className="w-full md:w-[47%]">
+              <div className="w-full flex flex-col md:flex-row gap-2 justify-between">
+                <div className="w-full md:w-[47%]">
+                  <DynamicInput
+                    onChange={handleInputChange}
+                    type="text"
+                    placeholder="Google"
+                    InputId="ptfl-company"
+                    name="company"
+                    label="Company*"
+                    labelFor="company"
+                    value={formData.company}
+                    required={true}
+                    error={errors.company}
+                  />
+                </div>
+                <div className="w-full md:w-[47%]">
+                  <DynamicInput
+                    onChange={handleInputChange}
+                    type="text"
+                    placeholder="Type link"
+                    InputId="ptfl-position"
+                    name="position"
+                    label="Position"
+                    labelFor="position"
+                    value={formData.position}
+                    required={false}
+                  />
+                </div>
+              </div>
               <DynamicInput
                 onChange={handleInputChange}
-                type="text"
-                placeholder="Type link"
-                InputId="ptfl-position"
-                name="position"
-                label="Position"
-                labelFor="position"
-                value={formData.position}
+                type="email"
+                placeholder="example@gmail.com"
+                InputId="ptfl-email"
+                name="email"
+                label="Email*"
+                labelFor="email"
+                value={formData.email}
+                required={true}
+                error={errors.email}
+              />
+              <DynamicInput
+                onChange={handleInputChange}
+                type="number"
+                placeholder=""
+                InputId="ptfl-phone"
+                name="phoneNumber"
+                label="Phone Number"
+                labelFor="phoneNumber"
+                value={formData.phoneNumber}
                 required={false}
+                leftIcon={<span>+234</span>}
+                pattern={'[0-9]{3}-[0-9]{2}-[0-9]{3}'}
               />
             </div>
-          </div>
-          <DynamicInput
-            onChange={handleInputChange}
-            type="email"
-            placeholder="example@gmail.com"
-            InputId="ptfl-email"
-            name="emailAddress"
-            label="Email*"
-            labelFor="email"
-            value={formData.emailAddress}
-            required={true}
-            error={errors.emailAddress}
-          />
-          <DynamicInput
-            onChange={handleInputChange}
-            type="number"
-            placeholder=""
-            InputId="ptfl-phone"
-            name="phoneNumber"
-            label="Phone Number"
-            labelFor="phoneNumber"
-            value={formData.phoneNumber}
-            required={false}
-            leftIcon={<span>+234</span>}
-            pattern={'[0-9]{3}-[0-9]{2}-[0-9]{3}'}
-          />
-          <div className="flex gap-2 justify-end">
-            <Button intent={'secondary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={callGet}>
-              Close
-            </Button>
-            <Button intent={'primary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={handleSubmit}>
-              {loading ? (
-                <div className="block w-5 h-5">
-                  <svg
-                    aria-hidden="true"
-                    className="text-brand-green-hover animate-spin fill-white-100"
-                    viewBox="0 0 100 101"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                      fill="currentColor"
-                    />
-                    <path
-                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                      fill="currentFill"
-                    />
-                  </svg>
+
+            <div className="flex gap-2 justify-end">
+              <Button intent={'secondary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={callGet}>
+                Close
+              </Button>
+              <Button intent={'primary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={handleSubmit}>
+                {loading ? (
+                  <div className="block w-5 h-5">
+                    <svg
+                      aria-hidden="true"
+                      className="text-brand-green-hover animate-spin fill-white-100"
+                      viewBox="0 0 100 101"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill"
+                      />
+                    </svg>
+                  </div>
+                ) : (
+                  `Save`
+                )}
+              </Button>
+            </div>
+          </form>
+        ) : (
+          <div className="md:pe-4 mt-5 ">
+            <div className="mb-10  flex flex-col gap-2">
+              <div className="card bg-gray-50 p-2 rounded-md">
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Name
+                  <p className="text-base font-normal">James kutter</p>
                 </div>
-              ) : (
-                `Save`
-              )}
-            </Button>
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Company
+                  <p className="text-base font-normal">tail</p>
+                </div>
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Email
+                  <p className="text-base font-normal">example@gmail.com</p>
+                </div>
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Position
+                  <p className="text-base font-normal">Backend dev</p>
+                </div>
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Phone
+                  <p className="text-base font-normal">+234 9029876543</p>
+                </div>
+
+                <div>
+                  <div className="flex gap-3 justify-end px-2 mt-2 font-medium">
+                    <p
+                      onClick={() => {
+                        setEditing(true);
+                      }}
+                      className="text-blue-300 cursor-pointer"
+                    >
+                      Edit
+                    </p>
+                    <p className={`text-brand-red-primary cursor-pointer`}>Delete</p>
+                  </div>
+                </div>
+              </div>
+              <div className="card bg-gray-50 p-2 rounded-md">
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Name
+                  <p className="text-base font-normal">James kutter</p>
+                </div>
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Company
+                  <p className="text-base font-normal">tail</p>
+                </div>
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Email
+                  <p className="text-base font-normal">example@gmail.com</p>
+                </div>
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Position
+                  <p className="text-base font-normal">Backend dev</p>
+                </div>
+                <div className="text-base font-semibold text-dark-800 flex gap-3">
+                  Phone
+                  <p className="text-base font-normal">+234 9029876543</p>
+                </div>
+
+                <div>
+                  <div className="flex gap-3 justify-end px-2 mt-2 font-medium">
+                    <p
+                      onClick={() => {
+                        setEditing(true);
+                      }}
+                      className="text-blue-300 cursor-pointer"
+                    >
+                      Edit
+                    </p>
+                    <p className={`text-brand-red-primary cursor-pointer`}>Delete</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="w-full flex justify-between items-center">
+              <div
+                onClick={() => {
+                  setEditing(true);
+                }}
+                className="text-[1.05rem] text-brand-green-primary font-normal px-3 transition cursor-pointer py-1 rounded-full hover:bg-brand-green-primary hover:text-white-100"
+              >
+                + Add <span className="hidden md:inline">reference</span>
+              </div>
+              <div className="flex gap-2 justify-end">
+                <Button
+                  intent={'secondary'}
+                  size={'sm'}
+                  className="md:w-24 rounded-2xl"
+                  type="button"
+                  onClick={callGet}
+                >
+                  Close
+                </Button>
+                <Button
+                  intent={'primary'}
+                  size={'sm'}
+                  className="md:w-24 rounded-2xl"
+                  type="button"
+                  onClick={handleSubmit}
+                >
+                  {loading ? (
+                    <div className="block w-5 h-5">
+                      <svg
+                        aria-hidden="true"
+                        className="text-brand-green-hover animate-spin fill-white-100"
+                        viewBox="0 0 100 101"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                          fill="currentColor"
+                        />
+                        <path
+                          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                          fill="currentFill"
+                        />
+                      </svg>
+                    </div>
+                  ) : (
+                    `Save`
+                  )}
+                </Button>
+              </div>
+            </div>
           </div>
-        </form>
+        )}
       </div>
     </Modal>
   );
