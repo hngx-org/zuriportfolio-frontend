@@ -56,7 +56,6 @@ const Page: React.FC = () => {
 
     fetchData();
   }, [router.query]);
-  console.log(scorePercentage);
 
   return (
     <>

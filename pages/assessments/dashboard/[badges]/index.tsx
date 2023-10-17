@@ -110,8 +110,9 @@ const Earnedbadges: React.FC = () => {
         const badgelabel = router.query?.badges;
         console.log(badgelabel);
         if (badgelabel) {
-          console.log('e dey');
-          const apiUrl = `https://staging.zuri.team/api/badges/user/badges?badges=${badgelabel}}`;
+          const apiUrl = `https://staging.zuri.team/api/badges/user/badges?badges=${badgelabel}`;
+          console.log(apiUrl);
+
           const response = await fetch(apiUrl, {
             method: 'GET',
             redirect: 'follow',
@@ -127,8 +128,6 @@ const Earnedbadges: React.FC = () => {
           }
           const data = await response.json();
           setBadges(data.data.badges);
-          console.log(data.data.badges);
-          console.log(data.data.badges[0].Badge.Skill.id);
         }
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
