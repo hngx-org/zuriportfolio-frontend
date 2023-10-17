@@ -88,7 +88,7 @@ export default function SearchModule() {
         <div className="text-zinc-700 text-[22px] font-normal  leading-7">{data?.data?.length} Results</div>
       </div>
       <div className="mt-10  flex gap-3">
-        <div className="min-h-screen gap-8 basis-1/4 px-10 pt-12 pb-[744px] bg-white rounded-2xl border border-zinc-100 flex-col justify-start items-center flex">
+        <div className="min-h-screen gap-8 w-[100%] max-w-[300px] px-10 pt-12 pb-[744px] bg-white rounded-2xl border border-zinc-100 flex-col justify-start items-center flex">
           <div className="border-b  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
             <div className="flex justify-between items-center w-full">
               <div className="text-zinc-800 text-2xl font-semibold  leading-loose">Filters</div>
@@ -192,7 +192,7 @@ export default function SearchModule() {
         </div>
         {/* Cards ------ */}
         {isLoading && (
-          <div className="grid  w-full justify-center py-14 min-h-[300px]">
+          <div className="grid  w-[100%]  py-14 min-h-[300px]">
             <Loader />
           </div>
         )}
@@ -203,8 +203,8 @@ export default function SearchModule() {
             ))}
           </div>
         )}
-        {data?.data?.length === 0 && (
-          <div className="grid  w-full justify-center py-14 min-h-[300px]">
+        {!isLoading && data?.data?.length === 0 && (
+          <div className="grid  max-w-[600px] w-[100%] justify-center py-14 min-h-[300px]">
             <Image src={erroEmpty} alt="No Result" />
           </div>
         )}
