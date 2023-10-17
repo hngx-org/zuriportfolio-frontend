@@ -23,7 +23,6 @@ const CreateTemplate = () => {
   const handleinputOption = (e: any, index: number, n: number) => {
     console.log(index, n);
     const updatedData = [...list];
-    console.log(list);
     updatedData[index].options[n] = e.target.value;
     setList(updatedData);
   };
@@ -35,10 +34,8 @@ const CreateTemplate = () => {
   const handleDelete = (index: number, n: number) => {
     var updatedData = [...list];
     const newdata = splicearr(updatedData[index].options, n);
-    console.log(newdata);
     updatedData[index].options = newdata;
     setList(updatedData);
-    console.log(list);
   };
   //adding options
   const handleIncreaseOption = (index: number) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from '@ui/Button';
 import { Edit } from 'iconsax-react';
@@ -11,11 +11,14 @@ import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
 
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
 const CreateAssessment = () => {
+  //Please edit for scoring screen
+  //const [examDuration, setExamDuration]:any = useContext(useCreatingAssessmentContext)
+
   const router = useRouter();
   const data = router.query;
   const skillid: any = data.name;
@@ -62,7 +65,6 @@ const CreateAssessment = () => {
     const newt = { ...newobject };
     newt.assessment_name = e.target.value;
     setObject(newt);
-    console.log(newobject);
   };
 
   /*function postObject() {
@@ -95,6 +97,15 @@ const CreateAssessment = () => {
      console.error('Error:', error);
    });
 }*/
+
+  //Please edit for scoring screen
+
+  //Please input examduration value and test
+
+  /* const updateDuration = ()=>{
+    newobject.duration_in_minutes = examDuration
+  }
+*/
 
   const publishAssessment = async () => {
     // split question and string and number
@@ -163,7 +174,7 @@ const CreateAssessment = () => {
                   </Button>
                 </div>
               ) : (
-                <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000">
+                <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" /*onClick={updateDuration}*/>
                   Save Changes
                 </Button>
               )}
