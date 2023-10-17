@@ -113,15 +113,15 @@ const Card = ({ data }: { data: UserInfo }) => {
           />
         </div>
 
-        <div className="text-center">
+        <div className="text-center text-[#32475c]">
           <Link href={`/portfolio/${data?.id}`} className="block w-fit mx-auto">
-            <h3 className="w-fit text-[#32475c] font-manropeEB text-base md:text-[1.375rem] hover:underline">
+            <h3 className="w-fit font-manropeEB text-base md:text-[1.375rem] hover:underline">
               {data?.firstName} {data?.lastName}
             </h3>
           </Link>
-          <span className="text-gray-500 md:text-base">{data?.track ? data?.track : 'Track not Specified'}</span>
+          <span className="md:text-base">{data?.track ? data?.track : 'Track not Specified'}</span>
           {' . '}
-          <span className="text-gray-500 md:text-base">Intermediate</span>
+          <span className="md:text-base">Intermediate</span>
         </div>
 
         <div className="flex flex-wrap justify-center items-center gap-2 px-4 text-[0.75rem] font-manropeB text-[#32475c] text-center md:text-sm md:px-3">
