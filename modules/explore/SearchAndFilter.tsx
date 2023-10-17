@@ -150,7 +150,7 @@ const SearchAndFilter = (prop: {
 
   return (
     <section className="p-4 xl:px-0">
-      <div className="relative -mt-[6.35rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
+      <div className="relative -mt-[7rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
         <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
           <div className="w-full grid grid-cols-2 gap-4 md:grid-cols-[1fr_1fr_1fr_1fr_1fr_48px]">
             <div className="col-span-full grid gap-3 md:col-span-3">

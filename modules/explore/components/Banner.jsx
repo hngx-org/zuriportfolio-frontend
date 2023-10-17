@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import heroBg from '../assets/hero-bg.png';
 import heroMan from '../assets/hero-image.png';
+import JumboIconTwo from '../../../public/assets/home/jumbo-circle-two.png';
+import JumboIconThree from '../../../public/assets/home/jumbo-circle-three.png';
 
 const Banner = () => {
   return (
@@ -13,11 +15,15 @@ const Banner = () => {
           Zuri Portfolio-Explore
         </span>
 
-        <h1 className="max-w-[24rem] xl:max-w-[36rem] pr-3 font-regular text-3xl md:text-3xl xl:text-5xl">
+        <h1 className="max-w-[24rem] relative xl:max-w-[36rem] pr-3 font-regular text-3xl leading-[2] md:text-3xl xl:text-5xl">
           Find the best Talent for your next Project!
+          <div className="absolute right-6 -bottom-6 hidden md:block xl:right-16">
+            <Image src={JumboIconThree.src} alt="Jumbo Icon Three" width={64} height={64} className="-ml-[45px]" />
+            <Image src={JumboIconTwo.src} alt="Jumbo Icon Two" width={64} height={64} className="-mt-[60px]" />
+          </div>
         </h1>
 
-        <p className="max-w-[25rem] xl:max-w-[30rem]">
+        <p className="max-w-[25rem] mt-3 xl:max-w-[30rem]">
           Find the best Talent who matches your needs and exceeds your expectations.
         </p>
         <Image
