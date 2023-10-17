@@ -5,13 +5,16 @@ interface ActivityDetailsProps {
   token: string;
 }
 
+
+
 const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
   const [activityDetails, setActivityDetails] = useState<activity[]>([]);
-  const [loadingState, setLoadingState] = useState(false);
+  const [loadingState, setLoadingState] = useState<boolean>(false); // Corrected: Specify the type as boolean
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoadingState(true); // Corrected: Invoking setLoadingState as a function
       try {
         const response = await fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/activities/', {
           headers: {
@@ -30,6 +33,8 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
         setActivityDetails(limitedData);
       } catch (error) {
         setError('Error fetching data. Please try again.');
+      } finally {
+        setLoadingState(false); // Corrected: Set loading state to false in the finally block
       }
     };
 
@@ -40,8 +45,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
     <section className="lg:w-[25%]">
       <div className="py-[40px] px-5 whitespace-nowrap text-ellipsis overflow-hidden bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:px-10 xl:max-w-[1270px]">
         <div className="flex justify-between items-center mb-8">
-          <h3 className="text-[19px]">Activity</h3>
-          <p className="text-custom-color15 text-[15px]">View All</p>
+          <h3 className="text-[19px]">Activities</h3>
         </div>
         <div className="space-y-5 md:space-y-[15.5px] max-w-[200px]">
           {loadingState ? (
