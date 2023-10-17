@@ -2,7 +2,6 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { CloseCircle } from 'iconsax-react';
 import { useState } from 'react';
-import { useDeleteProd, useDeleteShop } from '../../../../../http/super-admin1';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { handleBack } from '.';
