@@ -18,9 +18,9 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pageNumber]);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleClearFilters = () => {
     setFilters({});
@@ -104,7 +104,7 @@ const HomePage = () => {
           <Pagination
             visiblePaginatedBtn={5}
             activePage={pageNumber}
-            pages={2}
+            pages={5}
             page={pageNumber}
             setPage={setPageNumber}
           />
