@@ -8,7 +8,7 @@ const Banner = () => {
       style={{ backgroundImage: `url(${heroBg.src})` }}
       className="-mt-5 bg-[#ebfef6] bg-[95%_25%] bg-no-repeat lg:pt-[4rem] 2xl:bg-[45%_25%]"
     >
-      <div className="relative -mt-5 py-12 pb-[8rem] px-6 grid gap-4 font-manropeL text-base xl:w-[77.5rem] xl:mx-auto">
+      <div className="relative -mt-5 py-12 pb-[8rem] px-6 grid gap-4 font-manropeL text-base xl:w-[77.5rem] xl:mx-auto xl:px-0">
         <span className="w-fit p-3 px-8 bg-custom-color25 rounded-full font-manropeB text-white-100">
           Zuri Portfolio-Explore
         </span>

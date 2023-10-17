@@ -156,109 +156,111 @@ const SearchAndFilter = (prop: {
   ];
 
   return (
-    <div className="mx-auto mb-2 py-8 px-6 font-manropeL xl:max-w-[77.5rem] xl:px-0">
-      <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
-        <div className="w-full grid grid-cols-[1fr_auto] gap-4 md:w-[22rem] xl:w-[37.5rem]">
-          <Input
-            onChange={(e) => {
-              prop.setSearchQuery && prop.setSearchQuery(e.target.value);
-              prop.setFilter({});
-              setPageNumber();
-            }}
-            type="text"
-            name="search input"
-            intent={'default'}
-            placeHolder="Search by name or role"
-            leftIcon={<SearchNormal />}
-            className="w-full text-grey-900 border-brand-disabled2 rounded-2xl"
-          />
-
-          <button className="md:hidden">
-            <Filter
-              size={48}
-              color="#1a1c1b"
-              className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
-            />
-          </button>
-        </div>
-
-        <div className="w-full grid grid-cols-2 placeholder-gray-400 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
-          <CustomDropdown
-            options={['Nigeria', 'Ghana', 'Cameroon']}
-            selectedValue={selectedOption}
-            placeholder="Location"
-            onChange={handleCustomDropdownChange}
-          />
-          <CustomDropdown
-            options={['Trending', 'Featured', 'New Arrival']}
-            selectedValue={selectedOption2}
-            placeholder="Sort By"
-            onChange={handleCustomDropdownChange2}
-          />
-        </div>
-      </div>
-
-      <div
-        className="h-full overflow-x-scroll mt-4 mr-[6.5rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
-        ref={sliderRef}
-        onScroll={handleScroll}
-      >
-        <div className="justify-start items-center inline-flex mt-4 gap-6">
-          {sectionsData.map((section, index) => (
-            <div
-              key={index}
-              className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeB text-[0.875rem] ${
-                activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-              } ${section.text === 'All' ? 'hidden sm:flex' : ''}`}
-              onClick={() => {
-                setActiveSection(index);
-                handleFilters(section.filterType, section.text);
-                setShowFilterComponent(section.text === 'All Filter');
+    <section className="p-4 xl:px-0">
+      <div className="relative -mt-[5.5rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
+        <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
+          <div className="w-full grid grid-cols-[1fr_auto] gap-4 md:w-[22rem] xl:w-[37.5rem]">
+            <Input
+              onChange={(e) => {
+                prop.setSearchQuery && prop.setSearchQuery(e.target.value);
+                prop.setFilter({});
+                setPageNumber();
               }}
-            >
-              <div className="w-6 h-6 relative">{activeSection === index ? section.icon : section.activeIcon}</div>
-              <div className="text-center">{section.text}</div>
-            </div>
-          ))}
+              type="text"
+              name="search input"
+              intent={'default'}
+              placeHolder="Search by name or role"
+              leftIcon={<SearchNormal />}
+              className="w-full text-grey-900 border-brand-disabled2 rounded-2xl"
+            />
+
+            <button className="md:hidden">
+              <Filter
+                size={48}
+                color="#1a1c1b"
+                className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
+              />
+            </button>
+          </div>
+
+          <div className="w-full grid grid-cols-2 placeholder-gray-400 gap-2 text-[0.875rem] md:w-[20rem] xl:w-[21.5rem] xl:gap-6">
+            <CustomDropdown
+              options={['Nigeria', 'Ghana', 'Cameroon']}
+              selectedValue={selectedOption}
+              placeholder="Location"
+              onChange={handleCustomDropdownChange}
+            />
+            <CustomDropdown
+              options={['Trending', 'Featured', 'New Arrival']}
+              selectedValue={selectedOption2}
+              placeholder="Sort By"
+              onChange={handleCustomDropdownChange2}
+            />
+          </div>
         </div>
-      </div>
-      <div className="relative -right-1 flex">
-        {showLeftButton && (
-          <div
-            className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
-            onClick={slideLeft}
-          >
-            <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
-              <div className="w-6 h-6 relative">
-                <ArrowLeft2 color="#737373" />
+
+        <div
+          className="h-full overflow-x-scroll mt-4 mr-[6.5rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
+          ref={sliderRef}
+          onScroll={handleScroll}
+        >
+          <div className="justify-start items-center inline-flex mt-4 gap-6">
+            {sectionsData.map((section, index) => (
+              <div
+                key={index}
+                className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeB text-[0.875rem] ${
+                  activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
+                } ${section.text === 'All' ? 'hidden sm:flex' : ''}`}
+                onClick={() => {
+                  setActiveSection(index);
+                  handleFilters(section.filterType, section.text);
+                  setShowFilterComponent(section.text === 'All Filter');
+                }}
+              >
+                <div className="w-6 h-6 relative">{activeSection === index ? section.icon : section.activeIcon}</div>
+                <div className="text-center">{section.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="relative -right-1 flex">
+          {showLeftButton && (
+            <div
+              className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
+              onClick={slideLeft}
+            >
+              <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
+                <div className="w-6 h-6 relative">
+                  <ArrowLeft2 color="#737373" />
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {showRightButton && (
-          <div
-            className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
-            onClick={slideRight}
-          >
-            <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
-              <div className="w-6 h-6 relative">
-                <ArrowRight2 color="#737373" />
+          {showRightButton && (
+            <div
+              className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
+              onClick={slideRight}
+            >
+              <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
+                <div className="w-6 h-6 relative">
+                  <ArrowRight2 color="#737373" />
+                </div>
               </div>
             </div>
-          </div>
+          )}
+        </div>
+
+        {showFilterComponent && (
+          <FilterComponent
+            closeFilterComponent={closeFilterComponent}
+            showFilterComponent={showFilterComponent}
+            filters={filters}
+            handleFilters={handleFilters}
+          />
         )}
       </div>
-
-      {showFilterComponent && (
-        <FilterComponent
-          closeFilterComponent={closeFilterComponent}
-          showFilterComponent={showFilterComponent}
-          filters={filters}
-          handleFilters={handleFilters}
-        />
-      )}
-    </div>
+    </section>
   );
 };
 
