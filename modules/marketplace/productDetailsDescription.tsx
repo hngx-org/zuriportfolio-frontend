@@ -25,7 +25,7 @@ import { useCart } from '@modules/shop/component/CartContext';
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
-  const [image, setImage] = useState(product?.images[0].url);
+  const [image, setImage] = useState(product?.images[0]?.url);
   const router = useRouter();
   const { id } = router.query;
   const token: any = isUserAuthenticated();
@@ -44,7 +44,6 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
-        console.log(response.data);
         setProduct(response.data);
       })
       .catch((error) => {
@@ -53,7 +52,7 @@ export default function ProductDetailsDescription() {
   }, [apiUrl, id]);
 
   const addToCart = async () => {
-    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/carts`;
     if (auth?.token) {
       try {
         const response = await axios.post(
@@ -69,8 +68,6 @@ export default function ProductDetailsDescription() {
         if (response.status === 200) {
           toast.success('Added to Cart');
           setCartCountNav(cartCount + 1);
-          console.log('success');
-          console.log(auth.token);
         }
       } catch (error: any) {
         console.error(error);
@@ -80,11 +77,9 @@ export default function ProductDetailsDescription() {
       const products: any[] = localStorage.getItem('products')
         ? JSON.parse(localStorage.getItem('products') as string)
         : [];
-      console.log('no auth');
-
+      
       if (product) {
-        console.log(product);
-        
+                
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
@@ -103,7 +98,6 @@ export default function ProductDetailsDescription() {
     try {
       const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
 
-      console.log(response);
       if (response.status === 201) {
         toast.success(response.data.message);
       }
