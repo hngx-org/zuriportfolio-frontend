@@ -5,6 +5,12 @@ import { CloseCircle } from 'iconsax-react';
 import Help from '../../../../public/assets/inviteAssets/Help.svg';
 import Image from 'next/image';
 import { boolean, set } from 'zod';
+import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
+import Router, { useRouter } from 'next/router';
+import { notify } from '@ui/Toast';
+import router from 'next/router';
+import { verfiy2FA, resend2FACode, enabled2FA, disable2FA } from '../../../../http/auth';
+import _2FA from '../../../../pages/auth/2fa';
 
 interface OTPValues {
   otp1: string;
@@ -20,9 +26,12 @@ interface close {
   setCloseAcc: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Twofa = (props: close) => {
+  const { auth, userCameFrom, handleAuth } = useAuth();
   const [open2Fa, setOpen2Fa] = useState<boolean>(false);
+  const [enabled, setEnabled] = useState<boolean>(false);
   const [countinue2Fa, setContinue2Fa] = useState<boolean>(false);
   const [lgModal, setLgModal] = useState<boolean>(false);
+  const [token, setToken] = useState<string>('');
   const [toggleSize, setToggleSize] = useState<boolean>(false);
   const [otpValues, setOtpValues] = useState<OTPValues>({
     otp1: '',
@@ -32,8 +41,66 @@ const Twofa = (props: close) => {
     otp5: '',
     otp6: '',
   });
+  const router = useRouter();
+
+  const handleVerifyAndEnable2FA = async () => {
+    try {
+      const code = `${otpValues.otp1}${otpValues.otp2}${otpValues.otp3}${otpValues.otp4}${otpValues.otp5}${otpValues.otp6}`;
+
+      if (token) {
+        const verificationResponse = await verfiy2FA({ token, code });
+        notify({
+          message: 'code sent check your mail',
+          type: 'success',
+        });
+
+        if (verificationResponse.status === 200) {
+          console.log('approved');
+
+          const enableResponse = await enabled2FA({ token });
+          if (enableResponse.status === 200) {
+            console.log('cnabled');
+            setEnabled(true);
+            notify({
+              message: '2FA Enabled',
+              type: 'success',
+            });
+          } else {
+            notify({
+              message: 'Invalid Code',
+              type: 'error',
+            });
+          }
+        } else {
+          notify({
+            message: 'error sending code',
+            type: 'error',
+          });
+        }
+      } else {
+      }
+    } catch (error) {
+      notify({
+        message: 'Invalid Code',
+        type: 'error',
+      });
+    }
+  };
+
+  const handleResend2FACode = async () => {
+    try {
+      const email = auth?.user.email; // Replace with the user's email
+      if (email) {
+        const resendResponse = await resend2FACode({ email });
+        console.log(resendResponse);
+        setToken(resendResponse?.response?.token);
+      } else {
+      }
+    } catch (error) {}
+  };
 
   const inputRefs: React.RefObject<HTMLInputElement>[] = [
+    useRef(null),
     useRef(null),
     useRef(null),
     useRef(null),
@@ -78,8 +145,8 @@ const Twofa = (props: close) => {
   const toggleModal2 = () => {
     setContinue2Fa((prev: boolean) => !prev);
     setOpen2Fa(false);
+    handleResend2FACode();
   };
-  const { auth } = useAuth();
 
   const handleResize = () => {
     if (window.innerWidth >= 768) {
@@ -93,6 +160,12 @@ const Twofa = (props: close) => {
 
   useEffect(() => {
     handleResize();
+  }, []);
+  const _2FA = auth?.user.twoFactorAuth;
+  console.log(_2FA);
+
+  useEffect(() => {
+    _2FA && setEnabled(true);
   }, []);
 
   return (
@@ -115,7 +188,7 @@ const Twofa = (props: close) => {
                 type="checkbox"
                 name=""
                 id="2fa"
-                checked={open2Fa || countinue2Fa}
+                checked={enabled}
                 value={'Disabled'}
                 onChange={() => {
                   setOpen2Fa((prv) => !prv);
@@ -125,13 +198,13 @@ const Twofa = (props: close) => {
               />
               <div
                 className={`w-11 h-6 bg-[#D4D4D4] rounded-full peer peer-focus:ring-white
-      dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:bg-white-100 
+   peer-checked:after:translate-x-full peer-checked:after:border-white after:bg-white-100 
     after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white
      after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all
        peer-checked:bg-brand-green-primary`}
               ></div>
               <span className="ml-3 text-sm font-medium text-gray-900 ">
-                {open2Fa || countinue2Fa ? 'Enabled' : 'Disabled'}
+                {auth?.user.twoFactorAuth == true ? 'Enabled' : 'Disabled'}
               </span>
             </label>
           </div>{' '}
@@ -207,7 +280,7 @@ const Twofa = (props: close) => {
           </button>
 
           <button
-            onClick={handleContinue}
+            onClick={handleVerifyAndEnable2FA}
             className="w-full bg-brand-green-primary text-white-100 text-center
                              font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg "
           >
