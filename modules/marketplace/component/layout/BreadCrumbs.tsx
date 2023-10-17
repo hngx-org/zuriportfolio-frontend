@@ -6,7 +6,7 @@ function Breadcrumbs() {
   const router = useRouter();
 
   // Extract dynamic route parameters from the pathname
-  const routeArr = router.asPath.split('?')[0].split('/').filter(Boolean);
+  const routeArr = router.asPath.replace(/_/g, ' ').split('?')[0].split('/').filter(Boolean);
 
   // Build the breadcrumb elements
   const breadcrumbs = routeArr.map((el, i) => (

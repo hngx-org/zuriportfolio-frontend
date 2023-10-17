@@ -2,19 +2,23 @@ import React from 'react';
 import Image from 'next/image';
 import { Instagram } from 'iconsax-react';
 import TechVerse from '../../../../public/assets/TechVerse.png';
-const Footer: React.FC = () => {
+
+interface FooterProps {
+  shopName?: any;
+}
+const Footer: React.FC<FooterProps> = ({ shopName }) => {
   return (
-    <footer className="bg-green-600 w-full  text-white-100 ">
+    <footer className="bg-green-600 w-full text-white-100 ">
       <div className="container mx-auto py-10 px-4 sm:px-6 md:px-3">
         <div className="flex  md:flex-row flex-col  items-center justify-between">
-          <div className="flex md:flex-col flex-row items-center md:gap-2 gap-6 md:text-left mb-4 md:mb-0">
-            <Image src={TechVerse} alt="Your Logo" width={100} height={50} /> {/* Name of Shop*/}
-            <p className="text-base font-manropeEL">by {} Shop</p> {/* Name of Shop Owner*/}
+          <div className="flex  md:flex-col font-manropeEB flex-row items-center md:items-start md:gap-2 gap-6 text-left mb-4 md:mb-0">
+            Shop By
+            <p className="text-base font-manropeEL">{shopName}</p>{' '}
           </div>
           <div className=" flex md:flex-row flex-col md:space-y-0 space-y-6 md:items-center items-start   md:space-x-6">
             <div className="flex flex-row items-center gap-6 justify-between">
               <h1 className="text-sm cursor-pointer font-manropeEL text-normal">Contact Us</h1>
-              <h1 className="font-manropeB cursor-pointer text-base">{}</h1> {/* EMAIL OF SHOP*/}
+              <h1 className="font-manropeB cursor-pointer text-base">{}</h1>
             </div>
 
             <div className="flex flex-row items-center gap-6 justify-between">

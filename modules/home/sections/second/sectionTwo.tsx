@@ -67,7 +67,13 @@ const SectionTwo = () => {
       <div className="flex justify-center items-center py-5  w-full">
         <HeroSection
           title="How exactly does Zuri Portfolio help Talents?"
-          desc="Explore a world of talents, create your personalized portfolio, and sell your digital products in your very own shop. Your dreams, your creations, your success – all in one place. Start your journey today."
+          bottom={true}
+          desc={
+            <p className="text-[#0D0C22] text-left md:text-justify font-manropeL text-[16px]">
+              Explore a world of talents, create your personalized portfolio, and sell your digital products in your
+              very own shop. Your dreams, your creations, your success – all in one place. Start your journey today.
+            </p>
+          }
           slug="Get Started"
           href="/dashboard"
         />
@@ -76,7 +82,7 @@ const SectionTwo = () => {
         <Features data={data} />
       </div>
       <div className="w-full">
-        <LogoCarousel logos={slides} />
+        <LogoCarousel logos={slides} color={false} />
       </div>
     </div>
   );

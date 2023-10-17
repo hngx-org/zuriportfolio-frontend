@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import Modal from '@ui/Modal';
 import { useAuth } from '../../../../context/AuthContext';
 import { CloseCircle } from 'iconsax-react';
@@ -11,60 +11,78 @@ import { notify } from '@ui/Toast';
 import router from 'next/router';
 import { verfiy2FA, resend2FACode, enabled2FA, disable2FA } from '../../../../http/auth';
 import _2FA from '../../../../pages/auth/2fa';
+import { AuthResponse, User } from '../../../../@types';
+import Logic2FA from '../../../../modules/auth/Logic2FA';
 
-interface OTPValues {
-  otp1: string;
-  otp2: string;
-  otp3: string;
-  otp4: string;
-  otp5: string;
-  [key: string]: string;
-}
+type user = {
+  // ...
+  two_factor_auth: boolean;
+};
 
 interface close {
   closeAcc: boolean;
   setCloseAcc: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const Twofa = (props: close) => {
+const Handling2FA = (props: close) => {
   const { auth, userCameFrom, handleAuth } = useAuth();
   const [open2Fa, setOpen2Fa] = useState<boolean>(false);
   const [enabled, setEnabled] = useState<boolean>(false);
   const [countinue2Fa, setContinue2Fa] = useState<boolean>(false);
+  const [authdata, setAuthData] = useState<User>();
   const [lgModal, setLgModal] = useState<boolean>(false);
   const [token, setToken] = useState<string>('');
   const [toggleSize, setToggleSize] = useState<boolean>(false);
-  const [otpValues, setOtpValues] = useState<OTPValues>({
-    otp1: '',
-    otp2: '',
-    otp3: '',
-    otp4: '',
-    otp5: '',
-    otp6: '',
-  });
+
+  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, loading, handleResend } =
+    Logic2FA();
   const router = useRouter();
 
-  const handleVerifyAndEnable2FA = async () => {
+  const handleResend2FACode = async () => {
     try {
-      const code = `${otpValues.otp1}${otpValues.otp2}${otpValues.otp3}${otpValues.otp4}${otpValues.otp5}${otpValues.otp6}`;
-
-      if (token) {
-        const verificationResponse = await verfiy2FA({ token, code });
+      const email = auth?.user.email;
+      if (email) {
+        const resendResponse = await resend2FACode({ email });
+        console.log(resendResponse);
+        setToken(resendResponse?.response?.token);
         notify({
           message: 'code sent check your mail',
           type: 'success',
         });
+      } else {
+        notify({
+          message: 'unable to  send code mail',
+          type: 'error',
+        });
+      }
+    } catch (error) {
+      // notify({
+      //     message: 'unable to  send code mail',
+      //     type: 'error',
+      //   });
+    }
+  };
+
+  const handleVerifyAndEnable2FA = async () => {
+    try {
+      const code = digits.join('');
+
+      if (token) {
+        const verificationResponse = await verfiy2FA({ token, code });
 
         if (verificationResponse.status === 200) {
           console.log('approved');
 
           const enableResponse = await enabled2FA({ token });
           if (enableResponse.status === 200) {
-            console.log('cnabled');
+            console.log('enabled');
             setEnabled(true);
             notify({
               message: '2FA Enabled',
               type: 'success',
             });
+            setTimeout(() => {
+              router.push('/');
+            }, 3000);
           } else {
             notify({
               message: 'Invalid Code',
@@ -73,7 +91,7 @@ const Twofa = (props: close) => {
           }
         } else {
           notify({
-            message: 'error sending code',
+            message: 'Invalid code',
             type: 'error',
           });
         }
@@ -81,61 +99,56 @@ const Twofa = (props: close) => {
       }
     } catch (error) {
       notify({
-        message: 'Invalid Code',
+        message: 'error occurred',
         type: 'error',
       });
     }
   };
 
-  const handleResend2FACode = async () => {
+  const handleVerifyAndDisable2FA = async () => {
     try {
-      const email = auth?.user.email; // Replace with the user's email
-      if (email) {
-        const resendResponse = await resend2FACode({ email });
-        console.log(resendResponse);
-        setToken(resendResponse?.response?.token);
+      const code = digits.join('');
+
+      if (token) {
+        const verificationResponse = await verfiy2FA({ token, code });
+
+        if (verificationResponse.status === 200) {
+          const disableResponse = await disable2FA({ token });
+          if (disableResponse.status === 200) {
+            console.log('disable');
+            setEnabled(false);
+            notify({
+              message: '2FA disabled',
+              type: 'success',
+            });
+
+            setTimeout(() => {
+              router.push('/');
+            }, 3000);
+          } else {
+            notify({
+              message: 'Invalid Code',
+              type: 'error',
+            });
+          }
+        } else {
+          notify({
+            message: 'Invalid code',
+            type: 'error',
+          });
+        }
       } else {
       }
-    } catch (error) {}
-  };
-
-  const inputRefs: React.RefObject<HTMLInputElement>[] = [
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-  ];
-  const [error, setError] = useState<string>('');
-  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const { value } = e.target;
-
-    // Make sure the value is a number and limit it to a single digit
-    if (/^\d*$/.test(value) && value.length <= 1) {
-      setOtpValues({
-        ...otpValues,
-        [`otp${index + 1}`]: value,
+    } catch (error) {
+      notify({
+        message: 'error occurred',
+        type: 'error',
       });
+    }
+  };
 
-      // Focus on the next input field if available
-      if (index < inputRefs.length - 1) {
-        const nextInputRef = inputRefs[index + 1];
-        if (nextInputRef.current) {
-          nextInputRef.current.focus();
-        }
-      }
-    }
-  };
+  const [error, setError] = useState<string>('');
   const [inputError, setInputError] = useState(false);
-  const handleContinue = () => {
-    if (Object.values(otpValues).some((value) => value === '')) {
-      setError('Please fill in all OTP fields');
-      setInputError(true);
-    } else {
-      setError('');
-    }
-  };
 
   const toggleModal = () => {
     setOpen2Fa((prev: boolean) => !prev);
@@ -161,11 +174,15 @@ const Twofa = (props: close) => {
   useEffect(() => {
     handleResize();
   }, []);
-  const _2FA = auth?.user.twoFactorAuth;
-  console.log(_2FA);
+
+  const Checking2FA = useMemo(() => {
+    const newEnabled = Boolean(auth?.user?.two_factor_auth);
+    return newEnabled;
+  }, [auth?.user?.twoFactorAuth]);
 
   useEffect(() => {
-    _2FA && setEnabled(true);
+    setEnabled(Checking2FA);
+    console.log('yesrt', enabled);
   }, []);
 
   return (
@@ -198,14 +215,14 @@ const Twofa = (props: close) => {
               />
               <div
                 className={`w-11 h-6 bg-[#D4D4D4] rounded-full peer peer-focus:ring-white
-   peer-checked:after:translate-x-full peer-checked:after:border-white after:bg-white-100 
+  ${
+    enabled && ' peer-checked:after:translate-x-full peer-checked:bg-brand-green-primary'
+  } peer-checked:after:border-white after:bg-white-100 
     after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white
      after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all
-       peer-checked:bg-brand-green-primary`}
+       `}
               ></div>
-              <span className="ml-3 text-sm font-medium text-gray-900 ">
-                {auth?.user.twoFactorAuth == true ? 'Enabled' : 'Disabled'}
-              </span>
+              <span className="ml-3 text-sm font-medium text-gray-900 ">{enabled ? 'Enabled' : 'Disabled'}</span>
             </label>
           </div>{' '}
         </>
@@ -259,30 +276,43 @@ const Twofa = (props: close) => {
           <p className="mt-3 mb-5">Enter the OTP sent to your Email</p>
           <div className="space-x-3 mb-6  space-y-3 ">
             {' '}
-            {Object.keys(otpValues).map((key, index) => (
+            {digits.map((digit, index) => (
               <input
-                key={key}
-                name={key}
-                value={otpValues[key]}
-                onChange={(e) => handleOtpChange(e, index)}
+                key={index}
+                name={index.toString()}
+                type="tel"
+                maxLength={1}
+                pattern="\d"
+                required
+                value={digit}
+                onChange={(e) => handleDigitChange(index, e)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                onPaste={(e) => handlePaste(e, index)}
                 ref={inputRefs[index]}
-                className={`border-[1px] w-[30px] h-[30px] text-center text-dark-110 outline-none
-              rounded-lg py-[10px]  border-[#D0D5DD] ${otpValues[key] == '' && inputError && 'border-red-200'}`}
+                aria-label={`Digit ${index + 1}`}
+                className="w-[30px] h-[30px] text-center border border-gray-300 rounded-lg border-opacity-70 focus:outline-green-600"
               />
             ))}
           </div>
 
           <button
-            className="w-full text-[#6C6C6C] text-center
-                             font-manropeL text-[12px] py-[14px] rounded-lg "
+            onClick={handleResend2FACode}
+            className={`w-full text-[#6C6C6C] text-center
+                             font-manropeL text-[12px] py-[14px] rounded-lg            `}
           >
             Resend OTP
           </button>
 
           <button
-            onClick={handleVerifyAndEnable2FA}
-            className="w-full bg-brand-green-primary text-white-100 text-center
-                             font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg "
+            onClick={() => {
+              !enabled ? handleVerifyAndEnable2FA() : handleVerifyAndDisable2FA();
+            }}
+            className={`w-full bg-brand-green-primary text-white-100 text-center
+                             font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg ${
+                               digits.some((digit) => !digit)
+                                 ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900'
+                                 : ''
+                             } `}
           >
             Continue
           </button>
@@ -337,30 +367,42 @@ const Twofa = (props: close) => {
               <p className="mt-3 mb-5 mx-auto">Enter the OTP sent to your Email</p>
               <div className="space-x-3 mb-6  mx-auto">
                 {' '}
-                {Object.keys(otpValues).map((key, index) => (
+                {digits.map((digit, index) => (
                   <input
-                    key={key}
-                    name={key}
-                    value={otpValues[key]}
-                    onChange={(e) => handleOtpChange(e, index)}
+                    key={index}
+                    name={index.toString()}
+                    type="tel"
+                    maxLength={1}
+                    pattern="\d"
+                    required
+                    value={digit}
+                    onChange={(e) => handleDigitChange(index, e)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
+                    onPaste={(e) => handlePaste(e, index)}
                     ref={inputRefs[index]}
-                    className={`border-[1px] w-[30px] h-[30px] text-center text-dark-110 outline-none
-              rounded-lg py-[10px]  border-[#D0D5DD] ${otpValues[key] == '' && inputError && 'border-red-200'}`}
+                    aria-label={`Digit ${index + 1}`}
+                    className="w-[30px] h-[30px]  text-center border border-gray-300 rounded-lg border-opacity-70 focus:outline-green-600"
                   />
                 ))}
               </div>
 
               <button
-                className="w-full text-[#6C6C6C] text-center
-                             font-manropeL text-[12px] py-[14px] rounded-lg "
+                onClick={handleResend2FACode}
+                className={`w-full text-[#6C6C6C] text-center
+                             font-manropeL text-[12px] py-[14px] rounded-lg  `}
               >
                 Resend OTP
               </button>
-
               <button
-                onClick={handleContinue}
-                className="w-full bg-brand-green-primary text-white-100 text-center
-                             font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg "
+                onClick={() => {
+                  !enabled ? handleVerifyAndEnable2FA() : handleVerifyAndDisable2FA();
+                }}
+                className={`w-full bg-brand-green-primary text-white-100 text-center
+                             font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg           ${
+                               digits.some((digit) => !digit)
+                                 ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900'
+                                 : ''
+                             } `}
               >
                 Continue
               </button>
@@ -371,4 +413,4 @@ const Twofa = (props: close) => {
     </div>
   );
 };
-export default Twofa;
+export default Handling2FA;

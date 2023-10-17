@@ -93,12 +93,12 @@ export default function ProductCard({
           </p>
           {/* Product Price */}
           <h1 className="font-manropeL text-brand-green-shade10 text-[18px] font-bold leading-[20px] letter pt-[2px] pb-[8px]">
-            {`$ ${formatPrice(price)}`}
+            {`₦ ${formatPrice(price)}`}
           </h1>
           {/* Product Owner */}
           <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">
             By:{' '}
-            <Link href={shop?.id ? `/shop/${shop.id}` : '/shop'} className="underline">
+            <Link href={shop?.id ? `/shop/?shop_id=${shop.id}` : '/shop'} className="underline">
               {user}
             </Link>
           </p>

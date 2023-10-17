@@ -148,11 +148,11 @@ export const revalidateAuth = async (props: { token: string }) => {
   }
 };
 
-export const signUpWithOAuth = async (props: {query: string, oAuth: string}) => {
+export const signUpWithOAuth = async (props: { query: string; oAuth: string }) => {
   try {
     const res = await $http.get(`/${props.oAuth}/redirect?${props.query}`);
     return res?.data;
   } catch (e: any) {
     return e.response.data ?? { message: e.message };
   }
-}
+};

@@ -43,6 +43,11 @@ const LandingPageFilled: React.FC = () => {
   const [showMoreWorkExperience, setShowMoreWorkExperience] = useState(2);
   const [showMoreEducation, setShowMoreEducation] = useState(2);
   const [showMoreProjects, setShowMoreProjects] = useState(2);
+  const [showMoreAwards, setShowMoreAwards] = useState(2);
+  const [showMoreCertificates, setShowMoreCertificates] = useState(2);
+  const [showMoreInterests, setShowMoreInterests] = useState(2);
+  const [showMoreLanguages, setShowMoreLanguages] = useState(2);
+  const [showMoreReferences, setShowMoreReferences] = useState(2);
 
   // Function to toggle "View More" and "View Less"
   const toggleShowMoreWorkExperience = () => {
@@ -55,6 +60,26 @@ const LandingPageFilled: React.FC = () => {
 
   const toggleShowMoreProjects = () => {
     setShowMoreProjects(showMoreProjects === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreAwards = () => {
+    setShowMoreAwards(showMoreAwards === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreCertificates = () => {
+    setShowMoreCertificates(showMoreCertificates === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreInterests = () => {
+    setShowMoreInterests(showMoreInterests === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreLanguages = () => {
+    setShowMoreLanguages(showMoreLanguages === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreReferences = () => {
+    setShowMoreReferences(showMoreReferences === 2 ? 9999 : 2);
   };
 
   return (
@@ -209,16 +234,122 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'awards' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
                     remove={deleteSection}
                   >
-                    {section.data.map((el: any, i: number) => {
+                    {section.data.slice(0, showMoreAwards).map((el: any, i: number) => {
                       return <Awards key={i} data={el} />;
                     })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreAwards}
+                      >
+                        {showMoreAwards === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {section?.id === 'certificate' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.slice(0, showMoreCertificates).map((el: any, i: number) => {
+                      return <Certificate key={i} data={el} />;
+                    })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreCertificates}
+                      >
+                        {showMoreCertificates === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {/* Interests Section */}
+              {section?.id === 'interests' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.slice(0, showMoreInterests).map((el: any, i: number) => {
+                      return <Interests key={i} data={el} />;
+                    })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreInterests}
+                      >
+                        {showMoreInterests === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {/* Language Section */}
+              {section?.id === 'language' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.slice(0, showMoreLanguages).map((el: any, i: number) => {
+                      return <Language key={i} data={el} />;
+                    })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreLanguages}
+                      >
+                        {showMoreLanguages === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {/* Reference Section */}
+              {section?.id === 'reference' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.slice(0, showMoreReferences).map((el: any, i: number) => {
+                      return <Reference key={i} data={el} />;
+                    })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreReferences}
+                      >
+                        {showMoreReferences === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
                   </Wrapper>
                   <Line />
                 </React.Fragment>

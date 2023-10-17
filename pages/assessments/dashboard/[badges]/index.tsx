@@ -110,8 +110,9 @@ const Earnedbadges: React.FC = () => {
         const badgelabel = router.query?.badges;
         console.log(badgelabel);
         if (badgelabel) {
-          console.log('e dey');
-          const apiUrl = `https://demerzel-badges-production.up.railway.app/api/user/badges?badge=${badgelabel}`;
+          const apiUrl = `https://staging.zuri.team/api/badges/user/badges?badges=${badgelabel}`;
+          console.log(apiUrl);
+
           const response = await fetch(apiUrl, {
             method: 'GET',
             redirect: 'follow',
@@ -127,8 +128,6 @@ const Earnedbadges: React.FC = () => {
           }
           const data = await response.json();
           setBadges(data.data.badges);
-          console.log(data.data.badges);
-          console.log(data.data.badges[0].Badge.Skill.id);
         }
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
@@ -173,8 +172,8 @@ const Earnedbadges: React.FC = () => {
                     description={`Badge earned in the ${badge.Badge.Skill.category_name} category.`}
                     earnedDate={`Earned on: ${formatDate(badge.Badge.Skill.created_at)}`}
                     badgelabel={'nfj'}
-                    href="/assessments/dashboard/[badges]/badge/[id]"
-                    as={`/assessments/dashboard/${router.query.badges}/badge/${badge.id}`}
+                    href="/assessments/dashboard/badge/[id]"
+                    as={`/assessments/dashboard/badge/${badge.id}`}
                   />
                 ))}
               </div>
