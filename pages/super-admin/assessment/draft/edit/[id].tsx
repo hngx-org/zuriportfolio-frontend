@@ -33,12 +33,44 @@ interface AssessmentEditorProps {
   accessToken: string; // Pass the user's access token as a prop
 }
 
+type Props = {
+  assessment: {
+    id: number;
+    title: string;
+    createdAt: Date;
+    duration_minutes: number;
+    questions: {
+      answers: {}[];
+      question_no: number;
+      question_text: string;
+      question_type: string;
+    }[];
+    updatedAt: Date;
+  };
+};
+
 const DraftPreviewEdit: React.FC = () => {
   const [draftData, setDraftData] = useState<AssessmentData>({
     questions: [],
     assessment_name: '',
     duration_minutes: 0,
     title: '',
+  });
+
+  const [assessment, setAssessment] = useState({
+    id: 0,
+    title: '',
+    createdAt: new Date(), // Initialize with a default date or null if needed
+    duration_minutes: 0,
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: 'question',
+        question_type: 'multiple_choice',
+      },
+    ],
+    updatedAt: new Date(), // Similarly for updatedAt
   });
 
   const [loading, setLoading] = useState(true);
@@ -73,6 +105,7 @@ const DraftPreviewEdit: React.FC = () => {
       .then((responseData) => {
         console.log('This is the data', responseData);
         setDraftData(responseData);
+        setAssessment(responseData);
         setLoading(false);
       })
       .catch((error) => {
@@ -219,7 +252,7 @@ const DraftPreviewEdit: React.FC = () => {
               )}
             </>
           ) : (
-            <ScoringScreen skillId={2} />
+            <ScoringScreen assessment={assessment} skillId={2} />
           )}
         </div>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
