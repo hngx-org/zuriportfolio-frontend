@@ -102,14 +102,23 @@ const Earnedbadges: React.FC = () => {
   }
 
   useEffect(() => {
+    const bearerToken = localStorage.getItem('zpt');
+    console.log(bearerToken);
+
     const fetchData = async () => {
       try {
         const badgelabel = router.query?.badges;
         console.log(badgelabel);
         if (badgelabel) {
           console.log('e dey');
-          const apiUrl = `https://demerzel-badges-production.up.railway.app/api/user/d7955c27-4d61-4cd6-a6bb-e6402151d51f/badges?badge=${badgelabel}`;
-          const response = await fetch(apiUrl, { method: 'GET', redirect: 'follow' });
+          const apiUrl = `https://demerzel-badges-production.up.railway.app/api/user/badges?badge=${badgelabel}`;
+          const response = await fetch(apiUrl, {
+            method: 'GET',
+            redirect: 'follow',
+            headers: {
+              Authorization: `Bearer ${bearerToken}`,
+            },
+          });
 
           if (!response.ok) {
             setIsLoading(false);
@@ -118,6 +127,7 @@ const Earnedbadges: React.FC = () => {
           }
           const data = await response.json();
           setBadges(data.data.badges);
+          console.log(data.data.badges);
           console.log(data.data.badges[0].Badge.Skill.id);
         }
       } catch (error) {
@@ -150,7 +160,7 @@ const Earnedbadges: React.FC = () => {
             {badges.length <= 0 ? (
               <>
                 <h2 className="capitalize">Oops You Have Not Earned A {router.query?.badges} Badge Yet </h2>
-                <Button href="/assessments/take-test/intro">Take Assessment</Button>
+                <Button href="/assessments/dashboard">Take Assessment</Button>
               </>
             ) : (
               <div className="badgecomponents flex flex-col md:flex-row items-center justif gap-[30px]  md:gap-[24px]  ">

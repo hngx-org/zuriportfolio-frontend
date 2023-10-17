@@ -387,7 +387,7 @@ const MyPage: React.FC = () => {
         <ComplaintsModal
           isOpen={isModalOpen}
           onClose={closeModal}
-          orderID={selectedOrder?.order_id || ''}
+          product={selectedOrder?.product_id || ''}
           customerID={selectedOrder?.customer_id || ''}
         />
         {/* delete modal */}

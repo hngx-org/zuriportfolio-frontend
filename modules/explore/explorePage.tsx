@@ -1,5 +1,4 @@
 // pages/index.tsx
-import Card from './components/Card';
 import SearchAndFilter from './SearchAndFilter';
 import axios from 'axios';
 import useDebounce from './hooks/deBounce';
@@ -10,10 +9,11 @@ import { useSearchParams } from 'next/navigation';
 import { UserInfo } from './@types';
 import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
+import Banner from './components/Banner';
+import Card from './components/Card';
 
 const HomePage = () => {
   // States
-  const searchParam = useSearchParams();
   const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
@@ -39,12 +39,6 @@ const HomePage = () => {
   };
 
   const deBounce = useDebounce(searchQuery, 1200);
-  const router = useRouter();
-
-  const explorePageParam = {
-    page: searchParam.get('page'),
-    itemsPerPage: searchParam.get('itemsPerPage'),
-  };
 
   const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
     searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
@@ -78,6 +72,7 @@ const HomePage = () => {
 
   return (
     <>
+      <Banner />
       <SearchAndFilter
         setPageNumber={handleNumberReset}
         setFilter={handleClearFilters}
