@@ -53,11 +53,7 @@ const PromotionHistoryTable: React.FC<{
       <thead>
         <tr className="border border-custom-color1 font-manropeL font-medium text-custom-color2 bg-custom-color3 [&>*]:px-6 [&>*]:py-3 ">
           {tableHeaders.map((header, i) => (
-            <th
-              className={`${i === 0 || i === 4 ? 'text-start' : 'text-center'} cursor-pointer`}
-              key={header.id}
-              onClick={() => OnCLick(header.id)}
-            >
+            <th className={`${i === 0 || i === 4 ? 'text-start' : 'text-center'} cursor-pointer`} key={header.id}>
               {header.title}
             </th>
           ))}
