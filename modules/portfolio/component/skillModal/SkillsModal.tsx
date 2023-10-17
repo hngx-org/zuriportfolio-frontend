@@ -155,7 +155,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       }
     }
   }
-
   // onclick of save button, it saves data to the endpoint
   function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
     postSkillData();
