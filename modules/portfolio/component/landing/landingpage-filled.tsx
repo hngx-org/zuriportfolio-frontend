@@ -35,7 +35,7 @@ import {
 import { SectionDeleteModal } from '../warningModals';
 
 const LandingPageFilled: React.FC = () => {
-  const { selectedSections, buildPortfolio, setOpenDelete, editSection, modals, modalStates, userSections, userData } =
+  const { selectedSections, buildPortfolio, setOpenDelete, editSection, modals, modalStates, userSections } =
     useContext(Portfolio);
 
   const deleteSection = () => setOpenDelete(true);
@@ -43,6 +43,11 @@ const LandingPageFilled: React.FC = () => {
   const [showMoreWorkExperience, setShowMoreWorkExperience] = useState(2);
   const [showMoreEducation, setShowMoreEducation] = useState(2);
   const [showMoreProjects, setShowMoreProjects] = useState(2);
+  const [showMoreAwards, setShowMoreAwards] = useState(2);
+  const [showMoreCertificates, setShowMoreCertificates] = useState(2);
+  const [showMoreInterests, setShowMoreInterests] = useState(2);
+  const [showMoreLanguages, setShowMoreLanguages] = useState(2);
+  const [showMoreReferences, setShowMoreReferences] = useState(2);
 
   // Function to toggle "View More" and "View Less"
   const toggleShowMoreWorkExperience = () => {
@@ -57,6 +62,26 @@ const LandingPageFilled: React.FC = () => {
     setShowMoreProjects(showMoreProjects === 2 ? 9999 : 2);
   };
 
+  const toggleShowMoreAwards = () => {
+    setShowMoreAwards(showMoreAwards === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreCertificates = () => {
+    setShowMoreCertificates(showMoreCertificates === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreInterests = () => {
+    setShowMoreInterests(showMoreInterests === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreLanguages = () => {
+    setShowMoreLanguages(showMoreLanguages === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreReferences = () => {
+    setShowMoreReferences(showMoreReferences === 2 ? 9999 : 2);
+  };
+
   return (
     <>
       {/* Show modals to enter data */}
@@ -68,6 +93,7 @@ const LandingPageFilled: React.FC = () => {
       {/* data from backend */}
       <div className="w-full flex flex-col justify-start items-start gap-8">
         {userSections?.map((section, i) => {
+          console.log(section);
           return (
             <React.Fragment key={i}>
               <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
@@ -79,10 +105,6 @@ const LandingPageFilled: React.FC = () => {
                     edit={() => editSection(section.id)}
                     remove={deleteSection}
                   >
-                    {/* {section.data.map((el: any, i: any) => {
-                      return <WorkExperience key={i} data={el} />;
-                    })} */}
-
                     {section.data.slice(0, showMoreWorkExperience).map((el: any, i: any) => {
                       return <WorkExperience key={i} data={el} />;
                     })}
@@ -125,14 +147,13 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'interests' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
                     remove={deleteSection}
                   >
-                    <Interests key={i} data={section.data[0]} />
+                    <Interests key={i} data={section.data} />
                   </Wrapper>
                   <Line />
                 </React.Fragment>
@@ -209,16 +230,99 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'awards' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
                     remove={deleteSection}
                   >
-                    {section.data.map((el: any, i: number) => {
+                    {section.data.slice(0, showMoreAwards).map((el: any, i: number) => {
                       return <Awards key={i} data={el} />;
                     })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreAwards}
+                      >
+                        {showMoreAwards === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {section?.id === 'certificate' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.slice(0, showMoreCertificates).map((el: any, i: number) => {
+                      return <Certificate key={i} data={el} />;
+                    })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreCertificates}
+                      >
+                        {showMoreCertificates === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {/* Interests Section */}
+
+              {/* Language Section */}
+              {section?.id === 'language' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.slice(0, showMoreLanguages).map((el: any, i: number) => {
+                      return <Language key={i} data={el} />;
+                    })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreLanguages}
+                      >
+                        {showMoreLanguages === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {/* Reference Section */}
+              {section?.id === 'reference' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.slice(0, showMoreReferences).map((el: any, i: number) => {
+                      return <Reference key={i} data={el} />;
+                    })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreReferences}
+                      >
+                        {showMoreReferences === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
                   </Wrapper>
                   <Line />
                 </React.Fragment>
@@ -226,86 +330,8 @@ const LandingPageFilled: React.FC = () => {
             </React.Fragment>
           );
         })}
-
-        {/* local data */}
-        {selectedSections.map((section: any, i: number) => {
-          return (
-            <React.Fragment key={i}>
-              {/* <SectionDeleteModal sectionToDelete={`local ${section.title}`} /> */}
-              <React.Fragment key={i}>
-                <Wrapper
-                  id={section.id}
-                  title={section.title}
-                  edit={() => editSection(section.id)}
-                  remove={deleteSection}
-                >
-                  {section.id === 'workExperience' &&
-                    workexperiences.map((el, i) => {
-                      return <WorkExperience key={i} data={el} />;
-                    })}
-                  {section.id === 'certificate' &&
-                    certificates.map((el, i) => {
-                      return <Certificate key={i} data={el} />;
-                    })}
-                  {section.id === 'awards' &&
-                    awards.map((el, i) => {
-                      return <Awards key={i} data={el} />;
-                    })}
-                  {section.id === 'education' &&
-                    educations.map((el: any, i: any) => {
-                      return <Education key={i} data={el} />;
-                    })}
-                  {section.id === 'projects' &&
-                    projects.map((el, i) => {
-                      return <Project key={i} data={el} />;
-                    })}
-                  {section.id === 'about' && <About bio={about} />}
-                  {section.id === 'skills' && <Skill data={skills} />}
-                  {section.id === 'interests' && <Interests data={interests} />}
-                  {section.id === 'language' && <Language data={languages} />}
-                  {section.id === 'reference' &&
-                    references.map((el, i) => {
-                      return <Reference key={i} data={el} />;
-                    })}
-                  {section.id === 'contact' && <Contact data={contacts} />}
-                  {section.id === 'shop' && <Shop />}
-                  {section.id === 'custom' && <Custom />}
-                </Wrapper>
-                <Line />
-              </React.Fragment>
-            </React.Fragment>
-          );
-        })}
       </div>
-      {/* /*
-      
-      {section.id === 'certificate' &&
-        certificates.map((el, i) => {
-          return <Certificate key={i} data={el} />;
-        })}
-      {section.id === 'awards' &&
-        awards.map((el, i) => {
-          return <Awards key={i} data={el} />;
-        })}
-      {section.id === 'education' &&
-        section.data.map((el: any, i: any) => {
-          return <Education key={i} data={el} />;
-        })}
-      {section.id === 'projects' &&
-        projects.map((el, i) => {
-          return <Project key={i} data={el} />;
-        })}
-      {section.id === 'skill' && <Skill data={skills} />}
-      {section.id === 'interests' && <Interests data={interests} />}
-      {section.id === 'language' && <Language data={languages} />}
-      {section.id === 'reference' &&
-        references.map((el, i) => {
-          return <Reference key={i} data={el} />;
-        })}
-      {section.id === 'contact' && <Contact data={contacts} />}
-      {section.id === 'shop' && <Shop />}
-      {section.id === 'custom' && <Custom />} */}
-      {/*Todo */}
+
       {selectedSections.length < 13 && (
         <Button intent="secondary" className="rounded-lg border-[1px] pr-6" onClick={() => buildPortfolio()}>
           <Add />
