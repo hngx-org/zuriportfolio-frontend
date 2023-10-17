@@ -2,24 +2,19 @@ import useAuthMutation from './useAuthMutation';
 import { revalidateAuth } from '../../http/auth';
 import { useAuth } from '../../context/AuthContext';
 import { useEffect } from 'react';
-import persistedToken from '../../helpers/persistedToken';
-import useAuthQuery from './useAuthQuery';
+import isAuthenticated from '../../helpers/isAuthenticated';
 
 const useAuthRevalidate = () => {
-  const { handleAuth } = useAuth();
+  const { auth, handleAuth } = useAuth();
 
   let token = '';
 
   if (typeof window !== 'undefined') {
     token = localStorage.getItem('zpt') as string;
   }
-  console.log(token);
-  const { isLoading, isSuccess, data } = useAuthQuery(['revalidate'], () => revalidateAuth({ token }), {
+  
+  const { mutate: revalidateUser } = useAuthMutation(revalidateAuth, {
     onSuccess: (response) => {
-      console.log(response);
-
-      // console.log(isSuccess);
-
       if (response.status === 200) {
         handleAuth(response.data);
 
@@ -31,8 +26,14 @@ const useAuthRevalidate = () => {
         return;
       }
     },
-    enabled: !!token,
   });
+
+  useEffect(() => {
+    // only runs when
+    if(!auth && isAuthenticated(token)) {
+      revalidateUser({token})
+    }
+  }, [auth, token, revalidateUser]);
 };
 
 export default useAuthRevalidate;
