@@ -8,6 +8,7 @@ import { ConfirmSubmitModal } from '@modules/assessment/component/confirmSubmitM
 import { SuccessFeedbackModal } from '@modules/assessment/component/successFeedbackModal';
 import Button from '@ui/Button';
 import { DATA, QuestionType } from '@modules/assessment/mock-data';
+import withAuth from '../../../helpers/withAuth';
 
 function AssessmentOverview() {
   const [questions, setQuestions] = useState(DATA.questions);
@@ -72,4 +73,4 @@ function AssessmentOverview() {
   );
 }
 
-export default AssessmentOverview;
+export default withAuth(AssessmentOverview);
