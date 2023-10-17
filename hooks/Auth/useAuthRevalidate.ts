@@ -12,7 +12,7 @@ const useAuthRevalidate = () => {
   if (typeof window !== 'undefined') {
     token = localStorage.getItem('zpt') as string;
   }
-  
+
   const { mutate: revalidateUser } = useAuthMutation(revalidateAuth, {
     onSuccess: (response) => {
       if (response.status === 200) {
@@ -30,8 +30,8 @@ const useAuthRevalidate = () => {
 
   useEffect(() => {
     // only runs when
-    if(!auth && isAuthenticated(token)) {
-      revalidateUser({token})
+    if (!auth && isAuthenticated(token)) {
+      revalidateUser({ token });
     }
   }, [auth, token, revalidateUser]);
 };
