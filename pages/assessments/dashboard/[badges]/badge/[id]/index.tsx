@@ -19,6 +19,8 @@ const Page: React.FC = () => {
   };
 
   useEffect(() => {
+    const bearerToken = localStorage.getItem('zpt');
+    console.log(bearerToken);
     const fetchData = async () => {
       try {
         const badgelabel = router.query?.id;
@@ -27,7 +29,11 @@ const Page: React.FC = () => {
           setIsLoading(true);
 
           const apiUrl = `https://demerzel-badges-production.up.railway.app/api/badges/${badgelabel}`;
-          const response = await fetch(apiUrl, { method: 'GET', redirect: 'follow' });
+          const response = await fetch(apiUrl, {
+            method: 'GET',
+            redirect: 'follow',
+            headers: { Authorization: `Bearer ${bearerToken}` },
+          });
 
           if (!response.ok) {
             setIsLoading(false);
