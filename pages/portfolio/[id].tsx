@@ -1,6 +1,6 @@
 'use-client';
 import React, { useContext, useEffect, useState } from 'react';
-import Portfolio, { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
+import { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
 import ExternalView from '@modules/portfolio/component/landing/external-view';
 import MainLayout from '../../components/Layout/MainLayout';
 import Cover from '@modules/portfolio/component/landing/cover-avatar';
@@ -46,7 +46,7 @@ const View = () => {
     authUser();
   }, [id, router, router.isReady]);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({
     firstName: '',
     lastName: '',
