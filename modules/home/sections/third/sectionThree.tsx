@@ -50,7 +50,7 @@ const SectionThree = () => {
         />
       </div>
       <div className="w-full md:mt-10">
-        <LogoCarousel logos={slides} />
+        <LogoCarousel logos={slides} color={false} />
       </div>
     </div>
   );
