@@ -311,7 +311,12 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
                 </label>
               )}
             </div>
-            <div className="flex flex-col gap-2">
+            <p className="font-semibold text-base text-white-650 mt-2.5">
+              {' '}
+              Note: you can only add 10 images. Sizes 1080 X 566{' '}
+            </p>
+
+            <section className="flex flex-col gap-2">
               {failedChecks.length > 0 && (
                 <p className="mt-4 text-base font-medium text-start text-red-300">
                   {' '}
@@ -324,7 +329,8 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
                   {item}{' '}
                 </span>
               ))}
-            </div>
+            </section>
+
             {/* buttons */}
             <div className="my-10 flex gap-4 justify-end items-center">
               <Button intent={'secondary'} className="rounded-lg min-w-[100px]">
