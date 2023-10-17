@@ -23,9 +23,7 @@ const FilterModal = ({filter, isOpen, onClose, token, setData}: Props) => {
   const [to, setTo] = useState("");
   const [year, setYear] = useState("");
 
-  // https://customer-purchase.onrender.com/api/orders/filter-transactions?year=2023
-  // https://customer-purchase.onrender.com/api/orders/filter-transactions?month=october
-  // https://customer-purchase.onrender.com/api/orders/filter-transactions?price=500000-800000
+
   const filterByPrice = async() => {
     try {
       const response = await $http.get(`https://customer-purchase.onrender.com/api/orders/filter-transactions?price=${from}-${to}`,{
