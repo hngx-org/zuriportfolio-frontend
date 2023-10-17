@@ -22,6 +22,7 @@ const CreateAssessment = () => {
     setActive(button);
   };
   const [assessment, setAssessment] = useState({
+    id: 0,
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
     duration_minutes: 0,
@@ -67,7 +68,7 @@ const CreateAssessment = () => {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
-        Authorization: `Token ${localStorage.getItem('zpt')}`,
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
       body: JSON.stringify({
         skill_id: 2,
@@ -124,7 +125,7 @@ const CreateAssessment = () => {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        Authorization: `Token ${localStorage.getItem('zpt')}`,
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         'Content-Type': 'application/json',
         'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
       },
@@ -166,6 +167,7 @@ const CreateAssessment = () => {
     }, 4000);
   };
 
+  
   const router = useRouter();
   
   const { name } = router.query;
@@ -253,7 +255,7 @@ const CreateAssessment = () => {
                 </div>
               </>
             ) : (
-              <ScoringScreen skillId={skillId} />
+              <ScoringScreen assessment={assessment} skillId={skillId} />
             )}
           </div>
         </div>

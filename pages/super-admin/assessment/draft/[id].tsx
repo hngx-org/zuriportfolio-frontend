@@ -9,7 +9,24 @@ import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function DraftPreview() {
+
+type Props = {
+  assessment: {
+    id: number;
+    title: string;
+    createdAt: Date;
+    duration_minutes: number;
+    questions: {
+      answers: {}[];
+      question_no: number;
+      question_text: string;
+      question_type: string;
+    }[];
+    updatedAt: Date;
+  };
+  
+};
+const DraftPreview = () => {
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
 
   const arr = [1, 2, 3];
@@ -18,11 +35,37 @@ export default function DraftPreview() {
   const draftId = data.id;
   const id =2
 
+  const [assessment, setAssessment] = useState({
+    id: 0,
+    title: '',
+    createdAt: new Date(), // Initialize with a default date or null if needed
+    duration_minutes: 0,
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: 'question',
+        question_type: 'multiple_choice',
+      },
+    ],
+    updatedAt: new Date(), // Similarly for updatedAt
+  });
+
+  const setDuration = (data: any) => {
+    setAssessment((prevAssessment) => ({
+      ...prevAssessment,
+      duration_minutes: data,
+    }));
+  }
   const [active, setActive] = useState<null | string>('button1');
   const handleClick = (button: string) => {
     setActive(button);
   };
   const [loading, setLoading] = useState(true);
+
+
+
+// make put request to PUT /api/admin/assessments/{assessment_id}/
 
   useEffect(() => {
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
@@ -48,6 +91,7 @@ export default function DraftPreview() {
       .then((responseData) => {
         console.log('This is the data', responseData);
         setDraftData(responseData);
+        setAssessment(responseData)
         setLoading(false);
         toast.success('Draft data loaded successfully');
       })
@@ -168,9 +212,11 @@ export default function DraftPreview() {
             ))}
           </>
         ) : (
-          <ScoringScreen skillId={id} />
+          <ScoringScreen assessment={assessment} skillId={id} />
         )}
       </div>
     </MainLayout>
   );
 }
+
+export default DraftPreview;

@@ -24,9 +24,25 @@ type MyGradingRangeType = {
 
 interface ScoringScreenProps {
   skillId: number; // Define skillId as a prop
+
+    assessment: {
+      id: number;
+      title: string;
+      createdAt: Date;
+      duration_minutes: number;
+      questions: {
+        answers: {}[];
+        question_no: number;
+        question_text: string;
+        question_type: string;
+      }[];
+      updatedAt: Date;
+    };
+    
+
 }
 
-const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
+const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => {
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
@@ -80,15 +96,11 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
           setExamDuration(totalMinutes.toString());
         }
       }
+
     }
+    handleFormSubmit()
   };
 
-  const convertToMinutes = (hours: string, minutes: string, seconds: string): number => {
-    const hoursInMinutes = parseInt(hours, 10) * 60;
-    const minutesValue = parseInt(minutes, 10);
-    const secondsValue = parseInt(seconds, 10) / 60;
-    return hoursInMinutes + minutesValue + secondsValue;
-  };
 
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
     const newValue = e.target.value;
@@ -141,7 +153,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
     const token = localStorage.getItem('zpt');
   
     try {
-      const response = await fetch('https://demerzel-badges-production.up.railway.app/api/badges/', {
+      const response = await fetch('https://demerzel-badges-production.up.railway.app/api/badges', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,6 +180,38 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
       console.error(`Error while saving scoring for ${level}:`, error);
       toast.error(`Error while saving scoring for ${level}`);
       // Handle error if needed
+    }
+  };
+  
+  console.log('assessment scoring screen',assessment)
+  const handleFormSubmit = async () => {
+    const { hours, minutes, seconds } = examTime;
+    const durationInMinutes = Math.round(parseInt(hours, 10) * 60 + parseInt(minutes, 10) + parseInt(seconds, 10) / 60);
+  
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessment.id}/`;
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          'X-CSRFTOKEN': localStorage.getItem('zpt') ?? '',
+        },
+        body: JSON.stringify({
+          duration_minutes: durationInMinutes,
+          title: assessment.title,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+  
+      toast.success('Assessment duration updated successfully');
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Error updating assessment data');
     }
   };
   
