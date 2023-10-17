@@ -9,6 +9,8 @@ import { Input } from '@ui/Input';
 import Image from 'next/image';
 import erroEmpty from './assets/Error.svg';
 import { useSearchParams } from 'next/navigation';
+import Breadcrumbs from '@modules/marketplace/component/layout/BreadCrumbs';
+// import Breadcrumbs from '../../components/Breadcrumbs';
 
 // You can now access the data array with the specified objects as needed in your application.
 
@@ -85,7 +87,8 @@ export default function SearchModule() {
   const experienceUI = ['Beginner', 'Intermediate', 'Expert'];
 
   return (
-    <div className="ss min-h-screen m-auto max-w-[1264px]">
+    <div className="min-h-screen m-auto max-w-[1264px]">
+      <Breadcrumbs />
       <div className="flex justify-between items-end">
         <h2 className="text-zinc-900 text-4xl font-bold  leading-[44px]">Search Results for “{query}”</h2>
         <div className="text-zinc-700 text-[22px] font-normal  leading-7">{data?.data?.length} Results</div>
