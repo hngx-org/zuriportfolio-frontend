@@ -68,11 +68,11 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     }
   };
 
-   const deleteInputCharacter = (e: { key: string }) => {
-     if (e.key === 'Backspace') {
-       setInputValue(inputValue.slice(0, -1));
-     }
-   };
+  const deleteInputCharacter = (e: { key: string }) => {
+    if (e.key === 'Backspace') {
+      setInputValue(inputValue.slice(0, -1));
+    }
+  };
 
   // handle input change
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
