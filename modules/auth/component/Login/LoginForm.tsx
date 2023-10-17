@@ -111,7 +111,7 @@ function LoginForm() {
             Log In
           </p>
           <p className="text-[#6B797F]  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
-            Log in to continue using zuriportfolio
+            Log in to continue using zuriportfolio.
           </p>
         </div>
 

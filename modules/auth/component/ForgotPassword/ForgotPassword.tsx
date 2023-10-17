@@ -104,7 +104,7 @@ const ForgotPassword = () => {
             <p className="text-[14px] text-center text-custom-color20 font-medium">
               Go back to{' '}
               <Link href="/auth/login" className="text-brand-green-primary">
-                Login
+                Sign in
               </Link>
             </p>
           </div>

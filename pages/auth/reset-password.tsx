@@ -114,7 +114,7 @@ function ResetPassword() {
                     rightIcon={
                       <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
                         {/* Update the icon based on the visibility state of the password. */}
-                        {showPassword[0] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
+                        {showPassword[0] ? <Eye color="#464646" /> :  <EyeSlash color="#464646" />}
                       </div>
                     }
                   />
@@ -138,7 +138,7 @@ function ResetPassword() {
                   rightIcon={
                     <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
                       {/* Update the icon based on the visibility state of the password. */}
-                      {showPassword[1] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
+                      {showPassword[1] ? <Eye color="#464646" /> :  <EyeSlash color="#464646" />}
                     </div>
                   }
                 />
