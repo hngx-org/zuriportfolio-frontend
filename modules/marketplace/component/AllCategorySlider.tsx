@@ -4,7 +4,7 @@ import styles from '././landingpage/productCardWrapper/product-card-wrapper.modu
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
-
+import dummyImage from '../../../public/assets/AllCategorySlider/dummyImage.webp';
 //I tried including my types in the index.d.ts but it resulted to merge conflict. I had to do it this way
 interface CategoryTypes {
   name: string;
@@ -68,7 +68,7 @@ function AllCategorySlider() {
               <Image
                 width={200}
                 height={200}
-                src={secondApiData[index]?.url}
+                src={secondApiData[index]?.url || dummyImage}
                 key={index}
                 alt={category.name}
                 className="w-[100%] h-[100%] object-center object-cover rounded-xl"

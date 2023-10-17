@@ -139,13 +139,13 @@ const AnalyticsAndReportingGraphs = () => {
       ...prevLoadingStates,
       [graphIndex]: true,
     }));
-  
+
     if (graphIndex === 0) {
       setActivePeriodGraph1(period);
     } else if (graphIndex === 1) {
       setActivePeriodGraph2(period);
     }
-  
+
     // Reset the loading state for the other graph
     const otherGraphIndex = graphIndex === 0 ? 1 : 0;
     setLoadingStates((prevLoadingStates) => ({
@@ -153,9 +153,6 @@ const AnalyticsAndReportingGraphs = () => {
       [otherGraphIndex]: false,
     }));
   };
-  
-  
-  
 
   const graphDetails = [
     {
