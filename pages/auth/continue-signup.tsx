@@ -6,20 +6,19 @@ import AuthLayout from '../../modules/auth/component/AuthLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { signUpUser } from '../../http/auth';
 import { notify } from '@ui/Toast';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
+
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const onSignUpSuccess = (data: any) => {
     console.log(data);
     if (data.status === 200) {
-      console.log(data.message);
       router.push(`/auth/verification`);
       return;
     }
@@ -36,6 +35,7 @@ function Signup() {
       return;
     }
   };
+
   const { mutate: signUpUserFn, isLoading } = useAuthMutation(signUpUser, {
     onSuccess: (data) => onSignUpSuccess(data),
     onError: (error: any) => onSignUpError(error),
@@ -88,7 +88,6 @@ function Signup() {
       lastName: values.lastName,
       email: userEmail as string,
       password: values.password,
-      // confirmPassword: values.confirmPassword,
     };
 
     signUpUserFn(userData);
