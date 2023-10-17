@@ -10,6 +10,7 @@ import Button from '@ui/Button';
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
+import withAuth from '../../../../helpers/withAuth';
 
 const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
@@ -110,4 +111,4 @@ const Questions: React.FC = () => {
     </>
   );
 };
-export default Questions;
+export default withAuth(Questions);

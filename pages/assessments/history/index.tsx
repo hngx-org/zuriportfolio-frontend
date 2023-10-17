@@ -2,6 +2,7 @@ import React from 'react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import Head from 'next/head';
 import History from '@modules/assessment/component/History';
+import withAuth from '../../../helpers/withAuth';
 
 const Assessmenthistory = () => {
   return (
@@ -29,4 +30,4 @@ const Assessmenthistory = () => {
   );
 };
 
-export default Assessmenthistory;
+export default withAuth(Assessmenthistory);
