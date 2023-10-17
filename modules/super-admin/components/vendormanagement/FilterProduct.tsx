@@ -19,7 +19,7 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
           console.log(value);
         }}
       >
-        <SelectTrigger className="md:w-[100px] w-[50px]">
+        <SelectTrigger className="md:w-full w-[50px]">
           <svg
             className="md:w-[50px] w-[80px]"
             width=""
@@ -36,7 +36,7 @@ const FilterProduct = ({ handleFilter }: filterProp) => {
               strokeLinejoin="round"
             />
           </svg>
-          <div className="md:block hidden w-[100px]">
+          <div className="md:block hidden w-fit">
             <SelectValue placeholder="Filter" />
           </div>
         </SelectTrigger>
