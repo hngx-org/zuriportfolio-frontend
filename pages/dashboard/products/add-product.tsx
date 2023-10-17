@@ -49,7 +49,7 @@ const AddProduct = () => {
       image: '',
       name: '',
       description: '',
-      sub_category_id: '',
+      category_id: '',
       price: '',
       discountPrice: '',
       tax: '',
@@ -137,7 +137,7 @@ const AddProduct = () => {
     event.target.blur();
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setProducts({ ...products, sub_category_id: event.target.value });
+    setProducts({ ...products, category_id: event.target.value });
   };
 
   const fetchCategories = async () => {
@@ -181,7 +181,7 @@ const AddProduct = () => {
     name: '',
     description: '',
     quantity: '',
-    sub_category_id: '',
+    category_id: '',
     price: '',
     discountPrice: '0',
     tax: '',
@@ -432,12 +432,12 @@ const AddProduct = () => {
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select more categories</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    // value={products.sub_category_id}
+                    // value={products.category_id}
                     // onChange={handleOptionChange}
 
-                    {...form.getInputProps('sub_category_id')}
+                    {...form.getInputProps('category_id')}
                   >
                     <option value="" className="placeholder:text-[#191C1E] capitalize">
                       Select product category
@@ -455,7 +455,7 @@ const AddProduct = () => {
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select Shop</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
                     // value={products.sub_category_id}
                     // onChange={handleOptionChange}
