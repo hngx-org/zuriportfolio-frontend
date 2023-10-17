@@ -10,6 +10,7 @@ import { SuccessFeedbackModal } from '@modules/assessment/component/successFeedb
 import Button from '@ui/Button';
 import { DATA, QuestionType } from '@modules/assessment/mock-data';
 import { fetchUserAssessmentSession, submitFinalAssessment } from '../../../http/userTakenAssessment';
+import withAuth from '../../../helpers/withAuth';
 
 export interface Question {
   answer_id: number;
@@ -119,4 +120,4 @@ function AssessmentOverview() {
   );
 }
 
-export default AssessmentOverview;
+export default withAuth(AssessmentOverview);

@@ -12,6 +12,7 @@ import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
 import { fetchUserTakenAssessment, getAssessmentDetails, submitAssessment } from '../../../../http/userTakenAssessment';
 import { any } from 'zod';
+import withAuth from '../../../../helpers/withAuth';
 
 type AssessmentDetails = {
   id?: string;
@@ -158,4 +159,4 @@ const Questions: React.FC = () => {
     </>
   );
 };
-export default Questions;
+export default withAuth(Questions);
