@@ -214,6 +214,9 @@ const MyPage: React.FC = () => {
   function closeFilterModal(){
     setOpenFilterModal(!openFilterModal)
   }
+  function setFilteredData(data: PurchaseData[]){
+    setData(data)
+  }
 
   // handle search and filter functionality
   const handleFilterClick = (filterName: string | null) => {
@@ -400,7 +403,7 @@ const MyPage: React.FC = () => {
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
         {/* filter modal */}
-        <FilterModal isOpen={openFilterModal} onClose={closeFilterModal} filter={filterBy}/>
+        <FilterModal isOpen={openFilterModal} onClose={closeFilterModal} filter={filterBy} token={token} setData={setFilteredData}/>
       </div>
     </MainLayout>
   );
