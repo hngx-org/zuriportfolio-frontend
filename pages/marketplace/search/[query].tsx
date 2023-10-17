@@ -18,6 +18,7 @@ export default function Index() {
   const {
     query: { query },
   } = useRouter();
+  console.log(query)
 
   const searchQuery = Array.isArray(query) ? query[0] : query;
 
@@ -46,7 +47,7 @@ export default function Index() {
               Search Result for &apos;{searchQuery}&apos;
             </h1>
             <div
-              className={`flex py-8 flex-nowrap lg:flex-wrap gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+              className={`flex py-8 flex-wrap lg:flex-wrap gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
             >
               {results?.map((item) => {
                 const stringFromEndpoint = item.price;
