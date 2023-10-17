@@ -4,7 +4,7 @@ import styles from '././landingpage/productCardWrapper/product-card-wrapper.modu
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
-
+import dummyImage from '../../../public/assets/AllCategorySlider/dummyImage.webp';
 //I tried including my types in the index.d.ts but it resulted to merge conflict. I had to do it this way
 interface CategoryTypes {
   name: string;
@@ -15,11 +15,12 @@ interface CategoryTypes {
 function AllCategorySlider() {
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [secondApiData, setSecondApiData] = useState<CategoryTypes[]>([]);
+  const apiUrl: string = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
 
   useEffect(() => {
     // API request to fetch categories
     axios
-      .get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/')
+      .get(`${apiUrl}category-name/`)
       .then((response) => {
         if (Array.isArray(response.data.categories)) {
           const categoryData = response.data.categories;
@@ -27,7 +28,7 @@ function AllCategorySlider() {
           ////////////////////////////////////////////////////////////////////////////////////
           // API request to fetch images based of number of items returned from the categroy API
           axios
-            .get('https://coral-app-8bk8j.ondigitalocean.app/api/images/')
+            .get(`${apiUrl}images/`)
             .then((imageResponse) => {
               const numCategories = categoryData.length;
               const slicedSecondApiData = imageResponse.data.slice(0, numCategories);
@@ -67,7 +68,7 @@ function AllCategorySlider() {
               <Image
                 width={200}
                 height={200}
-                src={secondApiData[index]?.url}
+                src={secondApiData[index]?.url || dummyImage}
                 key={index}
                 alt={category.name}
                 className="w-[100%] h-[100%] object-center object-cover rounded-xl"
@@ -78,7 +79,7 @@ function AllCategorySlider() {
               >
                 {category.name}
               </p>
-              <div className="absolute rounded-xl inset-0  flex items-center justify-center bg-black opacity-50 hover:opacity-60 transition-opacity duration-300"></div>
+              <div className="absolute rounded-xl inset-0  flex items-center justify-center bg-black opacity-60 hover:opacity-90  transition-opacity duration-300"></div>
             </Link>
           ))}
         </div>

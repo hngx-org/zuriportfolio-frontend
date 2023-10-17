@@ -177,7 +177,7 @@ export let skills = [
 ];
 
 export let interests = 'Interest 1,Interest 2,Interest 3,Interest 4,Interest 5,Interest 6';
-export let languages = 'Language 1,Language 2,Language 3,Language 4,Language 5,Language 6';
+export let languages = '';
 
 export let contacts = [
   {
