@@ -69,9 +69,7 @@ const Card = ({ data }: { data: UserInfo }) => {
       onMouseEnter={showButtons}
       onMouseLeave={hideButtons}
     >
-      {/* <CardHover openCard={isOpen} /> */}
-
-      <div className="p-10 border-1 border mx-auto  border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm ">
+      <div className="h-full p-10 border-1 border mx-auto grid gap-6 border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm ">
         <div className="w-24 rounded-full overflow-hidden mx-auto aspect-square">
           <Image
             className="w-full h-full object-cover bg-center"
@@ -82,18 +80,18 @@ const Card = ({ data }: { data: UserInfo }) => {
           />
         </div>
 
-        <div className="mt-3 text-center">
+        <div className="text-center">
           <Link href={`/portfolio/${data?.id}`} className="block w-fit mx-auto">
             <h3 className="w-fit text-gray-800 font-manropeEB text-base md:text-[1.375rem] hover:underline">
               {data?.firstName} {data?.lastName}
             </h3>
           </Link>
-          <span className="text-gray-500 md:text-base">{data?.track}</span>
+          <span className="text-gray-500 md:text-base">{data?.track ? data?.track : 'Track not Specified'}</span>
           {' . '}
           <span className="text-gray-500 md:text-base">Intermediate</span>
         </div>
 
-        <div className="flex flex-wrap justify-center items-center gap-2 my-5 px-4 text-[0.75rem] font-manropeB text-gray-600 text-center md:text-sm md:px-3">
+        <div className="flex flex-wrap justify-center items-center gap-2 px-4 text-[0.75rem] font-manropeB text-gray-600 text-center md:text-sm md:px-3">
           {data?.skills.length === 0 ? (
             <button className="border border-gray-100 px-2 rounded-full">No Skills</button>
           ) : (
@@ -107,14 +105,12 @@ const Card = ({ data }: { data: UserInfo }) => {
           {/* <button className="mt-2 border border-gray-100 px-4 py-1 rounded-full">{data.skills[6]}</button> */}
         </div>
 
-        {data?.address ?? (
-          <div className="flex justify-center items-center gap-1 mt-5">
-            <Image src={Location} alt="Location" width={20} height={20} />
-            <div>
-              <span className="text-gray-500 ">{data?.address ?? 'No Address'}</span>
-            </div>
+        <div className="flex justify-center items-center gap-1 text-center">
+          <Image src={Location} alt="Location" width={20} height={20} />
+          <div>
+            <span className="text-gray-500 ">{data?.address.length < 3 ? 'Not Specified' : data.address}</span>
           </div>
-        )}
+        </div>
 
         <div
           ref={shareBtnRef}
