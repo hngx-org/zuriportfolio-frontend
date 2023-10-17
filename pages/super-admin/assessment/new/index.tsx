@@ -25,12 +25,14 @@ const CreateAssessment = () => {
   const [destination, setDestination] = useState('');
   const [newobject, setObject] = useState({
     skill_id: skillid,
+    title: '',
+    id: 0,
     questions_and_answers: [
       {
         question_no: 1,
         question_text: '',
         question_type: 'multiple_choice',
-        options: [''],
+        options: [],
         correct_option: 0,
       },
     ],
@@ -40,6 +42,21 @@ const CreateAssessment = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const transformedObject = {
+    id: newobject.id, // Provide an appropriate value for id
+    title: newobject.title, // Provide an appropriate value for title
+    createdAt: new Date(), // Provide an appropriate value for createdAt
+    duration_minutes: newobject.duration_in_minutes,
+    questions: newobject.questions_and_answers.map(question => ({
+      answers: [], // Provide an appropriate value for answers
+      question_no: question.question_no,
+      question_text: question.question_text,
+      question_type: question.question_type,
+    })),
+    updatedAt: new Date(), // Provide an appropriate value for updatedAt
+  };
+  
   const [active, setActive] = useState<null | string>('button1');
   const [isModalOpen, setModalOpen] = useState(false);
   const [err, setErr] = useState('');
@@ -227,7 +244,7 @@ const CreateAssessment = () => {
                   </div>
                 </>
               ) : (
-                <ScoringScreen skillId={newobject.skill_id} />
+                <ScoringScreen assessment={transformedObject} skillId={newobject.skill_id} />
               )}
             </div>
           </main>
