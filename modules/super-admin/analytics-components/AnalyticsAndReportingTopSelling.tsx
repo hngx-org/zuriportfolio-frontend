@@ -18,7 +18,7 @@ export default function Page() {
       try {
         setLoading(true);
         const res = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?start_date=2023-01-10&end_date=2023-11-12',
+          `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?page=${currentPage}&page_size=10`,
           {
             headers: {
               Authorization: `Bearer ${bearerToken}`,
@@ -38,8 +38,9 @@ export default function Page() {
         console.error('Error fetching data:', error);
       }
     }
+
     getData();
-  }, []);
+  }, [currentPage]);
 
   return (
     <section className=" px-6 mb-10 font-manropeL">
