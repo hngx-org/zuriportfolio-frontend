@@ -9,6 +9,7 @@ import Loader from '@modules/portfolio/component/landing/Loader';
 import { brokenImage } from '../../../../super-admin/vendor-management/vendor-details/[id]';
 import Image from 'next/image';
 import StarRating from '@modules/super-admin/components/StarRating';
+import { useGetShop } from '../../../../../http/super-admin1';
 
 function VendorDetails(): React.ReactElement {
   const router = useRouter();
