@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Head from 'next/head';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { TimerStart } from 'iconsax-react';
@@ -10,25 +10,48 @@ import Button from '@ui/Button';
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
+import { fetchUserTakenAssessment, getAssessmentDetails } from '../../../../http/userTakenAssessment';
+
+type AssessmentDetails = {
+  id?: string;
+  assessment_id: number;
+  skill_id: number;
+  title?: string;
+  description: string;
+  duration_minutes: number;
+  status: string;
+  start_date: Date;
+  end_date: Date;
+};
 
 const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
   const router = useRouter();
   const [storedAssessment, setStoredAssessment] = React.useState<any>([]);
-  const {data} = router.query
+  const [result, setResult] = React.useState<AssessmentDetails>();
+  const tokenRef = useRef<string | null>(null);
+  const { data } = router.query;
+  const { id } = router.query;
 
   useEffect(() => {
-    if(data){
-      console.log('duration', data)
+    tokenRef.current = localStorage.getItem('zpt');
+    handleGetStarted();
+  }, []);
+
+  const handleGetStarted = async () => {
+    const token = tokenRef.current;
+    try {
+      const assessmentsData = await getAssessmentDetails(token as string, data as string);
+      const questionData = await fetchUserTakenAssessment(token as string, id as string);
+
+      setResult(assessmentsData);
+      setStoredAssessment(questionData.questions);
+      console.log('2', assessmentsData);
+      console.log('3', questionData.questions);
+    } catch (error) {
+      console.log('catch error', error);
     }
-    const assessmentData = localStorage.getItem('assessmentData');
-    const storedAssessmentData = assessmentData ? JSON.parse(assessmentData) : null;
-    // console.log('Hellllooooooooooo>>>>>>>>>>>>>>>>>>>', storedAssessmentData);
-    if (assessmentData) {
-      
-      setStoredAssessment(storedAssessmentData);
-    }
-  }, [data]);
+  };
 
   return (
     <>
@@ -65,14 +88,14 @@ const Questions: React.FC = () => {
         <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
           <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary">
             <span className="text-white-100 text-2xl font-bold">
-              <CountdownTimer action={() => setIsTimeOut(true)} minutes={data} seconds={0} />
+              <CountdownTimer action={() => setIsTimeOut(true)} minutes={result?.duration_minutes ?? 5} seconds={0} />
             </span>
             <span>
               <TimerStart color="#fff" />
             </span>
           </div>
           <form action="#">
-            <ul className="overscroll md:max-w-xl max-w-xs flex flex-col  w-full gap-y-4 overflow-y-scroll max-h-screen h-full">
+            <ul className="overscroll md:max-w-xl max-w-xs flex flex-col  w-full gap-y-4 overflow-y-scroll max-h-screen h-full mb-4">
               {storedAssessment.map((question: any, index: number) => (
                 <li key={index} className="w-full md:max-w-lg py-8 px-4 border border-slate-100 rounded-lg">
                   <h1 className="text-xl text-brand-green-primary text-center font-bold mb-4">

@@ -1,6 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
-import { ArrowUp } from 'iconsax-react';
 import { BannedDeletedVendorsProps } from '../../../../@types';
 import { LoadingText } from '../product-listing/ProductListingNavbar';
 const VendorsStat = ({
@@ -15,25 +13,25 @@ const VendorsStat = ({
     <>
       <section className="my-5 grid md:grid-cols-3 sm:grid-cols-1 gap-4 container mx-auto">
         <div className=" p-4 border-solid rounded-md border-white-115 border-2">
-          <div className="flex items-center justify-between text-gray-500">
+          <div className="text-gray-500">
             <p className="text-lg">Total Vendors</p>
-            <Image src="/assets/more-grey.png" alt="" width={20} height={20} className="cursor-pointer" />
           </div>
           <div className="flex items-center justify-between">
-            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold">{data?.total_shops}</h2>}
-            {/* <div className="flex items-center mr-2 text-brand-green-primary text-1xl px-3 rounded-xl bg-green-20">
-              <ArrowUp size="16" />
-              <p>10%</p>
-            </div> */}
+            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold">{data?.data?.length}</h2>}
           </div>
         </div>
         <div className=" p-4 border-solid rounded-md border-white-115 border-2">
-          <div className="flex items-center justify-between">
+          <div className="">
             <p className="text-lg text-gray-500">Banned Vendors</p>
-            <Image src="/assets/more-green.png" alt="" width={20} height={20} className="cursor-pointer" />
           </div>
           <div className="flex items-center justify-between">
-            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold ">{data?.total_banned_shops}</h2>}
+            {isLoading ? (
+              <LoadingText />
+            ) : (
+              <h2 className="text-4xl font-bold ">
+                {data?.data?.filter((item: any) => item?.vendor_status === 'Banned')?.length}
+              </h2>
+            )}
             <button
               className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl"
               onClick={() => setShowBanned(!showBanned)}
@@ -43,12 +41,17 @@ const VendorsStat = ({
           </div>
         </div>
         <div className=" p-4 border-solid rounded-md border-white-115 border-2">
-          <div className="flex items-center justify-between">
+          <div className="">
             <p className="text-lg text-gray-500">Deleted Vendors</p>
-            <Image src="/assets/more-green.png" alt="" width={20} height={20} className="cursor-pointer" />
           </div>
           <div className="flex items-center justify-between">
-            {isLoading ? <LoadingText /> : <h2 className="text-4xl font-bold">{data?.total_deleted_shops}</h2>}
+            {isLoading ? (
+              <LoadingText />
+            ) : (
+              <h2 className="text-4xl font-bold">
+                {data?.data?.filter((item: any) => item?.vendor_status === 'Deleted')?.length}
+              </h2>
+            )}
             <button
               className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl"
               onClick={() => setShowDeleted(!showDeleted)}

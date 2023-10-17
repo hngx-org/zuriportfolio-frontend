@@ -2,7 +2,7 @@ import { ArrowDown } from 'iconsax-react';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import { useEffect, useState } from 'react';
-import Pagination from '../../../view-components/super-admin/pagination';
+import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { useRouter } from 'next/router';
 import { useGetProd } from '../../../../http';
 import { DeletedProducts } from '../../../../@types';
@@ -18,8 +18,23 @@ const SanctionedProducts = () => {
 
   const [filteredProducts, setFilteredProducts] = useState(deletedProd);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Number of items to display per page
+
+  // Calculate the range of products to display
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    window.scroll(0, 10);
+    setCurrentPage(newPage);
+  };
+
   useEffect(() => {
     setFilteredProducts(deletedProd);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
@@ -28,17 +43,26 @@ const SanctionedProducts = () => {
       (product: any) =>
         product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
         product?.product_status?.toLowerCase()?.includes('deleted'),
+      // product?.product_status?.toLowerCase()?.includes('deleted'),
     );
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
+
+  // const handleSubmit = (searchText: string) => {
+  //   const filteredProduct: DeletedProducts[] = sanctionedProducts.filter((product) =>
+  //     product.product_name.toLowerCase().includes(searchText.toLowerCase()),
+  //   );
+  //   setSearchVal(searchText);
+  //   setFilteredProducts(filteredProduct);
+  // };
 
   const route = useRouter();
 
   return (
     <>
       <SuperAdminNavbar />
-      <div className="m-6 font-manropeL max-w-7xl mx-auto border-2 border-custom-color1">
+      <div className="container font-manropeL  mx-auto border-2 border-custom-color1">
         <div className="py-3 px-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
             <h2 className="text-lg font-medium text-custom-color10">Deleted Products</h2>
@@ -52,17 +76,22 @@ const SanctionedProducts = () => {
           <LoadingTable />
         ) : (
           <div className="mb-4">
-            {deletedProd?.length > 0 ? (
+            {visibleProducts?.length > 0 ? (
               <>
-                <table className="w-full ">
+                <table className="w-full md:table-fixed">
                   <thead>
                     <tr>
                       <th className="text-gray-500 text-sm font-normal leading-[18px] px-6 py-6 gap-3 text-left flex items-center">
                         <p className="">Product Name</p>
                         <ArrowDown size="16" className="" />
                       </th>
-                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item) => (
-                        <th className="text-gray-500 text-sm font-normal leading-[18px] px-3 py-6 gap-3" key={item}>
+                      {['Vendor', 'ID', 'Date Added', 'Date Sanctioned', 'Status'].map((item, index) => (
+                        <th
+                          className={`text-gray-500 ${
+                            index === 0 ? 'table-cell' : 'hidden md:table-cell'
+                          } text-sm font-normal leading-[18px] px-3 py-6 gap-3`}
+                          key={item}
+                        >
                           {item}
                         </th>
                       ))}
@@ -77,7 +106,7 @@ const SanctionedProducts = () => {
                           route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)
                         }
                       >
-                        <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
+                        <td className="max-w-[10vw] md:full tracking-wide font-manropeL text-base text-gray-900 px-6 py-6">
                           <p>{product?.product_name} </p>
                         </td>
                         <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
@@ -118,7 +147,11 @@ const SanctionedProducts = () => {
                     ))}
                   </tbody>
                 </table>
-                <Pagination />
+                <SuperAdminPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               </>
             ) : (
               <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

@@ -1,50 +1,66 @@
-import React, { ChangeEvent, useState, useRef, useContext } from 'react';
+import React, { ChangeEvent, useEffect, useState, useRef, useContext } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { useAuth } from '../../context/AuthContext';
-import { verfiy2FA, resend2FACode } from "../../http/auth"
+import { verfiy2FA, resend2FACode } from '../../http/auth';
 import Router, { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
+import { ADMIN_ID } from './component/Login/LoginForm';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
 function Code2FALogic() {
   const router = useRouter();
+  const [token, setToken] = useState<string>('');
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-  const { auth } = useAuth();
+  const { auth, userCameFrom, handleAuth } = useAuth();
   const mutateFn = useAuthMutation(verfiy2FA, {
-    onSuccess: (data: any) => {
-      if (data?.data?.status && data?.data?.status == '200') {
-            notify({
-          message: data?.data?.message,
+    onSuccess: (res: any) => {
+      if (res.status === 200) {
+        handleAuth(res.data);
+        localStorage.setItem('zpt', res?.data?.token);
+
+        // redirecting the user  to admin dashbord if they are an admin
+        if (res.data.user.roleId === ADMIN_ID) {
+          router.push('/super-admin/product-listing');
+          return;
+        }
+
+        notify({
+          message: 'Login Successful',
           type: 'success',
         });
-        router.push('/dashboard');
+
+        router.push(userCameFrom || '/explore');
         return;
       } else {
-        setDigits(['', '', '', '', '', '']);
         notify({
-          message: data?.response?.message || 'Invalid code',
+          message: 'Invalid Code',
           type: 'error',
         });
       }
     },
   });
 
+  useEffect(() => {
+    let token = localStorage.getItem('zpt');
+    if (typeof window !== undefined) {
+      setToken(token as string);
+    }
+  }, []);
+
   const mutateRe = useAuthMutation(resend2FACode, {
-    onSuccess: (data: any) => {
-      if (data?.data?.status && data?.data?.status == '200') {
-            notify({
-          message: data?.data?.message,
-          type: 'success',
-        });
-        return;
-      } else {
+    onSuccess: (res: any) => {
+      console.log(res?.response);
+      if (res?.response?.status === 200) {
+        console.log(res?.response?.status);
+        localStorage.setItem('zpt', res?.response?.token);
+        setToken(res?.response?.token);
         notify({
-          message: 'Error!',
-          type: 'error',
+          message: 'Two Factor Authentication Code Re-sent',
+          type: 'success',
         });
       }
     },
@@ -119,23 +135,33 @@ function Code2FALogic() {
     const code = digits.join('');
     setLoading(true);
     setTimeout(() => {
-      const email = auth?.user?.email;
-      mutateFn.mutate({ email: email as string, code });
+      mutateFn.mutate({ code, token });
       setLoading(false);
     }, 700);
   };
 
   const handleResend = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
+    let email = localStorage.getItem('email');
+    console.log('THE EMIAL ' + email);
     setLoading(true);
     setTimeout(() => {
-      const email = auth?.user?.email;
       mutateRe.mutate({ email: email as string });
       setLoading(false);
     }, 700);
   };
 
-  return { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, handleResend, loading, auth };
+  return {
+    digits,
+    inputRefs,
+    handlePaste,
+    handleKeyDown,
+    handleDigitChange,
+    handleSubmit,
+    handleResend,
+    loading,
+    auth,
+  };
 }
 
 export default Code2FALogic;

@@ -16,8 +16,10 @@ import isAuthenticated from '../../../../helpers/isAuthenticated';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 
+export const ADMIN_ID = 3;
+
 function LoginForm() {
-  const { handleAuth } = useAuth();
+  const { handleAuth, userCameFrom } = useAuth();
   const router = useRouter();
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
 
@@ -38,36 +40,58 @@ function LoginForm() {
     onSuccess: async (res) => {
       console.log('responseoutside', res);
 
+      if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+        localStorage.setItem('zpt', res?.response?.token);
+        localStorage.setItem('email', res?.response?.email);
+        notify({
+          message: 'Two Factor Authentication Code Sent',
+          type: 'success',
+        });
+        router.push('/auth/2fa');
+        return;
+      }
+
       if (res.message === 'Login successful') {
-        // console.log('Login success:', res);
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
         const value = isAuthenticated(res?.data?.token);
         // console.log(value);
+
+        // redirecting the user  to admin dashbord if they are an admin
+        if (res.data.user.roleId === ADMIN_ID) {
+          router.push('/super-admin/product-listing');
+          return;
+        }
+
         notify({
-          message: 'Login successful',
+          message: 'Login Successful',
           type: 'success',
         });
-        router.push('/');
+
+        router.push(userCameFrom || '/explore');
+        return;
       } else if (res.message === 'Invalid password') {
         notify({
           message: 'Invalid password',
           type: 'error',
         });
+        return;
       } else if (res.message === 'User not found') {
         notify({
           message: 'User not found',
           type: 'error',
         });
+        return;
       } else if (res.message === 'Please verify your account') {
         notify({
           message: 'Please verify your account',
           type: 'error',
         });
+        return;
       }
     },
     onError: (e) => {
-      console.error({ e });
+      console.error({ error: e });
       notify({
         message: 'Error logging in',
         type: 'error',
@@ -103,10 +127,10 @@ function LoginForm() {
                 Email Address
               </label>
               <Input
-                placeHolder="enter email"
+                placeHolder="Enter email"
                 id="email"
                 {...form.getInputProps('email')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.email ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type="email"
@@ -119,10 +143,10 @@ function LoginForm() {
                 Password
               </label>
               <Input
-                placeHolder="enter password"
+                placeHolder="Enter password"
                 id="password"
                 {...form.getInputProps('password')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.password ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type={isPasswordShown ? 'text' : 'password'}

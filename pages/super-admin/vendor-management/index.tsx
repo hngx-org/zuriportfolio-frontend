@@ -10,8 +10,6 @@ import FilterProduct from '@modules/super-admin/components/vendormanagement/Filt
 import Button from '@ui/Button';
 import { useGetAllVendor } from '../../../http';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
-import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
-import { DeletedProducts } from '../../../@types';
 const Index = () => {
   const { data, isLoading } = useGetAllVendor();
   //Variables for the pagination
@@ -25,9 +23,9 @@ const Index = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const visibleVendors = filteredProducts?.slice(startIndex, endIndex);
-  const totalItems = 1000;
-  const totalPages = Math.ceil(data?.data?.length / itemsPerPage);
+
   const handlePageChange = (newPage: number) => {
+    window.scroll(0, 10);
     setCurrentPage(newPage);
   };
 
@@ -36,8 +34,9 @@ const Index = () => {
   }, [data]);
   useEffect(() => {
     handleSearch(searchVal);
-  }, [searchVal]);
-  const bannedVendors = filteredProducts?.filter((vendor: any) => vendor.vendor_status === 'Banned');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const bannedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Banned');
   const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
@@ -46,31 +45,41 @@ const Index = () => {
     setSearchVal(searchText);
     setFilteredProducts(filteredProduct);
   };
+
+  const totalPages = showDeleted
+    ? Math.ceil(deletedVendors.length / itemsPerPage)
+    : showBanned
+    ? Math.ceil(bannedVendors.length / itemsPerPage)
+    : Math.ceil(data?.data?.length / itemsPerPage);
+
   const handleFilter = (status: string) => {
-    let filteredProducts = data?.data;
-    if (status === 'oldest') {
-      filteredProducts = filteredProducts.sort(
-        (a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-      );
-    } else if (status === 'highest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => b.total_products - a.total_products);
-    } else if (status === 'lowest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => a.total_products - b.total_products);
-    } else if (status === 'newest') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => {
-        return new Date(formatDate(b.createdAt)).getTime() - new Date(formatDate(a.createdAt)).getTime();
+    if (data?.data) {
+      let sortedProducts: any = [...data.data]; // Create a copy of the full dataset
+
+      sortedProducts = sortedProducts.sort((a: any, b: any) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+
+        if (status === 'newest') {
+          return dateB.getTime() - dateA.getTime(); // Newest to oldest
+        } else if (status === 'oldest') {
+          return dateA.getTime() - dateB.getTime(); // Oldest to newest
+        } else if (status === 'lowest') {
+          return a.total_products - b.total_products;
+        } else if (status === 'highest') {
+          return b.total_products - a.total_products;
+        } else {
+          const statusOrder: { [key: string]: number } = {
+            Active: 1,
+            Banned: 2,
+            Deleted: 3,
+          };
+          return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
+        }
       });
-    } else if (status === 'status') {
-      filteredProducts = filteredProducts.sort((a: any, b: any) => {
-        const statusOrder: { [key: string]: number } = {
-          Active: 1,
-          Banned: 2,
-          Deleted: 3,
-        };
-        return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
-      });
+
+      setFilteredProducts(sortedProducts);
     }
-    setFilteredProducts(filteredProducts);
   };
   return (
     <div className="">
@@ -85,7 +94,7 @@ const Index = () => {
           data={data}
           isLoading={isLoading}
         />
-        <section className="border-white-115 border-2 py-4 rounded-md container mx-auto">
+        <section className="border-white-115 border-2 py-4 rounded-md container mx-auto mb-10">
           <div className=" border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
             <div className="mb-4 md:mb-0">
               <p className="text-lg font-bold">Vendor Management</p>
@@ -112,19 +121,16 @@ const Index = () => {
             <LoadingTable />
           ) : (
             <>
-              {bannedVendors?.length > 0 || deletedVendors?.legnth > 0 || visibleVendors?.length > 0 ? (
+              {bannedVendors?.length > 0 || deletedVendors?.legnth > 0 || filteredProducts?.length > 0 ? (
                 <>
                   <div className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-5 md:grid-cols-4 grid-cols-1 text-gray-500 text-center text-sm overflow-x-auto ">
                     <div className="flex items-center">
-                      {/* <input type="checkbox" name="" id="" /> */}
                       <p className="px-2">Vendor Name</p>
-                      {/* <ArrowDown size="16" className="" /> */}
                     </div>
                     <p className="hidden md:block">Total Sales</p>
                     <p className="hidden md:block">Number of Products</p>
                     <p className="hidden md:block">Date Joined</p>
                     <p className="hidden lg:block">Status</p>
-                    {/* <p className="hidden lg:block">Action</p> */}
                   </div>
                   <div>
                     {showBanned
