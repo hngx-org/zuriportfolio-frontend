@@ -77,7 +77,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
   } catch (e: any) {
     // if product does not exist or empty
     // error 500 that returns html string and check if message error is not return
-    if (!e.response.data?.message) {
+    if (!e.response?.data?.message) {
       return {
         props: {
           response: {
