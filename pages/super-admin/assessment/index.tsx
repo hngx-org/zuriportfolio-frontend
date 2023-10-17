@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../modules/assessment/component/Header';
+import { FaSpinner } from 'react-icons/fa';
 import addmessage from '../../../public/assets/assessment/message-add.png';
 import draftsimg from '../../../public/assets/assessment/drafts.png';
 import ratioimg from '../../../public/assets/assessment/ratio.png';
@@ -126,7 +127,9 @@ function Index() {
   if (loading) {
     return (
       <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
-        <div className=" items-center text-white-100 text-2xl">Loading...</div>
+        <div className=" items-center ">
+          <FaSpinner color="#fff" className="animate-spin" size={100} />
+        </div>
       </div>
     );
   }

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import SuperAdminPagination from '../components/pagination';
 import { topListingProduct } from '../../../@types';
 import Logo from '../../../public/assets/tsImages/image 12.png';
 import Link from 'next/link';
 
-export default function Page() {
+const AnalyticsAndReportingTopSelling = () => {
   const [products, setProducts] = useState<topListingProduct | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -102,4 +103,6 @@ export default function Page() {
       </div>
     </section>
   );
-}
+};
+
+export default AnalyticsAndReportingTopSelling;

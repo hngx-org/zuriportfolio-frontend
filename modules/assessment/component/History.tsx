@@ -198,9 +198,9 @@ const History: React.FC = () => {
             </thead>
             {filteredAssessments.length === 0 ? (
               <tbody>
-                <p className="text-center text-gray-500 font-bold text-lg">
+                <tr className="text-center text-gray-500 font-bold text-lg">
                   You have not taken any assessments to earn badge.
-                </p>
+                </tr>
               </tbody>
             ) : (
               <tbody>

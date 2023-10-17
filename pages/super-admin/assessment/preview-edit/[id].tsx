@@ -31,6 +31,8 @@ const EditAssesment = () => {
   // };
   const router = useRouter();
   const { id } = router.query;
+  const { name } = router.query;
+  const skillId = parseInt(name as string, 10);
 
   const handleClick = (button: string) => {
     setActive(button);
@@ -128,7 +130,7 @@ const EditAssesment = () => {
               </div>
             </>
           ) : (
-            <ScoringScreen />
+            <ScoringScreen skillId={skillId} />
           )}
         </div>
       </main>
