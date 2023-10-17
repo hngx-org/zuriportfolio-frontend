@@ -32,6 +32,23 @@ const Questions: React.FC = () => {
   const tokenRef = useRef<string | null>(null);
   const { data } = router.query;
   const { id } = router.query;
+  const [minute, setMinute] = React.useState<number | null>(null);
+  const [second, setSecond] = React.useState<number | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const minuteString = localStorage.getItem('minute');
+      const secondString = localStorage.getItem('second');
+      const minuteInt = minuteString !== null ? parseInt(minuteString, 10) : 10;
+      const secondInt = secondString !== null ? parseInt(secondString, 10) : 0;
+      setMinute(minuteInt);
+      setSecond(secondInt);
+      console.log(minuteString, secondString);
+      console.log('donezo', minute, second);
+    } else {
+      throw new Error('localStorage is not available on the server-side.');
+    }
+  }, []);
 
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
@@ -88,7 +105,11 @@ const Questions: React.FC = () => {
         <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
           <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary">
             <span className="text-white-100 text-2xl font-bold">
-              <CountdownTimer action={() => setIsTimeOut(true)} minutes={result?.duration_minutes ?? 5} seconds={0} />
+              {minute !== null && second !== null ? (
+                <CountdownTimer action={() => setIsTimeOut(true)} minutes={minute} seconds={second} />
+              ) : (
+                'no'
+              )}
             </span>
             <span>
               <TimerStart color="#fff" />
