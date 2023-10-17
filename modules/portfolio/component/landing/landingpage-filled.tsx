@@ -1,5 +1,5 @@
 'use-client';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
@@ -35,33 +35,27 @@ import {
 import { SectionDeleteModal } from '../warningModals';
 
 const LandingPageFilled: React.FC = () => {
-  const {
-    selectedSections,
-    buildPortfolio,
-    setOpenDelete,
-    editSection,
-    setHasData,
-    modals,
-    modalStates,
-    userSections,
-    userData,
-  } = useContext(Portfolio);
+  const { selectedSections, buildPortfolio, setOpenDelete, editSection, modals, modalStates, userSections, userData } =
+    useContext(Portfolio);
 
   const deleteSection = () => setOpenDelete(true);
 
-  // useEffect(() => {
-  //   userSections?.map((section) => {
-  //     if (section?.data?.length !== 0) {
-  //       setHasData(true);
-  //     } else {
-  //       setHasData(false);
-  //     }
-  //   });
-  //   if (userData) {
-  //     const hasUserData = userData.firstName && userData.lastName && userData.tracks;
-  //     setHasData(hasUserData);
-  //   }
-  // }, [setHasData, userSections, userData]);
+  const [showMoreWorkExperience, setShowMoreWorkExperience] = useState(2);
+  const [showMoreEducation, setShowMoreEducation] = useState(2);
+  const [showMoreProjects, setShowMoreProjects] = useState(2);
+
+  // Function to toggle "View More" and "View Less"
+  const toggleShowMoreWorkExperience = () => {
+    setShowMoreWorkExperience(showMoreWorkExperience === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreEducation = () => {
+    setShowMoreEducation(showMoreEducation === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreProjects = () => {
+    setShowMoreProjects(showMoreProjects === 2 ? 9999 : 2);
+  };
 
   return (
     <>
@@ -76,18 +70,30 @@ const LandingPageFilled: React.FC = () => {
         {userSections?.map((section, i) => {
           return (
             <React.Fragment key={i}>
+              <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
               {section?.id === 'workExperience' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
                     remove={deleteSection}
                   >
-                    {section.data.map((el: any, i: any) => {
+                    {/* {section.data.map((el: any, i: any) => {
+                      return <WorkExperience key={i} data={el} />;
+                    })} */}
+
+                    {section.data.slice(0, showMoreWorkExperience).map((el: any, i: any) => {
                       return <WorkExperience key={i} data={el} />;
                     })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreWorkExperience}
+                      >
+                        {showMoreWorkExperience === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
                   </Wrapper>
                   <Line />
                 </React.Fragment>
@@ -95,16 +101,23 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'education' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
                     remove={deleteSection}
                   >
-                    {section.data.map((el: any, i: any) => {
+                    {section.data.slice(0, showMoreEducation).map((el: any, i: any) => {
                       return <Education key={i} data={el} />;
                     })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreEducation}
+                      >
+                        {showMoreEducation === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
                   </Wrapper>
                   <Line />
                 </React.Fragment>
@@ -112,7 +125,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'interests' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -127,7 +140,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'language' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -140,23 +153,24 @@ const LandingPageFilled: React.FC = () => {
                 </React.Fragment>
               )}
 
-              {section?.id === 'about' && section?.data?.length > 0 && (
+              {section?.id === 'about' && section?.data && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
-                    id={section.id}
+                    id={section?.id}
                     title={section.title}
-                    edit={() => editSection(section.id)}
+                    edit={() => editSection(section?.id)}
                     remove={deleteSection}
                   >
-                    <About key={i} bio={section.data[0]} />
+                    <About key={i} bio={section?.data?.bio} />
                   </Wrapper>
                   <Line />
                 </React.Fragment>
               )}
+
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -171,14 +185,40 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'projects' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
                     remove={deleteSection}
                   >
-                    <Project key={i} data={section.data} />
+                    {section.data.slice(0, showMoreProjects).map((el: any, i: number) => {
+                      return <Project key={i} data={el} />;
+                    })}
+                    {section.data.length > 2 && (
+                      <div
+                        className="text-brand-green-primary font-semibold cursor-pointer"
+                        onClick={toggleShowMoreProjects}
+                      >
+                        {showMoreProjects === 2 ? 'View More' : 'View Less'}
+                      </div>
+                    )}
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
+
+              {section?.id === 'awards' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={deleteSection}
+                  >
+                    {section.data.map((el: any, i: number) => {
+                      return <Awards key={i} data={el} />;
+                    })}
                   </Wrapper>
                   <Line />
                 </React.Fragment>
@@ -191,7 +231,7 @@ const LandingPageFilled: React.FC = () => {
         {selectedSections.map((section: any, i: number) => {
           return (
             <React.Fragment key={i}>
-              <SectionDeleteModal sectionToDelete={`local ${section.title}`} />
+              {/* <SectionDeleteModal sectionToDelete={`local ${section.title}`} /> */}
               <React.Fragment key={i}>
                 <Wrapper
                   id={section.id}
