@@ -99,15 +99,17 @@ const HomePage = () => {
           </div>
         </div>
       )}
-      <div className="w-full mx-auto my-4 mb-12 flex justify-center">
-        <Pagination
-          visiblePaginatedBtn={5}
-          activePage={pageNumber}
-          pages={2}
-          page={pageNumber}
-          setPage={setPageNumber}
-        />
-      </div>
+      {data?.data?.length === 0 ? null : (
+        <div className="w-full mx-auto my-4 mb-12 flex justify-center">
+          <Pagination
+            visiblePaginatedBtn={5}
+            activePage={pageNumber}
+            pages={2}
+            page={pageNumber}
+            setPage={setPageNumber}
+          />
+        </div>
+      )}
     </>
   );
 };
