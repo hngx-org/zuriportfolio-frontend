@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import { cardinfo } from '../../../@types';
 
 const AnalyticsAndReportingCards = () => {
   const [analyticsData, setAnalyticsData] = useState<cardinfo[]>([]);
+  const [loadingState, setLoadingState] = useState<boolean>(false);
+
+  const bearerToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/');
+        console.log('Bearer Token:', bearerToken);
+        const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/';
+
+        const response = await fetch(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+          },
+        });
+
         const result = await response.json();
 
         if (Array.isArray(result.data)) {
@@ -19,11 +30,13 @@ const AnalyticsAndReportingCards = () => {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setLoadingState(false);
       }
     };
 
     fetchData();
-  }, [analyticsData]);
+  }, []);
 
   return (
     <div>
@@ -38,13 +51,6 @@ const AnalyticsAndReportingCards = () => {
             >
               <div className="flex justify-between items-center">
                 <p className="font-light text-[15px] text-custom-color30">{items.title}</p>
-                <Image
-                  src="/assets/tsImages/more 2.svg"
-                  alt="kmenu"
-                  width={25}
-                  height={25}
-                  className="object-contain"
-                />
               </div>
               <div className="flex justify-between items-center mt-1">
                 <h1 className="text-[30px] font-bold">{items.amount}</h1>
@@ -73,16 +79,9 @@ const AnalyticsAndReportingCards = () => {
             >
               <div className="flex justify-between items-center">
                 <p className="font-light text-[15px] text-custom-color30">{items.title}</p>
-                <Image
-                  src="/assets/tsImages/more 2.svg"
-                  alt="kmenu"
-                  width={25}
-                  height={25}
-                  className="object-contain"
-                />
               </div>
               <div className="flex justify-between items-center mt-1">
-                <h1 className="text-[30px] font-bold">{index === 0 ? `$${items.amount}` : items.amount}</h1>
+                <h1 className="text-[30px] font-bold">{index === 0 ? '\u20A6' + items.amount : items.amount}</h1>
                 <div className="flex items-center gap-2 rounded-full py-0.5 px-2 bg-[#E6F5EA]">
                   <Image
                     src="/assets/tsImages/arrow-up.svg"
