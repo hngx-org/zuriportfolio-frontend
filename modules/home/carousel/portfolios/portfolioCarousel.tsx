@@ -33,7 +33,7 @@ const slides: Slide[] = [
   {
     src: portraitTwo.src,
     alt: 'portfolio',
-    name: 'Daniele Buffa',
+    name: 'Daniel Buffa',
     role: 'Frontend Developer',
     skills: ['HTML', 'CSS'],
     section: 'portfolio',
