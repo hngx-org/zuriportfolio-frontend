@@ -115,7 +115,7 @@ const Card = ({ data }: { data: UserInfo }) => {
 
         <div className="text-center">
           <Link href={`/portfolio/${data?.id}`} className="block w-fit mx-auto">
-            <h3 className="w-fit text-gray-800 font-manropeEB text-base md:text-[1.375rem] hover:underline">
+            <h3 className="w-fit text-[#32475c] font-manropeEB text-base md:text-[1.375rem] hover:underline">
               {data?.firstName} {data?.lastName}
             </h3>
           </Link>
@@ -124,7 +124,7 @@ const Card = ({ data }: { data: UserInfo }) => {
           <span className="text-gray-500 md:text-base">Intermediate</span>
         </div>
 
-        <div className="flex flex-wrap justify-center items-center gap-2 px-4 text-[0.75rem] font-manropeB text-gray-600 text-center md:text-sm md:px-3">
+        <div className="flex flex-wrap justify-center items-center gap-2 px-4 text-[0.75rem] font-manropeB text-[#32475c] text-center md:text-sm md:px-3">
           {data?.skills.length === 0 ? (
             <button className="border border-gray-100 px-2 rounded-full">No Skills</button>
           ) : (
@@ -141,7 +141,7 @@ const Card = ({ data }: { data: UserInfo }) => {
         <div className="flex justify-center items-center gap-1 text-center">
           <Image src={Location} alt="Location" width={20} height={20} />
           <div>
-            <span className="text-gray-500 ">{data?.address.length < 3 ? 'Not Specified' : data.address}</span>
+            <span className="text-custom-color43 ">{data?.address.length < 3 ? 'Not Specified' : data.address}</span>
           </div>
         </div>
       </div>
