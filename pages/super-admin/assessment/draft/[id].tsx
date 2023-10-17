@@ -78,6 +78,7 @@ const id = params?.id
     if(id != null) {
       
     fetch(apiUrl, {
+      method: 'GET',
       headers: {
         'Accept': 'application/json',
         Authorization: `Bearer ${token}`,
