@@ -148,7 +148,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
     const response = async () => {
       const axiosConfig = {
         method: 'get',
-        url: `${API_BASE_URL}/api/references`,
+        url: `${API_BASE_URL}/api/references/${userId}`,
         // data: formData,
       };
 
@@ -158,7 +158,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       console.log(response.data);
-      onClose();
+      // onClose();
     };
     response();
   };
@@ -167,7 +167,12 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
       <div className="mx-auto bg-white-100 rounded-md p-3 py-5">
         <div className="flex justify-between items-center border-b-[3.6px]  border-brand-green-primary pb-1">
           <div className="flex gap-4 items-center">
-            <div className="cursor-pointer hover:bg-brand-green-shade95 p-3 rounded-full">
+            <div
+              onClick={() => {
+                onClose();
+              }}
+              className="cursor-pointer hover:bg-brand-green-shade95 p-3 rounded-full"
+            >
               <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M7.99984 16.9201L1.47984 10.4001C0.709844 9.63008 0.709844 8.37008 1.47984 7.60008L7.99984 1.08008"
