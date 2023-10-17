@@ -45,6 +45,7 @@ const CreateAssessment = () => {
   const [err, setErr] = useState('');
   const [errstate, setErrstate] = useState(false);
   const [listupdate, setListupdate] = useState('waiting');
+  const [postLoading, setPostLoading] = useState(false);
   const handleClick = (button: string) => {
     setActive(button);
   };
@@ -67,49 +68,15 @@ const CreateAssessment = () => {
     setObject(newt);
   };
 
-  /*function postObject() {
-    // The API endpoint URL
-    const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments';
-
-    // Create the request options
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newobject),
-    };
-   // Send the POST request using the fetch API
-   fetch(apiUrl, requestOptions)
-   .then((response) => {
-     console.log(response);
-     if (!response.ok) {
-       throw new Error('Network response was not ok');
-     }
-     return response.json(); // Parse the JSON response
-   })
-   .then((responseData) => {
-     // Handle the response data here
-     console.log('Response:', responseData);
-   })
-   .catch((error) => {
-     // Handle any errors that occurred during the request
-     console.error('Error:', error);
-   });
-}*/
-
-  //Please edit for scoring screen
-
-  //Please input examduration value and test
-
-  /* const updateDuration = ()=>{
-    newobject.duration_in_minutes = examDuration
-  }
-*/
-
   const publishAssessment = async () => {
     // split question and string and number
-    const url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
+    var url = '';
+    if (destination === 'Publishing assessments') {
+      url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
+    } else {
+      url = 'https://piranha-assessment-jco5.onrender.com/api/admin/drafts/';
+    }
+
     const reqOptions = {
       method: 'POST',
       headers: {
@@ -119,12 +86,12 @@ const CreateAssessment = () => {
       body: JSON.stringify(newobject),
     };
     const postEnd = await fetch(url, reqOptions);
-    setModalOpen(true);
     if (!postEnd.ok) {
       console.log('Error' + postEnd.status);
       // setModalOpen(false);
       setErr(`Failed: Error${postEnd.status}`);
       setErrstate(true);
+      setPostLoading(false);
       setTimeout(() => {
         setModalOpen(false);
       }, 4000);
@@ -132,6 +99,7 @@ const CreateAssessment = () => {
     const response = await postEnd.json();
     if (postEnd.ok) {
       setErr(`Succesfully Created!`);
+      setPostLoading(false);
       setErrstate(false);
     }
     console.log(response);
@@ -140,6 +108,8 @@ const CreateAssessment = () => {
   useEffect(() => {
     if (listupdate === 'post') {
       publishAssessment();
+      setModalOpen(true);
+      setPostLoading(true);
       setListupdate('waiting');
     }
   }, [listupdate, publishAssessment]);
@@ -182,7 +152,7 @@ const CreateAssessment = () => {
             <div className="pt-4 pb-2 flex space-x-10 justify-center">
               <Modal isOpen={isModalOpen} onClose={closeModal}>
                 <div className="text-center text-white-100 text-[25px] font-semibold w-max">{destination}</div>
-                <FaSpinner color="#fff" className="animate-spin" size={100} />
+                {postLoading && <FaSpinner color="#fff" className="animate-spin" size={100} />}
                 {err ? (
                   <p
                     className={`${
@@ -192,7 +162,7 @@ const CreateAssessment = () => {
                     {err}
                   </p>
                 ) : null}
-                {errstate ? (
+                {postLoading ? (
                   ''
                 ) : (
                   <Button
