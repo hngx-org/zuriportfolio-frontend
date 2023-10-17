@@ -7,6 +7,7 @@ import { WorkExperience } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { months, years } from '../data';
 import { WorkExperienceModalContext } from '../context/work-experience-modal-context';
+import Loader from '@ui/Loader';
 
 type WorkExperienceModalProps = {
   isOpen: boolean;
@@ -27,6 +28,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     addWorkExperience,
     setRole,
     setCompany,
+    isLoading,
     setEndMonth,
     setStartMonth,
     setEndYear,
@@ -43,11 +45,11 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     isData,
     setIsData,
   } = useContext(WorkExperienceModalContext);
-  const [editingExperienceId, setEditingExperienceId] = useState<string | null>();
+  const [editingExperienceId, setEditingExperienceId] = useState<number | null>(null);
   const [editingExperience, setEditingExperience] = useState<WorkExperience | null>(null);
 
   const prefillForm = (experience: WorkExperience) => {
-    setEditingExperienceId(String(experience.id));
+    setEditingExperienceId(experience.id);
     setRole(experience.role);
     setCompany(experience.company);
     setDescription(experience.description);
@@ -96,63 +98,67 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
+        <>{isLoading && <Loader />}</>
         <>
           {isData && (
-            <div className="">
-              {workExperiences.map((experience: WorkExperience, index: number) => {
-                const year = new Date().getFullYear();
-                const currYear = String(year);
-                const endYear = experience.endYear === currYear ? 'Present' : experience.endYear;
+            <>
+              {isLoading && <Loader />}
+              <div>
+                {workExperiences.map((experience: WorkExperience, index: number) => {
+                  const year = new Date().getFullYear();
+                  const currYear = String(year);
+                  const endYear = experience.isEmployee ? 'Present' : experience.endYear;
 
-                return (
-                  <article
-                    className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}
-                    key={index}
-                  >
-                    <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
-                      <div className="flex gap-3 sm:gap-5 flex-col sm:flex-row">
-                        <p className="text-[#8D9290] font-semibold font-manropeB">
-                          {experience?.startMonth} {experience?.startYear} - {endYear}
-                        </p>
-                        <div>
-                          <p className="text-[#2E3130] mb-1 text-[1.375rem] font-semibold">{experience.company}</p>
-                          <p className="font-normal text-brand-green-primary text-sm">{experience.role}</p>
+                  return (
+                    <article
+                      className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}
+                      key={index}
+                    >
+                      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
+                        <div className="flex gap-3 sm:gap-5 flex-col sm:flex-row">
+                          <p className="text-[#8D9290] font-semibold font-manropeB">
+                            {experience?.startMonth} {experience?.startYear} - {endYear}
+                          </p>
+                          <div>
+                            <p className="text-[#2E3130] mb-1 text-[1.375rem] font-semibold">{experience.company}</p>
+                            <p className="font-normal text-brand-green-primary text-sm">{experience.role}</p>
+                          </div>
                         </div>
+                        <p
+                          style={{
+                            whiteSpace: 'normal',
+                            overflowWrap: 'break-word',
+                          }}
+                          className="font-semibold text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
+                        >
+                          {experience.description}
+                        </p>
                       </div>
-                      <p
-                        style={{
-                          whiteSpace: 'normal',
-                          overflowWrap: 'break-word',
-                        }}
-                        className="font-semibold text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
-                      >
-                        {experience.description}
-                      </p>
-                    </div>
-                    <div className="self-end flex gap-4 font-manropeL">
-                      <span
-                        className="font-semibold cursor-pointer text-[#5B8DEF]"
-                        onClick={(e) => {
-                          setIsEditMode(true);
-                          setEditingExperience(experience);
-                          prefillForm(experience);
-                          setIsData(false);
-                          // handleDeleteExperience(experience.id, e);
-                        }}
-                      >
-                        Edit
-                      </span>
-                      <span
-                        className="font-semibold cursor-pointer text-brand-red-hover"
-                        onClick={(e) => handleDeleteExperience(experience.id, e)}
-                      >
-                        Delete
-                      </span>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
+                      <div className="self-end flex gap-4 font-manropeL">
+                        <span
+                          className="font-semibold cursor-pointer text-[#5B8DEF]"
+                          onClick={(e) => {
+                            setIsEditMode(true);
+                            setEditingExperience(experience);
+                            prefillForm(experience);
+                            setIsData(false);
+                            // handleDeleteExperience(experience.id, e);
+                          }}
+                        >
+                          Edit
+                        </span>
+                        <span
+                          className="font-semibold cursor-pointer text-brand-red-hover"
+                          onClick={(e) => handleDeleteExperience(experience.id, e)}
+                        >
+                          Delete
+                        </span>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </>
           )}
         </>
         <div>
@@ -193,7 +199,8 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
         <>
           {isForm && (
             <form
-              onSubmit={(e) => addWorkExperience(e)}
+              onSubmit={(e) => (isEditMode ? handleEditExperience(editingExperienceId, e) : addWorkExperience(e))}
+              // onSubmit={(e) => addWorkExperience(e)}
               // onSubmit={(e) => (isEditMode ? editExperience(editingExperience!, e) : addWorkExperience(e))}
               className="flex flex-col gap-y-7"
             >
@@ -366,11 +373,12 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
-                  onClick={() => {
+                  onClick={(e) => {
                     onClose();
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
+                    isEditMode ? handleEditExperience() : addWorkExperience();
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
