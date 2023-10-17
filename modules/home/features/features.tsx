@@ -12,7 +12,9 @@ const Features = ({ data }: Props) => {
       {data.map((item: any, index: number) => (
         <div
           key={index}
-          className="flex flex-col space-y-4 w-full md:w-[40%] lg:w-[298px] h-[320px] justify-center items-center p-3 bg-[#FBFBFB] m-2"
+          className={`flex flex-col space-y-4 w-full md:w-[40%] lg:w-[298px] min-h-[340px] justify-center items-center p-3 bg-[#FBFBFB] m-2 ${
+            index === 0 ? 'mt-6' : ''
+          }`}
         >
           <Image src={item.img} alt={item.name} width={48} height={48} />
           <h3 className="text-[#3F3F50] text-center font-manropeEB text-[20px]">{item.name}</h3>
@@ -21,7 +23,7 @@ const Features = ({ data }: Props) => {
             href={item.href}
             className="text-[#009254] underline decoration-1 font-manropeEB text-[16px] flex justify-center items-center"
           >
-            {item.slug} <ArrowRight2 color="#009254" size={24} />
+            {item.slug} <ArrowRight2 color="#009254" size={22} />
           </Link>
         </div>
       ))}

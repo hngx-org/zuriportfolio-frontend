@@ -22,6 +22,7 @@ import { isUserAuthenticated } from './hooks/useAuthHelper';
 import { CART_ENDPOINT } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
+import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -82,9 +83,8 @@ export default function ProductDetailsDescription() {
       const products: any[] = localStorage.getItem('products')
         ? JSON.parse(localStorage.getItem('products') as string)
         : [];
-      
+
       if (product) {
-                
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
@@ -454,6 +454,9 @@ export default function ProductDetailsDescription() {
 
           {/* favorite products  */}
           <div></div>
+          <div>
+            <ProductWeThoughtMightInterestYou id={id} />
+          </div>
         </main>
       )}
       {/* lg:px-[100px] md:px-10*/}

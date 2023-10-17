@@ -11,7 +11,7 @@ import Loader from '@ui/Loader';
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
 const EditProfile = () => {
-  const { setUserData, showProfileUpdate, modal } = useContext(Portfolio);
+  const { setUserData, showProfileUpdate, setShowProfileUpdate } = useContext(Portfolio);
 
   const [picture, setPicture] = useState<string | StaticImport>();
   const [firstName, setFirstname] = useState('');
@@ -104,7 +104,7 @@ const EditProfile = () => {
 
           await response.json();
           setIsLoading(false);
-          modal();
+          setShowProfileUpdate(false);
         } else {
           setError({ status: true, message: 'No matching track found' });
         }
@@ -164,7 +164,7 @@ const EditProfile = () => {
   };
 
   return (
-    <Modal isOpen={showProfileUpdate} closeModal={() => modal()} isCloseIconPresent={false}>
+    <Modal isOpen={showProfileUpdate} closeModal={() => setShowProfileUpdate(false)} isCloseIconPresent={false}>
       {isLoading ? (
         <div className="flex flex-col justify-center items-center gap-3">
           <Loader />
@@ -307,7 +307,7 @@ const EditProfile = () => {
                   size={'sm'}
                   className="w-full rounded-lg"
                   type="button"
-                  onClick={() => modal()}
+                  onClick={() => setShowProfileUpdate(false)}
                 >
                   Close
                 </Button>
