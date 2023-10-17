@@ -2,11 +2,11 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { SectionModalProps } from '../../../@types';
 import { CloseSquare } from 'iconsax-react';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import Portfolio from '../../../context/PortfolioLandingContext';
-import { set } from 'nprogress';
-import { object } from 'zod';
 import { redirect } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({
@@ -68,27 +68,6 @@ function SectionModal({
   );
 }
 
-const deleteSection = (sections: string) => {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-
-  const raw = JSON.stringify({
-    section: 'workExperience',
-  });
-
-  const requestOptions: any = {
-    method: 'DELETE',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow',
-  };
-
-  fetch('https://hng6-r5y3.onrender.com/api/profile/details/:userID', requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log('error', error));
-};
-
 //A Modal function for the deleting of a section
 export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   const { toggleSection, setOpenDelete } = useContext(Portfolio);
@@ -97,11 +76,16 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   const sectionName = sectionToDelete?.split(' ')[1];
 
   //userID
-  const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+  const { userId } = useContext(Portfolio);
+
+  // function for popup
+  const toastId = useRef<any>(null);
 
   //function to delete sections
   const deleteSection = () => {
     //If the section to delete is mainly backend
+    console.log(sectionName);
+    //Query the backend
     if (deleteFromBe) {
       let myHeaders: any;
       myHeaders = new Headers();
@@ -109,7 +93,7 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
 
       let raw: any;
       raw = JSON.stringify({
-        section: sectionName,
+        sectionName: sectionName,
       });
 
       let requestOptions: any;
@@ -119,10 +103,19 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
         body: raw,
         redirect: 'follow',
       };
-      fetch(`https://hng6-r5y3.onrender.com/api/profile/details/${userID}`, requestOptions)
+
+      // delete popup
+      const notify = () => (toastId.current = toast.success('Section deleted successfully'));
+
+      //fetch the endpoint for deleting
+      fetch(`https://hng6-r5y3.onrender.com/api/profile/details/${userId}`, requestOptions)
         .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log('error', error));
+        .then((result) => {
+          //Show popup when section is deleted successfully
+          notify();
+          console.log({ result: result, message: 'section deleted successfully' });
+        })
+        .catch((error) => console.log({ error: error }));
     } else if (deleteLocal) {
       const parts = sectionToDelete.split(' ');
       const section = parts.slice(1).join(' ');
@@ -141,6 +134,8 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
         onClickAction={deleteSection}
         sectionToDelete={sectionToDelete}
       />
+
+      <ToastContainer />
     </>
   );
 }
