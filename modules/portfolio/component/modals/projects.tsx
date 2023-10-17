@@ -10,13 +10,14 @@ import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 
 type ProjectSectionProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   isOpen: boolean;
-  onClose: () => void;
   userId: string;
 };
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
-const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId }) => {
+const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onCloseModal, onSaveModal, userId }) => {
   const [title, setTitle] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [link, setLink] = useState<string>('');
@@ -96,7 +97,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
   };
 
   const close = () => {
-    onClose();
+    onCloseModal();
   };
 
   const handleSubmit = (e: any) => {
@@ -125,7 +126,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
             type: 'success',
           });
           handleDataClear();
-          onClose();
+          onSaveModal();
           console.log(res);
         })
         .catch((err) => {
