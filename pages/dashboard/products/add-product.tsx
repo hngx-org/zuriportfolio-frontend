@@ -533,7 +533,7 @@ const AddProduct = () => {
                     className={`w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
                       form.errors.discountPrice ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    placeholder="00.00"
+                    placeholder="₦00.00"
                     inputMode="none"
                     {...form.getInputProps('discountPrice')}
                   />

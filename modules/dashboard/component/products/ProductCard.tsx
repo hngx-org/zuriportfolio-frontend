@@ -24,7 +24,7 @@ const DeleteModal = (props: any) => {
   const [products, setProducts] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -319,17 +319,6 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
 
           <label className="font-manropeB text-[16px] mt-6">Product price</label>
           <div className="flex flex-row gap-8">
-            <select
-              className="border-solid border-[2px] border-white-400 text-dark-600 py-2 text-[14px] rounded-lg mt-2 text-left pl-2 pr-20 hover:border-brand-green-primary flex-1 h-[48px]"
-              value={selectedOption}
-              onChange={handleOptionChange}
-            >
-              <option className="text-dark font-manropeB font-bold" value="">
-                USD
-              </option>
-              <option value="option1 placeholder:text-[#191C1E] text-black">NGN</option>
-              <option value="option2 placeholder:text-[#191C1E] text-black">EUR</option>
-            </select>
             <Input
               className="w-full my-2 text-dark-100"
               value={products.price}
