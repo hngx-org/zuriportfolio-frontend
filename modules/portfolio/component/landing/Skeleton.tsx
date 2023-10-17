@@ -35,7 +35,7 @@ export const WorkExperience = ({ data }: SkeletonProps) => {
         <h3 className="text-lg font-semibold text-gray-200">{data?.company}</h3>
         <p className="text-base font-manropeL text-brand-green-primary">{data?.role}</p>
       </div>
-      <p className="font-semibold text-sm text-gray-400 flex-[2]">{data?.description}</p>
+      <p className="font-semibold text-sm text-gray-400 break-all flex-[2]">{data?.description}</p>
     </div>
   );
 };
@@ -50,7 +50,7 @@ export const Education = ({ data }: SkeletonProps) => {
         <h3 className="text-lg font-semibold text-gray-200">{data?.fieldOfStudy}</h3>
         <p className="text-sm font-manropeL text-gray-300">{data?.school}</p>
       </div>
-      <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
+      <p className="font-semibold text-sm text-gray-400 break-all flex-1">{data?.description}</p>
     </div>
   );
 };
@@ -76,7 +76,7 @@ export const Certificate = ({ data }: SkeletonProps) => {
           <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
-      <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
+      <p className="font-semibold text-sm text-gray-400 break-all flex-1">{data?.description}</p>
     </div>
   );
 };
@@ -100,7 +100,7 @@ export const Awards = ({ data }: SkeletonProps) => {
           <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
-      <p className="font-semibold text-sm text-gray-400 flex-1">{data?.description}</p>
+      <p className="font-semibold text-sm text-gray-400 break-all flex-1">{data?.description}</p>
     </div>
   );
 };
@@ -134,7 +134,7 @@ export const Project = ({ data }: SkeletonProps) => {
       {image}
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
-        <p className="font-semibold text-sm text-gray-400">{data?.description}</p>
+        <p className="font-semibold text-sm text-gray-400 break-all">{data?.description}</p>
         <div className="order-2 md:order-1 flex gap-2">
           {dataToMap?.map((tag: string, i: number) => (
             <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
@@ -166,16 +166,15 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
-  const dataToMap = data?.interest?.split(',');
-
+  console.log(data);
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {dataToMap?.map((interest: string, i: number) => (
+      {data?.map((interest: any, i: number) => (
         <span
           className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
           key={i}
         >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
+          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest.interest}</p>
         </span>
       ))}
     </div>
