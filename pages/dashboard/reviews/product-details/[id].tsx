@@ -7,13 +7,14 @@ import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingC
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import SellerReview from '@modules/dashboard/component/reviews/review-page/SellersReview';
 import Filter from '@modules/dashboard/component/reviews/review-page/ReviewFilter';
-import PaginationBar from '../../../../modules/dashboard/component/order/PaginationBar';
+import Pagination from '@ui/Pagination';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/EmptyReviewPage';
 import Container from '@modules/auth/component/Container/Container';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import withAuth from '../../../../helpers/withAuth';
+import Loader from '@ui/Loader';
+import { set } from 'nprogress';
 // import { ratingData, cardData } from '../../../../db/reviews';
 
 interface ReviewData {
@@ -58,6 +59,10 @@ interface Params extends ParsedUrlQuery {
 }
 
 const UserReview: NextPage = () => {
+  const router = useRouter();
+  const { id, title } = router.query;
+  console.log('Title:', title);
+  const [page, setPage] = useState<number>(1);
   const [data, setData] = useState<ReviewData[] | null>(null);
   const [rats, setRats] = useState<RatsData>();
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
@@ -67,20 +72,37 @@ const UserReview: NextPage = () => {
   // const [total2Star, setTotal2Star] = useState<number>(0);
   // const [total1Star, setTotal1Star] = useState<number>(0);
 
-  const router = useRouter();
+  // useEffect(() => {
+  //   fetch(`https://team-liquid-repo.onrender.com/api/review/shop/10/reviews?pageNumber=0&pageSize=10`)
+  //     .then((res) => res.json())
+  //     .then((data: ReviewApiResponse) => setData(data.data))
+  //     .catch((e) => console.log(e));
+  // }, []);
+  // useEffect(() => {
+  //   fetch('https://team-liquid-repo.onrender.com/api/review/products/10/rating')
+  //     .then((res) => res.json())
+  //     .then((data) => setRats(data.data))
+  //     .catch((e) => console.log(e));
+  // }, []);
 
   useEffect(() => {
-    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/10/reviews?pageNumber=0&pageSize=10`)
-      .then((res) => res.json())
-      .then((data: ReviewApiResponse) => setData(data.data))
-      .catch((e) => console.log(e));
-  }, []);
+    if (id) {
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=${page}&pageSize=10`;
+      fetch(url)
+        .then((res) => res.json())
+        .then((data: ReviewApiResponse) => setData(data.data))
+        .catch((e) => console.log(e));
+    }
+  }, [id]);
   useEffect(() => {
-    fetch('https://team-liquid-repo.onrender.com/api/review/products/10/rating')
-      .then((res) => res.json())
-      .then((data) => setRats(data.data))
-      .catch((e) => console.log(e));
-  }, []);
+    if (id) {
+      const apiUrl: string = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`;
+      fetch(apiUrl)
+        .then((res) => res.json())
+        .then((data) => setRats(data.data))
+        .catch((e) => console.log(e));
+    }
+  }, [id]);
 
   const ratingData = [
     { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
@@ -127,36 +149,47 @@ const UserReview: NextPage = () => {
   function handleFilter(view: string, rating: string) {
     if (data !== null && data !== undefined) {
       const filteredReviews = filterReviews(view, rating, data);
-      setFilteredData(filteredReviews); // update the filteredData state with the filtered reviews
+      setTimeout(() => {
+        setFilteredData(filteredReviews);
+      }, 100);
     }
+  }
+
+  function handlePagination(newPage: number) {
+    setPage(newPage);
+    router.reload();
   }
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
         <NavDashBoard active="reviews" />
-        {data === null || data.length === 0 ? (
+        {!data ? (
+          <div className=" h-[70vh] flex justify-center items-center">
+            <Loader />
+          </div>
+        ) : data === null || data.length === 0 ? (
           <EmptyReviewPage />
         ) : (
-          <div className="flex flex-col md:mx-24">
-            <div className="flex flex-col w-full mb-10 items-center justify-center">
-              <div className="flex justify-start items-center w-full mb-20">
+          <div className="flex flex-col justify-center items-center md:mb-16">
+            <div className="flex flex-col w-full mb-10  justify-center">
+              <div className="flex justify-start  w-full mb-10">
                 <div
-                  className="flex flex-row justify-start items-center cursor-pointer"
+                  className="flex flex-row justify-start lg:text-2xl md:text-xl text-xs tracking-wide font-semibold font-manropeL text-[#444846] items-center cursor-pointer"
                   onClick={() => router.push('/dashboard/reviews')}
                 >
                   <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-                  The Complete Ruby on Rails Developer Course
+                  {router.query.title}
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row lg:gap-16 md:gap-10 gap-4">
+              <div className="flex flex-col md:flex-row lg:gap-24 md:gap-10 gap-4 mx-5">
                 <div className="flex flex-row md:flex-col gap-4 md:gap-8 lg:w-80 md:w-48">
                   <div>
                     <RatingBar avgRating={rats?.averageRating!} verUser={100} />
                     <div className="md:hidden block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
-                        href={`/dashboard/reviews/new`}
+                        href={`../create/${rats?.productId}`}
                         className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
@@ -170,8 +203,8 @@ const UserReview: NextPage = () => {
                     <div className="hidden md:block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
-                        href={`/dashboard/reviews/new`}
-                        className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
+                        href={`../create/${rats?.productId}`}
+                        className="flexfont-manropeB text-brand-green-pressed h-5 w-36 self-start"
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
                       </Link>
@@ -208,7 +241,7 @@ const UserReview: NextPage = () => {
                 </div>
               </div>
             </div>
-            <PaginationBar pageLength={1} currentPage={0} changeCurrentPage={() => null} />
+            <Pagination page={page} pages={2} activePage={page} visiblePaginatedBtn={1} setPage={handlePagination} />
           </div>
         )}
       </Container>
@@ -216,4 +249,4 @@ const UserReview: NextPage = () => {
   );
 };
 
-export default withAuth(UserReview);
+export default UserReview;
