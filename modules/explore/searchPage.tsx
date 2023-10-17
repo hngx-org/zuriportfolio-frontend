@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Card from './components/Card-old';
+import Card from './components/Card';
 import { UserInfo } from './@types';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -82,7 +82,7 @@ export default function SearchModule() {
   const experienceUI = ['Beginner', 'Intermediate', 'Expert'];
 
   return (
-    <div className="ss min-h-screen m-auto max-w-[1240px]">
+    <div className="ss min-h-screen m-auto max-w-[1264px]">
       <div className="flex justify-between items-end">
         <h2 className="text-zinc-900 text-4xl font-bold  leading-[44px]">Search Results for “Mary Doe”</h2>
         <div className="text-zinc-700 text-[22px] font-normal  leading-7">{data?.data?.length} Results</div>
@@ -191,7 +191,7 @@ export default function SearchModule() {
           </div>
         </div>
 
-        <div className="">
+        <div className="w-[100%]">
           {/* Cards ------ */}
           {isLoading && (
             <div className="grid  w-[100%]  py-14 min-h-[300px]">
@@ -199,7 +199,7 @@ export default function SearchModule() {
             </div>
           )}
           {data && data?.data.length > 0 && (
-            <div className="flex gap-4 flex-wrap justify-end  w-[100%] ">
+            <div className="grid grid-cols-3 gap-3 pb-4">
               {data.data.map((item, key) => (
                 <Card key={key} data={item} />
               ))}
