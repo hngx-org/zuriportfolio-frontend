@@ -20,7 +20,6 @@ const ForgotPassword = () => {
 
   //Success Handler
   const forgotPasswordSuccess = (data: any) => {
-    console.log(data.message);
     if (data.status === 200) {
       router.push('/auth/forgot-password-link-sent');
       return;
@@ -51,7 +50,6 @@ const ForgotPassword = () => {
 
   // Handling email input
   const handleForgotPassword = (values: any) => {
-    console.log('email', values.email);
     mutate({ email: values.email });
   };
 
@@ -106,7 +104,7 @@ const ForgotPassword = () => {
             <p className="text-[14px] text-center text-custom-color20 font-medium">
               Go back to{' '}
               <Link href="/auth/login" className="text-brand-green-primary">
-                Login
+                Sign in
               </Link>
             </p>
           </div>

@@ -21,10 +21,11 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
   assessment_id,
   setResult,
 }) => {
-  const [selectedOption, setSelectedOption] = useState<string | undefined>();
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(question?.user_selected_answer);
   const [isChanging, setIsChanging] = useState(false);
 
   const handleOnChange = async (question_id?: number, user_answer_id?: number, answer_text?: string) => {
+    console.log(question_id, user_answer_id, answer_text);
     try {
       if (token && assessment_id && selectedOption && question_id && user_answer_id && answer_text) {
         setIsChanging(true);
@@ -70,13 +71,13 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
             <div key={index} className="flex items-center gap-5 ">
               <input
                 type="radio"
-                id={`${option[index]}`}
+                id={`${option}`}
                 name={question?.question_id.toString()}
-                value={option[index]}
-                checked={question?.user_selected_answer === option}
-                onClick={() => setSelectedOption(option)}
+                value={option}
+                checked={selectedOption === option}
+                onChange={() => setSelectedOption(option)}
               />
-              <label className="text-xs text-gray-700 " htmlFor={`${option[index]}`}>
+              <label className="text-xs text-gray-700 " htmlFor={`${option}`}>
                 {option}
               </label>
             </div>
