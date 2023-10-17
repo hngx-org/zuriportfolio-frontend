@@ -72,11 +72,9 @@ function SectionModal({
 
 //A Modal function for the deleting of a section
 export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
-  const { toggleSection, setOpenDelete, idToDelete, setUserData } = useContext(Portfolio);
+  const { toggleSection, setOpenDelete, idToDelete, setUserData, onSaveModal } = useContext(Portfolio);
   const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
   const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
-  // const router = useRouter();
-  // const sectionName = sectionToDelete?.split(' ')[1];
 
   console.log({ outsideDelete: idToDelete });
 
@@ -122,10 +120,10 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
         console.log({ message: result });
         //take off the modal
         setOpenDelete(false);
+        //Update the main page
+        onSaveModal(idToDelete);
         // toggleSection(idToDelete);
         // setUserData((p: any) => ({ ...p, showBuildPortfolio: false }));
-        //reload the page
-        // router.reload();
       })
       .catch((error) => console.log({ error: error }));
 
