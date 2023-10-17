@@ -16,6 +16,7 @@ import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
 
 type PortfolioContext = {
+  gettinSection: boolean;
   userId: string;
   hasPortfolio: boolean;
   setHasPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
@@ -58,6 +59,7 @@ type PortfolioContext = {
 };
 
 const Portfolio = createContext<PortfolioContext>({
+  gettinSection: true,
   userId: '',
   hasPortfolio: false,
   setHasPortfolio: () => {},
@@ -113,6 +115,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
   }, [auth?.user?.id]);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [gettinSection, setGettingSection] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [hasData, setHasData] = useState<boolean>(false);
   const [modalStates, setModalStates] = useState<{ [key: string]: boolean }>({});
@@ -160,7 +163,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getUserSections = async (userId: string) => {
     try {
-      setIsLoading(true);
+      setGettingSection(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
       const data = await response.json();
       const {
@@ -211,7 +214,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Contact', id: 'contact', data: contact },
         { title: 'Custom', id: 'custom', data: custom },
       ]);
-      setIsLoading(false);
+      setGettingSection(false);
     } catch (error: any) {
       setError({ state: true, error: error.message });
       setHasData(false);
@@ -306,6 +309,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     onClose();
     onCloseModal(sectionTitle || '');
     getUser(userId);
+    getUserSections(userId);
   };
 
   const onCloseModal = (modalToClose: string) => {
@@ -343,28 +347,24 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'reference',
       modal: (
-        <PortfolioReference
-          isOpen={modalStates['reference']}
-          onClose={() => onCloseModal('reference')}
-          userId={userId}
-        />
+        <PortfolioReference isOpen={modalStates['reference']} onClose={() => modal('reference')} userId={userId} />
       ),
     },
     {
       id: 'certificate',
-      modal: <Certifications isOpen={modalStates['certificate']} onClose={() => onCloseModal('certificate')} />,
+      modal: <Certifications isOpen={modalStates['certificate']} onClose={() => modal('certificate')} />,
     },
     {
       id: 'contact',
-      modal: <ContactModal isOpen={modalStates['contact']} onClose={() => onCloseModal('contact')} userId={userId} />,
+      modal: <ContactModal isOpen={modalStates['contact']} onClose={() => modal('contact')} userId={userId} />,
     },
     {
       id: 'about',
-      modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => onCloseModal('about')} userId={userId} />,
+      modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => modal('about')} userId={userId} />,
     },
     {
       id: 'awards',
-      modal: <Awards isOpen={modalStates['awards']} onClose={() => onCloseModal('awards')} userId={userId} />,
+      modal: <Awards isOpen={modalStates['awards']} onClose={() => modal('awards')} userId={userId} />,
     },
   ];
 
@@ -409,6 +409,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     getUser,
     openCustom,
     setOpenCustom,
+    gettinSection,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

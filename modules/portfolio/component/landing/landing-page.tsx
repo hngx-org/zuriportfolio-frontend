@@ -22,6 +22,7 @@ const Landing = () => {
     showViewtemplates,
     userData,
     isLoading,
+    gettinSection,
     error,
   } = useContext(Portfolio);
 
@@ -71,10 +72,10 @@ const Landing = () => {
                 Edit
               </p>
             </div>
-            {hasPortfolio && hasData ? (
-              <div className="mt-10 md:mt-20">
-                <LandingPageFilled />
-              </div>
+            {gettinSection ? (
+              <Loader />
+            ) : hasPortfolio && hasData ? (
+              <div className="mt-10 md:mt-20">{gettinSection ? <Loader /> : <LandingPageFilled />}</div>
             ) : (
               <div>
                 <LandinEmptyState />

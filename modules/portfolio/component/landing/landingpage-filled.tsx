@@ -51,7 +51,6 @@ const LandingPageFilled: React.FC = () => {
       {/* data from backend */}
       <div className="w-full flex flex-col justify-start items-start gap-8">
         {userSections?.map((section, i) => {
-          console.log(section);
           return (
             <React.Fragment key={i}>
               <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
@@ -73,7 +72,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'education' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -90,7 +89,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'interests' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -105,7 +104,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'language' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -120,11 +119,11 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'about' && section?.data && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section?.id}
                     title={section.title}
-                    edit={() => editSection(section?.data?.id)}
+                    edit={() => editSection(section?.id)}
                     remove={deleteSection}
                   >
                     <About key={i} bio={section?.data?.bio} />
@@ -135,7 +134,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -150,7 +149,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'projects' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -167,7 +166,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'awards' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -189,7 +188,7 @@ const LandingPageFilled: React.FC = () => {
         {selectedSections.map((section: any, i: number) => {
           return (
             <React.Fragment key={i}>
-              <SectionDeleteModal sectionToDelete={`local ${section.title}`} />
+              {/* <SectionDeleteModal sectionToDelete={`local ${section.title}`} /> */}
               <React.Fragment key={i}>
                 <Wrapper
                   id={section.id}
