@@ -113,7 +113,7 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   }, []);
 
   return (
-    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
+    <Modal size="md" closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
       <section className="">
         <section className="flex justify-between items-center border-b-4 pb-3 border-b-[#009254]">
           <section className="flex items-center gap-5">
