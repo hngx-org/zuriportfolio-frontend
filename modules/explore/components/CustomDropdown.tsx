@@ -30,7 +30,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   return (
     <div className="w-full relative">
       <div
-        className={`h-12 px-5 py-3 bg-white rounded-2xl border border-stone-300 justify-between items-center gap-2 flex cursor-pointer ${className} ${
+        className={`h-12 px-5 py-3 bg-white rounded-lg border border-stone-300 justify-between items-center gap-2 flex cursor-pointer ${className} ${
           isOpen ? 'bg-white' : ''
         }`}
         onClick={toggleDropdown}

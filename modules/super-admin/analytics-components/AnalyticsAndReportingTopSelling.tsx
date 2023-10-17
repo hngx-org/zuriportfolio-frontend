@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import SuperAdminPagination from '../components/pagination';
 import { topListingProduct } from '../../../@types';
 import Logo from '../../../public/assets/tsImages/image 12.png';
+import Loading from '../../../public/assets/tsImages/Loading_spin.svg';
 import Link from 'next/link';
 
 const AnalyticsAndReportingTopSelling = () => {
@@ -12,18 +13,18 @@ const AnalyticsAndReportingTopSelling = () => {
   const [loading, setLoading] = useState(false);
   const totalPages = 7;
 
+  const bearerToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
   useEffect(() => {
     async function getData() {
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
       try {
         setLoading(true);
         const res = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?start_date=2023-01-10&end_date=2023-11-12',
+          `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?page=${currentPage}&page_size=10`,
           {
             headers: {
               Authorization: `Bearer ${bearerToken}`,
-              'Content-Type': 'application/json',
             },
           },
         );
@@ -32,6 +33,7 @@ const AnalyticsAndReportingTopSelling = () => {
           throw new Error('Failed to fetch data');
         }
         const data = await res.json();
+        console.log(data);
         setProducts(data.data);
         setLoading(false);
       } catch (error) {
@@ -39,8 +41,9 @@ const AnalyticsAndReportingTopSelling = () => {
         console.error('Error fetching data:', error);
       }
     }
+
     getData();
-  }, []);
+  }, [currentPage]);
 
   return (
     <section className=" px-6 mb-10 font-manropeL">
@@ -70,28 +73,32 @@ const AnalyticsAndReportingTopSelling = () => {
           </div>
         </div>
         <div className="min-w-[1000px] min-h-[300px]">
-          {products && !loading
-            ? products.map((product) => (
-                <div
-                  key={product.product_id}
-                  className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap"
-                >
-                  <div className="flex items-center md:pl-8 ">
-                    <Image src={Logo} alt={product.product_id} width={50} height={50} />
-                    <Link href={`/super-admin/product-listing/product-details/${product.product_id}`}>
-                      <span className="ml-4 text-md md:text-lg">{product.product_name}</span>
-                    </Link>
-                  </div>
-                  <div className="grid grid-cols-5 text-custom-color2 text-center min-w-[100px]">
-                    <p className="">{product.category_name}</p>
-                    <p>{product.total_orders}</p>
-                    <p>{product.price}</p>
-                    <p>{product.total_sales}</p>
-                    <p>{product.vendor_name}</p>
-                  </div>
+          {products && !loading ? (
+            products.map((product) => (
+              <div
+                key={product.product_id}
+                className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap md:whitespace-normal"
+              >
+                <div className="flex items-center md:pl-8 ">
+                  <Image src={Logo} alt={product.product_id} width={50} height={50} />
+                  <Link href={`/super-admin/product-listing/product-details/${product.product_id}`}>
+                    <span className="ml-4 text-md md:text-lg">{product.product_name}</span>
+                  </Link>
                 </div>
-              ))
-            : 'Loading...'}
+                <div className="grid grid-cols-5 text-custom-color2 text-center min-w-[100px]">
+                  <p className="">{product.category_name}</p>
+                  <p>{product.total_orders}</p>
+                  <p>{product.price}</p>
+                  <p>{product.total_sales}</p>
+                  <p>{product.vendor_name}</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="flex justify-center  pt-5  md:pt-10 w-screen">
+              <Image src={Loading} alt="loading..." width={100} height={100} />{' '}
+            </div>
+          )}
         </div>
         <SuperAdminPagination
           currentPage={currentPage}

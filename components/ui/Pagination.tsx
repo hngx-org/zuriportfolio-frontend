@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from './Button';
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
+import { twMerge } from 'tailwind-merge';
 
 interface PaginationProps {
   page: number;
@@ -50,6 +51,17 @@ function Pagination({ page, pages, activePage, visiblePaginatedBtn, setPage }: P
           {p}
         </Button>
       ))}
+      {pages > 5 && activePage !== pages && (
+        <Button
+          className={twMerge(
+            'w-12 text-[15px] hover:bg-transparent focus:bg-transparent focus-within:bg-transparent active:bg-transparent scale-[.95] px-5 py-1 rounded-[10px]',
+            'bg-transparent text-white-400',
+          )}
+          onClick={() => setPage(pages)}
+        >
+          ...
+        </Button>
+      )}
 
       <Button
         onClick={() => setPage(Math.min(pages, page + 1))}

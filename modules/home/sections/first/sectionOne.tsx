@@ -1,10 +1,15 @@
 import Jumbotron from '@modules/home/jumbotron/jumbotron';
-import React from 'react';
+import PortfolioCarousel from '@modules/home/carousel/portfolios/portfolioCarousel';
 
 const SectionOne = () => {
   return (
-    <div className="flex justify-center items-center pb-10">
-      <Jumbotron />
+    <div className="pb-10 md:border-b-2 border-[#96969611]">
+      <div className="flex justify-center items-center pb-10 flex-col">
+        <Jumbotron />
+      </div>
+      <div>
+        <PortfolioCarousel />
+      </div>
     </div>
   );
 };
