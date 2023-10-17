@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from './Button';
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
+import { twMerge } from 'tailwind-merge';
 
 interface PaginationProps {
   page: number;
