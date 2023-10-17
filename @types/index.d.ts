@@ -130,6 +130,33 @@ export interface Products {
   currency: string;
   discount_price: string;
 }
+
+interface Data {
+  id: string;
+  merchant_id: string;
+  name: string;
+  policy_confirmation: string | null;
+  restricted: string;
+  admin_status: string;
+  is_deleted: string;
+  reviewed: string | null;
+  rating: number | null;
+  createdAt: string;
+  updatedAt: string;
+  products: Product;
+}
+interface ShopData {
+  products: Product;
+  data?: Data;
+
+  // Add other properties here
+}
+
+interface Shop {
+  id: number;
+  name: string;
+  // Add other properties as needed
+}
 export interface SuperAdminPagination {
   title: any;
 }
@@ -331,7 +358,14 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+//export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+
+export type CartSumaryProp = {
+  subtotal: number;
+  discount: number;
+  VAT: number;
+  total: number;
+};
 
 export type RecentlyViewedProductProp = {
   user: string;
@@ -765,7 +799,7 @@ type ProductCategory = {
 };
 
 type ProductShop = {
-  id: number;
+  id: string;
   name: string;
 };
 export interface ProductResult {

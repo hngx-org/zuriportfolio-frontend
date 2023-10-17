@@ -41,6 +41,13 @@ const PromotionHistoryTable: React.FC<{
   toggleSort: () => void;
   currentSort: string;
 }> = ({ pageItem, currentSort, changeSort, toggleSort }) => {
+  const OnCLick = (val: keyof PromotionHistory) => {
+    if (val === currentSort) {
+      toggleSort();
+    } else {
+      changeSort(val);
+    }
+  };
   return (
     <table className="w-full md:table border rounded-lg">
       <thead>

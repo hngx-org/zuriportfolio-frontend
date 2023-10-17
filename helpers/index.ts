@@ -89,11 +89,9 @@ export const destructureProducts = (products: any[]) => {
   return cartProducts;
 };
 
-
-export const getCardItemsId = async(cartsItems: any[]) => {
-  return cartsItems.map((product) => product.id)
-}
-
+export const getCardItemsId = async (cartsItems: any[]) => {
+  return cartsItems.map((product) => product.id);
+};
 
 export const getGuestCartSummary = async (carts: any) => {};
 

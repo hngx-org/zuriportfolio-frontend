@@ -24,7 +24,6 @@ import { useAuth } from '../../context/AuthContext';
 export default function ProductDetails() {
   const router = useRouter();
   const [products, setProducts] = useState<Products[]>([]);
-
   const [product, setProduct] = useState<Products | null>(null);
   const [currentProducts, setCurrentProducts] = useState<Products[]>([]);
   const [image, setImage] = useState<any>(product?.image);
@@ -53,7 +52,11 @@ export default function ProductDetails() {
   useEffect(() => {
     const { id } = router.query;
     if (id) {
-      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`, {
+        headers: {
+          Authorization: `Bearer ${auth?.token}`,
+        },
+      })
         .then((response) => response.json())
         .then((response) => {
           setProduct(response.data);
@@ -63,22 +66,10 @@ export default function ProductDetails() {
           setProduct(null);
         });
     }
-  }, [router.query]);
+  }, [router.query, auth]);
   console.log('Product:', product);
 
-  useEffect(() => {
-    axios
-      .get('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace')
-      .then((response) => {
-        console.log('Fetched product data:', response.data);
-        setProducts(response.data.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching product data:', error);
-      });
-  }, []);
-
-  console.log('Product Name:', product ? product.product.name : 'N/A');
+  console.log('Product Name:', product ? product.name : 'N/A');
 
   const imgContRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -144,7 +135,7 @@ export default function ProductDetails() {
   }, [product]);
 
   if (!product) {
-    return null;
+    return <div>Loading...</div>;
   }
 
   const updateImage = (newImage: any) => {
@@ -274,7 +265,7 @@ export default function ProductDetails() {
               >
                 <Image
                   ref={imgRef}
-                  src={image ? image : product.image && product.image[0] ? product.image[0].url : ''}
+                  src={product.image && product.image[0] ? product.image[0].url : ''}
                   alt={product.name}
                   fill
                   objectFit="cover"
