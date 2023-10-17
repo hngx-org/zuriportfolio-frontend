@@ -247,9 +247,16 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
             name="image"
           />
           <div className="p-3 border border-[#00000024] rounded-md">
-            <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
+            {/* <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
               <MultipleFileUpload />
-            </div>
+            </div> */}
+            <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
+            <Input
+              className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+              placeholder="Add the link to your file"
+              inputMode="none"
+              name="name"
+            />
           </div>
           <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
           <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">

@@ -40,7 +40,7 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
   //   console.log(data, loading, error);
 
   if (error) {
-    return <CategoryError message={`No products found in ${category}`} />;
+    return <CategoryError message={`No products found in ${category} with subcategory of ${subCategory}`} />;
   }
 
   return (
