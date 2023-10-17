@@ -30,10 +30,15 @@ const SectionThree = () => {
     <div className="flex flex-col w-full">
       <div className="flex justify-center items-center py-5  w-full">
         <HeroSection
-          title="How exactly does Zuri Portfolio help Talents?"
-          desc="Explore a world of talents, create your personalized portfolio, and sell your digital products in your very own shop. Your dreams, your creations, your success – all in one place. Start your journey today."
-          slug="Get Started"
-          href="/dashboard"
+          title="Simplify your career journey with just one link in your bio - your portfolio."
+          desc={
+            <p className="text-[#0D0C22] text-left md:text-justify font-manropeL text-[16px]">
+              Explore a world of talents, create your personalized portfolio, and sell your digital products in your
+              very own shop. Your dreams, your creations, your success – all in one place. Start your journey today.
+            </p>
+          }
+          slug="Create Portfolio"
+          href="/portfolio"
         />
       </div>
       <div className="w-full">
