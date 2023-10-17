@@ -24,6 +24,7 @@ const Banner = () => {
           src={heroMan}
           alt="Hero Section image"
           className="hidden absolute right-0 bottom-0 object-contain lg:block"
+          priority
         />
       </div>
     </section>
