@@ -49,6 +49,7 @@ const MyPage: React.FC = () => {
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
+  const [selectedOrder, setSelectedOrder] = useState<PurchaseData | null>(null);
 
   // modal open and close state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,6 +64,12 @@ const MyPage: React.FC = () => {
 
   const payload = { orderItemIds: checkedItems };
   const stringifyData = JSON.stringify(payload);
+
+  // Function to open the ComplaintsModal and set the selected order
+  const openModalWithOrder = (order: PurchaseData) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
+  };
 
   // function to handle delete
   const onDelete = async () => {
@@ -316,9 +323,7 @@ const MyPage: React.FC = () => {
                 <thead className="h-[3rem]">
                   <tr className="bg-white-200">
                     <th className="text-left px-4 py-2 text-[0.75rem]">
-                      <span className="px-4">
-                        <input type="checkbox" />
-                      </span>
+                      <span className="px-4"></span>
                       Items
                     </th>
                     <th className="text-left px-4 py-2 text-[0.75rem]">Order ID</th>
@@ -333,23 +338,28 @@ const MyPage: React.FC = () => {
                   {data
                     .filter((item) => (filter ? item.order.status.toLowerCase() === filter.toLowerCase() : true))
                     .map((item) => (
-                      <tr key={item.id} className="border-b border-white-200 border-solid border-1 h-[3.75rem]">
-                        <td className="text-[0.75rem] flex items-center mt-5">
-                          <span className="px-4 ml-[1rem]">
-                            {' '}
-                            <input
-                              type="checkbox"
-                              checked={checkedItems.includes(item.id)}
-                              onChange={() => handleCheckboxChange(item.id)}
-                            />
-                          </span>
+                      <tr
+                        key={item.id}
+                        className="border-b border-white-200 border-solid border-1 h-[3.75rem]"
+                        onClick={() => openModalWithOrder(item)}
+                      >
+                        <td className="text-[0.75rem] flex items-center mt-5 cursor-pointer" onClick={openModal}>
+                          <span className="px-4 ml-[1rem] cursor-pointer"> </span>
                           {item.product.name}
                         </td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.order_id}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.order_price}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.createdAt.split('T')[0]}</td>
-                        <td className="text-[0.75rem] px-4 py-2">{item.merchant}</td>
-                        <td className="text-[0.75rem] px-4 py-2">
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
+                          {item.order_id}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
+                          {item.order_price}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
+                          {item.createdAt.split('T')[0]}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
+                          {item.merchant}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
                           <span
                             className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl cursor-pointer ${
                               getStatusBackgroundColor(item.order.status)[0]
@@ -374,7 +384,12 @@ const MyPage: React.FC = () => {
         </div>
 
         {}
-        <ComplaintsModal isOpen={isModalOpen} onClose={closeModal} />
+        <ComplaintsModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          product={selectedOrder?.product_id || ''}
+          customerID={selectedOrder?.customer_id || ''}
+        />
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
       </div>
