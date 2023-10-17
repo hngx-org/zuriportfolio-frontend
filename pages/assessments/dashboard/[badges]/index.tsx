@@ -160,7 +160,7 @@ const Earnedbadges: React.FC = () => {
             {badges.length <= 0 ? (
               <>
                 <h2 className="capitalize">Oops You Have Not Earned A {router.query?.badges} Badge Yet </h2>
-                <Button href="/assessments/take-test/intro">Take Assessment</Button>
+                <Button href="/assessments/dashboard">Take Assessment</Button>
               </>
             ) : (
               <div className="badgecomponents flex flex-col md:flex-row items-center justif gap-[30px]  md:gap-[24px]  ">
