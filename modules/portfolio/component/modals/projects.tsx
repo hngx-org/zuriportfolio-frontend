@@ -169,12 +169,12 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
                   }}
                   value={year}
                 >
-                  <SelectTrigger className="w-full h-[50px] font-semibold text-gray-300">
-                    <SelectValue className="text-gray-300" placeholder="Month" />
+                  <SelectTrigger className="w-full h-[50px] font-semibold !text-gray-300">
+                    <SelectValue className="!text-gray-300" placeholder="Month" />
                   </SelectTrigger>
-                  <SelectContent className="text-gray-300">
+                  <SelectContent className="!text-gray-300">
                     {years.map((year: any, index: any) => (
-                      <SelectItem className="text-gray-300" key={index} value={year}>
+                      <SelectItem className="!text-gray-300" key={index} value={year}>
                         {year}
                       </SelectItem>
                     ))}
@@ -301,7 +301,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
               </Button>
               <Button
                 disabled={loading}
-                className={`${loading ? 'opacity-50' : 'opacity-100'} rounded-lg min-w-[100px]`}
+                className={`${loading ? 'opacity-80' : 'opacity-100'} rounded-lg min-w-[100px]`}
                 onClick={handleSubmit}
               >
                 Save

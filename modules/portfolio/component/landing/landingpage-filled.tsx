@@ -78,7 +78,7 @@ const LandingPageFilled: React.FC = () => {
             <React.Fragment key={i}>
               {section?.id === 'workExperience' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <SectionDeleteModal sectionToDelete={`be ${section?.id === 'workExperience' && section?.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -95,7 +95,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'education' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <SectionDeleteModal sectionToDelete={`be ${section?.id === 'education' && section?.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -112,7 +112,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'interests' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <SectionDeleteModal sectionToDelete={`be ${section?.id === 'interests' && section?.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -127,7 +127,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'language' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <SectionDeleteModal sectionToDelete={`be ${section?.id === 'language' && section?.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -142,7 +142,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'about' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <SectionDeleteModal sectionToDelete={`be ${section?.id === 'about' && section?.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -156,7 +156,7 @@ const LandingPageFilled: React.FC = () => {
               )}
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <SectionDeleteModal sectionToDelete={`be ${section?.id === 'skills' && section?.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -171,7 +171,7 @@ const LandingPageFilled: React.FC = () => {
 
               {section?.id === 'projects' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
-                  <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+                  <SectionDeleteModal sectionToDelete={`be ${section?.id === 'projects' && section?.id}`} />
                   <Wrapper
                     id={section.id}
                     title={section.title}

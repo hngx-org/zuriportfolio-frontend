@@ -68,7 +68,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
     const data = {
       userId: userId,
       interests: values,
-      sectionId: 323,
+      sectionId: 5,
     };
     axios
       .post(`${endpoint}/api/interests`, data)
@@ -180,7 +180,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             disabled={loading}
             onClick={handleSubmit}
             className={`${
-              loading ? 'opacity-50' : 'opacity-100'
+              loading ? 'opacity-80' : 'opacity-100'
             } border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg`}
           >
             {' '}
