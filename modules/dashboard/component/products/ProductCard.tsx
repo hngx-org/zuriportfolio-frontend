@@ -44,7 +44,7 @@ const DeleteModal = (props: any) => {
   }, []);
 
   const handleDelete = () => {
-    const productId = props.product.product_id;
+    const productId = props.product.id;
     const productName = props.product.name;
 
     // Make an API request to delete the product using productId
@@ -68,16 +68,16 @@ const DeleteModal = (props: any) => {
           // props.deleteProduct(props.product.product_id);
           props.insertProduct(product || []);
           // Show a success toast message
-          toast.success(`Product "${productName}" has been deleted successfully`, {
+          toast.success(`"${productName}" has been deleted successfully`, {
             position: 'top-right',
             autoClose: 5000,
           });
         } else {
           // Handle HTTP errors
           const errorMessage = await response.text();
-          console.error(`Error deleting product "${productName}": ${response.status} - ${errorMessage}`);
+          console.error(`Error deleting product "${productName}"`);
           // Show an error toast message
-          toast.error(`Error deleting product "${productName}": ${response.status} - ${errorMessage}`, {
+          toast.error(`Error deleting "${productName}"`, {
             position: 'top-right',
             autoClose: 5000,
           });
@@ -87,7 +87,7 @@ const DeleteModal = (props: any) => {
         // Handle network or other errors
         console.error(`Error deleting product "${productName}":`, error);
         // Show an error toast message
-        toast.error(`Error deleting product "${productName}": ${error.message}`, {
+        toast.error(`Error deleting "${productName}"`, {
           position: 'top-right',
           autoClose: 5000,
         });
