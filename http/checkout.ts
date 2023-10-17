@@ -2,7 +2,7 @@ import { CartItemProps } from '../@types';
 import $http from './axios';
 
 export const CART_ENDPOINT =
-  process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout';
+  process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const RECENTLY_VIEWED_ENDPOINT =
   process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed';
@@ -13,7 +13,7 @@ const guestToken =
 export const addToCart = async (cartItems: string[], token: string) => {
   try {
     const response = await $http.post(
-      `${CART_ENDPOINT}/api/carts`,
+      `${CART_ENDPOINT}/carts`,
       { product_ids: cartItems },
       {
         headers: {
@@ -22,7 +22,7 @@ export const addToCart = async (cartItems: string[], token: string) => {
       },
     );
     if (response.status == 200) {
-      return { status: true };
+      return { status: true, data: response.data };
     }
     return { status: false };
   } catch (error) {
@@ -33,7 +33,7 @@ export const addToCart = async (cartItems: string[], token: string) => {
 
 export const getUserCart = async (token: string) => {
   try {
-    const response = await $http.get(`${CART_ENDPOINT}/api/carts`, {
+    const response = await $http.get(`${CART_ENDPOINT}/carts`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,7 +46,7 @@ export const getUserCart = async (token: string) => {
 
 export const removeFromCart = async (productId: string, token: string) => {
   try {
-    const apiUrl = `${CART_ENDPOINT}/api/carts/${productId}`;
+    const apiUrl = `${CART_ENDPOINT}/carts/${productId}`;
     const response = await $http.delete(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -73,7 +73,7 @@ export const createTempUser = async (datas: { email: string; firstName: string; 
 
 export const getCartSummary = async (token: string) => {
   try {
-    const apiUrl = `${CART_ENDPOINT}/api/carts/cart-summary`;
+    const apiUrl = `${CART_ENDPOINT}/carts/cart-summary`;
 
     const response = await $http.get(apiUrl, {
       headers: {
@@ -91,7 +91,7 @@ export const getCartSummary = async (token: string) => {
 
 export const getGuestCartSummary = async (products: any[]) => {
   try {
-    const apiUrl = `${CART_ENDPOINT}/api/carts/guest-cart-summary`;
+    const apiUrl = `${CART_ENDPOINT}/carts/guest-cart-summary`;
 
     const response = await $http.post(
       apiUrl,
@@ -112,7 +112,7 @@ export const getGuestCartSummary = async (products: any[]) => {
 export const makePayment = async (selectedPaymentMethod: string, token: string) => {
   if (selectedPaymentMethod) {
     try {
-      const apiUrl = `${CART_ENDPOINT}/api/orders`;
+      const apiUrl = `${CART_ENDPOINT}/orders`;
       const data = {
         redirect_url: `${STAGING_URL}/marketplace/success`,
         payment_method: selectedPaymentMethod,

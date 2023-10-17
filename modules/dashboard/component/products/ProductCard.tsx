@@ -24,7 +24,7 @@ const DeleteModal = (props: any) => {
   const [products, setProducts] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -44,7 +44,7 @@ const DeleteModal = (props: any) => {
   }, []);
 
   const handleDelete = () => {
-    const productId = props.product.product_id;
+    const productId = props.product.id;
     const productName = props.product.name;
 
     // Make an API request to delete the product using productId
@@ -68,16 +68,16 @@ const DeleteModal = (props: any) => {
           // props.deleteProduct(props.product.product_id);
           props.insertProduct(product || []);
           // Show a success toast message
-          toast.success(`Product "${productName}" has been deleted successfully`, {
+          toast.success(`"${productName}" has been deleted successfully`, {
             position: 'top-right',
             autoClose: 5000,
           });
         } else {
           // Handle HTTP errors
           const errorMessage = await response.text();
-          console.error(`Error deleting product "${productName}": ${response.status} - ${errorMessage}`);
+          console.error(`Error deleting product "${productName}"`);
           // Show an error toast message
-          toast.error(`Error deleting product "${productName}": ${response.status} - ${errorMessage}`, {
+          toast.error(`Error deleting "${productName}"`, {
             position: 'top-right',
             autoClose: 5000,
           });
@@ -87,7 +87,7 @@ const DeleteModal = (props: any) => {
         // Handle network or other errors
         console.error(`Error deleting product "${productName}":`, error);
         // Show an error toast message
-        toast.error(`Error deleting product "${productName}": ${error.message}`, {
+        toast.error(`Error deleting "${productName}"`, {
           position: 'top-right',
           autoClose: 5000,
         });
@@ -247,9 +247,16 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
             name="image"
           />
           <div className="p-3 border border-[#00000024] rounded-md">
-            <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
+            {/* <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
               <MultipleFileUpload />
-            </div>
+            </div> */}
+            <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
+            <Input
+              className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+              placeholder="Add the link to your file"
+              inputMode="none"
+              name="name"
+            />
           </div>
           <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
           <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
@@ -312,17 +319,6 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
 
           <label className="font-manropeB text-[16px] mt-6">Product price</label>
           <div className="flex flex-row gap-8">
-            <select
-              className="border-solid border-[2px] border-white-400 text-dark-600 py-2 text-[14px] rounded-lg mt-2 text-left pl-2 pr-20 hover:border-brand-green-primary flex-1 h-[48px]"
-              value={selectedOption}
-              onChange={handleOptionChange}
-            >
-              <option className="text-dark font-manropeB font-bold" value="">
-                USD
-              </option>
-              <option value="option1 placeholder:text-[#191C1E] text-black">NGN</option>
-              <option value="option2 placeholder:text-[#191C1E] text-black">EUR</option>
-            </select>
             <Input
               className="w-full my-2 text-dark-100"
               value={products.price}

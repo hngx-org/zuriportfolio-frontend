@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { SearchNormal1 } from 'iconsax-react';
 import Button from '@ui/Button';
@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Loader from '@ui/Loader';
 import { Input } from '@ui/Input';
 import Pagination from '@ui/Pagination';
+import { toast } from 'react-toastify';
 type Product = {
   product_id: any;
   image: any;
@@ -22,22 +23,30 @@ const Products = () => {
   const productsPerPage = 8;
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-
+  const [totalPage, setTotalPage] = useState(1);
+  // const [currentPage,setCurrentPage] = useState(1)
   const fetchProducts = async () => {
     // Fetch the product data from the server
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace');
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
       const data = await res.json();
-      if (Array.isArray(data.data)) {
-        setProducts(data.data);
-        return data.data;
-      } else {
-        return [];
-      }
+
+      // console.log(data);
+      // toast.success(data.message, {
+      //   autoClose: 5000,
+      // });
+      // setProducts(data.data.products);
+      setTotalPage(data.totalPages);
+      return data.data.products;
     } catch (error) {
       console.error('Error fetching data:', error);
+      return [];
     } finally {
       setIsLoading(false);
     }
