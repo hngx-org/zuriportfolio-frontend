@@ -42,7 +42,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
 
   return (
     <section className="lg:w-[25%]">
-      <div className="py-[60px] px-5 whitespace-nowrap text-ellipsis overflow-hidden bg-white-100 border border-white-200 rounded-lg  mx-auto">
+      <div className={`${loadingState ? "py-[22px] px-5 whitespace-nowrap text-ellipsis overflow-hidden bg-white-100 border border-white-200 rounded-lg  mx-auto" : "py-[60px] px-5 whitespace-nowrap text-ellipsis overflow-hidden bg-white-100 border border-white-200 rounded-lg  mx-auto"}`}>
         <div className="flex justify-between items-center mb-8">
           <h3 className="text-[19px]">Activities</h3>
         </div>
