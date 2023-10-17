@@ -170,15 +170,11 @@ const Dashboard = () => {
                     </span>
                   </div>
                 </div>
-                <Button
-                  href={`/assessments/take-test/intro`}
-                  onClick={() => {
-                    router.push(`/assessments/take-test/intro?data=${item.skill_id}`);
-                  }}
-                  className="mt-[1.5rem] lg:mt-[1.8rem] xl:mt-[2.9rem] mx-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1.125rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md"
-                >
-                  Take Assessment
-                </Button>
+                <Link href={`/assessments/take-test/intro?data=${item.skill_id}`}>
+                  <Button className="mt-[1.5rem] lg:mt-[1.8rem] xl:mt-[2.9rem] mx-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1.125rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md">
+                    Take Assessment
+                  </Button>
+                </Link>
               </div>
             ))
           ) : (

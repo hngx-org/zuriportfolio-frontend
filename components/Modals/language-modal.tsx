@@ -7,6 +7,7 @@ import arrow_left from '../../public/assets/icons/arrow-left.svg';
 import Button from '@ui/Button';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
+import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 
@@ -15,13 +16,18 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   const [values, setValues] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const languageItems = {
+    languages: values,
+  };
+  // checks if all input paramters has been filled, allChecksPassed - returns a boolean, failedChecks returns an array of calues that failed the checks
+  const { allChecksPassed, failedChecks } = checkObjectProperties(languageItems);
+
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent the default form submission
       if (inputValue.trim() !== '' && !values.includes(inputValue)) {
-        const empty = '';
         setValues((prevValues) => [...prevValues, inputValue]);
-        setInputValue(empty);
+        setInputValue('');
       }
     }
   };
@@ -54,35 +60,37 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const handleSubmit = () => {
-    setLoading(true);
-    if (values.length === 0) return;
-    const data = {
-      userId: userId,
-      languages: values,
-    };
-    axios
-      .post(`${endpoint}/api/language`, data)
-      .then((res) => {
-        setLoading(false);
-        notify({
-          message: 'Language created successfully',
-          position: 'top-center',
-          theme: 'light',
-          type: 'success',
+    if (allChecksPassed) {
+      setLoading(true);
+      const data = {
+        ...languageItems,
+        userId: userId,
+        sectionId: 5,
+      };
+      axios
+        .post(`${endpoint}/api/language`, data)
+        .then((res) => {
+          setLoading(false);
+          notify({
+            message: 'Language created successfully',
+            position: 'top-center',
+            theme: 'light',
+            type: 'success',
+          });
+          setValues([]);
+          onClose();
+        })
+        .catch((err) => {
+          setLoading(false);
+          notify({
+            message: 'Error occurred',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+          console.log(err);
         });
-        setValues([]);
-        onClose();
-      })
-      .catch((err) => {
-        setLoading(false);
-        notify({
-          message: 'Error occurred',
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
-        console.log(err);
-      });
+    }
   };
 
   const getAllLanguages = () => {
@@ -90,10 +98,13 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
     axios
       .get(`${endpoint}/api/language/${userId}`)
       .then((res) => {
-        const languagesArray: string[] = res.data?.data.map((obj: any) => obj.language);
-        setValues(languagesArray ? languagesArray : []);
+        console.log(res, 'res from lang');
+        if (res.data.data !== null) {
+          const languagesArray: string[] = res.data?.data.map((obj: any) => obj.language);
+          setValues(languagesArray ? languagesArray : []);
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err, 'err from lang'));
   };
 
   useEffect(() => {
@@ -121,8 +132,21 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             placeholder="Enter your preferred language and press “ENTER”"
             onChange={handleInputChange}
             onKeyDown={handleEnterKeyPress}
+            value={inputValue}
           />
           <Image src={arrow_left} width={24} height={24} alt="arrow-left" className="rotate-[270deg]" />
+        </section>
+
+        <section className="flex flex-col gap-2">
+          {failedChecks.length > 0 && (
+            <p className="mt-4 text-base font-medium text-start text-red-300"> Kindly fill the following fields: </p>
+          )}
+          {failedChecks.map((item) => (
+            <span className="text-sm text-start text-red-300 pl-5" key={item}>
+              {' '}
+              {item}{' '}
+            </span>
+          ))}
         </section>
 
         <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-2.5">
@@ -136,7 +160,7 @@ const LanguageModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             disabled={loading}
             onClick={handleSubmit}
             className={`${
-              loading ? 'opacity-50' : 'opacity-100'
+              loading ? 'opacity-80' : 'opacity-100'
             } border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg`}
           >
             {' '}
