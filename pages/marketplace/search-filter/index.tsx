@@ -8,12 +8,24 @@ import { ProductList } from '@modules/marketplace/types/filter-types';
 import CategoryLayout from '@modules/marketplace/component/layout/category-layout';
 import { Fragment } from 'react';
 import { constructApiUrl } from '@modules/marketplace/component/filter/helper';
+import Pagination from '@ui/Pagination';
+import { useRouter } from 'next/router';
 
 interface Props {
   products: ProductList[];
+  activePage: number;
+  totalPages: number;
 }
 
-export default function Index({ products }: Props) {
+export default function Index({ products, activePage, totalPages }: Props) {
+  const router = useRouter();
+  const handlePageChange = (page: number) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: page.toString() },
+    });
+  };
+
   return (
     <Fragment>
       {Array.isArray(products) && products?.length === 0 ? (
@@ -26,7 +38,7 @@ export default function Index({ products }: Props) {
               Search Result for Products
             </h1>
             <div
-              className={`flex py-8 flex-nowrap lg:flex-wrap gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+              className={`flex py-8 flex-nowrap lg:flex-wrap gap-y-[70px] mb-5 w-full overflow-scroll ${styles['hide-scroll']}`}
             >
               {products?.map((item: ProductList) => {
                 return (
@@ -53,6 +65,15 @@ export default function Index({ products }: Props) {
                 );
               })}
             </div>
+            <div className="flex items-center justify-center mb-14">
+              <Pagination
+                activePage={activePage}
+                pages={totalPages}
+                setPage={handlePageChange}
+                page={activePage}
+                visiblePaginatedBtn={4}
+              />
+            </div>
           </div>
         </CategoryLayout>
       )}
@@ -66,15 +87,28 @@ export const getServerSideProps = (async (context) => {
   let price = !isNaN(parseInt(context.query.price as string)) ? (context.query.price as string) : '';
   let discount = !isNaN(parseInt(context.query.discount as string)) ? (context.query.discount as string) : '';
   let rating = context.query.rating as string;
+
+  const page = context.query.page ? parseInt(context.query.page as string) : 1;
+
   const queryParams = { category, subCategory, price, discount, rating };
   let apiUrl = constructApiUrl('https://coral-app-8bk8j.ondigitalocean.app/api/products-filter', queryParams);
   const { data, status } = await axios.get<{ products: ProductList[] }>(apiUrl.toString());
   if (status === 400 || status === 500) {
     console.error('Bad request');
   }
-
   const res = data.products ? data.products : [];
-  return { props: { products: res } };
+  const itemsPerPage = 8;
+  const totalProducts = res.length;
+  const totalPages = Math.ceil(totalProducts / itemsPerPage);
+
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const products = res.slice(startIndex, endIndex);
+
+  return { props: { products: products, activePage: page, totalPages } };
 }) satisfies GetServerSideProps<{
   products: ProductList[];
+  activePage: number;
+  totalPages: number;
 }>;
