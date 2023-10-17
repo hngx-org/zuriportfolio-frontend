@@ -3,9 +3,10 @@ import Slider from 'react-slick';
 
 interface LogoCarouselProps {
   logos: Array<any>;
+  color?: boolean;
 }
 
-const LogoCarousel: React.FC<LogoCarouselProps> = ({ logos }) => {
+const LogoCarousel: React.FC<LogoCarouselProps> = ({ logos, color }) => {
   var settings = {
     dots: false,
     infinite: true,
@@ -41,11 +42,11 @@ const LogoCarousel: React.FC<LogoCarouselProps> = ({ logos }) => {
   };
 
   return (
-    <div className="bg-[#80c9aa] overflow-hidden p-2">
+    <div className={`bg-[${color ? '#009254' : '#80c9aa'}] overflow-hidden p-2 w-full`}>
       <Slider {...settings}>
         {logos.map((logo, index) => (
           <div key={index}>
-            <div className="flex justify-center items-center flex-row space-x-3 md:space-x-[100px]">
+            <div className="flex justify-center items-center flex-row space-x-3 md:space-x-[30px]">
               <p className="text-white-100 text-[15px] font-manropeL tracking-wider">{logo.alt}</p>
               <Image src={logo.src} alt={logo.alt} width={24} height={24} />
             </div>
