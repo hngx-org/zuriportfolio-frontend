@@ -15,6 +15,7 @@ import Loader from '@ui/Loader';
 import { MultipleFileUpload } from '@modules/dashboard/component/products/MultipleFileUpload';
 import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
+import { useAuth } from '../../../context/AuthContext';
 const AddProduct = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
@@ -25,7 +26,7 @@ const AddProduct = () => {
   const linkRef = useRef<HTMLInputElement | null>(null);
   const [shops, setShops] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState('');
-
+  const auth = useAuth();
   const toggleNewCategoryInput = () => {
     setShowNewCategoryInput(!showNewCategoryInput);
   };
@@ -34,16 +35,16 @@ const AddProduct = () => {
     image: z.string().min(4, { message: 'Add image' }),
     name: z.string().min(5, { message: 'Add Product Name' }),
     description: z.string().min(10, { message: 'Add  description' }),
-    sub_category_id: z.string().min(1, { message: 'Select category' }),
+    category_id: z.string().min(1, { message: 'Select category' }),
     price: z.string().min(1, { message: 'Add Price' }),
     discountPrice: z.string().min(1, { message: 'Add discount' }),
     tax: z.string().min(1, { message: 'Add tax' }),
     currency: z.string().min(1),
     assets_link: z.string().min(4, { message: 'Provide the link to your file' }),
-    assets_types: z.string(),
+    assets_type: z.string(),
     assets_notes: z.string().min(4, { message: 'Leave a note about the file' }),
     assets_name: z.string().min(4, { message: 'Add File name' }),
-    shop_id: z.string().min(3, { message: 'Select Shop' }),
+    shopId: z.string().min(3, { message: 'Select Shop' }),
   });
   const form = useForm({
     validate: zodResolver(productScehema),
@@ -57,10 +58,10 @@ const AddProduct = () => {
       tax: '',
       currency: '₦',
       assets_link: '',
-      assets_types: 'external',
+      assets_type: 'external',
       assets_notes: '',
       assets_name: '',
-      shop_id: '',
+      shopId: '',
     },
   });
   const handleNewCategoryChange = (event: any) => {
@@ -270,23 +271,41 @@ const AddProduct = () => {
   const handleSubmit = async (values: any) => {
     console.log(values, 'hey');
     setLoading(true);
-
+    const formData = new FormData();
+    Object.entries(values).forEach(([key, value]: any[]) => {
+      formData.append(key, value);
+    });
     try {
-      // Make a POST request to your API endpoint with Axios
-      const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
+        method: 'POST',
+        body: formData,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
-        body: values,
       });
+      // Make a POST request to your API endpoint with Axios
+      // const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
+      //   body: values,
+      //   header: {
+      //     Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      //   },
+      // });
 
       // Handle the response, e.g., show a success message or redirect
-
-      toast.success(`Product added successfully`, {
-        position: 'top-right',
-        autoClose: 5000,
-      });
-      push('/dashboard/products');
+      const response = await res.json();
+      console.log(response);
+      if (!!response.errorStatus) {
+        toast.error(`${response.message}`, {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+      } else {
+        toast.success(`Product added successfully`, {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+        push('/dashboard/products');
+      }
     } catch (error: any) {
       // Handle errors, e.g., show an error message
       console.error('Error:', error);
@@ -313,7 +332,7 @@ const AddProduct = () => {
 
   return (
     <MainLayout showTopbar activePage="products">
-      <form onSubmit={form.onSubmit(handleSubmit)} className="relative">
+      <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
         <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
           <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
             <Link href={'/dashboard/products'}>Products</Link>
@@ -338,7 +357,7 @@ const AddProduct = () => {
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
               <input
                 type="file"
-                accept="image/*"
+                accept="*.jpg"
                 onChange={(e) => handleImageUpload(e.target.files)}
                 className="hidden"
                 id="imageUploadInput"
@@ -462,7 +481,7 @@ const AddProduct = () => {
                     // value={products.sub_category_id}
                     // onChange={handleOptionChange}
 
-                    {...form.getInputProps('shop_id')}
+                    {...form.getInputProps('shopId')}
                   >
                     <option value="" className="placeholder:text-[#191C1E] capitalize">
                       Select shop
@@ -477,7 +496,7 @@ const AddProduct = () => {
                       </option>
                     ))}
                   </select>
-                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.shop_id && form.errors.shop_id}</p>
+                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.shopId && form.errors.shop_id}</p>
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
