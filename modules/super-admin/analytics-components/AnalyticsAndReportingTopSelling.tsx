@@ -75,7 +75,7 @@ const AnalyticsAndReportingTopSelling = () => {
             ? products.map((product) => (
                 <div
                   key={product.product_id}
-                  className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap"
+                  className="grid grid-cols-2 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 whitespace-nowrap md:whitespace-normal"
                 >
                   <div className="flex items-center md:pl-8 ">
                     <Image src={Logo} alt={product.product_id} width={50} height={50} />
