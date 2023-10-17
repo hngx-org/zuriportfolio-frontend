@@ -13,7 +13,7 @@ const AnalyticsAndReportingTopSelling = () => {
   const totalPages = 7;
 
   const bearerToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
 
   useEffect(() => {
     async function getData() {
@@ -32,7 +32,7 @@ const AnalyticsAndReportingTopSelling = () => {
           throw new Error('Failed to fetch data');
         }
         const data = await res.json();
-        console.log(data)
+        console.log(data);
         setProducts(data.data);
         setLoading(false);
       } catch (error) {
