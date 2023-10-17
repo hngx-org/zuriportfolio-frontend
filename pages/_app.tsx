@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { manropeB, manropeEB, manropeL, ppB, ppEB, ppReg } from '../config/font';
 import { MainLayoutContextProvider } from '../context/LayoutContext';
@@ -9,7 +9,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import type { AppProps } from 'next/app';
 import nProgress from 'nprogress';
-import { Router } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthContextProvider } from '../context/AuthContext';
 import { ToastContainer } from 'react-toastify';
@@ -25,6 +25,13 @@ Router.events.on('routeChangeComplete', nProgress.done);
 
 export default function App({ Component, pageProps }: AppProps) {
   const AnyComponent = Component as any;
+  const router = useRouter();
+
+  useEffect(() => {
+    const cleanedPath = router.asPath.toLowerCase().replace(/%20/g, '_');
+
+    window.history.pushState({}, '', cleanedPath);
+  }, [router]);
 
   return (
     <>
