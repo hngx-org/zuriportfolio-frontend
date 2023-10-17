@@ -82,7 +82,7 @@ const SectionTwo = () => {
         <Features data={data} />
       </div>
       <div className="w-full">
-        <LogoCarousel logos={slides} />
+        <LogoCarousel logos={slides} color={false} />
       </div>
     </div>
   );
