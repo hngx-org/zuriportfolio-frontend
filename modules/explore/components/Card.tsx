@@ -2,16 +2,12 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { CardData } from '../../../@types';
-import total_projects from '../../../public/assets/images/explore_img/total-projects.svg';
-import badge_beginner from '../../../public/assets/images/explore_img/badge-beginner.svg';
-import Location from '../../../public/assets/images/explore_img/location.svg';
 import CardHover from './CardHover';
 import { UserInfo } from '../../../@types';
 
-import bg1 from '../../../public/assets/images/explore_img/bg1.svg';
 import photo2 from '../assets/photo2.png';
 import Link from 'next/link';
-import { ExportCurve } from 'iconsax-react';
+import { Location } from 'iconsax-react';
 import { notify } from '@ui/Toast';
 
 interface CardProps {
@@ -20,24 +16,24 @@ interface CardProps {
 
 const Card = ({ data }: { data: UserInfo }) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const shareBtnRef = useRef<HTMLDivElement>(null);
-  const btnPortfolioRef = useRef<HTMLAnchorElement>(null);
+  // const cardRef = useRef<HTMLDivElement>(null);
+  // const overlayRef = useRef<HTMLDivElement>(null);
+  // const shareBtnRef = useRef<HTMLDivElement>(null);
+  // const btnPortfolioRef = useRef<HTMLAnchorElement>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
 
   const slashIndex = window.location.href.split('').findIndex((e, i, a) => i === a.lastIndexOf('/'));
   const homepageURl = window.location.href.slice(0, slashIndex + 1);
 
-  const showButtons = () => {
-    // btnPortfolioRef.current && (btnPortfolioRef.current.style.display = 'block');
-    shareBtnRef.current && (shareBtnRef.current.style.right = '32px');
-  };
+  // const showButtons = () => {
+  //   // btnPortfolioRef.current && (btnPortfolioRef.current.style.display = 'block');
+  //   shareBtnRef.current && (shareBtnRef.current.style.right = '32px');
+  // };
 
-  const hideButtons = () => {
-    shareBtnRef.current && (shareBtnRef.current.style.right = '-40px');
-    // btnPortfolioRef.current && (btnPortfolioRef.current.style.display = 'none');
-  };
+  // const hideButtons = () => {
+  //   shareBtnRef.current && (shareBtnRef.current.style.right = '-40px');
+  //   // btnPortfolioRef.current && (btnPortfolioRef.current.style.display = 'none');
+  // };
 
   const copyUrl = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -59,87 +55,104 @@ const Card = ({ data }: { data: UserInfo }) => {
     }
   };
 
-  const skillArray = data?.skills.slice(0, 5),
-    skillExcess = data?.skills.length - data?.skills.slice(0, 5).length;
+  const skillArray = data?.skills.slice(0, 2),
+    skillExcess = data?.skills.length - data?.skills.slice(0, 2).length;
+
   return (
     <div
-      className="relative transition-all ease-in-out duration-500 hover:scale-105 overflow-hidden"
-      ref={cardRef}
-      onMouseEnter={showButtons}
-      onMouseLeave={hideButtons}
+      className="relative transition-all ease-in-out duration-500 hover:scale-105 overflow-hidden rounded-lg shadow-md"
+      // ref={cardRef}
+      // onMouseEnter={showButtons}
+      // onMouseLeave={hideButtons}
     >
-      {/* <CardHover openCard={isOpen} /> */}
+      <button
+        className="flex justify-center items-center gap-2 absolute top-6 left-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce"
+        title="Number of projects"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 7C12.5523 7 13 6.55228 13 6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44772 11 6C11 6.55228 11.4477 7 12 7Z"
+            fill="#8592A3"
+          />
+          <path
+            d="M6 17H18V19H6V17ZM10 11.83L12.792 14.624L16.724 10.689L18 12V8H14L15.31 9.275L12.791 11.794L10 9L6 13L7.414 14.414L10 11.83Z"
+            fill="#8592A3"
+          />
+          <path
+            d="M19 2.99999H15.702C15.6038 2.85213 15.497 2.71022 15.382 2.57499L15.372 2.56299C14.6373 1.70724 13.6036 1.16427 12.482 1.04499C12.1635 0.984352 11.8365 0.984352 11.518 1.04499C10.3964 1.16427 9.36273 1.70724 8.628 2.56299L8.618 2.57499C8.50307 2.70989 8.39622 2.85147 8.298 2.99899L5 2.99999C4.20459 3.00078 3.44199 3.31711 2.87956 3.87955C2.31712 4.44198 2.00079 5.20458 2 5.99999V20C2.00079 20.7954 2.31712 21.558 2.87956 22.1204C3.44199 22.6829 4.20459 22.9992 5 23H19C19.7954 22.9992 20.558 22.6829 21.1204 22.1204C21.6829 21.558 21.9992 20.7954 22 20V5.99999C21.9992 5.20458 21.6829 4.44198 21.1204 3.87955C20.558 3.31711 19.7954 3.00078 19 2.99999ZM20 20C20 20.2652 19.8946 20.5196 19.7071 20.7071C19.5196 20.8946 19.2652 21 19 21H5C4.73486 20.9997 4.48066 20.8943 4.29319 20.7068C4.10571 20.5193 4.00026 20.2651 4 20V5.99999C4.00026 5.73485 4.10571 5.48065 4.29319 5.29318C4.48066 5.1057 4.73486 5.00025 5 4.99999H9.55C9.66476 4.43485 9.97136 3.92675 10.4179 3.5618C10.8644 3.19685 11.4233 2.99748 12 2.99748C12.5767 2.99748 13.1356 3.19685 13.5821 3.5618C14.0286 3.92675 14.3352 4.43485 14.45 4.99999H19C19.2651 5.00025 19.5193 5.1057 19.7068 5.29318C19.8943 5.48065 19.9997 5.73485 20 5.99999V20Z"
+            fill="#8592A3"
+          />
+        </svg>
+        <span className="font-manropeL text-base text-[#32475c]">0</span>
+      </button>
 
-      <div className="max-w-[22rem] p-2 pb-4 border-1 min-h-[434px] border mx-auto  border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm lg:min-w-[22.5rem] xl:min-w-[24rem]">
-        <Image className="w-full rounded-t-2xl object-cover" src={bg1} alt="Card Header" width={100} height={76} />
-        <Image
-          className="-mt-11 rounded-full mx-auto aspect-square object-cover bg-center"
-          src={data?.profilePictureUrl ?? photo2}
-          alt="Avatar"
-          width={112}
-          height={112}
-        />
-        <div className="mt-3 text-center">
-          <Link onClick={(e) => e.stopPropagation} href={`/portfolio/${data?.id}`} className="block w-fit mx-auto">
-            <h3 className="w-fit text-gray-800 font-manropeEB text-base md:text-[1.375rem] hover:underline">
+      <button
+        className="absolute top-6 right-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce"
+        title="Copy portfolio link"
+        onClick={copyUrl}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M20 12L13.6 5V8.5C10.4 8.5 4 10.6 4 19C4 17.833 5.92 15.5 13.6 15.5V19L20 12Z"
+            stroke="#8592A3"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
+      <div className="h-full p-10 mx-auto grid gap-6 border-gray-500 rounded-2xl justify-center items-center font-manropeL text-sm ">
+        <div className="w-24 rounded-full overflow-hidden mx-auto aspect-square">
+          <Image
+            className="w-full h-full object-cover bg-center"
+            src={data?.profilePictureUrl ?? photo2}
+            alt="Avatar"
+            width={112}
+            height={112}
+          />
+        </div>
+
+        <div className="text-center text-[#32475c]">
+          <Link href={`/portfolio/${data?.id}`} className="block w-fit mx-auto">
+            <h3 className="w-fit font-manropeEB text-base capitalize md:text-[1.375rem] hover:underline">
               {data?.firstName} {data?.lastName}
             </h3>
           </Link>
-          <h4 className="text-gray-500 md:text-base">{data?.track}</h4>
-
-          <div className="flex flex-wrap justify-center items-center gap-2 my-5 px-4 text-[0.75rem] font-manropeB text-gray-600 text-center md:text-sm md:px-3">
-            {data?.skills.length === 0 ? (
-              <button className="border border-gray-100 px-2 rounded-full">No Skills</button>
-            ) : (
-              skillArray.map((skill, id) => (
-                <button key={id} className="border border-gray-100 px-2 rounded-full">
-                  {skill}
-                </button>
-              ))
-            )}
-            {skillExcess > 0 && <button className="border border-gray-100 px-2 rounded-full">{skillExcess}</button>}
-            {/* <button className="mt-2 border border-gray-100 px-4 py-1 rounded-full">{data.skills[6]}</button> */}
-          </div>
-          <div className="mx-auto my-4 gap-2  md:gap-3 justify-around max-w-[300px] items-center flex">
-            <div className="gap-1 md:gap-2 flex ">
-              <Image src={total_projects} className="m-auto" alt="total_projects" width={40} height={40} />
-              <div className="grid">
-                <span className="text-gray-500 text-left text-[0.75rem]"> Projects</span>
-                <span className="text-left font-bold">{data?.projects}</span>
-              </div>
-            </div>
-            <div className="gap-2  flex">
-              <Image src={badge_beginner} alt="badge_beginner" className="m-auto" width={40} height={40} />
-              <div className="grid">
-                <span className="text-gray-500 text-left text-[0.75rem] ">Badge</span>
-                <span className="text-left font-bold text-[0.55rem]">{data?.ranking ?? 'No Ranking'}</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-center items-center gap-1 mt-5">
-            <Image src={Location} alt="badge_beginner" width={20} height={20} />
-            <div>
-              <span className="text-gray-500 ">{data?.address ?? 'No Address'}</span>
-            </div>
-          </div>
+          <span className="md:text-base">{data?.track ? data?.track : 'Track not Specified'}</span>
+          {' . '}
+          <span className="md:text-base">Intermediate</span>
         </div>
 
-        <div
-          ref={shareBtnRef}
-          className="absolute -right-8 top-[30%] w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce z-[2]"
-          onClick={copyUrl}
-        >
-          <button>
-            <ExportCurve color="#000" className=" bg-white shadow-lg  w-[30px] h-[30px] rounded-full p-1" />
-          </button>
+        <div className="flex flex-wrap justify-center items-center gap-2 px-4 text-[0.75rem] font-manropeL text-center md:text-sm md:px-3">
+          {data?.skills.length === 0 ? (
+            <button className="bg-[#0092541F] px-2 rounded-full text-[#009254] uppercase">
+              Skills not indicated yet
+            </button>
+          ) : (
+            skillArray.map((skill, id) => (
+              <button
+                key={id}
+                className={`${
+                  id === 0 ? 'bg-[#666CFF1F] text-[#666CFF]' : 'bg-[#26C6F91F] text-[#03C3EC]'
+                } px-2 rounded-full uppercase`}
+              >
+                {skill}
+              </button>
+            ))
+          )}
+          {skillExcess > 0 && (
+            <button className="bg-[rgba(255,171,0,0.12)] px-2 rounded-full text-[#FFAB00]">+{skillExcess}</button>
+          )}
+          {/* <button className="mt-2 border border-gray-100 px-4 py-1 rounded-full">{data.skills[6]}</button> */}
         </div>
-        {/* <Link
-            ref={btnPortfolioRef}
-            href={`/portfolio/${data?.id}`}
-            className=" hidden mx-auto mt-4 w-[15rem] bg-[rgba(255,255,255,0.15)] cursor-pointer font-manropeB border border-solid rounded-2xl py-3 text-center text-brand-green-primary hover:bg-brand-green-primary hover:text-custom-color38 transition-all ease-in-out duration-500"
-          >
-            View Portfolio
-          </Link> */}
+
+        <div className="flex justify-center items-center gap-1 text-center">
+          <Location color="#444846" />
+          <div>
+            <span className="text-custom-color43 ">{data?.address.length < 3 ? 'Not Specified' : data.address}</span>
+          </div>
+        </div>
       </div>
 
       <input

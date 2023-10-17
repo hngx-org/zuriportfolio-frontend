@@ -11,6 +11,7 @@ import ScoringScreen from '@modules/assessment/scoringScreen';
 const EditAssesment = () => {
   const [active, setActive] = useState<null | string>('button1');
   const [assessment, setAssessment] = useState({
+    id: 0,
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
     duration_minutes: 0,
@@ -31,6 +32,8 @@ const EditAssesment = () => {
   // };
   const router = useRouter();
   const { id } = router.query;
+  const { name } = router.query;
+  const skillId = parseInt(name as string, 10);
 
   const handleClick = (button: string) => {
     setActive(button);
@@ -128,7 +131,7 @@ const EditAssesment = () => {
               </div>
             </>
           ) : (
-            <ScoringScreen />
+            <ScoringScreen assessment={assessment} skillId={skillId} />
           )}
         </div>
       </main>

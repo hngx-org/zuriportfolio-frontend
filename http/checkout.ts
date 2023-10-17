@@ -1,14 +1,39 @@
 import { CartItemProps } from '../@types';
 import $http from './axios';
 
-const CART_ENDPOINT = process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout';
-const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://zuriportfolio-frontend-pw1h.vercel.app';
-const RECENTLY_VIEWED_ENDPOINT =
+export const CART_ENDPOINT =
+  process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
+export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
+export const RECENTLY_VIEWED_ENDPOINT =
   process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed';
+
+const guestToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI3NTkwNzY4LTZhZjUtNGFiMS1hNGEwLWZiNmQ5NzM4Y2JmMCIsImlhdCI6MTY5NzQ0NjY1NH0.BGIinA0uWtPFlf0tu2J_i_oCLOwWCKSVA5kwRX2oMiQ';
+
+export const addToCart = async (cartItems: string[], token: string) => {
+  try {
+    const response = await $http.post(
+      `${CART_ENDPOINT}/carts`,
+      { product_ids: cartItems },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    if (response.status == 200) {
+      return { status: true, data: response.data };
+    }
+    return { status: false };
+  } catch (error) {
+    console.log(error);
+    return { status: false, error: error };
+  }
+};
 
 export const getUserCart = async (token: string) => {
   try {
-    const response = await $http.get(`${CART_ENDPOINT}/api/carts`, {
+    const response = await $http.get(`${CART_ENDPOINT}/carts`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -21,7 +46,7 @@ export const getUserCart = async (token: string) => {
 
 export const removeFromCart = async (productId: string, token: string) => {
   try {
-    const apiUrl = `${CART_ENDPOINT}/api/carts/${productId}`;
+    const apiUrl = `${CART_ENDPOINT}/carts/${productId}`;
     const response = await $http.delete(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -38,16 +63,17 @@ export const removeFromCart = async (productId: string, token: string) => {
 export const createTempUser = async (datas: { email: string; firstName: string; lastName: string }) => {
   try {
     const apiUrl = 'https://staging.zuri.team/api/auth/api/auth/signup-guest';
-    const response = await $http.post(apiUrl, datas);
-    return response.data;
+    // const response = await $http.post(apiUrl,datas)
+    // return response.data
+    return { data: { token: guestToken } };
   } catch (error) {
-    return { error: error };
+    return { error: error, data: { token: '' } };
   }
 };
 
 export const getCartSummary = async (token: string) => {
   try {
-    const apiUrl = `${CART_ENDPOINT}/api/carts/cart-summary`;
+    const apiUrl = `${CART_ENDPOINT}/carts/cart-summary`;
 
     const response = await $http.get(apiUrl, {
       headers: {
@@ -65,7 +91,7 @@ export const getCartSummary = async (token: string) => {
 
 export const getGuestCartSummary = async (products: any[]) => {
   try {
-    const apiUrl = 'https://zuri-cart-checkout.onrender.com/api/checkout/api/carts/guest-cart-summary';
+    const apiUrl = `${CART_ENDPOINT}/carts/guest-cart-summary`;
 
     const response = await $http.post(
       apiUrl,
@@ -73,7 +99,6 @@ export const getGuestCartSummary = async (products: any[]) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImlhdCI6MTY5NzM3MDcxNH0.dBJSQ3zzSXiw55fqjLlWE6cmk1xmtpQxSSne9cZbOAg`
         },
       },
     );
@@ -87,9 +112,9 @@ export const getGuestCartSummary = async (products: any[]) => {
 export const makePayment = async (selectedPaymentMethod: string, token: string) => {
   if (selectedPaymentMethod) {
     try {
-      const apiUrl = `${CART_ENDPOINT}/api/orders`;
+      const apiUrl = `${CART_ENDPOINT}/orders`;
       const data = {
-        redirect_url: `http://localhost:3000/marketplace/success`,
+        redirect_url: `${STAGING_URL}/marketplace/success`,
         payment_method: selectedPaymentMethod,
       };
 

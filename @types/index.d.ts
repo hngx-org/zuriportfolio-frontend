@@ -13,6 +13,7 @@ export interface MainLayoutProps {
   showDashboardSidebar?: boolean;
   showTopbar?: boolean;
   showFooter?: boolean;
+  includeMarginTop?: boolean;
 }
 
 export interface ProductData {
@@ -79,6 +80,39 @@ export interface RecentlyViewedData {
   interaction_type: string;
   createdat: number;
 }
+export interface Award {
+  id: number;
+  sectionId: number;
+  year: string;
+  title: string;
+  presented_by: string;
+  url: string;
+  description: string;
+}
+
+export interface AwardItemProps {
+  award: Award;
+}
+export interface AwardListProps {
+  // awards: Award[];
+  isModalOpen: boolean;
+}
+export interface Certification {
+  id: string;
+  sectionId: number;
+  year: string;
+  title: string;
+  organization: string;
+  url: string;
+  description: string;
+}
+
+export interface CertificationItemProps {
+  certification: Certification;
+}
+export interface CertificationListProps {
+  isModalOpen: boolean;
+}
 
 export interface Education {
   id: number;
@@ -128,6 +162,33 @@ export interface Products {
   rating: number;
   currency: string;
   discount_price: string;
+}
+
+interface Data {
+  id: string;
+  merchant_id: string;
+  name: string;
+  policy_confirmation: string | null;
+  restricted: string;
+  admin_status: string;
+  is_deleted: string;
+  reviewed: string | null;
+  rating: number | null;
+  createdAt: string;
+  updatedAt: string;
+  products: Product;
+}
+interface ShopData {
+  products: Product;
+  data?: Data;
+
+  // Add other properties here
+}
+
+interface Shop {
+  id: number;
+  name: string;
+  // Add other properties as needed
 }
 export interface SuperAdminPagination {
   title: any;
@@ -330,7 +391,14 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+//export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+
+export type CartSumaryProp = {
+  subtotal: number;
+  discount: number;
+  VAT: number;
+  total: number;
+};
 
 export type RecentlyViewedProductProp = {
   user: string;
@@ -373,6 +441,7 @@ export type CartItemProps = {
   productColor?: string;
   productSeller: string;
   productPrice: number;
+  productDiscount?: string;
 };
 
 export type ViewedProductCardProps = {
@@ -451,6 +520,7 @@ export interface WorkExperience {
   endYear: string;
   endMonth: string;
   id: number;
+  isEmployee: boolean;
 }
 export interface VerificationProps {
   handleClick(): void;
@@ -526,11 +596,13 @@ export interface ProjectModalProps {
 
 export interface RatingBarProps {
   avgRating: number;
+  verUser: number;
 }
 
 export interface RatingCardProps {
   rating: number;
   users: number;
+  totalReviews: number;
 }
 
 export interface filterProps {
@@ -727,11 +799,11 @@ export interface AuthContextProps {
   auth: AuthResponse | undefined;
   email: string;
   redirect: string;
-  userCameFrom: string;
+  userCameFrom: string | undefined;
   handleAuth: (value: AuthResponse | undefined) => void;
   handleEmail: (value: string) => void;
   handleRedirect: (value: string) => void;
-  handleUserCameFrom: (value: string) => void;
+  handleUserCameFrom: (value: string | undefined) => void;
 }
 
 export type User = {
@@ -742,6 +814,7 @@ export type User = {
   isVerified: boolean;
   roleId: number;
   twoFactorAuth: boolean;
+  two_factor_auth: boolean;
 };
 
 export type AuthResponse = {
@@ -761,7 +834,7 @@ type ProductCategory = {
 };
 
 type ProductShop = {
-  id: number;
+  id: string;
   name: string;
 };
 export interface ProductResult {

@@ -46,7 +46,7 @@ export const sections = [
   },
   {
     id: 'about',
-    title: 'About Me',
+    title: 'About',
     description: 'A place to highlight your professional experience A place to highlight your professional ',
     icon: <Briefcase />,
     modal: <About />,
@@ -135,8 +135,7 @@ export let awards = [
     org: 'Organization ',
     description: 'Description',
     linkTitle: 'Link Title',
-    link: 'Link',
-    month: 'mm',
+    url: 'Link',
     year: 'yyyy',
   },
 ];
@@ -178,7 +177,7 @@ export let skills = [
 ];
 
 export let interests = 'Interest 1,Interest 2,Interest 3,Interest 4,Interest 5,Interest 6';
-export let languages = 'Language 1,Language 2,Language 3,Language 4,Language 5,Language 6';
+export let languages = '';
 
 export let contacts = [
   {

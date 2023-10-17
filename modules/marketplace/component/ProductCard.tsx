@@ -66,8 +66,16 @@ export default function ProductCard({
             </div>
 
             {image ? (
-              <div className="h-[120px] md:h-[209px] overflow-hidden">
-                <Image src={image} alt={name} width={254} height={209} className="rounded-[8px] object-cover" />
+              <div className="max-w-[300px] w-[100%] h-[120px] md:h-[209px] overflow-hidden">
+                <Image
+                  src={image}
+                  alt={name}
+                  width={0}
+                  height={0}
+                  style={{ height: '100%', width: '100vw' }}
+                  sizes="100vw"
+                  className="rounded-[8px] object-cover h-[100%] w-[100%]"
+                />
               </div>
             ) : (
               <Image
@@ -80,17 +88,17 @@ export default function ProductCard({
             )}
           </div>
           {/* Product Name */}
-          <p className="font-manropeL mt-auto text-brand-green-shade10 w-full text-ellipsis whitespace-nowrap overflow-hidden text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
+          <p className="font-manropeL mt-[0.5rem] text-brand-green-shade10 w-full text-ellipsis whitespace-nowrap overflow-hidden text-[14px] font-normal leading-[20px] letter tracking-[0.014px] pt-[8px]">
             {name?.length > 30 ? <span>{productNameTrimmed}...</span> : name}
           </p>
           {/* Product Price */}
           <h1 className="font-manropeL text-brand-green-shade10 text-[18px] font-bold leading-[20px] letter pt-[2px] pb-[8px]">
-            {`$ ${formatPrice(price)}`}
+            {`₦ ${formatPrice(price)}`}
           </h1>
           {/* Product Owner */}
           <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">
             By:{' '}
-            <Link href={shop?.id ? `/shop/${shop.id}` : '/shop'} className="underline">
+            <Link href={shop?.id ? `/shop/?shop_id=${shop.id}` : '/shop'} className="underline">
               {user}
             </Link>
           </p>
