@@ -12,7 +12,7 @@ type Props = {
   filter: string | any,
   isOpen: boolean,
   onClose: () => void,
-  token: string,
+  token: string | undefined,
   setData: (data: PurchaseData[]) => void
 }
 

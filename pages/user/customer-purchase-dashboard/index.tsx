@@ -12,11 +12,11 @@ import FilterDropDown from '@modules/marketplace/component/CustomerDashboard/Fil
 import MainLayout from '../../../components/Layout/MainLayout';
 import $http from '../../../http/axios';
 import { toast } from 'react-toastify';
-import { error } from 'console';
 import Spinner from '@ui/Spinner';
 import Link from 'next/link';
 import ComplaintsModal from '../../../components/Modals/ComplaintModal';
 import FilterModal from '@modules/marketplace/component/CustomerDashboard/FilterModal';
+import { useAuth } from '../../../context/AuthContext';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -51,7 +51,11 @@ const MyPage: React.FC = () => {
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
   const [selectedOrder, setSelectedOrder] = useState<PurchaseData | null>(null);
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJlYTg1OWExLThlOTYtNDE3MC1hNTEzLTg4MDQ1MTVkYjY0MCIsImlhdCI6MTY5NzQ3NjQ4Mn0.MFvxxYGyOfGdJ-obnPcMOaAfnhT5JNwkERqWukBzyqU"
+  
+  // useAuth
+  const { auth } = useAuth();
+  console.log(auth?.token)
+  const token = auth?.token
 
   // modal open and close state
   const [isModalOpen, setIsModalOpen] = useState(false);
