@@ -5,6 +5,8 @@ import { MainLayoutContextProvider } from '../context/LayoutContext';
 import '../styles/globals.css';
 import '../styles/nprogress.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import type { AppProps } from 'next/app';
 import nProgress from 'nprogress';
 import { Router } from 'next/router';
