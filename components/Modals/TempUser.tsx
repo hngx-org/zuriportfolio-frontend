@@ -30,6 +30,8 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
     const tempUser = await createTempUser(data);
 
     if (tempUser.data.token) {
+      console.log(tempUser.data.token);
+      
       const cartItems = JSON.parse(localStorage.getItem('products') as string);
       const cartIds = await getCardItemsId(cartItems);
       

@@ -1,8 +1,7 @@
 import { CartItemProps } from '../@types';
 import $http from './axios';
 
-export const CART_ENDPOINT =
-  process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
+export const CART_ENDPOINT = 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const RECENTLY_VIEWED_ENDPOINT =
   process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed';
@@ -63,9 +62,9 @@ export const removeFromCart = async (productId: string, token: string) => {
 export const createTempUser = async (datas: { email: string; firstName: string; lastName: string }) => {
   try {
     const apiUrl = 'https://staging.zuri.team/api/auth/api/auth/signup-guest';
-    // const response = await $http.post(apiUrl,datas)
-    // return response.data
-    return { data: { token: guestToken } };
+    const response = await $http.post(apiUrl,datas)
+    return response.data
+    // return { data: { token: guestToken } };
   } catch (error) {
     return { error: error, data: { token: '' } };
   }
