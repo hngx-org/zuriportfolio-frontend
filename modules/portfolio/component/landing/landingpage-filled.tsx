@@ -35,10 +35,19 @@ import {
 import { SectionDeleteModal } from '../warningModals';
 
 const LandingPageFilled: React.FC = () => {
-  const { selectedSections, buildPortfolio, setOpenDelete, editSection, modals, modalStates, userSections, userData } =
-    useContext(Portfolio);
+  const {
+    selectedSections,
+    buildPortfolio,
+    setOpenDelete,
+    editSection,
+    modals,
+    modalStates,
+    userSections,
+    userData,
+    setIdToDelete,
+  } = useContext(Portfolio);
 
-  const deleteSection = () => setOpenDelete(true);
+  // const deleteSection = (sectionID: string) => callDelete(sectionID);
 
   return (
     <>
@@ -53,14 +62,17 @@ const LandingPageFilled: React.FC = () => {
         {userSections?.map((section, i) => {
           return (
             <React.Fragment key={i}>
-              <SectionDeleteModal sectionToDelete={`be ${section.id}`} />
+              {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
               {section?.id === 'workExperience' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <Wrapper
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
-                    remove={deleteSection}
+                    remove={() => {
+                      setIdToDelete(section.id);
+                      setOpenDelete(true);
+                    }}
                   >
                     {section.data.map((el: any, i: any) => {
                       return <WorkExperience key={i} data={el} />;
@@ -77,7 +89,10 @@ const LandingPageFilled: React.FC = () => {
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
-                    remove={deleteSection}
+                    remove={() => {
+                      setIdToDelete(section.id);
+                      setOpenDelete(true);
+                    }}
                   >
                     {section.data.map((el: any, i: any) => {
                       return <Education key={i} data={el} />;
@@ -94,7 +109,10 @@ const LandingPageFilled: React.FC = () => {
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
-                    remove={deleteSection}
+                    remove={() => {
+                      setIdToDelete(section.id);
+                      setOpenDelete(true);
+                    }}
                   >
                     <Interests key={i} data={section.data[0]} />
                   </Wrapper>
@@ -109,7 +127,10 @@ const LandingPageFilled: React.FC = () => {
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
-                    remove={deleteSection}
+                    remove={() => {
+                      setIdToDelete(section.id);
+                      setOpenDelete(true);
+                    }}
                   >
                     <Language key={i} data={section.data[0]} />
                   </Wrapper>
@@ -124,7 +145,10 @@ const LandingPageFilled: React.FC = () => {
                     id={section?.id}
                     title={section.title}
                     edit={() => editSection(section?.id)}
-                    remove={deleteSection}
+                    remove={() => {
+                      setIdToDelete(section.id);
+                      setOpenDelete(true);
+                    }}
                   >
                     <About key={i} bio={section?.data?.bio} />
                   </Wrapper>
@@ -139,7 +163,10 @@ const LandingPageFilled: React.FC = () => {
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
-                    remove={deleteSection}
+                    remove={() => {
+                      setIdToDelete(section.id);
+                      setOpenDelete(true);
+                    }}
                   >
                     <Skill key={i} data={section.data} />
                   </Wrapper>
@@ -154,7 +181,10 @@ const LandingPageFilled: React.FC = () => {
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
-                    remove={deleteSection}
+                    remove={() => {
+                      setIdToDelete(section.id);
+                      setOpenDelete(true);
+                    }}
                   >
                     {section.data.map((el: any, i: number) => {
                       return <Project key={i} data={el} />;
@@ -171,7 +201,10 @@ const LandingPageFilled: React.FC = () => {
                     id={section.id}
                     title={section.title}
                     edit={() => editSection(section.id)}
-                    remove={deleteSection}
+                    remove={() => {
+                      setIdToDelete(section.id);
+                      setOpenDelete(true);
+                    }}
                   >
                     {section.data.map((el: any, i: number) => {
                       return <Awards key={i} data={el} />;
@@ -194,7 +227,10 @@ const LandingPageFilled: React.FC = () => {
                   id={section.id}
                   title={section.title}
                   edit={() => editSection(section.id)}
-                  remove={deleteSection}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
                 >
                   {section.id === 'workExperience' &&
                     workexperiences.map((el, i) => {
@@ -269,6 +305,8 @@ const LandingPageFilled: React.FC = () => {
           Add section
         </Button>
       )}
+
+      <SectionDeleteModal />
     </>
   );
 };

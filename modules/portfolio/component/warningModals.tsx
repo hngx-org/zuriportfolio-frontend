@@ -7,6 +7,8 @@ import Portfolio from '../../../context/PortfolioLandingContext';
 import { redirect } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import { useRouter } from 'next/navigation';
+import router from 'next/router';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({
@@ -70,10 +72,13 @@ function SectionModal({
 
 //A Modal function for the deleting of a section
 export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
-  const { toggleSection, setOpenDelete } = useContext(Portfolio);
+  const { toggleSection, setOpenDelete, idToDelete, setUserData } = useContext(Portfolio);
   const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
   const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
-  const sectionName = sectionToDelete?.split(' ')[1];
+  // const router = useRouter();
+  // const sectionName = sectionToDelete?.split(' ')[1];
+
+  console.log({ outsideDelete: idToDelete });
 
   //userID
   const { userId } = useContext(Portfolio);
@@ -82,46 +87,54 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   const toastId = useRef<any>(null);
 
   //function to delete sections
-  const deleteSection = () => {
+  const deleteSection = async () => {
     //If the section to delete is mainly backend
-    console.log(sectionName);
+    console.log({ justInDelete: idToDelete });
     //Query the backend
-    if (deleteFromBe) {
-      let myHeaders: any;
-      myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
+    // if (deleteFromBe) {
+    let myHeaders: any;
+    myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
 
-      let raw: any;
-      raw = JSON.stringify({
-        sectionName: sectionName,
-      });
+    let raw: any;
+    raw = JSON.stringify({
+      section: idToDelete,
+    });
 
-      let requestOptions: any;
-      requestOptions = {
-        method: 'DELETE',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow',
-      };
+    let requestOptions: any;
+    requestOptions = {
+      method: 'DELETE',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
 
-      // delete popup
-      const notify = () => (toastId.current = toast.success('Section deleted successfully'));
+    // delete popup
+    const notify = () => (toastId.current = toast.success('Section deleted successfully'));
 
-      //fetch the endpoint for deleting
-      fetch(`https://hng6-r5y3.onrender.com/api/profile/details/${userId}`, requestOptions)
-        .then((response) => response.text())
-        .then((result) => {
-          //Show popup when section is deleted successfully
-          notify();
-          console.log({ result: result, message: 'section deleted successfully' });
-        })
-        .catch((error) => console.log({ error: error }));
-    } else if (deleteLocal) {
-      const parts = sectionToDelete.split(' ');
-      const section = parts.slice(1).join(' ');
-      toggleSection(section);
-      setOpenDelete(false);
-    }
+    //fetch the endpoint for deleting
+    await fetch(`https://hng6-r5y3.onrender.com/api/profile/details/${userId}`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        console.log({ afterDelete: idToDelete });
+        //Show popup when section is deleted successfully
+        notify();
+        console.log({ message: result });
+        //take off the modal
+        setOpenDelete(false);
+        // toggleSection(idToDelete);
+        // setUserData((p: any) => ({ ...p, showBuildPortfolio: false }));
+        //reload the page
+        // router.reload();
+      })
+      .catch((error) => console.log({ error: error }));
+
+    // } else if (deleteLocal) {
+    //   const parts = sectionToDelete.split(' ');
+    //   const section = parts.slice(1).join(' ');
+    //   toggleSection(section);
+    //   setOpenDelete(false);
+    // }
   };
 
   return (
