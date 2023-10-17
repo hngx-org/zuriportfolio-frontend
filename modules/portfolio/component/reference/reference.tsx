@@ -369,7 +369,12 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onClose, us
               </div>
             </div>
             <div className="w-full flex justify-between items-center">
-              <div className="text-[1.05rem] text-brand-green-primary font-normal px-3 transition cursor-pointer py-1 rounded-full hover:bg-brand-green-primary hover:text-white-100">
+              <div
+                onClick={() => {
+                  setEditing(true);
+                }}
+                className="text-[1.05rem] text-brand-green-primary font-normal px-3 transition cursor-pointer py-1 rounded-full hover:bg-brand-green-primary hover:text-white-100"
+              >
                 + Add <span className="hidden md:inline">reference</span>
               </div>
               <div className="flex gap-2 justify-end">
