@@ -1,10 +1,9 @@
-import Link from 'next/link';
 import MainLayout from '../components/Layout/MainLayout';
 
-import ProductDetailsDescription from '../modules/marketplace/productDetailsDescription';
 import Banner from '@modules/home/banner/banner';
 import SectionOne from '@modules/home/sections/first/sectionOne';
 import SectionTwo from '@modules/home/sections/second/sectionTwo';
+import SectionThree from '@modules/home/sections/second/sectionThree';
 
 function Home() {
   return (
@@ -12,6 +11,7 @@ function Home() {
       <Banner />
       <SectionOne />
       <SectionTwo />
+      <SectionThree />
     </MainLayout>
   );
 }
