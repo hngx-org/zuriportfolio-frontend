@@ -10,7 +10,7 @@ import { UserInfo } from './@types';
 import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
 import Banner from './components/Banner';
-import Card from './components/Card copy';
+import Card from './components/Card';
 
 const HomePage = () => {
   // States
