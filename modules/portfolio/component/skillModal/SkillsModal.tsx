@@ -68,6 +68,12 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
     }
   };
 
+  const deleteInputCharacter = (e: { key: string }) => {
+    if (e.key === 'Backspace') {
+      setInputValue(inputValue.slice(0, -1));
+    }
+  };
+
   // handle input change
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputChangeValue = e.target.value.trim();
@@ -149,7 +155,6 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
       }
     }
   }
-
   // onclick of save button, it saves data to the endpoint
   function handleAddSkills(event: MouseEvent<HTMLButtonElement>): void {
     postSkillData();
@@ -205,7 +210,10 @@ const SkillModal = ({ onClose, isOpen, userId }: skillModalProps) => {
               placeHolder='Enter your skill and press "ENTER'
               className="w-full rounded-lg p-4 mb-6 border-2 border-[#C4C7C6] max-sm:p-2"
               onChange={inputChange}
-              onKeyDown={handleKeyPress}
+              onKeyDown={(e) => {
+                handleKeyPress(e);
+                deleteInputCharacter(e);
+              }}
               value={inputValue}
             />
           </div>

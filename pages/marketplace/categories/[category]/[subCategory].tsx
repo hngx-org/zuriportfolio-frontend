@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import type { GetServerSideProps } from 'next';
 import { FilterContextProvider } from '@modules/marketplace/component/filter/hooks/context';
+import { useContext, useEffect, useState } from 'react';
+import { PreviousUrlContext } from '@modules/marketplace/context/PreviousUrlProvider';
 
 interface CardType {
   id: string;
@@ -74,7 +76,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
     };
   } catch (e: any) {
     // if product does not exist or empty
-    if (e.response.data.Message.includes('no product category')) {
+    // error 500 that returns html string and check if message error is not return
+    if (!e.response?.data?.message) {
+      return {
+        props: {
+          response: {
+            error: true,
+            errorMessage: 'Internal Server Error',
+            data: null,
+          },
+        },
+      };
+    }
+    if (e?.response?.data?.Message?.includes('no product category')) {
       return {
         props: {
           response: {
@@ -99,10 +113,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
 export default function SubCategoryPage({ response }: ResponseType) {
   const router = useRouter();
   const { category, subCategory } = router.query;
+  const { updatePath } = useContext(PreviousUrlContext);
+  //fix hydration error
+  const [isReady, setReady] = useState(false);
+
+  useEffect(() => {
+    updatePath(router.asPath);
+    setReady(true);
+  }, [router.asPath, updatePath]);
 
   return (
     <FilterContextProvider>
-      <SpecificSubCategory subCategory={subCategory as string} response={response} />
+      {isReady && <SpecificSubCategory subCategory={subCategory as string} response={response} />}
     </FilterContextProvider>
   );
 }
