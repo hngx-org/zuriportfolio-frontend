@@ -64,7 +64,7 @@ function Pagination({ page, pages, activePage, visiblePaginatedBtn, setPage }: P
           {p}
         </Button>
       ))}
-      {pages > 1 && activePage !== pages && (
+      {pages > 5 && activePage !== pages && (
         <Button
           className={twMerge(
             'w-12 text-[15px] hover:bg-transparent focus:bg-transparent focus-within:bg-transparent active:bg-transparent scale-[.95] px-5 py-1 rounded-[10px]',
