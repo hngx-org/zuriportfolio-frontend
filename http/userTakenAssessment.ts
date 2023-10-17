@@ -1,7 +1,7 @@
 import axios from 'axios';
 import $http from './axios';
 
-const assessmentBaseUrl = `http://104.248.143.148/api`;
+const assessmentBaseUrl = `https://assessment.cofucan.tech/api`;
 
 export const fetchAssessmentHistory = async (token: string) => {
   try {
@@ -91,7 +91,7 @@ export const submitAssessment = async ({
     },
   });
   try {
-    const res = await axiosInstance.post(`http://104.248.143.148/api/assessments/submit`, {
+    const res = await axiosInstance.post(`${assessmentBaseUrl}/assessments/submit`, {
       assessment_id,
       response: {
         question_id: question_id,

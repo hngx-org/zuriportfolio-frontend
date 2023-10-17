@@ -68,14 +68,14 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
                 </React.Fragment>
               )}
 
-              {section?.id === 'about' && section?.data?.length > 0 && (
+              {/* {section?.id === 'about' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <ExternalWrapper id={section.id} title={section.title}>
                     <About key={i} bio={section.data[0]} />
                   </ExternalWrapper>
                   <Line />
                 </React.Fragment>
-              )}
+              )} */}
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <ExternalWrapper id={section.id} title={section.title}>
@@ -88,7 +88,9 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
               {section?.id === 'projects' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <ExternalWrapper id={section.id} title={section.title}>
-                    <Project key={i} data={section.data} />
+                    {section?.data.map((el: any, i: number) => {
+                      return <Project key={i} data={el} />;
+                    })}
                   </ExternalWrapper>
                   <Line />
                 </React.Fragment>

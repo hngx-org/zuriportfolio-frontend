@@ -135,8 +135,7 @@ export let awards = [
     org: 'Organization ',
     description: 'Description',
     linkTitle: 'Link Title',
-    link: 'Link',
-    month: 'mm',
+    url: 'Link',
     year: 'yyyy',
   },
 ];
