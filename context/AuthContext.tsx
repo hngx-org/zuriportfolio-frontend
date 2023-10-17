@@ -2,13 +2,15 @@ import React, { createContext, useContext, useState } from 'react';
 import { AuthContextProps } from '../@types';
 import { AuthResponse } from '../@types';
 
+export const ADMIN_ID = 3;
+
 const AuthContext = createContext<AuthContextProps>({} as any);
 
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {
   const [auth, setAuth] = useState<AuthResponse>();
   const [email, setEmail] = useState('');
   const [redirect, setRedirect] = useState('');
-  const [userCameFrom, setUserCameFrom] = useState('');
+  const [userCameFrom, setUserCameFrom] = useState<string | undefined>();
 
   const handleAuth = (value: AuthResponse | undefined) => {
     setAuth(value);
@@ -22,7 +24,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     setRedirect(value);
   };
 
-  const handleUserCameFrom = (value: string) => {
+  const handleUserCameFrom = (value: string | undefined) => {
     setUserCameFrom(value);
   };
 

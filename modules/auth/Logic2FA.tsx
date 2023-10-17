@@ -1,24 +1,22 @@
-import React, { ChangeEvent, useEffect, useState, useRef, useContext } from 'react';
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
-import { useAuth } from '../../context/AuthContext';
+import { ADMIN_ID, useAuth } from '../../context/AuthContext';
 import { verfiy2FA, resend2FACode } from '../../http/auth';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
-import { ADMIN_ID } from './component/Login/LoginForm';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
 function Code2FALogic() {
   const router = useRouter();
-  const [token, setToken] = useState<string>("");
+  const [token, setToken] = useState<string>('');
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
-  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
   const { auth, userCameFrom, handleAuth } = useAuth();
   const mutateFn = useAuthMutation(verfiy2FA, {
     onSuccess: (res: any) => {
-       if (res.status === 200) {
+      if (res.status === 200) {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
 
@@ -36,10 +34,10 @@ function Code2FALogic() {
         router.push(userCameFrom || '/explore');
         return;
       } else {
-          notify({
+        notify({
           message: 'Invalid Code',
           type: 'error',
-         });
+        });
       }
     },
   });
@@ -53,16 +51,16 @@ function Code2FALogic() {
 
   const mutateRe = useAuthMutation(resend2FACode, {
     onSuccess: (res: any) => {
-      console.log(res?.response)
-     if (res?.response?.status === 200) {
-      console.log(res?.response?.status)
-     localStorage.setItem('zpt', res?.response?.token)
-      setToken(res?.response?.token)
-      notify({
+      console.log(res?.response);
+      if (res?.response?.status === 200) {
+        console.log(res?.response?.status);
+        localStorage.setItem('zpt', res?.response?.token);
+        setToken(res?.response?.token);
+        notify({
           message: 'Two Factor Authentication Code Re-sent',
           type: 'success',
         });
-     }
+      }
     },
   });
 
@@ -135,7 +133,7 @@ function Code2FALogic() {
     const code = digits.join('');
     setLoading(true);
     setTimeout(() => {
-      mutateFn.mutate({ code, token});
+      mutateFn.mutate({ code, token });
       setLoading(false);
     }, 700);
   };
@@ -143,7 +141,6 @@ function Code2FALogic() {
   const handleResend = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
     let email = localStorage.getItem('email');
-    console.log('THE EMIAL ' + email)
     setLoading(true);
     setTimeout(() => {
       mutateRe.mutate({ email: email as string });
