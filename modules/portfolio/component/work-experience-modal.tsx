@@ -11,11 +11,13 @@ import Loader from '@ui/Loader';
 import { WorkExperience as WorkExperienceSkeleton } from './landing/Skeleton';
 
 type WorkExperienceModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   isOpen: boolean;
-  onClose: () => void;
+  userId?: string;
 };
 
-const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen, onClose }) => {
+const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen, onCloseModal, onSaveModal }) => {
   const {
     role,
     company,
@@ -74,7 +76,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
   }, [isChecked]);
 
   return (
-    <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+    <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
       <div className="space-y-6 bg-white-100 p-4 py-5">
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-center">
@@ -95,7 +97,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               </>
               <p className="text-[1.2rem] sm:text-[1.4rem] font-bold text-[#2E3130] font-manropeL">Work Experience</p>
             </div>
-            <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+            <CloseSquare size="32" color="#009254" variant="Bold" onClick={onCloseModal} className="cursor-pointer" />
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
@@ -346,7 +348,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 <Button
                   type="button"
                   onClick={(e) => {
-                    onClose();
+                    onCloseModal();
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
@@ -387,7 +389,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 <Button
                   type="button"
                   onClick={() => {
-                    onClose();
+                    onCloseModal();
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
