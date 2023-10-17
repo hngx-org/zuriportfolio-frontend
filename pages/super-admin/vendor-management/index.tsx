@@ -98,21 +98,21 @@ const Index = () => {
               <p className="text-lg font-bold">Vendor Management</p>
               <p className="text-gray-500 text-sm">List of all vendors and their details</p>
             </div>
-            <div className="flex items-center justify-left md:justify-between gap-4">
+            <div className="flex items-center justify-between gap-4">
               <SearchProduct handleSearchChange={handleSearch} />
               {showBanned || showDeleted ? (
                 <div></div>
               ) : (
-                <div className="md:block hidden">
+                <div className="">
                   <FilterProduct handleFilter={handleFilter} />
                 </div>
               )}
 
-              <div className="md:hidden block">
+              {/* <div className="md:hidden block">
                 <Button intent={'primary'} size={'sm'}>
                   <Sort />
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
           {isLoading ? (

@@ -78,14 +78,14 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         <div className="flex justify-between items-center gap-2">
           <SearchProduct handleSearchChange={handleSearch} />
           <div>
-            <div className="md:block hidden">
+            <div className="">
               <FilterProduct handleFilter={handleFilter} />
             </div>
-            <div className="md:hidden block">
+            {/* <div className="md:hidden block">
               <Button>
                 <Sort />
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
