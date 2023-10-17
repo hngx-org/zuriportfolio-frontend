@@ -88,14 +88,14 @@ export default function SearchModule() {
         <div className="text-zinc-700 text-[22px] font-normal  leading-7">{data?.data?.length} Results</div>
       </div>
       <div className="mt-10  flex gap-3">
-        <div className="min-h-screen gap-8 w-[100%] max-w-[300px] px-10 pt-12 pb-[744px] bg-white rounded-2xl border border-zinc-100 flex-col justify-start items-center flex">
-          <div className="border-b  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
-            <div className="flex justify-between items-center w-full">
+        <div className="min-h-screen gap-8 w-[100%] max-w-[320px] px-10 pt-12 pb-[744px] bg-white rounded-2xl  border-[#F2F2F2] border-2 flex-col justify-start items-center flex">
+          <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
+            <div className="flex justify-start items-center w-full">
               <div className="text-zinc-800 text-2xl font-semibold  leading-loose">Filters</div>
-              <div className=" text-right text-emerald-600 text-base font-normal  leading-normal">Applied</div>
+              {/* <div className=" text-right text-emerald-600 text-base font-normal  leading-normal">Applied</div> */}
             </div>
           </div>
-          <div className="border-b  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
+          <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
             <div className="flex justify-between items-center w-full">
               <div className="text-center text-zinc-900 text-lg   uppercase leading-normal">SKILLS</div>
             </div>
@@ -168,7 +168,7 @@ export default function SearchModule() {
             }
           />
 
-          <div className="border-b  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
+          <div className="border-b-2 border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
             <div className="flex justify-between items-center w-full">
               <div className="text-center text-zinc-900 text-lg   uppercase leading-normal">EXPERIENCE</div>
             </div>
@@ -190,24 +190,27 @@ export default function SearchModule() {
             ))}
           </div>
         </div>
-        {/* Cards ------ */}
-        {isLoading && (
-          <div className="grid  w-[100%]  py-14 min-h-[300px]">
-            <Loader />
-          </div>
-        )}
-        {data && data?.data.length > 0 && (
-          <div className="flex basis-3/4 flex-wrap justify-end items-start gap-4">
-            {data.data.map((item, key) => (
-              <Card key={key} data={item} />
-            ))}
-          </div>
-        )}
-        {!isLoading && data?.data?.length === 0 && (
-          <div className="grid  max-w-[600px] w-[100%] justify-center py-14 min-h-[300px]">
-            <Image src={erroEmpty} alt="No Result" />
-          </div>
-        )}
+
+        <div className="">
+          {/* Cards ------ */}
+          {isLoading && (
+            <div className="grid  w-[100%]  py-14 min-h-[300px]">
+              <Loader />
+            </div>
+          )}
+          {data && data?.data.length > 0 && (
+            <div className="flex gap-4 flex-wrap justify-end  w-[100%] ">
+              {data.data.map((item, key) => (
+                <Card key={key} data={item} />
+              ))}
+            </div>
+          )}
+          {!isLoading && data?.data?.length === 0 && (
+            <div className="grid  max-w-[600px] w-[100%] justify-center py-14 min-h-[300px] ">
+              <Image src={erroEmpty} alt="No Result" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
