@@ -30,7 +30,6 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
         const res = await response.json();
 
         const limitedData = res.data.slice(0, 11);
-        console.log(limitedData);
         setActivityDetails(limitedData);
       } catch (error) {
         setError('Error fetching data. Please try again.');
@@ -56,7 +55,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
         </div>
         <div className="space-y-5 md:space-y-[15.5px] max-w-[200px]">
           {loadingState ? (
-            <div className="h-[39rem] w-full bg-black bg-opacity-20 shadow-lg mx-auto rounded-md animate-pulse" />
+            <div className="h-[39rem] w-full bg-black bg-opacity-10 shadow-lg mx-auto rounded-md animate-pulse" />
           ) : (
             Array.isArray(activityDetails) &&
             activityDetails.map((item, index) => (
