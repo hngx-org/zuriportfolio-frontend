@@ -7,12 +7,11 @@ interface ActivityDetailsProps {
 
 const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
   const [activityDetails, setActivityDetails] = useState<activity[]>([]);
-  const [loadingState, setLoadingState] = useState<boolean>(false); // Corrected: Specify the type as boolean
+  const [loadingState, setLoadingState] = useState<boolean>(true); // Set initial loading state to true
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoadingState(true); // Corrected: Invoking setLoadingState as a function
       try {
         const response = await fetch(
           'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/activities/',
@@ -30,12 +29,11 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
         const res = await response.json();
 
         const limitedData = res.data.slice(0, 11);
-        console.log(limitedData);
         setActivityDetails(limitedData);
       } catch (error) {
         setError('Error fetching data. Please try again.');
       } finally {
-        setLoadingState(false); // Corrected: Set loading state to false in the finally block
+        setLoadingState(false); 
       }
     };
 
@@ -44,19 +42,18 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
 
   return (
     <section className="lg:w-[25%]">
-      <div
-        className={`${
-          loadingState
-            ? 'py-[50px] px-5 whitespace-nowrap text-ellipsis overflow-hidden bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:px-16 xl:max-w-[1270px]'
-            : 'py-[60px] px-5 whitespace-nowrap text-ellipsis overflow-hidden bg-white-100 lg:border-white-200 lg:border lg:rounded-lg xl:px-5 xl:max-w-[1270px]'
-        }`}
-      >
+      <div className={`${loadingState ? "py-[22px] px-5 whitespace-nowrap text-ellipsis overflow-hidden bg-white-100 border border-white-200 rounded-lg  mx-auto" : "py-[60px] px-5 whitespace-nowrap text-ellipsis overflow-hidden bg-white-100 border border-white-200 rounded-lg  mx-auto"}`}>
         <div className="flex justify-between items-center mb-8">
           <h3 className="text-[19px]">Activities</h3>
         </div>
         <div className="space-y-5 md:space-y-[15.5px] max-w-[200px]">
           {loadingState ? (
-            <div className="h-[39rem] w-full bg-black bg-opacity-20 shadow-lg mx-auto rounded-md animate-pulse" />
+            Array.from({ length: 10 }, (_, index) => (
+              <div key={index}>
+                <div className="h-4 w-2/3 bg-green-300 bg-opacity-10 mb-[22px] animate-pulse" />
+                <div className="h-4 w-1/2 bg-black bg-opacity-10  animate-pulse" />
+              </div>
+            ))
           ) : (
             Array.isArray(activityDetails) &&
             activityDetails.map((item, index) => (
