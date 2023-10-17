@@ -156,7 +156,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
     const token = localStorage.getItem('zpt');
   
     try {
-      const response = await fetch('https://demerzel-badges-production.up.railway.app/api/badges', {
+      const response = await fetch('https://staging.zuri.team/api/badges', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
