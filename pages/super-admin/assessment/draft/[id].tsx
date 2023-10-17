@@ -10,6 +10,7 @@ import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
 import CreateAssessment from '../new';
 import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
+import Link from 'next/link';
 
 export default function DraftPreview() {
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
@@ -136,25 +137,28 @@ export default function DraftPreview() {
                 </div>
               </div>
             </div>
-            {draftData.questions.map((item, index) => (
+            {draftData.questions?.map((item, index) => (
               <div key={index} className="mt-8 text-left">
                 <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
                   <div className="flex justify-between mb-4">
                     <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <button className="text-md font-manropeB text-black">Edit</button>
+                    <Link href={`/super-admin/assessment/draft/edit/${draftId}`}>
+                      <button className="text-md font-manropeB text-black">Edit</button>
+                    </Link>
                   </div>
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
                   <div className="mt-8 flex flex-col gap-[22px]">
-                    {item.answers.map((answer: any, index: number) =>
-                      answer.options.map((option: any, optionIndex: any) => (
-                        <div key={index} className="flex gap-4">
-                          <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
-                          <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
-                            {option}
-                          </label>
-                        </div>
-                      )),
+                    {item.answers?.map(
+                      (answer: any, index: number) =>
+                        answer.options?.map((option: any, optionIndex: any) => (
+                          <div key={index} className="flex gap-4">
+                            <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
+                            <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
+                              {option}
+                            </label>
+                          </div>
+                        )),
                     )}
                   </div>
                 </div>
