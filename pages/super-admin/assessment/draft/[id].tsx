@@ -16,7 +16,7 @@ export default function DraftPreview() {
   const router = useRouter();
   const data = router.query;
   const draftId = data.id;
-  const id =2
+  const id = 2;
 
   const [active, setActive] = useState<null | string>('button1');
   const handleClick = (button: string) => {
@@ -33,9 +33,9 @@ export default function DraftPreview() {
 
     fetch(apiUrl, {
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${token}`,
-     
+
         'X-CSRFTOKEN': token,
       },
     })

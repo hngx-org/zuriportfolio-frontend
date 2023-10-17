@@ -47,7 +47,6 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
-        console.log(response.data);
         setProduct(response.data);
         setIsLoading(false);
       })
@@ -57,7 +56,7 @@ export default function ProductDetailsDescription() {
   }, [apiUrl, id]);
 
   const addToCart = async () => {
-    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/carts`;
     if (auth?.token) {
       try {
         const response = await axios.post(
@@ -83,11 +82,9 @@ export default function ProductDetailsDescription() {
       const products: any[] = localStorage.getItem('products')
         ? JSON.parse(localStorage.getItem('products') as string)
         : [];
-      console.log('no auth');
-
+      
       if (product) {
-        console.log(product);
-
+                
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         console.log(products);
@@ -107,7 +104,6 @@ export default function ProductDetailsDescription() {
     try {
       const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
 
-      console.log(response);
       if (response.status === 201) {
         toast.success(response.data.message);
       }
