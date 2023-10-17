@@ -4,12 +4,12 @@ import { CaretRight } from './icons';
 import { SectionProps } from '@modules/marketplace/types/filter-types';
 
 const FilterSection = ({ data, children, tag, sectionTitle, ...props }: SectionProps) => {
-  const [maxItem, setMaxItem] = useState(9)
-  const [showMore, setShowMore] = useState(true)
+  const [maxItem, setMaxItem] = useState(9);
+  const [showMore, setShowMore] = useState(true);
 
   function handleItemLimit(maxItem: number, more: boolean) {
-    setMaxItem(maxItem)
-    setShowMore(more)
+    setMaxItem(maxItem);
+    setShowMore(more);
   }
 
   return (
@@ -19,7 +19,10 @@ const FilterSection = ({ data, children, tag, sectionTitle, ...props }: SectionP
         <BadgeItems data={data.slice(0, maxItem)} tag={tag} />
         {children}
         {showMore && Array.isArray(data) && data.length > 9 ? (
-          <button className="text-brand-green-primary ml-auto flex items-center text-sm" onClick={() => handleItemLimit(data.length, !showMore)}>
+          <button
+            className="text-brand-green-primary ml-auto flex items-center text-sm"
+            onClick={() => handleItemLimit(data.length, !showMore)}
+          >
             <span>See more</span> <CaretRight className="w-4 h-4" />
           </button>
         ) : null}

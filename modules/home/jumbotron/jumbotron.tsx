@@ -1,4 +1,3 @@
-import React from 'react';
 import JumboBg from '../../../public/assets/home/jumbo_background.png';
 import JumboIconOne from '../../../public/assets/home/jumbo-circle-one.png';
 import JumboIconTwo from '../../../public/assets/home/jumbo-circle-two.png';
