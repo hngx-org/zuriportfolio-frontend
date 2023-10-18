@@ -369,6 +369,26 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
+
+              {/* Shop section */}
+              {section?.id === 'shop' && section?.data?.length > 0 && (
+                // {section?.id === 'shop' && section?.data?.length > 0 && (
+                <React.Fragment key={i}>
+                  <Wrapper
+                    id={section.id}
+                    title={section.title}
+                    edit={() => editSection(section.id)}
+                    remove={() => {
+                      setIdToDelete(section.id);
+                      setOpenDelete(true);
+                    }}
+                  >
+                    {/* <Shop key={i} /> */}
+                    <Shop key={i} data={section.data} />
+                  </Wrapper>
+                  <Line />
+                </React.Fragment>
+              )}
             </React.Fragment>
           );
         })}

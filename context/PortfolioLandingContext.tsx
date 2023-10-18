@@ -14,6 +14,7 @@ import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
+import { GetShopItem } from '@modules/portfolio/component/landing/Skeleton';
 
 type PortfolioContext = {
   setShowBuildPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
@@ -444,6 +445,17 @@ export function PortfolioCtxProvider(props: { children: any }) {
           onCloseModal={() => onCloseModal('awards')}
           onSaveModal={() => onSaveModal('awards')}
           userId={userId}
+        />
+      ),
+    },
+    {
+      id: 'shop',
+      modal: (
+        <GetShopItem
+          isOpen={modalStates['shop']}
+          onCloseModal={() => onCloseModal('shop')}
+          onSaveModal={() => onSaveModal('shop')}
+          // userId={userId}
         />
       ),
     },

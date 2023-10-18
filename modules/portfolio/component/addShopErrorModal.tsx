@@ -5,8 +5,9 @@ import { CloseSquare } from 'iconsax-react';
 import { useContext } from 'react';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { useRouter } from 'next/navigation';
+// import { GetShopItemProps } from './landing/Skeleton';
 
-function AddShopErrorModal() {
+function AddShopErrorModal({ isOpen, onCloseModal, onSaveModal }: any) {
   // const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
 
   const { openShop, setOpenShop } = useContext(Portfolio);
@@ -19,8 +20,11 @@ function AddShopErrorModal() {
     <>
       <Modal
         closeOnOverlayClick
-        isOpen={openShop}
-        closeModal={onClose}
+        isOpen={isOpen}
+        closeModal={() => {
+          onCloseModal();
+          onSaveModal();
+        }}
         isCloseIconPresent={false}
         size="lg"
         title="Shop"
@@ -29,7 +33,10 @@ function AddShopErrorModal() {
           size="32"
           color="#009254"
           variant="Bold"
-          onClick={onClose}
+          onClick={() => {
+            onCloseModal();
+            onSaveModal();
+          }}
           className="absolute top-3 right-4 cursor-pointer"
         />
 
