@@ -89,13 +89,15 @@ export const Awards = ({ data }: SkeletonProps) => {
         <h3 className="text-lg font-semibold text-gray-200">{data?.title}</h3>
         <p className="text-base font-manropeB text-gray-200">{data?.org}</p>
         <a
-          className="flex gap-2 justify-center items-center text-base font-manropeB text-brand-green-primary flex-[2] flex-wrap break-all"
+          className="flex flex-row gap-1 justify-center items-center text-base font-manropeB text-brand-green-primary flex-[2] break-all"
           target="_blank"
           href={data?.url}
           rel="noreferrer"
         >
-          {data?.url}
-          <ArrowUp size={20} className="rotate-45 inline ms-1" />
+          {data?.url}{' '}
+          <span>
+            <ArrowUp size={20} className="rotate-45 inline ms-1" />
+          </span>
         </a>
       </div>
       <p className="font-semibold text-sm text-gray-400 flex-wrap break-all flex-[2]">{data?.description}</p>
@@ -130,7 +132,7 @@ export const Project = ({ data }: SkeletonProps) => {
   );
   return (
     <div className="flex md:flex-row flex-col mb-10 gap-1 md:gap-5">
-      <div className="w-[290px] order-2 md:order-1 rounded-xl">{image}</div>
+      <div className="min-w-[290px] w-[290px] order-2 md:order-1 rounded-xl">{image}</div>
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className="font-semibold text-sm text-gray-400 break-all">{data?.description}</p>

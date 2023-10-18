@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext, use } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
@@ -524,13 +524,16 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     // Send a PUT request to update the certification
 
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}/${sectionId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(editedCertification), // Send the edited data
         },
-        body: JSON.stringify(editedCertification), // Send the edited data
-      });
+      );
       const data = await response.json();
       console.log(data);
       // if (response.ok) {
