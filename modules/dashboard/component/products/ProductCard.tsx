@@ -151,6 +151,7 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
   const [updatingImage, setUpdatingImage] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [categoriesData, setCategoriesData] = useState([]);
+  const [editAssets, setEditAssets] = useState(false);
   const [products, setProducts] = useState<{
     name: string;
     description: string;
@@ -321,18 +322,6 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
               id="imageUploadInput"
               name="image"
             />
-            {/* <div className="p-3 border border-[#00000024] rounded-md">
-            <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
-              <MultipleFileUpload />
-            </div>
-            <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
-            <Input
-              className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-              placeholder="Add the link to your file"
-              inputMode="none"
-              name="name"
-            />
-          </div> */}
             <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
             <div className="relative">
               <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
@@ -413,6 +402,40 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
               />
             </div>
             <p className="text-[red] text-lg my-3 font-semibold">{form.errors.price && form.errors.price}</p>
+            {/* <h2 className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Assets</h2>
+            <div className="p-3 border border-[#00000024] rounded-md">
+              <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
+                      <MultipleFileUpload />
+                    </div>
+              <div>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Link</label>
+                <Input
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300"
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  disabled={!editAssets}
+                />
+              </div>
+              <div>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Name</label>
+                <Input
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300"
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  disabled={!editAssets}
+                />
+              </div>
+              <div>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Notes</label>
+                <Input
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300"
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  disabled={!editAssets}
+                />
+              </div>
+              
+            </div> */}
             <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition w-full mt-4">
               Save Changes
             </Button>

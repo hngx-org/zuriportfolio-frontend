@@ -73,6 +73,7 @@ const PromotionHistoryRow = (props: any) => {
         position: 'top-right',
         autoClose: 3000,
       });
+      props.getPromotions();
       console.log('Discount ID:', props.discount_id);
     } catch (error: any) {
       console.error('Error deleting discount:', error);
