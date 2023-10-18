@@ -40,7 +40,7 @@ function DeleteAccount() {
         setIspending(false);
         console.log(error);
         if (error) {
-          notifyError(`Error: ${error.response.data.message}`);
+          notifyError(`Error: ${error?.response?.data?.message}`);
         }
       })
       .finally(() => console.log(''));
