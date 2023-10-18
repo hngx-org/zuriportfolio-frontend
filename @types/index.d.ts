@@ -520,6 +520,7 @@ export interface WorkExperience {
   endYear: string;
   endMonth: string;
   id: number;
+  isEmployee: boolean;
 }
 export interface VerificationProps {
   handleClick(): void;
@@ -532,7 +533,7 @@ export interface PaginationBtn {
 export interface AdminTablePagination {
   currentPage: number;
   totalPages: number;
-  onPageChange: (newPage: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface PromotionHistory {
@@ -813,6 +814,7 @@ export type User = {
   isVerified: boolean;
   roleId: number;
   twoFactorAuth: boolean;
+  two_factor_auth: boolean;
 };
 
 export type AuthResponse = {

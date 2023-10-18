@@ -1,14 +1,20 @@
 import React from 'react';
 import Image from 'next/image';
-import profileimage from '../../../../../public/assets/profile.png';
 import Button from '@ui/Button';
 import arrowRight from '../../../../../public/assets/arrowtoRight.svg';
 import { NextRouter, useRouter } from 'next/router';
-import { useRemoveSanction, useRestore, useSanction, useTempDeleteProd } from '../../../../../http';
+import { useRemoveSanction, useRestore, useSanction, useTempDeleteProd } from '../../../../../http/super-admin1';
 import { toast } from 'react-toastify';
 import StarRating from '../../StarRating';
 import { brokenImage } from '../../../../../pages/super-admin/vendor-management/vendor-details/[id]';
 import { useQueryClient } from '@tanstack/react-query';
+
+export function formatNumber(number: any) {
+  if (typeof number !== 'number') {
+    return 0;
+  }
+  return new Intl.NumberFormat('en-US').format(number);
+}
 
 export function formatDate(inputDate: string) {
   const date = new Date(inputDate);
@@ -130,7 +136,7 @@ const SuperAdminProdDetails = ({
             <Image src={arrowRight} alt="arrowRight" onClick={() => handleBack(route)} className="cursor-pointer" />
             <p className="font-manropeB text-[18px] font-medium text-gray-900">Products Details</p>
           </div>
-          <div className="mt-6 md:mt-0 flex gap-[28px] items-center flex-col lg:flex-row mb-8">
+          <div className="mt-6 lg:mt-0 flex gap-[28px] items-center flex-col lg:flex-row mb-8">
             <div className="flex flex-col gap-[16px] lg:h-[520px] md:h-[600px] h-[340px] w-full lg:w-1/2">
               <Image
                 loader={() =>
@@ -156,8 +162,16 @@ const SuperAdminProdDetails = ({
               </h1>
 
               <div className="flex justify-between items-start mb-6">
-                <div className="flex gap-[4px] items-start ">
-                  <Image src={profileimage} alt="profileimg" />
+                <div className="flex gap-[4px] items-center ">
+                  <div className="w-10 h-10 mx-2 rounded-full overflow-hidden">
+                    <Image
+                      loader={() => data?.vendor_profile_pic[0] ?? brokenImage}
+                      src={data?.vendor_profile_pic[0] ?? brokenImage}
+                      alt="vendor image"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                   <p className="font-manropeB font-semibold tracking-[0.035px] md:tracking-[0.08px]">
                     {data?.vendor_name}
                   </p>
