@@ -88,15 +88,12 @@ const ZuriLandingPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Head>
-        <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : 'Your Unique Shop Title'}</title>
+        <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''}</title>
         <meta
           name="description"
           content="Discover a versatile online marketplace where sellers can showcase their products, and buyers can find a wide range of goods. Shop for unique handcrafted items, everyday essentials, and more."
         />
-        <meta
-          property="og:title"
-          content={shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : 'Explore, Shop, and Thrive'}
-        />
+        <meta property="og:title" content={shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''} />
         <meta
           property="og:description"
           content={`Experience the magic of ${

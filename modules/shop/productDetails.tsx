@@ -21,6 +21,7 @@ import { useAuth } from '../../context/AuthContext';
 import Header from './component/productPage/Header';
 import Footer from './component/productPage/Footer';
 import Loader from '@ui/Loader';
+import Head from 'next/head';
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -234,6 +235,20 @@ export default function ProductDetails() {
 
   return (
     <>
+      <Head>
+        <title>{shopName ? `${shopName} Shop - ${product?.name} Details` : ''}</title>
+        <meta name="description" content={`Explore the details of ${product?.name}. ${product?.description}`} />
+        <meta property="og:title" content={shopName ? `${shopName} Shop - ${product?.name} Details` : ''} />
+        <meta
+          property="og:description"
+          content={`Discover and explore the details of ${product?.name} - ${product?.description}.`}
+        />
+
+        <meta
+          property="og:url"
+          content="https://zuriportfolio-frontend-pw1h.vercel.app/shop/product?id=ad509f1d-efa4-4f00-a6a4-20b30d3f10f9&shopName=Martinez%20and%20Sons"
+        />
+      </Head>
       <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
