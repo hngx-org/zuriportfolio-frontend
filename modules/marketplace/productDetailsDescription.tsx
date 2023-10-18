@@ -46,14 +46,17 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
-        setProduct(response.data);
+        console.log(response);
+        setProduct(response.data.data);
         setIsLoading(false);
       })
       .catch((error) => {});
   }, [apiUrl, id]);
 
   const addToCart = async () => {
-    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/carts`;
+    const bearerToken = localStorage.getItem('zpt');
+    console.log(bearerToken);
     if (auth?.token) {
       try {
         const response = await axios.post(
@@ -61,14 +64,14 @@ export default function ProductDetailsDescription() {
           { product_ids: [`${id}`] },
           {
             headers: {
-              Authorization: `Bearer ${auth?.token}`,
+              Authorization: `Bearer ${bearerToken}`,
             },
           },
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           setCartCountNav(cartCount + 1);
-          toast.success('Added to Cart');
+          toast.success('Item Added to Cart');
           setCartLoading(false);
         }
       } catch (error: any) {
