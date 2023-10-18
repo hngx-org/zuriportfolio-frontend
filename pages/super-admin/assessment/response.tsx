@@ -492,4 +492,4 @@ function AssessmentResponse() {
   );
 }
 
-export default withAdminAuth(AssessmentResponse)
+export default withAdminAuth(AssessmentResponse);

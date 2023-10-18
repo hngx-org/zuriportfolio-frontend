@@ -65,7 +65,7 @@ const LogoCarousel: React.FC<LogoCarouselProps> = ({ color }) => {
 
   return (
     <div className={`${color ? 'bg-[#009254]' : 'bg-[#80c9aa]'} overflow-hidden p-2 w-full`}>
-      {/* <Slider {...settings}> */}
+      <Slider {...settings}>
         {slides.map((logo, index) => (
           <div key={index}>
             <div className="flex justify-center items-center flex-row space-x-3 md:space-x-[30px]">
@@ -74,7 +74,7 @@ const LogoCarousel: React.FC<LogoCarouselProps> = ({ color }) => {
             </div>
           </div>
         ))}
-      {/* </Slider> */}
+      </Slider>
     </div>
   );
 };
