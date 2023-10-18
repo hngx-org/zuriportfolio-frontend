@@ -74,6 +74,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
 
   const handleEditExperience = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e?.preventDefault();
     const experienceObject = JSON.stringify({
       userId,
@@ -105,6 +106,9 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       console.log(userId);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -267,10 +271,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       getAllWorkExperience();
     }
   }, [getAllWorkExperience, userId]);
-
-  // useEffect(() => {
-  //   console.log('User work experience ', workExperiences);
-  // }, [workExperiences]);
 
   return (
     <WorkExperienceModalContext.Provider
