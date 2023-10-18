@@ -24,8 +24,10 @@ export const SuccessFeedbackModal: FC<SuccessFeedbackModalProps> = ({ showModal,
 
         <div className="flex gap-2 items-center">
           <button className="lg:px-[55px] md:px-[45px] px-[35px] py-[12px] border border-[#009254] rounded-xl bg-[#009254] text-white-100 text-base flex items-center gap-2">
+            {/* Please put the proper badge id and the badge type */}
             <Link
-              href={`/assessments/dashboard/badge/${badgeID ? badgeID : 'null'}`}
+              href="/assessments/dashboard/badge/[id]"
+              as={`/assessments/dashboard/badge/${badgeID ? badgeID : 'null'}`}
               className="flex justify-center items-center gap-5"
             >
               Check My Score
