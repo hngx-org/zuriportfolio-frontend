@@ -101,7 +101,7 @@ function ResetPassword() {
           content="Reset password of your Zuri Portfolio account."
         />
         <meta name="keywords" content="Zuri, portfolio, login" />
-        <meta name="robots" content="index, follow" />
+        <meta name="robots" content="noindex, nofollow" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
 
         <meta name="language" content="English" />
