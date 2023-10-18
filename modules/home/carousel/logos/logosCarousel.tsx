@@ -68,7 +68,7 @@ const LogoCarousel: React.FC<LogoCarouselProps> = ({ color }) => {
       <Slider {...settings}>
         {slides.map((logo, index) => (
           <div key={index}>
-            <div className="flex justify-center items-center flex-row space-x-3 md:space-x-[30px]">
+            <div className="flex justify-evenly items-center flex-row space-x-3 md:space-x-[30px]">
               <p className="text-white-100 text-[15px] font-manropeL tracking-wider">{logo.alt}</p>
               <Image src={logo.src} alt={logo.alt} width={24} height={24} />
             </div>
