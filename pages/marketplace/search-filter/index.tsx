@@ -93,9 +93,9 @@ export const getServerSideProps = (async (context) => {
 
     const queryParams = { category, subCategory, price, discount, rating };
     let apiUrl = constructApiUrl('https://coral-app-8bk8j.ondigitalocean.app/api/products-filter', queryParams);
-    const { data, status } = await axios.get<{ products: ProductList[]; data: ProductList[] }>(apiUrl.toString());
+    const { data } = await axios.get<{ data: { products: ProductList[] } }>(apiUrl.toString());
 
-    const res = data !== null ? (data?.products ? data?.products : data?.data ? data?.data : []) : [];
+    const res = data !== null ? data?.data?.products : [];
     const itemsPerPage = 8;
     const totalProducts = res.length;
     const totalPages = Math.ceil(totalProducts / itemsPerPage);
