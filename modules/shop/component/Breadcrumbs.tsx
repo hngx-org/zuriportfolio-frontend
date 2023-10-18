@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 interface BreadcrumbsProp {
-    shopId: string;
+  shopId: string;
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProp> = ({ shopId }) => {
@@ -13,10 +13,10 @@ const Breadcrumbs: React.FC<BreadcrumbsProp> = ({ shopId }) => {
         <span className="mx-2">{'>'}</span>
         <Link href={`/shop/?shop_id=${shopId}`}>Shop</Link>
         <span className="mx-2">{'>'}</span>
-        <span className='text-white-400 cursor-pointer'>Product</span>
+        <span className="text-white-400 cursor-pointer">Product</span>
       </div>
     </div>
   );
-}
+};
 
 export default Breadcrumbs;
