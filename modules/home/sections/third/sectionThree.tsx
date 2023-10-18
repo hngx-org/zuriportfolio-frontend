@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const SectionThree = () => {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full bg-[#FBFFFD]">
       <div className="flex justify-center items-center py-5  w-full mb-14">
         <HeroSection
           title="Simplify your career journey with just one link in your bio - your portfolio."

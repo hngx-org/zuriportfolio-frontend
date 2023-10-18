@@ -34,7 +34,7 @@ const HeroSection = ({ title, subtitle, href, slug, desc, badge, bottom = true, 
             (bottom && button) || (!bottom && button) ? 'md:flex-row' : ''
           }`}
         >
-          <div className={`${bottom && button && 'md:w-[60%]'} w-full space-y-6`}>
+          <div className={`${(bottom && button) || (!bottom && button) ? 'md:w-[60%]' : ''} w-full space-y-6`}>
             <p className=" text-left font-manropeL text-[40px] lg:text-[48px] -mt-3 leading-[52px]">{title}</p>
             <p className=" text-left font-manropeL text-[16px] leading-[24px] ">{subtitle}</p>
             {button && (
