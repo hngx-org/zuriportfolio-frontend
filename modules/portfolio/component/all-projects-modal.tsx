@@ -13,10 +13,12 @@ const AllProjectsModal = ({
   projects,
   handleSetRoute,
   onCloseModal,
+  onSaveModal,
 }: {
   projects: any[];
   onEdit: (data: Data) => void;
   onCloseModal: () => void;
+  onSaveModal: () => void;
   handleSetRoute: (data: allRouteOptions) => void;
 }) => {
   const handleEdit = (data: Data) => {
@@ -34,6 +36,7 @@ const AllProjectsModal = ({
           theme: 'light',
           type: 'success',
         });
+        onSaveModal();
       })
       .catch((err) => {
         console.log(err);

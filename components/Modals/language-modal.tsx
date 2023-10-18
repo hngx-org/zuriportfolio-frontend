@@ -167,7 +167,6 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
             value={inputValue}
             maxLength={30}
           />
-          <Image src={arrow_left} width={24} height={24} alt="arrow-left" className="rotate-[270deg]" />
         </section>
 
         <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-4">

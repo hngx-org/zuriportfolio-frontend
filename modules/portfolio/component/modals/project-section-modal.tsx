@@ -87,6 +87,7 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
               projects={projects}
               onEdit={handleEditData}
               onCloseModal={onCloseModal}
+              onSaveModal={onSaveModal}
             />
           )}
         </>
