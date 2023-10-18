@@ -8,6 +8,7 @@ import Loader from '@ui/Loader';
 import { Input } from '@ui/Input';
 import Pagination from '@ui/Pagination';
 import { toast } from 'react-toastify';
+import Head from 'next/head';
 type Product = {
   product_id: any;
   image: any;
@@ -86,6 +87,9 @@ const Products = () => {
 
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
+      <Head>
+        <title>Products</title>
+      </Head>
       <div className="max-w-[1240px] mx-auto my-4 px-6">
         <div className="flex md:justify-end my-12 justify-center">
           <Link href="/dashboard/products/add-product">

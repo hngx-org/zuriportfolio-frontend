@@ -13,18 +13,23 @@ import Image from 'next/image';
 const CreateTemplate = () => {
   const [newobject, setObject]: any = useContext(ToPushContext);
   const [list, setList] = useState(questions_and_answers);
-
   const handleinputQuestion = (e: any, index: number) => {
     const updatedData = [...list];
     updatedData[index].question_text = e.target.value;
     setList(updatedData);
+    const newt = { ...newobject };
+    newt.questions_and_answers = list;
+    setObject(newt);
   };
   const [listupdate, setListupdate]: any = useContext(UpdateContext);
   const handleinputOption = (e: any, index: number, n: number) => {
     console.log(index, n);
     const updatedData = [...list];
-    updatedData[index].options[n] = e.target.value;
+    updatedData[index].answer.options[n] = e.target.value;
     setList(updatedData);
+    const newt = { ...newobject };
+    newt.questions_and_answers = list;
+    setObject(newt);
   };
   function splicearr(arr: any, index: number) {
     const resultArray = arr.slice(0, index).concat(arr.slice(index + 1));
@@ -33,19 +38,27 @@ const CreateTemplate = () => {
   //deleting options
   const handleDelete = (index: number, n: number) => {
     var updatedData = [...list];
-    const newdata = splicearr(updatedData[index].options, n);
-    updatedData[index].options = newdata;
+    const newdata = splicearr(updatedData[index].answer.options, n);
+    updatedData[index].answer.options = newdata;
     setList(updatedData);
   };
   //adding options
   const handleIncreaseOption = (index: number) => {
     const updatedData = [...list];
     //updatedData[indextoadd]?.options.push('')
-    updatedData[index].options.push('');
+    updatedData[index].answer.options.push('');
     setList(updatedData);
     console.log(list[index]);
+    console.log(newobject);
   };
-
+  const setCorrect = (value: any, index: number) => {
+    const updatedData = [...list];
+    updatedData[index].answer.correct_option = list[index].answer.options[value];
+    setList(updatedData);
+    const newt = { ...newobject };
+    newt.questions_and_answers = list;
+    setObject(newt);
+  };
   //handling Adding questions
   const handleAddquestion = () => {
     setList((list) => [
@@ -54,16 +67,23 @@ const CreateTemplate = () => {
         question_no: list.length + 1,
         question_type: 'multiple_choice',
         question_text: '',
-        options: [''],
-        correct_option: 1,
+        answer: {
+          options: [''],
+          correct_option: '',
+        },
       },
     ]);
   };
   useEffect(() => {
+    if (listupdate === 'addquest') {
+      setList(newobject.questions_and_answers);
+      console.log(list, newobject);
+      setListupdate('waiting');
+    }
+
     if (listupdate === 'save') {
       const newt = { ...newobject };
       newt.questions_and_answers = list;
-      console.log(newt);
       setObject(newt);
       setListupdate('post');
     }
@@ -85,6 +105,7 @@ const CreateTemplate = () => {
                   type="text"
                   name="question"
                   placeHolder=""
+                  value={list[index].question_text}
                   intent={'default'}
                   size={15}
                 />
@@ -93,7 +114,7 @@ const CreateTemplate = () => {
                 </div>
               </div>
               <div className=" text-[20px] font-semibold pt-4 text-[#1A1C1B]">Answers</div>
-              {list[index].options.map((opt, n) => {
+              {list[index].answer.options.map((opt: any, n: any) => {
                 return (
                   <div key={index + '-' + n} className="pt-4 flex flex-col gap-y-[10px]">
                     <div className=" text-[18px] font-semibold  text-[#1A1C1B]">{`Option ${n + 1}`}</div>
@@ -138,16 +159,16 @@ const CreateTemplate = () => {
               <div className="pt-4 w-full ">
                 <Select
                   onValueChange={(value) => {
-                    console.log(value);
+                    setCorrect(value, index);
                   }}
                 >
                   <SelectTrigger className="w-full p-6">
-                    <SelectValue placeholder="Option1" />
+                    <SelectValue placeholder="Select option" />
                   </SelectTrigger>
                   <SelectContent>
-                    {list[index].options.map((optt: any, n: number) => {
+                    {list[index].answer.options.map((optt: any, n: number) => {
                       return (
-                        <SelectItem key={index + '-' + n} value={`${n + 1}`}>
+                        <SelectItem key={index + '-' + n} value={`${n}`}>
                           Option {n + 1}
                         </SelectItem>
                       );
