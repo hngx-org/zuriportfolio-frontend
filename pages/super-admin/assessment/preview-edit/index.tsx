@@ -116,4 +116,4 @@ const Previewedit: React.FC = () => {
   );
 };
 
-export default withAdminAuth(Previewedit)
+export default withAdminAuth(Previewedit);

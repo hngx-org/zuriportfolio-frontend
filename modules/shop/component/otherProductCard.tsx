@@ -11,7 +11,6 @@ interface ProductCardProps {
 }
 
 const OtherProductCard: React.FC<ProductCardProps> = ({ product }) => {
-
   const shopName = router.query.shopName || '';
 
   return (

@@ -27,7 +27,6 @@ export default function ReviewDashboard() {
       );
       const data = await res.json();
 
-      console.log(data.data);
       const tranformedProduct = data.data.products.map((product: any) => ({
         id: product.id,
         title: product.name,
