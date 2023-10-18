@@ -150,7 +150,13 @@ const initialProductState = {
   image: [],
 };
 
-const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product: Product | null }) => {
+const EditModal = (props: {
+  closeEditModal: () => void;
+  isOpen: boolean;
+  product: Product | null;
+  fetchProducts: any;
+  insertProduct: any;
+}) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -184,7 +190,7 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
     assets_type: z.string(),
     assets_notes: z.string().min(4, { message: 'Leave a note about the file' }),
     assets_name: z.string().min(4, { message: 'Add File name' }),
-    shopId: z.string().min(3, { message: 'Select Shop' }),
+    // shopId: z.string().min(3, { message: 'Select Shop' }),
     quantity: z.number(),
   });
   const form = useForm({
@@ -195,7 +201,7 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
       category_id: props.product?.category_id,
       price: `${props.product?.price}`,
       currency: 'NGN',
-      shopId: props.product?.shop_id as any,
+
       quantity: props.product?.quantity,
       assets_link: '',
       assets_type: 'external',
@@ -273,7 +279,15 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
 
   const handleSubmit = async (values: any) => {
     const formData = new FormData();
-    Object.entries(values).forEach(([key, value]: any[]) => {
+    const transformedVal = {
+      name: values.name,
+      description: values.description,
+      quantity: +values.quantity,
+      currency: values.currency,
+      category_id: values.category_id,
+      price: +values.price,
+    };
+    Object.entries(transformedVal).forEach(([key, value]: any[]) => {
       formData.append(key, value);
     });
     try {
@@ -294,6 +308,9 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
       toast.success(res.data.message, {
         autoClose: 3000,
       });
+      const newProudct = await props.fetchProducts();
+      props.insertProduct(newProudct);
+      props.closeEditModal();
     } catch (error) {
       console.log(error);
     } finally {
@@ -663,7 +680,13 @@ const ProductCard = (props: {
         />
       )}
       {props.selectedProduct && (
-        <EditModal isOpen={editModal} closeEditModal={closeEditModal} product={props.selectedProduct} />
+        <EditModal
+          isOpen={editModal}
+          closeEditModal={closeEditModal}
+          product={props.selectedProduct}
+          fetchProducts={props.fetchProducts}
+          insertProduct={props.insertProduct}
+        />
       )}
     </>
   );
