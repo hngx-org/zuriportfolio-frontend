@@ -16,7 +16,6 @@ import TabContainer from '../shop/component/Tabbed';
 import likeIcon from '../../public/assets/icons/like.svg';
 import verifyIcon from '../../public/assets/icons/verify.svg';
 import profileImg from '../../public/assets/images/profile-img.png';
-import Layout from './component/productPage/Layout';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
@@ -28,26 +27,18 @@ export default function ProductDetails() {
   const router = useRouter();
   const [products, setProducts] = useState<Products[]>([]);
   const [product, setProduct] = useState<Products | null>(null);
-  const [currentProducts, setCurrentProducts] = useState<Products[]>([]);
   const [image, setImage] = useState<any>(product?.image);
   const [showAll, setShowAll] = useState(false);
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
-  const [categoryQuery, setCategoryQuery] = useState('');
   const [cartItemCount, setCartItemCount] = useState(0);
-  const categories: string[] = [];
   const [selectedCategory, setSelectedCategory] = useState('');
   const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
   const [showFullDescription, setShowFullDescription] = useState(false);
   const { auth } = useAuth();
-  const [shop, setShop] = useState<ShopData | null>(null);
 
   const handleCategoryChange = () => {};
   const handleShowMoreClick = () => {
-    setShowAll(!showAll);
-  };
-
-  const handleShowLessClick = () => {
     setShowAll(!showAll);
   };
 
@@ -156,7 +147,7 @@ export default function ProductDetails() {
     }
     try {
       const response = await axios.post(
-        'https://zuri-cart-checkout.onrender.com/api/checkout/api/carts',
+        'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
         {
           product_ids: [product.id],
         },
@@ -241,7 +232,6 @@ export default function ProductDetails() {
       <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
-        setCategoryQuery={setCategoryQuery}
         cartItemCount={cartItemCount}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
