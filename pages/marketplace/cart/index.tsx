@@ -16,6 +16,7 @@ import EmptyCart from '@modules/shop/component/cart/EmptyCart';
 import CartPageSkeleton from '@modules/shop/component/cart/checkout/CartPageSkeleton';
 import { destructureProducts, getDiscountPercentage } from '../../../helpers';
 import { Metadata } from 'next';
+import { useCart } from '@modules/shop/component/CartContext';
 
 export const metadata: Metadata = {
   title: 'Cart Summary',
@@ -24,13 +25,13 @@ export const metadata: Metadata = {
 
 export default function Cart() {
   const { auth } = useAuth();
-  console.log(auth?.token);
 
   const defSummary = { subtotal: 1, discount: 0, VAT: 0, total: 1 };
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedProductProp[]>([]);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [cartSummary, setCartSummary] = useState(defSummary);
+  const { setCartCountNav } = useCart();
 
   useEffect(() => {
     async function cartFetch() {
@@ -41,6 +42,8 @@ export default function Cart() {
       if (token) {
         carts = await getUserCart(token);
         summary = await getCartSummary(token);
+        const recentViewedProduct = await getRecentlyViewedProducts(token);
+        setRecentlyViewed(recentViewedProduct);
         summary = summary;
         setCartSummary(summary);
       } else {
@@ -78,10 +81,14 @@ export default function Cart() {
     if (auth?.token) {
       removeFromCart(productId, auth?.token as string);
       const summary = await getCartSummary(auth?.token as string);
+
+      setCartCountNav(items.length - 1);
       setCartSummary(summary);
       setCartItems(cartProductsItems);
     } else {
       let cartItems = items.filter((product) => product.productId != productId);
+      setCartCountNav(cartItems.length);
+
       localStorage.setItem('products', JSON.stringify(cartItems));
       setCartItems(cartItems);
     }

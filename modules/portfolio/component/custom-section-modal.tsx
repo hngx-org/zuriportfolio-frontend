@@ -1,10 +1,11 @@
 import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { Add, CloseSquare } from 'iconsax-react';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { years } from '../data';
 import Modal from '@ui/Modal';
 import Button from '@ui/Button';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 type Section = {
   type: string; // Type of the section (e.g., 'title', 'sub-title', etc.)
@@ -17,7 +18,14 @@ type CustomSectionModalProps = {
   onClose: () => void;
 };
 
-const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
+//{ isOpen, onClose }: CustomSectionModalProps
+
+const CustomSectionModal = () => {
+  const { openCustom, setOpenCustom } = useContext(Portfolio);
+
+  let isOpen = openCustom,
+    onClose = () => setOpenCustom(false);
+
   const [fields, setFields] = useState<Section[]>([]); // Initialize fields state to store added fields
   // const [sections, setSections] = useState<any>([]);
   const [customTitle, setCustomTitle] = useState('');
@@ -29,6 +37,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [idCounter, setIdCounter] = useState(1);
 
+  // Check if any of the field is empty
   const isFieldEmpty = (field: Section) => {
     if (field.data.title === '') {
       alert('pls fill in all fields');
@@ -38,6 +47,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
     return false; // Default to not empty if the field type is not recognized.
   };
 
+  // Create a new field i.e Links, Inputs etc
   const handleAddField = (sectionType: string) => {
     setIdCounter((prev) => prev + 1);
     // Check if the section type is in the oneInstanceTypes array
@@ -79,19 +89,22 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
     setFields([]);
   };
 
+  // Update field with value of input
   const handleUpdateField = ({ sectionIndex, newData }: { sectionIndex: number; newData: Record<string, any> }) => {
     const updatedFields = [...fields];
     updatedFields[sectionIndex].data = newData;
     setFields(updatedFields);
   };
 
+  // Delete custom section
   const handleDeleteCustomItem = (id: number) => {
     const updatedExperience = sections.filter((section) => section.id !== id);
     setSections(updatedExperience);
   };
+
+  // Render fields based on buttons clicked
   const renderfields = () => {
     return (
-      // <div className="flex flex-col gap-7">
       <>
         {fields.map((field, index) => (
           <React.Fragment key={index}>
@@ -111,6 +124,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
                     className="border-[#E1E3E2] w-full h-[54px] rounded-md border-[1px]"
                     inputSize={'lg'}
                     onChange={(e) => {
+                      // data to add to field
                       const newData = { ...field.data, title: e.target.value };
                       handleUpdateField({ sectionIndex: index, newData });
                     }}
@@ -257,6 +271,7 @@ const CustomSectionModal = ({ isOpen, onClose }: CustomSectionModalProps) => {
 
   return (
     <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      {/* Get all custom sections */}
       <div className="px-5 flex flex-col gap-7">
         {sections.map((section, index) => (
           <CustomSectionItem
@@ -395,7 +410,6 @@ const SectionBtns = ({
         gridTemplateColumns: 'repeat(auto-fit, minmax(8rem, 1fr))',
         gap: '1rem',
       }}
-      className=""
     >
       <button
         onClick={handleAddTitle}

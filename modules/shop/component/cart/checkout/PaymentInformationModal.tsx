@@ -28,12 +28,13 @@ const PaymentInformationModal = ({
     if (selectedPaymentMethod) {
       try {
         const response = await makePayment(selectedPaymentMethod, token);
-        window.location.href = response.transaction_url;
+        window.location.href = response.data.transaction_url;
       } catch (error) {
         console.error('Error making payment:', error);
       }
     } else {
       setPaymentMethodError('Please select a payment method before making the payment.');
+      setPaymentButtonClicked(false);
     }
   };
 
@@ -73,7 +74,7 @@ const PaymentInformationModal = ({
                 readOnly
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-[#00894C] font-semibold">$ {orderTotal}</span>
+                <span className="text-[#00894C] font-semibold">₦ {orderTotal}</span>
               </div>
             </div>
 

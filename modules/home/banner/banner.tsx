@@ -1,4 +1,3 @@
-import Button from '@ui/Button';
 import { ArrowRight } from 'iconsax-react';
 import Link from 'next/link';
 import React from 'react';

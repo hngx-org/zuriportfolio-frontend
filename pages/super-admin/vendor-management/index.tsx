@@ -8,12 +8,15 @@ import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import SearchProduct from '@modules/super-admin/components/vendormanagement/SearchProduct';
 import FilterProduct from '@modules/super-admin/components/vendormanagement/FilterProduct';
 import Button from '@ui/Button';
-import { useGetAllVendor } from '../../../http';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
+import { useGetAllVendor } from '../../../http/super-admin1';
+import { withAdminAuth } from '../../../helpers/withAuth';
+
 const Index = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  // page: number, search: string, status: string
   const { data, isLoading } = useGetAllVendor();
   //Variables for the pagination
-  const [currentPage, setCurrentPage] = useState(1);
   const [showBanned, setShowBanned] = useState(false);
   const [showDeleted, setShowDeleted] = useState(false);
   const [searchVal, setSearchVal] = useState('');
@@ -25,6 +28,7 @@ const Index = () => {
   const visibleVendors = filteredProducts?.slice(startIndex, endIndex);
 
   const handlePageChange = (newPage: number) => {
+    window.scroll(0, 10);
     setCurrentPage(newPage);
   };
 
@@ -35,7 +39,7 @@ const Index = () => {
     handleSearch(searchVal);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const bannedVendors = filteredProducts?.filter((vendor: any) => vendor.vendor_status === 'Banned');
+  const bannedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Banned');
   const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
@@ -99,40 +103,37 @@ const Index = () => {
               <p className="text-lg font-bold">Vendor Management</p>
               <p className="text-gray-500 text-sm">List of all vendors and their details</p>
             </div>
-            <div className="flex items-center justify-left md:justify-between gap-4">
+            <div className="flex items-center justify-between gap-4">
               <SearchProduct handleSearchChange={handleSearch} />
               {showBanned || showDeleted ? (
                 <div></div>
               ) : (
-                <div className="md:block hidden">
+                <div className="">
                   <FilterProduct handleFilter={handleFilter} />
                 </div>
               )}
 
-              <div className="md:hidden block">
+              {/* <div className="md:hidden block">
                 <Button intent={'primary'} size={'sm'}>
                   <Sort />
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
           {isLoading ? (
             <LoadingTable />
           ) : (
             <>
-              {bannedVendors?.length > 0 || deletedVendors?.legnth > 0 || visibleVendors?.length > 0 ? (
+              {bannedVendors?.length > 0 || deletedVendors?.legnth > 0 || filteredProducts?.length > 0 ? (
                 <>
                   <div className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-5 md:grid-cols-4 grid-cols-1 text-gray-500 text-center text-sm overflow-x-auto ">
                     <div className="flex items-center">
-                      {/* <input type="checkbox" name="" id="" /> */}
                       <p className="px-2">Vendor Name</p>
-                      {/* <ArrowDown size="16" className="" /> */}
                     </div>
                     <p className="hidden md:block">Total Sales</p>
                     <p className="hidden md:block">Number of Products</p>
                     <p className="hidden md:block">Date Joined</p>
                     <p className="hidden lg:block">Status</p>
-                    {/* <p className="hidden lg:block">Action</p> */}
                   </div>
                   <div>
                     {showBanned
@@ -141,11 +142,11 @@ const Index = () => {
                       ? deletedVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)
                       : visibleVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)}
                   </div>
-                  <SuperAdminPagination
+                  {/* <SuperAdminPagination
                     currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
+                    totalPages={data?.total_pages}
+                    setCurrentPage={setCurrentPage}
+                  /> */}
                 </>
               ) : (
                 <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
@@ -157,4 +158,4 @@ const Index = () => {
     </div>
   );
 };
-export default Index;
+export default withAdminAuth(Index);
