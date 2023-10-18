@@ -8,11 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { years } from '../data';
 
 type EducationModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   isOpen: boolean;
-  onClose: () => void;
+  userId?: string;
 };
 
-const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) => {
+const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal, onSaveModal }) => {
   const [educations, setEducations] = useState<Education[]>([]);
   const [degreeOptions, setDegreeOptions] = useState<DegreeOption[]>([]);
   const [degree, setDegree] = useState('');
@@ -184,12 +186,12 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
 
   return (
     <>
-      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         <div className="space-y-6 bg-white-100 p-4 py-5">
           <div className="flex flex-col gap-3 px-10 mb-6">
             <div className="flex justify-between items-center">
               <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Education</p>
-              <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+              <CloseSquare size="32" color="#009254" variant="Bold" onClick={onCloseModal} className="cursor-pointer" />
             </div>
             <div className="bg-brand-green-primary h-1 rounded-sm"></div>
           </div>
@@ -362,7 +364,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     </div>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end mt-12">
-                    <Button type="button" onClick={onClose} className="w-full rounded-md sm:w-[6rem]">
+                    <Button type="button" onClick={onCloseModal} className="w-full rounded-md sm:w-[6rem]">
                       Cancel
                     </Button>
                     <Button type="submit" className="w-full rounded-md sm:w-[6rem]">
@@ -383,7 +385,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                   <Add size="16" color="#009254" /> Add new Education
                 </button>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Button type="button" onClick={onClose} className="w-full rounded-md sm:w-[6rem]">
+                  <Button type="button" onClick={onCloseModal} className="w-full rounded-md sm:w-[6rem]">
                     Cancel
                   </Button>
                   <Button type="submit" className="w-full rounded-md sm:w-[6rem]">

@@ -39,9 +39,16 @@ const initialContextValue: Context = {
   isLoading: false,
 };
 
+type certificationModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  isOpen: boolean;
+  userId?: string;
+};
+
 const myContext = createContext(initialContextValue);
 
-const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModalProps) => {
   const { userId } = useContext(Portfolio);
   const [formData, setFormData] = useState({
     id: '',
@@ -168,14 +175,14 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
           <div>
             {' '}
             {!isModalOpen && (
-              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
                 <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
                   <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-                    <div className="flex items-center gap-6" onClick={onClose}>
+                    <div className="flex items-center gap-6" onClick={onCloseModal}>
                       <ArrowLeft2 />
                       <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
                     </div>
-                    <div onClick={onClose}>
+                    <div onClick={onCloseModal}>
                       <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
                     </div>
                   </div>
@@ -299,7 +306,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                       </div>
                       <div className="flex gap-4  items-center">
                         <Button
-                          onClick={onClose}
+                          onClick={onCloseModal}
                           intent={'secondary'}
                           className="w-full rounded-md sm:w-[6rem]"
                           size={'md'}
