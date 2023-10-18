@@ -13,7 +13,8 @@ import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/Em
 import Container from '@modules/auth/component/Container/Container';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { ratingData, cardData } from '../../../../db/reviews';
+import withAuth from '../../../../helpers/withAuth';
+// import { ratingData, cardData } from '../../../../db/reviews';
 
 interface ReviewData {
   productId: string;
@@ -35,6 +36,22 @@ interface ReviewData {
 interface ReviewApiResponse {
   data: ReviewData[];
 }
+interface RatsData {
+  oneStar: number;
+  twoStar: number;
+  threeStar: number;
+  fourStar: number;
+  fiveStar: number;
+  totalRating: number;
+  averageRating: number;
+  numberOfRating: number;
+  productId: string;
+  id: string;
+}
+
+interface RatsApiResponse {
+  data: RatsData;
+}
 
 interface Params extends ParsedUrlQuery {
   id: string;
@@ -42,40 +59,56 @@ interface Params extends ParsedUrlQuery {
 
 const UserReview: NextPage = () => {
   const [data, setData] = useState<ReviewData[] | null>(null);
+  const [rats, setRats] = useState<RatsData>();
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
-  const [total5Star, setTotal5Star] = useState<number>(0);
-  const [total4Star, setTotal4Star] = useState<number>(0);
-  const [total3Star, setTotal3Star] = useState<number>(0);
-  const [total2Star, setTotal2Star] = useState<number>(0);
-  const [total1Star, setTotal1Star] = useState<number>(0);
+  // const [total5Star, setTotal5Star] = useState<number>(0);
+  // const [total4Star, setTotal4Star] = useState<number>(0);
+  // const [total3Star, setTotal3Star] = useState<number>(0);
+  // const [total2Star, setTotal2Star] = useState<number>(0);
+  // const [total1Star, setTotal1Star] = useState<number>(0);
 
   const router = useRouter();
 
   useEffect(() => {
-    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/9/reviews?pageNumber=0&pageSize=10`)
+    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/10/reviews?pageNumber=0&pageSize=10`)
       .then((res) => res.json())
-      .then((data: ReviewApiResponse) => setData(data.data));
+      .then((data: ReviewApiResponse) => setData(data.data))
+      .catch((e) => console.log(e));
+  }, []);
+  useEffect(() => {
+    fetch('https://team-liquid-repo.onrender.com/api/review/products/10/rating')
+      .then((res) => res.json())
+      .then((data) => setRats(data.data))
+      .catch((e) => console.log(e));
   }, []);
 
-  useEffect(() => {
-    if (data) {
-      const total5 = data.filter((review) => review.rating === 5).length;
-      const total4 = data.filter((review) => review.rating === 4).length;
-      const total3 = data.filter((review) => review.rating === 3).length;
-      const total2 = data.filter((review) => review.rating === 2).length;
-      const total1 = data.filter((review) => review.rating === 1).length;
-      setTotal5Star(total5);
-      setTotal4Star(total4);
-      setTotal3Star(total3);
-      setTotal2Star(total2);
-      setTotal1Star(total1);
-    }
-  }, [data]);
+  const ratingData = [
+    { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
+    { rating: 4, users: rats?.fourStar!, total: rats?.numberOfRating! },
+    { rating: 3, users: rats?.threeStar!, total: rats?.numberOfRating! },
+    { rating: 2, users: rats?.twoStar!, total: rats?.numberOfRating! },
+    { rating: 1, users: rats?.oneStar!, total: rats?.numberOfRating! },
+  ];
+
+  // useEffect(() => {
+  //   if (data) {
+  //     const total5 = data.filter((review) => review.rating === 5).length;
+  //     const total4 = data.filter((review) => review.rating === 4).length;
+  //     const total3 = data.filter((review) => review.rating === 3).length;
+  //     const total2 = data.filter((review) => review.rating === 2).length;
+  //     const total1 = data.filter((review) => review.rating === 1).length;
+  //     setTotal5Star(total5);
+  //     setTotal4Star(total4);
+  //     setTotal3Star(total3);
+  //     setTotal2Star(total2);
+  //     setTotal1Star(total1);
+  //   }
+  // }, [data]);
 
   function filterReviews(view: string, rating: string, data: ReviewData[]) {
     let filteredReviews: ReviewData[] = [];
     if (rating === 'all') {
-      filteredReviews = data;
+      filteredReviews = data.filter((review) => data.length);
     } else {
       filteredReviews = data.filter((review) => review.rating === parseInt(rating));
     }
@@ -119,11 +152,11 @@ const UserReview: NextPage = () => {
               <div className="flex flex-col md:flex-row lg:gap-16 md:gap-10 gap-4">
                 <div className="flex flex-row md:flex-col gap-4 md:gap-8 lg:w-80 md:w-48">
                   <div>
-                    <RatingBar avgRating={4.2} />
+                    <RatingBar avgRating={rats?.averageRating!} verUser={100} />
                     <div className="md:hidden block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
-                        href={`../new`}
+                        href={`/dashboard/reviews/new`}
                         className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
@@ -132,12 +165,12 @@ const UserReview: NextPage = () => {
                   </div>
                   <div className="flex flex-col gap-2">
                     {ratingData.map((data, index) => (
-                      <RatingCard key={index} rating={data.rating} users={data.users} />
+                      <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />
                     ))}
                     <div className="hidden md:block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
-                        href={`../new`}
+                        href={`/dashboard/reviews/new`}
                         className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
@@ -147,7 +180,11 @@ const UserReview: NextPage = () => {
                 </div>
                 <div className="flex flex-col">
                   <div className="w-full justify-start">
-                    <Filter review={4} rating={4} filterReview={(view, rating) => handleFilter(view, rating)} />
+                    <Filter
+                      rating={rats?.totalRating!}
+                      review={rats?.numberOfRating!}
+                      filterReview={(view, rating) => handleFilter(view, rating)}
+                    />
                   </div>
                   <div className="mt-4 mx-1">
                     {filteredData?.length === 0 ? (
@@ -179,4 +216,4 @@ const UserReview: NextPage = () => {
   );
 };
 
-export default UserReview;
+export default withAuth(UserReview);
