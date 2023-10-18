@@ -23,13 +23,13 @@ export const sections = [
     icon: <Briefcase />,
     modal: <WorkExperience />,
   },
-  {
-    id: 'education',
-    title: 'Education',
-    description: 'Show off your  academic qualification  degrees, and also relevant certification.',
-    icon: <Teacher />,
-    modal: <Education />,
-  },
+  // {
+  //   id: 'education',
+  //   title: 'Education',
+  //   description: 'Show off your  academic qualification  degrees, and also relevant certification.',
+  //   icon: <Teacher />,
+  //   modal: <Education />,
+  // },
   {
     id: 'skills',
     title: 'Skills',
@@ -46,7 +46,7 @@ export const sections = [
   },
   {
     id: 'about',
-    title: 'About Me',
+    title: 'About',
     description: 'A place to highlight your professional experience A place to highlight your professional ',
     icon: <Briefcase />,
     modal: <About />,
@@ -66,8 +66,8 @@ export const sections = [
     modal: <Certificate />,
   },
   {
-    id: 'language',
-    title: 'Language',
+    id: 'languages',
+    title: 'Languages',
     description: 'A place to highlight your professional experience A place to highlight your professional ',
     icon: <Global />,
     modal: <Language />,
@@ -86,20 +86,20 @@ export const sections = [
     icon: <Briefcase />,
     modal: <Reference />,
   },
-  {
-    id: 'shop',
-    title: 'Shop',
-    description: 'A place to highlight your professional experience A place to highlight your professional ',
-    icon: <Briefcase />,
-    modal: <Shop />,
-  },
-  {
-    id: 'contact',
-    title: 'Contact',
-    description: 'A place to highlight your professional experience A place to highlight your professional ',
-    icon: <Briefcase />,
-    modal: <Contact />,
-  },
+  // {
+  //   id: 'shop',
+  //   title: 'Shop',
+  //   description: 'A place to highlight your professional experience A place to highlight your professional ',
+  //   icon: <Briefcase />,
+  //   modal: <Shop />,
+  // },
+  // {
+  //   id: 'contact',
+  //   title: 'Contact',
+  //   description: 'A place to highlight your professional experience A place to highlight your professional ',
+  //   icon: <Briefcase />,
+  //   modal: <Contact />,
+  // },
 ];
 
 export let workexperiences = [
@@ -177,7 +177,7 @@ export let skills = [
 ];
 
 export let interests = 'Interest 1,Interest 2,Interest 3,Interest 4,Interest 5,Interest 6';
-export let languages = 'Language 1,Language 2,Language 3,Language 4,Language 5,Language 6';
+export let languages = '';
 
 export let contacts = [
   {

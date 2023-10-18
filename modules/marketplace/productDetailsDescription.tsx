@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import mainImage from '../../public/assets/mainImage.png';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
 import likeIcon from '../../public/assets/icons/like.svg';
@@ -17,11 +16,11 @@ import { ProductData } from '../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
-import { destructureProducts } from '../../helpers';
 import { isUserAuthenticated } from './hooks/useAuthHelper';
 import { CART_ENDPOINT } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
+import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -47,13 +46,10 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
-        console.log(response.data);
         setProduct(response.data);
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+      .catch((error) => {});
   }, [apiUrl, id]);
 
   const addToCart = async () => {
@@ -72,13 +68,13 @@ export default function ProductDetailsDescription() {
 
         if (response.status === 200) {
           setCartCountNav(cartCount + 1);
+          toast.success('Added to Cart');
           setCartLoading(false);
         }
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
       }
-      toast.success('Added to Cart');
     } else {
       const products: any[] = localStorage.getItem('products')
         ? JSON.parse(localStorage.getItem('products') as string)
@@ -86,11 +82,8 @@ export default function ProductDetailsDescription() {
       console.log('no auth');
 
       if (product) {
-        console.log(product);
-
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
-        console.log(products);
         toast.success('Item added to cart🎊');
         setCartLoading(false);
         setCartCountNav(cartCount + 1);
@@ -197,7 +190,16 @@ export default function ProductDetailsDescription() {
                       (50 Customers)
                     </p>
                   </div>
-                ) : null}
+                ) : (
+                  <div className="flex flex-wrap items-center">
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <p>(no ratings for this product)</p>
+                  </div>
+                )}
               </div>
 
               <hr className="bg-white-110 text-white-110 h-[2px] border-0 lg:block hidden" />
@@ -458,6 +460,9 @@ export default function ProductDetailsDescription() {
 
           {/* favorite products  */}
           <div></div>
+          <div>
+            <ProductWeThoughtMightInterestYou id={id} />
+          </div>
         </main>
       )}
       {/* lg:px-[100px] md:px-10*/}

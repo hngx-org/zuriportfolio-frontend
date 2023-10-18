@@ -105,7 +105,7 @@ const Questions: React.FC = () => {
         <OutOfTime
           onClose={() => router.push('/assessments/dashboard')}
           onRetake={() => {
-            router.push('/assessments/take-test/intro');
+            router.push(`/assessments/take-test/intro?data=${result?.skill_id}`);
           }}
         />
       )}

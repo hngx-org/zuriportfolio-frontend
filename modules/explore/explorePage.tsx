@@ -1,5 +1,4 @@
 // pages/index.tsx
-import Card from './components/Card';
 import SearchAndFilter from './SearchAndFilter';
 import axios from 'axios';
 import useDebounce from './hooks/deBounce';
@@ -10,16 +9,19 @@ import { useSearchParams } from 'next/navigation';
 import { UserInfo } from './@types';
 import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
+import Banner from './components/Banner';
+import Card from './components/Card';
 
 const HomePage = () => {
   // States
   const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
+  const searchTerm = useRouter();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pageNumber]);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleClearFilters = () => {
     setFilters({});
@@ -35,6 +37,10 @@ const HomePage = () => {
       }
       return { ...prev, [type]: value };
     });
+  };
+
+  const handleGo = () => {
+    searchTerm.push(`/explore/search?searchQuery=${searchQuery}`);
   };
 
   const deBounce = useDebounce(searchQuery, 1200);
@@ -71,7 +77,9 @@ const HomePage = () => {
 
   return (
     <>
+      <Banner />
       <SearchAndFilter
+        handleGo={handleGo}
         setPageNumber={handleNumberReset}
         setFilter={handleClearFilters}
         handleFilters={handleFilters}
@@ -97,15 +105,17 @@ const HomePage = () => {
           </div>
         </div>
       )}
-      <div className="w-full mx-auto my-4 mb-12 flex justify-center">
-        <Pagination
-          visiblePaginatedBtn={5}
-          activePage={pageNumber}
-          pages={2}
-          page={pageNumber}
-          setPage={setPageNumber}
-        />
-      </div>
+      {data?.data?.length === 0 ? null : (
+        <div className="w-full mx-auto my-4 mb-12 flex justify-center">
+          <Pagination
+            visiblePaginatedBtn={5}
+            activePage={pageNumber}
+            pages={5}
+            page={pageNumber}
+            setPage={setPageNumber}
+          />
+        </div>
+      )}
     </>
   );
 };
