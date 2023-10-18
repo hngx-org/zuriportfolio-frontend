@@ -22,13 +22,12 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
     const fetchSubCategories = async () => {
       try {
         const res = await axios(url);
-        // console.log(res.data.products);
-        if (res.data.products.length === 0) {
+        if (res.data.data.length === 0) {
           return setError(true);
         }
 
         setError(false);
-        setData(res.data.products);
+        setData(res.data.data);
       } catch (e) {
         setError(true);
       } finally {
