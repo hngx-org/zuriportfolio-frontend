@@ -312,7 +312,13 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
               {...form.getInputProps('description')}
               inputMode="none"
             />
-            <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
+            <label className="font-manropeB text-[16px] mt-6 mb-2">Update Assets link</label>
+            <Input
+              className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+              placeholder="Add the link to your file"
+              inputMode="none"
+              {...form.getInputProps('assets_link')}
+            />
             <input
               type="file"
               accept="image/*"
@@ -321,18 +327,6 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
               id="imageUploadInput"
               name="image"
             />
-            {/* <div className="p-3 border border-[#00000024] rounded-md">
-            <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
-              <MultipleFileUpload />
-            </div>
-            <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
-            <Input
-              className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-              placeholder="Add the link to your file"
-              inputMode="none"
-              name="name"
-            />
-          </div> */}
             <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
             <div className="relative">
               <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
@@ -404,13 +398,7 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
             </p>
             <label className="font-manropeB text-[16px] mt-6">Product price</label>
             <div className="flex flex-row gap-8">
-              <Input
-                className="w-full my-2 text-dark-100"
-                // value={products.price}
-                // onChange={(e) => setProducts({ ...products, price: e.target.value })}
-                {...form.getInputProps('price')}
-                inputMode="none"
-              />
+              <Input className="w-full my-2 text-dark-100" {...form.getInputProps('price')} inputMode="none" />
             </div>
             <p className="text-[red] text-lg my-3 font-semibold">{form.errors.price && form.errors.price}</p>
             <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition w-full mt-4">
