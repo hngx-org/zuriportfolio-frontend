@@ -13,7 +13,7 @@ import { Data, allRouteOptions } from './project-section-modal';
 type ProjectSectionProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
-  userId: string;
+  userId: string | undefined;
   dataToEdit: Data | null;
   projects: any[];
   handleSetRoute: (data: allRouteOptions) => void;

@@ -9,6 +9,7 @@ import FilterProduct from '@modules/super-admin/components/vendormanagement/Filt
 import Button from '@ui/Button';
 import { useGetAllVendor } from '../../../http/super-admin1';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
+import { withAdminAuth } from '../../../helpers/withAuth';
 const Index = () => {
   const { data, isLoading } = useGetAllVendor();
   //Variables for the pagination
@@ -132,4 +133,4 @@ const Index = () => {
     </div>
   );
 };
-export default Index;
+export default withAdminAuth(Index);

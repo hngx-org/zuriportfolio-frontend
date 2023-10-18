@@ -21,14 +21,13 @@ function Wishlist() {
   const { auth } = useAuth();
 
   const token: any = isUserAuthenticated();
-
   const loadingCards = new Array(3).fill(0);
 
   const fetchData = async () => {
     try {
       const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token?.id}`);
+      const { message, status_code, data: result } = await response.json();
 
-      const result = await response.json();
       if (Array.isArray(result) && result.length === 0) setDataCheck(true);
       setData(result);
       setIsLoading(false);
@@ -56,8 +55,9 @@ function Wishlist() {
           },
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           toast.success('Added to Cart');
+          handleRemoveFromWishlist(id);
           console.log('success');
         }
       } catch (error: any) {

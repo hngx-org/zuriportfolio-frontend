@@ -74,7 +74,8 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
 
   const handleEditExperience = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    setIsLoading(true);
+    e?.preventDefault();
     const experienceObject = JSON.stringify({
       userId,
       company,
@@ -105,6 +106,9 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       console.log(userId);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -145,7 +149,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   };
 
   const getAllWorkExperience = useCallback(async () => {
-    console.log('workEx', userId);
     setIsLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
@@ -164,7 +167,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   }, [userId]);
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e?.preventDefault();
     setIsLoading(true);
     try {
       const missingFields = [];
@@ -268,10 +271,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       getAllWorkExperience();
     }
   }, [getAllWorkExperience, userId]);
-
-  // useEffect(() => {
-  //   console.log('User work experience ', workExperiences);
-  // }, [workExperiences]);
 
   return (
     <WorkExperienceModalContext.Provider

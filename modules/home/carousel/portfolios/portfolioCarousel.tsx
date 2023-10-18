@@ -1,19 +1,18 @@
 import Image from 'next/image';
 import Slider from 'react-slick';
 import { Key } from 'react';
-import link from '../../../../public/assets/home/link.png';
+import link from '../../../../public/assets/home/link.webp';
 import badge from '../../../../public/assets/home/badge.svg';
-
-import portraitOne from '../../../../public/assets/home/portraitOne.jpg';
-import portraitTwo from '../../../../public/assets/home/portraitTwo.jpg';
-import portraitThree from '../../../../public/assets/home/portraitThree.jpg';
-import portraitFour from '../../../../public/assets/home/portraitFour.jpg';
-import portraitFive from '../../../../public/assets/home/portraitFive.jpg';
-import portraitSix from '../../../../public/assets/home/portraitSix.jpg';
-import portraitSeven from '../../../../public/assets/home/portraitSeven.jpg';
-import portraitEight from '../../../../public/assets/home/portraitEight.jpg';
-import shopOne from '../../../../public/assets/home/shopOne.png';
-import shopTwo from '../../../../public/assets/home/shopTwo.png';
+import portraitOne from '../../../../public/assets/home/portraitOne.webp';
+import portraitTwo from '../../../../public/assets/home/portraitTwo.webp';
+import portraitThree from '../../../../public/assets/home/portraitThree.webp';
+import portraitFour from '../../../../public/assets/home/portraitFour.webp';
+import portraitFive from '../../../../public/assets/home/portraitFive.webp';
+import portraitSix from '../../../../public/assets/home/portraitSix.webp';
+import portraitSeven from '../../../../public/assets/home/portraitSeven.webp';
+import portraitEight from '../../../../public/assets/home/portraitEight.webp';
+import shopOne from '../../../../public/assets/home/shopOne.webp';
+import shopTwo from '../../../../public/assets/home/shopTwo.webp';
 
 interface Slide {
   src: string;
@@ -143,7 +142,6 @@ const PortfolioCarousel = () => {
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end items-start rounded-[11px] p-3 mr-2 md:mr-6"
                 style={{ backgroundImage: `url(${logo?.src})` }}
               >
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-black bg-opacity-30 rounded-[11px]"></div>
 
                 <div className="z-10">
@@ -164,8 +162,7 @@ const PortfolioCarousel = () => {
                 </div>
               </div>
             )}
-
-            {/* Shop section */}
+            Shop section
             {logo?.section === 'shop' && (
               <div
                 className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"
@@ -182,8 +179,6 @@ const PortfolioCarousel = () => {
                 </div>
               </div>
             )}
-
-            {/* Portrait section */}
             {logo?.section === 'portrait' && (
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat flex items-center rounded-[40%] mr-2 md:mr-6"

@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
-import Slider from './component/slider';
 import Button from '@ui/Button';
 import ShopProductList from './component/otherProductList';
 import Breadcrumbs from '../../components/Breadcrumbs';
@@ -16,38 +15,31 @@ import TabContainer from '../shop/component/Tabbed';
 import likeIcon from '../../public/assets/icons/like.svg';
 import verifyIcon from '../../public/assets/icons/verify.svg';
 import profileImg from '../../public/assets/images/profile-img.png';
-import Layout from './component/productPage/Layout';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import Header from './component/productPage/Header';
 import Footer from './component/productPage/Footer';
 import Loader from '@ui/Loader';
+import Head from 'next/head';
 
 export default function ProductDetails() {
   const router = useRouter();
-  const [products, setProducts] = useState<Products[]>([]);
   const [product, setProduct] = useState<Products | null>(null);
-  const [currentProducts, setCurrentProducts] = useState<Products[]>([]);
   const [image, setImage] = useState<any>(product?.image);
   const [showAll, setShowAll] = useState(false);
+  const [shopID, setShopID] = useState('');
+  const [otherProducts, setOtherProducts] = useState<Products[]>([]);
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
-  const [categoryQuery, setCategoryQuery] = useState('');
   const [cartItemCount, setCartItemCount] = useState(0);
-  const categories: string[] = [];
   const [selectedCategory, setSelectedCategory] = useState('');
   const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
   const [showFullDescription, setShowFullDescription] = useState(false);
   const { auth } = useAuth();
-  const [shop, setShop] = useState<ShopData | null>(null);
 
   const handleCategoryChange = () => {};
   const handleShowMoreClick = () => {
-    setShowAll(!showAll);
-  };
-
-  const handleShowLessClick = () => {
     setShowAll(!showAll);
   };
 
@@ -61,6 +53,7 @@ export default function ProductDetails() {
         .then((response) => response.json())
         .then((response) => {
           setProduct(response.data);
+          setShopID(response.data.shop.id);
         })
         .catch((error) => {
           console.error('Error fetching product details:', error);
@@ -68,7 +61,25 @@ export default function ProductDetails() {
         });
     }
   }, [router.query, auth]);
+  console.log('Shop Id', shopID);
+
+  useEffect(() => {
+    if (shopID) {
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shopID}`)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log('Fetched product data:', response.data.products);
+          setOtherProducts(response.data.products);
+        })
+        .catch((error) => {
+          console.error('Error fetching product details:', error);
+          setOtherProducts([]);
+        });
+    }
+  }, [shopID]);
+
   console.log('Product:', product);
+  console.log('Other Products', otherProducts);
 
   console.log('Product Name:', product ? product.name : 'N/A');
 
@@ -143,9 +154,9 @@ export default function ProductDetails() {
     );
   }
 
-  const updateImage = (newImage: any) => {
-    setImage(newImage);
-  };
+  // const updateImage = (newImage: any) => {
+  //   setImage(newImage);
+  // };
 
   const handleAddToCart = async () => {
     if (!auth) {
@@ -156,7 +167,7 @@ export default function ProductDetails() {
     }
     try {
       const response = await axios.post(
-        'https://zuri-cart-checkout.onrender.com/api/checkout/api/carts',
+        'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
         {
           product_ids: [product.id],
         },
@@ -207,41 +218,40 @@ export default function ProductDetails() {
       ? product.description
       : product.description?.slice(0, 400);
 
-  const specificationData = [
-    'Adaptable with HTML5 and CSS3',
-    'Comprehensive documentation and customer support',
-    'Similar products you might like',
-    'WC3 valid HTML codes',
-    'Compatible with all device interfaces',
-    'Compatible with all Google web fonts',
-    'Active and Hover options',
-    'Ensure the template adheres to WCAG guidelines.',
-    'Allow users to upload and share additional resources.',
-    'Support recording for later playback and distribution.',
-    'Offers tutorials to set up and customize the template.',
-  ];
-
   const readMoreBtn = document.querySelector('.read-more-btn') as HTMLElement | null;
   const text = document.querySelector('.text-wrapper') as HTMLElement | null;
 
-  const readMore = () => {
-    text?.classList.toggle('line-clamp-3');
-    text?.classList.toggle('line-clamp-none');
-    if (readMoreBtn?.textContent === 'Read more') {
-      readMoreBtn.textContent = 'Read less';
-      console.log('it reads more');
-    } else if (readMoreBtn?.textContent === 'Read less') {
-      readMoreBtn.textContent = 'Read more';
-      console.log('it reads less');
-    }
-  };
+  // const readMore = () => {
+  //   text?.classList.toggle('line-clamp-3');
+  //   text?.classList.toggle('line-clamp-none');
+  //   if (readMoreBtn?.textContent === 'Read more') {
+  //     readMoreBtn.textContent = 'Read less';
+  //     console.log('it reads more');
+  //   } else if (readMoreBtn?.textContent === 'Read less') {
+  //     readMoreBtn.textContent = 'Read more';
+  //     console.log('it reads less');
+  //   }
+  // };
 
   return (
     <>
+      <Head>
+        <title>{shopName ? `${shopName} Shop - ${product?.name} Details` : ''}</title>
+        <meta name="description" content={`Explore the details of ${product?.name}. ${product?.description}`} />
+        <meta property="og:title" content={shopName ? `${shopName} Shop - ${product?.name} Details` : ''} />
+        <meta
+          property="og:description"
+          content={`Discover and explore the details of ${product?.name} - ${product?.description}.`}
+        />
+
+        <meta
+          property="og:url"
+          content="https://zuriportfolio-frontend-pw1h.vercel.app/shop/product?id=ad509f1d-efa4-4f00-a6a4-20b30d3f10f9&shopName=Martinez%20and%20Sons"
+        />
+      </Head>
       <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
-        setCategoryQuery={setCategoryQuery}
         cartItemCount={cartItemCount}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
@@ -263,7 +273,7 @@ export default function ProductDetails() {
           {/* Product Detail Images  */}
           <div className="flex flex-col w-full lg:h-[542px] h-full item-center lg:gap-y-2">
             <div
-              className="img-container w-full lg:h-[27rem] md:h-[20rem] sm:h-[17rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-lg"
+              className="img-container w-full lg:h-full md:h-[20rem] sm:h-[17rem] h-[11.25rem] hover:cursor-zoom-in relative overflow-hidden rounded-lg"
               ref={imgContRef}
             >
               <Image
@@ -275,7 +285,6 @@ export default function ProductDetails() {
                 className="img max-w-none w-full h-auto absolute"
               />
             </div>
-            <Slider updateImage={updateImage} />
           </div>
 
           {/* Product Detail Data */}
@@ -332,10 +341,10 @@ export default function ProductDetails() {
               </p>
               <p className="flex gap-x-4 items-center">
                 <span className="text-black text-xl md:text-3xl lg:text-3xl font-normal lg:font-semibold font-manropeEB leading-10">
-                  ₦{product.price.toLocaleString()}
+                  ₦ {product.price.toLocaleString()}
                 </span>
                 <span className="text-xl font-light md:text-2xl lg:text-[1.375rem] font-manrope line-through leading-7 text-gray-300">
-                  {product.discount_price ? '₦' + product.discount_price : null}
+                  {product.discount_price ? '₦' + product.discount_price.toLocaleString() : null}
                 </span>
               </p>
 
@@ -539,19 +548,27 @@ export default function ProductDetails() {
         {/* favorite products  */}
         <div className="mt-[4.4rem] mb-[2.37rem]">
           <div className="flex justify-between items-center mb-5 md:mb-2 lg:mb-[1.13rem]">
-            <h3 className="text-custom-color31 font-manropeL font-bold md:text-2xl text-sm md:px-2 truncate w-[13.1875rem] md:w-full">
+            <h3 className="text-custom-color31 font-manropeL font-bold md:text-2xl text-sm md:px-2 truncate w-full">
               Other Products By {shopName}{' '}
             </h3>
           </div>
-          <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
-            <ShopProductList products={products.slice(0, 8)} />
-          </div>
-          <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
-            <ShopProductList products={products.slice(0, 6)} />
-          </div>
-          <div className="md:mx-[0.66rem] mx-0 md:hidden block">
-            <ShopProductList products={products.slice(0, 4)} />
-          </div>
+          {otherProducts.length > 0 ? (
+            <>
+              <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
+                <ShopProductList products={otherProducts.slice(0, 8)} productId={product.id} />
+              </div>
+              <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
+                <ShopProductList products={otherProducts.slice(0, 6)} productId={product.id} />
+              </div>
+              <div className="md:mx-[0.66rem] mx-0 md:hidden block">
+                <ShopProductList products={otherProducts.slice(0, 4)} productId={product.id} />
+              </div>
+            </>
+          ) : (
+            <div className="mt-8 py-8 px-4 text-center rounded-2xl border border-dark-110/20 text-dark-110 font-manropeL text-xl md:text-2xl font-semibold">
+              No Product To Show
+            </div>
+          )}
         </div>
       </main>
       <Footer shopName={shopName} />
