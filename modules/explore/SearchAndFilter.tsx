@@ -29,8 +29,9 @@ const SearchAndFilter = (prop: {
   handleFilters: (type: string, value: string | number) => void;
   setFilter: Dispatch<React.SetStateAction<{ SortBy?: number; Country?: string }>>;
   setPageNumber: () => void;
+  handleGo: () => void;
 }) => {
-  const { setPageNumber } = prop;
+  const { setPageNumber, handleGo } = prop;
   const [activeSection, setActiveSection] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
@@ -203,7 +204,10 @@ const SearchAndFilter = (prop: {
               />
             </button>
 
-            <button className="col-span-full h-12 self-end bg-brand-green-primary text-white-100 p-2 rounded-lg uppercase md:col-span-1">
+            <button
+              onClick={handleGo}
+              className="col-span-full h-12 self-end bg-brand-green-primary text-white-100 p-2 rounded-lg uppercase md:col-span-1"
+            >
               Go
             </button>
           </div>
