@@ -16,8 +16,8 @@ const VendorLists = ({ data }: any) => {
         <div className="flex items-center">
           <div className="w-10 h-10 mx-2 rounded-full overflow-hidden">
             <Image
-              loader={() => data?.vendor_profile_pic[0] || brokenImage}
-              src={data?.vendor_profile_pic[0] || brokenImage}
+              loader={() => data?.vendor_profile_pic[0] ?? brokenImage}
+              src={data?.vendor_profile_pic[0] ?? brokenImage}
               alt="profile picture"
               width={40}
               height={40}
@@ -53,9 +53,6 @@ const VendorLists = ({ data }: any) => {
         ></span>
         <span>{data?.vendor_status}</span>
       </div>
-      {/* <div className="lg:flex items-center justify-center hidden">
-        <More size="20" className="cursor-pointer" />
-      </div> */}
     </div>
   );
 };

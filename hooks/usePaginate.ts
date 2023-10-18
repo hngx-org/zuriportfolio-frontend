@@ -19,6 +19,7 @@ const usePaginate = (item: OrderHistory[], limit: number) => {
     };
     getNewPageItems();
   }, [currentPage, limit, item]);
+
   return {
     currentPage,
     changeCurrentPage,

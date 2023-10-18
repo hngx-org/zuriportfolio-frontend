@@ -13,6 +13,7 @@ function ReviewForms() {
   const [rateNo, setRating] = useState(0);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [load, setLoad] = useState(false);
 
   const router = useRouter();
 
@@ -45,6 +46,7 @@ function ReviewForms() {
   };
 
   const handleSubmit = async () => {
+    setLoad(true);
     try {
       const newReview: Review = {
         rateNo,
@@ -54,7 +56,8 @@ function ReviewForms() {
       const config = {
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       };
-      await axios.post('https://team-liquid-repo.onrender.com/api/review/products/9/reviews', newReview);
+      await axios.post('https://team-liquid-repo.onrender.com/api/review/products/10/reviews', newReview);
+      setLoad(false);
 
       console.log(newReview);
       router.push('/dashboard/reviews/product-details/1');
@@ -79,7 +82,7 @@ function ReviewForms() {
               intent={'default'}
               inputSize={'lg'}
               placeHolder=""
-              className="lg:w-[738px] md:w-[454px]  w-[324px]"
+              className="lg:w-[738px] md:w-[454px] text-black  w-[324px]"
             />
           </div>
           <div className=" my-3">
@@ -89,20 +92,32 @@ function ReviewForms() {
             <textarea
               value={description}
               onChange={handleDescriptionChange}
-              className="lg:w-[738px] md:w-[454px] border-2 resize-none rounded-[10px] border-[#8D9290] font-manropeL text-dark-600 hide-caret transition-all select-none focus-within:border-brand-green-primary  px-4 py-3  outline-none  h-[177px] md:h-[240px] lg:h-[400px] relative  flex items-start justify-start w-[324px]"
+              className="lg:w-[738px] md:w-[454px] border-2 resize-none rounded-[10px] border-[#8D9290] font-manropeL text-black hide-caret transition-all select-none focus-within:border-brand-green-primary  px-4 py-3  outline-none  h-[177px] md:h-[240px] lg:h-[400px] relative  flex items-start justify-start w-[324px]"
             ></textarea>
           </div>
           <div className="my-5 ">
-            <Button
-              onClick={handleSubmit}
-              intent={'primary'}
-              size={'lg'}
-              isLoading={false}
-              spinnerColor="#000"
-              className="lg:w-[188px] md:w-[104px] w-[90px] "
-            >
-              Post
-            </Button>
+            {load === false ? (
+              <Button
+                onClick={handleSubmit}
+                intent={'primary'}
+                size={'lg'}
+                isLoading={false}
+                spinnerColor="#000"
+                className="lg:w-[188px] md:w-[104px] w-[90px] "
+              >
+                Post
+              </Button>
+            ) : (
+              <Button
+                intent={'primary'}
+                size={'lg'}
+                isLoading={true}
+                spinnerColor="#000"
+                className="lg:w-[188px] md:w-[104px] w-[90px] "
+              >
+                Post
+              </Button>
+            )}
           </div>
         </div>
       </div>

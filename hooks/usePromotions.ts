@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PromotionHistory } from '../@types';
+import axios from 'axios';
 
 const dummyPromotions: PromotionHistory[] = [
   {
@@ -91,22 +92,23 @@ const usePromotions = (initialPromotions = dummyPromotions) => {
     sortBy: keyof PromotionHistory;
     sortOrder: 'asc' | 'desc';
   }>({ sortBy: 'type', sortOrder: 'asc' });
+  const [isLoading, setIsLoading] = useState(true);
   const changeFilter = (val: string) => {
     setPromotionFilters(val);
   };
+  const getPromo = async () => {
+    const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/discount/promotions', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
+    return data.data;
+    //  .catch((error) => {
+    //    console.error('Error fetching data: ', error);
+    //    setIsLoading(false);
+    //  });
+  };
 
-  useEffect(() => {
-    const filterOrder = () => {
-      let newOrder = initialPromotions.filter((order) => order.status === promotionFilter);
-
-      setPromotions(newOrder);
-    };
-    if (promotionFilter !== 'all') {
-      filterOrder();
-    } else {
-      setPromotions(initialPromotions);
-    }
-  }, [promotionFilter, initialPromotions]);
   //  Sort Logic
   const changeSortBy = (val: keyof PromotionHistory) => {
     setSortObj({
@@ -122,41 +124,52 @@ const usePromotions = (initialPromotions = dummyPromotions) => {
     }
   };
 
-  useEffect(() => {
-    const sortOrders = () => {
-      const allKeys = Object.keys(initialPromotions);
-      const sortedOrders = [...initialPromotions].sort((a, b) => {
-        let valueA = a[sortBy];
-        let valueB = b[sortBy];
+  const sortPromotion = (promotions: any[]) => {
+    const sortedOrders = [...initialPromotions].sort((a, b) => {
+      let valueA = a[sortBy];
+      let valueB = b[sortBy];
 
-        if (typeof valueA === 'number' && typeof valueB === 'number') {
-          if (sortOrder === 'asc') {
-            return valueA - valueB;
-          } else {
-            return valueB - valueA;
-          }
-        } else if (typeof valueA === 'string' && typeof valueB === 'string') {
-          if (sortOrder === 'asc') {
-            return valueA.localeCompare(valueB);
-          } else {
-            return valueB.localeCompare(valueA);
-          }
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        if (sortOrder === 'asc') {
+          return valueA - valueB;
         } else {
-          if (sortOrder === 'asc') {
-            return 1;
-          } else {
-            return -1;
-          }
+          return valueB - valueA;
         }
-      });
-      setPromotions(sortedOrders);
-    };
+      } else if (typeof valueA === 'string' && typeof valueB === 'string') {
+        if (sortOrder === 'asc') {
+          return valueA.localeCompare(valueB);
+        } else {
+          return valueB.localeCompare(valueA);
+        }
+      } else {
+        if (sortOrder === 'asc') {
+          return 1;
+        } else {
+          return -1;
+        }
+      }
+    });
+    return sortedOrders;
+  };
+  useEffect(() => {
     if (sortBy.trim().length > 0) {
-      sortOrders();
-    } else {
-      setPromotions(initialPromotions);
+      const sortedPromotion = sortPromotion(promotions);
+      setPromotions(sortedPromotion);
     }
-  }, [sortBy, sortOrder, initialPromotions]);
+  }, [sortBy, sortOrder]);
+  const getPromotions = async () => {
+    try {
+      setIsLoading(true);
+      const promotion = await getPromo();
+      setPromotions(promotion || []);
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    getPromotions();
+  }, [promotionFilter]);
   return {
     promotions,
     changeFilter,
@@ -164,6 +177,8 @@ const usePromotions = (initialPromotions = dummyPromotions) => {
     changeSortBy,
     toggleSortOrder,
     sortBy,
+    getPromotions,
+    isLoading,
   };
 };
 export default usePromotions;

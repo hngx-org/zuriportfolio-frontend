@@ -46,6 +46,15 @@ function VerificationComplete() {
         return;
       }
 
+      if (response.status !== 200) {
+        setIsError(true);
+        notify({
+          message: response.data.message,
+          type: 'error',
+        });
+        return;
+      }
+
       notify({
         message: 'Verification Unsuccessful!',
         type: 'error',

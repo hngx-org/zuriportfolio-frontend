@@ -270,7 +270,7 @@ function Discounts() {
                   <div className="flex flex-col w-full">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid From</label>
                     <input
-                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-2 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTime}
                       onChange={handleDateFrom}
@@ -279,7 +279,7 @@ function Discounts() {
                   <div className="flex flex-col w-full md:mt-0 mt-6 ">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid To</label>
                     <input
-                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-2 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTimeExpire}
                       onChange={handleDateTo}

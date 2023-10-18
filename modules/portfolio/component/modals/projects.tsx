@@ -19,11 +19,13 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
   const [title, setTitle] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [link, setLink] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
   const [tagInput, setTagInput] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [media, setMedia] = useState<any[]>([]);
+  const [files, setFiles] = useState<any[]>([]);
   const years = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
 
   const handleDataClear = () => {
@@ -66,9 +68,11 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
 
     if (files && files.length > 0) {
       const selectedImages = Array.from(files).slice(0, 10);
+
       const imageUrls = selectedImages.map((file) => URL.createObjectURL(file));
 
       setMedia((prevMedia: any) => [...prevMedia, ...imageUrls]);
+      setFiles((prev: any) => [...prev, ...selectedImages]);
     }
   };
 
@@ -84,29 +88,31 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
 
   // {"title":"Live test for issue ART-36 ", "year":"2023", "url":"https://link-to-project.com", "tags":"all, tags, here, comma separated", "description": "Updated new description", "userId":"2c92b6a8-e672-41c5-af97-a643ce56ce6c", "sectionId":"4"}
   const handleSubmit = (e: any) => {
+    setLoading(true);
     e.preventDefault();
-    const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
     const formData = new FormData();
     const data = {
       sectionid: 5,
-      userid: userID,
+      userid: userId,
       title,
       year,
       url: link,
-      thumbnail: 0,
+      thumbnail: files[0],
       tags: selectedTags.join(', '),
       description,
-      media,
     };
     console.log(data);
 
-    media.map((item) => {
+    files.map((item) => {
       formData.append('images', item);
     });
     formData.append('jsondata', JSON.stringify(data));
+    console.log(formData);
+
     axios
       .post(`${endpoint}/api/projects`, formData)
       .then((res) => {
+        setLoading(false);
         notify({
           message: 'Projects created successfully',
           position: 'top-center',
@@ -114,10 +120,11 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
           type: 'success',
         });
         handleDataClear();
-        // onClose();
+        onClose();
         console.log(res);
       })
       .catch((err) => {
+        setLoading(false);
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -292,7 +299,11 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
               <Button intent={'secondary'} className="rounded-lg min-w-[100px]">
                 Cancel
               </Button>
-              <Button className="rounded-lg min-w-[100px]" onClick={handleSubmit}>
+              <Button
+                disabled={loading}
+                className={`${loading ? 'opacity-50' : 'opacity-100'} rounded-lg min-w-[100px]`}
+                onClick={handleSubmit}
+              >
                 Save
               </Button>
             </div>

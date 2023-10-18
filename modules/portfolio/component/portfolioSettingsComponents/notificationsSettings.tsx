@@ -4,6 +4,7 @@ import { MdCheck } from 'react-icons/md';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { type } from 'os';
+import { useAuth } from '../../../../context/AuthContext';
 type pros = {
   checkboxState: {
     emailSummary: boolean;
@@ -16,6 +17,7 @@ type pros = {
 };
 
 export default function NotificationsSettings(props: pros) {
+  const { auth } = useAuth();
   const handleLabelClick = (checkboxName: keyof NotificationCheckboxType) => {
     props.setCheckboxState((prevState) => ({
       ...prevState,
@@ -33,15 +35,16 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="emailSummary"
             id="emailSummary"
+            onChange={() => handleLabelClick('emailSummary')}
             checked={props.checkboxState.emailSummary}
             className="appearance-none hidden"
           />
           <label
             htmlFor="emailSummary"
             className=" flex gap-2 items-center justify-start"
-            onClick={() => handleLabelClick('emailSummary')}
+            // onClick={() => handleLabelClick('emailSummary')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex  justify-center relative ${props.checkboxState.emailSummary && 'block'}   w-[16px] 
                  h-[16px]`}
@@ -54,7 +57,7 @@ export default function NotificationsSettings(props: pros) {
                   />
                 )}
               </p>{' '}
-            </p>{' '}
+            </div>{' '}
             Receive an email summary of notification
           </label>
         </div>
@@ -63,15 +66,16 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="specialOffers"
             id="specialOffers"
+            onChange={() => handleLabelClick('specialOffers')}
             checked={props.checkboxState.specialOffers}
             className="appearance-none hidden"
           />
           <label
             htmlFor="specialOffers"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('specialOffers')}
+            // onClick={() => handleLabelClick('specialOffers')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex  justify-center relative ${props.checkboxState.specialOffers && 'block'}   w-[16px] 
                  h-[16px]`}
@@ -84,7 +88,7 @@ export default function NotificationsSettings(props: pros) {
                   />
                 )}
               </p>{' '}
-            </p>
+            </div>
             Announcement on special offers
           </label>
         </div>
@@ -93,15 +97,16 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="communityUpdate"
             id="communityUpdate"
+            onChange={() => handleLabelClick('communityUpdate')}
             checked={props.checkboxState.communityUpdate}
             className="appearance-none hidden"
           />
           <label
             htmlFor="communityUpdate"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('communityUpdate')}
+            //  onClick={() => handleLabelClick('communityUpdate')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex  justify-center relative ${props.checkboxState.communityUpdate && 'block'}   w-[16px] 
                  h-[16px]`}
@@ -114,7 +119,7 @@ export default function NotificationsSettings(props: pros) {
                   />
                 )}
               </p>{' '}
-            </p>
+            </div>
             Get Notification to stay up-to-date with Zuri portfolio community
           </label>
         </div>
@@ -123,15 +128,16 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="followUpdate"
             id="followUpdate"
+            onChange={() => handleLabelClick('followUpdate')}
             checked={props.checkboxState.followUpdate}
             className="appearance-none hidden"
           />
           <label
             htmlFor="followUpdate"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('followUpdate')}
+            //onClick={() => handleLabelClick('followUpdate')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex justify-center relative w-[16px]
                  h-[16px]`}
@@ -139,7 +145,7 @@ export default function NotificationsSettings(props: pros) {
                 {' '}
                 {props.checkboxState.followUpdate && <MdCheck className={`text-brand-green-primary`} />}
               </p>
-            </p>
+            </div>
             Notify when someone follows you
           </label>
         </div>
@@ -148,15 +154,16 @@ export default function NotificationsSettings(props: pros) {
             type="checkbox"
             name="newMessages"
             id="newMessages"
+            onChange={() => handleLabelClick('newMessages')}
             checked={props.checkboxState.newMessages}
             className="appearance-none hidden"
           />
           <label
             htmlFor="newMessages"
             className=" flex gap-2 items-center"
-            onClick={() => handleLabelClick('newMessages')}
+            //onClick={() => handleLabelClick('newMessages')}
           >
-            <p className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
+            <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
                 className={` flex  justify-center relative ${props.checkboxState.newMessages && 'block'}   w-[16px] 
                  h-[16px]`}
@@ -169,7 +176,7 @@ export default function NotificationsSettings(props: pros) {
                   />
                 )}
               </p>{' '}
-            </p>
+            </div>
             Notify about new messages or interactions
           </label>
         </div>

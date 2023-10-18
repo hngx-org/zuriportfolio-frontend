@@ -1,7 +1,6 @@
-import axios from 'axios';
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { createContext, useState } from 'react';
+import { constructApiUrl } from '../helper';
 
 interface Filter {
   selection: string[];
@@ -34,84 +33,33 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // search filter state and logic here
   const [isOpen, setIsOpen] = useState(false);
 
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
   }
 
-  function constructApiUrl({ category = '', subCategory = '', discount = '', price = '', rating = '' }) {
-    // Initialize the base URL
-    let apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/products-filter?';
-
-    // Check each query parameter and append to the URL if not empty
-    if (category) {
-      apiUrl += `category=${category}&`;
-    }
-    if (subCategory) {
-      apiUrl += `subCategory=${subCategory}&`;
-    }
-    if (discount) {
-      apiUrl += `discount=${discount}&`;
-    }
-    if (price) {
-      apiUrl += `price=${price}&`;
-    }
-    if (rating) {
-      apiUrl += `rating=${rating}&`;
-    }
-
-    // Remove the trailing '&' if it exists
-    if (apiUrl.endsWith('&')) {
-      apiUrl = apiUrl.slice(0, -1);
-    }
-
-    return apiUrl;
-  }
-
   async function handleSearch() {
     setLoading(true);
-    console.log('handle submit');
-    console.log(filterSelection);
     const category = filterSelection.category.join(',');
     const subCategory = filterSelection.subCategory.join(',');
     const discount = filterSelection.discount.join(',');
     const price = filterSelection.price.join(',');
     const rating = filterSelection.rating.join(',');
+    const queryParams = {
+      category,
+      subCategory,
+      price: parseInt(price),
+      discount: parseInt(discount),
+      rating,
+    };
+    const baseUrl = window.location.origin;
+    const searchURL = constructApiUrl(`${baseUrl}/marketplace/search-filter`, queryParams);
     try {
-      const API_URL = constructApiUrl({ category, subCategory });
-      toggle();
-      router.push(
-        `/marketplace/search-filter?category=${category}&subCategory=${subCategory}&discount=${parseInt(
-          discount,
-        )}&price=${parseInt(price)}&rating=${rating}`,
-      );
-      // console.log(API_URL);
-      const { data, status } = await axios.get(API_URL);
-      // console.log(data, status);
-      if (status === 200) {
-        // console.log(data);
-        if (data.products.length === 0) {
-          router.push('/marketplace/error-page');
-          console.log('no data');
-        } else {
-          // console.log(data, 'data ready for redirection');
-          router.push(
-            `/marketplace/search-filter?category=${category}&subCategory=${subCategory}&discount=${parseInt(
-              discount,
-            )}&price=${parseInt(price)}&rating=${rating}`,
-          );
-          // toggle();
-        }
-      }
+      router.push(searchURL);
     } catch (error) {
-      if (error instanceof AxiosError) {
-        console.log(error);
-        router.push('/marketplace/error-page');
-      }
       if (error instanceof Error) {
-        console.log(error);
+        throw new Error(error.message);
       }
     } finally {
       setLoading(false);
@@ -120,6 +68,7 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
 
   function resetFilter() {
     setSelection([]);
+    setLoading(false);
   }
 
   function setFilterOption(option: string, tag: string) {

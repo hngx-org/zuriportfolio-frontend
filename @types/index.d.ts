@@ -13,6 +13,7 @@ export interface MainLayoutProps {
   showDashboardSidebar?: boolean;
   showTopbar?: boolean;
   showFooter?: boolean;
+  includeMarginTop?: boolean;
 }
 
 export interface ProductData {
@@ -373,6 +374,7 @@ export type CartItemProps = {
   productColor?: string;
   productSeller: string;
   productPrice: number;
+  productDiscount?: string;
 };
 
 export type ViewedProductCardProps = {
@@ -526,11 +528,13 @@ export interface ProjectModalProps {
 
 export interface RatingBarProps {
   avgRating: number;
+  verUser: number;
 }
 
 export interface RatingCardProps {
   rating: number;
   users: number;
+  totalReviews: number;
 }
 
 export interface filterProps {
@@ -761,7 +765,7 @@ type ProductCategory = {
 };
 
 type ProductShop = {
-  id: number;
+  id: string;
   name: string;
 };
 export interface ProductResult {
