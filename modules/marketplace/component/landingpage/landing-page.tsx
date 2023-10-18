@@ -7,12 +7,13 @@ import AllCategorySlider from '../AllCategorySlider';
 import CategoriesNav from '../CategoriesNav/CategoriesNav';
 import RecentlyViewed from './recentlyViewed/recentlyViewed';
 import useCategory from '../filter/hooks/useCategory';
+import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 
 function LandingPage() {
   const [recommendedProduct, setRecommendedProduct] = useState({ isLoading: true, items: [] });
   const [limitedOffers, setLimitedOffers] = useState({ isLoading: true, items: [] });
   const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
-  const { categories, loading } = useCategory();
+  const { categories, loading } = useCategoryNav();
 
   useEffect(() => {
     try {
