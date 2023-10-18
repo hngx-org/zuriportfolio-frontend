@@ -138,7 +138,7 @@ const SearchAndFilter = (prop: {
               <CustomDropdown
                 options={['Beginner', 'Intermediate', 'Expert']}
                 selectedValue={selectedOption}
-                placeholder="Location"
+                placeholder="Experience"
                 onChange={handleCustomDropdownChange}
               />
             </div>
@@ -150,7 +150,7 @@ const SearchAndFilter = (prop: {
               <CustomDropdown
                 options={['Lagos, Nigeria', 'Accra, Ghana', 'Nairobi, Kenya']}
                 selectedValue={selectedOption2}
-                placeholder="Sort By"
+                placeholder="Location"
                 onChange={handleCustomDropdownChange2}
               />
             </div>

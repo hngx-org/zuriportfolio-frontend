@@ -63,8 +63,6 @@ const ZuriLandingPage = () => {
     fetchShopData();
   }, [router.query.shop_id, shop_id]);
 
-  console.log('Current shop_id:', shop_id);
-  console.log('Shop data:', shop);
   if (shop && shop.data) {
     const shopName = shop.data?.name;
   }

@@ -1,14 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { FaSpinner } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+
+type AnswerType = {
+  options: string[];
+  correct_option: number;
+};
+
+type QuestionType = {
+  question_no: number;
+  question_text: string;
+  question_type: string;
+  answer: AnswerType;
+};
+
+// const initialOptions: string[] = ["Option 1", "Option 2", "Option 3", "Option 4"];
 const EditLayout = () => {
+  const [loading, setLoading] = useState(true);
+  const navigate = useRouter();
   const router = useRouter();
-  const id = router.query.id;
-  console.log(id);
+  //Get question number to edit
+  const questioNumber = router.query.id;
+  // Get Id of the skill/assessment that contains the question
+  // const assessmentId = router.query.assessmentId;
+  // if (assessmentId) {
+  //   sessionStorage.setItem('assessmentId', assessmentId as string); // Cast assessmentId to string
+  // }
+  const [assessmentId, setAssessmentId] = useState<number>(0);
   const [mockArr, setMcokarr] = useState(new Array(4).fill(null));
+
+  //State to store Original Array of Questions
+  const [originalArrayQuestions, setOriginalArrayQuestions] = useState([]);
+
+  //State to store Assessment Title
+  const [assessmentTitle, setAssessmentTitle] = useState<string | null>(null);
+
+  //State to store Assessment Question number that we are editing
+  const [assessmentQuestionNumber, setAssessmentQuestionNumber] = useState<number>(0);
+
+  //State to store questions/answers to edit
+  const [editable, setEditable] = useState<QuestionType | null>(null);
+
+  //State to store initial question text
+  const initialQuestionText = editable ? editable.question_text : '';
+  const [question_text, setQuestion_text] = useState(initialQuestionText);
+
+  //State to store initial correct option
+  const [correctOption, setCorrectOption] = useState('');
+
+  //array to store options for the question we want to edit
+  const [editedOptions, setEditedOptions] = useState<string[]>([]);
+
+  //function to update the question/answer state based on edits
+  const handleOptionInputChange = (index: number, newValue: string) => {
+    // Create a new array with the edited value at the specified index.
+    const newOptions = [...editedOptions];
+    newOptions[index] = newValue;
+    setEditedOptions(newOptions);
+    console.log(editedOptions);
+  };
+
+  //state to store edited questions
+  const [edited, setEdited] = useState<QuestionType | null>(null);
 
   const handleDelete = (indexToDelete: number) => {
     const updatedArr = mockArr.filter((item, index) => index !== indexToDelete);
@@ -22,20 +79,182 @@ const EditLayout = () => {
       setMcokarr(updatedArr);
     }
   };
-  return (
+
+  interface OptionsType {
+    options: string[];
+    correct_option: string | number;
+  }
+  interface Question {
+    question_no: string | number | undefined;
+    question_text: string;
+    question_type: string;
+    answer: OptionsType;
+  }
+
+  const newQuestionObject: Question = {
+    question_no: assessmentQuestionNumber,
+    question_text: question_text,
+    question_type: 'multiple_choice',
+    answer: {
+      options: editedOptions,
+      correct_option: correctOption,
+    },
+  };
+  function updateQuestionArray(questionArray: Question[], newQuestion: Question): Question[] {
+    console.log('questionArray', questionArray);
+    console.log('newQuestion', newQuestion);
+    const updatedArray: Question[] = [...questionArray]; // Create a new array to avoid modifying the original one
+
+    // Check if a question with the same question_no already exists
+    const existingQuestionIndex = updatedArray.findIndex(
+      (question) => question.question_no === newQuestion.question_no,
+    );
+
+    if (existingQuestionIndex !== -1) {
+      // If an existing question is found, update it
+      updatedArray[existingQuestionIndex] = newQuestion;
+    } else {
+      // If no existing question is found, add the new question to the array
+      updatedArray.push(newQuestion);
+    }
+
+    arrangeAssessmentData(updatedArray);
+
+    return updatedArray;
+  }
+  //This function arranges uses the updated array to arrange the assessment data for a put request
+  const arrangeAssessmentData = (updatedArray: Question[]) => {
+    const AssessmentData: AssessmentData = {
+      questions: updatedArray,
+      title: assessmentTitle,
+      duration_in_minutes: 0,
+    };
+    updateAssessment(assessmentId, AssessmentData);
+  };
+
+  interface AssessmentData {
+    questions: {
+      question_no: string | string[] | undefined | number;
+      question_text: string | string[] | undefined;
+      question_type: string | string[] | undefined;
+      answer: OptionsType;
+    }[];
+    title: string | null;
+    duration_in_minutes: number;
+  }
+
+  async function updateAssessment(assessmentId: number, assessmentData: AssessmentData): Promise<void> {
+    console.log(assessmentData);
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessmentId}/`;
+
+    const zptToken = localStorage.getItem('zpt') ?? '';
+
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${zptToken}`,
+      },
+      body: JSON.stringify(assessmentData),
+    };
+
+    try {
+      const response = await fetch(apiUrl, requestOptions);
+
+      if (!response.ok) {
+        throw new Error('Failed to update the assessment');
+      }
+
+      const data = await response.json();
+      console.log('Assessment updated successfully:', data);
+      alert('Assessment updated successfully, You can go back');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  useEffect(() => {
+    const theSkillId = Number(sessionStorage.getItem('assessmentId'));
+
+    if (theSkillId) {
+      console.log('Dont Navigate');
+      setAssessmentId(theSkillId);
+      const fetchSkillsQuestions = async () => {
+        try {
+          const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${sessionStorage.getItem(
+            'assessmentId',
+          )}/`;
+
+          const zptToken = localStorage.getItem('zpt') ?? '';
+
+          const response = await fetch(apiUrl, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${zptToken}`,
+            },
+          });
+
+          const data = await response.json();
+          console.log('data', data);
+          setAssessmentTitle(data.title);
+          setOriginalArrayQuestions(data.questions);
+
+          //Extract the exact question to edit
+          let editable = data.questions.filter((question: any) => {
+            return question.question_no == questioNumber;
+          });
+          setEditable(editable[0]);
+          setEditedOptions(editable[0].answer.options);
+          setAssessmentQuestionNumber(editable[0].question_no);
+          setCorrectOption(editable[0].answer.correct_option);
+        } catch (error) {
+          console.error('Error fetching data in editlayout:', error);
+        }
+      };
+      fetchSkillsQuestions();
+    } else {
+      console.log('Navigate');
+      navigate.push('/super-admin/assessment/');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (editable) {
+      setQuestion_text(editable.question_text);
+      setLoading(false);
+    }
+  }, [editable]);
+
+  // if (loading) {
+  //   return (
+  //     <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
+  //       <div className=" items-center ">
+  //         <FaSpinner color="#fff" className="animate-spin" size={100} />
+  //       </div>
+  //     </div>
+  //   );
+  // }
+  return loading ? (
+    <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
+      <div className=" items-center ">
+        <FaSpinner color="#fff" className="animate-spin" size={100} />
+      </div>
+    </div>
+  ) : (
     <div className="w-full border-[1px] border-[#DFE3E6] rounded-[18px] py-10 px-6 relative text-left">
-      <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${id}`}</div>
+      <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${questioNumber}`}</div>
       <div className="flex items-center pt-4 gap-x-4">
         <Input
           className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
           onChange={(e) => {
-            console.log(e.target.value);
+            setQuestion_text(e.target.value);
           }}
           type="text"
           name="question"
           placeHolder=""
           intent={'default'}
           size={15}
+          value={question_text}
         />
         <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -55,7 +274,7 @@ const EditLayout = () => {
         </svg>
       </div>
       <div className=" text-[20px] font-semibold pt-4 text-[#1A1C1B]">Answers</div>
-      {mockArr.map((item, index) => {
+      {editedOptions.map((item, index) => {
         return (
           <div key={index} className="pt-4 flex flex-col gap-y-[10px]">
             <div className=" text-[18px] font-semibold  text-[#1A1C1B]">{`Option ${index + 1}`}</div>
@@ -65,14 +284,13 @@ const EditLayout = () => {
               </svg>
               <Input
                 className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
                 type="text"
                 name="opt-1"
                 placeHolder=""
                 intent={'default'}
                 size={15}
+                value={item}
+                onChange={(e) => handleOptionInputChange(index, e.target.value)}
               />
               <svg
                 width="28"
@@ -120,23 +338,51 @@ const EditLayout = () => {
       <div className="pt-4 w-full ">
         <Select
           onValueChange={(value) => {
-            console.log(value);
+            setCorrectOption(value);
           }}
         >
           <SelectTrigger className="w-full p-6">
-            <SelectValue placeholder="Option1" />
+            <SelectValue placeholder={editable ? editable.answer.correct_option : ''} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="light">Option1</SelectItem>
-            <SelectItem value="dark">Option2</SelectItem>
-            <SelectItem value="system">Option3</SelectItem>
-            <SelectItem value="system">Option4</SelectItem>
-            <SelectItem value="system">Option5</SelectItem>
+            {editedOptions.map((option, index) => {
+              return (
+                <SelectItem key={index} value={option}>
+                  {option}
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
+      </div>
+
+      <div className="pt-2">
+        <Button
+          onClick={() => {
+            updateQuestionArray(originalArrayQuestions, newQuestionObject);
+          }}
+          intent={'primary'}
+          size={'md'}
+          className="bg-[tansparent] text-dark-100 hover:text-dark-100 hover:bg-[transparent]"
+        >
+          Click to Edit
+        </Button>
       </div>
     </div>
   );
 };
 
 export default EditLayout;
+
+// {
+//   questions_and_answers: [
+//     {question_no: '1',
+//      question_text: '',
+//      question_type: 'Multiple Choice',
+//      options: ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5'],
+//      correct_option: ''
+//     }
+//   ],
+//   assessment_name: 'something',
+//   duration_in_minutes: 0
+// }

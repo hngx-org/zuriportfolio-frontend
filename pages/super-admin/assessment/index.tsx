@@ -34,6 +34,7 @@ function Index() {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('fd', localStorage.getItem('zpt'));
       try {
         const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
 
@@ -41,9 +42,8 @@ function Index() {
 
         const response = await fetch(apiUrl, {
           headers: {
-            Accept: 'application/json',
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${csrfToken}`,
-            'X-CSRFTOKEN': csrfToken,
           },
         });
 
@@ -53,7 +53,7 @@ function Index() {
 
         const data = await response.json();
         setAssessments(data);
-        console.log(data);
+        console.log('assessment data', data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -67,9 +67,8 @@ function Index() {
 
         const response = await fetch(apiUrl, {
           headers: {
-            Accept: 'application/json',
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${csrfToken}`,
-            'X-CSRFTOKEN': csrfToken,
           },
         });
 
