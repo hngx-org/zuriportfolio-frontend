@@ -344,7 +344,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
           ...formData,
           referer: data.referer,
           email: data.email,
-          phoneNumber: data.phone_number,
+          phoneNumber: data.phone_number.slice(1),
           company: data.company,
           position: data.position,
         });
