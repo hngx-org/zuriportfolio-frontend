@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaSpinner } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
@@ -19,6 +20,7 @@ type QuestionType = {
 
 // const initialOptions: string[] = ["Option 1", "Option 2", "Option 3", "Option 4"];
 const EditLayout = () => {
+  const [loading, setLoading] = useState(true);
   const navigate = useRouter();
   const router = useRouter();
   //Get question number to edit
@@ -219,17 +221,32 @@ const EditLayout = () => {
   useEffect(() => {
     if (editable) {
       setQuestion_text(editable.question_text);
+      setLoading(false);
     }
   }, [editable]);
 
-  return (
+  // if (loading) {
+  //   return (
+  //     <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
+  //       <div className=" items-center ">
+  //         <FaSpinner color="#fff" className="animate-spin" size={100} />
+  //       </div>
+  //     </div>
+  //   );
+  // }
+  return loading ? (
+    <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
+      <div className=" items-center ">
+        <FaSpinner color="#fff" className="animate-spin" size={100} />
+      </div>
+    </div>
+  ) : (
     <div className="w-full border-[1px] border-[#DFE3E6] rounded-[18px] py-10 px-6 relative text-left">
       <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${questioNumber}`}</div>
       <div className="flex items-center pt-4 gap-x-4">
         <Input
           className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
           onChange={(e) => {
-            console.log('hello');
             setQuestion_text(e.target.value);
           }}
           type="text"

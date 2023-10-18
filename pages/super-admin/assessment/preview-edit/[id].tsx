@@ -72,6 +72,7 @@ const EditAssesment = () => {
       title: data,
     }));
   };
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">

@@ -1,6 +1,7 @@
 // import MainLayout from '../../../components/Layout/MainLayout';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { useRouter } from 'next/router';
+import { FaSpinner } from 'react-icons/fa';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
@@ -12,6 +13,7 @@ import { withAdminAuth } from '../../../../helpers/withAuth';
 import { any } from 'zod';
 
 const Previewedit: React.FC = () => {
+  const [loading, setLoading] = useState(true);
   //demo-question-...
   // eslint-disable-next-line react/no-unescaped-entities
   // const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
@@ -105,12 +107,23 @@ const Previewedit: React.FC = () => {
         const data = await response.json();
         setSkillQuestions(data);
         console.log(data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     fetchSkillsQuestions();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
+        <div className=" items-center ">
+          <FaSpinner color="#fff" className="animate-spin" size={100} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>

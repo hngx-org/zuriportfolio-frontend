@@ -58,6 +58,7 @@ export default function ProductDetailsDescription() {
     const bearerToken = localStorage.getItem('zpt');
     console.log(bearerToken);
     if (auth?.token) {
+      console.log(auth.token);
       try {
         const response = await axios.post(
           apiUrl,
