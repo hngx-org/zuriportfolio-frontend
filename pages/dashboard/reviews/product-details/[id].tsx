@@ -35,6 +35,7 @@ const UserReview = () => {
 
   const [data, setData] = useState<ReviewData[] | null>(null);
   const [rats, setRats] = useState<RatsData>();
+  const [filterRating, setFilterRating] = useState<string>('all');
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
 
   // ToDo: Remove all commented out code
@@ -59,10 +60,16 @@ const UserReview = () => {
 
   // ToDo: Move all fetch requests to a separate file
   useEffect(() => {
-    if (id) {
+    if (id && filterRating === 'all') {
       const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=${
         currentPage - 1
       }&pageSize=10`;
+      fetch(url)
+        .then((res) => res.json())
+        .then((data: ReviewApiResponse) => setData(data.data))
+        .catch((e) => console.log(e));
+    } else {
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=0&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
         .then((data: ReviewApiResponse) => setData(data.data))
@@ -104,12 +111,7 @@ const UserReview = () => {
   // }, [data]);
 
   function filterReviews(view: string, rating: string, data: ReviewData[]) {
-    let filteredReviews: ReviewData[] = [];
-    if (rating === 'all') {
-      filteredReviews = data.filter((review) => data.length);
-    } else {
-      filteredReviews = data.filter((review) => review.rating === parseInt(rating));
-    }
+    let filteredReviews = data;
 
     if (view === 'topReviews') {
       filteredReviews.sort((a, b) => b.isHelpful - a.isHelpful);
@@ -123,6 +125,7 @@ const UserReview = () => {
   }
 
   function handleFilter(view: string, rating: string) {
+    setFilterRating(rating);
     if (data !== null && data !== undefined) {
       const filteredReviews = filterReviews(view, rating, data);
       setTimeout(() => {
