@@ -3,7 +3,7 @@ import styles from '../../../modules/marketplace/component/landingpage/productCa
 import Link from 'next/link';
 import Error from '@modules/marketplace/component/landingpageerror/ErrorPage';
 import { GetServerSideProps } from 'next';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ProductList } from '@modules/marketplace/types/filter-types';
 import CategoryLayout from '@modules/marketplace/component/layout/category-layout';
 import { Fragment } from 'react';
@@ -26,12 +26,13 @@ export default function Index({ products, activePage, totalPages }: Props) {
     });
   };
 
+
   return (
     <Fragment>
       {Array.isArray(products) && products?.length === 0 ? (
         <Error />
       ) : (
-        <CategoryLayout>
+        <CategoryLayout isBreadcrumb={false} >
           <div className="max-w-[1240px] mx-auto"></div>
           <div className="px-4 max-w-[1240px] mx-auto">
             <h1 className="text-custom-color31 font-manropeL mt-5 lg:pt-5 md:mb-1 font-bold md:text-2xl leading-normal flex items-center justify-between">
@@ -82,6 +83,7 @@ export default function Index({ products, activePage, totalPages }: Props) {
 }
 
 export const getServerSideProps = (async (context) => {
+ try {
   let category = context.query.category as string;
   let subCategory = context.query.subCategory as string;
   let price = !isNaN(parseInt(context.query.price as string)) ? (context.query.price as string) : '';
@@ -93,10 +95,8 @@ export const getServerSideProps = (async (context) => {
   const queryParams = { category, subCategory, price, discount, rating };
   let apiUrl = constructApiUrl('https://coral-app-8bk8j.ondigitalocean.app/api/products-filter', queryParams);
   const { data, status } = await axios.get<{ products: ProductList[], data: ProductList[] }>(apiUrl.toString());
-  if (status === 400 || status === 500) {
-    console.error('Bad request');
-  }
-  const res = data?.products ? data?.products : data?.data ? data?.data : [];
+ 
+  const res = data !== null ? data?.products ? data?.products : data?.data ? data?.data : [] : [];
   const itemsPerPage = 8;
   const totalProducts = res.length;
   const totalPages = Math.ceil(totalProducts / itemsPerPage);
@@ -104,9 +104,21 @@ export const getServerSideProps = (async (context) => {
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const products = res.slice(startIndex, endIndex);
+  const products = res?.slice(startIndex, endIndex);
 
   return { props: { products: products, activePage: page, totalPages } };
+ } catch (error) {
+  if(error instanceof AxiosError) {
+    if(error.status === 400 || error.status === 500){
+      return {
+        redirect: {destination: '/404', permanent: false}
+      }
+    }
+  }
+  return {
+    redirect: {destination: '/marketplace/error-page', permanent: false}
+  }
+ }
 }) satisfies GetServerSideProps<{
   products: ProductList[];
   activePage: number;
