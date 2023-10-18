@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Link from 'next/link';
@@ -31,6 +31,14 @@ const Guestsignupform: React.FC = () => {
   });
   const [passwordVisible, togglePasswordVisibility] = usePasswordVisibility();
   const [confirmPasswordVisible, toggleConfirmPasswordVisibility] = usePasswordVisibility();
+  const [isMicrosoftEdge, setIsMicrosoftEdge] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is using Microsoft Edge
+    if (window.navigator.userAgent.includes('Edg') || window.navigator.userAgent.includes('Edge')) {
+      setIsMicrosoftEdge(true);
+    }
+  }, []);
 
   const schema = z
     .object({
@@ -140,7 +148,7 @@ const Guestsignupform: React.FC = () => {
                   name="password"
                   type={passwordVisible ? 'text' : 'password'}
                   rightIcon={
-                    passwordVisible ? (
+                    isMicrosoftEdge ? null : passwordVisible ? (
                       <Eye onClick={togglePasswordVisibility} className="cursor-pointer" />
                     ) : (
                       <EyeSlash onClick={togglePasswordVisibility} className="cursor-pointer" />
@@ -169,7 +177,7 @@ const Guestsignupform: React.FC = () => {
                 name="confirmPassword"
                 type={confirmPasswordVisible ? 'text' : 'password'}
                 rightIcon={
-                  confirmPasswordVisible ? (
+                  isMicrosoftEdge ? null : confirmPasswordVisible ? (
                     <Eye onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />
                   ) : (
                     <EyeSlash onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />

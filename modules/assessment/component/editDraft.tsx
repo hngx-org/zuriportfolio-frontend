@@ -4,6 +4,7 @@ import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { useCreatingAssessmentContext } from '../../../context/assessment/CreatingAssessmentContext';
 
 interface EditDraftProps {
   draftData?: { questions: any[]; title: string };
@@ -31,6 +32,8 @@ interface AssessmentEditorProps {
 }
 
 const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData }) => {
+  const { questionIndex } = useCreatingAssessmentContext();
+
   console.log('draftData in edit', draftData);
   const router = useRouter();
   const id = router.query.id;
@@ -46,7 +49,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
     console.log('After deletion:', updatedOptions);
     setOptions(updatedOptions);
     const updatedQuestions = [...draftData.questions];
-    updatedQuestions[0].answer.options = updatedOptions;
+    updatedQuestions[questionIndex].answer.options = updatedOptions;
 
     setDraftData({
       ...draftData,
@@ -56,7 +59,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
 
   const handleQuestionTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedQuestions = [...draftData.questions];
-    updatedQuestions[0].question_text = event.target.value;
+    updatedQuestions[questionIndex].question_text = event.target.value;
 
     setDraftData({
       ...draftData,
@@ -72,7 +75,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
     setOptions(updatedOptions);
 
     const updatedQuestions = [...draftData.questions];
-    updatedQuestions[0].answer.options = updatedOptions;
+    updatedQuestions[questionIndex].answer.options = updatedOptions;
 
     setDraftData({
       ...draftData,
@@ -84,7 +87,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
     setCorrectOption(value);
 
     const updatedQuestions = [...draftData.questions];
-    updatedQuestions[0].answer.correct_option = value;
+    updatedQuestions[questionIndex].answer.correct_option = value;
 
     setDraftData({
       ...draftData,
