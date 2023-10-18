@@ -47,8 +47,8 @@ export default function ProductDetails() {
       fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
         .then((response) => response.json())
         .then((response) => {
-          setProduct(response.data);      
-          setShopID(response.data.shop.id) 
+          setProduct(response.data);
+          setShopID(response.data.shop.id);
         })
         .catch((error) => {
           console.error('Error fetching product details:', error);
@@ -73,10 +73,8 @@ export default function ProductDetails() {
     }
   }, [shopID]);
 
-
-
   console.log('Product:', product);
-  console.log('Other Products' , otherProducts)
+  console.log('Other Products', otherProducts);
 
   console.log('Product Name:', product ? product.name : 'N/A');
 
@@ -552,21 +550,21 @@ export default function ProductDetails() {
           </div>
           {otherProducts.length > 0 ? (
             <>
-            <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
-            <ShopProductList products={otherProducts.slice(0, 8)} productId={product.id} />
-            </div>
-            <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
-              <ShopProductList products={otherProducts.slice(0, 6)} productId={product.id} />
-            </div>
-            <div className="md:mx-[0.66rem] mx-0 md:hidden block">
-              <ShopProductList products={otherProducts.slice(0, 4)} productId={product.id} />
-            </div>
+              <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
+                <ShopProductList products={otherProducts.slice(0, 8)} productId={product.id} />
+              </div>
+              <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
+                <ShopProductList products={otherProducts.slice(0, 6)} productId={product.id} />
+              </div>
+              <div className="md:mx-[0.66rem] mx-0 md:hidden block">
+                <ShopProductList products={otherProducts.slice(0, 4)} productId={product.id} />
+              </div>
             </>
           ) : (
             <div className="mt-8 py-8 px-4 text-center rounded-2xl border border-dark-110/20 text-dark-110 font-manropeL text-xl md:text-2xl font-semibold">
               No Product To Show
             </div>
-         )}
+          )}
         </div>
       </main>
       <Footer shopName={shopName} />
