@@ -16,6 +16,7 @@ import { MultipleFileUpload } from '@modules/dashboard/component/products/Multip
 import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import { useAuth } from '../../../context/AuthContext';
+import Head from 'next/head';
 const AddProduct = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
@@ -334,6 +335,9 @@ const AddProduct = () => {
 
   return (
     <MainLayout showTopbar activePage="products">
+      <Head>
+        <title>Add Product</title>
+      </Head>
       <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
         <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
           <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
