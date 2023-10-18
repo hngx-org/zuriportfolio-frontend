@@ -13,17 +13,27 @@ export const LoadingTable = () => {
   );
 };
 
-const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
+const ProductListingTable = ({
+  data,
+  isLoading,
+  currentPage,
+  setCurrentPage,
+}: {
+  data: any;
+  isLoading: boolean;
+  currentPage: number;
+  setCurrentPage: any;
+}) => {
   const [searchVal, setSearchVal] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(data?.data);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items to display per page
 
   // Calculate the range of products to display
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const endIndex = startIndex + itemsPerPage;
+  // const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
+  // const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   useEffect(() => {
     setFilteredProducts(data?.data);
@@ -94,7 +104,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         <LoadingTable />
       ) : (
         <div className="mb-4">
-          {visibleProducts?.length > 0 ? (
+          {data?.data?.length > 0 ? (
             <>
               <table className="w-full md:table-fixed">
                 <thead>
@@ -116,7 +126,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   </tr>
                 </thead>
                 <tbody>
-                  {visibleProducts?.map((product: any) => (
+                  {data?.data.map((product: any) => (
                     <tr
                       className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                       key={product?.product_id}
@@ -160,7 +170,11 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   ))}
                 </tbody>
               </table>
-              {/* <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} /> */}
+              <SuperAdminPagination
+                currentPage={currentPage}
+                totalPages={data?.total_pages}
+                setCurrentPage={setCurrentPage}
+              />
             </>
           ) : (
             <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
