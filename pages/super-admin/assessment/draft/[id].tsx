@@ -8,8 +8,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
+import CreateAssessment from '../new';
+import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
-
 
 type Props = {
   assessment: {
@@ -25,18 +27,17 @@ type Props = {
     }[];
     updatedAt: Date;
   };
-  
 };
 const DraftPreview = () => {
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
 
   const arr = [1, 2, 3];
   const router = useRouter();
-  const params  = useParams();
-const id = params?.id
-  console.log(params)
+  const params = useParams();
+  const id = params?.id;
+  console.log(params);
   // const draftId = data.id;
-  const skillid =2
+  const skillid = 2;
 
   const [assessment, setAssessment] = useState({
     id: 0,
@@ -59,52 +60,47 @@ const id = params?.id
       ...prevAssessment,
       duration_minutes: data,
     }));
-  }
+  };
   const [active, setActive] = useState<null | string>('button1');
   const handleClick = (button: string) => {
     setActive(button);
   };
   const [loading, setLoading] = useState(true);
 
-
-
-
-
   useEffect(() => {
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`;
 
     const token = localStorage.getItem('zpt') ?? '';
 
-    if(id != null) {
-      
-    fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
+    if (id != null) {
+      fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
 
-        'X-CSRFTOKEN': token,
-      },
-    })
-    .then((response) => {
-      toast.info('Loading draft data...');
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.status}`);
-        }
-        return response.json(); // Parse the JSON response
+          'X-CSRFTOKEN': token,
+        },
       })
-      .then((responseData) => {
-        console.log('This is the data', responseData);
-        setDraftData(responseData);
-        setAssessment(responseData)
-        setLoading(false);
-        toast.success('Draft data loaded successfully');
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        setLoading(false);
-        toast.error('Error loading draft data');
-      });
+        .then((response) => {
+          toast.info('Loading draft data...');
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json(); // Parse the JSON response
+        })
+        .then((responseData) => {
+          console.log('This is the data', responseData);
+          setDraftData(responseData);
+          setAssessment(responseData);
+          setLoading(false);
+          toast.success('Draft data loaded successfully');
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          setLoading(false);
+          toast.error('Error loading draft data');
+        });
     }
   }, [id]);
 
@@ -184,12 +180,14 @@ const id = params?.id
                 </div>
               </div>
             </div>
-            {draftData.questions.map((item, index) => (
+            {draftData.questions?.map((item, index) => (
               <div key={index} className="mt-8 text-left">
                 <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
                   <div className="flex justify-between mb-4">
                     <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <button className="text-md font-manropeB text-black">Edit</button>
+                    <Link href={`/super-admin/assessment/draft/edit/${id}`}>
+                      <button className="text-md font-manropeB text-black">Edit</button>
+                    </Link>
                   </div>
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
@@ -205,17 +203,12 @@ const id = params?.id
                       )),
                     )}
                   </div>
-                  <div className="flex justify-center gap-12 mt-8">
-                    <Button className="text-sm p-4 hover:bg-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100">
-                      End assessment
-                    </Button>
-                    <Button className="text-sm py-2 px-14 border-2 border-green-500 text-white-100 text-center  bg-green-500">
-                      Next
-                    </Button>
-                  </div>
                 </div>
               </div>
             ))}
+            <div className="mt-8">
+              <CreateDraftQuestion />
+            </div>
           </>
         ) : (
           <ScoringScreen assessment={assessment} skillId={skillid} />
@@ -223,6 +216,6 @@ const id = params?.id
       </div>
     </MainLayout>
   );
-}
+};
 
 export default DraftPreview;

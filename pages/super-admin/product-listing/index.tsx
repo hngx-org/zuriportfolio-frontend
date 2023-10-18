@@ -1,7 +1,7 @@
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import ProductsListingNavbar from '@modules/super-admin/components/product-listing/ProductListingNavbar';
 import ProductListingTable from '@modules/super-admin/components/product-listing/ProductListingTable';
-import { useGetProd } from '../../../http';
+import { useGetProd } from '../../../http/super-admin1';
 
 const ProductListing = () => {
   const { data, isLoading } = useGetProd();
