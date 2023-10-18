@@ -76,10 +76,12 @@ const ProjectSectionModal = ({
         <>
           {route === allRoutes[0] && (
             <ProjectSection
+              handleSetRoute={handleSetRoute}
               dataToEdit={dataToEdit}
               onSaveModal={onSaveModal}
               onCloseModal={onCloseModal}
               userId={userId}
+              projects={projects}
             />
           )}
           {route === allRoutes[1] && (
