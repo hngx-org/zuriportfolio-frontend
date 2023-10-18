@@ -15,9 +15,10 @@ import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/Em
 import Container from '@modules/auth/component/Container/Container';
 import Loader from '@ui/Loader';
 import { ReviewData, ReviewApiResponse, RatsData } from '../../../../../@types';
+import Breadcrumbs from '../../../../../components/Breadcrumbs';
 
 //* Moved type definitions to @types/index.d.ts
-const UserReview = () => {
+const SellersView = () => {
   //* Added a function to set the page number in the url
   const setPage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -35,6 +36,8 @@ const UserReview = () => {
 
   const [data, setData] = useState<ReviewData[] | null>(null);
   const [rats, setRats] = useState<RatsData>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [filterRating, setFilterRating] = useState<string>('all');
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
 
   // ToDo: Remove all commented out code
@@ -59,10 +62,16 @@ const UserReview = () => {
 
   // ToDo: Move all fetch requests to a separate file
   useEffect(() => {
-    if (id) {
+    if (id && filterRating === 'all') {
       const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=${
         currentPage - 1
       }&pageSize=10`;
+      fetch(url)
+        .then((res) => res.json())
+        .then((data: ReviewApiResponse) => setData(data.data))
+        .catch((e) => console.log(e));
+    } else {
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=0&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
         .then((data: ReviewApiResponse) => setData(data.data))
@@ -78,6 +87,9 @@ const UserReview = () => {
         .catch((e) => console.log(e));
     }
   }, [id]);
+  useEffect(() => {
+    setIsLoading(true);
+  }, [filteredData]);
 
   const ratingData = [
     { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
@@ -104,12 +116,7 @@ const UserReview = () => {
   // }, [data]);
 
   function filterReviews(view: string, rating: string, data: ReviewData[]) {
-    let filteredReviews: ReviewData[] = [];
-    if (rating === 'all') {
-      filteredReviews = data.filter((review) => data.length);
-    } else {
-      filteredReviews = data.filter((review) => review.rating === parseInt(rating));
-    }
+    let filteredReviews = data;
 
     if (view === 'topReviews') {
       filteredReviews.sort((a, b) => b.isHelpful - a.isHelpful);
@@ -123,6 +130,7 @@ const UserReview = () => {
   }
 
   function handleFilter(view: string, rating: string) {
+    setFilterRating(rating);
     if (data !== null && data !== undefined) {
       const filteredReviews = filterReviews(view, rating, data);
       setTimeout(() => {
@@ -134,7 +142,7 @@ const UserReview = () => {
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
-        <NavDashBoard active="reviews" />
+        <Breadcrumbs />
         {!data ? (
           <div className=" h-[70vh] flex justify-center items-center">
             <Loader />
@@ -191,7 +199,9 @@ const UserReview = () => {
                     />
                   </div>
                   <div className="mt-4 mx-1">
-                    {filteredData?.length === 0 ? (
+                    {!filteredData ? (
+                      <Loader />
+                    ) : filteredData?.length === 0 ? (
                       <h2>No results</h2>
                     ) : (
                       filteredData?.map((review) => (
@@ -226,4 +236,4 @@ const UserReview = () => {
   );
 };
 
-export default UserReview;
+export default SellersView;

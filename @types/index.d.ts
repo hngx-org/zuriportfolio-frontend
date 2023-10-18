@@ -624,8 +624,8 @@ export interface reviewProps {
 }
 
 export interface revNavProps {
-  shopNav: string;
-  marketPlaceNav: string;
+  shopNav?: boolean;
+  marketPlaceNav?: boolean;
 }
 
 export interface searchProp {

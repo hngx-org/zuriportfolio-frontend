@@ -27,7 +27,7 @@ interface RatsApiResponse {
   data: RatsData;
 }
 
-export default function UserReview(navProps: revNavProps) {
+export default function CreateReviewForm(navProps: revNavProps) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -63,8 +63,8 @@ export default function UserReview(navProps: revNavProps) {
       <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
         <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
           {/* from marketplace: this component you are using is from marketplace and it has been updated and we have updated it on your end also, this is important to allow sync without error take note  */}
-          {navProps.marketPlaceNav && <CategoriesNav navItems={categories} isLoading={loading} />}
-          {navProps.shopNav && <Breadcrumbs />}
+          {navProps.marketPlaceNav === true && <CategoriesNav navItems={categories} isLoading={loading} />}
+          {navProps.shopNav === true && <Breadcrumbs />}
         </div>
         <Container>
           <div className="flex flex-col  md:flex-row md:items-start items-center content-center  justify-center m-0">
