@@ -122,6 +122,7 @@ const AnalyticsAndReport: React.FC = () => {
         });
     } else if (!selectedFileFormat) {
       toast.error('Kindly Select a file format!');
+      setReportModalOpen(false);
     } else {
       toast.warning('Kindly select a date range!');
     }

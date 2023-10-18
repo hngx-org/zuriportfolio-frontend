@@ -38,8 +38,8 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
           },
         })
         .then((response) => {
-          console.log(response.data.data);
-          setTopSellingProducts(response.data.data);
+          console.log(response.data.results.data);
+          setTopSellingProducts(response.data.result.data);
           setIsLoading(false);
         })
         .catch((error) => {
@@ -63,8 +63,8 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
           },
         })
         .then((response) => {
-          console.log(response.data.data);
-          setTopSellingProducts(response.data.data);
+          console.log(response.data.results.data);
+          setTopSellingProducts(response.data.results.data);
           setIsLoading(false);
         })
         .catch((error) => {
