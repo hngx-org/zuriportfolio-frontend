@@ -45,8 +45,9 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     selectedDegreeId,
     setSelectedDegreeId,
     setnewdegree,
+    setEditingEducationId,
+    editingEducationId,
   } = useContext(EducationModalContext);
-  const [editingEducationId, setEditingEducationId] = useState<string | null>();
   const [editingEducation, setEditingEducation] = useState<Education | null>(null);
 
   // const[degreeOptions, setDegreeOptions] = useState<DegreeOption | null>(null);
@@ -191,8 +192,8 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
         <>
           {isForm && (
             <form
-              onSubmit={(e) => addNewEducation(e)}
-              // onSubmit={(e) => (isEditMode ? editEducation(editingEducation!, e) : addNewEducation(e,))}
+              // onSubmit={(e) => addNewEducation(e)}
+              onSubmit={(e) => (isEditMode ? handleEditEducation(e, editingEducationId) : addNewEducation(e))}
               className=""
             >
               <div className="w-full">
@@ -262,7 +263,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                   <div className="w-1/2 font-semibold">
                     <label>From*</label>
                   </div>
-                  <div className="w-1/2 font-semibold w-[300px]">
+                  <div className="font-semibold w-[300px]">
                     <label>To*</label>
                     {''}
                   </div>

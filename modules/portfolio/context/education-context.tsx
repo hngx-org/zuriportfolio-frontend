@@ -97,7 +97,8 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [educations, setEducations] = useState<Education[] | []>([]);
 
-  const handleEditEducation = async (educationId: number) => {
+  const handleEditEducation = async (e: React.FormEvent<HTMLFormElement>, educationId: number) => {
+    e.preventDefault();
     try {
       const updatedEducation = {
         id: editingEducationId,
@@ -108,7 +109,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         to,
         degree, // You may need to add the degree information as well
       };
-      const response = await fetch(`${API_BASE_URL}api/updateupdateEducationDetail/${educationId}`, {
+      const response = await fetch(`${API_BASE_URL}api/updateEducationDetail/${educationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -125,6 +126,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         resetForm();
         setIsForm(false);
         setIsData(true);
+        setEditingEducationId('');
       } else {
       } // Request failed, handle the error
       console.error('Request failed with status:', response.status);
@@ -291,6 +293,8 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setSelectedDegreeId,
         selectedDegreeId,
         setnewdegree,
+        editingEducationId,
+        setEditingEducationId,
       }}
     >
       {children}
