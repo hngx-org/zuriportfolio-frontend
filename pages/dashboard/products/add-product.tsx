@@ -17,8 +17,9 @@ import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import { useAuth } from '../../../context/AuthContext';
 const AddProduct = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,38 +33,36 @@ const AddProduct = () => {
   };
 
   const productScehema = z.object({
-    image: z.string(),
     name: z.string().min(5, { message: 'Add Product Name' }),
     description: z.string().min(10, { message: 'Add  description' }),
     category_id: z.string().min(1, { message: 'Select category' }),
     price: z.string().min(1, { message: 'Add Price' }),
     discountPrice: z.string().min(1, { message: 'Add discount' }),
     tax: z.string().min(1, { message: 'Add tax' }),
+    currency: z.string().min(1),
     assets_link: z.string().min(4, { message: 'Provide the link to your file' }),
     assets_type: z.string(),
     assets_notes: z.string().min(4, { message: 'Leave a note about the file' }),
     assets_name: z.string().min(4, { message: 'Add File name' }),
     shopId: z.string().min(3, { message: 'Select Shop' }),
-    currency: z.string(),
+    quantity: z.number(),
   });
-
-  const currency = '₦';
   const form = useForm({
     validate: zodResolver(productScehema),
     initialValues: {
-      image: '',
       name: '',
       description: '',
       category_id: '',
       price: '',
       discountPrice: '',
       tax: '',
+      currency: 'NGN',
       assets_link: '',
       assets_type: 'external',
       assets_notes: '',
       assets_name: '',
       shopId: '',
-      currency: currency,
+      quantity: 1,
     },
   });
   const handleNewCategoryChange = (event: any) => {
@@ -92,6 +91,58 @@ const AddProduct = () => {
 
     fetchCategoriesData();
   }, []);
+
+  const handleAddNewCategory = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/category',
+        { name: newCategoryName },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+        },
+      );
+
+      if (response.status === 201) {
+        toast.success('Category created successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+
+        // Clear the input field
+        setNewCategoryName('');
+
+        // Fetch and update the categories list
+        const updatedCategories = await fetchCategories();
+        setCategoriesData(updatedCategories);
+      } else {
+        console.error('Failed to create category:', response.data);
+      }
+    } catch (error: any) {
+      console.error('Error creating category:', error);
+      toast.error(error, {
+        position: 'top-right',
+        autoClose: 5000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCurrency(event.target.value);
+
+    // Blur the select element to remove focus
+    event.target.blur();
+  };
+  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setProducts({ ...products, category_id: event.target.value });
+  };
 
   const fetchCategories = async () => {
     try {
@@ -129,6 +180,70 @@ const AddProduct = () => {
       setShops([]);
     }
   };
+  const [products, setProducts] = useState({
+    image: '',
+    name: '',
+    description: '',
+    quantity: '',
+    category_id: '',
+    price: '',
+    discountPrice: '0',
+    tax: '',
+    currency: '$',
+  });
+
+  const handleFormSubmit = async (event: any) => {
+    setLoading(true);
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    formData.append('currency', '$');
+
+    // Log the FormData content to the console
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+
+    try {
+      // Make a POST request to your API endpoint with Axios
+      const response = await axios.post(
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/add',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+        },
+      );
+
+      // Handle the response, e.g., show a success message or redirect
+      console.log(response.data);
+      toast.success(`Product added successfully`, {
+        position: 'top-right',
+        autoClose: 5000,
+      });
+      push('/dashboard/products');
+    } catch (error: any) {
+      // Handle errors, e.g., show an error message
+      console.error('Error:', error);
+
+      if (error.response) {
+        // Server responded with an error status (e.g., 400 Bad Request)
+        console.error('Server error:', error.response.data);
+        toast.error('Server error', {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+      } else {
+        // Network error or other issues
+        toast.error('Error creating product', {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleImageUploadClick = () => {
     const inputElement = document.getElementById('imageUploadInput') as HTMLInputElement | null;
@@ -138,23 +253,20 @@ const AddProduct = () => {
   };
 
   const handleImageUpload = (files: FileList | null) => {
+    const reader = new FileReader();
     if (files && files.length > 0) {
       const file = files[0];
-      const reader = new FileReader();
-
+      setSelectedImage(file as any);
       reader.onload = (e) => {
         const result = e.target?.result as string | null;
         if (result) {
-          setSelectedImage(result);
-          form.setFieldValue('image', result);
-          console.log(form.getTransformedValues());
+          setPreviewImage(result);
         }
       };
 
       reader.readAsDataURL(file);
     }
   };
-
   const handleSubmit = async (values: any) => {
     console.log(values, 'hey');
     setLoading(true);
@@ -162,6 +274,9 @@ const AddProduct = () => {
     Object.entries(values).forEach(([key, value]: any[]) => {
       formData.append(key, value);
     });
+    formData.append('image', selectedImage as any);
+    // formData.delete('image');
+
     try {
       const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
         method: 'POST',
@@ -170,6 +285,15 @@ const AddProduct = () => {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
       });
+      // Make a POST request to your API endpoint with Axios
+      // const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
+      //   body: values,
+      //   header: {
+      //     Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      //   },
+      // });
+
+      // Handle the response, e.g., show a success message or redirect
       const response = await res.json();
       console.log(response);
       if (!!response.errorStatus) {
@@ -206,6 +330,7 @@ const AddProduct = () => {
       setLoading(false);
     }
   };
+  const isNameAndPriceEntered = products.name !== '' && products.price !== '';
 
   return (
     <MainLayout showTopbar activePage="products">
@@ -311,11 +436,30 @@ const AddProduct = () => {
                       Product Category
                     </label>
                   </div>
+                  {/* <Input
+                    className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    placeholder="Add subcategory"
+                    inputMode="none"
+                    name="newCategory"
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    rightIcon={
+                      <Button
+                        onClick={handleAddNewCategory}
+                        className="w-[150px] h-[30px] rounded-sm text-[14px] bg-gray-500"
+                      >
+                        {loading ? 'Loading...' : 'Add new'}
+                      </Button>
+                    }
+                  /> */}
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select more categories</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
                       form.errors.category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
+                    // value={products.category_id}
+                    // onChange={handleOptionChange}
+
                     {...form.getInputProps('category_id')}
                   >
                     <option value="" className="placeholder:text-[#191C1E] capitalize">
@@ -384,7 +528,7 @@ const AddProduct = () => {
                       </span>
                     </center>
                   </div>
-                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.image && form.errors.image}</p>
+                  {/* <p className="text-[red] text-lg my-3 font-semibold">{form.errors.image && form.errors.image}</p> */}
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
@@ -395,12 +539,11 @@ const AddProduct = () => {
                     className={`w-[100%] md:w-[50%] mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
                       form.errors.price ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    placeholder="₦00.00"
+                    placeholder="00.00"
                     inputMode="none"
                     {...form.getInputProps('price')}
                     size={100}
                   />
-
                   <p className="text-[red] text-lg my-3 font-semibold">{form.errors.price && form.errors.price}</p>
                   <div className="flex flex-row justify-between w-[100%] md:w-[50%] items-center">
                     <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">
@@ -435,9 +578,9 @@ const AddProduct = () => {
             </div>
             <div className="p-5 mt-0 md:mt-0">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">PREVIEW</label>
-              {selectedImage ? (
+              {previewImage ? (
                 <Image
-                  src={selectedImage}
+                  src={previewImage}
                   alt="uploaded"
                   className="w-[300px] object-contain rounded-sm my-3"
                   width={100}
@@ -465,7 +608,10 @@ const AddProduct = () => {
                 </div>
               </div>
 
-              <Button type="submit" className="w-[300px] mt-8 bg-[#33A467]">
+              <Button
+                type="submit"
+                className={isNameAndPriceEntered ? 'w-[300px] mt-8 bg-[#33A467]' : 'w-[300px] mt-8 bg-[#33A467]'}
+              >
                 Upload
               </Button>
               <Link href="/dashboard/products/add-product">

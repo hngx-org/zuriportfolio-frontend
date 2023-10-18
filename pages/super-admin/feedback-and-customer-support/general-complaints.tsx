@@ -8,6 +8,7 @@ import VendorComplaint from '../../../public/assets/images/vendorComplaint.png';
 import { useRouter } from 'next/navigation';
 import Button from '@ui/Button';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
+import { withAdminAuth } from '../../../helpers/withAuth';
 
 interface ComplainType {
   total_complaints: number;
@@ -33,7 +34,8 @@ interface InProgressType {
   // Add other properties as needed
 }
 
-interface Complain {
+export interface Complain {
+  // exporting so I can use in withAdminAuth HOC component
   id: number; // ID of the complaint
   status: string; // Status of the complaint (e.g., "pending" or "resolved")
   message: string; // A message describing the complaint
@@ -59,6 +61,11 @@ interface Complain {
 interface Complaint {
   id: number;
   // other properties...
+}
+
+interface GeneralComplaintsHOC {
+  children?: React.ReactNode;
+  complain: Complain;
 }
 
 function GeneralComplaints({ complain }: { complain: Complain }) {
@@ -681,11 +688,11 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
             </div>
           </div>
 
-          <SuperAdminPagination currentPage={pageNum} totalPages={pageCount} onPageChange={handlePageClick} />
+          {/* <SuperAdminPagination currentPage={pageNum} totalPages={pageCount} onPageChange={handlePageClick} /> */}
         </div>
       </div>
     </>
   );
 }
 
-export default GeneralComplaints;
+export default withAdminAuth<GeneralComplaintsHOC>(GeneralComplaints);
