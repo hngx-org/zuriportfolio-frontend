@@ -43,13 +43,12 @@ const EditAssesment = () => {
     const fetchData = async () => {
       try {
         const url = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${id}/`;
-        const csrfToken = localStorage.getItem('zpt') ?? '';
+        const zptToken = localStorage.getItem('zpt') ?? '';
 
         const response = await fetch(url, {
           headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${csrfToken}`,
-            'X-CSRFTOKEN': csrfToken,
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${zptToken}`,
           },
         });
 
