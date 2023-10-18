@@ -11,7 +11,6 @@ const AnalyticsAndReportingCards = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('Bearer Token:', bearerToken);
         const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/';
 
         const response = await fetch(apiUrl, {

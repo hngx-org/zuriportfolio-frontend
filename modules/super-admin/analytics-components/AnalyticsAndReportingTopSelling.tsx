@@ -32,7 +32,6 @@ const AnalyticsAndReportingTopSelling = () => {
           throw new Error('Failed to fetch data');
         }
         const data = await res.json();
-        console.log(data)
         setProducts(data.data);
         setLoading(false);
       } catch (error) {
