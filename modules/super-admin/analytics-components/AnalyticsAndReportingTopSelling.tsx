@@ -32,10 +32,6 @@ const AnalyticsAndReportingTopSelling = () => {
           throw new Error('Failed to fetch data');
         }
         const data = await res.json();
-<<<<<<< HEAD
-=======
-        console.log(data);
->>>>>>> refs/remotes/origin/SUP2-10/feat/analytics
         setProducts(data.data);
         setLoading(false);
       } catch (error) {
