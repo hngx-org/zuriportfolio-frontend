@@ -46,11 +46,55 @@ const AddProduct = () => {
     }
   };
 
-  const handleAddNewCategory = () => {
-    // Implement logic to add the new category to your data here
-    // For example, you might want to update your state with the new category.
-    // Ensure proper data handling, e.g., sending a request to the server or updating state, depending on your application's structure.
-    console.log('New Category Name:', newCategoryName);
+  useEffect(() => {
+    async function fetchCategoriesData() {
+      const updatedCategories = await fetchCategories();
+      setCategoriesData(updatedCategories);
+    }
+
+    fetchCategoriesData();
+  }, []);
+
+  const handleAddNewCategory = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/category',
+        { name: newCategoryName },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+        },
+      );
+
+      if (response.status === 201) {
+        toast.success('Category created successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+
+        // Clear the input field
+        setNewCategoryName('');
+
+        // Fetch and update the categories list
+        const updatedCategories = await fetchCategories();
+        setCategoriesData(updatedCategories);
+      } else {
+        console.error('Failed to create category:', response.data);
+      }
+    } catch (error: any) {
+      console.error('Error creating category:', error);
+      toast.error(error, {
+        position: 'top-right',
+        autoClose: 5000,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -63,26 +107,26 @@ const AddProduct = () => {
     setProducts({ ...products, categoryId: event.target.value });
   };
 
-  useEffect(() => {
-    // Fetch product categories
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data.data)) {
-          setCategoriesData(data.data);
-        }
-      })
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
+
+      if (response.status === 200) {
+        return response.data.data || [];
+      } else {
+        console.error('Failed to fetch categories:', response.data);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      return [];
+    }
+  };
 
   const [products, setProducts] = useState({
     image: '',
@@ -208,9 +252,16 @@ const AddProduct = () => {
                 name="image"
               />
               <div className="p-3 border border-[#00000024] rounded-md mt-3">
-                <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
+                {/* <div className="bg-[#F8F9FA] p-2 rounded-sm items-center text-center">
                   <MultipleFileUpload />
-                </div>
+                </div> */}
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
+                <Input
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  name="name"
+                />
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product details</span>
@@ -223,52 +274,57 @@ const AddProduct = () => {
                     name="name"
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Description</label>
-                  <Input
-                    className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                  <textarea
+                    className="w-full border-solid border-[2px] border-white-400 placeholder:text-[#191C1E] focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2"
                     placeholder="Add product description"
                     inputMode="none"
                     name="description"
                   />
                   <div className="flex flex-row items-center justify-between">
                     <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
-                    <Button onClick={handleAddNewCategory} className="p-2 bg-gray-500">
-                      Add new
-                    </Button>
                   </div>
                   <Input
                     className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="Add new category"
                     inputMode="none"
-                    name="category"
+                    name="newCategory"
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    rightIcon={
+                      <Button
+                        onClick={handleAddNewCategory}
+                        className="w-[150px] h-[30px] rounded-sm text-[14px] bg-gray-500"
+                      >
+                        {loading ? 'Loading...' : 'Add new'}
+                      </Button>
+                    }
                   />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select more categories</label>
                   <select
-                    className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
+                    className="border-solid border-[2px] border-white-400 capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
                     value={products.categoryId}
                     onChange={handleOptionChange}
                     name="categoryId"
                   >
-                    <option value="">Select product category</option>
+                    <option value="" className="placeholder:text-[#191C1E] capitalize">
+                      Select product category
+                    </option>
                     {categoriesData.map((category: any) => (
-                      <optgroup label={category.name} key={category.id}>
-                        {category.sub_categories.map((subCategory: any) => (
-                          <option
-                            value={subCategory.id}
-                            key={subCategory.id}
-                            className="placeholder:text-[#191C1E] text-black"
-                          >
-                            {subCategory.name}
-                          </option>
-                        ))}
-                      </optgroup>
+                      <option
+                        value={category.id}
+                        key={category.id}
+                        className="placeholder:text-[#191C1E] text-black capitalize"
+                      >
+                        {category.name}
+                      </option>
                     ))}
                   </select>
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product thumbnail</span>
-                <div className="mt-5 flex flex-col">
-                  <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
+                <div className="mt-3 flex flex-col">
+                  <div className="bg-[#F8F9FA] p-2 rounded-sm items-center text-center">
                     <center>
                       <Image
                         src={uploadorange}
@@ -328,13 +384,6 @@ const AddProduct = () => {
                     inputMode="none"
                     name="discountPrice"
                   />
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] ">Product Quantity</label>
-                  <Input
-                    className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-                    placeholder="00.00"
-                    inputMode="none"
-                    name="quantity"
-                  />
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Value Added Tax (VAT)</label>
                   <Input
                     className="w-[50%] md:w-[30%] mb-5 mt-2 placeholder:text-[#191C1E] text-black"
@@ -358,18 +407,18 @@ const AddProduct = () => {
               ) : (
                 <Image src={placeholder} className="w-[300px] object-contain rounded-sm my-3" alt="placeholder" />
               )}
-              <div className="flex flex-row gap-2 justify-between items-center">
+              <div className="flex flex-row gap-2 w-[300px] justify-between items-center">
                 <div>
                   <p>Product Link</p>
                   <input
                     ref={linkRef}
                     type="text"
-                    value="https://zuristore/store/product_name"
+                    value="https://staging.zuri.team/store/product_name"
                     style={{ position: 'absolute', left: '-9999px' }}
                     readOnly
                   />
-                  <Link className="text-[#536066] font-manropeL" href="/">
-                    https://zuristore/store/product_name
+                  <Link className="text-[#536066] text-[12px] font-manropeL" href="/">
+                    https://staging.zuri.team/store/product_name
                   </Link>
                 </div>
                 <div onClick={handleCopyLink} className="cursor-pointer">

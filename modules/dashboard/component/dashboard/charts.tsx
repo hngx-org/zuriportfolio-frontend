@@ -74,13 +74,14 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     const timeline: string = chartData[i % chartData.length];
     return { timeline, income };
   });
+  console.log(mockSalesReportData);
 
   const mockStoreTrafficData = Array.from({ length: numBarsAsNumber }, (_, i) => {
-    const income1: number = Math.floor(Math.random() * 1001) + 500;
-    const income2: number = Math.floor(Math.random() * 1001) + 500;
+    const income: number = Math.floor(Math.random() * 1001) + 500;
     const timeline: string = chartData[i % chartData.length];
-    return { timeline, income1, income2 };
+    return { timeline, income };
   });
+  console.log(mockStoreTrafficData);
 
   if (isBarChart) {
     if (querySalesReportData?.timeline) {

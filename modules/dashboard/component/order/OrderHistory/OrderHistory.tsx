@@ -137,22 +137,6 @@ const dummyOrders: OrderHistory[] = [
   },
 ];
 const OrderHistory: React.FC = () => {
-  // const {
-  //   orders: pageOrders,
-  //   orderFilter,
-  //   changeFilter,
-  //   changeSortBy,
-  //   sortBy,
-  //   changeSearchQuery,
-  //   fetchOrders,
-  //   getSearchResult,
-  //   insertOrders,
-  //   searchQuery,
-  //   filterFunc,
-  //   sortOrders,
-  //   loading: loadingOrders,
-  //   searching,
-  //   totalPage,
   const [pageOrders, setOrders] = useState<OrderHistory[]>(dummyOrders);
   const [orderFilter, setOrderFilter] = useState('all');
   const [sort, setSort] = useState<{
@@ -172,8 +156,10 @@ const OrderHistory: React.FC = () => {
   }, []);
   const changeFilter = (val: string) => {
     // show orders by status which is either all | completed | cancelled or pending
+    if (loadingOrders) return;
     setOrderFilter(val);
   };
+
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
@@ -207,6 +193,7 @@ const OrderHistory: React.FC = () => {
       setLoadingOrders(false);
     }
   };
+
   const debounce = (func: (...a: any) => any, timeSlice: number = 1000) => {
     let timeout: NodeJS.Timeout;
     return async function (...arg: any) {
@@ -345,7 +332,7 @@ const OrderHistory: React.FC = () => {
         ) : (
           <section className="font-manropeB font-semibold mt-4">
             <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
-              <Link href={'/dashboard/orders'}>Order manegement</Link>
+              <Link href={'/dashboard/orders'}>Order management</Link>
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path
                   d="M4.50002 2.03996L7.76002 5.29996C8.14502 5.68496 8.14502 6.31496 7.76002 6.69996L4.50002 9.95996"
@@ -423,31 +410,6 @@ const OrderHistory: React.FC = () => {
                   <div className="px-8 justify-end items-center gap-[129px] mb-[25px] hidden md:flex">
                     <div className="flex items-center gap-6">
                       <div className="relative">
-                        <button
-                          className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
-                          style={{
-                            boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-                          }}
-                          onClick={() => setShowFilters((prev) => !prev)}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                          >
-                            <path
-                              d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
-                              stroke="#344054"
-                              strokeWidth="1.67"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <span>Filters</span>
-                        </button>
-
                         {showFilters && (
                           <Filters
                             filters={filters}

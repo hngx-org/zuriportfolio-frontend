@@ -6,8 +6,12 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+interface ComplaintModalProps extends ModalProps {
+  orderID: string;
+  customerID: string;
+}
 
-const ComplaintModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, orderID, customerID }) => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -69,6 +73,31 @@ const ComplaintModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       <div className="p-4 container">
         <h1 className="text-2xl font-bold">Submit a Complaint</h1>
         <form className="mt-4" onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="orderID" className="block text-sm font-medium text-gray-700">
+              Order ID
+            </label>
+            <input
+              id="orderID"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              type="text"
+              value={orderID}
+              readOnly
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="customerID" className="block text-sm font-medium text-gray-700">
+              Customer ID
+            </label>
+            <input
+              id="customerID"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              type="text"
+              value={customerID}
+              readOnly
+            />
+          </div>
           <div className="mb-4">
             <label htmlFor="description" className="block text-sm font-medium text-gray-700">
               Complaint Description

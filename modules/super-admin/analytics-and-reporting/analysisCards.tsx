@@ -1,7 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { DateObject } from 'react-multi-date-picker';
-import { ImSpinner8 } from 'react-icons/im';
+import { ToastContainer, toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
 
 interface zaProps {
   dateRange: DateObject[];
@@ -9,17 +10,26 @@ interface zaProps {
 }
 
 const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
-  const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndDate] = React.useState('');
-  const [loadingState, setLoading] = React.useState(true);
-  const [CardDataOne, setCardDataOne] = React.useState<any>([]);
-  React.useEffect(() => {
+  const [loadingState, setLoading] = useState<Boolean>(true);
+  const [CardDataOne, setCardDataOne] = useState<any>([]);
+
+  useEffect(() => {
     if (reportClicked && dateRange.length === 2) {
       const starttDate = dateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
       const enddDate = dateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
+      const bearerToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
       setLoading(true);
+
       fetch(
         `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            'Content-Type': 'application/json',
+          },
+        },
       )
         .then((res) => res.json())
         .then((data) => {
@@ -28,12 +38,20 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error('No Data For the specified Date Range');
         });
     } else {
       setLoading(true);
-      fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`,
-      )
+      const bearerToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
+      fetch(`https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${bearerToken}`,
+          'Content-Type': 'application/json',
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
           setCardDataOne(data.data);
@@ -41,6 +59,7 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error('Nothing to show here!');
         });
     }
   }, [reportClicked]);
@@ -56,8 +75,8 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             // key={hero.index}
             className={`${
               loadingState
-                ? 'h-[7.375rem] max-[1536px]:max-w-[25.25rem] w-full max-w-[18.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
-                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[25.25rem]'
+                ? 'h-[7.375rem] min-[1536px]:max-w-[25.25rem] w-full max-w-[18.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-[28.25rem]'
             }`}
           >
             {loadingState ? (
@@ -70,13 +89,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                     {/* {hero.Title} */}
                     {CardDataOne[0]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -144,8 +163,8 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             // key={hero.index}
             className={`${
               loadingState
-                ? 'h-[7.375rem] max-[1536px]:max-w-[25.25rem] w-full max-w-[18.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
-                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[25.25rem]'
+                ? 'h-[7.375rem] min-[1536px]:max-w-[25.25rem] w-full max-w-[18.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-[25.25rem]'
             }`}
           >
             {loadingState ? (
@@ -157,13 +176,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[1]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -231,8 +250,8 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             // key={hero.index}
             className={`${
               loadingState
-                ? 'h-[7.375rem] w-full max-w-[18.25rem] max-[1536px]:max-w-[25.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
-                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[25.25rem]'
+                ? 'h-[7.375rem] w-full max-w-[18.25rem] min-[1536px]:max-w-[25.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-[25.25rem]'
             }`}
           >
             {loadingState ? (
@@ -244,13 +263,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[2]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -318,8 +337,8 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             // key={hero.index}
             className={`${
               loadingState
-                ? 'h-[7.375rem] w-full max-w-[18.25rem] max-[1536px]:max-w-[25.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
-                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[25.25rem]'
+                ? 'h-[7.375rem] w-full max-w-[18.25rem] min-[1536px]:max-w-[25.25rem] max-[1024px]:max-w-[14.651rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-[25.25rem]'
             }`}
           >
             {loadingState ? (
@@ -331,13 +350,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[5]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -406,8 +425,8 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             // key={hero.index}
             className={`${
               loadingState
-                ? 'h-[7.375rem] max-[1536px]:max-w-[47rem] w-full max-w-[38rem] max-[1024px]:max-w-[30.301rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
-                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[47rem]'
+                ? 'h-[7.375rem] min-[1536px]:max-w-[47rem] w-full max-w-[38rem] max-[1024px]:max-w-[30.301rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-[47rem]'
             }`}
           >
             {loadingState ? (
@@ -419,17 +438,17 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[3]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
-                    ${CardDataOne[3]?.amount}
+                    &#8358;{CardDataOne[3]?.amount}
                   </p>
                   {CardDataOne[3]?.ratio < 0 && (
                     <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
@@ -492,8 +511,8 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             // key={hero.index}
             className={`${
               loadingState
-                ? 'h-[7.375rem] max-[1536px]:max-w-[47rem] w-full max-w-[38rem] max-[1024px]:max-w-[30.301rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
-                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] max-[1536px]:max-w-[47rem]'
+                ? 'h-[7.375rem] min-[1536px]:max-w-[47rem] w-full max-w-[38rem] max-[1024px]:max-w-[30.301rem] max-[1024px]:h-[5.974rem] bg-gray-300 shadow-lg` mx-auto rounded-md animate-pulse'
+                : 'flex flex-col gap-[0.5rem] hover:shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[38rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[1024px]:p-[1rem] max-[1024px]:py-[0.8rem] min-[1536px]:max-w-[47rem]'
             }`}
           >
             {loadingState ? (
@@ -505,13 +524,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL max-[1024px]:text-[0.7rem]">
                     {CardDataOne[4]?.title}
                   </p>
-                  <Image
+                  {/* <Image
                     src="/assets/images/reports/more.svg"
                     alt="More options"
                     width={20}
                     height={20}
                     className="w-[1.25rem] h-[1.25rem] max-[1024px]:w-[1rem] max-[1024px]:h-[1rem]"
-                  />
+                  /> */}
                 </div>
                 <div className="flex w-full justify-between gap-[1rem] items-center">
                   <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000] max-[1024px]:text-[1.2rem]">
@@ -587,13 +606,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
                   {hero?.title}
                 </p>
-                <Image
+                {/* <Image
                   src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
                   className="w-[1.25rem] h-[1.25rem]"
-                />
+                /> */}
               </div>
               <div className="flex w-full justify-between gap-[1rem] items-center">
                 <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
@@ -667,13 +686,13 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                 <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
                   {hero?.title}
                 </p>
-                <Image
+                {/* <Image
                   src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
                   className="w-[1.25rem] h-[1.25rem]"
-                />
+                /> */}
               </div>
               <div className="flex w-full justify-between gap-[1rem] items-center">
                 <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
@@ -734,6 +753,7 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             </div>
           ))}
         </div>
+        <ToastContainer />
       </div>
     </>
   );

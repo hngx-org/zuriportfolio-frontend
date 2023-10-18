@@ -110,10 +110,10 @@ function ResetPassword() {
                     {...form.getInputProps('password')}
                     type={showPassword[0] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
                     // isPasswordVisible={showPassword[0]} // Pass the visibility state as a prop
-                    className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                    className={`w-full text-black h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                       form.errors.password ? 'border-red-200' : ''
                     }`}
-                    placeHolder="enter password"
+                    placeHolder="Enter password"
                     rightIcon={
                       <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
                         {/* Update the icon based on the visibility state of the password. */}
@@ -134,10 +134,10 @@ function ResetPassword() {
                   {...form.getInputProps('confirmPassword')}
                   type={showPassword[1] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
                   // isPasswordVisible={showPassword[1]} // Pass the visibility state as a prop
-                  className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  className={`w-full text-black h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.confirmPassword ? 'border-red-200' : ''
                   }`}
-                  placeHolder="enter confirm password"
+                  placeHolder="Confirm password"
                   rightIcon={
                     <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
                       {/* Update the icon based on the visibility state of the password. */}

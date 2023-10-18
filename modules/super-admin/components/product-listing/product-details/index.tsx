@@ -8,6 +8,7 @@ import { useRemoveSanction, useRestore, useSanction, useTempDeleteProd } from '.
 import { toast } from 'react-toastify';
 import StarRating from '../../StarRating';
 import { brokenImage } from '../../../../../pages/super-admin/vendor-management/vendor-details/[id]';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function formatDate(inputDate: string) {
   const date = new Date(inputDate);
@@ -18,7 +19,10 @@ export function formatDate(inputDate: string) {
   return `${day}-${month}-${year}`;
 }
 export const handleBack = (route: NextRouter) => {
-  if (route.pathname.includes('/super-admin/product-listing/product-details/[id]')) {
+  if (
+    route.pathname.includes('/super-admin/product-listing/product-details/[id]') ||
+    route.pathname.includes('/super-admin/vendor-management/vendor-details/[id]')
+  ) {
     route.push('..');
   } else {
     route.push('.');
@@ -39,12 +43,14 @@ const SuperAdminProdDetails = ({
   const { restoreProd, isLoading: isRestoring } = useRestore();
   const { deleteSanction, isLoading: isTempDeleting } = useTempDeleteProd();
   const { santionProd, isLoading: isSanctioning } = useSanction();
+  const client = useQueryClient();
 
   const handleRemoveSaction = () => {
     removeSanction(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
           toast.success(response.response.status);
+          client.invalidateQueries(['get-prod']);
           handleBack(route);
         } else {
           toast.error(response.response.data.message);
@@ -52,6 +58,7 @@ const SuperAdminProdDetails = ({
       },
       onError: () => {
         toast.success('This product is no longer sanctioned');
+        client.invalidateQueries(['get-prod']);
         handleBack(route);
       },
     });
@@ -61,6 +68,7 @@ const SuperAdminProdDetails = ({
     restoreProd(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-prod']);
           toast.success(response.response.status || 'Product restored successfully');
           handleBack(route);
         } else {
@@ -69,6 +77,7 @@ const SuperAdminProdDetails = ({
       },
       onError: (error) => {
         console.log(error);
+        client.invalidateQueries(['get-prod']);
         toast.success('Product restored successfully');
         handleBack(route);
       },
@@ -79,14 +88,15 @@ const SuperAdminProdDetails = ({
     deleteSanction(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-prod']);
           toast.success(response.response.status || 'Product deleted successfully');
           handleBack(route);
         } else {
           toast.error(response.response.data.message || 'Error deleting the product');
         }
       },
-      onError: (error) => {
-        console.log(error);
+      onError: () => {
+        client.invalidateQueries(['get-prod']);
         toast.success('Product permanently deleted');
         handleBack(route);
       },
@@ -97,14 +107,15 @@ const SuperAdminProdDetails = ({
     santionProd(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-prod']);
           toast.success(response.response.status || 'Product sanctioned successfully');
           handleBack(route);
         } else {
           toast.error(response.response.data.message || 'Error sanctioning the product');
         }
       },
-      onError: (error) => {
-        console.log(error);
+      onError: () => {
+        client.invalidateQueries(['get-prod']);
         toast.success('Product sanctioned');
         handleBack(route);
       },
@@ -122,8 +133,16 @@ const SuperAdminProdDetails = ({
           <div className="mt-6 md:mt-0 flex gap-[28px] items-center flex-col lg:flex-row mb-8">
             <div className="flex flex-col gap-[16px] lg:h-[520px] md:h-[600px] h-[340px] w-full lg:w-1/2">
               <Image
-                loader={() => data?.product_image[0][0] || brokenImage}
-                src={data?.product_image[0][0] || brokenImage}
+                loader={() =>
+                  data?.product_image && data.product_image[0] && data.product_image[0][0]
+                    ? data.product_image[0][0]
+                    : brokenImage
+                }
+                src={
+                  data?.product_image && data.product_image[0] && data.product_image[0][0]
+                    ? data.product_image[0][0]
+                    : brokenImage
+                }
                 alt="Product Image"
                 width={100}
                 height={100}

@@ -42,11 +42,19 @@ function ComplaintsDetails() {
   }, [router.query]);
 
   const fetchcomplaindetails = async (complaintsId: any) => {
+    const accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
     console.log(complaintsId);
 
     try {
       const response = await axios.get(
         `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/${complaintsId}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
       );
       if (response.status === 200) {
         const data = await response.data;
@@ -91,6 +99,9 @@ function ComplaintsDetails() {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
     e.preventDefault();
     const message = e.currentTarget.message.value;
 
@@ -100,6 +111,9 @@ function ComplaintsDetails() {
         {
           complaintId: 1,
           message,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
       );
       const newReply = { message, date: new Date().toISOString() };
