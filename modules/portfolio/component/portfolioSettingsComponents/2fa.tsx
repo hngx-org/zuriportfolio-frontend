@@ -49,6 +49,12 @@ const Handling2FA = (props: close) => {
           message: 'code sent check your mail',
           type: 'success',
         });
+        setTimeout(() => {
+          if (inputRefs.length > 0) {
+            inputRefs[0]?.current?.focus();
+          }
+        }, 500);
+        setFill(false);
       } else {
         setLoading(false);
         notify({
@@ -213,13 +219,19 @@ const Handling2FA = (props: close) => {
           >
             <p>Two factor authentication</p>
 
-            <label htmlFor="2fa" className="relative inline-flex items-center cursor-pointer mx-end">
+            <label
+              onClick={() => {
+                setOpen2Fa((prv) => !prv);
+                !lgModal && props.setCloseAcc(false);
+              }}
+              className="relative inline-flex items-center cursor-pointer mx-end"
+            >
               <input
                 type="checkbox"
                 name=""
                 id="2fa"
+                disabled
                 checked={auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth}
-                value={'Disabled'}
                 onChange={() => {
                   setOpen2Fa((prv) => !prv);
                   !lgModal && props.setCloseAcc(false);
