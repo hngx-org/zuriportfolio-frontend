@@ -11,16 +11,17 @@ import Modal from '@modules/assessment/modals/Loadingpopup';
 import { FaSpinner } from 'react-icons/fa';
 import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
 import { Edit } from 'iconsax-react';
+import { ToastContainer, toast } from 'react-toastify';
 
 interface AssessmentData {
   questions: Array<{
     question_no: number;
     question_text: string;
     question_type: string;
-    answers: Array<{
+    answer: {
       options: string[];
       correct_option: string;
-    }>;
+    };
   }>;
   title: string;
   duration_minutes: number;
@@ -94,24 +95,36 @@ const DraftPreviewEdit: React.FC = () => {
 
   useEffect(() => {
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
+    const token = localStorage.getItem('zpt') ?? '';
 
-    fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json(); // Parse the JSON response
+    if (draftId != null) {
+      fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+
+          'X-CSRFTOKEN': token,
+        },
       })
-      .then((responseData) => {
-        console.log('This is the data', responseData);
-        setDraftData(responseData);
-        setAssessment(responseData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        setLoading(false);
-      });
+        .then((response) => {
+          toast.info('Loading draft data...');
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json(); // Parse the JSON response
+        })
+        .then((responseData) => {
+          console.log('This is the data', responseData);
+          setDraftData(responseData);
+          setAssessment(responseData);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          setLoading(false);
+        });
+    }
   }, [draftId]);
 
   const [disable, setDisable] = useState(true);
