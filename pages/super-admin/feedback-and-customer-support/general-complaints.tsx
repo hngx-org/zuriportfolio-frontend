@@ -550,7 +550,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                           <div className="date w-40 min-w-[120px] flex items-center justify-center">
                             {complain.user_details && complain.createdAt ? (
                               <p className="font-manropeB font-medium text-base truncate text-slate-500">
-                                {complain.createdAt}
+                                {complain.createdAt.slice(0, 10)}
                               </p>
                             ) : (
                               <p className="font-manropeB font-medium text-base text-slate-500">Date Unavailable</p>
