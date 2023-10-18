@@ -18,6 +18,9 @@ import { useAuth } from '../context/AuthContext';
 import Twofa from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 import defaultpic from '../public/assets/inviteAssets/profile.svg';
 import { notify } from '@ui/Toast';
+import axios from 'axios';
+import Success from './auth/success';
+
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
     accountManagement: false,
@@ -160,7 +163,7 @@ const SettingPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('user', data);
-        setUserPic(data?.user.profilePic);
+        setUserPic(data?.user?.profilePic);
       } else {
       }
     } catch (error) {
@@ -172,7 +175,7 @@ const SettingPage = () => {
 
   useEffect(() => {
     handleGetUser();
-  }, []);
+  }, [settingOption]);
   const getNotificationSettingsFromLocalStorage = () => {
     const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
     if (storedNotificationData) {
@@ -189,54 +192,48 @@ const SettingPage = () => {
     setter((prev: boolean) => !prev);
   };
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const handlePics = async () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('profilepics', selectedFile);
+      formData.append('profilepics', auth?.user.id || '');
+
+      const url = 'https://hng6-r5y3.onrender.com/api/profile/image/upload';
+
+      try {
+        // Use toast.promise to display upload progress and results
+        toast.promise(axios.post(url, formData), {
+          pending: 'Uploading...',
+          success: 'Upload successful',
+          error: 'Failed to upload',
+        });
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+    } else {
+      console.error('Please select a file to upload');
+    }
+  };
+
+  const [selectedPics, setSelectedPics] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<File | undefined>();
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
-    if (files && files.length > 0) {
-      setSelectedFile(files[0]);
+    if (files) {
+      const file = files[0];
+      setSelectedPics(URL?.createObjectURL(file));
+      setSelectedFile(file);
     } else {
-      setSelectedFile(null);
+      setSelectedPics('');
+      setSelectedFile(undefined);
     }
   };
 
-  //   const handlePics = async () => {
-  //     if (selectedFile) {
-  //       const formData = new FormData();
-  //       formData.append('profilepics', selectedFile);
-
-  //       try {
-  //         const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/image/upload', {
-  //           method: 'POST',
-  //           body: formData,
-  //         });
-
-  //       if (response.ok) {
-  //         console.log('File uploaded successfully');
-  //         notify({
-  //           message: 'Uploaded succefully',
-  //           type: 'success',
-  //         });
-
-  //       } else {
-  //         console.error('File upload failed');
-  //         notify({
-  //           message: 'faile to upload',
-  //           type: 'error',
-  //         });
-
-  //       }
-  //     } catch (error) {
-  //       console.error('An error occurred:', error);
-
-  //     }
-  //   } else {
-  //     console.error('Please select a file to upload');
-
-  //   }
-  // };
-
+  useEffect(() => {
+    handlePics();
+  }, [selectedPics]);
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
       <div className="w-full   relative font-manropeEB mb-4  lg:mb-2   flex flex-col  ">
@@ -351,16 +348,14 @@ const SettingPage = () => {
                         >
                           <>
                             <Image
-                              src={userPic || defaultpic}
+                              src={selectedPics || userPic || defaultpic}
                               width={280}
                               height={180}
                               alt=""
                               className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
                             ></Image>
                           </>
-                          {/* <button className="mb-4">Edit</button>
-                          {selectedFile && <button onClick={handlePics}
-                               className='text-brand-green-primary'></button>} */}
+                          Edit
                         </label>
                         <input
                           type="file"
@@ -493,17 +488,22 @@ const SettingPage = () => {
                             >
                               <>
                                 <Image
-                                  src={userPic}
+                                  src={selectedPics || userPic || defaultpic}
                                   width={280}
                                   height={180}
                                   alt=""
-                                  className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
+                                  className=" w-[140px] h-[140px]  rounded-full  "
                                 ></Image>
                               </>
-                              <button className="mb-4">Edit</button>
-                              {selectedFile && <button className="text-brand-green-primary"></button>}
+                              Edit
                             </label>
-                            <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
+                            <input
+                              type="file"
+                              onChange={handleFileChange}
+                              name="profilepics"
+                              id="profilepics"
+                              className=" hidden outline-none"
+                            />
                           </div>
 
                           <AccountManagementMobile />
@@ -532,10 +532,10 @@ const SettingPage = () => {
              settingOption.accountManagement || settingOption.deleteAccount || settingOption.refer
                ? 'md:block lg:block hidden'
                : ''
-           }
+           } ${settingOption.notificationSettings && 'md:block'}
            hover:bg-brand-green-hover hover:text-white-100 `}
         >
-          Save <span className={` ${showReferInfo && 'hidden md:inline'}`}>& Close </span>
+          Save <span className={` ${showReferInfo && 'hidden md b:inline'}`}>& Close </span>
         </Button>
       </div>
     </MainLayout>

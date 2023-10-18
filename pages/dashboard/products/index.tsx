@@ -14,6 +14,11 @@ type Product = {
   name: any;
   price: any;
   url: any;
+  shop_id: any;
+  quantity: any;
+  category_id: any;
+  description: any;
+  id: any;
 };
 const Products = () => {
   const [pageSize, setPageSize] = useState(2);
@@ -37,10 +42,10 @@ const Products = () => {
       });
       const data = await res.json();
 
-      console.log(data);
-      toast.success(data.message, {
-        autoClose: 5000,
-      });
+      // console.log(data);
+      // toast.success(data.message, {
+      //   autoClose: 5000,
+      // });
       // setProducts(data.data.products);
       setTotalPage(data.totalPages);
       return data.data.products;
