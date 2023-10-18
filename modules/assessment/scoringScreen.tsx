@@ -25,34 +25,31 @@ type MyGradingRangeType = {
 interface ScoringScreenProps {
   skillId: number; // Define skillId as a prop
 
-    assessment: {
-      id: number;
-      title: string;
-      createdAt: Date;
-      duration_minutes: number;
-      questions: {
-        answers: {}[];
-        question_no: number;
-        question_text: string;
-        question_type: string;
-      }[];
-      updatedAt: Date;
-    };
-    
-
+  assessment: {
+    id: number;
+    title: string;
+    createdAt: Date;
+    duration_minutes: number;
+    questions: {
+      answers: {}[];
+      question_no: number;
+      question_text: string;
+      question_type: string;
+    }[];
+    updatedAt: Date;
+  };
 }
-
 
 const debounce = <F extends (...args: any[]) => void>(func: F, delay: number) => {
   let timeout: NodeJS.Timeout;
-  
+
   return (...args: Parameters<F>): void => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), delay);
   };
 };
 
-const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => {
+const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) => {
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
@@ -104,7 +101,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
     // Call the debounced function instead of handleFormSubmit directly
     debouncedHandleFormSubmit();
   };
-
 
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
     const newValue = e.target.value;
@@ -217,8 +213,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
     }
   };
   const debouncedHandleFormSubmit = debounce(handleFormSubmit, 1000);
-  
-  
 
   // useEffect(() => {
   //   async function fetchData() {
