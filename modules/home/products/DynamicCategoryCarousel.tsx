@@ -120,7 +120,7 @@ const DynamicCategoryCarousel = () => {
     };
 
     fetchSlides();
-  }, [slides]);
+  }, []);
 
   /**
    *

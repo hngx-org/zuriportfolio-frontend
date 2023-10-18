@@ -168,17 +168,21 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
+  console.log(data);
+
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
       {data?.length > 0 &&
-        data?.map((interest: any, i: number) => (
-          <span
-            className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
-            key={i}
-          >
-            <p className="text-sm text-gray-400 font-semibold opacity-70">{interest.interest}</p>
-          </span>
-        ))}
+        data?.map((interest: any, i: number) => {
+          return (
+            <span
+              className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
+              key={i}
+            >
+              <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
+            </span>
+          );
+        })}
     </div>
   );
 };
