@@ -75,7 +75,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
   return (
     <div className="p-2 w-full   shadow border border-custom-color32 h-auto rounded-lg bg-white-100  hover:shadow-[#ccc] group overflow-hidden">
       <div className="relative w-full  h-auto">
-        <Link href={`/shop/product?id=${product.id}&shopName=${shopName}`} passHref>
+        <Link href={`/shop/product?id=${product.id}`} passHref>
           <Image
             src={product.image[0].url}
             alt={product.name}
@@ -94,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
             <ShoppingCart size={17} />
           </span>
           <Link
-            href={`/shop/product?id=${product.id}&shopName=${shopName}`}
+            href={`/shop/product?id=${product.id}`}
             passHref
             className="w-full h-full text-black border-b -[1px] border-b-[#ccc] flex items-center justify-center text-sm bg-transparent hover:bg-[#febd69] hover:text-white-100 cursor-pointer duration-300"
           >
