@@ -11,10 +11,15 @@ interface userDetailsI {
   newPassword: string;
   confirmNewPassword: string;
 }
+interface showHintsI {
+  emailHint: boolean;
+  currentPasswordHint: boolean;
+  newPasswordHint: boolean;
+  confirmNewPasswordHint: boolean;
+}
 
 function AccountManagement() {
   const { auth } = useAuth();
-  // console.log(auth);
   const [userDetails, setUserDetails] = useState<userDetailsI>({
     email: '',
     currentPassword: '',
@@ -23,13 +28,15 @@ function AccountManagement() {
   });
   const [errorMsg, setErrorMsg] = useState<any>(null);
   const [isPending, setIspending] = useState<boolean>(false);
+  const [showHint, setShowHint] = useState<showHintsI>({
+    emailHint: false,
+    currentPasswordHint: false,
+    newPasswordHint: false,
+    confirmNewPasswordHint: false,
+  });
   const onInputChange = (event: React.ChangeEvent) => {
     let { name, value } = event.target as any;
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
-    //   setErrorMsg((prev: any) => ({ ...prev, [name]: '' }));
-    //   setErrorMsg(errors)
-    //   const formValidate = validateForm()
-    //   console.log(formValidate)
   };
   const notifySuccess = (toastContent: string) =>
     toast.success(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'success' });
@@ -93,10 +100,7 @@ function AccountManagement() {
   };
   return (
     <div className="flex flex-col gap-y-[1rem]">
-      <ToastContainer />
-      {/* <h3 className=" font-manropeEB lg:font-manropeB text-[1rem] lg:text-[1.375rem] text-[#2E3130] leading-[1.5rem] lg:leading-[1.75rem]">
-        Account Management
-      </h3> */}
+      {/* <ToastContainer /> */}
       <form onSubmit={handleUpdateAccount} className="flex flex-col gap-y-[2rem]">
         <div className="flex flex-col gap-y-[0.5rem]">
           <label
@@ -118,6 +122,9 @@ function AccountManagement() {
               />
               <svg
                 className="absolute bottom-3 right-3"
+                onClick={() => setShowHint((prevVal) => ({ ...prevVal, emailHint: true }))}
+                onMouseOver={() => setShowHint((prevVal) => ({ ...prevVal, emailHint: true }))}
+                onMouseOut={() => setShowHint((prevVal) => ({ ...prevVal, emailHint: false }))}
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -139,6 +146,15 @@ function AccountManagement() {
                   </clipPath>
                 </defs>
               </svg>
+              <p
+                className={`${
+                  showHint.emailHint
+                    ? 'absolute -bottom-6 right-0 text-[10px] text-[#667085] p-2 font-manropeL'
+                    : 'hidden'
+                }`}
+              >
+                Enter email address
+              </p>
             </div>
             <p className="text-red-300 text-sm">{errorMsg?.email && errorMsg.email}</p>
           </div>
@@ -163,6 +179,9 @@ function AccountManagement() {
               />
               <svg
                 className="absolute bottom-3 right-3"
+                onClick={() => setShowHint((prevVal) => ({ ...prevVal, currentPasswordHint: true }))}
+                onMouseOver={() => setShowHint((prevVal) => ({ ...prevVal, currentPasswordHint: true }))}
+                onMouseOut={() => setShowHint((prevVal) => ({ ...prevVal, currentPasswordHint: false }))}
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -184,6 +203,15 @@ function AccountManagement() {
                   </clipPath>
                 </defs>
               </svg>
+              <p
+                className={`${
+                  showHint.currentPasswordHint
+                    ? 'absolute -bottom-6 right-0 text-[10px] text-[#667085] p-2 font-manropeL'
+                    : 'hidden'
+                }`}
+              >
+                Enter your current password
+              </p>
             </div>
             <p className="text-red-300 text-sm">{errorMsg?.password && errorMsg.password}</p>
           </div>
@@ -207,6 +235,9 @@ function AccountManagement() {
               />
               <svg
                 className="absolute bottom-3 right-3"
+                onClick={() => setShowHint((prevVal) => ({ ...prevVal, newPasswordHint: true }))}
+                onMouseOver={() => setShowHint((prevVal) => ({ ...prevVal, newPasswordHint: true }))}
+                onMouseOut={() => setShowHint((prevVal) => ({ ...prevVal, newPasswordHint: false }))}
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -228,6 +259,15 @@ function AccountManagement() {
                   </clipPath>
                 </defs>
               </svg>
+              <p
+                className={`${
+                  showHint.newPasswordHint
+                    ? 'absolute -bottom-6 right-0 text-[10px] text-[#667085] p-2 font-manropeL'
+                    : 'hidden'
+                }`}
+              >
+                Enter your new password. Minimum of 5 characters
+              </p>
             </div>
             <p className="text-red-300 text-sm">{errorMsg?.newPassword && errorMsg.newPassword}</p>
           </div>
@@ -246,6 +286,9 @@ function AccountManagement() {
               />
               <svg
                 className="absolute bottom-3 right-3"
+                onClick={() => setShowHint((prevVal) => ({ ...prevVal, confirmNewPasswordHint: true }))}
+                onMouseOver={() => setShowHint((prevVal) => ({ ...prevVal, confirmNewPasswordHint: true }))}
+                onMouseOut={() => setShowHint((prevVal) => ({ ...prevVal, confirmNewPasswordHint: false }))}
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -267,6 +310,15 @@ function AccountManagement() {
                   </clipPath>
                 </defs>
               </svg>
+              <p
+                className={`${
+                  showHint.confirmNewPasswordHint
+                    ? 'absolute -bottom-6 right-0 text-[10px] text-[#667085] p-2 font-manropeL'
+                    : 'hidden'
+                }`}
+              >
+                Enter new password again. Must match new password
+              </p>
             </div>
             <p className="text-red-300 text-sm">
               {errorMsg?.confirmNewPassword ? errorMsg.confirmNewPassword : errorMsg?.match && errorMsg.match}
