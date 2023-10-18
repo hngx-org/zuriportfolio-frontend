@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Badge from './Badge';
 import { GenericProp, VariantType } from '@modules/marketplace/types/filter-types';
 import useSearchFilter from './hooks/useSearchFilter';
@@ -17,7 +17,13 @@ export default BadgeItems;
 
 const BadgeItem = ({ value, tag }: { value: unknown; tag: string }) => {
   const [selected, setSelected] = useState<VariantType>('outline');
-  const { handleSelection, selection } = useSearchFilter();
+  const { handleSelection, selection, isReset } = useSearchFilter();
+
+  useEffect(()=> {
+    if(isReset) {
+      setSelected('outline')
+    }
+  }, [isReset])
 
   function toggleSelection(value: string) {
     if (selected === 'outline') {
