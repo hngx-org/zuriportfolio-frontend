@@ -74,43 +74,42 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     }
   }, [isEditing]);
 
-  useEffect(() => {
-    // GET ABOUT VALUE FROM DATA BASE
-    const getResponse = async () => {
-      setgetLoading(true);
-      try {
-        const axiosConfig = {
-          method: 'get',
-          url: `${API_BASE_URL}/api/about/${userId}`,
-        };
+  // GET ABOUT VALUE FROM DATA BASE
+  const getResponse = async () => {
+    setgetLoading(true);
+    try {
+      const axiosConfig = {
+        method: 'get',
+        url: `${API_BASE_URL}/api/about/${userId}`,
+      };
 
-        const response = await axios(axiosConfig);
-        if (response.status !== 200 && response.status !== 201) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.data;
-
-        console.log(data.about);
-        setBio({ ...bio, bio: data.about.bio });
-        setgetLoading(false);
-        toast.success(`${data.message}`, {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        });
-      } catch (error) {
-        console.error('An error occurred:', error);
-        setgetLoading(false);
+      const response = await axios(axiosConfig);
+      if (response.status !== 200 && response.status !== 201) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
+      const data = await response.data;
 
+      console.log(data.about);
+      setBio({ ...bio, bio: data.about.bio });
+      setgetLoading(false);
+      toast.success(`${data.message}`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    } catch (error) {
+      console.error('An error occurred:', error);
+      setgetLoading(false);
+    }
+  };
+  useEffect(() => {
     getResponse();
-  }, [userId, bio]);
+  }, []);
 
   const handleEditClick = () => {
     if (!loading) {
