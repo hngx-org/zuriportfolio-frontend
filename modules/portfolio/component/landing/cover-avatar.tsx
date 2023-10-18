@@ -33,6 +33,7 @@ const Cover = ({ isLoggedIn, userData }: Props) => {
   return (
     <div className="relative h-full flex flex-col items-end justify-between py-5 md:py-10 -mt-[20px] lg:-mt-[35px]">
       {avatar}
+      {/* {children} */}
       {isLoggedIn ? <EditCover Link={Link} handleUploadCover={handleUploadCover} link={link} /> : ''}
     </div>
   );

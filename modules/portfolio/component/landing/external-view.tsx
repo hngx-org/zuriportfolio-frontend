@@ -53,13 +53,13 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
               {section?.id === 'interests' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <ExternalWrapper id={section.id} title={section.title}>
-                    <Interests key={i} data={section.data} />
+                    <Interests key={i} data={section.data[0]} />
                   </ExternalWrapper>
                   <Line />
                 </React.Fragment>
               )}
 
-              {section?.id === 'languages' && section?.data?.length > 0 && (
+              {section?.id === 'language' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <ExternalWrapper id={section.id} title={section.title}>
                     <Language key={i} data={section.data[0]} />
@@ -68,15 +68,14 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
                 </React.Fragment>
               )}
 
-              {section?.id === 'about' && section?.data?.bio && (
+              {/* {section?.id === 'about' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <ExternalWrapper id={section.id} title={section.title}>
-                    <About key={i} bio={section.data.bio} />
+                    <About key={i} bio={section.data[0]} />
                   </ExternalWrapper>
                   <Line />
                 </React.Fragment>
-              )}
-
+              )} */}
               {section?.id === 'skills' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
                   <ExternalWrapper id={section.id} title={section.title}>
@@ -91,16 +90,6 @@ const ExternalView: React.FC<Props> = ({ userSections }) => {
                   <ExternalWrapper id={section.id} title={section.title}>
                     {section?.data.map((el: any, i: number) => {
                       return <Project key={i} data={el} />;
-                    })}
-                  </ExternalWrapper>
-                  <Line />
-                </React.Fragment>
-              )}
-              {section?.id === 'reference' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <ExternalWrapper id={section.id} title={section.title}>
-                    {section?.data.map((el: any, i: number) => {
-                      return <Reference key={i} data={el} />;
                     })}
                   </ExternalWrapper>
                   <Line />

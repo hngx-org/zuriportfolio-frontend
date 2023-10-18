@@ -19,6 +19,19 @@ import {
   Certificate,
 } from './Skeleton';
 
+import {
+  about,
+  workexperiences,
+  certificates,
+  awards,
+  educations,
+  projects,
+  skills,
+  interests,
+  languages,
+  references,
+  contacts,
+} from './data';
 import { SectionDeleteModal } from '../warningModals';
 
 const LandingPageFilled: React.FC = () => {
@@ -33,6 +46,8 @@ const LandingPageFilled: React.FC = () => {
     userData,
     setIdToDelete,
   } = useContext(Portfolio);
+
+  // const deleteSection = (sectionID: string) => callDelete(sectionID);
 
   const [showMoreWorkExperience, setShowMoreWorkExperience] = useState(2);
   const [showMoreEducation, setShowMoreEducation] = useState(2);
@@ -87,6 +102,7 @@ const LandingPageFilled: React.FC = () => {
       {/* data from backend */}
       <div className="w-full flex flex-col justify-start items-start gap-8">
         {userSections?.map((section, i) => {
+          console.log(section);
           return (
             <React.Fragment key={i}>
               {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
@@ -161,8 +177,9 @@ const LandingPageFilled: React.FC = () => {
                 </React.Fragment>
               )}
 
-              {section?.id === 'languages' && section?.data?.length > 0 && (
+              {section?.id === 'language' && section?.data?.length > 0 && (
                 <React.Fragment key={i}>
+                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
                   <Wrapper
                     id={section.id}
                     title={section.title}
@@ -172,7 +189,7 @@ const LandingPageFilled: React.FC = () => {
                       setOpenDelete(true);
                     }}
                   >
-                    <Language key={i} data={section.data} />
+                    <Language key={i} data={section.data[0]} />
                   </Wrapper>
                   <Line />
                 </React.Fragment>
@@ -294,6 +311,8 @@ const LandingPageFilled: React.FC = () => {
                   <Line />
                 </React.Fragment>
               )}
+
+              {/* Interests Section */}
 
               {/* Language Section */}
               {section?.id === 'language' && section?.data?.length > 0 && (

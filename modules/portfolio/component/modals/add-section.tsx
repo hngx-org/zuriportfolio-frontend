@@ -1,44 +1,18 @@
 'use client';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Modal from '@ui/Modal';
 import { Briefcase, CloseSquare } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import CustomSectionModal from '../custom-section-modal';
 
 function Home() {
-  const {
-    isOpen,
-    onClose,
-    setOpenCustom,
-    sections,
-    userSections,
-    setUserData,
-    editSection,
-    setGettingSection,
-    gettinSection,
-    hasPortfolio,
-    setHasPortfolio,
-  } = useContext(Portfolio);
+  const { isOpen, onClose, setOpenCustom, sections, userSections, setUserData, editSection } = useContext(Portfolio);
 
-  const [data, setData] = React.useState<any>();
-
-  useEffect(() => {
-    if (!gettinSection && userSections) {
-      const nonMatchingSections = sections.filter((section) => {
-        return !userSections.some((selected) => {
-          return (
-            section.title === selected.title && selected?.data && (selected?.data.length > 0 || selected?.data.bio)
-          );
-        });
-      });
-
-      setData(nonMatchingSections);
-      setHasPortfolio(true);
-    } else {
-      setData(sections);
-      setHasPortfolio(true);
-    }
-  }, [gettinSection, sections, setGettingSection, setHasPortfolio, userSections]);
+  const nonMatchingSections = sections.filter((section) => {
+    return !userSections.some((selected) => {
+      return section.title === selected.title && selected?.data && (selected?.data.length > 0 || selected?.data?.bio);
+    });
+  });
 
   return (
     <>
@@ -63,7 +37,7 @@ function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-            {data?.map((section: any, i: any) => {
+            {nonMatchingSections.map((section, i) => {
               return (
                 <div
                   key={i}
