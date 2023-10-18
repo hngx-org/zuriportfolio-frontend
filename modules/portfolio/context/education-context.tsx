@@ -176,7 +176,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     } catch (error) {
       console.log(error);
     }
-  }, [userId]);
+  }, []);
 
   const addNewEducation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
