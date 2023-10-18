@@ -9,7 +9,6 @@ const axiosDashboardInstance = axios.create({
   baseURL,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('zpt')}`,
   },
 });
 
@@ -17,7 +16,11 @@ const axiosDashboardInstance = axios.create({
 // today
 export const fetchTodaysRevenue = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/revenues?timeframe=today`);
+    const res: any = await axiosDashboardInstance.get(`/revenues?timeframe=today`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
     const todaysRevenue = res?.data?.data?.data;
     return todaysRevenue;
   } catch (error) {
@@ -29,7 +32,11 @@ export const fetchTodaysRevenue = async () => {
 
 export const fetchTodaysOrders = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/orders?timeframe=today`);
+    const res: any = await axiosDashboardInstance.get(`/orders?timeframe=today`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
     const orderCount: number = res?.data?.data?.orderCount;
     return orderCount;
   } catch (error) {
@@ -41,7 +48,11 @@ export const fetchTodaysOrders = async () => {
 
 export const fetchTodaysAverageOrderValue = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/orders/average?timeframe=today`);
+    const res: any = await axiosDashboardInstance.get(`/orders/average?timeframe=today`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
     const todaysAverageOrderValue = res?.data?.data?.averageSales;
     return todaysAverageOrderValue;
   } catch (error) {
@@ -55,7 +66,11 @@ export const fetchTodaysAverageOrderValue = async () => {
 
 export const fetchYesterdaysRevenue = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/revenues?timeframe=yesterday`);
+    const res: any = await axiosDashboardInstance.get(`/revenues?timeframe=yesterday`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
     const yesterdaysRevenue = res?.data?.data?.data;
     return yesterdaysRevenue;
   } catch (error) {
@@ -67,7 +82,11 @@ export const fetchYesterdaysRevenue = async () => {
 
 export const fetchYesterdaysOrders = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/orders?timeframe=yesterday`);
+    const res: any = await axiosDashboardInstance.get(`/orders?timeframe=yesterday`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
     const orderCount: number = res?.data?.data?.orderCount;
     return orderCount;
   } catch (error) {
@@ -79,7 +98,11 @@ export const fetchYesterdaysOrders = async () => {
 
 export const fetchYesterdaysAverageOrderValue = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/orders/average?timeframe=yesterday`);
+    const res: any = await axiosDashboardInstance.get(`/orders/average?timeframe=yesterday`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
     const yesterdaysAverageOrderValue = res?.data?.data?.averageSales;
     return yesterdaysAverageOrderValue;
   } catch (error) {
@@ -93,7 +116,11 @@ export const fetchYesterdaysAverageOrderValue = async () => {
 
 export const fetchSalesReports = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/reports?timeframe=12m,3m,1yr,7d,24hr`);
+    const res: any = await axiosDashboardInstance.get(`/reports?timeframe=12m,3m,1yr,7d,24hr`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
     // console.log(res);
     return res.data;
   } catch (error) {
@@ -105,7 +132,11 @@ export const fetchSalesReports = async () => {
 
 export const fetchStoreTraffic = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic`);
+    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
     // console.log(res);
     return res.data;
   } catch (error) {
@@ -119,7 +150,11 @@ export const fetchStoreTraffic = async () => {
 
 export const fetchActivity = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/activities`);
+    const res: any = await axiosDashboardInstance.get(`/activities`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
     // console.log(res);
     return res.data;
   } catch (error) {
