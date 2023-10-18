@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import $http from './axios';
 
 //super-admin(spit-fire)
 const makeRequest = async (apiUrl: string, method = 'get', data = null, config = {}) => {
@@ -15,7 +16,7 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
       data,
       ...config,
     };
-    const response = await axios(requestConfig);
+    const response = await $http(requestConfig);
 
     return response?.data;
   } catch (error) {

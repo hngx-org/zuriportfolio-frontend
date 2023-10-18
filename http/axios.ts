@@ -11,8 +11,6 @@ const $http = axios.create({
   // withCredentials: false,
 });
 
-const isServer = typeof window === 'undefined';
-
 let isAuthenticated = true;
 
 function handleSessionExpiration() {
@@ -20,7 +18,7 @@ function handleSessionExpiration() {
   window.location.href = '/auth/login';
 }
 
-if (!isServer) {
+if (typeof window === 'undefined') {
   $http.interceptors.response.use(
     (response) => {
       return response;

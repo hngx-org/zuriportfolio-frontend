@@ -12,6 +12,31 @@ const axiosDashboardInstance = axios.create({
   },
 });
 
+let isAuthenticated = true;
+
+if (typeof window === 'undefined') {
+  axiosDashboardInstance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response) {
+        const { status } = error.response;
+
+        if (typeof isAuthenticated !== 'undefined') {
+          if (status === 401 || status === 403) {
+            if (isAuthenticated) {
+              isAuthenticated = false;
+              window.location.href = '/auth/login';
+            }
+          }
+        }
+      }
+      return Promise.reject(error);
+    },
+  );
+}
+
 // card.tsx
 // today
 export const fetchTodaysRevenue = async () => {
