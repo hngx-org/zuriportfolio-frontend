@@ -5,16 +5,17 @@ import ProductCard from '../component/otherProductCard';
 interface OtherProductListProps {
   products: Products[];
   productId: string;
+  shopName: string;
 }
 
-const OtherProductList: React.FC<OtherProductListProps> = ({ products, productId }) => {
+const OtherProductList: React.FC<OtherProductListProps> = ({ products, productId, shopName }) => {
   const filteredArray = products.filter((product) => product.id !== productId);
   return (
     <>
       {filteredArray.length > 0 ? (
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 md:gap-6">
           {filteredArray.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} shopName={shopName} />
           ))}
         </div>
       ) : (
