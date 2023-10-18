@@ -32,9 +32,13 @@ const HomePage = () => {
   };
   const handleFilters = (type: string, value: string | number) => {
     setFilters((prev) => {
+      if (type === 'All' || value === 'All') {
+        return {};
+      }
       if (type === 'none') {
         return {};
       }
+
       return { ...prev, [type]: value };
     });
   };

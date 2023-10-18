@@ -47,7 +47,7 @@ const MyPage: React.FC = () => {
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
   const [selectedOrder, setSelectedOrder] = useState<PurchaseData | null>(null);
-  
+
   // useAuth
   const { auth } = useAuth();
   const token = auth?.token;
@@ -166,7 +166,7 @@ const MyPage: React.FC = () => {
       setData(PurchaseData);
       setIsLoading(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setData([]);
       setIsLoading(false);
     }
@@ -178,18 +178,17 @@ const MyPage: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await getSearchedData(searchInput)
-      const searchedData = res
+      const res = await getSearchedData(searchInput);
+      const searchedData = res;
       setData(searchedData);
       setIsLoading(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setData([]);
       setIsLoading(false);
     }
     setSearchInput('');
   };
-
 
   // handle filter dropdown
   const [filterBy, setFilterBy] = useState<SearchFilter>(null);
@@ -220,9 +219,9 @@ const MyPage: React.FC = () => {
   };
 
   // setLoading state
-  const setLoading = (loading:boolean) => {
-    setIsLoading(loading)
-  }
+  const setLoading = (loading: boolean) => {
+    setIsLoading(loading);
+  };
 
   return (
     <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
@@ -382,7 +381,7 @@ const MyPage: React.FC = () => {
           )}
           {data?.length > 0 && <MobileCustomerDashboard data={data} />}
           {/* error page */}
-          {(data?.length === 0 && !isLoading) && <PurchaseNotFound back={onBack} />}
+          {data?.length === 0 && !isLoading && <PurchaseNotFound back={onBack} />}
         </div>
 
         {}
@@ -395,7 +394,13 @@ const MyPage: React.FC = () => {
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
         {/* filter modal */}
-        <FilterModal isOpen={openFilterModal} onClose={closeFilterModal} setLoading={setLoading} filter={filterBy} setData={setFilteredData}/>
+        <FilterModal
+          isOpen={openFilterModal}
+          onClose={closeFilterModal}
+          setLoading={setLoading}
+          filter={filterBy}
+          setData={setFilteredData}
+        />
       </div>
     </MainLayout>
   );
