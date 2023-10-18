@@ -84,23 +84,23 @@ export const Certificate = ({ data }: SkeletonProps) => {
 export const Awards = ({ data }: SkeletonProps) => {
   return (
     <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
-      <p className="text-gray-300 font-semibold text-base flex-1">
-        <span>{data?.year}</span>
-      </p>
-      <div className="flex flex-col items-start gap-1 mb-4 flex-1">
+      <p className="text-gray-300 font-semibold text-base flex-[2] flex-wrap break-all">{data?.year}</p>
+      <div className="flex flex-col items-start gap-1 mb-4 flex-[2] flex-wrap break-all">
         <h3 className="text-lg font-semibold text-gray-200">{data?.title}</h3>
         <p className="text-base font-manropeB text-gray-200">{data?.org}</p>
         <a
-          className="flex gap-2 justify-center items-center text-base font-manropeB text-brand-green-primary"
+          className="flex flex-row gap-1 justify-center items-center text-base font-manropeB text-brand-green-primary flex-[2] break-all"
           target="_blank"
           href={data?.url}
           rel="noreferrer"
         >
-          {data?.url}
-          <ArrowUp size={20} className="rotate-45 inline ms-1" />
+          {data?.url}{' '}
+          <span>
+            <ArrowUp size={20} className="rotate-45 inline ms-1" />
+          </span>
         </a>
       </div>
-      <p className="font-semibold text-sm text-gray-400 break-all flex-1">{data?.description}</p>
+      <p className="font-semibold text-sm text-gray-400 flex-wrap break-all flex-[2]">{data?.description}</p>
     </div>
   );
 };
@@ -118,29 +118,31 @@ export let projects = [
 
 export const Project = ({ data }: SkeletonProps) => {
   const dataToMap = data?.tags?.split(',');
-  const image = data?.img ? (
+  const image = data?.thumbnail ? (
     <Image
+      unoptimized
       width={0}
       height={0}
       src={data?.thumbnail}
       alt="project image "
-      className="w-[290px] aspect-square rounded-xl order-2 md:order-1 border-[1px] border-gray-300 border-opacity-50"
+      className="w-full object-cover object-center aspect-square rounded-xl border-2 border-gray-300 border-opacity-5 shadow-md"
     />
   ) : (
-    ''
+    'Thumbnail not found'
   );
   return (
-    <div className="flex md:flex-row flex-col mb-8 gap-1 md:gap-2">
-      {image}
+    <div className="flex md:flex-row flex-col mb-10 gap-1 md:gap-5">
+      <div className="min-w-[290px] w-[290px] order-2 md:order-1 rounded-xl">{image}</div>
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className="font-semibold text-sm text-gray-400 break-all">{data?.description}</p>
-        <div className="order-2 md:order-1 flex gap-2">
-          {dataToMap?.map((tag: string, i: number) => (
-            <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
-              <p className="text-sm text-gray-400">{tag}</p>
-            </span>
-          ))}
+        <div className="order-2 md:order-1 flex gap-2 md:mb-0 mb-3">
+          {dataToMap.length > 1 &&
+            dataToMap?.map((tag: string, i: number) => (
+              <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
+                <p className="text-sm text-gray-400">{tag}</p>
+              </span>
+            ))}
         </div>
         <a className="text-blue-100 font-semibold" target="_blank" href={data?.url} rel="noreferrer">
           Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
@@ -166,31 +168,32 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
-  console.log(data);
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {data?.map((interest: any, i: number) => (
-        <span
-          className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
-          key={i}
-        >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest.interest}</p>
-        </span>
-      ))}
+      {data?.length > 0 &&
+        data?.map((interest: any, i: number) => {
+          return (
+            <span
+              className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
+              key={i}
+            >
+              <p className="text-sm text-gray-400 font-semibold opacity-70">{interest.interest}</p>
+            </span>
+          );
+        })}
     </div>
   );
 };
 
 export const Language = ({ data }: SkeletonProps) => {
-  const dataToMap = data.split(',');
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {dataToMap?.map((language: string, i: number) => (
+      {data?.map((language: any, i: number) => (
         <span
           className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
           key={i}
         >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{language}</p>
+          <p className="text-sm text-gray-400 font-semibold opacity-70">{language.language}</p>
         </span>
       ))}
     </div>
@@ -227,6 +230,7 @@ export const Shop = () => {
   useEffect(() => {
     //fetchShopItems();
     setOpenShop(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return showShop ? (
@@ -269,19 +273,13 @@ export const Contact = ({ data }: SkeletonProps) => {
 
 export const Reference = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex flex-col flex-wrap">
-      <div className="flex flex-col gap-2" key={data.id}>
-        <div className="flex justify-start items-center gap-20">
-          <span className="text-gray-400 font-semibold text-lg min-w-min">{data.name}</span>
-          <span className="text-gray-300 font-semibold text-sm">{data.position}</span>
-        </div>
-        <div className="flex justify-start items-center gap-20">
-          <span className="text-gray-300 font-semibold text-sm">{data.company}</span>
-          <span className="text-gray-300 font-semibold text-sm">{data.email}</span>
-        </div>
-        <div className="flex justify-start items-center gap-20">
-          <span className="text-gray-300 font-semibold text-sm">{data.phone}</span>
-        </div>
+    <div className="flex flex-col flex-wrap mb-2">
+      <div className="flex flex-col" key={data.id}>
+        <span className="text-gray-500 font-semibold text-xl min-w-min">{data.referer}</span>
+        <span className="text-gray-300 font-semibold w-6/12">{data.position}</span>
+        <span className="text-gray-300 font-semibold w-6/12">{data.company}</span>
+        <span className="text-gray-300 font-semibold w-6/12">{data.email}</span>
+        <span className="text-gray-300 font-semibold ">{data.phone_number}</span>
       </div>
     </div>
   );
@@ -296,6 +294,7 @@ export const Custom = ({ contacts }: CustomProps) => {
 
   useEffect(() => {
     setOpenCustom(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

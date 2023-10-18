@@ -27,7 +27,7 @@ export const WishlistProductCard = ({
               alt={product.name}
               width={145}
               height={150}
-              className="h-[150px] min-w-[145px] md:min-w-[165px] object-cover"
+              className="h-[150px] min-w-[145px] md:min-w-[165px] object-cover rounded-md"
             />
           </div>
 
@@ -37,7 +37,7 @@ export const WishlistProductCard = ({
                 <div className="flex flex-col gap-2">
                   <p className="text-[10px] md:text-xs text-custom-color16">{'Software Engineering'}</p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
-                    <Link href={`/marketplace/product-details`}>{product.name}</Link>
+                    <Link href={`/marketplace/product-details?id=${product.id}`}>{product.name}</Link>
                   </p>
                 </div>
 

@@ -12,6 +12,7 @@ import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
 import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
@@ -48,7 +49,7 @@ const CreateAssessment = () => {
     title: newobject.title, // Provide an appropriate value for title
     createdAt: new Date(), // Provide an appropriate value for createdAt
     duration_minutes: newobject.duration_in_minutes,
-    questions: newobject.questions_and_answers.map(question => ({
+    questions: newobject.questions_and_answers.map((question) => ({
       answers: [], // Provide an appropriate value for answers
       question_no: question.question_no,
       question_text: question.question_text,
@@ -56,7 +57,7 @@ const CreateAssessment = () => {
     })),
     updatedAt: new Date(), // Provide an appropriate value for updatedAt
   };
-  
+
   const [active, setActive] = useState<null | string>('button1');
   const [isModalOpen, setModalOpen] = useState(false);
   const [err, setErr] = useState('');
@@ -254,4 +255,4 @@ const CreateAssessment = () => {
   );
 };
 
-export default CreateAssessment;
+export default withAdminAuth(CreateAssessment);
