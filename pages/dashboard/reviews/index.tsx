@@ -67,12 +67,7 @@ export default function ReviewDashboard() {
               products.length === 0 ? (
                 <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] mt-[-10px] md:mt-[-10px] md:m-[100px] flex-col items-center justify-center">
                   <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
-                  <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">
-                    You don&apos;t have any review yet
-                  </h2>
-                  <p className="text-[16px] md:text-[24px] font-medium text-center font-manropeB">
-                    Create your first product
-                  </p>
+                  <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">No product to review</h2>
                   <Link href="/dashboard/products/add-product">
                     <Button className="flex mt-4 py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
                       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
