@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ListContext } from '../../../pages/assessment';
+import { ListContext } from '../../../pages/super-admin/assessment';
 import Image from 'next/image';
 import trash from '../../../public/assets/assessment/trash.png';
 import editmessage from '../../../public/assets/assessment/message-edit.png';
@@ -97,47 +97,28 @@ function Assessmentresponses(props: PropsAss<any>) {
             key={child?.id}
           >
             <div>
-              <div className="text-custom-color11 text-base md:text-[18px] font-manropeB font-bold mb-[4px]">
+              <Link
+                href={`/super-admin/assessment/assessment?assessment_id=${child.id}`}
+                className="text-custom-color11 text-base md:text-[18px] font-manropeB font-bold mb-[4px]"
+              >
                 {child?.title}
-              </div>
+              </Link>
               <div className="my-[6px] md:my-[10px] text-white-650">
                 {' '}
                 Created {formatDateToPattern(child?.createdAt)}
               </div>
               <div className="text-white-650">Modified {formatDateToPattern(child?.updatedAt)}</div>
             </div>
-            <div className="flex gap-2 md:gap-8 items-center justify-center">
-              <Link
-                href="/assessment/preview-edit/"
-                className="text-xs md:text-base  flex flex-col items-center cursor-pointer gap-y-1"
-              >
-                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M16 2.5H8C4 2.5 2 4.5 2 8.5V21.5C2 22.05 2.45 22.5 3 22.5H16C20 22.5 22 20.5 22 16.5V8.5C22 4.5 20 2.5 16 2.5Z"
-                    stroke="#464646"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M12.9098 8.34003L7.71979 13.53C7.51979 13.73 7.3298 14.12 7.2898 14.4L7.0098 16.38C6.9098 17.1 7.40979 17.6 8.12979 17.5L10.1098 17.22C10.3898 17.18 10.7798 16.99 10.9798 16.79L16.1698 11.6C17.0598 10.71 17.4898 9.67003 16.1698 8.35003C14.8498 7.02003 13.8098 7.44003 12.9098 8.34003Z"
-                    stroke="#464646"
-                    strokeWidth="1.5"
-                    strokeMiterlimit="10"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M12.1699 9.08008C12.6099 10.6501 13.8399 11.8901 15.4199 12.3301"
-                    stroke="#464646"
-                    strokeWidth="1.5"
-                    strokeMiterlimit="10"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                Edit
-              </Link>
+            <div className="flex gap-2 md:gap-8">
+              <div className="flex flex-col items-center cursor-pointer">
+                <Image src={editmessage} height="24" width="24" alt="edit message" />
+                <Link
+                  href={`/super-admin/assessment/preview-edit/?assessmentId=${child.id}`}
+                  className="text-xs md:text-base pt-[6px]"
+                >
+                  Edit
+                </Link>
+              </div>
               <div
                 className="cursor-pointer flex flex-col items-center justify-center gap-y-1"
                 onClick={() => {

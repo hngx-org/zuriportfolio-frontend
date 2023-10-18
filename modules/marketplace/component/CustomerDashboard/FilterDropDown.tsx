@@ -11,12 +11,16 @@ type FilterList = {
 
 const filterByList: FilterList[] = [
   {
-    name: 'item',
+    name: 'month',
     id: 1,
   },
   {
-    name: 'price',
+    name: 'year',
     id: 4,
+  },
+  {
+    name: 'price',
+    id: 2,
   },
 ];
 

@@ -17,20 +17,3 @@ export const LevelData = () => {
     },
   ];
 };
-
-export const AssesMentData = () => {
-  return [
-    {
-      img: '/assets/dashboard/task.svg',
-      title: '10 multiple choice questions',
-    },
-    {
-      img: '/assets/dashboard/timer.svg',
-      title: '45 seconds per assessment',
-    },
-    {
-      img: '/assets/dashboard/medal-star.svg',
-      title: 'Score points to earn a badge',
-    },
-  ];
-};

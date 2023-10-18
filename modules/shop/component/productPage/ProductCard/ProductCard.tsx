@@ -1,6 +1,6 @@
 // components/ProductCard.tsx
 import Image from 'next/image';
-import { Products } from '../../../../../@types';
+import { Products, ShopData } from '../../../../../@types';
 import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
 import Link from 'next/link';
@@ -13,9 +13,10 @@ import { useAuth } from '../../../../../context/AuthContext';
 
 interface ProductCardProps {
   product: Products;
+  shopName: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
   const { addToCart } = useCart();
   const { auth } = useAuth();
 
@@ -28,7 +29,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
     try {
       const response = await axios.post(
-        'https://zuri-cart-checkout.onrender.com/api/checkout/api/carts',
+        'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
         {
           product_ids: [product.id],
         },
@@ -38,14 +39,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           },
         },
       );
-      if (response.status === 200) {
+      if (response.status === 201) {
         addToCart(product);
 
         toast.success('Added to Cart', {
           position: 'top-right',
           autoClose: 3000,
         });
-        console.log('Database Response Message:', response.data);
       } else {
         toast.error('Failed to add to Cart', {
           position: 'top-right',
@@ -57,7 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
   };
 
-  const renderRatingStars = (rating: number) => {
+  /* const renderRatingStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       const starType = i <= rating ? 'star1' : 'star2';
@@ -71,11 +71,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       );
     }
     return stars;
-  };
+  }; */
   return (
-    <div className="p-2 w-full  max-w-[274px] shadow border border-custom-color32 h-auto rounded-lg bg-white-100  hover:shadow-[#ccc] group overflow-hidden">
-      <div className="relative w-full max-w-[254px] h-auto">
-        <Link href={`/shop/product?id=${product.id}`} passHref>
+    <div className="p-2 w-full   shadow border border-custom-color32 h-auto rounded-lg bg-white-100  hover:shadow-[#ccc] group overflow-hidden">
+      <div className="relative w-full  h-auto">
+        <Link href={`/shop/product?id=${product.id}&shopName=${shopName}`} passHref>
           <Image
             src={product.image[0].url}
             alt={product.name}
@@ -83,7 +83,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             height={450}
             priority
             sizes="(max-width: 780px) 100vw, (max-width: 1024px) 50vw, 700px"
-            className="rounded-md   h-60 scale-100 hover:scale-105 transition-transform duration-300 object-cover "
+            className="rounded-md  h-60 scale-100 hover:scale-105 transition-transform duration-300 object-cover "
           />
         </Link>{' '}
         <div className="w-10 h-20 absolute bottom-10 right-0 border-[1px] border-[#ccc] bg-[#fff] rounded-md flex flex-col translate-x-20 group-hover:translate-x-0 transition-transform duration-300">
@@ -94,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <ShoppingCart size={17} />
           </span>
           <Link
-            href={`/shop/product?id=${product.id}`}
+            href={`/shop/product?id=${product.id}&shopName=${shopName}`}
             passHref
             className="w-full h-full text-black border-b -[1px] border-b-[#ccc] flex items-center justify-center text-sm bg-transparent hover:bg-[#febd69] hover:text-white-100 cursor-pointer duration-300"
           >
@@ -105,23 +105,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="flex flex-col gap-2 flex-grow py-1 px-2">
         <div>
           <h3 className=" md:text-sm text-xs text-[#052011] font-normal font-manropeEL capitalize">{product.name}</h3>
-          <p className="text-[#052011] md:text-lg text-base font-manropeB ">${product.price}</p>
-
-          <div>
-            <p className="md:text-sm text-xs text-custom-color15 font-manropeL">
-              By: <span className="underline text-custom-color15">{product.category.name}</span>
-            </p>
-          </div>
+          <p className="text-[#052011] md:text-lg text-base font-manropeB ">₦{product.price.toLocaleString()}</p>
+          {shopName && (
+            <div>
+              <p className="md:text-sm text-xs text-custom-color15 font-manropeL">
+                By: <span className=" text-custom-color15">{shopName}</span>
+              </p>
+            </div>
+          )}
         </div>
         <div className="inline-flex items-center gap-2 mt-4">
-          <div className="flex items-center ">
+          {/* <div className="flex items-center ">
             <Image src={star1} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
             <Image src={star1} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
             <Image src={star1} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
             <Image src={star2} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
             <Image src={star2} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
           </div>{' '}
-          (3)
+          (3) */}
+          No Rating for this product
         </div>
       </div>
     </div>
