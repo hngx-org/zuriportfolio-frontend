@@ -35,6 +35,10 @@ const History: React.FC = () => {
     // You can call the fetchAssessmentHistory function within useEffect or any other event handler
     fetchAssessmentHistory(token as string)
       .then((response) => {
+        if (!response) {
+          setIsLoading(false);
+          throw new Error('Network response was not ok');
+        }
         // Check if the 'data' property is available in the response
         if (response) {
           setIsLoading(true);
@@ -88,201 +92,209 @@ const History: React.FC = () => {
 
   return (
     <div className="w-full font-manropeEL">
-      {/* {isLoading ? (
+      {isLoading ? (
         <div className="flex justify-center items-center h-screen">
           <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
         </div>
-      ) : ( */}
-      <div className="w-full md:p-8 px-4 flex flex-col">
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex  p-4 flex-col">
-            <h2 className="text-3xl font-bold mb-2 text-brand-green-primary">Assessments History</h2>
-            <p className="text-gray-600">View and Download previously taken assessments</p>
-          </div>
-        </div>
-        <div
-          className={`flex items-center sm:flex-row flex-col mb-4 gap-3 w-full m-auto align-middle justify-between ${
-            showFilters ? 'flex-col' : 'sm:flex'
-          }`}
-        >
-          <div className="relative w-full sm:max-w-xs sm:flex-col flex">
-            <input
-              type="text"
-              placeholder="Search assessments..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8 pr-3 py-2 w-full rounded-full border border-gray-300 outline-none focus:ring focus:ring-brand-green-hover"
-            />
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-              <FaSearch className="text-gray-400" />
+      ) : (
+        <div className="w-full md:p-8 px-4 flex flex-col">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex  p-4 flex-col">
+              <h2 className="text-3xl font-bold mb-2 text-brand-green-primary">Assessments History</h2>
+              <p className="text-gray-600">View and Download previously taken assessments</p>
             </div>
           </div>
-
-          <div className="sm:hidden w-full flex items-end justify-end">
-            <Image
-              src={`${showFilters ? '/assets/icons/close.svg' : '/assets/filter.svg'}`}
-              alt="filter"
-              width={30}
-              height={30}
-              className="text-brand-green-primary text-[1.2em] text-end justify-end cursor-pointer"
-              onClick={() => setShowFilters(!showFilters)}
-            />
-          </div>
-          {showFilters && (
-            <div className="flex items-center flex-wrap sm:w-fit w-full  space-x-2 ">
-              <button
-                className={
-                  selectedLevel === 'All'
-                    ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
-                    : 'text-brand-green-primary'
-                }
-                onClick={() => handleLevelFilter('All')}
-              >
-                All Levels
-              </button>
-              <button
-                className={
-                  selectedLevel === 'beginner'
-                    ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
-                    : 'text-brand-green-primary'
-                }
-                onClick={() => handleLevelFilter('beginner')}
-              >
-                Beginner
-              </button>
-              <button
-                className={
-                  selectedLevel === 'intermediate'
-                    ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
-                    : 'text-brand-green-primary'
-                }
-                onClick={() => handleLevelFilter('intermediate')}
-              >
-                Intermediate
-              </button>
-              <button
-                className={
-                  selectedLevel === 'expert'
-                    ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
-                    : 'text-brand-green-primary'
-                }
-                onClick={() => handleLevelFilter('expert')}
-              >
-                Expert
-              </button>
+          <div
+            className={`flex items-center sm:flex-row flex-col mb-4 gap-3 w-full m-auto align-middle justify-between ${
+              showFilters ? 'flex-col' : 'sm:flex'
+            }`}
+          >
+            <div className="relative w-full sm:max-w-xs sm:flex-col flex">
+              <input
+                type="text"
+                placeholder="Search assessments..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8 pr-3 py-2 w-full rounded-full border border-gray-300 outline-none focus:ring focus:ring-brand-green-hover"
+              />
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                <FaSearch className="text-gray-400" />
+              </div>
             </div>
-          )}
-        </div>
 
-        <div className=" border-gray-300 rounded-lg overflow-x-auto overscroll">
-          <table className="min-w-full border-collapse table-auto mb-5">
-            <thead>
-              <tr className="bg-brand-green-shade50 text-white-100 w-full ">
-                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">
-                  Assessment Taken
-                </th>
-                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">
-                  Badge Level
-                </th>
+            <div className="sm:hidden w-full flex items-end justify-end">
+              <Image
+                src={`${showFilters ? '/assets/icons/close.svg' : '/assets/filter.svg'}`}
+                alt="filter"
+                width={30}
+                height={30}
+                className="text-brand-green-primary text-[1.2em] text-end justify-end cursor-pointer"
+                onClick={() => setShowFilters(!showFilters)}
+              />
+            </div>
+            {showFilters && (
+              <div className="flex items-center flex-wrap sm:w-fit w-full  space-x-2 ">
+                <button
+                  className={
+                    selectedLevel === 'All'
+                      ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
+                      : 'text-brand-green-primary'
+                  }
+                  onClick={() => handleLevelFilter('All')}
+                >
+                  All Levels
+                </button>
+                <button
+                  className={
+                    selectedLevel === 'beginner'
+                      ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
+                      : 'text-brand-green-primary'
+                  }
+                  onClick={() => handleLevelFilter('beginner')}
+                >
+                  Beginner
+                </button>
+                <button
+                  className={
+                    selectedLevel === 'intermediate'
+                      ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
+                      : 'text-brand-green-primary'
+                  }
+                  onClick={() => handleLevelFilter('intermediate')}
+                >
+                  Intermediate
+                </button>
+                <button
+                  className={
+                    selectedLevel === 'expert'
+                      ? 'bg-brand-green-primary text-white-100 rounded-lg px-2 py-1'
+                      : 'text-brand-green-primary'
+                  }
+                  onClick={() => handleLevelFilter('expert')}
+                >
+                  Expert
+                </button>
+              </div>
+            )}
+          </div>
 
-                <th scope="col" className="border w-fit hidden sm:table-cell border-gray-300 py-2 px-4 text-left ">
-                  Date
-                </th>
-                <th scope="col" className="border w-fit border-gray-300 hidden sm:table-cell py-2 px-4 text-left ">
-                  Score
-                </th>
-                <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left hidden sm:table-cell ">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            {filteredAssessments.length === 0 ? (
-              <tbody>
-                <tr className="text-center text-gray-500 font-bold text-lg">
-                  You have not taken any assessments to earn badge.
+          <div className=" border-gray-300 rounded-lg overflow-x-auto overscroll">
+            <table className="min-w-full border-collapse table-auto mb-5">
+              <thead>
+                <tr className="bg-brand-green-shade50 text-white-100 w-full ">
+                  <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">
+                    Assessment Taken
+                  </th>
+                  <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">
+                    Badge Level
+                  </th>
+
+                  <th scope="col" className="border w-fit hidden sm:table-cell border-gray-300 py-2 px-4 text-left ">
+                    Date
+                  </th>
+                  <th scope="col" className="border w-fit border-gray-300 hidden sm:table-cell py-2 px-4 text-left ">
+                    Score
+                  </th>
+                  <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left hidden sm:table-cell ">
+                    Actions
+                  </th>
                 </tr>
-              </tbody>
-            ) : (
-              <tbody>
-                {filteredAssessments.map((assessment) => (
-                  <React.Fragment key={assessment.id}>
-                    <tr onClick={() => toggleExpand(assessment.id)} className="bg-white border ">
-                      <td className="border-r whitespace-nowrap  border-l-[0] border-b-0 border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer">
-                        <FaClipboardList className="text-green-200 text-[2em] " />
-                        {assessment.assessment_name}
-                        <Image src="/assets/expand.svg" width={20} height={20} alt="icon" className="ml-2 sm:hidden" />
-                      </td>
-                      <td
-                        onClick={() => toggleExpand(assessment.id)}
-                        className="whitespace-nowrap border-r border-b-0 cursor-pointer border-gray-300 py-2 px-4"
-                      >
-                        {assessment.badge_name === 'Beginner' && (
-                          <span className="flex items-center">
-                            <FaUser className="mr-1 text-blue-500" />
-                            Beginner
-                          </span>
-                        )}
-                        {assessment.badge_name === 'Intermediate' && (
-                          <span className="flex items-center">
-                            <FaUserTie className="mr-1 text-green-200" />
-                            Intermediate
-                          </span>
-                        )}
-                        {assessment.badge_name === 'Expert' && (
-                          <span className="flex items-center">
-                            <FaStar className="mr-1 text-[#f8eb3b]" />
-                            Expert
-                          </span>
-                        )}
-                      </td>
-
-                      <td className="whitespace-nowrap border-r hidden sm:table-cell  border-gray-300 border-b-0 py-2 px-4">
-                        {formatDate(assessment.submission_date)}
-                      </td>
-                      <td className="whitespace-nowrap border-r hidden sm:table-cell  border-b-0 border-gray-300 py-2 px-4">
-                        {assessment.score}/100
-                      </td>
-                      <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
-                        <Link
-                          href={`/assessments/dashboard/[badges]/badge/[id]`}
-                          as={`/assessments/dashboard/${assessment.badge_name}/badge/${assessment.badge_id}`}
+              </thead>
+              {filteredAssessments.length === 0 ? (
+                <tbody>
+                  <tr className="text-center text-gray-500 font-bold text-lg">
+                    You have not taken any assessments to earn badge.
+                  </tr>
+                </tbody>
+              ) : (
+                <tbody>
+                  {filteredAssessments.map((assessment) => (
+                    <React.Fragment key={assessment.id}>
+                      <tr onClick={() => toggleExpand(assessment.id)} className="bg-white border ">
+                        <td className="border-r whitespace-nowrap  border-l-[0] border-b-0 border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer">
+                          <FaClipboardList className="text-green-200 text-[2em] " />
+                          {assessment.assessment_name}
+                          <Image
+                            src="/assets/expand.svg"
+                            width={20}
+                            height={20}
+                            alt="icon"
+                            className="ml-2 sm:hidden"
+                          />
+                        </td>
+                        <td
+                          onClick={() => toggleExpand(assessment.id)}
+                          className="whitespace-nowrap border-r border-b-0 cursor-pointer border-gray-300 py-2 px-4"
                         >
-                          View
-                        </Link>
-                      </td>
-                    </tr>
-                    {expandedAssessment === assessment.id && (
-                      <tr className="sm:hidden w-full col-span-2 p-4" aria-colspan={2}>
-                        <td className=" p-4  gap-4 " colSpan={2}>
-                          <div className="p-2">Date: {formatDate(assessment?.submission_date)}</div>
-                          <div className="p-2">Score: {assessment.score}/100</div>
+                          {assessment.badge_name === 'Beginner' && (
+                            <span className="flex items-center">
+                              <FaUser className="mr-1 text-blue-500" />
+                              Beginner
+                            </span>
+                          )}
+                          {assessment.badge_name === 'Intermediate' && (
+                            <span className="flex items-center">
+                              <FaUserTie className="mr-1 text-green-200" />
+                              Intermediate
+                            </span>
+                          )}
+                          {assessment.badge_name === 'Expert' && (
+                            <span className="flex items-center">
+                              <FaStar className="mr-1 text-[#f8eb3b]" />
+                              Expert
+                            </span>
+                          )}
+                        </td>
 
+                        <td className="whitespace-nowrap border-r hidden sm:table-cell  border-gray-300 border-b-0 py-2 px-4">
+                          {formatDate(assessment.submission_date)}
+                        </td>
+                        <td className="whitespace-nowrap border-r hidden sm:table-cell  border-b-0 border-gray-300 py-2 px-4">
+                          {assessment.score}/100
+                        </td>
+                        <td className="whitespace-nowrap hidden sm:table-cell  border border-b-0 border-gray-300 py-2 px-4">
                           <Link
-                            href={`/assessments/dashboard/[badges]/badge/[id]`}
-                            as={`/assessments/dashboard/${assessment.badge_name}/badge/${assessment.badge_id}`}
+                            href={`/assessments/dashboard/badge/[id]`}
+                            as={`/assessments/dashboard/badge/${assessment.badge_id}`}
+                            className="hover:underline hover:text-green-200"
                           >
                             View
                           </Link>
                         </td>
                       </tr>
-                    )}
-                  </React.Fragment>
-                ))}
-              </tbody>
-            )}
-          </table>
+                      {expandedAssessment === assessment.id && (
+                        <tr className="sm:hidden w-full col-span-2 p-4" aria-colspan={2}>
+                          <td className=" p-4  gap-4 " colSpan={2}>
+                            <div className="p-2">Date: {formatDate(assessment?.submission_date)}</div>
+                            <div className="p-2">Score: {assessment.score}/100</div>
+
+                            <Link
+                              href={`/assessments/dashboard/badge/[id]`}
+                              as={`/assessments/dashboard/badge/${assessment.badge_id}`}
+                              className="hover:underline hover:text-green-200"
+                            >
+                              View
+                            </Link>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              )}
+            </table>
+          </div>
+          <div className="pagination flex justify-center items-center mt-5 w-full">
+            <Pagination
+              page={currentPage}
+              setPage={setCurrentPage}
+              pages={totalItems}
+              activePage={currentPage}
+              visiblePaginatedBtn={5}
+            />
+          </div>
         </div>
-        <div className="pagination flex justify-center items-center mt-5 w-full">
-          <Pagination
-            page={currentPage}
-            setPage={setCurrentPage}
-            pages={totalItems}
-            activePage={currentPage}
-            visiblePaginatedBtn={5}
-          />
-        </div>
-      </div>
-      {/* )} */}
+      )}
     </div>
   );
 };

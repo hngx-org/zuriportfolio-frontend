@@ -2,7 +2,7 @@ import React from 'react';
 import MainLayout from '../../components/Layout/MainLayout';
 import ShopOwnerDashboard from '@modules/dashboard/component/dashboard';
 import Container from '@modules/auth/component/Container/Container';
-import {withUserAuth} from '../../helpers/withAuth';
+import { withUserAuth } from '../../helpers/withAuth';
 // import withAuth from '../../helpers/withAuth';
 
 function dashboard() {

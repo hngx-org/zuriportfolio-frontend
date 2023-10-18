@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import link from '../../../public/assets/home/link.webp';
 import axios from 'axios';
 import { ArrowCircleLeft, ArrowCircleRight } from 'iconsax-react';
-import { notify } from '@ui/Toast';
 import shopOne from '../../../public/assets/home/shopOne.webp';
 import shopTwo from '../../../public/assets/home/shopTwo.webp';
 
