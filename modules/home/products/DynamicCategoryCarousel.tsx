@@ -71,8 +71,8 @@ const DynamicCategoryCarousel = () => {
   useEffect(() => {
     const fetchCategoryNames = async () => {
       try {
-        const categoriesResponse = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/categoryNames/');
-        const categories = categoriesResponse.data['categories name'].slice(0, 8);
+        const categoriesResponse = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+        const categories = categoriesResponse.data.data.slice(0, 12);
         return categories;
       } catch (error) {
         console.error('Error fetching category names:', error);
@@ -93,11 +93,12 @@ const DynamicCategoryCarousel = () => {
       const fetchedSlides = [];
 
       try {
-        for (const category of categories) {
+        for (const categoryObj of categories) {
+          const category = categoryObj.name; // Access the name property
           const products = await fetchProducts(category);
 
           fetchedSlides.push({
-            src: products?.products[0]?.images[0]?.url,
+            src: products?.data[0]?.images[0]?.url,
             alt: 'shop',
             section: 'shop',
             name: category,
@@ -105,6 +106,7 @@ const DynamicCategoryCarousel = () => {
           });
         }
       } catch (error) {
+        console.error('Error fetching slides:', error);
         for (const category of sliders) {
           fetchedSlides.push({
             src: category.src,

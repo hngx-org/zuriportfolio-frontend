@@ -1,24 +1,30 @@
-import React, { Dispatch, useRef, useState } from 'react';
+import React, { Dispatch, useEffect, useRef, useState } from 'react';
 import {
   Airdrop,
   ArrowDown2,
   ArrowLeft2,
   ArrowRight2,
-  Category,
   Cloud,
   Code,
   CommandSquare,
   Data,
+  Designtools,
   Filter,
-  FilterSquare,
   MobileProgramming,
   PenTool2,
-  Radar,
-  SearchNormal,
-  SearchNormal1,
 } from 'iconsax-react';
-import { Input, SelectInput } from '@ui/Input';
-import CustomDropdown from '@modules/explore/components/CustomDropdown';
+import { Input } from '@ui/Input';
+import CustomFilterDropdown from './CustomFilterDropdown';
+import axios from 'axios';
+import SectionData from './sectionData';
+
+type Section = {
+  key?: string | number;
+  icon?: React.ReactElement;
+  activeIcon: React.ReactElement;
+  text: string;
+  filterType: string;
+};
 
 const SearchAndFilterProducts = (prop: {
   setSearchQuery?: Dispatch<React.SetStateAction<string>>;
@@ -32,35 +38,27 @@ const SearchAndFilterProducts = (prop: {
   const [activeSection, setActiveSection] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
-  const [showLeftButton, setShowLeftButton] = useState<boolean>(true);
-  const [showRightButton, setShowRightButton] = useState<boolean>(true);
+  const [showLeftButton, setShowLeftButton] = useState<boolean>(false);
   const [showFilterComponent, setShowFilterComponent] = useState<boolean>(false);
 
   const { filters, handleFilters } = prop;
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
-    const slider = sliderRef.current!; // Non-null assertion
-
+    const slider = sliderRef.current!;
     // setShowLeftButton(!isStart);
     // setShowRightButton(!isEnd);
   };
 
-  const closeFilterComponent = (option?: 'close' | 'clear') => {
-    if (option === 'clear') {
-      prop.setFilter({});
-    } else {
-      setShowFilterComponent(false);
-    }
-  };
   const slideLeft = () => {
-    const slider = sliderRef.current!; // Non-null assertion
-    slider.scrollLeft -= 150; // Adjust the scroll distance as needed
+    const slider = sliderRef.current!;
+    slider.scrollLeft -= 150;
   };
 
   const slideRight = () => {
-    const slider = sliderRef.current!; // Non-null assertion
-    slider.scrollLeft += 150; // Adjust the scroll distance as needed
+    setShowLeftButton(true);
+    const slider = sliderRef.current!;
+    slider.scrollLeft += 150;
   };
 
   const handleCustomDropdownChange = (option: string) => {
@@ -89,62 +87,72 @@ const SearchAndFilterProducts = (prop: {
     delete filters.SortBy;
   };
 
-  const sectionsData = [
-    {
-      icon: <Filter size={26} color="white" />,
-      activeIcon: <Filter size={26} color="blac" />,
-      text: 'All',
-      filterType: 'none',
-    },
-    {
-      icon: <PenTool2 size={26} color="white" />,
-      activeIcon: <PenTool2 size={26} color="#737373" />,
-      text: 'Design',
-      filterType: 'Track',
-    },
-    {
-      icon: <Code size="26" color="white" />,
-      activeIcon: <Code size={26} color="#737373" />,
-      text: 'Frontend',
-      filterType: 'Track',
-    },
-    {
-      icon: <CommandSquare size="26" color="white" />,
-      activeIcon: <CommandSquare size={26} color="#737373" />,
-      text: 'Backend',
-      filterType: 'Track',
-    },
-    {
-      icon: <MobileProgramming size="26" color="white" />,
-      activeIcon: <MobileProgramming size={26} color="#737373" />,
-      text: 'Mobile',
-      filterType: 'Track',
-    },
-    {
-      icon: <Cloud size="26" color="white" />,
-      activeIcon: <Cloud size={26} color="#737373" />,
-      text: 'Cloud Computing',
-      filterType: 'Track',
-    },
-    {
-      icon: <Data size="26" color="white" />,
-      activeIcon: <Data size={26} color="#737373" />,
-      text: 'Data Science',
-      filterType: 'Track',
-    },
-    {
-      icon: <Airdrop size="26" color="white" />,
-      activeIcon: <Airdrop size={26} color="#737373" />,
-      text: 'Cybersecurity',
-      filterType: 'Track',
-    },
-    {
-      icon: <Code size="26" color="white" />,
-      activeIcon: <Code size={26} color="#737373" />,
-      text: 'Devops',
-      filterType: 'Track',
-    },
-  ];
+  const [sectionsData, setSectionsData] = useState<Section[]>([]);
+  const [productsData, setProductsData] = useState<any>([]);
+
+  const fetchCategoryNames = async (): Promise<Section[]> => {
+    try {
+      const categoriesResponse = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+      const categories = categoriesResponse.data.data.slice(0, 9);
+
+      const icons = [
+        <Designtools size={24} color="white" key={0} />,
+        <PenTool2 size={24} color="white" key={1} />,
+        <Code size="24" color="white" key={2} />,
+        <CommandSquare size="24" color="white" key={3} />,
+        <MobileProgramming size="24" color="white" key={4} />,
+        <Cloud size="24" color="white" key={5} />,
+        <Data size="24" color="white" key={6} />,
+        <Airdrop size="24" color="white" key={7} />,
+        <Code size="24" color="white" key={8} />,
+      ];
+
+      const activeIcons = [
+        <Designtools size={24} color="#737373" key={0} />,
+        <PenTool2 size={24} color="#737373" key={1} />,
+        <Code size="24" color="#737373" key={2} />,
+        <CommandSquare size="24" color="#737373" key={3} />,
+        <MobileProgramming size="24" color="#737373" key={4} />,
+        <Cloud size="24" color="#737373" key={5} />,
+        <Data size="24" color="#737373" key={6} />,
+        <Airdrop size="24" color="#737373" key={7} />,
+        <Code size="24" color="#737373" key={8} />,
+      ];
+
+      const sectionsData: Section[] = categories.map((category: any, index: number) => ({
+        key: category.id || index,
+        icon: icons[index] || null,
+        activeIcon: activeIcons[index] || null, // Return null if index is out of bounds
+        text: category.name,
+        filterType: 'Track',
+      }));
+
+      return sectionsData;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const fetchProducts = async (category: string) => {
+    try {
+      const response = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}`);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching products for category ${category}:`, error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchCategoryNames();
+      // const products = await fetchProducts(sectionsData[activeSection]?.text);
+      // setProductsData(products);
+      setSectionsData(data);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <section className="p-4 xl:px-0">
@@ -161,33 +169,35 @@ const SearchAndFilterProducts = (prop: {
                 type="text"
                 name="search input"
                 intent={'default'}
-                placeHolder="Search by name or role"
-                className="w-full text-grey-900 border-[1px] border-white-120 rounded-lg placeholder:text-white-400"
+                placeHolder="Search product"
+                className="w-full text-grey-900 border-[1px] border-[#F0F1F0] rounded-lg placeholder:text-white-400"
               />
               <button className="sm:hidden">
                 <Filter
                   size={48}
-                  color="#1a1c1b"
-                  className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
+                  color="#5B5F5E"
+                  className="border-2 border-brand-disabled2 text-[#5B5F5E] rounded-xl p-2 hover:bg-brand-green-primary"
                 />
               </button>
             </div>
 
             <div className="hidden sm:grid sm:gap-3">
-              <CustomDropdown
+              <CustomFilterDropdown
                 options={['Ghana', 'Nigeria', 'Kenya']}
                 selectedValue={selectedOption}
                 placeholder="Location"
                 onChange={handleCustomDropdownChange}
+                className="border-[#F0F1F0]"
               />
             </div>
 
             <div className="hidden sm:grid sm:gap-3">
-              <CustomDropdown
+              <CustomFilterDropdown
                 options={['Trending', 'Newest', 'Popular']}
                 selectedValue={selectedOption2}
                 placeholder="Sort By"
                 onChange={handleCustomDropdownChange2}
+                className="border-[#F0F1F0]"
               />
             </div>
           </div>
@@ -199,51 +209,38 @@ const SearchAndFilterProducts = (prop: {
             ref={sliderRef}
             onScroll={handleScroll}
           >
-            <div className="justify-start items-center inline-flex mt-4 gap-6">
-              {sectionsData.map((section, index) => (
-                <div
-                  key={index}
-                  className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeB text-[0.875rem] ${
-                    activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-                  } ${section.text === 'All' ? 'hidden sm:flex' : ''}`}
-                  onClick={() => {
-                    setActiveSection(index);
-                    handleFilters(section.filterType, section.text);
-                    setShowFilterComponent(section.text === 'All Filter');
-                  }}
-                >
-                  <div className="w-6 h-6 relative">{activeSection === index ? section.icon : section.activeIcon}</div>
-                  <div className="text-center">{section.text}</div>
-                </div>
-              ))}
-            </div>
+            <SectionData
+              sectionsData={sectionsData}
+              fetchProducts={fetchProducts}
+              activeSection={activeSection}
+              setActiveSection={setActiveSection}
+              handleFilters={handleFilters}
+              setShowFilterComponent={setShowFilterComponent}
+            />
           </div>
           <div className="relative -right-1 flex">
             {showLeftButton && (
               <div
-                className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
+                className="w-12 h-12 p-3 bg-white rounded-lg border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
                 onClick={slideLeft}
               >
                 <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
                   <div className="w-6 h-6 relative">
-                    <ArrowLeft2 color="#737373" />
+                    <ArrowLeft2 color="#737373" size={23} />
                   </div>
                 </div>
               </div>
             )}
-
-            {showRightButton && (
-              <div
-                className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
-                onClick={slideRight}
-              >
-                <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
-                  <div className="w-6 h-6 relative">
-                    <ArrowRight2 color="#737373" />
-                  </div>
+            <div
+              className="w-12 h-12 p-3 bg-white rounded-lg border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
+              onClick={slideRight}
+            >
+              <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
+                <div className="w-6 h-6 relative">
+                  <ArrowRight2 color="#737373" size={23} />
                 </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
