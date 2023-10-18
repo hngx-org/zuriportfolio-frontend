@@ -5,9 +5,9 @@ import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingC
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
 // import { ratingData } from '../../../db/reviews';
-import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import { useRouter } from 'next/router';
+import NavDashBoard from '@modules/dashboard/component/Navbar';
 
 interface RatsData {
   oneStar: number;
@@ -61,8 +61,7 @@ export default function UserReview() {
     <div className="">
       <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
         <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
-          {/* from marketplace: this component you are using is from marketplace and it has been updated and we have updated it on your end also, this is important to allow sync without error take note  */}
-          <CategoriesNav navItems={categories} isLoading={loading} />
+          <NavDashBoard active="reviews" />
         </div>
         <Container>
           <div className="flex flex-col  md:flex-row md:items-start items-center content-center  justify-center m-0">
