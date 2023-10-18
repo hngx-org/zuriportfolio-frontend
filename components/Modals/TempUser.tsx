@@ -39,9 +39,10 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
       const cartIds = await getCardItemsId(cartItems);
 
       const cartResponse = await addToCart(cartIds, tempUser.data.token);
-      if (cartResponse.status == true) {
+      if (cartResponse.status == 201) {
+        console.log("status passed")
         const response = await makePayment(payment, tempUser.data.token);
-        if (response.status == true) {
+        if (response.status == 201) {
           localStorage.setItem('products', '');
           window.location.href = response.data.transaction_url;
         } else {
