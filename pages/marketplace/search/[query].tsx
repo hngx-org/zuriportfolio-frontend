@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from '@ui/Loader';
 
 export default function Index() {
-  const [results, setResults] = useState<ProductResult[]>([]);
+  const [results, setResults] = useState<ProductResult[] | null>(null);
 
   // access the query parameter from the URL using router
   const {
