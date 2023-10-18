@@ -35,7 +35,7 @@ const useAuthRevalidate = () => {
     }
   }, [auth, token, revalidateUser]);
 
-  return {revalidateUser, token}
+  return { revalidateUser, token };
 };
 
 export default useAuthRevalidate;
