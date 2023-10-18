@@ -49,8 +49,7 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
         });
     } else {
       setIsLoading(true);
-      const apiUrl =
-        'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?start_date=2023-01-10&end_date=2023-11-12';
+      const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products';
 
       const bearerToken =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
