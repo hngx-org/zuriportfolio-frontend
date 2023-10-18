@@ -1,6 +1,5 @@
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import AnalysisCards from '@modules/super-admin/analytics-and-reporting/analysisCards';
-import BusinessOveriview from '@modules/super-admin/analytics-and-reporting/businessOverview';
 import PerformanceData from '@modules/super-admin/analytics-and-reporting/performanceData';
 import PortfolioCreation from '@modules/super-admin/analytics-and-reporting/portfolioCreation';
 import TopSellingProducts from '@modules/super-admin/analytics-and-reporting/topSellingProduct';
