@@ -7,9 +7,10 @@ import Modal from '@ui/Modal';
 export interface SuccessFeedbackModalProps {
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
+  badgeID: string | null;
 }
 
-export const SuccessFeedbackModal: FC<SuccessFeedbackModalProps> = ({ showModal, setShowModal }) => {
+export const SuccessFeedbackModal: FC<SuccessFeedbackModalProps> = ({ showModal, setShowModal, badgeID }) => {
   const router = useRouter();
 
   return (
@@ -25,8 +26,8 @@ export const SuccessFeedbackModal: FC<SuccessFeedbackModalProps> = ({ showModal,
           <button className="lg:px-[55px] md:px-[45px] px-[35px] py-[12px] border border-[#009254] rounded-xl bg-[#009254] text-white-100 text-base flex items-center gap-2">
             {/* Please put the proper badge id and the badge type */}
             <Link
-              href="/assessments/dashboard/[badges]/badge/[id]"
-              as={`assessments/dashboard/${'please put badge type'}/badge/${'please put the badge id in here'}`}
+              href="/assessments/dashboard//badge/[id]"
+              as={`assessments/dashboard/badge/${badgeID ? badgeID : 'null'}`}
               passHref
             >
               Check My Score
