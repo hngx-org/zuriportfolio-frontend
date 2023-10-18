@@ -3,13 +3,15 @@ import Modal from '@ui/Modal';
 import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
+
 import { useAuth } from '../../../../context/AuthContext';
 
 function DeleteAccount() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isPending, setIspending] = useState<boolean>(false);
   const { auth } = useAuth();
+  const router = useRouter();
   const handleToggleModal = () => {
     setOpenModal((prev: boolean) => !prev);
   };
@@ -26,21 +28,23 @@ function DeleteAccount() {
 
   const handleDeleteAccount = useCallback(() => {
     setIspending(true);
-    console.log('hello');
     axios
       .delete(`https://hng6-r5y3.onrender.com/api/delete-user-account/${userId}`)
       .then((response) => {
+        console.log(response);
         if (response.status === 200) {
           notifySuccess('Account Delete Successful!');
+          localStorage.removeItem('zpt');
+          setOpenModal((prev: boolean) => !prev);
           setIspending(false);
-          redirect('/');
+          router.push('/');
         }
       })
       .catch((error) => {
         setIspending(false);
         console.log(error);
         if (error) {
-          notifyError(`Error: ${error.response.data.message}`);
+          notifyError(`Error: ${error?.response?.data?.message || error?.message}`);
         }
       })
       .finally(() => console.log(''));
