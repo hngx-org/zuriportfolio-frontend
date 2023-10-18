@@ -18,6 +18,9 @@ import { useAuth } from '../context/AuthContext';
 import Twofa from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 import defaultpic from '../public/assets/inviteAssets/profile.svg';
 import { notify } from '@ui/Toast';
+import axios from 'axios';
+import Success from './auth/success';
+
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
     accountManagement: false,
@@ -193,26 +196,17 @@ const SettingPage = () => {
     if (selectedFile) {
       const formData = new FormData();
       formData.append('profilepics', selectedFile);
+      formData.append('profilepics', auth?.user.id || '');
+
+      const url = 'https://hng6-r5y3.onrender.com/api/profile/image/upload';
 
       try {
-        const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/image/upload', {
-          method: 'POST',
-          body: formData,
+        // Use toast.promise to display upload progress and results
+        toast.promise(axios.post(url, formData), {
+          pending: 'Uploading...',
+          success: 'Upload successful',
+          error: 'Failed to upload',
         });
-
-        if (response.ok) {
-          console.log('File uploaded successfully');
-          notify({
-            message: 'Uploaded succefully',
-            type: 'success',
-          });
-        } else {
-          console.error('File upload failed');
-          notify({
-            message: 'faile to upload',
-            type: 'error',
-          });
-        }
       } catch (error) {
         console.error('An error occurred:', error);
       }
@@ -221,22 +215,25 @@ const SettingPage = () => {
     }
   };
 
-  const [selectedFile, setSelectedFile] = useState<string>('');
+  const [selectedPics, setSelectedPics] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<File | undefined>();
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
     if (files) {
       const file = files[0];
-      setSelectedFile(URL.createObjectURL(file));
+      setSelectedPics(URL?.createObjectURL(file));
+      setSelectedFile(file);
     } else {
-      setSelectedFile('');
+      setSelectedPics('');
+      setSelectedFile(undefined);
     }
   };
 
   useEffect(() => {
     handlePics();
-  }, [selectedFile]);
+  }, [selectedPics]);
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
       <div className="w-full   relative font-manropeEB mb-4  lg:mb-2   flex flex-col  ">
@@ -351,16 +348,14 @@ const SettingPage = () => {
                         >
                           <>
                             <Image
-                              src={userPic || selectedFile || defaultpic}
+                              src={selectedPics || userPic || defaultpic}
                               width={280}
                               height={180}
                               alt=""
                               className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
                             ></Image>
                           </>
-                          {/* <button className="mb-4">Edit</button>
-                          {selectedFile && <button onClick={handlePics}
-                               className='text-brand-green-primary'></button>} */}
+                          Edit
                         </label>
                         <input
                           type="file"
@@ -493,15 +488,14 @@ const SettingPage = () => {
                             >
                               <>
                                 <Image
-                                  src={userPic || selectedFile || defaultpic}
+                                  src={selectedPics || userPic || defaultpic}
                                   width={280}
                                   height={180}
                                   alt=""
                                   className=" w-[140px] h-[140px]  rounded-full  "
                                 ></Image>
                               </>
-                              {/* <button
-                               className="mb-4">Edit</button> */}
+                              Edit
                             </label>
                             <input
                               type="file"
@@ -541,7 +535,7 @@ const SettingPage = () => {
            } ${settingOption.notificationSettings && 'md:block'}
            hover:bg-brand-green-hover hover:text-white-100 `}
         >
-          Save <span className={` ${showReferInfo && 'hidden md:inline'}`}>& Close </span>
+          Save <span className={` ${showReferInfo && 'hidden md b:inline'}`}>& Close </span>
         </Button>
       </div>
     </MainLayout>
