@@ -27,6 +27,7 @@ interface Errors {
   referer?: string;
   company?: string;
   email?: string;
+  phone?: string;
 }
 
 type referenceModalProps = {
@@ -43,6 +44,15 @@ interface Reference {
   phone_number: string;
   id: number;
 }
+interface EditFormData {
+  referer?: string;
+  company?: string;
+  email?: string;
+  phone_number?: string;
+  position?: string;
+}
+
+const API_BASE_URL = 'https://hng6-r5y3.onrender.com';
 
 const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModal, onSaveModal, userId }) => {
   const initialFormData: formData = {
@@ -61,8 +71,10 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [editing, setEditing] = useState(false);
   const [arrData, setArrData] = useState<fetchedArrData[] | any>([]);
+  const [editArrData, setEditArrData] = useState<fetchedArrData[] | any>([]);
   const [isData, setIsData] = useState(false);
-
+  const [isEditData, setIsEditData] = useState(false);
+  const [refId, setRefId] = useState(Number);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -110,8 +122,17 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       validateAllFieldsNotEmpty();
     } else {
       setErrors({ ...errors, referer: '', email: '', company: '' });
-      if (!loading) {
-        response();
+      if (formData.phoneNumber !== '' && (formData.phoneNumber.length < 8 || formData.phoneNumber.length > 11)) {
+        setErrors({ ...errors, phone: 'wrong phone number' });
+      } else {
+        if (!loading) {
+          setErrors({ ...errors, phone: '' });
+          if (isEditData) {
+            handleEdit(refId);
+          } else {
+            response();
+          }
+        }
       }
     }
   }
@@ -142,7 +163,6 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
     callGet();
   }, [userId]);
 
-  const API_BASE_URL = 'https://hng6-r5y3.onrender.com';
   const response = async () => {
     setLoading(true);
     console.log(formData);
@@ -233,20 +253,80 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
     };
     response();
   };
+  const handleEdit = (id: number) => {
+    const editObjData: EditFormData = {
+      referer: formData.referer,
+      company: formData.company,
+      position: formData.position,
+      email: formData.email,
+      phone_number: formData.phoneNumber,
+    };
+    // console.log('Edited Data: ' + editObjData);
+    const response = async () => {
+      setLoading(true);
+      console.log(formData);
+      try {
+        const axiosConfig = {
+          method: 'put',
+          url: `${API_BASE_URL}/api/references/${id}`,
+          data: editObjData,
+        };
 
+        const response = await axios(axiosConfig);
+
+        if (response.status !== 200 && response.status !== 201) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        setLoading(false);
+        toast.success(`${response.data.message}`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+        console.log(response.data);
+        setEditing(false);
+        callGet();
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error('An error occurred:', error);
+          toast.error(`${error.message}`, {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+          setLoading(false);
+        }
+      }
+    };
+    response();
+  };
   const editData = (id: number) => {
     arrData.forEach((data: any) => {
       if (id === data.id) {
+        setIsEditData(true);
         setFormData({
           ...formData,
           referer: data.referer,
           email: data.email,
           phoneNumber: data.phone_number,
           company: data.company,
+          position: data.position,
         });
       }
     });
   };
+
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} size="lg" isCloseIconPresent={false}>
       <div className="mx-auto bg-white-100 rounded-md p-3 py-5">
@@ -281,7 +361,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
         {editing ? (
           <form
             onSubmit={handleSubmit}
-            className="p-4 mt-10 border-[.4px] flex flex-col gap-2 rounded-lg border-brand-disabled"
+            className="p-4 mt-10 border-[.4px] flex transition-all flex-col gap-2 rounded-lg border-brand-disabled"
           >
             <div className="flex flex-col gap-2">
               <DynamicInput
@@ -346,6 +426,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                 label="Phone Number"
                 labelFor="phoneNumber"
                 value={formData.phoneNumber}
+                error={errors.phone}
                 required={false}
                 leftIcon={<span>+234</span>}
                 pattern={'[0-9]{3}-[0-9]{2}-[0-9]{3}'}
@@ -390,7 +471,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   <div className="card md:ms-4 bg-gray-50 p-2 rounded-md" key={reference.id}>
                     <div className="text-base font-semibold text-dark-800 flex gap-3 capitalize">
                       Name
-                      <p className="text-base font-normal">{reference.referer}</p>
+                      <p className="text-base font-normal capitalize">{reference.referer}</p>
                     </div>
                     <div className="text-base font-semibold text-dark-800 flex gap-3">
                       Company
@@ -400,13 +481,21 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                       Email
                       <p className="text-base font-normal">{reference.email}</p>
                     </div>
-                    <div className="text-base font-semibold text-dark-800 flex gap-3">
+                    <div
+                      className={`${
+                        reference.position === '' ? 'hidden' : 'block'
+                      } text-base font-semibold text-dark-800 flex gap-3`}
+                    >
                       Position
-                      <p className="text-base font-normal">{reference.position}</p>
+                      <p className={`text-base font-normal capitalize`}>{reference.position}</p>
                     </div>
-                    <div className="text-base font-semibold text-dark-800 flex gap-3">
+                    <div
+                      className={`text-base font-semibold text-dark-800 flex gap-3 ${
+                        reference.phone_number === '' ? 'hidden' : 'block'
+                      }`}
+                    >
                       Phone
-                      <p className="text-base font-normal">+234 {reference.phone_number}</p>
+                      <p className={`text-base font-normal`}>+234 {reference.phone_number}</p>
                     </div>
 
                     <div>
@@ -415,6 +504,8 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                           onClick={() => {
                             setEditing(true);
                             editData(reference.id);
+                            setIsEditData(true);
+                            setRefId(reference.id);
                           }}
                           className="text-blue-300 cursor-pointer"
                         >
@@ -458,6 +549,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                 onClick={() => {
                   setEditing(true);
                   setFormData(initialFormData);
+                  setIsEditData(false);
                 }}
                 className="text-[1.05rem] text-brand-green-primary font-normal px-3 transition cursor-pointer py-1 rounded-full hover:bg-brand-green-primary hover:text-white-100"
               >
