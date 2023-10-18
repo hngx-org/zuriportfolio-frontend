@@ -11,6 +11,7 @@ import { resetPassword } from '../../http/auth';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { notify } from '@ui/Toast';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
 
@@ -84,6 +85,43 @@ function ResetPassword() {
   };
 
   return (
+    <>
+    <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+
+        <title>Reset Password - Zuri Portfolio</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Zuri Portfolio" />
+
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta
+          key="metadescription"
+          itemProp="description"
+          name="description"
+          content="Reset password of your Zuri Portfolio account."
+        />
+        <meta name="keywords" content="Zuri, portfolio, login" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <meta name="language" content="English" />
+        <meta key="metaimage" itemProp="image" name="image" content="screen image is supposed to be here" />
+
+        {/* <!-- Twitter Meta Tags --> */}
+        <meta key="twitter:title" name="twitter:title" content="Zuri Portfolio" />
+        <meta key="twitter:description" name="twitter:description" content="Resent password of your Zuri Portfolio account." />
+        <meta key="twitter:image" name="twitter:image" content="https://staging.zuri.team/auth/reset-password" />
+
+        {/* this is supposed to be the summary card */}
+        {/* <meta key="twitter:card" name="twitter:card" content={zuriLogo} /> */}
+
+        {/* <!-- Facebook Meta Tags --> */}
+        <meta property="og:url" content="https://staging.zuri.team/auth/reset-password" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Zuri Portfolio" />
+        <meta property="og:description" content="Reset password of your Zuri Portfolio account." />
+        {/* <meta property="og:image" content="/assets/test.png" /> */}
+      </Head>
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
       <div className="">
         {/* Show the password reset form initially, and update the view after successful password reset */}
@@ -179,6 +217,7 @@ function ResetPassword() {
         )}
       </div>
     </AuthLayout>
+    </>
   );
 }
 
