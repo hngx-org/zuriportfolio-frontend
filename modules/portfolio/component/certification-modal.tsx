@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Modal from '@ui/Modal';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { Certification, CertificationListProps, CertificationItemProps } from '../../../@types';
+import Loader from '@ui/Loader';
 
 interface Context {
   refreshPage: boolean;
@@ -19,6 +20,8 @@ interface Context {
   setError: React.Dispatch<React.SetStateAction<string>>;
   render: boolean;
   setCloseAllModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
 }
 const initialContextValue: Context = {
   refreshPage: false,
@@ -32,6 +35,8 @@ const initialContextValue: Context = {
   error: '',
   render: false,
   setCloseAllModal: () => {},
+  setIsLoading: () => {},
+  isLoading: false,
 };
 
 const myContext = createContext(initialContextValue);
@@ -42,7 +47,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
     id: '',
     title: '',
     year: '',
-    sectionId: 10,
+    sectionId: 1,
     organization: '',
     url: '',
     description: '',
@@ -57,11 +62,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
   const [acceptedDescription, setAcceptedDescription] = useState(false);
   const [createCertificate, setCreateCertificate] = useState('');
   const [closeAllModal, setCloseAllModal] = useState(false);
-
-  const validateUrl = (url: string) => {
-    const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
-    return urlPattern.test(url);
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   const isValid =
     formData.year && formData.title && formData.organization && formData.url && formData.description && !urlError;
@@ -69,107 +70,58 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
   const openModal = async (e: React.FormEvent) => {
     // console.log('openModal function called');
     e.preventDefault(); // Prevent the default form submission
-    const missingFields = [];
+    const newCertification = {
+      id: certificationCounter.toString(),
+      year: formData.year,
+      sectionId: formData.sectionId,
+      title: formData.title,
+      organization: formData.organization,
+      url: formData.url,
+      description: formData.description,
+    };
+    setCertificationCounter(certificationCounter + 1);
 
-    if (!formData.title) {
-      missingFields.push('Title');
-    }
-    if (!formData.organization) {
-      missingFields.push('organization');
-    }
-    if (!formData.url) {
-      missingFields.push('URL');
-    }
-    if (!formData.description) {
-      missingFields.push('Description');
-    }
-    if (!formData.year) {
-      missingFields.push('Year');
-    }
-    if (!formData.url) {
-      missingFields.push('URL');
-    } else {
-      if (!validateUrl(formData.url)) {
-        setUrlError('Please enter a valid URL');
+    try {
+      setIsLoading(true);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/add-certificate/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newCertification),
+      });
+      // console.log('Response Status:', response.status);
+      // console.log('Response Data:', await response.json());
+      setIsLoading(false);
+      if (response.ok) {
+        setCreateCertificate('Certificate created successfully');
+        setTimeout(() => {
+          setCreateCertificate('');
+        }, 2000);
+        setError('');
+
+        setTimeout(() => {
+          setFormData({
+            id: '',
+            sectionId: 1,
+            title: '',
+            year: '',
+            organization: '',
+            url: '',
+            description: '',
+          });
+        }, 4000);
+
+        // Delay setting IsModalOpen to true by a certain number of milliseconds
+        setTimeout(() => {
+          setIsModalOpen(true);
+        }, 2000); // Adjust the delay time (1000 milliseconds = 1 second) as needed
       } else {
-        setUrlError('');
+        setError('Error saving the certification.');
       }
-    }
-
-    if (
-      !formData.title ||
-      !formData.organization ||
-      !formData.url ||
-      !formData.description ||
-      !formData.year ||
-      !formData.url
-    ) {
-      setRender(true);
-    } else {
-      setRender(false); // Reset it when all required fields are filled
-    }
-    if (isValid && !urlError) {
-      const newCertification = {
-        id: certificationCounter.toString(),
-        year: formData.year,
-        sectionId: formData.sectionId,
-        title: formData.title,
-        organization: formData.organization,
-        url: formData.url,
-        description: formData.description,
-      };
-      setCertificationCounter(certificationCounter + 1);
-      // console.log('URL:', 'https://hng6-r5y3.onrender.com/api/add-certificate/6ba7b810-9dad-11d1-80b4-00c04fd430c8');
-      // console.log('Request Data:', JSON.stringify(newCertification));
-
-      // setCertifications((prevCertifications) => [...prevCertifications, newCertification]);
-      // console.log('Updated Certifications Array:', certifications);
-
-      try {
-        const response = await fetch(`https://hng6-r5y3.onrender.com/api/add-certificate/${userId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newCertification),
-        });
-        // console.log('Response Status:', response.status);
-        // console.log('Response Data:', await response.json());
-
-        if (response.ok) {
-          setCreateCertificate('Certificate created successfully');
-          setTimeout(() => {
-            setCreateCertificate('');
-          }, 2000);
-          setError('');
-
-          setTimeout(() => {
-            setFormData({
-              id: '',
-              sectionId: 10,
-              title: '',
-              year: '',
-              organization: '',
-              url: '',
-              description: '',
-            });
-          }, 4000);
-
-          // Delay setting IsModalOpen to true by a certain number of milliseconds
-          setTimeout(() => {
-            setIsModalOpen(true);
-          }, 2000); // Adjust the delay time (1000 milliseconds = 1 second) as needed
-        } else {
-          setError('Error saving the certification.');
-        }
-      } catch (error) {
-        setError('An error occurred while saving the certification.');
-        // console.error(error);
-      }
-    } else {
-      const missingFieldsMessage = missingFields.join(', ');
-      setError(`Please fill in the following fields:\n${missingFieldsMessage}.`);
-      // console.log('Please fill in all the form fields.');
+    } catch (error) {
+      setError('An error occurred while saving the certification.');
+      // console.error(error);
     }
   };
 
@@ -179,28 +131,6 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const characterCount = value.replace(/\s/g, '').length; // Remove white spaces and count characters
-    const isValidDescription = characterCount >= 30 && characterCount <= 200;
-
-    // console.log('Name:', name);
-    // console.log('Value:', value);
-    // console.log('Character Count:', characterCount);
-    // console.log('IsValidDescription:', isValidDescription);
-
-    setAcceptedDescription(isValidDescription);
-
-    if (name === 'description') {
-      setAcceptedDescription(isValidDescription);
-      if (isValidDescription) {
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
-        setError(''); // Clear any previous errors
-      } else {
-        setError('Description must contain between 30 and 200 characters.');
-      }
-    }
 
     if (name === 'year') {
       setFormData((prevData) => ({
@@ -229,6 +159,8 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         render,
         error,
         setCloseAllModal,
+        setIsLoading,
+        isLoading,
       }}
     >
       <div>
@@ -257,10 +189,12 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                           type="text"
                           id="title"
                           name="title"
+                          maxLength={14}
                           placeholder="My best yet"
                           className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                           value={formData.title}
                           onChange={handleInputChange}
+                          required
                         />
                       </div>
 
@@ -274,6 +208,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                           className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
                           value={formData.year}
                           onChange={handleInputChange}
+                          required
                         >
                           {/* Add the default placeholder option */}
                           <option value="" disabled>
@@ -299,16 +234,18 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                           htmlFor="organization"
                           className="font-semibold text-[16px] leading-[24px]  text-[#444846]"
                         >
-                          organization*
+                          Organization*
                         </label>
                         <Input
                           type="text"
+                          maxLength={21}
                           id="organization"
                           name="organization"
                           placeholder="Google"
                           className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900 rounded-lg border-[1px]"
                           value={formData.organization}
                           onChange={handleInputChange}
+                          required
                         />
                       </div>
                       <div className="flex  flex-col gap-[10px] flex-1">
@@ -316,9 +253,11 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                           Url
                         </label>
                         <Input
-                          type="text"
+                          type="url"
                           id="url"
                           name="url"
+                          pattern="https?://.+"
+                          required
                           placeholder="Type link"
                           className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                           value={formData.url}
@@ -334,10 +273,13 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                         type="text"
                         id="description"
                         name="description"
+                        minLength={30}
+                        maxLength={200}
                         placeholder="Certificate ID & details "
                         className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900  rounded-lg border-[1px]"
                         value={formData.description}
                         onChange={handleInputChange}
+                        required
                       />
                     </div>
                     <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
@@ -346,10 +288,12 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                           <p className="text-green-200 text-sm">{createCertificate}</p>
                         </div>
                         <div>
-                          {render ? (
-                            <pre className="text-red-205 font-manropeL">{error}</pre>
+                          {isLoading ? (
+                            <Loader />
                           ) : (
-                            urlError && <div className="text-red-205 text-sm">{urlError}</div>
+                            <div>
+                              <pre className="text-red-205 font-manropeL">{error}</pre>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -429,16 +373,22 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
   );
 };
 const CertificationList: React.FC<CertificationListProps> = () => {
-  const { refreshPage, setError, isModalOpen } = useContext(myContext);
+  const { userId } = useContext(Portfolio);
+  const { refreshPage, setError, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
   const [certifications, setCertifications] = useState<Certification[]>([]);
+  console.log(certifications);
 
   const fetchCertifications = async () => {
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/certificates');
+      setIsLoading(true);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}`);
+
+      setIsLoading(false);
       if (response.ok) {
         const data = await response.json();
         // console.log('Fetched certifications data:', data);
         setCertifications(data.data);
+        console.log('this is the data', data);
       } else {
         setError('Error fetching certifications data.');
       }
@@ -460,12 +410,18 @@ const CertificationList: React.FC<CertificationListProps> = () => {
 
   return (
     <div>
-      {certifications.length > 0 ? (
-        certifications.map((certification, index) => (
-          <CertificationItem key={certification.id} certification={certification} />
-        ))
+      {isLoading ? (
+        <Loader />
       ) : (
-        <p>There are no certificates available.</p>
+        <div>
+          {certifications.length > 0 ? (
+            certifications.map((certification, index) => (
+              <CertificationItem key={certification.id} certification={certification} />
+            ))
+          ) : (
+            <p>There are no certificates available.</p>
+          )}
+        </div>
       )}
     </div>
   );
@@ -478,47 +434,41 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   const [editedMessage, setEditedMessage] = useState('');
   const [editMessageError, setEditMessageError] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
-  const { refreshPage, setRefreshPage } = useContext(myContext);
-  const [sectionId, setSectionId] = useState('');
+  const { refreshPage, setRefreshPage, isLoading, setIsLoading } = useContext(myContext);
 
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+  const initialEditedCertification = {
+    id: id,
+    year: year,
+    title: title,
+    organization: organization,
+    url: url,
+    description: description,
+    sectionId: 1,
+  };
   // State to store the edited data
-  const [editedCertification, setEditedCertification] = useState(certification);
+  const [editedCertification, setEditedCertification] = useState(initialEditedCertification);
+  console.log('This is the edit certi', editedCertification);
   const openEditForm = () => {
     setIsEditFormOpen(true);
+  };
+  const extractHostname = (url: string) => {
+    const { hostname } = new URL(url);
+    return hostname;
   };
 
   // Function to close the Edit form
   const closeEditForm = () => {
     setIsEditFormOpen(false);
   };
-  const fetchCertifications = async () => {
-    try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${id}`);
-      const data = await response.json();
-      console.log('fetched data', data);
-      console.log('this is the section id ', data.section.id);
-      setSectionId(data.section.id);
-      // if (response.ok) {
 
-      //
-      //   // console.log('Fetched certifications data:', data);
-      // } else {
-      //   console.log('Error fetching certifications data.');
-      // }
-    } catch (error) {
-      console.log('An error occurred while fetching certifications data.');
-
-      // console.error(error);
-    }
-  };
-  useEffect(() => {
-    fetchCertifications();
-  }, []);
   // Function to handle the save action
   const handleSave = async () => {
     // Send a PUT request to update the certification
 
     try {
+      setEditLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}/1`, {
         method: 'PUT',
         headers: {
@@ -526,13 +476,12 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         },
         body: JSON.stringify(editedCertification), // Send the edited data
       });
+      setEditLoading(false);
       console.log('this is the id ', id);
       console.log(userId);
-
       console.log('Response Status:', response.ok);
       console.log('Response Data:', await response.json());
       if (response.ok) {
-        // console.log(`Certificate with ID ${id} updated.`);
         setRefreshPage(!refreshPage);
         setEditedMessage('Edited successfully');
         setTimeout(() => {
@@ -553,9 +502,11 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     // Extract the id from the event
 
     try {
+      setDeleteLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${id}`, {
         method: 'DELETE',
       });
+      setDeleteLoading(false);
       if (response.ok) {
         // Certificate deleted successfully, you can update the UI accordingly
         // console.log(response.json());
@@ -574,7 +525,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   return (
     <div className="border-b-[1px] border-b-brand-disabled gap-12 py-3">
       <div className="flex flex-col sm:flex-row gap-6 w-full justify-between">
-        <div className="flex flex-col sm:flex-row sm:gap-10 sm:w-[60%] lg:w-[35%] gap-4  justify-between">
+        <div className="flex flex-col sm:flex-row sm:gap-10 sm:w-[60%] lg:w-[40%] gap-6  ">
           <div>
             <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
           </div>
@@ -587,7 +538,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             </h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis">{url}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis"> {extractHostname(url)}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>
@@ -601,8 +552,8 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
       </div>
       <div className="flex justify-between items-center">
         <div>
-          <p className="text-red-205 text-sm">{deletedMessage}</p>
-          <p className="text-green-200 text-sm">{editedMessage}</p>
+          <div>{deleteLoading ? <Loader /> : <p className="text-red-205 text-sm">{deletedMessage}</p>}</div>{' '}
+          <div>{editLoading ? <Loader /> : <p className="text-green-200 text-sm">{editedMessage}</p>}</div>
           <p className="text-red-205 text-sm">{editMessageError}</p>
         </div>
         <div className="flex justify-between items-center">
@@ -641,45 +592,7 @@ const EditForm: React.FC<{
   setCertification: React.Dispatch<React.SetStateAction<Certification>>;
   onClose: () => void;
 }> = ({ isOpen, certification, setCertification, onClose, handleSave }) => {
-  const { urlError, setUrlError, setRender, error, render, setError } = useContext(myContext);
-  const validateUrl = (url: string) => {
-    const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
-    return urlPattern.test(url);
-  };
-
-  const isValidEdit =
-    certification.year &&
-    certification.title &&
-    certification.organization &&
-    certification.url &&
-    certification.description &&
-    !urlError;
-  const missingFields: string[] = [];
-
-  if (!certification.title) {
-    missingFields.push('Title');
-  }
-  if (!certification.organization) {
-    missingFields.push('organization');
-  }
-  if (!certification.url) {
-    missingFields.push('URL');
-  }
-  if (!certification.description) {
-    missingFields.push('Description');
-  }
-  if (!certification.year) {
-    missingFields.push('Year');
-  }
-  if (!certification.url) {
-    missingFields.push('URL');
-  } else {
-    if (!validateUrl(certification.url)) {
-      setUrlError('Please enter a valid URL');
-    } else {
-      setUrlError('');
-    }
-  }
+  const { urlError, error, render, setError } = useContext(myContext);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -701,23 +614,8 @@ const EditForm: React.FC<{
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (isValidEdit && !urlError) {
-      setRender(true);
-      if (certification.description.length > 30 && certification.description.length < 200) {
-        // If description character count is within the desired range, trigger handleSave and onClose
-        handleSave();
-        onClose();
-      } else {
-        // Character count is not within the desired range, display an error message
-        setError('Description should be between 30 and 100 characters.');
-        // console.log(error);
-      }
-    } else {
-      const missingFieldsMessage = missingFields.join(', ');
-      setError(`Please fill in the following fields:\n${missingFieldsMessage}.`);
-      // console.log('Please fill in all the form fields.');
-    }
+    handleSave();
+    onClose();
   };
 
   return (
@@ -743,9 +641,11 @@ const EditForm: React.FC<{
                 id="title"
                 name="title"
                 placeholder="My best yet"
+                maxLength={14}
                 className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                 value={certification.title}
                 onChange={handleInputChange}
+                required
               />
             </div>
 
@@ -759,6 +659,7 @@ const EditForm: React.FC<{
                 className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
                 value={certification.year}
                 onChange={handleSelectChange}
+                required
               >
                 {/* Add the default placeholder option */}
                 <option value="" disabled>
@@ -788,9 +689,11 @@ const EditForm: React.FC<{
                 id="organization"
                 name="organization"
                 placeholder="Google"
+                maxLength={21}
                 className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
                 value={certification.organization}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="flex  flex-col gap-[10px] flex-1">
@@ -805,6 +708,7 @@ const EditForm: React.FC<{
                 className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                 value={certification.url}
                 onChange={handleInputChange}
+                required
               />
             </div>
           </div>
@@ -816,19 +720,18 @@ const EditForm: React.FC<{
               type="text"
               id="description"
               name="description"
+              minLength={30}
+              maxLength={200}
               placeholder="Certificate ID & details "
               className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]   text-gray-900  rounded-lg border-[1px]"
               value={certification.description}
               onChange={handleInputChange}
+              required
             />
           </div>
           <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
             <div>
-              {render ? (
-                <pre className="text-red-205 font-manropeL">{error}</pre>
-              ) : (
-                urlError && <div className="text-red-205 text-sm">{urlError}</div>
-              )}
+              <pre className="text-red-205 font-manropeL">{error}</pre>
             </div>
             <div className="flex gap-4  items-center">
               <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>

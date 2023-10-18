@@ -5,6 +5,7 @@ import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import Link from 'next/link';
 import Modal from '@ui/Modal';
 import { Award, AwardItemProps, AwardListProps } from '../../../@types';
+import Loader from '@ui/Loader';
 
 interface Context {
   refreshPage: boolean;
@@ -18,6 +19,8 @@ interface Context {
   setError: React.Dispatch<React.SetStateAction<string>>;
   render: boolean;
   setCloseAllModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
 }
 const initialContextValue: Context = {
   refreshPage: false,
@@ -31,6 +34,8 @@ const initialContextValue: Context = {
   error: '',
   render: false,
   setCloseAllModal: () => {},
+  setIsLoading: () => {},
+  isLoading: false,
 };
 
 const myContext = createContext(initialContextValue);
@@ -56,6 +61,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
   const [acceptedDescription, setAcceptedDescription] = useState(false);
   const [createAward, setCreateAward] = useState('');
   const [closeAllModal, setCloseAllModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateUrl = (url: string) => {
     const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
@@ -121,6 +127,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
       setAwardCounter(awardCounter + 1);
 
       try {
+        setIsLoading(true);
         const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${userId}`, {
           method: 'POST',
           headers: {
@@ -130,6 +137,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
         });
         console.log('Response Status:', response.status);
         console.log('Response Data:', await response.json());
+        setIsLoading(false);
 
         if (response.ok) {
           setCreateAward('Award created successfully');
@@ -224,6 +232,8 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
         render,
         error,
         setCloseAllModal,
+        setIsLoading,
+        isLoading,
       }}
     >
       <div>
@@ -252,10 +262,12 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                           type="text"
                           id="title"
                           name="title"
+                          maxLength={14}
                           placeholder="My best yet"
                           className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                           value={formData.title}
                           onChange={handleInputChange}
+                          required
                         />
                       </div>
 
@@ -269,6 +281,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                           className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
                           value={formData.year}
                           onChange={handleInputChange}
+                          required
                         >
                           {/* Add the default placeholder option */}
                           <option value="" disabled>
@@ -298,12 +311,15 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                         </label>
                         <Input
                           type="text"
+                          maxLength={21}
                           id="presented_by"
                           name="presented_by"
                           placeholder="Google"
+                          pattern="https?://.+"
                           className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
                           value={formData.presented_by}
                           onChange={handleInputChange}
+                          required
                         />
                       </div>
                       <div className="flex  flex-col gap-[10px] flex-1">
@@ -311,13 +327,14 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                           Url
                         </label>
                         <Input
-                          type="text"
+                          type="url"
                           id="url"
                           name="url"
                           placeholder="Type link"
                           className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                           value={formData.url}
                           onChange={handleInputChange}
+                          required
                         />
                       </div>
                     </div>
@@ -329,24 +346,33 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                         type="text"
                         id="description"
                         name="description"
+                        maxLength={200}
+                        minLength={30}
                         placeholder=""
                         className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                         value={formData.description}
                         onChange={handleInputChange}
+                        required
                       />
                     </div>
                     <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
                       <div>
-                        <div>
-                          <p className="text-green-200 text-sm">{createAward}</p>
-                        </div>
-                        <div>
-                          {render ? (
-                            <pre className="text-red-205 font-manropeL">{error}</pre>
-                          ) : (
-                            urlError && <div className="text-red-205 text-sm">{urlError}</div>
-                          )}
-                        </div>
+                        {isLoading ? (
+                          <Loader />
+                        ) : (
+                          <div>
+                            <div>
+                              <p className="text-green-200 text-sm">{createAward}</p>
+                            </div>
+                            <div>
+                              {render ? (
+                                <pre className="text-red-205 font-manropeL">{error}</pre>
+                              ) : (
+                                urlError && <div className="text-red-205 text-sm">{urlError}</div>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <div className="flex gap-4  items-center">
                         <Button
@@ -424,12 +450,14 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   );
 };
 const AwardList: React.FC<AwardListProps> = () => {
-  const { refreshPage, setError, isModalOpen } = useContext(myContext);
+  const { refreshPage, setError, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
   const [awards, setAwards] = useState<Award[]>([]);
 
   const fetchAwards = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch('https://hng6-r5y3.onrender.com/api/awards');
+      setIsLoading(false);
       if (response.ok) {
         const data = await response.json();
         console.log('Fetched awards data:', data.awards);
@@ -455,10 +483,16 @@ const AwardList: React.FC<AwardListProps> = () => {
 
   return (
     <div>
-      {awards.length > 0 ? (
-        awards.map((award, index) => <AwardItem key={award.id} award={award} />)
+      {isLoading ? (
+        <Loader />
       ) : (
-        <p>There are no awards available.</p>
+        <div>
+          {awards.length > 0 ? (
+            awards.map((award, index) => <AwardItem key={award.id} award={award} />)
+          ) : (
+            <p>There are no awards available.</p>
+          )}
+        </div>
       )}
     </div>
   );
@@ -469,16 +503,16 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const [deletedMessage, setDeletedMessage] = useState('');
   const [editedMessage, setEditedMessage] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
-  const { refreshPage, setRefreshPage } = useContext(myContext);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+  const { refreshPage, setRefreshPage, isLoading, setIsLoading } = useContext(myContext);
   console.log('these are the awards', award);
 
-  // State to store the edited data
   const [editedAward, setEditedAward] = useState(award);
   const openEditForm = () => {
     setIsEditFormOpen(true);
   };
 
-  // Function to close the Edit form
   const closeEditForm = () => {
     setIsEditFormOpen(false);
   };
@@ -487,6 +521,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const handleSave = async () => {
     // Send a PUT request to update the award
     try {
+      setEditLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
         method: 'PUT',
         headers: {
@@ -495,6 +530,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
         body: JSON.stringify(editedAward),
         // Send the edited data
       });
+      setEditLoading(false);
       if (response.ok) {
         // console.log(`Award with ID ${id} updated.`);
         setRefreshPage(!refreshPage);
@@ -511,11 +547,15 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
       // console.error('An error occurred while updating the award.', error);
     }
   };
-
+  const extractHostname = (url: string) => {
+    const { hostname } = new URL(url);
+    return hostname;
+  };
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // Extract the id from the event
 
     try {
+      setDeleteLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
         method: 'DELETE',
       });
@@ -523,6 +563,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
         // Award deleted successfully, you can update the UI accordingly
         // console.log(response.json());
         // console.log(`Award with ID ${id} deleted.`);
+        setDeleteLoading(false);
         setDeletedMessage('Deleted successfully');
 
         setRefreshPage(!refreshPage);
@@ -541,12 +582,12 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
           <div>
             <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
           </div>
-          <div className="flex flex-col gap-2 w-full overflow-hidden text-ellipsis whitespace-nowrap ">
+          <div className="flex flex-col gap-2 w-full overflow-hidden text-ellipsis whitespace-nowrap text-right">
             <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left ">{title}</h1>
             <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{presented_by}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis ">{url}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis "> {extractHostname(url)}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>
@@ -559,10 +600,8 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <div>
-          <p className="text-red-205 text-sm">{deletedMessage}</p>
-          <p className="text-green-200 text-sm">{editedMessage}</p>
-        </div>
+        <div>{deleteLoading ? <Loader /> : <p className="text-red-205 text-sm">{deletedMessage}</p>}</div>{' '}
+        <div>{editLoading ? <Loader /> : <p className="text-green-200 text-sm">{editedMessage}</p>}</div>
         <div className="flex justify-between items-center">
           {' '}
           <Button
@@ -600,6 +639,7 @@ const EditForm: React.FC<{
   onClose: () => void;
 }> = ({ isOpen, award, setAward, onClose, handleSave }) => {
   const { urlError, setUrlError, setRender, error, render, setError } = useContext(myContext);
+
   const validateUrl = (url: string) => {
     const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
     return urlPattern.test(url);
@@ -693,11 +733,13 @@ const EditForm: React.FC<{
               <Input
                 type="text"
                 id="title"
+                maxLength={14}
                 name="title"
                 placeholder="My best yet"
                 className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                 value={award.title}
                 onChange={handleInputChange}
+                required
               />
             </div>
 
@@ -737,12 +779,14 @@ const EditForm: React.FC<{
               </label>
               <Input
                 type="text"
+                maxLength={21}
                 id="presented_by"
                 name="presented_by"
                 placeholder="Google"
                 className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
                 value={award.presented_by}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="flex  flex-col gap-[10px] flex-1">
@@ -750,13 +794,15 @@ const EditForm: React.FC<{
                 Url
               </label>
               <Input
-                type="text"
+                type="url"
                 id="url"
                 name="url"
+                pattern="https?://.+"
                 placeholder="Type link"
                 className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                 value={award.url}
                 onChange={handleInputChange}
+                required
               />
             </div>
           </div>
@@ -768,10 +814,13 @@ const EditForm: React.FC<{
               type="text"
               id="description"
               name="description"
+              maxLength={200}
+              minLength={30}
               placeholder=""
               className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
               value={award.description}
               onChange={handleInputChange}
+              required
             />
           </div>
           <div className="flex justify-between items-center">
