@@ -7,12 +7,13 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 type aboutModalProps = {
-  onClose: () => void;
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   isOpen: boolean;
   userId: string;
 };
 
-const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) => {
+const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, isOpen, userId }) => {
   const [bio, setBio] = useState({ bio: '', section_id: 54 });
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -50,7 +51,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
       });
       const data = await response.data;
       console.log(data);
-      onClose();
+      onSaveModal();
     } catch (error) {
       console.error('An error occurred:', error);
       toast.warning(`Waiting for endpoint`, {
@@ -67,40 +68,6 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
     }
   };
 
-  // GET ABOUT VALUE FROM DATA BASE
-  const getResponse = async () => {
-    setgetLoading(true);
-    try {
-      const axiosConfig = {
-        method: 'get',
-        url: `${API_BASE_URL}/api/about/${userId}`,
-      };
-
-      const response = await axios(axiosConfig);
-      if (response.status !== 200 && response.status !== 201) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.data;
-
-      console.log(data.about);
-      setBio({ ...bio, bio: data.about.bio });
-      setgetLoading(false);
-      toast.success(`${data.message}`, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
-    } catch (error) {
-      console.error('An error occurred:', error);
-      setgetLoading(false);
-    }
-  };
-
   useEffect(() => {
     if (isEditing && inputRef.current) {
       inputRef.current.focus();
@@ -108,8 +75,42 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
   }, [isEditing]);
 
   useEffect(() => {
+    // GET ABOUT VALUE FROM DATA BASE
+    const getResponse = async () => {
+      setgetLoading(true);
+      try {
+        const axiosConfig = {
+          method: 'get',
+          url: `${API_BASE_URL}/api/about/${userId}`,
+        };
+
+        const response = await axios(axiosConfig);
+        if (response.status !== 200 && response.status !== 201) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.data;
+
+        console.log(data.about);
+        setBio({ ...bio, bio: data.about.bio });
+        setgetLoading(false);
+        toast.success(`${data.message}`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      } catch (error) {
+        console.error('An error occurred:', error);
+        setgetLoading(false);
+      }
+    };
+
     getResponse();
-  }, []);
+  }, [userId, bio]);
 
   const handleEditClick = () => {
     if (!loading) {
@@ -196,14 +197,16 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
       size="lg"
     >
       {loading ? (
-        <Loader />
+        <div className="py-32">
+          <Loader />
+        </div>
       ) : (
         <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
           <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">
             <span className="font-semibold text-lg">About</span>
             <div
               className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"
-              onClick={onClose}
+              onClick={onCloseModal}
             >
               x
             </div>
@@ -278,7 +281,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
                     className="w-full md:w-24 rounded-lg"
                     type="button"
                     disabled={loading}
-                    onClick={onClose}
+                    onClick={onCloseModal}
                   >
                     Close
                   </Button>

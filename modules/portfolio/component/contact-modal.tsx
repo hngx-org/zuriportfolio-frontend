@@ -15,7 +15,14 @@ const generateUniqueId = () => {
   return `id-${timestamp}-${randomNumber}`;
 };
 
-function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: boolean; onClose: () => void }) {
+type contactModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  isOpen: boolean;
+  userId: string;
+};
+
+function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModalProps) {
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
   const [socials, setSocials] = useState<any[]>([]);
@@ -101,7 +108,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
           theme: 'light',
           type: 'success',
         });
-        onClose();
+        onSaveModal();
       })
       .catch((err) => {
         setLoading(false);
@@ -133,13 +140,19 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
   };
   return (
     <>
-      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         <div className="space-y bg-white-100 sm:p-10">
           <form className="flex flex-col gap-y-5">
             <div className="flex flex-col gap-3 my-19">
               <div className="flex justify-between items-center">
                 <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Contact</p>
-                <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+                <CloseSquare
+                  size="32"
+                  color="#009254"
+                  variant="Bold"
+                  onClick={onCloseModal}
+                  className="cursor-pointer"
+                />
               </div>
               <div className="bg-brand-green-primary h-1 rounded-sm"></div>
             </div>
@@ -220,7 +233,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
             <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 type="button"
-                onClick={onClose}
+                onClick={onCloseModal}
                 intent={'secondary'}
                 className="border w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]"
                 size={'sm'}
