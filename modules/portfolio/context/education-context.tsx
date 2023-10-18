@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { Education } from '../../../@types';
+import { DegreeOption, Education } from '../../../@types';
 import { notify } from '@ui/Toast';
 import Portfolio from '../../../context/PortfolioLandingContext';
 
@@ -48,7 +48,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedDegreeId, setSelectedDegreeId] = useState('');
   const [isData, setIsData] = useState(false);
-  const [selectedDegree, setSelectedDegree] = useState('');
+
   const resetForm = () => {
     setFieldOfStudy('');
     setDegreeOptions([]);
@@ -67,8 +67,11 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         return res.json();
       })
       .then((data) => {
-        setDegreeOptions(data.data);
-        console.log(degreeOptions);
+        if (data?.data) {
+          setDegreeOptions(
+            () => data.data?.map((item: DegreeOption) => ({ id: String(item.id), type: String(item.type) })),
+          );
+        }
       })
       .catch((error) => console.log({ error: error }));
   }
@@ -78,9 +81,9 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   }, []);
 
   const handleDegreeSelection = (selectedDegree: string) => {
-    const selectedDegreeObject = degreeOptions && degreeOptions?.find((option) => option?.type === selectedDegree);
+    const selectedDegreeObject = degreeOptions && degreeOptions?.find((option) => option?.id === selectedDegree);
     if (selectedDegreeObject) {
-      setSelectedDegreeId(selectedDegreeObject.id);
+      setSelectedDegreeId(selectedDegree);
     }
   };
 
@@ -212,7 +215,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         body: JSON.stringify({
           fieldOfStudy,
           // degreeOptions,
-          degree_id: selectedDegreeId,
+          degree_id: +selectedDegreeId,
           school,
           description,
           from,
@@ -285,6 +288,9 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setIsEditMode,
         setIsForm,
         setIsData,
+        setSelectedDegreeId,
+        selectedDegreeId,
+        setnewdegree,
       }}
     >
       {children}

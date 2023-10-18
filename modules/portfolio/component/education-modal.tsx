@@ -42,19 +42,21 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     handleDegreeSelection,
     isData,
     setIsData,
+    selectedDegreeId,
+    setSelectedDegreeId,
+    setnewdegree,
   } = useContext(EducationModalContext);
   const [editingEducationId, setEditingEducationId] = useState<string | null>();
   const [editingEducation, setEditingEducation] = useState<Education | null>(null);
-  const [degreeId, setDegreeId] = useState('');
 
   // const[degreeOptions, setDegreeOptions] = useState<DegreeOption | null>(null);
 
   const prefillForm = async (education: any) => {
     console.log(degreeOptions);
-    console.log(education);
-    setDegreeId(education.degree.id);
+    console.log(education, 'education from');
+    setSelectedDegreeId(String(education.degree.id));
     setEditingEducationId(String(education.id));
-    setDegreeOptions(degreeOptions.degree_id);
+    setnewdegree();
     setFieldOfStudy(education.fieldOfStudy);
     setDescription(education.description);
     setSchool(education.school);
@@ -63,6 +65,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
     setIsForm(true);
   };
 
+  console.log(degreeOptions, 'degreeOptions from');
   return (
     <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="space-y-6 bg-white-100 p-4 py-5">
@@ -189,7 +192,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
           {isForm && (
             <form
               onSubmit={(e) => addNewEducation(e)}
-              // onSubmit={(e) => (isEditMode ? editExperience(editingExperience!, e) : addWorkExperience(e))}
+              // onSubmit={(e) => (isEditMode ? editEducation(editingEducation!, e) : addNewEducation(e,))}
               className=""
             >
               <div className="w-full">
@@ -199,14 +202,18 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                     onValueChange={(value: string) => {
                       handleDegreeSelection(value); // Update the selected degree ID
                     }}
-                    value={degreeId}
+                    value={selectedDegreeId}
                   >
-                    <SelectTrigger className="w-full focus:outline-none border focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-120">
+                    <SelectTrigger className="w-full focus:outline-none focus:ring-0 focus-within:border-brand-green-primary border-solid border-[2px] border-white-120">
                       <SelectValue placeholder="Select a degree" />
                     </SelectTrigger>
                     <SelectContent>
-                      {degreeOptions?.map((option: DegreeOption, index: number) => (
-                        <SelectItem key={index} value={option.type} className="hover:text-[#009254] hover:bg-[#F4FBF6]">
+                      {degreeOptions?.map((option: Omit<DegreeOption, 'id'> & { id: string }) => (
+                        <SelectItem
+                          key={option.id}
+                          value={option.id}
+                          className="hover:text-[#009254] hover:bg-[#F4FBF6]"
+                        >
                           {option.type}
                         </SelectItem>
                       ))}
