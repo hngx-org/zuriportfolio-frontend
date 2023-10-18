@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { ArrowDown, Sort } from 'iconsax-react';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import FilterProduct from '@modules/super-admin/components/product-listing/filterProduct';
@@ -22,7 +22,7 @@ const ProductListingTable = ({
   data: any;
   isLoading: boolean;
   currentPage: number;
-  setCurrentPage: any;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
 }) => {
   const [searchVal, setSearchVal] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(data?.data);
