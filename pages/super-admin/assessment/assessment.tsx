@@ -11,4 +11,4 @@ function PreviewCreatedResponse() {
   );
 }
 
-export default withAdminAuth(PreviewCreatedResponse)
+export default withAdminAuth(PreviewCreatedResponse);

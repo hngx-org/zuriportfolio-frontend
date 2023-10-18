@@ -1,10 +1,10 @@
 import $http from './axios';
 
-const baseURL = "https://customer-purchase.onrender.com/api/orders";
+const baseURL = 'https://customer-purchase.onrender.com/api/orders';
 let token: string | null;
 if (typeof window !== 'undefined') {
   // Perform localStorage action
-  token = localStorage.getItem('zpt')
+  token = localStorage.getItem('zpt');
 }
 
 export const getAllPurchases = async () => {
@@ -31,48 +31,48 @@ export const getSearchedData = async (searchParams: string) => {
     const searchedData = res?.data?.data;
     return searchedData;
   } catch (error) {
-    return []
+    return [];
   }
-}
+};
 
-export const getDataByPrice = async(from: string, to: string) => {
+export const getDataByPrice = async (from: string, to: string) => {
   try {
-    const response = await $http.get(`${baseURL}/filter-transactions?price=${from}-${to}`,{
+    const response = await $http.get(`${baseURL}/filter-transactions?price=${from}-${to}`, {
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
-    const filteredData = response?.data?.data
-    return filteredData
+    const filteredData = response?.data?.data;
+    return filteredData;
   } catch (error) {
-      return []
-    }
-}
+    return [];
+  }
+};
 
-export const getDataByMonth = async(month: string) => {
+export const getDataByMonth = async (month: string) => {
   try {
-    const response = await $http.get(`${baseURL}/filter-transactions?month=${month}`,{
+    const response = await $http.get(`${baseURL}/filter-transactions?month=${month}`, {
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
-    const filteredData = response?.data?.data
-    return filteredData
+    const filteredData = response?.data?.data;
+    return filteredData;
   } catch (error) {
-      return []
-    }
-}
+    return [];
+  }
+};
 
-export const getDataByYear = async(year: string) => {
+export const getDataByYear = async (year: string) => {
   try {
-    const response = await $http.get(`${baseURL}/filter-transactions?year=${year}`,{
+    const response = await $http.get(`${baseURL}/filter-transactions?year=${year}`, {
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
-    const filteredData = response?.data?.data
-    return filteredData
+    const filteredData = response?.data?.data;
+    return filteredData;
   } catch (error) {
-      return []
-    }
-}
+    return [];
+  }
+};
