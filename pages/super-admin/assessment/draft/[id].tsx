@@ -12,7 +12,6 @@ import CreateAssessment from '../new';
 import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { withAdminAuth } from '../../../../helpers/withAuth';
 
 type Props = {
   assessment: {
@@ -31,6 +30,7 @@ type Props = {
 };
 const DraftPreview = () => {
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
+  const [newQuestions, setNewQuestions] = useState<{ questions: any[] }>({ questions: [] });
 
   const arr = [1, 2, 3];
   const router = useRouter();
@@ -232,7 +232,7 @@ const DraftPreview = () => {
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
                   <div className="mt-8 flex flex-col gap-[22px]">
-                    {item.answer.options.map((option: any, optionIndex: any) => (
+                    {item.answer?.options.map((option: any, optionIndex: any) => (
                       <div key={index} className="flex gap-4">
                         <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
                         <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
@@ -245,7 +245,11 @@ const DraftPreview = () => {
               </div>
             ))}
             <div className="mt-8">
-              <CreateDraftQuestion />
+              <CreateDraftQuestion
+                draftData={draftData}
+                newQuestions={newQuestions}
+                setNewQuestions={setNewQuestions}
+              />
             </div>
           </>
         ) : (
@@ -256,4 +260,4 @@ const DraftPreview = () => {
   );
 };
 
-export default withAdminAuth(DraftPreview);
+export default DraftPreview;
