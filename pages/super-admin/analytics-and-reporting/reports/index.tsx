@@ -59,6 +59,8 @@ const AnalyticsAndReport: React.FC = () => {
           setGet(false);
         });
       setReportClicked(!reportClicked);
+    } else {
+      toast.error('Kindly Select a date range!');
     }
   };
 
@@ -112,6 +114,7 @@ const AnalyticsAndReport: React.FC = () => {
           console.log(response);
           saveFile(response.data, 'Analytics Data');
           setGetReport(false);
+          setReportModalOpen(false);
         })
         .catch((error) => {
           setGetReport(false);
