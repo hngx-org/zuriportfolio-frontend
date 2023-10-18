@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext, use } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
@@ -439,20 +439,20 @@ const CertificationList: React.FC<CertificationListProps> = () => {
   const { refreshPage, setError, isModalOpen } = useContext(myContext);
   const [certifications, setCertifications] = useState<Certification[]>([]);
 
+  const { userId } = useContext(Portfolio);
+
   const fetchCertifications = async () => {
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/certificates');
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}`);
       if (response.ok) {
         const data = await response.json();
-        // console.log('Fetched certifications data:', data);
+        console.log(data);
         setCertifications(data.data);
       } else {
         setError('Error fetching certifications data.');
       }
     } catch (error) {
       setError('An error occurred while fetching certifications data.');
-
-      // console.error(error);
     }
   };
   useEffect(() => {
@@ -502,8 +502,6 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     try {
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${id}`);
       const data = await response.json();
-      console.log('fetched data', data);
-      console.log('this is the section id ', data.section.id);
       setSectionId(data.section.id);
       // if (response.ok) {
 
@@ -526,31 +524,28 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     // Send a PUT request to update the certification
 
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}/1`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(editedCertification), // Send the edited data
       });
-      console.log('this is the id ', id);
-      console.log(userId);
+      const data = await response.json();
+      console.log(data);
+      // if (response.ok) {
+      //   // console.log(`Certificate with ID ${id} updated.`);
+      //   setRefreshPage(!refreshPage);
+      //   setEditedMessage('Edited successfully');
+      //   setTimeout(() => {
+      //     setEditedMessage('');
+      //   }, 3000);
 
-      console.log('Response Status:', response.ok);
-      console.log('Response Data:', await response.json());
-      if (response.ok) {
-        // console.log(`Certificate with ID ${id} updated.`);
-        setRefreshPage(!refreshPage);
-        setEditedMessage('Edited successfully');
-        setTimeout(() => {
-          setEditedMessage('');
-        }, 3000);
-
-        closeEditForm(); // Close the Edit form
-      } else {
-        console.error(`Error updating certificate with ID ${id}`);
-        setEditMessageError('Error updating certificate');
-      }
+      //   closeEditForm(); // Close the Edit form
+      // } else {
+      //   console.error(`Error updating certificate with ID ${id}`);
+      //   setEditMessageError('Error updating certificate');
+      // }
     } catch (error) {
       console.error('An error occurred while updating the certificate.', error);
     }

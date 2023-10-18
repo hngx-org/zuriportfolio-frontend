@@ -166,17 +166,17 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
-  console.log(data);
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
-      {data?.map((interest: any, i: number) => (
-        <span
-          className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
-          key={i}
-        >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{interest.interest}</p>
-        </span>
-      ))}
+      {data?.length > 0 &&
+        data?.map((interest: any, i: number) => (
+          <span
+            className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
+            key={i}
+          >
+            <p className="text-sm text-gray-400 font-semibold opacity-70">{interest.interest}</p>
+          </span>
+        ))}
     </div>
   );
 };
@@ -269,7 +269,7 @@ export const Contact = ({ data }: SkeletonProps) => {
 
 export const Reference = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex flex-col flex-wrap mb-1">
+    <div className="flex flex-col flex-wrap mb-2">
       <div className="flex flex-col" key={data.id}>
         <span className="text-gray-500 font-semibold text-xl min-w-min">{data.referer}</span>
         <span className="text-gray-300 font-semibold w-6/12">{data.position}</span>

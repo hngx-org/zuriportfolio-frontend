@@ -47,6 +47,21 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
   const handleListItemClick = (clickedValue: string) => {
     const updatedValues = values.filter((value) => value.trim().toLowerCase() !== clickedValue.trim().toLowerCase());
     setValues(updatedValues);
+    handleDelete(updatedValues);
+  };
+
+  const handleDelete = async (params: any) => {
+    const data = await fetch(`https://hng6-r5y3.onrender.com/api/language`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: userId,
+        languages: params,
+      }),
+    });
+    const response = await data.json();
   };
 
   const items = values.map((value) => (
@@ -102,11 +117,9 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
   };
 
   const getAllLanguages = () => {
-    const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
     axios
       .get(`${endpoint}/api/language/${userId}`)
       .then((res) => {
-        console.log(res, 'res from lang');
         if (res.data.data !== null) {
           const languagesArray: string[] = res.data?.data.map((obj: any) => obj.language);
           setValues(languagesArray ? languagesArray : []);
