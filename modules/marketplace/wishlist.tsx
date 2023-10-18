@@ -27,7 +27,7 @@ function Wishlist() {
     try {
       const response = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token?.id}`);
       const { message, status_code, data: result } = response.data;
-  
+
       if (Array.isArray(result) && result.length === 0) {
         setDataCheck(true);
       }
