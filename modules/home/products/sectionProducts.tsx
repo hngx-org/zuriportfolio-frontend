@@ -30,7 +30,7 @@ const SectionProducts = () => {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full max-w-[1410px] mx-auto">
       <div className="flex justify-center items-center py-5 px-0 w-full">
         <HeroSection
           title="Find Digital Products you’ll Love!"
@@ -40,7 +40,7 @@ const SectionProducts = () => {
           badge="Zuri Marketplace"
         />
       </div>
-      <div className={`max-w-[1410px] mt-10 px-10 md:px-[90px] lg:px-24 space-y-14`}>
+      <div className={`max-w-[1410px] mt-10 md:px-[80px] lg:px-24 space-y-14`}>
         <SearchAndFilterProducts
           handleFilters={handleFilters}
           handleGo={handleGo}
