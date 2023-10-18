@@ -177,8 +177,8 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
     description: z.string().min(10, { message: 'Add  description' }),
     category_id: z.number().min(1, { message: 'Select category' }),
     price: z.string().min(1, { message: 'Add Price' }),
-    discountPrice: z.string().min(1, { message: 'Add discount' }),
-    tax: z.string().min(1, { message: 'Add tax' }),
+    // discountPrice: z.string().min(1, { message: 'Add discount' }),
+    // tax: z.string().min(1, { message: 'Add tax' }),
     currency: z.string().min(1),
     assets_link: z.string().min(4, { message: 'Provide the link to your file' }),
     assets_type: z.string(),
@@ -201,8 +201,8 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
       assets_type: 'external',
       assets_notes: '',
       assets_name: '',
-      tax: '3',
-      discountPrice: '3',
+      // tax: '3',
+      // discountPrice: '3',
     },
   });
 
@@ -284,6 +284,7 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
+        data: formData,
       });
 
       form.setFieldValue('assets_link', assets.link);
