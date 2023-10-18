@@ -23,7 +23,7 @@ const AllProjectsModal = ({
 
   return (
     <section className="p-5">
-      <section className="h-[400px] overflow-y-auto">
+      <section className="h-[400px] w-full overflow-y-auto">
         {projects.length > 0 &&
           projects.map((project: Data) => {
             const { description, tags, url, title, thumbnail } = project;
@@ -36,7 +36,7 @@ const AllProjectsModal = ({
                   <section className="min-[920px]:flex-1 font-manropeL">
                     <h2 className="font-manropeL text-2xl sm:text-3xl md:text-4xl">{title}</h2>
 
-                    <p className="font-semibold font-manropeL mt-5 text-sm sm:text-base text-white-650 md:text-xl md:leading-[2rem]">
+                    <p className="font-semibold wrap font-manropeL break-normal w-full mt-5 text-sm sm:text-base text-white-650 md:text-xl md:leading-[2rem]">
                       {description}
                     </p>
 
@@ -78,7 +78,7 @@ const AllProjectsModal = ({
             );
           })}
       </section>
-      <section className="mt-8 sm:mt-16 flex justify-between items-center">
+      <section className="mt-8 sm:mt-16 flex flex-wrap gap-4 justify-between items-center">
         <section>
           <p
             className="text-base font-semibold font-manropeL flex items-center gap-2 text-green-600 cursor-pointer"
