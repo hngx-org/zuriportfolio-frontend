@@ -360,14 +360,7 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Cancel
             </Button>{' '}
-            <Button
-              onClick={() => {
-                setCloseAllModal(true);
-                setIsModalOpen(false);
-              }}
-              className="w-full rounded-md sm:w-[6rem]"
-              size={'md'}
-            >
+            <Button onClick={onClose} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Save
             </Button>
           </div>
@@ -388,13 +381,13 @@ const CertificationList: React.FC<CertificationListProps> = () => {
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}`);
       console.log('4. this is the response', response);
 
-      setIsLoading(false);
-      const res = await response.json();
       // console.log('Response Data:', await response.json());
 
-      console.log('5. this is the data for it', res);
+      // console.log('5. this is the data for it', res);
 
       if (response.ok) {
+        setIsLoading(false);
+        const res = await response.json();
         // console.log('Response Status:', response.ok);
         console.log('6. this is the res.data', res.data);
         // console.log('Fetched certifications data:', data);
@@ -489,10 +482,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         body: JSON.stringify(editedCertification), // Send the edited data
       });
       setEditLoading(false);
-      // console.log('this is the id ', id);
-      // console.log(userId);
-      // console.log('Response Status:', response.ok);
-      // console.log('Response Data:', await response.json());
+
       if (response.ok) {
         setRefreshPage(!refreshPage);
         setEditedMessage('Edited successfully');
@@ -506,7 +496,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         setEditMessageError('Error updating certificate');
       }
     } catch (error) {
-      console.error('An error occurred while updating the certificate.', error);
+      // console.error('An error occurred while updating the certificate.', error);
     }
   };
 

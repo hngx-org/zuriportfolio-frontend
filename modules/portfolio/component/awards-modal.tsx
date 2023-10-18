@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Modal from '@ui/Modal';
 import { Award, AwardItemProps, AwardListProps } from '../../../@types';
 import Loader from '@ui/Loader';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 interface Context {
   refreshPage: boolean;
@@ -50,10 +51,9 @@ const myContext = createContext(initialContextValue);
 
 const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps) => {
   const [formData, setFormData] = useState({
-    id: '',
     title: '',
     year: '',
-    sectionId: 22,
+
     presented_by: '',
     url: '',
     description: '',
@@ -77,9 +77,8 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
     console.log('This is the formdata', formData);
 
     const newAward = {
-      id: awardCounter.toString(),
       year: formData.year,
-      section_id: formData.sectionId,
+
       title: formData.title,
       presented_by: formData.presented_by,
       url: formData.url,
@@ -109,8 +108,6 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
 
         setTimeout(() => {
           setFormData({
-            id: '',
-            sectionId: 22,
             title: '',
             year: '',
             presented_by: '',
@@ -382,6 +379,7 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
   );
 };
 const AwardList: React.FC<AwardListProps> = () => {
+  const { userId } = useContext(Portfolio);
   const { refreshPage, setError, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
   const [awards, setAwards] = useState<Award[]>([]);
   console.log('why this is the ', awards);
@@ -389,7 +387,7 @@ const AwardList: React.FC<AwardListProps> = () => {
   const fetchAwards = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards`);
       setIsLoading(false);
 
       if (response.ok) {
