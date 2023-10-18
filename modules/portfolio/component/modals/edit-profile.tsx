@@ -7,12 +7,9 @@ import Portfolio from '../../../../context/PortfolioLandingContext';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
-
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
-
 const EditProfile = () => {
   const { setUserData, showProfileUpdate, setShowProfileUpdate } = useContext(Portfolio);
-
   const [picture, setPicture] = useState<string | StaticImport>();
   const [firstName, setFirstname] = useState('');
   const [lastName, setLastName] = useState('');
@@ -22,45 +19,40 @@ const EditProfile = () => {
   const [availableTracks, setAvailableTracks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ status: false, message: '' });
-
-  const { userId } = useContext(Portfolio);
-
+  const { userId, onSaveModal } = useContext(Portfolio);
   const getUser = async () => {
     try {
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
       const data = await response.json();
+      console.log(data);
       return data;
     } catch (error: any) {
       console.log(error);
     }
   };
-
   const getTracks = async () => {
     try {
       const response = await fetch('https://hng6-r5y3.onrender.com/api/tracks');
       const data = await response.json();
+      console.log(data);
       return data.data;
     } catch (error: any) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const userData = await getUser();
         const tracks = await getTracks();
-
         setPicture(userData?.user?.profilePic);
         setFirstname(userData?.user?.firstName);
         setLastName(userData?.user?.lastName);
         setCity(userData?.portfolio?.city);
         setCountry(userData?.portfolio?.country);
         setSelectedTrack(userData?.userTracks?.track);
-
         setAvailableTracks(tracks);
-
         setIsLoading(false);
       } catch (error: any) {
         setError({ status: true, message: error.message });
@@ -70,22 +62,18 @@ const EditProfile = () => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     let matchingTrack: any;
-
     if (!isLoading) {
       try {
         if (firstName.trim().length === 0 || lastName.trim().length === 0) {
           setError({ status: true, message: 'Please fill out the required field' });
           return;
         }
-
         matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
         if (matchingTrack) {
           setIsLoading(true);
-
           const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`, {
             method: 'PUT',
             headers: {
@@ -98,12 +86,11 @@ const EditProfile = () => {
               country: country,
             }),
           });
-
-          if (!response.ok) {
-            throw new Error('Failed to update data');
-          }
-
-          await response.json();
+          // if (!response.ok) {
+          //   throw new Error('Failed to update data');
+          // }
+          const data = await response.json();
+          onSaveModal();
           setIsLoading(false);
           setShowProfileUpdate(false);
         } else {
@@ -116,7 +103,6 @@ const EditProfile = () => {
       }
     }
   };
-
   // try {
   //   setIsLoading(true);
   //   const update = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`, {
@@ -136,7 +122,6 @@ const EditProfile = () => {
   //   await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
   //   setIsLoading(false);
   // }
-
   const uploadProfile = async (coverImage: string | Blob) => {
     try {
       const formData = new FormData();
@@ -152,7 +137,6 @@ const EditProfile = () => {
       console.log(error);
     }
   };
-
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
@@ -163,7 +147,6 @@ const EditProfile = () => {
       await uploadProfile(file);
     }
   };
-
   return (
     <Modal isOpen={showProfileUpdate} closeModal={() => setShowProfileUpdate(false)} isCloseIconPresent={false}>
       {isLoading ? (
@@ -243,7 +226,7 @@ const EditProfile = () => {
               <label className="pb-1">
                 Track <span className="text-red-200">*</span>{' '}
               </label>
-
+              ​
               <Select
                 onValueChange={(value: string) => {
                   setSelectedTrack(value);

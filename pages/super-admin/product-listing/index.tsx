@@ -12,7 +12,12 @@ const ProductListing = () => {
     <div>
       <SuperAdminNavbar />
       <ProductsListingNavbar data={data} isLoading={isLoading} />
-      <ProductListingTable data={data} isLoading={isLoading} />
+      <ProductListingTable
+        data={data}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        isLoading={isLoading}
+      />
     </div>
   );
 };
