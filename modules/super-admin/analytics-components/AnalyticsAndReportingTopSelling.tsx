@@ -79,7 +79,7 @@ const AnalyticsAndReportingTopSelling = () => {
                 className="grid grid-cols-3 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 md:whitespace-normal"
               >
                 <div className="flex items-center md:pl-8 ">
-                  <Image src={product.product_image_url} alt={product.product_id} width={50} height={50} />
+                  <Image src={product.product_image_url} alt={product.product_id} width={30} height={30} />
                   <Link href={`/super-admin/product-listing/product-details/${product.product_id}`}>
                     <span className="ml-4 text-md md:text-lg hover:text-[#009254]">{product.product_name}</span>
                   </Link>
@@ -87,15 +87,15 @@ const AnalyticsAndReportingTopSelling = () => {
                 <div className="grid col-span-2 ps-10 grid-cols-5 text-custom-color2 text-center min-w-[100px]">
                   <p className="">{product.category_name}</p>
                   <p>{product.total_orders}</p>
-                  <p>{product.price}</p>
+                  <p>₦{product.price}</p>
                   <p>{product.total_sales}</p>
                   <p>{product.vendor_name}</p>
                 </div>
               </div>
             ))
           ) : (
-            <div className="flex justify-center pt-5 w-[90vw]   md:pt-10">
-              <Image src={Loading} alt="loading..." width={50} height={50} />{' '}
+            <div className="flex justify-center  pt-5 w-[90vw]   md:pt-10">
+              <Image src={Loading} alt="loading..." width={30} height={30} />{' '}
             </div>
           )}
         </div>
