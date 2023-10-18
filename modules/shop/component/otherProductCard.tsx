@@ -31,20 +31,21 @@ const OtherProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <h3 className="mt-2 text-sm text-[#052011] font-normal capitalize truncate md:tracking-[0.00088rem]">
             {product.name}
           </h3>
-          <p className="text-[#052011] text-base md:text-lg font-semibold">${product.price}</p>
+          <p className="text-[#052011] text-base md:text-lg font-semibold">₦{product.price}</p>
         </div>
         <div>
           <p className="text-[0.7rem] md:text-sm text-[#4F4E4E] font-normal tracking-[0.00219rem] -mt-1 md:mt-0">
-            By: <span className="underline text-gray-500">{shopName}</span>
+            By: {shopName}
           </p>
         </div>
         <div className="flex items-center gap-x-[0.08288rem] h-[0.875rem] md:h-4 md:mt-5">
-          <Image src={star1} alt="rating star" className="md:w-4 md:h-auto h-full w-[0.875rem]" />
+          {/* <Image src={star1} alt="rating star" className="md:w-4 md:h-auto h-full w-[0.875rem]" />
           <Image src={star1} alt="rating star" className="md:w-4 md:h-auto h-full w-[0.875rem]" />
           <Image src={star1} alt="rating star" className="md:w-4 md:h-auto h-full w-[0.875rem]" />
           <Image src={star2} alt="rating star" className="md:w-4 md:h-auto h-full w-[0.875rem]" />
-          <Image src={star2} alt="rating star" className="md:w-4 md:h-auto h-full w-[0.875rem]" />
-          <span className="text-xs font-manropeL">(3)</span>
+          <Image src={star2} alt="rating star" className="md:w-4 md:h-auto h-full w-[0.875rem]" /> */}
+          No Rating for this product
+          {/* <span className="text-xs font-manropeL">(3)</span> */}
         </div>{' '}
       </div>
     </div>
