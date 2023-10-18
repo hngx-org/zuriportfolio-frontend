@@ -4,10 +4,11 @@ import SearchProduct from '@modules/super-admin/components/product-listing/searc
 import { useEffect, useState } from 'react';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { useRouter } from 'next/router';
-import { useGetProd } from '../../../../http';
+import { useGetProd } from '../../../../http/super-admin1';
 import { DeletedProducts } from '../../../../@types';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -28,11 +29,13 @@ const SanctionedProducts = () => {
   const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
+    window.scroll(0, 10);
     setCurrentPage(newPage);
   };
 
   useEffect(() => {
     setFilteredProducts(deletedProd);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [sanctionedProducts]);
   useEffect(() => {}, [filteredProducts]);
 
@@ -145,11 +148,11 @@ const SanctionedProducts = () => {
                     ))}
                   </tbody>
                 </table>
-                <SuperAdminPagination
+                {/* <SuperAdminPagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={handlePageChange}
-                />
+                /> */}
               </>
             ) : (
               <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
@@ -161,4 +164,4 @@ const SanctionedProducts = () => {
   );
 };
 
-export default SanctionedProducts;
+export default withAdminAuth(SanctionedProducts);

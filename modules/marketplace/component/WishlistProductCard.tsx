@@ -6,8 +6,17 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import Link from 'next/link';
 import { Product } from '../wishlist';
 
-export const WishlistProductCard = ({ product, moveToCart }: { product: Product; moveToCart: any }) => {
+export const WishlistProductCard = ({
+  product,
+  moveToCart,
+  handleRemoveFromWishlist,
+}: {
+  product: Product;
+  moveToCart: any;
+  handleRemoveFromWishlist: (productId: any) => void;
+}) => {
   console.log(product);
+
   return (
     <>
       <div className="flex items-center justify-between gap-4">
@@ -17,8 +26,8 @@ export const WishlistProductCard = ({ product, moveToCart }: { product: Product;
               src={product.images[0].url}
               alt={product.name}
               width={145}
-              height={145}
-              className="h-full min-w-[145px] md:min-w-[165px]"
+              height={150}
+              className="h-[150px] min-w-[145px] md:min-w-[165px] object-cover rounded-md"
             />
           </div>
 
@@ -28,7 +37,7 @@ export const WishlistProductCard = ({ product, moveToCart }: { product: Product;
                 <div className="flex flex-col gap-2">
                   <p className="text-[10px] md:text-xs text-custom-color16">{'Software Engineering'}</p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
-                    <Link href={`/marketplace/product-details`}>{product.name}</Link>
+                    <Link href={`/marketplace/product-details?id=${product.id}`}>{product.name}</Link>
                   </p>
                 </div>
 
@@ -77,6 +86,7 @@ export const WishlistProductCard = ({ product, moveToCart }: { product: Product;
                 className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 focus:outline-none  focus:bg-red-200 focus:text-white-100 active:bg-red-200 active:text-white-100"
                 size={'sm'}
                 spinnerColor="#D5DBDB"
+                onClick={() => handleRemoveFromWishlist(product.id)}
               >
                 <RiDeleteBin6Line className="text-[18px] text-white-650 group-hover:fill-white-100" />
                 Remove
@@ -95,7 +105,13 @@ export const WishlistProductCard = ({ product, moveToCart }: { product: Product;
         </div>
 
         <div className="md:hidden self-start mt-1 cursor-pointer">
-          <Image src={deleteIcon} alt="delete" width={35} height={35} />
+          <Image
+            src={deleteIcon}
+            alt="delete"
+            width={35}
+            height={35}
+            onClick={() => handleRemoveFromWishlist(product.id)}
+          />
         </div>
         <div className="hidden md:block">
           <Button

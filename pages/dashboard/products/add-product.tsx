@@ -13,7 +13,9 @@ import { useRouter } from 'next/router';
 import withAuth from '../../../helpers/withAuth';
 import Loader from '@ui/Loader';
 import { MultipleFileUpload } from '@modules/dashboard/component/products/MultipleFileUpload';
-
+import { z } from 'zod';
+import { useForm, zodResolver } from '@mantine/form';
+import { useAuth } from '../../../context/AuthContext';
 const AddProduct = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
@@ -22,13 +24,46 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
   const linkRef = useRef<HTMLInputElement | null>(null);
-
+  const [shops, setShops] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState('');
-
+  const auth = useAuth();
   const toggleNewCategoryInput = () => {
     setShowNewCategoryInput(!showNewCategoryInput);
   };
 
+  const productScehema = z.object({
+    image: z.string().min(4, { message: 'Add image' }),
+    name: z.string().min(5, { message: 'Add Product Name' }),
+    description: z.string().min(10, { message: 'Add  description' }),
+    category_id: z.string().min(1, { message: 'Select category' }),
+    price: z.string().min(1, { message: 'Add Price' }),
+    discountPrice: z.string().min(1, { message: 'Add discount' }),
+    tax: z.string().min(1, { message: 'Add tax' }),
+    currency: z.string().min(1),
+    assets_link: z.string().min(4, { message: 'Provide the link to your file' }),
+    assets_type: z.string(),
+    assets_notes: z.string().min(4, { message: 'Leave a note about the file' }),
+    assets_name: z.string().min(4, { message: 'Add File name' }),
+    shopId: z.string().min(3, { message: 'Select Shop' }),
+  });
+  const form = useForm({
+    validate: zodResolver(productScehema),
+    initialValues: {
+      image: '',
+      name: '',
+      description: '',
+      category_id: '',
+      price: '',
+      discountPrice: '',
+      tax: '',
+      currency: '₦',
+      assets_link: '',
+      assets_type: 'external',
+      assets_notes: '',
+      assets_name: '',
+      shopId: '',
+    },
+  });
   const handleNewCategoryChange = (event: any) => {
     setNewCategoryName(event.target.value);
   };
@@ -46,11 +81,56 @@ const AddProduct = () => {
     }
   };
 
-  const handleAddNewCategory = () => {
-    // Implement logic to add the new category to your data here
-    // For example, you might want to update your state with the new category.
-    // Ensure proper data handling, e.g., sending a request to the server or updating state, depending on your application's structure.
-    console.log('New Category Name:', newCategoryName);
+  useEffect(() => {
+    async function fetchCategoriesData() {
+      const updatedCategories = await fetchCategories();
+      setCategoriesData(updatedCategories);
+      await getShopId();
+    }
+
+    fetchCategoriesData();
+  }, []);
+
+  const handleAddNewCategory = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/category',
+        { name: newCategoryName },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+        },
+      );
+
+      if (response.status === 201) {
+        toast.success('Category created successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+
+        // Clear the input field
+        setNewCategoryName('');
+
+        // Fetch and update the categories list
+        const updatedCategories = await fetchCategories();
+        setCategoriesData(updatedCategories);
+      } else {
+        console.error('Failed to create category:', response.data);
+      }
+    } catch (error: any) {
+      console.error('Error creating category:', error);
+      toast.error(error, {
+        position: 'top-right',
+        autoClose: 5000,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -60,38 +140,53 @@ const AddProduct = () => {
     event.target.blur();
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setProducts({ ...products, categoryId: event.target.value });
+    setProducts({ ...products, category_id: event.target.value });
   };
 
-  useEffect(() => {
-    // Fetch product categories
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data.data)) {
-          setCategoriesData(data.data);
-        }
-      })
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
 
+      if (response.status === 200) {
+        return response.data.data || [];
+      } else {
+        console.error('Failed to fetch categories:', response.data);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      return [];
+    }
+  };
+  const getShopId = async () => {
+    try {
+      const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/shops/merchant', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
+      console.log(data);
+      if (data.data.length > 0) {
+        setShops(data.data);
+      }
+    } catch (error) {
+      setShops([]);
+    }
+  };
   const [products, setProducts] = useState({
     image: '',
     name: '',
     description: '',
     quantity: '',
-    categoryId: '',
+    category_id: '',
     price: '',
-    discountPrice: '',
+    discountPrice: '0',
     tax: '',
     currency: '$',
   });
@@ -120,7 +215,7 @@ const AddProduct = () => {
       );
 
       // Handle the response, e.g., show a success message or redirect
-
+      console.log(response.data);
       toast.success(`Product added successfully`, {
         position: 'top-right',
         autoClose: 5000,
@@ -165,18 +260,79 @@ const AddProduct = () => {
         const result = e.target?.result as string | null;
         if (result) {
           setSelectedImage(result);
+          form.setFieldValue('image', result);
+          console.log(form.getTransformedValues());
         }
       };
 
       reader.readAsDataURL(file);
     }
   };
+  const handleSubmit = async (values: any) => {
+    console.log(values, 'hey');
+    setLoading(true);
+    const formData = new FormData();
+    Object.entries(values).forEach(([key, value]: any[]) => {
+      formData.append(key, value);
+    });
+    try {
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
+      // Make a POST request to your API endpoint with Axios
+      // const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
+      //   body: values,
+      //   header: {
+      //     Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      //   },
+      // });
 
+      // Handle the response, e.g., show a success message or redirect
+      const response = await res.json();
+      console.log(response);
+      if (!!response.errorStatus) {
+        toast.error(`${response.message}`, {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+      } else {
+        toast.success(`Product added successfully`, {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+        push('/dashboard/products');
+      }
+    } catch (error: any) {
+      // Handle errors, e.g., show an error message
+      console.error('Error:', error);
+
+      if (error.response) {
+        // Server responded with an error status (e.g., 400 Bad Request)
+        console.error('Server error:', error.response.data);
+        toast.error('Server error', {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+      } else {
+        // Network error or other issues
+        toast.error('Error creating product', {
+          position: 'top-right',
+          autoClose: 5000,
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   const isNameAndPriceEntered = products.name !== '' && products.price !== '';
 
   return (
     <MainLayout showTopbar activePage="products">
-      <form onSubmit={handleFormSubmit} className="relative">
+      <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
         <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
           <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
             <Link href={'/dashboard/products'}>Products</Link>
@@ -201,74 +357,156 @@ const AddProduct = () => {
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
               <input
                 type="file"
-                accept="image/*"
+                accept="*.jpg"
                 onChange={(e) => handleImageUpload(e.target.files)}
-                style={{ display: 'none' }}
+                className="hidden"
                 id="imageUploadInput"
                 name="image"
               />
               <div className="p-3 border border-[#00000024] rounded-md mt-3">
-                <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
+                {/* <div className="bg-[#F8F9FA] p-2 rounded-sm items-center text-center">
                   <MultipleFileUpload />
-                </div>
+                </div> */}
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File Name</label>
+                <Input
+                  className={`w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
+                    form.errors.assets_name ? 'border-red-200' : 'border-slate-50'
+                  }`}
+                  placeholder="Add your file name"
+                  inputMode="none"
+                  {...form.getInputProps('assets_name')}
+                />
+                <p className="text-[red] text-lg my-3 font-semibold">
+                  {form.errors.assets_name && form.errors.assets_name}
+                </p>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
+                <Input
+                  className={`w-full ${
+                    form.errors.assets_link ? 'border-red-200' : 'border-slate-50'
+                  } mb-5 mt-2 placeholder:text-[#191C1E] text-black`}
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  {...form.getInputProps('assets_link')}
+                />
+                <p className="text-[red] text-lg my-3 font-semibold">
+                  {form.errors.assets_link && form.errors.assets_link}
+                </p>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]"> Note</label>
+                <textarea
+                  className={`w-full border-solid border-[2px]  placeholder:text-[#191C1E] text-black focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 ${
+                    form.errors.assets_notes ? 'border-red-200' : 'border-slate-50'
+                  }`}
+                  placeholder="Add note for your file"
+                  inputMode="none"
+                  {...form.getInputProps('assets_notes')}
+                />
+                <p className="text-[red] text-lg my-3 font-semibold">
+                  {form.errors.assets_notes && form.errors.assets_notes}
+                </p>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product details</span>
                 <div className="mt-5 flex flex-col">
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Name</label>
                   <Input
-                    className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    className={`w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
+                      form.errors.name ? 'border-red-200' : 'border-slate-50'
+                    }`}
                     placeholder="Add product name"
                     inputMode="none"
-                    name="name"
+                    {...form.getInputProps('name')}
                   />
+                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.name && form.errors.name}</p>
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Description</label>
-                  <Input
-                    className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                  <textarea
+                    className={`w-full border-solid border-[2px]  placeholder:text-[#191C1E] focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 ${
+                      form.errors.description ? 'border-red-200' : 'border-slate-50'
+                    }`}
                     placeholder="Add product description"
                     inputMode="none"
-                    name="description"
+                    {...form.getInputProps('description')}
                   />
+                  <p className="text-[red] text-lg my-3 font-semibold">
+                    {form.errors.description && form.errors.description}
+                  </p>
                   <div className="flex flex-row items-center justify-between">
-                    <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
-                    <Button onClick={handleAddNewCategory} className="p-2 bg-gray-500">
-                      Add new
-                    </Button>
+                    <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mb-3">
+                      Product Category
+                    </label>
                   </div>
-                  <Input
+                  {/* <Input
                     className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-                    placeholder="Add new category"
+                    placeholder="Add subcategory"
                     inputMode="none"
-                    name="category"
-                  />
+                    name="newCategory"
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    rightIcon={
+                      <Button
+                        onClick={handleAddNewCategory}
+                        className="w-[150px] h-[30px] rounded-sm text-[14px] bg-gray-500"
+                      >
+                        {loading ? 'Loading...' : 'Add new'}
+                      </Button>
+                    }
+                  /> */}
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select more categories</label>
                   <select
-                    className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
-                    value={products.categoryId}
-                    onChange={handleOptionChange}
-                    name="categoryId"
+                    className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
+                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
+                    }`}
+                    // value={products.category_id}
+                    // onChange={handleOptionChange}
+
+                    {...form.getInputProps('category_id')}
                   >
-                    <option value="">Select product category</option>
+                    <option value="" className="placeholder:text-[#191C1E] capitalize">
+                      Select product category
+                    </option>
                     {categoriesData.map((category: any) => (
-                      <optgroup label={category.name} key={category.id}>
-                        {category.sub_categories.map((subCategory: any) => (
-                          <option
-                            value={subCategory.id}
-                            key={subCategory.id}
-                            className="placeholder:text-[#191C1E] text-black"
-                          >
-                            {subCategory.name}
-                          </option>
-                        ))}
-                      </optgroup>
+                      <option
+                        value={category.id}
+                        key={category.id}
+                        className="placeholder:text-[#191C1E] text-black capitalize"
+                      >
+                        {category.name}
+                      </option>
                     ))}
                   </select>
+                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select Shop</label>
+                  <select
+                    className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
+                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
+                    }`}
+                    // value={products.sub_category_id}
+                    // onChange={handleOptionChange}
+
+                    {...form.getInputProps('shopId')}
+                  >
+                    <option value="" className="placeholder:text-[#191C1E] capitalize">
+                      Select shop
+                    </option>
+                    {shops.map((shop: any) => (
+                      <option
+                        value={shop.id}
+                        key={shop.id}
+                        className="placeholder:text-[#191C1E] text-black capitalize"
+                      >
+                        {shop.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.shopId && form.errors.shop_id}</p>
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product thumbnail</span>
-                <div className="mt-5 flex flex-col">
-                  <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
+                <div className="mt-3 flex flex-col">
+                  <div
+                    className={`bg-[#F8F9FA] p-2 rounded-sm items-center text-center ${
+                      form.errors.email && 'border-red-20'
+                    }`}
+                  >
                     <center>
                       <Image
                         src={uploadorange}
@@ -288,6 +526,7 @@ const AddProduct = () => {
                       </span>
                     </center>
                   </div>
+                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.image && form.errors.image}</p>
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
@@ -295,53 +534,43 @@ const AddProduct = () => {
                 <div className="mt-5 flex flex-col">
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Price</label>
                   <Input
-                    className="w-[100%] md:w-[50%] mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    className={`w-[100%] md:w-[50%] mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
+                      form.errors.price ? 'border-red-200' : 'border-slate-50'
+                    }`}
                     placeholder="00.00"
                     inputMode="none"
-                    name="price"
+                    {...form.getInputProps('price')}
                     size={100}
-                    rightIcon={
-                      <select
-                        className="border-solid border-[0px] p-0 h-10  border-white-400 text-dark-600 text-[14px] rounded-lg text-left pl-2 hover:border-brand-green-primary"
-                        onChange={handleCurrencyChange}
-                        name="categoryId"
-                        value={selectedCurrency}
-                      >
-                        <option value="$" style={{ width: '30px' }}>
-                          $
-                        </option>
-                        <option value="₦" style={{ width: '30px' }}>
-                          ₦
-                        </option>
-                      </select>
-                    }
                   />
+                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.price && form.errors.price}</p>
                   <div className="flex flex-row justify-between w-[100%] md:w-[50%] items-center">
                     <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">
                       Product Discount Price
                     </label>
-                    <Input type="checkbox" className="border-hidden p-0" />
+
+                    {/* <Input type="checkbox" className="border-hidden p-0" /> */}
                   </div>
                   <Input
-                    className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-                    placeholder="00.00"
+                    className={`w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
+                      form.errors.discountPrice ? 'border-red-200' : 'border-slate-50'
+                    }`}
+                    placeholder="₦00.00"
                     inputMode="none"
-                    name="discountPrice"
+                    {...form.getInputProps('discountPrice')}
                   />
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] ">Product Quantity</label>
-                  <Input
-                    className="w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-                    placeholder="00.00"
-                    inputMode="none"
-                    name="quantity"
-                  />
+                  <p className="text-[red] text-lg my-3 font-semibold">
+                    {form.errors.discountPrice && form.errors.discountPrice}
+                  </p>
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Value Added Tax (VAT)</label>
                   <Input
-                    className="w-[50%] md:w-[30%] mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+                    className={`w-[50%] md:w-[30%] mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
+                      form.errors.tax ? 'border-red-200' : 'border-slate-50'
+                    }`}
                     placeholder="00.00%"
                     inputMode="none"
-                    name="tax"
+                    {...form.getInputProps('tax')}
                   />
+                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.tax && form.errors.tax}</p>
                 </div>
               </div>
             </div>
@@ -358,18 +587,18 @@ const AddProduct = () => {
               ) : (
                 <Image src={placeholder} className="w-[300px] object-contain rounded-sm my-3" alt="placeholder" />
               )}
-              <div className="flex flex-row gap-2 justify-between items-center">
+              <div className="flex flex-row gap-2 w-[300px] justify-between items-center">
                 <div>
                   <p>Product Link</p>
                   <input
                     ref={linkRef}
                     type="text"
-                    value="https://zuristore/store/product_name"
+                    value="https://staging.zuri.team/store/product_name"
                     style={{ position: 'absolute', left: '-9999px' }}
                     readOnly
                   />
-                  <Link className="text-[#536066] font-manropeL" href="/">
-                    https://zuristore/store/product_name
+                  <Link className="text-[#536066] text-[12px] font-manropeL" href="/">
+                    https://staging.zuri.team/store/product_name
                   </Link>
                 </div>
                 <div onClick={handleCopyLink} className="cursor-pointer">

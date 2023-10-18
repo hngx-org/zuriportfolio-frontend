@@ -1,6 +1,6 @@
 'use-client';
 import Image from 'next/image';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import LandinEmptyState from './landingpage-empty';
 import LandingPageFilled from './landingpage-filled';
 import Cover from './cover-avatar';
@@ -13,24 +13,28 @@ import ViewTemplate from '../modals/view-template';
 
 const Landing = () => {
   const {
-    hasPortfolio,
-    setHasPortfolio,
-    hasData,
     profileUpdate,
-    isOpen,
-    modal,
     showProfileUpdate,
     showBuildPortfolio,
     showViewtemplates,
     userData,
     isLoading,
-    error,
+    gettinSection,
     userSections,
-    setHasData,
+    hasPortfolio,
+    setHasPortfolio,
   } = useContext(Portfolio);
 
   const { firstName, lastName, tracks, city, country, coverImage } = userData;
-  console.log(userData);
+
+  useEffect(() => {
+    if (!gettinSection && userSections) {
+      const hasMatchingSection = userSections.some((section) => {
+        return (section?.data && section?.data.length > 0) || section?.data?.bio;
+      });
+      setHasPortfolio(hasMatchingSection);
+    }
+  }, [gettinSection, setHasPortfolio, userSections]);
 
   const headerMargin =
     'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen object-cover';
@@ -42,7 +46,7 @@ const Landing = () => {
   );
   return (
     <>
-      <div onClick={modal}>
+      <div>
         {showProfileUpdate && <EditProfile />}
         {showBuildPortfolio && <Home />}
         {showViewtemplates && <ViewTemplate />}
@@ -62,14 +66,9 @@ const Landing = () => {
                   {firstName === 'undefined' || !firstName ? '' : firstName}{' '}
                   {lastName === 'undefined' || !lastName ? '' : lastName}
                 </h1>
-                {tracks && tracks.length > 0 && (
+                {tracks && (
                   <div className="flex items-center space-x-2">
-                    {/* {tracks.map((track: any, index: number) => (
-                      <p key={index} className="text-gray-500 font-semibold text-[14px] md:text-[14px]">
-                        {track.track}
-                        {index !== tracks.length - 1 && ','}
-                      </p>
-                    ))} */}
+                    {<p className="text-gray-500 font-semibold text-[14px] md:text-[14px]">{tracks?.track}</p>}
                   </div>
                 )}
                 <p className="text-gray-500 font-semibold text-[14px] md:text-[14px]">
@@ -81,10 +80,10 @@ const Landing = () => {
                 Edit
               </p>
             </div>
-            {hasPortfolio && hasData ? (
-              <div className="mt-10 md:mt-20">
-                <LandingPageFilled />
-              </div>
+            {gettinSection ? (
+              <Loader />
+            ) : hasPortfolio ? (
+              <div className="mt-10 md:mt-20">{gettinSection ? <Loader /> : <LandingPageFilled />}</div>
             ) : (
               <div>
                 <LandinEmptyState />

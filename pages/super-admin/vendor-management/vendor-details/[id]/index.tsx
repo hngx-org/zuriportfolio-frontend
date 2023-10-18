@@ -5,47 +5,53 @@ import Button from '@ui/Button';
 import { ArrowRight } from 'iconsax-react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useBanShop, useGetShop, useRemoveBan, useRestoreShop, useTempDeleteShop } from '../../../../../http';
+import {
+  useBanShop,
+  useGetShop,
+  useRemoveBan,
+  useRestoreShop,
+  useTempDeleteShop,
+} from '../../../../../http/super-admin1';
 import Loader from '@modules/portfolio/component/landing/Loader';
-import { formatDate, handleBack } from '@modules/super-admin/components/product-listing/product-details';
+import { formatDate, formatNumber, handleBack } from '@modules/super-admin/components/product-listing/product-details';
 import { toast } from 'react-toastify';
 import StarRating from '@modules/super-admin/components/StarRating';
 import DeleteModal from '@modules/super-admin/components/product-listing/product-details/DeleteModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { withAdminAuth } from '../../../../../helpers/withAuth';
 
 export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
 function VendorDetails() {
   const router = useRouter();
-  const { amount, quantity, statusText } = router.query;
+  const { quantity } = router.query;
 
   const id = router.query?.id as string;
 
   const { data, isLoading } = useGetShop(id);
   const details = data?.data?.length > 0 ? data?.data[0] : null;
-  //Access Query paramterts
-
-  //States for opening and closing the modaals
   const [isModal, setIsModal] = React.useState(false);
-  const [isDeleteModal, setDeleteModal] = React.useState(false);
-  const [action, setAction] = React.useState('');
   const { removeBan, isLoading: isRemovingBan } = useRemoveBan();
   const { restoreShop, isLoading: isRestoringShop } = useRestoreShop();
   const { banShop, isLoading: isBanningShop } = useBanShop();
   const { tempDeleteShop, isLoading: isTempDeletingShop } = useTempDeleteShop();
   const [reasons, setReasons] = useState(new Map());
+  const client = useQueryClient();
 
   const handleRemoveBan = () => {
     removeBan(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
-          toast.success(response.response.status || 'This product is no longer banned');
+          client.invalidateQueries(['get-vendor']);
+          toast.success(response.response.status || 'This vendor is no longer banned');
           handleBack(router);
         } else {
           toast.error(response.response.data.message || response.response.data.error);
         }
       },
       onError: () => {
-        toast.success('This product is no longer banned');
+        client.invalidateQueries(['get-vendor']);
+        toast.success('This vendor is no longer banned');
         handleBack(router);
       },
     });
@@ -55,6 +61,7 @@ function VendorDetails() {
     restoreShop(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-vendor']);
           toast.success(response.response.status || 'Successfully restored');
           router.push('/super-admin/vendor-management');
         } else {
@@ -62,6 +69,7 @@ function VendorDetails() {
         }
       },
       onError: () => {
+        client.invalidateQueries(['get-vendor']);
         toast.success('Successfully restored');
         router.push('/super-admin/vendor-management');
       },
@@ -71,9 +79,8 @@ function VendorDetails() {
   const handleBanShop = () => {
     banShop(id, {
       onSuccess: (response) => {
-        console.log(response.response.status);
-
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-vendor']);
           toast.success(response.response.status || 'Successfully banned');
           handleBack(router);
         } else {
@@ -81,6 +88,7 @@ function VendorDetails() {
         }
       },
       onError: () => {
+        client.invalidateQueries(['get-vendor']);
         toast.success('Successfully banned');
         handleBack(router);
       },
@@ -91,6 +99,7 @@ function VendorDetails() {
     tempDeleteShop(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-vendor']);
           toast.success(response.response.status || 'Successfully deleted temporarily');
           handleBack(router);
         } else {
@@ -98,18 +107,12 @@ function VendorDetails() {
         }
       },
       onError: () => {
+        client.invalidateQueries(['get-vendor']);
         toast.success('Successfully deleted temporarily');
         handleBack(router);
       },
     });
   };
-
-  if (statusText && statusText === 'Banned') {
-    setAction('Delete Permanently');
-  }
-  if (statusText && statusText === 'Deleted') {
-    setAction('Recover');
-  }
 
   function allProducts() {
     router.push(`/super-admin/vendor-management/vendor-details/${id}/all`);
@@ -138,20 +141,18 @@ function VendorDetails() {
               <div className="sales flex flex-col items-center justify-center lg:w-1/2 lg:ml-10">
                 <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
                   <p>Total Products</p>
-                  <h1 className="text-xl font-bold">{details?.total_products}</h1>
+                  <h1 className="text-xl font-bold">{formatNumber(details?.total_products)}</h1>
                 </div>
                 <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
                   <p>{quantity ? quantity : 'Total Order'}</p>
                   <div className="badge flex items-center justify-between">
-                    <h1 className="text-xl font-bold">{details?.total_products}</h1>
-                    {/* <Image src={badge} alt="Price Badge" /> */}
+                    <h1 className="text-xl font-bold">{formatNumber(details?.vendor_total_orders)}</h1>
                   </div>
                 </div>
                 <div className="revenue border border-white-200  p-2 w-full lg:w-full">
                   <p>Total Sales</p>
                   <div className="badge flex items-center justify-between">
-                    <h1 className="text-xl font-bold">{amount ? amount : '$430600'}</h1>
-                    {/* <Image src={badge} alt="Price Badge" /> */}
+                    <h1 className="text-xl font-bold">&#36;{formatNumber(details?.vendor_total_sales)}</h1>
                   </div>
                 </div>
               </div>
@@ -160,8 +161,8 @@ function VendorDetails() {
                 <div className="header flex items-center ml-5 lg:ml-0">
                   <div className="w-20 h-20 mx-2 rounded-full overflow-hidden">
                     <Image
-                      loader={() => details?.vendor_profile_pic[0] || brokenImage}
-                      src={details?.vendor_profile_pic[0] || brokenImage}
+                      loader={() => details?.vendor_profile_pic[0] ?? brokenImage}
+                      src={details?.vendor_profile_pic[0] ?? brokenImage}
                       alt="profile picture"
                       width={40}
                       height={40}
@@ -277,25 +278,40 @@ function VendorDetails() {
                         <div key={item?.product_id}>
                           {index < 4 ? (
                             <div
-                              className="product h-full border border-gray-300 p-3 rounded-md m-3 hover:shadow-lg cursor-pointer transition hover:scale-105"
+                              className="product m-3 rounded-md p-1.5 md:p-4 lg:p-4 border-custom-color32 border border-solid font-manropeEL hover:shadow-lg cursor-pointer transition hover:scale-105"
+                              key={item?.id}
                               onClick={() =>
                                 router.push(`/super-admin/product-listing/product-details/${item?.product_id}`)
                               }
                             >
                               <div className="md:min-w-[220px] h-[181px] mx-auto">
                                 <Image
-                                  loader={() => item?.product_image[0][0] || brokenImage}
-                                  src={item?.product_image[0][0] || brokenImage}
+                                  loader={() =>
+                                    item?.product_image && item.product_image[0] && item.product_image[0][0]
+                                      ? item.product_image[0][0]
+                                      : brokenImage
+                                  }
+                                  src={
+                                    item?.product_image && item.product_image[0] && item.product_image[0][0]
+                                      ? item.product_image[0][0]
+                                      : brokenImage
+                                  }
                                   alt="product"
                                   width={100}
                                   height={100}
                                   className="w-full h-full object-cover"
                                 />
                               </div>
-                              <p className="mt-2">{item?.product_name}</p>
-                              <p className="font-bold">${new Intl.NumberFormat('en-US').format(item?.price)}</p>
-                              <p className="mb-3">{item?.description}</p>
-                              <aside className="left flex items-center">
+                              <p className="mt-2 text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%] text-green-850">
+                                {item?.product_name}
+                              </p>
+                              <p className="font-bold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-green-850">
+                                ${new Intl.NumberFormat('en-US').format(item?.price)}
+                              </p>
+                              <p className="mb-3 text-custom-color15 font-semibold text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%]">
+                                {item?.description}
+                              </p>
+                              <aside className="left flex items-center gap-[1px] w-[100px] md:gap-[2px] lg:gap-[2px] mt-6 lg:w-[230px]">
                                 <StarRating rating={item?.rating ?? 0} />
                                 <p>({item?.rating ?? 0})</p>
                               </aside>
@@ -337,4 +353,4 @@ function VendorDetails() {
   );
 }
 
-export default VendorDetails;
+export default withAdminAuth(VendorDetails);

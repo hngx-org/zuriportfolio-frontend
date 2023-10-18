@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../modules/assessment/component/Header';
+import { FaSpinner } from 'react-icons/fa';
 import addmessage from '../../../public/assets/assessment/message-add.png';
 import draftsimg from '../../../public/assets/assessment/drafts.png';
 import ratioimg from '../../../public/assets/assessment/ratio.png';
@@ -14,6 +15,7 @@ import Assessmentresponses from '../../../modules/assessment/component/Assessmen
 import MainLayout from '../../../components/Layout/MainLayout';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { withAdminAuth } from '../../../helpers/withAuth';
 export const ListContext = React.createContext([{}]);
 
 function Index() {
@@ -126,7 +128,9 @@ function Index() {
   if (loading) {
     return (
       <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
-        <div className=" items-center text-white-100 text-2xl">Loading...</div>
+        <div className=" items-center ">
+          <FaSpinner color="#fff" className="animate-spin" size={100} />
+        </div>
       </div>
     );
   }
@@ -170,7 +174,7 @@ function Index() {
               </div>
               <Link
                 href={{
-                  pathname: track === null ? '/super-admin/assessment' : '/super-admin/assessment/new',
+                  pathname: track === null ? '' : '/super-admin/assessment/new',
                   query: { name: track },
                 }}
                 onClick={() => {
@@ -245,4 +249,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default withAdminAuth(Index);

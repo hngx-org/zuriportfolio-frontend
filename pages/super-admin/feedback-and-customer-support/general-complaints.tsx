@@ -8,6 +8,7 @@ import VendorComplaint from '../../../public/assets/images/vendorComplaint.png';
 import { useRouter } from 'next/navigation';
 import Button from '@ui/Button';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
+import { withAdminAuth } from '../../../helpers/withAuth';
 
 interface ComplainType {
   total_complaints: number;
@@ -33,7 +34,7 @@ interface InProgressType {
   // Add other properties as needed
 }
 
-interface Complain {
+export interface Complain { // exporting so I can use in withAdminAuth HOC component
   id: number; // ID of the complaint
   status: string; // Status of the complaint (e.g., "pending" or "resolved")
   message: string; // A message describing the complaint
@@ -61,6 +62,11 @@ interface Complaint {
   // other properties...
 }
 
+interface GeneralComplaintsHOC {
+  children?: React.ReactNode,
+  complain: Complain
+}
+
 function GeneralComplaints({ complain }: { complain: Complain }) {
   const initialStatus = complain ? complain.status : '';
   const [complainStatus, setComplainStatus] = useState('pending');
@@ -68,55 +74,43 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   const newStatus = 'in Progress';
 
-  const handleStatusUpdate = async (complaintId: any, newStatus: string) => {
+  async function updateComplaintStatus(complaintId: any, newStatus: any) {
     try {
-      // Fetch the data from the API
-      const response = await fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint/');
+      // Create the URL for the specific complaint using complaintId
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/${complaintId}/`;
 
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w'}`,
+      };
+
+      // Fetch the complaint using the specific URL
+      const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
-      const data = await response.json();
+      const complaint = await response.json();
 
-      // Find the complaint you want to update in the 'data' array
-      const updatedData = data.results.data.map((complaint: any) => {
-        if (complaint.id === complaintId) {
-          // Update the 'status' property
-          complaint.status = newStatus;
-        }
-        return complaint;
+      // Update the status of the complaint
+      complaint.status = newStatus;
+
+      // Send a PATCH request to update the complaint on the server
+      const patchResponse = await fetch(apiUrl, {
+        method: 'PATCH', // You might need to check if PATCH is supported by your API
+        headers: headers,
+        body: JSON.stringify(complaint),
       });
 
-      // Send a PUT request to update the complaint on the server
-      const putResponse = await fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint/${complaintId}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            status: newStatus,
-          }),
-        },
-      );
-
-      if (!putResponse.ok) {
-        throw new Error('Network response for the PUT request was not ok');
+      if (!patchResponse.ok) {
+        throw new Error('Network response for the PATCH request was not ok');
       }
 
-      // Optionally, update your local state with the modified data
-      setfetchComplains({ ...data.results, data: updatedData });
-
-      console.log('Status updated successfully');
+      console.log(`Status of complaint ${complaintId} updated to ${newStatus}`);
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error('Error updating complaint status:', error);
     }
-  };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const resultsPerPage = 10;
+  }
 
   const [search, setSearch] = React.useState<string>('');
   const [filter, setFilter] = React.useState<string>('');
@@ -131,7 +125,14 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   const [pageCount, setpageCount] = useState(0);
 
   React.useEffect(() => {
-    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint')
+    const accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
+    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -154,8 +155,16 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   }, []);
 
   const pageComplain = async (currentPage: number) => {
+    const accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
     const res = await fetch(
       `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint/?page=${currentPage}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
     );
     const data = await res.json();
     if (data && data.results && data.results.data) {
@@ -173,10 +182,18 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   // Fetch data from the API
   useEffect(() => {
+    const accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
     async function fetchData() {
       try {
         const response = await fetch(
           'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/total_complaints/',
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -197,10 +214,18 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   // Fetch data from the API
   useEffect(() => {
+    const accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
     async function fetchData() {
       try {
         const response = await fetch(
           'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/pending/',
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -221,10 +246,18 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   // Fetch data from the API
   useEffect(() => {
+    const accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
     async function fetchData() {
       try {
         const response = await fetch(
           'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/in_progress/',
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -245,10 +278,18 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   // Fetch data from the API
   useEffect(() => {
+    const accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+
     async function fetchData() {
       try {
         const response = await fetch(
           'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/resolved/',
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -566,10 +607,8 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                     };
 
                     function product() {
-                      if (complain) {
-                        handleStatusUpdate(complain.id, newStatus);
-                        handleClick();
-                      }
+                      updateComplaintStatus(complain.id, newStatus);
+                      handleClick();
                     }
 
                     return (
@@ -626,10 +665,17 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                             )}
                           </div>
                           <div>
-                            <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
-                              <div className="w-2 h-2 bg-yellow-300 rounded-md "></div>
-                              <p className="text-xs text-yellow-300">{complainStatus}</p>
-                            </div>
+                            {complain.status === 'Pending' ? (
+                              <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                                <div className="w-2 h-2 bg-yellow-300 rounded-md "></div>
+                                <p className="text-xs text-yellow-300">Pending</p>
+                              </div>
+                            ) : (
+                              <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                                <div className="w-2 h-2 bg-blue-300 rounded-md "></div>
+                                <p className="text-xs text-blue-300">In Progress</p>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </>
@@ -641,11 +687,11 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
             </div>
           </div>
 
-          <SuperAdminPagination currentPage={pageNum} totalPages={pageCount} onPageChange={handlePageClick} />
+          {/* <SuperAdminPagination currentPage={pageNum} totalPages={pageCount} onPageChange={handlePageClick} /> */}
         </div>
       </div>
     </>
   );
 }
 
-export default GeneralComplaints;
+export default withAdminAuth<GeneralComplaintsHOC>(GeneralComplaints);

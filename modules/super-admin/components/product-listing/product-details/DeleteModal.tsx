@@ -2,10 +2,11 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { CloseCircle } from 'iconsax-react';
 import { useState } from 'react';
-import { useDeleteProd, useDeleteShop } from '../../../../../http';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { handleBack } from '.';
+import { useQueryClient } from '@tanstack/react-query';
+import { useDeleteProd, useDeleteShop } from '../../../../../http/super-admin1';
 
 const DeleteModal = ({
   isOpen,
@@ -39,19 +40,21 @@ const DeleteModal = ({
   const { deleteSanction, isLoading: isDeleting } = useDeleteProd();
   const { deleteShop, isLoading: isDeletingShop } = useDeleteShop();
   const route = useRouter();
+  const client = useQueryClient();
 
   const handleDeleteProd = () => {
     deleteSanction(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-prod']);
           toast.success(response.response.status || 'Product deleted successfully');
           handleBack(route);
         } else {
           toast.error(response.response.data.message || 'Error deleting the product');
         }
       },
-      onError: (error) => {
-        console.error(error);
+      onError: () => {
+        client.invalidateQueries(['get-prod']);
         toast.success('Product permanently deleted');
         handleBack(route);
       },
@@ -62,6 +65,7 @@ const DeleteModal = ({
     deleteShop(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-vendor']);
           toast.success(response.response.status || 'Successfully deleted permanently');
           handleBack(route);
         } else {
@@ -69,6 +73,7 @@ const DeleteModal = ({
         }
       },
       onError: () => {
+        client.invalidateQueries(['get-vendor']);
         toast.success('Successfully deleted permanently');
         handleBack(route);
       },

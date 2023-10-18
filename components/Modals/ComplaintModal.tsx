@@ -6,8 +6,12 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+interface ComplaintModalProps extends ModalProps {
+  product: string;
+  customerID: string;
+}
 
-const ComplaintModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, product, customerID }) => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -25,7 +29,11 @@ const ComplaintModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ description }),
+            body: JSON.stringify({
+              user_id: customerID, // Replace 'user_id' with the actual user ID
+              product_id: product, // Replace 'product_id' with the actual product ID
+              complaint_text: description,
+            }),
           },
         );
         if (response.ok) {
@@ -40,12 +48,12 @@ const ComplaintModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             theme: 'light',
           });
           const res = await response.json();
-          console.log(res.data());
+          console.log(res.data);
         }
         setError('');
         onClose();
       } catch (err) {
-        console.log('Error:', err);
+        console.log(err);
         toast.error('An error occurred while submitting your complaint', {
           position: 'top-right',
           autoClose: 5000,
@@ -69,6 +77,31 @@ const ComplaintModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       <div className="p-4 container">
         <h1 className="text-2xl font-bold">Submit a Complaint</h1>
         <form className="mt-4" onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="productID" className="block text-sm font-medium text-gray-700">
+              Product ID
+            </label>
+            <input
+              id="productID"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              type="text"
+              value={product}
+              readOnly
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="customerID" className="block text-sm font-medium text-gray-700">
+              Customer ID
+            </label>
+            <input
+              id="customerID"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              type="text"
+              value={customerID}
+              readOnly
+            />
+          </div>
           <div className="mb-4">
             <label htmlFor="description" className="block text-sm font-medium text-gray-700">
               Complaint Description

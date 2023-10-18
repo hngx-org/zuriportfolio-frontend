@@ -96,7 +96,7 @@ function Discounts() {
   }
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -108,12 +108,10 @@ function Discounts() {
         return response.json();
       })
       .then((data) => {
-        if (Array.isArray(data.data)) {
-          setProducts(data.data);
-          // Extract product names from the fetched data
-          const names = data.data.map((product: any) => product.name);
-          setProductNames(names);
-        }
+        setProducts(data.data.products);
+        // Extract product names from the fetched data
+        const names = data.data.products.map((product: any) => product.name);
+        setProductNames(names);
       })
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
@@ -270,7 +268,7 @@ function Discounts() {
                   <div className="flex flex-col w-full">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid From</label>
                     <input
-                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-2 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTime}
                       onChange={handleDateFrom}
@@ -279,7 +277,7 @@ function Discounts() {
                   <div className="flex flex-col w-full md:mt-0 mt-6 ">
                     <label className="text-dark-100 font-manropeB text-[14px]">Valid To</label>
                     <input
-                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-10 hover:border-brand-green-primary"
+                      className="border-solid placeholder:text-[#191C1E] text-black border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-2 hover:border-brand-green-primary"
                       type="datetime-local"
                       value={selectedDateTimeExpire}
                       onChange={handleDateTo}
