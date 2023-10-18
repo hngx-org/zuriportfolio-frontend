@@ -145,6 +145,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
       .get(`${endpoint}/api/interests/${userId}`)
       .then((res) => {
         const interestsArray: string[] = res.data?.interestArray;
+        console.log(interestsArray);
         setValues(interestsArray ? interestsArray : []);
       })
       .catch((err) => console.log(err));

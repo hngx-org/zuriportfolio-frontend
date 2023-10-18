@@ -10,13 +10,13 @@ import { PurchaseData } from '../../../../pages/user/customer-purchase-dashboard
 import { getDataByMonth, getDataByPrice, getDataByYear } from '../../../../http/customerPurchaseDashboard';
 
 type Props = {
-  filter: string | any,
-  isOpen: boolean,
-  onClose: () => void,
-  token?: string | null | undefined,
-  setData: (data: PurchaseData[]) => void,
-  setLoading: (loading: boolean) => void
-}
+  filter: string | any;
+  isOpen: boolean;
+  onClose: () => void;
+  token?: string | null | undefined;
+  setData: (data: PurchaseData[]) => void;
+  setLoading: (loading: boolean) => void;
+};
 
 const MONTH = [
   'January',
@@ -33,19 +33,18 @@ const MONTH = [
   'December',
 ];
 
-const FilterModal = ({filter, isOpen, onClose, setData, setLoading}: Props) => {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [year, setYear] = useState("");
+const FilterModal = ({ filter, isOpen, onClose, setData, setLoading }: Props) => {
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [year, setYear] = useState('');
 
-
-  const filterByPrice = async() => {
-    setLoading(true)
+  const filterByPrice = async () => {
+    setLoading(true);
     try {
       const response = await getDataByPrice(from, to);
       setData(response);
-      onClose()
-      setLoading(false)
+      onClose();
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data?.message}`, {
@@ -60,18 +59,18 @@ const FilterModal = ({filter, isOpen, onClose, setData, setLoading}: Props) => {
         });
         console.error(error.response?.data?.message);
       }
-      setLoading(false)
-      setData([])
-      onClose()
+      setLoading(false);
+      setData([]);
+      onClose();
     }
-  }
-  const filterByMonth = async(month: string) => {
-    setLoading(true)
+  };
+  const filterByMonth = async (month: string) => {
+    setLoading(true);
     try {
-      const response = await getDataByMonth(month)
-      setData(response)
-      onClose()
-      setLoading(false)
+      const response = await getDataByMonth(month);
+      setData(response);
+      onClose();
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data?.message}`, {
@@ -86,18 +85,18 @@ const FilterModal = ({filter, isOpen, onClose, setData, setLoading}: Props) => {
         });
         console.error(error.response?.data?.message);
       }
-      setLoading(false)
-      setData([])
-      onClose()
+      setLoading(false);
+      setData([]);
+      onClose();
     }
-  }
-  const filterByYear = async() => {
-    setLoading(true)
+  };
+  const filterByYear = async () => {
+    setLoading(true);
     try {
-      const response = await getDataByYear(year)
-      setData(response)
-      onClose()
-      setLoading(false)
+      const response = await getDataByYear(year);
+      setData(response);
+      onClose();
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data?.message}`, {
@@ -112,9 +111,9 @@ const FilterModal = ({filter, isOpen, onClose, setData, setLoading}: Props) => {
         });
         console.error(error.response?.data?.message);
       }
-      setLoading(false)
-      setData([])
-      onClose()
+      setLoading(false);
+      setData([]);
+      onClose();
     }
   };
 
