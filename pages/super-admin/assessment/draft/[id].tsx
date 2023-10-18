@@ -12,6 +12,7 @@ import CreateAssessment from '../new';
 import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
 
 type Props = {
   assessment: {
@@ -29,6 +30,8 @@ type Props = {
   };
 };
 const DraftPreview = () => {
+  const { questionIndex, setQuestionIndex } = useCreatingAssessmentContext();
+
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
   const [newQuestions, setNewQuestions] = useState<{ questions: any[] }>({ questions: [] });
 
@@ -225,7 +228,10 @@ const DraftPreview = () => {
                 <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
                   <div className="flex justify-between mb-4">
                     <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <Link href={`/super-admin/assessment/draft/edit/${id}`}>
+                    <Link
+                      href={`/super-admin/assessment/draft/edit/${id}`}
+                      onClick={() => setQuestionIndex(item.question_no - 1)}
+                    >
                       <button className="text-md font-manropeB text-black">Edit</button>
                     </Link>
                   </div>
