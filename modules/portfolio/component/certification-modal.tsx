@@ -121,7 +121,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
 
         // Delay setting IsModalOpen to true by a certain number of milliseconds
         setTimeout(() => {
-          setIsModalOpen(true);
+          setIsModalOpen(false);
         }, 2000); // Adjust the delay time (1000 milliseconds = 1 second) as needed
       } else {
         setError('Error saving the certification.');
@@ -133,7 +133,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(true);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -174,7 +174,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
         {!closeAllModal && (
           <div>
             {' '}
-            {!isModalOpen && (
+            {isModalOpen && (
               <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
                 <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
                   <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
@@ -328,7 +328,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                 </div>
               </Modal>
             )}
-            {isModalOpen && <CertificationRead isOpen={isModalOpen} onClose={closeModal} />}
+            {!isModalOpen && <CertificationRead isOpen={isOpen} onClose={closeModal} />}
           </div>
         )}
       </div>
@@ -336,7 +336,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   );
 };
 const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const { setCloseAllModal } = useContext(myContext);
+  const { setCloseAllModal, setIsModalOpen } = useContext(myContext);
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
@@ -356,7 +356,12 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
         <CertificationList isModalOpen={isOpen} />
         <div className="flex flex-col sm:flex-row justify-between gap-6">
           <div>
-            <p onClick={onClose} className="font-bold cursor-pointer text-[16px] leading-6 text-brand-green-primary">
+            <p
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+              className="font-bold cursor-pointer text-[16px] leading-6 text-brand-green-primary"
+            >
               Add new certifications
             </p>
           </div>
@@ -388,7 +393,7 @@ const CertificationList: React.FC<CertificationListProps> = () => {
   const fetchCertifications = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/`);
 
       setIsLoading(false);
       if (response.ok) {

@@ -70,147 +70,74 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   const [closeAllModal, setCloseAllModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateUrl = (url: string) => {
-    const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
-    return urlPattern.test(url);
-  };
-
-  const isValid =
-    formData.year && formData.title && formData.presented_by && formData.url && formData.description && !urlError;
-
   const openModal = async (e: React.FormEvent) => {
     // console.log('openModal function called');
     e.preventDefault(); // Prevent the default form submission
-    const missingFields = [];
 
-    if (!formData.title) {
-      missingFields.push('Title');
-    }
-    if (!formData.presented_by) {
-      missingFields.push('Organization');
-    }
-    if (!formData.url) {
-      missingFields.push('URL');
-    }
-    if (!formData.description) {
-      missingFields.push('Description');
-    }
-    if (!formData.year) {
-      missingFields.push('Year');
-    }
-    if (!formData.url) {
-      missingFields.push('URL');
-    } else {
-      if (!validateUrl(formData.url)) {
-        setUrlError('Please enter a valid URL');
-      } else {
-        setUrlError('');
-      }
-    }
     console.log('This is the formdata', formData);
 
-    if (
-      !formData.title ||
-      !formData.presented_by ||
-      !formData.url ||
-      !formData.description ||
-      !formData.year ||
-      !formData.url
-    ) {
-      setRender(true);
-    } else {
-      setRender(false); // Reset it when all required fields are filled
-    }
-    if (isValid && !urlError) {
-      const newAward = {
-        id: awardCounter.toString(),
-        year: formData.year,
-        section_id: formData.sectionId,
-        title: formData.title,
-        presented_by: formData.presented_by,
-        url: formData.url,
-        description: formData.description,
-      };
-      setAwardCounter(awardCounter + 1);
+    const newAward = {
+      id: awardCounter.toString(),
+      year: formData.year,
+      section_id: formData.sectionId,
+      title: formData.title,
+      presented_by: formData.presented_by,
+      url: formData.url,
+      description: formData.description,
+    };
+    setAwardCounter(awardCounter + 1);
 
-      try {
-        setIsLoading(true);
-        const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${userId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newAward),
-        });
-        console.log('Response Status:', response.status);
-        console.log('Response Data:', await response.json());
-        setIsLoading(false);
+    try {
+      setIsLoading(true);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newAward),
+      });
+      console.log('Response Status:', response.status);
+      console.log('Response Data:', await response.json());
+      setIsLoading(false);
 
-        if (response.ok) {
-          setCreateAward('Award created successfully');
-          setTimeout(() => {
-            setCreateAward('');
-          }, 2000);
-          setError('');
+      if (response.ok) {
+        setCreateAward('Award created successfully');
+        setTimeout(() => {
+          setCreateAward('');
+        }, 2000);
+        setError('');
 
-          setTimeout(() => {
-            setFormData({
-              id: '',
-              sectionId: 22,
-              title: '',
-              year: '',
-              presented_by: '',
-              url: '',
-              description: '',
-            });
-          }, 4000);
+        setTimeout(() => {
+          setFormData({
+            id: '',
+            sectionId: 22,
+            title: '',
+            year: '',
+            presented_by: '',
+            url: '',
+            description: '',
+          });
+        }, 4000);
 
-          // Delay setting IsModalOpen to true by a certain number of milliseconds
-          setTimeout(() => {
-            setIsModalOpen(true);
-          }, 2000); // Adjust the delay time (1000 milliseconds = 1 second) as needed
-        } else {
-          setError('Error saving the award.');
-        }
-      } catch (error) {
-        setError('An error occurred while saving the award.');
-        console.error(error);
+        // Delay setting IsModalOpen to true by a certain number of milliseconds
+        setTimeout(() => {
+          setIsModalOpen(false);
+        }, 2000); // Adjust the delay time (1000 milliseconds = 1 second) as needed
+      } else {
+        setError('Error saving the award.');
       }
-    } else {
-      const missingFieldsMessage = missingFields.join(', ');
-      setError(`Please fill in the following fields:\n${missingFieldsMessage}.`);
-      // console.log('Please fill in all the form fields.');
+    } catch (error) {
+      setError('An error occurred while saving the award.');
+      console.error(error);
     }
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(true);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const characterCount = value.replace(/\s/g, '').length; // Remove white spaces and count characters
-    const isValidDescription = characterCount >= 30 && characterCount <= 200;
-
-    // console.log('Name:', name);
-    // console.log('Value:', value);
-    // console.log('Character Count:', characterCount);
-    // console.log('IsValidDescription:', isValidDescription);
-
-    setAcceptedDescription(isValidDescription);
-
-    if (name === 'description') {
-      setAcceptedDescription(isValidDescription);
-      if (isValidDescription) {
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
-        setError(''); // Clear any previous errors
-      } else {
-        setError('Description must contain between 30 and 200 characters.');
-      }
-    }
 
     if (name === 'year') {
       setFormData((prevData) => ({
@@ -246,8 +173,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       <div>
         {!closeAllModal && (
           <div>
-            {' '}
-            {!isModalOpen && (
+            {isModalOpen && (
               <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
                 <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
                   <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
@@ -322,7 +248,6 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
                           id="presented_by"
                           name="presented_by"
                           placeholder="Google"
-                          pattern="https?://.+"
                           className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
                           value={formData.presented_by}
                           onChange={handleInputChange}
@@ -337,6 +262,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
                           type="url"
                           id="url"
                           name="url"
+                          pattern="https?://.+"
                           placeholder="Type link"
                           className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                           value={formData.url}
@@ -372,11 +298,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
                               <p className="text-green-200 text-sm">{createAward}</p>
                             </div>
                             <div>
-                              {render ? (
-                                <pre className="text-red-205 font-manropeL">{error}</pre>
-                              ) : (
-                                urlError && <div className="text-red-205 text-sm">{urlError}</div>
-                              )}
+                              <pre className="text-red-205 font-manropeL">{error}</pre>
                             </div>
                           </div>
                         )}
@@ -405,7 +327,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
                 </div>
               </Modal>
             )}
-            {isModalOpen && <AwardRead isOpen={isModalOpen} onClose={closeModal} />}
+            {!isModalOpen && <AwardRead isOpen={isOpen} onClose={closeModal} />}
           </div>
         )}
       </div>
@@ -413,7 +335,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   );
 };
 const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const { setCloseAllModal } = useContext(myContext);
+  const { setCloseAllModal, setIsModalOpen } = useContext(myContext);
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
@@ -433,7 +355,12 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
         <AwardList isModalOpen={isOpen} />
         <div className="flex flex-col sm:flex-row justify-between gap-6">
           <div>
-            <p onClick={onClose} className="font-bold cursor-pointer text-[16px] leading-6 text-brand-green-primary">
+            <p
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+              className="font-bold cursor-pointer text-[16px] leading-6 text-brand-green-primary"
+            >
               Add new awards
             </p>
           </div>
@@ -459,11 +386,12 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
 const AwardList: React.FC<AwardListProps> = () => {
   const { refreshPage, setError, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
   const [awards, setAwards] = useState<Award[]>([]);
+  console.log('why this is the ', awards);
 
   const fetchAwards = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/awards');
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/`);
       setIsLoading(false);
       if (response.ok) {
         const data = await response.json();
@@ -647,39 +575,6 @@ const EditForm: React.FC<{
 }> = ({ isOpen, award, setAward, onClose, handleSave }) => {
   const { urlError, setUrlError, setRender, error, render, setError } = useContext(myContext);
 
-  const validateUrl = (url: string) => {
-    const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
-    return urlPattern.test(url);
-  };
-
-  const isValidEdit = award.year && award.title && award.presented_by && award.url && award.description && !urlError;
-  const missingFields: string[] = [];
-
-  if (!award.title) {
-    missingFields.push('Title');
-  }
-  if (!award.presented_by) {
-    missingFields.push('presented_by');
-  }
-  if (!award.url) {
-    missingFields.push('URL');
-  }
-  if (!award.description) {
-    missingFields.push('Description');
-  }
-  if (!award.year) {
-    missingFields.push('Year');
-  }
-  if (!award.url) {
-    missingFields.push('URL');
-  } else {
-    if (!validateUrl(award.url)) {
-      setUrlError('Please enter a valid URL');
-    } else {
-      setUrlError('');
-    }
-  }
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     // Update the award state
@@ -701,22 +596,8 @@ const EditForm: React.FC<{
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (isValidEdit && !urlError) {
-      setRender(true);
-      if (award.description.length > 30 && award.description.length < 200) {
-        // If description character count is within the desired range, trigger handleSave and onClose
-        handleSave();
-        onClose();
-      } else {
-        // Character count is not within the desired range, display an error message
-        setError('Description should be between 30 and 100 characters.');
-        // console.log(error);
-      }
-    } else {
-      const missingFieldsMessage = missingFields.join(', ');
-      setError(`Please fill in the following fields:\n${missingFieldsMessage}.`);
-      // console.log('Please fill in all the form fields.');
-    }
+    handleSave();
+    onClose();
   };
 
   return (
