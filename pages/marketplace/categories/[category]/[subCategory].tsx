@@ -38,7 +38,9 @@ type Props =
 
 // visit context type
 export const getServerSideProps: GetServerSideProps<Props> = async (context: any) => {
-  const { category, subCategory } = context.query;
+  const { category: _category, subCategory: _subCategory } = context.query;
+  const category = _category?.replace(/_/g, ' ');
+  const subCategory = _subCategory?.replace(/_/g, ' ');
 
   // if category and subcategory does not exist
   if (!category || !subCategory) {
@@ -112,7 +114,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
 
 export default function SubCategoryPage({ response }: ResponseType) {
   const router = useRouter();
-  const { category, subCategory } = router.query;
+  const { category, subCategory: _subCategory } = router.query;
+
+  const subCategory = (_subCategory as string)?.replace(/_/g, ' ');
   const { updatePath } = useContext(PreviousUrlContext);
   //fix hydration error
   const [isReady, setReady] = useState(false);

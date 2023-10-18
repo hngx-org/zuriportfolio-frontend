@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import { ArrowRight2 } from 'iconsax-react';
-import { Trash } from 'iconsax-react';
 import { SearchNormal1 } from 'iconsax-react';
 import DeleteModal from '@modules/marketplace/component/CustomerDashboard/DeleteModal';
 import useDisclosure from '../../../hooks/useDisclosure';
@@ -10,13 +7,12 @@ import PurchaseNotFound from '@modules/marketplace/component/CustomerDashboard/P
 import MobileCustomerDashboard from '@modules/marketplace/component/CustomerDashboard/mobile_customer_dashboard';
 import FilterDropDown from '@modules/marketplace/component/CustomerDashboard/FilterDropDown';
 import MainLayout from '../../../components/Layout/MainLayout';
-import $http from '../../../http/axios';
 import { toast } from 'react-toastify';
-import { error } from 'console';
 import Spinner from '@ui/Spinner';
-import Link from 'next/link';
 import ComplaintsModal from '../../../components/Modals/ComplaintModal';
 import FilterModal from '@modules/marketplace/component/CustomerDashboard/FilterModal';
+import { useAuth } from '../../../context/AuthContext';
+import { getAllPurchases, getSearchedData } from '../../../http/customerPurchaseDashboard';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -51,7 +47,10 @@ const MyPage: React.FC = () => {
   // search state
   const [searchInput, setSearchInput] = useState<string>('');
   const [selectedOrder, setSelectedOrder] = useState<PurchaseData | null>(null);
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJlYTg1OWExLThlOTYtNDE3MC1hNTEzLTg4MDQ1MTVkYjY0MCIsImlhdCI6MTY5NzQ3NjQ4Mn0.MFvxxYGyOfGdJ-obnPcMOaAfnhT5JNwkERqWukBzyqU"
+  
+  // useAuth
+  const { auth } = useAuth();
+  const token = auth?.token;
 
   // modal open and close state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,8 +79,7 @@ const MyPage: React.FC = () => {
       const response = await fetch(`https://customer-purchase.onrender.com/api/orders/delete-transactions`, {
         method: 'DELETE',
         headers: {
-          Authorization:
-            `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs`,
           'Content-Type': 'application/json',
         },
         body: stringifyData,
@@ -133,10 +131,10 @@ const MyPage: React.FC = () => {
   };
 
   // Calculate counts for each category
-  const allPurchasesCount = data.length;
-  const pendingPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'pending').length;
-  const completedPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'completed').length;
-  const failedPurchasesCount = data.filter((item) => item.order?.status.toLowerCase() === 'failed').length;
+  const allPurchasesCount = data?.length;
+  const pendingPurchasesCount = data?.filter((item) => item.order?.status.toLowerCase() === 'pending').length;
+  const completedPurchasesCount = data?.filter((item) => item.order?.status.toLowerCase() === 'completed').length;
+  const failedPurchasesCount = data?.filter((item) => item.order?.status.toLowerCase() === 'failed').length;
 
   // Function to determine the background color based on status
   const getStatusBackgroundColor = (status: string): string[] => {
@@ -163,15 +161,12 @@ const MyPage: React.FC = () => {
   const getAllPurchase = async () => {
     setIsLoading(true);
     try {
-      const res = await $http.get('https://customer-purchase.onrender.com/api/orders/all-transactions', {
-        headers: {
-          Authorization:
-            `Bearer ${token}`,
-        },
-      });
-      setData(res?.data?.data);
+      const res = await getAllPurchases();
+      const PurchaseData = res;
+      setData(PurchaseData);
       setIsLoading(false);
     } catch (error) {
+      console.log(error)
       setData([]);
       setIsLoading(false);
     }
@@ -182,27 +177,19 @@ const MyPage: React.FC = () => {
   const onSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setIsLoading(true);
     try {
-      const res = await $http.get(getSearchApi(searchInput), {
-        headers: {
-          Authorization:
-            `Bearer ${token}`,
-        },
-      });
-      setData(res?.data?.data);
+      const res = await getSearchedData(searchInput)
+      const searchedData = res
+      setData(searchedData);
       setIsLoading(false);
     } catch (error) {
+      console.log(error)
       setData([]);
       setIsLoading(false);
     }
     setSearchInput('');
   };
 
-
-  const getSearchApi = (filterParams: string) => {
-    return `https://customer-purchase.onrender.com/api/orders/search-transactions?search=${filterParams}`;
-  };
 
   // handle filter dropdown
   const [filterBy, setFilterBy] = useState<SearchFilter>(null);
@@ -211,11 +198,11 @@ const MyPage: React.FC = () => {
     setFilterBy(filter);
     closeFilterModal();
   };
-  function closeFilterModal(){
-    setOpenFilterModal(!openFilterModal)
+  function closeFilterModal() {
+    setOpenFilterModal(!openFilterModal);
   }
-  function setFilteredData(data: PurchaseData[]){
-    setData(data)
+  function setFilteredData(data: PurchaseData[]) {
+    setData(data);
   }
 
   // handle search and filter functionality
@@ -232,11 +219,16 @@ const MyPage: React.FC = () => {
     await getAllPurchase();
   };
 
+  // setLoading state
+  const setLoading = (loading:boolean) => {
+    setIsLoading(loading)
+  }
+
   return (
     <MainLayout showFooter showTopbar showDashboardSidebar={false} activePage="">
       <div className="px-5 sm:px-16 max-w-screen overflow-hidden">
         <div className="mt-9 mb-1 md:mb-12">
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <Link href="/settings">
               <p className="text-base text-brand-green-primary">Settings</p>
             </Link>
@@ -246,7 +238,7 @@ const MyPage: React.FC = () => {
             <Link href="/dashboard">
               <p className="text-base text-gray-100">Dashboard</p>
             </Link>
-          </div>
+          </div> */}
         </div>
         <h3 className="font-semibold text-3xl hidden sm:block">Customer Purchase Dashboard</h3>
 
@@ -328,7 +320,7 @@ const MyPage: React.FC = () => {
           {isLoading && <Spinner />}
           {/* table */}
 
-          {data.length > 0 && (
+          {data?.length > 0 && (
             <div className="hidden sm:block w-full overflow-x-auto">
               <table className="w-max md:w-full mt-6 mb-8">
                 <thead className="h-[3rem]">
@@ -388,9 +380,9 @@ const MyPage: React.FC = () => {
               </table>
             </div>
           )}
-          {data.length > 0 && <MobileCustomerDashboard data={data} />}
+          {data?.length > 0 && <MobileCustomerDashboard data={data} />}
           {/* error page */}
-          {(data.length === 0 && !isLoading) && <PurchaseNotFound back={onBack} />}
+          {(data?.length === 0 && !isLoading) && <PurchaseNotFound back={onBack} />}
         </div>
 
         {}
@@ -403,7 +395,7 @@ const MyPage: React.FC = () => {
         {/* delete modal */}
         <DeleteModal isOpen={isOpen} onClose={onClose} onDelete={onDelete} />
         {/* filter modal */}
-        <FilterModal isOpen={openFilterModal} onClose={closeFilterModal} filter={filterBy} token={token} setData={setFilteredData}/>
+        <FilterModal isOpen={openFilterModal} onClose={closeFilterModal} setLoading={setLoading} filter={filterBy} setData={setFilteredData}/>
       </div>
     </MainLayout>
   );

@@ -5,27 +5,31 @@ import Button from '@ui/Button';
 import { ArrowRight } from 'iconsax-react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useBanShop, useGetShop, useRemoveBan, useRestoreShop, useTempDeleteShop } from '../../../../../http';
+import {
+  useBanShop,
+  useGetShop,
+  useRemoveBan,
+  useRestoreShop,
+  useTempDeleteShop,
+} from '../../../../../http/super-admin1';
 import Loader from '@modules/portfolio/component/landing/Loader';
-import { formatDate, handleBack } from '@modules/super-admin/components/product-listing/product-details';
+import { formatDate, formatNumber, handleBack } from '@modules/super-admin/components/product-listing/product-details';
 import { toast } from 'react-toastify';
 import StarRating from '@modules/super-admin/components/StarRating';
 import DeleteModal from '@modules/super-admin/components/product-listing/product-details/DeleteModal';
 import { useQueryClient } from '@tanstack/react-query';
+import { withAdminAuth } from '../../../../../helpers/withAuth';
 
 export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
 function VendorDetails() {
   const router = useRouter();
-  const { amount, quantity, statusText } = router.query;
+  const { quantity } = router.query;
 
   const id = router.query?.id as string;
 
   const { data, isLoading } = useGetShop(id);
   const details = data?.data?.length > 0 ? data?.data[0] : null;
-  //Access Query paramterts
-
-  //States for opening and closing the modaals
   const [isModal, setIsModal] = React.useState(false);
   const { removeBan, isLoading: isRemovingBan } = useRemoveBan();
   const { restoreShop, isLoading: isRestoringShop } = useRestoreShop();
@@ -137,20 +141,18 @@ function VendorDetails() {
               <div className="sales flex flex-col items-center justify-center lg:w-1/2 lg:ml-10">
                 <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
                   <p>Total Products</p>
-                  <h1 className="text-xl font-bold">{details?.total_products}</h1>
+                  <h1 className="text-xl font-bold">{formatNumber(details?.total_products)}</h1>
                 </div>
                 <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
                   <p>{quantity ? quantity : 'Total Order'}</p>
                   <div className="badge flex items-center justify-between">
-                    <h1 className="text-xl font-bold">{details?.total_products}</h1>
-                    {/* <Image src={badge} alt="Price Badge" /> */}
+                    <h1 className="text-xl font-bold">{formatNumber(details?.vendor_total_orders)}</h1>
                   </div>
                 </div>
                 <div className="revenue border border-white-200  p-2 w-full lg:w-full">
                   <p>Total Sales</p>
                   <div className="badge flex items-center justify-between">
-                    <h1 className="text-xl font-bold">{amount ? amount : '$430600'}</h1>
-                    {/* <Image src={badge} alt="Price Badge" /> */}
+                    <h1 className="text-xl font-bold">&#36;{formatNumber(details?.vendor_total_sales)}</h1>
                   </div>
                 </div>
               </div>
@@ -351,4 +353,4 @@ function VendorDetails() {
   );
 }
 
-export default VendorDetails;
+export default withAdminAuth(VendorDetails);
