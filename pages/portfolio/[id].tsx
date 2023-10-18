@@ -63,7 +63,6 @@ const View = () => {
       setIsLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
       const data = await response.json();
-      console.log(data);
       setUserData({
         firstName: data?.user?.firstName,
         lastName: data?.user?.lastName,

@@ -76,7 +76,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
       };
       axios
         .post(`${endpoint}/api/language`, data)
-        .then((res) => {
+        .then(async (res) => {
           setLoading(false);
           notify({
             message: 'Language created successfully',
@@ -85,6 +85,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
             type: 'success',
           });
           setValues([]);
+          await fetch(`${endpoint}/api/getPorfolio/${userId}`);
           onSaveModal();
         })
         .catch((err) => {
