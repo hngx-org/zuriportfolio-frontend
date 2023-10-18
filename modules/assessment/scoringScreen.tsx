@@ -81,7 +81,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const name = e.target.name;
-
     skillId;
     if (newValue === '') {
       setExamTime((prevExamTime) => ({

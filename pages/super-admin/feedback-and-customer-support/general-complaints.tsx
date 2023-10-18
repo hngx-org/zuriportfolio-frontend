@@ -681,7 +681,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
             </div>
           </div>
 
-          <SuperAdminPagination currentPage={pageNum} totalPages={pageCount} onPageChange={handlePageClick} />
+          {/* <SuperAdminPagination currentPage={pageNum} totalPages={pageCount} onPageChange={handlePageClick} /> */}
         </div>
       </div>
     </>
