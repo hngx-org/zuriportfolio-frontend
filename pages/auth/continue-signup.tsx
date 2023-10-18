@@ -51,6 +51,8 @@ function Signup() {
     setConfirmPasswordVisible((prevVisible) => !prevVisible);
   };
 
+  const notAllowedNames = ['test', 'admin', 'user', 'email', 'password'];
+
   const schema = z
     .object({
       firstName: z.string().min(1, { message: 'First name is required' }),
@@ -58,12 +60,26 @@ function Signup() {
       password: z.string().regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/, { message: 'Please match requirements' }),
       confirmPassword: z.string().min(2, { message: 'Confirm password is required' }),
     })
-    .superRefine(({ confirmPassword, password }, ctx) => {
+    .superRefine(({ confirmPassword, password, firstName, lastName }, ctx) => {
       if (confirmPassword !== password) {
         ctx.addIssue({
           path: ['confirmPassword'],
           code: 'custom',
           message: 'The passwords did not match',
+        });
+      }
+      if (notAllowedNames.includes(firstName)) {
+        ctx.addIssue({
+          path: ['firstName'],
+          code: 'custom',
+          message: `${firstName} is not allowed`,
+        });
+      }
+      if (notAllowedNames.includes(lastName)) {
+        ctx.addIssue({
+          path: ['lastName'],
+          code: 'custom',
+          message: `${lastName} is not allowed`,
         });
       }
     });

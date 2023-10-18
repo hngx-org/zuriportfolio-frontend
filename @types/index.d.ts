@@ -164,7 +164,7 @@ export interface Products {
   discount_price: string;
 }
 
-interface Data {
+export interface Data {
   id: string;
   merchant_id: string;
   name: string;
@@ -178,17 +178,16 @@ interface Data {
   updatedAt: string;
   products: Product;
 }
-interface ShopData {
+export interface ShopData {
   products: Product;
   data?: Data;
-
-  // Add other properties here
 }
 
-interface Shop {
-  id: number;
-  name: string;
-  // Add other properties as needed
+export interface SEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }
 export interface SuperAdminPagination {
   title: any;
@@ -533,7 +532,7 @@ export interface PaginationBtn {
 export interface AdminTablePagination {
   currentPage: number;
   totalPages: number;
-  onPageChange: (newPage: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface PromotionHistory {
@@ -856,4 +855,39 @@ export interface ProductResult {
   category: ProductCategory;
   rating: number;
   user: string;
+}
+
+export interface ReviewData {
+  productId: string;
+  reviewId: string;
+  customerName: string;
+  description: string;
+  isHelpful: number;
+  rating: 0;
+  reply: {
+    id: string;
+    name: string;
+    message: string;
+    createdAt: string;
+  };
+  numberOfPages: 0;
+  updatedAt: string;
+  createdAt: string;
+}
+
+export interface ReviewApiResponse {
+  data: ReviewData[];
+}
+
+export interface RatsData {
+  oneStar: number;
+  twoStar: number;
+  threeStar: number;
+  fourStar: number;
+  fiveStar: number;
+  totalRating: number;
+  averageRating: number;
+  numberOfRating: number;
+  productId: string;
+  id: string;
 }
