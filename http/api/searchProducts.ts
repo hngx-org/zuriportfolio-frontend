@@ -41,7 +41,7 @@ export const searchProducts = async (searchValue: string) => {
     throw new Error('Network response was not OK');
   }
 
-  const products: ProductResult[] = response.data;
+  const products: ProductResult[] = response.data.data;
   const searchResults = products.filter((product) => product.name.toLowerCase().includes(searchValue.toLowerCase()));
 
   return searchResults;

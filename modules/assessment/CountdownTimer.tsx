@@ -15,7 +15,7 @@ export const CountdownTimer = ({ minutes, seconds, action }: ICountdown) => {
       return;
     } else if (time.minutes === 0 && time.seconds === 0) {
       setTime({ minutes: null, seconds: null, action });
-      action();     
+      action();
     } else if (time.seconds === 0) {
       if (time.minutes > 0) {
         setTime({ minutes: time.minutes - 1, seconds: 59, action });
@@ -33,7 +33,7 @@ export const CountdownTimer = ({ minutes, seconds, action }: ICountdown) => {
       if (time.minutes !== null && time.seconds !== null) {
         localStorage.setItem('minute', `${time.minutes}`);
         localStorage.setItem('second', `${time.seconds}`);
-      }else{
+      } else {
         localStorage.removeItem('minute');
         localStorage.removeItem('second');
       }
