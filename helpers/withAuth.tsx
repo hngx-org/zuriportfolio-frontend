@@ -13,6 +13,7 @@ const withAuth = <P extends { children: React.ReactNode }>(WrappedComponent: Rea
       const isLoggedIn = isAuthenticated(token as string);
       if (!isLoggedIn) {
         router.push('/auth/login');
+        localStorage.removeItem('zpt');
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

@@ -2,8 +2,6 @@ import axios from 'axios';
 import $http from './axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-const AUTH_HTTP_URL = 'https://auth.akuya.tech';
-
 import { AxiosResponse } from 'axios';
 
 export const getUserByName = async (props: { name: string }) => {
