@@ -3,10 +3,9 @@ import { ArrowDown, More } from 'iconsax-react';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import { useEffect, useState } from 'react';
-import { sanctionedProducts } from '../../../../helpers/sanctionedProducts';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { useRouter } from 'next/router';
-import { useGetProd } from '../../../../http';
+import { useGetProd } from '../../../../http/super-admin1';
 import { DeletedProducts } from '../../../../@types';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
@@ -141,11 +140,11 @@ const SanctionedProducts = () => {
                     ))}
                   </tbody>
                 </table>
-                <SuperAdminPagination
+                {/* <SuperAdminPagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={handlePageChange}
-                />
+                /> */}
               </>
             ) : (
               <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

@@ -7,7 +7,7 @@ import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import SearchProduct from '@modules/super-admin/components/vendormanagement/SearchProduct';
 import FilterProduct from '@modules/super-admin/components/vendormanagement/FilterProduct';
 import Button from '@ui/Button';
-import { useGetAllVendor } from '../../../http';
+import { useGetAllVendor } from '../../../http/super-admin1';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 const Index = () => {
   const { data, isLoading } = useGetAllVendor();
@@ -119,7 +119,7 @@ const Index = () => {
                   <SuperAdminPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    onPageChange={handlePageChange}
+                    setCurrentPage={setCurrentPage}
                   />
                 </>
               ) : (
