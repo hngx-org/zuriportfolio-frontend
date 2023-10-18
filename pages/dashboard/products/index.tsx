@@ -157,7 +157,7 @@ const Products = () => {
                 <div className="max-w-[1226px] mx-auto shadow-none md:shadow md:rounded-2xl md:px-[15px] md:py-[13px]">
                   <div className="flex gap-5 justify-between mb-[37px]">
                     <div
-                      className="focus-within:outline max-w-full focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1 min-w-0 "
+                      className="focus-within:outline max-w-full focus-within:outline-black px-[14px] py-[0px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1 min-w-0 "
                       style={{
                         boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
                       }}
