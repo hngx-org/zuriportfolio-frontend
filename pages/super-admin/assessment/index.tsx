@@ -15,6 +15,7 @@ import Assessmentresponses from '../../../modules/assessment/component/Assessmen
 import MainLayout from '../../../components/Layout/MainLayout';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { withAdminAuth } from '../../../helpers/withAuth';
 export const ListContext = React.createContext([{}]);
 
 function Index() {
@@ -248,4 +249,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default withAdminAuth(Index);

@@ -1,6 +1,7 @@
 import FilterProduct from '@modules/super-admin/components/vendormanagement/FilterProduct';
 import SearchProduct from '@modules/super-admin/components/vendormanagement/SearchProduct';
 import { useState } from 'react';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const Dashboard = () => {
   const vendorsList = [
@@ -189,4 +190,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withAdminAuth(Dashboard);

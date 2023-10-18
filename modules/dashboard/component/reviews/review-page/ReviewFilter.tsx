@@ -37,7 +37,7 @@ export default function Filter(props: filterProps) {
               setViewValue(value);
             }}
           >
-            <SelectTrigger className="custom-select-trigger font-manropeB text-bold text-[#747171] outline-none focus:border-2 focus:border-green-300 focus:text-green-300 h-[44px] w-[200px] px-6">
+            <SelectTrigger className="custom-select-trigger font-manropeB text-bold text-[#747171] outline-none focus:border-2 focus:border-green-300 focus:text-green-300 h-[44px] w-[250px] px-6">
               <SelectValue placeholder="Top reviews" className="text-[#747171]" />
             </SelectTrigger>
 

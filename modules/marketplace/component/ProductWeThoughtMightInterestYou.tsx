@@ -6,18 +6,25 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useAuth } from '../../../context/AuthContext';
+import { isUserAuthenticated } from '../hooks/useAuthHelper';
+import { CART_ENDPOINT } from '../../../http/checkout';
+import { useCart } from '@modules/shop/component/CartContext';
 
 export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { auth } = useAuth();
   const [response, setResponse] = useState<IntrestedProducts[]>([]);
   const [product, setProduct] = useState<ProductData | null>(null);
+  const token: any = isUserAuthenticated();
+  const { setCartCountNav, cartCount } = useCart();
+  const [cartLoading, setCartLoading] = useState<boolean>(true);
 
   const url = `https://coral-app-8bk8j.ondigitalocean.app/api/similar_products/${id}/`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        setResponse(data.products);
+        console.log(data);
+        setResponse(data.data.similar_products);
       });
   }, [url]);
 
@@ -37,8 +44,8 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
   }
 
   const addToCart = async (ids: string) => {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
-    if (auth) {
+    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    if (auth?.token) {
       try {
         const response = await axios.post(
           apiUrl,
@@ -51,17 +58,26 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
         );
 
         if (response.status === 200) {
+          setCartCountNav(cartCount + 1);
           toast.success('Added to Cart');
+          setCartLoading(false);
         }
       } catch (error: any) {
+        console.error(error);
         toast.error(error.message);
       }
     } else {
-      const products: any[] = [];
+      const products: any[] = localStorage.getItem('products')
+        ? JSON.parse(localStorage.getItem('products') as string)
+        : [];
+      console.log('no auth');
+
       if (product) {
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
         toast.success('Item added to cart🎊');
+        setCartLoading(false);
+        setCartCountNav(cartCount + 1);
       }
     }
   };
@@ -73,7 +89,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
       </h1>
 
       <div className="lg:flex lg:flex-row lg:items-center lg:gap-[16px] lg:overflow-hiddenlg:w-[100%] lg:my-[40px] my-[40px] md:grid-cols-2 md:grid md:gap-[16px]">
-        {response?.map((item, index) => (
+        {response.map((item, index) => (
           <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[298px]" key={index}>
             <Link href={`/marketplace/product-details?id=${item?.id}`}>
               <div>
@@ -89,7 +105,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
                     </div>
                     <div className="w-[256px] h-[186px] overflow-hidden rounded-[8px]">
                       <Image
-                        src={item?.images[0]?.url || '/assets/dummyImage.jpg'}
+                        src={item.images[0]?.url || '/assets/dummyImage.jpg'}
                         alt="dummy image"
                         width={266}
                         height={186}
@@ -109,7 +125,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
                     </p>
                   </div>
                   <p className="text-custom-color43 font-manropeL text-[22px] font-bold ">
-                    {`$${formatPrice(item?.price)}`}
+                    {`$${formatPrice(item.price)}`}
                   </p>
                 </div>
 

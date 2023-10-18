@@ -7,6 +7,7 @@ import EditLayout from '@modules/assessment/component/editLayout';
 import { useRouter } from 'next/router';
 // import ScoringS from '@modules/assessment/component/scoreDropdown';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const EditAssesment = () => {
   const [active, setActive] = useState<null | string>('button1');
@@ -139,4 +140,4 @@ const EditAssesment = () => {
   );
 };
 
-export default EditAssesment;
+export default withAdminAuth(EditAssesment);

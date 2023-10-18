@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import Loader from '@modules/portfolio/component/landing/Loader';
 import { toast } from 'react-toastify';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const SanctionedProductDetails = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -48,4 +49,4 @@ const SanctionedProductDetails = () => {
   );
 };
 
-export default SanctionedProductDetails;
+export default withAdminAuth(SanctionedProductDetails);
