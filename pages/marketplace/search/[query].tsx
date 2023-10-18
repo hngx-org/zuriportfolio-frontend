@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loader from '@ui/Loader';
 
 export default function Index() {
-  const [results, setResults] = useState<ProductResult[] | null>(null);
+  const [results, setResults] = useState<ProductResult[]>([]);
   const {
     query: { query },
   } = useRouter();
@@ -88,7 +88,7 @@ export default function Index() {
         </CategoryLayout>
       )}
 
-      {results?.length === 0 && <Error />}
+      {results && results?.length === 0 && <Error />}
     </>
   );
 }
