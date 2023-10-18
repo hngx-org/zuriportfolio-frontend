@@ -19,11 +19,11 @@ const BadgeItem = ({ value, tag }: { value: unknown; tag: string }) => {
   const [selected, setSelected] = useState<VariantType>('outline');
   const { handleSelection, selection, isReset } = useSearchFilter();
 
-  useEffect(()=> {
-    if(isReset) {
-      setSelected('outline')
+  useEffect(() => {
+    if (isReset) {
+      setSelected('outline');
     }
-  }, [isReset])
+  }, [isReset]);
 
   function toggleSelection(value: string) {
     if (selected === 'outline') {

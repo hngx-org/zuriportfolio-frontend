@@ -32,7 +32,6 @@ export default function Cart() {
   const [isLoading, setIsLoading] = useState(true);
   const [cartSummary, setCartSummary] = useState(defSummary);
   const { setCartCountNav } = useCart();
-  
 
   useEffect(() => {
     async function cartFetch() {
@@ -44,10 +43,9 @@ export default function Cart() {
         carts = await getUserCart(token);
         summary = await getCartSummary(token);
         const recentViewedProduct = await getRecentlyViewedProducts(token);
-        setRecentlyViewed(recentViewedProduct)
+        setRecentlyViewed(recentViewedProduct);
         summary = summary;
         setCartSummary(summary);
-        
       } else {
         const cartItems = localStorage.getItem('products')
           ? JSON.parse(localStorage.getItem('products') as string)

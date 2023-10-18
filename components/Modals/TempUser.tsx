@@ -40,7 +40,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
 
       const cartResponse = await addToCart(cartIds, tempUser.data.token);
       if (cartResponse.status == 201) {
-        console.log("status passed")
+        console.log('status passed');
         const response = await makePayment(payment, tempUser.data.token);
         if (response.status == 201) {
           localStorage.setItem('products', '');
