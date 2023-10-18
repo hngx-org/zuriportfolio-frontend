@@ -18,7 +18,7 @@ export default function Index() {
   const {
     query: { query },
   } = useRouter();
-  console.log(query)
+  console.log(query);
 
   const searchQuery = Array.isArray(query) ? query[0] : query;
 
@@ -30,13 +30,13 @@ export default function Index() {
           setResults(results);
         } catch (error) {
           toast.error('An error occurred. Please try again.');
+          console.error(error);
         }
       };
 
       fetchData();
     }
   }, [searchQuery]);
-
 
   return (
     <>
@@ -89,8 +89,6 @@ export default function Index() {
       )}
 
       {results?.length === 0 && <Error />}
-
-      <ToastContainer />
     </>
   );
 }
