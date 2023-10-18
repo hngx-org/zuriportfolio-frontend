@@ -1,9 +1,11 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState, useContext } from 'react';
 import ScoreDropdown from './component/scoreDropdown';
 import { Input } from '@ui/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import { useCreatingAssessmentContext } from '../../context/assessment/CreatingAssessmentContext';
+import { UpdateContext } from '../../pages/super-admin/assessment/new';
 import axios from 'axios';
+import { ToPushContext } from '../../pages/super-admin/assessment/new';
 type TimingSystemType = {
   hours: string;
   minutes: string;
@@ -24,9 +26,13 @@ type MyGradingRangeType = {
 
 interface ScoringScreenProps {
   skillId: number; // Define skillId as a prop
+  assessment: any;
 }
 
 const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
+  const [listupdate, setListupdate]: any = useContext(UpdateContext);
+  const [newobject, setObject]: any = useContext(ToPushContext);
+
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
@@ -133,7 +139,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
     setIsAutoSubmitOn(!isAutoSubmitOn);
   };
 
-  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
+  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, examDuration, setExamDuration } =
     useCreatingAssessmentContext();
 
   const saveScore = async (level: string) => {

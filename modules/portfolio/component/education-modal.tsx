@@ -10,10 +10,11 @@ import { EducationModalContext } from '../context/education-context';
 
 type EducationModalProps = {
   isOpen: boolean;
-  onClose: () => void;
+  onCloseModal: () => void;
+  onSaveModal: () => void;
 };
 
-const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) => {
+const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal, onSaveModal }) => {
   const {
     degreeOptions,
     fieldOfStudy,
@@ -68,7 +69,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
 
   console.log(degreeOptions, 'degreeOptions from');
   return (
-    <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+    <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
       <div className="space-y-6 bg-white-100 p-4 py-5">
         <div className="flex flex-col gap-3 px-6 mb-6">
           <div className="flex justify-between items-center">
@@ -87,7 +88,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
               )}
             </>
             <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Education</p>
-            <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+            <CloseSquare size="32" color="#009254" variant="Bold" onClick={onCloseModal} className="cursor-pointer" />
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
@@ -194,6 +195,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
             <form
               // onSubmit={(e) => addNewEducation(e)}
               onSubmit={(e) => (isEditMode ? handleEditEducation(e, editingEducationId) : addNewEducation(e))}
+              className=""
             >
               <div className="w-full">
                 <div className="flex flex-col gap-[.5rem] w-full mb-4">
@@ -317,7 +319,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                 <Button
                   type="button"
                   onClick={() => {
-                    onClose();
+                    onCloseModal();
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
@@ -351,7 +353,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                 <Button
                   type="button"
                   onClick={() => {
-                    onClose();
+                    onCloseModal();
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
@@ -362,7 +364,14 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button
+                  type="submit"
+                  className="w-full rounded-md sm:w-[6rem]"
+                  size={'lg'}
+                  onClick={() => {
+                    onSaveModal();
+                  }}
+                >
                   Save
                 </Button>
               </div>

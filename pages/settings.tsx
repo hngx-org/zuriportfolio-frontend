@@ -18,6 +18,11 @@ import { useAuth } from '../context/AuthContext';
 import Twofa from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 import defaultpic from '../public/assets/inviteAssets/profile.svg';
 import { notify } from '@ui/Toast';
+import axios from 'axios';
+import Success from './auth/success';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import nProgress from 'nprogress';
+
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
     accountManagement: false,
@@ -89,9 +94,9 @@ const SettingPage = () => {
       const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
       const method = storedNotificationData ? 'PATCH' : 'POST';
 
-      const url = `${baseUrl}${storedNotificationData ? 'update' : 'set'}-notification-settings/${auth?.user.id}`;
+      const url = `${baseUrl}set-notification-settings/${auth?.user.id}`;
       const response = await fetch(url, {
-        method: method,
+        method: 'POST',
 
         headers: {
           'Content-Type': 'application/json',
@@ -160,7 +165,7 @@ const SettingPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('user', data);
-        setUserPic(data?.user.profilePic);
+        setUserPic(data?.user?.profilePic);
       } else {
       }
     } catch (error) {
@@ -172,7 +177,7 @@ const SettingPage = () => {
 
   useEffect(() => {
     handleGetUser();
-  }, []);
+  }, [settingOption]);
   const getNotificationSettingsFromLocalStorage = () => {
     const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
     if (storedNotificationData) {
@@ -189,53 +194,79 @@ const SettingPage = () => {
     setter((prev: boolean) => !prev);
   };
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  // const hhh = async () => {
+  //   if (selectedFile) {
+  //     const formData = new FormData();
+  //     formData.append('profilepics', selectedFile);
+  //     formData.append('profilepics', auth?.user.id || '');
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
+  //     const url = 'https://hng6-r5y3.onrender.com/api/profile/image/upload';
 
-    if (files && files.length > 0) {
-      setSelectedFile(files[0]);
-    } else {
-      setSelectedFile(null);
-    }
-  };
-
-  //   const handlePics = async () => {
-  //     if (selectedFile) {
-  //       const formData = new FormData();
-  //       formData.append('profilepics', selectedFile);
-
-  //       try {
-  //         const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/image/upload', {
-  //           method: 'POST',
-  //           body: formData,
-  //         });
-
-  //       if (response.ok) {
-  //         console.log('File uploaded successfully');
-  //         notify({
-  //           message: 'Uploaded succefully',
-  //           type: 'success',
-  //         });
-
-  //       } else {
-  //         console.error('File upload failed');
-  //         notify({
-  //           message: 'faile to upload',
-  //           type: 'error',
-  //         });
-
-  //       }
+  //     try {
+  //       // Use toast.promise to display upload progress and results
+  //       toast.promise(axios.post(url, formData), {
+  //         pending: 'Uploading...',
+  //         success: 'Upload successful',
+  //         error: 'Failed to upload',
+  //       });
   //     } catch (error) {
   //       console.error('An error occurred:', error);
-
   //     }
   //   } else {
   //     console.error('Please select a file to upload');
-
   //   }
   // };
+
+  const [selectedPics, setSelectedPics] = useState<string | StaticImport>('');
+
+  // const handleFileChang = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const files = event.target.files;
+
+  //   if (files) {
+  //     const file = files[0];
+  //     setSelectedPics(URL?.createObjectURL(file));
+  //     setSelectedFile(file);
+  //   } else {
+  //     setSelectedPics('');
+  //     setSelectedFile(undefined);
+  //   }
+  // };
+
+  const handlePic = async (coverImage: string | Blob) => {
+    try {
+      const formData = new FormData();
+      formData.append('images', coverImage as string | Blob);
+      formData.append('userId', auth?.user?.id as string);
+
+      const promise = axios.post('https://hng6-r5y3.onrender.com/api/profile/image/upload', formData);
+
+      const successMessage = 'Image uploaded successfully';
+      const response = await toast.promise(promise, {
+        pending: 'Uploading image...',
+        success: successMessage,
+        error: 'An error occurred while uploading the image',
+      });
+
+      setTimeout(() => {
+        toast.dismiss();
+      }, 5000);
+
+      console.log('uploaded', response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const image = URL.createObjectURL(file);
+      if (e.target.id === 'avatarUpload') {
+        setSelectedPics(image);
+      }
+      await handlePic(file);
+    }
+  };
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
@@ -346,26 +377,24 @@ const SettingPage = () => {
                       </h3>
                       <div className=" rounded-full  ">
                         <label
-                          htmlFor="profilepics"
+                          htmlFor="avatarUpload"
                           className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
                         >
                           <>
                             <Image
-                              src={userPic || defaultpic}
+                              src={selectedPics || userPic || defaultpic}
                               width={280}
                               height={180}
                               alt=""
                               className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
                             ></Image>
                           </>
-                          {/* <button className="mb-4">Edit</button>
-                          {selectedFile && <button onClick={handlePics}
-                               className='text-brand-green-primary'></button>} */}
+                          Edit
                         </label>
                         <input
                           type="file"
                           name="profilepics"
-                          id="profilepics"
+                          id="avatarUpload"
                           className="hidden outline-none"
                           onChange={handleFileChange}
                         />
@@ -488,22 +517,27 @@ const SettingPage = () => {
                           </h3>
                           <div className=" rounded-full  ">
                             <label
-                              htmlFor="profilepics"
+                              htmlFor="avatarUpload"
                               className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
                             >
                               <>
                                 <Image
-                                  src={userPic}
+                                  src={selectedPics || userPic || defaultpic}
                                   width={280}
                                   height={180}
                                   alt=""
-                                  className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
+                                  className=" w-[140px] h-[140px]  rounded-full  "
                                 ></Image>
                               </>
-                              <button className="mb-4">Edit</button>
-                              {selectedFile && <button className="text-brand-green-primary"></button>}
+                              Edit
                             </label>
-                            <input type="file" name="profilepics" id="profilepics" className=" hidden outline-none" />
+                            <input
+                              type="file"
+                              onChange={handleFileChange}
+                              name="profilepics"
+                              id="avatarUpload"
+                              className=" hidden outline-none"
+                            />
                           </div>
 
                           <AccountManagementMobile />
@@ -532,10 +566,10 @@ const SettingPage = () => {
              settingOption.accountManagement || settingOption.deleteAccount || settingOption.refer
                ? 'md:block lg:block hidden'
                : ''
-           }
+           } ${settingOption.notificationSettings && 'md:block'}
            hover:bg-brand-green-hover hover:text-white-100 `}
         >
-          Save <span className={` ${showReferInfo && 'hidden md:inline'}`}>& Close </span>
+          Save <span className={` ${showReferInfo && 'hidden md b:inline'}`}>& Close </span>
         </Button>
       </div>
     </MainLayout>

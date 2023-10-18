@@ -38,7 +38,9 @@ type Props =
 
 // visit context type
 export const getServerSideProps: GetServerSideProps<Props> = async (context: any) => {
-  const { category, subCategory } = context.query;
+  const { category: _category, subCategory: _subCategory } = context.query;
+  const category = _category?.replace(/_/g, ' ');
+  const subCategory = _subCategory?.replace(/_/g, ' ');
 
   // if category and subcategory does not exist
   if (!category || !subCategory) {
@@ -53,7 +55,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
   try {
     const res = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}/${subCategory}/`);
 
-    if (res.data.products.length === 0) {
+    if (res.data.data.length === 0) {
       return {
         props: {
           response: {
@@ -70,14 +72,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
         response: {
           error: false,
           errorMessage: '',
-          data: res.data.products,
+          data: res.data.data,
         },
       },
     };
   } catch (e: any) {
     // if product does not exist or empty
     // error 500 that returns html string and check if message error is not return
-    if (!e.response.data?.message) {
+    if (!e.response?.data?.message) {
       return {
         props: {
           response: {
@@ -112,7 +114,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
 
 export default function SubCategoryPage({ response }: ResponseType) {
   const router = useRouter();
-  const { category, subCategory } = router.query;
+  const { category, subCategory: _subCategory } = router.query;
+
+  const subCategory = (_subCategory as string)?.replace(/_/g, ' ');
   const { updatePath } = useContext(PreviousUrlContext);
   //fix hydration error
   const [isReady, setReady] = useState(false);

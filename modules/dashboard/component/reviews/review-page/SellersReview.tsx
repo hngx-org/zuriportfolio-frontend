@@ -9,10 +9,14 @@ import star1 from '../../../../../public/assets/star1.svg';
 import star2 from '../../../../../public/assets/star2.svg';
 import { postReplyByReviewId } from '../../../../../http/api/controllerReview';
 import { useRouter } from 'next/router';
+import Loader from '@ui/Loader';
+import ReviewReplyModal from '../../../../../components/Modals/ReviewReplyModal';
 
 export default function SellerReview(props: reviewProps) {
   const [reply, setReply] = useState<string>();
   const [res, setRes] = useState<boolean>(false);
+  const [load, setLoad] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const router = useRouter();
 
@@ -31,12 +35,19 @@ export default function SellerReview(props: reviewProps) {
     return stars;
   }
   function handleSubmit(id: string) {
+    setLoad(true);
     const payload = { name: 'Zuri', feedback: reply! };
     postReplyByReviewId({ id }, payload).then((res) => {
-      router.reload();
+      setModalIsOpen(true);
+      setTimeout(closeModal, 3000);
+      // router.reload();
     });
   }
 
+  function closeModal() {
+    setModalIsOpen(false);
+    router.reload();
+  }
   return (
     <div className=" w-full m-0 p-0">
       <div className=" w-full  mb-6 ">
@@ -68,18 +79,29 @@ export default function SellerReview(props: reviewProps) {
               <label htmlFor="" className="text-center w-16 py-4 px-2">
                 Reply
               </label>
-              <Input
-                onChange={(e) => {
-                  setReply(e.target.value);
-                }}
-                type="text"
-                size={48}
-                placeholder="Send"
-                className="  w-full lg:w-[450px] placeholder:text-end flex"
-                rightIcon={
-                  <Send className="cursor-pointer" color="#777" onClick={(e) => handleSubmit(`${props.reviewId}`)} />
-                }
-              />
+              {load === false ? (
+                <Input
+                  onChange={(e) => {
+                    setReply(e.target.value);
+                  }}
+                  type="text"
+                  size={48}
+                  placeholder="Send"
+                  className="  w-full lg:w-[450px] placeholder:text-end flex text-black font-semibold"
+                  rightIcon={
+                    <Send color="#777" className=" cursor-pointer" onClick={(e) => handleSubmit(`${props.reviewId}`)} />
+                  }
+                />
+              ) : (
+                <Input
+                  type="text"
+                  size={48}
+                  className="  w-full lg:w-[450px] placeholder:text-end flex text-black font-semibold"
+                  isLoading
+                  disabled
+                  rightIcon={<Loader />}
+                />
+              )}
             </form>
           )}
         </div>
@@ -93,6 +115,12 @@ export default function SellerReview(props: reviewProps) {
           </div>
         )}
       </div>
+      <ReviewReplyModal
+        isOpen={modalIsOpen}
+        closeModal={closeModal}
+        closeOnOverlayClick={false}
+        title="Sent"
+      ></ReviewReplyModal>
     </div>
   );
 }

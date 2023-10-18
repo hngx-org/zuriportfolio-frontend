@@ -5,6 +5,7 @@ import CategoriesNav from '../CategoriesNav/CategoriesNav';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import jwtDecode from 'jwt-decode';
 import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
+import { CategoryType } from '../filter/hooks/useCategory';
 
 interface LayoutProps extends React.ComponentPropsWithRef<'section'> {
   children: React.ReactNode;

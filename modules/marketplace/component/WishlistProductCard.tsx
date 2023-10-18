@@ -27,7 +27,7 @@ export const WishlistProductCard = ({
               alt={product.name}
               width={145}
               height={150}
-              className="h-[150px] min-w-[145px] md:min-w-[165px] object-cover"
+              className="h-[150px] min-w-[145px] md:min-w-[165px] object-cover rounded-md"
             />
           </div>
 
@@ -37,7 +37,7 @@ export const WishlistProductCard = ({
                 <div className="flex flex-col gap-2">
                   <p className="text-[10px] md:text-xs text-custom-color16">{'Software Engineering'}</p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
-                    <Link href={`/marketplace/product-details`}>{product.name}</Link>
+                    <Link href={`/marketplace/product-details?id=${product.id}`}>{product.name}</Link>
                   </p>
                 </div>
 
@@ -86,7 +86,7 @@ export const WishlistProductCard = ({
                 className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 focus:outline-none  focus:bg-red-200 focus:text-white-100 active:bg-red-200 active:text-white-100"
                 size={'sm'}
                 spinnerColor="#D5DBDB"
-                onClick={() => handleRemoveFromWishlist(product.id)}
+                onClick={() => handleRemoveFromWishlist(product?.id)}
               >
                 <RiDeleteBin6Line className="text-[18px] text-white-650 group-hover:fill-white-100" />
                 Remove
@@ -105,7 +105,13 @@ export const WishlistProductCard = ({
         </div>
 
         <div className="md:hidden self-start mt-1 cursor-pointer">
-          <Image src={deleteIcon} alt="delete" width={35} height={35} />
+          <Image
+            src={deleteIcon}
+            alt="delete"
+            width={35}
+            height={35}
+            onClick={() => handleRemoveFromWishlist(product?.id)}
+          />
         </div>
         <div className="hidden md:block">
           <Button

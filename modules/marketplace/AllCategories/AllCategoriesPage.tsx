@@ -15,30 +15,30 @@ export default function AllCategoriesPage() {
   const [categoryProducts, setCategoryProducts] = useState<Cat>({ isLoading: true, items: [] });
 
   useEffect(() => {
-    if (categoryProducts.items.length) return;
     try {
-      fetch(`${baseUrl}categoryNames/`)
+      fetch(`${baseUrl}category-name`)
         .then((res) => res.json())
         .then((data) => {
-          setCategories({ items: data['categories name'], isLoading: false });
-          const cats: string[] = data['categories name'];
-          console.log(cats);
-          cats.forEach((item) => {
-            fetch(`${baseUrl}products/${item}`)
+          setCategories({ items: data?.data, isLoading: false });
+          const cats: { name: string; subcategories: any[] }[] = data.data;
+          cats.forEach((item, index) => {
+            fetch(`${baseUrl}products/${item.name}`)
               .then((res) => res.json())
               .then((data) =>
                 setCategoryProducts((prevData) => {
-                  return { ...prevData, items: [...prevData.items, { title: item, product: data }] };
+                  return { ...prevData, items: [...prevData.items, { title: item.name, product: data }] };
                 }),
-              );
+              )
+              .then(() => {
+                setCategoryProducts((prevData) => {
+                  return { ...prevData, isLoading: false };
+                });
+              });
           });
         });
     } catch (error) {
       setCategories({ items: [], isLoading: false });
     } finally {
-      setCategoryProducts((prevData) => {
-        return { ...prevData, isLoading: false };
-      });
     }
   }, []);
 
@@ -100,7 +100,7 @@ export default function AllCategoriesPage() {
               </div>
 
               <ProductCardWrapper
-                productsList={{ isLoading: categoryProducts?.isLoading, items: reduceItem(row?.product) }}
+                productsList={{ isLoading: categoryProducts?.isLoading, items: reduceItem(row?.product?.data) }}
                 title={''}
                 showTopPicks={false}
                 showAll={false}
