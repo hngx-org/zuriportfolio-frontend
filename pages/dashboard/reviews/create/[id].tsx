@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MainLayout from '../../../components/Layout/MainLayout';
+import MainLayout from '../../../../components/Layout/MainLayout';
 import Container from '@modules/auth/component/Container/Container';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
@@ -7,6 +7,7 @@ import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
 // import { ratingData } from '../../../db/reviews';
 import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
+import { useRouter } from 'next/router';
 
 interface RatsData {
   oneStar: number;
@@ -26,14 +27,27 @@ interface RatsApiResponse {
 }
 
 export default function UserReview() {
+  const router = useRouter();
+  const { id } = router.query;
+
   const { categories, loading } = useCategoryNav();
   const [rats, setRats] = useState<RatsData>();
+  // useEffect(() => {
+  //   fetch('https://team-liquid-repo.onrender.com/api/review/products/10/rating')
+  //     .then((res) => res.json())
+  //     .then((data) => setRats(data.data))
+  //     .catch((e) => console.log(e));
+  // }, []);
+
   useEffect(() => {
-    fetch('https://team-liquid-repo.onrender.com/api/review/products/10/rating')
-      .then((res) => res.json())
-      .then((data) => setRats(data.data))
-      .catch((e) => console.log(e));
-  }, []);
+    if (id) {
+      const apiUrl: string = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`;
+      fetch(apiUrl)
+        .then((res) => res.json())
+        .then((data) => setRats(data.data))
+        .catch((e) => console.log(e));
+    }
+  }, [id]);
 
   const ratingData = [
     { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },

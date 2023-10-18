@@ -2,6 +2,7 @@ import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperA
 import ProductsListingNavbar from '@modules/super-admin/components/product-listing/ProductListingNavbar';
 import ProductListingTable from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { useGetProd } from '../../../http/super-admin1';
+import { withAdminAuth } from '../../../helpers/withAuth';
 
 const ProductListing = () => {
   const { data, isLoading } = useGetProd();
@@ -13,4 +14,4 @@ const ProductListing = () => {
     </div>
   );
 };
-export default ProductListing;
+export default withAdminAuth(ProductListing);

@@ -1,14 +1,10 @@
 import { CartItemProps } from '../@types';
 import $http from './axios';
 
-export const CART_ENDPOINT =
-  process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
+export const CART_ENDPOINT = process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const RECENTLY_VIEWED_ENDPOINT =
   process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed';
-
-const guestToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI3NTkwNzY4LTZhZjUtNGFiMS1hNGEwLWZiNmQ5NzM4Y2JmMCIsImlhdCI6MTY5NzQ0NjY1NH0.BGIinA0uWtPFlf0tu2J_i_oCLOwWCKSVA5kwRX2oMiQ';
 
 export const addToCart = async (cartItems: string[], token: string) => {
   try {
@@ -21,7 +17,7 @@ export const addToCart = async (cartItems: string[], token: string) => {
         },
       },
     );
-    if (response.status == 200) {
+    if (response.status == 201) {
       return { status: true, data: response.data };
     }
     return { status: false };
@@ -63,9 +59,9 @@ export const removeFromCart = async (productId: string, token: string) => {
 export const createTempUser = async (datas: { email: string; firstName: string; lastName: string }) => {
   try {
     const apiUrl = 'https://staging.zuri.team/api/auth/api/auth/signup-guest';
-    // const response = await $http.post(apiUrl,datas)
-    // return response.data
-    return { data: { token: guestToken } };
+    const response = await $http.post(apiUrl,datas)
+    return response.data
+    // return { data: { token: guestToken } };
   } catch (error) {
     return { error: error, data: { token: '' } };
   }
@@ -125,10 +121,10 @@ export const makePayment = async (selectedPaymentMethod: string, token: string) 
         },
       });
 
-      console.log('API Response:', response.data);
-      return response.data;
+      return {status: true, data: response.data};
     } catch (error) {
       console.error('Error making payment:', error);
+      return {status: false, data: null}
       throw error;
     }
   } else {

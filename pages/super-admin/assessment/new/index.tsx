@@ -12,6 +12,7 @@ import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
 import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
@@ -254,4 +255,4 @@ const CreateAssessment = () => {
   );
 };
 
-export default CreateAssessment;
+export default withAdminAuth(CreateAssessment);

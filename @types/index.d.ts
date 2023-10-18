@@ -857,3 +857,38 @@ export interface ProductResult {
   rating: number;
   user: string;
 }
+
+export interface ReviewData {
+  productId: string;
+  reviewId: string;
+  customerName: string;
+  description: string;
+  isHelpful: number;
+  rating: 0;
+  reply: {
+    id: string;
+    name: string;
+    message: string;
+    createdAt: string;
+  };
+  numberOfPages: 0;
+  updatedAt: string;
+  createdAt: string;
+}
+
+export interface ReviewApiResponse {
+  data: ReviewData[];
+}
+
+export interface RatsData {
+  oneStar: number;
+  twoStar: number;
+  threeStar: number;
+  fourStar: number;
+  fiveStar: number;
+  totalRating: number;
+  averageRating: number;
+  numberOfRating: number;
+  productId: string;
+  id: string;
+}

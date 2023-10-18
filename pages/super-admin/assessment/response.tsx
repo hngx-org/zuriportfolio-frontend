@@ -5,8 +5,9 @@ import { ArrowLeft2 } from 'iconsax-react';
 import { ArrowRight2 } from 'iconsax-react';
 import styles from './assessment_response.module.css';
 import MainLayout from '../../../components/Layout/MainLayout';
+import { withAdminAuth } from '../../../helpers/withAuth';
 
-export default function AssessmentResponse() {
+function AssessmentResponse() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const totalPages: number = 5;
 
@@ -490,3 +491,5 @@ export default function AssessmentResponse() {
     </MainLayout>
   );
 }
+
+export default withAdminAuth(AssessmentResponse)
