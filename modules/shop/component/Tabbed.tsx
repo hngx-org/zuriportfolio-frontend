@@ -92,20 +92,12 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
             <Image src={star2} alt="rating star" />
             <Image src={star2} alt="rating star" />
           </div>
-          <div className="flex gap-2">
-            <Image src={verifyIcon} alt="Verify Icon" />
-            <p className="color-green-300 font-manropeB text-sm font-semibold text-brand-green-shade50">
-              Verified Purchase
-            </p>
-          </div>
         </div>
         <p className="font-manropeL text-sm font-normal color-green-900 pt-5">
           Having this product is the best thing that has happened to me in a very long time. Thank you so much for this
           product. The shipping and delivery was also very good. But there a few tweaks that this can actually have
           though.
         </p>
-
-        <p className="pt-8 text-[#A1ADB2] font-manropeB text-xs font-semibold">322 people found this helpful</p>
 
         <div className="pt-4 flex items-center">
           <button className="text-gray-300 font-manropeB text-xs font-medium rounded-[10px] border-[1px] border-gray-300 px-2 mr-3.5">
@@ -118,7 +110,7 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
 
         <div className="mt-[18px] pt-[18px] pb-[46px] pr-[70px] pl-[16px] bg-[#F9F9F9]">
           <div className="flex items-center justify-between w-6/12">
-            <h3 className="font-manropeB text-sm font-semibold">ZuriMarket</h3>
+            <h3 className="font-manropeB text-sm font-semibold">ZuriShopOwner</h3>
             <p className="font-manropeL text-xs font-normal text-[#A1ADB2]">September 22, 2023.</p>
           </div>
           <p className="font-manropeL text-sm font-normal mt-4">

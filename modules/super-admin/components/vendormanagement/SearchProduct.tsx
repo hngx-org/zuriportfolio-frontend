@@ -8,7 +8,7 @@ function SearchProduct({ handleSearchChange }: searchProp) {
     handleSearchChange(searchVal);
   }, [searchVal]);
   return (
-    <div>
+    <div className="w-[400px]">
       <Input
         onChange={(e) => {
           setSearchVal(e.target.value);
@@ -19,7 +19,7 @@ function SearchProduct({ handleSearchChange }: searchProp) {
         type="text"
         intent={'default'}
         disabled={false}
-        className=""
+        className="md:min-w-[350px] w-[100%]"
         placeHolder="Search"
       />
     </div>

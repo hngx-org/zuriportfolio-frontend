@@ -9,20 +9,19 @@ const Footer: React.FC<FooterProps> = ({ shopName }) => {
     <footer className="bg-green-600 w-full text-white-100 ">
       <div className="container mx-auto py-10 px-4 sm:px-6 md:px-3">
         <div className="flex  md:flex-row flex-col  items-center justify-between">
-          <div className="flex  md:flex-col md:text-base text-xs font-manropeEB flex-row items-center md:items-start md:gap-2 gap-6 text-left mb-4 md:mb-0">
-            Shop By
+          <div className="flex  md:flex-col md:text-base text-xs font-manropeEB items-center md:items-start md:gap-2 text-left mb-4 md:mb-0 tracking-[0.005rem] flex-col">
+            zuriportfolio shop by:
             <p className="md:text-base text-xs font-manropeEL">{shopName}</p>{' '}
           </div>
           <div className=" flex md:flex-row flex-col md:space-y-0 space-y-6 md:items-center items-center   md:space-x-6">
             <div className="flex flex-row items-center gap-6 justify-between">
               <h1 className="md:text-sm text-xs cursor-pointer font-manropeEL text-normal">Contact Us</h1>
-              <h1 className="font-manropeB cursor-pointer text-base">{}</h1>
             </div>
 
-            <div className="flex flex-row items-center gap-6 justify-between">
+            <div className="flex flex-row gap-6 items-center justify-between">
               <h1 className="md:text-sm text-xs cursor-pointer font-manropeEL text-normal">Follow Us</h1>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center gap-x-4">
                 <a href="#" className="text-white cursor-pointer bg-[#1DA1F2] rounded-full p-2">
                   <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 32 32">
                     <path
@@ -34,7 +33,7 @@ const Footer: React.FC<FooterProps> = ({ shopName }) => {
                 <a href="" className="bg-[#F00073] cursor-pointer rounded-full p-2 text-white">
                   <Instagram size={15} color="#fff" />
                 </a>
-                <a href="#" className="text-white cursor-pointer rounded-full">
+                <a href="#" className="text-white cursor-pointer rounded-full -ml-1">
                   <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35" viewBox="0 0 48 48">
                     <path fill="#039be5" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"></path>
                     <path
