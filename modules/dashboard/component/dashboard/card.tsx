@@ -12,6 +12,10 @@ import {
 } from '../../../../http/dashboard';
 
 export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardProps) => {
+  let todaysFinalCardValue;
+  let yesterdaysFinalCardValue;
+  let finalPercentage = 0;
+
   function logQueryResult(queryName: string, queryData: any) {
     console.log(`${queryName}:`, queryData);
   }
@@ -32,71 +36,58 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
     queryKey: ['todays-orders'],
     enabled: true,
   });
-  logQueryResult("Today's Orders", queryTodaysOrders);
+  // logQueryResult("Today's Orders", queryTodaysOrders);
 
   const { data: queryTodaysRevenue } = useQuery({
     queryFn: () => fetchTodaysRevenue(),
     queryKey: ['todays-revenue'],
     enabled: true,
   });
-  logQueryResult("Today's Revenue", queryTodaysRevenue);
+  // logQueryResult("Today's Revenue", queryTodaysRevenue);
 
   const { data: queryYesterdaysAverageOrderValue } = useQuery({
     queryFn: () => fetchYesterdaysAverageOrderValue(),
     queryKey: ['yesterdays-average-order-value'],
     enabled: true,
   });
-  logQueryResult("Yesterday's Average Order Value", queryYesterdaysAverageOrderValue);
+  // logQueryResult("Yesterday's Average Order Value", queryYesterdaysAverageOrderValue);
 
   const { data: queryYesterdaysOrders } = useQuery({
     queryFn: () => fetchYesterdaysOrders(),
     queryKey: ['yesterdays-orders'],
     enabled: true,
   });
-  logQueryResult("Yesterday's Orders", queryYesterdaysOrders);
+  // logQueryResult("Yesterday's Orders", queryYesterdaysOrders);
 
   const { data: queryYesterdaysRevenue } = useQuery({
     queryFn: () => fetchYesterdaysRevenue(),
     queryKey: ['yesterdays-revenue'],
     enabled: true,
   });
-  logQueryResult("Yesterday's Revenue", queryYesterdaysRevenue);
+  // logQueryResult("Yesterday's Revenue", queryYesterdaysRevenue);
 
-  // Calculate todaysFinalCardValue
-  const todaysFinalCardValue =
-    title === 'Average order value'
-      ? queryTodaysAverageOrderValue || 0
-      : title === "Today's orders"
-      ? queryTodaysOrders
-      : title === "Today's revenue"
-      ? Array.isArray(queryTodaysRevenue) && queryTodaysRevenue.length > 0
-        ? queryTodaysRevenue
-        : 0
-      : typeof value === 'number'
-      ? value
-      : 0;
+  if (title === 'Average order value') {
+    todaysFinalCardValue = queryTodaysAverageOrderValue;
+    yesterdaysFinalCardValue = queryYesterdaysAverageOrderValue;
+  } else if (title === "Today's orders") {
+    todaysFinalCardValue = queryTodaysOrders;
+    yesterdaysFinalCardValue = queryYesterdaysOrders;
+  } else if (title === "Today's revenue") {
+    if (Array.isArray(queryTodaysRevenue) && queryTodaysRevenue.length > 0) {
+      todaysFinalCardValue = queryTodaysRevenue;
+    }
+    if (Array.isArray(queryYesterdaysRevenue) && queryYesterdaysRevenue.length > 0) {
+      yesterdaysFinalCardValue = queryYesterdaysRevenue;
+    }
+  }
 
-  // Calculate yesterdaysFinalCardValue
-  const yesterdaysFinalCardValue =
-    title === 'Average order value'
-      ? queryYesterdaysAverageOrderValue || 0
-      : title === "Today's orders"
-      ? queryYesterdaysOrders
-      : title === "Today's revenue"
-      ? Array.isArray(queryYesterdaysRevenue) && queryYesterdaysRevenue.length > 0
-        ? queryYesterdaysRevenue
-        : 0
-      : typeof value === 'number'
-      ? value
-      : 0;
-
-  // Using a ternary operator to check if cardValue is not a number and default to value
-  const finalCardValue = isNaN(todaysFinalCardValue) ? value : todaysFinalCardValue;
-
-  // Calculate finalPercentage
-  let finalPercentage = 0;
-
-  if (yesterdaysFinalCardValue !== null && yesterdaysFinalCardValue !== undefined && yesterdaysFinalCardValue !== 0) {
+  if (todaysFinalCardValue === undefined || todaysFinalCardValue === null) {
+    todaysFinalCardValue = 0;
+  }
+  if (yesterdaysFinalCardValue === undefined || yesterdaysFinalCardValue === null) {
+    yesterdaysFinalCardValue = 0;
+  }
+  if (yesterdaysFinalCardValue !== undefined && yesterdaysFinalCardValue !== null && yesterdaysFinalCardValue !== 0) {
     finalPercentage = ((todaysFinalCardValue - yesterdaysFinalCardValue) / yesterdaysFinalCardValue) * 100;
   }
 
@@ -115,7 +106,7 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
       )}
       {!isFetching && isFetched && (
         <p className="flex items-center justify-between">
-          <span className="text-2xl font-bold md:text-3xl">{`${isCurrency ? '$' : ''}${finalCardValue}`}</span>
+          <span className="text-2xl font-bold md:text-3xl">{`${isCurrency ? '$' : ''}${todaysFinalCardValue}`}</span>
           <span
             className={`${
               finalPercentage > 0 ? 'bg-green-30 text-brand-green-primary' : 'bg-pink-120 text-brand-red-primary'

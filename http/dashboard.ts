@@ -53,7 +53,10 @@ export const fetchTodaysAverageOrderValue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const todaysAverageOrderValue = res?.data?.data?.averageSales;
+    const todaysAverageOrderValue = res?.data?.data?.averageOrderValue;
+    if (!todaysAverageOrderValue) {
+      return 0;
+    }
     return todaysAverageOrderValue;
   } catch (error) {
     // fetchErrorToast('todays average order value');
@@ -104,6 +107,9 @@ export const fetchYesterdaysAverageOrderValue = async () => {
       },
     });
     const yesterdaysAverageOrderValue = res?.data?.data?.averageSales;
+    if (!yesterdaysAverageOrderValue) {
+      return 0;
+    }
     return yesterdaysAverageOrderValue;
   } catch (error) {
     // fetchErrorToast('yesterdays average order value');
@@ -116,13 +122,14 @@ export const fetchYesterdaysAverageOrderValue = async () => {
 
 export const fetchSalesReports = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/reports?timeframe=12m,3m,1yr,7d,24hr`, {
+    const res: any = await axiosDashboardInstance.get(`/sales/reports?timeframe=12m,3m,1yr,7d,24hr`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    // console.log(res);
-    return res.data;
+    const salesReport = res?.data?.data;
+    console.log(salesReport);
+    return salesReport;
   } catch (error) {
     // fetchErrorToast('sales reports');
     // console.error('Error fetching reports:', error);
@@ -137,7 +144,7 @@ export const fetchStoreTraffic = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    // console.log(res);
+    console.log(res);
     return res.data;
   } catch (error) {
     // fetchErrorToast('store traffic');
@@ -155,7 +162,7 @@ export const fetchActivity = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    // console.log(res);
+    console.log(res);
     return res.data;
   } catch (error) {
     // fetchErrorToast('activity');
