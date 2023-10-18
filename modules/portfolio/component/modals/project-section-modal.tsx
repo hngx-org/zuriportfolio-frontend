@@ -83,7 +83,12 @@ const ProjectSectionModal = ({
             />
           )}
           {route === allRoutes[1] && (
-            <AllProjectsModal handleSetRoute={handleSetRoute} projects={projects} onEdit={handleEditData} />
+            <AllProjectsModal
+              handleSetRoute={handleSetRoute}
+              projects={projects}
+              onEdit={handleEditData}
+              onCloseModal={onCloseModal}
+            />
           )}
         </>
       )}

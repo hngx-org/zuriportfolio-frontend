@@ -10,9 +10,11 @@ const AllProjectsModal = ({
   onEdit,
   projects,
   handleSetRoute,
+  onCloseModal,
 }: {
   projects: any[];
   onEdit: (data: Data) => void;
+  onCloseModal: () => void;
   handleSetRoute: (data: allRouteOptions) => void;
 }) => {
   const handleEdit = (data: Data) => {
@@ -86,7 +88,7 @@ const AllProjectsModal = ({
           </p>
         </section>
         <section className="w-fit flex items-center gap-4">
-          <Button intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+          <Button onClick={onCloseModal} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
             Cancel
           </Button>
           <Button className={`w-full rounded-md sm:w-[6rem]`} size={'lg'}>
