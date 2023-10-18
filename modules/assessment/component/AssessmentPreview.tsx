@@ -1,9 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft2 } from 'iconsax-react';
+import { useRouter } from 'next/router';
 
 export default function Preview() {
+  const router = useRouter();
+  const assessment_id = router.query.assessment_id;
+  interface Assessment {
+    question_no: number;
+    question_text: string;
+    assessment_title: string;
+    correct_answer: string;
+    question_type: string;
+    options: string[];
+  }
+  const [assessments, setAssessments] = useState<Assessment[]>([]);
+  useEffect(() => {
+    const fetchAssessmentData = async () => {
+      try {
+        const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessment_id}/preview/`;
+
+        const zpt = localStorage.getItem('zpt') ?? '';
+
+        const response = await fetch(apiUrl, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${zpt}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setAssessments(data);
+        console.log('assessment data', data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchAssessmentData();
+  }, []);
   return (
     <div className="mb-32 mt-[-7%] md:mt-[-2%]">
       <Image
@@ -52,464 +92,506 @@ export default function Preview() {
         </div>
       </div>
 
-      {/* Q&A container*/}
       <div className="flex flex-col justify-center items-center">
-        {/* first */}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 1 out of 10
-          </h1>
-          <div className="pl-6">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              What is the primary goal of a &apos;landing page in digital marketing?
-            </p>
-            <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
-          </div>
+        {assessments.length > 0 ? (
+          assessments.map((assessment, index) => {
+            return (
+              <div
+                key={index}
+                className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]"
+              >
+                <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+                  Question {assessment.question_no} out of 10
+                </h1>
+                <div className="pl-6">
+                  <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">{assessment.question_text}</p>
+                  <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">
+                    Pick only one correct answer
+                  </span>
+                </div>
 
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
-                To showcase the company&apos;s history
-              </label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
-                To collect visitor information or encourage a specific action
-              </label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To display a blog</label>
-            </div>
-          </div>
-        </div>
-
-        {/* second */}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 2 out of 10
-          </h3>
-          <div className="">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
-            </p>
-            <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
-          </div>
-
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
-            </div>
-          </div>
-        </div>
-
-        {/* third */}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 3 out of 10
-          </h1>
-          <div className="pl-6">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              What is the primary goal of a &apos;landing page in digital marketing?
-            </p>
-            <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
-          </div>
-
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
-                To showcase the company&apos;s history
-              </label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
-                To collect visitor information or encourage a specific action
-              </label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To display a blog</label>
-            </div>
-          </div>
-        </div>
-
-        {/*fourth*/}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 4 out of 10
-          </h3>
-          <div className="">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
-            </p>
-            <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
-          </div>
-
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
-            </div>
-          </div>
-        </div>
-
-        {/* fifth */}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 5 out of 10
-          </h1>
-          <div className="pl-6">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              What is the primary goal of a &apos;landing page in digital marketing?
-            </p>
-            <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
-          </div>
-
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
-                To showcase the company&apos;s history
-              </label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
-                To collect visitor information or encourage a specific action
-              </label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To display a blog</label>
-            </div>
-          </div>
-        </div>
-
-        {/* sixth */}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 6 out of 10
-          </h3>
-          <div className="">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
-            </p>
-            <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
-          </div>
-
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
-            </div>
-          </div>
-        </div>
-
-        {/* seven */}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 7 out of 10
-          </h1>
-          <div className="pl-6">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              What is the primary goal of a &apos;landing page in digital marketing?
-            </p>
-            <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
-          </div>
-
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
-                To showcase the company&apos;s history
-              </label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
-                To collect visitor information or encourage a specific action
-              </label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To display a blog</label>
-            </div>
-          </div>
-        </div>
-
-        {/* eight */}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 8 out of 10
-          </h3>
-          <div className="">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
-            </p>
-            <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
-          </div>
-
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
-            </div>
-          </div>
-        </div>
-
-        {/* nine */}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 9 out of 10
-          </h1>
-          <div className="pl-6">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              What is the primary goal of a &apos;landing page in digital marketing?
-            </p>
-            <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
-          </div>
-
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E]">To showcase the company&apos;s history</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E]">To collect visitor information or encourage a specific action</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E]">To display a blog</label>
-            </div>
-          </div>
-        </div>
-
-        {/* ten */}
-        <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
-          <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-            Question 10 out of 10
-          </h3>
-          <div className="">
-            <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
-              In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
-            </p>
-            <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
-          </div>
-
-          {/* Checkbox Q&A*/}
-          <div className="mt-12 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
-            </div>
-            <div className="flex items-center gap-4">
-              <input
-                type="radio"
-                value=""
-                name="default-radio"
-                className="min-w-[24px] min-h-[24px] accent-[#009254]"
-              />
-              <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
-            </div>
-          </div>
-        </div>
+                {/* Checkbox Q&A*/}
+                <div className="mt-12 flex flex-col gap-8">
+                  {assessment.options.map((option, index) => {
+                    return (
+                      <div key={index} className="flex items-center gap-4">
+                        <input
+                          type="radio"
+                          // value=""
+                          name="default-radio"
+                          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+                        />
+                        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">{option}</label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <p></p>
+        )}
       </div>
     </div>
   );
 }
+
+//  {/* Q&A container*/}
+//  <div className="flex flex-col justify-center items-center">
+//  {/* first */}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 1 out of 10
+//    </h1>
+//    <div className="pl-6">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        What is the primary goal of a &apos;landing page in digital marketing?
+//      </p>
+//      <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
+//          To showcase the company&apos;s history
+//        </label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
+//          To collect visitor information or encourage a specific action
+//        </label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To display a blog</label>
+//      </div>
+//    </div>
+//  </div>
+
+//  {/* second */}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 2 out of 10
+//    </h3>
+//    <div className="">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
+//      </p>
+//      <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
+//      </div>
+//    </div>
+//  </div>
+
+//  {/* third */}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 3 out of 10
+//    </h1>
+//    <div className="pl-6">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        What is the primary goal of a &apos;landing page in digital marketing?
+//      </p>
+//      <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
+//          To showcase the company&apos;s history
+//        </label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
+//          To collect visitor information or encourage a specific action
+//        </label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To display a blog</label>
+//      </div>
+//    </div>
+//  </div>
+
+//  {/*fourth*/}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 4 out of 10
+//    </h3>
+//    <div className="">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
+//      </p>
+//      <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
+//      </div>
+//    </div>
+//  </div>
+
+//  {/* fifth */}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 5 out of 10
+//    </h1>
+//    <div className="pl-6">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        What is the primary goal of a &apos;landing page in digital marketing?
+//      </p>
+//      <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
+//          To showcase the company&apos;s history
+//        </label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
+//          To collect visitor information or encourage a specific action
+//        </label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To display a blog</label>
+//      </div>
+//    </div>
+//  </div>
+
+//  {/* sixth */}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 6 out of 10
+//    </h3>
+//    <div className="">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
+//      </p>
+//      <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
+//      </div>
+//    </div>
+//  </div>
+
+//  {/* seven */}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 7 out of 10
+//    </h1>
+//    <div className="pl-6">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        What is the primary goal of a &apos;landing page in digital marketing?
+//      </p>
+//      <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
+//          To showcase the company&apos;s history
+//        </label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">
+//          To collect visitor information or encourage a specific action
+//        </label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To display a blog</label>
+//      </div>
+//    </div>
+//  </div>
+
+//  {/* eight */}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 8 out of 10
+//    </h3>
+//    <div className="">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
+//      </p>
+//      <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
+//      </div>
+//    </div>
+//  </div>
+
+//  {/* nine */}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 9 out of 10
+//    </h1>
+//    <div className="pl-6">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        What is the primary goal of a &apos;landing page in digital marketing?
+//      </p>
+//      <span className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Pick only one correct answer</span>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">To provide customer support</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E]">To showcase the company&apos;s history</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E]">To collect visitor information or encourage a specific action</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E]">To display a blog</label>
+//      </div>
+//    </div>
+//  </div>
+
+//  {/* ten */}
+//  <div className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]">
+//    <h3 className="text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
+//      Question 10 out of 10
+//    </h3>
+//    <div className="">
+//      <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">
+//        In digital marketing, a higher bounce rate on a website is always a negative indicator of performance.
+//      </p>
+//      <label className=" text-[#004FC4] text-sm tracking-[0.5%] font-normal">Choose either true of false</label>
+//    </div>
+
+//    {/* Checkbox Q&A*/}
+//    <div className="mt-12 flex flex-col gap-8">
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">True</label>
+//      </div>
+//      <div className="flex items-center gap-4">
+//        <input
+//          type="radio"
+//          value=""
+//          name="default-radio"
+//          className="min-w-[24px] min-h-[24px] accent-[#009254]"
+//        />
+//        <label className="text-[#5B5F5E] font-normal text-sm tracking-[0.5%]">false</label>
+//      </div>
+//    </div>
+//  </div>
+// </div>

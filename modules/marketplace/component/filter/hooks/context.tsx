@@ -65,7 +65,6 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
         throw new Error(error.message);
       }
     } finally {
-      setLoading(false);
     }
   }
 
