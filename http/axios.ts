@@ -17,7 +17,7 @@ let isAuthenticated = true;
 
 function handleSessionExpiration() {
   isAuthenticated = false;
-  window.location.href = '/login';
+  window.location.href = '/auth/login';
 }
 
 if (!isServer) {
