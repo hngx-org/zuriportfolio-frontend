@@ -17,7 +17,6 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setResponse(data.products);
       });
   }, [url]);
@@ -53,10 +52,8 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
 
         if (response.status === 200) {
           toast.success('Added to Cart');
-          console.log('success');
         }
       } catch (error: any) {
-        console.error(error);
         toast.error(error.message);
       }
     } else {
@@ -64,7 +61,6 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
       if (product) {
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
-        console.log(products);
         toast.success('Item added to cart🎊');
       }
     }
@@ -77,7 +73,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
       </h1>
 
       <div className="lg:flex lg:flex-row lg:items-center lg:gap-[16px] lg:overflow-hiddenlg:w-[100%] lg:my-[40px] my-[40px] md:grid-cols-2 md:grid md:gap-[16px]">
-        {response.map((item, index) => (
+        {response?.map((item, index) => (
           <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[298px]" key={index}>
             <Link href={`/marketplace/product-details?id=${item?.id}`}>
               <div>
@@ -93,7 +89,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
                     </div>
                     <div className="w-[256px] h-[186px] overflow-hidden rounded-[8px]">
                       <Image
-                        src={item.images[0]?.url || '/assets/dummyImage.jpg'}
+                        src={item?.images[0]?.url || '/assets/dummyImage.jpg'}
                         alt="dummy image"
                         width={266}
                         height={186}
@@ -113,7 +109,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
                     </p>
                   </div>
                   <p className="text-custom-color43 font-manropeL text-[22px] font-bold ">
-                    {`$${formatPrice(item.price)}`}
+                    {`$${formatPrice(item?.price)}`}
                   </p>
                 </div>
 
