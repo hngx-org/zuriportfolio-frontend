@@ -18,8 +18,6 @@ type EditheadProps = {
 };
 
 const Edithead: React.FC<EditheadProps> = ({ assessment, onInputChange }) => {
-  
-
   const [disable, setDisable] = useState(true);
   const [inputValue, setInputValue] = useState<string>('');
 
