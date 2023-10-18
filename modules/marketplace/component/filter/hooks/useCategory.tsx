@@ -33,8 +33,11 @@ const useCategory = () => {
   }
 
   async function getProducts() {
-    const { data } = await axios.get<ProductList[]>('https://coral-app-8bk8j.ondigitalocean.app/api/product-list/');
-    setProducts(data);
+    const { data } = await axios.get<{ data: ProductList[] }>(
+      'https://coral-app-8bk8j.ondigitalocean.app/api/product-list/',
+    );
+
+    setProducts(data.data);
   }
 
   return { categories, loading, products };
