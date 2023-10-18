@@ -87,7 +87,7 @@ const UserReview = () => {
     }
   }, [id]);
   useEffect(() => {
-    null;
+    setIsLoading(true);
   }, [filteredData]);
 
   const ratingData = [
