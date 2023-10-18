@@ -8,17 +8,18 @@ import { useGetProd } from '../../../../http/super-admin1';
 import { DeletedProducts } from '../../../../@types';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
-  const { data, isLoading } = useGetProd();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data, isLoading } = useGetProd(currentPage, searchVal);
   const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>(data);
 
   const deletedProd = data?.data?.filter((item: any) => item?.product_status === 'Deleted');
 
   const [filteredProducts, setFilteredProducts] = useState(deletedProd);
-
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items to display per page
 
   // Calculate the range of products to display
@@ -163,4 +164,4 @@ const SanctionedProducts = () => {
   );
 };
 
-export default SanctionedProducts;
+export default withAdminAuth(SanctionedProducts);

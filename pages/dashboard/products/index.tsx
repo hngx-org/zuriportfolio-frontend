@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { SearchNormal1 } from 'iconsax-react';
 import Button from '@ui/Button';
@@ -8,17 +8,24 @@ import Loader from '@ui/Loader';
 import { Input } from '@ui/Input';
 import Pagination from '@ui/Pagination';
 import { toast } from 'react-toastify';
+import Head from 'next/head';
 type Product = {
   product_id: any;
   image: any;
   name: any;
   price: any;
   url: any;
+  shop_id: any;
+  quantity: any;
+  category_id: any;
+  description: any;
+  id: any;
 };
 const Products = () => {
   const [pageSize, setPageSize] = useState(2);
   const [currentPage, setCurrentPage] = useState(1);
   const [product, setProducts] = useState<Product[]>([]);
+  const ref = useRef<HTMLDivElement | null>(null);
   const [loading, setIsLoading] = useState(true);
   const productsPerPage = 8;
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -27,6 +34,9 @@ const Products = () => {
   // const [currentPage,setCurrentPage] = useState(1)
   const fetchProducts = async () => {
     // Fetch the product data from the server
+    if (ref) {
+      ref.current?.scrollIntoView(true);
+    }
     setIsLoading(true);
     try {
       setIsLoading(true);
@@ -81,7 +91,10 @@ const Products = () => {
 
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
-      <div className="max-w-[1240px] mx-auto my-4 px-6">
+      <Head>
+        <title>Products</title>
+      </Head>
+      <div className="max-w-[1240px] mx-auto my-4 px-6" ref={ref}>
         <div className="flex md:justify-end my-12 justify-center">
           <Link href="/dashboard/products/add-product">
             <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">

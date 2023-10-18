@@ -64,7 +64,7 @@ function ProductCardWrapper({
                           price={item?.price}
                           user={item?.shop ? `${item?.shop?.name}` : 'null'}
                           rating={item?.rating}
-                          showDiscount={item?.showDiscount}
+                          showDiscount={title === 'Limited Offers' ? true : false}
                           showTopPicks={showTopPicks}
                           discount_price={item?.discount_price}
                           shop={item?.shop}

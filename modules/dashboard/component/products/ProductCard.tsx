@@ -11,6 +11,11 @@ import Button from '@ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { RiCloseCircleFill } from 'react-icons/ri';
 import { MultipleFileUpload } from './MultipleFileUpload';
+import { useForm, zodResolver } from '@mantine/form';
+import z from 'zod';
+import Loader from '@ui/Loader';
+import axios from 'axios';
+import { type } from 'os';
 
 type Product = {
   product_id: any;
@@ -18,8 +23,18 @@ type Product = {
   name: any;
   price: any;
   url: any;
+  shop_id: any;
+  quantity: any;
+  category_id: any;
+  description: any;
+  id: any;
 };
-
+type Assets = {
+  link: any;
+  name: any;
+  type: any;
+  notes: any;
+};
 const DeleteModal = (props: any) => {
   const [products, setProducts] = useState<Product | null>(null);
 
@@ -135,10 +150,27 @@ const initialProductState = {
   image: [],
 };
 
-const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product: Product | null }) => {
+const EditModal = (props: {
+  closeEditModal: () => void;
+  isOpen: boolean;
+  product: Product | null;
+  fetchProducts: any;
+  insertProduct: any;
+}) => {
   const [selectedOption, setSelectedOption] = useState('');
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [updatingImage, setUpdatingImage] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [categoriesData, setCategoriesData] = useState([]);
+  const [updatingAssets, setUpdatingAssets] = useState(false);
+  const [editAssets, setEditAssets] = useState(false);
+  const [assets, setAssets] = useState<Assets>({
+    link: '',
+    type: 'external',
+    notes: '',
+    name: '',
+  });
   const [products, setProducts] = useState<{
     name: string;
     description: string;
@@ -146,12 +178,74 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
     price: string;
     image: any[];
   }>({ name: '', description: '', category: '', price: '', image: [] });
+  const productScehema = z.object({
+    name: z.string().min(5, { message: 'Add Product Name' }),
+    description: z.string().min(10, { message: 'Add  description' }),
+    category_id: z.number().min(1, { message: 'Select category' }),
+    price: z.string().min(1, { message: 'Add Price' }),
+    // discountPrice: z.string().min(1, { message: 'Add discount' }),
+    // tax: z.string().min(1, { message: 'Add tax' }),
+    currency: z.string().min(1),
+    assets_link: z.string().min(4, { message: 'Provide the link to your file' }),
+    assets_type: z.string(),
+    assets_notes: z.string().min(4, { message: 'Leave a note about the file' }),
+    assets_name: z.string().min(4, { message: 'Add File name' }),
+    // shopId: z.string().min(3, { message: 'Select Shop' }),
+    quantity: z.number(),
+  });
+  const form = useForm({
+    validate: zodResolver(productScehema),
+    initialValues: {
+      name: props.product?.name,
+      description: props.product?.description,
+      category_id: props.product?.category_id,
+      price: `${props.product?.price}`,
+      currency: 'NGN',
+
+      quantity: props.product?.quantity,
+      assets_link: '',
+      assets_type: 'external',
+      assets_notes: '',
+      assets_name: '',
+      // tax: '3',
+      // discountPrice: '3',
+    },
+  });
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     // Update the 'category' value when an option is selected
     setProducts({ ...products, category: event.target.value });
   };
+  const getAssets = async () => {
+    try {
+      setUpdatingAssets(true);
+      const { data } = await axios.get(
+        `https://zuriportfolio-shop-internal-api.onrender.com/api/product/assets/${props.product?.id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+        },
+      );
+      const transformedAssets = {
+        name: data.data?.name,
+        link: data.data?.link,
+        type: data.data?.type,
+        notes: data.data.notes,
+      };
+      form.setFieldValue('assets_link', transformedAssets.link);
+      form.setFieldValue('assets_name', transformedAssets.name);
+      form.setFieldValue('assets_notes', transformedAssets.name);
+      form.setFieldValue('assets_notes', transformedAssets.notes);
 
+      setAssets(transformedAssets);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUpdatingAssets(false);
+    }
+  };
   useEffect(() => {
     // Fetch product categories
     fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
@@ -172,6 +266,7 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
         }
       })
       .catch((error) => console.error('Error fetching data:', error));
+    getAssets();
   }, []);
 
   useEffect(() => {
@@ -182,154 +277,325 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
     }
   }, [props.product]);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (values: any) => {
+    const formData = new FormData();
+    const transformedVal = {
+      name: values.name,
+      description: values.description,
+      quantity: +values.quantity,
+      currency: values.currency,
+      category_id: values.category_id,
+      price: +values.price,
+    };
+    Object.entries(transformedVal).forEach(([key, value]: any[]) => {
+      formData.append(key, value);
+    });
+    try {
+      setUpdating(true);
+      const res = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}`,
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+        data: formData,
+      });
+
+      form.setFieldValue('assets_link', assets.link);
+      form.setFieldValue('assets_name', assets.name);
+      form.setFieldValue('assets_notes', assets.name);
+      form.setFieldValue('assets_notes', assets.notes);
+      toast.success(res.data.message, {
+        autoClose: 3000,
+      });
+      const newProudct = await props.fetchProducts();
+      props.insertProduct(newProudct);
+      props.closeEditModal();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUpdating(false);
+    }
     // Handle form submission here with selectedOption and selectedDateTime
     console.log('Selected Option:', selectedOption);
   };
-
+  const cancelEditAsset = () => {
+    const assets = form.getTransformedValues();
+    setAssets({
+      link: assets.assets_link,
+      name: assets.assets_name,
+      notes: assets.assets_notes,
+      type: assets.assets_type,
+    });
+    setEditAssets(false);
+  };
   const handleImageUploadClick = () => {
     const inputElement = document.getElementById('imageUploadInput') as HTMLInputElement | null;
     if (inputElement) {
       inputElement.click();
     }
   };
+  const changeAssets = (key: keyof Assets, value: any) => {
+    if (!assets) return;
 
-  const handleImageUpload = (files: FileList | null) => {
-    if (files && files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
+    setAssets((prev) => ({ ...prev, [key]: value }));
+  };
+  const saveAssets = async () => {
+    try {
+      setUpdatingAssets(true);
+      const formData = new FormData();
+      Object.entries(assets).forEach(([key, value]: any[]) => {
+        formData.append(key, value);
+      });
+      const res = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/assets/${props.product?.id}`,
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+        data: formData,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUpdatingAssets(false);
+      setEditAssets(false);
+    }
+  };
+  const handleImageUpload = async (files: FileList | null) => {
+    try {
+      if (files && files.length > 0) {
+        setUpdatingImage(true);
+        const file = files[0];
+        setSelectedImage(file);
+        const formdata = new FormData();
+        formdata.append('image', file);
+        const res = await axios({
+          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}/image/${props.product?.image[0].id}`,
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+          data: formdata,
+        });
+        console.log(res);
+        toast.success(res.data.message, {
+          autoClose: 4000,
+        });
+        const reader = new FileReader();
 
-      reader.onload = (e) => {
-        const result = e.target?.result as string | null;
-        if (result) {
-          setSelectedImage(result);
-        }
-      };
+        reader.onload = (e) => {
+          const result = e.target?.result as string | null;
+          if (result) {
+            setPreviewImage(result);
+          }
+        };
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      }
+    } catch (error) {
+      console.log('Server error', error);
+    } finally {
+      setUpdatingImage(false);
     }
   };
 
   return (
     <Modal isOpen={props.isOpen} isCloseIconPresent={true} title="EDIT PRODUCT" closeModal={props.closeEditModal}>
-      <div>
-        <div className="flex flex-row cursor-pointer justify-end mt-[-20px]">
-          <RiCloseCircleFill size={20} color="red" onClick={props.closeEditModal} />
-        </div>
-        <ToastContainer />
-        <form className="mt-6 flex flex-col" onSubmit={handleSubmit}>
-          <label className="font-manropeB text-[16px]">Product name</label>
-          <Input
-            className="w-full my-2 placeholder:text-[#191C1E] text-black"
-            value={products.name}
-            onChange={(e) => setProducts({ ...products, name: e.target.value })}
-            rightIcon={<Image src={editImg} alt="edit" />}
-          />
-          <span className="text-[#3F484F] text-[12px] lowercase mt-2">
-            https://staging.zuri.team/{products.name.replace(/[ |]+/g, '-')}
-          </span>
-
-          <label className="font-manropeB text-[16px] mt-6">Product Description</label>
-          <textarea
-            className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-            value={products.description}
-            onChange={(e) => setProducts({ ...products, description: e.target.value })}
-            inputMode="none"
-          />
-          <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleImageUpload(e.target.files)}
-            style={{ display: 'none' }}
-            id="imageUploadInput"
-            name="image"
-          />
-          <div className="p-3 border border-[#00000024] rounded-md">
-            {/* <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
-              <MultipleFileUpload />
-            </div> */}
-            <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
-            <Input
-              className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-              placeholder="Add the link to your file"
-              inputMode="none"
-              name="name"
-            />
+      <div className="relative">
+        <div>
+          <div className="flex flex-row cursor-pointer justify-end mt-[-20px]">
+            <RiCloseCircleFill size={20} color="red" onClick={props.closeEditModal} />
           </div>
-          <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
-          <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
-            {selectedImage ? (
-              <Image
-                src={selectedImage}
-                alt="uploaded"
-                className="object-contain mb-2 w-full"
-                width={100}
-                height={80}
-              />
-            ) : (
-              <Image
-                src={products.image && products.image[0] ? products.image[0].url : ''}
-                alt="upload"
-                width={300}
-                height={100}
-                className="w-full h-[143px] object-cover rounded-md"
-              />
-            )}
-            <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
-              <center>
-                <Image
-                  src={uploadicon}
-                  alt="uploadicon"
-                  className="w-10 object-contain mb-2 cursor-pointer"
-                  onClick={handleImageUploadClick}
-                />
+          <ToastContainer />
+          <form className="mt-6 flex flex-col" onSubmit={form.onSubmit(handleSubmit, (err) => console.error(err))}>
+            <label className="font-manropeB text-[16px]">Product name</label>
+            <Input
+              className="w-full my-2 placeholder:text-[#191C1E] text-black"
+              // onChange={(e) => setProducts({ ...products, name: e.target.value })}
+              {...form.getInputProps('name')}
+              rightIcon={<Image src={editImg} alt="edit" />}
+            />
+            <span className="text-[#3F484F] text-[12px] lowercase mt-2">
+              https://staging.zuri.team/{products.name.replace(/[ |]+/g, '-')}
+            </span>
+            <p className="text-[red] text-lg my-3 font-semibold">{form.errors.name && form.errors.name}</p>
+            <label className="font-manropeB text-[16px] mt-6">Product Description</label>
+            <textarea
+              className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+              // value={products.description}
+              // onChange={(e) => setProducts({ ...products, description: e.target.value })}
+              {...form.getInputProps('description')}
+              inputMode="none"
+            />
+            <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleImageUpload(e.target.files)}
+              style={{ display: 'none' }}
+              id="imageUploadInput"
+              name="image"
+            />
+            <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
+            <div className="relative">
+              <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
+                {previewImage ? (
+                  <Image
+                    src={previewImage}
+                    alt="uploaded"
+                    className="object-contain mb-2 w-full"
+                    width={100}
+                    height={80}
+                  />
+                ) : (
+                  <Image
+                    src={products.image && products.image[0] ? products.image[0].url : ''}
+                    alt="upload"
+                    width={300}
+                    height={100}
+                    className="w-full h-[143px] object-cover rounded-md"
+                  />
+                )}
+                <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
+                  <center>
+                    <Image
+                      src={uploadicon}
+                      alt="uploadicon"
+                      className="w-10 object-contain mb-2 cursor-pointer"
+                      onClick={handleImageUploadClick}
+                    />
 
-                <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px]">
-                  <Link
-                    className="text-[12px] md:text-[16px] text-blue-105 font-manropeL mr-2"
-                    href="/"
-                    onClick={handleImageUploadClick}
-                  >
-                    Click here
-                  </Link>
-                  or drag and drop to upload file
-                </span>
-              </center>
+                    <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px]">
+                      <span
+                        className="text-[12px] md:text-[16px] text-blue-105 font-manropeL mr-2"
+                        onClick={handleImageUploadClick}
+                      >
+                        Click here
+                      </span>
+                      or drag and drop to upload file
+                    </span>
+                  </center>
+                </div>
+              </div>
+              {updatingImage && (
+                <div className="absolute z-[10000] inset-0 min-h-[300px] max-h-[70vh]  bg-white-100/50">
+                  <Loader />
+                </div>
+              )}
             </div>
+            <label className="font-manropeB text-[16px] mt-6">Product Category</label>
+            <select
+              className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
+              // value={products.category}
+              // onChange={handleOptionChange}
+              {...form.getInputProps('category_id')}
+            >
+              <option value="">Select product category</option>
+              {categoriesData.map((category: any) => (
+                <option
+                  value={category.id}
+                  key={category.id}
+                  className="placeholder:text-[#191C1E] text-black capitalize"
+                  selected={category.id === form.getTransformedValues()?.category_id}
+                >
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            <p className="text-[red] text-lg my-3 font-semibold">
+              {form.errors.category_id && form.errors.category_id}
+            </p>
+            <label className="font-manropeB text-[16px] mt-6">Product price</label>
+            <div className="flex flex-row gap-8">
+              <Input
+                className="w-full my-2 text-dark-100"
+                // value={products.price}
+                // onChange={(e) => setProducts({ ...products, price: e.target.value })}
+                {...form.getInputProps('price')}
+                inputMode="none"
+              />
+            </div>
+            <p className="text-[red] text-lg my-3 font-semibold">{form.errors.price && form.errors.price}</p>
+            <div className="flex justify-between items-center  mb-4 relative">
+              <h2 className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Assets</h2>
+              {!editAssets && (
+                <button
+                  className=" cursor-pointer border border-dark-100 py-2 px-4 rounded-lg flex gap-3 items-center"
+                  onClick={() => setEditAssets(true)}
+                >
+                  <Image src={editImg} alt="edit" />
+                  <span>Edit</span>
+                </button>
+              )}
+            </div>
+            <div className="p-3 border border-[#00000024] rounded-md relative">
+              {/* <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
+                <MultipleFileUpload />
+              </div> */}
+              <div>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Link</label>
+                <Input
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300"
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  disabled={!editAssets}
+                  value={assets?.link || ''}
+                  onChange={(e) => changeAssets('link', e.target.value.trim())}
+                />
+              </div>
+              <div>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Name</label>
+                <Input
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300"
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  disabled={!editAssets}
+                  value={assets?.name || ''}
+                  onChange={(e) => changeAssets('name', e.target.value.trim())}
+                />
+              </div>
+              <div>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Notes</label>
+                <textarea
+                  className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300/40 disabled:cursor-not-allowed"
+                  placeholder="Add the link to your file"
+                  inputMode="none"
+                  disabled={!editAssets}
+                  value={assets?.notes || ''}
+                  onChange={(e) => changeAssets('notes', e.target.value.trim())}
+                />
+              </div>
+              {editAssets && (
+                <div className="flex justify-end items-center gap-4 my-3 font-manropeEB font-semibold">
+                  <button className="bg-brand-green-primary px-4 py-3 rounded-md  text-white-100" onClick={saveAssets}>
+                    Save
+                  </button>
+                  <button className="border-brand-green-primary border px-4 py-3 rounded-md" onClick={cancelEditAsset}>
+                    Cancel
+                  </button>
+                </div>
+              )}
+              {updatingAssets && (
+                <div className="absolute z-[100] inset-0 min-h-[300px]   bg-white-100/50">
+                  <Loader />
+                </div>
+              )}
+            </div>
+            <Button
+              className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 relatve items-center  overflow-hidden bg-brand-green-primary transition after:transition disabled:after:absolute disabled:after:inset-0 disabled:after:bg-gray-300/10 disabled:cursor-not-allowed w-full mt-4"
+              disabled={updating || updatingImage || updatingAssets}
+            >
+              Save Changes
+            </Button>
+          </form>
+        </div>
+        {updating && (
+          <div className="absolute z-[10000] inset-0 min-h-[300px]   bg-white-100/50">
+            <Loader />
           </div>
-          <label className="font-manropeB text-[16px] mt-6">Product Category</label>
-          <select
-            className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
-            value={products.category}
-            onChange={handleOptionChange}
-          >
-            <option value="">Select product category</option>
-            {categoriesData.map((category: any) => (
-              <option
-                value={category.id}
-                key={category.id}
-                className="placeholder:text-[#191C1E] text-black capitalize"
-              >
-                {category.name}
-              </option>
-            ))}
-          </select>
-
-          <label className="font-manropeB text-[16px] mt-6">Product price</label>
-          <div className="flex flex-row gap-8">
-            <Input
-              className="w-full my-2 text-dark-100"
-              value={products.price}
-              onChange={(e) => setProducts({ ...products, price: e.target.value })}
-              inputMode="none"
-            />
-          </div>
-          <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition w-full mt-4">
-            Save Changes
-          </Button>
-        </form>
+        )}
       </div>
     </Modal>
   );
@@ -414,7 +680,13 @@ const ProductCard = (props: {
         />
       )}
       {props.selectedProduct && (
-        <EditModal isOpen={editModal} closeEditModal={closeEditModal} product={props.selectedProduct} />
+        <EditModal
+          isOpen={editModal}
+          closeEditModal={closeEditModal}
+          product={props.selectedProduct}
+          fetchProducts={props.fetchProducts}
+          insertProduct={props.insertProduct}
+        />
       )}
     </>
   );

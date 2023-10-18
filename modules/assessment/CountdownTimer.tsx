@@ -5,18 +5,18 @@ interface ICountdown {
   minutes: number | any;
   seconds: number | any;
   action: () => void;
+  setClearStorage?: React.Dispatch<React.SetStateAction<boolean>>;
+  clearStorage?: boolean;
 }
 
-export const CountdownTimer = ({ minutes, seconds, action }: ICountdown) => {
+export const CountdownTimer = ({ minutes, seconds, action, clearStorage, setClearStorage }: ICountdown) => {
   const [time, setTime] = React.useState<ICountdown>({ minutes, seconds, action });
 
   const tick = () => {
     if (time.minutes === null && time.seconds === null) {
       return;
-    } else if (time.minutes === 0 && time.seconds === 0) {
-      setTime({ minutes: null, seconds: null, action });
-      action();     
-    } else if (time.seconds === 0) {
+    } else if (time.minutes === 0 && time.seconds === 0) action();
+    else if (time.seconds === 0) {
       if (time.minutes > 0) {
         setTime({ minutes: time.minutes - 1, seconds: 59, action });
       }
@@ -28,14 +28,18 @@ export const CountdownTimer = ({ minutes, seconds, action }: ICountdown) => {
   const reset = () => setTime({ minutes: time.minutes, seconds: time.seconds, action });
 
   React.useEffect(() => {
+    if (clearStorage === true) {
+      localStorage.removeItem('minute');
+      localStorage.removeItem('second');
+    }
+  }, [clearStorage]);
+
+  React.useEffect(() => {
     const timerId = setInterval(() => {
       tick();
       if (time.minutes !== null && time.seconds !== null) {
         localStorage.setItem('minute', `${time.minutes}`);
         localStorage.setItem('second', `${time.seconds}`);
-      }else{
-        localStorage.removeItem('minute');
-        localStorage.removeItem('second');
       }
     }, 1000);
     return () => clearInterval(timerId);
