@@ -8,12 +8,9 @@ import usePaginate from '../../../../../hooks/usePaginate';
 import Link from 'next/link';
 import Filters from '../Filters';
 import { OrderHistory } from '../../../../../@types';
-import Pagination from '@ui/Pagination';
+
 import Loader from '@ui/Loader';
 import axios from 'axios';
-import useOrders from '../../../../../hooks/useOrders';
-import { toast } from 'react-toastify';
-import { useAuth } from '../../../../../context/AuthContext';
 
 const orderNavs: {
   id: string;
@@ -137,22 +134,6 @@ const dummyOrders: OrderHistory[] = [
   },
 ];
 const OrderHistory: React.FC = () => {
-  // const {
-  //   orders: pageOrders,
-  //   orderFilter,
-  //   changeFilter,
-  //   changeSortBy,
-  //   sortBy,
-  //   changeSearchQuery,
-  //   fetchOrders,
-  //   getSearchResult,
-  //   insertOrders,
-  //   searchQuery,
-  //   filterFunc,
-  //   sortOrders,
-  //   loading: loadingOrders,
-  //   searching,
-  //   totalPage,
   const [pageOrders, setOrders] = useState<OrderHistory[]>(dummyOrders);
   const [orderFilter, setOrderFilter] = useState('all');
   const [sort, setSort] = useState<{
@@ -172,8 +153,10 @@ const OrderHistory: React.FC = () => {
   }, []);
   const changeFilter = (val: string) => {
     // show orders by status which is either all | completed | cancelled or pending
+    if (loadingOrders) return;
     setOrderFilter(val);
   };
+
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
@@ -207,6 +190,7 @@ const OrderHistory: React.FC = () => {
       setLoadingOrders(false);
     }
   };
+
   const debounce = (func: (...a: any) => any, timeSlice: number = 1000) => {
     let timeout: NodeJS.Timeout;
     return async function (...arg: any) {
@@ -338,97 +322,107 @@ const OrderHistory: React.FC = () => {
   return (
     <>
       <main className="max-w-[1240px] mx-auto md:px-10 px-4 relative min-h-[400px]">
-        {loadingOrders ? (
-          <div className="absolute z-50 inset-0 min-h-[300px]">
-            <Loader />
+        <section className="font-manropeB font-semibold mt-4">
+          <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
+            <Link href={'/dashboard/orders'}>Order management</Link>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path
+                d="M4.50002 2.03996L7.76002 5.29996C8.14502 5.68496 8.14502 6.31496 7.76002 6.69996L4.50002 9.95996"
+                stroke="#8D9290"
+                strokeMiterlimit="10"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <Link href={'/dashboard/orders'} className="text-orange-110">
+              Order History
+            </Link>
           </div>
-        ) : (
-          <section className="font-manropeB font-semibold mt-4">
-            <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
-              <Link href={'/dashboard/orders'}>Order manegement</Link>
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path
-                  d="M4.50002 2.03996L7.76002 5.29996C8.14502 5.68496 8.14502 6.31496 7.76002 6.69996L4.50002 9.95996"
-                  stroke="#8D9290"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <Link href={'/dashboard/orders'} className="text-orange-110">
-                Order History
-              </Link>
-            </div>
-            <h1 className="text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order History</h1>
-            {pageOrders.length > 0 ||
-              (searchQuery.trim().length > 0 && (
-                <div className="justify-end items-center mb-[25px] gap-[35px] flex md:hidden relative">
-                  <div className="relative">
-                    <button
-                      className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
-                      style={{
-                        boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-                      }}
-                      onClick={() => setShowFilters((prev) => !prev)}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path
-                          d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
-                          stroke="#344054"
-                          strokeWidth="1.67"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span>Filters</span>
-                    </button>
-                    {showFilters && (
-                      <Filters
-                        filters={filters}
-                        changeFilter={changeSortBy}
-                        currentFilter={sort.sortBy}
-                        closeFilter={closeFilter}
-                      />
-                    )}
-                  </div>
-                </div>
-              ))}
-            <nav className="flex flex-col md:gap-4 gap-5 mb-5">
-              <ul className="lg:text-[22px] text-[14px]   mx-auto md:mx-0 leading-[127.273%] text-dark-110 flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
-                {orderNavs.map((orderNav) => (
-                  <li
-                    key={orderNav.id}
-                    className={`${
-                      orderNav.id === orderFilter &&
-                      'text-brand-green-primary border-b-2 border-b-brand-green-primary capitalize'
-                    } cursor-pointer whitespace-nowrap`}
-                    onClick={() => {
-                      changeFilter(orderNav.id);
-                      changeSearchQuery('');
+          <h1 className="text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order History</h1>
+          {pageOrders.length > 0 ||
+            (searchQuery.trim().length > 0 && (
+              <div className="justify-end items-center mb-[25px] gap-[35px] flex md:hidden relative">
+                <div className="relative">
+                  <button
+                    className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
+                    style={{
+                      boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
                     }}
+                    onClick={() => setShowFilters((prev) => !prev)}
                   >
-                    {orderNav.title}
-                  </li>
-                ))}
-              </ul>
-            </nav>
-            <section className="relative">
-              {pageOrders.length > 0 || searchQuery.trim().length > 0 ? (
-                <section
-                  className="rounded-2xl pt-5 hidden md:block"
-                  style={{
-                    boxShadow: `0px 0px 2px 0px rgba(0, 0, 0, 0.14)`,
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path
+                        d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
+                        stroke="#344054"
+                        strokeWidth="1.67"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span>Filters</span>
+                  </button>
+                  {showFilters && (
+                    <Filters
+                      filters={filters}
+                      changeFilter={changeSortBy}
+                      currentFilter={sort.sortBy}
+                      closeFilter={closeFilter}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          <nav className="flex flex-col md:gap-4 gap-5 mb-5">
+            <ul className="lg:text-[22px] text-[14px]   mx-auto md:mx-0 leading-[127.273%] text-dark-110 flex items-center md:gap-[50px] gap-[16px] justify-between md:justify-start">
+              {orderNavs.map((orderNav) => (
+                <li
+                  key={orderNav.id}
+                  className={`${
+                    orderNav.id === orderFilter &&
+                    'text-brand-green-primary border-b-2 border-b-brand-green-primary capitalize'
+                  }  whitespace-nowrap ${loadingOrders ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                  onClick={() => {
+                    if (loadingOrders) return;
+                    changeFilter(orderNav.id);
+                    changeSearchQuery('');
                   }}
                 >
-                  <div className="px-8 justify-end items-center gap-[129px] mb-[25px] hidden md:flex">
-                    <div className="flex items-center gap-6">
-                      <div className="relative">
+                  {orderNav.title}
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <section className="relative min-h-400">
+            {loadingOrders ? (
+              <div className=" z-50 inset-0 min-h-[300px] grid place-items-center">
+                <Loader />
+              </div>
+            ) : (
+              <>
+                {pageOrders.length > 0 || searchQuery.trim().length > 0 ? (
+                  <section
+                    className="rounded-2xl pt-5 hidden md:block"
+                    style={{
+                      boxShadow: `0px 0px 2px 0px rgba(0, 0, 0, 0.14)`,
+                    }}
+                  >
+                    <div className="px-8 justify-end items-center gap-[129px] mb-[25px] hidden md:flex">
+                      <div className="flex items-center gap-6">
+                        <div className="relative">
+                          {showFilters && (
+                            <Filters
+                              filters={filters}
+                              changeFilter={changeSortBy}
+                              currentFilter={sort.sortBy}
+                              closeFilter={closeFilter}
+                            />
+                          )}
+                        </div>
                         <button
                           className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
                           style={{
                             boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
                           }}
-                          onClick={() => setShowFilters((prev) => !prev)}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -438,97 +432,72 @@ const OrderHistory: React.FC = () => {
                             fill="none"
                           >
                             <path
-                              d="M5 10H15M2.5 5H17.5M7.5 15H12.5"
-                              stroke="#344054"
-                              strokeWidth="1.67"
+                              d="M10.8335 9.16683L17.6668 2.3335"
+                              stroke="#464646"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M18.3335 5.6665V1.6665H14.3335"
+                              stroke="#464646"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M9.1665 1.6665H7.49984C3.33317 1.6665 1.6665 3.33317 1.6665 7.49984V12.4998C1.6665 16.6665 3.33317 18.3332 7.49984 18.3332H12.4998C16.6665 18.3332 18.3332 16.6665 18.3332 12.4998V10.8332"
+                              stroke="#464646"
+                              strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             />
                           </svg>
-                          <span>Filters</span>
+                          <span>Export</span>
                         </button>
-
-                        {showFilters && (
-                          <Filters
-                            filters={filters}
-                            changeFilter={changeSortBy}
-                            currentFilter={sort.sortBy}
-                            closeFilter={closeFilter}
-                          />
-                        )}
                       </div>
-                      <button
-                        className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
-                        style={{
-                          boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
-                        }}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                          <path
-                            d="M10.8335 9.16683L17.6668 2.3335"
-                            stroke="#464646"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M18.3335 5.6665V1.6665H14.3335"
-                            stroke="#464646"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M9.1665 1.6665H7.49984C3.33317 1.6665 1.6665 3.33317 1.6665 7.49984V12.4998C1.6665 16.6665 3.33317 18.3332 7.49984 18.3332H12.4998C16.6665 18.3332 18.3332 16.6665 18.3332 12.4998V10.8332"
-                            stroke="#464646"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <span>Export</span>
-                      </button>
                     </div>
-                  </div>
-                  <div className={`relative ${searching && 'min-h-[400px]'} `}>
-                    {searching ? (
-                      <div className="absolute z-50 inset-0 min-h-[300px]">
-                        <Loader />
-                      </div>
-                    ) : (
-                      <>
-                        {pageOrders.length > 0 ? (
-                          <OrderHistoryTable
-                            pageItem={pageOrders}
-                            changeSort={changeSortBy}
-                            currentSort={sort.sortBy}
-                          />
-                        ) : (
-                          <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                            No Order to Show
-                          </p>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </section>
-              ) : (
-                <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                  No Order to Show
-                </p>
-              )}
-            </section>
-            <div className="md:hidden flex flex-col gap-4 mb-4">
-              {pageOrders.length > 0 ? (
-                pageOrders.map((item, i) => <OrderHistoryMobile key={`${item.id}${i}`} {...item} />)
-              ) : (
-                <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                  No Order to Show
-                </p>
-              )}
-            </div>
+                    <div className={`relative min-h-[400px] `}>
+                      {searching ? (
+                        <div className="absolute z-50 inset-0 min-h-[300px]">
+                          <Loader />
+                        </div>
+                      ) : (
+                        <>
+                          {pageOrders.length > 0 ? (
+                            <OrderHistoryTable
+                              pageItem={pageOrders}
+                              changeSort={changeSortBy}
+                              currentSort={sort.sortBy}
+                            />
+                          ) : (
+                            <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                              No Order to Show
+                            </p>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </section>
+                ) : (
+                  <p className="text-center hidden md:block text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                    No Order to Show
+                  </p>
+                )}
+              </>
+            )}
           </section>
-        )}
+          <div className="md:hidden flex flex-col gap-4 mb-4">
+            {pageOrders.length > 0 ? (
+              pageOrders.map((item, i) => <OrderHistoryMobile key={`${item.id}${i}`} {...item} />)
+            ) : (
+              <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                No Order to Show
+              </p>
+            )}
+          </div>
+        </section>
+
         {pageOrders.length > 0 && !loadingOrders && totalPage > 1 && (
           <div className="flex justify-center my-6">
             <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={totalPage} />

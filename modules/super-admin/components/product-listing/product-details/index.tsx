@@ -1,13 +1,20 @@
 import React from 'react';
 import Image from 'next/image';
-import profileimage from '../../../../../public/assets/profile.png';
 import Button from '@ui/Button';
 import arrowRight from '../../../../../public/assets/arrowtoRight.svg';
 import { NextRouter, useRouter } from 'next/router';
-import { useRemoveSanction, useRestore, useSanction, useTempDeleteProd } from '../../../../../http';
+import { useRemoveSanction, useRestore, useSanction, useTempDeleteProd } from '../../../../../http/super-admin1';
 import { toast } from 'react-toastify';
 import StarRating from '../../StarRating';
 import { brokenImage } from '../../../../../pages/super-admin/vendor-management/vendor-details/[id]';
+import { useQueryClient } from '@tanstack/react-query';
+
+export function formatNumber(number: any) {
+  if (typeof number !== 'number') {
+    return 0;
+  }
+  return new Intl.NumberFormat('en-US').format(number);
+}
 
 export function formatDate(inputDate: string) {
   const date = new Date(inputDate);
@@ -18,7 +25,10 @@ export function formatDate(inputDate: string) {
   return `${day}-${month}-${year}`;
 }
 export const handleBack = (route: NextRouter) => {
-  if (route.pathname.includes('/super-admin/product-listing/product-details/[id]')) {
+  if (
+    route.pathname.includes('/super-admin/product-listing/product-details/[id]') ||
+    route.pathname.includes('/super-admin/vendor-management/vendor-details/[id]')
+  ) {
     route.push('..');
   } else {
     route.push('.');
@@ -39,12 +49,14 @@ const SuperAdminProdDetails = ({
   const { restoreProd, isLoading: isRestoring } = useRestore();
   const { deleteSanction, isLoading: isTempDeleting } = useTempDeleteProd();
   const { santionProd, isLoading: isSanctioning } = useSanction();
+  const client = useQueryClient();
 
   const handleRemoveSaction = () => {
     removeSanction(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
           toast.success(response.response.status);
+          client.invalidateQueries(['get-prod']);
           handleBack(route);
         } else {
           toast.error(response.response.data.message);
@@ -52,6 +64,7 @@ const SuperAdminProdDetails = ({
       },
       onError: () => {
         toast.success('This product is no longer sanctioned');
+        client.invalidateQueries(['get-prod']);
         handleBack(route);
       },
     });
@@ -61,6 +74,7 @@ const SuperAdminProdDetails = ({
     restoreProd(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-prod']);
           toast.success(response.response.status || 'Product restored successfully');
           handleBack(route);
         } else {
@@ -69,6 +83,7 @@ const SuperAdminProdDetails = ({
       },
       onError: (error) => {
         console.log(error);
+        client.invalidateQueries(['get-prod']);
         toast.success('Product restored successfully');
         handleBack(route);
       },
@@ -79,14 +94,15 @@ const SuperAdminProdDetails = ({
     deleteSanction(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-prod']);
           toast.success(response.response.status || 'Product deleted successfully');
           handleBack(route);
         } else {
           toast.error(response.response.data.message || 'Error deleting the product');
         }
       },
-      onError: (error) => {
-        console.log(error);
+      onError: () => {
+        client.invalidateQueries(['get-prod']);
         toast.success('Product permanently deleted');
         handleBack(route);
       },
@@ -97,14 +113,15 @@ const SuperAdminProdDetails = ({
     santionProd(id, {
       onSuccess: (response) => {
         if (response.response.status < 300) {
+          client.invalidateQueries(['get-prod']);
           toast.success(response.response.status || 'Product sanctioned successfully');
           handleBack(route);
         } else {
           toast.error(response.response.data.message || 'Error sanctioning the product');
         }
       },
-      onError: (error) => {
-        console.log(error);
+      onError: () => {
+        client.invalidateQueries(['get-prod']);
         toast.success('Product sanctioned');
         handleBack(route);
       },
@@ -119,11 +136,19 @@ const SuperAdminProdDetails = ({
             <Image src={arrowRight} alt="arrowRight" onClick={() => handleBack(route)} className="cursor-pointer" />
             <p className="font-manropeB text-[18px] font-medium text-gray-900">Products Details</p>
           </div>
-          <div className="mt-6 md:mt-0 flex gap-[28px] items-center flex-col lg:flex-row mb-8">
+          <div className="mt-6 lg:mt-0 flex gap-[28px] items-center flex-col lg:flex-row mb-8">
             <div className="flex flex-col gap-[16px] lg:h-[520px] md:h-[600px] h-[340px] w-full lg:w-1/2">
               <Image
-                loader={() => data?.product_image[0][0] || brokenImage}
-                src={data?.product_image[0][0] || brokenImage}
+                loader={() =>
+                  data?.product_image && data.product_image[0] && data.product_image[0][0]
+                    ? data.product_image[0][0]
+                    : brokenImage
+                }
+                src={
+                  data?.product_image && data.product_image[0] && data.product_image[0][0]
+                    ? data.product_image[0][0]
+                    : brokenImage
+                }
                 alt="Product Image"
                 width={100}
                 height={100}
@@ -137,8 +162,16 @@ const SuperAdminProdDetails = ({
               </h1>
 
               <div className="flex justify-between items-start mb-6">
-                <div className="flex gap-[4px] items-start ">
-                  <Image src={profileimage} alt="profileimg" />
+                <div className="flex gap-[4px] items-center ">
+                  <div className="w-10 h-10 mx-2 rounded-full overflow-hidden">
+                    <Image
+                      loader={() => data?.vendor_profile_pic[0] ?? brokenImage}
+                      src={data?.vendor_profile_pic[0] ?? brokenImage}
+                      alt="vendor image"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                   <p className="font-manropeB font-semibold tracking-[0.035px] md:tracking-[0.08px]">
                     {data?.vendor_name}
                   </p>

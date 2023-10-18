@@ -1,55 +1,80 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { SearchNormal1 } from 'iconsax-react';
 import Button from '@ui/Button';
 import ProductCard from '@modules/dashboard/component/products/ProductCard';
 import Link from 'next/link';
-import Pagination from '@ui/Pagination';
 import Loader from '@ui/Loader';
-import PaginationBar from '@modules/dashboard/component/order/PaginationBar';
+import { Input } from '@ui/Input';
+import Pagination from '@ui/Pagination';
+import { toast } from 'react-toastify';
+import Head from 'next/head';
 type Product = {
   product_id: any;
   image: any;
   name: any;
   price: any;
   url: any;
+  shop_id: any;
+  quantity: any;
+  category_id: any;
+  description: any;
+  id: any;
 };
 const Products = () => {
   const [pageSize, setPageSize] = useState(2);
   const [currentPage, setCurrentPage] = useState(1);
   const [product, setProducts] = useState<Product[]>([]);
+  const ref = useRef<HTMLDivElement | null>(null);
   const [loading, setIsLoading] = useState(true);
+  const productsPerPage = 8;
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  const searchProduct = (product: Product[]) => {};
-
+  const [searchQuery, setSearchQuery] = useState('');
+  const [totalPage, setTotalPage] = useState(1);
+  // const [currentPage,setCurrentPage] = useState(1)
   const fetchProducts = async () => {
     // Fetch the product data from the server
+    if (ref) {
+      ref.current?.scrollIntoView(true);
+    }
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace');
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
       const data = await res.json();
-      if (Array.isArray(data.data)) {
-        return data.data;
-      } else {
-        return [];
-      }
+
+      // console.log(data);
+      // toast.success(data.message, {
+      //   autoClose: 5000,
+      // });
+      // setProducts(data.data.products);
+      setTotalPage(data.totalPages);
+      return data.data.products;
     } catch (error) {
       console.error('Error fetching data:', error);
+      return [];
     } finally {
       setIsLoading(false);
     }
   };
+
+  const totalPageCount = Math.ceil(product.length / productsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
   const insertProduct = (product: any) => {
     setProducts(product);
   };
   const insertSelectedProduct = (product: any) => {
     setSelectedProduct(product);
   };
-  useEffect(() => {
-    // Run code if current page change
-  }, [currentPage]);
+
   useEffect(() => {
     const setProducts = async () => {
       const product = await fetchProducts();
@@ -57,9 +82,19 @@ const Products = () => {
     };
     setProducts();
   }, []);
+
+  const filteredProducts = product.filter((product) => {
+    return product.name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
+  const productsToDisplay = filteredProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
+
   return (
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
-      <div className="max-w-[1240px] mx-auto my-4 px-6">
+      <Head>
+        <title>Products</title>
+      </Head>
+      <div className="max-w-[1240px] mx-auto my-4 px-6" ref={ref}>
         <div className="flex md:justify-end my-12 justify-center">
           <Link href="/dashboard/products/add-product">
             <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
@@ -80,9 +115,11 @@ const Products = () => {
               }}
             >
               <SearchNormal1 size="16" color="#667085" />
-              <input
-                className=" bg-transparent font-manropeL font-normal focus-within:outline-none flex-1 text-[1rem] leading-[150%] text-custom-color2"
+              <Input
+                className=" bg-transparent font-manropeL border-hidden font-normal focus-within:outline-none flex-1 text-[1rem] leading-[150%] text-custom-color2"
                 placeholder="Search products here..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
@@ -98,7 +135,7 @@ const Products = () => {
               </div>
             ) : (
               <ProductCard
-                product={product}
+                product={productsToDisplay}
                 fetchProducts={fetchProducts}
                 insertProduct={insertProduct}
                 insertSelectedProduct={insertSelectedProduct}
@@ -107,9 +144,13 @@ const Products = () => {
             )}
           </div>
           <div className="flex justify-center my-4">
-            {pageSize > 1 && (
-              <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={3} />
-            )}
+            <Pagination
+              visiblePaginatedBtn={5}
+              activePage={currentPage}
+              pages={totalPageCount}
+              page={currentPage}
+              setPage={handlePageChange}
+            />
           </div>
         </div>
       </div>

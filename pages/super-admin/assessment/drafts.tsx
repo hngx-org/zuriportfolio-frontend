@@ -3,6 +3,7 @@ import DraftPage from '../../../modules/assessment/draftPage';
 import Header from '@modules/assessment/component/Header';
 import MainLayout from '../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
+import { withAdminAuth } from '../../../helpers/withAuth';
 
 const Draft = () => {
   return (
@@ -19,4 +20,4 @@ const Draft = () => {
   );
 };
 
-export default Draft;
+export default withAdminAuth(Draft);
