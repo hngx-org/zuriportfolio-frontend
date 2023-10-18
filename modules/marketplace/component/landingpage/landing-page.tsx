@@ -7,20 +7,20 @@ import AllCategorySlider from '../AllCategorySlider';
 import CategoriesNav from '../CategoriesNav/CategoriesNav';
 import RecentlyViewed from './recentlyViewed/recentlyViewed';
 import useCategory from '../filter/hooks/useCategory';
+import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 
 function LandingPage() {
   const [recommendedProduct, setRecommendedProduct] = useState({ isLoading: true, items: [] });
   const [limitedOffers, setLimitedOffers] = useState({ isLoading: true, items: [] });
   const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
-  const { categories, loading } = useCategory();
+  const { categories, loading } = useCategoryNav();
 
   useEffect(() => {
     try {
       fetch(`${baseUrl}recommendations/`)
         .then((res) => res.json())
-        .then((data) => setRecommendedProduct({ isLoading: false, items: data }));
+        .then((data) => setRecommendedProduct({ isLoading: false, items: data.data }));
     } catch (error) {
-      console.log(error);
       setRecommendedProduct({ isLoading: false, items: [] });
     }
     //Limited Offer was routed to description page

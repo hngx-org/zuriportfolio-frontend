@@ -17,14 +17,11 @@ export default function ReviewDashboard() {
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await fetch(
-        `https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace?page=${currentPage}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-          },
+      const res = await fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/products?page=${currentPage}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
-      );
+      });
       const data = await res.json();
 
       const tranformedProduct = data.data.products.map((product: any) => ({

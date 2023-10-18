@@ -180,7 +180,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         education,
         skills,
         contact,
-        interests,
+        interestArray,
         awards,
         languages,
         reference,
@@ -195,7 +195,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         education ||
         skills ||
         contact ||
-        interests ||
+        interestArray ||
         awards ||
         languages ||
         reference ||
@@ -210,7 +210,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Work Experience', id: 'workExperience', data: workExperience },
         { title: 'Education', id: 'education', data: education },
         { title: 'Skills', id: 'skills', data: skills },
-        { title: 'Interests', id: 'interests', data: interests },
+        { title: 'Interests', id: 'interests', data: interestArray },
         { title: 'Awards', id: 'awards', data: awards },
         { title: 'Certificate', id: 'certificate', data: certificate },
         { title: 'Languages', id: 'languages', data: languages },
@@ -309,6 +309,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowViewtemplates(false);
     onClose();
     onCloseModal(sectionTitle || '');
+    getUser(userId);
     getUser(userId);
     getUserSections(userId);
     getUserSections(userId);
