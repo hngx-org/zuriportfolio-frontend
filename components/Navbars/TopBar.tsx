@@ -110,7 +110,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       router.push(`/marketplace/search?query=${searchQuery}`);
     }
     if (e.key === 'Enter' && dropDown === 'Explore') {
-      router.push(`/explore/search?query=${searchQuery}`);
+      localStorage.setItem('searchQuery', searchQuery);
+      router.push(`/explore/search?searchQuery=${searchQuery}`);
     }
   };
 
