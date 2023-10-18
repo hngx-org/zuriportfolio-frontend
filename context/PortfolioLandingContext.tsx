@@ -14,6 +14,7 @@ import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
+import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
 
 type PortfolioContext = {
   setShowBuildPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
@@ -352,7 +353,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'projects',
       modal: (
-        <ProjectSection
+        <ProjectSectionModal
           isOpen={modalStates['projects']}
           onCloseModal={() => onCloseModal('projects')}
           onSaveModal={() => onSaveModal('projects')}
