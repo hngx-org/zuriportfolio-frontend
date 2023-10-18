@@ -35,6 +35,7 @@ const UserReview = () => {
 
   const [data, setData] = useState<ReviewData[] | null>(null);
   const [rats, setRats] = useState<RatsData>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filterRating, setFilterRating] = useState<string>('all');
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
 
@@ -85,6 +86,9 @@ const UserReview = () => {
         .catch((e) => console.log(e));
     }
   }, [id]);
+  useEffect(() => {
+    null;
+  }, [filteredData]);
 
   const ratingData = [
     { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
@@ -194,7 +198,9 @@ const UserReview = () => {
                     />
                   </div>
                   <div className="mt-4 mx-1">
-                    {filteredData?.length === 0 ? (
+                    {!filteredData ? (
+                      <Loader />
+                    ) : filteredData?.length === 0 ? (
                       <h2>No results</h2>
                     ) : (
                       filteredData?.map((review) => (
