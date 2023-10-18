@@ -115,14 +115,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
           )}
         </div>
         <div className="inline-flex items-center gap-2 mt-4">
-          <div className="flex items-center ">
+          {/* <div className="flex items-center ">
             <Image src={star1} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
             <Image src={star1} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
             <Image src={star1} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
             <Image src={star2} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
             <Image src={star2} alt="rating star" className="w-3 h-3 md:w-5  md:h-5" />
           </div>{' '}
-          (3)
+          (3) */}
+          No Rating for this product
         </div>
       </div>
     </div>
