@@ -8,7 +8,7 @@ import Head from 'next/head';
 function _2FA() {
   return (
     <>
-    <Head>
+      <Head>
         <link rel="icon" href="/assets/zuriLogo.svg" />
 
         <title>Login - Zuri Portfolio</title>
@@ -44,14 +44,14 @@ function _2FA() {
         <meta property="og:description" content="Login to your Zuri Portfolio account." />
         {/* <meta property="og:image" content="/assets/test.png" /> */}
       </Head>
-    <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
-      <section className="grid font-manropeEB overflow-hidden overflow-y-hidden ">
-        <UI2FA />
-        <div className="flex items-center flex-col gap-11 py-24 lg:pt-3">
-          <Code2FA />
-        </div>
-      </section>
-    </AuthLayout>
+      <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown={false}>
+        <section className="grid font-manropeEB overflow-hidden overflow-y-hidden ">
+          <UI2FA />
+          <div className="flex items-center flex-col gap-11 py-24 lg:pt-3">
+            <Code2FA />
+          </div>
+        </section>
+      </AuthLayout>
     </>
   );
 }
