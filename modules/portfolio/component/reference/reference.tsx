@@ -75,8 +75,27 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const [isData, setIsData] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
   const [refId, setRefId] = useState(Number);
+
+  function validatePhoneNumber(phoneNumber: string): boolean {
+    return /^[0-9]{8,11}$/.test(phoneNumber);
+  }
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
+    // If the changed input is the phone number field, validate it
+    if (name === 'phoneNumber') {
+      // Check if the value contains non-numeric characters
+      if (value.match(/[^0-9]/)) {
+        // If non-numeric characters are present, prevent the change
+        event.preventDefault();
+        return;
+      }
+
+      // Clear the phone number error when it's valid
+      setErrors({ ...errors, phone: '' });
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -119,11 +138,13 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
 
   function handleSubmit() {
     if (!validateAllFieldsNotEmpty()) {
+      // Handle case when fields are not all filled in
       validateAllFieldsNotEmpty();
     } else {
       setErrors({ ...errors, referer: '', email: '', company: '' });
-      if (formData.phoneNumber !== '' && (formData.phoneNumber.length < 8 || formData.phoneNumber.length > 11)) {
-        setErrors({ ...errors, phone: 'wrong phone number' });
+      if (formData.phoneNumber !== '' && !validatePhoneNumber(formData.phoneNumber)) {
+        // Handle case when the phone number is invalid
+        setErrors({ ...errors, phone: 'Invalid phone number' });
       } else {
         if (!loading) {
           setErrors({ ...errors, phone: '' });
@@ -166,11 +187,15 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const response = async () => {
     setLoading(true);
     console.log(formData);
+    const correctData = {
+      ...formData,
+      phoneNumber: `0${formData.phoneNumber}`,
+    };
     try {
       const axiosConfig = {
         method: 'post',
         url: `${API_BASE_URL}/api/references/${userId}`,
-        data: formData,
+        data: correctData,
       };
 
       const response = await axios(axiosConfig);
@@ -259,7 +284,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       company: formData.company,
       position: formData.position,
       email: formData.email,
-      phone_number: formData.phoneNumber,
+      phone_number: `0${formData.phoneNumber}`,
     };
     // console.log('Edited Data: ' + editObjData);
     const response = async () => {
@@ -395,7 +420,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   <DynamicInput
                     onChange={handleInputChange}
                     type="text"
-                    placeholder="Type link"
+                    placeholder="Product Manager"
                     InputId="ptfl-position"
                     name="position"
                     label="Position"
@@ -419,7 +444,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
               />
               <DynamicInput
                 onChange={handleInputChange}
-                type="number"
+                type="text"
                 placeholder=""
                 InputId="ptfl-phone"
                 name="phoneNumber"
@@ -434,7 +459,13 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
             </div>
 
             <div className="flex gap-2 justify-end">
-              <Button intent={'secondary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={callGet}>
+              <Button
+                intent={'secondary'}
+                size={'sm'}
+                className="w-24 rounded-2xl"
+                type="button"
+                onClick={onCloseModal}
+              >
                 Close
               </Button>
               <Button intent={'primary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={handleSubmit}>
@@ -495,7 +526,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                       }`}
                     >
                       Phone
-                      <p className={`text-base font-normal`}>+234 {reference.phone_number}</p>
+                      <p className={`text-base font-normal`}>+234 {reference.phone_number.slice(1)}</p>
                     </div>
 
                     <div>
@@ -561,7 +592,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   size={'sm'}
                   className="md:w-24 rounded-2xl"
                   type="button"
-                  onClick={onSaveModal}
+                  onClick={onCloseModal}
                 >
                   Close
                 </Button>
