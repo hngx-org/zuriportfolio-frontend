@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import link from '../../../public/assets/home/link.webp';
 import axios from 'axios';
 import { ArrowCircleLeft, ArrowCircleRight } from 'iconsax-react';
-import { notify } from '@ui/Toast';
+import shopOne from '../../../public/assets/home/shopOne.webp';
+import shopTwo from '../../../public/assets/home/shopTwo.webp';
 
 interface Slide {
   src?: string;
@@ -12,6 +13,57 @@ interface Slide {
   products?: number;
   section?: string;
 }
+
+const sliders: Slide[] = [
+  {
+    src: shopOne.src,
+    section: 'shop',
+    name: "Lani's Tech Couture",
+    products: 110,
+  },
+  {
+    src: shopTwo.src,
+    section: 'shop',
+    name: "Tife's Illustrations",
+    products: 400,
+  },
+  {
+    src: shopOne.src,
+    section: 'shop',
+    name: "Lani's Tech Couture",
+    products: 110,
+  },
+  {
+    src: shopTwo.src,
+    section: 'shop',
+    name: "Tife's Illustrations",
+    products: 400,
+  },
+  {
+    src: shopOne.src,
+    section: 'shop',
+    name: "Lani's Tech Couture",
+    products: 110,
+  },
+  {
+    src: shopTwo.src,
+    section: 'shop',
+    name: "Tife's Illustrations",
+    products: 400,
+  },
+  {
+    src: shopOne.src,
+    section: 'shop',
+    name: "Lani's Tech Couture",
+    products: 110,
+  },
+  {
+    src: shopTwo.src,
+    section: 'shop',
+    name: "Tife's Illustrations",
+    products: 400,
+  },
+];
 
 const DynamicCategoryCarousel = () => {
   const [slides, setSlides] = useState<Slide[]>([]);
@@ -53,18 +105,22 @@ const DynamicCategoryCarousel = () => {
           });
         }
       } catch (error) {
-        notify({
-          type: 'error',
-          message: 'Error fetching category',
-          theme: 'light',
-        });
+        for (const category of sliders) {
+          fetchedSlides.push({
+            src: category.src,
+            alt: 'shop',
+            section: 'shop',
+            name: category.name,
+            products: category.products,
+          });
+        }
       }
 
       setSlides(fetchedSlides);
     };
 
     fetchSlides();
-  }, []);
+  }, [slides]);
 
   /**
    *
