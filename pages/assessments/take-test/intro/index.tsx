@@ -48,6 +48,7 @@ const TakeTest: FC = () => {
       console.log('catch error', error);
     }
   };
+
   return (
     <>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>

@@ -51,6 +51,15 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  const tap = result?.map((item) => item.title);
+  console.log(tap);
+  const skill_id = result?.map((item) => item.id).toString();
+  const duration_minutes = result?.map((item) => item.duration_minutes).toString();
+  console.log(duration_minutes);
+  const all = result?.map((item) => item);
+  console.log(all);
+  console.log(skill_id);
+
   return (
     <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
       {isLoading ? (
