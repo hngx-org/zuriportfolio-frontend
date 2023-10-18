@@ -194,7 +194,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onClose }) =>
             <form
               // onSubmit={(e) => addNewEducation(e)}
               onSubmit={(e) => (isEditMode ? handleEditEducation(e, editingEducationId) : addNewEducation(e))}
-              className=""
             >
               <div className="w-full">
                 <div className="flex flex-col gap-[.5rem] w-full mb-4">
