@@ -15,6 +15,8 @@ type CreatingAssessmentContextType = {
   setExamDuration: Dispatch<SetStateAction<string>>;
   assessmentScoring: AssessmentScoringType;
   setAssessmentScoring: Dispatch<SetStateAction<AssessmentScoringType>>;
+  questionIndex: number;
+  setQuestionIndex: Dispatch<SetStateAction<number>>;
 };
 
 const CreatingAssessmentContext = createContext<CreatingAssessmentContextType | undefined>(undefined);
@@ -36,6 +38,7 @@ export function CreatingAssessmentProvider({ children }: { children: React.React
     intermediate_score_range: '',
     advanced_score_range: '',
   });
+  const [questionIndex, setQuestionIndex] = useState<number>(1); // Initialize questionIndex with the desired initial value
 
   const contextValue = {
     isAutoSubmitOn,
@@ -44,6 +47,8 @@ export function CreatingAssessmentProvider({ children }: { children: React.React
     setExamDuration,
     assessmentScoring,
     setAssessmentScoring,
+    questionIndex,
+    setQuestionIndex,
   };
 
   return <CreatingAssessmentContext.Provider value={contextValue}>{children}</CreatingAssessmentContext.Provider>;
