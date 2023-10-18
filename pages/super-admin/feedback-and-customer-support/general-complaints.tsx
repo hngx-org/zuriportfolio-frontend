@@ -34,7 +34,8 @@ interface InProgressType {
   // Add other properties as needed
 }
 
-export interface Complain { // exporting so I can use in withAdminAuth HOC component
+export interface Complain {
+  // exporting so I can use in withAdminAuth HOC component
   id: number; // ID of the complaint
   status: string; // Status of the complaint (e.g., "pending" or "resolved")
   message: string; // A message describing the complaint
@@ -63,8 +64,8 @@ interface Complaint {
 }
 
 interface GeneralComplaintsHOC {
-  children?: React.ReactNode,
-  complain: Complain
+  children?: React.ReactNode;
+  complain: Complain;
 }
 
 function GeneralComplaints({ complain }: { complain: Complain }) {
