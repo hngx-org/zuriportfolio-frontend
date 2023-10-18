@@ -4,20 +4,21 @@ import Button from '@ui/Button';
 import { Edit } from 'iconsax-react';
 import { FaSpinner } from 'react-icons/fa';
 
-import Modal from '@modules/assessment/modals/Loadingpopup';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
+import Spinner from '@ui/Spinner';
 import Image from 'next/image';
-import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
+import { ToastContainer, toast } from 'react-toastify';
 
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
-const CreateAssessment = () => {
+const CreateAssessment = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   //Please edit for scoring screen
   //const [examDuration, setExamDuration]:any = useContext(useCreatingAssessmentContext)
+  const [errContent, setErrContent] = useState('');
 
   const router = useRouter();
   const data = router.query;
@@ -30,20 +31,17 @@ const CreateAssessment = () => {
         question_no: 1,
         question_text: '',
         question_type: 'multiple_choice',
-        options: [''],
-        correct_option: 0,
+        answer: {
+          options: [''],
+          correct_option: '',
+        },
       },
     ],
     assessment_name: '',
     duration_in_minutes: 0,
   });
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+
   const [active, setActive] = useState<null | string>('button1');
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [err, setErr] = useState('');
-  const [errstate, setErrstate] = useState(false);
   const [listupdate, setListupdate] = useState('waiting');
   const [postLoading, setPostLoading] = useState(false);
   const handleClick = (button: string) => {
@@ -51,10 +49,20 @@ const CreateAssessment = () => {
   };
 
   const publishClick = () => {
-    const newt = { ...newobject };
-    setObject(newt);
-    setListupdate('save');
-    setDestination('Publishing assessments');
+    var i = 0;
+    var total = newobject.questions_and_answers.length;
+    console.log(total);
+    newobject.questions_and_answers.forEach((obj) => {
+      if (obj.answer.correct_option === '') {
+        toast.error('Ensure correct answers are selected');
+      } else {
+        i++;
+      }
+      if (total === i) {
+        setListupdate('save');
+        setDestination('Publishing assessments');
+      }
+    });
   };
   const draftsClick = () => {
     setListupdate('save');
@@ -68,7 +76,17 @@ const CreateAssessment = () => {
     setObject(newt);
   };
 
+  const scoringClick = () => {
+    setListupdate('scoreclick');
+    handleClick('button2');
+    console.log(listupdate);
+  };
+  const questionClick = () => {
+    setListupdate('addquest');
+    handleClick('button1');
+  };
   const publishAssessment = async () => {
+    console.log(newobject);
     // split question and string and number
     var url = '';
     if (destination === 'Publishing assessments') {
@@ -86,29 +104,35 @@ const CreateAssessment = () => {
       body: JSON.stringify(newobject),
     };
     const postEnd = await fetch(url, reqOptions);
+    const response = await postEnd.json();
     if (!postEnd.ok) {
       console.log('Error' + postEnd.status);
       // setModalOpen(false);
-      setErr(`Failed: Error${postEnd.status}`);
-      setErrstate(true);
+      console.log(response.message);
+      if (destination === 'Publishing assessments') {
+        if (response.message.includes('skill_id')) {
+          toast.error('skill id is not selected, go back to select a category');
+        } else if (response.message.includes('assessment_name')) {
+          toast.error('Set an assessment name');
+        } else {
+          toast.error('please ensure that all fields are correctly filled');
+        }
+      }
       setPostLoading(false);
-      setTimeout(() => {
-        setModalOpen(false);
-      }, 4000);
     }
-    const response = await postEnd.json();
     if (postEnd.ok) {
-      setErr(`Succesfully Created!`);
+      if (destination === 'Publishing assessments') {
+        toast.success(`${newobject.assessment_name} Succesfully Published!`);
+      } else {
+        toast.success(`${newobject.assessment_name} added to drafts!`);
+      }
       setPostLoading(false);
-      setErrstate(false);
     }
-    console.log(response);
   };
 
   useEffect(() => {
     if (listupdate === 'post') {
       publishAssessment();
-      setModalOpen(true);
       setPostLoading(true);
       setListupdate('waiting');
     }
@@ -116,6 +140,8 @@ const CreateAssessment = () => {
 
   return (
     <ToPushContext.Provider value={[newobject, setObject]}>
+      {postLoading && <Spinner />}
+
       <UpdateContext.Provider value={[listupdate, setListupdate]}>
         <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
           <main className="w-full">
@@ -150,39 +176,13 @@ const CreateAssessment = () => {
               )}
             </div>
             <div className="pt-4 pb-2 flex space-x-10 justify-center">
-              <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <div className="text-center text-white-100 text-[25px] font-semibold w-max">{destination}</div>
-                {postLoading && <FaSpinner color="#fff" className="animate-spin" size={100} />}
-                {err ? (
-                  <p
-                    className={`${
-                      err.includes('Error') ? 'text-red-200' : 'text-white-100'
-                    } w-max text-center text-[20px]`}
-                  >
-                    {err}
-                  </p>
-                ) : null}
-                {postLoading ? (
-                  ''
-                ) : (
-                  <Button
-                    className="p-3"
-                    intent={'secondary'}
-                    size={'md'}
-                    spinnerColor="#000"
-                    href={'/super-admin/assessment'}
-                  >
-                    Check assessments
-                  </Button>
-                )}
-              </Modal>
               <div
                 className={` cursor-pointer ${
                   active === 'button1'
                     ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443] '
                     : 'text-dark-100 rounded-sm'
                 }`}
-                onClick={() => handleClick('button1')}
+                onClick={questionClick}
               >
                 Questions &amp; Answers
               </div>
@@ -192,7 +192,7 @@ const CreateAssessment = () => {
                     ? 'text-[#BF8443] font-bold rounded-sm border-b-4 border-[#BF8443]'
                     : 'text-dark-100'
                 }`}
-                onClick={() => handleClick('button2')}
+                onClick={scoringClick}
               >
                 Scoring
               </div>
@@ -213,6 +213,7 @@ const CreateAssessment = () => {
                           placeholder="Untitled Assessment"
                           disabled={disable}
                           onChange={(e) => readInput(e)}
+                          value={newobject.assessment_name}
                         />
                       </div>
                       <div>
