@@ -9,6 +9,8 @@ import { Input } from '@ui/Input';
 import Image from 'next/image';
 import erroEmpty from './assets/Error.svg';
 import { useSearchParams } from 'next/navigation';
+import Breadcrumbs from '@modules/marketplace/component/layout/BreadCrumbs';
+// import Breadcrumbs from '../../components/Breadcrumbs';
 
 // You can now access the data array with the specified objects as needed in your application.
 
@@ -92,8 +94,9 @@ export default function SearchModule() {
   return (
     <>
       {openMenu && <FilterMobileMenu openHandler={handleMenu} />}
+      <div className="min-h-screen m-auto max-w-[1264px]">
+        <Breadcrumbs />
 
-      <div className="ss min-h-screen m-auto max-w-[1264px] px-2">
         <div className="flex justify-between items-end sm:items-center">
           <h2 className="text-zinc-900 lg:text-4xl sm:text-3xl font-bold  leading-[44px]">
             Search Results for “{query}”

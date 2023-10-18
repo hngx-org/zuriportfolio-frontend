@@ -11,10 +11,11 @@ const useCategoryNav = () => {
   }, []);
   async function getCategories() {
     try {
-      const { data } = await axios.get<{ categories: CategoryType[] }>(
-        'https://coral-app-8bk8j.ondigitalocean.app/api/category-name/',
-      );
-      setCategories(data.categories ? data.categories : []);
+      const { data } = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+
+      const categori: CategoryType[] = data.data;
+
+      setCategories(categori ? categori : []);
     } catch (error) {
       if (error instanceof isAxiosError) {
         console.log(error);
