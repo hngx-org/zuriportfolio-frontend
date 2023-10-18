@@ -8,7 +8,7 @@ import { notify } from '@ui/Toast';
 
 function GoogleRedirect() {
   const router = useRouter();
-  const {handleAuth, userCameFrom} = useAuth();
+  const { handleAuth, userCameFrom } = useAuth();
   const { mutate: signUserWithGoogle } = useAuthMutation(signUpWithOAuth, {
     onSuccess: (data) => {
       // TODO: Find out the response for succesful signup for users with 2fa enabled and disabled
@@ -33,7 +33,7 @@ function GoogleRedirect() {
 
         // redirecting the user  to admin dashbord if they are an admin
         if (data.data.user.roleId === ADMIN_ID) {
-          router.push('/super-admin/product-listing');
+          router.push('/super-admin/analytics-and-reporting');
           return;
         }
 

@@ -2,9 +2,13 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { SectionModalProps } from '../../../@types';
 import { CloseSquare } from 'iconsax-react';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import Portfolio from '../../../context/PortfolioLandingContext';
-import { set } from 'nprogress';
+import { redirect } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import { useRouter } from 'next/navigation';
+import router from 'next/router';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({
@@ -18,7 +22,6 @@ function SectionModal({
   //Destructure the useDisclosure hook
   const { openDelete, setOpenDelete } = useContext(Portfolio);
   const onClose = () => setOpenDelete(false);
-  console.log(sectionToDelete, 'sectiontodelete');
 
   return (
     <>
@@ -67,41 +70,66 @@ function SectionModal({
   );
 }
 
-const deleteSection = (sections: string) => {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-
-  const raw = JSON.stringify({
-    section: 'workExperience',
-  });
-
-  const requestOptions: any = {
-    method: 'DELETE',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow',
-  };
-
-  fetch('https://hng6-r5y3.onrender.com/api/profile/details/:userID', requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log('error', error));
-};
-
 //A Modal function for the deleting of a section
 export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
-  const { toggleSection, setOpenDelete } = useContext(Portfolio);
+  const { toggleSection, setOpenDelete, idToDelete, setUserData, onSaveModal } = useContext(Portfolio);
   const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
   const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
+
+  //userID
+  const { userId } = useContext(Portfolio);
+
+  // function for popup
+  const toastId = useRef<any>(null);
+
+  //function to delete sections
   const deleteSection = async () => {
-    if (deleteFromBe) {
-    } else if (deleteLocal) {
-      const parts = sectionToDelete.split(' ');
-      const section = parts.slice(1).join(' ');
-      toggleSection(section);
-      setOpenDelete(false);
-    }
+    //If the section to delete is mainly backend
+    //Query the backend
+    // if (deleteFromBe) {
+    let myHeaders: any;
+    myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    let raw: any;
+    raw = JSON.stringify({
+      section: idToDelete,
+    });
+
+    let requestOptions: any;
+    requestOptions = {
+      method: 'DELETE',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    // delete popup
+    const notify = () => (toastId.current = toast.success('Section deleted successfully'));
+
+    //fetch the endpoint for deleting
+    await fetch(`https://hng6-r5y3.onrender.com/api/profile/details/${userId}`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        //Show popup when section is deleted successfully
+        notify();
+        //take off the modal
+        setOpenDelete(false);
+        //Update the main page
+        onSaveModal(idToDelete);
+        // toggleSection(idToDelete);
+        // setUserData((p: any) => ({ ...p, showBuildPortfolio: false }));
+      })
+      .catch((error) => console.log({ error: error }));
+
+    // } else if (deleteLocal) {
+    //   const parts = sectionToDelete.split(' ');
+    //   const section = parts.slice(1).join(' ');
+    //   toggleSection(section);
+    //   setOpenDelete(false);
+    // }
   };
+
   return (
     <>
       <SectionModal
@@ -112,6 +140,8 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
         onClickAction={deleteSection}
         sectionToDelete={sectionToDelete}
       />
+
+      <ToastContainer />
     </>
   );
 }

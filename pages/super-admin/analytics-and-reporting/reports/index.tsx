@@ -12,6 +12,7 @@ import Modal from '@ui/Modal';
 import { DateObject } from 'react-multi-date-picker';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const AnalyticsAndReport: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(true);
@@ -267,4 +268,4 @@ const AnalyticsAndReport: React.FC = () => {
   );
 };
 
-export default AnalyticsAndReport;
+export default withAdminAuth(AnalyticsAndReport);

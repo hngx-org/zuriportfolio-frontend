@@ -34,9 +34,16 @@ const initialContextValue: Context = {
   setCloseAllModal: () => {},
 };
 
+type certificationModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  isOpen: boolean;
+  userId?: string;
+};
+
 const myContext = createContext(initialContextValue);
 
-const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModalProps) => {
   const { userId } = useContext(Portfolio);
   const [formData, setFormData] = useState({
     id: '',
@@ -236,14 +243,14 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
           <div>
             {' '}
             {!isModalOpen && (
-              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
                 <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
                   <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-                    <div className="flex items-center gap-6" onClick={onClose}>
+                    <div className="flex items-center gap-6" onClick={onCloseModal}>
                       <ArrowLeft2 />
                       <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
                     </div>
-                    <div onClick={onClose}>
+                    <div onClick={onCloseModal}>
                       <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
                     </div>
                   </div>
@@ -355,7 +362,7 @@ const Certifications = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
                       </div>
                       <div className="flex gap-4  items-center">
                         <Button
-                          onClick={onClose}
+                          onClick={onCloseModal}
                           intent={'secondary'}
                           className="w-full rounded-md sm:w-[6rem]"
                           size={'md'}
@@ -432,20 +439,20 @@ const CertificationList: React.FC<CertificationListProps> = () => {
   const { refreshPage, setError, isModalOpen } = useContext(myContext);
   const [certifications, setCertifications] = useState<Certification[]>([]);
 
+  const { userId } = useContext(Portfolio);
+
   const fetchCertifications = async () => {
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/certificates');
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}`);
       if (response.ok) {
         const data = await response.json();
-        // console.log('Fetched certifications data:', data);
+        console.log(data);
         setCertifications(data.data);
       } else {
         setError('Error fetching certifications data.');
       }
     } catch (error) {
       setError('An error occurred while fetching certifications data.');
-
-      // console.error(error);
     }
   };
   useEffect(() => {
@@ -495,8 +502,6 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     try {
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${id}`);
       const data = await response.json();
-      console.log('fetched data', data);
-      console.log('this is the section id ', data.section.id);
       setSectionId(data.section.id);
       // if (response.ok) {
 
@@ -519,31 +524,31 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     // Send a PUT request to update the certification
 
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}/1`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}/${sectionId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(editedCertification), // Send the edited data
         },
-        body: JSON.stringify(editedCertification), // Send the edited data
-      });
-      console.log('this is the id ', id);
-      console.log(userId);
+      );
+      const data = await response.json();
+      console.log(data);
+      // if (response.ok) {
+      //   // console.log(`Certificate with ID ${id} updated.`);
+      //   setRefreshPage(!refreshPage);
+      //   setEditedMessage('Edited successfully');
+      //   setTimeout(() => {
+      //     setEditedMessage('');
+      //   }, 3000);
 
-      console.log('Response Status:', response.ok);
-      console.log('Response Data:', await response.json());
-      if (response.ok) {
-        // console.log(`Certificate with ID ${id} updated.`);
-        setRefreshPage(!refreshPage);
-        setEditedMessage('Edited successfully');
-        setTimeout(() => {
-          setEditedMessage('');
-        }, 3000);
-
-        closeEditForm(); // Close the Edit form
-      } else {
-        console.error(`Error updating certificate with ID ${id}`);
-        setEditMessageError('Error updating certificate');
-      }
+      //   closeEditForm(); // Close the Edit form
+      // } else {
+      //   console.error(`Error updating certificate with ID ${id}`);
+      //   setEditMessageError('Error updating certificate');
+      // }
     } catch (error) {
       console.error('An error occurred while updating the certificate.', error);
     }
