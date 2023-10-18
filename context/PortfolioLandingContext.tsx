@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, use } from 'react';
 import WorkExperienceSection from '@modules/portfolio/component/work-experience-modal';
 import useDisclosure from '../hooks/useDisclosure';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import EducationSection from '@modules/portfolio/component/education-modal';
+// import EducationSection from '@modules/portfolio/component/education-modal';
 import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { sections as s } from '@modules/portfolio/component/landing/data';
@@ -333,16 +333,16 @@ export function PortfolioCtxProvider(props: { children: any }) {
         />
       ),
     },
-    {
-      id: 'education',
-      modal: (
-        <EducationSection
-          isOpen={modalStates['education']}
-          onCloseModal={() => onCloseModal('education')}
-          onSaveModal={() => onSaveModal('education')}
-        />
-      ),
-    },
+    // {
+    //   id: 'education',
+    //   modal: (
+    //     // <EducationSection
+    //     //   isOpen={modalStates['education']}
+    //     //   onCloseModal={() => onCloseModal('education')}
+    //     //   onSaveModal={() => onSaveModal('education')}
+    //     // />
+    //   ),
+    // },
     {
       id: 'projects',
       modal: (
