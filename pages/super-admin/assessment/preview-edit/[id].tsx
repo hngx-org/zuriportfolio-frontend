@@ -7,10 +7,12 @@ import EditLayout from '@modules/assessment/component/editLayout';
 import { useRouter } from 'next/router';
 // import ScoringS from '@modules/assessment/component/scoreDropdown';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const EditAssesment = () => {
   const [active, setActive] = useState<null | string>('button1');
   const [assessment, setAssessment] = useState({
+    id: 0,
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
     duration_minutes: 0,
@@ -130,7 +132,7 @@ const EditAssesment = () => {
               </div>
             </>
           ) : (
-            <ScoringScreen skillId={skillId} />
+            <ScoringScreen assessment={assessment} skillId={skillId} />
           )}
         </div>
       </main>
@@ -138,4 +140,4 @@ const EditAssesment = () => {
   );
 };
 
-export default EditAssesment;
+export default withAdminAuth(EditAssesment);

@@ -15,7 +15,6 @@ import { ADMIN_ID, useAuth } from '../../../../context/AuthContext';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 
-
 function LoginForm() {
   const { handleAuth, userCameFrom } = useAuth();
   const router = useRouter();
@@ -36,8 +35,7 @@ function LoginForm() {
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      if(res?.response && res?.response?.message === "TWO FACTOR AUTHENTICATION CODE SENT")
-      {
+      if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
         localStorage.setItem('zpt', res?.response?.token);
         localStorage.setItem('email', res?.response?.email);
         notify({
@@ -49,12 +47,13 @@ function LoginForm() {
       }
 
       if (res.message === 'Login successful') {
+        console.log(res.data);
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
 
         // redirecting the user  to admin dashbord if they are an admin
         if (res.data.user.roleId === ADMIN_ID) {
-          router.push('/super-admin/product-listing');
+          router.push('/super-admin/analytics-and-reporting');
           return;
         }
 

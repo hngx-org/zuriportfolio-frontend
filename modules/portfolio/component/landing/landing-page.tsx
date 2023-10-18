@@ -1,6 +1,6 @@
 'use-client';
 import Image from 'next/image';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import LandinEmptyState from './landingpage-empty';
 import LandingPageFilled from './landingpage-filled';
 import Cover from './cover-avatar';
@@ -13,20 +13,28 @@ import ViewTemplate from '../modals/view-template';
 
 const Landing = () => {
   const {
-    hasPortfolio,
-    hasData,
     profileUpdate,
-    modal,
     showProfileUpdate,
     showBuildPortfolio,
     showViewtemplates,
     userData,
     isLoading,
     gettinSection,
-    error,
+    userSections,
+    hasPortfolio,
+    setHasPortfolio,
   } = useContext(Portfolio);
 
   const { firstName, lastName, tracks, city, country, coverImage } = userData;
+
+  useEffect(() => {
+    if (!gettinSection && userSections) {
+      const hasMatchingSection = userSections.some((section) => {
+        return (section?.data && section?.data.length > 0) || section?.data?.bio;
+      });
+      setHasPortfolio(hasMatchingSection);
+    }
+  }, [gettinSection, setHasPortfolio, userSections]);
 
   const headerMargin =
     'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen object-cover';
@@ -74,7 +82,7 @@ const Landing = () => {
             </div>
             {gettinSection ? (
               <Loader />
-            ) : hasPortfolio && hasData ? (
+            ) : hasPortfolio ? (
               <div className="mt-10 md:mt-20">{gettinSection ? <Loader /> : <LandingPageFilled />}</div>
             ) : (
               <div>

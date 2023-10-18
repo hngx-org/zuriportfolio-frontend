@@ -6,12 +6,15 @@ import { useState } from 'react';
 import PreviewQuests from '@modules/assessment/component/previewQuests';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import { useRouter } from 'next/router';
+import { number } from 'zod';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const Previewedit: React.FC = () => {
   //demo-question-...
   // eslint-disable-next-line react/no-unescaped-entities
   const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
   const [assessment, setAssessment] = useState({
+    id: 0,
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
     duration_minutes: 0,
@@ -105,7 +108,7 @@ const Previewedit: React.FC = () => {
               </div>
             </>
           ) : (
-            <ScoringScreen skillId={skillId} />
+            <ScoringScreen assessment={assessment} skillId={skillId} />
           )}
         </div>
       </main>
@@ -113,4 +116,4 @@ const Previewedit: React.FC = () => {
   );
 };
 
-export default Previewedit;
+export default withAdminAuth(Previewedit);

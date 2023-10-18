@@ -26,6 +26,7 @@ type MyGradingRangeType = {
 
 interface ScoringScreenProps {
   skillId: number; // Define skillId as a prop
+  assessment: any;
 }
 
 const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {

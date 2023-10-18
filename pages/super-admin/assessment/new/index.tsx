@@ -12,6 +12,7 @@ import backarrow from '../../../../modules/assessment/component/backarrow.svg';
 import Spinner from '@ui/Spinner';
 import Image from 'next/image';
 import { ToastContainer, toast } from 'react-toastify';
+import assessment from '..';
 
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
@@ -228,7 +229,7 @@ const CreateAssessment = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   </div>
                 </>
               ) : (
-                <ScoringScreen skillId={newobject.skill_id} />
+                <ScoringScreen assessment={assessment} skillId={newobject.skill_id} />
               )}
             </div>
           </main>
