@@ -104,8 +104,8 @@ withUserAuth(Promotion);
 for e.g `AnalyticsAndReportingLayouts` or any other page that require the user to be an admin before they access it. All you have to do is import the custom handler and wrap your component inside it. i.e
 
 ```js
-withAdminAuth(AnalyticsAndReportingLayouts)
-withAdminAuth(SanctionedProducts)
+withAdminAuth(AnalyticsAndReportingLayouts);
+withAdminAuth(SanctionedProducts);
 ```
 
 - **WithoutAuth.tsx** :- is the opposite of `withAuth.tsx` HOF. It only meant to be used to prevent loggedIn users from redirecting or navigating to a page. i.e when a user is loggedIn and you dont want them to view a certain page, use this function.
