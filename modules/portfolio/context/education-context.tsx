@@ -118,7 +118,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       });
       if (response.ok) {
         notify({
-          message: 'Education detail created successfully',
+          message: 'Education detail updated successfully',
           position: 'top-center',
           theme: 'light',
           type: 'success',
