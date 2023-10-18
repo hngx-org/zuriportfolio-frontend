@@ -166,7 +166,6 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
-  console.log(data);
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
       {data?.map((interest: any, i: number) => (
@@ -269,19 +268,13 @@ export const Contact = ({ data }: SkeletonProps) => {
 
 export const Reference = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex flex-col flex-wrap">
-      <div className="flex flex-col gap-2" key={data.id}>
-        <div className="flex justify-start items-center gap-20">
-          <span className="text-gray-400 font-semibold text-lg min-w-min">{data.name}</span>
-          <span className="text-gray-300 font-semibold text-sm">{data.position}</span>
-        </div>
-        <div className="flex justify-start items-center gap-20">
-          <span className="text-gray-300 font-semibold text-sm">{data.company}</span>
-          <span className="text-gray-300 font-semibold text-sm">{data.email}</span>
-        </div>
-        <div className="flex justify-start items-center gap-20">
-          <span className="text-gray-300 font-semibold text-sm">{data.phone}</span>
-        </div>
+    <div className="flex flex-col flex-wrap mb-3">
+      <div className="flex flex-col" key={data.id}>
+        <span className="text-gray-500 font-semibold text-xl min-w-min">{data.referer}</span>
+        <span className="text-gray-300 font-semibold w-6/12">{data.position}</span>
+        <span className="text-gray-300 font-semibold w-6/12">{data.company}</span>
+        <span className="text-gray-300 font-semibold w-6/12">{data.email}</span>
+        <span className="text-gray-300 font-semibold ">{data.phone_number}</span>
       </div>
     </div>
   );

@@ -40,6 +40,8 @@ const LandingPageFilled: React.FC = () => {
 
   const deleteSection = () => setOpenDelete(true);
 
+  console.log(userSections);
+
   const [showMoreWorkExperience, setShowMoreWorkExperience] = useState(2);
   const [showMoreEducation, setShowMoreEducation] = useState(2);
   const [showMoreProjects, setShowMoreProjects] = useState(2);
