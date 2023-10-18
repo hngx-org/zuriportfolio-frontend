@@ -9,8 +9,6 @@ interface OtherProductListProps {
 
 const OtherProductList: React.FC<OtherProductListProps> = ({ products, productId }) => {
   const filteredArray = products.filter((product) => product.id !== productId);
-  console.log('Filtered Array', filteredArray);
-  console.log('ProductId to exclude', productId);
   return (
     <>
       {filteredArray.length > 0 ? (
