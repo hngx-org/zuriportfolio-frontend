@@ -17,10 +17,6 @@ function AddShopErrorModal() {
 
   return (
     <>
-      {/* <Button intent={'primary'} size={'md'} isLoading={false} spinnerColor="#000" onClick={onOpen} className="m-5">
-        Add Shop
-      </Button> */}
-
       <Modal
         closeOnOverlayClick
         isOpen={openShop}
