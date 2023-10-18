@@ -151,6 +151,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       }));
     }
   };
+  console.log('this is the ismodal', isModalOpen);
 
   return (
     <myContext.Provider
@@ -171,165 +172,165 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       }}
     >
       <div>
-        {!closeAllModal && (
-          <div>
-            {isModalOpen && (
-              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
-                <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
-                  <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-                    <div className="flex items-center gap-6" onClick={onCloseModal}>
-                      <ArrowLeft2 />
-                      <h1 className="font-bold text-2xl text-white-700">Awards</h1>
-                    </div>
-                    <div onClick={onCloseModal}>
-                      <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
-                    </div>
-                  </div>
-                  <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={openModal}>
-                    <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-                      <div className="flex  flex-col gap-2 flex-1">
-                        <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                          Award Title*
-                        </label>
-                        <Input
-                          type="text"
-                          id="title"
-                          name="title"
-                          maxLength={14}
-                          placeholder="My best yet"
-                          className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
-                          value={formData.title}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-
-                      <div className="flex  flex-col gap-2 flex-1">
-                        <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                          Year
-                        </label>
-                        <select
-                          id="year"
-                          name="year"
-                          className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
-                          value={formData.year}
-                          onChange={handleInputChange}
-                          required
-                        >
-                          {/* Add the default placeholder option */}
-                          <option value="" disabled>
-                            Year
-                          </option>
-                          {Array.from({ length: 124 }, (_, index) => {
-                            const year = 2023 - index;
-                            if (year >= 1900) {
-                              return (
-                                <option key={year} value={year}>
-                                  {year}
-                                </option>
-                              );
-                            }
-                            return null;
-                          })}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-                      <div className="flex  flex-col gap-[10px] flex-1">
-                        <label
-                          htmlFor="presented_by"
-                          className="font-semibold text-[16px] leading-[24px]  text-[#444846]"
-                        >
-                          Organization*
-                        </label>
-                        <Input
-                          type="text"
-                          maxLength={21}
-                          id="presented_by"
-                          name="presented_by"
-                          placeholder="Google"
-                          className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
-                          value={formData.presented_by}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="flex  flex-col gap-[10px] flex-1">
-                        <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                          Url
-                        </label>
-                        <Input
-                          type="url"
-                          id="url"
-                          name="url"
-                          pattern="https?://.+"
-                          placeholder="Type link"
-                          className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
-                          value={formData.url}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="flex  flex-col gap-[10px]">
-                      <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                        Description
-                      </label>
-                      <Input
-                        type="text"
-                        id="description"
-                        name="description"
-                        maxLength={200}
-                        minLength={30}
-                        placeholder=""
-                        className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
-                        value={formData.description}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
-                      <div>
-                        {isLoading ? (
-                          <Loader />
-                        ) : (
-                          <div>
-                            <div>
-                              <p className="text-green-200 text-sm">{createAward}</p>
-                            </div>
-                            <div>
-                              <pre className="text-red-205 font-manropeL">{error}</pre>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex gap-4  items-center">
-                        <Button
-                          onClick={onCloseModal}
-                          intent={'secondary'}
-                          className="w-full rounded-md sm:w-[6rem]"
-                          size={'md'}
-                        >
-                          Cancel
-                        </Button>{' '}
-                        <Button
-                          type="submit"
-                          // disabled={!isValid}
-
-                          className="w-full rounded-md sm:w-[6rem]"
-                          size={'md'}
-                        >
-                          Save
-                        </Button>
-                      </div>
-                    </div>
-                  </form>
+        {isModalOpen && (
+          <Modal closeOnOverlayClick isOpen={isModalOpen} closeModal={closeModal} isCloseIconPresent={false} size="xl">
+            <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
+              <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
+                <div
+                  className="flex items-center gap-6"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                  }}
+                >
+                  <ArrowLeft2 />
+                  <h1 className="font-bold text-2xl text-white-700">Awards</h1>
                 </div>
-              </Modal>
-            )}
-            {!isModalOpen && <AwardRead isOpen={isOpen} onClose={closeModal} />}
-          </div>
+                <div onClick={onCloseModal}>
+                  <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
+                </div>
+              </div>
+              <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={openModal}>
+                <div className="flex flex-col sm:flex-row w-full gap-[10px]">
+                  <div className="flex  flex-col gap-2 flex-1">
+                    <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Award Title*
+                    </label>
+                    <Input
+                      type="text"
+                      id="title"
+                      name="title"
+                      maxLength={14}
+                      placeholder="My best yet"
+                      className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
+                      value={formData.title}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="flex  flex-col gap-2 flex-1">
+                    <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Year
+                    </label>
+                    <select
+                      id="year"
+                      name="year"
+                      className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
+                      value={formData.year}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      {/* Add the default placeholder option */}
+                      <option value="" disabled>
+                        Year
+                      </option>
+                      {Array.from({ length: 124 }, (_, index) => {
+                        const year = 2023 - index;
+                        if (year >= 1900) {
+                          return (
+                            <option key={year} value={year}>
+                              {year}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
+                    </select>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row w-full gap-[10px]">
+                  <div className="flex  flex-col gap-[10px] flex-1">
+                    <label htmlFor="presented_by" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Organization*
+                    </label>
+                    <Input
+                      type="text"
+                      maxLength={21}
+                      id="presented_by"
+                      name="presented_by"
+                      placeholder="Google"
+                      className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
+                      value={formData.presented_by}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="flex  flex-col gap-[10px] flex-1">
+                    <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Url
+                    </label>
+                    <Input
+                      type="url"
+                      id="url"
+                      name="url"
+                      pattern="https?://.+"
+                      placeholder="Type link"
+                      className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
+                      value={formData.url}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex  flex-col gap-[10px]">
+                  <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                    Description
+                  </label>
+                  <Input
+                    type="text"
+                    id="description"
+                    name="description"
+                    maxLength={200}
+                    minLength={30}
+                    placeholder=""
+                    className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
+                  <div>
+                    {isLoading ? (
+                      <Loader />
+                    ) : (
+                      <div>
+                        <div>
+                          <p className="text-green-200 text-sm">{createAward}</p>
+                        </div>
+                        <div>
+                          <pre className="text-red-205 font-manropeL">{error}</pre>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex gap-4  items-center">
+                    <Button
+                      onClick={() => {
+                        setIsModalOpen(false);
+                      }}
+                      intent={'secondary'}
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
+                    >
+                      Cancel
+                    </Button>{' '}
+                    <Button
+                      type="submit"
+                      // disabled={!isValid}
+
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </Modal>
         )}
+        {!isModalOpen && <AwardRead isOpen={!isModalOpen} onClose={onCloseModal} />}
       </div>
     </myContext.Provider>
   );
@@ -344,11 +345,7 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
             <ArrowLeft2 />
             <h1 className="font-bold text-2xl text-white-700 ">Awards</h1>
           </div>
-          <div
-            onClick={() => {
-              setCloseAllModal(true);
-            }}
-          >
+          <div onClick={onClose}>
             <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
           </div>
         </div>
@@ -371,6 +368,7 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
             <Button
               onClick={() => {
                 setCloseAllModal(true);
+                setIsModalOpen(false);
               }}
               className="w-full rounded-md sm:w-[6rem]"
               size={'md'}
@@ -393,6 +391,7 @@ const AwardList: React.FC<AwardListProps> = () => {
       setIsLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/`);
       setIsLoading(false);
+
       if (response.ok) {
         const data = await response.json();
         console.log('Fetched awards data:', data.awards);
@@ -407,7 +406,7 @@ const AwardList: React.FC<AwardListProps> = () => {
     }
   };
   useEffect(() => {
-    if (isModalOpen) {
+    if (!isModalOpen) {
       // Fetch data when the AwardRead modal is opened
       fetchAwards();
     }

@@ -98,7 +98,7 @@ export interface AwardListProps {
   isModalOpen: boolean;
 }
 export interface Certification {
-  id: string;
+  id: number;
   sectionId: number;
   year: string;
   title: string;

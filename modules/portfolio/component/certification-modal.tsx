@@ -51,10 +51,9 @@ const myContext = createContext(initialContextValue);
 const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModalProps) => {
   const { userId } = useContext(Portfolio);
   const [formData, setFormData] = useState({
-    id: '',
     title: '',
     year: '',
-    sectionId: 1,
+
     organization: '',
     url: '',
     description: '',
@@ -71,16 +70,12 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   const [closeAllModal, setCloseAllModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const isValid =
-    formData.year && formData.title && formData.organization && formData.url && formData.description && !urlError;
-
   const openModal = async (e: React.FormEvent) => {
     // console.log('openModal function called');
     e.preventDefault(); // Prevent the default form submission
     const newCertification = {
-      id: certificationCounter.toString(),
       year: formData.year,
-      sectionId: formData.sectionId,
+
       title: formData.title,
       organization: formData.organization,
       url: formData.url,
@@ -97,8 +92,9 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
         },
         body: JSON.stringify(newCertification),
       });
-      // console.log('Response Status:', response.status);
-      // console.log('Response Data:', await response.json());
+      console.log('0.this is the new certi', newCertification);
+      console.log('1. Response Status:', response.status);
+      console.log('2. Response Data:', await response.json());
       setIsLoading(false);
       if (response.ok) {
         setCreateCertificate('Certificate created successfully');
@@ -106,11 +102,10 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
           setCreateCertificate('');
         }, 2000);
         setError('');
+        console.log('3. these are the datas sent', formData);
 
         setTimeout(() => {
           setFormData({
-            id: '',
-            sectionId: 1,
             title: '',
             year: '',
             organization: '',
@@ -171,166 +166,166 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
       }}
     >
       <div>
-        {!closeAllModal && (
-          <div>
-            {' '}
-            {isModalOpen && (
-              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
-                <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
-                  <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-                    <div className="flex items-center gap-6" onClick={onCloseModal}>
-                      <ArrowLeft2 />
-                      <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
+        {' '}
+        {isModalOpen && (
+          <Modal closeOnOverlayClick isOpen={isModalOpen} closeModal={closeModal} isCloseIconPresent={false} size="xl">
+            <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
+              <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
+                <div
+                  className="flex items-center gap-6"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                  }}
+                >
+                  <ArrowLeft2 />
+                  <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
+                </div>
+                <div onClick={onCloseModal}>
+                  <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
+                </div>
+              </div>
+              <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={openModal}>
+                <div className="flex flex-col sm:flex-row w-full gap-[10px]">
+                  <div className="flex  flex-col gap-2 flex-1">
+                    <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Certification Title*
+                    </label>
+                    <Input
+                      type="text"
+                      id="title"
+                      name="title"
+                      maxLength={14}
+                      placeholder="My best yet"
+                      className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
+                      value={formData.title}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="flex  flex-col gap-2 flex-1">
+                    <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Year
+                    </label>
+                    <select
+                      id="year"
+                      name="year"
+                      className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
+                      value={formData.year}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      {/* Add the default placeholder option */}
+                      <option value="" disabled>
+                        Year
+                      </option>
+                      {Array.from({ length: 124 }, (_, index) => {
+                        const year = 2023 - index;
+                        if (year >= 1900) {
+                          return (
+                            <option key={year} value={year}>
+                              {year}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
+                    </select>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row w-full gap-[10px]">
+                  <div className="flex  flex-col gap-[10px] flex-1">
+                    <label htmlFor="organization" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Organization*
+                    </label>
+                    <Input
+                      type="text"
+                      maxLength={21}
+                      id="organization"
+                      name="organization"
+                      placeholder="Google"
+                      className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900 rounded-lg border-[1px]"
+                      value={formData.organization}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="flex  flex-col gap-[10px] flex-1">
+                    <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Url
+                    </label>
+                    <Input
+                      type="url"
+                      id="url"
+                      name="url"
+                      pattern="https?://.+"
+                      required
+                      placeholder="Type link"
+                      className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
+                      value={formData.url}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="flex  flex-col gap-[10px]">
+                  <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                    Description
+                  </label>
+                  <Input
+                    type="text"
+                    id="description"
+                    name="description"
+                    minLength={30}
+                    maxLength={200}
+                    placeholder="Certificate ID & details "
+                    className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900  rounded-lg border-[1px]"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
+                  <div>
+                    <div>
+                      <p className="text-green-200 text-sm">{createCertificate}</p>
                     </div>
-                    <div onClick={onCloseModal}>
-                      <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
+                    <div>
+                      {isLoading ? (
+                        <Loader />
+                      ) : (
+                        <div>
+                          <pre className="text-red-205 font-manropeL">{error}</pre>
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={openModal}>
-                    <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-                      <div className="flex  flex-col gap-2 flex-1">
-                        <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                          Certification Title*
-                        </label>
-                        <Input
-                          type="text"
-                          id="title"
-                          name="title"
-                          maxLength={14}
-                          placeholder="My best yet"
-                          className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
-                          value={formData.title}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
+                  <div className="flex gap-4  items-center">
+                    <Button
+                      onClick={() => {
+                        setIsModalOpen(false);
+                      }}
+                      intent={'secondary'}
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
+                    >
+                      Cancel
+                    </Button>{' '}
+                    <Button
+                      type="submit"
+                      // disabled={!isValid}
 
-                      <div className="flex  flex-col gap-2 flex-1">
-                        <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                          Year
-                        </label>
-                        <select
-                          id="year"
-                          name="year"
-                          className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
-                          value={formData.year}
-                          onChange={handleInputChange}
-                          required
-                        >
-                          {/* Add the default placeholder option */}
-                          <option value="" disabled>
-                            Year
-                          </option>
-                          {Array.from({ length: 124 }, (_, index) => {
-                            const year = 2023 - index;
-                            if (year >= 1900) {
-                              return (
-                                <option key={year} value={year}>
-                                  {year}
-                                </option>
-                              );
-                            }
-                            return null;
-                          })}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-                      <div className="flex  flex-col gap-[10px] flex-1">
-                        <label
-                          htmlFor="organization"
-                          className="font-semibold text-[16px] leading-[24px]  text-[#444846]"
-                        >
-                          Organization*
-                        </label>
-                        <Input
-                          type="text"
-                          maxLength={21}
-                          id="organization"
-                          name="organization"
-                          placeholder="Google"
-                          className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900 rounded-lg border-[1px]"
-                          value={formData.organization}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="flex  flex-col gap-[10px] flex-1">
-                        <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                          Url
-                        </label>
-                        <Input
-                          type="url"
-                          id="url"
-                          name="url"
-                          pattern="https?://.+"
-                          required
-                          placeholder="Type link"
-                          className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
-                          value={formData.url}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex  flex-col gap-[10px]">
-                      <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                        Description
-                      </label>
-                      <Input
-                        type="text"
-                        id="description"
-                        name="description"
-                        minLength={30}
-                        maxLength={200}
-                        placeholder="Certificate ID & details "
-                        className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900  rounded-lg border-[1px]"
-                        value={formData.description}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
-                      <div>
-                        <div>
-                          <p className="text-green-200 text-sm">{createCertificate}</p>
-                        </div>
-                        <div>
-                          {isLoading ? (
-                            <Loader />
-                          ) : (
-                            <div>
-                              <pre className="text-red-205 font-manropeL">{error}</pre>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex gap-4  items-center">
-                        <Button
-                          onClick={onCloseModal}
-                          intent={'secondary'}
-                          className="w-full rounded-md sm:w-[6rem]"
-                          size={'md'}
-                        >
-                          Cancel
-                        </Button>{' '}
-                        <Button
-                          type="submit"
-                          // disabled={!isValid}
-
-                          className="w-full rounded-md sm:w-[6rem]"
-                          size={'md'}
-                        >
-                          Save
-                        </Button>
-                      </div>
-                    </div>
-                  </form>
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
+                    >
+                      Save
+                    </Button>
+                  </div>
                 </div>
-              </Modal>
-            )}
-            {!isModalOpen && <CertificationRead isOpen={isOpen} onClose={closeModal} />}
-          </div>
+              </form>
+            </div>
+          </Modal>
         )}
+        {!isModalOpen && <CertificationRead isOpen={!isModalOpen} onClose={onCloseModal} />}
       </div>
     </myContext.Provider>
   );
@@ -345,11 +340,7 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             <ArrowLeft2 />
             <h1 className="font-bold text-2xl text-white-700 ">Certifications</h1>
           </div>
-          <div
-            onClick={() => {
-              setCloseAllModal(true);
-            }}
-          >
+          <div onClick={onClose}>
             <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
           </div>
         </div>
@@ -372,6 +363,7 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             <Button
               onClick={() => {
                 setCloseAllModal(true);
+                setIsModalOpen(false);
               }}
               className="w-full rounded-md sm:w-[6rem]"
               size={'md'}
@@ -388,19 +380,25 @@ const CertificationList: React.FC<CertificationListProps> = () => {
   const { userId } = useContext(Portfolio);
   const { refreshPage, setError, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
   const [certifications, setCertifications] = useState<Certification[]>([]);
-  console.log(certifications);
+  // console.log(certifications);
 
   const fetchCertifications = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}`);
+      console.log('4. this is the response', response);
 
       setIsLoading(false);
+      const res = await response.json();
+      // console.log('Response Data:', await response.json());
+
+      console.log('5. this is the data for it', res);
+
       if (response.ok) {
-        const data = await response.json();
+        // console.log('Response Status:', response.ok);
+        console.log('6. this is the res.data', res.data);
         // console.log('Fetched certifications data:', data);
-        setCertifications(data.data);
-        console.log('this is the data', data);
+        setCertifications(res.data);
       } else {
         setError('Error fetching certifications data.');
       }
@@ -411,14 +409,15 @@ const CertificationList: React.FC<CertificationListProps> = () => {
     }
   };
   useEffect(() => {
-    if (isModalOpen) {
+    if (!isModalOpen) {
       // Fetch data when the CertificationRead modal is opened
       fetchCertifications();
     }
   }, [isModalOpen, refreshPage]);
   useEffect(() => {
     // console.log('this is the data', certifications);
-  }, [isModalOpen]);
+  }, [!isModalOpen]);
+  // console.log('these are the certificates', certifications);
 
   return (
     <div>
@@ -447,6 +446,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   const [editMessageError, setEditMessageError] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const { refreshPage, setRefreshPage, isLoading, setIsLoading } = useContext(myContext);
+  // console.log('this are the certifications', certification);
 
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
@@ -461,7 +461,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   };
   // State to store the edited data
   const [editedCertification, setEditedCertification] = useState(initialEditedCertification);
-  console.log('This is the edit certi', editedCertification);
+  // console.log('This is the edit certi', editedCertification);
   const openEditForm = () => {
     setIsEditFormOpen(true);
   };
@@ -489,10 +489,10 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         body: JSON.stringify(editedCertification), // Send the edited data
       });
       setEditLoading(false);
-      console.log('this is the id ', id);
-      console.log(userId);
-      console.log('Response Status:', response.ok);
-      console.log('Response Data:', await response.json());
+      // console.log('this is the id ', id);
+      // console.log(userId);
+      // console.log('Response Status:', response.ok);
+      // console.log('Response Data:', await response.json());
       if (response.ok) {
         setRefreshPage(!refreshPage);
         setEditedMessage('Edited successfully');
@@ -502,7 +502,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
 
         closeEditForm(); // Close the Edit form
       } else {
-        console.error(`Error updating certificate with ID ${id}`);
+        // console.error(`Error updating certificate with ID ${id}`);
         setEditMessageError('Error updating certificate');
       }
     } catch (error) {
@@ -520,9 +520,6 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
       });
       setDeleteLoading(false);
       if (response.ok) {
-        // Certificate deleted successfully, you can update the UI accordingly
-        // console.log(response.json());
-        // console.log(`Certificate with ID ${id} deleted.`);
         setDeletedMessage('Deleted successfully');
 
         setRefreshPage(!refreshPage);
@@ -604,7 +601,7 @@ const EditForm: React.FC<{
   setCertification: React.Dispatch<React.SetStateAction<Certification>>;
   onClose: () => void;
 }> = ({ isOpen, certification, setCertification, onClose, handleSave }) => {
-  const { urlError, error, render, setError } = useContext(myContext);
+  const { error } = useContext(myContext);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -749,13 +746,7 @@ const EditForm: React.FC<{
               <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
                 Cancel
               </Button>{' '}
-              <Button
-                type="submit"
-                // disabled={!isValid}
-
-                className="w-full rounded-md sm:w-[6rem]"
-                size={'md'}
-              >
+              <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'md'}>
                 Save
               </Button>
             </div>
