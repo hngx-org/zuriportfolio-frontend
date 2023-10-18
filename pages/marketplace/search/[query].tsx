@@ -31,7 +31,8 @@ export default function Index() {
           const results = await searchProducts(searchQuery);
           setResults(results);
         } catch (error: any) {
-          toast.error(error.message);
+          console.log(error);
+          toast.error(error);
         }
       };
 
