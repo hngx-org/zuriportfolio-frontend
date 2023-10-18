@@ -9,6 +9,7 @@ import { months, years } from '../data';
 import { WorkExperienceModalContext } from '../context/work-experience-modal-context';
 import Loader from '@ui/Loader';
 import { WorkExperience as WorkExperienceSkeleton } from './landing/Skeleton';
+import Portfolio from '../../../context/PortfolioLandingContext';
 
 type WorkExperienceModalProps = {
   onCloseModal: () => void;
@@ -50,6 +51,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
   } = useContext(WorkExperienceModalContext);
   const [editingExperienceId, setEditingExperienceId] = useState<number | null>(null);
   const [editingExperience, setEditingExperience] = useState<WorkExperience | null>(null);
+  // const { onSaveModal } = useContext(Portfolio);
 
   const prefillForm = (experience: WorkExperience) => {
     setEditingExperienceId(experience.id);
@@ -174,8 +176,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
           {isForm && (
             <form
               onSubmit={(e) => (isEditMode ? handleEditExperience(editingExperienceId, e) : addWorkExperience(e))}
-              // onSubmit={(e) => addWorkExperience(e)}
-              // onSubmit={(e) => (isEditMode ? editExperience(editingExperience!, e) : addWorkExperience(e))}
               className="flex flex-col gap-y-7"
             >
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -352,7 +352,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
-                    isEditMode ? handleEditExperience() : addWorkExperience();
+                    isEditMode ? handleEditExperience() : addWorkExperience(e);
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
@@ -389,7 +389,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 <Button
                   type="button"
                   onClick={() => {
-                    onCloseModal();
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
@@ -400,7 +399,14 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button
+                  type="submit"
+                  onClick={() => {
+                    onSaveModal();
+                  }}
+                  className="w-full rounded-md sm:w-[6rem]"
+                  size={'lg'}
+                >
                   Save
                 </Button>
               </div>
