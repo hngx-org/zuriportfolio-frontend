@@ -100,7 +100,7 @@ export default function AllCategoriesPage() {
               </div>
 
               <ProductCardWrapper
-                productsList={{ isLoading: categoryProducts?.isLoading, items: reduceItem(row?.product) }}
+                productsList={{ isLoading: categoryProducts?.isLoading, items: reduceItem(row?.product?.data) }}
                 title={''}
                 showTopPicks={false}
                 showAll={false}

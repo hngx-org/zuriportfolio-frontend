@@ -94,11 +94,18 @@ A separate folder called `http` which contains `axios.ts` and `index.ts` files w
 
 Within the `helpers` folder contains **two** different files called `withAuth.tsx` and `withoutAuth.tsx`.
 
-- **WithAuth.tsx** :- is a `HOF` function which wraps every components that needs protection or protected route components. for eg `Dashboard` or any other page that require the user to be loggedIn. All you have to do is import the cusstom handler and wrap your component inside it. i.e
+- **WithAuth.tsx** :- contains two `HOF` called `withUserAuth` and `withAdminAuth` which are functions that wraps every components that needs protection or protected route components for user and admin respectively. for eg `Dashboard` or any other page that require the user to be loggedIn. All you have to do is import the cusstom handler and wrap your component inside it. i.e
 
 ```js
-withAuth(Dashboard);
-withAuth(Promotion);
+withUserAuth(Dashboard);
+withUserAuth(Promotion);
+```
+
+for e.g `AnalyticsAndReportingLayouts` or any other page that require the user to be an admin before they access it. All you have to do is import the custom handler and wrap your component inside it. i.e
+
+```js
+withAdminAuth(AnalyticsAndReportingLayouts)
+withAdminAuth(SanctionedProducts)
 ```
 
 - **WithoutAuth.tsx** :- is the opposite of `withAuth.tsx` HOF. It only meant to be used to prevent loggedIn users from redirecting or navigating to a page. i.e when a user is loggedIn and you dont want them to view a certain page, use this function.
