@@ -8,6 +8,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
+import CreateAssessment from '../new';
+import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 type Props = {
@@ -177,12 +180,14 @@ const DraftPreview = () => {
                 </div>
               </div>
             </div>
-            {draftData.questions.map((item, index) => (
+            {draftData.questions?.map((item, index) => (
               <div key={index} className="mt-8 text-left">
                 <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
                   <div className="flex justify-between mb-4">
                     <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <button className="text-md font-manropeB text-black">Edit</button>
+                    <Link href={`/super-admin/assessment/draft/edit/${id}`}>
+                      <button className="text-md font-manropeB text-black">Edit</button>
+                    </Link>
                   </div>
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
@@ -198,17 +203,12 @@ const DraftPreview = () => {
                       )),
                     )}
                   </div>
-                  <div className="flex justify-center gap-12 mt-8">
-                    <Button className="text-sm p-4 hover:bg-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100">
-                      End assessment
-                    </Button>
-                    <Button className="text-sm py-2 px-14 border-2 border-green-500 text-white-100 text-center  bg-green-500">
-                      Next
-                    </Button>
-                  </div>
                 </div>
               </div>
             ))}
+            <div className="mt-8">
+              <CreateDraftQuestion />
+            </div>
           </>
         ) : (
           <ScoringScreen assessment={assessment} skillId={skillid} />
