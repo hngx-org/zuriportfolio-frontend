@@ -11,6 +11,10 @@ import Button from '@ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { RiCloseCircleFill } from 'react-icons/ri';
 import { MultipleFileUpload } from './MultipleFileUpload';
+import { useForm, zodResolver } from '@mantine/form';
+import z from 'zod';
+import Loader from '@ui/Loader';
+import axios from 'axios';
 
 type Product = {
   product_id: any;
@@ -18,6 +22,11 @@ type Product = {
   name: any;
   price: any;
   url: any;
+  shop_id: any;
+  quantity: any;
+  category_id: any;
+  description: any;
+  id: any;
 };
 
 const DeleteModal = (props: any) => {
@@ -137,7 +146,10 @@ const initialProductState = {
 
 const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product: Product | null }) => {
   const [selectedOption, setSelectedOption] = useState('');
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [updatingImage, setUpdatingImage] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [categoriesData, setCategoriesData] = useState([]);
   const [products, setProducts] = useState<{
     name: string;
@@ -146,6 +158,27 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
     price: string;
     image: any[];
   }>({ name: '', description: '', category: '', price: '', image: [] });
+  const productScehema = z.object({
+    name: z.string().min(5, { message: 'Add Product Name' }),
+    description: z.string().min(10, { message: 'Add  description' }),
+    category_id: z.string().min(1, { message: 'Select category' }),
+    price: z.number().min(1, { message: 'Add Price' }),
+    currency: z.string().min(1),
+    shopId: z.string().min(3, { message: 'Select Shop' }),
+    quantity: z.number(),
+  });
+  const form = useForm({
+    validate: zodResolver(productScehema),
+    initialValues: {
+      name: props.product?.name,
+      description: props.product?.description,
+      category_id: props.product?.category_id,
+      price: props.product?.price,
+      currency: 'NGN',
+      shopId: props.product?.shop_id as any,
+      quantity: props.product?.quantity,
+    },
+  });
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     // Update the 'category' value when an option is selected
@@ -182,8 +215,26 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
     }
   }, [props.product]);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (values: any) => {
+    const formData = new FormData();
+    Object.entries(values).forEach(([key, value]: any[]) => {
+      formData.append(key, value);
+    });
+    try {
+      setUpdating(true);
+      const res = await axios({
+        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}`,
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUpdating(false);
+    }
     // Handle form submission here with selectedOption and selectedDateTime
     console.log('Selected Option:', selectedOption);
   };
@@ -195,61 +246,85 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
     }
   };
 
-  const handleImageUpload = (files: FileList | null) => {
-    if (files && files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
+  const handleImageUpload = async (files: FileList | null) => {
+    try {
+      if (files && files.length > 0) {
+        setUpdatingImage(true);
+        const file = files[0];
+        setSelectedImage(file);
+        const formdata = new FormData();
+        formdata.append('image', file);
+        const res = await axios({
+          url: `https://zuriportfolio-shop-internal-api.onrender.com/api/product/${props.product?.id}/image/${props.product?.image[0].id}`,
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+          data: formdata,
+        });
+        console.log(res);
+        toast.success(res.data.message, {
+          autoClose: 4000,
+        });
+        const reader = new FileReader();
 
-      reader.onload = (e) => {
-        const result = e.target?.result as string | null;
-        if (result) {
-          setSelectedImage(result);
-        }
-      };
+        reader.onload = (e) => {
+          const result = e.target?.result as string | null;
+          if (result) {
+            setPreviewImage(result);
+          }
+        };
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      }
+    } catch (error) {
+      console.log('Server error', error);
+    } finally {
+      setUpdatingImage(false);
     }
   };
 
   return (
     <Modal isOpen={props.isOpen} isCloseIconPresent={true} title="EDIT PRODUCT" closeModal={props.closeEditModal}>
-      <div>
-        <div className="flex flex-row cursor-pointer justify-end mt-[-20px]">
-          <RiCloseCircleFill size={20} color="red" onClick={props.closeEditModal} />
-        </div>
-        <ToastContainer />
-        <form className="mt-6 flex flex-col" onSubmit={handleSubmit}>
-          <label className="font-manropeB text-[16px]">Product name</label>
-          <Input
-            className="w-full my-2 placeholder:text-[#191C1E] text-black"
-            value={products.name}
-            onChange={(e) => setProducts({ ...products, name: e.target.value })}
-            rightIcon={<Image src={editImg} alt="edit" />}
-          />
-          <span className="text-[#3F484F] text-[12px] lowercase mt-2">
-            https://staging.zuri.team/{products.name.replace(/[ |]+/g, '-')}
-          </span>
-
-          <label className="font-manropeB text-[16px] mt-6">Product Description</label>
-          <textarea
-            className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
-            value={products.description}
-            onChange={(e) => setProducts({ ...products, description: e.target.value })}
-            inputMode="none"
-          />
-          <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleImageUpload(e.target.files)}
-            style={{ display: 'none' }}
-            id="imageUploadInput"
-            name="image"
-          />
-          <div className="p-3 border border-[#00000024] rounded-md">
-            {/* <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
+      <div className="relative">
+        <div>
+          <div className="flex flex-row cursor-pointer justify-end mt-[-20px]">
+            <RiCloseCircleFill size={20} color="red" onClick={props.closeEditModal} />
+          </div>
+          <ToastContainer />
+          <form className="mt-6 flex flex-col" onSubmit={form.onSubmit(handleSubmit, (err) => console.error(err))}>
+            <label className="font-manropeB text-[16px]">Product name</label>
+            <Input
+              className="w-full my-2 placeholder:text-[#191C1E] text-black"
+              // onChange={(e) => setProducts({ ...products, name: e.target.value })}
+              {...form.getInputProps('name')}
+              rightIcon={<Image src={editImg} alt="edit" />}
+            />
+            <span className="text-[#3F484F] text-[12px] lowercase mt-2">
+              https://staging.zuri.team/{products.name.replace(/[ |]+/g, '-')}
+            </span>
+            <p className="text-[red] text-lg my-3 font-semibold">{form.errors.name && form.errors.name}</p>
+            <label className="font-manropeB text-[16px] mt-6">Product Description</label>
+            <textarea
+              className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
+              // value={products.description}
+              // onChange={(e) => setProducts({ ...products, description: e.target.value })}
+              {...form.getInputProps('description')}
+              inputMode="none"
+            />
+            <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleImageUpload(e.target.files)}
+              style={{ display: 'none' }}
+              id="imageUploadInput"
+              name="image"
+            />
+            {/* <div className="p-3 border border-[#00000024] rounded-md">
+            <div className="bg-[#F8F9FA] mt-[-10px] rounded-sm items-center text-center">
               <MultipleFileUpload />
-            </div> */}
+            </div>
             <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">File URL</label>
             <Input
               className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black"
@@ -257,79 +332,97 @@ const EditModal = (props: { closeEditModal: () => void; isOpen: boolean; product
               inputMode="none"
               name="name"
             />
-          </div>
-          <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
-          <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
-            {selectedImage ? (
-              <Image
-                src={selectedImage}
-                alt="uploaded"
-                className="object-contain mb-2 w-full"
-                width={100}
-                height={80}
-              />
-            ) : (
-              <Image
-                src={products.image && products.image[0] ? products.image[0].url : ''}
-                alt="upload"
-                width={300}
-                height={100}
-                className="w-full h-[143px] object-cover rounded-md"
-              />
-            )}
-            <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
-              <center>
-                <Image
-                  src={uploadicon}
-                  alt="uploadicon"
-                  className="w-10 object-contain mb-2 cursor-pointer"
-                  onClick={handleImageUploadClick}
-                />
+          </div> */}
+            <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
+            <div className="relative">
+              <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
+                {previewImage ? (
+                  <Image
+                    src={previewImage}
+                    alt="uploaded"
+                    className="object-contain mb-2 w-full"
+                    width={100}
+                    height={80}
+                  />
+                ) : (
+                  <Image
+                    src={products.image && products.image[0] ? products.image[0].url : ''}
+                    alt="upload"
+                    width={300}
+                    height={100}
+                    className="w-full h-[143px] object-cover rounded-md"
+                  />
+                )}
+                <div className="bg-[#F8F9FA] mt-4 p-2 rounded-sm items-center text-center">
+                  <center>
+                    <Image
+                      src={uploadicon}
+                      alt="uploadicon"
+                      className="w-10 object-contain mb-2 cursor-pointer"
+                      onClick={handleImageUploadClick}
+                    />
 
-                <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px]">
-                  <Link
-                    className="text-[12px] md:text-[16px] text-blue-105 font-manropeL mr-2"
-                    href="/"
-                    onClick={handleImageUploadClick}
-                  >
-                    Click here
-                  </Link>
-                  or drag and drop to upload file
-                </span>
-              </center>
+                    <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px]">
+                      <span
+                        className="text-[12px] md:text-[16px] text-blue-105 font-manropeL mr-2"
+                        onClick={handleImageUploadClick}
+                      >
+                        Click here
+                      </span>
+                      or drag and drop to upload file
+                    </span>
+                  </center>
+                </div>
+              </div>
+              {updatingImage && (
+                <div className="absolute z-[10000] inset-0 min-h-[300px] max-h-[70vh]  bg-white-100/50">
+                  <Loader />
+                </div>
+              )}
             </div>
+            <label className="font-manropeB text-[16px] mt-6">Product Category</label>
+            <select
+              className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
+              // value={products.category}
+              // onChange={handleOptionChange}
+              {...form.getInputProps('category_id')}
+            >
+              <option value="">Select product category</option>
+              {categoriesData.map((category: any) => (
+                <option
+                  value={category.id}
+                  key={category.id}
+                  className="placeholder:text-[#191C1E] text-black capitalize"
+                  selected={category.id === form.getTransformedValues()?.category_id}
+                >
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            <p className="text-[red] text-lg my-3 font-semibold">
+              {form.errors.category_id && form.errors.category_id}
+            </p>
+            <label className="font-manropeB text-[16px] mt-6">Product price</label>
+            <div className="flex flex-row gap-8">
+              <Input
+                className="w-full my-2 text-dark-100"
+                // value={products.price}
+                // onChange={(e) => setProducts({ ...products, price: e.target.value })}
+                {...form.getInputProps('price')}
+                inputMode="none"
+              />
+            </div>
+            <p className="text-[red] text-lg my-3 font-semibold">{form.errors.price && form.errors.price}</p>
+            <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition w-full mt-4">
+              Save Changes
+            </Button>
+          </form>
+        </div>
+        {updating && (
+          <div className="absolute z-[10000] inset-0 min-h-[300px]   bg-white-100/50">
+            <Loader />
           </div>
-          <label className="font-manropeB text-[16px] mt-6">Product Category</label>
-          <select
-            className="border-solid border-[2px] border-white-400 text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary"
-            value={products.category}
-            onChange={handleOptionChange}
-          >
-            <option value="">Select product category</option>
-            {categoriesData.map((category: any) => (
-              <option
-                value={category.id}
-                key={category.id}
-                className="placeholder:text-[#191C1E] text-black capitalize"
-              >
-                {category.name}
-              </option>
-            ))}
-          </select>
-
-          <label className="font-manropeB text-[16px] mt-6">Product price</label>
-          <div className="flex flex-row gap-8">
-            <Input
-              className="w-full my-2 text-dark-100"
-              value={products.price}
-              onChange={(e) => setProducts({ ...products, price: e.target.value })}
-              inputMode="none"
-            />
-          </div>
-          <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition w-full mt-4">
-            Save Changes
-          </Button>
-        </form>
+        )}
       </div>
     </Modal>
   );

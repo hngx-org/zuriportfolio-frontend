@@ -7,6 +7,7 @@ import PreviewQuests from '@modules/assessment/component/previewQuests';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import { useRouter } from 'next/router';
 import { number } from 'zod';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const Previewedit: React.FC = () => {
   //demo-question-...
@@ -115,4 +116,4 @@ const Previewedit: React.FC = () => {
   );
 };
 
-export default Previewedit;
+export default withAdminAuth(Previewedit);
