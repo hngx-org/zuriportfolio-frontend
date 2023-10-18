@@ -53,7 +53,7 @@ export default function ProductDetailsDescription() {
   }, [apiUrl, id]);
 
   const addToCart = async () => {
-    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/carts`;
     const bearerToken = localStorage.getItem('zpt');
     console.log(bearerToken);
     if (auth?.token) {
@@ -68,7 +68,7 @@ export default function ProductDetailsDescription() {
           },
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           setCartCountNav(cartCount + 1);
           toast.success('Item Added to Cart');
           setCartLoading(false);
