@@ -33,8 +33,7 @@ const AnalyticsAndReportingTopSelling = () => {
           throw new Error('Failed to fetch data');
         }
         const data = await res.json();
-        console.log(data);
-        setProducts(data.data);
+        setProducts(data.results.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -95,8 +94,8 @@ const AnalyticsAndReportingTopSelling = () => {
               </div>
             ))
           ) : (
-            <div className="flex justify-center  pt-5  md:pt-10 w-screen ">
-              <Image src={Loading} alt="loading..." width={100} height={100} />{' '}
+            <div className="flex justify-center pt-5 w-[90vw]   md:pt-10">
+              <Image src={Loading} alt="loading..." width={50} height={50} />{' '}
             </div>
           )}
         </div>
