@@ -87,6 +87,8 @@ const LandingPageFilled: React.FC = () => {
       {/* data from backend */}
       <div className="w-full flex flex-col justify-start items-start gap-8">
         {userSections?.map((section, i) => {
+          console.log(section);
+
           return (
             <React.Fragment key={i}>
               {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}

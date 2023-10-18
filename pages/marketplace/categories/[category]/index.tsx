@@ -19,7 +19,7 @@ export const getServerSideProps = async (context: any) => {
 
   try {
     const res = await axios('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
-    const isCategoryAvailable = res.data.categories.filter((el: any) => el.name === category);
+    const isCategoryAvailable = res.data?.data.filter((el: any) => el.name === category);
 
     if (isCategoryAvailable.length === 0) {
       return {
@@ -39,6 +39,8 @@ export const getServerSideProps = async (context: any) => {
       },
     };
   } catch (e: any) {
+    console.log(e);
+
     return {
       redirect: {
         destination: '/404',
@@ -59,8 +61,6 @@ export default function CategoryPage(props: any) {
     updatePath(router.asPath);
     // console.log('category page');
   }, [router.asPath, updatePath]);
-
-  // console.log(category);
 
   return <CategoriesPage error={props.error} errorMessage={props.errorMessage} data={props.data} />;
 }

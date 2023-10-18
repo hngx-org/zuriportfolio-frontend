@@ -22,8 +22,8 @@ function AllCategorySlider() {
     axios
       .get(`${apiUrl}category-name/`)
       .then((response) => {
-        if (Array.isArray(response.data.categories)) {
-          const categoryData = response.data.categories;
+        if (Array.isArray(response.data.data)) {
+          const categoryData = response.data.data;
           setCategories(categoryData);
           ////////////////////////////////////////////////////////////////////////////////////
           // API request to fetch images based of number of items returned from the categroy API

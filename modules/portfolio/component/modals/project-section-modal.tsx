@@ -20,17 +20,14 @@ export type Data = {
   projectsImages: any[];
 };
 
-const ProjectSectionModal = ({
-  isOpen,
-  onCloseModal,
-  onSaveModal,
-  userId,
-}: {
-  isOpen: boolean;
+type ProjectModalProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
-  userId: string;
-}) => {
+  isOpen: boolean;
+  userId?: string;
+};
+
+const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: ProjectModalProps) => {
   const allRoutes = ['add-project', 'view-projects'];
   const [dataToEdit, setDataToEdit] = useState<Data | null>(null);
   const [route, setRoute] = useState<allRouteOptions>('add-project');
