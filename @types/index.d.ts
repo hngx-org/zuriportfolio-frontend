@@ -17,6 +17,7 @@ export interface MainLayoutProps {
 }
 
 export interface ProductData {
+  [x: string]: SetStateAction<ProductData | null>;
   id: string;
   name: string;
   discount_price: string;

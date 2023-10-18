@@ -31,7 +31,7 @@ const AllProjectsModal = ({
               <>
                 <section className="flex flex-wrap gap-10 mt-10">
                   <section className="w-full min-[920px]:w-[250px] h-[220px]">
-                    <Image src={thumbnail} width={250} height={220} alt="Project sample image" />
+                    <Image src={thumbnail} width={250} height={400} className="h-full" alt="Project sample image" />
                   </section>
                   <section className="min-[920px]:flex-1 font-manropeL">
                     <h2 className="font-manropeL text-2xl sm:text-3xl md:text-4xl">{title}</h2>
