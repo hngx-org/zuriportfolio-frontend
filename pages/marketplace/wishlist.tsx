@@ -1,5 +1,5 @@
 import Wishlist from '../../modules/marketplace/wishlist';
-import withUserAuth  from '../../helpers/withAuth';
+import withUserAuth from '../../helpers/withAuth';
 
 const WishlistPage = () => {
   return <Wishlist />;
