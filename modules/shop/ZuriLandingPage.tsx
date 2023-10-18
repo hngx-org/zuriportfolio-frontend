@@ -37,10 +37,7 @@ const ZuriLandingPage = () => {
       setShowLoader(true);
       if (shop_id) {
         try {
-          console.log('Fetching shop data for shop_id:', shop_id);
-
           const response = await axios.get(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shop_id}`);
-          console.log('Shop data:', response.data);
 
           setShop(response.data);
 
@@ -49,12 +46,10 @@ const ZuriLandingPage = () => {
             setLoading(false);
           }, 2000);
         } catch (error) {
-          console.error('Error fetching data:', error);
           setLoading(false);
           setShowLoader(false);
         }
       } else {
-        console.error('shop_id is not provided.');
         setLoading(false);
         setShowLoader(false);
       }
@@ -63,7 +58,6 @@ const ZuriLandingPage = () => {
     if (router.query.shop_id) {
       const newShopId = router.query.shop_id as string;
       setShopId(newShopId);
-      console.log('Router shop_id:', newShopId);
     }
 
     fetchShopData();
@@ -73,12 +67,10 @@ const ZuriLandingPage = () => {
   console.log('Shop data:', shop);
   if (shop && shop.data) {
     const shopName = shop.data?.name;
-    console.log('Shop name:', shopName);
   }
 
   if (shop && shop.data) {
     const shopP = shop.data?.products;
-    console.log('Shop name:', shopP);
   }
 
   useEffect(() => {
@@ -96,7 +88,7 @@ const ZuriLandingPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Head>
-        <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : 'Explore, Shop, and Thrive'}</title>
+        <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : 'Your Unique Shop Title'}</title>
         <meta
           name="description"
           content="Discover a versatile online marketplace where sellers can showcase their products, and buyers can find a wide range of goods. Shop for unique handcrafted items, everyday essentials, and more."

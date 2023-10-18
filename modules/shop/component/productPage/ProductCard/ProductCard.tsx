@@ -46,7 +46,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
           position: 'top-right',
           autoClose: 3000,
         });
-        console.log('Database Response Message:', response.data);
       } else {
         toast.error('Failed to add to Cart', {
           position: 'top-right',
@@ -58,7 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
     }
   };
 
-  const renderRatingStars = (rating: number) => {
+  /* const renderRatingStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       const starType = i <= rating ? 'star1' : 'star2';
@@ -72,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
       );
     }
     return stars;
-  };
+  }; */
   return (
     <div className="p-2 w-full   shadow border border-custom-color32 h-auto rounded-lg bg-white-100  hover:shadow-[#ccc] group overflow-hidden">
       <div className="relative w-full  h-auto">

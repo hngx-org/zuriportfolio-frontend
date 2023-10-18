@@ -59,9 +59,6 @@ export default function ProductDetails() {
         });
     }
   }, [router.query, auth]);
-  console.log('Product:', product);
-
-  console.log('Product Name:', product ? product.name : 'N/A');
 
   const imgContRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -197,20 +194,6 @@ export default function ProductDetails() {
       : showFullDescription
       ? product.description
       : product.description?.slice(0, 400);
-
-  const specificationData = [
-    'Adaptable with HTML5 and CSS3',
-    'Comprehensive documentation and customer support',
-    'Similar products you might like',
-    'WC3 valid HTML codes',
-    'Compatible with all device interfaces',
-    'Compatible with all Google web fonts',
-    'Active and Hover options',
-    'Ensure the template adheres to WCAG guidelines.',
-    'Allow users to upload and share additional resources.',
-    'Support recording for later playback and distribution.',
-    'Offers tutorials to set up and customize the template.',
-  ];
 
   const readMoreBtn = document.querySelector('.read-more-btn') as HTMLElement | null;
   const text = document.querySelector('.text-wrapper') as HTMLElement | null;
