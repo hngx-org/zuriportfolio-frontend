@@ -5,7 +5,13 @@ import Button from '@ui/Button';
 import { ArrowRight } from 'iconsax-react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useBanShop, useGetShop, useRemoveBan, useRestoreShop, useTempDeleteShop } from '../../../../../http/super-admin1';
+import {
+  useBanShop,
+  useGetShop,
+  useRemoveBan,
+  useRestoreShop,
+  useTempDeleteShop,
+} from '../../../../../http/super-admin1';
 import Loader from '@modules/portfolio/component/landing/Loader';
 import { formatDate, formatNumber, handleBack } from '@modules/super-admin/components/product-listing/product-details';
 import { toast } from 'react-toastify';
