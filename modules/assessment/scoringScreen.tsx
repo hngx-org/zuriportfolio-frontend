@@ -1,11 +1,9 @@
-import React, { ChangeEvent, useEffect, useState, useContext } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import ScoreDropdown from './component/scoreDropdown';
 import { Input } from '@ui/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import { useCreatingAssessmentContext } from '../../context/assessment/CreatingAssessmentContext';
-import { UpdateContext } from '../../pages/super-admin/assessment/new';
 import axios from 'axios';
-import { ToPushContext } from '../../pages/super-admin/assessment/new';
 type TimingSystemType = {
   hours: string;
   minutes: string;
@@ -26,20 +24,35 @@ type MyGradingRangeType = {
 
 interface ScoringScreenProps {
   skillId: number; // Define skillId as a prop
-  assessment: any;
+
+    assessment: {
+      id: number;
+      title: string;
+      createdAt: Date;
+      duration_minutes: number;
+      questions: {
+        answers: {}[];
+        question_no: number;
+        question_text: string;
+        question_type: string;
+      }[];
+      updatedAt: Date;
+    };
+    
+
 }
 
-const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
-  const [listupdate, setListupdate]: any = useContext(UpdateContext);
-  const [newobject, setObject]: any = useContext(ToPushContext);
-
+const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => {
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
-    hours: '',
-    minutes: '',
-    seconds: '',
+    hours: '00',
+    minutes: '00',
+    seconds: '00',
   });
+
+  const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, seterrorMessage] = useState('')
 
   const initialGradingValues: MyGradingRangeType = {
     minScore: '',
@@ -64,7 +77,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const name = e.target.name;
-    skillId;
+    skillId
     if (newValue === '') {
       setExamTime((prevExamTime) => ({
         ...prevExamTime,
@@ -86,15 +99,11 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
           setExamDuration(totalMinutes.toString());
         }
       }
+
     }
+    handleFormSubmit()
   };
 
-  const convertToMinutes = (hours: string, minutes: string, seconds: string): number => {
-    const hoursInMinutes = parseInt(hours, 10) * 60;
-    const minutesValue = parseInt(minutes, 10);
-    const secondsValue = parseInt(seconds, 10) / 60;
-    return hoursInMinutes + minutesValue + secondsValue;
-  };
 
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
     const newValue = e.target.value;
@@ -139,18 +148,19 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
     setIsAutoSubmitOn(!isAutoSubmitOn);
   };
 
-  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, examDuration, setExamDuration } =
+  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
     useCreatingAssessmentContext();
 
+  
   const saveScore = async (level: string) => {
     const token = localStorage.getItem('zpt');
-
+  
     try {
-      const response = await fetch('https://demerzel-badges-production.up.railway.app/api/badges/', {
+      const response = await fetch('https://staging.zuri.team/api/badges/badges', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           min_score: gradingValues[level].minScore,
@@ -159,7 +169,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
           skill_id: skillId,
         }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         toast.success(`Scoring for ${level} saved successfully!`);
@@ -175,6 +185,43 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
       // Handle error if needed
     }
   };
+  
+  console.log('assessment scoring screen',assessment)
+  const handleFormSubmit = async () => {
+    const { hours, minutes, seconds } = examTime;
+    const durationInMinutes = Math.round(parseInt(hours, 10) * 60 + parseInt(minutes, 10) + parseInt(seconds, 10) / 60);
+  
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessment.id}/`;
+  
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          'X-CSRFTOKEN': localStorage.getItem('zpt') ?? '',
+        },
+        body: JSON.stringify({
+          duration_minutes: durationInMinutes,
+          title: assessment.title,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+  
+      // toast.success('Assessment duration updated successfully');
+      setSuccessMessage('Assessment duration updated successfully')
+      seterrorMessage('');
+    } catch (error) {
+      console.error('Error:', error);
+      setSuccessMessage('')
+      seterrorMessage('Error updating assessment data');
+    }
+  };
+  
+  
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -265,7 +312,9 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
             <div className="w-full h-5 bg-[#BF8443]"></div>
             <div className="mt-5 mb-7 px-3 sm:px-14">
               <h3 className="text-2xl text-[#191C1E] font-manropeB mb-8">Timing System</h3>
-              <p className="text-[#191C1E] text-4 font-manropeB mb-4">
+              {errorMessage && <span className="text-red-300 mb-4 p-2">{errorMessage}</span>}
+              {successMessage && <span className="text-green-300 p-2">{successMessage}</span>}
+              <p className="text-[#191C1E] text-4 font-manropeB mb-4 mt-4">
                 Set the maximum time allotted to each assessment
               </p>
               <div className="flex gap-5">
