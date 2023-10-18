@@ -75,7 +75,7 @@ function ReviewForms() {
   };
   function closeModal() {
     setModalIsOpen(false);
-    router.push(`/dashboard/reviews/product-details/${id}`);
+    router.back();
   }
 
   return (
