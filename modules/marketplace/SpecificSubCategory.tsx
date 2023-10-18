@@ -195,7 +195,7 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
             </div>
           )}
         </div>
-        {/* <SearchFilter isOpen={isOpen} toggle={toggle} /> */}
+        <SearchFilter isOpen={isOpen} toggle={toggle} />
       </div>
     </CategoryLayout>
   );
