@@ -8,7 +8,6 @@ import { useState } from 'react';
 const ProductListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading } = useGetProd(currentPage, '');
-
   return (
     <div>
       <SuperAdminNavbar />

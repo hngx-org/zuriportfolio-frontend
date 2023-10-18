@@ -238,7 +238,7 @@ export default function ProductDetails() {
       <main className={`p-4 container mx-auto`}>
         <div className="self-start mb-[8px]">
           <span className="font-manropeEL text-xs md:text-sm tracking-[0.00375rem] md:tracking-[0.00088rem] font-normal lg:text-base">
-            <Breadcrumbs shopId={shopID}/>
+            <Breadcrumbs shopId={shopID} />
           </span>
         </div>
         <a onClick={() => router.back()} className="self-start">
@@ -258,8 +258,8 @@ export default function ProductDetails() {
                 src={product.image && product.image[0] ? product.image[0].url : ''}
                 alt={product.name}
                 fill
-                style={{objectFit:"cover"}}
-                sizes='100vw'
+                style={{ objectFit: 'cover' }}
+                sizes="100vw"
                 priority
                 className="img max-w-none w-full h-auto absolute"
               />
@@ -443,7 +443,6 @@ export default function ProductDetails() {
                 </button>
               </div>
               <div className="flex items-center justify-center sm:hidden ">
-
                 <button
                   type="button"
                   className="flex leading-6 text-base font-manropeB font-bold text-brand-green-primary"
