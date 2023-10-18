@@ -38,7 +38,7 @@ const Questions: React.FC = () => {
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
     handleGetStarted();
-    const setTimeFunction =() => {
+    const setTimeFunction = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
         const minuteString = localStorage.getItem('minute');
         const secondString = localStorage.getItem('second');
@@ -47,14 +47,43 @@ const Questions: React.FC = () => {
         setMinute(minuteInt);
         setSecond(secondInt);
         console.log(minuteString, secondString);
-        console.log('donezo', minute, second,duration);
+        console.log('donezo', minute, second, duration);
       } else {
         throw new Error('localStorage is not available on the server-side.');
       }
-    }
-    setTimeFunction();
+    };
+    const setItemWithExpiry = (key: string, value: any, ttl: number) => {
+      const now = new Date();
+      const item = {
+        value: value,
+        expiry: now.getTime() + ttl,
+      };
+      localStorage.setItem(key, JSON.stringify(item));
+    };
+    const getItemWithExpiry = (key: string) => {
+      const itemStr = localStorage.getItem(key);
+      const now = new Date();
+      const item = JSON.parse(itemStr as string);
+      if (itemStr) {
+        if (now.getTime() > item.expiry) {
+          console.log("first",now.getTime(), item.expiry)
+          localStorage.removeItem('minute');
+          localStorage.removeItem('second');
+          setItemWithExpiry('duration', duration, 1000 * 60 * 30);
+          setTimeFunction();
+          return null;
+        } else {
+          console.log("second")
+          setTimeFunction();
+        }
+        return item.value;
+      } else {
+        setItemWithExpiry('duration', duration, 1000 * 60 * 10);
+        setTimeFunction();
+      }
+    };
+    getItemWithExpiry('duration');
   }, [duration, minute, second]);
- 
 
   const handleGetStarted = async () => {
     const token = tokenRef.current;
@@ -64,7 +93,7 @@ const Questions: React.FC = () => {
 
       setResult(assessmentsData);
       setStoredAssessment(questionData.questions);
-      setDuration(assessmentsData?.duration_minutes)
+      setDuration(assessmentsData?.duration_minutes);
       console.log('2', assessmentsData);
       console.log('3', questionData.questions);
     } catch (error) {
@@ -78,7 +107,7 @@ const Questions: React.FC = () => {
         <OutOfTime
           onClose={() => router.push('/assessments/dashboard')}
           onRetake={() => {
-            router.push('/assessments/take-test/intro');
+            router.push(`/assessments/take-test/intro?data=${result?.skill_id}`);
           }}
         />
       )}
@@ -110,7 +139,7 @@ const Questions: React.FC = () => {
               {minute !== null && second !== null ? (
                 <CountdownTimer action={() => setIsTimeOut(true)} minutes={minute} seconds={second} />
               ) : (
-                '--:--'
+                '- -:- -'
               )}
             </span>
             <span>
