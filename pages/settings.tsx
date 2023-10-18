@@ -501,8 +501,7 @@ const SettingPage = () => {
                                   className=" w-[140px] h-[140px]  rounded-full  "
                                 ></Image>
                               </>
-                              {/* <button
-                               className="mb-4">Edit</button> */}
+                              Edit
                             </label>
                             <input
                               type="file"
