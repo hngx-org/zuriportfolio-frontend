@@ -226,6 +226,7 @@ export const Shop = () => {
   useEffect(() => {
     //fetchShopItems();
     setOpenShop(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return showShop ? (
@@ -289,6 +290,7 @@ export const Custom = ({ contacts }: CustomProps) => {
 
   useEffect(() => {
     setOpenCustom(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
