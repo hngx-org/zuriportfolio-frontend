@@ -43,7 +43,7 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
 
   async function handleSearch() {
     setLoading(true);
-    setIsReset(false)
+    setIsReset(false);
     const category = filterSelection.category.join(',');
     const subCategory = filterSelection.subCategory.join(',');
     const discount = filterSelection.discount.join(',');
@@ -72,10 +72,10 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
   function resetFilter() {
     setSelection([]);
     setLoading(false);
-    setIsReset(true)
+    setIsReset(true);
     setTimeout(() => {
       setIsReset(false);
-    },1000)
+    }, 1000);
   }
 
   function setFilterOption(option: string, tag: string) {
@@ -104,7 +104,17 @@ export const FilterContextProvider = ({ children }: { children: React.ReactNode 
   }
   return (
     <FilterContext.Provider
-      value={{ handleSelection, selection, handleSearch, isOpen, loading, resetFilter, toggle, filterSelection, isReset }}
+      value={{
+        handleSelection,
+        selection,
+        handleSearch,
+        isOpen,
+        loading,
+        resetFilter,
+        toggle,
+        filterSelection,
+        isReset,
+      }}
     >
       {children}
     </FilterContext.Provider>
