@@ -13,15 +13,14 @@ import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
-  const { data, isLoading } = useGetProd();
-  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>(data);
-
-  const sanctionedProd = data?.data?.filter((item: any) => item?.product_status === 'Sanctioned');
-
-  const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items to display per page
+  const { data, isLoading } = useGetProd(currentPage, searchVal);
+  const [sanctionedProducts, setSanctionedProducts] = useState<DeletedProducts[]>(data);
+
+  const sanctionedProd = data?.data?.filter((item: any) => item?.product_status === 'Sanctioned');
+  const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
 
   // Calculate the range of products to display
   const startIndex = (currentPage - 1) * itemsPerPage;

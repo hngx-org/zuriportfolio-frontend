@@ -19,7 +19,7 @@ function RecentlyViewed() {
         const response = await fetch(API_URL);
         if (response.ok) {
           const data = await response.json();
-          const limitedRecentlyViewed = data.slice(0, 8);
+          const limitedRecentlyViewed = data.data.slice(0, 8);
           setRecentlyViewed(limitedRecentlyViewed);
         } else {
           throw new Error('Network response was not ok.');

@@ -73,6 +73,7 @@ const PromotionHistoryRow = (props: any) => {
         position: 'top-right',
         autoClose: 3000,
       });
+      props.getPromotions();
       console.log('Discount ID:', props.discount_id);
     } catch (error: any) {
       console.error('Error deleting discount:', error);
@@ -154,7 +155,7 @@ const PromotionHistoryRow = (props: any) => {
               Delete Discount
             </Button>
             <Button
-              className="border border-brand-green-primary w-full bg-transparent p-2 text-brand-green-primary rounded-lg mt-3"
+              className="border border-brand-green-primary w-full bg-transparent p-2 text-brand-green-primary hover rounded-lg mt-3"
               onClick={toggleDeleteModal}
             >
               Cancel
