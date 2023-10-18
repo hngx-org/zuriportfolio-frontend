@@ -37,7 +37,7 @@ const Questions: React.FC = () => {
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
     handleGetStarted();
-  }, []);
+  });
 
   useEffect(() => {
     const setTimeFunction = () => {

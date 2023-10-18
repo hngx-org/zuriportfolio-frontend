@@ -188,7 +188,7 @@ const SettingPage = () => {
 
   useEffect(() => {
     getNotificationSettingsFromLocalStorage();
-  }, [local]);
+  });
 
   const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
     setter((prev: boolean) => !prev);

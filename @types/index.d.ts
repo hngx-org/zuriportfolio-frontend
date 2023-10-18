@@ -15,6 +15,10 @@ export interface MainLayoutProps {
   showFooter?: boolean;
   includeMarginTop?: boolean;
 }
+export interface DegreeOption {
+  id: number;
+  type: string;
+}
 
 export interface ProductData {
   [x: string]: SetStateAction<ProductData | null>;
@@ -119,6 +123,7 @@ export interface Education {
   id: number;
   degree: string;
   fieldOfStudy: string;
+  degree_id: string;
   school: string;
   description: string;
   from: string;

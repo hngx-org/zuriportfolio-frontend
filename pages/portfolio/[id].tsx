@@ -8,6 +8,7 @@ import Loader from '@ui/Loader';
 import Image from 'next/image';
 import { CoverDiv } from '@modules/portfolio/component/landing/avatars';
 import { useRouter } from 'next/router';
+// import { EducationModalContextProvider } from '@modules/portfolio/context/education-context';
 
 const View = () => {
   const router = useRouter();
@@ -123,6 +124,7 @@ const View = () => {
 
   return (
     <PortfolioCtxProvider>
+      {/* <EducationModalContextProvider> */}
       <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
         {error.state ? (
           <div className="flex justify-center items-center h-[50vh] text-red-200 text-3xl font-bold font-manropeEB text-center opacity-60">
@@ -161,6 +163,7 @@ const View = () => {
           </div>
         )}
       </MainLayout>
+      {/* </EducationModalContextProvider> */}
     </PortfolioCtxProvider>
   );
 };
