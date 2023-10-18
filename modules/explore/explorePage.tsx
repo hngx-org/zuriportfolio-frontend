@@ -17,6 +17,7 @@ const HomePage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
+  const searchTerm = useRouter();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -36,6 +37,10 @@ const HomePage = () => {
       }
       return { ...prev, [type]: value };
     });
+  };
+
+  const handleGo = () => {
+    searchTerm.push(`/explore/search?searchQuery=${searchQuery}`);
   };
 
   const deBounce = useDebounce(searchQuery, 1200);
@@ -74,6 +79,7 @@ const HomePage = () => {
     <>
       <Banner />
       <SearchAndFilter
+        handleGo={handleGo}
         setPageNumber={handleNumberReset}
         setFilter={handleClearFilters}
         handleFilters={handleFilters}
