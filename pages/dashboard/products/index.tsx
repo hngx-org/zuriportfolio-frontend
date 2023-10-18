@@ -14,6 +14,11 @@ type Product = {
   name: any;
   price: any;
   url: any;
+  shop_id: any;
+  quantity: any;
+  category_id: any;
+  description: any;
+  id: any;
 };
 const Products = () => {
   const [pageSize, setPageSize] = useState(2);

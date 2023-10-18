@@ -160,7 +160,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   ))}
                 </tbody>
               </table>
-              <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+              {/* <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} /> */}
             </>
           ) : (
             <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>
