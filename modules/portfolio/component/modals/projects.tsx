@@ -8,18 +8,26 @@ import Image from 'next/image';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
-import AllProjectsModal from '../all-projects-modal';
-import { Data } from './project-section-modal';
+import { Data, allRouteOptions } from './project-section-modal';
 
 type ProjectSectionProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
   userId: string | undefined;
   dataToEdit: Data | null;
+  projects: any[];
+  handleSetRoute: (data: allRouteOptions) => void;
 };
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
-const ProjectSection: React.FC<ProjectSectionProps> = ({ dataToEdit, onCloseModal, userId, onSaveModal }) => {
+const ProjectSection: React.FC<ProjectSectionProps> = ({
+  dataToEdit,
+  onCloseModal,
+  userId,
+  onSaveModal,
+  projects,
+  handleSetRoute,
+}) => {
   const [title, setTitle] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [link, setLink] = useState<string>('');
@@ -31,6 +39,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ dataToEdit, onCloseModa
   const [media, setMedia] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
   const [id, setId] = useState<number>();
+  const [urlsFromCloudinary, setUrlsFromCloudinary] = useState<string[]>([]);
   const years = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
 
   const items = {
@@ -43,18 +52,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ dataToEdit, onCloseModa
     description,
   };
   const { allChecksPassed, failedChecks } = checkObjectProperties(items);
-
-  const updateParentState = (data: Data) => {
-    const { title, year, link, thumbnail, tags, description, media, id } = data;
-    setTitle(title);
-    setYear(year);
-    setLink(link);
-    setThumbnail(thumbnail);
-    setSelectedTags(tags.split(','));
-    setDescription(description);
-    setMedia(media);
-    setId(id);
-  };
 
   const handleDataClear = () => {
     setTitle('');
@@ -111,8 +108,18 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ dataToEdit, onCloseModa
     setMedia(updatedMedia);
   };
 
+  const handleRemoveUrlsFromCloudinary = (index: any) => {
+    const updatedUrls = [...media];
+    updatedUrls.splice(index, 1);
+    setUrlsFromCloudinary(updatedUrls);
+  };
+
   const close = () => {
-    onCloseModal();
+    if (projects.length > 0) {
+      handleSetRoute('view-projects');
+    } else {
+      onCloseModal();
+    }
   };
 
   const handleSubmit = (e: any) => {
@@ -166,7 +173,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ dataToEdit, onCloseModa
       setThumbnail(thumbnail);
       setSelectedTags(tags.split(','));
       setDescription(description);
-      setMedia(projectsImages);
+      setUrlsFromCloudinary(projectsImages);
       setId(id);
     }
   };
@@ -309,7 +316,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ dataToEdit, onCloseModa
                 />
               </div>
             </div>
-            {/* desctiprion */}
+            {/* description */}
             <div className="flex flex-col w-full">
               <div className="w-full">
                 <p className="font-semibold text-gray-200 pb-2">Description</p>
@@ -326,8 +333,29 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ dataToEdit, onCloseModa
                 />
               </div>
             </div>
-            {/* media */}
+            {/* urlsFromCloudinary, media */}
             <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 w-full gap-4">
+              {urlsFromCloudinary.length > 0 &&
+                urlsFromCloudinary.map((url: any, index: any) => (
+                  <div
+                    onClick={() => handleRemoveUrlsFromCloudinary(index)}
+                    key={index}
+                    className="flex gap-4 items-center"
+                  >
+                    <div className="relative">
+                      <Image
+                        src={url}
+                        priority
+                        unoptimized
+                        width={0}
+                        height={0}
+                        alt=""
+                        className="rounded-lg object-cover object-center w-full aspect-square"
+                      />
+                      <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
+                    </div>
+                  </div>
+                ))}
               {media.length > 0 &&
                 media.map((media: any, index: any) => (
                   <div onClick={() => handleRemoveMedia(index)} key={index} className="flex gap-4 items-center">
@@ -368,7 +396,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ dataToEdit, onCloseModa
 
             {/* buttons */}
             <div className="my-10 flex gap-4 justify-end items-center">
-              <Button intent={'secondary'} className="rounded-lg min-w-[100px]">
+              <Button onClick={close} intent={'secondary'} className="rounded-lg min-w-[100px]">
                 Cancel
               </Button>
               <Button
