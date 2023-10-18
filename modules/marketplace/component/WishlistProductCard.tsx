@@ -27,7 +27,7 @@ export const WishlistProductCard = ({
               alt={product.name}
               width={145}
               height={150}
-              className="h-[150px] min-w-[145px] md:min-w-[165px] object-cover"
+              className="h-[150px] min-w-[145px] md:min-w-[165px] object-cover rounded-md"
             />
           </div>
 
