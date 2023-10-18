@@ -37,7 +37,7 @@ export const withAdminAuth = <P extends { children: React.ReactNode }>(WrappedCo
     useEffect(() => {
       // there is no token found in the localstorage
       if (!isAuthenticated(token)) {
-        router.push('/access-denied');
+        router.push('/auth/login');
         return;
       }
 
@@ -76,7 +76,7 @@ export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedCom
     useEffect(() => {
       // there is no token found in the localstorage
       if (!isAuthenticated(token)) {
-        router.push('/access-denied');
+        router.push('/auth/login');
         return;
       }
 
