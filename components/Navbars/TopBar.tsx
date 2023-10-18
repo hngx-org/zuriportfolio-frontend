@@ -121,7 +121,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       }
     }
   };
-  
 
   function handleDropdown(option: string) {
     setDropDown(option);

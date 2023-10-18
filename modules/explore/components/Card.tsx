@@ -65,8 +65,8 @@ const Card = ({ data }: { data: UserInfo }) => {
       // onMouseEnter={showButtons}
       // onMouseLeave={hideButtons}
     >
-      <button
-        className="flex justify-center items-center gap-2 absolute top-6 left-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce"
+      <span
+        className="flex justify-center items-center gap-2 absolute top-6 left-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 cursor hover:animate-bounce"
         title="Number of projects"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,8 +83,8 @@ const Card = ({ data }: { data: UserInfo }) => {
             fill="#8592A3"
           />
         </svg>
-        <span className="font-manropeL text-base text-[#32475c]">0</span>
-      </button>
+        <span className="font-manropeL text-base text-[#32475c]">{data?.projects}</span>
+      </span>
 
       <button
         className="absolute top-6 right-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce"
