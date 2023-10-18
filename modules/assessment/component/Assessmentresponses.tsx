@@ -35,6 +35,7 @@ function Assessmentresponses(props: PropsAss<any>) {
   //holdon, to stop deleting flow
   const holdon = () => {
     setTodel(false);
+    console.log(assessments);
   };
   //to confirm and delete item
   //still throwing forbidden do not uncomment ==> Error 403
@@ -47,10 +48,10 @@ function Assessmentresponses(props: PropsAss<any>) {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     };
-    await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}`, reqOptions);
+    await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}/`, reqOptions);
     onDelete(
       assessments.filter((item) => {
-        item.id !== currId;
+        return item.id !== currId;
       }),
     );
     console.log(currId);
