@@ -59,6 +59,8 @@ type PortfolioContext = {
   setOpenShop: React.Dispatch<React.SetStateAction<boolean>>;
   openCustom: boolean;
   setOpenCustom: React.Dispatch<React.SetStateAction<boolean>>;
+  idToDelete: string;
+  setIdToDelete: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Portfolio = createContext<PortfolioContext>({
@@ -104,6 +106,8 @@ const Portfolio = createContext<PortfolioContext>({
   setOpenShop: () => {},
   openCustom: false,
   setOpenCustom: () => {},
+  idToDelete: '',
+  setIdToDelete: () => {},
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
@@ -126,6 +130,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [modalStates, setModalStates] = useState<{ [key: string]: boolean }>({});
   const [sections, setSections] = useState<Array<any>>(s);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [idToDelete, setIdToDelete] = useState<string>('');
   const [openShop, setOpenShop] = useState<boolean>(true);
   const [openCustom, setOpenCustom] = useState<boolean>(false);
   const [hasPortfolio, setHasPortfolio] = useState<boolean>(false);
@@ -487,6 +492,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
     openCustom,
     setOpenCustom,
     gettinSection,
+    idToDelete,
+    setIdToDelete,
     setShowProfileUpdate,
     setShowBuildPortfolio,
   };

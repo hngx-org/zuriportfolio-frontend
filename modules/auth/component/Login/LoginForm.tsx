@@ -47,6 +47,7 @@ function LoginForm() {
       }
 
       if (res.message === 'Login successful') {
+        console.log(res.data);
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
 
