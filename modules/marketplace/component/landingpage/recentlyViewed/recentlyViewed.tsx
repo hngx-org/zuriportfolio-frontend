@@ -19,7 +19,7 @@ function RecentlyViewed() {
         const response = await fetch(API_URL);
         if (response.ok) {
           const data = await response.json();
-          const limitedRecentlyViewed = data.slice(0, 8);
+          const limitedRecentlyViewed = data.data.slice(0, 8);
           setRecentlyViewed(limitedRecentlyViewed);
         } else {
           throw new Error('Network response was not ok.');
@@ -37,7 +37,6 @@ function RecentlyViewed() {
   if (!token?.id && isReady) return <div></div>;
 
   return (
-    
     <section className="max-w-[1240px] mx-auto w-full mb-2.5 md:mb-8 pt-[60px]">
       <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal">
         Recently Viewed

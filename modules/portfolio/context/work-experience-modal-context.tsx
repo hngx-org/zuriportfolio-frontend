@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useRef, useSt
 import { WorkExperience } from '../../../@types';
 import { notify } from '@ui/Toast';
 import Portfolio from '../../../context/PortfolioLandingContext';
+import axios from 'axios';
 
 interface WorkExperienceModalContextType {
   workExperiences: WorkExperience[];
@@ -69,42 +70,48 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     const { workExperience } = response;
     console.log('User work experience', workExperience);
   };
-
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
+
   const handleEditExperience = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(id);
+    setIsLoading(true);
+    e?.preventDefault();
+    const experienceObject = JSON.stringify({
+      userId,
+      company,
+      role,
+      startMonth,
+      startYear,
+      endMonth,
+      endYear,
+      description,
+      isEmployee: isChecked,
+      sectionId: 2,
+    });
     try {
-      const response = await fetch(`${API_BASE_URL}api/update-work-experience/${Number(id)}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-work-experience/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({
-          userId,
-          company,
-          role,
-          startMonth,
-          startYear,
-          endMonth,
-          endYear,
-          description,
-          isEmployee: true,
-          sectionId: 2,
-        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: experienceObject,
       });
-      console.log(response);
-      console.log('Typeof', typeof id);
       if (response.ok) {
         setIsEditMode(false);
-        getAllWorkExperience();
         setIsData(true);
+        setIsForm(false);
+        getAllWorkExperience();
+        console.log('Response', response);
       }
-      if (!response.ok) {
-        console.log(response);
-      }
+      console.log(userId);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   const handleDeleteExperience = async (id: string, e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const experienceId = parseInt(id, 10); // Convert id to a number
@@ -142,7 +149,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   };
 
   const getAllWorkExperience = useCallback(async () => {
-    console.log('workEx', userId);
     setIsLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
@@ -161,7 +167,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   }, [userId]);
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e?.preventDefault();
     setIsLoading(true);
     try {
       const missingFields = [];
@@ -265,10 +271,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       getAllWorkExperience();
     }
   }, [getAllWorkExperience, userId]);
-
-  // useEffect(() => {
-  //   console.log('User work experience ', workExperiences);
-  // }, [workExperiences]);
 
   return (
     <WorkExperienceModalContext.Provider
