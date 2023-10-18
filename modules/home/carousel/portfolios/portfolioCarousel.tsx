@@ -133,7 +133,7 @@ const PortfolioCarousel = () => {
 
   return (
     <div className="overflow-hidden p-2 w-full mx-0 mt-[50px]">
-      {/* <Slider {...settings}> */}
+      <Slider {...settings}>
         {slides.map((logo, index) => (
           <div key={index} className="relative h-[250px] sm:h-[300px] w-[182.71]">
             {/* Portfolio section */}
@@ -191,7 +191,7 @@ const PortfolioCarousel = () => {
             )}
           </div>
         ))}
-      {/* </Slider> */}
+      </Slider>
     </div>
   );
 };

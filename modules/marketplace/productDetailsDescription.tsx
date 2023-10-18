@@ -53,20 +53,21 @@ export default function ProductDetailsDescription() {
   }, [apiUrl, id]);
 
   const addToCart = async () => {
-    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/carts`;
     if (auth?.token) {
+      console.log(auth.token)
       try {
         const response = await axios.post(
           apiUrl,
           { product_ids: [`${id}`] },
           {
             headers: {
-              Authorization: `Bearer ${auth?.token}`,
+              Authorization: `Bearer ${auth.token}`,
             },
           },
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           setCartCountNav(cartCount + 1);
           toast.success('Added to Cart');
           setCartLoading(false);
