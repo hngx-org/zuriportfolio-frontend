@@ -11,7 +11,7 @@ const CartPaymentModal = () => {
   });
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
-      <div className="bg-white-100 py-6 rounded text-center w-72">
+      <div className="bg-white-100 py-7 rounded text-center w-75 animate-slideIn">
         <div className="flex justify-center">
           <Image src={checkedPayment} alt="checked" />
         </div>
