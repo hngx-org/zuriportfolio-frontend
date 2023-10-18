@@ -100,13 +100,13 @@ const AnalyticsAndReportingTopSelling = () => {
             </div>
           )}
         </div>
-        <SuperAdminPagination
+        {/* <SuperAdminPagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={(value) => {
             setCurrentPage(value);
           }}
-        />
+        /> */}
       </div>
     </section>
   );
