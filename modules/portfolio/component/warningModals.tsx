@@ -76,8 +76,6 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
   const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
 
-  console.log({ outsideDelete: idToDelete });
-
   //userID
   const { userId } = useContext(Portfolio);
 
@@ -87,7 +85,6 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
   //function to delete sections
   const deleteSection = async () => {
     //If the section to delete is mainly backend
-    console.log({ justInDelete: idToDelete });
     //Query the backend
     // if (deleteFromBe) {
     let myHeaders: any;
@@ -114,10 +111,8 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
     await fetch(`https://hng6-r5y3.onrender.com/api/profile/details/${userId}`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
-        console.log({ afterDelete: idToDelete });
         //Show popup when section is deleted successfully
         notify();
-        console.log({ message: result });
         //take off the modal
         setOpenDelete(false);
         //Update the main page

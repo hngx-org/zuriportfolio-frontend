@@ -8,7 +8,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
+import CreateAssessment from '../new';
+import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 type Props = {
   assessment: {
@@ -103,6 +107,45 @@ const DraftPreview = () => {
 
   const [disable, setDisable] = useState(true);
 
+  const updateDraft = () => {
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`;
+    const token = localStorage.getItem('zpt') ?? '';
+
+    // Ensure that the draftData is not empty
+    if (draftData && draftData.questions && draftData.title) {
+      // Define the PUT request options
+      const requestOptions = {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'X-CSRFTOKEN': token,
+        },
+        body: JSON.stringify(draftData), // Convert draftData to JSON string
+      };
+
+      fetch(apiUrl, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json(); // Parse the JSON response
+        })
+        .then((responseData) => {
+          console.log('Draft updated successfully:', responseData);
+          toast.success('Draft updated successfully');
+        })
+        .catch((error) => {
+          console.error('Error updating draft:', error);
+          toast.error('Error updating draft');
+        });
+    } else {
+      console.error('Draft data is empty. Cannot update.');
+      toast.error('Draft data is empty. Cannot update.');
+    }
+  };
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <AssessmentBanner
@@ -130,7 +173,7 @@ const DraftPreview = () => {
             </Button>
           </div>
         ) : (
-          <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000">
+          <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={updateDraft}>
             Save Changes
           </Button>
         )}
@@ -177,38 +220,33 @@ const DraftPreview = () => {
                 </div>
               </div>
             </div>
-            {draftData.questions.map((item, index) => (
+            {draftData.questions?.map((item, index) => (
               <div key={index} className="mt-8 text-left">
                 <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
                   <div className="flex justify-between mb-4">
                     <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <button className="text-md font-manropeB text-black">Edit</button>
+                    <Link href={`/super-admin/assessment/draft/edit/${id}`}>
+                      <button className="text-md font-manropeB text-black">Edit</button>
+                    </Link>
                   </div>
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
                   <div className="mt-8 flex flex-col gap-[22px]">
-                    {item?.answers?.map((answer: any, index: number) =>
-                      answer.options.map((option: any, optionIndex: any) => (
-                        <div key={index} className="flex gap-4">
-                          <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
-                          <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
-                            {option}
-                          </label>
-                        </div>
-                      )),
-                    )}
-                  </div>
-                  <div className="flex justify-center gap-12 mt-8">
-                    <Button className="text-sm p-4 hover:bg-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100">
-                      End assessment
-                    </Button>
-                    <Button className="text-sm py-2 px-14 border-2 border-green-500 text-white-100 text-center  bg-green-500">
-                      Next
-                    </Button>
+                    {item.answer.options.map((option: any, optionIndex: any) => (
+                      <div key={index} className="flex gap-4">
+                        <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
+                        <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
+                          {option}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             ))}
+            <div className="mt-8">
+              <CreateDraftQuestion />
+            </div>
           </>
         ) : (
           <ScoringScreen assessment={assessment} skillId={skillid} />
@@ -218,4 +256,4 @@ const DraftPreview = () => {
   );
 };
 
-export default DraftPreview;
+export default withAdminAuth(DraftPreview);

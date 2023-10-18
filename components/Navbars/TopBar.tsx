@@ -107,10 +107,11 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
     if (e.key === 'Enter' && dropDown === 'Marketplace') {
-      router.push(`/marketplace/search?query=${searchQuery}`);
+      router.push(`/marketplace/search/${searchQuery}`);
     }
     if (e.key === 'Enter' && dropDown === 'Explore') {
-      router.push(`/explore/search?query=${searchQuery}`);
+      localStorage.setItem('searchQuery', searchQuery);
+      router.push(`/explore/search?searchQuery=${searchQuery}`);
     }
   };
 
