@@ -27,7 +27,7 @@ const withAuth = <P extends { children: React.ReactNode }>(WrappedComponent: Rea
   return Wrapper;
 };
 
-export const withAdminAuth = <P extends { children: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
+export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper: React.FC<P> = (props) => {
     const [isPageLoading, setIsPageLoading] = useState(true);
     const router = useRouter();

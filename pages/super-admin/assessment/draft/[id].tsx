@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'next/navigation';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 type Props = {
   assessment: {
@@ -218,4 +219,4 @@ const DraftPreview = () => {
   );
 };
 
-export default DraftPreview;
+export default withAdminAuth(DraftPreview);
