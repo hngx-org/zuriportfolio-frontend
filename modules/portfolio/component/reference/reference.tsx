@@ -14,6 +14,15 @@ interface formData {
   userId: string;
   sectionid: number;
 }
+interface fetchedArrData {
+  referer: string;
+  company: string;
+  email: string;
+  id: number;
+  phone_number: string;
+  position: string;
+}
+
 interface Errors {
   referer?: string;
   company?: string;
@@ -26,6 +35,14 @@ type referenceModalProps = {
   isOpen: boolean;
   userId: string;
 };
+interface Reference {
+  referer: string;
+  company: string;
+  email: string;
+  position: string;
+  phone_number: string;
+  id: number;
+}
 
 const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModal, onSaveModal, userId }) => {
   const initialFormData: formData = {
@@ -43,6 +60,8 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const [errors, setErrors] = useState<Errors>({});
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [editing, setEditing] = useState(false);
+  const [arrData, setArrData] = useState<fetchedArrData[] | any>([]);
+  const [isData, setIsData] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -97,6 +116,32 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
     }
   }
 
+  useEffect(() => {
+    const callGet = () => {
+      setIsData(false);
+      const response = async () => {
+        const axiosConfig = {
+          method: 'get',
+          url: `${API_BASE_URL}/api/references/${userId}`,
+        };
+
+        const response = await axios(axiosConfig);
+
+        if (response.status !== 200) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // console.log(response.data.data);
+        const fetchedArrData = response.data.data;
+
+        setArrData((prevArray: fetchedArrData[]) => [...fetchedArrData]);
+        // onSaveModal();
+        setIsData(true);
+      };
+      response();
+    };
+    callGet();
+  }, [userId]);
+
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com';
   const response = async () => {
     setLoading(true);
@@ -127,6 +172,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       });
       console.log(response.data);
       setEditing(false);
+      callGet();
     } catch (error) {
       if (error instanceof Error) {
         console.error('An error occurred:', error);
@@ -146,11 +192,34 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   };
 
   const callGet = () => {
+    setIsData(false);
     const response = async () => {
       const axiosConfig = {
         method: 'get',
         url: `${API_BASE_URL}/api/references/${userId}`,
-        // data: formData,
+      };
+
+      const response = await axios(axiosConfig);
+
+      if (response.status !== 200) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      // console.log(response.data.data);
+      const fetchedArrData = response.data.data;
+
+      setArrData((prevArray: fetchedArrData[]) => [...fetchedArrData]);
+      // onSaveModal();
+      setIsData(true);
+    };
+    response();
+  };
+  // console.log(arrData)
+  const handleDelete = (id: number) => {
+    setIsData(false);
+    const response = async () => {
+      const axiosConfig = {
+        method: 'delete',
+        url: `${API_BASE_URL}/api/references/${id}`,
       };
 
       const response = await axios(axiosConfig);
@@ -159,16 +228,36 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       console.log(response.data);
-      // onSaveModal();
+      setIsData(true);
+      callGet();
     };
     response();
+  };
+
+  const editData = (id: number) => {
+    arrData.forEach((data: any) => {
+      if (id === data.id) {
+        setFormData({
+          ...formData,
+          referer: data.referer,
+          email: data.email,
+          phoneNumber: data.phone_number,
+          company: data.company,
+        });
+      }
+    });
   };
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} size="lg" isCloseIconPresent={false}>
       <div className="mx-auto bg-white-100 rounded-md p-3 py-5">
         <div className="flex justify-between items-center border-b-[3.6px]  border-brand-green-primary pb-1">
           <div className="flex gap-4 items-center">
-            <div className="cursor-pointer hover:bg-brand-green-shade95 p-3 rounded-full">
+            <div
+              onClick={() => {
+                editing ? setEditing(false) : onCloseModal();
+              }}
+              className="cursor-pointer hover:bg-brand-green-shade95 p-3 rounded-full"
+            >
               <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M7.99984 16.9201L1.47984 10.4001C0.709844 9.63008 0.709844 8.37008 1.47984 7.60008L7.99984 1.08008"
@@ -295,84 +384,80 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
           </form>
         ) : (
           <div className="md:pe-4 mt-5 ">
-            <div className="mb-10  flex flex-col gap-2">
-              <div className="card bg-gray-50 p-2 rounded-md">
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Name
-                  <p className="text-base font-normal">James kutter</p>
-                </div>
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Company
-                  <p className="text-base font-normal">tail</p>
-                </div>
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Email
-                  <p className="text-base font-normal">example@gmail.com</p>
-                </div>
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Position
-                  <p className="text-base font-normal">Backend dev</p>
-                </div>
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Phone
-                  <p className="text-base font-normal">+234 9029876543</p>
-                </div>
+            {isData ? (
+              <div className="mb-10  flex flex-col gap-2">
+                {arrData.map((reference: Reference) => (
+                  <div className="card md:ms-4 bg-gray-50 p-2 rounded-md" key={reference.id}>
+                    <div className="text-base font-semibold text-dark-800 flex gap-3 capitalize">
+                      Name
+                      <p className="text-base font-normal">{reference.referer}</p>
+                    </div>
+                    <div className="text-base font-semibold text-dark-800 flex gap-3">
+                      Company
+                      <p className="text-base font-normal">{reference.company}</p>
+                    </div>
+                    <div className="text-base font-semibold text-dark-800 flex gap-3">
+                      Email
+                      <p className="text-base font-normal">{reference.email}</p>
+                    </div>
+                    <div className="text-base font-semibold text-dark-800 flex gap-3">
+                      Position
+                      <p className="text-base font-normal">{reference.position}</p>
+                    </div>
+                    <div className="text-base font-semibold text-dark-800 flex gap-3">
+                      Phone
+                      <p className="text-base font-normal">+234 {reference.phone_number}</p>
+                    </div>
 
-                <div>
-                  <div className="flex gap-3 justify-end px-2 mt-2 font-medium">
-                    <p
-                      onClick={() => {
-                        setEditing(true);
-                      }}
-                      className="text-blue-300 cursor-pointer"
-                    >
-                      Edit
-                    </p>
-                    <p className={`text-brand-red-primary cursor-pointer`}>Delete</p>
+                    <div>
+                      <div className="flex gap-3 justify-end px-2 mt-2 font-medium">
+                        <p
+                          onClick={() => {
+                            setEditing(true);
+                            editData(reference.id);
+                          }}
+                          className="text-blue-300 cursor-pointer"
+                        >
+                          Edit
+                        </p>
+                        <p
+                          className={`text-brand-red-primary cursor-pointer`}
+                          onClick={() => {
+                            handleDelete(reference.id);
+                          }}
+                        >
+                          Delete
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-              <div className="card bg-gray-50 p-2 rounded-md">
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Name
-                  <p className="text-base font-normal">James kutter</p>
-                </div>
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Company
-                  <p className="text-base font-normal">tail</p>
-                </div>
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Email
-                  <p className="text-base font-normal">example@gmail.com</p>
-                </div>
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Position
-                  <p className="text-base font-normal">Backend dev</p>
-                </div>
-                <div className="text-base font-semibold text-dark-800 flex gap-3">
-                  Phone
-                  <p className="text-base font-normal">+234 9029876543</p>
-                </div>
-
-                <div>
-                  <div className="flex gap-3 justify-end px-2 mt-2 font-medium">
-                    <p
-                      onClick={() => {
-                        setEditing(true);
-                      }}
-                      className="text-blue-300 cursor-pointer"
-                    >
-                      Edit
-                    </p>
-                    <p className={`text-brand-red-primary cursor-pointer`}>Delete</p>
-                  </div>
-                </div>
+            ) : (
+              <div className="block w-[10%] mx-auto my-32">
+                <svg
+                  aria-hidden="true"
+                  className="text-brand-green-hover animate-spin fill-white-100"
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill"
+                  />
+                </svg>
               </div>
-            </div>
+            )}
             <div className="w-full flex justify-between items-center">
               <div
                 onClick={() => {
                   setEditing(true);
+                  setFormData(initialFormData);
                 }}
                 className="text-[1.05rem] text-brand-green-primary font-normal px-3 transition cursor-pointer py-1 rounded-full hover:bg-brand-green-primary hover:text-white-100"
               >
@@ -384,7 +469,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   size={'sm'}
                   className="md:w-24 rounded-2xl"
                   type="button"
-                  onClick={callGet}
+                  onClick={onSaveModal}
                 >
                   Close
                 </Button>
@@ -393,7 +478,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   size={'sm'}
                   className="md:w-24 rounded-2xl"
                   type="button"
-                  onClick={handleSubmit}
+                  onClick={onSaveModal}
                 >
                   {loading ? (
                     <div className="block w-5 h-5">
