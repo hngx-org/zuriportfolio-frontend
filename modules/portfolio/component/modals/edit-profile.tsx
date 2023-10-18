@@ -28,6 +28,8 @@ const EditProfile = () => {
       setName(data?.user?.firstName + ' ' + data?.user?.lastName);
       setCity(data?.portfolio?.city);
       setCountry(data?.portfolio?.country);
+
+      console.log(data);
     } catch (error: any) {
       console.log(error);
     }
@@ -108,6 +110,7 @@ const EditProfile = () => {
       await uploadProfile(file);
     }
   };
+
   return (
     <Modal isOpen={showProfileUpdate} closeModal={() => onSaveModal()} isCloseIconPresent={false}>
       {isLoading ? (
@@ -180,7 +183,7 @@ const EditProfile = () => {
                 <SelectTrigger className="border-[#59595977] text-gray-300 h-[50px] rounded-[10px]">
                   <SelectValue
                     defaultValue={selectedTrack}
-                    placeholder={'Select Track'}
+                    placeholder={selectedTrack}
                     className="hover:border-green-500 text-red-100"
                   />
                 </SelectTrigger>
