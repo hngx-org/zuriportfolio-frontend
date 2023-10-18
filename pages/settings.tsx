@@ -19,6 +19,7 @@ import Twofa from '@modules/portfolio/component/portfolioSettingsComponents/2fa'
 import defaultpic from '../public/assets/inviteAssets/profile.svg';
 import { notify } from '@ui/Toast';
 import axios from 'axios';
+import Success from './auth/success';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -197,22 +198,15 @@ const SettingPage = () => {
       formData.append('profilepics', selectedFile);
       formData.append('profilepics', auth?.user.id || '');
 
-      try {
-        const response = await axios.post('https://hng6-r5y3.onrender.com/api/profile/image/upload', formData);
+      const url = 'https://hng6-r5y3.onrender.com/api/profile/image/upload';
 
-        if (response.status === 200) {
-          console.log('File uploaded successfully');
-          notify({
-            message: 'Uploaded successfully',
-            type: 'success',
-          });
-        } else {
-          console.error('File upload failed');
-          notify({
-            message: 'Failed to upload',
-            type: 'error',
-          });
-        }
+      try {
+        // Use toast.promise to display upload progress and results
+        toast.promise(axios.post(url, formData), {
+          pending: 'Uploading...',
+          success: 'Upload successful',
+          error: 'Failed to upload',
+        });
       } catch (error) {
         console.error('An error occurred:', error);
       }
@@ -494,7 +488,7 @@ const SettingPage = () => {
                             >
                               <>
                                 <Image
-                                  src={userPic || selectedPics || defaultpic}
+                                  src={selectedPics || userPic || defaultpic}
                                   width={280}
                                   height={180}
                                   alt=""
