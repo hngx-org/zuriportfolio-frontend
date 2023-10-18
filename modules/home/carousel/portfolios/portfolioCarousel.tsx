@@ -142,7 +142,6 @@ const PortfolioCarousel = () => {
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end items-start rounded-[11px] p-3 mr-2 md:mr-6"
                 style={{ backgroundImage: `url(${logo?.src})` }}
               >
-                
                 <div className="absolute inset-0 bg-black bg-opacity-30 rounded-[11px]"></div>
 
                 <div className="z-10">
@@ -163,7 +162,6 @@ const PortfolioCarousel = () => {
                 </div>
               </div>
             )}
-
             Shop section
             {logo?.section === 'shop' && (
               <div
@@ -181,8 +179,6 @@ const PortfolioCarousel = () => {
                 </div>
               </div>
             )}
-
-            
             {logo?.section === 'portrait' && (
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat flex items-center rounded-[40%] mr-2 md:mr-6"

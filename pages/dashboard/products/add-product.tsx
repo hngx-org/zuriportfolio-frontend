@@ -17,8 +17,9 @@ import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import { useAuth } from '../../../context/AuthContext';
 const AddProduct = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,6 @@ const AddProduct = () => {
   };
 
   const productScehema = z.object({
-    image: z.string().min(4, { message: 'Add image' }),
     name: z.string().min(5, { message: 'Add Product Name' }),
     description: z.string().min(10, { message: 'Add  description' }),
     category_id: z.string().min(1, { message: 'Select category' }),
@@ -45,23 +45,24 @@ const AddProduct = () => {
     assets_notes: z.string().min(4, { message: 'Leave a note about the file' }),
     assets_name: z.string().min(4, { message: 'Add File name' }),
     shopId: z.string().min(3, { message: 'Select Shop' }),
+    quantity: z.number(),
   });
   const form = useForm({
     validate: zodResolver(productScehema),
     initialValues: {
-      image: '',
       name: '',
       description: '',
       category_id: '',
       price: '',
       discountPrice: '',
       tax: '',
-      currency: '₦',
+      currency: 'NGN',
       assets_link: '',
       assets_type: 'external',
       assets_notes: '',
       assets_name: '',
       shopId: '',
+      quantity: 1,
     },
   });
   const handleNewCategoryChange = (event: any) => {
@@ -252,16 +253,14 @@ const AddProduct = () => {
   };
 
   const handleImageUpload = (files: FileList | null) => {
+    const reader = new FileReader();
     if (files && files.length > 0) {
       const file = files[0];
-      const reader = new FileReader();
-
+      setSelectedImage(file as any);
       reader.onload = (e) => {
         const result = e.target?.result as string | null;
         if (result) {
-          setSelectedImage(result);
-          form.setFieldValue('image', result);
-          console.log(form.getTransformedValues());
+          setPreviewImage(result);
         }
       };
 
@@ -275,6 +274,9 @@ const AddProduct = () => {
     Object.entries(values).forEach(([key, value]: any[]) => {
       formData.append(key, value);
     });
+    formData.append('image', selectedImage as any);
+    // formData.delete('image');
+
     try {
       const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
         method: 'POST',
@@ -526,7 +528,7 @@ const AddProduct = () => {
                       </span>
                     </center>
                   </div>
-                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.image && form.errors.image}</p>
+                  {/* <p className="text-[red] text-lg my-3 font-semibold">{form.errors.image && form.errors.image}</p> */}
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
@@ -576,9 +578,9 @@ const AddProduct = () => {
             </div>
             <div className="p-5 mt-0 md:mt-0">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">PREVIEW</label>
-              {selectedImage ? (
+              {previewImage ? (
                 <Image
-                  src={selectedImage}
+                  src={previewImage}
                   alt="uploaded"
                   className="w-[300px] object-contain rounded-sm my-3"
                   width={100}
