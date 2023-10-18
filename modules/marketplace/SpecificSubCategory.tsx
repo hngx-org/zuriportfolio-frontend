@@ -104,7 +104,7 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
   };
 
   return (
-    <CategoryLayout>
+    <CategoryLayout pathName="/Category/Phone">
       <div>
         <div
           className={`${manropeL.className} w-[100%] flex flex-col px-[1rem] mb-[2rem] md:px-[1.5rem] xl:px-[4rem] lg:max-w-[1350px] mx-auto`}

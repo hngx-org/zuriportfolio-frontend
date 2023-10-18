@@ -19,10 +19,10 @@ export const addToCart = async (cartItems: string[], token: string) => {
         },
       },
     );
-    if (response.status == 201) {
+    if (response.data.status == 201) {
       return { status: response.data.status, data: response.data.data };
     }
-    return { status: false };
+    return { status: 400 };
   } catch (error) {
     console.log(error);
     return { status: false, error: error };

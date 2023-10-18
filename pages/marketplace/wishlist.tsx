@@ -1,7 +1,8 @@
 import Wishlist from '../../modules/marketplace/wishlist';
+import withUserAuth from '../../helpers/withAuth';
 
 const WishlistPage = () => {
   return <Wishlist />;
 };
 
-export default WishlistPage;
+export default withUserAuth(WishlistPage);
