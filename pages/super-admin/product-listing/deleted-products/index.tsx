@@ -8,6 +8,7 @@ import { useGetProd } from '../../../../http/super-admin1';
 import { DeletedProducts } from '../../../../@types';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -163,4 +164,4 @@ const SanctionedProducts = () => {
   );
 };
 
-export default SanctionedProducts;
+export default withAdminAuth(SanctionedProducts);

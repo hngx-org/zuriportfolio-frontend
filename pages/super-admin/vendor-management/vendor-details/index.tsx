@@ -1,6 +1,7 @@
 import React from 'react';
 import VendorDetails from '../../../view-components/super-admin/vendor-managment/details/VendorDetails';
 import Nav from '../../../view-components/super-admin/navbar';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 function details(): React.ReactElement {
   return (
@@ -11,4 +12,4 @@ function details(): React.ReactElement {
   );
 }
 
-export default details;
+export default withAdminAuth(details);
