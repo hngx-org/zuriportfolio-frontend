@@ -55,8 +55,9 @@ function Wishlist() {
           },
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           toast.success('Added to Cart');
+          handleRemoveFromWishlist(id);
           console.log('success');
         }
       } catch (error: any) {
