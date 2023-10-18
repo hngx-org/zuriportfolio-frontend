@@ -82,7 +82,6 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
                 <p className="font-bold">Vat</p>
                 <span className="text-brand-red-primary transition-all duration-300">+₦ {summary.VAT.toFixed(2)}</span>
               </div>
-
             </div>
 
             <hr className="border-b-5 border-[#EBEEEF] my-4 mx-3" />
