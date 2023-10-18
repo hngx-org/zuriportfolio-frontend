@@ -53,7 +53,7 @@ const axiosInstance = axios.create({
 
 export const fetchUserTakenAssessment = async (token: string, id: any) => {
   try {
-    const res = await $http.post(
+    const res = await axios.post(
       `${assessmentBaseUrl}/assessments/start-assessment`,
       { assessment_id: id },
       {
@@ -73,7 +73,7 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
 
 export const fetchUserAssessmentSession = async (token: string, id: any) => {
   try {
-    const res = await $http.get(`${assessmentBaseUrl}/assessments/session/${id}`, {
+    const res = await axios.get(`${assessmentBaseUrl}/assessments/session/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         token: token,

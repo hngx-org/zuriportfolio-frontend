@@ -7,6 +7,34 @@ import Loader from '@ui/Loader';
 
 // this would change later on once backend has the authentication
 // working.
+
+// const { handleAuth } = useAuth();
+
+// const { mutate, isLoading } = useMutation(revalidateAuth, {
+//   onSuccess: (res) => {
+//     if (res.status === 200) {
+//       console.log(res, 'success from withoutAuth');
+//       handleAuth(res.data);
+//       localStorage.setItem('zpt', res.data.token);
+//     }
+//   },
+//   onError: (res: any) => {
+//     if (res.status === 401) {
+//       localStorage.removeItem('zpt');
+//       console.log(res, 'error from withoutAuth');
+//       router.push('/');
+//     }
+//   },
+// });
+
+// useEffect(() => {
+//   const token = localStorage.getItem('zpt');
+
+//   mutate({ token: token as string });
+
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+// }, []);
+
 const withAuth = <P extends { children: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper: React.FC<P> = (props) => {
     const router = useRouter();
