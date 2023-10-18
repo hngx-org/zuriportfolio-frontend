@@ -37,7 +37,6 @@
 
 // export default Breadcrumbs;
 
-
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -61,9 +60,7 @@ function Breadcrumbs({ pathName }: IBreadCrumb) {
       {i + 1 === routeArr.length ? (
         <span className="text-white-400">{el.split('-').join(' ').replaceAll('%20', ' ')}</span>
       ) : (
-        <Link href={`/${routeArr.slice(0, i + 1).join('/')}`}>
-          {el.split('-').join(' ').replaceAll('%20', ' ')}
-        </Link>
+        <Link href={`/${routeArr.slice(0, i + 1).join('/')}`}>{el.split('-').join(' ').replaceAll('%20', ' ')}</Link>
       )}
     </span>
   ));
