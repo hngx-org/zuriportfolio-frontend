@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import StarRating from '@modules/super-admin/components/StarRating';
 import DeleteModal from '@modules/super-admin/components/product-listing/product-details/DeleteModal';
 import { useQueryClient } from '@tanstack/react-query';
+import { withAdminAuth } from '../../../../../helpers/withAuth';
 
 export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
@@ -346,4 +347,4 @@ function VendorDetails() {
   );
 }
 
-export default VendorDetails;
+export default withAdminAuth(VendorDetails);
