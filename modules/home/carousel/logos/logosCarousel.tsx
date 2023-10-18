@@ -1,11 +1,34 @@
 import Image from 'next/image';
 import Slider from 'react-slick';
+import LogoSlider from '../../../../public/assets/home/logoSlider.webp';
 
+const slides = [
+  {
+    src: LogoSlider.src,
+    alt: '* Zuri Potfolio Explore*',
+  },
+  {
+    src: LogoSlider.src,
+    alt: '* Zuri Shop*',
+  },
+  {
+    src: LogoSlider.src,
+    alt: '* Zuri Marketplace*',
+  },
+  {
+    src: LogoSlider.src,
+    alt: '* Zuri Portfolio*',
+  },
+  {
+    src: LogoSlider.src,
+    alt: '* Zuri Potfolio Explore*',
+  },
+];
 interface LogoCarouselProps {
-  logos: Array<any>;
+  color?: boolean;
 }
 
-const LogoCarousel: React.FC<LogoCarouselProps> = ({ logos }) => {
+const LogoCarousel: React.FC<LogoCarouselProps> = ({ color }) => {
   var settings = {
     dots: false,
     infinite: true,
@@ -41,17 +64,17 @@ const LogoCarousel: React.FC<LogoCarouselProps> = ({ logos }) => {
   };
 
   return (
-    <div className="bg-[#80c9aa] overflow-hidden p-2">
-      <Slider {...settings}>
-        {logos.map((logo, index) => (
+    <div className={`${color ? 'bg-[#009254]' : 'bg-[#80c9aa]'} overflow-hidden p-2 w-full`}>
+      {/* <Slider {...settings}> */}
+        {slides.map((logo, index) => (
           <div key={index}>
-            <div className="flex justify-center items-center flex-row space-x-3 md:space-x-[100px]">
+            <div className="flex justify-center items-center flex-row space-x-3 md:space-x-[30px]">
               <p className="text-white-100 text-[15px] font-manropeL tracking-wider">{logo.alt}</p>
               <Image src={logo.src} alt={logo.alt} width={24} height={24} />
             </div>
           </div>
         ))}
-      </Slider>
+      {/* </Slider> */}
     </div>
   );
 };

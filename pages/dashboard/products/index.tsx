@@ -37,10 +37,10 @@ const Products = () => {
       });
       const data = await res.json();
 
-      console.log(data);
-      toast.success(data.message, {
-        autoClose: 5000,
-      });
+      // console.log(data);
+      // toast.success(data.message, {
+      //   autoClose: 5000,
+      // });
       // setProducts(data.data.products);
       setTotalPage(data.totalPages);
       return data.data.products;

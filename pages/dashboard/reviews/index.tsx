@@ -10,29 +10,36 @@ import Loader from '@ui/Loader';
 export default function ReviewDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const [totalPage, setTotalPage] = useState(1);
+  const [currentPage, setCurrentPaeg] = useState(1);
   const fetchProducts = async () => {
     // Fetch the product data from the server
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace');
+      const res = await fetch(
+        `https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace?page=${currentPage}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
+        },
+      );
       const data = await res.json();
-      if (Array.isArray(data.data)) {
-        console.log(data.data);
-        const tranformedProduct = data.data.map((product: any) => ({
-          id: product.id,
-          title: product.name,
-          ratingNo: 5,
-          imageSrc: product.image[0].url,
-          price: product.price,
-          avgRating: 2,
-          author: '',
-        }));
-        console.log(tranformedProduct);
-        setProducts(tranformedProduct);
-      } else {
-        return [];
-      }
+
+      console.log(data.data);
+      const tranformedProduct = data.data.products.map((product: any) => ({
+        id: product.id,
+        title: product.name,
+        ratingNo: 5,
+        imageSrc: product.image[0].url,
+        price: product.price,
+        avgRating: 2,
+        author: '',
+      }));
+
+      setProducts(tranformedProduct);
+      setTotalPage(data.data.totalPages);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -41,7 +48,7 @@ export default function ReviewDashboard() {
   };
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [currentPage]);
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
@@ -70,7 +77,9 @@ export default function ReviewDashboard() {
                 ))
               )}
             </div>
-            {!isLoading && <PaginationBar pageLength={1} currentPage={0} changeCurrentPage={() => 1} />}
+            {!isLoading && totalPage > 1 && (
+              <PaginationBar pageLength={totalPage} currentPage={currentPage} changeCurrentPage={setCurrentPaeg} />
+            )}
           </div>
         </div>
       </Container>
