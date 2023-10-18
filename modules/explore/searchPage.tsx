@@ -126,6 +126,7 @@ export default function SearchModule() {
             <span>Filters</span>
           </span>
         </div>
+        {/* .... */}
         <div className="mt-10  flex gap-3">
           <div className="min-h-screen gap-8 w-[100%]  lg:flex max-w-[320px] hidden px-10 pt-12 pb-12 mb-5 bg-white rounded-2xl  border-[#F2F2F2] border-2 flex-col justify-start items-center ">
             <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
