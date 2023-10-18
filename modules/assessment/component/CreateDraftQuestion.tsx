@@ -6,9 +6,28 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 type CreateassProps = {
   dataValues?: (dataObject: { [key: string]: string }) => void;
+  draftData: { questions: any[]; title: string };
+  setDraftData?: (data: { questions: any[]; title: string }) => void;
+  newQuestions: { questions: any[] };
+  setNewQuestions: (data: { questions: any[] }) => void;
 };
 
-const CreateDraftQuestion: React.FC<CreateassProps> = ({ dataValues }) => {
+interface AssessmentData {
+  questions: Array<{
+    question_no: number;
+    question_text: string;
+    question_type: string;
+    answer: {
+      options: string[];
+      correct_option: string;
+    };
+  }>;
+  title: string;
+  duration_minutes: number;
+  assessment_name: string;
+}
+
+const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData, newQuestions, setNewQuestions }) => {
   const [questions, setQuestions] = useState<Array<{ question: string; options: string[]; correctOption: string }>>([
     // { question: '', options: [], correctOption: '' },
   ]);
@@ -16,6 +35,8 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ dataValues }) => {
   // Add a new question field
   const handleAddQuestion = () => {
     setQuestions((prevQuestions) => [...prevQuestions, { question: '', options: [], correctOption: '' }]);
+    const updatedDraftData = { ...newQuestions };
+    updatedDraftData.questions = questions;
   };
 
   const handleChangeQuestion = (index: number, value: string) => {
@@ -57,6 +78,11 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ dataValues }) => {
       return updatedQuestions;
     });
   };
+
+  useEffect(() => {
+    setNewQuestions({ questions: [...questions] });
+    console.log(newQuestions);
+  }, [questions]);
 
   return (
     <>
