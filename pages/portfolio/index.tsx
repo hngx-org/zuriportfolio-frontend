@@ -2,6 +2,7 @@ import Landing from '@modules/portfolio/component/landing/landing-page';
 import MainLayout from '../../components/Layout/MainLayout';
 import { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
 import { WorkExperienceModalContextProvider } from '@modules/portfolio/context/work-experience-modal-context';
+import { EducationModalContextProvider } from '@modules/portfolio/context/education-context';
 import withAuth from '../../helpers/withAuth';
 
 const Portfolio = () => {
@@ -9,7 +10,9 @@ const Portfolio = () => {
     <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
       <PortfolioCtxProvider>
         <WorkExperienceModalContextProvider>
-          <Landing />
+          <EducationModalContextProvider>
+            <Landing />
+          </EducationModalContextProvider>
         </WorkExperienceModalContextProvider>
       </PortfolioCtxProvider>
     </MainLayout>
