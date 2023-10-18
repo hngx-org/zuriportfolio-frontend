@@ -277,11 +277,11 @@ const AnalyticsAndReportingGraphs = () => {
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
                           <Tooltip />
                           <YAxis tickFormatter={formatCurrency} />
-                          <ReferenceLine y={1000} stroke="#00000" />
-                          <ReferenceLine y={3200} stroke="#F2F4F7" />
-                          <ReferenceLine y={5200} stroke="#F2F4F7" />
-                          <ReferenceLine y={7200} stroke="#F2F4F7" />
-                          <ReferenceLine y={9200} stroke="#F2F4F7" />
+                          <ReferenceLine y={53} stroke="#F2F4F7" />
+                          <ReferenceLine y={40} stroke="#F2F4F7" />
+                          <ReferenceLine y={27} stroke="#F2F4F7" />
+                          <ReferenceLine y={14} stroke="#F2F4F7" />
+                          
                           <Line type="natural" dataKey="sales" stroke="#EABE95" strokeWidth={3} dot={false} />
                         </LineChart>
                       )}
@@ -294,9 +294,10 @@ const AnalyticsAndReportingGraphs = () => {
                         <BarChart data={graphData[1]}>
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
                           <Tooltip />
-                          <ReferenceLine y={1800} stroke="#F2F4F7" />
-                          <ReferenceLine y={3600} stroke="#F2F4F7" />
-                          <ReferenceLine y={7200} stroke="#F2F4F7" />
+                          <ReferenceLine y={300} stroke="#F2F4F7" />
+                          <ReferenceLine y={600} stroke="#F2F4F7" />
+                          <ReferenceLine y={900} stroke="#F2F4F7" />
+                          <ReferenceLine y={1200} stroke="#F2F4F7" />
                           <Bar dataKey="sales" fill="#F1AE67" barSize={10} />
                           <Bar dataKey="orders" fill="#06C270" barSize={10} />
                           <Bar dataKey="users" fill="#A46A26" barSize={10} />
