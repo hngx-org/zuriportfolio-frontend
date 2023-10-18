@@ -32,9 +32,15 @@ export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedC
     const [isPageLoading, setIsPageLoading] = useState(true);
     const router = useRouter();
     const { auth } = useAuth();
-    const { token } = useAuthRevalidate();
+    useAuthRevalidate();
 
     useEffect(() => {
+      let token = '';
+
+      if (typeof window !== 'undefined') {
+        token = localStorage.getItem('zpt') as string;
+      }
+
       // there is no token found in the localstorage
       if (!isAuthenticated(token)) {
         router.push('/auth/login');
@@ -49,7 +55,7 @@ export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedC
       }
 
       setIsPageLoading(false);
-    }, [auth, router, token]);
+    }, [auth, router]);
 
     if (isPageLoading) {
       return (
@@ -71,9 +77,15 @@ export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedCom
     const [isPageLoading, setIsPageLoading] = useState(true);
     const router = useRouter();
     const { auth } = useAuth();
-    const { token } = useAuthRevalidate();
+    useAuthRevalidate();
 
     useEffect(() => {
+      let token = '';
+
+      if (typeof window !== 'undefined') {
+        token = localStorage.getItem('zpt') as string;
+      }
+
       // there is no token found in the localstorage
       if (!isAuthenticated(token)) {
         router.push('/auth/login');
@@ -89,7 +101,7 @@ export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedCom
       }
 
       setIsPageLoading(false);
-    }, [auth, router, token]);
+    }, [auth, router]);
 
     if (isPageLoading) {
       return (
@@ -98,7 +110,7 @@ export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedCom
         </div>
       );
     }
-    
+
     const wrappedComponent = React.createElement(WrappedComponent, props);
     return wrappedComponent;
   };
