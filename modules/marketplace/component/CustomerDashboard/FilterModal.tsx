@@ -7,14 +7,16 @@ import $http from '../../../../http/axios';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { PurchaseData } from '../../../../pages/user/customer-purchase-dashboard';
+import { getDataByMonth, getDataByPrice, getDataByYear } from '../../../../http/customerPurchaseDashboard';
 
 type Props = {
-  filter: string | any;
-  isOpen: boolean;
-  onClose: () => void;
-  token: string;
-  setData: (data: PurchaseData[]) => void;
-};
+  filter: string | any,
+  isOpen: boolean,
+  onClose: () => void,
+  token?: string | null | undefined,
+  setData: (data: PurchaseData[]) => void,
+  setLoading: (loading: boolean) => void
+}
 
 const MONTH = [
   'January',
@@ -31,23 +33,19 @@ const MONTH = [
   'December',
 ];
 
-const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
-  const [year, setYear] = useState('');
+const FilterModal = ({filter, isOpen, onClose, setData, setLoading}: Props) => {
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [year, setYear] = useState("");
 
-  const filterByPrice = async () => {
+
+  const filterByPrice = async() => {
+    setLoading(true)
     try {
-      const response = await $http.get(
-        `https://customer-purchase.onrender.com/api/orders/filter-transactions?price=${from}-${to}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setData(response?.data?.data);
-      console.log(response.data);
+      const response = await getDataByPrice(from, to);
+      setData(response);
+      onClose()
+      setLoading(false)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data?.message}`, {
@@ -62,21 +60,18 @@ const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
         });
         console.error(error.response?.data?.message);
       }
-      onClose();
+      setLoading(false)
+      setData([])
+      onClose()
     }
-  };
-  const filterByMonth = async (month: string) => {
+  }
+  const filterByMonth = async(month: string) => {
+    setLoading(true)
     try {
-      const response = await $http.get(
-        `https://customer-purchase.onrender.com/api/orders/filter-transactions?month=${month}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setData(response?.data?.data);
-      console.log(response.data);
+      const response = await getDataByMonth(month)
+      setData(response)
+      onClose()
+      setLoading(false)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data?.message}`, {
@@ -91,21 +86,18 @@ const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
         });
         console.error(error.response?.data?.message);
       }
-      onClose();
+      setLoading(false)
+      setData([])
+      onClose()
     }
-  };
-  const filterByYear = async () => {
+  }
+  const filterByYear = async() => {
+    setLoading(true)
     try {
-      const response = await $http.get(
-        `https://customer-purchase.onrender.com/api/orders/filter-transactions?year=${year}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setData(response?.data?.data);
-      console.log(response.data);
+      const response = await getDataByYear(year)
+      setData(response)
+      onClose()
+      setLoading(false)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data?.message}`, {
@@ -120,7 +112,9 @@ const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
         });
         console.error(error.response?.data?.message);
       }
-      onClose();
+      setLoading(false)
+      setData([])
+      onClose()
     }
   };
 

@@ -10,6 +10,7 @@ import FilterProduct from '@modules/super-admin/components/vendormanagement/Filt
 import Button from '@ui/Button';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { useGetAllVendor } from '../../../http/super-admin1';
+import { withAdminAuth } from '../../../helpers/withAuth';
 
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -157,4 +158,4 @@ const Index = () => {
     </div>
   );
 };
-export default Index;
+export default withAdminAuth(Index);
