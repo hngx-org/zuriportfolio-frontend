@@ -111,7 +111,7 @@ export const getServerSideProps = (async (context) => {
   if(error instanceof AxiosError) {
     if(error.status === 400 || error.status === 500){
       return {
-        redirect: {destination: '/marketplace/error-page', permanent: false}
+        redirect: {destination: '/404', permanent: false}
       }
     }
   }
