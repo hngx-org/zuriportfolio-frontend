@@ -66,14 +66,14 @@ const Questions: React.FC = () => {
       const item = JSON.parse(itemStr as string);
       if (itemStr) {
         if (now.getTime() > item.expiry) {
-          console.log("first",now.getTime(), item.expiry)
+          console.log('first', now.getTime(), item.expiry);
           localStorage.removeItem('minute');
           localStorage.removeItem('second');
           setItemWithExpiry('duration', duration, 1000 * 60 * 30);
           setTimeFunction();
           return null;
         } else {
-          console.log("second")
+          console.log('second');
           setTimeFunction();
         }
         return item.value;

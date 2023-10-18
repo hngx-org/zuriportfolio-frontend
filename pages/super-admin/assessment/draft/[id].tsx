@@ -12,6 +12,7 @@ import CreateAssessment from '../new';
 import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 type Props = {
   assessment: {
@@ -255,4 +256,4 @@ const DraftPreview = () => {
   );
 };
 
-export default DraftPreview;
+export default withAdminAuth(DraftPreview);
