@@ -96,9 +96,6 @@ export const getServerSideProps = (async (context) => {
     const { data, status } = await axios.get<{ products: ProductList[]; data: ProductList[] }>(apiUrl.toString());
 
     const res = data !== null ? (data?.products ? data?.products : data?.data ? data?.data : []) : [];
-    if (status === 400 || status === 500) {
-      console.error('Bad request');
-    }
     const itemsPerPage = 8;
     const totalProducts = res.length;
     const totalPages = Math.ceil(totalProducts / itemsPerPage);
