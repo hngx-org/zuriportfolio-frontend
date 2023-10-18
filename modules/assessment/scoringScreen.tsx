@@ -1,9 +1,11 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState, useContext } from 'react';
 import ScoreDropdown from './component/scoreDropdown';
 import { Input } from '@ui/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import { useCreatingAssessmentContext } from '../../context/assessment/CreatingAssessmentContext';
+import { UpdateContext } from '../../pages/super-admin/assessment/new';
 import axios from 'axios';
+import { ToPushContext } from '../../pages/super-admin/assessment/new';
 type TimingSystemType = {
   hours: string;
   minutes: string;
@@ -24,38 +26,19 @@ type MyGradingRangeType = {
 
 interface ScoringScreenProps {
   skillId: number; // Define skillId as a prop
-
-  assessment: {
-    id: number;
-    title: string;
-    createdAt: Date;
-    duration_minutes: number;
-    questions: {
-      answers: {}[];
-      question_no: number;
-      question_text: string;
-      question_type: string;
-    }[];
-    updatedAt: Date;
-  };
+  assessment: any;
 }
 
-const debounce = <F extends (...args: any[]) => void>(func: F, delay: number) => {
-  let timeout: NodeJS.Timeout;
+const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
+  const [listupdate, setListupdate]: any = useContext(UpdateContext);
+  const [newobject, setObject]: any = useContext(ToPushContext);
 
-  return (...args: Parameters<F>): void => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), delay);
-  };
-};
-
-const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) => {
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
-    hours: '00',
-    minutes: '00',
-    seconds: '00',
+    hours: '',
+    minutes: '',
+    seconds: '',
   });
 
   const initialGradingValues: MyGradingRangeType = {
@@ -85,20 +68,32 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
     if (newValue === '') {
       setExamTime((prevExamTime) => ({
         ...prevExamTime,
-        [name]: '00',
+        [name]: newValue,
       }));
     } else {
       const numericValue = parseInt(newValue, 10);
       if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 60) {
         setExamTime((prevExamTime) => ({
           ...prevExamTime,
-          [name]: numericValue.toString().padStart(2, '0'),
+          [name]: numericValue.toString(),
         }));
+        if (examTime.hours || examTime.minutes || examTime.seconds) {
+          const hours = parseInt(examTime.hours, 10) || 0;
+          const minutes = parseInt(examTime.minutes, 10) || 0;
+          const seconds = parseInt(examTime.seconds, 10) || 0;
+          const totalMinutes = hours * 60 + minutes + seconds / 60;
+
+          setExamDuration(totalMinutes.toString());
+        }
       }
     }
+  };
 
-    // Call the debounced function instead of handleFormSubmit directly
-    debouncedHandleFormSubmit();
+  const convertToMinutes = (hours: string, minutes: string, seconds: string): number => {
+    const hoursInMinutes = parseInt(hours, 10) * 60;
+    const minutesValue = parseInt(minutes, 10);
+    const secondsValue = parseInt(seconds, 10) / 60;
+    return hoursInMinutes + minutesValue + secondsValue;
   };
 
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
@@ -144,14 +139,14 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
     setIsAutoSubmitOn(!isAutoSubmitOn);
   };
 
-  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
+  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, examDuration, setExamDuration } =
     useCreatingAssessmentContext();
 
   const saveScore = async (level: string) => {
     const token = localStorage.getItem('zpt');
 
     try {
-      const response = await fetch('https://staging.zuri.team/api/badges', {
+      const response = await fetch('https://demerzel-badges-production.up.railway.app/api/badges/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -180,38 +175,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
       // Handle error if needed
     }
   };
-
-  const handleFormSubmit = async () => {
-    const { hours, minutes, seconds } = examTime;
-    const durationInMinutes = Math.round(parseInt(hours, 10) * 60 + parseInt(minutes, 10) + parseInt(seconds, 10) / 60);
-
-    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessment.id}/`;
-
-    try {
-      const response = await fetch(apiUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-          'X-CSRFTOKEN': localStorage.getItem('zpt') ?? '',
-        },
-        body: JSON.stringify({
-          duration_minutes: durationInMinutes,
-          title: assessment.title,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.status}`);
-      }
-
-      toast.success('Assessment duration updated successfully');
-    } catch (error) {
-      console.error('Error:', error);
-      toast.error('Error updating assessment data');
-    }
-  };
-  const debouncedHandleFormSubmit = debounce(handleFormSubmit, 1000);
 
   // useEffect(() => {
   //   async function fetchData() {

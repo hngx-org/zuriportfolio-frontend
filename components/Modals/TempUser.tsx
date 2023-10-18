@@ -18,11 +18,11 @@ interface TempUser {
 
 const TempUser = ({ isOpen, onClose }: TempUser) => {
   const { auth } = useAuth();
-  const [isDisabled,setIsDisabled] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    setIsDisabled(true)
+    setIsDisabled(true);
     const userForm = new FormData(event.currentTarget);
     const data = {
       email: userForm.get('email') as string,
@@ -34,7 +34,7 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
 
     if (tempUser.data.token) {
       console.log(tempUser.data.token);
-      
+
       const cartItems = JSON.parse(localStorage.getItem('products') as string);
       const cartIds = await getCardItemsId(cartItems);
 
@@ -45,10 +45,10 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
           localStorage.setItem('products', '');
           window.location.href = response.data.transaction_url;
         } else {
-          toast.error("Error occured try again")
+          toast.error('Error occured try again');
         }
-      }else {
-        toast.error('Error making transaction')
+      } else {
+        toast.error('Error making transaction');
       }
     }
   };
@@ -127,23 +127,25 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             <Image src={flutterwave} alt="mastercard" width={76} height={76} />
           </div>
           <div className="flex w-[360px]">
-            { isDisabled ?
+            {isDisabled ? (
               <Button
                 type="submit"
                 className="flex w-full px-[24px] py-[16px] flex-col justify-center items-center gap-[10px] rounded-[10px] bg-[#006F37]"
-                disabled>
-               <svg className="animate-spin h-4 w-4 inline mr-2 text-[#f5f6f1]" viewBox="0 0 24 24">
+                disabled
+              >
+                <svg className="animate-spin h-4 w-4 inline mr-2 text-[#f5f6f1]" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="10" fill="none" strokeWidth="4" stroke="currentColor" />
                 </svg>
                 Processing Payment...
-              </Button>: 
+              </Button>
+            ) : (
               <Button
-              type="submit"
-              className="flex w-full px-[24px] py-[16px] flex-col justify-center items-center gap-[10px] rounded-[10px] bg-[#006F37]"
-             >
-              Proceed
-            </Button>
-            }
+                type="submit"
+                className="flex w-full px-[24px] py-[16px] flex-col justify-center items-center gap-[10px] rounded-[10px] bg-[#006F37]"
+              >
+                Proceed
+              </Button>
+            )}
           </div>
         </form>
       </Modal>

@@ -133,7 +133,7 @@ const PortfolioCarousel = () => {
 
   return (
     <div className="overflow-hidden p-2 w-full mx-0 mt-[50px]">
-      {/* <Slider {...settings}> */}
+      <Slider {...settings}>
         {slides.map((logo, index) => (
           <div key={index} className="relative h-[250px] sm:h-[300px] w-[182.71]">
             {/* Portfolio section */}
@@ -142,7 +142,6 @@ const PortfolioCarousel = () => {
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end items-start rounded-[11px] p-3 mr-2 md:mr-6"
                 style={{ backgroundImage: `url(${logo?.src})` }}
               >
-                
                 <div className="absolute inset-0 bg-black bg-opacity-30 rounded-[11px]"></div>
 
                 <div className="z-10">
@@ -163,8 +162,7 @@ const PortfolioCarousel = () => {
                 </div>
               </div>
             )}
-
-            Shop section
+            {/* Shop section */}
             {logo?.section === 'shop' && (
               <div
                 className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"
@@ -181,8 +179,6 @@ const PortfolioCarousel = () => {
                 </div>
               </div>
             )}
-
-            
             {logo?.section === 'portrait' && (
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat flex items-center rounded-[40%] mr-2 md:mr-6"
@@ -191,7 +187,7 @@ const PortfolioCarousel = () => {
             )}
           </div>
         ))}
-      {/* </Slider> */}
+      </Slider>
     </div>
   );
 };
