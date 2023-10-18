@@ -46,7 +46,8 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
-        setProduct(response.data);
+        console.log(response);
+        setProduct(response.data.data);
         setIsLoading(false);
       })
       .catch((error) => {});
