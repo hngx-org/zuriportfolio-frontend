@@ -35,7 +35,7 @@ const SanctionedProducts = () => {
   // }, [searchVal, sanctionedProd]);
 
   useEffect(() => {
-    setFilteredProducts(sanctionedProd);
+    setFilteredProducts(data?.data);
   }, [sanctionedProd]);
 
   const handleSearch = (searchText: string) => {
