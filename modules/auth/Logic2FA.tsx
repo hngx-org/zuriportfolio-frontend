@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useEffect, useState, useRef, useContext } from 'react';
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
-import { useAuth } from '../../context/AuthContext';
+import { ADMIN_ID, useAuth } from '../../context/AuthContext';
 import { verfiy2FA, resend2FACode } from '../../http/auth';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
-import { ADMIN_ID } from './component/Login/LoginForm';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
@@ -12,7 +11,6 @@ function Code2FALogic() {
   const router = useRouter();
   const [token, setToken] = useState<string>('');
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
-  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const inputRefs: InputRef[] = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
   const { auth, userCameFrom, handleAuth } = useAuth();
@@ -24,7 +22,7 @@ function Code2FALogic() {
 
         // redirecting the user  to admin dashbord if they are an admin
         if (res.data.user.roleId === ADMIN_ID) {
-          router.push('/super-admin/product-listing');
+          router.push('/super-admin/analytics-and-reporting');
           return;
         }
 
@@ -143,7 +141,6 @@ function Code2FALogic() {
   const handleResend = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
     let email = localStorage.getItem('email');
-    console.log('THE EMIAL ' + email);
     setLoading(true);
     setTimeout(() => {
       mutateRe.mutate({ email: email as string });

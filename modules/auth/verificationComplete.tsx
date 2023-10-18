@@ -5,20 +5,15 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { verifyUser } from '../../http/auth';
 import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
-import isAuthenticated from '../../helpers/isAuthenticated';
 import { useAuth } from '../../context/AuthContext';
 import persistedToken from '../../helpers/persistedToken';
-import ChangeEmailAddress from './changeEmailAddress';
 import ResendVerification from './resendVerification';
 
 function VerificationComplete() {
   const router = useRouter();
   const { token } = router.query;
   const { handleAuth, userCameFrom } = useAuth();
-  // const { handleAuth } = useAuth();
   const [isError, setIsError] = useState(false);
-
-  // console.log(token);
 
   let tokenFromLocalStorage: string = '';
 
@@ -27,8 +22,6 @@ function VerificationComplete() {
   }
 
   const decodedToken = persistedToken(tokenFromLocalStorage as string);
-
-  // console.log(decodedToken);
 
   const { mutate, isLoading, isSuccess } = useAuthMutation(verifyUser, {
     onSuccess: (response) => {
@@ -42,7 +35,7 @@ function VerificationComplete() {
           type: 'success',
         });
 
-        router.push(userCameFrom || '/dashboard');
+        router.push(userCameFrom || '/explore');
         return;
       }
 
@@ -68,13 +61,10 @@ function VerificationComplete() {
         setIsError(true);
         return;
       }
-      console.log('verificaion error z', response);
 
       if (response.data.message === 'timeout of 30000ms exceeded') {
         const timeoutErrorMessage =
           'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-
-        console.log(response);
 
         notify({
           message: timeoutErrorMessage,
