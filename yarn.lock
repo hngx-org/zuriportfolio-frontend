@@ -869,14 +869,16 @@
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
 "@types/mjml-core@*":
-  version "4.7.2"
-  resolved "https://registry.yarnpkg.com/@types/mjml-core/-/mjml-core-4.7.2.tgz#f432c35c67998ce3b678cd433a94fed5fa121c46"
-  integrity sha512-IQErFEPve74qZ85PiWfKlQZJ1mQYN/dSr450H68bVRLf1i1Fzd+QaNkpbacCNiZNAu7fdCIAP6B3WqDMyLOKFw==
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/@types/mjml-core/-/mjml-core-4.7.3.tgz#9b91c3a27e25e6c99d165d83e5eeb9567aa73bae"
+  integrity sha512-2wXjQ7c3WGe7KPANKLA2cU5z30cUItIK/Lw1vqQFG7ENqfydba2LdROpifXErGcdqiJwsEHmCFn/wANXUdNwIg==
 
 "@types/mjml@^4.7.2":
-  version "4.7.2"
-  resolved "https://registry.yarnpkg.com/@types/mjml/-/mjml-4.7.2.tgz#b22ce4c31c3650c53c143aa23c6a7f75ed1394f7"
-  integrity sha512-bs8FEC5KtmFAJIly62uJFnrh0U3eQT3rnLskLRwmom887PCPwiMCsqLwZ3PoXJv/dBAEzYaiu3+cMvGe1NBAOA==
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/@types/mjml/-/mjml-4.7.3.tgz#ddefa204819c8a39d35c311c190765a9cad14e67"
+  integrity sha512-havWNfdB5mAYVds75XwCKm1aeh7GtXigBVWcxDY+zU2EAXY2TdvjZuy1AcLi76IssDqk8S9a1iwIaYtPrCb0tA==
+
+
   dependencies:
     "@types/mjml-core" "*"
 
