@@ -14,7 +14,7 @@ import { Data } from './project-section-modal';
 type ProjectSectionProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
-  userId: string;
+  userId: string | undefined;
   dataToEdit: Data | null;
 };
 

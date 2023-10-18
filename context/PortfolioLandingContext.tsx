@@ -310,6 +310,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     onClose();
     onCloseModal(sectionTitle || '');
     getUser(userId);
+    getUser(userId);
     getUserSections(userId);
     getUserSections(userId);
   };
