@@ -26,3 +26,4 @@ export default function Complaintss() {
   }; // Replace {} with your actual data
   return <GeneralComplaints complain={complainData} />;
 }
+// No need to wrap this page because it only returns GeneralComplaints and that has already been wrapped with the admin HOC component

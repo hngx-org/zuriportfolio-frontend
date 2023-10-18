@@ -4,6 +4,8 @@ import { AuthResponse } from '../@types';
 
 export const ADMIN_ID = 3;
 
+export const USER_ID = 2;
+
 const AuthContext = createContext<AuthContextProps>({} as any);
 
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {
