@@ -15,17 +15,20 @@ const OtherProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <div className="p-[0.66rem] md:p-4 shadow border h-auto sm:h-[22.75rem] md:h-auto rounded-md bg-[#ffffff]">
-      <div className="relative w-full h-[7.5rem] sm:h-[70%] md:h-[13.0625rem]">
+      
         <Link href={`/shop/product?id=${product.id}`} passHref>
+        <div className="relative w-full h-[7.5rem] sm:h-[70%] md:h-[13.0625rem]">
           <Image
             src={product.image[0].url}
             alt={product.name}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{objectFit:"cover"}}
+            sizes="(max-width: 780px) 100vw, (max-width: 1024px) 50vw, 700px"
+            priority
             className="rounded-md "
           />
+        </div>
         </Link>{' '}
-      </div>
       <div className="flex flex-col gap-[0.33rem] flex-grow">
         <div>
           <h3 className="mt-2 text-sm text-[#052011] font-normal capitalize truncate md:tracking-[0.00088rem]">

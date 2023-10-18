@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ArrowLeft, ArrowRight, ArrowRight2, ProfileCircle } from 'iconsax-react';
 import { useCart } from './component/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import { Products, ShopData } from '../../@types';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
@@ -17,7 +18,6 @@ import verifyIcon from '../../public/assets/icons/verify.svg';
 import profileImg from '../../public/assets/images/profile-img.png';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { useAuth } from '../../context/AuthContext';
 import Header from './component/productPage/Header';
 import Footer from './component/productPage/Footer';
 import Loader from '@ui/Loader';
@@ -25,18 +25,19 @@ import Head from 'next/head';
 
 export default function ProductDetails() {
   const router = useRouter();
+  const { cart } = useCart();
   const [product, setProduct] = useState<Products | null>(null);
   const [image, setImage] = useState<any>(product?.image);
   const [showAll, setShowAll] = useState(false);
   const [shopID, setShopID] = useState('');
   const [otherProducts, setOtherProducts] = useState<Products[]>([]);
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
-  const [cartItemCount, setCartItemCount] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('');
   const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
   const [showFullDescription, setShowFullDescription] = useState(false);
   const { auth } = useAuth();
+  const cartItemCount = cart.length;
 
   const handleCategoryChange = () => {};
   const handleShowMoreClick = () => {
@@ -166,7 +167,7 @@ export default function ProductDetails() {
           },
         },
       );
-      if (response.status === 200) {
+      if (response.status === 201) {
         addToCart(product);
 
         toast.success('Added to Cart', {
@@ -258,6 +259,7 @@ export default function ProductDetails() {
                 alt={product.name}
                 fill
                 style={{objectFit:"cover"}}
+                sizes='100vw'
                 priority
                 className="img max-w-none w-full h-auto absolute"
               />
