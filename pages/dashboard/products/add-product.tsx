@@ -16,9 +16,11 @@ import { MultipleFileUpload } from '@modules/dashboard/component/products/Multip
 import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import { useAuth } from '../../../context/AuthContext';
+import Head from 'next/head';
 const AddProduct = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,7 +34,6 @@ const AddProduct = () => {
   };
 
   const productScehema = z.object({
-    image: z.string().min(4, { message: 'Add image' }),
     name: z.string().min(5, { message: 'Add Product Name' }),
     description: z.string().min(10, { message: 'Add  description' }),
     category_id: z.string().min(1, { message: 'Select category' }),
@@ -45,23 +46,24 @@ const AddProduct = () => {
     assets_notes: z.string().min(4, { message: 'Leave a note about the file' }),
     assets_name: z.string().min(4, { message: 'Add File name' }),
     shopId: z.string().min(3, { message: 'Select Shop' }),
+    quantity: z.number(),
   });
   const form = useForm({
     validate: zodResolver(productScehema),
     initialValues: {
-      image: '',
       name: '',
       description: '',
       category_id: '',
       price: '',
       discountPrice: '',
       tax: '',
-      currency: '₦',
+      currency: 'NGN',
       assets_link: '',
       assets_type: 'external',
       assets_notes: '',
       assets_name: '',
       shopId: '',
+      quantity: 1,
     },
   });
   const handleNewCategoryChange = (event: any) => {
@@ -252,16 +254,14 @@ const AddProduct = () => {
   };
 
   const handleImageUpload = (files: FileList | null) => {
+    const reader = new FileReader();
     if (files && files.length > 0) {
       const file = files[0];
-      const reader = new FileReader();
-
+      setSelectedImage(file as any);
       reader.onload = (e) => {
         const result = e.target?.result as string | null;
         if (result) {
-          setSelectedImage(result);
-          form.setFieldValue('image', result);
-          console.log(form.getTransformedValues());
+          setPreviewImage(result);
         }
       };
 
@@ -275,6 +275,9 @@ const AddProduct = () => {
     Object.entries(values).forEach(([key, value]: any[]) => {
       formData.append(key, value);
     });
+    formData.append('image', selectedImage as any);
+    // formData.delete('image');
+
     try {
       const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
         method: 'POST',
@@ -332,6 +335,9 @@ const AddProduct = () => {
 
   return (
     <MainLayout showTopbar activePage="products">
+      <Head>
+        <title>Add Product</title>
+      </Head>
       <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
         <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
           <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
@@ -429,11 +435,11 @@ const AddProduct = () => {
                   <p className="text-[red] text-lg my-3 font-semibold">
                     {form.errors.description && form.errors.description}
                   </p>
-                  <div className="flex flex-row items-center justify-between">
+                  {/* <div className="flex flex-row items-center justify-between">
                     <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mb-3">
                       Product Category
                     </label>
-                  </div>
+                  </div> */}
                   {/* <Input
                     className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="Add subcategory"
@@ -450,7 +456,7 @@ const AddProduct = () => {
                       </Button>
                     }
                   /> */}
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select more categories</label>
+                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
                       form.errors.category_id ? 'border-red-200' : 'border-slate-50'
@@ -473,7 +479,7 @@ const AddProduct = () => {
                       </option>
                     ))}
                   </select>
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select Shop</label>
+                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
                       form.errors.category_id ? 'border-red-200' : 'border-slate-50'
@@ -526,7 +532,7 @@ const AddProduct = () => {
                       </span>
                     </center>
                   </div>
-                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.image && form.errors.image}</p>
+                  {/* <p className="text-[red] text-lg my-3 font-semibold">{form.errors.image && form.errors.image}</p> */}
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
@@ -576,9 +582,9 @@ const AddProduct = () => {
             </div>
             <div className="p-5 mt-0 md:mt-0">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">PREVIEW</label>
-              {selectedImage ? (
+              {previewImage ? (
                 <Image
-                  src={selectedImage}
+                  src={previewImage}
                   alt="uploaded"
                   className="w-[300px] object-contain rounded-sm my-3"
                   width={100}

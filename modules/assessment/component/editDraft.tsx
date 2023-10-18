@@ -4,6 +4,7 @@ import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { useCreatingAssessmentContext } from '../../../context/assessment/CreatingAssessmentContext';
 
 interface EditDraftProps {
   draftData?: { questions: any[]; title: string };
@@ -15,10 +16,10 @@ interface AssessmentData {
     question_no: number;
     question_text: string;
     question_type: string;
-    answers: Array<{
+    answer: {
       options: string[];
       correct_option: string;
-    }>;
+    };
   }>;
   title: string;
   duration_minutes: number;
@@ -31,14 +32,16 @@ interface AssessmentEditorProps {
 }
 
 const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData }) => {
+  const { questionIndex } = useCreatingAssessmentContext();
+
   console.log('draftData in edit', draftData);
   const router = useRouter();
   const id = router.query.id;
   console.log(id);
-  const [mockArr, setMcokarr] = useState(new Array(4).fill(null));
-  const [options, setOptions] = useState(draftData?.questions[0]?.answers[0]?.options || []);
+
+  const [options, setOptions] = useState(draftData?.questions[0]?.answer.options || []);
   const [questionText, setQuestionText] = useState(draftData?.questions[0]?.question_text);
-  const [correctOption, setCorrectOption] = useState(draftData?.questions[0]?.answers[0]?.correct_option);
+  const [correctOption, setCorrectOption] = useState(draftData?.questions[0]?.answer.correct_option);
 
   const handleDelete = (indexToDelete: number) => {
     console.log('Before deletion:', options);
@@ -46,7 +49,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
     console.log('After deletion:', updatedOptions);
     setOptions(updatedOptions);
     const updatedQuestions = [...draftData.questions];
-    updatedQuestions[0].answers[0].options = updatedOptions;
+    updatedQuestions[questionIndex].answer.options = updatedOptions;
 
     setDraftData({
       ...draftData,
@@ -54,27 +57,15 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
     });
   };
 
-  const handleAssessmentNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDraftData({ ...draftData, assessment_name: event.target.value });
-  };
-
   const handleQuestionTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedQuestions = [...draftData.questions];
-    updatedQuestions[0].question_text = event.target.value;
+    updatedQuestions[questionIndex].question_text = event.target.value;
 
     setDraftData({
       ...draftData,
       questions: updatedQuestions,
     });
     setQuestionText(event.target.value); // Update local state
-  };
-
-  const handleIncreaseLength = () => {
-    if (mockArr.length > 0) {
-      const lastElement = mockArr[mockArr.length - 1];
-      const updatedArr = [...mockArr, lastElement];
-      setMcokarr(updatedArr);
-    }
   };
 
   const handleOptionChange = (index: number, value: string) => {
@@ -84,7 +75,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
     setOptions(updatedOptions);
 
     const updatedQuestions = [...draftData.questions];
-    updatedQuestions[0].answers[0].options = updatedOptions;
+    updatedQuestions[questionIndex].answer.options = updatedOptions;
 
     setDraftData({
       ...draftData,
@@ -96,7 +87,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
     setCorrectOption(value);
 
     const updatedQuestions = [...draftData.questions];
-    updatedQuestions[0].answers[0].correct_option = value;
+    updatedQuestions[questionIndex].answer.correct_option = value;
 
     setDraftData({
       ...draftData,
@@ -116,7 +107,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
           onChange={handleQuestionTextChange}
           type="text"
           name="question"
-          placeHolder={`${draftData?.title}`}
+          placeHolder={`${draftData?.questions[0]?.question_text}`}
           intent={'default'}
           size={15}
         />

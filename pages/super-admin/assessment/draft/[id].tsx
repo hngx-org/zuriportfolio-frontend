@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
-import ScoringScreen from '@modules/assessment/scoringScreen';
+import ScoringScreen from '../../../../modules/assessment/scoringScreen';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -12,7 +12,7 @@ import CreateAssessment from '../new';
 import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { withAdminAuth } from '../../../../helpers/withAuth';
+import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
 
 type Props = {
   assessment: {
@@ -30,7 +30,10 @@ type Props = {
   };
 };
 const DraftPreview = () => {
+  const { questionIndex, setQuestionIndex } = useCreatingAssessmentContext();
+
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
+  const [newQuestions, setNewQuestions] = useState<{ questions: any[] }>({ questions: [] });
 
   const arr = [1, 2, 3];
   const router = useRouter();
@@ -107,6 +110,45 @@ const DraftPreview = () => {
 
   const [disable, setDisable] = useState(true);
 
+  const updateDraft = () => {
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`;
+    const token = localStorage.getItem('zpt') ?? '';
+
+    // Ensure that the draftData is not empty
+    if (draftData && draftData.questions && draftData.title) {
+      // Define the PUT request options
+      const requestOptions = {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'X-CSRFTOKEN': token,
+        },
+        body: JSON.stringify(draftData), // Convert draftData to JSON string
+      };
+
+      fetch(apiUrl, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json(); // Parse the JSON response
+        })
+        .then((responseData) => {
+          console.log('Draft updated successfully:', responseData);
+          toast.success('Draft updated successfully');
+        })
+        .catch((error) => {
+          console.error('Error updating draft:', error);
+          toast.error('Error updating draft');
+        });
+    } else {
+      console.error('Draft data is empty. Cannot update.');
+      toast.error('Draft data is empty. Cannot update.');
+    }
+  };
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <AssessmentBanner
@@ -134,7 +176,7 @@ const DraftPreview = () => {
             </Button>
           </div>
         ) : (
-          <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000">
+          <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={updateDraft}>
             Save Changes
           </Button>
         )}
@@ -186,29 +228,34 @@ const DraftPreview = () => {
                 <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
                   <div className="flex justify-between mb-4">
                     <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <Link href={`/super-admin/assessment/draft/edit/${id}`}>
+                    <Link
+                      href={`/super-admin/assessment/draft/edit/${id}`}
+                      onClick={() => setQuestionIndex(item.question_no - 1)}
+                    >
                       <button className="text-md font-manropeB text-black">Edit</button>
                     </Link>
                   </div>
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
                   <div className="mt-8 flex flex-col gap-[22px]">
-                    {item?.answers?.map((answer: any, index: number) =>
-                      answer.options.map((option: any, optionIndex: any) => (
-                        <div key={index} className="flex gap-4">
-                          <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
-                          <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
-                            {option}
-                          </label>
-                        </div>
-                      )),
-                    )}
+                    {item.answer?.options.map((option: any, optionIndex: any) => (
+                      <div key={index} className="flex gap-4">
+                        <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
+                        <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
+                          {option}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             ))}
             <div className="mt-8">
-              <CreateDraftQuestion />
+              <CreateDraftQuestion
+                draftData={draftData}
+                newQuestions={newQuestions}
+                setNewQuestions={setNewQuestions}
+              />
             </div>
           </>
         ) : (
@@ -219,4 +266,4 @@ const DraftPreview = () => {
   );
 };
 
-export default withAdminAuth(DraftPreview);
+export default DraftPreview;

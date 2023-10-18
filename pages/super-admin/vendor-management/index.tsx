@@ -45,11 +45,11 @@ const Index = () => {
                 placeHolder="Search"
               />
 
-              <div className="md:hidden block">
+              {/* <div className="md:hidden block">
                 <Button intent={'primary'} size={'sm'}>
                   <Sort />
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
           {isLoading ? (
