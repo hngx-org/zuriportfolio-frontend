@@ -8,7 +8,6 @@ import { ChangeAnswerModal } from '@modules/assessment/component/changeAnswerMod
 import { ConfirmSubmitModal } from '@modules/assessment/component/confirmSubmitModal';
 import { SuccessFeedbackModal } from '@modules/assessment/component/successFeedbackModal';
 import Button from '@ui/Button';
-import { DATA, QuestionType } from '@modules/assessment/mock-data';
 import { fetchUserAssessmentSession, submitFinalAssessment } from '../../../http/userTakenAssessment';
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
@@ -50,25 +49,28 @@ function AssessmentOverview() {
   const [showSuccessConfirm, setShowSuccessConfirm] = useState(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [badgeEarn, setBadgeEarn] = React.useState<string | null>(null);
-  const [clearStorage, setClearStorage] = React.useState<boolean>(false);
+  const [timeUp, setTimeUp] = React.useState<boolean>(false);
+  const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
 
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
     handleGetSession();
   }, []);
 
-  const handleTimeOut = () => {
-    // Set clearStorage to true and setIsTimeOut to true
-    setIsTimeOut(true);
-    setClearStorage(true);
-  };
+  
+  useEffect(()=>{
+    if(timeUp||isSubmit){
+      localStorage.removeItem("minute")
+      localStorage.removeItem("second")
+    }
+  },[timeUp,isSubmit])
   useEffect(() => {
     const setTimeFunction = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
         const minuteString = localStorage.getItem('minute');
         minuteRef.current = minuteString;
         const secondString = localStorage.getItem('second');
-        const minuteInt = minuteString !== null ? parseInt(minuteString, 10) : duration;
+        const minuteInt = minuteString !== null ? parseInt(minuteString, 10) : null;
         const secondInt = secondString !== null ? parseInt(secondString, 10) : 0;
         setMinute(minuteInt);
         setSecond(secondInt);
@@ -122,9 +124,8 @@ function AssessmentOverview() {
           console.log(res);
           setShowConfirm(false);
           setShowSuccessConfirm(true);
-          setClearStorage(true);
           setBadgeEarn(res?.badge_id);
-          setClearStorage(false);
+          setIsSubmit(true)
         });
       }
     } catch (error) {
@@ -159,16 +160,14 @@ function AssessmentOverview() {
               subtitle="An overview of all answers."
               bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
             />
-            <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
+            <div className="w-full md:max-w-full px-4 max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
               <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary mt-5">
                 <p className="text-white-100 text-2xl font-bold">
                   {minute !== null && second !== null ? (
                     <CountdownTimer
-                      action={() => handleTimeOut()}
+                      action={() => setTimeUp(true)}
                       minutes={minute}
                       seconds={second}
-                      setClearStorage={setClearStorage}
-                      clearStorage={clearStorage}
                     />
                   ) : (
                     <span>--:--</span>

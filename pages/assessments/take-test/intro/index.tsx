@@ -61,7 +61,7 @@ const TakeTest: FC = () => {
             <AssessmentBanner
               bannerImageSrc="/assets/images/banner/assm_1.svg"
               title="Assessment test"
-              subtitle="You are currently writing the user persona quiz"
+              subtitle={`You are currently writing the ${result?.title} quiz`}
             />
             <div className="container mx-auto pt-16 px-8 pb-36 md-pb-4 md:h-screen mb-24">
               <div className="mx-auto sm:w  md:w-fit rounded-lg border border-slate-100 pt-10 pb-5 md:pb-10 md:px-10 px-5 mb-16">

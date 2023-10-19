@@ -44,7 +44,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
   }
 
   const addToCart = async (ids: string) => {
-    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    const apiUrl = `${CART_ENDPOINT}/carts`;
     if (auth?.token) {
       try {
         const response = await axios.post(
@@ -57,7 +57,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
           },
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           setCartCountNav(cartCount + 1);
           toast.success('Added to Cart');
           setCartLoading(false);
