@@ -16,6 +16,7 @@ import { MultipleFileUpload } from '@modules/dashboard/component/products/Multip
 import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import { useAuth } from '../../../context/AuthContext';
+import Head from 'next/head';
 const AddProduct = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [categoriesData, setCategoriesData] = useState([]);
@@ -334,6 +335,9 @@ const AddProduct = () => {
 
   return (
     <MainLayout showTopbar activePage="products">
+      <Head>
+        <title>Add Product</title>
+      </Head>
       <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
         <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
           <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
@@ -431,11 +435,11 @@ const AddProduct = () => {
                   <p className="text-[red] text-lg my-3 font-semibold">
                     {form.errors.description && form.errors.description}
                   </p>
-                  <div className="flex flex-row items-center justify-between">
+                  {/* <div className="flex flex-row items-center justify-between">
                     <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mb-3">
                       Product Category
                     </label>
-                  </div>
+                  </div> */}
                   {/* <Input
                     className="w-full  mb-5 mt-2 placeholder:text-[#191C1E] text-black"
                     placeholder="Add subcategory"
@@ -452,7 +456,7 @@ const AddProduct = () => {
                       </Button>
                     }
                   /> */}
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select more categories</label>
+                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
                       form.errors.category_id ? 'border-red-200' : 'border-slate-50'
@@ -475,7 +479,7 @@ const AddProduct = () => {
                       </option>
                     ))}
                   </select>
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Select Shop</label>
+                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
                       form.errors.category_id ? 'border-red-200' : 'border-slate-50'

@@ -8,31 +8,6 @@ const axiosReviewInstance = axios.create({
   },
 });
 
-let isAuthenticated = true;
-
-if (typeof window === 'undefined') {
-  axiosReviewInstance.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      if (error.response) {
-        const { status } = error.response;
-
-        if (typeof isAuthenticated !== 'undefined') {
-          if (status === 401 || status === 403) {
-            if (isAuthenticated) {
-              isAuthenticated = false;
-              window.location.href = '/auth/login';
-            }
-          }
-        }
-      }
-      return Promise.reject(error);
-    },
-  );
-}
-
 export const postReplyByReviewId = async (props: { id: string }, payload: { name: string; feedback: string }) => {
   try {
     const res: any = await axiosReviewInstance.post(`/shop/reviews/${props?.id}`, payload);

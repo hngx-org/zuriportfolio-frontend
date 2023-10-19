@@ -1,15 +1,21 @@
 import Button from '@ui/Button';
 import { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { Input } from '@ui/Input';
 import { useAuth } from '../../../../context/AuthContext';
+import { notify } from '@ui/Toast';
 
 interface userDetailsI {
   email: string;
   currentPassword: string;
   newPassword: string;
   confirmNewPassword: string;
+}
+interface showHintsI {
+  emailHint: boolean;
+  currentPasswordHint: boolean;
+  newPasswordHint: boolean;
+  confirmNewPasswordHint: boolean;
 }
 function AccountManagementMobile() {
   const [userDetails, setUserDetails] = useState<userDetailsI>({
@@ -18,24 +24,20 @@ function AccountManagementMobile() {
     newPassword: '',
     confirmNewPassword: '',
   });
+  const [showHint, setShowHint] = useState<showHintsI>({
+    emailHint: false,
+    currentPasswordHint: false,
+    newPasswordHint: false,
+    confirmNewPasswordHint: false,
+  });
   const { auth } = useAuth();
   const [errorMsg, setErrorMsg] = useState<any>(null);
   const [isPending, setIspending] = useState<boolean>(false);
   const onInputChange = (event: React.ChangeEvent) => {
-    // setErrorMsg(errors)
     let { name, value } = event.target as any;
-    setErrorMsg((prev: any) => ({ ...prev, [name]: '' }));
-    const formValidate = validateForm();
-
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
-    // console.log(formValidate)
   };
-  const notifySuccess = (toastContent: string) =>
-    toast.success(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'sucess2' });
-  const notifyError = (toastContent: string) =>
-    toast.error(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'error2' });
   let errors: any = {};
-
   const handleUpdateAccount = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formValidate = validateForm();
@@ -45,21 +47,33 @@ function AccountManagementMobile() {
       axios
         .post(`https://staging.zuri.team/api/auth/api/auth/reset-password/change`, {
           token: auth?.token,
-          // email: userDetails?.email,
           oldPassword: userDetails?.currentPassword,
           newPassword: userDetails?.newPassword,
         })
         .then((response) => {
           console.log(response);
           if (response.status === 200) {
-            notifySuccess('Account Update Successful!');
+            notify({
+              message: 'Account Update Successful',
+              type: 'success',
+            });
             setIspending(false);
+            setUserDetails((prevVals) => ({
+              ...prevVals,
+              email: '',
+              currentPassword: '',
+              newPassword: '',
+              confirmNewPassword: '',
+            }));
           }
         })
         .catch((error) => {
           console.log(error);
           setIspending(false);
-          notifyError(`Error: ${error?.response.data.message || error?.message}`);
+          notify({
+            message: `Error: ${error?.response?.data?.message || error?.message}`,
+            type: 'error',
+          });
         });
     }
   };
@@ -84,10 +98,6 @@ function AccountManagementMobile() {
   };
   return (
     <div className="sm:w-[465px] flex flex-col mt-[1rem] sm:mt-[2rem] sm:ml-[18px] gap-y-[1rem] mb-[37px]">
-      <ToastContainer />
-      {/* <h3 className=" font-manropeEB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
-        Account Management
-      </h3> */}
       <form onSubmit={handleUpdateAccount} className="flex flex-col gap-y-[2rem]">
         <div className="flex flex-col gap-y-[0.5rem]">
           <label
@@ -109,6 +119,9 @@ function AccountManagementMobile() {
               />
               <svg
                 className="absolute bottom-3 right-3"
+                onClick={() => setShowHint((prevVal) => ({ ...prevVal, emailHint: true }))}
+                onMouseOver={() => setShowHint((prevVal) => ({ ...prevVal, emailHint: true }))}
+                onMouseOut={() => setShowHint((prevVal) => ({ ...prevVal, emailHint: false }))}
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -130,11 +143,20 @@ function AccountManagementMobile() {
                   </clipPath>
                 </defs>
               </svg>
+              <p
+                className={`${
+                  showHint.emailHint
+                    ? 'absolute -bottom-5 right-0 text-[9px] text-[#667085] p-2 font-manropeL'
+                    : 'hidden'
+                }`}
+              >
+                Enter email address
+              </p>
             </div>
             <p className="text-red-300 text-xs">{errorMsg?.email && errorMsg.email}</p>
           </div>
         </div>
-        <div className="flex flex-col gap-y-[0.5rem]">
+        <div className="flex flex-col gap-y-[0.9rem]">
           <label htmlFor="currentPassword" className=" font-manropeEB text-[0.875rem] leading-[1.5rem] text-[#344054]">
             Change Password
           </label>
@@ -153,6 +175,9 @@ function AccountManagementMobile() {
               />
               <svg
                 className="absolute bottom-3 right-3"
+                onClick={() => setShowHint((prevVal) => ({ ...prevVal, currentPasswordHint: true }))}
+                onMouseOver={() => setShowHint((prevVal) => ({ ...prevVal, currentPasswordHint: true }))}
+                onMouseOut={() => setShowHint((prevVal) => ({ ...prevVal, currentPasswordHint: false }))}
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -174,6 +199,15 @@ function AccountManagementMobile() {
                   </clipPath>
                 </defs>
               </svg>
+              <p
+                className={`${
+                  showHint.currentPasswordHint
+                    ? 'absolute -bottom-5 right-0 text-[9px] text-[#667085] p-2 font-manropeL'
+                    : 'hidden'
+                }`}
+              >
+                Enter your current password
+              </p>
             </div>
             <p className="text-red-300 text-xs">{errorMsg?.password && errorMsg.password}</p>
           </div>
@@ -194,6 +228,9 @@ function AccountManagementMobile() {
               />
               <svg
                 className="absolute bottom-3 right-3"
+                onClick={() => setShowHint((prevVal) => ({ ...prevVal, newPasswordHint: true }))}
+                onMouseOver={() => setShowHint((prevVal) => ({ ...prevVal, newPasswordHint: true }))}
+                onMouseOut={() => setShowHint((prevVal) => ({ ...prevVal, newPasswordHint: false }))}
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -215,6 +252,15 @@ function AccountManagementMobile() {
                   </clipPath>
                 </defs>
               </svg>
+              <p
+                className={`${
+                  showHint.newPasswordHint
+                    ? 'absolute -bottom-5 right-0 text-[9px] text-[#667085] p-2 font-manropeL'
+                    : 'hidden'
+                }`}
+              >
+                Enter your new password. Minimum of 5 characters
+              </p>
             </div>
             <p className="text-red-300 text-xs">{errorMsg?.newPassword && errorMsg.newPassword}</p>
           </div>
@@ -233,6 +279,9 @@ function AccountManagementMobile() {
               />
               <svg
                 className="absolute bottom-3 right-3"
+                onClick={() => setShowHint((prevVal) => ({ ...prevVal, confirmNewPasswordHint: true }))}
+                onMouseOver={() => setShowHint((prevVal) => ({ ...prevVal, confirmNewPasswordHint: true }))}
+                onMouseOut={() => setShowHint((prevVal) => ({ ...prevVal, confirmNewPasswordHint: false }))}
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -254,6 +303,15 @@ function AccountManagementMobile() {
                   </clipPath>
                 </defs>
               </svg>
+              <p
+                className={`${
+                  showHint.confirmNewPasswordHint
+                    ? 'absolute -bottom-5 right-0 text-[9px] text-[#667085] p-2 font-manropeL'
+                    : 'hidden'
+                }`}
+              >
+                Enter new password again. Must match new password
+              </p>
             </div>
             <p className="text-red-300 text-xs">
               {errorMsg?.confirmNewPassword ? errorMsg.confirmNewPassword : errorMsg?.match && errorMsg.match}

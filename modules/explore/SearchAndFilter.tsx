@@ -80,19 +80,8 @@ const SearchAndFilter = (prop: {
   };
   const handleCustomDropdownChange2 = (option: string) => {
     setSelectedOption2(option);
-    let sort = 0;
-    if (option === 'Featured') {
-      sort = 1;
-
-      return handleFilters('SortBy', sort);
-    }
-    if (option === 'New Arrival') {
-      sort = 2;
-
-      return handleFilters('SortBy', sort);
-    }
-
-    delete filters.SortBy;
+    const [location, country] = option.split(',');
+    handleFilters('Location', `${location} ${country}`);
   };
 
   const handleAllTrack = async () => {
@@ -138,7 +127,7 @@ const SearchAndFilter = (prop: {
               <CustomDropdown
                 options={['Beginner', 'Intermediate', 'Expert']}
                 selectedValue={selectedOption}
-                placeholder="Location"
+                placeholder="Experience"
                 onChange={handleCustomDropdownChange}
               />
             </div>
@@ -150,7 +139,7 @@ const SearchAndFilter = (prop: {
               <CustomDropdown
                 options={['Lagos, Nigeria', 'Accra, Ghana', 'Nairobi, Kenya']}
                 selectedValue={selectedOption2}
-                placeholder="Sort By"
+                placeholder="Location"
                 onChange={handleCustomDropdownChange2}
               />
             </div>

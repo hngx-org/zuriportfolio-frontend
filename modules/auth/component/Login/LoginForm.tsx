@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { notify } from '@ui/Toast';
@@ -19,6 +19,15 @@ function LoginForm() {
   const { handleAuth, userCameFrom } = useAuth();
   const router = useRouter();
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
+
+  const [isMicrosoftEdge, setIsMicrosoftEdge] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is using Microsoft Edge
+    if (window.navigator.userAgent.includes('Edg') || window.navigator.userAgent.includes('Edge')) {
+      setIsMicrosoftEdge(true);
+    }
+  }, []);
 
   const schema = z.object({
     email: z.string().email(),
@@ -146,7 +155,7 @@ function LoginForm() {
                 }`}
                 type={isPasswordShown ? 'text' : 'password'}
                 rightIcon={
-                  isPasswordShown ? (
+                  isMicrosoftEdge ? null : isPasswordShown ? ( // Hide the icons in Microsoft Edge
                     <Eye className="cursor-pointer" onClick={() => setIsPassowordShwon(false)} />
                   ) : (
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />
