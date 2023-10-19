@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Slider from 'react-slick';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import link from '../../../public/assets/home/link.webp';
 import axios from 'axios';
 import { ArrowCircleLeft, ArrowCircleRight } from 'iconsax-react';
