@@ -11,7 +11,7 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
         'Content-Type': 'application/json; charset=UTF-8',
       },
       method,
-      url: `https://spitfire-superadmin-1.onrender.com/api/admin/${apiUrl}`,
+      url: `https://staging.zuri.team/api/admin/${apiUrl}`,
       data,
       ...config,
     };
