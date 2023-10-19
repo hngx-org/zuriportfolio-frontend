@@ -25,7 +25,7 @@ const VendorLists = ({ data }: any) => {
             />
           </div>
           <div className="flex flex-col items-start text-left">
-            <p className="text-base lg:text-lg font-bold text-black">{data?.merchant_name}</p>
+            <p className="text-base lg:text-lg font-bold text-black">{data?.vendor_name}</p>
             <p className="text-sm md:text-xs lg:text-sm">{data?.merchant_email}</p>
           </div>
         </div>
