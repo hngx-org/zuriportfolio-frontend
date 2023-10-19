@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import MainLayout from '../../../../components/Layout/MainLayout';
+import MainLayout from '../../../../../components/Layout/MainLayout';
 import Container from '@modules/auth/component/Container/Container';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
-// import { ratingData } from '../../../db/reviews';
+import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import { useRouter } from 'next/router';
-import NavDashBoard from '@modules/dashboard/component/Navbar';
+import { revNavProps } from '../../../../../@types';
+import Breadcrumbs from '../../../../../components/Breadcrumbs';
 
 interface RatsData {
   oneStar: number;
@@ -26,7 +27,7 @@ interface RatsApiResponse {
   data: RatsData;
 }
 
-export default function UserReview() {
+export default function CreateReviewForm(navProps: revNavProps) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -61,7 +62,9 @@ export default function UserReview() {
     <div className="">
       <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
         <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
-          <NavDashBoard active="reviews" />
+          {/* from marketplace: this component you are using is from marketplace and it has been updated and we have updated it on your end also, this is important to allow sync without error take note  */}
+          {navProps.marketPlaceNav === true && <CategoriesNav navItems={categories} isLoading={loading} />}
+          {navProps.shopNav === true && <Breadcrumbs />}
         </div>
         <Container>
           <div className="flex flex-col  md:flex-row md:items-start items-center content-center  justify-center m-0">

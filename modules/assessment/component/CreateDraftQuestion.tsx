@@ -28,21 +28,30 @@ interface AssessmentData {
 }
 
 const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData, newQuestions, setNewQuestions }) => {
-  const [questions, setQuestions] = useState<Array<{ question: string; options: string[]; correctOption: string }>>([
-    // { question: '', options: [], correctOption: '' },
-  ]);
+  // const [questions, setQuestions] = useState<Array<{ question: string; options: string[]; correctOption: string }>>([
+  //   // { question: '', options: [], correctOption: '' },
+  // ]);
+  const [questions, setQuestions] = useState(draftData.questions);
 
   // Add a new question field
   const handleAddQuestion = () => {
-    setQuestions((prevQuestions) => [...prevQuestions, { question: '', options: [], correctOption: '' }]);
-    const updatedDraftData = { ...newQuestions };
-    updatedDraftData.questions = questions;
+    const question_no = questions.length + 1;
+    const newQuestion = {
+      question_no,
+      question_text: '',
+      question_type: 'multiple_choice',
+      answer: {
+        options: [],
+        correct_option: '',
+      },
+    };
+    setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
   };
 
   const handleChangeQuestion = (index: number, value: string) => {
     setQuestions((prevQuestions) => {
       const updatedQuestions = [...prevQuestions];
-      updatedQuestions[index].question = value;
+      updatedQuestions[index].question_text = value;
       return updatedQuestions;
     });
   };
@@ -50,7 +59,7 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData
   const handleChangeOption = (questionIndex: number, optionIndex: number, value: string) => {
     setQuestions((prevQuestions) => {
       const updatedQuestions = [...prevQuestions];
-      updatedQuestions[questionIndex].options[optionIndex] = value;
+      updatedQuestions[questionIndex].answer.options[optionIndex] = value;
       return updatedQuestions;
     });
   };
@@ -58,7 +67,7 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData
   const handleDeleteOption = (questionIndex: number, optionIndex: number) => {
     setQuestions((prevQuestions) => {
       const updatedQuestions = [...prevQuestions];
-      updatedQuestions[questionIndex].options.splice(optionIndex, 1);
+      updatedQuestions[questionIndex].answer.options.splice(optionIndex, 1);
       return updatedQuestions;
     });
   };
@@ -66,7 +75,7 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData
   const handleAddOption = (questionIndex: number) => {
     setQuestions((prevQuestions) => {
       const updatedQuestions = [...prevQuestions];
-      updatedQuestions[questionIndex].options.push('');
+      updatedQuestions[questionIndex].answer.options.push('');
       return updatedQuestions;
     });
   };
@@ -74,7 +83,7 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData
   const handleSelectCorrectOption = (questionIndex: number, value: string) => {
     setQuestions((prevQuestions) => {
       const updatedQuestions = [...prevQuestions];
-      updatedQuestions[questionIndex].correctOption = value;
+      updatedQuestions[questionIndex].answer.correct_option = value;
       return updatedQuestions;
     });
   };
@@ -100,12 +109,12 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData
                   onChange={(e) => handleChangeQuestion(questionIndex, e.target.value)}
                   type="text"
                   placeholder=""
-                  value={question.question}
+                  value={question.question_text}
                   size={15}
                 />
               </div>
               <div className=" text-[20px] font-semibold pt-4 text-[#1A1C1B]">Answers</div>
-              {question.options.map((option, optionIndex) => {
+              {question.answer.options.map((option: string, optionIndex: number) => {
                 return (
                   <div key={optionIndex} className="pt-4 flex flex-col gap-y-[10px]">
                     <div className=" text-[18px] font-semibold  text-[#1A1C1B]">{`Option ${optionIndex + 1}`}</div>
@@ -164,13 +173,13 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData
                 <Select
                   onValueChange={(value) => handleSelectCorrectOption(questionIndex, value)}
                   name={`selectDrop${questionIndex}`}
-                  value={question.correctOption || `option0`}
+                  value={question.answer.correctOption || `option0`}
                 >
                   <SelectTrigger className="w-full p-6">
                     <SelectValue placeholder={`Option ${questionIndex + 1}`} />
                   </SelectTrigger>
                   <SelectContent>
-                    {question.options.map((option, optionIndex) => (
+                    {question.answer.options.map((option: string, optionIndex: number) => (
                       <SelectItem key={optionIndex} value={`option${optionIndex}`}>
                         {`Option ${optionIndex + 1}`}
                       </SelectItem>
