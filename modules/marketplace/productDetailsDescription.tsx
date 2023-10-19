@@ -290,7 +290,7 @@ export default function ProductDetailsDescription() {
                 VERIFIED RATINGS <span>(173)</span>
               </p> */}
               
-              <ProductReview id={id} />
+              <ProductReview id={product?.id} />
 
               {/* <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
                 <div className="w-6/12 py-8 px-6 flex flex-col gap-[20px] rounded-2xl border-custom-color32 border-[1px] items-center sm:w-full">
