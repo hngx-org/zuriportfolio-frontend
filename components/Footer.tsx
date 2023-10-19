@@ -33,17 +33,17 @@ function Footer() {
 
             <ul className="flex flex-col gap-2 font-normal">
               <li>
-                <a href="" className="hover:underline">
+                <a href="https://www.instagram.com/hnginternship/?hl=en" className="hover:underline">
                   Instagram
                 </a>
               </li>
               <li>
-                <a href="" className="hover:underline">
+                <a href="https://twitter.com/thezuriteam?lang=en" className="hover:underline">
                   Twitter
                 </a>
               </li>
               <li>
-                <a href="" className="hover:underline">
+                <a href="https://web.facebook.com/thezuriteam?_rdc=1&_rdr" className="hover:underline">
                   Facebook
                 </a>
               </li>
@@ -72,27 +72,27 @@ function Footer() {
 
             <ul className="flex flex-col gap-2 font-normal">
               <li>
-                <a href="" className="hover:underline">
+                <a href="https://training.zuri.team" className="hover:underline">
                   Zuri Training
                 </a>
               </li>
               <li>
-                <a href="" className="hover:underline">
+                <a href="https://internship.zuri.team/" className="hover:underline">
                   Zuri Internship
                 </a>
               </li>
               <li>
-                <a href="" className="hover:underline">
+                <a href="https://www.zuri.team/" className="hover:underline">
                   Partner with Us
                 </a>
               </li>
               <li>
-                <a href="" className="hover:underline">
+                <a href="https://www.zuri.team/recruit-talent" className="hover:underline">
                   Recruit Talent
                 </a>
               </li>
               <li>
-                <a href="" className="hover:underline">
+                <a href="https://www.zuri.team/find-a-training-partner" className="hover:underline">
                   Partner to Train
                 </a>
               </li>
