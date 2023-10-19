@@ -4,7 +4,6 @@ import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import {
-  WorkExperience,
   Education,
   About,
   Awards,
@@ -21,6 +20,7 @@ import {
 
 import { SectionDeleteModal } from '../warningModals';
 import Wrapper from './placeholders/Wrapper';
+import PworkExperience from './placeholders/PworkExperience';
 
 const LandingPageFilled: React.FC = () => {
   const {
@@ -91,30 +91,19 @@ const LandingPageFilled: React.FC = () => {
             <React.Fragment key={i}>
               {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
               {section?.id === 'workExperience' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    {section.data.slice(0, showMoreWorkExperience).map((el: any, i: any) => {
-                      return <WorkExperience key={i} data={el} />;
-                    })}
-                    {section.data.length > 2 && (
-                      <div
-                        className="text-brand-green-primary font-semibold cursor-pointer"
-                        onClick={toggleShowMoreWorkExperience}
-                      >
-                        {showMoreWorkExperience === 2 ? 'View More' : 'View Less'}
-                      </div>
-                    )}
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
+                <PworkExperience
+                  section={section}
+                  showMoreWorkExperience={showMoreWorkExperience}
+                  toggleShowMoreWorkExperience={toggleShowMoreWorkExperience}
+                  key={i}
+                  id={section.id}
+                  title={section.title}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
               )}
 
               {section?.id === 'education' && section?.data?.length > 0 && (
