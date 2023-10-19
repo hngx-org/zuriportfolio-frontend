@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { Add } from 'iconsax-react';
+import { FaTimes } from 'react-icons/fa';
 import avatar from './avatar.svg';
 import minus from './minus.svg';
 import questions_and_answers from './newlist';
@@ -74,6 +75,17 @@ const CreateTemplate = () => {
       },
     ]);
   };
+  const handleRemovequest = () => {
+    setList((list) => {
+      if (list.length > 1) {
+        const updatedList = [...list.slice(0, list.length - 1)];
+        return updatedList;
+      } else {
+        return list;
+      }
+    });
+  };
+
   useEffect(() => {
     if (listupdate === 'addquest') {
       setList(newobject.questions_and_answers);
@@ -180,7 +192,7 @@ const CreateTemplate = () => {
           );
         })}
       </div>
-      <div className="pt-10 text-center flex justify-center">
+      <div className="pt-10 text-center flex justify-center gap-x-3 flex-wrap">
         <Button
           onClick={handleAddquestion}
           leftIcon={<Add color="black" />}
@@ -190,6 +202,17 @@ const CreateTemplate = () => {
         >
           Add Question
         </Button>
+        {list.length > 1 && (
+          <Button
+            onClick={handleRemovequest}
+            leftIcon={<FaTimes color="black" />}
+            intent={'primary'}
+            size={'md'}
+            className="bg-[transparent] text-dark-100 border-2 border-red-100 hover:bg-red-200 hover:text-white-100"
+          >
+            Delete Question
+          </Button>
+        )}
       </div>
     </>
   );
