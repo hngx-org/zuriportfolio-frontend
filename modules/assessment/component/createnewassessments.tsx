@@ -11,7 +11,6 @@ import { UpdateContext } from '../../../pages/super-admin/assessment/new';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 import Image from 'next/image';
-import { clear } from 'console';
 const CreateTemplate = () => {
   const [newobject, setObject]: any = useContext(ToPushContext);
   const [list, setList] = useState(questions_and_answers);
@@ -29,7 +28,6 @@ const CreateTemplate = () => {
 
   const [listupdate, setListupdate]: any = useContext(UpdateContext);
   const handleinputOption = (e: any, index: number, n: number) => {
-    console.log(index, n);
     const updatedData = [...list];
     updatedData[index].options[n] = e.target.value;
     setList(updatedData);
@@ -41,9 +39,11 @@ const CreateTemplate = () => {
   }
   //deleting options
   const handleDelete = (index: number, n: number) => {
-    var i = 0;
     if (list[index].options.length > 1) {
       var updatedData = [...list];
+      if (list[index].correct_option === list[index].options.length) {
+        list[index].correct_option = 0;
+      }
       const newdata = splicearr(updatedData[index].options, n);
       updatedData[index].options = newdata;
       setList(updatedData);
@@ -93,7 +93,6 @@ const CreateTemplate = () => {
   useEffect(() => {
     if (listupdate === 'addquest') {
       setList(newobject.questions_and_answers);
-      console.log(list, newobject);
       setListupdate('waiting');
     }
 

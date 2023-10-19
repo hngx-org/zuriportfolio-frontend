@@ -115,7 +115,6 @@ const CreateAssessment = () => {
     };
     const postEnd = await fetch(url, reqOptions);
     const response = await postEnd.json();
-    console.log(response);
 
     if (!postEnd.ok) {
       console.log('Error' + postEnd.status);
