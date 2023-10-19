@@ -25,7 +25,8 @@ const ProductListingTable = ({
   setCurrentPage: Dispatch<SetStateAction<number>>;
 }) => {
   const [searchVal, setSearchVal] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(data?.data);
+  const sanctionedProd = data?.data;
+  const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
   // const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items to display per page
 
@@ -36,8 +37,8 @@ const ProductListingTable = ({
   // const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   useEffect(() => {
-    setFilteredProducts(data?.data);
-  }, [data]);
+    setFilteredProducts(sanctionedProd);
+  }, [sanctionedProd]);
 
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
@@ -68,6 +69,7 @@ const ProductListingTable = ({
           if (a.product_status === 'Deleted' && b.product_status === 'Sanctioned') return 1;
         }
       });
+      console.log('filter');
 
       setFilteredProducts(sortedProducts);
     }
