@@ -11,7 +11,7 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
         'Content-Type': 'application/json; charset=UTF-8',
       },
       method,
-      url: `https://staging.zuri.team/api/admin/${apiUrl}`,
+      url: `https://spitfire-superadmin-1.onrender.com/api/admin/${apiUrl}`,
       data,
       ...config,
     };
@@ -75,7 +75,7 @@ export const useRestore = () => {
 };
 
 export const useGetProd = (page: number, search: string, status?: string) => {
-  return useQuery(['get-prod', page, search, status], async () => {
+  return useQuery(['get-prod'], async () => {
     return makeRequest(
       `product/all?page=${page}${search ? `&search=${search}` : ''}${status ? `&status=${status}` : ''}`,
       'get',
