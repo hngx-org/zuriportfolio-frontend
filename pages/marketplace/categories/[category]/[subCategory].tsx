@@ -53,7 +53,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
   }
 
   try {
-    const res = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}/${subCategory}/`);
+    const res = await axios.get(
+      `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}/${subCategory}/`,
+    );
 
     if (res.data.data.length === 0) {
       return {

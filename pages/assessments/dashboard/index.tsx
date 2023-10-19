@@ -9,6 +9,7 @@ import task from '../../../public/assets/dashboard/task.svg';
 import timer from '../../../public/assets/dashboard/timer.svg';
 import medal from '../../../public/assets/dashboard/medal-star.svg';
 import { useRouter } from 'next/router';
+import { withUserAuth } from '../../../helpers/withAuth';
 
 type AssessmentDetails = {
   id?: string;
@@ -212,4 +213,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withUserAuth(Dashboard);
