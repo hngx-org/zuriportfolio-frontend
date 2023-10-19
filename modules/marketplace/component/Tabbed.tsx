@@ -7,6 +7,7 @@ import star2 from '../../../public/assets/star2.svg';
 import profileImg from '../../../public/assets/images/profile-img.png';
 import verifyIcon from '../../../public/assets/icons/verify.svg';
 import Link from 'next/link';
+import { ProductReview } from './ProductReview';
 
 const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) => void; tab: string }) => {
   return (
@@ -54,7 +55,7 @@ const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) 
   );
 };
 
-const TabContent = ({ tab, desc, id }: { tab: string; desc: any, id:string }): React.ReactElement | null => {
+const TabContent = ({ tab, desc, id }: { tab: string; desc: any; id: string }): React.ReactElement | null => {
   if (tab === 'description')
     return (
       <>
@@ -161,17 +162,18 @@ const TabContent = ({ tab, desc, id }: { tab: string; desc: any, id:string }): R
             <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
           </button>
         </form> */}
-        <p className="mt-6 font-manropeL text-base font-normal">
+        {/* <p className="mt-6 font-manropeL text-base font-normal">
           No reviews yet. Be the first to review this product. <Link href={`/dashboard/reviews/create/${id}`} className='underline'>Write a review.</Link>
-        </p>
-      
+        </p> */}
+
+        <ProductReview id={id} />
       </>
     );
 
   return null;
 };
 
-const TabContainer = ({ desc, id }: { desc: any, id:string }) => {
+const TabContainer = ({ desc, id }: { desc: any; id: string }) => {
   const [tab, setTab] = useState<string>('description');
 
   const handleTabClick = useMemo(() => {
@@ -184,7 +186,7 @@ const TabContainer = ({ desc, id }: { desc: any, id:string }) => {
     <div className="md:block hidden w-full">
       <TabButton handleTabClick={handleTabClick} tab={tab} />
       <div className="w-full rounded-[10px] border-[1px] border-white-110 mt-4 p-10">
-        <TabContent tab={tab} desc={desc} id = {id}/>
+        <TabContent tab={tab} desc={desc} id={id} />
       </div>
     </div>
   );
