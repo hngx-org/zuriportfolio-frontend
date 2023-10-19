@@ -10,6 +10,7 @@ import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
 import { fetchUserTakenAssessment, getAssessmentDetails, submitAssessment } from '../../../../http/userTakenAssessment';
+import { withUserAuth } from '../../../../helpers/withAuth';
 
 type AssessmentDetails = {
   id?: string;
@@ -197,4 +198,4 @@ const Questions: React.FC = () => {
     </>
   );
 };
-export default Questions;
+export default withUserAuth(Questions);
