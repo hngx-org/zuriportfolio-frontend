@@ -86,7 +86,9 @@ const SearchAndFilterProducts = (prop: {
 
   const fetchCategoryNames = async (): Promise<Section[]> => {
     try {
-      const categoriesResponse = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+      const categoriesResponse = await axios.get(
+        'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/',
+      );
       const categories = categoriesResponse.data.data.slice(0, 10);
 
       const icons = [
@@ -130,7 +132,9 @@ const SearchAndFilterProducts = (prop: {
   };
   const fetchProducts = async (category: string) => {
     try {
-      const response = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}`);
+      const response = await axios.get(
+        `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}`,
+      );
       const approvedProducts = response?.data?.data
         ?.filter((product: { is_published: boolean }) => product.is_published === true)
         .slice(0, 4);
@@ -156,7 +160,7 @@ const SearchAndFilterProducts = (prop: {
 
   const fetchAllProducts = async () => {
     try {
-      const response = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/product-list`);
+      const response = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/product-list`);
       const approvedProducts = response?.data?.data
         ?.filter((product: { is_published: boolean }) => product.is_published === true)
         .slice(0, 4);
