@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import AuthLayout from '../AuthLayout';
 import { Input } from '@ui/Input';
@@ -7,7 +7,7 @@ import { Eye, EyeSlash } from 'iconsax-react';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
-import { resetPassword } from '../../../../http';
+import { resetPassword } from '../../../../http/auth';
 import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import { notify } from '@ui/Toast';
 import { useRouter } from 'next/router';
@@ -17,6 +17,14 @@ const notifyError = (message: string) => notify({ type: 'error', message, theme:
 function ResetPasswordForm() {
   const [showPassword, setShowPassword] = useState([false, false]); // an array of states to manage the visibility of each password (new password, confirm password).
   const [passwordChanged, setPasswordChanged] = useState(false); // state to manage the success of passsword reset
+  const [isMicrosoftEdge, setIsMicrosoftEdge] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is using Microsoft Edge
+    if (window.navigator.userAgent.includes('Edg') || window.navigator.userAgent.includes('Edge')) {
+      setIsMicrosoftEdge(true);
+    }
+  }, []);
 
   const router = useRouter();
   const { token } = router.query; // Get the token after the user is redirected.
@@ -112,10 +120,12 @@ function ResetPasswordForm() {
                     }`}
                     placeHolder="Enter password"
                     rightIcon={
-                      <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
-                        {/* Update the icon based on the visibility state of the password. */}
-                        {showPassword[0] ? <Eye color="#464646" /> : <EyeSlash color="#464646" />}
-                      </div>
+                      isMicrosoftEdge ? null : (
+                        <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
+                          {/* Update the icon based on the visibility state of the password. */}
+                          {showPassword[0] ? <Eye color="#464646" /> : <EyeSlash color="#464646" />}
+                        </div>
+                      )
                     }
                   />
                 </PasswordPopover>
@@ -136,10 +146,12 @@ function ResetPasswordForm() {
                   }`}
                   placeHolder="Confirm password"
                   rightIcon={
-                    <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
-                      {/* Update the icon based on the visibility state of the password. */}
-                      {showPassword[1] ? <Eye color="#464646" /> : <EyeSlash color="#464646" />}
-                    </div>
+                    isMicrosoftEdge ? null : (
+                      <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
+                        {/* Update the icon based on the visibility state of the password. */}
+                        {showPassword[1] ? <Eye color="#464646" /> : <EyeSlash color="#464646" />}
+                      </div>
+                    )
                   }
                 />
                 <p className="text-[red] text-xs">{form.errors.confirmPassword && form.errors.confirmPassword}</p>
