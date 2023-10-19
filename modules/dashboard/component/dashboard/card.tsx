@@ -29,7 +29,7 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
     queryKey: ['todays-average-order-value'],
     enabled: true,
   });
-  logQueryResult("Today's Average Order Value", queryTodaysAverageOrderValue);
+  // logQueryResult("Today's Average Order Value", queryTodaysAverageOrderValue);
 
   const { data: queryTodaysOrders } = useQuery({
     queryFn: () => fetchTodaysOrders(),
