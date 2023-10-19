@@ -18,7 +18,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { setCartCountNav, cartCount } = useCart();
   const [cartLoading, setCartLoading] = useState<boolean>(true);
 
-  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/similar_products/${id}/`;
+  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/similar_products/${id}/`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
