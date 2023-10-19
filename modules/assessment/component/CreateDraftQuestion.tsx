@@ -173,14 +173,14 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData
                 <Select
                   onValueChange={(value) => handleSelectCorrectOption(questionIndex, value)}
                   name={`selectDrop${questionIndex}`}
-                  value={question.answer.correctOption || `option0`}
+                  value={question.answer.correct_option || `option0`}
                 >
                   <SelectTrigger className="w-full p-6">
                     <SelectValue placeholder={`Option ${questionIndex + 1}`} />
                   </SelectTrigger>
                   <SelectContent>
                     {question.answer.options.map((option: string, optionIndex: number) => (
-                      <SelectItem key={optionIndex} value={`option${optionIndex}`}>
+                      <SelectItem key={optionIndex} value={`${optionIndex + 1}`}>
                         {`Option ${optionIndex + 1}`}
                       </SelectItem>
                     ))}

@@ -21,10 +21,8 @@ const DraftPreview = () => {
   const [newQuestions, setNewQuestions] = useState<{ questions: any[] }>({ questions: [] });
 
   const params = useParams();
-  const id = params?.id;
-  console.log(params);
+  const id = params.id;
   const router = useRouter();
-  // const draftId = data.id;
   const skillid = 2;
 
   const [assessment, setAssessment] = useState({
@@ -164,15 +162,13 @@ const DraftPreview = () => {
     // Create the structure matching the endpoint's expected format
     const combinedQuestions = [...draftData.questions, ...newQuestions.questions];
     const publishedAssessment = {
-      skill_id: id,
+      skill_id: Number(id),
       questions_and_answers: combinedQuestions.map((question, index) => ({
         question_no: index + 1,
         question_text: question.question_text,
         question_type: 'multiple_choice',
-        answer: {
-          options: question.answer.options,
-          correct_option: question.answer.correct_option,
-        },
+        options: question.answer.options,
+        correct_option: Number(question.answer.correct_option),
       })),
       assessment_name: draftData.title, // Update with the correct assessment name
       duration_in_minutes: 0, // Update with the correct duration if available

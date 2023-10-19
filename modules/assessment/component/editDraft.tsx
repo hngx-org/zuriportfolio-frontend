@@ -197,7 +197,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
             {options
               .filter((option) => option !== '')
               .map((option: string, index: number) => (
-                <SelectItem key={index} value={option} placeholder={''}>
+                <SelectItem key={index} value={`${index + 1}`} placeholder={''}>
                   {option}
                 </SelectItem>
               ))}
