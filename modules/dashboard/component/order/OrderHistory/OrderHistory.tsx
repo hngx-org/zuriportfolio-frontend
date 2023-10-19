@@ -191,65 +191,6 @@ const OrderHistory: React.FC = () => {
     }
   };
 
-  const debounce = (func: (...a: any) => any, timeSlice: number = 1000) => {
-    let timeout: NodeJS.Timeout;
-    return async function (...arg: any) {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-      timeout = setTimeout(async () => {
-        const order = await func.apply(null, arg);
-      }, timeSlice);
-    };
-  };
-  const getSearchResult = async (query: string) => {
-    try {
-      setSearching(true);
-      if (query.length === 0) {
-        return;
-      }
-      const res = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/order/search/${query}`,
-        method: 'GET',
-      });
-      const { data } = res;
-      if (!!data?.errorStatus) {
-        console.log('Error');
-
-        return [];
-      }
-      if (data?.data === 'user not found') {
-        console.log('no data');
-
-        return [];
-      }
-      if (!data.data) {
-        return [];
-      }
-
-      const transformedOrder =
-        data.data?.data?.orders?.map((order: any) => {
-          return {
-            id: order.order_id,
-            price: order.product.price,
-            date: new Date(order.createdAt),
-            revenue: order.product.price,
-            status: order.customer_orders[0]?.status,
-            sales: order.customer_orders[0]?.sales_report[0]?.sales,
-            customerName: order.customer[0]?.username,
-            productName: order.product.name,
-            productType: order.product.categories[0]?.name,
-          };
-        }) || [];
-
-      return transformedOrder;
-    } catch (error) {
-      return [];
-    } finally {
-      setSearching(false);
-    }
-  };
-  const debounceSearch = debounce(getSearchResult);
   const changeSortBy = (val: keyof OrderHistory) => {
     setSort((prevSort) => {
       if (prevSort.sortBy === val) {
@@ -487,15 +428,17 @@ const OrderHistory: React.FC = () => {
               </>
             )}
           </section>
-          <div className="md:hidden flex flex-col gap-4 mb-4">
-            {pageOrders.length > 0 ? (
-              pageOrders.map((item, i) => <OrderHistoryMobile key={`${item.id}${i}`} {...item} />)
-            ) : (
-              <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                No Order to Show
-              </p>
-            )}
-          </div>
+          {!loadingOrders && (
+            <div className="md:hidden flex flex-col gap-4 mb-4">
+              {pageOrders.length > 0 ? (
+                pageOrders.map((item, i) => <OrderHistoryMobile key={`${item.id}${i}`} {...item} />)
+              ) : (
+                <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
+                  No Order to Show
+                </p>
+              )}
+            </div>
+          )}
         </section>
 
         {pageOrders.length > 0 && !loadingOrders && totalPage > 1 && (
