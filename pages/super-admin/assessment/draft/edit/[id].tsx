@@ -126,7 +126,7 @@ const DraftPreviewEdit: React.FC = () => {
         // Close the modal after a delay (4 seconds in this case)
         setTimeout(() => {
           router.push(`/super-admin/assessment/draft/${draftId}`);
-        }, 4000);
+        }, 3000);
       })
       .catch((error) => {
         console.error('Error updating draft:', error);

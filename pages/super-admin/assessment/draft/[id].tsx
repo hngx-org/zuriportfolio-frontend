@@ -23,6 +23,7 @@ const DraftPreview = () => {
   const params = useParams();
   const id = params?.id;
   console.log(params);
+  const router = useRouter();
   // const draftId = data.id;
   const skillid = 2;
 
@@ -190,14 +191,20 @@ const DraftPreview = () => {
       .then((response) => {
         if (response.ok) {
           console.log('Assessment published successfully!');
+          toast.success('Draft updated successfully');
+
           // deleteDraft(id)
           // You can also update your UI or navigate to a success page here
+          setTimeout(() => {
+            router.push(`/super-admin/assessment`);
+          }, 3000);
         } else {
           console.error('Failed to publish the assessment.');
         }
       })
       .catch((error) => {
         console.error('An error occurred:', error);
+        toast.error('Error updating draft');
       });
   };
 

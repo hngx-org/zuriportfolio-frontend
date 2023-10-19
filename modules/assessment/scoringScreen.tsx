@@ -30,9 +30,6 @@ interface ScoringScreenProps {
 }
 
 const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
-  const [listupdate, setListupdate]: any = useContext(UpdateContext);
-  const [newobject, setObject]: any = useContext(ToPushContext);
-
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
