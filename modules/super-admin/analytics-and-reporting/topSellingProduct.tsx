@@ -27,8 +27,7 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
 
       const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?start_date=${startDate}&end_date=${endDate}`;
 
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
 
       axios
         .get(apiUrl, {
@@ -49,10 +48,10 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
         });
     } else {
       setIsLoading(true);
-      const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products';
+      const apiUrl =
+        'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?page=1&page_size=10';
 
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
 
       axios
         .get(apiUrl, {
@@ -73,9 +72,9 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
     }
   }, [reportClicked, currentPage]);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  // const handlePageChange = (page: number) => {
+  //   setCurrentPage(page);
+  // };
 
   const toggleVisibility = () => {
     setShowItems(!showItems);

@@ -3,6 +3,7 @@ import AnalysisCards from '@modules/super-admin/analytics-and-reporting/analysis
 import PerformanceData from '@modules/super-admin/analytics-and-reporting/performanceData';
 import PortfolioCreation from '@modules/super-admin/analytics-and-reporting/portfolioCreation';
 import TopSellingProducts from '@modules/super-admin/analytics-and-reporting/topSellingProduct';
+import AnalyticsOverview from '@modules/super-admin/analytics-and-reporting/analyticsOverview';
 import Image from 'next/image';
 import MultiCalender from '@modules/super-admin/analytics-and-reporting/datePicker';
 import { useRouter } from 'next/router';
@@ -15,6 +16,7 @@ import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const AnalyticsAndReport: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(true);
+  const [modalSize, setModalSize] = useState<'xl' | 'sm' | 'lg' | 'md' | 'xxl' | undefined>('xl');
   const [reportModalOpen, setReportModalOpen] = useState<Boolean>(false);
   const [selectedFileFormat, setSelectedFileFormat] = useState<string>('');
   const [isLoading, setIsLoading] = useState<Boolean>(false);
@@ -38,7 +40,7 @@ const AnalyticsAndReport: React.FC = () => {
       setGet(true);
 
       const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5Nzc0NjA3MH0.tqeH0bGA2NyyjExckfhRinwtOmr-XulJT3jl_RD-oJs';
 
       const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${startDate}&end_date=${endDate}`;
 
@@ -97,7 +99,7 @@ const AnalyticsAndReport: React.FC = () => {
       const startDate = selectedDateRange[0].format('YYYY-MM-DD');
       const endDate = selectedDateRange[1].format('YYYY-MM-DD');
       const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5Nzc0NjA3MH0.tqeH0bGA2NyyjExckfhRinwtOmr-XulJT3jl_RD-oJs';
       setGetReport(true);
 
       const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/export_report/?file_format=${selectedFileFormat}&start_date=${startDate}&end_date=${endDate}&page=1&page_size=10`;
@@ -132,6 +134,22 @@ const AnalyticsAndReport: React.FC = () => {
     setSelectedFileFormat(format);
   };
 
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 768) {
+        setModalSize('sm');
+      } else {
+        setModalSize('xl');
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [[], reportModalOpen]);
   return (
     <>
       {loading ? (
@@ -183,84 +201,87 @@ const AnalyticsAndReport: React.FC = () => {
             </div>
           </div>
           {reportModalOpen && (
-            <section className="max-[768px]:max-w-[10.5rem] w-full">
+            <div className="">
               <Modal
                 closeOnOverlayClick
                 closeModal={() => setReportModalOpen(false)}
                 isCloseIconPresent={false}
                 isOpen
-                size={window.innerWidth <= 768 ? 'sm' : 'xl'}
+                size={modalSize}
               >
-                <div className="flex justify-center flex-col gap-[2.88rem] m-[1.88rem] max-[768px]:m-[0.27rem] max-[768px]:gap-[1.27rem]">
-                  <div className="border-b-[#A8ACAB] border-b-[0.11994rem] pb-[1.2rem] max-w-[44.49rem] w-full max-[768px]:pb-[0.53rem]">
-                    <p className="text-[#000] font-manropeL font-semibold text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.85rem] max-[768px]:leading-[1.27088rem]">
-                      Export Report
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-[1.02rem] max-[768px]:gap-[0.85rem]">
-                    <p className="text-center text-[#000] font-normal leading-[2.87825rem] font-manropeL text-[1.9188rem] tracking-[0.00963rem] max-[768px]:text-[0.84725rem] max-[768px]:leading-[1.27088rem]">
-                      Choose Format
-                    </p>
+                {
+                  <div className="flex justify-center w-auto flex-col gap-[2.88rem] m-[1.88rem] max-[768px]:m-[0.27rem] max-[768px]:gap-[1.27rem]">
+                    <div className="border-b-[#A8ACAB] border-b-[0.11994rem] pb-[1.2rem] max-[768px]:pb-[0.53rem]">
+                      <p className="text-[#000] font-manropeL font-semibold text-[1.9188rem] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.85rem] max-[768px]:leading-[1.27088rem]">
+                        Export Report
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-[1.02rem] max-[768px]:gap-[0.85rem]">
+                      <p className="text-center text-[#000] font-normal leading-[2.87825rem] font-manropeL text-[1.9188rem] tracking-[0.00963rem] max-[768px]:text-[0.84725rem] max-[768px]:leading-[1.27088rem]">
+                        Choose Format
+                      </p>
+                      <div className="flex justify-evenly">
+                        <div
+                          className={`${
+                            selectedFileFormat === 'excel'
+                              ? 'border border-[#33A467] text-[#009254] bg-[#E6F5EA] flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] py-[1.2rem] font-manropeL shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] cursor-pointer'
+                              : 'flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] text-[#8D9290] py-[1.2rem] font-manropeL hover:text-[#009254] focus:bg-[#E6F5EA] hover:border hover:border-[#33A467] border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] focus:text-[#009254] focus:border focus:border-[#33A467] cursor-pointer'
+                          } cursor-pointer`}
+                          onClick={() => handleFileFormatSelect('excel')}
+                        >
+                          Excel
+                        </div>
+                        <div
+                          className={`${
+                            selectedFileFormat === 'pdf'
+                              ? 'border border-[#33A467] text-[#009254] bg-[#E6F5EA] flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] py-[1.2rem] font-manropeL shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] cursor-pointer'
+                              : 'flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] text-[#8D9290] py-[1.2rem] font-manropeL hover:text-[#009254] focus:bg-[#E6F5EA] hover:border hover:border-[#33A467] border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] focus:text-[#009254] focus:border focus:border-[#33A467] cursor-pointer'
+                          } cursor-pointer`}
+                          onClick={() => handleFileFormatSelect('pdf')}
+                        >
+                          PDF
+                        </div>
+                        <div
+                          className={`${
+                            selectedFileFormat === 'csv'
+                              ? 'border border-[#33A467] text-[#009254] bg-[#E6F5EA] flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] py-[1.2rem] font-manropeL shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] cursor-pointer'
+                              : 'flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] text-[#8D9290] py-[1.2rem] font-manropeL hover:text-[#009254] focus:bg-[#E6F5EA] hover:border hover:border-[#33A467] border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] focus:text-[#009254] focus:border focus:border-[#33A467] cursor-pointer'
+                          } cursor-pointer`}
+                          onClick={() => handleFileFormatSelect('csv')}
+                        >
+                          CSV
+                        </div>
+                      </div>
+                    </div>
                     <div className="flex justify-evenly">
                       <div
-                        className={`${
-                          selectedFileFormat === 'excel'
-                            ? 'border border-[#33A467] text-[#009254] bg-[#E6F5EA] flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] py-[1.2rem] font-manropeL shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] cursor-pointer'
-                            : 'flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] text-[#8D9290] py-[1.2rem] font-manropeL hover:text-[#009254] focus:bg-[#E6F5EA] hover:border hover:border-[#33A467] border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] focus:text-[#009254] focus:border focus:border-[#33A467] cursor-pointer'
-                        } cursor-pointer`}
-                        onClick={() => handleFileFormatSelect('excel')}
+                        className="flex justify-center items-center bg-[#009254] rounded-[1.91888rem] max-w-[17.50956rem] w-full h-[5.75656rem] font-manropeL text-[#FFF] text-[1.5rem] font-extrabold tracking-[0.00088rem] leading-[1.375rem] max-[768px]:text-[0.875rem] max-[768px]:w-[7.73119rem] max-[768px]:h-[2.5rem] cursor-pointer"
+                        onClick={handleExport}
                       >
-                        Excel
+                        {getReport ? (
+                          <div className="w-6 h-6 border-t-2 border-[#fff] border-solid rounded-full animate-spin"></div>
+                        ) : (
+                          'Confirm'
+                        )}
                       </div>
                       <div
-                        className={`${
-                          selectedFileFormat === 'pdf'
-                            ? 'border border-[#33A467] text-[#009254] bg-[#E6F5EA] flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] py-[1.2rem] font-manropeL shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] cursor-pointer'
-                            : 'flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] text-[#8D9290] py-[1.2rem] font-manropeL hover:text-[#009254] focus:bg-[#E6F5EA] hover:border hover:border-[#33A467] border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] focus:text-[#009254] focus:border focus:border-[#33A467] cursor-pointer'
-                        } cursor-pointer`}
-                        onClick={() => handleFileFormatSelect('pdf')}
+                        className="flex justify-center items-center bg-[#F4FBF6] border-[1.919px] border-[#009254] rounded-[1.91888rem] max-w-[17.50956rem] w-full h-[5.75656rem] font-manropeL text-[#009254] text-[1.5rem] font-extrabold tracking-[0.00088rem] leading-[1.375rem] max-[768px]:text-[0.875rem] max-[768px]:w-[7.73119rem] max-[768px]:h-[2.5rem] cursor-pointer"
+                        onClick={() => setReportModalOpen(false)}
                       >
-                        PDF
-                      </div>
-                      <div
-                        className={`${
-                          selectedFileFormat === 'csv'
-                            ? 'border border-[#33A467] text-[#009254] bg-[#E6F5EA] flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] py-[1.2rem] font-manropeL shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] cursor-pointer'
-                            : 'flex justify-center items-center max-w-[9.59425rem] w-full rounded-[0.95944rem] text-[#8D9290] py-[1.2rem] font-manropeL hover:text-[#009254] focus:bg-[#E6F5EA] hover:border hover:border-[#33A467] border-gray-300 shadow-[0px_1.91885px_3.83771px_0px_rgba(16,24,40,0.05)] text-[1.9188rem] hover:bg-[#E6F5EA] text-center leading-[2.87825rem] tracking-[0.00288rem] max-[768px]:text-[0.84725rem] max-[768px]:w-[4.23625rem] max-[768px]:py-[0.74rem] max-[768px]:leading-[1.278rem] focus:text-[#009254] focus:border focus:border-[#33A467] cursor-pointer'
-                        } cursor-pointer`}
-                        onClick={() => handleFileFormatSelect('csv')}
-                      >
-                        CSV
+                        Cancel
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-evenly">
-                    <div
-                      className="flex justify-center items-center bg-[#009254] rounded-[1.91888rem] max-w-[17.50956rem] w-full h-[5.75656rem] font-manropeL text-[#FFF] text-[1.5rem] font-extrabold tracking-[0.00088rem] leading-[1.375rem] max-[768px]:text-[0.875rem] max-[768px]:w-[7.73119rem] max-[768px]:h-[2.5rem]"
-                      onClick={handleExport}
-                    >
-                      {getReport ? (
-                        <div className="w-6 h-6 border-t-2 border-[#fff] border-solid rounded-full animate-spin"></div>
-                      ) : (
-                        'Confirm'
-                      )}
-                    </div>
-                    <div
-                      className="flex justify-center items-center bg-[#F4FBF6] border-[1.919px] border-[#009254] rounded-[1.91888rem] max-w-[17.50956rem] w-full h-[5.75656rem] font-manropeL text-[#009254] text-[1.5rem] font-extrabold tracking-[0.00088rem] leading-[1.375rem] max-[768px]:text-[0.875rem] max-[768px]:w-[7.73119rem] max-[768px]:h-[2.5rem] cursor-pointer"
-                      onClick={() => setReportModalOpen(false)}
-                    >
-                      Cancel
-                    </div>
-                  </div>
-                </div>
+                }
               </Modal>
-            </section>
+            </div>
           )}
-          <AnalysisCards dateRange={selectedDateRange} reportClicked={reportClicked} />
+          <AnalyticsOverview dateRange={selectedDateRange} reportClicked={reportClicked} />
+          {/* <AnalysisCards dateRange={selectedDateRange} reportClicked={reportClicked} /> */}
           {/* <BusinessOveriview dateRange={selectedDateRange} reportClicked={reportClicked} /> */}
           <PortfolioCreation dateRange={selectedDateRange} reportClicked={reportClicked} />
           <PerformanceData dateRange={selectedDateRange} reportClicked={reportClicked} />
-          <TopSellingProducts reportClicked={reportClicked} dateRange={selectedDateRange} />
+          {/* <TopSellingProducts reportClicked={reportClicked} dateRange={selectedDateRange} /> */}
           <ToastContainer />
         </>
       )}
