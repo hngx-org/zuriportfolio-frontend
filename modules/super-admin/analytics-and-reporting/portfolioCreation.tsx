@@ -33,12 +33,10 @@ const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
           },
         })
         .then((response) => {
-          console.log(response.data.data);
           setPortfolioCreationArray(response.data.data);
           setLoadingState(false);
         })
         .catch((error) => {
-          console.error('Error fetching portfolio summary:', error);
           setLoadingState(false);
         });
     } else {
@@ -55,12 +53,10 @@ const PortfolioCreation: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
           },
         })
         .then((response) => {
-          console.log(response.data.data);
           setPortfolioCreationArray(response.data.data);
           setLoadingState(false);
         })
         .catch((error) => {
-          console.error('Error fetching portfolio summary:', error);
           setLoadingState(false);
         });
     }
