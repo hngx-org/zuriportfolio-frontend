@@ -141,10 +141,10 @@ function VendorDetails() {
               <div className="sales flex flex-col items-center justify-center lg:w-1/2 lg:ml-10">
                 <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
                   <p>Total Products</p>
-                  <h1 className="text-xl font-bold">{formatNumber(details?.total_products)}</h1>
+                  <h1 className="text-xl font-bold">{formatNumber(data?.total_products)}</h1>
                 </div>
                 <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
-                  <p>{quantity ? quantity : 'Total Order'}</p>
+                  <p>Total Order</p>
                   <div className="badge flex items-center justify-between">
                     <h1 className="text-xl font-bold">{formatNumber(details?.vendor_total_orders)}</h1>
                   </div>
@@ -170,7 +170,7 @@ function VendorDetails() {
                     />
                   </div>
                   <div className="name">
-                    <h1 className="text-3xl font-bold font-manropeL">{details?.merchant_name}</h1>
+                    <h1 className="text-3xl font-bold font-manropeL">{details?.vendor_name}</h1>
                     <p>{details?.merchant_email}</p>
                   </div>
                 </div>
