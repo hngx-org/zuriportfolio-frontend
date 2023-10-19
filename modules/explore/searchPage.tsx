@@ -198,7 +198,7 @@ export default function SearchModule() {
             <Input
               placeholder="Location"
               className="border-[#E1E3E2] border-[1px] placeholder:text-custom-color22"
-              onChange={(e) => handleFilters('Location', e.target.value)}
+              onChange={(e) => handleFilters('Location', e.target.value.toLocaleLowerCase())}
               rightIcon={
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                   <path stroke="#464646" strokeLinecap="round" strokeWidth="1.5" d="M9.25 11h5.5M12 13.75v-5.5"></path>
