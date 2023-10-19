@@ -340,7 +340,7 @@ export default function SearchModule() {
               </div>
             )}
             {data && data?.data.length > 0 && (
-              <div className="grid min-[1440px]:grid-cols-3 xl:grid-cols-2 md:grid-cols-2 gap-3 pb-4 sm:grid-cols-2">
+              <div className="grid min-[1440px]:grid-cols-3 xl:grid-cols-2 md:grid-cols-2 gap-7 pb-4 sm:grid-cols-2">
                 {data.data.map((item, key) => (
                   <Card key={key} data={item} />
                 ))}
