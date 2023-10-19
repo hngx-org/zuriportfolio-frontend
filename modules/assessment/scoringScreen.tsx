@@ -40,23 +40,19 @@ interface ScoringScreenProps {
   };
 }
 
-const debounce = <F extends (...args: any[]) => void>(func: F, delay: number) => {
-  let timeout: NodeJS.Timeout;
-
-  return (...args: Parameters<F>): void => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), delay);
-  };
-};
-
 const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) => {
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
-    hours: '00',
-    minutes: '00',
-    seconds: '00',
+    hours: '',
+    minutes: '',
+    seconds: '',
   });
+
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, seterrorMessage] = useState('');
+  const [gradingSuccessMessage, setGradingSuccessMessage] = useState('');
+  const [gradingErrorMessage, setGradingErrorMessage] = useState('');
 
   const initialGradingValues: MyGradingRangeType = {
     minScore: '',
@@ -81,24 +77,16 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const name = e.target.name;
-    skillId;
-    if (newValue === '') {
-      setExamTime((prevExamTime) => ({
-        ...prevExamTime,
-        [name]: '00',
-      }));
-    } else {
-      const numericValue = parseInt(newValue, 10);
-      if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 60) {
-        setExamTime((prevExamTime) => ({
-          ...prevExamTime,
-          [name]: numericValue.toString().padStart(2, '0'),
-        }));
-      }
-    }
 
-    // Call the debounced function instead of handleFormSubmit directly
-    debouncedHandleFormSubmit();
+    setExamTime((prevExamTime) => ({
+      ...prevExamTime,
+      [name]: newValue.padStart(2, '0'), // Automatically add leading '0' if needed
+    }));
+
+    if (e.target.value != '') {
+      console.log(e.target.value);
+      handleFormSubmit();
+    }
   };
 
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
@@ -106,12 +94,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
     const name = e.target.name;
 
     if (name === 'minScore' || name === 'maxScore') {
-      const numericValue = newValue === '' ? '' : parseInt(newValue, 10);
-
-      if (
-        newValue === '' ||
-        (!isNaN(numericValue as number) && (numericValue as number) >= 0 && (numericValue as number) <= 100)
-      ) {
+      if (newValue === '' || (!isNaN(Number(newValue)) && Number(newValue) >= 0 && Number(newValue) <= 100)) {
         setGradingValues((prevValues) => ({
           ...prevValues,
           [level]: {
@@ -136,8 +119,8 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
           setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
         }
       }
+      saveScore(level);
     }
-    saveScore(level);
   };
 
   const handleSlider = () => {
@@ -151,15 +134,15 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
     const token = localStorage.getItem('zpt');
 
     try {
-      const response = await fetch('https://staging.zuri.team/api/badges', {
+      const response = await fetch('https://staging.zuri.team/api/badges/badges', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          min_score: gradingValues[level].minScore,
-          max_score: gradingValues[level].maxScore,
+          min_score: parseFloat(gradingValues[level].minScore),
+          max_score: parseFloat(gradingValues[level].maxScore),
           name: level.toLowerCase(),
           skill_id: skillId,
         }),
@@ -167,11 +150,13 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
 
       if (response.ok) {
         const data = await response.json();
-        toast.success(`Scoring for ${level} saved successfully!`);
+        setGradingSuccessMessage(`Scoring for ${level} saved successfully!`);
+        setGradingErrorMessage('');
         // Handle success if needed
       } else {
         const errorData = await response.json();
-        toast.error(`Failed to save scoring for ${level}: ${errorData.message}`);
+        setGradingErrorMessage(`${errorData.errors.skill ? errorData.errors.max_score : errorData.message}`);
+        setGradingSuccessMessage('');
         // Handle error if needed
       }
     } catch (error) {
@@ -180,6 +165,8 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
       // Handle error if needed
     }
   };
+
+  // console.log('assessment scoring screen',assessment)
 
   const handleFormSubmit = async () => {
     const { hours, minutes, seconds } = examTime;
@@ -205,13 +192,15 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
         throw new Error(`Network response was not ok: ${response.status}`);
       }
 
-      toast.success('Assessment duration updated successfully');
+      // toast.success('Assessment duration updated successfully');
+      setSuccessMessage('Assessment duration updated successfully');
+      seterrorMessage('');
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Error updating assessment data');
+      setSuccessMessage('');
+      seterrorMessage('Error updating assessment data');
     }
   };
-  const debouncedHandleFormSubmit = debounce(handleFormSubmit, 1000);
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -283,7 +272,9 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
             <div className="w-full h-5 bg-[#BF8443]"></div>
             <div className="mt-5 mb-7 px-3 sm:px-14">
               <h3 className="text-2xl text-[#191C1E] font-manropeB mb-8">Grading System</h3>
-              <p className="text-[#191C1E] text-4 font-manropeB mb-4">Set the scoring range for issuing badges</p>
+              {gradingErrorMessage && <span className="text-red-300 mb-4 p-2">{gradingErrorMessage}</span>}
+              {gradingSuccessMessage && <span className="text-green-300 p-2">{gradingSuccessMessage}</span>}
+              <p className="text-[#191C1E] text-4 font-manropeB mt-5 mb-4">Set the scoring range for issuing badges</p>
               <div className="flex flex-col gap-5">
                 {arr.map((item, index) => (
                   <ScoreDropdown
@@ -302,7 +293,9 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
             <div className="w-full h-5 bg-[#BF8443]"></div>
             <div className="mt-5 mb-7 px-3 sm:px-14">
               <h3 className="text-2xl text-[#191C1E] font-manropeB mb-8">Timing System</h3>
-              <p className="text-[#191C1E] text-4 font-manropeB mb-4">
+              {errorMessage && <span className="text-red-300 mb-4 p-2">{errorMessage}</span>}
+              {successMessage && <span className="text-green-300 p-2">{successMessage}</span>}
+              <p className="text-[#191C1E] text-4 font-manropeB mb-4 mt-4">
                 Set the maximum time allotted to each assessment
               </p>
               <div className="flex gap-5">

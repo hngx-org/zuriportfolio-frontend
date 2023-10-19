@@ -162,7 +162,7 @@ const PortfolioCarousel = () => {
                 </div>
               </div>
             )}
-            Shop section
+            {/* Shop section */}
             {logo?.section === 'shop' && (
               <div
                 className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"

@@ -15,27 +15,24 @@ export type Data = {
   tags: string;
   description: string;
   media: any[];
-  id: number;
+  id: number | null;
   url: string;
   projectsImages: any[];
 };
 
-const ProjectSectionModal = ({
-  isOpen,
-  onCloseModal,
-  onSaveModal,
-  userId,
-}: {
-  isOpen: boolean;
+type ProjectModalProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
-  userId: string;
-}) => {
+  isOpen: boolean;
+  userId?: string | undefined;
+};
+
+const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: ProjectModalProps) => {
   const allRoutes = ['add-project', 'view-projects'];
   const [dataToEdit, setDataToEdit] = useState<Data | null>(null);
   const [route, setRoute] = useState<allRouteOptions>('add-project');
   const [loading, setLoading] = useState<boolean>(false);
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<any[]>([]);
 
   const handleEditData = (data: Data) => {
     setDataToEdit(data);
@@ -43,6 +40,14 @@ const ProjectSectionModal = ({
 
   const handleSetRoute = (data: allRouteOptions) => {
     setRoute(data);
+  };
+
+  const handleSetProjects = (data: any[]) => {
+    setProjects(data);
+  };
+
+  const handleLoading = (data: boolean) => {
+    setLoading(data);
   };
 
   const endpoint = 'https://hng6-r5y3.onrender.com';
@@ -53,6 +58,8 @@ const ProjectSectionModal = ({
       .then((res) => {
         setLoading(false);
         setProjects(res.data.data);
+        console.log(res.data, 'all projects for', userId);
+
         if (res?.data?.data.length > 0) {
           setRoute('view-projects');
         }
@@ -68,26 +75,41 @@ const ProjectSectionModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (projects.length < 0) {
+      setRoute('add-project');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Modal size="xxl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
       {loading ? (
-        <Loader />
+        <>
+          <Loader />
+          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+        </>
       ) : (
         <>
           {route === allRoutes[0] && (
             <ProjectSection
+              handleSetRoute={handleSetRoute}
               dataToEdit={dataToEdit}
               onSaveModal={onSaveModal}
               onCloseModal={onCloseModal}
               userId={userId}
+              projects={projects}
             />
           )}
           {route === allRoutes[1] && (
             <AllProjectsModal
+              handleSetProjects={handleSetProjects}
               handleSetRoute={handleSetRoute}
+              handleLoading={handleLoading}
               projects={projects}
               onEdit={handleEditData}
               onCloseModal={onCloseModal}
+              userId={userId}
             />
           )}
         </>

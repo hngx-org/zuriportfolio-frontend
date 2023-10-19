@@ -10,7 +10,7 @@ function RecentlyViewed() {
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedData[]>([]);
   const token: any = isUserAuthenticated();
 
-  const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${token?.id}`;
+  const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recently-viewed/${token?.id}`;
 
   useEffect(() => {
     setReady(true);
@@ -19,7 +19,7 @@ function RecentlyViewed() {
         const response = await fetch(API_URL);
         if (response.ok) {
           const data = await response.json();
-          const limitedRecentlyViewed = data.slice(0, 8);
+          const limitedRecentlyViewed = data.data.slice(0, 8);
           setRecentlyViewed(limitedRecentlyViewed);
         } else {
           throw new Error('Network response was not ok.');

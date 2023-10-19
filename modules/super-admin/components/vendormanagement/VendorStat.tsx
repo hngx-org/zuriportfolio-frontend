@@ -2,14 +2,8 @@ import React from 'react';
 import { BannedDeletedVendorsProps } from '../../../../@types';
 import { LoadingText } from '../product-listing/ProductListingNavbar';
 import { formatNumber } from '../product-listing/product-details';
-const VendorsStat = ({
-  showBanned,
-  setShowBanned,
-  showDeleted,
-  setShowDeleted,
-  data,
-  isLoading,
-}: BannedDeletedVendorsProps) => {
+import Link from 'next/link';
+const VendorsStat = ({ data, isLoading }: BannedDeletedVendorsProps) => {
   return (
     <>
       <section className="my-5 grid md:grid-cols-3 sm:grid-cols-1 gap-4 container mx-auto">
@@ -35,12 +29,11 @@ const VendorsStat = ({
             ) : (
               <h2 className="text-4xl font-bold ">{formatNumber(data?.total_banned_shops) ?? 0}</h2>
             )}
-            <button
-              className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl"
-              onClick={() => setShowBanned(!showBanned)}
-            >
-              {showBanned ? 'Hide' : 'View'}
-            </button>
+            <Link href="vendor-management/banned-vendors">
+              <button className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl">
+                View
+              </button>
+            </Link>
           </div>
         </div>
         <div className=" p-4 border-solid rounded-md border-white-115 border-2">
@@ -53,12 +46,11 @@ const VendorsStat = ({
             ) : (
               <h2 className="text-4xl font-bold">{formatNumber(data?.total_deleted_shops) ?? 0}</h2>
             )}
-            <button
-              className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl"
-              onClick={() => setShowDeleted(!showDeleted)}
-            >
-              {showDeleted ? 'Hide' : 'View'}
-            </button>
+            <Link href="vendor-management/deleted-vendors">
+              <button className="px-3 py-1 bg-brand-green-primary hover:bg-brand-green-hover text-white-100 rounded-2xl">
+                View
+              </button>
+            </Link>
           </div>
         </div>
       </section>
