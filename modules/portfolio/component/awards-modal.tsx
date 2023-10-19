@@ -8,6 +8,8 @@ import { Award, AwardItemProps, AwardListProps } from '../../../@types';
 import Loader from '@ui/Loader';
 import Portfolio from '../../../context/PortfolioLandingContext';
 
+import { notify } from '@ui/Toast';
+
 interface Context {
   refreshPage: boolean;
   setRefreshPage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,7 +21,7 @@ interface Context {
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
   render: boolean;
-  setCloseAllModal: React.Dispatch<React.SetStateAction<boolean>>;
+
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
 }
@@ -34,7 +36,7 @@ const initialContextValue: Context = {
   setUrlError: () => {},
   error: '',
   render: false,
-  setCloseAllModal: () => {},
+
   setIsLoading: () => {},
   isLoading: false,
 };
@@ -53,7 +55,6 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   const [formData, setFormData] = useState({
     title: '',
     year: '',
-
     presented_by: '',
     url: '',
     description: '',
@@ -65,20 +66,16 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   const [render, setRender] = useState(false);
   const [refreshPage, setRefreshPage] = useState(false);
   const [awardCounter, setAwardCounter] = useState(0);
-  const [acceptedDescription, setAcceptedDescription] = useState(false);
-  const [createAward, setCreateAward] = useState('');
-  const [closeAllModal, setCloseAllModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const openModal = async (e: React.FormEvent) => {
     // console.log('openModal function called');
     e.preventDefault(); // Prevent the default form submission
 
-    console.log('This is the formdata', formData);
+    // console.log('This is the formdata', formData);
 
     const newAward = {
       year: formData.year,
-
       title: formData.title,
       presented_by: formData.presented_by,
       url: formData.url,
@@ -95,17 +92,19 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
         },
         body: JSON.stringify(newAward),
       });
-      console.log('Response Status:', response.status);
-      console.log('Response Data:', await response.json());
       setIsLoading(false);
+      const status = response.status;
 
       if (response.ok) {
-        setCreateAward('Award created successfully');
-        setTimeout(() => {
-          setCreateAward('');
-        }, 2000);
-        setError('');
+        // Handle success (status 200)
 
+        notify({
+          message: 'Award created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        setIsModalOpen(false);
         setTimeout(() => {
           setFormData({
             title: '',
@@ -115,17 +114,46 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
             description: '',
           });
         }, 4000);
-
-        // Delay setting IsModalOpen to true by a certain number of milliseconds
-        setTimeout(() => {
-          setIsModalOpen(false);
-        }, 2000); // Adjust the delay time (1000 milliseconds = 1 second) as needed
+      } else if (status === 400) {
+        notify({
+          message: 'Bad Request: Invalid data',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 400 Bad Request error
+      } else if (status === 402) {
+        notify({
+          message: 'Payment Required: Payment is required for this action',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 402 Payment Required error
+      } else if (status === 500) {
+        notify({
+          message: 'Internal Server Error: Something went wrong on the server',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 500 Internal Server Error
       } else {
-        setError('Error saving the award.');
+        notify({
+          message: 'An error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle other errors
       }
     } catch (error) {
-      setError('An error occurred while saving the award.');
-      console.error(error);
+      notify({
+        message: `${error} `,
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
     }
   };
 
@@ -148,7 +176,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       }));
     }
   };
-  console.log('this is the ismodal', isModalOpen);
+  // console.log('this is the ismodal', isModalOpen);
 
   return (
     <myContext.Provider
@@ -163,7 +191,6 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
         setRender,
         render,
         error,
-        setCloseAllModal,
         setIsLoading,
         isLoading,
       }}
@@ -287,20 +314,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
                   />
                 </div>
                 <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
-                  <div>
-                    {isLoading ? (
-                      <Loader />
-                    ) : (
-                      <div>
-                        <div>
-                          <p className="text-green-200 text-sm">{createAward}</p>
-                        </div>
-                        <div>
-                          <pre className="text-red-205 font-manropeL">{error}</pre>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <div>{isLoading && <Loader />}</div>
                   <div className="flex gap-4  items-center">
                     <Button
                       onClick={() => {
@@ -333,7 +347,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   );
 };
 const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const { setCloseAllModal, setIsModalOpen } = useContext(myContext);
+  const { setIsModalOpen } = useContext(myContext);
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
@@ -364,7 +378,6 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
             </Button>{' '}
             <Button
               onClick={() => {
-                setCloseAllModal(true);
                 setIsModalOpen(false);
               }}
               className="w-full rounded-md sm:w-[6rem]"
@@ -380,27 +393,60 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
 };
 const AwardList: React.FC<AwardListProps> = () => {
   const { userId } = useContext(Portfolio);
-  const { refreshPage, setError, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
+  const { refreshPage, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
   const [awards, setAwards] = useState<Award[]>([]);
-  console.log('why this is the ', awards);
+  // console.log('why this is the ', awards);
 
   const fetchAwards = async () => {
     try {
       setIsLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards`);
       setIsLoading(false);
+      const status = response.status;
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Fetched awards data:', data.awards);
+        // console.log('Fetched awards data:', data.awards);
         setAwards(data.awards);
+      } else if (status === 400) {
+        notify({
+          message: 'Bad Request: Invalid data',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 400 Bad Request error
+      } else if (status === 402) {
+        notify({
+          message: 'Payment Required: Payment is required for this action',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 402 Payment Required error
+      } else if (status === 500) {
+        notify({
+          message: 'Internal Server Error: Something went wrong on the server',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 500 Internal Server Error
       } else {
-        setError('Error fetching awards data.');
+        notify({
+          message: 'An error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       }
     } catch (error) {
-      setError('An error occurred while fetching awards data.');
-
-      // console.error(error);
+      notify({
+        message: `${error}`,
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
     }
   };
   useEffect(() => {
@@ -410,21 +456,15 @@ const AwardList: React.FC<AwardListProps> = () => {
     }
   }, [isModalOpen, refreshPage]);
   useEffect(() => {
-    console.log('this is the data', awards);
+    // console.log('this is the data', awards);
   }, [isModalOpen]);
 
   return (
     <div>
-      {isLoading ? (
-        <Loader />
+      {awards.length > 0 ? (
+        awards.map((award, index) => <AwardItem key={award.id} award={award} />)
       ) : (
-        <div>
-          {awards.length > 0 ? (
-            awards.map((award, index) => <AwardItem key={award.id} award={award} />)
-          ) : (
-            <p>There are no awards available.</p>
-          )}
-        </div>
+        <p>There are no awards available.</p>
       )}
     </div>
   );
@@ -432,13 +472,12 @@ const AwardList: React.FC<AwardListProps> = () => {
 
 const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const { id, year, title, presented_by, url, description } = award;
-  const [deletedMessage, setDeletedMessage] = useState('');
-  const [editedMessage, setEditedMessage] = useState('');
+
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const { refreshPage, setRefreshPage, isLoading, setIsLoading } = useContext(myContext);
-  console.log('these are the awards', award);
+  // console.log('these are the awards', award);
 
   const [editedAward, setEditedAward] = useState(award);
   const openEditForm = () => {
@@ -462,21 +501,57 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
         body: JSON.stringify(editedAward),
         // Send the edited data
       });
+      const status = response.status;
       setEditLoading(false);
       if (response.ok) {
-        // console.log(`Award with ID ${id} updated.`);
+        notify({
+          message: 'Edited successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
         setRefreshPage(!refreshPage);
-        setEditedMessage('Edited successfully');
-        setTimeout(() => {
-          setEditedMessage('');
-        }, 3000);
-
         closeEditForm(); // Close the Edit form
+      } else if (status === 400) {
+        notify({
+          message: 'Bad Request: Invalid data',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 400 Bad Request error
+      } else if (status === 402) {
+        notify({
+          message: 'Payment Required: Payment is required for this action',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 402 Payment Required error
+      } else if (status === 500) {
+        notify({
+          message: 'Internal Server Error: Something went wrong on the server',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 500 Internal Server Error
       } else {
-        // console.error(`Error updating award with ID ${id}`);
+        notify({
+          message: 'An error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle other errors
       }
     } catch (error) {
-      // console.error('An error occurred while updating the award.', error);
+      notify({
+        message: `${error} `,
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
     }
   };
   const extractHostname = (url: string) => {
@@ -491,19 +566,57 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
         method: 'DELETE',
       });
+      const status = response.status;
       if (response.ok) {
-        // Award deleted successfully, you can update the UI accordingly
-        // console.log(response.json());
-        // console.log(`Award with ID ${id} deleted.`);
         setDeleteLoading(false);
-        setDeletedMessage('Deleted successfully');
+        notify({
+          message: 'Deleted successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
 
         setRefreshPage(!refreshPage);
+      } else if (status === 400) {
+        notify({
+          message: 'Bad Request: Invalid data',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 400 Bad Request error
+      } else if (status === 402) {
+        notify({
+          message: 'Payment Required: Payment is required for this action',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 402 Payment Required error
+      } else if (status === 500) {
+        notify({
+          message: 'Internal Server Error: Something went wrong on the server',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 500 Internal Server Error
       } else {
-        // console.error(`Error deleting award with ID ${id}`);
+        notify({
+          message: 'An error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle other errors
       }
     } catch (error) {
-      // console.error('An error occurred while deleting the award.', error);
+      notify({
+        message: `There was a ${error} error`,
+        position: 'top-center',
+        theme: 'light',
+        type: 'success',
+      });
     }
   };
 
@@ -532,8 +645,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <div>{deleteLoading ? <Loader /> : <p className="text-red-205 text-sm">{deletedMessage}</p>}</div>{' '}
-        <div>{editLoading ? <Loader /> : <p className="text-green-200 text-sm">{editedMessage}</p>}</div>
+        <div>{deleteLoading || editLoading ? <Loader /> : ''}</div>
         <div className="flex justify-between items-center">
           {' '}
           <Button

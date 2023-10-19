@@ -7,6 +7,7 @@ import Modal from '@ui/Modal';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { Certification, CertificationListProps, CertificationItemProps } from '../../../@types';
 import Loader from '@ui/Loader';
+import { notify } from '@ui/Toast';
 
 interface Context {
   refreshPage: boolean;
@@ -19,7 +20,7 @@ interface Context {
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
   render: boolean;
-  setCloseAllModal: React.Dispatch<React.SetStateAction<boolean>>;
+
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
 }
@@ -34,7 +35,6 @@ const initialContextValue: Context = {
   setUrlError: () => {},
   error: '',
   render: false,
-  setCloseAllModal: () => {},
   setIsLoading: () => {},
   isLoading: false,
 };
@@ -53,7 +53,6 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   const [formData, setFormData] = useState({
     title: '',
     year: '',
-
     organization: '',
     url: '',
     description: '',
@@ -64,10 +63,6 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   const [error, setError] = useState('');
   const [render, setRender] = useState(false);
   const [refreshPage, setRefreshPage] = useState(false);
-  const [certificationCounter, setCertificationCounter] = useState(0);
-  const [acceptedDescription, setAcceptedDescription] = useState(false);
-  const [createCertificate, setCreateCertificate] = useState('');
-  const [closeAllModal, setCloseAllModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const openModal = async (e: React.FormEvent) => {
@@ -75,13 +70,11 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
     e.preventDefault(); // Prevent the default form submission
     const newCertification = {
       year: formData.year,
-
       title: formData.title,
       organization: formData.organization,
       url: formData.url,
       description: formData.description,
     };
-    setCertificationCounter(certificationCounter + 1);
 
     try {
       setIsLoading(true);
@@ -92,18 +85,17 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
         },
         body: JSON.stringify(newCertification),
       });
-      console.log('0.this is the new certi', newCertification);
-      console.log('1. Response Status:', response.status);
-      console.log('2. Response Data:', await response.json());
+      const status = response.status;
+
       setIsLoading(false);
       if (response.ok) {
-        setCreateCertificate('Certificate created successfully');
-        setTimeout(() => {
-          setCreateCertificate('');
-        }, 2000);
-        setError('');
-        console.log('3. these are the datas sent', formData);
-
+        notify({
+          message: 'Certificate created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        setIsModalOpen(false);
         setTimeout(() => {
           setFormData({
             title: '',
@@ -113,17 +105,46 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
             description: '',
           });
         }, 4000);
-
-        // Delay setting IsModalOpen to true by a certain number of milliseconds
-        setTimeout(() => {
-          setIsModalOpen(false);
-        }, 2000); // Adjust the delay time (1000 milliseconds = 1 second) as needed
+      } else if (status === 400) {
+        notify({
+          message: 'Bad Request: Invalid data',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 400 Bad Request error
+      } else if (status === 402) {
+        notify({
+          message: 'Payment Required: Payment is required for this action',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 402 Payment Required error
+      } else if (status === 500) {
+        notify({
+          message: 'Internal Server Error: Something went wrong on the server',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 500 Internal Server Error
       } else {
-        setError('Error saving the certification.');
+        notify({
+          message: 'An error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle other errors
       }
     } catch (error) {
-      setError('An error occurred while saving the certification.');
-      // console.error(error);
+      notify({
+        message: `${error} `,
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
     }
   };
 
@@ -160,7 +181,6 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
         setRender,
         render,
         error,
-        setCloseAllModal,
         setIsLoading,
         isLoading,
       }}
@@ -285,20 +305,8 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                   />
                 </div>
                 <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
-                  <div>
-                    <div>
-                      <p className="text-green-200 text-sm">{createCertificate}</p>
-                    </div>
-                    <div>
-                      {isLoading ? (
-                        <Loader />
-                      ) : (
-                        <div>
-                          <pre className="text-red-205 font-manropeL">{error}</pre>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <div>{isLoading && <Loader />}</div>
+
                   <div className="flex gap-4  items-center">
                     <Button
                       onClick={() => {
@@ -331,7 +339,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   );
 };
 const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const { setCloseAllModal, setIsModalOpen } = useContext(myContext);
+  const { setIsModalOpen } = useContext(myContext);
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
@@ -379,26 +387,50 @@ const CertificationList: React.FC<CertificationListProps> = () => {
     try {
       setIsLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}`);
-      console.log('4. this is the response', response);
-
-      // console.log('Response Data:', await response.json());
-
-      // console.log('5. this is the data for it', res);
-
+      const status = response.status;
       if (response.ok) {
         setIsLoading(false);
         const res = await response.json();
-        // console.log('Response Status:', response.ok);
-        console.log('6. this is the res.data', res.data);
-        // console.log('Fetched certifications data:', data);
         setCertifications(res.data);
+      } else if (status === 400) {
+        notify({
+          message: 'Bad Request: Invalid data',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 400 Bad Request error
+      } else if (status === 402) {
+        notify({
+          message: 'Payment Required: Payment is required for this action',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 402 Payment Required error
+      } else if (status === 500) {
+        notify({
+          message: 'Internal Server Error: Something went wrong on the server',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 500 Internal Server Error
       } else {
-        setError('Error fetching certifications data.');
+        notify({
+          message: 'An error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       }
     } catch (error) {
-      setError('An error occurred while fetching certifications data.');
-
-      // console.error(error);
+      notify({
+        message: `${error}`,
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
     }
   };
   useEffect(() => {
@@ -414,18 +446,12 @@ const CertificationList: React.FC<CertificationListProps> = () => {
 
   return (
     <div>
-      {isLoading ? (
-        <Loader />
+      {certifications.length > 0 ? (
+        certifications.map((certification, index) => (
+          <CertificationItem key={certification.id} certification={certification} />
+        ))
       ) : (
-        <div>
-          {certifications.length > 0 ? (
-            certifications.map((certification, index) => (
-              <CertificationItem key={certification.id} certification={certification} />
-            ))
-          ) : (
-            <p>There are no certificates available.</p>
-          )}
-        </div>
+        <p>There are no certificates available.</p>
       )}
     </div>
   );
@@ -434,9 +460,6 @@ const CertificationList: React.FC<CertificationListProps> = () => {
 const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) => {
   const { userId } = useContext(Portfolio);
   const { id, year, title, organization, url, description } = certification;
-  const [deletedMessage, setDeletedMessage] = useState('');
-  const [editedMessage, setEditedMessage] = useState('');
-  const [editMessageError, setEditMessageError] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const { refreshPage, setRefreshPage, isLoading, setIsLoading } = useContext(myContext);
   // console.log('this are the certifications', certification);
@@ -481,22 +504,58 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         },
         body: JSON.stringify(editedCertification), // Send the edited data
       });
+      const status = response.status;
       setEditLoading(false);
 
       if (response.ok) {
+        notify({
+          message: 'Edited successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
         setRefreshPage(!refreshPage);
-        setEditedMessage('Edited successfully');
-        setTimeout(() => {
-          setEditedMessage('');
-        }, 3000);
-
         closeEditForm(); // Close the Edit form
+      } else if (status === 400) {
+        notify({
+          message: 'Bad Request: Invalid data',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 400 Bad Request error
+      } else if (status === 402) {
+        notify({
+          message: 'Payment Required: Payment is required for this action',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 402 Payment Required error
+      } else if (status === 500) {
+        notify({
+          message: 'Internal Server Error: Something went wrong on the server',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 500 Internal Server Error
       } else {
-        // console.error(`Error updating certificate with ID ${id}`);
-        setEditMessageError('Error updating certificate');
+        notify({
+          message: 'An error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle other errors
       }
     } catch (error) {
-      // console.error('An error occurred while updating the certificate.', error);
+      notify({
+        message: `${error} `,
+        position: 'top-center',
+        theme: 'light',
+        type: 'error',
+      });
     }
   };
 
@@ -509,15 +568,55 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         method: 'DELETE',
       });
       setDeleteLoading(false);
+      const status = response.status;
       if (response.ok) {
-        setDeletedMessage('Deleted successfully');
-
+        notify({
+          message: 'Deleted successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
         setRefreshPage(!refreshPage);
+      } else if (status === 400) {
+        notify({
+          message: 'Bad Request: Invalid data',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 400 Bad Request error
+      } else if (status === 402) {
+        notify({
+          message: 'Payment Required: Payment is required for this action',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 402 Payment Required error
+      } else if (status === 500) {
+        notify({
+          message: 'Internal Server Error: Something went wrong on the server',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle a 500 Internal Server Error
       } else {
-        // console.error(`Error deleting certificate with ID ${id}`);
+        notify({
+          message: 'An error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        // Handle other errors
       }
     } catch (error) {
-      // console.error('An error occurred while deleting the certificate.', error);
+      notify({
+        message: `There was a ${error} error`,
+        position: 'top-center',
+        theme: 'light',
+        type: 'success',
+      });
     }
   };
 
@@ -550,11 +649,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <div>
-          <div>{deleteLoading ? <Loader /> : <p className="text-red-205 text-sm">{deletedMessage}</p>}</div>{' '}
-          <div>{editLoading ? <Loader /> : <p className="text-green-200 text-sm">{editedMessage}</p>}</div>
-          <p className="text-red-205 text-sm">{editMessageError}</p>
-        </div>
+        <div>{deleteLoading || editLoading ? <Loader /> : ''}</div>
         <div className="flex justify-between items-center">
           {' '}
           <Button
