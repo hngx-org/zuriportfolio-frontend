@@ -623,6 +623,11 @@ export interface reviewProps {
   help?: number;
 }
 
+export interface revNavProps {
+  shopNav?: boolean;
+  marketPlaceNav?: boolean;
+}
+
 export interface searchProp {
   handleSearchChange: (searchString: string) => void;
 }
@@ -887,4 +892,11 @@ export interface RatsData {
   numberOfRating: number;
   productId: string;
   id: string;
+}
+
+export interface ExploreSEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }
