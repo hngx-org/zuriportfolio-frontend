@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import ScoreDropdown from './component/scoreDropdown';
 import { Input } from '@ui/Input';
+import { ToastContainer, toast } from 'react-toastify';
 import { useCreatingAssessmentContext } from '../../context/assessment/CreatingAssessmentContext';
-
+import axios from 'axios';
 type TimingSystemType = {
   hours: string;
   minutes: string;
   seconds: string;
-  // Add more properties as needed
 };
 
 type AssessmentScoringType = {
@@ -20,22 +20,40 @@ type AssessmentScoringType = {
 type MyGradingRangeType = {
   minScore: string;
   maxScore: string;
-  // Add more properties as needed
 };
 
-const ScoringScreen = () => {
-  const arr = ['Beginner', 'Intermediate', 'Expert'];
-  // const [isAutoSubmitOn, setIsAutoSubmitOn] = useState<boolean>(false);
-  const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
+interface ScoringScreenProps {
+  skillId: number; // Define skillId as a prop
 
-  //State for the timing value
+  assessment: {
+    id: number;
+    title: string;
+    createdAt: Date;
+    duration_minutes: number;
+    questions: {
+      answers: {}[];
+      question_no: number;
+      question_text: string;
+      question_type: string;
+    }[];
+    updatedAt: Date;
+  };
+}
+
+const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) => {
+  const arr = ['Beginner', 'Intermediate', 'Expert'];
+  const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
     hours: '',
     minutes: '',
     seconds: '',
   });
 
-  //State for the grading values
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, seterrorMessage] = useState('');
+  const [gradingSuccessMessage, setGradingSuccessMessage] = useState('');
+  const [gradingErrorMessage, setGradingErrorMessage] = useState('');
+
   const initialGradingValues: MyGradingRangeType = {
     minScore: '',
     maxScore: '',
@@ -60,118 +78,23 @@ const ScoringScreen = () => {
     const newValue = e.target.value;
     const name = e.target.name;
 
-    // Check if the new value is an empty string (no characters entered)
-    if (newValue === '') {
-      setExamTime((prevExamTime) => ({
-        ...prevExamTime,
-        [name]: newValue,
-      }));
-    } else {
-      const numericValue = parseInt(newValue, 10);
-      if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 60) {
-        setExamTime((prevExamTime) => ({
-          ...prevExamTime,
-          [name]: numericValue.toString(),
-        }));
-        if (examTime.hours || examTime.minutes || examTime.seconds) {
-          const hours = parseInt(examTime.hours, 10) || 0;
-          const minutes = parseInt(examTime.minutes, 10) || 0;
-          const seconds = parseInt(examTime.seconds, 10) || 0;
-          const totalMinutes = hours * 60 + minutes + seconds / 60;
-          console.log('Total time in minutes:', totalMinutes);
+    setExamTime((prevExamTime) => ({
+      ...prevExamTime,
+      [name]: newValue.padStart(2, '0'), // Automatically add leading '0' if needed
+    }));
 
-          setExamDuration(totalMinutes.toString());
-        }
-      }
+    if (e.target.value != '') {
+      console.log(e.target.value);
+      handleFormSubmit();
     }
   };
 
-  const convertToMinutes = (hours: string, minutes: string, seconds: string): number => {
-    const hoursInMinutes = parseInt(hours, 10) * 60;
-    const minutesValue = parseInt(minutes, 10);
-    const secondsValue = parseInt(seconds, 10) / 60;
-    return hoursInMinutes + minutesValue + secondsValue;
-  };
-
-  // const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
-  //   const newValue = e.target.value;
-  //   const name = e.target.name;
-
-  //   if (name === 'minScore') {
-  //     const minScore = newValue;
-  //     const maxScore = gradingValues[level].maxScore;
-
-  //     // Update grading values
-  //     setGradingValues((prevValues) => ({
-  //       ...prevValues,
-  //       [level]: {
-  //         ...prevValues[level],
-  //         minScore,
-  //       },
-  //     }));
-
-  //     // Update assessmentScoring state based on the level
-  //     if (maxScore) {
-  //       const range = `${minScore}% - ${maxScore}%`;
-  //       setAssessmentScoring((prevAssessmentScoring) => ({
-  //         ...prevAssessmentScoring,
-  //         [`${level.toLowerCase()}_score_range`]: range,
-  //       }));
-  //     }
-
-  //     // Update incomplete levels
-  //     if (maxScore === '') {
-  //       if (!incompleteLevels.includes(level)) {
-  //         setIncompleteLevels([...incompleteLevels, level]);
-  //       }
-  //     } else {
-  //       setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
-  //     }
-  //   } else if (name === 'maxScore') {
-  //     const minScore = gradingValues[level].minScore;
-  //     const maxScore = newValue;
-
-  //     // Update grading values
-  //     setGradingValues((prevValues) => ({
-  //       ...prevValues,
-  //       [level]: {
-  //         ...prevValues[level],
-  //         maxScore,
-  //       },
-  //     }));
-
-  //     // Update assessmentScoring state based on the level
-  //     if (minScore) {
-  //       const range = `${minScore}% - ${maxScore}%`;
-  //       setAssessmentScoring((prevAssessmentScoring) => ({
-  //         ...prevAssessmentScoring,
-  //         [`${level.toLowerCase()}_score_range`]: range,
-  //       }));
-  //     }
-
-  //     // Update incomplete levels
-  //     if (minScore === '') {
-  //       if (!incompleteLevels.includes(level)) {
-  //         setIncompleteLevels([...incompleteLevels, level]);
-  //       }
-  //     } else {
-  //       setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
-  //     }
-  //   }
-  //   console.log(assessmentScoring);
-  // };
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
     const newValue = e.target.value;
     const name = e.target.name;
 
     if (name === 'minScore' || name === 'maxScore') {
-      const numericValue = newValue === '' ? '' : parseInt(newValue, 10);
-
-      if (
-        newValue === '' ||
-        (!isNaN(numericValue as number) && (numericValue as number) >= 0 && (numericValue as number) <= 100)
-      ) {
-        // Update grading values
+      if (newValue === '' || (!isNaN(Number(newValue)) && Number(newValue) >= 0 && Number(newValue) <= 100)) {
         setGradingValues((prevValues) => ({
           ...prevValues,
           [level]: {
@@ -180,7 +103,6 @@ const ScoringScreen = () => {
           },
         }));
 
-        // Update assessmentScoring state based on the level
         const minScore = name === 'minScore' ? newValue : gradingValues[level].minScore;
         const maxScore = name === 'maxScore' ? newValue : gradingValues[level].maxScore;
         const range = `${minScore}% - ${maxScore}%`;
@@ -189,7 +111,6 @@ const ScoringScreen = () => {
           [`${level.toLowerCase()}_score_range`]: range,
         }));
 
-        // Update incomplete levels
         if (minScore === '' || maxScore === '') {
           if (!incompleteLevels.includes(level)) {
             setIncompleteLevels([...incompleteLevels, level]);
@@ -198,7 +119,7 @@ const ScoringScreen = () => {
           setIncompleteLevels(incompleteLevels.filter((item) => item !== level));
         }
       }
-      console.log(assessmentScoring);
+      saveScore(level);
     }
   };
 
@@ -206,30 +127,104 @@ const ScoringScreen = () => {
     setIsAutoSubmitOn(!isAutoSubmitOn);
   };
 
-  // const [drafts, setDrafts] = useState([]);
+  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
+    useCreatingAssessmentContext();
+
+  const saveScore = async (level: string) => {
+    const token = localStorage.getItem('zpt');
+
+    try {
+      const response = await fetch('https://staging.zuri.team/api/badges/badges', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          min_score: parseFloat(gradingValues[level].minScore),
+          max_score: parseFloat(gradingValues[level].maxScore),
+          name: level.toLowerCase(),
+          skill_id: skillId,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setGradingSuccessMessage(`Scoring for ${level} saved successfully!`);
+        setGradingErrorMessage('');
+        // Handle success if needed
+      } else {
+        const errorData = await response.json();
+        setGradingErrorMessage(`${errorData.errors.skill ? errorData.errors.max_score : errorData.message}`);
+        setGradingSuccessMessage('');
+        // Handle error if needed
+      }
+    } catch (error) {
+      console.error(`Error while saving scoring for ${level}:`, error);
+      toast.error(`Error while saving scoring for ${level}`);
+      // Handle error if needed
+    }
+  };
+
+  // console.log('assessment scoring screen',assessment)
+
+  const handleFormSubmit = async () => {
+    const { hours, minutes, seconds } = examTime;
+    const durationInMinutes = Math.round(parseInt(hours, 10) * 60 + parseInt(minutes, 10) + parseInt(seconds, 10) / 60);
+
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessment.id}/`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          'X-CSRFTOKEN': localStorage.getItem('zpt') ?? '',
+        },
+        body: JSON.stringify({
+          duration_minutes: durationInMinutes,
+          title: assessment.title,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+
+      // toast.success('Assessment duration updated successfully');
+      setSuccessMessage('Assessment duration updated successfully');
+      seterrorMessage('');
+    } catch (error) {
+      console.error('Error:', error);
+      setSuccessMessage('');
+      seterrorMessage('Error updating assessment data');
+    }
+  };
 
   // useEffect(() => {
   //   async function fetchData() {
   //     try {
-  //       const response = await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/drafts/');
+  //       const response = await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${skillId}`, {
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`,
+  //         },
+  //       });
   //       if (!response.ok) {
   //         console.log('Failed to fetch data');
   //         throw new Error('Failed to fetch data');
   //       }
   //       const data = await response.json();
-  //       setDrafts(data);
+  //       // setDrafts(data);
   //       console.log(data);
   //     } catch (error) {
-  //       // Handle the error, e.g., display an error message
   //       console.error('Error fetching data:', error);
   //     }
   //   }
-  //   fetchData();
-  //   console.log('draft', drafts);
-  // }, []);
-
-  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
-    useCreatingAssessmentContext();
+  //   if (token) {
+  //     fetchData();
+  //   }
+  // }, [token, skillId]);
 
   return (
     <div>
@@ -277,7 +272,9 @@ const ScoringScreen = () => {
             <div className="w-full h-5 bg-[#BF8443]"></div>
             <div className="mt-5 mb-7 px-3 sm:px-14">
               <h3 className="text-2xl text-[#191C1E] font-manropeB mb-8">Grading System</h3>
-              <p className="text-[#191C1E] text-4 font-manropeB mb-4">Set the scoring range for issuing badges</p>
+              {gradingErrorMessage && <span className="text-red-300 mb-4 p-2">{gradingErrorMessage}</span>}
+              {gradingSuccessMessage && <span className="text-green-300 p-2">{gradingSuccessMessage}</span>}
+              <p className="text-[#191C1E] text-4 font-manropeB mt-5 mb-4">Set the scoring range for issuing badges</p>
               <div className="flex flex-col gap-5">
                 {arr.map((item, index) => (
                   <ScoreDropdown
@@ -296,7 +293,9 @@ const ScoringScreen = () => {
             <div className="w-full h-5 bg-[#BF8443]"></div>
             <div className="mt-5 mb-7 px-3 sm:px-14">
               <h3 className="text-2xl text-[#191C1E] font-manropeB mb-8">Timing System</h3>
-              <p className="text-[#191C1E] text-4 font-manropeB mb-4">
+              {errorMessage && <span className="text-red-300 mb-4 p-2">{errorMessage}</span>}
+              {successMessage && <span className="text-green-300 p-2">{successMessage}</span>}
+              <p className="text-[#191C1E] text-4 font-manropeB mb-4 mt-4">
                 Set the maximum time allotted to each assessment
               </p>
               <div className="flex gap-5">

@@ -6,92 +6,36 @@ import ExperienceCard from './experience-cards/experience-card';
 import AllCategorySlider from '../AllCategorySlider';
 import CategoriesNav from '../CategoriesNav/CategoriesNav';
 import RecentlyViewed from './recentlyViewed/recentlyViewed';
+import useCategory from '../filter/hooks/useCategory';
+import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
+import { useQuery } from '@tanstack/react-query';
 
 function LandingPage() {
-  const [recommendedProduct, setRecommendedProduct] = useState({ isLoading: true, items: [] });
-  const [limitedOffers, setLimitedOffers] = useState({ isLoading: true, items: [] });
-  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
-
-  useEffect(() => {
-    try {
-      fetch(`${baseUrl}recommendations`)
-        .then((res) => res.json())
-        .then((data) => setRecommendedProduct({ isLoading: false, items: data }));
-    } catch (error) {
-      setRecommendedProduct({ isLoading: false, items: [] });
-    }
-
-    try {
-      fetch(`${baseUrl}products/limited_offers/`)
-        .then((res) => res.json())
-        .then((data) => setLimitedOffers({ isLoading: false, items: data.results }));
-    } catch (error) {
-      setLimitedOffers({ isLoading: false, items: [] });
-    }
-  }, []);
-
-  console.log(limitedOffers.items);
-
+  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
+  const fetchRecommendation = () => fetch(`${baseUrl}recommendations`).then((res) => res.json());
+  const fetchLimitedOffers = () => fetch(`${baseUrl}products/limited_offers/`).then((res) => res.json());
+  const { isLoading, data } = useQuery(['recommendations'], fetchRecommendation);
+  const { isLoading: isLimitedOfferLoading, data: limitedOffersData } = useQuery(
+    ['products/limited_offers'],
+    fetchLimitedOffers,
+  );
+  const { categories, loading } = useCategoryNav();
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <CategoriesNav
-        navItems={[
-          {
-            name: 'software enginering',
-            subcategories: [],
-          },
-          {
-            name: 'enginering',
-            subcategories: [
-              {
-                name: 'software girl era',
-              },
-            ],
-          },
-          {
-            name: 'computer enginering',
-            subcategories: [
-              {
-                name: 'backend enginering',
-              },
-            ],
-          },
-          {
-            name: 'Joshua_Shop',
-            subcategories: [
-              {
-                name: 'backend enginering',
-              },
-              {
-                name: 'health',
-              },
-              {
-                name: 'health',
-              },
-              {
-                name: 'computer enginering',
-              },
-            ],
-          },
-          {
-            name: 's enginering',
-            subcategories: [],
-          },
-        ]}
-      />
+      <CategoriesNav navItems={categories} isLoading={loading} />
 
-      <div className="py-6 px-4 overflow-hidden w-full">
+      <div className="py-6 px-4 overflow-hidden w-full lg:max-w-[1350px] mx-auto">
         <div className="max-w-[1240px] mx-auto">
           <ProductCardWrapper
             title="Handpicked For You"
-            productsList={recommendedProduct}
+            productsList={{ isLoading, items: data?.data }}
             showTopPicks={true}
             showAll={false}
           />
 
           <ProductCardWrapper
             title="Limited Offers"
-            productsList={limitedOffers}
+            productsList={{ isLoading: isLimitedOfferLoading, items: limitedOffersData?.results }}
             showTopPicks={false}
             showAll={false}
           />

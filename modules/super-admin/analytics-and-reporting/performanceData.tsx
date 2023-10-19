@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import React from 'react';
 import { DateObject } from 'react-multi-date-picker';
+import { ToastContainer, toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
+import { ImSpinner8 } from 'react-icons/im';
 
 interface zaProps {
   dateRange: DateObject[];
@@ -9,36 +12,61 @@ interface zaProps {
 
 const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const [performanceDataArray, setPerformanceDataArray] = React.useState<any>([]);
-  const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndDate] = React.useState('');
+  const [showItems, setShowItems] = useState<Boolean>(true);
+  const [loadingState, setLoadingState] = useState<Boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (reportClicked && dateRange.length === 2) {
       const starttDate = dateRange[0].format('YYYY-MM-DD');
       const enddDate = dateRange[1].format('YYYY-MM-DD');
+      const bearerToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      setLoadingState(true);
       fetch(
         `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/performance-data/?start_date=${starttDate}&end_date=${enddDate}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            'Content-Type': 'application/json',
+          },
+        },
       )
         .then((res) => res.json())
         .then((data) => {
           setPerformanceDataArray(data.data);
-          console.log(data);
+          toast.error('No performance data within that Date Range');
+          setLoadingState(false);
         })
         .catch((err) => {
-          console.log(err);
+          setLoadingState(false);
         });
     } else {
-      fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/performance-data/')
+      const bearerToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      setLoadingState(true);
+      fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/performance-data/', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${bearerToken}`,
+          'Content-Type': 'application/json',
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
           setPerformanceDataArray(data.data);
-          console.log(data);
+          setLoadingState(false);
         })
         .catch((err) => {
-          console.log(err);
+          setLoadingState(false);
+          toast.error('No performance data to Load');
         });
     }
   }, [reportClicked]);
+
+  const toggleVisibility = () => {
+    setShowItems(!showItems);
+  };
   return (
     <>
       <div className="max-[1310px]:px-[1rem] w-full max-[834px]:px-[2.5rem] max-[760px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0">
@@ -55,7 +83,14 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   <h6 className="text-[0.875rem] font-manropeL text-[#444846] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[880px]:text-[0.75rem]">
                     Date
                   </h6>
-                  <Image src="/assets/images/reports/arrow-down.svg" alt="Down Arrow" width={16} height={16} />
+                  <Image
+                    src={`${showItems ? '/assets/images/reports/upp.svg' : '/assets/images/arrow-down.svg'}`}
+                    onClick={toggleVisibility}
+                    alt="Down Arrow"
+                    width={16}
+                    height={16}
+                    className="cursor-pointer"
+                  />
                 </div>
                 <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[7.63rem]">
                   <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
@@ -88,50 +123,55 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   </p>
                 </div>
               </div>
-              {performanceDataArray.map((performance: any) => {
-                return (
-                  <div
-                    key={performance.index}
-                    className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[1110px]:gap-0"
-                  >
-                    <div className="max-w-[10rem] w-full max-[778px]:min-w-[5rem]">
-                      <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                        2023-09-25
-                      </h6>
+              {loadingState ? (
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              ) : (
+                showItems &&
+                performanceDataArray?.map((performance: any) => {
+                  return (
+                    <div
+                      key={performance.index}
+                      className="flex items-center justify-between px-[1.5rem] gap-[1.5rem] py-[1rem] bg-[#FFF] max-[730px]:flex max-[730px]:pr-0 max-[1110px]:gap-0"
+                    >
+                      <div className="max-w-[10rem] w-full max-[778px]:min-w-[5rem]">
+                        <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                          2023-09-25
+                        </h6>
+                      </div>
+                      <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                        <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                          {performance.transaction_value}
+                        </p>
+                      </div>
+                      <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
+                        <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                          {performance.transaction_volume}
+                        </p>
+                      </div>
+                      <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
+                        <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                          {performance.active_users}
+                        </p>
+                      </div>
+                      <div className="max-w-[7.19rem] w-full max-[778px]:min-w-[7.19rem]">
+                        <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                          {performance.total_orders}
+                        </p>
+                      </div>
+                      <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
+                        <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
+                          {performance.total_users}
+                        </p>
+                      </div>
+                      <div className="max-w-[8.25rem] w-full max-[1000px]:hidden">
+                        <p className="text-[0.75rem] text-center font-manropeL text-[#667085] font-normal leading-[1rem] tracking-[0.0025rem]">
+                          {performance.best_selling_product}
+                        </p>
+                      </div>
                     </div>
-                    <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
-                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                        {performance.transaction_value}
-                      </p>
-                    </div>
-                    <div className="max-w-[8.5rem] w-full max-[778px]:min-w-[8.5rem]">
-                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                        {performance.transaction_volume}
-                      </p>
-                    </div>
-                    <div className="max-w-[8.63rem] w-full max-[778px]:min-w-[8.63rem]">
-                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                        {performance.active_users}
-                      </p>
-                    </div>
-                    <div className="max-w-[7.19rem] w-full max-[778px]:min-w-[7.19rem]">
-                      <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                        {performance.total_orders}
-                      </p>
-                    </div>
-                    <div className="max-w-[8.56rem] w-full max-[778px]:min-w-[8.56rem]">
-                      <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                        {performance.total_users}
-                      </p>
-                    </div>
-                    <div className="max-w-[8.25rem] w-full max-[1000px]:hidden">
-                      <p className="text-[0.75rem] text-center font-manropeL text-[#667085] font-normal leading-[1rem] tracking-[0.0025rem]">
-                        {performance.best_selling_product}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           </div>
           <div>
@@ -139,6 +179,7 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
             <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-[#EAECF0] max-[760px]:rounded-br-none"></div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

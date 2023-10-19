@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 interface Track {
-    id: number;
-    track: string;
-  }
-  
-  const TrackDropdown = ({ onSelectTrack }: { onSelectTrack: (selectedTrack: string) => void }) => {
-    const [tracks, setTracks] = useState<Track[]>([]);
+  id: number;
+  track: string;
+}
+
+const TrackDropdown = ({ onSelectTrack }: { onSelectTrack: (selectedTrack: string) => void }) => {
+  const [tracks, setTracks] = useState<Track[]>([]);
   const [selectedTrack, setSelectedTrack] = useState('');
 
   useEffect(() => {

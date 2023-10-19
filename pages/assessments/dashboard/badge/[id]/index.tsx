@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import Badges from '@modules/assessment/component/Badges/Badges';
 import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
 import MainLayout from '../../../../../components/Layout/MainLayout';
-import ErrorData from '../../errordata';
+import ErrorData from '@modules/assessment/component/Badges/errordata';
+import { withUserAuth } from '../../../../../helpers/withAuth';
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -19,6 +20,8 @@ const Page: React.FC = () => {
   };
 
   useEffect(() => {
+    const bearerToken = localStorage.getItem('zpt');
+    console.log(bearerToken);
     const fetchData = async () => {
       try {
         const badgelabel = router.query?.id;
@@ -26,8 +29,12 @@ const Page: React.FC = () => {
         if (badgelabel) {
           setIsLoading(true);
 
-          const apiUrl = `https://demerzel-badges-production.up.railway.app/api/badges/${badgelabel}`;
-          const response = await fetch(apiUrl, { method: 'GET', redirect: 'follow' });
+          const apiUrl = `https://staging.zuri.team/api/badges/badges/${badgelabel}`;
+          const response = await fetch(apiUrl, {
+            method: 'GET',
+            redirect: 'follow',
+            headers: { Authorization: `Bearer ${bearerToken}` },
+          });
 
           if (!response.ok) {
             setIsLoading(false);
@@ -50,21 +57,20 @@ const Page: React.FC = () => {
 
     fetchData();
   }, [router.query]);
-  console.log(scorePercentage);
 
   return (
     <>
       <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
         <>
+          <BadgesHeader />
           {isLoading ? (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex justify-center items-center h-96">
               <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
             </div>
           ) : errorMessage ? (
             <ErrorData />
           ) : (
             <>
-              <BadgesHeader />
               <Badges
                 scorePercentage={scorePercentage}
                 badgelabel={badgeName}
@@ -80,4 +86,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default withUserAuth(Page);

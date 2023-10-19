@@ -7,6 +7,7 @@ import star2 from '../../../public/assets/star2.svg';
 import profileImg from '../../../public/assets/images/profile-img.png';
 import verifyIcon from '../../../public/assets/icons/verify.svg';
 import Link from 'next/link';
+import { ProductReview } from './ProductReview';
 
 const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) => void; tab: string }) => {
   return (
@@ -54,7 +55,7 @@ const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) 
   );
 };
 
-const TabContent = ({ tab, desc }: { tab: string; desc: any }): React.ReactElement | null => {
+const TabContent = ({ tab, desc, id }: { tab: string; desc: any; id: string }): React.ReactElement | null => {
   if (tab === 'description')
     return (
       <>
@@ -68,7 +69,7 @@ const TabContent = ({ tab, desc }: { tab: string; desc: any }): React.ReactEleme
     return (
       <>
         <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Specifications</h2>
-        <ul className="mt-6 flex flex-col gap-4 list-inside">
+        {/* <ul className="mt-6 flex flex-col gap-4 list-inside">
           <li className="list-disc font-manropeL">Adaptable with HTML5 and CSS3</li>
           <li className="list-disc font-manropeL">
             Comprehensive documentation and customer support to assist users in setting up
@@ -78,7 +79,8 @@ const TabContent = ({ tab, desc }: { tab: string; desc: any }): React.ReactEleme
           <li className="list-disc font-manropeL">Compatible with all device interfaces</li>
           <li className="list-disc font-manropeL">Compatible with all Google web fonts</li>
           <li className="list-disc font-manropeL">Active and Hover options</li>
-        </ul>
+        </ul> */}
+        <p className="font-manropeL mt-6">{desc}</p>
       </>
     );
 
@@ -86,7 +88,7 @@ const TabContent = ({ tab, desc }: { tab: string; desc: any }): React.ReactEleme
     return (
       <>
         <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Review</h2>
-        <div className="pt-9 flex">
+        {/* <div className="pt-9 flex">
           <div className="flex align-center gap-[5.3px]">
             <Image src={profileImg} alt="Profile Img" />
 
@@ -159,14 +161,19 @@ const TabContent = ({ tab, desc }: { tab: string; desc: any }): React.ReactEleme
           >
             <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
           </button>
-        </form>
+        </form> */}
+        {/* <p className="mt-6 font-manropeL text-base font-normal">
+          No reviews yet. Be the first to review this product. <Link href={`/dashboard/reviews/create/${id}`} className='underline'>Write a review.</Link>
+        </p> */}
+
+        <ProductReview id={id} />
       </>
     );
 
   return null;
 };
 
-const TabContainer = ({ desc }: { desc: any }) => {
+const TabContainer = ({ desc, id }: { desc: any; id: string }) => {
   const [tab, setTab] = useState<string>('description');
 
   const handleTabClick = useMemo(() => {
@@ -179,7 +186,7 @@ const TabContainer = ({ desc }: { desc: any }) => {
     <div className="md:block hidden w-full">
       <TabButton handleTabClick={handleTabClick} tab={tab} />
       <div className="w-full rounded-[10px] border-[1px] border-white-110 mt-4 p-10">
-        <TabContent tab={tab} desc={desc} />
+        <TabContent tab={tab} desc={desc} id={id} />
       </div>
     </div>
   );

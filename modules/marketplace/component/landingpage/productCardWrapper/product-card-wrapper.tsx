@@ -21,7 +21,6 @@ function ProductCardWrapper({
     <section className="w-full mb-2.5 md:mb-8 pt-2.5">
       <h3 className="text-custom-color31 font-manropeL mb-5 md:mb-8 font-bold md:text-2xl leading-normal flex items-center justify-between">
         {title}
-
         {showAll && (
           <Link className="flex items-center gap-2 text-sm font-bold text-brand-green-shade50" href="">
             View All
@@ -41,7 +40,7 @@ function ProductCardWrapper({
       <div>
         {productsList.isLoading ? (
           <div
-            className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+            className={`flex flex-nowrap lg:grid grid-cols-4 gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
           >
             {[1, 2, 3, 4].map((item) => {
               return <CategoryLoading key={item} />;
@@ -49,14 +48,17 @@ function ProductCardWrapper({
           </div>
         ) : (
           <>
-            {productsList.items.length ? (
+            {productsList?.items?.length ? (
               <div
-                className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+                className={`flex flex-nowrap lg:grid grid-cols-4 gap-x-2 md:gap-x-4 gap-y-[70px] mb-[74px] lg:[grid-column-gap:2rem] w-full overflow-scroll ${styles['hide-scroll']}`}
               >
                 {productsList.items.map((item, index) => {
                   if (index <= 7) {
                     return (
-                      <div key={index} className="relative w-1/2 md:w-1/3 lg:w-full pr-2 md:pr-4 lg:pr-0">
+                      <div
+                        key={index}
+                        className="relative w-1/2 md:w-1/3 lg:justify-items-stretch lg:w-full pr-2 md:pr-4 lg:pr-0"
+                      >
                         <ProductCard
                           id={item?.id}
                           currency={item?.currency}
@@ -65,9 +67,10 @@ function ProductCardWrapper({
                           price={item?.price}
                           user={item?.shop ? `${item?.shop?.name}` : 'null'}
                           rating={item?.rating}
-                          showDiscount={item?.showDiscount}
+                          showDiscount={title === 'Limited Offers' ? true : false}
                           showTopPicks={showTopPicks}
                           discount_price={item?.discount_price}
+                          shop={item?.shop}
                         />
                       </div>
                     );

@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-
-import { ArrowDown, Sort } from 'iconsax-react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { ArrowDown, SearchNormal1, Sort } from 'iconsax-react';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import FilterProduct from '@modules/super-admin/components/product-listing/filterProduct';
 import Button from '@ui/Button';
-import Link from 'next/link';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { formatDate } from './product-details';
 import { useRouter } from 'next/router';
+import { Input } from '@ui/Input';
 
 export const LoadingTable = () => {
   return (
@@ -15,21 +14,35 @@ export const LoadingTable = () => {
   );
 };
 
-const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
-  const [searchVal, setSearchVal] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(data?.data);
-  const [currentPage, setCurrentPage] = useState(1);
+const ProductListingTable = ({
+  data,
+  isLoading,
+  currentPage,
+  setCurrentPage,
+  searchVal,
+  setSearchVal,
+}: {
+  data: any;
+  isLoading: boolean;
+  currentPage: number;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+  searchVal: string;
+  setSearchVal: Dispatch<SetStateAction<string>>;
+}) => {
+  const sanctionedProd = data?.data;
+  const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
+  // const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items to display per page
 
   // Calculate the range of products to display
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const endIndex = startIndex + itemsPerPage;
+  // const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
+  // const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   useEffect(() => {
-    setFilteredProducts(data?.data);
-  }, [data]);
+    setFilteredProducts(sanctionedProd);
+  }, [sanctionedProd]);
 
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
@@ -53,21 +66,21 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
           return dateB.getTime() - dateA.getTime(); // Newest to oldest
         } else if (status === 'oldest') {
           return dateA.getTime() - dateB.getTime(); // Oldest to newest
-        } else {
-          const statusOrder: { [key: string]: number } = {
-            Active: 1,
-            Sanctioned: 2,
-            Deleted: 3,
-          };
-          return statusOrder[a.product_status] - statusOrder[b.product_status];
+        } else if (status === 'status') {
+          if (a.product_status === 'Active' && b.product_status !== 'Active') return -1;
+          if (a.product_status !== 'Active' && b.product_status === 'Active') return 1;
+          if (a.product_status === 'Sanctioned' && b.product_status === 'Deleted') return -1;
+          if (a.product_status === 'Deleted' && b.product_status === 'Sanctioned') return 1;
         }
       });
+      console.log('filter');
 
       setFilteredProducts(sortedProducts);
     }
   };
 
   const handlePageChange = (newPage: number) => {
+    window.scroll(0, 10);
     setCurrentPage(newPage);
   };
 
@@ -80,16 +93,28 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         </div>
 
         <div className="flex justify-between items-center gap-2">
-          <SearchProduct handleSearchChange={handleSearch} />
+          <Input
+            onChange={(e) => {
+              // handleSearch(e.target.value);
+              setSearchVal(e.target.value);
+              console.log(e.target.value);
+            }}
+            leftIcon={<SearchNormal1 />}
+            type="text"
+            intent={'default'}
+            disabled={false}
+            className="md:min-w-[350px] w-[100%]"
+            placeHolder="search"
+          />
           <div>
-            <div className="md:block hidden">
+            <div className="">
               <FilterProduct handleFilter={handleFilter} />
             </div>
-            <div className="md:hidden block">
+            {/* <div className="md:hidden block">
               <Button>
                 <Sort />
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -97,9 +122,9 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         <LoadingTable />
       ) : (
         <div className="mb-4">
-          {visibleProducts?.length > 0 ? (
+          {data?.data?.length > 0 ? (
             <>
-              <table className="w-full ">
+              <table className="w-full md:table-fixed">
                 <thead>
                   <tr>
                     <th className="text-gray-500 text-sm font-normal leading-[18px] px-6 py-6 gap-3 text-left flex items-center">
@@ -119,16 +144,16 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   </tr>
                 </thead>
                 <tbody>
-                  {visibleProducts?.map((product: any) => (
+                  {data?.data.map((product: any) => (
                     <tr
                       className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                       key={product?.product_id}
                       onClick={() => route.push(`/super-admin/product-listing/product-details/${product?.product_id}`)}
                     >
-                      <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 items-center gap-6 self-stretch flex ">
+                      <td className="max-w-[10vw] md:w-full font-manropeL text-base text-gray-900 px-6 py-6">
                         <p>{product?.product_name} </p>
                       </td>
-                      <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
+                      <td className=" font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                         <p>{product?.vendor_name} </p>
                       </td>
                       <td className="hidden md:table-cell tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
@@ -163,7 +188,11 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   ))}
                 </tbody>
               </table>
-              <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+              <SuperAdminPagination
+                currentPage={currentPage}
+                totalPages={data?.total_pages}
+                setCurrentPage={setCurrentPage}
+              />
             </>
           ) : (
             <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

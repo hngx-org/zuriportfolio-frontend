@@ -3,12 +3,19 @@ import React, { useState } from 'react';
 
 interface CustomDropdownProps {
   options: string[];
+  placeholder: string;
   selectedValue: string;
   onChange: (option: string) => void;
   className?: React.ComponentProps<'div'>['className'];
 }
 
-const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue, onChange, className }) => {
+const CustomDropdown: React.FC<CustomDropdownProps> = ({
+  options,
+  placeholder,
+  selectedValue,
+  onChange,
+  className,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -23,13 +30,13 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue,
   return (
     <div className="w-full relative">
       <div
-        className={`h-12 px-5 py-3 bg-white rounded-2xl border border-stone-300 justify-between items-center gap-2 flex cursor-pointer ${className} ${
+        className={`h-12 px-5 py-3 bg-white rounded-lg border border-stone-300 justify-between items-center gap-2 flex cursor-pointer ${className} ${
           isOpen ? 'bg-white' : ''
         }`}
         onClick={toggleDropdown}
       >
         <div className="text-black text-[0.875rem] font-normal font-manropeEB leading-normal tracking-tight">
-          {selectedValue || options[1]}
+          {selectedValue || placeholder}
         </div>
         <div className="w-6 h-6 justify-center items-center flex">
           <div className="w-6 h-6 relative">
@@ -38,7 +45,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, selectedValue,
         </div>
       </div>
       {isOpen && (
-        <div className="list mt-2 bg-white border hover:bg-white-100 max-h-fit overflow-y-auto absolute z-20 w-full bg-white-100 rounded-xl">
+        <div className="list mt-2 bg-white shadow-lg hover:bg-white-100 max-h-fit overflow-y-auto absolute z-20 w-full bg-white-100 rounded-xl">
           {options.map((option, index) => (
             <div
               key={index}

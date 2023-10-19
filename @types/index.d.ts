@@ -1,6 +1,7 @@
 import React from 'react';
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
+import { boolean } from 'zod';
 
 // export all interfaces and types
 declare module 'nprogress';
@@ -12,9 +13,11 @@ export interface MainLayoutProps {
   showDashboardSidebar?: boolean;
   showTopbar?: boolean;
   showFooter?: boolean;
+  includeMarginTop?: boolean;
 }
 
 export interface ProductData {
+  [x: string]: SetStateAction<ProductData | null>;
   id: string;
   name: string;
   discount_price: string;
@@ -23,7 +26,26 @@ export interface ProductData {
   images: any[];
   url: string[];
   rating: number;
-  user: string;
+  user: {
+    id: string;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    section: string;
+    password: string;
+    provider: string;
+    phone_number: string;
+    is_verified: boolean;
+    two_factor_auth: boolean;
+    location: string;
+    country: string;
+    profile_pic: string;
+    profile_cover_photo: string;
+    refresh_token: string;
+    createdat: string;
+    role: number;
+  };
   quantity: Number;
   shop: string;
 }
@@ -59,6 +81,39 @@ export interface RecentlyViewedData {
   interaction_type: string;
   createdat: number;
 }
+export interface Award {
+  id: number;
+  sectionId: number;
+  year: string;
+  title: string;
+  presented_by: string;
+  url: string;
+  description: string;
+}
+
+export interface AwardItemProps {
+  award: Award;
+}
+export interface AwardListProps {
+  // awards: Award[];
+  isModalOpen: boolean;
+}
+export interface Certification {
+  id: string;
+  sectionId: number;
+  year: string;
+  title: string;
+  organization: string;
+  url: string;
+  description: string;
+}
+
+export interface CertificationItemProps {
+  certification: Certification;
+}
+export interface CertificationListProps {
+  isModalOpen: boolean;
+}
 
 export interface Education {
   id: number;
@@ -66,8 +121,12 @@ export interface Education {
   fieldOfStudy: string;
   school: string;
   description: string;
-  dateFrom: string;
-  dateTo: string;
+  from: string;
+  to: string;
+}
+export interface DegreeOption {
+  id: number;
+  type: string;
 }
 export interface AllCategoryDetails {
   price: string;
@@ -87,9 +146,14 @@ interface ImageData {
 interface CategoryData {
   name: string;
 }
+interface Produne {
+  name: string;
+  // Add other properties specific to a product
+}
 export interface Products {
   id: string;
   name: string;
+  product: Produne;
   image: ImageData[];
   shopOwner: string;
   price: number;
@@ -99,6 +163,32 @@ export interface Products {
   rating: number;
   currency: string;
   discount_price: string;
+}
+
+export interface Data {
+  id: string;
+  merchant_id: string;
+  name: string;
+  policy_confirmation: string | null;
+  restricted: string;
+  admin_status: string;
+  is_deleted: string;
+  reviewed: string | null;
+  rating: number | null;
+  createdAt: string;
+  updatedAt: string;
+  products: Product;
+}
+export interface ShopData {
+  products: Product;
+  data?: Data;
+}
+
+export interface SEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }
 export interface SuperAdminPagination {
   title: any;
@@ -181,6 +271,23 @@ export interface MarketPlaceProductCardProps {
   showTopPicks?: boolean;
   showDiscount?: boolean;
   discount_price?: number;
+  shop?: {
+    id: string;
+    name: string;
+  };
+}
+
+export interface IntrestedProducts {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  images: { url: string }[];
+  category: { name: string };
+  shop?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface ratingProps {
@@ -284,7 +391,14 @@ export type ProductCardProps = {
   tagBackground?: string;
 };
 
-export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+//export type CartSumaryProp = { subtotal: number; discount: number; VAT: number; total: number };
+
+export type CartSumaryProp = {
+  subtotal: number;
+  discount: number;
+  VAT: number;
+  total: number;
+};
 
 export type RecentlyViewedProductProp = {
   user: string;
@@ -327,6 +441,7 @@ export type CartItemProps = {
   productColor?: string;
   productSeller: string;
   productPrice: number;
+  productDiscount?: string;
 };
 
 export type ViewedProductCardProps = {
@@ -405,6 +520,7 @@ export interface WorkExperience {
   endYear: string;
   endMonth: string;
   id: number;
+  isEmployee: boolean;
 }
 export interface VerificationProps {
   handleClick(): void;
@@ -417,7 +533,7 @@ export interface PaginationBtn {
 export interface AdminTablePagination {
   currentPage: number;
   totalPages: number;
-  onPageChange: (newPage: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface PromotionHistory {
@@ -480,11 +596,13 @@ export interface ProjectModalProps {
 
 export interface RatingBarProps {
   avgRating: number;
+  verUser: number;
 }
 
 export interface RatingCardProps {
   rating: number;
   users: number;
+  totalReviews: number;
 }
 
 export interface filterProps {
@@ -503,6 +621,11 @@ export interface reviewProps {
   shopName?: string;
   shopReply?: string;
   help?: number;
+}
+
+export interface revNavProps {
+  shopNav?: boolean;
+  marketPlaceNav?: boolean;
 }
 
 export interface searchProp {
@@ -538,10 +661,6 @@ export interface Vendor {
 }
 
 export type BannedDeletedVendorsProps = {
-  showBanned: boolean;
-  setShowBanned: (any: boolean) => void;
-  showDeleted: boolean;
-  setShowDeleted: (any: boolean) => void;
   data: any;
   isLoading: Boolean;
 };
@@ -613,17 +732,24 @@ export type inputErrorMessage = {
 };
 // product listing types
 export interface ProductInfo {
-  productName: string;
-  vendor: string;
-  id: number;
-  dateAdded: string;
+  product_name: string;
+  vendor_name: string;
+  product_id: number;
+  date_added: string;
   status: string;
 }
+
+interface ProductStatistics {
+  total_deleted_products: number;
+  total_products: number;
+  total_sanctioned_products: number;
+}
+
 export interface DeletedProducts {
-  admin_status: string;
-  category_id: number;
-  createdAt: string;
-  product_id: string;
+  // admin_status: string;
+  // category_id: number;
+  // createdAt: string;
+  // product_id : string;
   product_name: string;
   product_status: string;
   updatedAt: string;
@@ -674,9 +800,11 @@ export interface AuthContextProps {
   auth: AuthResponse | undefined;
   email: string;
   redirect: string;
-  handleAuth: (value: AuthResponse) => void;
+  userCameFrom: string | undefined;
+  handleAuth: (value: AuthResponse | undefined) => void;
   handleEmail: (value: string) => void;
   handleRedirect: (value: string) => void;
+  handleUserCameFrom: (value: string | undefined) => void;
 }
 
 export type User = {
@@ -684,6 +812,10 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
+  isVerified: boolean;
+  roleId: number;
+  twoFactorAuth: boolean;
+  two_factor_auth: boolean;
 };
 
 export type AuthResponse = {
@@ -701,6 +833,11 @@ type ProductCategory = {
   createdat: string;
   user: string;
 };
+
+type ProductShop = {
+  id: string;
+  name: string;
+};
 export interface ProductResult {
   id: string;
   name: string;
@@ -716,8 +853,50 @@ export interface ProductResult {
   currency: string;
   createdat: string;
   updatedat: string;
-  shop: string;
+  shop: ProductShop;
   category: ProductCategory;
   rating: number;
   user: string;
+}
+
+export interface ReviewData {
+  productId: string;
+  reviewId: string;
+  customerName: string;
+  description: string;
+  isHelpful: number;
+  rating: 0;
+  reply: {
+    id: string;
+    name: string;
+    message: string;
+    createdAt: string;
+  };
+  numberOfPages: 0;
+  updatedAt: string;
+  createdAt: string;
+}
+
+export interface ReviewApiResponse {
+  data: ReviewData[];
+}
+
+export interface RatsData {
+  oneStar: number;
+  twoStar: number;
+  threeStar: number;
+  fourStar: number;
+  fiveStar: number;
+  totalRating: number;
+  averageRating: number;
+  numberOfRating: number;
+  productId: string;
+  id: string;
+}
+
+export interface ExploreSEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }

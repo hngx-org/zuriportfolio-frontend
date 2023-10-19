@@ -1,18 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import Button from '@ui/Button';
-import { ArrowLeft2, Import } from 'iconsax-react';
+import { ArrowLeft2, Import, CloseCircle } from 'iconsax-react';
 import MainLayout from '../components/Layout/MainLayout';
 import InviteLink from '../modules/portfolio/component/portfolioSettingsComponents/inviteLink';
 import NotificationSettings from '../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
 import { SettingOptionTypes } from '../@types';
 import DeleteAccount from '@modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
-import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
-import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
+// import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
+// import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NotificationCheckboxType } from '../@types';
 import { useRouter } from 'next/router';
 import withAuth from '../helpers/withAuth';
+import Image from 'next/image';
+import { useAuth } from '../context/AuthContext';
+import Twofa from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
+import defaultpic from '../public/assets/inviteAssets/profile.svg';
+import { notify } from '@ui/Toast';
+import axios from 'axios';
+import Success from './auth/success';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import nProgress from 'nprogress';
+import UpdatePassword from '@modules/portfolio/component/portfolioSettingsComponents/UpdatePassword';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -22,18 +32,17 @@ const SettingPage = () => {
     refer: false,
   });
 
+  const { auth } = useAuth();
   const router = useRouter();
 
   const openEachSeting = Object.values(settingOption).some((value) => value === true);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [local, setlocal] = useState<boolean>(false);
-  const [showNotInfo, setShowNotInfo] = useState<boolean>(false);
-  const [showReferInfo, setShowReferInfo] = useState<boolean>(false);
+  const [closeAcc, setCloseAcc] = useState<boolean>(true);
 
-  const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
-    setter((prev: boolean) => !prev);
-  };
+  const [showReferInfo, setShowReferInfo] = useState<boolean>(false);
+  const [userPic, setUserPic] = useState<string>('');
 
   const changeSettingOptions = (optionsSettings: keyof SettingOptionTypes) => {
     setSettingOption((prevSettingOption) => {
@@ -58,6 +67,7 @@ const SettingPage = () => {
       refer: false,
     };
     setSettingOption(newSettingOption);
+    setCloseAcc(true);
   };
 
   useEffect(() => {
@@ -71,8 +81,6 @@ const SettingPage = () => {
     }
   }, []);
 
-  const userId = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
-
   const [checkboxState, setCheckboxState] = useState<NotificationCheckboxType>({
     emailSummary: false,
     specialOffers: false,
@@ -80,17 +88,16 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-
+  const baseUrl = 'https://hng6-r5y3.onrender.com/api/';
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
-      const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
-      const baseUrl = 'https://hng6-r5y3.onrender.com';
+      const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
       const method = storedNotificationData ? 'PATCH' : 'POST';
 
-      const url = `${baseUrl}/api/${storedNotificationData ? 'update' : 'set'}-notification-settings/${userId}`;
+      const url = `${baseUrl}set-notification-settings/${auth?.user.id}`;
       const response = await fetch(url, {
-        method: method,
+        method: 'POST',
 
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +113,7 @@ const SettingPage = () => {
 
         setCheckboxState(notificationData);
 
-        localStorage.setItem(`notificationData${userId}`, JSON.stringify(notificationData));
+        localStorage.setItem(`notificationData${auth?.user.id}`, JSON.stringify(notificationData));
 
         toast.success('Updated Successfully', {
           position: 'top-center',
@@ -134,9 +141,14 @@ const SettingPage = () => {
           progress: undefined,
           theme: 'light',
         });
-        setTimeout(() => {
-          router.push('/');
-        }, 3100);
+
+        setCheckboxState({
+          emailSummary: false,
+          specialOffers: false,
+          communityUpdate: false,
+          followUpdate: false,
+          newMessages: false,
+        });
       }
     } catch (error) {
       console.error('An error occurred while updating notification settings:', error);
@@ -146,8 +158,29 @@ const SettingPage = () => {
     }
   };
 
+  const handleGetUser = async () => {
+    try {
+      const url = `${baseUrl}users/${auth?.user.id}`;
+      const response = await fetch(url);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('user', data);
+        setUserPic(data?.user?.profilePic);
+      } else {
+      }
+    } catch (error) {
+      console.error('An error occurred while updating notification settings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetUser();
+  }, [settingOption]);
   const getNotificationSettingsFromLocalStorage = () => {
-    const storedNotificationData = localStorage.getItem(`notificationData${userId}`);
+    const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
     if (storedNotificationData) {
       const parsedData = JSON.parse(storedNotificationData);
       setCheckboxState(parsedData);
@@ -157,6 +190,84 @@ const SettingPage = () => {
   useEffect(() => {
     getNotificationSettingsFromLocalStorage();
   }, [local]);
+
+  const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setter((prev: boolean) => !prev);
+  };
+
+  // const hhh = async () => {
+  //   if (selectedFile) {
+  //     const formData = new FormData();
+  //     formData.append('profilepics', selectedFile);
+  //     formData.append('profilepics', auth?.user.id || '');
+
+  //     const url = 'https://hng6-r5y3.onrender.com/api/profile/image/upload';
+
+  //     try {
+  //       // Use toast.promise to display upload progress and results
+  //       toast.promise(axios.post(url, formData), {
+  //         pending: 'Uploading...',
+  //         success: 'Upload successful',
+  //         error: 'Failed to upload',
+  //       });
+  //     } catch (error) {
+  //       console.error('An error occurred:', error);
+  //     }
+  //   } else {
+  //     console.error('Please select a file to upload');
+  //   }
+  // };
+
+  const [selectedPics, setSelectedPics] = useState<string | StaticImport>('');
+
+  // const handleFileChang = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const files = event.target.files;
+
+  //   if (files) {
+  //     const file = files[0];
+  //     setSelectedPics(URL?.createObjectURL(file));
+  //     setSelectedFile(file);
+  //   } else {
+  //     setSelectedPics('');
+  //     setSelectedFile(undefined);
+  //   }
+  // };
+
+  const handlePic = async (coverImage: string | Blob) => {
+    try {
+      const formData = new FormData();
+      formData.append('images', coverImage as string | Blob);
+      formData.append('userId', auth?.user?.id as string);
+
+      const promise = axios.post('https://hng6-r5y3.onrender.com/api/profile/image/upload', formData);
+
+      const successMessage = 'Image uploaded successfully';
+      const response = await toast.promise(promise, {
+        pending: 'Uploading image...',
+        success: successMessage,
+        error: 'An error occurred while uploading the image',
+      });
+
+      setTimeout(() => {
+        toast.dismiss();
+      }, 5000);
+
+      console.log('uploaded', response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const image = URL.createObjectURL(file);
+      if (e.target.id === 'avatarUpload') {
+        setSelectedPics(image);
+      }
+      await handlePic(file);
+    }
+  };
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
@@ -260,7 +371,40 @@ const SettingPage = () => {
                     <NotificationSettings checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
                   )}
                   {settingOption.deleteAccount && <DeleteAccount />}
-                  {settingOption.accountManagement && <AccountManagement />}
+                  {settingOption.accountManagement && (
+                    <div>
+                      <h3 className=" font-manropeEB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
+                        Account Management
+                      </h3>
+                      <div className=" rounded-full  ">
+                        <label
+                          htmlFor="avatarUpload"
+                          className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
+                        >
+                          <>
+                            <Image
+                              src={selectedPics || userPic || defaultpic}
+                              width={280}
+                              height={180}
+                              alt=""
+                              className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
+                            ></Image>
+                          </>
+                          Edit
+                        </label>
+                        <input
+                          type="file"
+                          name="profilepics"
+                          id="avatarUpload"
+                          className="hidden outline-none"
+                          onChange={handleFileChange}
+                        />
+                      </div>
+
+                      <UpdatePassword />
+                      <Twofa closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -305,7 +449,6 @@ const SettingPage = () => {
                   >
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('refer');
                       }}
                       className="pb-4 md:py-3 w-full
@@ -323,7 +466,6 @@ const SettingPage = () => {
                   >
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('accountManagement');
                       }}
                       className="pb-4 md:py-3 w-full  
@@ -333,7 +475,6 @@ const SettingPage = () => {
                     </li>
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('notificationSettings');
                       }}
                       className="py-4 md:py-3 w-full hover:bg-brand-green-shade95 min-w-[50vw] border-b-[1px] border-white-500 "
@@ -342,7 +483,6 @@ const SettingPage = () => {
                     </li>
                     <li
                       onClick={() => {
-                        toggleShow(setShowNotInfo);
                         changeSettingOptions('deleteAccount');
                       }}
                       className="py-4  md:py-3 w-full border-b-[1px] md:border-none hover:bg-brand-green-shade95 min-w-[50vw] border-white-500 
@@ -369,7 +509,43 @@ const SettingPage = () => {
                     <NotificationSettings checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
                   )}
                   {settingOption.deleteAccount && <DeleteAccount />}
-                  {settingOption.accountManagement && <AccountManagementMobile />}
+                  {settingOption.accountManagement && (
+                    <div>
+                      {closeAcc && (
+                        <>
+                          <h3 className=" font-manropeEB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
+                            Account Management
+                          </h3>
+                          <div className=" rounded-full  ">
+                            <label
+                              htmlFor="avatarUpload"
+                              className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
+                            >
+                              <>
+                                <Image
+                                  src={selectedPics || userPic || defaultpic}
+                                  width={280}
+                                  height={180}
+                                  alt=""
+                                  className=" w-[140px] h-[140px]  rounded-full  "
+                                ></Image>
+                              </>
+                              Edit
+                            </label>
+                            <input
+                              type="file"
+                              onChange={handleFileChange}
+                              name="profilepics"
+                              id="avatarUpload"
+                              className=" hidden outline-none"
+                            />
+                          </div>
+                          <UpdatePassword />
+                        </>
+                      )}
+                      <Twofa closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
+                    </div>
+                  )}{' '}
                   {settingOption.refer && <InviteLink />}
                 </div>
               </div>
@@ -390,13 +566,13 @@ const SettingPage = () => {
              settingOption.accountManagement || settingOption.deleteAccount || settingOption.refer
                ? 'md:block lg:block hidden'
                : ''
-           }
+           } ${settingOption.notificationSettings && 'md:block'}
            hover:bg-brand-green-hover hover:text-white-100 `}
         >
-          Save <span className={` ${showReferInfo && 'hidden md:inline'}`}>& Close </span>
+          Save <span className={` ${showReferInfo && 'hidden md b:inline'}`}>& Close </span>
         </Button>
       </div>
     </MainLayout>
   );
 };
-export default SettingPage;
+export default withAuth(SettingPage);

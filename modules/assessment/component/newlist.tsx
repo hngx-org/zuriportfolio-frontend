@@ -2,15 +2,21 @@ type option = any;
 type questions = {
   question_no: number;
   question_text: string;
-  options: option[];
-  correct_option: number;
+  question_type: string;
+  answer: {
+    options: any;
+    correct_option: string;
+  };
 };
 const questions_and_answers: questions[] = [
   {
     question_no: 1,
     question_text: '',
-    options: [''],
-    correct_option: 1,
+    question_type: 'multiple_choice',
+    answer: {
+      options: [''],
+      correct_option: '',
+    },
   },
 ];
 export default questions_and_answers;

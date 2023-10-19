@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import SuperAdminProdDetails from '@modules/super-admin/components/product-listing/product-details';
 import DeleteModal from '@modules/super-admin/components/product-listing/product-details/DeleteModal';
-import { useGetProdDetails } from '../../../../http';
+import { useGetProdDetails } from '../../../../http/super-admin1';
 import { useRouter } from 'next/router';
 import Loader from '@modules/portfolio/component/landing/Loader';
 import { toast } from 'react-toastify';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const ProdDetails = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -36,6 +37,7 @@ const ProdDetails = () => {
             setReasons={setReasons}
             id={id}
             data={data?.data[0]}
+            type="product"
           />
         </>
       ) : (
@@ -47,4 +49,4 @@ const ProdDetails = () => {
   );
 };
 
-export default ProdDetails;
+export default withAdminAuth(ProdDetails);

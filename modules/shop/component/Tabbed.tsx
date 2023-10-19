@@ -26,19 +26,7 @@ const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) 
           }`}
         ></span>
       </button>
-      <button
-        className={`font-normal font-manropeL tracking-[0.08px] ${
-          tab === 'specification' ? 'text-green-400' : 'text-dark-115'
-        }`}
-        onClick={() => handleTabClick('specification')}
-      >
-        Specification
-        <span
-          className={`h-[2px] w-[40px] bg-green-400 block mx-auto mt-[2px] ${
-            tab === 'specification' ? 'opacity-1' : 'opacity-0'
-          }`}
-        ></span>
-      </button>
+
       <button
         className={`font-normal font-manropeL tracking-[0.08px] ${
           tab === 'review' ? 'text-green-400' : 'text-dark-115'
@@ -61,10 +49,10 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
   const [product, setProduct] = useState<Products | null>(null);
   useEffect(() => {
     if (id) {
-      fetch(`https://tech-v3ey.onrender.com/api/products/${id}`)
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
         .then((response) => response.json())
-        .then((data) => {
-          setProduct(data);
+        .then((response) => {
+          setProduct(response.data);
         })
         .catch((error) => {
           console.error('Error fetching product details:', error);
@@ -78,32 +66,14 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
       <>
         {' '}
         <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Description</h2>
-        <p className="mt-6 font-manropeL">{product?.description}</p>
-      </>
-    );
-
-  if (tab === 'specification')
-    return (
-      <>
-        <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Specifications</h2>
-        <ul className="mt-6 flex flex-col gap-4 list-inside">
-          <li className="list-disc font-manropeL">Adaptable with HTML5 and CSS3</li>
-          <li className="list-disc font-manropeL">
-            Comprehensive documentation and customer support to assist users in setting up
-          </li>
-          <li className="list-disc font-manropeL">Similar products you might like</li>
-          <li className="list-disc font-manropeL">WC3 valid HTML codes</li>
-          <li className="list-disc font-manropeL">Compatible with all device interfaces</li>
-          <li className="list-disc font-manropeL">Compatible with all Google web fonts</li>
-          <li className="list-disc font-manropeL">Active and Hover options</li>
-        </ul>
+        {product ? <p className="mt-6 font-manropeL">{product.description}</p> : null}
       </>
     );
 
   if (tab === 'review')
     return (
       <>
-        <h2 className="text-white-700 font-manropeB font-semibold text-2xl text-left">Review</h2>
+        <h2 className="text-white-700  font-manropeB font-semibold text-2xl text-left">Review</h2>
         <div className="pt-9 flex">
           <div className="flex align-center gap-[5.3px]">
             <Image src={profileImg} alt="Profile Img" />
@@ -122,20 +92,12 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
             <Image src={star2} alt="rating star" />
             <Image src={star2} alt="rating star" />
           </div>
-          <div className="flex gap-2">
-            <Image src={verifyIcon} alt="Verify Icon" />
-            <p className="color-green-300 font-manropeB text-sm font-semibold text-brand-green-shade50">
-              Verified Purchase
-            </p>
-          </div>
         </div>
         <p className="font-manropeL text-sm font-normal color-green-900 pt-5">
           Having this product is the best thing that has happened to me in a very long time. Thank you so much for this
           product. The shipping and delivery was also very good. But there a few tweaks that this can actually have
           though.
         </p>
-
-        <p className="pt-8 text-[#A1ADB2] font-manropeB text-xs font-semibold">322 people found this helpful</p>
 
         <div className="pt-4 flex items-center">
           <button className="text-gray-300 font-manropeB text-xs font-medium rounded-[10px] border-[1px] border-gray-300 px-2 mr-3.5">
@@ -148,7 +110,7 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
 
         <div className="mt-[18px] pt-[18px] pb-[46px] pr-[70px] pl-[16px] bg-[#F9F9F9]">
           <div className="flex items-center justify-between w-6/12">
-            <h3 className="font-manropeB text-sm font-semibold">ZuriMarket</h3>
+            <h3 className="font-manropeB text-sm font-semibold">ZuriShopOwner</h3>
             <p className="font-manropeL text-xs font-normal text-[#A1ADB2]">September 22, 2023.</p>
           </div>
           <p className="font-manropeL text-sm font-normal mt-4">
@@ -158,26 +120,12 @@ const TabContent = ({ tab }: { tab: string }): React.ReactElement | null => {
           </p>
         </div>
 
-        <form action="#" className="mt-6">
-          <h3 className="text-base font-manropeB font-semibold">Review this product</h3>
-          <p className="text-sm font-manropeL font-normal mt-[0.8px]">Share your thoughts with other customers</p>
-          <Link href={'/dashboard/reviews/new'}>
-            <textarea
-              id="about"
-              name="about"
-              rows={3}
-              className="block w-full rounded-xl mt-4 text-[#A1ADB2] border-0 border-custom-color32 text-base font-bold py-2  shadow-sm ring-1 ring-inset ring-gray-300 min-h-[116px] placeholder:text-[#A1ADB2] sm:text-sm sm:leading-6 pl-2 "
-              placeholder="Write a customer review"
-              required
-            ></textarea>
-          </Link>
-          <button
-            type="button"
-            className="text-xl font-semibold leading-6 mt-7 font-manropeB text-brand-green-primary flex mx-auto"
-          >
-            <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
-          </button>
-        </form>
+        <button
+          type="button"
+          className="text-xl font-semibold leading-6 mt-7 font-manropeB text-brand-green-primary flex mx-auto"
+        >
+          <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
+        </button>
       </>
     );
 

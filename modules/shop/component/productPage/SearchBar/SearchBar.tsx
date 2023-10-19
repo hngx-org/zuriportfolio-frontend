@@ -1,4 +1,3 @@
-// components/SearchBar.tsx
 import { CloseCircle, SearchNormal1 } from 'iconsax-react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
@@ -10,10 +9,8 @@ interface SearchBarProps {
   clearSearch: () => void;
   selectedCategory: string;
   handleCategoryChange: (category: string) => void;
-  addToSearchHistory: () => void;
   showSearchHistory: () => void;
   setShopOwnerQuery: (query: string) => void;
-  setCategoryQuery: (query: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -21,25 +18,26 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setSearchQuery,
   setSearchQueryLocal,
   clearSearch,
-  selectedCategory,
-  handleCategoryChange,
   setShopOwnerQuery,
-  setCategoryQuery,
-  addToSearchHistory,
-  showSearchHistory,
 }) => {
   const [error, setError] = useState<string | null>(null);
-
   const router = useRouter();
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQueryLocal(query);
-    setSearchQuery(query);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQueryLocal(e.target.value);
     setError(null);
-    addToSearchHistory();
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleSearch = () => {
+    const query = searchQuery;
+    setSearchQuery(query);
     setShopOwnerQuery(query);
-    setCategoryQuery(query);
 
     if (router.pathname === '/shop/product') {
       router.push('/shop');
@@ -61,8 +59,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
           type="text"
           placeholder="Search..."
           value={searchQuery}
-          onChange={handleSearch}
-          className=" focus:outline-none max-w-md  w-full"
+          onKeyPress={handleKeyPress}
+          onChange={handleInputChange}
+          className="focus:outline-none max-w-md w-full"
         />
         <button onClick={handleClear} className="outline-none">
           <CloseCircle color="#737876" size={18} />

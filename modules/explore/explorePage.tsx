@@ -1,36 +1,53 @@
 // pages/index.tsx
-import Card from './components/Card';
 import SearchAndFilter from './SearchAndFilter';
 import axios from 'axios';
 import useDebounce from './hooks/deBounce';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 import { UserInfo } from './@types';
+import Pagination from '@ui/Pagination';
+import Loader from '@ui/Loader';
+import Banner from './components/Banner';
+import Card from './components/Card';
 
 const HomePage = () => {
   // States
-  const searchParam = useSearchParams();
   const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
+  const searchTerm = useRouter();
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleClearFilters = () => {
+    setFilters({});
+  };
+
+  const handleNumberReset = () => {
+    setPageNumber(1);
+  };
   const handleFilters = (type: string, value: string | number) => {
     setFilters((prev) => {
+      if (type === 'All' || value === 'All') {
+        return {};
+      }
       if (type === 'none') {
         return {};
       }
+
       return { ...prev, [type]: value };
     });
   };
-  const deBounce = useDebounce(searchQuery, 1200);
-  const router = useRouter();
 
-  const explorePageParam = {
-    page: searchParam.get('page'),
-    itemsPerPage: searchParam.get('itemsPerPage'),
+  const handleGo = () => {
+    searchTerm.push(`/explore/search?searchQuery=${searchQuery}`);
   };
+
+  const deBounce = useDebounce(searchQuery, 1200);
 
   const baseUrl = `https://hngstage6-eagles.azurewebsites.net/api`,
     searchUrl = (query: string) => `${baseUrl}/explore/search/${query}`,
@@ -49,14 +66,12 @@ const HomePage = () => {
     const { data } = await axios.get(url, {
       params: {
         PageNumber: pageNumber,
-        PageSize: 12,
+        PageSize: 9,
         ...filters,
       },
     });
     return data;
   }
-
-  console.log(filters);
 
   // Data fetching
   const { data, isLoading } = useQuery<UserInfo>({
@@ -66,10 +81,18 @@ const HomePage = () => {
 
   return (
     <>
-      <SearchAndFilter handleFilters={handleFilters} filters={filters} setSearchQuery={setSearchQuery} />
+      <Banner />
+      <SearchAndFilter
+        handleGo={handleGo}
+        setPageNumber={handleNumberReset}
+        setFilter={handleClearFilters}
+        handleFilters={handleFilters}
+        filters={filters}
+        setSearchQuery={setSearchQuery}
+      />
       {isLoading && (
         <div className="grid place-items-center min-h-[300px]">
-          <p>Loading...</p>{' '}
+          <Loader />
         </div>
       )}
       {data?.data?.length === 0 && (
@@ -86,9 +109,17 @@ const HomePage = () => {
           </div>
         </div>
       )}
-
-      <button onClick={() => setPageNumber((pre) => pre + 1)}>Next Page</button>
-      <button onClick={() => setPageNumber(pageNumber - 1)}>Previous Page</button>
+      {data?.data?.length === 0 ? null : (
+        <div className="w-full mx-auto my-4 mb-12 flex justify-center">
+          <Pagination
+            visiblePaginatedBtn={5}
+            activePage={pageNumber}
+            pages={5}
+            page={pageNumber}
+            setPage={setPageNumber}
+          />
+        </div>
+      )}
     </>
   );
 };
