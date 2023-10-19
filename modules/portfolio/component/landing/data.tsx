@@ -23,13 +23,13 @@ export const sections = [
     icon: <Briefcase />,
     modal: <WorkExperience />,
   },
-  // {
-  //   id: 'education',
-  //   title: 'Education',
-  //   description: 'Show off your  academic qualification  degrees, and also relevant certification.',
-  //   icon: <Teacher />,
-  //   modal: <Education />,
-  // },
+  {
+    id: 'education',
+    title: 'Education',
+    description: 'Show off your  academic qualification  degrees, and also relevant certification.',
+    icon: <Teacher />,
+    modal: <Education />,
+  },
   {
     id: 'skills',
     title: 'Skills',
