@@ -213,7 +213,7 @@ export default function ProductDetailsDescription() {
                 <p className="text-base font-normal font-manropeL leading-normal tracking-tight">
                   Total Payment (Incl. taxes)
                 </p>
-                <p className="flex gap-x-4 items-center">
+                <p className="flex flex-wrap gap-x-4 items-center">
                   <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
                     {product?.discount_price === '0.00'
                       ? formatToNigerianNaira(product?.price)
