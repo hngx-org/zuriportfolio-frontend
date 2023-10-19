@@ -7,6 +7,7 @@ import SectionFive from '@modules/home/sections/five/sectionFive';
 import SectionFour from '@modules/home/sections/fourth/sectionFour';
 import SectionTwo from '@modules/home/sections/second/sectionTwo';
 import SectionThree from '@modules/home/sections/third/sectionThree';
+import withoutAuth from '../helpers/withoutAuth';
 
 function Home() {
   return (
@@ -24,4 +25,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default withoutAuth(Home);

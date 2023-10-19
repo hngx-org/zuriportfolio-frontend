@@ -25,24 +25,22 @@ type MyGradingRangeType = {
 interface ScoringScreenProps {
   skillId: number; // Define skillId as a prop
 
-    assessment: {
-      id: number;
-      title: string;
-      createdAt: Date;
-      duration_minutes: number;
-      questions: {
-        answers: {}[];
-        question_no: number;
-        question_text: string;
-        question_type: string;
-      }[];
-      updatedAt: Date;
-    };
-    
-
+  assessment: {
+    id: number;
+    title: string;
+    createdAt: Date;
+    duration_minutes: number;
+    questions: {
+      answers: {}[];
+      question_no: number;
+      question_text: string;
+      question_type: string;
+    }[];
+    updatedAt: Date;
+  };
 }
 
-const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => {
+const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) => {
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
@@ -51,10 +49,10 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
     seconds: '',
   });
 
-  const [successMessage, setSuccessMessage] = useState('')
-  const [errorMessage, seterrorMessage] = useState('')
-  const [gradingSuccessMessage, setGradingSuccessMessage] = useState('')
-  const [gradingErrorMessage, setGradingErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, seterrorMessage] = useState('');
+  const [gradingSuccessMessage, setGradingSuccessMessage] = useState('');
+  const [gradingErrorMessage, setGradingErrorMessage] = useState('');
 
   const initialGradingValues: MyGradingRangeType = {
     minScore: '',
@@ -79,24 +77,22 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const name = e.target.name;
-  
+
     setExamTime((prevExamTime) => ({
       ...prevExamTime,
       [name]: newValue.padStart(2, '0'), // Automatically add leading '0' if needed
     }));
 
-    if(e.target.value !=''){
+    if (e.target.value != '') {
       console.log(e.target.value);
-      handleFormSubmit()
+      handleFormSubmit();
     }
   };
-  
-
 
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
     const newValue = e.target.value;
     const name = e.target.name;
-  
+
     if (name === 'minScore' || name === 'maxScore') {
       if (newValue === '' || (!isNaN(Number(newValue)) && Number(newValue) >= 0 && Number(newValue) <= 100)) {
         setGradingValues((prevValues) => ({
@@ -106,7 +102,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
             [name]: newValue,
           },
         }));
-  
+
         const minScore = name === 'minScore' ? newValue : gradingValues[level].minScore;
         const maxScore = name === 'maxScore' ? newValue : gradingValues[level].maxScore;
         const range = `${minScore}% - ${maxScore}%`;
@@ -114,7 +110,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
           ...prevAssessmentScoring,
           [`${level.toLowerCase()}_score_range`]: range,
         }));
-  
+
         if (minScore === '' || maxScore === '') {
           if (!incompleteLevels.includes(level)) {
             setIncompleteLevels([...incompleteLevels, level]);
@@ -126,8 +122,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
       saveScore(level);
     }
   };
-  
-  
 
   const handleSlider = () => {
     setIsAutoSubmitOn(!isAutoSubmitOn);
@@ -136,16 +130,15 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
   const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
     useCreatingAssessmentContext();
 
-  
   const saveScore = async (level: string) => {
     const token = localStorage.getItem('zpt');
-  
+
     try {
       const response = await fetch('https://staging.zuri.team/api/badges/badges', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           min_score: parseFloat(gradingValues[level].minScore),
@@ -154,16 +147,16 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
           skill_id: skillId,
         }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         setGradingSuccessMessage(`Scoring for ${level} saved successfully!`);
-        setGradingErrorMessage('')
+        setGradingErrorMessage('');
         // Handle success if needed
       } else {
         const errorData = await response.json();
-        setGradingErrorMessage(`${errorData.errors.skill? errorData.errors.max_score: errorData.message}`);
-        setGradingSuccessMessage('')
+        setGradingErrorMessage(`${errorData.errors.skill ? errorData.errors.max_score : errorData.message}`);
+        setGradingSuccessMessage('');
         // Handle error if needed
       }
     } catch (error) {
@@ -172,15 +165,15 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
       // Handle error if needed
     }
   };
-  
+
   // console.log('assessment scoring screen',assessment)
-  
+
   const handleFormSubmit = async () => {
     const { hours, minutes, seconds } = examTime;
     const durationInMinutes = Math.round(parseInt(hours, 10) * 60 + parseInt(minutes, 10) + parseInt(seconds, 10) / 60);
-  
+
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessment.id}/`;
-  
+
     try {
       const response = await fetch(apiUrl, {
         method: 'PUT',
@@ -194,22 +187,20 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({assessment, skillId }) => 
           title: assessment.title,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.status}`);
       }
-  
+
       // toast.success('Assessment duration updated successfully');
-      setSuccessMessage('Assessment duration updated successfully')
+      setSuccessMessage('Assessment duration updated successfully');
       seterrorMessage('');
     } catch (error) {
       console.error('Error:', error);
-      setSuccessMessage('')
+      setSuccessMessage('');
       seterrorMessage('Error updating assessment data');
     }
   };
-  
-  
 
   // useEffect(() => {
   //   async function fetchData() {
