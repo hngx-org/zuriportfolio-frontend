@@ -71,7 +71,9 @@ const DynamicCategoryCarousel = () => {
   useEffect(() => {
     const fetchCategoryNames = async () => {
       try {
-        const categoriesResponse = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/categoryNames/');
+        const categoriesResponse = await axios.get(
+          'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/categoryNames/',
+        );
         const categories = categoriesResponse.data['categories name'].slice(0, 8);
         return categories;
       } catch (error) {
@@ -81,7 +83,9 @@ const DynamicCategoryCarousel = () => {
 
     const fetchProducts = async (category: string) => {
       try {
-        const response = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}`);
+        const response = await axios.get(
+          `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}`,
+        );
         return response.data;
       } catch (error) {
         console.error(`Error fetching products for category ${category}:`, error);
@@ -120,7 +124,7 @@ const DynamicCategoryCarousel = () => {
     };
 
     fetchSlides();
-  }, [slides]);
+  }, []);
 
   /**
    *

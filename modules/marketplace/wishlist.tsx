@@ -25,10 +25,14 @@ function Wishlist() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${token?.id}`);
-      const { message, status_code, data: result } = await response.json();
+      const response = await axios.get(
+        `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/user-wishlist/${token?.id}`,
+      );
+      const { message, status_code, data: result } = response.data;
 
-      if (Array.isArray(result) && result.length === 0) setDataCheck(true);
+      if (Array.isArray(result) && result.length === 0) {
+        setDataCheck(true);
+      }
       setData(result);
       setIsLoading(false);
     } catch (error) {
@@ -55,8 +59,9 @@ function Wishlist() {
           },
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           toast.success('Added to Cart');
+          handleRemoveFromWishlist(id);
           console.log('success');
         }
       } catch (error: any) {

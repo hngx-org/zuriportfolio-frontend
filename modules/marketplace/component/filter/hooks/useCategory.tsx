@@ -17,11 +17,11 @@ const useCategory = () => {
   }, []);
   async function getCategories() {
     try {
-      const { data } = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+      const { data } = await axios.get<{ data: CategoryType[] }>(
+        'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/',
+      );
 
-      const categori: CategoryType[] = data.data;
-
-      setCategories(categori ? categori : []);
+      setCategories(data.data ? data.data : []);
       await getProducts();
     } catch (error) {
       if (error instanceof isAxiosError) {
@@ -33,8 +33,10 @@ const useCategory = () => {
   }
 
   async function getProducts() {
-    const { data } = await axios.get<ProductList[]>('https://coral-app-8bk8j.ondigitalocean.app/api/product-list/');
-    setProducts(data);
+    const { data } = await axios.get<{ data: ProductList[] }>(
+      'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/product-list/',
+    );
+    setProducts(data.data);
   }
 
   return { categories, loading, products };

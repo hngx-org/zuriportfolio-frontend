@@ -5,6 +5,7 @@ import deleteIcon from '../../../public/assets/wishlistAssets/delete.svg';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import Link from 'next/link';
 import { Product } from '../wishlist';
+import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
 
 export const WishlistProductCard = ({
   product,
@@ -42,7 +43,7 @@ export const WishlistProductCard = ({
                 </div>
 
                 <p className="font-bold text-[12px] md:text-[16px]">
-                  $<span>{product.price}</span>
+                  <span>{`${formatToNigerianNaira(product.price)}`}</span>
                 </p>
               </div>
 
@@ -86,7 +87,7 @@ export const WishlistProductCard = ({
                 className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 focus:outline-none  focus:bg-red-200 focus:text-white-100 active:bg-red-200 active:text-white-100"
                 size={'sm'}
                 spinnerColor="#D5DBDB"
-                onClick={() => handleRemoveFromWishlist(product.id)}
+                onClick={() => handleRemoveFromWishlist(product?.id)}
               >
                 <RiDeleteBin6Line className="text-[18px] text-white-650 group-hover:fill-white-100" />
                 Remove
@@ -110,7 +111,7 @@ export const WishlistProductCard = ({
             alt="delete"
             width={35}
             height={35}
-            onClick={() => handleRemoveFromWishlist(product.id)}
+            onClick={() => handleRemoveFromWishlist(product?.id)}
           />
         </div>
         <div className="hidden md:block">
