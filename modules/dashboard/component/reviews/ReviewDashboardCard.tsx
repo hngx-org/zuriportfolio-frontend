@@ -30,7 +30,7 @@ function ReviewDashboardCard({ id, className, imageSrc, title, author, avgRating
       <div className="flex font-manropeL text-dark-100 tracking-wide border-b border-brand-disabled pb-6">
         <div className="flex flex-col md:flex-row gap-6 w-full">
           <Link href="#" className="flex justify-center h-auto w-full md:w-[162.5px]">
-            <Image src={imageSrc} alt={title} width={327} height={180} />
+            <Image src={imageSrc} alt={title} width={300} height={140} className="h-[140px] rounded-md object-cover" />
           </Link>
           <div className="w-full">
             <div className="flex flex-row justify-center md:justify-between">
