@@ -211,7 +211,7 @@ const SellersView = () => {
                 </div>
               </div>
             </div>
-            {data === null || data.length === 0 ? (
+            {data === null || data === undefined || data.length === 0 ? (
               <div className=" w-0 h-0 m-0 p-0 hidden"></div>
             ) : (
               <Pagination
