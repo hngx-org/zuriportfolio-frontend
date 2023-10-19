@@ -148,7 +148,7 @@ function LoginForm() {
               <Input
                 placeHolder="Enter password"
                 id="password"
-                {...form.getInputProps('passwor')}
+                {...form.getInputProps('password')}
                 className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.password ? 'border-[red]' : 'border-slate-50'
                 }`}

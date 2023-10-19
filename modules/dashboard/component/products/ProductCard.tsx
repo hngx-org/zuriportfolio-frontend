@@ -429,7 +429,7 @@ const EditModal = (props: {
               {...form.getInputProps('description')}
               inputMode="none"
             />
-            <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
+            {/* <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
             <input
               type="file"
               accept="image/*"
@@ -437,7 +437,7 @@ const EditModal = (props: {
               style={{ display: 'none' }}
               id="imageUploadInput"
               name="image"
-            />
+            /> */}
             <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
             <div className="relative">
               <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
@@ -548,8 +548,8 @@ const EditModal = (props: {
               <div>
                 <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Name</label>
                 <Input
-                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300"
-                  placeholder="Add the link to your file"
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] capitalize text-black disabled:bg-gray-300"
+                  placeholder="Update assets name"
                   inputMode="none"
                   disabled={!editAssets}
                   value={assets?.name || ''}
@@ -560,7 +560,7 @@ const EditModal = (props: {
                 <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Notes</label>
                 <textarea
                   className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300/40 disabled:cursor-not-allowed"
-                  placeholder="Add the link to your file"
+                  placeholder="Update Assets Note"
                   inputMode="none"
                   disabled={!editAssets}
                   value={assets?.notes || ''}
