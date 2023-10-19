@@ -40,7 +40,7 @@ const SearchAndFilterProducts = (prop: {
   handleGo: () => void;
 }) => {
   const { setPageNumber, handleGo } = prop;
-  const [activeSection, setActiveSection] = useState(0);
+  const [activeSection, setActiveSection] = useState(11);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [selectedOption2, setSelectedOption2] = useState<string>('');
   const [showLeftButton, setShowLeftButton] = useState<boolean>(false);
@@ -50,14 +50,18 @@ const SearchAndFilterProducts = (prop: {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const slideLeft = () => {
-    const slider = sliderRef.current!;
-    slider.scrollLeft -= 150;
+    if (sliderRef.current) {
+      const slider = sliderRef.current;
+      slider.scrollLeft -= 150;
+    }
   };
 
   const slideRight = () => {
-    setShowLeftButton(true);
-    const slider = sliderRef.current!;
-    slider.scrollLeft += 150;
+    if (sliderRef.current) {
+      setShowLeftButton(true);
+      const slider = sliderRef.current!;
+      slider.scrollLeft += 150;
+    }
   };
 
   const handleCustomDropdownChange = (option: string) => {
@@ -90,7 +94,7 @@ const SearchAndFilterProducts = (prop: {
       const categoriesResponse = await axios.get(
         'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/',
       );
-      const categories = categoriesResponse.data.data.slice(0, 10);
+      const categories = categoriesResponse.data.data.slice(0, 9);
 
       const icons = [
         <Designtools size={24} color="white" key={0} />,
@@ -156,7 +160,7 @@ const SearchAndFilterProducts = (prop: {
     isLoading: isProductsLoading,
     isError: isProductsError,
   } = useQuery(['products', activeSection], () =>
-    activeSection > 0 ? fetchProducts(categoryData[activeSection]?.text) : fetchAllProducts(),
+    activeSection < 11 ? fetchProducts(categoryData[activeSection]?.text) : fetchAllProducts(),
   );
 
   const fetchAllProducts = async () => {
@@ -175,7 +179,7 @@ const SearchAndFilterProducts = (prop: {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (activeSection === 0) {
+    if (activeSection === 11) {
       queryClient.invalidateQueries(['products']);
     }
   }, [activeSection, queryClient]);
