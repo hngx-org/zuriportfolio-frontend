@@ -39,7 +39,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   const [media, setMedia] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
   const [allChecks, setAllChecks] = useState<string[]>([]);
-  const [id, setId] = useState<number>();
+  const [id, setId] = useState<number | null>();
   const [urlsFromCloudinary, setUrlsFromCloudinary] = useState<string[]>([]);
   const years = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
 
@@ -54,6 +54,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   };
 
   const handleDataClear = () => {
+    setId(null);
     setTitle('');
     setYear('');
     setLink('');
@@ -116,44 +117,53 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
 
   const close = () => {
     if (projects.length > 0) {
+      handleDataClear();
       handleSetRoute('view-projects');
     } else {
+      handleDataClear();
       onCloseModal();
     }
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSetYear = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value === '') {
+      setYear('');
+    } else {
+      setYear(e.target.value);
+    }
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { allChecksPassed, failedChecks } = checkObjectProperties(items);
     setAllChecks(failedChecks);
     const formData = new FormData();
     if (allChecksPassed) {
       setLoading(true);
-      if (urlsFromCloudinary.length > 0) {
+      if (id) {
         const data = {
           ...items,
+          id,
           thumbnail: files[0],
-          url: urlsFromCloudinary,
+          prevImageUrls: urlsFromCloudinary,
         };
         files.map((item) => {
           formData.append('images', item);
         });
         formData.append('jsondata', JSON.stringify(data));
-        console.log(formData);
 
         axios
-          .post(`${endpoint}/api/projects`, formData)
+          .put(`${endpoint}/api/update-project/${id}`, formData)
           .then((res) => {
             setLoading(false);
             notify({
-              message: 'Projects created successfully',
+              message: 'Project updated successfully',
               position: 'top-center',
               theme: 'light',
               type: 'success',
             });
             handleDataClear();
             onSaveModal();
-            console.log(res);
           })
           .catch((err) => {
             setLoading(false);
@@ -223,6 +233,12 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataToEdit]);
 
+  useEffect(() => {
+    console.log(year === '', year, typeof year);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [year]);
+
   return (
     <section className="p-5">
       {/* header */}
@@ -231,7 +247,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         <CloseSquare size="32" color="#009254" variant="Bold" onClick={close} className="cursor-pointer" />
       </div>
       <hr className="border-2 rounded-lg border-brand-green-primary mt-2.5 md:mb-1 mb-10" />
-      {/* <AllProjectsModal onEdit={updateParentState} userId={userId} /> */}
       <div className="w-full flex-col bg-white-100 p-4 py-5 font-manropeL">
         <div className="flex flex-col gap-5 w-full">
           <form className="flex flex-col gap-5 w-full">
@@ -254,12 +269,13 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               <div className="w-full md:w-[50%]">
                 <p className="font-semibold text-gray-200 pb-2">Year*</p>
                 <select
-                  onChange={(e) => setYear(e.target.value)}
+                  onChange={(e) => handleSetYear(e)}
                   placeholder="Year"
                   className={`w-full h-[50px] bg-white-100 border-2 rounded-md px-4 ${
                     allChecks.includes('year') ? 'border-red-205' : 'border-[#E1E3E2]'
                   } border-white-300 font-semibold !text-gray-300`}
                 >
+                  <option value="">Select Year</option>
                   {years.map((year, index) => (
                     <option className="text-gray-300 bg-transparent" key={index} value={year}>
                       {year}
@@ -292,9 +308,8 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 <p className="font-semibold text-gray-200 pb-2">Link to project</p>
                 <div className="flex">
                   <p
-                    className={`min-w-fit grid place-content-center px-2 border-2 rounded-lg ${
-                      allChecks.includes('url') ? 'border-red-205' : 'border-[#E1E3E2]'
-                    } rounded-tr-none rounded-br-none border-r-0 font-base text-gray-300`}
+                    className={`min-w-fit grid place-content-center px-2 border-2 rounded-lg border-[#E1E3E2]
+                    rounded-tr-none rounded-br-none border-r-0 font-base text-gray-300`}
                   >
                     Type link
                   </p>
@@ -398,7 +413,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 ))}
               {media.length > 0 &&
                 media.map((media: any, index: any) => (
-                  <div onClick={() => handleRemoveMedia(index)} key={index} className="flex gap-4 items-center">
+                  <div onClick={() => handleRemoveMedia(index)} key={index} className="flex w-full gap-4 items-center">
                     <div className="relative">
                       <Image
                         src={media}
@@ -407,27 +422,28 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                         width={0}
                         height={0}
                         alt=""
-                        className="rounded-lg object-cover object-center w-full aspect-square"
+                        className="rounded-lg object-cover object-center w-full h-[100px]"
                       />
                       <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
                     </div>
                   </div>
                 ))}
-              {media && media.length < 10 && (
-                <label
-                  htmlFor="mediaUpload"
-                  className="rounded-lg px-2 py-1 bg-green-50 text-[12px] flex justify-center items-center"
-                >
-                  <Add className="text-white-100" size={42} />
-                  <input
-                    id="mediaUpload"
-                    type="file"
-                    onChange={(e) => handleMedia(e)}
-                    className="hidden"
-                    accept="image/png, image/jpeg"
-                  />
-                </label>
-              )}
+              <label
+                htmlFor="mediaUpload"
+                className={`rounded-lg px-2 h-[100px] w-[100px] py-1 ${
+                  media.length >= 10 ? 'bg-green-50' : 'bg-green-600'
+                } cursor-pointer text-[12px] flex justify-center items-center`}
+              >
+                <Add className="text-white-100" size={42} />
+                <input
+                  disabled={media.length === 10 ? true : false}
+                  id="mediaUpload"
+                  type="file"
+                  onChange={(e) => handleMedia(e)}
+                  className="hidden"
+                  accept="image/png, image/jpeg"
+                />
+              </label>
             </div>
             <p className="font-semibold text-base text-white-650 mt-2.5">
               {' '}

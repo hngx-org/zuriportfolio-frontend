@@ -75,6 +75,12 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (projects.length < 0) {
+      setRoute('add-project');
+    }
+  }, [projects]);
+
   return (
     <Modal size="xxl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
       {loading ? (

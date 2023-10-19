@@ -54,6 +54,7 @@ const AllProjectsModal = ({
           theme: 'light',
           type: 'success',
         });
+        getAllProjects();
       })
       .catch((err) => {
         console.log(err);
@@ -68,7 +69,7 @@ const AllProjectsModal = ({
 
   return (
     <section className="p-5">
-      <section className="h-[400px] w-full overflow-y-auto">
+      <section className="h-[350px] w-full overflow-y-auto">
         {projects.length > 0 &&
           projects.map((project: Data) => {
             const { description, tags, url, title, thumbnail, id } = project;
