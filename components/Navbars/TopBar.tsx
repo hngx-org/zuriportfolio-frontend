@@ -36,7 +36,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
   const [dropDown, setDropDown] = useState<string>('Explore');
   const { cartCount, setCartCountNav } = useCart();
 
@@ -112,7 +111,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         toast.error('A search term must be provided.');
       } else {
         if (dropDown === 'Marketplace') {
-          router.push(`/marketplace/search/${searchQuery}`);
+          router.push(`/marketplace/search?searchQuery=${searchQuery}`);
         }
         if (dropDown === 'Explore') {
           localStorage.setItem('searchQuery', searchQuery);
