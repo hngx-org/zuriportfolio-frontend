@@ -11,6 +11,7 @@ import PasswordPopover from '@modules/auth/component/PasswordPopover';
 import useAuthMutation from '../../../hooks/Auth/useAuthMutation';
 import { guestSignup } from '../../../http/auth';
 import { useRouter } from 'next/router';
+import { notify } from '@ui/Toast';
 
 const Guestsignupform: React.FC = () => {
   const router = useRouter();
@@ -19,15 +20,31 @@ const Guestsignupform: React.FC = () => {
 
   const { mutate: guestSignupFn, isLoading: isLoginUserMutationLoading } = useAuthMutation(guestSignup, {
     onSuccess: (data) => {
+      console.log(data);
       if (data?.status === 200) {
+        notify({
+          message: 'User created successfully. Please check your email to verify your account',
+          type: 'success',
+        });
         router.push('/auth/verification');
+      } else {
+        notify({
+          message: data.message,
+          type: 'error',
+        });
       }
     },
-    onError: (res) => console.log({ res }),
-    // notify({
-    //   message: `${res}`,
-    //   type: 'error',
-    // }),
+    onError: (res: any) => {
+      console.log(res);
+      if (res.message === 'AxiosError: timeout of 30000ms exceeded') {
+        notify({
+          message:
+            'Oops! The request timed out. Please try again later. If the problem persists, please contact support.',
+          type: 'error',
+        });
+        return;
+      }
+    },
   });
   const [passwordVisible, togglePasswordVisibility] = usePasswordVisibility();
   const [confirmPasswordVisible, toggleConfirmPasswordVisibility] = usePasswordVisibility();

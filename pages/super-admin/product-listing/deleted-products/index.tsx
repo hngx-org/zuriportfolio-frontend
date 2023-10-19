@@ -37,26 +37,20 @@ const SanctionedProducts = () => {
     setCurrentPage(newPage);
   };
 
-  // useEffect(() => {
-  //   setFilteredProducts(deletedProd);
-  //   /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  // }, [deletedProd]);
-  // useEffect(() => {}, [filteredProducts]);
-
   useEffect(() => {
     setFilteredProducts(deletedProd);
   }, [deletedProd]);
   const router = useRouter();
 
-  const handleSearch = (searchText: string) => {
-    const filteredProduct: any = data?.data?.filter(
-      (product: any) =>
-        product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
-        product?.product_status?.toLowerCase()?.includes('deleted'),
-    );
-    setSearchVal(searchText);
-    setFilteredProducts(filteredProduct);
-  };
+  // const handleSearch = (searchText: string) => {
+  //   const filteredProduct: any = data?.data?.filter(
+  //     (product: any) =>
+  //       product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()) &&
+  //       product?.product_status?.toLowerCase()?.includes('deleted'),
+  //   );
+  //   setSearchVal(searchText);
+  //   setFilteredProducts(filteredProduct);
+  // };
 
   const route = useRouter();
 
@@ -81,8 +75,9 @@ const SanctionedProducts = () => {
             <div className="w-[400px]">
               <Input
                 onChange={(e) => {
-                  handleSearch(e.target.value);
-                  console.log(searchVal);
+                  // handleSearch(e.target.value);
+                  setSearchVal(e.target.value);
+                  console.log(e.target.value);
                 }}
                 leftIcon={<SearchNormal1 />}
                 type="text"
@@ -120,12 +115,12 @@ const SanctionedProducts = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredProducts?.map((product: any) => (
+                    {data?.data.map((product: any) => (
                       <tr
                         className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                         key={product?.product_id}
                         onClick={() =>
-                          route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)
+                          route.push(`/super-admin/product-listing/product-details/${product?.product_id}`)
                         }
                       >
                         <td className="max-w-[10vw] md:full tracking-wide font-manropeL text-base text-gray-900 px-6 py-6">

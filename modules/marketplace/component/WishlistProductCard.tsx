@@ -5,6 +5,7 @@ import deleteIcon from '../../../public/assets/wishlistAssets/delete.svg';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import Link from 'next/link';
 import { Product } from '../wishlist';
+import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
 
 export const WishlistProductCard = ({
   product,
@@ -42,7 +43,7 @@ export const WishlistProductCard = ({
                 </div>
 
                 <p className="font-bold text-[12px] md:text-[16px]">
-                  $<span>{product.price}</span>
+                  <span>{`${formatToNigerianNaira(product.price)}`}</span>
                 </p>
               </div>
 

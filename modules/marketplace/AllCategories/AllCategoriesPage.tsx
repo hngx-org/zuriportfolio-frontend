@@ -10,7 +10,7 @@ interface Cat {
 }
 
 export default function AllCategoriesPage() {
-  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
+  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
   const [categories, setCategories] = useState({ items: [], isLoading: true });
   const [categoryProducts, setCategoryProducts] = useState<Cat>({ isLoading: true, items: [] });
 
