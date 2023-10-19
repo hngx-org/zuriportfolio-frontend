@@ -7,7 +7,7 @@ export const CART_ENDPOINT =
   process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const RECENTLY_VIEWED_ENDPOINT =
-  process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed';
+  process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recently-viewed';
 
 export const addToCart = async (cartItems: string[], token: string) => {
   try {
