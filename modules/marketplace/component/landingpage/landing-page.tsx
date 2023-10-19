@@ -12,7 +12,7 @@ import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 function LandingPage() {
   const [recommendedProduct, setRecommendedProduct] = useState({ isLoading: true, items: [] });
   const [limitedOffers, setLimitedOffers] = useState({ isLoading: true, items: [] });
-  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
+  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
   const { categories, loading } = useCategoryNav();
 
   useEffect(() => {
