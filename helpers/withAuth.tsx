@@ -4,36 +4,10 @@ import isAuthenticated from './isAuthenticated';
 import useAuthRevalidate from '../hooks/Auth/useAuthRevalidate';
 import { ADMIN_ID, USER_ID, useAuth } from '../context/AuthContext';
 import Loader from '@ui/Loader';
+import useIsAuthenticated from '../hooks/useIsAuthenticated';
 
 // this would change later on once backend has the authentication
 // working.
-
-// const { handleAuth } = useAuth();
-
-// const { mutate, isLoading } = useMutation(revalidateAuth, {
-//   onSuccess: (res) => {
-//     if (res.status === 200) {
-//       console.log(res, 'success from withoutAuth');
-//       handleAuth(res.data);
-//       localStorage.setItem('zpt', res.data.token);
-//     }
-//   },
-//   onError: (res: any) => {
-//     if (res.status === 401) {
-//       localStorage.removeItem('zpt');
-//       console.log(res, 'error from withoutAuth');
-//       router.push('/');
-//     }
-//   },
-// });
-
-// useEffect(() => {
-//   const token = localStorage.getItem('zpt');
-
-//   mutate({ token: token as string });
-
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, []);
 
 const withAuth = <P extends { children: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper: React.FC<P> = (props) => {
@@ -56,6 +30,8 @@ const withAuth = <P extends { children: React.ReactNode }>(WrappedComponent: Rea
   return Wrapper;
 };
 
+export default withAuth;
+
 export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedComponent: React.ComponentType<P>) => {
   const Wrapper: React.FC<P> = (props) => {
     const [isPageLoading, setIsPageLoading] = useState(true);
@@ -63,19 +39,18 @@ export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedC
     const { auth } = useAuth();
     useAuthRevalidate();
 
+    const { authenticatedState } = useIsAuthenticated();
+
     useEffect(() => {
-      let token = '';
-
-      if (typeof window !== 'undefined') {
-        token = localStorage.getItem('zpt') as string;
-      }
-
       // there is no token found in the localstorage
-      if (!isAuthenticated(token)) {
-        router.push('/auth/login');
+
+      if (authenticatedState === false) {
+        router.replace('/auth/login');
+        console.log(authenticatedState, 'authenticated state');
         return;
       }
 
+      // auth is undefined means user just landed on page
       if (!auth) return;
 
       if (auth?.user.roleId !== ADMIN_ID) {
@@ -84,7 +59,7 @@ export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedC
       }
 
       setIsPageLoading(false);
-    }, [auth, router]);
+    }, [auth, router, authenticatedState]);
 
     if (isPageLoading) {
       return (
@@ -108,16 +83,16 @@ export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedCom
     const { auth } = useAuth();
     useAuthRevalidate();
 
+    const { authenticatedState } = useIsAuthenticated();
+
+    // isAuthorized({ token: token as string });
+
     useEffect(() => {
-      let token = '';
-
-      if (typeof window !== 'undefined') {
-        token = localStorage.getItem('zpt') as string;
-      }
-
       // there is no token found in the localstorage
-      if (!isAuthenticated(token)) {
-        router.push('/auth/login');
+
+      if (authenticatedState === false) {
+        router.replace('/auth/login');
+        console.log(authenticatedState, 'authenticated state');
         return;
       }
 
@@ -130,7 +105,7 @@ export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedCom
       }
 
       setIsPageLoading(false);
-    }, [auth, router]);
+    }, [auth, router, authenticatedState]);
 
     if (isPageLoading) {
       return (
@@ -146,5 +121,3 @@ export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedCom
 
   return Wrapper;
 };
-
-export default withAuth;

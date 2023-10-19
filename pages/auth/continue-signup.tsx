@@ -16,10 +16,14 @@ const notifyError = (message: string) => notify({ type: 'error', message, theme:
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
+  const router = useRouter();
+  const { email: userEmail } = router.query;
+
   const onSignUpSuccess = (data: any) => {
     console.log(data);
     if (data.status === 200) {
-      router.push(`/auth/verification`);
+      router.push(`/auth/verification?email=${userEmail}`);
       return;
     }
 
@@ -94,9 +98,6 @@ function Signup() {
       agree: false,
     },
   });
-
-  const router = useRouter();
-  const { email: userEmail } = router.query;
 
   const handleSignUp = async (values: any) => {
     const userData = {
