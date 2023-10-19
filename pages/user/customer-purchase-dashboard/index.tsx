@@ -13,6 +13,7 @@ import ComplaintsModal from '../../../components/Modals/ComplaintModal';
 import FilterModal from '@modules/marketplace/component/CustomerDashboard/FilterModal';
 import { useAuth } from '../../../context/AuthContext';
 import { getAllPurchases, getSearchedData } from '../../../http/customerPurchaseDashboard';
+import { withUserAuth } from '../../../helpers/withAuth';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -406,4 +407,4 @@ const MyPage: React.FC = () => {
   );
 };
 
-export default MyPage;
+export default withUserAuth(MyPage);

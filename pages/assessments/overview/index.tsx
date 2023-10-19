@@ -13,6 +13,7 @@ import { fetchUserAssessmentSession, submitFinalAssessment } from '../../../http
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { TimerStart } from 'iconsax-react';
+import { withUserAuth } from '../../../helpers/withAuth';
 
 export interface Question {
   answer_id: number;
@@ -204,4 +205,4 @@ function AssessmentOverview() {
   );
 }
 
-export default AssessmentOverview;
+export default withUserAuth(AssessmentOverview);
