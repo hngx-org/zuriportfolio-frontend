@@ -46,10 +46,9 @@ const myContext = createContext(initialContextValue);
 const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModalProps) => {
   const { userId } = useContext(Portfolio);
   const [formData, setFormData] = useState({
-    id: '',
     title: '',
     year: '',
-    sectionId: 10,
+
     organization: '',
     url: '',
     description: '',
@@ -65,118 +64,54 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   const [createCertificate, setCreateCertificate] = useState('');
   const [closeAllModal, setCloseAllModal] = useState(false);
 
-  const validateUrl = (url: string) => {
-    const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
-    return urlPattern.test(url);
-  };
-
-  const isValid =
-    formData.year && formData.title && formData.organization && formData.url && formData.description && !urlError;
-
   const openModal = async (e: React.FormEvent) => {
     // console.log('openModal function called');
     e.preventDefault(); // Prevent the default form submission
-    const missingFields = [];
 
-    if (!formData.title) {
-      missingFields.push('Title');
-    }
-    if (!formData.organization) {
-      missingFields.push('organization');
-    }
-    if (!formData.url) {
-      missingFields.push('URL');
-    }
-    if (!formData.description) {
-      missingFields.push('Description');
-    }
-    if (!formData.year) {
-      missingFields.push('Year');
-    }
-    if (!formData.url) {
-      missingFields.push('URL');
-    } else {
-      if (!validateUrl(formData.url)) {
-        setUrlError('Please enter a valid URL');
+    const newCertification = {
+      year: formData.year,
+      title: formData.title,
+      organization: formData.organization,
+      url: formData.url,
+      description: formData.description,
+    };
+
+    try {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/add-certificate/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newCertification),
+      });
+
+      if (response.ok) {
+        setCreateCertificate('Certificate created successfully');
+        setTimeout(() => {
+          setCreateCertificate('');
+        }, 2000);
+        setError('');
+
+        setTimeout(() => {
+          setFormData({
+            title: '',
+            year: '',
+            organization: '',
+            url: '',
+            description: '',
+          });
+        }, 4000);
+
+        // Delay setting IsModalOpen to true by a certain number of milliseconds
+        setTimeout(() => {
+          setIsModalOpen(true);
+        }, 2000); // Adjust the delay time (1000 milliseconds = 1 second) as needed
       } else {
-        setUrlError('');
+        setError('Error saving the certification.');
       }
-    }
-
-    if (
-      !formData.title ||
-      !formData.organization ||
-      !formData.url ||
-      !formData.description ||
-      !formData.year ||
-      !formData.url
-    ) {
-      setRender(true);
-    } else {
-      setRender(false); // Reset it when all required fields are filled
-    }
-    if (isValid && !urlError) {
-      const newCertification = {
-        id: certificationCounter.toString(),
-        year: formData.year,
-        sectionId: formData.sectionId,
-        title: formData.title,
-        organization: formData.organization,
-        url: formData.url,
-        description: formData.description,
-      };
-      setCertificationCounter(certificationCounter + 1);
-      // console.log('URL:', 'https://hng6-r5y3.onrender.com/api/add-certificate/6ba7b810-9dad-11d1-80b4-00c04fd430c8');
-      // console.log('Request Data:', JSON.stringify(newCertification));
-
-      // setCertifications((prevCertifications) => [...prevCertifications, newCertification]);
-      // console.log('Updated Certifications Array:', certifications);
-
-      try {
-        const response = await fetch(`https://hng6-r5y3.onrender.com/api/add-certificate/${userId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newCertification),
-        });
-        // console.log('Response Status:', response.status);
-        // console.log('Response Data:', await response.json());
-
-        if (response.ok) {
-          setCreateCertificate('Certificate created successfully');
-          setTimeout(() => {
-            setCreateCertificate('');
-          }, 2000);
-          setError('');
-
-          setTimeout(() => {
-            setFormData({
-              id: '',
-              sectionId: 10,
-              title: '',
-              year: '',
-              organization: '',
-              url: '',
-              description: '',
-            });
-          }, 4000);
-
-          // Delay setting IsModalOpen to true by a certain number of milliseconds
-          setTimeout(() => {
-            setIsModalOpen(true);
-          }, 2000); // Adjust the delay time (1000 milliseconds = 1 second) as needed
-        } else {
-          setError('Error saving the certification.');
-        }
-      } catch (error) {
-        setError('An error occurred while saving the certification.');
-        // console.error(error);
-      }
-    } else {
-      const missingFieldsMessage = missingFields.join(', ');
-      setError(`Please fill in the following fields:\n${missingFieldsMessage}.`);
-      // console.log('Please fill in all the form fields.');
+    } catch (error) {
+      setError('An error occurred while saving the certification.');
+      // console.error(error);
     }
   };
 
@@ -186,28 +121,11 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const characterCount = value.replace(/\s/g, '').length; // Remove white spaces and count characters
-    const isValidDescription = characterCount >= 30 && characterCount <= 200;
 
     // console.log('Name:', name);
     // console.log('Value:', value);
     // console.log('Character Count:', characterCount);
     // console.log('IsValidDescription:', isValidDescription);
-
-    setAcceptedDescription(isValidDescription);
-
-    if (name === 'description') {
-      setAcceptedDescription(isValidDescription);
-      if (isValidDescription) {
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
-        setError(''); // Clear any previous errors
-      } else {
-        setError('Description must contain between 30 and 200 characters.');
-      }
-    }
 
     if (name === 'year') {
       setFormData((prevData) => ({
@@ -262,10 +180,12 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                       type="text"
                       id="title"
                       name="title"
+                      maxLength={14}
                       placeholder="My best yet"
                       className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                       value={formData.title}
                       onChange={handleInputChange}
+                      required
                     />
                   </div>
 
@@ -279,6 +199,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                       className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
                       value={formData.year}
                       onChange={handleInputChange}
+                      required
                     >
                       {/* Add the default placeholder option */}
                       <option value="" disabled>
@@ -308,9 +229,11 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                       id="organization"
                       name="organization"
                       placeholder="Google"
+                      maxLength={21}
                       className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900 rounded-lg border-[1px]"
                       value={formData.organization}
                       onChange={handleInputChange}
+                      required
                     />
                   </div>
                   <div className="flex  flex-col gap-[10px] flex-1">
@@ -318,13 +241,15 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                       Url
                     </label>
                     <Input
-                      type="text"
+                      type="url"
                       id="url"
                       name="url"
+                      pattern="https?://.+"
                       placeholder="Type link"
                       className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                       value={formData.url}
                       onChange={handleInputChange}
+                      required
                     />
                   </div>
                 </div>
@@ -336,10 +261,13 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                     type="text"
                     id="description"
                     name="description"
+                    minLength={30}
+                    maxLength={200}
                     placeholder="Certificate ID & details "
                     className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900  rounded-lg border-[1px]"
                     value={formData.description}
                     onChange={handleInputChange}
+                    required
                   />
                 </div>
                 <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
@@ -635,44 +563,6 @@ const EditForm: React.FC<{
   onClose: () => void;
 }> = ({ isOpen, certification, setCertification, onClose, handleSave }) => {
   const { urlError, setUrlError, setRender, error, render, setError } = useContext(myContext);
-  const validateUrl = (url: string) => {
-    const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
-    return urlPattern.test(url);
-  };
-
-  const isValidEdit =
-    certification.year &&
-    certification.title &&
-    certification.organization &&
-    certification.url &&
-    certification.description &&
-    !urlError;
-  const missingFields: string[] = [];
-
-  if (!certification.title) {
-    missingFields.push('Title');
-  }
-  if (!certification.organization) {
-    missingFields.push('organization');
-  }
-  if (!certification.url) {
-    missingFields.push('URL');
-  }
-  if (!certification.description) {
-    missingFields.push('Description');
-  }
-  if (!certification.year) {
-    missingFields.push('Year');
-  }
-  if (!certification.url) {
-    missingFields.push('URL');
-  } else {
-    if (!validateUrl(certification.url)) {
-      setUrlError('Please enter a valid URL');
-    } else {
-      setUrlError('');
-    }
-  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -695,21 +585,14 @@ const EditForm: React.FC<{
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (isValidEdit && !urlError) {
-      setRender(true);
-      if (certification.description.length > 30 && certification.description.length < 200) {
-        // If description character count is within the desired range, trigger handleSave and onClose
-        handleSave();
-        onClose();
-      } else {
-        // Character count is not within the desired range, display an error message
-        setError('Description should be between 30 and 100 characters.');
-        // console.log(error);
-      }
+    if (certification.description.length > 30 && certification.description.length < 200) {
+      // If description character count is within the desired range, trigger handleSave and onClose
+      handleSave();
+      onClose();
     } else {
-      const missingFieldsMessage = missingFields.join(', ');
-      setError(`Please fill in the following fields:\n${missingFieldsMessage}.`);
-      // console.log('Please fill in all the form fields.');
+      // Character count is not within the desired range, display an error message
+      setError('Description should be between 30 and 100 characters.');
+      // console.log(error);
     }
   };
 
@@ -735,10 +618,12 @@ const EditForm: React.FC<{
                 type="text"
                 id="title"
                 name="title"
+                maxLength={14}
                 placeholder="My best yet"
                 className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
                 value={certification.title}
                 onChange={handleInputChange}
+                required
               />
             </div>
 
@@ -752,6 +637,7 @@ const EditForm: React.FC<{
                 className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
                 value={certification.year}
                 onChange={handleSelectChange}
+                required
               >
                 {/* Add the default placeholder option */}
                 <option value="" disabled>
@@ -781,9 +667,11 @@ const EditForm: React.FC<{
                 id="organization"
                 name="organization"
                 placeholder="Google"
+                maxLength={21}
                 className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900  rounded-lg border-[1px]"
                 value={certification.organization}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="flex  flex-col gap-[10px] flex-1">
@@ -791,13 +679,15 @@ const EditForm: React.FC<{
                 Url
               </label>
               <Input
-                type="text"
+                type="url"
                 id="url"
                 name="url"
+                pattern="https?://.+"
                 placeholder="Type link"
                 className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
                 value={certification.url}
                 onChange={handleInputChange}
+                required
               />
             </div>
           </div>
@@ -809,10 +699,13 @@ const EditForm: React.FC<{
               type="text"
               id="description"
               name="description"
+              minLength={30}
+              maxLength={200}
               placeholder="Certificate ID & details "
               className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]   text-gray-900  rounded-lg border-[1px]"
               value={certification.description}
               onChange={handleInputChange}
+              required
             />
           </div>
           <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">

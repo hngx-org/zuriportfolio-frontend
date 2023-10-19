@@ -382,7 +382,7 @@ const MyPage: React.FC = () => {
               </table>
             </div>
           )}
-          {data?.length > 0 && <MobileCustomerDashboard data={data} openModalWithOrder={openModalWithOrder} />}
+          {data?.length > 0 && <MobileCustomerDashboard data={data}/>}
           {/* error page */}
           {data?.length === 0 && !isLoading && <PurchaseNotFound back={onBack} />}
         </div>
