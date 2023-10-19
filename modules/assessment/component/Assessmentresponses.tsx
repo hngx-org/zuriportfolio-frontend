@@ -5,6 +5,7 @@ import trash from '../../../public/assets/assessment/trash.png';
 import editmessage from '../../../public/assets/assessment/message-edit.png';
 import Link from 'next/link';
 import { FaSpinner } from 'react-icons/fa';
+import { FcCheckmark } from 'react-icons/fc';
 // interface Assessment {
 
 //   // Add other properties as needed
@@ -52,24 +53,24 @@ function Assessmentresponses(props: PropsAss<any>) {
       },
     };
     setDeleting(true);
-    const response = await fetch(
-      `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}/`,
-      reqOptions,
-    );
+    // const response = await fetch(
+    //   `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}/`,
+    //   reqOptions,
+    // );
 
-    if (response.ok) {
-      onDelete(
-        assessments.filter((item) => {
-          return item.id !== currId;
-        }),
-      );
-      setDelText('Assessment Deleted Successfully');
-    } else {
-      setDelText('Failed To Delete Assessment');
-    }
-    setTimeout(() => {
-      setTodel(false);
-    }, 4000);
+    // if (response.ok) {
+    //   onDelete(
+    //     assessments.filter((item) => {
+    //       return item.id !== currId;
+    //     }),
+    //   );
+    //   setDelText('Assessment Deleted Successfully');
+    // } else {
+    //   setDelText('Failed To Delete Assessment');
+    // }
+    // setTimeout(() => {
+    //   setTodel(false);
+    // }, 4000);
   };
 
   function formatDateToPattern(dateString: string) {
@@ -90,8 +91,12 @@ function Assessmentresponses(props: PropsAss<any>) {
               {deleting ? (
                 <>
                   <div className="text-center flex flex-col justit-center items-center gap-y-[20px]">
-                    <FaSpinner color="green" className="animate-spin text-center" size={70} />
-                    <p>{delText}</p>
+                    {delText.includes('Deleting') ? (
+                      <FaSpinner color="green" className="animate-spin text-center" size={70} />
+                    ) : (
+                      <FcCheckmark className="text-center" size={70} />
+                    )}
+                    <p className={`text-[18px] ${delText.includes('Created') && 'text-green-500'}`}>{delText}</p>
                   </div>
                 </>
               ) : (
