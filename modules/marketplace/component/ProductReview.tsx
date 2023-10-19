@@ -7,7 +7,7 @@ import { reviewProps } from '../../../@types';
 
 export const ProductReview = ({ id }: { id: string }) => {
   const [reviews, setReviews] = useState<reviewProps[] | null>(null);
-  const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews`
+  const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews`;
   useEffect(() => {
     const getReviews = async () => {
       try {
@@ -32,7 +32,7 @@ export const ProductReview = ({ id }: { id: string }) => {
           </Link>
         </p>
       ) : (
-        reviews?.map((review:any) => (
+        reviews?.map((review: any) => (
           <Review
             key={review.reviewId}
             buyerName={review.customerName}
