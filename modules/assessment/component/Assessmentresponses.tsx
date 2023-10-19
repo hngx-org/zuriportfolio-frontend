@@ -4,7 +4,8 @@ import Image from 'next/image';
 import trash from '../../../public/assets/assessment/trash.png';
 import editmessage from '../../../public/assets/assessment/message-edit.png';
 import Link from 'next/link';
-import { Edit } from 'iconsax-react';
+import { FaSpinner } from 'react-icons/fa';
+import { FcCheckmark } from 'react-icons/fc';
 // interface Assessment {
 
 //   // Add other properties as needed
@@ -24,13 +25,16 @@ function Assessmentresponses(props: PropsAss<any>) {
   console.log(assessments);
   //Uses and updates the list from the index page
   const [list, setList]: any = useContext(ListContext);
+  const [deleting, setDeleting] = useState(false);
   //todel is a state, booleen, to be updated when the user tries to delete a project
   const [todel, setTodel] = useState(false);
   //todelId is the id of the project to be deleted
   const [todelId, setTodelId] = useState();
+  const [delText, setDelText] = useState('Deleting Assessment...');
   const delitem = (id: any) => {
     setTodelId(id);
     setTodel(true);
+    setDeleting(false);
   };
   //holdon, to stop deleting flow
   const holdon = () => {
@@ -48,14 +52,27 @@ function Assessmentresponses(props: PropsAss<any>) {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     };
-    await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}/`, reqOptions);
-    onDelete(
-      assessments.filter((item) => {
-        return item.id !== currId;
-      }),
+    setDeleting(true);
+    const response = await fetch(
+      `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}/`,
+      reqOptions,
     );
-    console.log(currId);
-    setTodel(false);
+
+    if (response.ok) {
+      onDelete(
+        assessments.filter((item) => {
+          return item.id !== currId;
+        }),
+      );
+      setDelText('Assessment Deleted Successfully');
+    } else {
+      setDelText('Failed To Delete Assessment');
+    }
+    setTimeout(() => {
+      setTodel(false);
+      setDelText('Deleting Assessment');
+      setDeleting(false);
+    }, 4000);
   };
 
   function formatDateToPattern(dateString: string) {
@@ -72,22 +89,41 @@ function Assessmentresponses(props: PropsAss<any>) {
       {todel && (
         <div className="fixed bg-dark-600 top-0 left-0 w-full h-full grid place-items-center">
           <div className="bg-white-100 w-[300px] md:w-[558px] text-center font-semibold py-[60px] md:py-[118px] px-[20px] rounded-2xl">
-            <div className="text-custom-color10 mb-6">Are you sure you want to delete?</div>
+            <div className="text-custom-color10 mb-6">
+              {deleting ? (
+                <>
+                  <div className="text-center flex flex-col justit-center items-center gap-y-[20px]">
+                    {delText.includes('Deleting') ? (
+                      <FaSpinner color="green" className="animate-spin text-center" size={70} />
+                    ) : (
+                      <FcCheckmark className="text-center" size={70} />
+                    )}
+                    <p className={`text-[18px] ${delText.includes('Created') && 'text-green-500'}`}>{delText}</p>
+                  </div>
+                </>
+              ) : (
+                'Are you sure you want to delete?'
+              )}
+            </div>
             <div className="flex gap-2 mx-4px md:mx-[30px] lg:mx-[92px] cursor-pointer">
-              <div
-                className="flex1 w-full px-4 py-3 bg-brand-green-ttr border-green-600 border-[1px] text-green-600 rounded-full hover:text-white-100 hover:bg-green-600 transition"
-                onClick={holdon}
-              >
-                Hold On
-              </div>
-              <div
-                className="w-full flex1 px-4 py-3 bg-brand-red-primary text-white-100 rounded-full hover:text-brand-red-primary hover:border-[1px] hover:border-brand-red-primary hover:bg-white-100 transition"
-                onClick={() => {
-                  yesdelete(todelId);
-                }}
-              >
-                Yes, Delete
-              </div>
+              {!deleting && (
+                <>
+                  <div
+                    className="flex1 w-full px-4 py-3 bg-brand-green-ttr border-green-600 border-[1px] text-green-600 rounded-full hover:text-white-100 hover:bg-green-600 transition"
+                    onClick={holdon}
+                  >
+                    Hold On
+                  </div>
+                  <div
+                    className="w-full flex1 px-4 py-3 bg-brand-red-primary text-white-100 rounded-full hover:text-brand-red-primary hover:border-[1px] hover:border-brand-red-primary hover:bg-white-100 transition"
+                    onClick={() => {
+                      yesdelete(todelId);
+                    }}
+                  >
+                    Yes, Delete
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
