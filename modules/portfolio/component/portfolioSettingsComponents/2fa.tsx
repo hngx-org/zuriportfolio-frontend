@@ -4,14 +4,10 @@ import { useAuth } from '../../../../context/AuthContext';
 import { CloseCircle } from 'iconsax-react';
 import Help from '../../../../public/assets/inviteAssets/Help.svg';
 import Image from 'next/image';
-import { boolean, set } from 'zod';
-import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import Router, { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
-import router from 'next/router';
 import { verfiy2FA, resend2FACode, enabled2FA, disable2FA } from '../../../../http/auth';
 import _2FA from '../../../../pages/auth/2fa';
-import { AuthResponse, User } from '../../../../@types';
 import Logic2FA from '../../../../modules/auth/Logic2FA';
 import Button from '@ui/Button';
 
@@ -20,16 +16,13 @@ interface close {
   setCloseAcc: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Handling2FA = (props: close) => {
-  const { auth, userCameFrom, handleAuth } = useAuth();
+  const { auth, handleAuth } = useAuth();
   const [open2Fa, setOpen2Fa] = useState<boolean>(false);
-  const [enabled, setEnabled] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [countinue2Fa, setContinue2Fa] = useState<boolean>(false);
-  const [authdata, setAuthData] = useState<User>();
   const [lgModal, setLgModal] = useState<boolean>(false);
   const [token, setToken] = useState<string>('');
   const [fill, setFill] = useState<boolean>(false);
-  const [toggleSize, setToggleSize] = useState<boolean>(false);
 
   const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange } = Logic2FA();
   const router = useRouter();
@@ -176,11 +169,6 @@ const Handling2FA = (props: close) => {
     }
   };
 
-  const [error, setError] = useState<string>('');
-  const [inputError, setInputError] = useState(false);
-  console.log('true', auth?.user.two_factor_auth);
-  console.log('true2', auth?.user.twoFactorAuth);
-  console.log('user4', auth?.user);
   const toggleModal = () => {
     setOpen2Fa((prev: boolean) => !prev);
     props.setCloseAcc(false);
@@ -192,17 +180,6 @@ const Handling2FA = (props: close) => {
     setOpen2Fa(false);
     setLoading(false);
   };
-
-  const handleResize = () => {
-    if (window.innerWidth >= 768) {
-      setLgModal(true);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    handleResize();
-  }, []);
 
   return (
     <div className="space-y-[4px] mb-6 max-w-[500px] text-dark-110 text-[14px]">
@@ -439,22 +416,8 @@ const Handling2FA = (props: close) => {
               >
                 Resend OTP
               </button>
-              {/* <button
-                            onClick={() => {
-                              auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth ? handleVerifyAndDisable2FA(): handleVerifyAndEnable2FA() ;
-                            }}
-                className={`w-full bg-brand-green-primary text-white-100 text-center
-                             font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg           ${
-                               digits.some((digit) => !digit)
-                                 ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900'
-                                 : ''
-                             } `}
-              >
-                Continue
-              </button> */}
 
               <Button
-                //leftIcon={<I24Support color="#06C270" />}
                 intent={'secondary'}
                 onClick={() => {
                   auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth

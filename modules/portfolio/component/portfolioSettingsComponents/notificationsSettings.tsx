@@ -3,28 +3,44 @@ import { NotificationCheckboxType } from '../../../../@types';
 import { MdCheck } from 'react-icons/md';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { type } from 'os';
+import $http from '../../../../http/axios';
 import { useAuth } from '../../../../context/AuthContext';
-type pros = {
-  checkboxState: {
-    emailSummary: boolean;
-    specialOffers: boolean;
-    communityUpdate: boolean;
-    followUpdate: boolean;
-    newMessages: boolean;
-  };
+import { date } from 'zod';
+import { useQuery } from '@tanstack/react-query';
+//import { default } from '../../../../http/axios';
+type Props = {
+  checkboxState: NotificationCheckboxType;
   setCheckboxState: React.Dispatch<React.SetStateAction<NotificationCheckboxType>>;
 };
 
-export default function NotificationsSettings(props: pros) {
-  const { auth } = useAuth();
+const getUserNotifications = async (userId: string) => {
+  const response = await $http.get(`https://hng6-r5y3.onrender.com/api/get-notification-settings/${userId}`);
+  if (response.status === 200) {
+    return response.data; // Assuming the response data is the notifications
+  }
+  throw new Error('Failed to fetch notifications');
+};
+
+const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxState }) => {
   const handleLabelClick = (checkboxName: keyof NotificationCheckboxType) => {
-    props.setCheckboxState((prevState) => ({
+    setCheckboxState((prevState) => ({
       ...prevState,
       [checkboxName]: !prevState[checkboxName],
     }));
   };
 
+  const { auth } = useAuth();
+
+  const { data, isLoading, isError } = useQuery(['userNotifications', auth?.user.id], () =>
+    getUserNotifications(auth?.user.id || ''),
+  );
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      setCheckboxState(data?.data[0]);
+    }
+  }, [data]);
   return (
     <div className=" flex flex-col space-y-[16px] items-start container mx-auto">
       <h1 className="font-semibold md:text-[22px] text-sm font-manropeB text-dark-105">Notification Setting</h1>
@@ -36,7 +52,7 @@ export default function NotificationsSettings(props: pros) {
             name="emailSummary"
             id="emailSummary"
             onChange={() => handleLabelClick('emailSummary')}
-            checked={props.checkboxState.emailSummary}
+            checked={checkboxState.emailSummary}
             className="appearance-none hidden"
           />
           <label
@@ -46,11 +62,11 @@ export default function NotificationsSettings(props: pros) {
           >
             <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={` flex  justify-center relative ${props.checkboxState.emailSummary && 'block'}   w-[16px] 
+                className={` flex  justify-center relative ${checkboxState.emailSummary && 'block'}   w-[16px] 
                  h-[16px]`}
               >
                 {' '}
-                {props.checkboxState.emailSummary && (
+                {checkboxState.emailSummary && (
                   <MdCheck
                     className={`text-brand-green-primary 
              `}
@@ -67,7 +83,7 @@ export default function NotificationsSettings(props: pros) {
             name="specialOffers"
             id="specialOffers"
             onChange={() => handleLabelClick('specialOffers')}
-            checked={props.checkboxState.specialOffers}
+            checked={checkboxState.specialOffers}
             className="appearance-none hidden"
           />
           <label
@@ -77,11 +93,11 @@ export default function NotificationsSettings(props: pros) {
           >
             <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={` flex  justify-center relative ${props.checkboxState.specialOffers && 'block'}   w-[16px] 
+                className={` flex  justify-center relative ${checkboxState.specialOffers && 'block'}   w-[16px] 
                  h-[16px]`}
               >
                 {' '}
-                {props.checkboxState.specialOffers && (
+                {checkboxState.specialOffers && (
                   <MdCheck
                     className={`text-brand-green-primary 
              `}
@@ -98,7 +114,7 @@ export default function NotificationsSettings(props: pros) {
             name="communityUpdate"
             id="communityUpdate"
             onChange={() => handleLabelClick('communityUpdate')}
-            checked={props.checkboxState.communityUpdate}
+            checked={checkboxState.communityUpdate}
             className="appearance-none hidden"
           />
           <label
@@ -108,11 +124,11 @@ export default function NotificationsSettings(props: pros) {
           >
             <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={` flex  justify-center relative ${props.checkboxState.communityUpdate && 'block'}   w-[16px] 
+                className={` flex  justify-center relative ${checkboxState.communityUpdate && 'block'}   w-[16px] 
                  h-[16px]`}
               >
                 {' '}
-                {props.checkboxState.communityUpdate && (
+                {checkboxState.communityUpdate && (
                   <MdCheck
                     className={`text-brand-green-primary 
              `}
@@ -129,7 +145,7 @@ export default function NotificationsSettings(props: pros) {
             name="followUpdate"
             id="followUpdate"
             onChange={() => handleLabelClick('followUpdate')}
-            checked={props.checkboxState.followUpdate}
+            checked={checkboxState.followUpdate}
             className="appearance-none hidden"
           />
           <label
@@ -143,7 +159,7 @@ export default function NotificationsSettings(props: pros) {
                  h-[16px]`}
               >
                 {' '}
-                {props.checkboxState.followUpdate && <MdCheck className={`text-brand-green-primary`} />}
+                {checkboxState.followUpdate && <MdCheck className={`text-brand-green-primary`} />}
               </p>
             </div>
             Notify when someone follows you
@@ -155,7 +171,7 @@ export default function NotificationsSettings(props: pros) {
             name="newMessages"
             id="newMessages"
             onChange={() => handleLabelClick('newMessages')}
-            checked={props.checkboxState.newMessages}
+            checked={checkboxState.newMessages}
             className="appearance-none hidden"
           />
           <label
@@ -165,11 +181,11 @@ export default function NotificationsSettings(props: pros) {
           >
             <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
               <p
-                className={` flex  justify-center relative ${props.checkboxState.newMessages && 'block'}   w-[16px] 
+                className={` flex  justify-center relative ${checkboxState.newMessages && 'block'}   w-[16px] 
                  h-[16px]`}
               >
                 {' '}
-                {props.checkboxState.newMessages && (
+                {checkboxState.newMessages && (
                   <MdCheck
                     className={`text-brand-green-primary 
              `}
@@ -196,4 +212,5 @@ export default function NotificationsSettings(props: pros) {
       />
     </div>
   );
-}
+};
+export default NotificationsSettings;
