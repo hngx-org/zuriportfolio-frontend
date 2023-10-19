@@ -87,6 +87,10 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ skillId }) => {
         }
       }
     }
+    const newt = { ...newobject };
+    newt.duration_in_minutes = Number(examDuration);
+    setObject(newt);
+    console.log(newobject);
   };
 
   const convertToMinutes = (hours: string, minutes: string, seconds: string): number => {

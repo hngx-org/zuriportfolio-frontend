@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { Add } from 'iconsax-react';
@@ -25,11 +25,18 @@ const CreateTemplate = () => {
   const handleinputOption = (e: any, index: number, n: number) => {
     console.log(index, n);
     const updatedData = [...list];
+    if (
+      updatedData[index].answer.options[n] === updatedData[index].answer.correct_option &&
+      updatedData[index].answer.correct_option !== ''
+    ) {
+      updatedData[index].answer.correct_option = e.target.value;
+    }
     updatedData[index].answer.options[n] = e.target.value;
     setList(updatedData);
     const newt = { ...newobject };
     newt.questions_and_answers = list;
     setObject(newt);
+    console.log(newobject);
   };
   function splicearr(arr: any, index: number) {
     const resultArray = arr.slice(0, index).concat(arr.slice(index + 1));
@@ -37,10 +44,25 @@ const CreateTemplate = () => {
   }
   //deleting options
   const handleDelete = (index: number, n: number) => {
-    var updatedData = [...list];
-    const newdata = splicearr(updatedData[index].answer.options, n);
-    updatedData[index].answer.options = newdata;
-    setList(updatedData);
+    var i = 0;
+    if (list[index].answer.options.length > 1) {
+      var updatedData = [...list];
+      if (updatedData[index].answer.options[n] === updatedData[index].answer.correct_option) {
+        updatedData[index].answer.correct_option = '';
+        if (list[index].answer.options.length >= n) {
+          i = 1;
+        }
+      }
+      const newdata = splicearr(updatedData[index].answer.options, n);
+      updatedData[index].answer.options = newdata;
+      if ((i = 1)) {
+        updatedData[index].answer.correct_option = updatedData[index].answer.options[n];
+      }
+      setList(updatedData);
+      const newt = { ...newobject };
+      newt.questions_and_answers = list;
+      setObject(newt);
+    }
   };
   //adding options
   const handleIncreaseOption = (index: number) => {
@@ -48,8 +70,9 @@ const CreateTemplate = () => {
     //updatedData[indextoadd]?.options.push('')
     updatedData[index].answer.options.push('');
     setList(updatedData);
-    console.log(list[index]);
-    console.log(newobject);
+    const newt = { ...newobject };
+    newt.questions_and_answers = list;
+    setObject(newt);
   };
   const setCorrect = (value: any, index: number) => {
     const updatedData = [...list];
@@ -73,6 +96,9 @@ const CreateTemplate = () => {
         },
       },
     ]);
+    const newt = { ...newobject };
+    newt.questions_and_answers = list;
+    setObject(newt);
   };
   useEffect(() => {
     if (listupdate === 'addquest') {
@@ -163,7 +189,7 @@ const CreateTemplate = () => {
                   }}
                 >
                   <SelectTrigger className="w-full p-6">
-                    <SelectValue placeholder="Select option" />
+                    <SelectValue placeholder={'select option'} />
                   </SelectTrigger>
                   <SelectContent>
                     {list[index].answer.options.map((optt: any, n: number) => {
