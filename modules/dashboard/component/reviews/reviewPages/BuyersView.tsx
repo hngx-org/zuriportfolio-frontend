@@ -1,24 +1,24 @@
 //* Removed some unnecessary imports
 
 import React, { useState, useEffect } from 'react';
-import NavDashBoard from '../../../../modules/dashboard/component/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
-import SellerReview from '@modules/dashboard/component/reviews/review-page/SellersReview';
 import Filter from '@modules/dashboard/component/reviews/review-page/ReviewFilter';
 import Pagination from '@ui/Pagination';
-import MainLayout from '../../../../components/Layout/MainLayout';
+import MainLayout from '../../../../../components/Layout/MainLayout';
 import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/EmptyReviewPage';
 import Container from '@modules/auth/component/Container/Container';
 import Loader from '@ui/Loader';
-import { ReviewData, ReviewApiResponse, RatsData } from '../../../../@types';
-import { set } from 'nprogress';
+import { ReviewData, ReviewApiResponse, RatsData } from '../../../../../@types';
+import Review from '../review-page/Review';
+import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
+import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 
 //* Moved type definitions to @types/index.d.ts
-const UserReview = () => {
+const BuyersView = () => {
   //* Added a function to set the page number in the url
   const setPage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -34,13 +34,12 @@ const UserReview = () => {
   //* Added page variable and current page state also added isLoading state to hide page change
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+  const { categories, loading } = useCategoryNav();
   const [data, setData] = useState<ReviewData[] | null>(null);
   const [rats, setRats] = useState<RatsData>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filterRating, setFilterRating] = useState<string>('all');
-  const [filterView, setFilterView] = useState<string>('topReviews');
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
-  const [productName, setProductName] = useState<string>('');
-  const [mountUI, setMountUI] = useState<boolean>(false);
 
   // ToDo: Remove all commented out code
   // const [total5Star, setTotal5Star] = useState<number>(0);
@@ -79,7 +78,7 @@ const UserReview = () => {
         .then((data: ReviewApiResponse) => setData(data.data))
         .catch((e) => console.log(e));
     }
-  }, [mountUI, filterRating, filterView, currentPage, id]);
+  }, [data, currentPage, id]);
   useEffect(() => {
     if (id) {
       const apiUrl: string = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`;
@@ -89,6 +88,9 @@ const UserReview = () => {
         .catch((e) => console.log(e));
     }
   }, [id]);
+  useEffect(() => {
+    setIsLoading(true);
+  }, [filteredData]);
 
   const ratingData = [
     { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
@@ -129,25 +131,22 @@ const UserReview = () => {
   }
 
   function handleFilter(view: string, rating: string) {
-    setFilterView(view);
     setFilterRating(rating);
     if (data !== null && data !== undefined) {
       const filteredReviews = filterReviews(view, rating, data);
-      setFilteredData(filteredReviews);
+      setTimeout(() => {
+        setFilteredData(filteredReviews);
+      }, 100);
     }
   }
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setMountUI(true);
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, []);
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
-        <NavDashBoard active="reviews" />
+        <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
+          {/* from marketplace: this component you are using is from marketplace and it has been updated and we have updated it on your end also, this is important to allow sync without error take note  */}
+          <CategoriesNav navItems={categories} isLoading={loading} />
+        </div>
         {!data ? (
           <div className=" h-[70vh] flex justify-center items-center">
             <Loader />
@@ -163,9 +162,7 @@ const UserReview = () => {
                   onClick={() => router.back()}
                 >
                   <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-                  {/* Commented out title for testing */}
-                  {/* {router.query.title} */}
-                  Customer Reviews
+                  {router.query.title}
                 </div>
               </div>
               <div className="flex flex-col md:flex-row lg:gap-24 md:gap-10 gap-4 mx-5">
@@ -212,7 +209,7 @@ const UserReview = () => {
                       <h2>No results</h2>
                     ) : (
                       filteredData?.map((review) => (
-                        <SellerReview
+                        <Review
                           key={review.reviewId}
                           buyerName={review.customerName}
                           mainDate={review.createdAt}
@@ -243,4 +240,4 @@ const UserReview = () => {
   );
 };
 
-export default UserReview;
+export default BuyersView;
