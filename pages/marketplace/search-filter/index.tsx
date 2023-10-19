@@ -92,10 +92,12 @@ export const getServerSideProps = (async (context) => {
     const page = context.query.page ? parseInt(context.query.page as string) : 1;
 
     const queryParams = { category, subCategory, price, discount, rating };
-    let apiUrl = constructApiUrl('https://coral-app-8bk8j.ondigitalocean.app/api/products-filter', queryParams);
-    const { data } = await axios.get<{ data: { products: ProductList[] } }>(apiUrl.toString());
-
-    const res = data !== null ? data?.data?.products : [];
+    let apiUrl = constructApiUrl('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products-filter', queryParams);
+    const { data, status } = await axios.get<{ products: ProductList[]; data: ProductList[] }>(apiUrl.toString());
+    if (status === 400 || status === 500) {
+      console.error('Bad request');
+    }
+    const res = data?.products ? data?.products : data?.data ? data?.data : [];
     const itemsPerPage = 8;
     const totalProducts = res.length;
     const totalPages = Math.ceil(totalProducts / itemsPerPage);

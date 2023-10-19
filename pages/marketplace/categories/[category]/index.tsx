@@ -18,7 +18,7 @@ export const getServerSideProps = async (context: any) => {
   }
 
   try {
-    const res = await axios('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+    const res = await axios('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/');
     const isCategoryAvailable = res.data?.data.filter((el: any) => el.name === category);
 
     if (isCategoryAvailable.length === 0) {
