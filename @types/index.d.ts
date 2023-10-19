@@ -893,3 +893,10 @@ export interface RatsData {
   productId: string;
   id: string;
 }
+
+export interface ExploreSEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
+}
