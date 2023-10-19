@@ -5,6 +5,7 @@ import type { GetServerSideProps } from 'next';
 import { FilterContextProvider } from '@modules/marketplace/component/filter/hooks/context';
 import { useContext, useEffect, useState } from 'react';
 import { PreviousUrlContext } from '@modules/marketplace/context/PreviousUrlProvider';
+import Head from 'next/head';
 
 interface CardType {
   id: string;
@@ -127,8 +128,14 @@ export default function SubCategoryPage({ response }: ResponseType) {
   }, [router.asPath, updatePath]);
 
   return (
-    <FilterContextProvider>
-      {isReady && <SpecificSubCategory subCategory={subCategory as string} response={response} />}
-    </FilterContextProvider>
+    <div>
+      <Head>
+        <title>Products available in {subCategory}</title>
+        <meta name="description" content={`Explore a wide range of ${subCategory} product`} />
+      </Head>
+      <FilterContextProvider>
+        {isReady && <SpecificSubCategory subCategory={subCategory as string} response={response} />}
+      </FilterContextProvider>
+    </div>
   );
 }
