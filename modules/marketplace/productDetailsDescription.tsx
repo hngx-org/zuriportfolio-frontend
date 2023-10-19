@@ -22,6 +22,7 @@ import { CART_ENDPOINT } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
+import { ProductReview } from './component/ProductReview';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -33,6 +34,8 @@ export default function ProductDetailsDescription() {
   const { id } = router.query;
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
+
+  // const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`
 
   const apiUrl: string = token
     ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
@@ -283,12 +286,8 @@ export default function ProductDetailsDescription() {
               {/* <p className="text-sm font-manropeL mt-4">
                 VERIFIED RATINGS <span>(173)</span>
               </p> */}
-              <p className="mt-6 font-manropeL text-base font-normal">
-                No reviews yet. <br></br> Be the first to review this product.{' '}
-                <Link href={`/dashboard/reviews/create/${product.id}`} className="underline">
-                  Write a review.
-                </Link>
-              </p>
+
+              <ProductReview id={product?.id} />
 
               {/* <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
                 <div className="w-6/12 py-8 px-6 flex flex-col gap-[20px] rounded-2xl border-custom-color32 border-[1px] items-center sm:w-full">

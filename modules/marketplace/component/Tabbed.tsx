@@ -7,6 +7,7 @@ import star2 from '../../../public/assets/star2.svg';
 import profileImg from '../../../public/assets/images/profile-img.png';
 import verifyIcon from '../../../public/assets/icons/verify.svg';
 import Link from 'next/link';
+import { ProductReview } from './ProductReview';
 
 const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) => void; tab: string }) => {
   return (
@@ -161,12 +162,11 @@ const TabContent = ({ tab, desc, id }: { tab: string; desc: any; id: string }): 
             <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
           </button>
         </form> */}
-        <p className="mt-6 font-manropeL text-base font-normal">
-          No reviews yet. Be the first to review this product.{' '}
-          <Link href={`/dashboard/reviews/create/${id}`} className="underline">
-            Write a review.
-          </Link>
-        </p>
+        {/* <p className="mt-6 font-manropeL text-base font-normal">
+          No reviews yet. Be the first to review this product. <Link href={`/dashboard/reviews/create/${id}`} className='underline'>Write a review.</Link>
+        </p> */}
+
+        <ProductReview id={id} />
       </>
     );
 
