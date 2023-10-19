@@ -14,29 +14,12 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
 
-type Props = {
-  assessment: {
-    id: number;
-    title: string;
-    createdAt: Date;
-    duration_minutes: number;
-    questions: {
-      answers: {}[];
-      question_no: number;
-      question_text: string;
-      question_type: string;
-    }[];
-    updatedAt: Date;
-  };
-};
 const DraftPreview = () => {
   const { questionIndex, setQuestionIndex } = useCreatingAssessmentContext();
 
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
   const [newQuestions, setNewQuestions] = useState<{ questions: any[] }>({ questions: [] });
 
-  const arr = [1, 2, 3];
-  const router = useRouter();
   const params = useParams();
   const id = params?.id;
   console.log(params);
@@ -65,6 +48,7 @@ const DraftPreview = () => {
       duration_minutes: data,
     }));
   };
+
   const [active, setActive] = useState<null | string>('button1');
   const handleClick = (button: string) => {
     setActive(button);
@@ -282,14 +266,16 @@ const DraftPreview = () => {
             <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
               <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
               <div className="p-4 flex justify-between items-center">
-                <div className="text-[20px]">
+                <div className="text-[20px] w-full">
                   <input
                     type="text"
                     id="input_assessment"
-                    className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
+                    className="w-full text-left outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
                     placeholder={draftData.title}
                     disabled={disable}
-                    onChange={(e) => {}}
+                    onChange={(e) => {
+                      setDraftData({ ...draftData, title: e.target.value });
+                    }}
                   />
                 </div>
                 <div>
