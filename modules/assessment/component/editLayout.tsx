@@ -5,6 +5,8 @@ import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type AnswerType = {
   options: string[];
@@ -20,6 +22,7 @@ type QuestionType = {
 
 // const initialOptions: string[] = ["Option 1", "Option 2", "Option 3", "Option 4"];
 const EditLayout = () => {
+  const notify = () => toast('Assessment updated successfully, You can go back');
   const [loading, setLoading] = useState(true);
   const navigate = useRouter();
   const router = useRouter();
@@ -167,7 +170,9 @@ const EditLayout = () => {
 
       const data = await response.json();
       console.log('Assessment updated successfully:', data);
-      alert('Assessment updated successfully, You can go back');
+      // alert('Assessment updated successfully, You can go back');
+      notify();
+      <ToastContainer />;
     } catch (error) {
       console.error('Error:', error);
     }
@@ -342,12 +347,12 @@ const EditLayout = () => {
           }}
         >
           <SelectTrigger className="w-full p-6">
-            <SelectValue placeholder={editable ? editable.answer.correct_option : ''} />
+            <SelectValue placeholder={editable ? editable.answer.correct_option : 'Select an Option'} />
           </SelectTrigger>
           <SelectContent>
             {editedOptions.map((option, index) => {
               return (
-                <SelectItem key={index} value={option}>
+                <SelectItem key={index} value={option || 'Type an Option'}>
                   {option}
                 </SelectItem>
               );
