@@ -39,6 +39,7 @@ const UserReview = () => {
   const [filterRating, setFilterRating] = useState<string>('all');
   const [filterView, setFilterView] = useState<string>('topReviews');
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
+  const [productName, setProductName] = useState<string>('');
   const [mountUI, setMountUI] = useState<boolean>(false);
 
   // ToDo: Remove all commented out code
@@ -162,7 +163,9 @@ const UserReview = () => {
                   onClick={() => router.back()}
                 >
                   <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-                  {router.query.title}
+                  {/* Commented out title for testing */}
+                  {/* {router.query.title} */}
+                  Customer Reviews
                 </div>
               </div>
               <div className="flex flex-col md:flex-row lg:gap-24 md:gap-10 gap-4 mx-5">
