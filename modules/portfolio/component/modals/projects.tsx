@@ -153,7 +153,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         formData.append('jsondata', JSON.stringify(data));
 
         axios
-          .put(`${endpoint}/api/update-project/${id}`, formData)
+          .put(`${endpoint}/api/projects/${id}`, formData)
           .then((res) => {
             setLoading(false);
             notify({
