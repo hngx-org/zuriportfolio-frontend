@@ -69,7 +69,7 @@ export default function Cart() {
   }, []);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
-    event.stopPropagation()
+    event.stopPropagation();
     let id = event.currentTarget.id;
     let recentlyViewedProducts = recentlyViewed.filter((product) => product.product.id != id);
     setRecentlyViewed(recentlyViewedProducts);

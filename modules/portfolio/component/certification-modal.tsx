@@ -181,7 +181,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(true);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -239,160 +239,153 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
       }}
     >
       <div>
-        {!closeAllModal && (
-          <div>
-            {' '}
-            {!isModalOpen && (
-              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
-                <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
-                  <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-                    <div className="flex items-center gap-6" onClick={onCloseModal}>
-                      <ArrowLeft2 />
-                      <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
+        {' '}
+        {isModalOpen && (
+          <Modal closeOnOverlayClick isOpen={isModalOpen} closeModal={closeModal} isCloseIconPresent={false} size="xl">
+            <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
+              <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
+                <div className="flex items-center gap-6" onClick={onCloseModal}>
+                  <ArrowLeft2 />
+                  <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
+                </div>
+                <div onClick={onCloseModal}>
+                  <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
+                </div>
+              </div>
+              <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={openModal}>
+                <div className="flex flex-col sm:flex-row w-full gap-[10px]">
+                  <div className="flex  flex-col gap-2 flex-1">
+                    <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Certification Title*
+                    </label>
+                    <Input
+                      type="text"
+                      id="title"
+                      name="title"
+                      placeholder="My best yet"
+                      className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
+                      value={formData.title}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <div className="flex  flex-col gap-2 flex-1">
+                    <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Year
+                    </label>
+                    <select
+                      id="year"
+                      name="year"
+                      className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
+                      value={formData.year}
+                      onChange={handleInputChange}
+                    >
+                      {/* Add the default placeholder option */}
+                      <option value="" disabled>
+                        Year
+                      </option>
+                      {Array.from({ length: 124 }, (_, index) => {
+                        const year = 2023 - index;
+                        if (year >= 1900) {
+                          return (
+                            <option key={year} value={year}>
+                              {year}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
+                    </select>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row w-full gap-[10px]">
+                  <div className="flex  flex-col gap-[10px] flex-1">
+                    <label htmlFor="organization" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      organization*
+                    </label>
+                    <Input
+                      type="text"
+                      id="organization"
+                      name="organization"
+                      placeholder="Google"
+                      className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900 rounded-lg border-[1px]"
+                      value={formData.organization}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="flex  flex-col gap-[10px] flex-1">
+                    <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                      Url
+                    </label>
+                    <Input
+                      type="text"
+                      id="url"
+                      name="url"
+                      placeholder="Type link"
+                      className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
+                      value={formData.url}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="flex  flex-col gap-[10px]">
+                  <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
+                    Description
+                  </label>
+                  <Input
+                    type="text"
+                    id="description"
+                    name="description"
+                    placeholder="Certificate ID & details "
+                    className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900  rounded-lg border-[1px]"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
+                  <div>
+                    <div>
+                      <p className="text-green-200 text-sm">{createCertificate}</p>
                     </div>
-                    <div onClick={onCloseModal}>
-                      <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
+                    <div>
+                      {render ? (
+                        <pre className="text-red-205 font-manropeL">{error}</pre>
+                      ) : (
+                        urlError && <div className="text-red-205 text-sm">{urlError}</div>
+                      )}
                     </div>
                   </div>
-                  <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={openModal}>
-                    <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-                      <div className="flex  flex-col gap-2 flex-1">
-                        <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                          Certification Title*
-                        </label>
-                        <Input
-                          type="text"
-                          id="title"
-                          name="title"
-                          placeholder="My best yet"
-                          className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
-                          value={formData.title}
-                          onChange={handleInputChange}
-                        />
-                      </div>
+                  <div className="flex gap-4  items-center">
+                    <Button
+                      onClick={onCloseModal}
+                      intent={'secondary'}
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
+                    >
+                      Cancel
+                    </Button>{' '}
+                    <Button
+                      type="submit"
+                      // disabled={!isValid}
 
-                      <div className="flex  flex-col gap-2 flex-1">
-                        <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                          Year
-                        </label>
-                        <select
-                          id="year"
-                          name="year"
-                          className="p-2 px-4 h-[48px] focus-within:border-brand-green-primary border-brand-disabled rounded-lg border-[1px]"
-                          value={formData.year}
-                          onChange={handleInputChange}
-                        >
-                          {/* Add the default placeholder option */}
-                          <option value="" disabled>
-                            Year
-                          </option>
-                          {Array.from({ length: 124 }, (_, index) => {
-                            const year = 2023 - index;
-                            if (year >= 1900) {
-                              return (
-                                <option key={year} value={year}>
-                                  {year}
-                                </option>
-                              );
-                            }
-                            return null;
-                          })}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-                      <div className="flex  flex-col gap-[10px] flex-1">
-                        <label
-                          htmlFor="organization"
-                          className="font-semibold text-[16px] leading-[24px]  text-[#444846]"
-                        >
-                          organization*
-                        </label>
-                        <Input
-                          type="text"
-                          id="organization"
-                          name="organization"
-                          placeholder="Google"
-                          className="p-4 border-brand-disabled w-full  text-[16px] leading-[24px]   text-gray-900 rounded-lg border-[1px]"
-                          value={formData.organization}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                      <div className="flex  flex-col gap-[10px] flex-1">
-                        <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                          Url
-                        </label>
-                        <Input
-                          type="text"
-                          id="url"
-                          name="url"
-                          placeholder="Type link"
-                          className="p-4 border-brand-disabled  text-[16px] w-full  leading-[24px]    text-gray-900   rounded-lg border-[1px]"
-                          value={formData.url}
-                          onChange={handleInputChange}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex  flex-col gap-[10px]">
-                      <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                        Description
-                      </label>
-                      <Input
-                        type="text"
-                        id="description"
-                        name="description"
-                        placeholder="Certificate ID & details "
-                        className="p-4 w-full border-brand-disabled  text-[16px]  leading-[24px]    text-gray-900  rounded-lg border-[1px]"
-                        value={formData.description}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
-                      <div>
-                        <div>
-                          <p className="text-green-200 text-sm">{createCertificate}</p>
-                        </div>
-                        <div>
-                          {render ? (
-                            <pre className="text-red-205 font-manropeL">{error}</pre>
-                          ) : (
-                            urlError && <div className="text-red-205 text-sm">{urlError}</div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex gap-4  items-center">
-                        <Button
-                          onClick={onCloseModal}
-                          intent={'secondary'}
-                          className="w-full rounded-md sm:w-[6rem]"
-                          size={'md'}
-                        >
-                          Cancel
-                        </Button>{' '}
-                        <Button
-                          type="submit"
-                          // disabled={!isValid}
-
-                          className="w-full rounded-md sm:w-[6rem]"
-                          size={'md'}
-                        >
-                          Save
-                        </Button>
-                      </div>
-                    </div>
-                  </form>
+                      className="w-full rounded-md sm:w-[6rem]"
+                      size={'md'}
+                    >
+                      Save
+                    </Button>
+                  </div>
                 </div>
-              </Modal>
-            )}
-            {isModalOpen && <CertificationRead isOpen={isModalOpen} onClose={closeModal} />}
-          </div>
+              </form>
+            </div>
+          </Modal>
         )}
+        {!isModalOpen && <CertificationRead isOpen={!isModalOpen} onClose={onCloseModal} />}
       </div>
     </myContext.Provider>
   );
 };
 const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const { setCloseAllModal } = useContext(myContext);
+  const { setIsModalOpen } = useContext(myContext);
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
@@ -401,18 +394,19 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             <ArrowLeft2 />
             <h1 className="font-bold text-2xl text-white-700 ">Certifications</h1>
           </div>
-          <div
-            onClick={() => {
-              setCloseAllModal(true);
-            }}
-          >
+          <div onClick={onClose}>
             <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
           </div>
         </div>
         <CertificationList isModalOpen={isOpen} />
         <div className="flex flex-col sm:flex-row justify-between gap-6">
           <div>
-            <p onClick={onClose} className="font-bold cursor-pointer text-[16px] leading-6 text-brand-green-primary">
+            <p
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+              className="font-bold cursor-pointer text-[16px] leading-6 text-brand-green-primary"
+            >
               Add new certifications
             </p>
           </div>
@@ -420,13 +414,7 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Cancel
             </Button>{' '}
-            <Button
-              onClick={() => {
-                setCloseAllModal(true);
-              }}
-              className="w-full rounded-md sm:w-[6rem]"
-              size={'md'}
-            >
+            <Button onClick={onClose} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Save
             </Button>
           </div>

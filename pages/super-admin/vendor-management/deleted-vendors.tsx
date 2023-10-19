@@ -11,6 +11,9 @@ import { useGetAllVendor } from '../../../http/super-admin1';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { withAdminAuth } from '../../../helpers/withAuth';
 import { Input, SelectInput } from '@ui/Input';
+import Image from 'next/image';
+import right from '/public/assets/vendor/arrow-right.svg';
+import { useRouter } from 'next/router';
 
 const Index = () => {
   //Variables for the pagination
@@ -18,12 +21,20 @@ const Index = () => {
   const [searchVal, setSearchVal] = useState('');
 
   const { data, isLoading } = useGetAllVendor(currentPage, searchVal, 'deleted');
-
+  const router = useRouter();
   return (
     <div className="">
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto">
+        <div className="container">
+          <Image
+            src={right}
+            alt="back"
+            className="  pb-3 cursor-pointer"
+            onClick={() => router.push('/super-admin/vendor-management/')}
+          ></Image>
+        </div>
         <section className="border-white-115 border-2 py-4 rounded-md container mx-auto mb-10">
           <div className=" border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
             <div className="mb-4 md:mb-0">

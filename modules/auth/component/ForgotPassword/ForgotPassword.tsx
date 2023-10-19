@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@ui/Button';
 import Link from 'next/link';
 import AuthLayout from '../AuthLayout';
@@ -15,13 +15,14 @@ const notifyError = (message: string) => notify({ type: 'error', message, theme:
 
 const ForgotPassword = () => {
   const router = useRouter();
+  const [email, setEmail] = useState('');
 
-  const { email, handleEmail } = useAuth();
+  // const { email, handleEmail } = useAuth();
 
   //Success Handler
   const forgotPasswordSuccess = (data: any) => {
     if (data.status === 200) {
-      router.push('/auth/forgot-password-link-sent');
+      router.push(`/auth/forgot-password-link-sent?email=${email}`);
       return;
     }
 
@@ -50,16 +51,9 @@ const ForgotPassword = () => {
 
   // Handling email input
   const handleForgotPassword = (values: any) => {
+    setEmail(values.email);
     mutate({ email: values.email });
   };
-
-  useEffect(() => {
-    if (!email) {
-      const userEmail = localStorage.getItem('user-email');
-      if (userEmail) handleEmail(userEmail);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <AuthLayout isTopRightBlobShown isBottomLeftPadlockShown>
