@@ -18,7 +18,7 @@ const useCategory = () => {
   async function getCategories() {
     try {
       const { data } = await axios.get<{ data: CategoryType[] }>(
-        'https://coral-app-8bk8j.ondigitalocean.app/api/category-name/',
+        'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/',
       );
 
       setCategories(data.data ? data.data : []);
@@ -34,7 +34,7 @@ const useCategory = () => {
 
   async function getProducts() {
     const { data } = await axios.get<{ data: ProductList[] }>(
-      'https://coral-app-8bk8j.ondigitalocean.app/api/product-list/',
+      'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/product-list/',
     );
     setProducts(data.data);
   }

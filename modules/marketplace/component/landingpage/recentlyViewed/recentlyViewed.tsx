@@ -10,7 +10,7 @@ function RecentlyViewed() {
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedData[]>([]);
   const token: any = isUserAuthenticated();
 
-  const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${token?.id}`;
+  const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recently-viewed/${token?.id}`;
 
   useEffect(() => {
     setReady(true);
