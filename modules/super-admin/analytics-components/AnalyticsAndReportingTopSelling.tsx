@@ -80,7 +80,7 @@ const AnalyticsAndReportingTopSelling = () => {
               className="object-contain"
             />
           </div>
-          <div className="grid col-span-2 grid-cols-5 ps-10 text-center min-w-[100px]">
+          <div className="grid col-span-2 grid-cols-5 ps-10 text-center min-w-[100px] ">
             <span>Category</span>
             <span>Order</span>
             <span>Price</span>
