@@ -1,11 +1,13 @@
 //* Removed some unnecessary imports
 
 import React, { useState, useEffect } from 'react';
+import NavDashBoard from '../../../../../modules/dashboard/component/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
+import SellerReview from '@modules/dashboard/component/reviews/review-page/SellersReview';
 import Filter from '@modules/dashboard/component/reviews/review-page/ReviewFilter';
 import Pagination from '@ui/Pagination';
 import MainLayout from '../../../../../components/Layout/MainLayout';
@@ -13,13 +15,12 @@ import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/Em
 import Container from '@modules/auth/component/Container/Container';
 import Loader from '@ui/Loader';
 import { ReviewData, ReviewApiResponse, RatsData } from '../../../../../@types';
-import Review from '../review-page/Review';
 import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
+import Review from '../review-page/Review';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 
 //* Moved type definitions to @types/index.d.ts
 const BuyersView = () => {
-  //* Added a function to set the page number in the url
   const setPage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     router.push({
@@ -37,9 +38,11 @@ const BuyersView = () => {
   const { categories, loading } = useCategoryNav();
   const [data, setData] = useState<ReviewData[] | null>(null);
   const [rats, setRats] = useState<RatsData>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filterRating, setFilterRating] = useState<string>('all');
+  const [filterView, setFilterView] = useState<string>('topReviews');
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
+  const [productName, setProductName] = useState<string>('');
+  const [mountUI, setMountUI] = useState<boolean>(false);
 
   // ToDo: Remove all commented out code
   // const [total5Star, setTotal5Star] = useState<number>(0);
@@ -72,13 +75,15 @@ const BuyersView = () => {
         .then((data: ReviewApiResponse) => setData(data.data))
         .catch((e) => console.log(e));
     } else {
-      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=0&pageSize=10`;
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=${
+        currentPage - 1
+      }&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
         .then((data: ReviewApiResponse) => setData(data.data))
         .catch((e) => console.log(e));
     }
-  }, [data, currentPage, id]);
+  }, [mountUI, filterRating, filterView, currentPage, id]);
   useEffect(() => {
     if (id) {
       const apiUrl: string = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`;
@@ -88,9 +93,6 @@ const BuyersView = () => {
         .catch((e) => console.log(e));
     }
   }, [id]);
-  useEffect(() => {
-    setIsLoading(true);
-  }, [filteredData]);
 
   const ratingData = [
     { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
@@ -131,14 +133,20 @@ const BuyersView = () => {
   }
 
   function handleFilter(view: string, rating: string) {
+    setFilterView(view);
     setFilterRating(rating);
     if (data !== null && data !== undefined) {
       const filteredReviews = filterReviews(view, rating, data);
-      setTimeout(() => {
-        setFilteredData(filteredReviews);
-      }, 100);
+      setFilteredData(filteredReviews);
     }
   }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMountUI(true);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
@@ -147,11 +155,11 @@ const BuyersView = () => {
           {/* from marketplace: this component you are using is from marketplace and it has been updated and we have updated it on your end also, this is important to allow sync without error take note  */}
           <CategoriesNav navItems={categories} isLoading={loading} />
         </div>
-        {!data ? (
+        {!rats ? (
           <div className=" h-[70vh] flex justify-center items-center">
             <Loader />
           </div>
-        ) : data === null || data.length === 0 ? (
+        ) : rats === null || rats.averageRating === undefined ? (
           <EmptyReviewPage />
         ) : (
           <div className="flex flex-col justify-center items-center md:mb-16">
@@ -169,29 +177,11 @@ const BuyersView = () => {
                 <div className="flex flex-row md:flex-col gap-4 md:gap-8 lg:w-80 md:w-48">
                   <div>
                     <RatingBar avgRating={rats?.averageRating!} verUser={100} />
-                    <div className="md:hidden block">
-                      <p className="pt-6">Have any thoughts?</p>
-                      <Link
-                        href={`../create/${rats?.productId}`}
-                        className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
-                      >
-                        <button className="hover:text-green-200">Write a Review!</button>
-                      </Link>
-                    </div>
                   </div>
                   <div className="flex flex-col gap-2">
                     {ratingData.map((data, index) => (
                       <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />
                     ))}
-                    <div className="hidden md:block">
-                      <p className="pt-6">Have any thoughts?</p>
-                      <Link
-                        href={`../create/${rats?.productId}`}
-                        className="flexfont-manropeB text-brand-green-pressed h-5 w-36 self-start"
-                      >
-                        <button className="hover:text-green-200">Write a Review!</button>
-                      </Link>
-                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -226,13 +216,17 @@ const BuyersView = () => {
                 </div>
               </div>
             </div>
-            <Pagination
-              page={currentPage}
-              pages={data[0]?.numberOfPages}
-              activePage={currentPage}
-              visiblePaginatedBtn={3}
-              setPage={setPage}
-            />
+            {data === null || data.length === 0 ? (
+              <div className=" w-0 h-0 m-0 p-0 hidden"></div>
+            ) : (
+              <Pagination
+                page={currentPage}
+                pages={data[0]?.numberOfPages}
+                activePage={currentPage}
+                visiblePaginatedBtn={3}
+                setPage={setPage}
+              />
+            )}
           </div>
         )}
       </Container>

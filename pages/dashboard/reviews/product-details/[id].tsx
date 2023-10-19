@@ -73,7 +73,9 @@ const UserReview = () => {
         .then((data: ReviewApiResponse) => setData(data.data))
         .catch((e) => console.log(e));
     } else {
-      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=0&pageSize=10`;
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=${
+        currentPage - 1
+      }&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
         .then((data: ReviewApiResponse) => setData(data.data))
