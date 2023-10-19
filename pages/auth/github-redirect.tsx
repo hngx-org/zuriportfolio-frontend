@@ -14,8 +14,8 @@ function GithubRedirect() {
       // TODO: Find out the response for succesful signup for users with 2fa enabled and disabled
       console.log('Google success data: ', data);
 
-      const token = data.data.token;
-      localStorage.setItem('zpt', token);
+      // const token = data.data.token;
+      // localStorage.setItem('zpt', token);
 
       // Checking if user enabled 2fa
       if (data?.response && data?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
