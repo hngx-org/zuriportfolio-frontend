@@ -11,7 +11,6 @@ import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
 import { withUserAuth } from '../../../../helpers/withAuth';
 import { fetchUserTakenAssessment, getAssessmentDetails,submitAssessment,fetchUserAssessmentSession } from '../../../../http/userTakenAssessment';
-
 type AssessmentDetails = {
   id?: string;
   assessment_id: number;
@@ -23,6 +22,21 @@ type AssessmentDetails = {
   start_date: Date;
   end_date: Date;
 };
+
+interface Question {
+  answer_id: number;
+  options: string[];
+  question_id: number;
+  question_no: number;
+  question_text: string;
+  question_type: string;
+  user_selected_answer: string;
+}
+
+interface QuestionArrays {
+  answered_questions: Question[];
+  unanswered_questions: Question[];
+}
 
 const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
@@ -96,31 +110,36 @@ const Questions: React.FC = () => {
     try {
       const assessmentsData = await getAssessmentDetails(token as string, data as string);
       const questionData = await fetchUserTakenAssessment(token as string, id as string);
-      const res = await fetchUserAssessmentSession(token as string, data as string);
-
-      console.log(assessmentsData,questionData,res)
-      if (!questionData || !assessmentsData) {
-        setIsLoading(false);
-        console.log("error",error)
-        throw new Error('Network response was not ok,Plese refresh');
-      }
-      setResult(assessmentsData);
+      const res = await fetchUserAssessmentSession(token as string, id as string);
+     if(res.length!==0){
+      const result = sortQuestionsByQuestionNo(res)
+      setStoredAssessment(result)
+      console.log(result)
+     }else{
       setStoredAssessment(questionData.data.questions);
-      setStoredAssessment(res.data.questions);
+     }      
+      setResult(assessmentsData);
       setDuration(assessmentsData?.duration_minutes);
       setIsError(false)
       setIsLoading(false)
       console.log('2', assessmentsData);
       console.log('3', questionData.questions);
     } catch (error:any) {
-      console.log('catch error', error);
+      console.log('catch error', error);      
       setIsError(true);
       setError("Something Went Wrong");
     }finally{
       setIsLoading(false);
     }
   };
+  function sortQuestionsByQuestionNo(input: QuestionArrays | undefined): Question[] {
+    if (!input) return [];
+    // Concatenate the 'answered_questions' and 'unanswered_questions' arrays
+    const allQuestions = input.answered_questions.concat(input.unanswered_questions);
 
+    // Sort the combined array based on 'question_no'
+    return allQuestions.sort((a, b) => a.question_no - b.question_no);
+  }
   const handleUserAnswerClick = async (question_id: number, user_answer_id: number, answer_text: string) => {
     const token = tokenRef.current;
     console.log(question_id, user_answer_id, answer_text, result?.assessment_id);
@@ -223,6 +242,7 @@ const Questions: React.FC = () => {
                                 id={`${option}`}
                                 name={question.question_id}
                                 value={option[index]}
+                                checked={question.user_selected_answer === option}
                                 onClick={() => handleUserAnswerClick(question.question_id, question.answer_id, option)}
                               />
                           <label className="text-xs text-gray-700 " htmlFor={`${option}`}>

@@ -160,7 +160,7 @@ function AssessmentOverview() {
               subtitle="An overview of all answers."
               bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
             />
-            <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
+            <div className="w-full md:max-w-full px-4 max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
               <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary mt-5">
                 <p className="text-white-100 text-2xl font-bold">
                   {minute !== null && second !== null ? (
