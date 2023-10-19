@@ -6,6 +6,7 @@ import MainLayout from '../../../../components/Layout/MainLayout';
 import BadgeComponent from '@modules/assessment/component/Badges/BadgeComponent';
 import ErrorData from '@modules/assessment/component/Badges/errordata';
 import BadgesComponentHeader from '@modules/assessment/component/Badges/BadgesComponentHeader';
+import { withUserAuth } from '../../../../helpers/withAuth';
 
 interface Skill {
   id: number;
@@ -185,4 +186,4 @@ const Earnedbadges: React.FC = () => {
   );
 };
 
-export default Earnedbadges;
+export default withUserAuth(Earnedbadges);
