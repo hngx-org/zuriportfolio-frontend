@@ -14,15 +14,18 @@ import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
+import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
 
 type PortfolioContext = {
-  gettinSection: boolean;
-  userId: string;
+  setGettingSection: React.Dispatch<React.SetStateAction<boolean>>;
   hasPortfolio: boolean;
   setHasPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowBuildPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowProfileUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  gettinSection: boolean;
+  userId: string;
   setUserData: React.Dispatch<React.SetStateAction<any>>;
   userData: any;
-  hasData: boolean;
   sections: Array<any>;
   modalStates: { [key: string]: boolean };
   modals: any[];
@@ -36,13 +39,12 @@ type PortfolioContext = {
   onClose: () => void;
   onCloseModal: (modalToClose: string) => void;
   editSection: (modalToOpen: string) => void;
-  setHasData: React.Dispatch<React.SetStateAction<boolean>>;
   setModalStates: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>;
   setSections: React.Dispatch<React.SetStateAction<any[]>>;
   profileUpdate: () => void;
   buildPortfolio: () => void;
   viewPortfolio: () => void;
-  modal: () => void;
+  onSaveModal: (sectionTitle?: string) => void;
   setAvatarImage: React.Dispatch<React.SetStateAction<File | undefined>>;
   handleUploadCover: (e: React.ChangeEvent<HTMLInputElement>) => void;
   toggleSection: (sectionTitle: string) => void;
@@ -56,17 +58,21 @@ type PortfolioContext = {
   setOpenShop: React.Dispatch<React.SetStateAction<boolean>>;
   openCustom: boolean;
   setOpenCustom: React.Dispatch<React.SetStateAction<boolean>>;
+  idToDelete: string;
+  setIdToDelete: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Portfolio = createContext<PortfolioContext>({
-  gettinSection: true,
-  userId: '',
+  setGettingSection: () => {},
   hasPortfolio: false,
   setHasPortfolio: () => {},
+  setShowBuildPortfolio: () => {},
+  setShowProfileUpdate: () => {},
+  gettinSection: true,
+  userId: '',
   setUserData: () => {},
   userData: {},
   selectedSections: [],
-  hasData: false,
   sections: [],
   modals: [],
   isOpen: false,
@@ -75,7 +81,6 @@ const Portfolio = createContext<PortfolioContext>({
   showBuildPortfolio: false,
   showViewtemplates: false,
   avatarImage: '' as string | StaticImport,
-  setHasData: () => {},
   onOpen: () => {},
   onClose: () => {},
   setModalStates: () => {},
@@ -85,7 +90,7 @@ const Portfolio = createContext<PortfolioContext>({
   profileUpdate: () => {},
   buildPortfolio: () => {},
   viewPortfolio: () => {},
-  modal: () => {},
+  onSaveModal: () => {},
   setAvatarImage: () => {},
   handleUploadCover: () => {},
   toggleSection: () => {},
@@ -99,6 +104,8 @@ const Portfolio = createContext<PortfolioContext>({
   setOpenShop: () => {},
   openCustom: false,
   setOpenCustom: () => {},
+  idToDelete: '',
+  setIdToDelete: () => {},
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
@@ -117,19 +124,19 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [isLoading, setIsLoading] = useState(true);
   const [gettinSection, setGettingSection] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [hasData, setHasData] = useState<boolean>(false);
   const [modalStates, setModalStates] = useState<{ [key: string]: boolean }>({});
   const [sections, setSections] = useState<Array<any>>(s);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [idToDelete, setIdToDelete] = useState<string>('');
   const [openShop, setOpenShop] = useState<boolean>(true);
   const [openCustom, setOpenCustom] = useState<boolean>(false);
-  const [hasPortfolio, setHasPortfolio] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
   const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
   const [avatarImage, setAvatarImage] = useState<File | any>();
   const [showProfileUpdate, setShowProfileUpdate] = useState<boolean>(false);
   const [showBuildPortfolio, setShowBuildPortfolio] = useState<boolean>(false);
   const [showViewtemplates, setShowViewtemplates] = useState<boolean>(false);
+  const [hasPortfolio, setHasPortfolio] = useState<boolean>(false);
 
   const [userData, setUserData] = useState<any>({
     firstName: '',
@@ -173,9 +180,9 @@ export function PortfolioCtxProvider(props: { children: any }) {
         education,
         skills,
         contact,
-        interests,
+        interestArray,
         awards,
-        language,
+        languages,
         reference,
         certificate,
         shop,
@@ -188,16 +195,14 @@ export function PortfolioCtxProvider(props: { children: any }) {
         education ||
         skills ||
         contact ||
-        interests ||
+        interestArray ||
         awards ||
-        language ||
+        languages ||
         reference ||
         certificate ||
         shop ||
         custom
       ) {
-        setHasData(true);
-        setHasPortfolio(true);
       }
       setUserSections([
         { title: 'About', id: 'about', data: about },
@@ -205,10 +210,10 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Work Experience', id: 'workExperience', data: workExperience },
         { title: 'Education', id: 'education', data: education },
         { title: 'Skills', id: 'skills', data: skills },
-        { title: 'Interests', id: 'interests', data: interests },
+        { title: 'Interests', id: 'interests', data: interestArray },
         { title: 'Awards', id: 'awards', data: awards },
         { title: 'Certificate', id: 'certificate', data: certificate },
-        { title: 'Language', id: 'language', data: language },
+        { title: 'Languages', id: 'languages', data: languages },
         { title: 'Reference', id: 'reference', data: reference },
         { title: 'Shop', id: 'shop', data: shop },
         { title: 'Contact', id: 'contact', data: contact },
@@ -217,8 +222,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
       setGettingSection(false);
     } catch (error: any) {
       setError({ state: true, error: error.message });
-      setHasData(false);
-      setHasPortfolio(false);
     }
   };
 
@@ -233,8 +236,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowBuildPortfolio(true);
     setShowProfileUpdate(false);
     setShowViewtemplates(false);
-    setHasData(true);
-    setHasPortfolio(true);
     onOpen();
   };
 
@@ -302,13 +303,15 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setModalStates(updatedModalStates);
   };
 
-  const modal = (sectionTitle?: string) => {
+  const onSaveModal = (sectionTitle?: string) => {
     setShowProfileUpdate(false);
     setShowBuildPortfolio(false);
     setShowViewtemplates(false);
     onClose();
     onCloseModal(sectionTitle || '');
     getUser(userId);
+    getUser(userId);
+    getUserSections(userId);
     getUserSections(userId);
   };
 
@@ -322,56 +325,127 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const modals: any[] = [
     {
       id: 'workExperience',
-      modal: <WorkExperienceSection isOpen={modalStates['workExperience']} onClose={() => modal('workExperience')} />,
+      modal: (
+        <WorkExperienceSection
+          isOpen={modalStates['workExperience']}
+          onCloseModal={() => onCloseModal('workExperience')}
+          onSaveModal={() => onSaveModal('workExperience')}
+        />
+      ),
     },
     {
       id: 'education',
-      modal: <EducationSection isOpen={modalStates['education']} onClose={() => modal('education')} />,
+      modal: (
+        <EducationSection
+          isOpen={modalStates['education']}
+          onCloseModal={() => onCloseModal('education')}
+          onSaveModal={() => onSaveModal('education')}
+        />
+      ),
     },
     {
       id: 'projects',
-      modal: <ProjectSection isOpen={modalStates['projects']} onClose={() => modal('projects')} userId={userId} />,
+      modal: (
+        <ProjectSectionModal
+          isOpen={modalStates['projects']}
+          onCloseModal={() => onCloseModal('projects')}
+          onSaveModal={() => onSaveModal('projects')}
+          userId={userId}
+        />
+      ),
     },
     {
-      id: 'language',
-      modal: <LanguageModal isOpen={modalStates['language']} onClose={() => modal('language')} userId={userId} />,
+      id: 'languages',
+      modal: (
+        <LanguageModal
+          isOpen={modalStates['languages']}
+          onCloseModal={() => onCloseModal('languages')}
+          onSaveModal={() => onSaveModal('languages')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'interests',
-      modal: <InterestModal isOpen={modalStates['interests']} onClose={() => modal('interests')} userId={userId} />,
+      modal: (
+        <InterestModal
+          isOpen={modalStates['interests']}
+          onCloseModal={() => onCloseModal('interests')}
+          onSaveModal={() => onSaveModal('interests')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'skills',
-      modal: <SkillModal isOpen={modalStates['skills']} onClose={() => modal('skills')} userId={userId} />,
+      modal: (
+        <SkillModal
+          isOpen={modalStates['skills']}
+          onCloseModal={() => onCloseModal('skills')}
+          onSaveModal={() => onSaveModal('skills')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'reference',
       modal: (
-        <PortfolioReference isOpen={modalStates['reference']} onClose={() => modal('reference')} userId={userId} />
+        <PortfolioReference
+          isOpen={modalStates['reference']}
+          onCloseModal={() => onCloseModal('reference')}
+          onSaveModal={() => onSaveModal('reference')}
+          userId={userId}
+        />
       ),
     },
     {
       id: 'certificate',
-      modal: <Certifications isOpen={modalStates['certificate']} onClose={() => modal('certificate')} />,
+      modal: (
+        <Certifications
+          isOpen={modalStates['certificate']}
+          onCloseModal={() => onCloseModal('certificate')}
+          onSaveModal={() => onSaveModal('certificate')}
+        />
+      ),
     },
     {
       id: 'contact',
-      modal: <ContactModal isOpen={modalStates['contact']} onClose={() => modal('contact')} userId={userId} />,
+      modal: (
+        <ContactModal
+          isOpen={modalStates['contact']}
+          onCloseModal={() => onCloseModal('contact')}
+          onSaveModal={() => onSaveModal('contact')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'about',
-      modal: <PortfolioAbout isOpen={modalStates['about']} onClose={() => modal('about')} userId={userId} />,
+      modal: (
+        <PortfolioAbout
+          isOpen={modalStates['about']}
+          onCloseModal={() => onCloseModal('about')}
+          onSaveModal={() => onSaveModal('about')}
+          userId={userId}
+        />
+      ),
     },
     {
       id: 'awards',
-      modal: <Awards isOpen={modalStates['awards']} onClose={() => modal('awards')} userId={userId} />,
+      modal: (
+        <Awards
+          isOpen={modalStates['awards']}
+          onCloseModal={() => onCloseModal('awards')}
+          onSaveModal={() => onSaveModal('awards')}
+          userId={userId}
+        />
+      ),
     },
   ];
 
   const contextValue = {
     isOpen,
     modalStates,
-    hasData,
     sections,
     modals,
     avatarImage,
@@ -382,14 +456,13 @@ export function PortfolioCtxProvider(props: { children: any }) {
     onOpen,
     onClose,
     setModalStates,
-    setHasData,
     onCloseModal,
     editSection,
     setSections,
     profileUpdate,
     buildPortfolio,
     viewPortfolio,
-    modal,
+    onSaveModal,
     setAvatarImage,
     handleUploadCover,
     userData,
@@ -402,14 +475,19 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setOpenDelete,
     setUserData,
     userId,
-    hasPortfolio,
-    setHasPortfolio,
     openShop,
     setOpenShop,
     getUser,
     openCustom,
     setOpenCustom,
     gettinSection,
+    idToDelete,
+    setIdToDelete,
+    setShowProfileUpdate,
+    setShowBuildPortfolio,
+    setGettingSection,
+    hasPortfolio,
+    setHasPortfolio,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

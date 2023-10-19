@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { z } from 'zod';
 import withAuth from '../../../../helpers/withAuth';
 import Link from 'next/link';
+import Head from 'next/head';
 
 type Product = {
   product_id: string;
@@ -96,7 +97,7 @@ function Discounts() {
   }
 
   useEffect(() => {
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products/marketplace', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
@@ -175,6 +176,9 @@ function Discounts() {
 
   return (
     <MainLayout activePage="promotions" showDashboardSidebar={true} showTopbar>
+      <Head>
+        <title>Add Discount</title>
+      </Head>
       <ToastContainer />
       <div className="w-full">
         <div className="max-w-[1240px] mt-[-30px] mx-auto my-4 px-5 text-gray-30 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-10 hidden md:flex">

@@ -1,17 +1,24 @@
+// import MainLayout from '../../../components/Layout/MainLayout';
 import MainLayout from '../../../../components/Layout/MainLayout';
+import { useRouter } from 'next/router';
+import { FaSpinner } from 'react-icons/fa';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
 import Edithead from '@modules/assessment/component/edittitleHead';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PreviewQuests from '@modules/assessment/component/previewQuests';
 import ScoringScreen from '@modules/assessment/scoringScreen';
-import { useRouter } from 'next/router';
+import { number } from 'zod';
+import { withAdminAuth } from '../../../../helpers/withAuth';
+import { any } from 'zod';
 
 const Previewedit: React.FC = () => {
+  const [loading, setLoading] = useState(true);
   //demo-question-...
   // eslint-disable-next-line react/no-unescaped-entities
-  const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
+  // const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
   const [assessment, setAssessment] = useState({
+    id: 0,
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
     duration_minutes: 0,
@@ -35,6 +42,38 @@ const Previewedit: React.FC = () => {
   const router = useRouter();
   const { name } = router.query;
   const skillId = parseInt(name as string, 10);
+  const assessmentId = router.query.assessmentId;
+  if (assessmentId) {
+    sessionStorage.setItem('assessmentId', assessmentId as string); // Cast assessmentId to string
+  }
+
+  type AnswerType = {
+    options: string[];
+    correct_option: string;
+  };
+
+  type QuestionType = {
+    question_no: number;
+    question_text: string;
+    question_type: string;
+    answer: AnswerType;
+  };
+
+  interface SkillQuestions {
+    createdAt: string;
+    duration_minutes: number;
+    id: number;
+    questions: QuestionType[];
+    title: string;
+    updatedAt: string;
+  }
+
+  const [skillQuestions, setSkillQuestions] = useState<SkillQuestions | null>(null); // Use null as initial state
+
+  //demo-question-...
+  // eslint-disable-next-line react/no-unescaped-entities
+  const quest = `What is the primary goal of a &apos;landing page&apos; in digital marketing?`;
+
   const [active, setActive] = useState<null | string>('button1');
 
   const handleClick = (button: string) => {
@@ -45,6 +84,46 @@ const Previewedit: React.FC = () => {
   // const handleInput = (value: string) => {
   //   setHeadInput(value);
   // };
+
+  useEffect(() => {
+    const theSkillId = sessionStorage.getItem('assessmentId');
+    //Fetch Questions related to the course/skill for editing using assessmentId
+    const fetchSkillsQuestions = async () => {
+      try {
+        const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${theSkillId}/`;
+
+        const zptToken = localStorage.getItem('zpt') ?? '';
+        const response = await fetch(apiUrl, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${zptToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setSkillQuestions(data);
+        console.log(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchSkillsQuestions();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="fixed bg-brand-green-primary w-full h-full grid place-items-center">
+        <div className=" items-center ">
+          <FaSpinner color="#fff" className="animate-spin" size={100} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
@@ -101,11 +180,11 @@ const Previewedit: React.FC = () => {
             <>
               <Edithead assessment={assessment} onInputChange={setTitle} />
               <div className="pt-4">
-                <PreviewQuests />
+                <PreviewQuests assessmentId={assessmentId} questions={skillQuestions?.questions || []} />
               </div>
             </>
           ) : (
-            <ScoringScreen skillId={skillId} />
+            <ScoringScreen assessment={assessment} skillId={skillId} />
           )}
         </div>
       </main>
@@ -113,4 +192,4 @@ const Previewedit: React.FC = () => {
   );
 };
 
-export default Previewedit;
+export default withAdminAuth(Previewedit);

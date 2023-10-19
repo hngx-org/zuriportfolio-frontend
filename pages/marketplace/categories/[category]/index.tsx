@@ -3,10 +3,11 @@ import CategoriesPage from '@modules/marketplace/component/categories/Categories
 import axios from 'axios';
 import { useContext, useEffect } from 'react';
 import { PreviousUrlContext } from '@modules/marketplace/context/PreviousUrlProvider';
+import Head from 'next/head';
 
 export const getServerSideProps = async (context: any) => {
-  const { category } = context.query;
-  // console.log(category);
+  const { category: _category } = context.query;
+  const category = _category?.replace(/_/g, ' ');
 
   if (!category) {
     return {
@@ -18,8 +19,8 @@ export const getServerSideProps = async (context: any) => {
   }
 
   try {
-    const res = await axios('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
-    const isCategoryAvailable = res.data.categories.filter((el: any) => el.name === category);
+    const res = await axios('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/');
+    const isCategoryAvailable = res.data?.data.filter((el: any) => el.name === category);
 
     if (isCategoryAvailable.length === 0) {
       return {
@@ -39,6 +40,8 @@ export const getServerSideProps = async (context: any) => {
       },
     };
   } catch (e: any) {
+    console.log(e);
+
     return {
       redirect: {
         destination: '/404',
@@ -60,7 +63,13 @@ export default function CategoryPage(props: any) {
     // console.log('category page');
   }, [router.asPath, updatePath]);
 
-  // console.log(category);
-
-  return <CategoriesPage error={props.error} errorMessage={props.errorMessage} data={props.data} />;
+  return (
+    <div>
+      <Head>
+        <title>Products available in {category}</title>
+        <meta name="description" content={`Explore a wide range of ${category} product`} />
+      </Head>
+      <CategoriesPage error={props.error} errorMessage={props.errorMessage} data={props.data} />
+    </div>
+  );
 }

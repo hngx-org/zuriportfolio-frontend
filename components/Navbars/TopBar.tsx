@@ -22,6 +22,7 @@ import useUserSession from '../../hooks/Auth/useUserSession';
 import { getUserCart } from '../../http/checkout';
 import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 import { useCart } from '@modules/shop/component/CartContext';
+import { toast } from 'react-toastify';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -106,11 +107,18 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
-    if (e.key === 'Enter' && dropDown === 'Marketplace') {
-      router.push(`/marketplace/search?query=${searchQuery}`);
-    }
-    if (e.key === 'Enter' && dropDown === 'Explore') {
-      router.push(`/explore/search?query=${searchQuery}`);
+    if (e.key === 'Enter') {
+      if (searchQuery.trim() === '') {
+        toast.error('A search term must be provided.');
+      } else {
+        if (dropDown === 'Marketplace') {
+          router.push(`/marketplace/search/${searchQuery}`);
+        }
+        if (dropDown === 'Explore') {
+          localStorage.setItem('searchQuery', searchQuery);
+          router.push(`/explore/search?searchQuery=${searchQuery}`);
+        }
+      }
     }
   };
 
@@ -191,7 +199,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   onKeyUp={handleSearch}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search"
-                  className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
+                  className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%] font-manropeL"
                 />
               </div>
               <div className="justify-start items-center gap-4 flex ">
@@ -270,10 +278,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
                   <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
                   <div className="flex flex-col gap-[2px]">
-                    <h3 className="font-bold ">
+                    <h3 className="font-bold font-manropeEB">
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
                     </h3>
-                    <p>View Live Profile</p>
+                    <p className="font-manropeL">View Live Profile</p>
                   </div>
                 </li>
                 <Link
@@ -296,46 +304,48 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       </g>
                     </g>
                   </svg>
-                  <p>Your Shop</p>
+                  <p className="font-manropeL">Your Shop</p>
                 </Link>
                 <Link
                   href="/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={dashBoard} alt="dashboard" />
-                  <p>Customer Dashboard</p>
+                  <p className="font-manropeL">Customer Dashboard</p>
                 </Link>
                 <Link
                   href="/user/customer-purchase-dashboard"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={dashBoard} alt="Setting" />
-                  <p>Customer Purchase Dashboard</p>
+                  <p className="font-manropeL">Customer Purchase Dashboard</p>
                 </Link>
                 <Link
                   href="/portfolio"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={briefCaseIcon} alt="Briefcase icon" />
-                  <p>Manage Portfolio</p>
+                  <p className="font-manropeL">Manage Portfolio</p>
                 </Link>
                 <Link
                   href="/assessments/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={likesIcon} alt="Like" />
-                  <p>Assessments & Badges</p>
+                  <p className="font-manropeL">Assessments & Badges</p>
                 </Link>
                 <Link
                   href="/settings"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={settingsIcon} alt="Setting" />
-                  <p>Settings</p>
+                  <p className="font-manropeL">Settings</p>
                 </Link>
 
                 {/* Import Logout button */}
-                <Logout />
+                <div className="font-manropeL">
+                  <Logout />
+                </div>
               </ul>
             </div>
           )}
@@ -343,6 +353,27 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {auth && (
               <div className="lg:hidden flex items-center gap-1 ">
                 <div className="flex gap-3">
+                  <Link href={'/marketplace/wishlist'}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <mask
+                        id="mask0_1377_22486"
+                        style={{ maskType: 'alpha' }}
+                        width="24"
+                        height="24"
+                        x="0"
+                        y="0"
+                        maskUnits="userSpaceOnUse"
+                      >
+                        <path fill="#D9D9D9" d="M0 0H24V24H0z"></path>
+                      </mask>
+                      <g mask="url(#mask0_1377_22486)">
+                        <path
+                          fill="#5B5F5E"
+                          d="M17.95 15.82l-2.494-2.47 1.069-1.054 1.425 1.41 3.525-3.525 1.07 1.044-4.595 4.594zM11 20.326L8.835 18.38a112.583 112.583 0 01-3.444-3.246c-.935-.927-1.691-1.774-2.269-2.54-.577-.766-.992-1.486-1.244-2.16A5.911 5.911 0 011.5 8.35c0-1.42.479-2.605 1.436-3.557S5.08 3.365 6.5 3.365c.873 0 1.698.205 2.475.613.777.408 1.452.994 2.025 1.757.573-.763 1.248-1.349 2.025-1.757a5.244 5.244 0 012.475-.613c1.254 0 2.312.37 3.174 1.11a5.065 5.065 0 011.678 2.775h-1.577c-.23-.744-.649-1.327-1.258-1.75a3.458 3.458 0 00-2.017-.635c-.83 0-1.566.23-2.205.688-.639.458-1.241 1.107-1.807 1.947h-.976c-.562-.846-1.174-1.497-1.835-1.952A3.76 3.76 0 006.5 4.865c-.963 0-1.787.331-2.472.993C3.343 6.519 3 7.35 3 8.35c0 .556.117 1.121.35 1.694.233.573.65 1.234 1.25 1.982s1.417 1.624 2.45 2.629C8.083 15.659 9.4 16.875 11 18.3c.472-.422.977-.87 1.515-1.344.539-.475.993-.888 1.362-1.24l1.07 1.069c-.38.352-.833.76-1.358 1.223-.525.463-1.02.905-1.485 1.327L11 20.327z"
+                        ></path>
+                      </g>
+                    </svg>
+                  </Link>
                   <span onClick={() => setSearchMobile(!searchMobile)} className="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <g>
@@ -450,18 +481,27 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   function AuthUser(): React.ReactNode {
     return (
       <>
-        <span>
+        <Link href={'/marketplace/wishlist'}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <g>
-              <g fill="#5B5F5E">
-                <path d="M9 17.75c-.41 0-.75-.34-.75-.75v-4.19l-.72.72c-.29.29-.77.29-1.06 0a.754.754 0 010-1.06l2-2c.21-.21.54-.28.82-.16.28.11.46.39.46.69v6c0 .41-.34.75-.75.75z"></path>
-                <path d="M11 13.75c-.19 0-.38-.07-.53-.22l-2-2a.754.754 0 010-1.06c.29-.29.77-.29 1.06 0l2 2c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22z"></path>
-                <path d="M15 22.75H9c-5.43 0-7.75-2.32-7.75-7.75V9c0-5.43 2.32-7.75 7.75-7.75h5c.41 0 .75.34.75.75s-.34.75-.75.75H9C4.39 2.75 2.75 4.39 2.75 9v6c0 4.61 1.64 6.25 6.25 6.25h6c4.61 0 6.25-1.64 6.25-6.25v-5c0-.41.34-.75.75-.75s.75.34.75.75v5c0 5.43-2.32 7.75-7.75 7.75z"></path>
-                <path d="M22 10.75h-4c-3.42 0-4.75-1.33-4.75-4.75V2c0-.3.18-.58.46-.69.28-.12.6-.05.82.16l8 8a.751.751 0 01-.53 1.28zm-7.25-6.94V6c0 2.58.67 3.25 3.25 3.25h2.19l-5.44-5.44z"></path>
-              </g>
+            <mask
+              id="mask0_1377_22486"
+              style={{ maskType: 'alpha' }}
+              width="24"
+              height="24"
+              x="0"
+              y="0"
+              maskUnits="userSpaceOnUse"
+            >
+              <path fill="#D9D9D9" d="M0 0H24V24H0z"></path>
+            </mask>
+            <g mask="url(#mask0_1377_22486)">
+              <path
+                fill="#5B5F5E"
+                d="M17.95 15.82l-2.494-2.47 1.069-1.054 1.425 1.41 3.525-3.525 1.07 1.044-4.595 4.594zM11 20.326L8.835 18.38a112.583 112.583 0 01-3.444-3.246c-.935-.927-1.691-1.774-2.269-2.54-.577-.766-.992-1.486-1.244-2.16A5.911 5.911 0 011.5 8.35c0-1.42.479-2.605 1.436-3.557S5.08 3.365 6.5 3.365c.873 0 1.698.205 2.475.613.777.408 1.452.994 2.025 1.757.573-.763 1.248-1.349 2.025-1.757a5.244 5.244 0 012.475-.613c1.254 0 2.312.37 3.174 1.11a5.065 5.065 0 011.678 2.775h-1.577c-.23-.744-.649-1.327-1.258-1.75a3.458 3.458 0 00-2.017-.635c-.83 0-1.566.23-2.205.688-.639.458-1.241 1.107-1.807 1.947h-.976c-.562-.846-1.174-1.497-1.835-1.952A3.76 3.76 0 006.5 4.865c-.963 0-1.787.331-2.472.993C3.343 6.519 3 7.35 3 8.35c0 .556.117 1.121.35 1.694.233.573.65 1.234 1.25 1.982s1.417 1.624 2.45 2.629C8.083 15.659 9.4 16.875 11 18.3c.472-.422.977-.87 1.515-1.344.539-.475.993-.888 1.362-1.24l1.07 1.069c-.38.352-.833.76-1.358 1.223-.525.463-1.02.905-1.485 1.327L11 20.327z"
+              ></path>
             </g>
           </svg>
-        </span>
+        </Link>
 
         <Cart items={cartCount} />
 
@@ -470,10 +510,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         </span>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           <div className="details">
-            <p className=" font-bold">
+            <p className=" font-bold font-manropeEB">
               {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
             </p>
-            <p className="text-sm ">Zuri Team</p>
+            <p className="text-sm font-manropeL">Zuri Team</p>
           </div>
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
         </div>

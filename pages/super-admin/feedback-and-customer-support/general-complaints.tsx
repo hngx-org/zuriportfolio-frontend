@@ -8,6 +8,7 @@ import VendorComplaint from '../../../public/assets/images/vendorComplaint.png';
 import { useRouter } from 'next/navigation';
 import Button from '@ui/Button';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
+import { withAdminAuth } from '../../../helpers/withAuth';
 
 interface ComplainType {
   total_complaints: number;
@@ -33,7 +34,8 @@ interface InProgressType {
   // Add other properties as needed
 }
 
-interface Complain {
+export interface Complain {
+  // exporting so I can use in withAdminAuth HOC component
   id: number; // ID of the complaint
   status: string; // Status of the complaint (e.g., "pending" or "resolved")
   message: string; // A message describing the complaint
@@ -59,6 +61,11 @@ interface Complain {
 interface Complaint {
   id: number;
   // other properties...
+}
+
+interface GeneralComplaintsHOC {
+  children?: React.ReactNode;
+  complain: Complain;
 }
 
 function GeneralComplaints({ complain }: { complain: Complain }) {
@@ -318,50 +325,23 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     <>
       <Nav />
       <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-4/5 flex justify-center pb-20 items-center flex-col">
+        <div className="w-11/12 flex justify-center items-center flex-col">
           <div className="w-full flex flex-col items-start justify-between h-42 ">
-            <h1 className="font-manropeL text-2xl mb-2.5 mt-2.5  font-semibold">Complaints Overview</h1>
+            <h1 className="font-manropeB text-2xl mb-2.5 mt-2.5  font-semibold">Complaints Overview</h1>
             <div className="w-full flex flex-row justify-between gap-4 max-md:flex max-md:flex-col">
-              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-lg max-lg:w-60 max-md:w-full">
+              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-md max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
-                  <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">Total Complaints</h2>
-                  <svg
-                    className="h-5 cursor-pointer"
-                    width="21"
-                    height="20"
-                    viewBox="0 0 21 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8.66797 15.8333C8.66797 16.75 9.41797 17.5 10.3346 17.5C11.2513 17.5 12.0013 16.75 12.0013 15.8333C12.0013 14.9167 11.2513 14.1667 10.3346 14.1667C9.41797 14.1667 8.66797 14.9167 8.66797 15.8333Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 4.16732C8.66797 5.08398 9.41797 5.83398 10.3346 5.83398C11.2513 5.83398 12.0013 5.08398 12.0013 4.16732C12.0013 3.25065 11.2513 2.50065 10.3346 2.50065C9.41797 2.50065 8.66797 3.25065 8.66797 4.16732Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 9.99935C8.66797 10.916 9.41797 11.666 10.3346 11.666C11.2513 11.666 12.0013 10.916 12.0013 9.99935C12.0013 9.08268 11.2513 8.33268 10.3346 8.33268C9.41797 8.33268 8.66797 9.08268 8.66797 9.99935Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
+                  <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">Total Complaints</h2>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
                   {totalComplaint ? (
-                    <h1 className="h-10 text-2xl font-manropeL font-bold ">{totalComplaint.total_complaints}</h1>
+                    <h1 className="h-10 text-2xl font-manropeB font-bold ">{totalComplaint.total_complaints}</h1>
                   ) : (
-                    <p>Loading....</p>
+                    <p className="font-manropeB">Loading....</p>
                   )}
                   <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-gray-50">
                     <Image src="/assets/complaintsassets/greenIcon-left.svg" alt="back" width={15} height={15} />
-                    <p className="text-white-400">
+                    <p className="text-white-400 font-manropeB">
                       {totalComplaint && totalComplaint.percentage_increment !== undefined
                         ? `${totalComplaint.percentage_increment}%`
                         : ''}
@@ -369,42 +349,15 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                   </div>
                 </div>
               </div>
-              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-lg max-lg:w-60 max-md:w-full">
+              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-md max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
-                  <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">Resolved</h2>
-                  <svg
-                    className="h-5 cursor-pointer"
-                    width="21"
-                    height="20"
-                    viewBox="0 0 21 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8.66797 15.8333C8.66797 16.75 9.41797 17.5 10.3346 17.5C11.2513 17.5 12.0013 16.75 12.0013 15.8333C12.0013 14.9167 11.2513 14.1667 10.3346 14.1667C9.41797 14.1667 8.66797 14.9167 8.66797 15.8333Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 4.16732C8.66797 5.08398 9.41797 5.83398 10.3346 5.83398C11.2513 5.83398 12.0013 5.08398 12.0013 4.16732C12.0013 3.25065 11.2513 2.50065 10.3346 2.50065C9.41797 2.50065 8.66797 3.25065 8.66797 4.16732Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 9.99935C8.66797 10.916 9.41797 11.666 10.3346 11.666C11.2513 11.666 12.0013 10.916 12.0013 9.99935C12.0013 9.08268 11.2513 8.33268 10.3346 8.33268C9.41797 8.33268 8.66797 9.08268 8.66797 9.99935Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
+                  <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">Resolved</h2>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
                   {resolved ? (
                     <h1 className="h-10 text-2xl font-manropeL font-bold ">{resolved.total_Resolved}</h1>
                   ) : (
-                    <p>Loading....</p>
+                    <p className="font-manropeB">Loading....</p>
                   )}
                   <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-green-50">
                     <Image src="/assets/complaintsassets/greenIcon-left.svg" alt="back" width={15} height={15} />
@@ -412,42 +365,15 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                   </div>
                 </div>
               </div>
-              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-lg max-lg:w-60 max-md:w-full">
+              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-md max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
-                  <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">Pending</h2>
-                  <svg
-                    className="h-5 cursor-pointer"
-                    width="21"
-                    height="20"
-                    viewBox="0 0 21 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8.66797 15.8333C8.66797 16.75 9.41797 17.5 10.3346 17.5C11.2513 17.5 12.0013 16.75 12.0013 15.8333C12.0013 14.9167 11.2513 14.1667 10.3346 14.1667C9.41797 14.1667 8.66797 14.9167 8.66797 15.8333Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 4.16732C8.66797 5.08398 9.41797 5.83398 10.3346 5.83398C11.2513 5.83398 12.0013 5.08398 12.0013 4.16732C12.0013 3.25065 11.2513 2.50065 10.3346 2.50065C9.41797 2.50065 8.66797 3.25065 8.66797 4.16732Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 9.99935C8.66797 10.916 9.41797 11.666 10.3346 11.666C11.2513 11.666 12.0013 10.916 12.0013 9.99935C12.0013 9.08268 11.2513 8.33268 10.3346 8.33268C9.41797 8.33268 8.66797 9.08268 8.66797 9.99935Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
+                  <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">Pending</h2>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
                   {pending ? (
                     <h1 className="h-10 text-2xl font-manropeL font-bold ">{pending.total_Pending}</h1>
                   ) : (
-                    <p>Loading...</p>
+                    <p className="font-manropeB">Loading...</p>
                   )}
                   <div className="flex flex-row items-center justify-center gap-1 h-6 w-16 rounded-xl bg-yellow-50">
                     <Image src="/assets/complaintsassets/yellowIcon-left-1.svg" alt="back" width={15} height={15} />
@@ -457,44 +383,16 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                   </div>
                 </div>
               </div>
-              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-lg max-lg:w-60 max-md:w-full">
+              <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-md max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
-                  <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">In Progress</h2>
-                  <div className="relative flex flex-row">
-                    <svg
-                      className=" cursor-pointer h-5"
-                      width="21"
-                      height="20"
-                      viewBox="0 0 21 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8.66797 15.8333C8.66797 16.75 9.41797 17.5 10.3346 17.5C11.2513 17.5 12.0013 16.75 12.0013 15.8333C12.0013 14.9167 11.2513 14.1667 10.3346 14.1667C9.41797 14.1667 8.66797 14.9167 8.66797 15.8333Z"
-                        fill="#C4C7C6"
-                        stroke="#C4C7C6"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M8.66797 4.16732C8.66797 5.08398 9.41797 5.83398 10.3346 5.83398C11.2513 5.83398 12.0013 5.08398 12.0013 4.16732C12.0013 3.25065 11.2513 2.50065 10.3346 2.50065C9.41797 2.50065 8.66797 3.25065 8.66797 4.16732Z"
-                        fill="#C4C7C6"
-                        stroke="#C4C7C6"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M8.66797 9.99935C8.66797 10.916 9.41797 11.666 10.3346 11.666C11.2513 11.666 12.0013 10.916 12.0013 9.99935C12.0013 9.08268 11.2513 8.33268 10.3346 8.33268C9.41797 8.33268 8.66797 9.08268 8.66797 9.99935Z"
-                        fill="#C4C7C6"
-                        stroke="#C4C7C6"
-                        strokeWidth="1.5"
-                      />
-                    </svg>
-                  </div>
+                  <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">In Progress</h2>
+                  <div className="relative flex flex-row"></div>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
                   {inProgress ? (
                     <h1 className="h-10 text-2xl font-manropeL font-bold ">{inProgress.total_In_progress}</h1>
                   ) : (
-                    <p>Loading...</p>
+                    <p className="font-manropeB">Loading...</p>
                   )}
                   <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl bg-blue-50 gap-1">
                     <Image src="/assets/complaintsassets/blueIcon-left-2.svg" alt="back" width={15} height={15} />
@@ -504,11 +402,11 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
               </div>
             </div>
           </div>
-          <div className="mt-8 w-full h-auto border border-zinc-200 max-md:overflow-x-scroll rounded-xl overflow-x-scroll">
+          <div className="mt-8 w-full h-auto border border-zinc-200 max-md:overflow-x-scroll max-lg:overflow-x-scroll rounded-md ">
             <div className="complaintHeading h-18 p-3 flex flex-row items-center max-md:flex-col max-md:items-start justify-between ">
               <div className="headerText min-w-[300px] mr-2">
-                <h2 className="font-manropeL text-xl font-semibold">My Complaint</h2>
-                <h3 className="font-manropeL text-base font-normal text-slate-600">
+                <h2 className="font-manropeB text-xl font-semibold">My Complaint</h2>
+                <h3 className="font-manropeB text-base font-normal text-slate-600">
                   List of all complaint and their details
                 </h3>
               </div>
@@ -544,7 +442,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                     name=""
                     onChange={(e) => setFilter(e.target.value)}
                     id=""
-                    className="border-none outline-none pl-2 text-slate-600 font-manropeL text-xs font-normal"
+                    className="border-none outline-none pl-2 text-slate-600 font-manropeB text-xs font-normal"
                   >
                     <option value="Filter">Filter</option>
                     <option value="Resolved">Resolved</option>
@@ -559,7 +457,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                 <div className="vendorComplaints py-3 px-10  flex flex-row items-center justify-between ">
                   <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
                   <div className="w-80 name flex flex-row items-center justify-start min-w-[250px]">
-                    <p className=" pr-2 font-manropeL font-medium text-base text-slate-500">Name</p>
+                    <p className=" pr-2 font-manropeB font-medium text-base text-slate-500">Name</p>
                     <svg
                       className="cursor-pointer"
                       width="16"
@@ -577,13 +475,13 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                       />
                     </svg>
                   </div>
-                  <p className="w-40 font-manropeL flex items-center justify-center font-medium text-base text-slate-500 max-lg:min-w-[160px] min-w-[120px]">
+                  <p className="w-40 font-manropeB flex items-center justify-center font-medium text-base text-slate-500 max-lg:min-w-[160px] min-w-[120px]">
                     Description
                   </p>
-                  <p className="w-40 font-manropeL flex items-center justify-center font-medium text-base text-slate-500  min-w-[120px]">
+                  <p className="w-40 font-manropeB flex items-center justify-center font-medium text-base text-slate-500  min-w-[120px]">
                     Date
                   </p>
-                  <p className=" w-36 font-manropeL flex items-center justify-center font-medium text-base text-slate-500  min-w-[120px]">
+                  <p className=" w-36 font-manropeB flex items-center justify-center font-medium text-base text-slate-500  min-w-[120px]">
                     Status
                   </p>
                 </div>
@@ -628,34 +526,34 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                             <div key={complain.id} id={complain.id} className="identity pl-2">
                               <div>
                                 {complain.user_details ? (
-                                  <h2 className="font-manropeL font-semibold text-base">
+                                  <h2 className="font-manropeB font-semibold text-base">
                                     {complain.user_details.first_name} {complain.user_details.last_name}
                                   </h2>
                                 ) : (
-                                  <h2 className="font-manropeL font-semibold text-base">User Details Unavailable</h2>
+                                  <h2 className="font-manropeB font-semibold text-base">User Details Unavailable</h2>
                                 )}
                                 {complain.user_details ? (
-                                  <p className="font-manropeL text-xs font-normal text-slate-500">
+                                  <p className="font-manropeB text-xs font-normal text-slate-500">
                                     {complain.user_details.email}
                                   </p>
                                 ) : (
-                                  <p className="font-manropeL text-xs font-normal text-slate-500">Email Unavailable</p>
+                                  <p className="font-manropeB text-xs font-normal text-slate-500">Email Unavailable</p>
                                 )}
                               </div>
                             </div>
                           </div>
                           <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
-                            <p className="font-manropeL font-medium text-base max-md:text-xs text-slate-500 truncate">
+                            <p className="font-manropeB font-medium text-base max-md:text-xs text-slate-500 truncate">
                               {complain.complaint_text}
                             </p>
                           </div>
                           <div className="date w-40 min-w-[120px] flex items-center justify-center">
                             {complain.user_details && complain.createdAt ? (
-                              <p className="font-manropeL font-medium text-base truncate text-slate-500">
-                                {complain.createdAt}
+                              <p className="font-manropeB font-medium text-base truncate text-slate-500">
+                                {complain.createdAt.slice(0, 10)}
                               </p>
                             ) : (
-                              <p className="font-manropeL font-medium text-base text-slate-500">Date Unavailable</p>
+                              <p className="font-manropeB font-medium text-base text-slate-500">Date Unavailable</p>
                             )}
                           </div>
                           <div>
@@ -681,11 +579,11 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
             </div>
           </div>
 
-          <SuperAdminPagination currentPage={pageNum} totalPages={pageCount} onPageChange={handlePageClick} />
+          {/* <SuperAdminPagination currentPage={pageNum} totalPages={pageCount} onPageChange={handlePageClick} /> */}
         </div>
       </div>
     </>
   );
 }
 
-export default GeneralComplaints;
+export default withAdminAuth<GeneralComplaintsHOC>(GeneralComplaints);

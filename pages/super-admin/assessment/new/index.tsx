@@ -4,20 +4,22 @@ import Button from '@ui/Button';
 import { Edit } from 'iconsax-react';
 import { FaSpinner } from 'react-icons/fa';
 
-import Modal from '@modules/assessment/modals/Loadingpopup';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
+import Spinner from '@ui/Spinner';
 import Image from 'next/image';
-import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
+import { ToastContainer, toast } from 'react-toastify';
+import assessment from '..';
 
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
-const CreateAssessment = () => {
+const CreateAssessment = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   //Please edit for scoring screen
   //const [examDuration, setExamDuration]:any = useContext(useCreatingAssessmentContext)
+  const [errContent, setErrContent] = useState('');
 
   const router = useRouter();
   const data = router.query;
@@ -25,35 +27,61 @@ const CreateAssessment = () => {
   const [destination, setDestination] = useState('');
   const [newobject, setObject] = useState({
     skill_id: skillid,
+    id: 0,
     questions_and_answers: [
       {
         question_no: 1,
         question_text: '',
         question_type: 'multiple_choice',
-        options: [''],
-        correct_option: 0,
+        answer: {
+          options: [''],
+          correct_option: '',
+        },
       },
     ],
     assessment_name: '',
+    title: '',
     duration_in_minutes: 0,
   });
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+
+  const [assessment, setAssessment] = useState({
+    id: newobject.id,
+    title: newobject.assessment_name, // Assuming 'assessment_name' is the title
+    createdAt: new Date(),
+    duration_minutes: newobject.duration_in_minutes,
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: '',
+        question_type: newobject.questions_and_answers[0].question_type,
+      },
+    ],
+    updatedAt: new Date(),
+  });
+
   const [active, setActive] = useState<null | string>('button1');
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [err, setErr] = useState('');
-  const [errstate, setErrstate] = useState(false);
   const [listupdate, setListupdate] = useState('waiting');
+  const [postLoading, setPostLoading] = useState(false);
   const handleClick = (button: string) => {
     setActive(button);
   };
 
   const publishClick = () => {
-    const newt = { ...newobject };
-    setObject(newt);
-    setListupdate('save');
-    setDestination('Publishing assessments');
+    var i = 0;
+    var total = newobject.questions_and_answers.length;
+    console.log(total);
+    newobject.questions_and_answers.forEach((obj) => {
+      if (obj.answer.correct_option === '') {
+        toast.error('Ensure correct answers are selected');
+      } else {
+        i++;
+      }
+      if (total === i) {
+        setListupdate('save');
+        setDestination('Publishing assessments');
+      }
+    });
   };
   const draftsClick = () => {
     setListupdate('save');
@@ -67,49 +95,26 @@ const CreateAssessment = () => {
     setObject(newt);
   };
 
-  /*function postObject() {
-    // The API endpoint URL
-    const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments';
-
-    // Create the request options
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newobject),
-    };
-   // Send the POST request using the fetch API
-   fetch(apiUrl, requestOptions)
-   .then((response) => {
-     console.log(response);
-     if (!response.ok) {
-       throw new Error('Network response was not ok');
-     }
-     return response.json(); // Parse the JSON response
-   })
-   .then((responseData) => {
-     // Handle the response data here
-     console.log('Response:', responseData);
-   })
-   .catch((error) => {
-     // Handle any errors that occurred during the request
-     console.error('Error:', error);
-   });
-}*/
-
-  //Please edit for scoring screen
-
-  //Please input examduration value and test
-
-  /* const updateDuration = ()=>{
-    newobject.duration_in_minutes = examDuration
-  }
-*/
-
+  const scoringClick = () => {
+    setListupdate('scoreclick');
+    handleClick('button2');
+    console.log(listupdate);
+  };
+  const questionClick = () => {
+    setListupdate('addquest');
+    handleClick('button1');
+  };
   const publishAssessment = async () => {
+    console.log(newobject);
     // split question and string and number
-    const url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
+
+    var url = '';
+    if (destination === 'Publishing assessments') {
+      url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
+    } else {
+      url = 'https://piranha-assessment-jco5.onrender.com/api/admin/drafts/';
+    }
+
     const reqOptions = {
       method: 'POST',
       headers: {
@@ -119,33 +124,44 @@ const CreateAssessment = () => {
       body: JSON.stringify(newobject),
     };
     const postEnd = await fetch(url, reqOptions);
-    setModalOpen(true);
+    const response = await postEnd.json();
     if (!postEnd.ok) {
       console.log('Error' + postEnd.status);
       // setModalOpen(false);
-      setErr(`Failed: Error${postEnd.status}`);
-      setErrstate(true);
-      setTimeout(() => {
-        setModalOpen(false);
-      }, 4000);
+      console.log(response.message);
+      if (destination === 'Publishing assessments') {
+        if (response.message.includes('skill_id')) {
+          toast.error('skill id is not selected, go back to select a category');
+        } else if (response.message.includes('assessment_name')) {
+          toast.error('Set an assessment name');
+        } else {
+          toast.error('please ensure that all fields are correctly filled');
+        }
+      }
+      setPostLoading(false);
     }
-    const response = await postEnd.json();
     if (postEnd.ok) {
-      setErr(`Succesfully Created!`);
-      setErrstate(false);
+      if (destination === 'Publishing assessments') {
+        toast.success(`${newobject.assessment_name} Succesfully Published!`);
+      } else {
+        toast.success(`${newobject.assessment_name} added to drafts!`);
+      }
+      setPostLoading(false);
     }
-    console.log(response);
   };
 
   useEffect(() => {
     if (listupdate === 'post') {
       publishAssessment();
+      setPostLoading(true);
       setListupdate('waiting');
     }
   }, [listupdate, publishAssessment]);
 
   return (
     <ToPushContext.Provider value={[newobject, setObject]}>
+      {postLoading && <Spinner />}
+
       <UpdateContext.Provider value={[listupdate, setListupdate]}>
         <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
           <main className="w-full">
@@ -180,39 +196,13 @@ const CreateAssessment = () => {
               )}
             </div>
             <div className="pt-4 pb-2 flex space-x-10 justify-center">
-              <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <div className="text-center text-white-100 text-[25px] font-semibold w-max">{destination}</div>
-                <FaSpinner color="#fff" className="animate-spin" size={100} />
-                {err ? (
-                  <p
-                    className={`${
-                      err.includes('Error') ? 'text-red-200' : 'text-white-100'
-                    } w-max text-center text-[20px]`}
-                  >
-                    {err}
-                  </p>
-                ) : null}
-                {errstate ? (
-                  ''
-                ) : (
-                  <Button
-                    className="p-3"
-                    intent={'secondary'}
-                    size={'md'}
-                    spinnerColor="#000"
-                    href={'/super-admin/assessment'}
-                  >
-                    Check assessments
-                  </Button>
-                )}
-              </Modal>
               <div
                 className={` cursor-pointer ${
                   active === 'button1'
                     ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443] '
                     : 'text-dark-100 rounded-sm'
                 }`}
-                onClick={() => handleClick('button1')}
+                onClick={questionClick}
               >
                 Questions &amp; Answers
               </div>
@@ -222,7 +212,7 @@ const CreateAssessment = () => {
                     ? 'text-[#BF8443] font-bold rounded-sm border-b-4 border-[#BF8443]'
                     : 'text-dark-100'
                 }`}
-                onClick={() => handleClick('button2')}
+                onClick={scoringClick}
               >
                 Scoring
               </div>
@@ -243,6 +233,7 @@ const CreateAssessment = () => {
                           placeholder="Untitled Assessment"
                           disabled={disable}
                           onChange={(e) => readInput(e)}
+                          value={newobject.assessment_name}
                         />
                       </div>
                       <div>
@@ -257,7 +248,7 @@ const CreateAssessment = () => {
                   </div>
                 </>
               ) : (
-                <ScoringScreen skillId={newobject.skill_id} />
+                <ScoringScreen assessment={assessment} skillId={newobject.skill_id} />
               )}
             </div>
           </main>

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { ArrowDown, Sort } from 'iconsax-react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { ArrowDown, SearchNormal1, Sort } from 'iconsax-react';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import FilterProduct from '@modules/super-admin/components/product-listing/filterProduct';
 import Button from '@ui/Button';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { formatDate } from './product-details';
 import { useRouter } from 'next/router';
+import { Input } from '@ui/Input';
 
 export const LoadingTable = () => {
   return (
@@ -13,21 +14,35 @@ export const LoadingTable = () => {
   );
 };
 
-const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
-  const [searchVal, setSearchVal] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(data?.data);
-  const [currentPage, setCurrentPage] = useState(1);
+const ProductListingTable = ({
+  data,
+  isLoading,
+  currentPage,
+  setCurrentPage,
+  searchVal,
+  setSearchVal,
+}: {
+  data: any;
+  isLoading: boolean;
+  currentPage: number;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+  searchVal: string;
+  setSearchVal: Dispatch<SetStateAction<string>>;
+}) => {
+  const sanctionedProd = data?.data;
+  const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
+  // const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items to display per page
 
   // Calculate the range of products to display
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const endIndex = startIndex + itemsPerPage;
+  // const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
+  // const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   useEffect(() => {
-    setFilteredProducts(data?.data);
-  }, [data]);
+    setFilteredProducts(sanctionedProd);
+  }, [sanctionedProd]);
 
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
@@ -58,6 +73,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
           if (a.product_status === 'Deleted' && b.product_status === 'Sanctioned') return 1;
         }
       });
+      console.log('filter');
 
       setFilteredProducts(sortedProducts);
     }
@@ -77,16 +93,28 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         </div>
 
         <div className="flex justify-between items-center gap-2">
-          <SearchProduct handleSearchChange={handleSearch} />
+          <Input
+            onChange={(e) => {
+              // handleSearch(e.target.value);
+              setSearchVal(e.target.value);
+              console.log(e.target.value);
+            }}
+            leftIcon={<SearchNormal1 />}
+            type="text"
+            intent={'default'}
+            disabled={false}
+            className="md:min-w-[350px] w-[100%]"
+            placeHolder="search"
+          />
           <div>
-            <div className="md:block hidden">
+            <div className="">
               <FilterProduct handleFilter={handleFilter} />
             </div>
-            <div className="md:hidden block">
+            {/* <div className="md:hidden block">
               <Button>
                 <Sort />
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -94,7 +122,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         <LoadingTable />
       ) : (
         <div className="mb-4">
-          {visibleProducts?.length > 0 ? (
+          {data?.data?.length > 0 ? (
             <>
               <table className="w-full md:table-fixed">
                 <thead>
@@ -116,7 +144,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   </tr>
                 </thead>
                 <tbody>
-                  {visibleProducts?.map((product: any) => (
+                  {data?.data.map((product: any) => (
                     <tr
                       className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                       key={product?.product_id}
@@ -160,7 +188,11 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   ))}
                 </tbody>
               </table>
-              <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+              <SuperAdminPagination
+                currentPage={currentPage}
+                totalPages={data?.total_pages}
+                setCurrentPage={setCurrentPage}
+              />
             </>
           ) : (
             <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

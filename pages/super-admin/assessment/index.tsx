@@ -15,6 +15,7 @@ import Assessmentresponses from '../../../modules/assessment/component/Assessmen
 import MainLayout from '../../../components/Layout/MainLayout';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { withAdminAuth } from '../../../helpers/withAuth';
 export const ListContext = React.createContext([{}]);
 
 function Index() {
@@ -33,6 +34,7 @@ function Index() {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('fd', localStorage.getItem('zpt'));
       try {
         const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
 
@@ -40,9 +42,8 @@ function Index() {
 
         const response = await fetch(apiUrl, {
           headers: {
-            Accept: 'application/json',
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${csrfToken}`,
-            'X-CSRFTOKEN': csrfToken,
           },
         });
 
@@ -52,7 +53,7 @@ function Index() {
 
         const data = await response.json();
         setAssessments(data);
-        console.log(data);
+        console.log('assessment data', data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -66,9 +67,8 @@ function Index() {
 
         const response = await fetch(apiUrl, {
           headers: {
-            Accept: 'application/json',
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${csrfToken}`,
-            'X-CSRFTOKEN': csrfToken,
           },
         });
 
@@ -173,7 +173,7 @@ function Index() {
               </div>
               <Link
                 href={{
-                  pathname: track === null ? '/super-admin/assessment' : '/super-admin/assessment/new',
+                  pathname: track === null ? '' : '/super-admin/assessment/new',
                   query: { name: track },
                 }}
                 onClick={() => {
@@ -248,4 +248,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default withAdminAuth(Index);
