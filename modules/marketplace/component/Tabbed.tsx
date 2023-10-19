@@ -9,7 +9,6 @@ import verifyIcon from '../../../public/assets/icons/verify.svg';
 import Link from 'next/link';
 import { ProductReview } from './ProductReview';
 
-
 const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) => void; tab: string }) => {
   return (
     <div className="w-full flex justify-around rounded-[10px] border-[1px] border-white-110 py-4 mt-20">
@@ -56,7 +55,7 @@ const TabButton = ({ handleTabClick, tab }: { handleTabClick: (tabName: string) 
   );
 };
 
-const TabContent = ({ tab, desc, id }: { tab: string; desc: any, id:string }): React.ReactElement | null => {
+const TabContent = ({ tab, desc, id }: { tab: string; desc: any; id: string }): React.ReactElement | null => {
   if (tab === 'description')
     return (
       <>
@@ -168,14 +167,13 @@ const TabContent = ({ tab, desc, id }: { tab: string; desc: any, id:string }): R
         </p> */}
 
         <ProductReview id={id} />
-      
       </>
     );
 
   return null;
 };
 
-const TabContainer = ({ desc, id }: { desc: any, id:string }) => {
+const TabContainer = ({ desc, id }: { desc: any; id: string }) => {
   const [tab, setTab] = useState<string>('description');
 
   const handleTabClick = useMemo(() => {
@@ -188,7 +186,7 @@ const TabContainer = ({ desc, id }: { desc: any, id:string }) => {
     <div className="md:block hidden w-full">
       <TabButton handleTabClick={handleTabClick} tab={tab} />
       <div className="w-full rounded-[10px] border-[1px] border-white-110 mt-4 p-10">
-        <TabContent tab={tab} desc={desc} id = {id}/>
+        <TabContent tab={tab} desc={desc} id={id} />
       </div>
     </div>
   );
