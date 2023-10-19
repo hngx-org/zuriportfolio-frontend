@@ -15,22 +15,13 @@ import axios from 'axios';
 import { ArrowCircleLeft, ArrowCircleRight } from 'iconsax-react';
 import { useQuery } from '@tanstack/react-query';
 
-interface Slide {
-  src: string;
-  alt?: string;
-  name?: string;
-  role?: string;
-  skills?: string[];
-  section: 'portrait' | 'portfolio' | 'shop';
-  products?: number;
-}
-
 const DynamicPortfolioCarousel = () => {
   const fetchSlides = async () => {
     const response = await axios.get(
       'https://hngstage6-eagles.azurewebsites.net/api/explore/GetAllPortfolio?pageNumber=1&pageSize=10',
     );
     return response.data.data.map((item: any) => ({
+      id: item.id,
       src: item.profilePictureUrl,
       alt: item.track,
       name: item.firstName + ' ' + item.lastName,
@@ -133,35 +124,8 @@ const DynamicPortfolioCarousel = () => {
       <div className="overflow-hidden p-2 w-full mx-0 mt-[0]">
         <Slider {...settings}>
           {slides?.map(
-            (
-              logo: {
-                section: string;
-                src: any;
-                name:
-                  | string
-                  | number
-                  | boolean
-                  | ReactElement<any, string | JSXElementConstructor<any>>
-                  | Iterable<ReactNode>
-                  | ReactPortal
-                  | PromiseLikeOfReactNode
-                  | null
-                  | undefined;
-                role:
-                  | string
-                  | number
-                  | boolean
-                  | ReactElement<any, string | JSXElementConstructor<any>>
-                  | Iterable<ReactNode>
-                  | ReactPortal
-                  | PromiseLikeOfReactNode
-                  | null
-                  | undefined;
-                skills: string[];
-              },
-              index: Key | null | undefined,
-            ) => (
-              <div key={index} className="relative h-[250px] sm:h-[300px] w-[182.71]">
+            (logo: { section: string; src: any; name: string; role: string; skills: string[]; id: string }) => (
+              <div key={logo?.id} className="relative h-[250px] sm:h-[300px] w-[182.71]">
                 {/* Portfolio section */}
                 {logo?.section === 'portfolio' && (
                   <div

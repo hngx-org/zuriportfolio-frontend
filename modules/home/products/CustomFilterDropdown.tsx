@@ -46,9 +46,9 @@ const CustomFilterDropdown: React.FC<CustomDropdownProps> = ({
       </div>
       {isOpen && (
         <div className="list mt-2 bg-white shadow-lg hover:bg-white-100 max-h-fit overflow-y-auto absolute z-20 w-full bg-white-100 rounded-xl">
-          {options.map((option, index) => (
+          {options.map((option) => (
             <div
-              key={index}
+              key={option}
               className={`label px-4 py-2 cursor-pointer hover:bg-white-200 flex justify-between text-[#5B5F5E] font-manropeL text-[14px] ${
                 option === selectedValue ? 'bg-[#F8ECE1]' : ''
               }`}

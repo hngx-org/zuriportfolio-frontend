@@ -95,8 +95,6 @@ const DynamicCategoryCarousel = () => {
           name: category,
           products: products?.products?.length,
         });
-
-        console.log(fetchedSlides);
       }
     } catch (error) {
       console.error('Error fetching slides:', error);
@@ -211,8 +209,8 @@ const DynamicCategoryCarousel = () => {
       {slides.length > 0 && (
         <div className="overflow-hidden p-2 w-full mx-0 mt-[0]">
           <Slider {...settings}>
-            {slides.map((category, index) => (
-              <div key={index} className="relative h-[250px] sm:h-[300px] w-[182.71]">
+            {slides.map((category) => (
+              <div key={category?.name} className="relative h-[250px] sm:h-[300px] w-[182.71]">
                 {category?.section === 'shop' && (
                   <div
                     className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"

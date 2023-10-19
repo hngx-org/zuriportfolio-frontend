@@ -384,20 +384,17 @@ const SearchAndFilterProducts = (prop: {
           {!isProductsLoading &&
             productsData?.length > 0 &&
             productsData?.map(
-              (
-                product: {
-                  id: string | undefined;
-                  currency: string | undefined;
-                  shop: any;
-                  rating: number | undefined;
-                  price: string;
-                  images: Array<{ url: string }>;
-                  name: string;
-                },
-                index: number,
-              ) => (
+              (product: {
+                id: string | undefined;
+                currency: string | undefined;
+                shop: any;
+                rating: number | undefined;
+                price: string;
+                images: Array<{ url: string }>;
+                name: string;
+              }) => (
                 <SectionProductCard
-                  key={index}
+                  key={product?.id}
                   title={product?.name}
                   currency={product?.currency}
                   price={product?.price}
