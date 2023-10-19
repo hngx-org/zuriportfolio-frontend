@@ -87,7 +87,7 @@ const SearchAndFilterProducts = (prop: {
   const fetchCategoryNames = async (): Promise<Section[]> => {
     try {
       const categoriesResponse = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
-      const categories = categoriesResponse.data.data.slice(0, 9);
+      const categories = categoriesResponse.data.data.slice(0, 10);
 
       const icons = [
         <Designtools size={24} color="white" key={0} />,
@@ -99,6 +99,7 @@ const SearchAndFilterProducts = (prop: {
         <Data size="24" color="white" key={6} />,
         <Airdrop size="24" color="white" key={7} />,
         <Code size="24" color="white" key={8} />,
+        <Airdrop size="24" color="white" key={7} />,
       ];
 
       const activeIcons = [
@@ -111,6 +112,7 @@ const SearchAndFilterProducts = (prop: {
         <Data size="24" color="#737373" key={6} />,
         <Airdrop size="24" color="#737373" key={7} />,
         <Code size="24" color="#737373" key={8} />,
+        <Airdrop size="24" color="white" key={7} />,
       ];
 
       const sectionsData: Section[] = categories.map((category: any, index: number) => ({
