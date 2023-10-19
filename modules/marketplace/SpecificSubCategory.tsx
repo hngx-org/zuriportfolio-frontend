@@ -174,7 +174,7 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
 
               {/* Pagination */}
               {/* place here pagination component here.. don't add margin top to move it..i done it already */}
-              <div className="flex justify-center items-center border-[1px]" onClick={scrollToFunc}>
+              <div className="flex justify-center items-center" onClick={scrollToFunc}>
                 <div className="flex gap-4  items-center border-2 rounded-lg bg-white-110 border-white-110 p-2">
                   <button
                     onClick={prevPage}
