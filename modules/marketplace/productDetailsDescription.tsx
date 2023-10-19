@@ -35,14 +35,11 @@ export default function ProductDetailsDescription() {
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
 
- 
   // const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`
 
- 
-
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${id}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${id}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -109,7 +106,7 @@ export default function ProductDetailsDescription() {
     };
 
     try {
-      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
+      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/wishlist/', data);
 
       console.log(response);
       if (response.status === 201) {
@@ -289,7 +286,7 @@ export default function ProductDetailsDescription() {
               {/* <p className="text-sm font-manropeL mt-4">
                 VERIFIED RATINGS <span>(173)</span>
               </p> */}
-              
+
               <ProductReview id={product?.id} />
 
               {/* <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
