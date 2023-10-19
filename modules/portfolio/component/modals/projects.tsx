@@ -234,12 +234,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataToEdit]);
 
-  useEffect(() => {
-    console.log(year === '', year, typeof year);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year]);
-
   return (
     <section className="p-5">
       {/* header */}
