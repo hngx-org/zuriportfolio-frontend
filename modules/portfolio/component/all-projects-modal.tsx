@@ -12,17 +12,35 @@ const AllProjectsModal = ({
   onEdit,
   projects,
   handleSetRoute,
+  handleLoading,
+  handleSetProjects,
   onCloseModal,
-  onSaveModal,
+  userId,
 }: {
   projects: any[];
   onEdit: (data: Data) => void;
   onCloseModal: () => void;
-  onSaveModal: () => void;
   handleSetRoute: (data: allRouteOptions) => void;
+  handleSetProjects: (data: any[]) => void;
+  handleLoading: (data: boolean) => void;
+  userId: string | undefined;
 }) => {
   const handleEdit = (data: Data) => {
     onEdit(data);
+  };
+
+  const getAllProjects = () => {
+    handleLoading(true);
+    axios
+      .get(`${endpoint}/api/users/${userId}/projects`)
+      .then((res) => {
+        handleLoading(false);
+        handleSetProjects(res.data.data);
+      })
+      .catch((err) => {
+        handleLoading(false);
+        console.log(err);
+      });
   };
 
   const handleDelete = (id: number) => {
@@ -36,7 +54,6 @@ const AllProjectsModal = ({
           theme: 'light',
           type: 'success',
         });
-        onSaveModal();
       })
       .catch((err) => {
         console.log(err);

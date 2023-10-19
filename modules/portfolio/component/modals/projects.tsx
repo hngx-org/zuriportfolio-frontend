@@ -38,6 +38,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   const [description, setDescription] = useState<string>('');
   const [media, setMedia] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
+  const [allChecks, setAllChecks] = useState<string[]>([]);
   const [id, setId] = useState<number>();
   const [urlsFromCloudinary, setUrlsFromCloudinary] = useState<string[]>([]);
   const years = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
@@ -51,7 +52,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
     tags: selectedTags.join(', '),
     description,
   };
-  const { allChecksPassed, failedChecks } = checkObjectProperties(items);
 
   const handleDataClear = () => {
     setTitle('');
@@ -124,43 +124,83 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    const { allChecksPassed, failedChecks } = checkObjectProperties(items);
+    setAllChecks(failedChecks);
     const formData = new FormData();
     if (allChecksPassed) {
       setLoading(true);
-      const data = {
-        ...items,
-        thumbnail: files[0],
-      };
-      files.map((item) => {
-        formData.append('images', item);
-      });
-      formData.append('jsondata', JSON.stringify(data));
-      console.log(formData);
-
-      axios
-        .post(`${endpoint}/api/projects`, formData)
-        .then((res) => {
-          setLoading(false);
-          notify({
-            message: 'Projects created successfully',
-            position: 'top-center',
-            theme: 'light',
-            type: 'success',
-          });
-          handleDataClear();
-          onSaveModal();
-          console.log(res);
-        })
-        .catch((err) => {
-          setLoading(false);
-          notify({
-            message: 'Error occurred',
-            position: 'top-center',
-            theme: 'light',
-            type: 'error',
-          });
-          console.log(err);
+      if (urlsFromCloudinary.length > 0) {
+        const data = {
+          ...items,
+          thumbnail: files[0],
+          url: urlsFromCloudinary,
+        };
+        files.map((item) => {
+          formData.append('images', item);
         });
+        formData.append('jsondata', JSON.stringify(data));
+        console.log(formData);
+
+        axios
+          .post(`${endpoint}/api/projects`, formData)
+          .then((res) => {
+            setLoading(false);
+            notify({
+              message: 'Projects created successfully',
+              position: 'top-center',
+              theme: 'light',
+              type: 'success',
+            });
+            handleDataClear();
+            onSaveModal();
+            console.log(res);
+          })
+          .catch((err) => {
+            setLoading(false);
+            notify({
+              message: 'Error occurred',
+              position: 'top-center',
+              theme: 'light',
+              type: 'error',
+            });
+            console.log(err);
+          });
+      } else {
+        const data = {
+          ...items,
+          thumbnail: files[0],
+        };
+        files.map((item) => {
+          formData.append('images', item);
+        });
+        formData.append('jsondata', JSON.stringify(data));
+        console.log(formData);
+
+        axios
+          .post(`${endpoint}/api/projects`, formData)
+          .then((res) => {
+            setLoading(false);
+            notify({
+              message: 'Projects created successfully',
+              position: 'top-center',
+              theme: 'light',
+              type: 'success',
+            });
+            handleDataClear();
+            onSaveModal();
+            console.log(res);
+          })
+          .catch((err) => {
+            setLoading(false);
+            notify({
+              message: 'Error occurred',
+              position: 'top-center',
+              theme: 'light',
+              type: 'error',
+            });
+            console.log(err);
+          });
+      }
     }
   };
 
@@ -205,7 +245,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                     setTitle(e.target.value);
                   }}
                   className={`${
-                    failedChecks.includes('title') ? 'border-red-205' : 'border-[#E1E3E2]'
+                    allChecks.includes('title') ? 'border-red-205' : 'border-[#E1E3E2]'
                   } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold`}
                   inputSize={'lg'}
                   value={title}
@@ -216,8 +256,8 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 <select
                   onChange={(e) => setYear(e.target.value)}
                   placeholder="Year"
-                  className={`w-full h-[50px] bg-transparent border-2 rounded-md px-4 ${
-                    failedChecks.includes('year') ? 'border-red-205' : 'border-[#E1E3E2]'
+                  className={`w-full h-[50px] bg-white-100 border-2 rounded-md px-4 ${
+                    allChecks.includes('year') ? 'border-red-205' : 'border-[#E1E3E2]'
                   } border-white-300 font-semibold !text-gray-300`}
                 >
                   {years.map((year, index) => (
@@ -253,7 +293,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 <div className="flex">
                   <p
                     className={`min-w-fit grid place-content-center px-2 border-2 rounded-lg ${
-                      failedChecks.includes('url') ? 'border-red-205' : 'border-[#E1E3E2]'
+                      allChecks.includes('url') ? 'border-red-205' : 'border-[#E1E3E2]'
                     } rounded-tr-none rounded-br-none border-r-0 font-base text-gray-300`}
                   >
                     Type link
@@ -265,7 +305,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                       setLink(e.target.value);
                     }}
                     className={`${
-                      failedChecks.includes('url') ? 'border-red-205' : 'border-[#E1E3E2]'
+                      allChecks.includes('url') ? 'border-red-205' : 'border-[#E1E3E2]'
                     } w-full h-[50px] rounded-md border-[2px] rounded-tl-none rounded-bl-none text-[14px] font-semibold`}
                     inputSize={'lg'}
                     value={link}
@@ -309,7 +349,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                   onKeyDown={handleAddTags}
                   onChange={(e) => setTagInput(e.target.value)}
                   className={`${
-                    failedChecks.includes('tags') ? 'border-red-205' : 'border-[#E1E3E2]'
+                    allChecks.includes('tags') ? 'border-red-205' : 'border-[#E1E3E2]'
                   } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold`}
                   inputSize={'lg'}
                   value={tagInput}
@@ -326,7 +366,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                     setDescription(e.target.value);
                   }}
                   className={`${
-                    failedChecks.includes('description') ? 'border-red-205' : 'border-[#E1E3E2]'
+                    allChecks.includes('description') ? 'border-red-205' : 'border-[#E1E3E2]'
                   } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold`}
                   inputSize={'lg'}
                   value={description}

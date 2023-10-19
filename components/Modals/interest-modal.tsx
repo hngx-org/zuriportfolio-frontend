@@ -25,13 +25,11 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
   const [values, setValues] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [initialoading, setInitialLoading] = useState<boolean>(false);
+  const [checks, setChecks] = useState<boolean>(true);
 
   const interestItems = {
     interests: values,
   };
-
-  // checks if all input paramters has been filled, allChecksPassed - returns a boolean, failedChecks returns an array of calues that failed the checks
-  const { allChecksPassed, failedChecks } = checkObjectProperties(interestItems);
 
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -80,6 +78,9 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
   ));
 
   const handleSubmit = () => {
+    // checks if all input paramters has been filled, allChecksPassed - returns a boolean, failedChecks returns an array of calues that failed the checks
+    const { allChecksPassed, failedChecks } = checkObjectProperties(interestItems);
+    setChecks(allChecksPassed);
     if (allChecksPassed) {
       setLoading(true);
       const data = {
@@ -97,6 +98,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
             theme: 'light',
             type: 'success',
           });
+          setChecks(true);
           setValues([]);
           onSaveModal();
         })
@@ -108,6 +110,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
             theme: 'light',
             type: 'error',
           });
+          setChecks(true);
           console.log(err);
         });
     }
@@ -191,7 +194,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
 
           <section
             className={`w-full flex items-center mt-4 rounded-lg border ${
-              allChecksPassed ? 'border-[#C4C7C6]' : 'border-red-205'
+              checks ? 'border-[#C4C7C6]' : 'border-red-205'
             } px-2`}
           >
             <input
