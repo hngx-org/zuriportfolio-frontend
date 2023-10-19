@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import PasswordPopover from '@modules/auth/component/PasswordPopover';
 import useAuthMutation from '../../../hooks/Auth/useAuthMutation';
 import { guestSignup } from '../../../http/auth';
 import { useRouter } from 'next/router';
+import { notify } from '@ui/Toast';
 
 const Guestsignupform: React.FC = () => {
   const router = useRouter();
@@ -19,18 +20,42 @@ const Guestsignupform: React.FC = () => {
 
   const { mutate: guestSignupFn, isLoading: isLoginUserMutationLoading } = useAuthMutation(guestSignup, {
     onSuccess: (data) => {
+      console.log(data);
       if (data?.status === 200) {
+        notify({
+          message: 'User created successfully. Please check your email to verify your account',
+          type: 'success',
+        });
         router.push('/auth/verification');
+      } else {
+        notify({
+          message: data.message,
+          type: 'error',
+        });
       }
     },
-    onError: (res) => console.log({ res }),
-    // notify({
-    //   message: `${res}`,
-    //   type: 'error',
-    // }),
+    onError: (res: any) => {
+      console.log(res);
+      if (res.message === 'AxiosError: timeout of 30000ms exceeded') {
+        notify({
+          message:
+            'Oops! The request timed out. Please try again later. If the problem persists, please contact support.',
+          type: 'error',
+        });
+        return;
+      }
+    },
   });
   const [passwordVisible, togglePasswordVisibility] = usePasswordVisibility();
   const [confirmPasswordVisible, toggleConfirmPasswordVisibility] = usePasswordVisibility();
+  const [isMicrosoftEdge, setIsMicrosoftEdge] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is using Microsoft Edge
+    if (window.navigator.userAgent.includes('Edg') || window.navigator.userAgent.includes('Edge')) {
+      setIsMicrosoftEdge(true);
+    }
+  }, []);
 
   const schema = z
     .object({
@@ -140,7 +165,7 @@ const Guestsignupform: React.FC = () => {
                   name="password"
                   type={passwordVisible ? 'text' : 'password'}
                   rightIcon={
-                    passwordVisible ? (
+                    isMicrosoftEdge ? null : passwordVisible ? (
                       <Eye onClick={togglePasswordVisibility} className="cursor-pointer" />
                     ) : (
                       <EyeSlash onClick={togglePasswordVisibility} className="cursor-pointer" />
@@ -169,7 +194,7 @@ const Guestsignupform: React.FC = () => {
                 name="confirmPassword"
                 type={confirmPasswordVisible ? 'text' : 'password'}
                 rightIcon={
-                  confirmPasswordVisible ? (
+                  isMicrosoftEdge ? null : confirmPasswordVisible ? (
                     <Eye onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />
                   ) : (
                     <EyeSlash onClick={toggleConfirmPasswordVisibility} className="cursor-pointer" />

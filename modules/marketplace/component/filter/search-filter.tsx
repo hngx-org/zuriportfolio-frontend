@@ -13,18 +13,21 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
   const { categories, loading: isLoading, products } = useCategory();
   const sub_categories = categories.flatMap((category) => category.subcategories).map((sub: any) => sub?.name);
   function getLowestAndHighestPrices(products: ProductList[]) {
-    const sortedPrices = (products.map(product => parseInt(product.price))).slice().sort((a, b) => a - b);
-    
+    const sortedPrices = products
+      .map((product) => parseInt(product.price))
+      .slice()
+      .sort((a, b) => a - b);
+
     const lowestPrices = sortedPrices.slice(0, 10);
-    
+
     const highestPrices = sortedPrices.slice(-10);
-    
+
     return {
       lowest: lowestPrices,
       highest: highestPrices,
     };
   }
-  const results = getLowestAndHighestPrices(products)
+  const results = getLowestAndHighestPrices(products);
   const prices = [...results.lowest, ...results.highest];
   const uniquePrices = Array.from(new Set(prices)).map((price) => formatToNigerianNaira(price));
   const discount_price = [5, 10, 20, 30, 40, 50];

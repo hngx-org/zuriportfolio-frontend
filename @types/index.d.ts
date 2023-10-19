@@ -623,6 +623,11 @@ export interface reviewProps {
   help?: number;
 }
 
+export interface revNavProps {
+  shopNav?: boolean;
+  marketPlaceNav?: boolean;
+}
+
 export interface searchProp {
   handleSearchChange: (searchString: string) => void;
 }
@@ -656,10 +661,6 @@ export interface Vendor {
 }
 
 export type BannedDeletedVendorsProps = {
-  showBanned: boolean;
-  setShowBanned: (any: boolean) => void;
-  showDeleted: boolean;
-  setShowDeleted: (any: boolean) => void;
   data: any;
   isLoading: Boolean;
 };
