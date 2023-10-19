@@ -75,7 +75,7 @@ export const useRestore = () => {
 };
 
 export const useGetProd = (page: number, search: string, status?: string) => {
-  return useQuery(['get-prod', page, search, status], async () => {
+  return useQuery(['get-prod'], async () => {
     return makeRequest(
       `product/all?page=${page}${search ? `&search=${search}` : ''}${status ? `&status=${status}` : ''}`,
       'get',
