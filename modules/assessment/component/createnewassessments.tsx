@@ -75,6 +75,17 @@ const CreateTemplate = () => {
       },
     ]);
   };
+  const handleRemovequest = () => {
+    setList((list) => {
+      if (list.length > 0) {
+        const updatedList = [...list.slice(0, list.length - 1)];
+        return updatedList;
+      } else {
+        return list;
+      }
+    });
+  };
+
   useEffect(() => {
     if (listupdate === 'addquest') {
       setList(newobject.questions_and_answers);
@@ -192,7 +203,7 @@ const CreateTemplate = () => {
           Add Question
         </Button>
         <Button
-          onClick={handleAddquestion}
+          onClick={handleRemovequest}
           leftIcon={<FaTimes color="black" />}
           intent={'primary'}
           size={'md'}
