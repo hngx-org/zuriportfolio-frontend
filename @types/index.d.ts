@@ -623,6 +623,11 @@ export interface reviewProps {
   help?: number;
 }
 
+export interface revNavProps {
+  shopNav?: boolean;
+  marketPlaceNav?: boolean;
+}
+
 export interface searchProp {
   handleSearchChange: (searchString: string) => void;
 }
