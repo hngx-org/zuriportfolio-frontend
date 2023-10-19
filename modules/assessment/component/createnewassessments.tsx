@@ -77,7 +77,7 @@ const CreateTemplate = () => {
   };
   const handleRemovequest = () => {
     setList((list) => {
-      if (list.length > 0) {
+      if (list.length > 1) {
         const updatedList = [...list.slice(0, list.length - 1)];
         return updatedList;
       } else {
@@ -202,15 +202,17 @@ const CreateTemplate = () => {
         >
           Add Question
         </Button>
-        <Button
-          onClick={handleRemovequest}
-          leftIcon={<FaTimes color="black" />}
-          intent={'primary'}
-          size={'md'}
-          className="bg-[transparent] text-dark-100 border-2 border-red-100 hover:bg-red-200 hover:text-white-100"
-        >
-          Delete Question
-        </Button>
+        {list.length > 1 && (
+          <Button
+            onClick={handleRemovequest}
+            leftIcon={<FaTimes color="black" />}
+            intent={'primary'}
+            size={'md'}
+            className="bg-[transparent] text-dark-100 border-2 border-red-100 hover:bg-red-200 hover:text-white-100"
+          >
+            Delete Question
+          </Button>
+        )}
       </div>
     </>
   );
