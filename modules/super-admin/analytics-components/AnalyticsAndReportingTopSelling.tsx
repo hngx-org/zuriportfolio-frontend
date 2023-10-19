@@ -99,24 +99,25 @@ const AnalyticsAndReportingTopSelling = () => {
                 }
               })
               .map((product: any) => (
-                <div
+                <Link
                   key={product.product_id}
-                  className="grid grid-cols-3 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 md:whitespace-normal"
+                  href={`/super-admin/product-listing/product-details/${product.product_id}`}
                 >
-                  <div className="flex items-center md:pl-8 ">
-                    <Image src={product.product_image_url} alt={product.product_id} width={30} height={30} />
-                    <Link href={`/super-admin/product-listing/product-details/${product.product_id}`}>
-                      <span className="ml-4 text-md md:text-lg hover:text-[#009254]">{product.product_name}</span>
-                    </Link>
+                  <div className="grid grid-cols-3 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 md:whitespace-normal hover:bg-[#E0E0E0]">
+                    <div className="flex items-center md:pl-8 ">
+                      <Image src={product.product_image_url} alt={product.product_id} width={30} height={30} />
+
+                      <span className="ml-4 text-md md:text-lg ">{product.product_name}</span>
+                    </div>
+                    <div className="grid col-span-2 ps-10 grid-cols-5 text-custom-color2 text-center min-w-[100px]">
+                      <p className="">{product.category_name}</p>
+                      <p>{product.total_orders}</p>
+                      <p>₦{Number(product.price).toLocaleString()}</p>
+                      <p>{Number(product.total_sales).toLocaleString()}</p>
+                      <p>{product.vendor_name}</p>
+                    </div>
                   </div>
-                  <div className="grid col-span-2 ps-10 grid-cols-5 text-custom-color2 text-center min-w-[100px]">
-                    <p className="">{product.category_name}</p>
-                    <p>{product.total_orders}</p>
-                    <p>₦{Number(product.price).toLocaleString()}</p>
-                    <p>{Number(product.total_sales).toLocaleString()}</p>
-                    <p>{product.vendor_name}</p>
-                  </div>
-                </div>
+                </Link>
               ))
           ) : (
             <div className="flex justify-center  pt-5 w-[90vw]   md:pt-10">
