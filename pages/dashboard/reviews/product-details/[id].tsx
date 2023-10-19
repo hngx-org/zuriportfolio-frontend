@@ -15,6 +15,7 @@ import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/Em
 import Container from '@modules/auth/component/Container/Container';
 import Loader from '@ui/Loader';
 import { ReviewData, ReviewApiResponse, RatsData } from '../../../../@types';
+import { set } from 'nprogress';
 
 //* Moved type definitions to @types/index.d.ts
 const UserReview = () => {
@@ -35,9 +36,10 @@ const UserReview = () => {
 
   const [data, setData] = useState<ReviewData[] | null>(null);
   const [rats, setRats] = useState<RatsData>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filterRating, setFilterRating] = useState<string>('all');
+  const [filterView, setFilterView] = useState<string>('topReviews');
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
+  const [mountUI, setMountUI] = useState<boolean>(false);
 
   // ToDo: Remove all commented out code
   // const [total5Star, setTotal5Star] = useState<number>(0);
@@ -76,7 +78,7 @@ const UserReview = () => {
         .then((data: ReviewApiResponse) => setData(data.data))
         .catch((e) => console.log(e));
     }
-  }, [data, currentPage, id]);
+  }, [mountUI, filterRating, filterView, currentPage, id]);
   useEffect(() => {
     if (id) {
       const apiUrl: string = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`;
@@ -86,9 +88,6 @@ const UserReview = () => {
         .catch((e) => console.log(e));
     }
   }, [id]);
-  useEffect(() => {
-    setIsLoading(true);
-  }, [filteredData]);
 
   const ratingData = [
     { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
@@ -129,14 +128,20 @@ const UserReview = () => {
   }
 
   function handleFilter(view: string, rating: string) {
+    setFilterView(view);
     setFilterRating(rating);
     if (data !== null && data !== undefined) {
       const filteredReviews = filterReviews(view, rating, data);
-      setTimeout(() => {
-        setFilteredData(filteredReviews);
-      }, 100);
+      setFilteredData(filteredReviews);
     }
   }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMountUI(true);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
