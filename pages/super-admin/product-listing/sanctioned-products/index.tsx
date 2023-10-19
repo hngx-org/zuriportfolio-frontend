@@ -11,6 +11,8 @@ import { LoadingTable } from '@modules/super-admin/components/product-listing/Pr
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
 import { withAdminAuth } from '../../../../helpers/withAuth';
 import { Input } from '@ui/Input';
+import Image from 'next/image';
+import right from '/public/assets/vendor/arrow-right.svg';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -21,6 +23,7 @@ const SanctionedProducts = () => {
   const sanctionedProd = data?.data;
 
   const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
+  const router = useRouter();
 
   const handlePageChange = (newPage: number) => {
     window.scroll(0, 10);
@@ -54,6 +57,14 @@ const SanctionedProducts = () => {
     <>
       <SuperAdminNavbar />
 
+      <div className=" container">
+        <Image
+          src={right}
+          alt="back"
+          className="  pb-3 cursor-pointer"
+          onClick={() => router.push('/super-admin/product-listing/')}
+        ></Image>
+      </div>
       <div className=" container  font-manropeL mx-auto border-2 border-custom-color1">
         <div className="py-3 px-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
