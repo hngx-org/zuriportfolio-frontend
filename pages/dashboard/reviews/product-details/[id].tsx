@@ -174,7 +174,7 @@ const UserReview = () => {
                 <div className="flex flex-row md:flex-col gap-4 md:gap-8 lg:w-80 md:w-48">
                   <div>
                     <RatingBar avgRating={rats?.averageRating!} verUser={100} />
-                    <div className="md:hidden block">
+                    {/* <div className="md:hidden block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
                         href={`../create/${rats?.productId}`}
@@ -182,13 +182,13 @@ const UserReview = () => {
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="flex flex-col gap-2">
                     {ratingData.map((data, index) => (
                       <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />
                     ))}
-                    <div className="hidden md:block">
+                    {/* <div className="hidden md:block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
                         href={`../create/${rats?.productId}`}
@@ -196,7 +196,7 @@ const UserReview = () => {
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="flex flex-col">
