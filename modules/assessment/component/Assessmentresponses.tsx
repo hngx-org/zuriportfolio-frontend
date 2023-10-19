@@ -35,23 +35,25 @@ function Assessmentresponses(props: PropsAss<any>) {
   //holdon, to stop deleting flow
   const holdon = () => {
     setTodel(false);
+    console.log(assessments);
   };
   //to confirm and delete item
   //still throwing forbidden do not uncomment ==> Error 403
   const yesdelete = async (currId: any) => {
-    // const reqOptions = {
-    //   method: 'DELETE',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'X-CSRFTOKEN': 'NbABSnKRbU6iJVZcevcUXUPDkZgy8sMoCG4LTI94QliFKISRlQujvNxzkzZ89fai',
-    //   },
-    // };
-    // await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}`, reqOptions);
-    // onDelete(
-    //   assessments.filter((item) => {
-    //     item.id !== currId;
-    //   }),
-    // );
+    console.log(assessments);
+    const reqOptions = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    };
+    await fetch(`https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}/`, reqOptions);
+    onDelete(
+      assessments.filter((item) => {
+        return item.id !== currId;
+      }),
+    );
     console.log(currId);
     setTodel(false);
   };
