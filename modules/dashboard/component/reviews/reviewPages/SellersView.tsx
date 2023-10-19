@@ -35,10 +35,15 @@ const SellersView = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const [data, setData] = useState<ReviewData[] | null>(null);
-  const [rats, setRats] = useState<RatsData>();
+  const [rats, setRats] = useState<RatsData>()
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filterRating, setFilterRating] = useState<string>('all');
+  const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null)
+  const [filterRating, setFilterRating] = useState<string>('all');
+  const [filterView, setFilterView] = useState<string>('topReviews');
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
+  const [productName, setProductName] = useState<string>('');
+  const [mountUI, setMountUI] = useState<boolean>(false)
 
   // ToDo: Remove all commented out code
   // const [total5Star, setTotal5Star] = useState<number>(0);
@@ -70,14 +75,18 @@ const SellersView = () => {
         .then((res) => res.json())
         .then((data: ReviewApiResponse) => setData(data.data))
         .catch((e) => console.log(e));
-    } else {
-      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=0&pageSize=10`;
+    } else 
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=0&pageSize=10`
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=${
+        currentPage - 1
+      }&pageSize=10`
       fetch(url)
         .then((res) => res.json())
         .then((data: ReviewApiResponse) => setData(data.data))
         .catch((e) => console.log(e));
-    }
-  }, [data, currentPage, id]);
+    
+  }, [data, currentPage, id])
+  }, [mountUI, filterRating, filterView, currentPage, id])
   useEffect(() => {
     if (id) {
       const apiUrl: string = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`;
@@ -86,10 +95,10 @@ const SellersView = () => {
         .then((data) => setRats(data.data))
         .catch((e) => console.log(e));
     }
-  }, [id]);
+  }, [id])
   useEffect(() => {
     setIsLoading(true);
-  }, [filteredData]);
+  }, [filteredData])
 
   const ratingData = [
     { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
@@ -129,7 +138,7 @@ const SellersView = () => {
     return filteredReviews;
   }
 
-  function handleFilter(view: string, rating: string) {
+  function handleFilter(view: string, rating: string) 
     setFilterRating(rating);
     if (data !== null && data !== undefined) {
       const filteredReviews = filterReviews(view, rating, data);
@@ -138,16 +147,34 @@ const SellersView = () => {
       }, 100);
     }
   }
+    setFilterView(view);
+    setFilterRating(rating);
+    if (data !== null && data !== undefined) {
+      const filteredReviews = filterReviews(view, rating, data);
+      setFilteredData(filteredReviews);
+    }
+  }
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMountUI(true);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, []);
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
-        <Breadcrumbs />
+        <Breadcrumbs /
         {!data ? (
           <div className=" h-[70vh] flex justify-center items-center">
             <Loader />
           </div>
-        ) : data === null || data.length === 0 ? (
+        ) : data === null || data.length === 0 ? 
+        {!rats ? (
+          <div className=" h-[70vh] flex justify-center items-center">
+            <Loader />
+          </div>
+        ) : rats === null || rats.averageRating === undefined ? 
           <EmptyReviewPage />
         ) : (
           <div className="flex flex-col justify-center items-center md:mb-16">
@@ -157,14 +184,16 @@ const SellersView = () => {
                   className="flex flex-row justify-start lg:text-2xl md:text-xl text-xs tracking-wide font-semibold font-manropeL text-[#444846] items-center cursor-pointer"
                   onClick={() => router.back()}
                 >
-                  <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-                  {router.query.title}
+                  <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" /
+                  {router.query.title
+                  {/* {router.query.title} */}
+                  Customer Feedbac
                 </div>
               </div>
               <div className="flex flex-col md:flex-row lg:gap-24 md:gap-10 gap-4 mx-5">
                 <div className="flex flex-row md:flex-col gap-4 md:gap-8 lg:w-80 md:w-48">
                   <div>
-                    <RatingBar avgRating={rats?.averageRating!} verUser={100} />
+                    <RatingBar avgRating={rats?.averageRating!} verUser={100} /
                     <div className="md:hidden block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
@@ -173,12 +202,12 @@ const SellersView = () => {
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
                       </Link>
-                    </div>
+                    </div
                   </div>
                   <div className="flex flex-col gap-2">
                     {ratingData.map((data, index) => (
                       <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />
-                    ))}
+                    ))
                     <div className="hidden md:block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
@@ -187,7 +216,7 @@ const SellersView = () => {
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
                       </Link>
-                    </div>
+                    </div
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -221,15 +250,26 @@ const SellersView = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div
             <Pagination
               page={currentPage}
               pages={data[0]?.numberOfPages}
               activePage={currentPage}
               visiblePaginatedBtn={3}
               setPage={setPage}
-            />
-          </div>
+            /
+            {data === null || data === undefined || data.length === 0 ? (
+              <div className=" w-0 h-0 m-0 p-0 hidden"></div>
+            ) : (
+              <Pagination
+                page={currentPage}
+                pages={data[0]?.numberOfPages}
+                activePage={currentPage}
+                visiblePaginatedBtn={3}
+                setPage={setPage}
+              />
+            )
+          </d>
         )}
       </Container>
     </MainLayout>

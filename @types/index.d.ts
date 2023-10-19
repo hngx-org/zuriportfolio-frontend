@@ -661,10 +661,6 @@ export interface Vendor {
 }
 
 export type BannedDeletedVendorsProps = {
-  showBanned: boolean;
-  setShowBanned: (any: boolean) => void;
-  showDeleted: boolean;
-  setShowDeleted: (any: boolean) => void;
   data: any;
   isLoading: Boolean;
 };
@@ -896,4 +892,11 @@ export interface RatsData {
   numberOfRating: number;
   productId: string;
   id: string;
+}
+
+export interface ExploreSEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }

@@ -1,11 +1,12 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { ArrowDown, Sort } from 'iconsax-react';
+import { ArrowDown, SearchNormal1, Sort } from 'iconsax-react';
 import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
 import FilterProduct from '@modules/super-admin/components/product-listing/filterProduct';
 import Button from '@ui/Button';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { formatDate } from './product-details';
 import { useRouter } from 'next/router';
+import { Input } from '@ui/Input';
 
 export const LoadingTable = () => {
   return (
@@ -18,14 +19,18 @@ const ProductListingTable = ({
   isLoading,
   currentPage,
   setCurrentPage,
+  searchVal,
+  setSearchVal,
 }: {
   data: any;
   isLoading: boolean;
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  searchVal: string;
+  setSearchVal: Dispatch<SetStateAction<string>>;
 }) => {
-  const [searchVal, setSearchVal] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(data?.data);
+  const sanctionedProd = data?.data;
+  const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
   // const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items to display per page
 
@@ -36,8 +41,8 @@ const ProductListingTable = ({
   // const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
   useEffect(() => {
-    setFilteredProducts(data?.data);
-  }, [data]);
+    setFilteredProducts(sanctionedProd);
+  }, [sanctionedProd]);
 
   const handleSearch = (searchText: string) => {
     const filteredProduct: any = data?.data?.filter(
@@ -68,6 +73,7 @@ const ProductListingTable = ({
           if (a.product_status === 'Deleted' && b.product_status === 'Sanctioned') return 1;
         }
       });
+      console.log('filter');
 
       setFilteredProducts(sortedProducts);
     }
@@ -87,16 +93,28 @@ const ProductListingTable = ({
         </div>
 
         <div className="flex justify-between items-center gap-2">
-          <SearchProduct handleSearchChange={handleSearch} />
+          <Input
+            onChange={(e) => {
+              // handleSearch(e.target.value);
+              setSearchVal(e.target.value);
+              console.log(e.target.value);
+            }}
+            leftIcon={<SearchNormal1 />}
+            type="text"
+            intent={'default'}
+            disabled={false}
+            className="md:min-w-[350px] w-[100%]"
+            placeHolder="search"
+          />
           <div>
-            <div className="md:block hidden">
+            <div className="">
               <FilterProduct handleFilter={handleFilter} />
             </div>
-            <div className="md:hidden block">
+            {/* <div className="md:hidden block">
               <Button>
                 <Sort />
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
