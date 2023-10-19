@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import Slider from 'react-slick';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import link from '../../../public/assets/home/link.webp';
 import axios from 'axios';
 import { ArrowCircleLeft, ArrowCircleRight } from 'iconsax-react';
 import shopOne from '../../../public/assets/home/shopOne.webp';
 import shopTwo from '../../../public/assets/home/shopTwo.webp';
+import { useQuery } from '@tanstack/react-query';
 
 interface Slide {
   src?: string;
@@ -68,65 +69,56 @@ const sliders: Slide[] = [
 const DynamicCategoryCarousel = () => {
   const [slides, setSlides] = useState<Slide[]>(sliders);
 
-  useEffect(() => {
-    const fetchCategoryNames = async () => {
-      try {
-        const categoriesResponse = await axios.get(
-          'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/',
-        );
-        const categories = categoriesResponse.data.data.slice(0, 12);
-        return categories;
-      } catch (error) {
-        console.error('Error fetching category names:', error);
-      }
-    };
+  const {
+    data: categoryNamesQuery,
+    isLoading: isCategoryNamesLoading,
+    isError: isCategoryNamesError,
+  } = useQuery(['categoryNames'], async () => {
+    const response = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/');
+    return response.data.data.slice(0, 12);
+  });
 
-    const fetchProducts = async (category: string) => {
-      try {
+  const { data: productsQuery, isError: isProductsError } = useQuery(['products', categoryNamesQuery], async () => {
+    const fetchedSlides = [];
+    try {
+      for (const categoryObj of categoryNamesQuery) {
+        const category = categoryObj.name;
         const response = await axios.get(
           `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}`,
         );
-        return response.data;
-      } catch (error) {
-        console.error(`Error fetching products for category ${category}:`, error);
+        const products = response.data;
+
+        fetchedSlides.push({
+          src: products?.data[0]?.images[0]?.url,
+          alt: 'shop',
+          section: 'shop',
+          name: category,
+          products: products?.products?.length,
+        });
+
+        console.log(fetchedSlides);
       }
-    };
-
-    const fetchSlides = async () => {
-      const categories = await fetchCategoryNames();
-      const fetchedSlides = [];
-
-      try {
-        for (const categoryObj of categories) {
-          const category = categoryObj.name; // Access the name property
-          const products = await fetchProducts(category);
-
-          fetchedSlides.push({
-            src: products?.data[0]?.images[0]?.url,
-            alt: 'shop',
-            section: 'shop',
-            name: category,
-            products: products?.products?.length,
-          });
-        }
-      } catch (error) {
-        console.error('Error fetching slides:', error);
-        for (const category of sliders) {
-          fetchedSlides.push({
-            src: category.src,
-            alt: 'shop',
-            section: 'shop',
-            name: category.name,
-            products: category.products,
-          });
-        }
+    } catch (error) {
+      console.error('Error fetching slides:', error);
+      for (const category of sliders) {
+        fetchedSlides.push({
+          src: category.src,
+          alt: 'shop',
+          section: 'shop',
+          name: category.name,
+          products: category.products,
+        });
       }
+    }
 
-      setSlides(fetchedSlides);
-    };
+    return fetchedSlides;
+  });
 
-    fetchSlides();
-  }, []);
+  useEffect(() => {
+    if (productsQuery) {
+      setSlides(productsQuery);
+    }
+  }, [productsQuery]);
 
   /**
    *
@@ -141,7 +133,7 @@ const DynamicCategoryCarousel = () => {
     return (
       <ArrowCircleRight
         className={className}
-        style={{ ...style, zIndex: 999, right: 20, width: '36px', height: '36px' }}
+        style={{ ...style, zIndex: 10, right: 20, width: '36px', height: '36px' }}
         onClick={onClick}
         color="#fff"
         variant="Bold"
@@ -162,7 +154,7 @@ const DynamicCategoryCarousel = () => {
     return (
       <ArrowCircleLeft
         className={className}
-        style={{ ...style, zIndex: 999, left: 20, width: '36px', height: '36px' }}
+        style={{ ...style, zIndex: 10, left: 20, width: '36px', height: '36px' }}
         onClick={onClick}
         color="#fff"
         variant="Bold"
@@ -210,6 +202,10 @@ const DynamicCategoryCarousel = () => {
     ],
   };
 
+  if (isCategoryNamesError || isProductsError) {
+    return null;
+  }
+
   return (
     <>
       {slides.length > 0 && (
@@ -238,7 +234,7 @@ const DynamicCategoryCarousel = () => {
               </div>
             ))}
 
-            {!slides ||
+            {isCategoryNamesLoading ||
               (slides.length === 0 &&
                 sliders.map((category, index) => (
                   <div key={index} className="relative h-[250px] sm:h-[300px] w-[182.71]">
