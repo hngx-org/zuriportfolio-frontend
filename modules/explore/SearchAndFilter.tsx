@@ -94,7 +94,6 @@ const SearchAndFilter = (prop: {
     queryFn: () => handleAllTrack(),
   });
 
-  console.log(trackData, 'trackdata');
   const allTrack: alltracksType[] = [{ name: 'All', id: 0 }, ...(trackData?.data ?? [])];
 
   return (
@@ -167,22 +166,6 @@ const SearchAndFilter = (prop: {
           onScroll={handleScroll}
         >
           <div className="justify-start items-center inline-flex mt-4 gap-6">
-            {/* {sectionsData.map((section, index) => (
-              <div
-                key={index}
-                className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeB text-[0.875rem] ${
-                  activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-                } ${section.text === 'All' ? 'hidden sm:flex' : ''}`}
-                onClick={() => {
-                  setActiveSection(index);
-                  handleFilters(section.filterType, section.text);
-                  setShowFilterComponent(section.text === 'All Filter');
-                }}
-              >
-                <div className="w-6 h-6 relative">{activeSection === index ? section.icon : section.activeIcon}</div>
-                <div className="text-center">{section.text}</div>
-              </div>
-            ))} */}
             {
               allTrack.map((section, index) => (
                 <div
@@ -237,15 +220,6 @@ const SearchAndFilter = (prop: {
             </div>
           )}
         </div>
-
-        {/* {showFilterComponent && (
-          <FilterComponent
-            closeFilterComponent={closeFilterComponent}
-            showFilterComponent={showFilterComponent}
-            filters={filters}
-            handleFilters={handleFilters}
-          />
-        )} */}
       </div>
     </section>
   );
