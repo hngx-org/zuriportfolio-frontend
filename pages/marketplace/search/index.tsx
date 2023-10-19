@@ -12,40 +12,45 @@ import { searchProducts } from '../../../http/api/searchProducts';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '@ui/Loader';
+import Head from 'next/head';
 
 export default function Index() {
-  const [results, setResults] = useState<ProductResult[]>([]);
+  const [results, setResults] = useState<ProductResult[] | null>(null);
 
   // access the query parameter from the URL using router
   const {
-    query: { query },
+    query: { q },
   } = useRouter();
 
-  const searchQuery = Array.isArray(query) ? query[0] : query;
+  const Query = Array.isArray(q) ? q[0] : q;
 
-  // fetch and update search results when the component mounts or searchQuery changes
+  // fetch and update search results when the component mounts or Query changes
   useEffect(() => {
-    if (searchQuery) {
+    if (Query) {
       const fetchData = async () => {
         try {
-          const results = await searchProducts(searchQuery);
+          const results = await searchProducts(Query);
           setResults(results);
         } catch (error: any) {
-          toast.error(error.message);
+          console.log(error);
+          toast.error(error);
         }
       };
 
       fetchData();
     }
-  }, [searchQuery]);
+  }, [Query]);
 
   return (
     <>
+      <Head>
+        <title>{`Search Result for ${Query}`}</title>
+      </Head>
       {results && results?.length > 0 && (
         <CategoryLayout>
           <div className="px-4 py-4 sm:py-2 max-w-[1240px] mx-auto">
             <h1 className="text-custom-color31 font-manropeL mt-5 lg:pt-5 md:mb-1 font-bold md:text-2xl leading-normal flex items-center justify-between">
-              Search Result for &apos;{searchQuery}&apos;
+              Search Result for &apos;{Query}&apos;
             </h1>
             <div
               className={`flex py-8 flex-wrap lg:flex-wrap gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}

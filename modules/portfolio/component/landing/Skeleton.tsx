@@ -170,8 +170,6 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
-  console.log(data);
-
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
       {data?.length > 0 &&

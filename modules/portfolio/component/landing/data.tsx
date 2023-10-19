@@ -23,13 +23,13 @@ export const sections = [
     icon: <Briefcase />,
     modal: <WorkExperience />,
   },
-  // {
-  //   id: 'education',
-  //   title: 'Education',
-  //   description: 'Show off your  academic qualification  degrees, and also relevant certification.',
-  //   icon: <Teacher />,
-  //   modal: <Education />,
-  // },
+  {
+    id: 'education',
+    title: 'Education',
+    description: 'Show off your  academic qualification  degrees, and also relevant certification.',
+    icon: <Teacher />,
+    modal: <Education />,
+  },
   {
     id: 'skills',
     title: 'Skills',
@@ -86,13 +86,13 @@ export const sections = [
     icon: <Briefcase />,
     modal: <Reference />,
   },
-  // {
-  //   id: 'shop',
-  //   title: 'Shop',
-  //   description: 'A place to highlight your professional experience A place to highlight your professional ',
-  //   icon: <Briefcase />,
-  //   modal: <Shop />,
-  // },
+  {
+    id: 'shop',
+    title: 'Shop',
+    description: 'A place to highlight your professional experience A place to highlight your professional ',
+    icon: <Briefcase />,
+    modal: <Shop />,
+  },
   {
     id: 'contact',
     title: 'Contact',

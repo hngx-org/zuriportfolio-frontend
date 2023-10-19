@@ -3,6 +3,7 @@ import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 import { RecentlyViewedData } from '../../../../../@types';
 import ProductCard from '../../ProductCard';
 import styles from '../productCardWrapper/product-card-wrapper.module.css';
+import CategoryLoading from '../../categories/CategoryLoading';
 
 function RecentlyViewed() {
   const [isLoading, setLoading] = useState(true);
@@ -10,7 +11,7 @@ function RecentlyViewed() {
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedData[]>([]);
   const token: any = isUserAuthenticated();
 
-  const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed/${token?.id}`;
+  const API_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recently-viewed/${token?.id}`;
 
   useEffect(() => {
     setReady(true);
@@ -19,7 +20,7 @@ function RecentlyViewed() {
         const response = await fetch(API_URL);
         if (response.ok) {
           const data = await response.json();
-          const limitedRecentlyViewed = data.slice(0, 8);
+          const limitedRecentlyViewed = data.data.slice(0, 8);
           setRecentlyViewed(limitedRecentlyViewed);
         } else {
           throw new Error('Network response was not ok.');
@@ -43,7 +44,13 @@ function RecentlyViewed() {
       </h3>
 
       {isLoading ? (
-        <div className="animate-pulse text-center mt-10 text-3xl text-gray-400">Loading...</div>
+        <div
+          className={`flex flex-nowrap lg:grid grid-cols-4 gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+        >
+          {[1, 2, 3, 4].map((item) => {
+            return <CategoryLoading key={item} />;
+          })}
+        </div>
       ) : (
         <>
           {recentlyViewed.length > 0 ? (

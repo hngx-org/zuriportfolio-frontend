@@ -36,7 +36,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
   const [dropDown, setDropDown] = useState<string>('Explore');
   const { cartCount, setCartCountNav } = useCart();
 
@@ -112,7 +111,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         toast.error('A search term must be provided.');
       } else {
         if (dropDown === 'Marketplace') {
-          router.push(`/marketplace/search/${searchQuery}`);
+          router.push(`/marketplace/search?q=${searchQuery}`);
         }
         if (dropDown === 'Explore') {
           localStorage.setItem('searchQuery', searchQuery);
@@ -121,7 +120,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       }
     }
   };
-  
 
   function handleDropdown(option: string) {
     setDropDown(option);
@@ -200,7 +198,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   onKeyUp={handleSearch}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search"
-                  className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%]"
+                  className="text-neutral-400 text-base font-normal leading-normal tracking-tight focus:border-0 focus:outline-none focus:ring-0 w-[100%] font-manropeL"
                 />
               </div>
               <div className="justify-start items-center gap-4 flex ">
@@ -279,10 +277,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 <li className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-3 px-4 flex gap-3">
                   <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
                   <div className="flex flex-col gap-[2px]">
-                    <h3 className="font-bold ">
+                    <h3 className="font-bold font-manropeEB">
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
                     </h3>
-                    <p>View Live Profile</p>
+                    <p className="font-manropeL">View Live Profile</p>
                   </div>
                 </li>
                 <Link
@@ -305,46 +303,48 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                       </g>
                     </g>
                   </svg>
-                  <p>Your Shop</p>
+                  <p className="font-manropeL">Your Shop</p>
                 </Link>
                 <Link
                   href="/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={dashBoard} alt="dashboard" />
-                  <p>Customer Dashboard</p>
+                  <p className="font-manropeL">Customer Dashboard</p>
                 </Link>
                 <Link
                   href="/user/customer-purchase-dashboard"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={dashBoard} alt="Setting" />
-                  <p>Customer Purchase Dashboard</p>
+                  <p className="font-manropeL">Customer Purchase Dashboard</p>
                 </Link>
                 <Link
                   href="/portfolio"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={briefCaseIcon} alt="Briefcase icon" />
-                  <p>Manage Portfolio</p>
+                  <p className="font-manropeL">Manage Portfolio</p>
                 </Link>
                 <Link
                   href="/assessments/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={likesIcon} alt="Like" />
-                  <p>Assessments & Badges</p>
+                  <p className="font-manropeL">Assessments & Badges</p>
                 </Link>
                 <Link
                   href="/settings"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={settingsIcon} alt="Setting" />
-                  <p>Settings</p>
+                  <p className="font-manropeL">Settings</p>
                 </Link>
 
                 {/* Import Logout button */}
-                <Logout />
+                <div className="font-manropeL">
+                  <Logout />
+                </div>
               </ul>
             </div>
           )}
@@ -509,10 +509,10 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         </span>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           <div className="details">
-            <p className=" font-bold">
+            <p className=" font-bold font-manropeEB">
               {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
             </p>
-            <p className="text-sm ">Zuri Team</p>
+            <p className="text-sm font-manropeL">Zuri Team</p>
           </div>
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
         </div>

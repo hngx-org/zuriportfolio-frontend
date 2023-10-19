@@ -151,7 +151,7 @@ const SearchAndFilterProducts = (prop: {
       <div className="relative -mt-[7rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
         <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
           <div className="w-full grid grid-cols-2 gap-4 md:grid-cols-[1fr_1fr_1fr_1fr_1fr]">
-            <div className="col-span-full grid gap-3 md:col-span-3">
+            <div className="col-span-full flex gap-3 md:col-span-3">
               <Input
                 onChange={(e) => {
                   prop.setSearchQuery && prop.setSearchQuery(e.target.value);
@@ -164,9 +164,16 @@ const SearchAndFilterProducts = (prop: {
                 placeHolder="Search by name or role"
                 className="w-full text-grey-900 border-[1px] border-white-120 rounded-lg placeholder:text-white-400"
               />
+              <button className="sm:hidden">
+                <Filter
+                  size={48}
+                  color="#1a1c1b"
+                  className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
+                />
+              </button>
             </div>
 
-            <div className="grid gap-3">
+            <div className="hidden sm:grid sm:gap-3">
               <CustomDropdown
                 options={['Ghana', 'Nigeria', 'Kenya']}
                 selectedValue={selectedOption}
@@ -175,7 +182,7 @@ const SearchAndFilterProducts = (prop: {
               />
             </div>
 
-            <div className="grid gap-3">
+            <div className="hidden sm:grid sm:gap-3">
               <CustomDropdown
                 options={['Trending', 'Newest', 'Popular']}
                 selectedValue={selectedOption2}
@@ -183,77 +190,62 @@ const SearchAndFilterProducts = (prop: {
                 onChange={handleCustomDropdownChange2}
               />
             </div>
-
-            <button className="hidden">
-              <Filter
-                size={48}
-                color="#1a1c1b"
-                className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
-              />
-            </button>
           </div>
         </div>
 
-        <div
-          className="h-full overflow-x-scroll mt-4 mr-[6.5rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
-          ref={sliderRef}
-          onScroll={handleScroll}
-        >
-          <div className="justify-start items-center inline-flex mt-4 gap-6">
-            {sectionsData.map((section, index) => (
+        <div className="hidden sm:block">
+          <div
+            className="h-full overflow-x-scroll mt-4 mr-[6.5rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
+            ref={sliderRef}
+            onScroll={handleScroll}
+          >
+            <div className="justify-start items-center inline-flex mt-4 gap-6">
+              {sectionsData.map((section, index) => (
+                <div
+                  key={index}
+                  className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeB text-[0.875rem] ${
+                    activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
+                  } ${section.text === 'All' ? 'hidden sm:flex' : ''}`}
+                  onClick={() => {
+                    setActiveSection(index);
+                    handleFilters(section.filterType, section.text);
+                    setShowFilterComponent(section.text === 'All Filter');
+                  }}
+                >
+                  <div className="w-6 h-6 relative">{activeSection === index ? section.icon : section.activeIcon}</div>
+                  <div className="text-center">{section.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="relative -right-1 flex">
+            {showLeftButton && (
               <div
-                key={index}
-                className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeB text-[0.875rem] ${
-                  activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-                } ${section.text === 'All' ? 'hidden sm:flex' : ''}`}
-                onClick={() => {
-                  setActiveSection(index);
-                  handleFilters(section.filterType, section.text);
-                  setShowFilterComponent(section.text === 'All Filter');
-                }}
+                className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
+                onClick={slideLeft}
               >
-                <div className="w-6 h-6 relative">{activeSection === index ? section.icon : section.activeIcon}</div>
-                <div className="text-center">{section.text}</div>
+                <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
+                  <div className="w-6 h-6 relative">
+                    <ArrowLeft2 color="#737373" />
+                  </div>
+                </div>
               </div>
-            ))}
+            )}
+
+            {showRightButton && (
+              <div
+                className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
+                onClick={slideRight}
+              >
+                <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
+                  <div className="w-6 h-6 relative">
+                    <ArrowRight2 color="#737373" />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        <div className="relative -right-1 flex">
-          {showLeftButton && (
-            <div
-              className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
-              onClick={slideLeft}
-            >
-              <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
-                <div className="w-6 h-6 relative">
-                  <ArrowLeft2 color="#737373" />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {showRightButton && (
-            <div
-              className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
-              onClick={slideRight}
-            >
-              <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
-                <div className="w-6 h-6 relative">
-                  <ArrowRight2 color="#737373" />
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* {showFilterComponent && (
-          <FilterComponent
-            closeFilterComponent={closeFilterComponent}
-            showFilterComponent={showFilterComponent}
-            filters={filters}
-            handleFilters={handleFilters}
-          />
-        )} */}
       </div>
     </section>
   );
