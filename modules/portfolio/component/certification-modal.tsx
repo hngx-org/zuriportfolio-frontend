@@ -66,7 +66,6 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   const [isLoading, setIsLoading] = useState(false);
 
   const openModal = async (e: React.FormEvent) => {
-    // console.log('openModal function called');
     e.preventDefault(); // Prevent the default form submission
     const newCertification = {
       year: formData.year,
@@ -381,7 +380,6 @@ const CertificationList: React.FC<CertificationListProps> = () => {
   const { userId } = useContext(Portfolio);
   const { refreshPage, setError, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
   const [certifications, setCertifications] = useState<Certification[]>([]);
-  // console.log(certifications);
 
   const fetchCertifications = async () => {
     try {
@@ -439,10 +437,7 @@ const CertificationList: React.FC<CertificationListProps> = () => {
       fetchCertifications();
     }
   }, [isModalOpen, refreshPage]);
-  useEffect(() => {
-    // console.log('this is the data', certifications);
-  }, [!isModalOpen]);
-  // console.log('these are the certificates', certifications);
+  useEffect(() => {}, [!isModalOpen]);
 
   return (
     <div>
@@ -462,7 +457,6 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   const { id, year, title, organization, url, description } = certification;
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const { refreshPage, setRefreshPage, isLoading, setIsLoading } = useContext(myContext);
-  // console.log('this are the certifications', certification);
 
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
@@ -477,7 +471,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   };
   // State to store the edited data
   const [editedCertification, setEditedCertification] = useState(initialEditedCertification);
-  // console.log('This is the edit certi', editedCertification);
+
   const openEditForm = () => {
     setIsEditFormOpen(true);
   };

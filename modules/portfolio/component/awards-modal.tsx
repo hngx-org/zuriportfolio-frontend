@@ -69,10 +69,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   const [isLoading, setIsLoading] = useState(false);
 
   const openModal = async (e: React.FormEvent) => {
-    // console.log('openModal function called');
     e.preventDefault(); // Prevent the default form submission
-
-    // console.log('This is the formdata', formData);
 
     const newAward = {
       year: formData.year,
@@ -176,7 +173,6 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       }));
     }
   };
-  // console.log('this is the ismodal', isModalOpen);
 
   return (
     <myContext.Provider
@@ -395,7 +391,6 @@ const AwardList: React.FC<AwardListProps> = () => {
   const { userId } = useContext(Portfolio);
   const { refreshPage, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
   const [awards, setAwards] = useState<Award[]>([]);
-  // console.log('why this is the ', awards);
 
   const fetchAwards = async () => {
     try {
@@ -406,7 +401,6 @@ const AwardList: React.FC<AwardListProps> = () => {
 
       if (response.ok) {
         const data = await response.json();
-        // console.log('Fetched awards data:', data.awards);
         setAwards(data.awards);
       } else if (status === 400) {
         notify({
@@ -455,9 +449,7 @@ const AwardList: React.FC<AwardListProps> = () => {
       fetchAwards();
     }
   }, [isModalOpen, refreshPage]);
-  useEffect(() => {
-    // console.log('this is the data', awards);
-  }, [isModalOpen]);
+  useEffect(() => {}, [isModalOpen]);
 
   return (
     <div>
@@ -477,7 +469,6 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const { refreshPage, setRefreshPage, isLoading, setIsLoading } = useContext(myContext);
-  // console.log('these are the awards', award);
 
   const [editedAward, setEditedAward] = useState(award);
   const openEditForm = () => {
