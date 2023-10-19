@@ -3,13 +3,14 @@ import React, { useContext } from 'react';
 import Modal from '@ui/Modal';
 import { Briefcase, CloseSquare } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
+import CustomSectionModal from '../custom-section-modal';
 
 function Home() {
-  const { isOpen, onClose, toggleSection, sections, userSections, setUserData } = useContext(Portfolio);
+  const { isOpen, onClose, setOpenCustom, sections, userSections, setUserData, editSection } = useContext(Portfolio);
 
   const nonMatchingSections = sections.filter((section) => {
     return !userSections.some((selected) => {
-      return section.title === selected.title && selected?.data && selected?.data?.length >= 1;
+      return section.title === selected.title && selected?.data && (selected?.data.length > 0 || selected?.data?.bio);
     });
   });
 
@@ -41,7 +42,7 @@ function Home() {
                 <div
                   key={i}
                   className="bg-[#F4FBF6] p-4 rounded-lg cursor-pointer hover:border-2 hover:border-green-500 border-2 border-transparent"
-                  onClick={() => toggleSection(section.title)}
+                  onClick={() => editSection(section.id)}
                 >
                   <div className="flex gap-2 items-center text-green-500">
                     {section.icon}
@@ -56,9 +57,11 @@ function Home() {
 
             <div
               className="bg-[#ffffff] p-4 rounded-lg flex items-center cursor-pointer border border-green-500 border-dashed hover:border-2 hover:border-green-500"
-              onClick={() => toggleSection('custom')}
+              onClick={() => setOpenCustom(true)}
             >
               <div>
+                {/* Add the custom section modal here */}
+                <CustomSectionModal />
                 <div className="flex gap-2">
                   <Briefcase className="mt-1 text-green-500" />
                   <h2 className="font-bold text-black leading-6 text-base">Custom</h2>

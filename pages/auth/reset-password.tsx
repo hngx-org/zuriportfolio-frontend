@@ -23,7 +23,6 @@ function ResetPassword() {
 
   const onResetPasswordError = (error: any) => {
     // Handle different error scenarios and display relevant error messages for each situation.
-    console.log(error.message);
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
@@ -81,8 +80,6 @@ function ResetPassword() {
 
   // handle form submission
   const handleResetPassword = (values: any) => {
-    console.log('password', values.password);
-    console.log('confirmPassword', values.confirmPassword);
     mutate({ token: token, password: values.password });
   };
 
@@ -110,14 +107,14 @@ function ResetPassword() {
                     {...form.getInputProps('password')}
                     type={showPassword[0] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
                     // isPasswordVisible={showPassword[0]} // Pass the visibility state as a prop
-                    className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                    className={`w-full text-black h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                       form.errors.password ? 'border-red-200' : ''
                     }`}
-                    placeHolder="enter password"
+                    placeHolder="Enter password"
                     rightIcon={
                       <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [!prev[0], prev[1]])}>
                         {/* Update the icon based on the visibility state of the password. */}
-                        {showPassword[0] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
+                        {showPassword[0] ? <Eye color="#464646" /> : <EyeSlash color="#464646" />}
                       </div>
                     }
                   />
@@ -134,14 +131,14 @@ function ResetPassword() {
                   {...form.getInputProps('confirmPassword')}
                   type={showPassword[1] ? 'text' : 'password'} // Change the input type dynamically based on the visibility state.
                   // isPasswordVisible={showPassword[1]} // Pass the visibility state as a prop
-                  className={`w-full h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  className={`w-full text-black h-[44px] md:h-[60px] border shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.confirmPassword ? 'border-red-200' : ''
                   }`}
-                  placeHolder="enter confirm password"
+                  placeHolder="Confirm password"
                   rightIcon={
                     <div className="cursor-pointer" onClick={() => setShowPassword((prev) => [prev[0], !prev[1]])}>
                       {/* Update the icon based on the visibility state of the password. */}
-                      {showPassword[1] ? <EyeSlash color="#464646" /> : <Eye color="#464646" />}
+                      {showPassword[1] ? <Eye color="#464646" /> : <EyeSlash color="#464646" />}
                     </div>
                   }
                 />

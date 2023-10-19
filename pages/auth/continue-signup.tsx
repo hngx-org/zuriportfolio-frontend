@@ -6,20 +6,19 @@ import AuthLayout from '../../modules/auth/component/AuthLayout';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
 import PasswordPopover from '@modules/auth/component/PasswordPopover';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { signUpUser } from '../../http/auth';
 import { notify } from '@ui/Toast';
 
 const notifyError = (message: string) => notify({ type: 'error', message, theme: 'light' });
+
 function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const onSignUpSuccess = (data: any) => {
     console.log(data);
     if (data.status === 200) {
-      console.log(data.message);
       router.push(`/auth/verification`);
       return;
     }
@@ -36,6 +35,7 @@ function Signup() {
       return;
     }
   };
+
   const { mutate: signUpUserFn, isLoading } = useAuthMutation(signUpUser, {
     onSuccess: (data) => onSignUpSuccess(data),
     onError: (error: any) => onSignUpError(error),
@@ -88,7 +88,6 @@ function Signup() {
       lastName: values.lastName,
       email: userEmail as string,
       password: values.password,
-      // confirmPassword: values.confirmPassword,
     };
 
     signUpUserFn(userData);
@@ -101,7 +100,7 @@ function Signup() {
           <h1 className="mb-1 md:mb-6 font-semibold text-dark-100 font-manropeEB text-2xl md:text-4xl text-[1.5rem]">
             Sign up
           </h1>
-          <p className="md:text-[22px] text-[#536066] font-manropeEB">Let&apos;s get you started</p>
+          <p className="md:text-[22px] text-[#536066] font-manropeEB">Let&apos;s get you started.</p>
         </div>
         <div className="mt-6 md:mt-12">
           <form className="flex flex-col" onSubmit={form.onSubmit((values) => handleSignUp(values))}>
@@ -111,10 +110,10 @@ function Signup() {
                 First name
               </label>
               <Input
-                placeHolder="enter firstname"
+                placeHolder="Enter firstname"
                 id="firstName"
                 {...form.getInputProps('firstName')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.firstName ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type="text"
@@ -128,10 +127,10 @@ function Signup() {
                 Last name
               </label>
               <Input
-                placeHolder="enter lastname"
+                placeHolder="Enter lastname"
                 id="lastName"
                 {...form.getInputProps('lastName')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.lastName ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type="text"
@@ -146,10 +145,10 @@ function Signup() {
               </label>
               <PasswordPopover password={form.values.password}>
                 <Input
-                  placeHolder="enter password"
+                  placeHolder="Enter password"
                   id="password"
                   {...form.getInputProps('password')}
-                  className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                  className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                     form.errors.password ? 'border-[red]' : 'border-slate-50'
                   }`}
                   type={passwordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
@@ -207,10 +206,10 @@ function Signup() {
                 Confirm password
               </label>
               <Input
-                placeHolder="enter confirm password"
+                placeHolder="Confirm password"
                 id="confirmPassword"
                 {...form.getInputProps('confirmPassword')}
-                className={`w-full border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
+                className={`w-full text-black border h-[44px] md:h-[60px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] ${
                   form.errors.confirmPassword ? 'border-[red]' : 'border-slate-50'
                 }`}
                 type={confirmPasswordVisible ? 'text' : 'password'} // Toggle input type based on visibility state
@@ -272,7 +271,7 @@ function Signup() {
                 />
               </span>
               <label htmlFor="agree" className="text-gray-200 text-sm font-manropeL">
-                I agree with zuri stores{' '}
+                I agree with zuri{' '}
                 <Link href={'/'} className="text-brand-green-primary hover:text-brand-green-hover">
                   Terms of Service
                 </Link>{' '}

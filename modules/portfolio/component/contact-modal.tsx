@@ -5,6 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Modal from '@ui/Modal';
 import { Add, CloseSquare } from 'iconsax-react';
 import useDisclosure from '../../../hooks/useDisclosure';
+import axios from 'axios';
+import { sendArrayOfObjects } from '../functions/sendArrayOfObjects';
+import { notify } from '@ui/Toast';
 
 const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -12,13 +15,20 @@ const generateUniqueId = () => {
   return `id-${timestamp}-${randomNumber}`;
 };
 
-function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: boolean; onClose: () => void }) {
-  // const { isOpen, onClose, onOpen } = useDisclosure();
+type contactModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  isOpen: boolean;
+  userId: string;
+};
+
+function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModalProps) {
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
   const [socials, setSocials] = useState<any[]>([]);
   const [socialmediaid, setSocialMediaId] = useState('');
   const [isForm, setIsForm] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleAddNewSocial = () => {
     setSocials((prevValues) => [
@@ -26,7 +36,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
       {
         id: generateUniqueId(),
         url: '',
-        socialId: '',
+        social_media_id: '',
       },
     ]);
   };
@@ -38,7 +48,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     if (index !== -1) {
       // Creates a new array with the updated content for the specific input
       const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], url: newValue };
+      updatedData[index] = { ...updatedData[index], url: newValue, email: email };
 
       // Update the state with the new array
       setSocials(updatedData);
@@ -52,7 +62,11 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     if (index !== -1) {
       // Creates a new array with the updated content for the specific input
       const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], socialId: newId };
+      updatedData[index] = {
+        ...updatedData[index],
+        social_media_id: newId,
+        user_id: userId,
+      };
 
       // Update the state with the new array
       setSocials(updatedData);
@@ -69,28 +83,42 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const contactObj = {
-      url: url,
-      social_media_id: socialmediaid,
-      user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
-    };
+    setLoading(true);
+    // const contactObj = {
+    //   url: "link.com",
+    //   social_media_id: 11,
+    //   user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
+    // };
+    // axios.post('https://hng6-r5y3.onrender.com/api/contacts', contactObj)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    const data = socials.map(({ id, email, social_media_id, ...rest }) => ({
+      ...rest,
+      social_media_id: Number(social_media_id),
+    }));
+    console.log(data);
 
-    try {
-      const res = await fetch('https://hng6-r5y3.onrender.com/api/contacts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(contactObj),
+    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
+      .then((res) => {
+        setLoading(false);
+        notify({
+          message: 'Contact created successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        onSaveModal();
+      })
+      .catch((err) => {
+        setLoading(false);
+        notify({
+          message: 'Error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       });
-      if (res.ok) {
-        console.log('Contact created successfully');
-      } else {
-        console.log('Failed to create contact');
-      }
-    } catch (err) {
-      console.log('error', err);
-    }
   };
   const handleDelete = async (e: React.FormEvent) => {
     console.log('delete clicked');
@@ -112,13 +140,19 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
   };
   return (
     <>
-      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         <div className="space-y bg-white-100 sm:p-10">
           <form className="flex flex-col gap-y-5">
             <div className="flex flex-col gap-3 my-19">
               <div className="flex justify-between items-center">
                 <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Contact</p>
-                <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+                <CloseSquare
+                  size="32"
+                  color="#009254"
+                  variant="Bold"
+                  onClick={onCloseModal}
+                  className="cursor-pointer"
+                />
               </div>
               <div className="bg-brand-green-primary h-1 rounded-sm"></div>
             </div>
@@ -144,7 +178,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
                         onValueChange={(value: string) => {
                           handleSocialSelectChange(social.id, value);
                         }}
-                        value={social.socialId}
+                        value={social.social_media_id}
                       >
                         <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
                           <SelectValue placeholder="Select Social" />
@@ -199,7 +233,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
             <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 type="button"
-                onClick={onClose}
+                onClick={onCloseModal}
                 intent={'secondary'}
                 className="border w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]"
                 size={'sm'}
@@ -207,8 +241,9 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
                 Cancel
               </Button>
               <Button
+                disabled={loading}
                 type="submit"
-                className="w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]"
+                className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]`}
                 size={'sm'}
                 onClick={handleSubmit}
               >
