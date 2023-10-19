@@ -14,16 +14,14 @@ function Home() {
     userSections,
     setUserData,
     editSection,
-    setGettingSection,
-    gettinSection,
-    hasPortfolio,
     setHasPortfolio,
+    getUserSections,
   } = useContext(Portfolio);
 
   const [data, setData] = React.useState<any>();
 
   useEffect(() => {
-    if (!gettinSection && userSections) {
+    if (!getUserSections.isLoading && userSections) {
       const nonMatchingSections = sections.filter((section) => {
         return !userSections.some((selected) => {
           return (
@@ -38,7 +36,7 @@ function Home() {
       setData(sections);
       setHasPortfolio(true);
     }
-  }, [gettinSection, sections, setGettingSection, setHasPortfolio, userSections]);
+  }, [getUserSections.isLoading, sections, setHasPortfolio, userSections]);
 
   return (
     <>
