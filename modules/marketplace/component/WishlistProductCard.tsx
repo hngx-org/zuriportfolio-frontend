@@ -43,7 +43,7 @@ export const WishlistProductCard = ({
                 </div>
 
                 <p className="font-bold text-[12px] md:text-[16px]">
-                  $<span>{`₦${formatToNigerianNaira(product.price)}`}</span>
+                  <span>{`₦${formatToNigerianNaira(product.price)}`}</span>
                 </p>
               </div>
 
