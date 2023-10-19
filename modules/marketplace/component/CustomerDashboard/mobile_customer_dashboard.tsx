@@ -2,11 +2,11 @@ import { useState } from 'react';
 import Pagination from '@ui/Pagination';
 import { PurchaseData } from '../../../../pages/user/customer-purchase-dashboard';
 
-const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
+const MobileCustomerDashboard = ({ data, openModalWithOrder }: { data: PurchaseData[], openModalWithOrder: (item: PurchaseData) => void }) => {
   // Function to determine the background color based on status
   const getStatusBackgroundColor = (status: string): string[] => {
     switch (status.toLowerCase()) {
-      case 'successful':
+      case 'completed':
         return ['bg-custom-color41', 'text-custom-color35']; // Return an array of background and text colors
       case 'pending':
         return ['bg-custom-color40', 'text-yellow-600'];
@@ -26,7 +26,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
         {/* mobile purchase card */}
         <div className="sm:hidden w-full overflow-hidden sm:overflow-x-auto flex flex-col gap-10">
           {data.map((item) => (
-            <div key={item.id} className="sm:hidden border border-zinc-300 h-fit rounded-xl p-6 flex flex-col gap-4">
+            <div key={item.id} className="sm:hidden border border-zinc-300 h-fit rounded-xl p-6 flex flex-col gap-4" onClick={() => openModalWithOrder(item)}>
               <div className=" w-full flex justify-between gap-4">
                 <span className="flex gap-3 items-center">
                   <input type="checkbox" />
