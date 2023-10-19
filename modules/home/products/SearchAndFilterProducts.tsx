@@ -194,6 +194,10 @@ const SearchAndFilterProducts = (prop: {
     );
   }
 
+  if (isCategoryError || isProductsError) {
+    return <div>Error loading data...</div>;
+  }
+
   return (
     <section className="p-4 xl:px-0">
       <div className="relative -mt-[7rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
@@ -440,13 +444,6 @@ const SearchAndFilterProducts = (prop: {
               <h3>No products found in this Category</h3>
             </div>
           )}
-
-          {isCategoryError ||
-            (isProductsError && (
-              <div className="flex flex-wrap justify-center items-center w-full pb-10">
-                <h3>Error Loading Category</h3>
-              </div>
-            ))}
         </div>
       </div>
     </section>
