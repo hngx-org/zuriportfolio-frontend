@@ -149,13 +149,13 @@ const PromotionHistoryRow = (props: any) => {
               Discount wil be permanently deleted from your store.
             </p>
             <Button
-              className="text-white-100 w-full bg-brand-red-primary font-manropeL p-2 rounded-lg mt-5"
+              className="text-white-100 w-full bg-brand-red-primary hover:bg-brand-red-primary  font-manropeL p-2 rounded-lg mt-5"
               onClick={handleDelete}
             >
               Delete Discount
             </Button>
             <Button
-              className="border border-brand-green-primary w-full bg-transparent p-2 text-brand-green-primary hover rounded-lg mt-3"
+              className="border border-brand-green-primary w-full bg-transparent hover:bg-transparent p-2 text-brand-green-primary hover rounded-lg mt-3"
               onClick={toggleDeleteModal}
             >
               Cancel
