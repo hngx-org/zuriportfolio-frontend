@@ -84,7 +84,7 @@ const DraftPreview = () => {
         },
       })
         .then((response) => {
-          toast.info('Loading draft data...');
+          // toast.info('Loading draft data...');
           if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.status}`);
           }
