@@ -14,6 +14,7 @@ import {
   Filter,
   MobileProgramming,
   PenTool2,
+  SearchNormal1,
 } from 'iconsax-react';
 import { Input } from '@ui/Input';
 import CustomFilterDropdown from './CustomFilterDropdown';
@@ -205,11 +206,12 @@ const SearchAndFilterProducts = (prop: {
                   prop.setFilter({});
                   setPageNumber();
                 }}
+                leftIcon={<SearchNormal1 className="text-white-400" />}
                 type="text"
                 name="search input"
                 intent={'default'}
                 placeHolder="Search product"
-                className="w-full text-grey-900 border-[1px] border-[#F0F1F0] rounded-lg placeholder:text-white-400"
+                className="w-full placeholder-white-500 text-gray-500  border-[1px] border-[#F0F1F0] rounded-lg"
               />
 
               <Popover className="relative">
@@ -439,7 +441,7 @@ const SearchAndFilterProducts = (prop: {
             </div>
           )}
 
-          {isCategoryLoading ||
+          {isCategoryError ||
             (isProductsError && (
               <div className="flex flex-wrap justify-center items-center w-full pb-10">
                 <h3>Error Loading Category</h3>
