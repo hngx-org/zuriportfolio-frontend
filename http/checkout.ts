@@ -1,6 +1,7 @@
 import { CartItemProps } from '../@types';
 import { useAuth } from '../context/AuthContext';
 import $http from './axios';
+import axios from 'axios';
 
 export const CART_ENDPOINT =
   process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
@@ -150,7 +151,7 @@ export const getRecentlyViewedProducts = async (token: string) => {
 
   try {
     const apiUrl = `${RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
-    const response = await $http.get(apiUrl, {
+    const response = await axios.get(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
