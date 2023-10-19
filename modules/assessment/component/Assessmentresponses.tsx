@@ -53,24 +53,26 @@ function Assessmentresponses(props: PropsAss<any>) {
       },
     };
     setDeleting(true);
-    // const response = await fetch(
-    //   `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}/`,
-    //   reqOptions,
-    // );
+    const response = await fetch(
+      `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${currId}/`,
+      reqOptions,
+    );
 
-    // if (response.ok) {
-    //   onDelete(
-    //     assessments.filter((item) => {
-    //       return item.id !== currId;
-    //     }),
-    //   );
-    //   setDelText('Assessment Deleted Successfully');
-    // } else {
-    //   setDelText('Failed To Delete Assessment');
-    // }
-    // setTimeout(() => {
-    //   setTodel(false);
-    // }, 4000);
+    if (response.ok) {
+      onDelete(
+        assessments.filter((item) => {
+          return item.id !== currId;
+        }),
+      );
+      setDelText('Assessment Deleted Successfully');
+    } else {
+      setDelText('Failed To Delete Assessment');
+    }
+    setTimeout(() => {
+      setTodel(false);
+      setDelText('Deleting Assessment');
+      setDeleting(false);
+    }, 4000);
   };
 
   function formatDateToPattern(dateString: string) {
