@@ -1,7 +1,7 @@
 //* Removed some unnecessary imports
 
 import React, { useState, useEffect } from 'react';
-import NavDashBoard from '../../../../modules/dashboard/component/Navbar';
+import NavDashBoard from '../../../../../modules/dashboard/component/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -10,16 +10,15 @@ import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBa
 import SellerReview from '@modules/dashboard/component/reviews/review-page/SellersReview';
 import Filter from '@modules/dashboard/component/reviews/review-page/ReviewFilter';
 import Pagination from '@ui/Pagination';
-import MainLayout from '../../../../components/Layout/MainLayout';
+import MainLayout from '../../../../../components/Layout/MainLayout';
 import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/EmptyReviewPage';
 import Container from '@modules/auth/component/Container/Container';
 import Loader from '@ui/Loader';
-import { ReviewData, ReviewApiResponse, RatsData } from '../../../../@types';
-import { set } from 'nprogress';
+import { ReviewData, ReviewApiResponse, RatsData } from '../../../../../@types';
+import Breadcrumbs from '../../../../../components/Breadcrumbs';
 
 //* Moved type definitions to @types/index.d.ts
-const UserReview = () => {
-  //* Added a function to set the page number in the url
+const SellersView = () => {
   const setPage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     router.push({
@@ -149,12 +148,12 @@ const UserReview = () => {
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
-        <NavDashBoard active="reviews" />
-        {!data ? (
+        <Breadcrumbs />
+        {!rats ? (
           <div className=" h-[70vh] flex justify-center items-center">
             <Loader />
           </div>
-        ) : data === null || data.length === 0 ? (
+        ) : rats === null || rats.averageRating === undefined ? (
           <EmptyReviewPage />
         ) : (
           <div className="flex flex-col justify-center items-center md:mb-16">
@@ -165,38 +164,19 @@ const UserReview = () => {
                   onClick={() => router.back()}
                 >
                   <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-                  {/* Commented out title for testing */}
                   {/* {router.query.title} */}
-                  Customer Reviews
+                  Customer Feedback
                 </div>
               </div>
               <div className="flex flex-col md:flex-row lg:gap-24 md:gap-10 gap-4 mx-5">
                 <div className="flex flex-row md:flex-col gap-4 md:gap-8 lg:w-80 md:w-48">
                   <div>
                     <RatingBar avgRating={rats?.averageRating!} verUser={100} />
-                    {/* <div className="md:hidden block">
-                      <p className="pt-6">Have any thoughts?</p>
-                      <Link
-                        href={`../create/${rats?.productId}`}
-                        className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
-                      >
-                        <button className="hover:text-green-200">Write a Review!</button>
-                      </Link>
-                    </div> */}
                   </div>
                   <div className="flex flex-col gap-2">
                     {ratingData.map((data, index) => (
                       <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />
                     ))}
-                    {/* <div className="hidden md:block">
-                      <p className="pt-6">Have any thoughts?</p>
-                      <Link
-                        href={`../create/${rats?.productId}`}
-                        className="flexfont-manropeB text-brand-green-pressed h-5 w-36 self-start"
-                      >
-                        <button className="hover:text-green-200">Write a Review!</button>
-                      </Link>
-                    </div> */}
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -231,13 +211,17 @@ const UserReview = () => {
                 </div>
               </div>
             </div>
-            <Pagination
-              page={currentPage}
-              pages={data[0]?.numberOfPages}
-              activePage={currentPage}
-              visiblePaginatedBtn={3}
-              setPage={setPage}
-            />
+            {data === null || data === undefined || data.length === 0 ? (
+              <div className=" w-0 h-0 m-0 p-0 hidden"></div>
+            ) : (
+              <Pagination
+                page={currentPage}
+                pages={data[0]?.numberOfPages}
+                activePage={currentPage}
+                visiblePaginatedBtn={3}
+                setPage={setPage}
+              />
+            )}
           </div>
         )}
       </Container>
@@ -245,4 +229,4 @@ const UserReview = () => {
   );
 };
 
-export default UserReview;
+export default SellersView;

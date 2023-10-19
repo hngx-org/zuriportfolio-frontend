@@ -1,5 +1,5 @@
 import Wishlist from '../../modules/marketplace/wishlist';
-import withUserAuth from '../../helpers/withAuth';
+import {withUserAuth} from '../../helpers/withAuth';
 import Head from 'next/head';
 
 const WishlistPage = () => {
@@ -27,8 +27,8 @@ const WishlistPage = () => {
           name="image"
           content="screen image representing items on your wishlist"
         />
-  
-          {/* <!-- Twitter Meta Tags --> */}
+
+        {/* <!-- Twitter Meta Tags --> */}
         <meta key="twitter:title" name="twitter:title" content="Zuri Portfolio - Wishlist" />
         <meta
           key="twitter:description"
@@ -37,15 +37,11 @@ const WishlistPage = () => {
         />
         <meta key="twitter:image" name="twitter:image" content="https://staging.zuri.team/marketplace/wishlist" />
 
-        
         {/* <!-- Facebook Meta Tags --> */}
         <meta property="og:url" content="https://staging.zuri.team/marketplace/wishlist" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Zuri Portfolio - Wishlist" />
-        <meta
-          property="og:description"
-          content="Explore and manage your wishlist on Zuri Portfolio."
-        />
+        <meta property="og:description" content="Explore and manage your wishlist on Zuri Portfolio." />
       </Head>
       <Wishlist />
     </>

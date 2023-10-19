@@ -108,6 +108,7 @@ const CreateAssessment = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
   const publishAssessment = async () => {
     console.log(newobject);
     // split question and string and number
+
     var url = '';
     if (destination === 'Publishing assessments') {
       url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
