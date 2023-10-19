@@ -14,33 +14,15 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
 
-type Props = {
-  assessment: {
-    id: number;
-    title: string;
-    createdAt: Date;
-    duration_minutes: number;
-    questions: {
-      answers: {}[];
-      question_no: number;
-      question_text: string;
-      question_type: string;
-    }[];
-    updatedAt: Date;
-  };
-};
 const DraftPreview = () => {
   const { questionIndex, setQuestionIndex } = useCreatingAssessmentContext();
 
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
   const [newQuestions, setNewQuestions] = useState<{ questions: any[] }>({ questions: [] });
 
-  const arr = [1, 2, 3];
-  const router = useRouter();
   const params = useParams();
-  const id = params?.id;
-  console.log(params);
-  // const draftId = data.id;
+  const id = params.id;
+  const router = useRouter();
   const skillid = 2;
 
   const [assessment, setAssessment] = useState({
@@ -65,6 +47,7 @@ const DraftPreview = () => {
       duration_minutes: data,
     }));
   };
+
   const [active, setActive] = useState<null | string>('button1');
   const handleClick = (button: string) => {
     setActive(button);
@@ -179,15 +162,13 @@ const DraftPreview = () => {
     // Create the structure matching the endpoint's expected format
     const combinedQuestions = [...draftData.questions, ...newQuestions.questions];
     const publishedAssessment = {
-      skill_id: id,
+      skill_id: Number(id),
       questions_and_answers: combinedQuestions.map((question, index) => ({
         question_no: index + 1,
         question_text: question.question_text,
         question_type: 'multiple_choice',
-        answer: {
-          options: question.answer.options,
-          correct_option: question.answer.correct_option,
-        },
+        options: question.answer.options,
+        correct_option: Number(question.answer.correct_option),
       })),
       assessment_name: draftData.title, // Update with the correct assessment name
       duration_in_minutes: 0, // Update with the correct duration if available
@@ -206,14 +187,20 @@ const DraftPreview = () => {
       .then((response) => {
         if (response.ok) {
           console.log('Assessment published successfully!');
+          toast.success('Draft updated successfully');
+
           // deleteDraft(id)
           // You can also update your UI or navigate to a success page here
+          setTimeout(() => {
+            router.push(`/super-admin/assessment`);
+          }, 3000);
         } else {
           console.error('Failed to publish the assessment.');
         }
       })
       .catch((error) => {
         console.error('An error occurred:', error);
+        toast.error('Error updating draft');
       });
   };
 
@@ -282,14 +269,16 @@ const DraftPreview = () => {
             <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
               <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
               <div className="p-4 flex justify-between items-center">
-                <div className="text-[20px]">
+                <div className="text-[20px] w-full">
                   <input
                     type="text"
                     id="input_assessment"
-                    className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
+                    className="w-full text-left outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
                     placeholder={draftData.title}
                     disabled={disable}
-                    onChange={(e) => {}}
+                    onChange={(e) => {
+                      setDraftData({ ...draftData, title: e.target.value });
+                    }}
                   />
                 </div>
                 <div>

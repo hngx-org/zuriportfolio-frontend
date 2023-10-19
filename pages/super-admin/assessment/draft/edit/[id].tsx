@@ -5,11 +5,7 @@ import Button from '@ui/Button';
 import ScoringScreen from '@modules/assessment/scoringScreen';
 import { useRouter } from 'next/router';
 import EditDraft from '@modules/assessment/component/editDraft';
-import Edithead from '@modules/assessment/component/edittitleHead';
 import Loader from '@ui/Loader';
-import Modal from '@modules/assessment/modals/Loadingpopup';
-import { FaSpinner } from 'react-icons/fa';
-import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
 import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -27,28 +23,6 @@ interface AssessmentData {
   duration_minutes: number;
   assessment_name: string;
 }
-
-interface AssessmentEditorProps {
-  draftData: AssessmentData;
-  setDraftData: React.Dispatch<React.SetStateAction<AssessmentData>>;
-  accessToken: string; // Pass the user's access token as a prop
-}
-
-type Props = {
-  assessment: {
-    id: number;
-    title: string;
-    createdAt: Date;
-    duration_minutes: number;
-    questions: {
-      answers: {}[];
-      question_no: number;
-      question_text: string;
-      question_type: string;
-    }[];
-    updatedAt: Date;
-  };
-};
 
 const DraftPreviewEdit: React.FC = () => {
   const [draftData, setDraftData] = useState<AssessmentData>({
@@ -75,24 +49,19 @@ const DraftPreviewEdit: React.FC = () => {
   });
 
   const [loading, setLoading] = useState(true);
+  const [disable, setDisable] = useState(true);
 
   const router = useRouter();
   const data = router.query;
   const draftId = data.id;
 
   const [active, setActive] = useState<null | string>('button1');
-  const [requestValues, setRequestValues] = useState<{ [key: string]: string }>({});
-  const [headInput, setHeadInput] = useState('');
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [err, setErr] = useState('');
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
   const handleClick = (button: string) => {
     setActive(button);
   };
 
+  //Fetch the required draft that with the same id
   useEffect(() => {
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
     const token = localStorage.getItem('zpt') ?? '';
@@ -119,16 +88,17 @@ const DraftPreviewEdit: React.FC = () => {
           setDraftData(responseData);
           setAssessment(responseData);
           setLoading(false);
+          toast.success('Draft data loaded successfully');
         })
         .catch((error) => {
           console.error('Error:', error);
           setLoading(false);
+          toast.error('Error loading draft data');
         });
     }
   }, [draftId]);
 
-  const [disable, setDisable] = useState(true);
-
+  //Updates the draft question
   const updateDraft = (updatedData: AssessmentData) => {
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
     const zptToken = localStorage.getItem('zpt') ?? '';
@@ -146,33 +116,24 @@ const DraftPreviewEdit: React.FC = () => {
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to update draft');
-          console.log('this faild', updatedData);
         }
         return response.json();
       })
       .then((responseData) => {
-        console.log('Draft updated:', responseData);
-
         // Show a success message in the modal
-        setErr('Successfully Updated!');
+        toast.success('Draft updated successfully');
 
         // Close the modal after a delay (4 seconds in this case)
         setTimeout(() => {
-          setModalOpen(false);
           router.push(`/super-admin/assessment/draft/${draftId}`);
-        }, 4000);
+        }, 3000);
       })
       .catch((error) => {
         console.error('Error updating draft:', error);
         console.log('error side', updatedData);
 
         // Show an error message in the modal
-        setErr('Failed to update draft');
-
-        // Close the modal after a delay (4 seconds in this case)
-        setTimeout(() => {
-          setModalOpen(false);
-        }, 4000);
+        toast.error('Error updating draft');
       });
   };
 
@@ -203,7 +164,6 @@ const DraftPreviewEdit: React.FC = () => {
             <Button
               className="p-3 text-white-100 text-center "
               onClick={() => {
-                setModalOpen(true);
                 updateDraft(draftData); // Call the updateDraft function with the updated data
               }}
             >
@@ -237,14 +197,14 @@ const DraftPreviewEdit: React.FC = () => {
               <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
                 <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
                 <div className="p-4 flex justify-between items-center">
-                  <div className="text-[20px]">
+                  <div className="text-[20px] w-full">
                     <input
                       type="text"
                       id="input_assessment"
-                      className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
-                      placeholder={draftData.title}
+                      className="w-full text-left outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
+                      value={draftData.title}
                       disabled={disable}
-                      onChange={(e) => {}}
+                      onChange={(e) => setDraftData({ ...draftData, title: e.target.value })}
                     />
                   </div>
                   <div>
@@ -268,10 +228,6 @@ const DraftPreviewEdit: React.FC = () => {
             <ScoringScreen assessment={assessment} skillId={2} />
           )}
         </div>
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div className="text-center text-white-100 text-[25px] font-semibold w-max">{err}</div>
-          <FaSpinner color="#fff" className="animate-spin" size={100} />
-        </Modal>
       </main>
     </MainLayout>
   );

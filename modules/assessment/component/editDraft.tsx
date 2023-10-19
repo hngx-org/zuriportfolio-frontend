@@ -39,9 +39,9 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
   const id = router.query.id;
   console.log(id);
 
-  const [options, setOptions] = useState(draftData?.questions[0]?.answer.options || []);
-  const [questionText, setQuestionText] = useState(draftData?.questions[0]?.question_text);
-  const [correctOption, setCorrectOption] = useState(draftData?.questions[0]?.answer.correct_option);
+  const [options, setOptions] = useState(draftData?.questions[questionIndex]?.answer.options || []);
+  const [questionText, setQuestionText] = useState(draftData?.questions[questionIndex]?.question_text);
+  const [correctOption, setCorrectOption] = useState(draftData?.questions[questionIndex]?.answer.correct_option);
 
   const handleDelete = (indexToDelete: number) => {
     console.log('Before deletion:', options);
@@ -100,14 +100,14 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
   };
   return (
     <div className="w-full border-[1px] border-[#DFE3E6] rounded-[18px] py-10 px-6 relative text-left">
-      <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${draftData?.questions[0]?.question_no}`}</div>
+      <div className="font-semibold text-[20px] text-[#1A1C1B]">{`Question ${draftData?.questions[questionIndex]?.question_no}`}</div>
       <div className="flex items-center pt-4 gap-x-4">
         <Input
           className="flex-1 border-[#DFE3E6] border-[1px] text-[#1A1C1B] opacity-100"
           onChange={handleQuestionTextChange}
           type="text"
           name="question"
-          placeHolder={`${draftData?.questions[0]?.question_text}`}
+          value={`${draftData?.questions[questionIndex]?.question_text}`}
           intent={'default'}
           size={15}
         />
@@ -197,7 +197,7 @@ const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData })
             {options
               .filter((option) => option !== '')
               .map((option: string, index: number) => (
-                <SelectItem key={index} value={option} placeholder={''}>
+                <SelectItem key={index} value={`${index + 1}`} placeholder={''}>
                   {option}
                 </SelectItem>
               ))}
