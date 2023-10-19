@@ -149,6 +149,82 @@ const DraftPreview = () => {
     }
   };
 
+  function deleteDraft(draftId: number) {
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
+    const token = localStorage.getItem('zpt') || ''; // Replace with your token logic
+
+    return fetch(apiUrl, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+        'X-CSRFTOKEN': token, // Add CSRF token if required
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Successfully deleted the resource
+          console.log(`Deleted draft with ID ${draftId} successfully.`);
+        } else {
+          throw new Error(`Failed to delete draft with ID ${draftId}: ${response.status}`);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        // Handle the error as needed
+      });
+  }
+
+  const publishAssessment = async () => {
+    // Create the structure matching the endpoint's expected format
+    const combinedQuestions = [...draftData.questions, ...newQuestions.questions];
+    const publishedAssessment = {
+      skill_id: id,
+      questions_and_answers: combinedQuestions.map((question, index) => ({
+        question_no: index + 1,
+        question_text: question.question_text,
+        question_type: 'multiple_choice',
+        answer: {
+          options: question.answer.options,
+          correct_option: question.answer.correct_option,
+        },
+      })),
+      assessment_name: draftData.title, // Update with the correct assessment name
+      duration_in_minutes: 0, // Update with the correct duration if available
+    };
+    console.log('data to be published', publishedAssessment);
+
+    // Send the data to the endpoint using fetch or your preferred HTTP library
+    await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/assessments/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+      body: JSON.stringify(publishedAssessment),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Assessment published successfully!');
+          // deleteDraft(id)
+          // You can also update your UI or navigate to a success page here
+        } else {
+          console.error('Failed to publish the assessment.');
+        }
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error);
+      });
+  };
+
+  // In your component, add a button or trigger to call the publishAssessment function
+  <Button
+    onClick={publishAssessment}
+    // Add other button properties like intent, size, and class name
+  >
+    Publish Assessment
+  </Button>;
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <AssessmentBanner
@@ -171,7 +247,7 @@ const DraftPreview = () => {
             <Button intent={'secondary'} size={'sm'} spinnerColor="#000" onClick={() => {}}>
               Save To Drafts
             </Button>
-            <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={() => {}}>
+            <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={publishAssessment}>
               Publish Assesments
             </Button>
           </div>
