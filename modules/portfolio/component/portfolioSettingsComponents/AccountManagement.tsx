@@ -1,8 +1,8 @@
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
+import { notify } from '@ui/Toast';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
 import { useAuth } from '../../../../context/AuthContext';
 
 interface userDetailsI {
@@ -38,12 +38,7 @@ function AccountManagement() {
     let { name, value } = event.target as any;
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
   };
-  const notifySuccess = (toastContent: string) =>
-    toast.success(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'success' });
-  const notifyError = (toastContent: string) =>
-    toast.error(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'error' });
   let errors: any = {};
-
   const handleUpdateAccount = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formValidate = validateForm();
@@ -53,14 +48,16 @@ function AccountManagement() {
       axios
         .post(`https://staging.zuri.team/api/auth/api/auth/reset-password/change`, {
           token: auth?.token,
-          // email: userDetails?.email,
           oldPassword: userDetails?.currentPassword,
           newPassword: userDetails?.newPassword,
         })
         .then((response) => {
           console.log(response);
           if (response.status === 200) {
-            notifySuccess('Account Update Successful!');
+            notify({
+              message: 'Account Update Successful',
+              type: 'success',
+            });
             setIspending(false);
             setUserDetails((prevVals) => ({
               ...prevVals,
@@ -74,8 +71,10 @@ function AccountManagement() {
         .catch((error) => {
           console.log(error);
           setIspending(false);
-          notifyError(`Error: ${error?.response?.data?.message || error?.message}`);
-          // setUserDetails((prevVals)=>({...prevVals, email: '', currentPassword:'', newPassword: '', confirmNewPassword: '' }))
+          notify({
+            message: `Error: ${error?.response?.data?.message || error?.message}`,
+            type: 'error',
+          });
         });
     }
   };
@@ -100,7 +99,6 @@ function AccountManagement() {
   };
   return (
     <div className="flex flex-col gap-y-[1rem]">
-      {/* <ToastContainer /> */}
       <form onSubmit={handleUpdateAccount} className="flex flex-col gap-y-[2rem]">
         <div className="flex flex-col gap-y-[0.5rem]">
           <label
@@ -327,6 +325,7 @@ function AccountManagement() {
         </div>
         <Button
           disabled={isPending}
+          isLoading={isPending}
           size="md"
           intent="primary"
           className="w-fit mb-8 rounded-[0.5rem] py-[0.5rem] px-[1.25rem] mt-[2rem]"

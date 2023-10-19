@@ -1,9 +1,9 @@
 import Button from '@ui/Button';
 import { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { Input } from '@ui/Input';
 import { useAuth } from '../../../../context/AuthContext';
+import { notify } from '@ui/Toast';
 
 interface userDetailsI {
   email: string;
@@ -37,12 +37,7 @@ function AccountManagementMobile() {
     let { name, value } = event.target as any;
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
   };
-  const notifySuccess = (toastContent: string) =>
-    toast.success(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'sucess2' });
-  const notifyError = (toastContent: string) =>
-    toast.error(toastContent, { closeOnClick: true, autoClose: 3000, toastId: 'error2' });
   let errors: any = {};
-
   const handleUpdateAccount = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formValidate = validateForm();
@@ -52,21 +47,33 @@ function AccountManagementMobile() {
       axios
         .post(`https://staging.zuri.team/api/auth/api/auth/reset-password/change`, {
           token: auth?.token,
-          // email: userDetails?.email,
           oldPassword: userDetails?.currentPassword,
           newPassword: userDetails?.newPassword,
         })
         .then((response) => {
           console.log(response);
           if (response.status === 200) {
-            notifySuccess('Account Update Successful!');
+            notify({
+              message: 'Account Update Successful',
+              type: 'success',
+            });
             setIspending(false);
+            setUserDetails((prevVals) => ({
+              ...prevVals,
+              email: '',
+              currentPassword: '',
+              newPassword: '',
+              confirmNewPassword: '',
+            }));
           }
         })
         .catch((error) => {
           console.log(error);
           setIspending(false);
-          notifyError(`Error: ${error?.response.data.message || error?.message}`);
+          notify({
+            message: `Error: ${error?.response?.data?.message || error?.message}`,
+            type: 'error',
+          });
         });
     }
   };
@@ -91,7 +98,6 @@ function AccountManagementMobile() {
   };
   return (
     <div className="sm:w-[465px] flex flex-col mt-[1rem] sm:mt-[2rem] sm:ml-[18px] gap-y-[1rem] mb-[37px]">
-      {/* <ToastContainer /> */}
       <form onSubmit={handleUpdateAccount} className="flex flex-col gap-y-[2rem]">
         <div className="flex flex-col gap-y-[0.5rem]">
           <label
