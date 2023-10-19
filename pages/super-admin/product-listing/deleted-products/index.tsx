@@ -109,7 +109,7 @@ const SanctionedProducts = () => {
                         className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                         key={product?.product_id}
                         onClick={() =>
-                          route.push(`/super-admin/product-listing/sanctioned-products/${product?.product_id}`)
+                          route.push(`/super-admin/product-listing/product-details/${product?.product_id}`)
                         }
                       >
                         <td className="max-w-[10vw] md:full tracking-wide font-manropeL text-base text-gray-900 px-6 py-6">
