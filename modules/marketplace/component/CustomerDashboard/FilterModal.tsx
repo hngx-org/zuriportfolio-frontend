@@ -132,6 +132,7 @@ const FilterModal = ({ filter, isOpen, onClose, setData, setLoading }: Props) =>
                 intent={'default'}
                 disabled={false}
                 placeHolder="from"
+                className="w-[12rem]"
               />
               <Input
                 onChange={(e) => {
@@ -141,11 +142,12 @@ const FilterModal = ({ filter, isOpen, onClose, setData, setLoading }: Props) =>
                 intent={'default'}
                 disabled={false}
                 placeHolder="to"
+                className="w-[12rem]"
               />
             </div>
           </div>
-          <div className="cta flex justify-end mt-[2rem]">
-            <Button intent={'primary'} size={'md'} onClick={filterByPrice}>
+          <div className="cta flex justify-center mt-[2rem]">
+            <Button intent={'primary'} size={'md'} onClick={filterByPrice} className="w-[10rem] rounded-lg">
               Filter
             </Button>
           </div>
@@ -172,17 +174,18 @@ const FilterModal = ({ filter, isOpen, onClose, setData, setLoading }: Props) =>
       {filter === 'year' && (
         <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
           <h5 className="mb-[1rem] font-bold">Enter year</h5>
-          <Input
-            onChange={(e) => {
-              setYear(e.target.value);
-            }}
-            type="number"
-            intent={'default'}
-            disabled={false}
-            placeHolder="year"
-          />
-          <div className="cta flex justify-end mt-[2rem]">
-            <Button intent={'primary'} size={'md'} onClick={filterByYear}>
+          <div className="cta flex justify-between ">
+            <Input
+              onChange={(e) => {
+                setYear(e.target.value);
+              }}
+              type="number"
+              intent={'default'}
+              disabled={false}
+              placeHolder="year"
+            />
+
+            <Button intent={'primary'} size={'md'} onClick={filterByYear} className="rounded-lg">
               Filter
             </Button>
           </div>
