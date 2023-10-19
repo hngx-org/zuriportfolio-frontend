@@ -66,7 +66,7 @@ const sliders: Slide[] = [
 ];
 
 const DynamicCategoryCarousel = () => {
-  const [slides, setSlides] = useState<Slide[]>([]);
+  const [slides, setSlides] = useState<Slide[]>(sliders);
 
   useEffect(() => {
     const fetchCategoryNames = async () => {
@@ -233,6 +233,31 @@ const DynamicCategoryCarousel = () => {
                 )}
               </div>
             ))}
+
+            {!slides ||
+              (slides.length === 0 &&
+                sliders.map((category, index) => (
+                  <div key={index} className="relative h-[250px] sm:h-[300px] w-[182.71]">
+                    {category?.section === 'shop' && (
+                      <div
+                        className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"
+                        style={{ backgroundImage: `url(${category?.src})` }}
+                      >
+                        <div className="flex justify-center w-full items-center bg-white-100 p-2 h-16 rounded-b">
+                          <div className="flex justify-center w-full space-x-2 items-center">
+                            <Image src={link} alt="link" width={30} height={30} />
+                            <div className="text-left flex flex-col">
+                              <p className="text-[11px] xl:text-[12px] font-manropeEB">{category?.name}</p>
+                              <p className="text-[11px] xl:text-[12px] font-manropeL">
+                                {category?.products} Digital Products
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )))}
           </Slider>
         </div>
       )}

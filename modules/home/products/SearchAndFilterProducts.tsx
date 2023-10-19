@@ -1,4 +1,6 @@
-import React, { Dispatch, useEffect, useRef, useState } from 'react';
+// @ts-expect-error
+import { Popover, Transition } from '@headlessui/react';
+import React, { Dispatch, Fragment, useEffect, useRef, useState } from 'react';
 import {
   Airdrop,
   ArrowDown2,
@@ -17,6 +19,8 @@ import { Input } from '@ui/Input';
 import CustomFilterDropdown from './CustomFilterDropdown';
 import axios from 'axios';
 import SectionData from './sectionData';
+import SectionProductCard from './sectionProductCard';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 type Section = {
   key?: string | number;
@@ -28,7 +32,7 @@ type Section = {
 
 const SearchAndFilterProducts = (prop: {
   setSearchQuery?: Dispatch<React.SetStateAction<string>>;
-  filters: { SortBy?: number; Country?: string };
+  filters: { SortBy?: number; Price?: string };
   handleFilters: (type: string, value: string | number) => void;
   setFilter: Dispatch<React.SetStateAction<{ SortBy?: number; Country?: string }>>;
   setPageNumber: () => void;
@@ -44,12 +48,6 @@ const SearchAndFilterProducts = (prop: {
   const { filters, handleFilters } = prop;
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = () => {
-    const slider = sliderRef.current!;
-    // setShowLeftButton(!isStart);
-    // setShowRightButton(!isEnd);
-  };
-
   const slideLeft = () => {
     const slider = sliderRef.current!;
     slider.scrollLeft -= 150;
@@ -63,22 +61,21 @@ const SearchAndFilterProducts = (prop: {
 
   const handleCustomDropdownChange = (option: string) => {
     setSelectedOption(option);
-
-    if (option === 'Nigeria' || option === 'Ghana' || option === 'Cameroon') {
-      return handleFilters('Country', option);
+    if (option === 'Lowest' || option === 'Highest') {
+      return handleFilters('Price', option);
     }
 
-    delete filters.Country;
+    delete filters.Price;
   };
   const handleCustomDropdownChange2 = (option: string) => {
     setSelectedOption2(option);
     let sort = 0;
-    if (option === 'Featured') {
+    if (option === 'Name') {
       sort = 1;
 
       return handleFilters('SortBy', sort);
     }
-    if (option === 'New Arrival') {
+    if (option === 'Date created') {
       sort = 2;
 
       return handleFilters('SortBy', sort);
@@ -86,9 +83,6 @@ const SearchAndFilterProducts = (prop: {
 
     delete filters.SortBy;
   };
-
-  const [sectionsData, setSectionsData] = useState<Section[]>([]);
-  const [productsData, setProductsData] = useState<any>([]);
 
   const fetchCategoryNames = async (): Promise<Section[]> => {
     try {
@@ -132,27 +126,66 @@ const SearchAndFilterProducts = (prop: {
       throw error;
     }
   };
-
   const fetchProducts = async (category: string) => {
     try {
       const response = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}`);
-      console.log(response.data);
-      return response.data;
+      const approvedProducts = response?.data?.data
+        ?.filter((product: { is_published: boolean }) => product.is_published === true)
+        .slice(0, 4);
+      const newProduct = approvedProducts.slice(0, 4);
+      return newProduct;
     } catch (error) {
       console.error(`Error fetching products for category ${category}:`, error);
     }
   };
+  const {
+    data: categoryData = [],
+    isLoading: isCategoryLoading,
+    isError: isCategoryError,
+  } = useQuery(['categories'], fetchCategoryNames);
+
+  const {
+    data: productsData,
+    isLoading: isProductsLoading,
+    isError: isProductsError,
+  } = useQuery(['products', activeSection], () =>
+    activeSection > 0 ? fetchProducts(categoryData[activeSection]?.text) : fetchAllProducts(),
+  );
+
+  const fetchAllProducts = async () => {
+    try {
+      const response = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/product-list`);
+      const approvedProducts = response?.data?.data
+        ?.filter((product: { is_published: boolean }) => product.is_published === true)
+        .slice(0, 4);
+      const newProduct = approvedProducts.slice(0, 4);
+      return newProduct;
+    } catch (error) {
+      console.error(`Error fetching products for category data`, error);
+    }
+  };
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchCategoryNames();
-      // const products = await fetchProducts(sectionsData[activeSection]?.text);
-      // setProductsData(products);
-      setSectionsData(data);
-    };
+    if (activeSection === 0) {
+      queryClient.invalidateQueries(['products']);
+    }
+  }, [activeSection, queryClient]);
 
-    fetchData();
-  }, []);
+  if (isCategoryLoading) {
+    return (
+      <div className="text-center flex justify-center items-center">
+        <div
+          className="animate-spin inline-block w-10 h-10 border-[3px] border-current border-t-transparent text-green-600 rounded-full"
+          role="status"
+          aria-label="loading"
+        >
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="p-4 xl:px-0">
@@ -172,20 +205,105 @@ const SearchAndFilterProducts = (prop: {
                 placeHolder="Search product"
                 className="w-full text-grey-900 border-[1px] border-[#F0F1F0] rounded-lg placeholder:text-white-400"
               />
-              <button className="sm:hidden">
-                <Filter
-                  size={48}
-                  color="#5B5F5E"
-                  className="border-2 border-brand-disabled2 text-[#5B5F5E] rounded-xl p-2 hover:bg-brand-green-primary"
-                />
-              </button>
+
+              <Popover className="relative">
+                {({ open }) => (
+                  <>
+                    <Popover.Button className={'sm:hidden'}>
+                      <Filter
+                        size={48}
+                        color={open ? '#fff' : '#5B5F5E'}
+                        className={` ${
+                          open ? 'bg-brand-green-primary' : 'bg-white-100'
+                        } border-2 border-brand-disabled2 text-[#5B5F5E] rounded-xl p-2 `}
+                      />
+                    </Popover.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1"
+                    >
+                      <Popover.Panel className="absolute z-10 mt-0 -right-10">
+                        <div className="w-[100vw] bg-white-100 p-3 rounded-md">
+                          <div className="border-2 p-3 border-[#F0F1F0]">
+                            <div>
+                              <CustomFilterDropdown
+                                options={['Lowest', 'Highest']}
+                                selectedValue={selectedOption}
+                                placeholder="Price"
+                                onChange={handleCustomDropdownChange}
+                                className="border-[#F0F1F0]"
+                              />
+                            </div>
+
+                            <div>
+                              <CustomFilterDropdown
+                                options={['Name', 'Date created']}
+                                selectedValue={selectedOption2}
+                                placeholder="Sort By"
+                                onChange={handleCustomDropdownChange2}
+                                className="border-[#F0F1F0]"
+                              />
+                            </div>
+
+                            <div className="block">
+                              <div
+                                className="h-full overflow-x-scroll mt-4 mr-[6.5rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
+                                ref={sliderRef}
+                              >
+                                <SectionData
+                                  sectionsData={categoryData}
+                                  fetchProducts={fetchProducts}
+                                  activeSection={activeSection}
+                                  setActiveSection={setActiveSection}
+                                  handleFilters={handleFilters}
+                                  fetchAllData={fetchAllProducts}
+                                  setShowFilterComponent={setShowFilterComponent}
+                                />
+                              </div>
+                              <div className="relative -right-1 flex">
+                                {showLeftButton && (
+                                  <div
+                                    className="w-12 h-12 p-3 bg-white rounded-lg border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
+                                    onClick={slideLeft}
+                                  >
+                                    <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
+                                      <div className="w-6 h-6 relative">
+                                        <ArrowLeft2 color="#737373" size={23} />
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                                <div
+                                  className="w-12 h-12 p-3 bg-white rounded-lg border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
+                                  onClick={slideRight}
+                                >
+                                  <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
+                                    <div className="w-6 h-6 relative">
+                                      <ArrowRight2 color="#737373" size={23} />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Popover.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Popover>
             </div>
 
             <div className="hidden sm:grid sm:gap-3">
               <CustomFilterDropdown
-                options={['Ghana', 'Nigeria', 'Kenya']}
+                options={['Lowest', 'Highest']}
                 selectedValue={selectedOption}
-                placeholder="Location"
+                placeholder="Price"
                 onChange={handleCustomDropdownChange}
                 className="border-[#F0F1F0]"
               />
@@ -193,7 +311,7 @@ const SearchAndFilterProducts = (prop: {
 
             <div className="hidden sm:grid sm:gap-3">
               <CustomFilterDropdown
-                options={['Trending', 'Newest', 'Popular']}
+                options={['Name', 'Date created']}
                 selectedValue={selectedOption2}
                 placeholder="Sort By"
                 onChange={handleCustomDropdownChange2}
@@ -207,14 +325,14 @@ const SearchAndFilterProducts = (prop: {
           <div
             className="h-full overflow-x-scroll mt-4 mr-[6.5rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
             ref={sliderRef}
-            onScroll={handleScroll}
           >
             <SectionData
-              sectionsData={sectionsData}
+              sectionsData={categoryData}
               fetchProducts={fetchProducts}
               activeSection={activeSection}
               setActiveSection={setActiveSection}
               handleFilters={handleFilters}
+              fetchAllData={fetchAllProducts}
               setShowFilterComponent={setShowFilterComponent}
             />
           </div>
@@ -242,6 +360,85 @@ const SearchAndFilterProducts = (prop: {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="px-3 py-4 mx-auto">
+        <div className="flex flex-wrap -m-4 ">
+          {!isProductsLoading &&
+            productsData?.length > 0 &&
+            productsData?.map(
+              (
+                product: {
+                  id: string | undefined;
+                  currency: string | undefined;
+                  shop: any;
+                  rating: number | undefined;
+                  price: string;
+                  images: Array<{ url: string }>;
+                  name: string;
+                },
+                index: number,
+              ) => (
+                <SectionProductCard
+                  key={index}
+                  title={product?.name}
+                  currency={product?.currency}
+                  price={product?.price}
+                  rating={product?.rating}
+                  shop={product?.shop?.name}
+                  image={product?.images[0]?.url}
+                  id={product?.id}
+                />
+              ),
+            )}
+
+          {isProductsLoading && (
+            <div className="flex flex-wrap justify-center items-center w-full">
+              <div className="animate-pulse flex flex-col space-y-4 w-full md:w-1/3 min-h-[340px] justify-center items-center p-3 border-2 border-[#FBFBFB]">
+                <div className="h-52 w-full bg-white-300 mb-4"></div>
+                <div className="w-full">
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                </div>
+              </div>
+
+              <div className="animate-pulse flex flex-col space-y-4 w-full md:w-1/3 min-h-[340px] justify-center items-center p-3 border-2 border-[#FBFBFB]">
+                <div className="h-52 w-full bg-white-300 mb-4"></div>
+                <div className="w-full">
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                </div>
+              </div>
+
+              <div className="animate-pulse flex flex-col space-y-4 w-full md:w-1/3 min-h-[340px] justify-center items-center p-3 border-2 border-[#FBFBFB]">
+                <div className="h-52 w-full bg-white-300 mb-4"></div>
+                <div className="w-full">
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                  <div className="h-4 bg-white-300 mb-2"></div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {!isProductsLoading && productsData?.length === 0 && (
+            <div className="flex flex-wrap justify-center items-center w-full pb-10">
+              <h3>No products found in this Category</h3>
+            </div>
+          )}
+
+          {isCategoryLoading ||
+            (isProductsError && (
+              <div className="flex flex-wrap justify-center items-center w-full pb-10">
+                <h3>Error Loading Category</h3>
+              </div>
+            ))}
         </div>
       </div>
     </section>

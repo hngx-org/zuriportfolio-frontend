@@ -16,6 +16,7 @@ type SectionsProps = {
   handleFilters: (type: string, value: string) => void;
   setShowFilterComponent: (show: boolean) => void;
   fetchProducts: (text: string) => void;
+  fetchAllData: () => void;
 };
 
 const SectionData: React.FC<SectionsProps> = ({
@@ -25,6 +26,7 @@ const SectionData: React.FC<SectionsProps> = ({
   handleFilters,
   setShowFilterComponent,
   fetchProducts,
+  fetchAllData,
 }) => {
   return (
     <div className="justify-start items-center inline-flex mt-4 gap-6">
@@ -36,6 +38,7 @@ const SectionData: React.FC<SectionsProps> = ({
         onClick={() => {
           setActiveSection(0);
           handleFilters('All', 'All');
+          fetchAllData();
           setShowFilterComponent(true);
         }}
       >
@@ -44,7 +47,7 @@ const SectionData: React.FC<SectionsProps> = ({
         </div>
         <div className="text-center">All</div>
       </div>
-      {sectionsData.map((section: Section, index: number) => (
+      {sectionsData?.map((section: Section, index: number) => (
         <div
           key={index + 1}
           className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeL text-[12px] ${
