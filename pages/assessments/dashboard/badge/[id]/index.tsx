@@ -4,6 +4,7 @@ import Badges from '@modules/assessment/component/Badges/Badges';
 import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
 import MainLayout from '../../../../../components/Layout/MainLayout';
 import ErrorData from '@modules/assessment/component/Badges/errordata';
+import { withUserAuth } from '../../../../../helpers/withAuth';
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -85,4 +86,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default withUserAuth(Page);
