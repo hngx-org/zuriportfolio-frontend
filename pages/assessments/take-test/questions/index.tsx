@@ -106,6 +106,7 @@ const Questions: React.FC = () => {
       }
       setResult(assessmentsData);
       setStoredAssessment(questionData.data.questions);
+      setStoredAssessment(res.data.questions);
       setDuration(assessmentsData?.duration_minutes);
       setIsError(false)
       setIsLoading(false)
@@ -114,7 +115,7 @@ const Questions: React.FC = () => {
     } catch (error:any) {
       console.log('catch error', error);
       setIsError(true);
-      setError(error?.message);
+      setError("Something Went Wrong");
     }finally{
       setIsLoading(false);
     }
@@ -142,7 +143,7 @@ const Questions: React.FC = () => {
       <MainLayout activePage={'questions'} showTopbar showFooter showDashboardSidebar={false}>
         <AssessmentBanner
           title="Assessment test"
-          subtitle={`You are currently writing the ${result?.title} quiz`}
+          subtitle="Something went wrong while trying to get your assessment"
           bannerImageSrc="/assets/images/banner/assm_1.svg"
         />
         <div className="flex justify-center items-center h-screen">
@@ -189,7 +190,7 @@ const Questions: React.FC = () => {
             <>
           <AssessmentBanner
             title="Assessment test"
-            subtitle="You are currently writing the  user persona quiz"
+            subtitle={`You are currently writing the ${result?.title} quiz`}
             bannerImageSrc="/assets/images/banner/assm_1.svg"
           />
           <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
