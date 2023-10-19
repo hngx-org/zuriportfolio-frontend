@@ -5,9 +5,11 @@ interface ICountdown {
   minutes: number | any;
   seconds: number | any;
   action: () => void;
+  setClearStorage?: React.Dispatch<React.SetStateAction<boolean>>;
+  clearStorage?: boolean;
 }
 
-export const CountdownTimer = ({ minutes, seconds, action }: ICountdown) => {
+export const CountdownTimer = ({ minutes, seconds, action, clearStorage, setClearStorage }: ICountdown) => {
   const [time, setTime] = React.useState<ICountdown>({ minutes, seconds, action });
 
   const tick = () => {
@@ -24,6 +26,13 @@ export const CountdownTimer = ({ minutes, seconds, action }: ICountdown) => {
   };
 
   const reset = () => setTime({ minutes: time.minutes, seconds: time.seconds, action });
+
+  React.useEffect(() => {
+    if (clearStorage === true) {
+      localStorage.removeItem('minute');
+      localStorage.removeItem('second');
+    }
+  }, [clearStorage]);
 
   React.useEffect(() => {
     const timerId = setInterval(() => {

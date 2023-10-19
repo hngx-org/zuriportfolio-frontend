@@ -9,14 +9,13 @@ import Pagination from '@ui/Pagination';
 import { useCart } from './component/CartContext';
 import Loader from '@ui/Loader';
 import { useRouter } from 'next/router';
-
+import Head from 'next/head';
 const ZuriLandingPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
-  const [categoryQuery, setCategoryQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8;
+  const productsPerPage = 10;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(true);
@@ -38,10 +37,7 @@ const ZuriLandingPage = () => {
       setShowLoader(true);
       if (shop_id) {
         try {
-          console.log('Fetching shop data for shop_id:', shop_id);
-
           const response = await axios.get(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shop_id}`);
-          console.log('Shop data:', response.data);
 
           setShop(response.data);
 
@@ -50,12 +46,10 @@ const ZuriLandingPage = () => {
             setLoading(false);
           }, 2000);
         } catch (error) {
-          console.error('Error fetching data:', error);
           setLoading(false);
           setShowLoader(false);
         }
       } else {
-        console.error('shop_id is not provided.');
         setLoading(false);
         setShowLoader(false);
       }
@@ -64,22 +58,17 @@ const ZuriLandingPage = () => {
     if (router.query.shop_id) {
       const newShopId = router.query.shop_id as string;
       setShopId(newShopId);
-      console.log('Router shop_id:', newShopId);
     }
 
     fetchShopData();
   }, [router.query.shop_id, shop_id]);
 
-  console.log('Current shop_id:', shop_id);
-  console.log('Shop data:', shop);
   if (shop && shop.data) {
     const shopName = shop.data?.name;
-    console.log('Shop name:', shopName);
   }
 
   if (shop && shop.data) {
     const shopP = shop.data?.products;
-    console.log('Shop name:', shopP);
   }
 
   useEffect(() => {
@@ -96,10 +85,28 @@ const ZuriLandingPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <Head>
+        <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''}</title>
+        <meta
+          name="description"
+          content="Discover a versatile online marketplace where sellers can showcase their products, and buyers can find a wide range of goods. Shop for unique handcrafted items, everyday essentials, and more."
+        />
+        <meta property="og:title" content={shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''} />
+        <meta
+          property="og:description"
+          content={`Experience the magic of ${
+            shop ? shop.data?.name : 'Shop'
+          } Shop, a place where you can discover, shop, and thrive. Our exceptional products cater to all your needs. Join us today!`}
+        />
+
+        <meta
+          property="og:url"
+          content="https://zuriportfolio-frontend-pw1h.vercel.app/shop?shop_id=3a9a50be-990d-492b-bcfa-0936d6d8d82b"
+        />
+      </Head>
       <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
-        setCategoryQuery={setCategoryQuery}
         cartItemCount={cartItemCount}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
@@ -133,7 +140,7 @@ const ZuriLandingPage = () => {
         </div>
 
         <div className="w-full mx-auto flex justify-center">
-          {shop ? (
+          {totalPageCount > 1 && (
             <Pagination
               visiblePaginatedBtn={5}
               activePage={currentPage}
@@ -141,7 +148,7 @@ const ZuriLandingPage = () => {
               page={currentPage}
               setPage={handlePageChange}
             />
-          ) : null}
+          )}
         </div>
       </div>
       <Footer shopName={shop ? shop.data?.name : ''} />
