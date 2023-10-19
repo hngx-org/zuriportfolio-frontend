@@ -86,13 +86,13 @@ export const sections = [
     icon: <Briefcase />,
     modal: <Reference />,
   },
-  // {
-  //   id: 'shop',
-  //   title: 'Shop',
-  //   description: 'A place to highlight your professional experience A place to highlight your professional ',
-  //   icon: <Briefcase />,
-  //   modal: <Shop />,
-  // },
+  {
+    id: 'shop',
+    title: 'Shop',
+    description: 'A place to highlight your professional experience A place to highlight your professional ',
+    icon: <Briefcase />,
+    modal: <Shop />,
+  },
   // {
   //   id: 'contact',
   //   title: 'Contact',
