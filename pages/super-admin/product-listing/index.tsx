@@ -7,8 +7,8 @@ import { useState } from 'react';
 
 const ProductListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isLoading } = useGetProd(currentPage, '');
-
+  const [searchVal, setSearchVal] = useState('');
+  const { data, isLoading } = useGetProd(currentPage, searchVal);
   return (
     <div>
       <SuperAdminNavbar />
@@ -18,6 +18,8 @@ const ProductListing = () => {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         isLoading={isLoading}
+        searchVal={searchVal}
+        setSearchVal={setSearchVal}
       />
     </div>
   );

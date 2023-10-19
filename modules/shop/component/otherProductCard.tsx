@@ -1,34 +1,30 @@
-// components/ProductCard.tsx
 import Image from 'next/image';
 import { Products } from '../../../@types';
 import star1 from '../../../public/assets/star1.svg';
 import star2 from '../../../public/assets/star2.svg';
 import Link from 'next/link';
-import router from 'next/router';
 
 interface ProductCardProps {
   product: Products;
+  shopName: string;
 }
 
-const OtherProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const shopName = router.query.shopName || '';
-
+const OtherProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
   return (
     <div className="p-[0.66rem] md:p-4 shadow border h-auto sm:h-[22.75rem] md:h-auto rounded-md bg-[#ffffff]">
-      
-        <Link href={`/shop/product?id=${product.id}`} passHref>
+      <Link href={`/shop/product?id=${product.id}`} passHref>
         <div className="relative w-full h-[7.5rem] sm:h-[70%] md:h-[13.0625rem]">
           <Image
             src={product.image[0].url}
             alt={product.name}
             fill
-            style={{objectFit:"cover"}}
+            style={{ objectFit: 'cover' }}
             sizes="(max-width: 780px) 100vw, (max-width: 1024px) 50vw, 700px"
             priority
             className="rounded-md "
           />
         </div>
-        </Link>{' '}
+      </Link>{' '}
       <div className="flex flex-col gap-[0.33rem] flex-grow">
         <div>
           <h3 className="mt-2 text-sm text-[#052011] font-normal capitalize truncate md:tracking-[0.00088rem]">

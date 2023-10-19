@@ -26,26 +26,20 @@ import Head from 'next/head';
 export default function ProductDetails() {
   const router = useRouter();
   const { cart } = useCart();
+  const { auth } = useAuth();
+  const { addToCart } = useCart();
   const [product, setProduct] = useState<Products | null>(null);
-  const [image, setImage] = useState<any>(product?.image);
   const [showAll, setShowAll] = useState(false);
   const [shopID, setShopID] = useState('');
+  const [shopName, setShopName] = useState('');
   const [otherProducts, setOtherProducts] = useState<Products[]>([]);
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const { auth } = useAuth();
   const cartItemCount = cart.length;
-
   const handleCategoryChange = () => {};
-  const handleShowMoreClick = () => {
-    setShowAll(!showAll);
-  };
-
   const ZOOM = 250;
-  const shopName = router.query.shopName || '';
 
   useEffect(() => {
     const { id } = router.query;
@@ -55,6 +49,7 @@ export default function ProductDetails() {
         .then((response) => {
           setProduct(response.data);
           setShopID(response.data.shop.id);
+          setShopName(response.data.shop.name);
         })
         .catch((error) => {
           console.error('Error fetching product details:', error);
@@ -143,10 +138,6 @@ export default function ProductDetails() {
       </div>
     );
   }
-
-  // const updateImage = (newImage: any) => {
-  //   setImage(newImage);
-  // };
 
   const handleAddToCart = async () => {
     if (!auth) {
@@ -238,7 +229,7 @@ export default function ProductDetails() {
       <main className={`p-4 container mx-auto`}>
         <div className="self-start mb-[8px]">
           <span className="font-manropeEL text-xs md:text-sm tracking-[0.00375rem] md:tracking-[0.00088rem] font-normal lg:text-base">
-            <Breadcrumbs shopId={shopID}/>
+            <Breadcrumbs shopId={shopID} />
           </span>
         </div>
         <a onClick={() => router.back()} className="self-start">
@@ -258,8 +249,8 @@ export default function ProductDetails() {
                 src={product.image && product.image[0] ? product.image[0].url : ''}
                 alt={product.name}
                 fill
-                style={{objectFit:"cover"}}
-                sizes='100vw'
+                style={{ objectFit: 'cover' }}
+                sizes="100vw"
                 priority
                 className="img max-w-none w-full h-auto absolute"
               />
@@ -443,7 +434,6 @@ export default function ProductDetails() {
                 </button>
               </div>
               <div className="flex items-center justify-center sm:hidden ">
-
                 <button
                   type="button"
                   className="flex leading-6 text-base font-manropeB font-bold text-brand-green-primary"
@@ -465,13 +455,13 @@ export default function ProductDetails() {
           {otherProducts.length > 0 ? (
             <>
               <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
-                <ShopProductList products={otherProducts.slice(0, 8)} productId={product.id} />
+                <ShopProductList products={otherProducts.slice(0, 8)} productId={product.id} shopName={shopName} />
               </div>
               <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
-                <ShopProductList products={otherProducts.slice(0, 6)} productId={product.id} />
+                <ShopProductList products={otherProducts.slice(0, 6)} productId={product.id} shopName={shopName} />
               </div>
               <div className="md:mx-[0.66rem] mx-0 md:hidden block">
-                <ShopProductList products={otherProducts.slice(0, 4)} productId={product.id} />
+                <ShopProductList products={otherProducts.slice(0, 4)} productId={product.id} shopName={shopName} />
               </div>
             </>
           ) : (
