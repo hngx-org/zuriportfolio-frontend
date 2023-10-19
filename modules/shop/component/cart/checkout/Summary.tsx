@@ -70,7 +70,7 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
             <div className="cart-summary__prices flex flex-col space-y-3">
               <div className="sum flex justify-between">
                 <p className="font-bold">Subtotal</p>
-                <span className="text-gray-200">₦ {summary.subtotal ? summary.subtotal.toFixed(2) : ""}</span>
+                <span className="text-gray-200">₦ {summary.subtotal ? summary.subtotal.toFixed(2) : ''}</span>
               </div>
 
               <div className="sum flex justify-between">
@@ -80,7 +80,9 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
 
               <div className="sum flex justify-between">
                 <p className="font-bold">Vat</p>
-                <span className="text-brand-red-primary transition-all duration-300">+₦ {summary.VAT ? summary.VAT.toFixed(2): ""}</span>
+                <span className="text-brand-red-primary transition-all duration-300">
+                  +₦ {summary.VAT ? summary.VAT.toFixed(2) : ''}
+                </span>
               </div>
             </div>
 
@@ -89,7 +91,9 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
             <div className="cart-total">
               <div className="sum flex justify-between">
                 <p className="font-bold">Total:</p>
-                <span className="font-bold text-xl transition-all duration-300">₦ {summary.total ? summary.total.toFixed(2): ""}</span>
+                <span className="font-bold text-xl transition-all duration-300">
+                  ₦ {summary.total ? summary.total.toFixed(2) : ''}
+                </span>
               </div>
             </div>
 
