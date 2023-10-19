@@ -9,6 +9,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { isUserAuthenticated } from '../hooks/useAuthHelper';
 import { CART_ENDPOINT } from '../../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
+import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
 
 export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { auth } = useAuth();
@@ -37,7 +38,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
       return price;
     }
 
-    return price.toLocaleString('en-US', {
+    return price.toLocaleString('en-NG', {
       useGrouping: true,
       minimumFractionDigits: 2,
     });
@@ -99,7 +100,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
                       <div className=" w-[100px] h-[36px] bg-custom-color23 rounded-[8px] flex items-center justify-center tracking-[0.4%] text-white-100 font-manropeL font-semibold text-[12px]">
                         Top Picks
                       </div>
-                      <div className="border-[2px] border-white-100 ml-[115px]">
+                      <div className="border-none border-white-100 ml-[115px]">
                         <Image src="/close-circle.png" alt="close" width={32} height={32} />
                       </div>
                     </div>
@@ -125,7 +126,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
                     </p>
                   </div>
                   <p className="text-custom-color43 font-manropeL text-[22px] font-bold ">
-                    {`$${formatPrice(item.price)}`}
+                    {formatToNigerianNaira(item.price)}
                   </p>
                 </div>
 
@@ -137,12 +138,12 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
             </Link>
             <div className="flex flex-row items-center gap-[8px] mt-[24px]">
               <button
-                className="w-[48px] py-[12px] px-[8px] border-[1px] border-custom-color32 rounded-[8px]"
+                className="w-[48px] py-[12px] px-[8px] border-[1px] border-custom-color32 rounded-[8px] hover:bg-[#06C270]"
                 onClick={() => addToCart(item?.id)}
               >
                 <Image src="/cart.png" width={24} height={24} alt="cart" />
               </button>
-              <div className="text-custom-color43 text-[16px] font-normal tracking-[0.08px] w-[100%] px-[16px] py-[12px] rounded-[8px] flex items-center justify-center border-[1px] border-brand-green-primary">
+              <div className="text-custom-color43 text-[16px] font-normal tracking-[0.08px] w-[100%] px-[16px] py-[12px] rounded-[8px] flex items-center justify-center border-[1px] border-brand-green-primary cursor-pointer hover:bg-[#06C270] hover:text-white-100">
                 Buy Now
               </div>
             </div>
