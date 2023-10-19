@@ -66,8 +66,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
     setTo(education.to);
     setIsForm(true);
   };
-
-  console.log(degreeOptions, 'degreeOptions from');
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
       <div className="space-y-6 bg-white-100 p-4 py-5">
@@ -134,7 +132,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                           setIsEditMode(true);
                           setEditingEducation(education);
                           prefillForm(education);
-                          // handleEditEducation(education.id);
                           setIsData(false);
                         }}
                       >
@@ -193,7 +190,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
         <>
           {isForm && (
             <form
-              // onSubmit={(e) => addNewEducation(e)}
               onSubmit={(e) => (isEditMode ? handleEditEducation(e, editingEducationId) : addNewEducation(e))}
               className=""
             >
@@ -210,7 +206,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                       <SelectValue placeholder="Select a degree" />
                     </SelectTrigger>
                     <SelectContent>
-                      {degreeOptions?.map((option: Omit<DegreeOption, 'id'> & { id: string }) => (
+                      {degreeOptions.map((option: Omit<DegreeOption, 'id'> & { id: string }) => (
                         <SelectItem
                           key={option.id}
                           value={option.id}

@@ -107,7 +107,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         school,
         from,
         to,
-        degree, // You may need to add the degree information as well
+        degree,
       };
       const response = await fetch(`${API_BASE_URL}api/updateEducationDetail/${educationId}`, {
         method: 'PATCH',
@@ -118,7 +118,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       });
       if (response.ok) {
         notify({
-          message: 'Education detail updated successfully',
+          message: 'Education detail created successfully',
           position: 'top-center',
           theme: 'light',
           type: 'success',
@@ -128,7 +128,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setIsData(true);
         setEditingEducationId('');
       } else {
-      } // Request failed, handle the error
+      }
       console.error('Request failed with status:', response.status);
     } catch (error) {
       console.error(error);
@@ -158,7 +158,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       });
     }
   };
-  // Extract the education IDs
   const getAllEducation = useCallback(async () => {
     console.log('Edu', userId);
     try {
@@ -171,12 +170,11 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         // Extract the education IDs
         const educationIds = educations.map((education) => education.id);
         console.log(education.degree);
-        // console.log(education.degree.id)
       }
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [userId]);
 
   const addNewEducation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -194,9 +192,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       }
 
       if (missingFields.length > 0) {
-        // Handle the case when required values are missing
         const missingFieldsString = missingFields.join(', ');
-        // Notify the user about missing fields
         notify({
           message: `Please fill in the required fields: ${missingFieldsString}`,
           position: 'top-center',
@@ -212,11 +208,10 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       const response = await fetch(`${API_BASE_URL}api/education/${userId}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Set the content type to JSON
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           fieldOfStudy,
-          // degreeOptions,
           degree_id: +selectedDegreeId,
           school,
           description,
@@ -238,7 +233,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setIsForm(false);
         setIsData(true);
       } else {
-        // Request failed, handle the error
         console.error('Request failed with status:', response.status);
         notify({
           message: 'We had some issues adding ur Education detail',
@@ -257,10 +251,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       getAllEducation();
     }
   }, [getAllEducation, userId]);
-
-  // useEffect(() => {
-  //   console.log('User work experience ', workExperiences);
-  // }, [workExperiences]);
 
   return (
     <EducationModalContext.Provider
