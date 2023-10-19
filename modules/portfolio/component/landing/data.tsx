@@ -93,13 +93,13 @@ export const sections = [
   //   icon: <Briefcase />,
   //   modal: <Shop />,
   // },
-  // {
-  //   id: 'contact',
-  //   title: 'Contact',
-  //   description: 'A place to highlight your professional experience A place to highlight your professional ',
-  //   icon: <Briefcase />,
-  //   modal: <Contact />,
-  // },
+  {
+    id: 'contact',
+    title: 'Contact',
+    description: 'A place to highlight your professional experience A place to highlight your professional ',
+    icon: <Briefcase />,
+    modal: <Contact />,
+  },
 ];
 
 export let workexperiences = [

@@ -73,6 +73,8 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
 
+  console.log(userId);
+
   const handleEditExperience = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     e?.preventDefault();
@@ -167,6 +169,11 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   }, [userId]);
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
+    const startDate = `${startMonth} ${startYear}`;
+    const endDate = `${endMonth} ${endYear}`;
+
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
     e?.preventDefault();
     setIsLoading(true);
     try {
@@ -193,6 +200,19 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       // if (endYear === '') {
       //   missingFields.push('End Year');
       // }
+
+      if (endDateObj < startDateObj) {
+        console.log('true');
+        notify({
+          message: 'End date must be greater that start date',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      console.log(startDate, endDate);
 
       if (missingFields.length > 0) {
         // Handle the case when required values are missing

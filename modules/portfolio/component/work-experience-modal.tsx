@@ -10,6 +10,7 @@ import { WorkExperienceModalContext } from '../context/work-experience-modal-con
 import Loader from '@ui/Loader';
 import { WorkExperience as WorkExperienceSkeleton } from './landing/Skeleton';
 import Portfolio from '../../../context/PortfolioLandingContext';
+import { generateEndYears } from '../data';
 
 type WorkExperienceModalProps = {
   onCloseModal: () => void;
@@ -51,7 +52,8 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
   } = useContext(WorkExperienceModalContext);
   const [editingExperienceId, setEditingExperienceId] = useState<number | null>(null);
   const [editingExperience, setEditingExperience] = useState<WorkExperience | null>(null);
-  // const { onSaveModal } = useContext(Portfolio);
+  const [selectedStartYear, setSelectedStartYear] = useState('');
+  const [endYears, setEndYears] = useState<any>([]);
 
   const prefillForm = (experience: WorkExperience) => {
     setEditingExperienceId(experience.id);
@@ -107,30 +109,32 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
         <>
           {isData && (
             <>
-              {workExperiences.map((experience: WorkExperience, index: number) => (
-                <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
-                  <WorkExperienceSkeleton data={experience} />
-                  <div className="self-end pb-4 flex gap-4 font-manropeL">
-                    <span
-                      className="font-semibold cursor-pointer text-[#5B8DEF]"
-                      onClick={(e) => {
-                        setIsEditMode(true);
-                        setEditingExperience(experience);
-                        prefillForm(experience);
-                        setIsData(false);
-                      }}
-                    >
-                      Edit
-                    </span>
-                    <span
-                      className="font-semibold cursor-pointer text-brand-red-hover"
-                      onClick={(e) => handleDeleteExperience(experience.id, e)}
-                    >
-                      Delete
-                    </span>
-                  </div>
-                </article>
-              ))}
+              {workExperiences.map((experience: WorkExperience, index: number) => {
+                return (
+                  <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
+                    <WorkExperienceSkeleton data={experience} />
+                    <div className="self-end pb-4 flex gap-4 font-manropeL">
+                      <span
+                        className="font-semibold cursor-pointer text-[#5B8DEF]"
+                        onClick={(e) => {
+                          setIsEditMode(true);
+                          setEditingExperience(experience);
+                          prefillForm(experience);
+                          setIsData(false);
+                        }}
+                      >
+                        Edit
+                      </span>
+                      <span
+                        className="font-semibold cursor-pointer text-brand-red-hover"
+                        onClick={(e) => handleDeleteExperience(experience.id, e)}
+                      >
+                        Delete
+                      </span>
+                    </div>
+                  </article>
+                );
+              })}
             </>
           )}
         </>
@@ -226,7 +230,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         }}
                         value={startMonth}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] outline-none">
                           <SelectValue placeholder="Month" />
                         </SelectTrigger>
                         <>
@@ -244,10 +248,13 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                       <Select
                         onValueChange={(value: string) => {
                           setStartYear(value);
+                          setSelectedStartYear(value); // Update selected start year
+                          const generatedEndYears = generateEndYears(value); // Generate end year options
+                          setEndYears(generatedEndYears); // Set end year options
                         }}
                         value={startYear}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] outline-none">
                           <SelectValue placeholder="Year" />
                         </SelectTrigger>
                         <>
@@ -275,7 +282,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         }}
                         value={endMonth}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] outline-none">
                           <SelectValue placeholder="Month" />
                         </SelectTrigger>
                         <>
@@ -296,17 +303,36 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         }}
                         value={endYear}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] border-[2px] outline-none">
                           <SelectValue placeholder="Year" />
                         </SelectTrigger>
                         <>
                           <SelectContent>
-                            {years.map((year, index) => (
-                              <SelectItem key={index} value={year.value}>
-                                {year.label}
-                              </SelectItem>
-                            ))}
+                            {endYears.length === 0
+                              ? years.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))
+                              : endYears.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))}
                           </SelectContent>
+                          {/* <SelectContent>
+                            {endYear.length === 0
+                              ? years.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))
+                              : endYears.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))}
+                          </SelectContent> */}
                         </>
                       </Select>
                     </>
