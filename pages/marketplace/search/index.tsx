@@ -19,11 +19,10 @@ export default function Index() {
 
   // access the query parameter from the URL using router
   const {
-    query: { searchQuery },
+    query: { q },
   } = useRouter();
 
-  console.log(searchQuery);
-  const Query = Array.isArray(searchQuery) ? searchQuery[0] : searchQuery;
+  const Query = Array.isArray(q) ? q[0] : q;
 
   // fetch and update search results when the component mounts or Query changes
   useEffect(() => {
