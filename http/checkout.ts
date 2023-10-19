@@ -19,10 +19,10 @@ export const addToCart = async (cartItems: string[], token: string) => {
         },
       },
     );
-    if (response.status == 201) {
+    if (response.data.status == 201) {
       return { status: response.data.status, data: response.data.data };
     }
-    return { status: false };
+    return { status: 400 };
   } catch (error) {
     console.log(error);
     return { status: false, error: error };
@@ -126,26 +126,25 @@ export const makePayment = async (selectedPaymentMethod: string, token: string) 
       return response.data;
     } catch (error) {
       console.error('Error making payment:', error);
-      return {status: false, data: null}
+      return { status: false, data: null };
     }
   } else {
     throw new Error('Please select a payment method before making the payment.');
   }
 };
 
-const getTokenDetails = async (token:string) => {
+const getTokenDetails = async (token: string) => {
   try {
-    const response = await $http.post("https://staging.zuri.team/api/auth/api/authorize",{token});
-    return response.data
-  } catch(error) {
-    return error
+    const response = await $http.post('https://staging.zuri.team/api/auth/api/authorize', { token });
+    return response.data;
+  } catch (error) {
+    return error;
   }
-}
-
+};
 
 export const getRecentlyViewedProducts = async (token: string) => {
-    const user_res = await getTokenDetails(token);
-    const user_id = user_res.user.id
+  const user_res = await getTokenDetails(token);
+  const user_id = user_res.user.id;
 
   try {
     const apiUrl = `${RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
@@ -154,7 +153,7 @@ export const getRecentlyViewedProducts = async (token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error('Error fetching data', error);
     return [];

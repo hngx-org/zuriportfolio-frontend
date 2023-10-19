@@ -19,9 +19,8 @@ function LandingPage() {
     try {
       fetch(`${baseUrl}recommendations/`)
         .then((res) => res.json())
-        .then((data) => setRecommendedProduct({ isLoading: false, items: data }));
+        .then((data) => setRecommendedProduct({ isLoading: false, items: data.data }));
     } catch (error) {
-      console.log(error);
       setRecommendedProduct({ isLoading: false, items: [] });
     }
     //Limited Offer was routed to description page
