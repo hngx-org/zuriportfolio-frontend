@@ -41,8 +41,8 @@ export default function ProductDetailsDescription() {
  
 
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${id}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${id}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -109,7 +109,7 @@ export default function ProductDetailsDescription() {
     };
 
     try {
-      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
+      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/wishlist/', data);
 
       console.log(response);
       if (response.status === 201) {
