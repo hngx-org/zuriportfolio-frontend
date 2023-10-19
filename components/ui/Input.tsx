@@ -149,6 +149,18 @@ export function Input({
         disabled={isLoading ?? disabled}
         {...props}
       />
+      <style jsx>{`
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: #000;
+          //this transition actually does nothing, its a fallback for older chrome browswers
+          transition: background-color 5000s ease-in-out 0s;
+          box-shadow: inset 0 0 20px 20px #fff;
+        }
+      `}</style>
       {rightIcon && rightIcon}
     </div>
   );
