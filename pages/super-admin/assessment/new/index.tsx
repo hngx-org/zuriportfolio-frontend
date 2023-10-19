@@ -28,39 +28,20 @@ const CreateAssessment = () => {
   const skillid: any = data.name;
   const [destination, setDestination] = useState('');
   const [newtitle, setNewTitle] = useState('');
+
   const [newobject, setObject] = useState({
     skill_id: skillid,
-    id: 0,
     questions_and_answers: [
       {
         question_no: 1,
         question_text: '',
         question_type: 'multiple_choice',
-        answer: {
-          options: [''],
-          correct_option: '',
-        },
+        options: [''],
+        correct_option: 0,
       },
     ],
     assessment_name: '',
-    title: '',
     duration_in_minutes: 0,
-  });
-
-  const [assessment, setAssessment] = useState({
-    id: newobject.id,
-    title: newobject.assessment_name, // Assuming 'assessment_name' is the title
-    createdAt: new Date(),
-    duration_minutes: newobject.duration_in_minutes,
-    questions: [
-      {
-        answers: [{}],
-        question_no: 1,
-        question_text: '',
-        question_type: newobject.questions_and_answers[0].question_type,
-      },
-    ],
-    updatedAt: new Date(),
   });
 
   const [active, setActive] = useState<null | string>('button1');
@@ -73,23 +54,30 @@ const CreateAssessment = () => {
   const publishClick = () => {
     var i = 0;
     var total = newobject.questions_and_answers.length;
-    console.log(total, i);
     newobject.questions_and_answers.forEach((obj) => {
-      if (obj.answer.correct_option !== '') {
+      if (obj.correct_option !== 0) {
         i++;
       }
     });
-    if (total === i) {
+    if (total != i) {
+      toast.error('Ensure all correct options are selected');
+    } else if (newobject.assessment_name === '') {
+      toast.error('OOPS! Looks like you forgot to write the assessment name');
+    } else if (newobject.duration_in_minutes === 0) {
+      toast.error('Oops! You did not set assessment duration? Click on scoring and set');
+    } else {
       setListupdate('save');
       setDestination('Publishing assessments');
-    } else {
-      toast.error('Ensure all correct options are selected');
     }
   };
   const [modalopen, setModalOpen] = useState(false);
   const draftsClick = () => {
-    setListupdate('save');
-    setDestination('Saving to drafts');
+    if (newobject.assessment_name === '') {
+      toast.error('OOPS! Looks like you forgot to write the assessment name');
+    } else {
+      setListupdate('save');
+      setDestination('Saving to drafts');
+    }
   };
   const [disable, setDisable] = useState(true);
 
@@ -102,7 +90,6 @@ const CreateAssessment = () => {
   const scoringClick = () => {
     setListupdate('scoreclick');
     handleClick('button2');
-    console.log(listupdate);
   };
   const questionClick = () => {
     setListupdate('addquest');
@@ -110,9 +97,7 @@ const CreateAssessment = () => {
   };
 
   const publishAssessment = async () => {
-    console.log(newobject);
     // split question and string and number
-
     var url = '';
     if (destination === 'Publishing assessments') {
       url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
@@ -136,9 +121,10 @@ const CreateAssessment = () => {
       console.log('Error' + postEnd.status);
       // setModalOpen(false);
       if (destination === 'Publishing assessments') {
-        toast.error('ensure all fields are correctly filled');
+        toast.error('Be sure the assessment name does not exist already. Double check fields');
       }
       setPostLoading(false);
+      setListupdate('waiting');
     }
     if (postEnd.ok) {
       if (destination === 'Publishing assessments') {
@@ -149,6 +135,7 @@ const CreateAssessment = () => {
       setPostLoading(false);
       setModalOpen(true);
       onclose;
+      setListupdate('clear');
     }
   };
 
@@ -183,9 +170,10 @@ const CreateAssessment = () => {
           <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
             {modalopen && (
               <Modal isOpen={!isOpen} closeModal={onOpen} title={newtitle} isCloseIconPresent={false} size="sm">
+                {' '}
                 {destination === 'Publishing assessments' ? (
                   <Link href={'/super-admin/assessment/'}>
-                    <Button>View assessments</Button>
+                    <Button className="w-full my-4">View assessments</Button>
                   </Link>
                 ) : (
                   <div className="p-4">
@@ -197,7 +185,7 @@ const CreateAssessment = () => {
                       <Button className="w-full">Go back to home page</Button>
                     </Link>
                   </div>
-                )}
+                )}{' '}
               </Modal>
             )}
             <main className="w-full">

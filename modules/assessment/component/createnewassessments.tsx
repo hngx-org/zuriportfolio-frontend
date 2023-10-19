@@ -11,33 +11,29 @@ import { UpdateContext } from '../../../pages/super-admin/assessment/new';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 import Image from 'next/image';
+import { clear } from 'console';
 const CreateTemplate = () => {
   const [newobject, setObject]: any = useContext(ToPushContext);
   const [list, setList] = useState(questions_and_answers);
-  const handleinputQuestion = (e: any, index: number) => {
-    const updatedData = [...list];
-    updatedData[index].question_text = e.target.value;
-    setList(updatedData);
+  const updatelistinobj = () => {
     const newt = { ...newobject };
     newt.questions_and_answers = list;
     setObject(newt);
   };
+  const handleinputQuestion = (e: any, index: number) => {
+    const updatedData = [...list];
+    updatedData[index].question_text = e.target.value;
+    setList(updatedData);
+    updatelistinobj();
+  };
+
   const [listupdate, setListupdate]: any = useContext(UpdateContext);
   const handleinputOption = (e: any, index: number, n: number) => {
     console.log(index, n);
     const updatedData = [...list];
-    if (
-      updatedData[index].answer.options[n] === updatedData[index].answer.correct_option &&
-      updatedData[index].answer.correct_option !== ''
-    ) {
-      updatedData[index].answer.correct_option = e.target.value;
-    }
-    updatedData[index].answer.options[n] = e.target.value;
+    updatedData[index].options[n] = e.target.value;
     setList(updatedData);
-    const newt = { ...newobject };
-    newt.questions_and_answers = list;
-    setObject(newt);
-    console.log(newobject);
+    updatelistinobj();
   };
   function splicearr(arr: any, index: number) {
     const resultArray = arr.slice(0, index).concat(arr.slice(index + 1));
@@ -46,42 +42,27 @@ const CreateTemplate = () => {
   //deleting options
   const handleDelete = (index: number, n: number) => {
     var i = 0;
-    if (list[index].answer.options.length > 1) {
+    if (list[index].options.length > 1) {
       var updatedData = [...list];
-      if (updatedData[index].answer.options[n] === updatedData[index].answer.correct_option) {
-        updatedData[index].answer.correct_option = '';
-        if (list[index].answer.options.length >= n) {
-          i = 1;
-        }
-      }
-      const newdata = splicearr(updatedData[index].answer.options, n);
-      updatedData[index].answer.options = newdata;
-      if ((i = 1)) {
-        updatedData[index].answer.correct_option = updatedData[index].answer.options[n];
-      }
+      const newdata = splicearr(updatedData[index].options, n);
+      updatedData[index].options = newdata;
       setList(updatedData);
-      const newt = { ...newobject };
-      newt.questions_and_answers = list;
-      setObject(newt);
+      updatelistinobj();
     }
   };
   //adding options
   const handleIncreaseOption = (index: number) => {
     const updatedData = [...list];
     //updatedData[indextoadd]?.options.push('')
-    updatedData[index].answer.options.push('');
+    updatedData[index].options.push('');
     setList(updatedData);
-    const newt = { ...newobject };
-    newt.questions_and_answers = list;
-    setObject(newt);
+    updatelistinobj();
   };
   const setCorrect = (value: any, index: number) => {
     const updatedData = [...list];
-    updatedData[index].answer.correct_option = list[index].answer.options[value];
+    updatedData[index].correct_option = Number(value);
     setList(updatedData);
-    const newt = { ...newobject };
-    newt.questions_and_answers = list;
-    setObject(newt);
+    updatelistinobj();
   };
   //handling Adding questions
   const handleAddquestion = () => {
@@ -91,15 +72,11 @@ const CreateTemplate = () => {
         question_no: list.length + 1,
         question_type: 'multiple_choice',
         question_text: '',
-        answer: {
-          options: [''],
-          correct_option: '',
-        },
+        options: [''],
+        correct_option: 0,
       },
     ]);
-    const newt = { ...newobject };
-    newt.questions_and_answers = list;
-    setObject(newt);
+    updatelistinobj();
   };
   const handleRemovequest = () => {
     setList((list) => {
@@ -110,6 +87,7 @@ const CreateTemplate = () => {
         return list;
       }
     });
+    updatelistinobj();
   };
 
   useEffect(() => {
@@ -124,6 +102,17 @@ const CreateTemplate = () => {
       newt.questions_and_answers = list;
       setObject(newt);
       setListupdate('post');
+    }
+    if (listupdate === 'clear') {
+      const cleared = [...list];
+      while (cleared.length > 1) {
+        cleared.pop();
+      }
+      if (cleared.length == 1) {
+        cleared[0].question_text = '';
+        (cleared[0].options = ['']), (cleared[0].correct_option = 0), setList(cleared);
+      }
+      setListupdate('waiting');
     }
   }, [listupdate, newobject, setObject, setListupdate, list]);
   return (
@@ -152,7 +141,7 @@ const CreateTemplate = () => {
                 </div>
               </div>
               <div className=" text-[20px] font-semibold pt-4 text-[#1A1C1B]">Answers</div>
-              {list[index].answer.options.map((opt: any, n: any) => {
+              {list[index].options.map((opt: any, n: any) => {
                 return (
                   <div key={index + '-' + n} className="pt-4 flex flex-col gap-y-[10px]">
                     <div className=" text-[18px] font-semibold  text-[#1A1C1B]">{`Option ${n + 1}`}</div>
@@ -201,12 +190,12 @@ const CreateTemplate = () => {
                   }}
                 >
                   <SelectTrigger className="w-full p-6">
-                    <SelectValue placeholder={'select option'} />
+                    <SelectValue placeholder={`option ${item.correct_option}`} />
                   </SelectTrigger>
                   <SelectContent>
-                    {list[index].answer.options.map((optt: any, n: number) => {
+                    {list[index].options.map((optt: any, n: number) => {
                       return (
-                        <SelectItem key={index + '-' + n} value={`${n}`}>
+                        <SelectItem key={index + '-' + n} value={`${n + 1}`}>
                           Option {n + 1}
                         </SelectItem>
                       );

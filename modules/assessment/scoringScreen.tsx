@@ -1,8 +1,9 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import ScoreDropdown from './component/scoreDropdown';
 import { Input } from '@ui/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import { useCreatingAssessmentContext } from '../../context/assessment/CreatingAssessmentContext';
+import { ToPushContext } from '../../pages/super-admin/assessment/new';
 import axios from 'axios';
 type TimingSystemType = {
   hours: string;
@@ -24,23 +25,12 @@ type MyGradingRangeType = {
 
 interface ScoringScreenProps {
   skillId: number; // Define skillId as a prop
-
-  assessment: {
-    id: number;
-    title: string;
-    createdAt: Date;
-    duration_minutes: number;
-    questions: {
-      answers: {}[];
-      question_no: number;
-      question_text: string;
-      question_type: string;
-    }[];
-    updatedAt: Date;
-  };
+  assessment: any;
 }
 
 const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) => {
+  const [newobject, setObject]: any = useContext(ToPushContext);
+  const [duration_in_min, setDuration_in_min] = useState({ hour: 0, min: 0, sec: 0 });
   const arr = ['Beginner', 'Intermediate', 'Expert'];
   const [incompleteLevels, setIncompleteLevels] = useState<string[]>([]);
   const [examTime, setExamTime] = useState<TimingSystemType>({
@@ -83,14 +73,25 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
       [name]: newValue.padStart(2, '0'), // Automatically add leading '0' if needed
     }));
 
+    console.log(newobject);
     if (e.target.value != '') {
-      console.log(e.target.value);
+      var newdur = { ...duration_in_min };
+      if (e.target.name === 'hours') {
+        newdur.hour = Number(e.target.value) * 60;
+        setDuration_in_min(newdur);
+      } else if (e.target.name === 'minutes') {
+        newdur.min = Number(e.target.value);
+        setDuration_in_min(newdur);
+      } else {
+        newdur.sec = Number(e.target.value) / 60;
+        setDuration_in_min(newdur);
+      }
+      const newt = { ...newobject };
+      newt.duration_in_minutes = Math.round(newdur.hour + newdur.min + newdur.sec);
+      setObject(newt);
+      console.log(newobject);
       handleFormSubmit();
     }
-    const newt = { ...newobject };
-    newt.duration_in_minutes = Number(examDuration);
-    setObject(newt);
-    console.log(newobject);
   };
 
   const handleGradingChange = (e: ChangeEvent<HTMLInputElement>, level: string) => {
@@ -131,7 +132,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
     setIsAutoSubmitOn(!isAutoSubmitOn);
   };
 
-  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, setExamDuration } =
+  const { isAutoSubmitOn, setIsAutoSubmitOn, assessmentScoring, setAssessmentScoring, examDuration, setExamDuration } =
     useCreatingAssessmentContext();
 
   const saveScore = async (level: string) => {
