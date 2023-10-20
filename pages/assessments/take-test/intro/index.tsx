@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { getAssessmentDetails } from '../../../../http/userTakenAssessment';
 import { withUserAuth } from '../../../../helpers/withAuth';
+import Head from 'next/head';
 
 type AssessmentDetails = {
   assessment_id: number;
@@ -30,6 +31,7 @@ const TakeTest: FC = () => {
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
     handleGetStarted();
+    console.log(result)
   }, []);
 
   const handleGetStarted = async () => {
@@ -48,6 +50,11 @@ const TakeTest: FC = () => {
   };
   return (
     <>
+    <Head>         
+          <link rel="icon" href="/assets/zuriLogo.svg" />
+          <title>{result?.title}</title>
+          <meta name="description" content={result?.description} />
+        </Head>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
