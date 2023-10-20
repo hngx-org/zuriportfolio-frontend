@@ -70,7 +70,7 @@ const MyPage: React.FC = () => {
 
   // Function to open the ComplaintsModal and set the selected order
   const openModalWithOrder = (order: PurchaseData) => {
-    if(order.order.status === "pending" || order.order.status === "failed"){
+    if (order.order.status === 'pending' || order.order.status === 'failed') {
       setSelectedOrder(order);
       setIsModalOpen(true);
     }
@@ -383,7 +383,7 @@ const MyPage: React.FC = () => {
               </table>
             </div>
           )}
-          {data?.length > 0 && <MobileCustomerDashboard data={data}/>}
+          {data?.length > 0 && <MobileCustomerDashboard data={data} />}
           {/* error page */}
           {data?.length === 0 && !isLoading && <PurchaseNotFound back={onBack} />}
         </div>

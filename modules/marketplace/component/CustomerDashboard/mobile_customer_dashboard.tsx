@@ -4,7 +4,7 @@ import { PurchaseData } from '../../../../pages/user/customer-purchase-dashboard
 import ComplaintsModal from '../../../../components/Modals/ComplaintModal';
 import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 
-const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
+const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
   // Function to determine the background color based on status
   const getStatusBackgroundColor = (status: string): string[] => {
     switch (status.toLowerCase()) {
@@ -22,7 +22,7 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
 
   // this is the for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 7
+  const totalPages = 7;
 
   // scroll to the top
   const topOfPageRef = useRef<HTMLDivElement>(null);
@@ -31,7 +31,7 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
   const endIndex = startIndex + totalPages;
   const displayedItems = data.slice(startIndex, endIndex);
 
-  const paginatedPage = Math.ceil(data.length / totalPages)
+  const paginatedPage = Math.ceil(data.length / totalPages);
 
   // function for handling the page change
   const handlePageChange = (page: number) => {
@@ -46,7 +46,7 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
   const [selectedOrder, setSelectedOrder] = useState<PurchaseData | null>(null);
 
   const openModalWithOrder = (order: PurchaseData) => {
-    if(order.order.status === "pending" || order.order.status === "failed"){
+    if (order.order.status === 'pending' || order.order.status === 'failed') {
       setSelectedOrder(order);
       setIsModalOpen(true);
     }
@@ -68,7 +68,8 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
         <div
           className="sm:hidden w-full overflow-hidden sm:overflow-x-auto flex flex-col gap-10"
           id="topOfPage"
-          ref={topOfPageRef}>
+          ref={topOfPageRef}
+        >
           {displayedItems.map((item) => (
             <div
               key={item.id}
@@ -100,7 +101,6 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
                   className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
                     getStatusBackgroundColor(item.order.status)[0]
                   }`}
-                
                 >
                   <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.order.status)[1]}`}>
                     {item.order.status}
