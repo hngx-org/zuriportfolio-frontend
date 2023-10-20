@@ -1,13 +1,14 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
+import { Add, ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import Link from 'next/link';
 import Modal from '@ui/Modal';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { Certification, CertificationListProps, CertificationItemProps } from '../../../@types';
 import Loader from '@ui/Loader';
 import { notify } from '@ui/Toast';
+import { Edit2, Trash } from 'iconsax-react';
 
 interface Context {
   refreshPage: boolean;
@@ -68,6 +69,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   const openModal = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent the default form submission
     const newCertification = {
+      sectionId: 1,
       year: formData.year,
       title: formData.title,
       organization: formData.organization,
@@ -77,7 +79,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
 
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/add-certificate/${userId}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/add-certificate/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -343,7 +345,6 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
         <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
           <div onClick={onClose} className="flex items-center gap-6">
-            <ArrowLeft2 />
             <h1 className="font-bold text-2xl text-white-700 ">Certifications</h1>
           </div>
           <div onClick={onClose}>
@@ -351,17 +352,16 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
           </div>
         </div>
         <CertificationList isModalOpen={isOpen} />
-        <div className="flex flex-col sm:flex-row justify-between gap-6">
-          <div>
-            <p
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
-              className="font-bold cursor-pointer text-[16px] leading-6 text-brand-green-primary"
-            >
-              Add new certifications
-            </p>
-          </div>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+          <p
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+            className="font-bold cursor-pointer text-[12px] sm:text-[15px] items-center gap-1 flex  leading-6 text-brand-green-primary"
+          >
+            <Add /> Add new certifications
+          </p>
+
           <div className="flex gap-4 justify-start items-center">
             <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Cancel
@@ -376,19 +376,21 @@ const CertificationRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
   );
 };
 const CertificationList: React.FC<CertificationListProps> = () => {
-  const { refreshPage, setError, isModalOpen, isLoading, setIsLoading } = useContext(myContext);
+  const { refreshPage, setError, isModalOpen, isLoading, setIsLoading, setIsModalOpen } = useContext(myContext);
   const [certifications, setCertifications] = useState<Certification[]>([]);
 
   const { userId } = useContext(Portfolio);
   const fetchCertifications = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/certificates/${userId}`);
       const status = response.status;
+
       if (response.ok) {
         setIsLoading(false);
         const res = await response.json();
         setCertifications(res.data);
+        console.log('this is the fetched data', res);
       } else if (status === 400) {
         notify({
           message: 'Bad Request: Invalid data',
@@ -454,12 +456,8 @@ const CertificationList: React.FC<CertificationListProps> = () => {
 const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) => {
   const { userId } = useContext(Portfolio);
   const { id, year, title, organization, url, description } = certification;
-  const [deletedMessage, setDeletedMessage] = useState('');
-  const [editedMessage, setEditedMessage] = useState('');
-  const [editMessageError, setEditMessageError] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const { refreshPage, setRefreshPage } = useContext(myContext);
-
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const initialEditedCertification = {
@@ -477,10 +475,6 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   const openEditForm = () => {
     setIsEditFormOpen(true);
   };
-  const extractHostname = (url: string) => {
-    const { hostname } = new URL(url);
-    return hostname;
-  };
 
   // Function to close the Edit form
   const closeEditForm = () => {
@@ -492,7 +486,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
 
     try {
       setEditLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}/${id}/1`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/certificate/${userId}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -501,6 +495,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
       });
       const status = response.status;
       setEditLoading(false);
+      console.log(response);
 
       if (response.ok) {
         notify({
@@ -559,7 +554,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
 
     try {
       setDeleteLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/certificates/${id}`, {
         method: 'DELETE',
       });
       setDeleteLoading(false);
@@ -631,7 +626,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             </h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis">{extractHostname(url)}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>
@@ -651,13 +646,13 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             onClick={openEditForm}
             className="border-none outline-none text-[#5B8DEF] bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            Edit
+            <Edit2 size="32" color="#37d67a" variant="Outline" />
           </Button>{' '}
           <Button
             onClick={handleDelete}
             className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            Delete
+            <Trash size="32" color="#f47373" variant="Outline" />
           </Button>
         </div>
       </div>

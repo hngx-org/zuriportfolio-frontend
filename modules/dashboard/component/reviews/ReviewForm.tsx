@@ -16,6 +16,8 @@ function ReviewForms() {
   const router = useRouter();
   const { id } = router.query;
 
+  const teamLiquidReviewUrl = '  https://team-liquid-repo.onrender.com/api/review/products/${id}/reviews';
+
   const [rateNo, setRating] = useState(0);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -63,7 +65,7 @@ function ReviewForms() {
           headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
         };
         await axios
-          .post(`https://team-liquid-repo.onrender.com/api/review/products/${id}/reviews`, newReview)
+          .post(`https://team-titan.mrprotocoll.me/api/messaging/store/${id}/review`, newReview)
           .then((res) => {
             setModalIsOpen(true);
             setTimeout(closeModal, 3000);

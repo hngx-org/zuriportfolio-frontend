@@ -21,6 +21,11 @@ type Product = {
   category_id: any;
   description: any;
   id: any;
+  promo: {
+    amount: number;
+    inPercentage: string;
+    maximum_discount_price: number;
+  } | null;
 };
 const Products = () => {
   const [pageSize, setPageSize] = useState(2);
@@ -33,6 +38,8 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [totalPage, setTotalPage] = useState(1);
   // const [currentPage,setCurrentPage] = useState(1)
+  const [productsError, setProductsError] = useState<string | null>(null);
+
   const fetchProducts = async () => {
     // Fetch the product data from the server
     if (ref) {
@@ -124,7 +131,7 @@ const Products = () => {
             <>
               {product.length === 0 ? (
                 <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] mt-[-10px] md:mt-[-10px] md:m-[100px] flex-col items-center justify-center">
-                  <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
+                  <Image src="/assets/images/product.png" alt="discount" width={100} height={100} />
                   <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">
                     You don&apos;t have any product
                   </h2>
@@ -157,7 +164,7 @@ const Products = () => {
                 <div className="max-w-[1226px] mx-auto shadow-none md:shadow md:rounded-2xl md:px-[15px] md:py-[13px]">
                   <div className="flex gap-5 justify-between mb-[37px]">
                     <div
-                      className="focus-within:outline max-w-full focus-within:outline-black px-[14px] py-[10px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1 min-w-0 "
+                      className="focus-within:outline max-w-full focus-within:outline-black px-[14px] py-[0px] flex gap-2 items-center border border-slate-50 rounded-lg flex-1 min-w-0 "
                       style={{
                         boxShadow: ` 0px 1px 2px 0px rgba(16, 24, 40, 0.05)`,
                       }}

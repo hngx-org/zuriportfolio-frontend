@@ -161,3 +161,13 @@ export const getRecentlyViewedProducts = async (token: string) => {
     return [];
   }
 };
+
+export const getRecommendedProducts = async () => {
+  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recommendations';
+  try {
+    const response = await axios.get(apiUrl);
+    return response.data.data;
+  } catch {
+    return { error: 'Failed to fetch' };
+  }
+};
