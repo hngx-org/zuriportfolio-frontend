@@ -3,10 +3,9 @@ import React from 'react';
 type Props = {
   handleUploadCover?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   Link: any;
-  link: string;
 };
 
-const EditCover = ({ handleUploadCover, Link, link }: Props) => {
+const EditCover = ({ handleUploadCover, Link }: Props) => {
   return (
     <>
       <label htmlFor="coverUpload" className="bg-white-100 rounded-full p-2 cursor-pointer">
