@@ -44,14 +44,15 @@ const View = () => {
   });
   const [userSections, setUserSections] = useState<any>([]);
   const [error, setError] = useState({ state: false, error: '' });
+  const [slug, setSlug] = useState("")
 
   const getUser = async (userId: string) => {
     try {
       setIsLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${userId}`);
       const data = await response.json();
-      console.log(data);
-      
+      console.log("Data",data);
+
       if (!response.ok) throw new Error(data.error);
       setUserData({
         firstName: data?.user?.firstName,
