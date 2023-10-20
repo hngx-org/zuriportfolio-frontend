@@ -1,6 +1,6 @@
 import React from 'react';
 import Wrapper from './Wrapper';
-import { Project, WorkExperience } from '../Skeleton';
+import { Project } from '../Skeleton';
 
 type PprojectsProps = {
   id: string;
