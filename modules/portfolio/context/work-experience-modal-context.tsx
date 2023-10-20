@@ -82,7 +82,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       sectionId: 2,
     });
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-work-experience/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/update-work-experience/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
