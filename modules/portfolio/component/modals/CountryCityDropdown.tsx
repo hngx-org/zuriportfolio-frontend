@@ -19,7 +19,7 @@ const CountryCityDropdown: React.FC<Props> = ({ onCountryChange, onCityChange })
   const [cities, setCities] = useState<string[]>([]); // Store cities as a plain string array
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
-  
+
   useEffect(() => {
     // Fetch the list of countries from the API
     fetch('https://countriesnow.space/api/v0.1/countries')
@@ -55,45 +55,47 @@ const CountryCityDropdown: React.FC<Props> = ({ onCountryChange, onCityChange })
   return (
     <div className="w-full flex md:flex-row gap-4 justify-between">
       <div className="w-full md:w-[47%]">
-        <label>Select Country
-        <Select
-          onValueChange={(value: string) => {
-            setSelectedCountry(value);
-          }}
-          value={selectedCountry || ''}
-        >
-          <SelectTrigger className="border-[#59595977] text-green-300 h-[50px] rounded-[10px]">
-            <SelectValue defaultValue={selectedCountry || ''} placeholder={selectedCountry}/>
-          </SelectTrigger>
-          <SelectContent style={{ maxHeight: '200px', overflowY: 'auto' }}>
-            {countries.map((country) => (
-              <SelectItem key={country.value} value={country.value}>
-                {country.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <label>
+          Select Country
+          <Select
+            onValueChange={(value: string) => {
+              setSelectedCountry(value);
+            }}
+            value={selectedCountry || ''}
+          >
+            <SelectTrigger className="border-[#59595977] text-green-300 h-[50px] rounded-[10px]">
+              <SelectValue defaultValue={selectedCountry || ''} placeholder={selectedCountry} />
+            </SelectTrigger>
+            <SelectContent style={{ maxHeight: '200px', overflowY: 'auto' }}>
+              {countries.map((country) => (
+                <SelectItem key={country.value} value={country.value}>
+                  {country.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </label>
       </div>
       <div className="w-full md:w-[47%]">
-        <label>Select City
-        <Select
-          onValueChange={(value: string) => {
-            setSelectedCity(value);
-          }}
-          value={selectedCity || ''}
-        >
-          <SelectTrigger className="border-[#59595977] text-green-300 h-[50px] rounded-[10px]">
-            <SelectValue defaultValue={selectedCity || ''} placeholder={selectedCity}/>
-          </SelectTrigger>
-          <SelectContent style={{ maxHeight: '200px', overflowY: 'auto' }}>
-            {cities.map((city) => (
-              <SelectItem key={city} value={city}>
-                {city}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <label>
+          Select City
+          <Select
+            onValueChange={(value: string) => {
+              setSelectedCity(value);
+            }}
+            value={selectedCity || ''}
+          >
+            <SelectTrigger className="border-[#59595977] text-green-300 h-[50px] rounded-[10px]">
+              <SelectValue defaultValue={selectedCity || ''} placeholder={selectedCity} />
+            </SelectTrigger>
+            <SelectContent style={{ maxHeight: '200px', overflowY: 'auto' }}>
+              {cities.map((city) => (
+                <SelectItem key={city} value={city}>
+                  {city}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </label>
       </div>
     </div>

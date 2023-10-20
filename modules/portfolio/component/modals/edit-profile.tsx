@@ -245,7 +245,10 @@ const EditProfile = () => {
                       className="hover:border-green-500"
                     />
                   </SelectTrigger>
-                  <SelectContent className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                  <SelectContent
+                    className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100"
+                    style={{ maxHeight: '200px', overflowY: 'auto' }}
+                  >
                     {availableTracks?.map((track: any, index: number) => (
                       <SelectItem className="text-green-300" key={index} value={track.track}>
                         {track.track}
@@ -255,8 +258,8 @@ const EditProfile = () => {
                 </Select>
               </label>
             </div>
-            
-              {/* <div className="w-full md:w-[47%]">
+
+            {/* <div className="w-full md:w-[47%]">
                 <label>
                   Country
                   <span> (optional) </span>
@@ -293,13 +296,12 @@ const EditProfile = () => {
                  </label>
               </div> */}
 
-              <CountryCityDropdown
-                selectedCountry={selectedCountry}
-                selectedCity={selectedCity}
-                onCountryChange={setSelectedCountry}
-                onCityChange={setSelectedCity}
-              />
-          
+            <CountryCityDropdown
+              selectedCountry={selectedCountry}
+              selectedCity={selectedCity}
+              onCountryChange={setSelectedCountry}
+              onCityChange={setSelectedCity}
+            />
 
             <div className="w-full flex  md:flex-row gap-4 justify-between mt-10">
               <div className="w-full md:w-[47%]">
