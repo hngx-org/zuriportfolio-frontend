@@ -16,6 +16,7 @@ const CountryCityDropdown: React.FC<Props> = ({
   selectedCountry,
   setSelectedCity,
   setSelectedCountry,
+
 }) => {
   const [countries, setCountries] = useState<OptionType[]>([]);
   const [cities, setCities] = useState<string[]>([]); // Store cities as a plain string array
