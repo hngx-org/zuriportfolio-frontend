@@ -2,8 +2,9 @@ import { useState, useRef } from 'react';
 import Pagination from '@ui/Pagination';
 import { PurchaseData } from '../../../../pages/user/customer-purchase-dashboard';
 import ComplaintsModal from '../../../../components/Modals/ComplaintModal';
+import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 
-const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
+const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
   // Function to determine the background color based on status
   const getStatusBackgroundColor = (status: string): string[] => {
     switch (status.toLowerCase()) {
@@ -45,7 +46,7 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
   const [selectedOrder, setSelectedOrder] = useState<PurchaseData | null>(null);
 
   const openModalWithOrder = (order: PurchaseData) => {
-    if(order.order.status === "pending" || order.order.status === "failed"){
+    if (order.order.status === 'pending' || order.order.status === 'failed') {
       setSelectedOrder(order);
       setIsModalOpen(true);
     }
@@ -79,7 +80,7 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
                 <span className="flex gap-3 items-center">
                   <p className="font-light font-manropeL text-brand-green-shade10 ">{item.createdAt.split('T')[0]}</p>
                 </span>
-                <p className="font-manropeB text-xl">{item.order_price}</p>
+                <p className="font-manropeB text-xl">{formatToNigerianNaira(item.order_price)}</p>
               </div>
 
               <div className="flex flex-col gap-2">
@@ -100,7 +101,6 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
                   className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
                     getStatusBackgroundColor(item.order.status)[0]
                   }`}
-                
                 >
                   <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.order.status)[1]}`}>
                     {item.order.status}
