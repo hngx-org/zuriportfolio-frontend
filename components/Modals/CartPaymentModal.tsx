@@ -4,11 +4,11 @@ import checkedPayment from '../../public/assets/images/check1.png';
 import { STAGING_URL } from '../../http/checkout';
 
 const CartPaymentModal = () => {
-  useEffect(() => {
-    setTimeout(() => {
-      window.location.href = `${STAGING_URL}/marketplace/cart`;
-    }, 5000);
-  });
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     window.location.href = `${STAGING_URL}/marketplace/cart`;
+  //   }, 5000);
+  // });
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
       <div className="relative py-6 rounded text-center w-[340px] ">
