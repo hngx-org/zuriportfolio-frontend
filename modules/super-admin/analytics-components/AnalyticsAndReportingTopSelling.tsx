@@ -23,7 +23,7 @@ const AnalyticsAndReportingTopSelling = () => {
       try {
         setLoading(true);
         const res = await fetch(
-          `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?page=${currentPage}&page_size=10`,
+          `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/best-selling-products/?page=${currentPage}&page_size=10`,
           {
             headers: {
               Authorization: `Bearer ${bearerToken}`,
@@ -70,8 +70,8 @@ const AnalyticsAndReportingTopSelling = () => {
         </div>
 
         <div className="grid grid-cols-3 min-w-[1000px] items-center text-custom-color2  pt-3 bord no-scrollbar">
-          <div className="flex items-center gap-1 bg-[#FCFCFD] border-[#EAECF0]">
-            <span className="md:pl-8  py-3">Product Name </span>
+          <div className="flex items-center gap-1 bg-[#FCFCFD] border-[#EAECF0] ms-2">
+            <span className="md:pl-8   py-3 ps-3">Product Name </span>
             <Image
               src="/assets/tsImages/arrow-down.png"
               alt="Product Icon"
@@ -104,7 +104,7 @@ const AnalyticsAndReportingTopSelling = () => {
                   href={`/super-admin/product-listing/product-details/${product.product_id}`}
                 >
                   <div className="grid grid-cols-3 items-center  border-white-200 shadow-sm bg-white-100   md:whitespace-normal hover:bg-[#E0E0E0] ">
-                    <div className="flex items-center md:pl-8 border-b border-[#EAECF0] min-h-[5rem]">
+                    <div className="flex items-center md:pl-8 border-b border-[#EAECF0] ms-3 md:ms-0 min-h-[5rem]">
                       <Image src={product.product_image_url} alt={product.product_id} width={30} height={30} />
 
                       <span className="ml-4 text-md md:text-lg ">{product.product_name}</span>
