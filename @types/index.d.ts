@@ -695,6 +695,7 @@ export type Graph = {
 };
 
 export type topListingProduct = {
+  filter: any;
   map(arg0: (item: any, id: any) => React.JSX.Element): React.ReactNode;
   product_id?: number;
   product_name?: string;
