@@ -88,7 +88,7 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-  const baseUrl = 'https://hng6-r5y3.onrender.com/api/';
+  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1';
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
@@ -239,7 +239,7 @@ const SettingPage = () => {
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', auth?.user?.id as string);
 
-      const promise = axios.post('https://hng6-r5y3.onrender.com/api/profile/image/upload', formData);
+      const promise = axios.post('https://hng6-r5y3.onrender.com/api/v1/profile/image/upload', formData);
 
       const successMessage = 'Image uploaded successfully';
       const response = await toast.promise(promise, {

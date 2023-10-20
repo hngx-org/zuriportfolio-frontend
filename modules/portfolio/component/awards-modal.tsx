@@ -64,8 +64,8 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   const [acceptedDescription, setAcceptedDescription] = useState(false);
   const [createAward, setCreateAward] = useState('');
   const [closeAllModal, setCloseAllModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
-  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const validateUrl = (url: string) => {
     const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
@@ -130,17 +130,17 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       };
       setAwardCounter(awardCounter + 1);
 
-    try {
-      setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${userId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newAward),
-      });
-      setIsLoading(false);
-      const status = response.status;
+      try {
+        setIsLoading(true);
+        const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${userId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newAward),
+        });
+        setIsLoading(false);
+        const status = response.status;
 
         if (response.ok) {
           setCreateAward('Award created successfully');
@@ -440,7 +440,7 @@ const AwardList: React.FC<AwardListProps> = () => {
 
   const fetchAwards = async () => {
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/awards');
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/awards');
       if (response.ok) {
         const data = await response.json();
         console.log('Fetched awards data:', data.awards);
@@ -498,7 +498,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const handleSave = async () => {
     // Send a PUT request to update the award
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -528,7 +528,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
 
     try {
       setDeleteLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/award/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -813,4 +813,3 @@ export default Awards;
 function setDeleteLoading(arg0: boolean) {
   throw new Error('Function not implemented.');
 }
-

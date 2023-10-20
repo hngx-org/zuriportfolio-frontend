@@ -12,7 +12,7 @@ const TrackDropdown = ({ onSelectTrack }: { onSelectTrack: (selectedTrack: strin
   useEffect(() => {
     const fetchTracks = async () => {
       try {
-        const response = await fetch('https://hng6-r5y3.onrender.com/api/tracks', {
+        const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/tracks', {
           headers: {
             Accept: 'application/json',
           },

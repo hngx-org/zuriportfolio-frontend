@@ -52,7 +52,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
   };
 
   const handleDelete = async (params: any) => {
-    const data = await fetch(`https://hng6-r5y3.onrender.com/api/languages`, {
+    const data = await fetch(`https://hng6-r5y3.onrender.com/api/v1/languages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
         sectionId: 5,
       };
       axios
-        .post(`${endpoint}/api/languages`, data)
+        .post(`${endpoint}/api/v1/languages`, data)
         .then(async (res) => {
           setLoading(false);
           notify({
@@ -104,7 +104,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
             type: 'success',
           });
           setValues([]);
-          await fetch(`${endpoint}/api/getPorfolio/${userId}`);
+          await fetch(`${endpoint}/api/v1/getPorfolio/${userId}`);
           onSaveModal();
         })
         .catch((err) => {
@@ -123,7 +123,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
   const getAllLanguages = () => {
     setInitialLoading(true);
     axios
-      .get(`${endpoint}/api/languages/${userId}`)
+      .get(`${endpoint}/api/v1/languages/${userId}`)
       .then((res) => {
         if (res.data.data !== null) {
           setInitialLoading(false);
