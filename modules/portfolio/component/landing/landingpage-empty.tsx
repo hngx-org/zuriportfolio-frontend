@@ -63,9 +63,9 @@ const LandinEmptyState = () => {
         </p>
       </div>
       <div className="flex md:flex-row flex-col w-full justify-center items-center gap-4 ">
-        <Button className="rounded-lg w-[60%] md:w-[30%]" onClick={viewPortfolio} intent={'secondary'}>
+        {/* <Button className="rounded-lg w-[60%] md:w-[30%]" onClick={viewPortfolio} intent={'secondary'}>
           View Templates
-        </Button>
+        </Button> */}
         <Button className="rounded-lg w-[60%] md:w-[30%]" onClick={buildPortfolio}>
           Build your Portfolio
         </Button>
