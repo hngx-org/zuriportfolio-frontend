@@ -27,17 +27,17 @@ type skillListRes = {
 const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<skillListRes>>([
-    { skill: 'Version Control', skillId: 1 },
-    { skill: 'DeveOps', skillId: 2 },
-    { skill: 'Testing', skillId: 3 },
-    { skill: 'Art', skillId: 4 },
-    { skill: 'Sketch', skillId: 5 },
-    { skill: 'Visual Branding', skillId: 6 },
-    { skill: 'Graphics Design', skillId: 7 },
-    { skill: 'Color Theory', skillId: 8 },
-    { skill: 'Illustration', skillId: 9 },
-    { skill: 'Animation', skillId: 10 },
-    { skill: 'API Intergration', skillId: 11 },
+    { skill: 'version control', skillId: 1 },
+    { skill: 'deveOps', skillId: 2 },
+    { skill: 'testing', skillId: 3 },
+    { skill: 'art', skillId: 4 },
+    { skill: 'sketch', skillId: 5 },
+    { skill: 'visual branding', skillId: 6 },
+    { skill: 'graphics design', skillId: 7 },
+    { skill: 'color theory', skillId: 8 },
+    { skill: 'illustration', skillId: 9 },
+    { skill: 'animation', skillId: 10 },
+    { skill: 'api intergration', skillId: 11 },
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
@@ -184,7 +184,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
         {!isLoading ? (
           <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL max-sm:px-2 ">
             <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
-              <h1 className="font-bold text-2xl ">Skill</h1>
+              <h1 className="font-medium text-2xl ">Skills</h1>
               <button
                 className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
                 onClick={onCloseModal}
