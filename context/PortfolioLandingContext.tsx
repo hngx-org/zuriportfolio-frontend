@@ -16,6 +16,7 @@ import { useAuth } from './AuthContext';
 import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
 import { useQueries, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
+import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
 
 type PortfolioContext = {
   portfolioUrl: string;
@@ -62,6 +63,7 @@ type PortfolioContext = {
   setOpenCustom: React.Dispatch<React.SetStateAction<boolean>>;
   idToDelete: string;
   setIdToDelete: React.Dispatch<React.SetStateAction<string>>;
+  slug: string;
 };
 
 const Portfolio = createContext<PortfolioContext>({
@@ -109,12 +111,14 @@ const Portfolio = createContext<PortfolioContext>({
   idToDelete: '',
   setIdToDelete: () => {},
   portfolioUrl: '',
+  slug: '',
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
   const portfolioUrl = `https://hng6-r5y3.onrender.com/api/v1/portfolio`;
   const { auth } = useAuth();
   const [userId, setUserId] = useState('');
+  const [slug, setSlug] = useState('');
   const [userSections, setUserSections] = useState<any[]>([]);
 
   const [userData, setUserData] = useState<any>({
@@ -146,11 +150,11 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   useEffect(() => {
     if (auth?.user?.id) {
-      setUserId(auth.user.id);
+      setUserId(auth?.user?.id!);
+      setSlug(auth?.user?.slug!);
     }
 
     if (getUserInfo.data) {
-      console.log(getUserInfo.data.data);
       setUserData({
         firstName: getUserInfo.data?.data?.user?.firstName,
         lastName: getUserInfo.data?.data?.user?.lastName,
@@ -209,11 +213,11 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Custom', id: 'custom', data: custom },
       ]);
     }
-  }, [auth?.user?.id, getUserInfo.data, getUserSections.data]);
+  }, [auth?.user?.id, auth?.user?.slug, getUserInfo.data, getUserSections.data]);
 
   const getUser = async () => {
     try {
-      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
+      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${userId}`);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -226,7 +230,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getSections = async () => {
     try {
-      const response = await $http.get(`${portfolioUrl}/${userId}`);
+      const response = await $http.get(`${portfolioUrl}/${slug}`);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -465,6 +469,17 @@ export function PortfolioCtxProvider(props: { children: any }) {
         />
       ),
     },
+    {
+      id: 'shop',
+      modal: (
+        <AddShopModal
+          isOpen={modalStates['shop']}
+          onCloseModal={() => onCloseModal('shop')}
+          onSaveModal={() => onSaveModal('shop')}
+          // userId={userId}
+        />
+      ),
+    },
   ];
 
   const contextValue = {
@@ -513,6 +528,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     getUserInfo,
     getUserSections,
     portfolioUrl,
+    slug,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;
