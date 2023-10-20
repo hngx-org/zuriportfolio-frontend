@@ -31,11 +31,14 @@ function Index() {
   const [filteredData, setFilteredData] = useState(Assessmentlist);
 
   const [assessments, setAssessments] = useState<any[]>([]);
+  const [gettingData, setGettingData] = useState(true);
+  const [gettingAssesment, setGettingAssessment] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('fd', localStorage.getItem('zpt'));
+      // console.log('fd', localStorage.getItem('zpt'));
       try {
+        setGettingAssessment(true);
         const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
 
         const csrfToken = localStorage.getItem('zpt') ?? '';
@@ -56,11 +59,14 @@ function Index() {
         console.log('assessment data', data);
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setGettingAssessment(false);
       }
     };
 
     const assessmentOverviewData = async () => {
       try {
+        setGettingData(true);
         const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/dashboard/';
 
         const csrfToken = localStorage.getItem('zpt') ?? '';
@@ -81,11 +87,15 @@ function Index() {
         console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setGettingData(false);
       }
     };
-
-    fetchData();
-    assessmentOverviewData();
+    const getData = async () => {
+      fetchData();
+      assessmentOverviewData();
+    };
+    getData();
   }, []);
 
   const onFilter = (e: any) => {
@@ -217,6 +227,7 @@ function Index() {
               info="Responses"
               number={assessmentOverviewData.total_individuals ? assessmentOverviewData.total_individuals : 0}
               icon={bookimg}
+              loading={gettingData}
             />
             <Description
               info="CREATED ASSESSMENTS"
@@ -224,11 +235,13 @@ function Index() {
                 assessmentOverviewData.total_created_assessments ? assessmentOverviewData.total_created_assessments : 0
               }
               icon={booksaved}
+              loading={gettingData}
             />
             <Description
               info="PASS/FAIL RATIO"
               number={assessmentOverviewData.failed_to_passed_ratio ? assessmentOverviewData.failed_to_passed_ratio : 0}
               icon={ratioimg}
+              loading={gettingData}
             />
           </div>
           <div className="search w-full border-dark-200 border-[1px] p-2 md:p-4 rounded-lg flex items-center">
@@ -240,7 +253,7 @@ function Index() {
           </div>
 
           <ListContext.Provider value={[filteredData, setList]}>
-            <Assessmentresponses assessments={assessments} onDelete={setAssessments} />
+            <Assessmentresponses assessments={assessments} onDelete={setAssessments} loading={gettingAssesment} />
           </ListContext.Provider>
         </div>
       </div>
