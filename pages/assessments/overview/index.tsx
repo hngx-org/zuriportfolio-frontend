@@ -73,9 +73,7 @@ function AssessmentOverview() {
         const minuteInt = minuteString !== null ? parseInt(minuteString, 10) : null;
         const secondInt = secondString !== null ? parseInt(secondString, 10) : 0;
         setMinute(minuteInt);
-        setSecond(secondInt);
-        console.log(minuteString, secondString);
-        console.log('donezo', minute, second, duration);
+        setSecond(secondInt);        
       } else {
         throw new Error('localStorage is not available on the server-side.');
       }
@@ -91,13 +89,11 @@ function AssessmentOverview() {
       if (!res) {
         setIsLoading(false);
         throw new Error('Network response was not ok');
-      } else {
-        console.log(res);
+      } else {    
         setResult(res);
         setIsLoading(false);
       }
-    } catch (error) {
-      console.log('catch error', error);
+    } catch (error) {  
     }
   };
 
@@ -120,8 +116,7 @@ function AssessmentOverview() {
           assessment_id: data,
           token,
           minutes: minute,
-        }).then((res) => {
-          console.log(res);
+        }).then((res) => {      
           setShowConfirm(false);
           setShowSuccessConfirm(true);
           setBadgeEarn(res?.badge_id);

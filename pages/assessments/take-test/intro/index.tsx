@@ -35,18 +35,15 @@ const TakeTest: FC = () => {
   const handleGetStarted = async () => {
     const token = tokenRef.current;
     try {
-      const res = await getAssessmentDetails(token as string, data as string);
-      console.log('2', res);
+      const res = await getAssessmentDetails(token as string, data as string);      
       if (!res) {
         setIsLoading(false);
         throw new Error('Network response was not ok');
-      } else {
-        console.log(res);
+      } else {        
         setResult(res);
         setIsLoading(false);
       }
-    } catch (error) {
-      console.log('catch error', error);
+    } catch (error) {      
     }
   };
   return (
