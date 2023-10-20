@@ -18,11 +18,6 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
   const searchTerm = useRouter();
-  const [backToTop, setBackToTop] = useState(false);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const handleClearFilters = () => {
     setFilters({});
@@ -115,9 +110,9 @@ const HomePage = () => {
         {data?.data?.length === 0 || isLoading ? null : (
           <a href="#top" className="w-fit mx-auto my-4 mb-12 flex justify-center">
             <Pagination
-              visiblePaginatedBtn={5}
+              visiblePaginatedBtn={3}
               activePage={pageNumber}
-              pages={5}
+              pages={10}
               page={pageNumber}
               setPage={setPageNumber}
             />
