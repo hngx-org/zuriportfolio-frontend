@@ -150,10 +150,11 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         files.map((item) => {
           formData.append('images', item);
         });
+
         formData.append('jsondata', JSON.stringify(data));
 
         axios
-          .put(`${endpoint}/api/update-project/${id}`, formData)
+          .put(`${endpoint}/api/projects/${id}`, formData)
           .then((res) => {
             setLoading(false);
             notify({
@@ -173,7 +174,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               theme: 'light',
               type: 'error',
             });
-            console.log(err);
           });
       } else {
         const data = {
@@ -184,7 +184,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
           formData.append('images', item);
         });
         formData.append('jsondata', JSON.stringify(data));
-        console.log(formData);
 
         axios
           .post(`${endpoint}/api/projects`, formData)
@@ -208,7 +207,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               theme: 'light',
               type: 'error',
             });
-            console.log(err);
           });
       }
     }
@@ -232,12 +230,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
     handleEditData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataToEdit]);
-
-  useEffect(() => {
-    console.log(year === '', year, typeof year);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year]);
 
   return (
     <section className="p-5">

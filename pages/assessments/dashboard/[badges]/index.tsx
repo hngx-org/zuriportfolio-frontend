@@ -143,7 +143,7 @@ const Earnedbadges: React.FC = () => {
 
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
-      <div className="w-full h-auto font-manropeL">
+      <div className="w-full flex flex-col items-center h-auto font-manropeL">
         <BadgesComponentHeader />
 
         {isLoading ? (
@@ -153,7 +153,7 @@ const Earnedbadges: React.FC = () => {
         ) : errorMessage ? (
           <ErrorData />
         ) : (
-          <div className="h-full lg:px-[60px] xl:px-[150px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
+          <div className="h-full w-full lg:max-w-[1440px]  lg:px-[60px] xl:px-[100px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
             <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start capitalize">
               {router.query?.badges} Badges
             </h1>

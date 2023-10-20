@@ -29,6 +29,22 @@ const AllProjectsModal = ({
     onEdit(data);
   };
 
+  const handleAddNewProject = () => {
+    handleSetRoute('add-project');
+    onEdit({
+      description: '',
+      tags: '',
+      url: '',
+      title: '',
+      thumbnail: '',
+      id: null,
+      year: '',
+      link: '',
+      media: [],
+      projectsImages: [],
+    });
+  };
+
   const getAllProjects = () => {
     handleLoading(true);
     axios
@@ -39,11 +55,10 @@ const AllProjectsModal = ({
       })
       .catch((err) => {
         handleLoading(false);
-        console.log(err);
       });
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number | null) => {
     axios
       .delete(`${endpoint}/api/projects/${id}`)
       .then((res) => {
@@ -130,7 +145,7 @@ const AllProjectsModal = ({
         <section>
           <p
             className="text-base font-semibold font-manropeL flex items-center gap-2 text-green-600 cursor-pointer"
-            onClick={() => handleSetRoute('add-project')}
+            onClick={handleAddNewProject}
           >
             <Add color="#009254" /> Add new project
           </p>

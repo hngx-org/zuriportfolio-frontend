@@ -15,7 +15,7 @@ export type Data = {
   tags: string;
   description: string;
   media: any[];
-  id: number;
+  id: number | null;
   url: string;
   projectsImages: any[];
 };
@@ -58,7 +58,6 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
       .then((res) => {
         setLoading(false);
         setProjects(res.data.data);
-        console.log(res.data, 'all projects for', userId);
 
         if (res?.data?.data.length > 0) {
           setRoute('view-projects');
@@ -66,7 +65,6 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
       });
   };
 
@@ -79,7 +77,8 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     if (projects.length < 0) {
       setRoute('add-project');
     }
-  }, [projects]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Modal size="xxl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
