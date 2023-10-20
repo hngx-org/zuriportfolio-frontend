@@ -76,19 +76,6 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // const contactObj = {
-    //   url: "link.com",
-    //   social_media_id: 11,
-    //   user_id: 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90',
-    // };
-    // axios.post('https://hng6-r5y3.onrender.com/api/contacts', contactObj)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    // const data = socials.map(({ url, social_media_id, user_id }) => ({
-    //   social_media_id: Number(social_media_id),
-    // }));
-    // console.log('Data', data);
     const data = socials.map((social) => ({
       url: social.url,
       social_media_id: social.social_media_id,
@@ -141,7 +128,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     try {
       const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/socials`);
       const data = await response.data;
-      console.log(data);
+      console.log('getSocialsAvailable', data);
       setAvailableSocials(data?.data);
     } catch (error) {
       console.error(error);
@@ -155,6 +142,20 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
   useEffect(() => {
     console.log(socials);
   }, [socials]);
+
+  const getAllSocials = async () => {
+    try {
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/contacts/${userId}`);
+      const data = await response.data;
+      console.log('responseData', data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllSocials();
+  }, []);
 
   return (
     <>
