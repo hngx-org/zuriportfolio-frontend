@@ -95,12 +95,14 @@ const CreateTemplate = () => {
     setYesdel(true);
     setDelModal(false);
   };
+
   useEffect(() => {
     if (yesdel === true) {
       const updatedData = [...list];
       const newdata = splicearr(updatedData, delQuestId);
       newobject.questions_and_answers = newdata;
       setList(newobject.questions_and_answers);
+      setYesdel(false);
     }
   }, [delModal, newobject]);
 
@@ -111,9 +113,16 @@ const CreateTemplate = () => {
     }
 
     if (listupdate === 'save') {
+      const fixing = [...list];
+      fixing.forEach((child) => {
+        child.question_no = fixing.indexOf(child) + 1;
+      });
+      setList(fixing);
       const newt = { ...newobject };
       newt.questions_and_answers = list;
       setObject(newt);
+      console.log(newobject);
+
       setListupdate('post');
     }
     if (listupdate === 'clear') {
