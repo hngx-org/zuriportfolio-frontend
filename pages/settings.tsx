@@ -23,7 +23,7 @@ import Success from './auth/success';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import nProgress from 'nprogress';
 import UpdatePassword from '@modules/portfolio/component/portfolioSettingsComponents/UpdatePassword';
-
+import Head from 'next/head';
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
     accountManagement: false,
@@ -271,6 +271,13 @@ const SettingPage = () => {
 
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
+      <Head>
+        <title>Account Settings</title>
+        <meta name="description" content="Manage your account settings and preferences on our platform" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta name="keywords" content="settings, preferences, account, customization"></meta>
+        {/* Add more meta tags for SEO as needed */}
+      </Head>
       <div className="w-full   relative font-manropeEB mb-4  lg:mb-2   flex flex-col  ">
         {/*  Laptop View*/}
         <div
