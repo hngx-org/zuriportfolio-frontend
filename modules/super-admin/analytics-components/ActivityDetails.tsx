@@ -7,14 +7,11 @@ interface ActivityDetailsProps {
 }
 
 const fetchActivityDetails = async (token: string) => {
-  const response = await fetch(
-    'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/activities/',
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const response = await fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/activities/', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to fetch data. Status: ${response.status}`);
@@ -25,10 +22,11 @@ const fetchActivityDetails = async (token: string) => {
 };
 
 const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
-  const { data: activityDetails, isLoading, isError } = useQuery<activity[]>(
-    ['activityDetails', token],
-    () => fetchActivityDetails(token)
-  );
+  const {
+    data: activityDetails,
+    isLoading,
+    isError,
+  } = useQuery<activity[]>(['activityDetails', token], () => fetchActivityDetails(token));
 
   return (
     <section className="lg:w-[25%]">

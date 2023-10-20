@@ -42,9 +42,7 @@ const Index = () => {
                 className="md:min-w-[350px] w-[100%]"
                 placeHolder="search"
               />
-              <div className="">
-                {/* <FilterProduct handleFilter={handleFilter} /> */}
-              </div>
+              <div className="">{/* <FilterProduct handleFilter={handleFilter} /> */}</div>
             </div>
           </div>
           {isLoading ? (

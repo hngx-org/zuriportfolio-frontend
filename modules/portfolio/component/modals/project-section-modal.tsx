@@ -54,11 +54,10 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
   const getAllProjects = () => {
     setLoading(true);
     axios
-      .get(`${endpoint}/api/users/${userId}/projects`)
+      .get(`${endpoint}/api/v1/users/${userId}/projects`)
       .then((res) => {
         setLoading(false);
         setProjects(res.data.data);
-        console.log(res.data, 'all projects for', userId);
 
         if (res?.data?.data.length > 0) {
           setRoute('view-projects');
@@ -66,7 +65,6 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
       });
   };
 

@@ -1,5 +1,5 @@
 'use-client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
 import ExternalView from '@modules/portfolio/component/landing/external-view';
 import MainLayout from '../../components/Layout/MainLayout';
@@ -8,42 +8,29 @@ import Loader from '@ui/Loader';
 import Image from 'next/image';
 import { CoverDiv } from '@modules/portfolio/component/landing/avatars';
 import { useRouter } from 'next/router';
+import { useAuth } from '../../context/AuthContext';
 
 const View = () => {
   const router = useRouter();
   const id = Array.isArray(router?.query?.id) ? router?.query?.id[0] : router?.query?.id;
 
-  const getUserId = async () => {
-    const token = localStorage.getItem('zpt');
-    const response = await fetch(`https://staging.zuri.team/api/auth/api/authorize`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1NDkzNDVhLTQ2MWMtNGM2Yy1iZTNjLWU3YWZlMzg4ZWIyOSIsImlhdCI6MTY5NzQxNzU4Nn0.Lm7HAisj-TWpmP2TivhqMhYGqPpnw_c8G62p3Tdf-F8',
-        permission: 'product.read',
-      }),
-    });
-    const data = await response.json();
-    return data;
-  };
+  // Auth to get userid
+  const { auth } = useAuth();
 
   useEffect(() => {
+    // wait for router to be ready
     if (!router.isReady) return;
-    const authUser = async () => {
-      const data = await getUserId();
-      if (data?.user?.id === id) {
-        router.push(`/portfolio`);
-      } else {
-        if (id) {
-          getUser(id);
-        }
+
+    // if user is logged in and user id is same as id in url, redirect to dashboard
+    if (auth?.user?.id === id) {
+      router.push(`/portfolio`);
+    } else {
+      // if user is not logged in and id is not in url, fetch info with the id from url
+      if (id) {
+        getUser(id);
       }
-    };
-    authUser();
-  }, [id, router, router.isReady]);
+    }
+  }, [auth?.user?.id, id, router]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({
@@ -61,7 +48,7 @@ const View = () => {
   const getUser = async (userId: string) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/getPortfolioDetails/${userId}`);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setUserData({
@@ -80,11 +67,11 @@ const View = () => {
         education,
         skills,
         contact,
-        interests,
+        interestArray,
         awards,
         language,
         reference,
-        certificate,
+        certificates,
         shop,
         custom,
       } = data;
@@ -94,9 +81,9 @@ const View = () => {
         { title: 'Work Experience', id: 'workExperience', data: workExperience },
         { title: 'Education', id: 'education', data: education },
         { title: 'Skills', id: 'skills', data: skills },
-        { title: 'Interests', id: 'interests', data: interests },
+        { title: 'Interests', id: 'interests', data: interestArray },
         { title: 'Awards', id: 'awards', data: awards },
-        { title: 'Certificate', id: 'certificate', data: certificate },
+        { title: 'Certificate', id: 'certificate', data: certificates },
         { title: 'Language', id: 'language', data: language },
         { title: 'Reference', id: 'reference', data: reference },
         { title: 'Shop', id: 'shop', data: shop },
@@ -109,8 +96,6 @@ const View = () => {
     }
   };
   const { firstName, lastName, city, country, coverImage } = userData;
-
-  console.log(userSections);
 
   const headerMargin =
     'mt-[81px] lg:mt-[96px] h-[200px] md:h-[250px] lg:h-[300px] absolute top-0 left-0 -z-50 w-screen object-cover';

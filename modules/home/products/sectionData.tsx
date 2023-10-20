@@ -1,4 +1,4 @@
-import { Category } from 'iconsax-react';
+import { Category, Filter } from 'iconsax-react';
 import React from 'react';
 
 type Section = {
@@ -17,6 +17,11 @@ type SectionsProps = {
   setShowFilterComponent: (show: boolean) => void;
   fetchProducts: (text: string) => void;
   fetchAllData: () => void;
+  searchFilter: () => void;
+  selectedOption: string;
+  setSelectedOption: (option: string) => void;
+  selectedOption1: string;
+  setSelectedOption1: (option: string) => void;
 };
 
 const SectionData: React.FC<SectionsProps> = ({
@@ -27,9 +32,32 @@ const SectionData: React.FC<SectionsProps> = ({
   setShowFilterComponent,
   fetchProducts,
   fetchAllData,
+  searchFilter,
+  selectedOption,
+  setSelectedOption,
+  selectedOption1,
+  setSelectedOption1,
 }) => {
   return (
     <div className="justify-start items-center inline-flex mt-4 gap-6">
+      {(selectedOption || selectedOption1) && (
+        <div
+          className={`px-5 py-[0.625rem] rounded-2xl border-2 border-[#e4e4e4] justify-center items-center gap-4 flex cursor-pointer font-manropeL text-[12px] 
+          bg-white text-black
+        `}
+          onClick={() => {
+            searchFilter();
+            setSelectedOption('');
+            setSelectedOption1('');
+          }}
+        >
+          <div className="w-6 h-6 relative">
+            <Filter color="black" />
+          </div>
+          <div className="text-center">Clear Filters</div>
+        </div>
+      )}
+
       <div
         className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeL text-[12px] ${
           activeSection === 11 ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737876]'

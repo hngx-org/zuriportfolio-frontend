@@ -217,7 +217,7 @@ export default function ProductDetails() {
           content="https://zuriportfolio-frontend-pw1h.vercel.app/shop/product?id=ad509f1d-efa4-4f00-a6a4-20b30d3f10f9&shopName=Martinez%20and%20Sons"
         />
       </Head>
-      
+
       <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
@@ -234,7 +234,7 @@ export default function ProductDetails() {
           </span>
         </div>
         <a onClick={() => router.back()} className="self-start">
-          <ArrowLeft size="27" color="#000000" className="mb-[8px] cursor-pointer"/>
+          <ArrowLeft size="27" color="#000000" className="mb-[8px] cursor-pointer" />
         </a>
 
         {/* Product Details  */}
