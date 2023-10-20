@@ -9,6 +9,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { isUserAuthenticated } from '../hooks/useAuthHelper';
 import { CART_ENDPOINT } from '../../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
+import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
 
 export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { auth } = useAuth();
@@ -27,21 +28,6 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
         setResponse(data.data.similar_products);
       });
   }, [url]);
-
-  function formatPrice(price: number | string) {
-    if (typeof price === 'string') {
-      price = parseFloat(price);
-    }
-
-    if (isNaN(price)) {
-      return price;
-    }
-
-    return price.toLocaleString('en-US', {
-      useGrouping: true,
-      minimumFractionDigits: 2,
-    });
-  }
 
   const addToCart = async (ids: string) => {
     const apiUrl = `${CART_ENDPOINT}/api/carts`;
@@ -125,7 +111,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
                     </p>
                   </div>
                   <p className="text-custom-color43 font-manropeL text-[22px] font-bold ">
-                    {`$${formatPrice(item.price)}`}
+                    {formatToNigerianNaira(item.price)}
                   </p>
                 </div>
 

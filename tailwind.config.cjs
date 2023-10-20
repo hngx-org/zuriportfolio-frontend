@@ -212,6 +212,7 @@ module.exports = {
           color41: '#E0FFF0',
           color42: '#FCFCFD',
           color43: '#444846',
+          color44: '#4fa94d',
         },
       },
       fontFamily: {
