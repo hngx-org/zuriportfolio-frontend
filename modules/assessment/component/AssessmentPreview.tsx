@@ -101,7 +101,7 @@ export default function Preview() {
                 className="py-[32px] px-[24px] border border-[#DFE3E6] rounded-[16px] mt-6 w-[328px] md:w-[608px]"
               >
                 <h1 className=" text-[#009254] font-bold text-[22px] text-center font-manrope leading-7 mb-5">
-                  Question {assessment.question_no} out of 10
+                  Question {assessment.question_no} out of {assessments.length}
                 </h1>
                 <div className="pl-6">
                   <p className="font-normal mb-3 font-manrope leading-5 text-[#2E3130]">{assessment.question_text}</p>
