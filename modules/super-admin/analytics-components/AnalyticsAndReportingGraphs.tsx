@@ -146,7 +146,6 @@ const AnalyticsAndReportingGraphs = () => {
       setActivePeriodGraph2(period);
     }
 
-    // Reset the loading state for the other graph
     const otherGraphIndex = graphIndex === 0 ? 1 : 0;
     setLoadingStates((prevLoadingStates) => ({
       ...prevLoadingStates,
@@ -277,12 +276,11 @@ const AnalyticsAndReportingGraphs = () => {
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
                           <Tooltip />
                           <YAxis tickFormatter={formatCurrency} />
-                          <ReferenceLine y={53} stroke="#F2F4F7" />
+                          <ReferenceLine y={80} stroke="#F2F4F7" />
+                          <ReferenceLine y={60} stroke="#F2F4F7" />
                           <ReferenceLine y={40} stroke="#F2F4F7" />
-                          <ReferenceLine y={27} stroke="#F2F4F7" />
-                          <ReferenceLine y={14} stroke="#F2F4F7" />
-                          
-                          <Line type="natural" dataKey="sales" stroke="#EABE95" strokeWidth={3} dot={false} />
+                          <ReferenceLine y={20} stroke="#F2F4F7" />
+                          <Line type="natural" dataKey="sales" stroke="#EABE95" strokeWidth={3} />
                         </LineChart>
                       )}
                     </ResponsiveContainer>
