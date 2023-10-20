@@ -21,6 +21,7 @@ type Product = {
   category_id: any;
   description: any;
   id: any;
+  promo: any;
 };
 const Products = () => {
   const [pageSize, setPageSize] = useState(2);
@@ -33,6 +34,8 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [totalPage, setTotalPage] = useState(1);
   // const [currentPage,setCurrentPage] = useState(1)
+  const [productsError, setProductsError] = useState<string | null>(null);
+
   const fetchProducts = async () => {
     // Fetch the product data from the server
     if (ref) {

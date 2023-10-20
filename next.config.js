@@ -12,6 +12,7 @@ const nextConfig = {
       'ugc.futurelearn.com',
       'themeforest.img.customer.envatousercontent.com',
       'i.pinimg.com',
+      'fisnikde.com',
     ],
   },
 };
