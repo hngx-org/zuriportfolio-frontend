@@ -108,7 +108,7 @@ function Index() {
         if (filterParam === '') {
           return true; // Return true to include all items when filterParam is empty
         } else {
-          return child?.trackname.toLowerCase().includes(filterParam);
+          return child?.title.toLowerCase().includes(filterParam);
         }
       }),
     );

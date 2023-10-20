@@ -156,15 +156,13 @@ function Assessmentresponses(props: PropsAss<any>) {
                   <div className="text-white-650">Modified {formatDateToPattern(child?.updatedAt)}</div>
                 </div>
                 <div className="flex gap-2 md:gap-8">
-                  <div className="flex flex-col items-center cursor-pointer">
+                  <Link
+                    href={`/super-admin/assessment/preview-edit/?assessmentId=${child.id}`}
+                    className="flex flex-col items-center cursor-pointer"
+                  >
                     <Image src={editmessage} height="24" width="24" alt="edit message" />
-                    <Link
-                      href={`/super-admin/assessment/preview-edit/?assessmentId=${child.id}`}
-                      className="text-xs md:text-base pt-[6px]"
-                    >
-                      Edit
-                    </Link>
-                  </div>
+                    <span className="text-xs md:text-base pt-[6px]">Edit</span>
+                  </Link>
                   <div
                     className="cursor-pointer flex flex-col items-center justify-center gap-y-1"
                     onClick={() => {

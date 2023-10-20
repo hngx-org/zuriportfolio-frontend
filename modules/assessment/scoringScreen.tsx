@@ -176,7 +176,7 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
   const handleFormSubmit = async () => {
     const { hours, minutes, seconds } = examTime;
     const durationInMinutes = Math.round(parseInt(hours, 10) * 60 + parseInt(minutes, 10) + parseInt(seconds, 10) / 60);
-
+    if (!assessment.id) return;
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessment.id}/`;
 
     try {

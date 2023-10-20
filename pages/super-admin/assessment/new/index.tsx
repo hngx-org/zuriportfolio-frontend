@@ -93,18 +93,18 @@ const CreateAssessment = () => {
     handleClick('button1');
   };
 
-  const publishAssessment = useCallback(async (assessmentsInfo: any) => {
+  const publishAssessment = async (assessmentsInfo: any, id: any) => {
     // split question and string and number
     try {
       var url = '';
+      console.log(destination);
       if (destination === 'Publishing assessments') {
         url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
       } else {
         url = 'https://piranha-assessment-jco5.onrender.com/api/admin/drafts/';
       }
 
-      const transformedAssesment = { ...assessmentsInfo, skill_id: skillid };
-      console.log(transformedAssesment, skillid);
+      const transformedAssesment = { ...assessmentsInfo, skill_id: id };
       const reqOptions = {
         method: 'POST',
         headers: {
@@ -146,20 +146,19 @@ const CreateAssessment = () => {
     } finally {
       setPostLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     const assessments = newobject;
     const sendAssesment = async () => {
       if (listupdate === 'post') {
-        console.log(assessments);
-        publishAssessment(assessments);
+        publishAssessment(assessments, skillid);
         setPostLoading(true);
         setListupdate('waiting');
       }
     };
     sendAssesment();
-  }, [listupdate, publishAssessment]);
+  }, [listupdate]);
 
   return (
     <>
@@ -212,7 +211,7 @@ const CreateAssessment = () => {
                 <div
                   className="flex space-x-1 items-center cursor-pointer"
                   onClick={() => {
-                    window.history.back();
+                    router.back();
                   }}
                 >
                   <Image alt="go back" src={backarrow} width={'20'} height={'20'} />
