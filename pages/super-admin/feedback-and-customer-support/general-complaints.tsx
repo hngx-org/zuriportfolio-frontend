@@ -8,6 +8,7 @@ import VendorComplaint from '../../../public/assets/images/vendorComplaint.png';
 import { useRouter } from 'next/navigation';
 import Button from '@ui/Button';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
+import ComplaintsDetails from './general-complaints/[complaintsId]';
 
 interface ComplainType {
   total_complaints: number;
@@ -28,7 +29,7 @@ interface PendingType {
 }
 
 interface InProgressType {
-  total_In_progress: number;
+  total_In_Progress: number;
   percentage_increment: number;
   // Add other properties as needed
 }
@@ -66,20 +67,41 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   const [complainStatus, setComplainStatus] = useState('pending');
   const [fetchComplains, setfetchComplains] = useState([]);
 
-  const newStatus = 'in Progress';
+  const [filteredComplaints, setFilteredComplaints] = useState<Complain[]>([]); // Initialize as an empty array
 
-  async function updateComplaintStatus(complaintId: any, newStatus: any) {
+  // Function to filter complaints based on search input
+  const filterComplaints = (searchQuery: string) => {
+    if (fetchComplains && Array.isArray(fetchComplains)) {
+      const filtered = fetchComplains.filter((item: Complain) => {
+        const itemsName = item.data?.user_details.first_name || '';
+        return searchQuery.toLowerCase() === '' || itemsName.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+      setFilteredComplaints(filtered);
+    }
+  };
+
+  // Use the filtered complaints for rendering
+  const complaintsToRender = filteredComplaints.length > 0 ? filteredComplaints : fetchComplains;
+
+  const newStatus = 'In Progress';
+
+  async function updateComplaintStatus(complaintId: number, newStatus: string) {
     try {
       // Create the URL for the specific complaint using complaintId
       const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/${complaintId}/`;
 
+      const bearertoken = localStorage.getItem('zpt');
       const headers = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w'}`,
+        Authorization: `Bearer ${bearertoken}`,
       };
 
       // Fetch the complaint using the specific URL
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl, {
+        method: 'GET', // Use GET to retrieve the complaint data
+        headers,
+      });
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -87,11 +109,15 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
       const complaint = await response.json();
 
       // Update the status of the complaint
-      complaint.status = newStatus;
+      if (complaint.status === 'Pending' || complaint.status === 'pending') {
+        complaint.status = newStatus;
+      } else {
+        return;
+      }
 
       // Send a PATCH request to update the complaint on the server
       const patchResponse = await fetch(apiUrl, {
-        method: 'PATCH', // You might need to check if PATCH is supported by your API
+        method: 'PATCH', // Use PATCH to update the complaint
         headers: headers,
         body: JSON.stringify(complaint),
       });
@@ -119,12 +145,10 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   const [pageCount, setpageCount] = useState(0);
 
   React.useEffect(() => {
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
-
+    const bearertoken = localStorage.getItem('zpt');
     fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint', {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${bearertoken}`,
       },
     })
       .then((response) => {
@@ -149,14 +173,12 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   }, []);
 
   const pageComplain = async (currentPage: number) => {
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
-
+    const bearertoken = localStorage.getItem('zpt');
     const res = await fetch(
       `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint/?page=${currentPage}`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${bearertoken}`,
         },
       },
     );
@@ -176,16 +198,14 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   // Fetch data from the API
   useEffect(() => {
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
-
+    const bearertoken = localStorage.getItem('zpt');
     async function fetchData() {
       try {
         const response = await fetch(
           'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/total_complaints/',
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${bearertoken}`,
             },
           },
         );
@@ -203,21 +223,22 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    filterComplaints(search);
+  }, [search, fetchComplains]);
   // State to store the API data
   const [pending, setpending] = useState<PendingType | null>(null);
 
   // Fetch data from the API
   useEffect(() => {
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
-
+    const bearertoken = localStorage.getItem('zpt');
     async function fetchData() {
       try {
         const response = await fetch(
           'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/pending/',
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${bearertoken}`,
             },
           },
         );
@@ -240,16 +261,14 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   // Fetch data from the API
   useEffect(() => {
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
-
+    const bearertoken = localStorage.getItem('zpt');
     async function fetchData() {
       try {
         const response = await fetch(
           'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/in_progress/',
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${bearertoken}`,
             },
           },
         );
@@ -272,16 +291,14 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   // Fetch data from the API
   useEffect(() => {
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
-
+    const bearertoken = localStorage.getItem('zpt');
     async function fetchData() {
       try {
         const response = await fetch(
           'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/resolved/',
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${bearertoken}`,
             },
           },
         );
@@ -301,18 +318,30 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   const [pageNum, setpageNum] = useState(1);
 
-  const handlePageClick = async (data: number) => {
-    console.log(data);
+  const handlePageClick = async (action: any) => {
+    let newPage = pageNum;
 
-    let currentPage = data + 1;
+    if (action === 'next') {
+      newPage++;
+    } else if (action === 'prev') {
+      newPage--;
+    } else {
+      // Handle the case when a specific page number is clicked
+      newPage = action;
+    }
 
-    const serverComplaint = await pageComplain(currentPage);
-
-    setfetchComplains(serverComplaint);
-    setpageNum(pageNum + 1);
+    if (newPage > 0 && newPage <= pageCount) {
+      const serverComplaint = await pageComplain(newPage);
+      setfetchComplains(serverComplaint);
+      setpageNum(newPage);
+    }
 
     console.log(fetchComplains);
   };
+
+  const createdDate = new Date(complain?.data.createdAt);
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  const formattedDate = createdDate.toLocaleDateString('en-US');
 
   return (
     <>
@@ -325,181 +354,72 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
               <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-lg max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
                   <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">Total Complaints</h2>
-                  <svg
-                    className="h-5 cursor-pointer"
-                    width="21"
-                    height="20"
-                    viewBox="0 0 21 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8.66797 15.8333C8.66797 16.75 9.41797 17.5 10.3346 17.5C11.2513 17.5 12.0013 16.75 12.0013 15.8333C12.0013 14.9167 11.2513 14.1667 10.3346 14.1667C9.41797 14.1667 8.66797 14.9167 8.66797 15.8333Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 4.16732C8.66797 5.08398 9.41797 5.83398 10.3346 5.83398C11.2513 5.83398 12.0013 5.08398 12.0013 4.16732C12.0013 3.25065 11.2513 2.50065 10.3346 2.50065C9.41797 2.50065 8.66797 3.25065 8.66797 4.16732Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 9.99935C8.66797 10.916 9.41797 11.666 10.3346 11.666C11.2513 11.666 12.0013 10.916 12.0013 9.99935C12.0013 9.08268 11.2513 8.33268 10.3346 8.33268C9.41797 8.33268 8.66797 9.08268 8.66797 9.99935Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
                   {totalComplaint ? (
                     <h1 className="h-10 text-2xl font-manropeL font-bold ">{totalComplaint.total_complaints}</h1>
                   ) : (
-                    <p>Loading....</p>
+                    <div className="bg-white-115 w-30 h-5 rounded-lg text-white-115 "> loading... </div>
                   )}
-                  <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-gray-50">
+                  {/* <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-gray-50">
                     <Image src="/assets/complaintsassets/greenIcon-left.svg" alt="back" width={15} height={15} />
                     <p className="text-white-400">
                       {totalComplaint && totalComplaint.percentage_increment !== undefined
                         ? `${totalComplaint.percentage_increment}%`
                         : ''}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-lg max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
                   <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">Resolved</h2>
-                  <svg
-                    className="h-5 cursor-pointer"
-                    width="21"
-                    height="20"
-                    viewBox="0 0 21 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8.66797 15.8333C8.66797 16.75 9.41797 17.5 10.3346 17.5C11.2513 17.5 12.0013 16.75 12.0013 15.8333C12.0013 14.9167 11.2513 14.1667 10.3346 14.1667C9.41797 14.1667 8.66797 14.9167 8.66797 15.8333Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 4.16732C8.66797 5.08398 9.41797 5.83398 10.3346 5.83398C11.2513 5.83398 12.0013 5.08398 12.0013 4.16732C12.0013 3.25065 11.2513 2.50065 10.3346 2.50065C9.41797 2.50065 8.66797 3.25065 8.66797 4.16732Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 9.99935C8.66797 10.916 9.41797 11.666 10.3346 11.666C11.2513 11.666 12.0013 10.916 12.0013 9.99935C12.0013 9.08268 11.2513 8.33268 10.3346 8.33268C9.41797 8.33268 8.66797 9.08268 8.66797 9.99935Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
                   {resolved ? (
                     <h1 className="h-10 text-2xl font-manropeL font-bold ">{resolved.total_Resolved}</h1>
                   ) : (
-                    <p>Loading....</p>
+                    <div className="bg-white-115 w-30 h-5 rounded-lg text-white-115 "> loading... </div>
                   )}
-                  <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-green-50">
+                  {/* <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-green-50">
                     <Image src="/assets/complaintsassets/greenIcon-left.svg" alt="back" width={15} height={15} />
                     <p className="text-green-200">{resolved?.percentage_increment}%</p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-lg max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
                   <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">Pending</h2>
-                  <svg
-                    className="h-5 cursor-pointer"
-                    width="21"
-                    height="20"
-                    viewBox="0 0 21 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8.66797 15.8333C8.66797 16.75 9.41797 17.5 10.3346 17.5C11.2513 17.5 12.0013 16.75 12.0013 15.8333C12.0013 14.9167 11.2513 14.1667 10.3346 14.1667C9.41797 14.1667 8.66797 14.9167 8.66797 15.8333Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 4.16732C8.66797 5.08398 9.41797 5.83398 10.3346 5.83398C11.2513 5.83398 12.0013 5.08398 12.0013 4.16732C12.0013 3.25065 11.2513 2.50065 10.3346 2.50065C9.41797 2.50065 8.66797 3.25065 8.66797 4.16732Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M8.66797 9.99935C8.66797 10.916 9.41797 11.666 10.3346 11.666C11.2513 11.666 12.0013 10.916 12.0013 9.99935C12.0013 9.08268 11.2513 8.33268 10.3346 8.33268C9.41797 8.33268 8.66797 9.08268 8.66797 9.99935Z"
-                      fill="#C4C7C6"
-                      stroke="#C4C7C6"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
                   {pending ? (
                     <h1 className="h-10 text-2xl font-manropeL font-bold ">{pending.total_Pending}</h1>
                   ) : (
-                    <p>Loading...</p>
+                    <div className="bg-white-115 w-30 h-5 rounded-lg text-white-115 "> loading... </div>
                   )}
-                  <div className="flex flex-row items-center justify-center gap-1 h-6 w-16 rounded-xl bg-yellow-50">
+                  {/* <div className="flex flex-row items-center justify-center gap-1 h-6 w-16 rounded-xl bg-yellow-50">
                     <Image src="/assets/complaintsassets/yellowIcon-left-1.svg" alt="back" width={15} height={15} />
                     <p className="text-yellow-200">
                       {pending && pending.percentage_increment !== undefined ? `${pending.percentage_increment}%` : ''}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-lg max-lg:w-60 max-md:w-full">
                 <div className="flex justify-between w-full ">
                   <h2 className="font-manropeL text-sm font-normal h-5 text-neutral-500">In Progress</h2>
-                  <div className="relative flex flex-row">
-                    <svg
-                      className=" cursor-pointer h-5"
-                      width="21"
-                      height="20"
-                      viewBox="0 0 21 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8.66797 15.8333C8.66797 16.75 9.41797 17.5 10.3346 17.5C11.2513 17.5 12.0013 16.75 12.0013 15.8333C12.0013 14.9167 11.2513 14.1667 10.3346 14.1667C9.41797 14.1667 8.66797 14.9167 8.66797 15.8333Z"
-                        fill="#C4C7C6"
-                        stroke="#C4C7C6"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M8.66797 4.16732C8.66797 5.08398 9.41797 5.83398 10.3346 5.83398C11.2513 5.83398 12.0013 5.08398 12.0013 4.16732C12.0013 3.25065 11.2513 2.50065 10.3346 2.50065C9.41797 2.50065 8.66797 3.25065 8.66797 4.16732Z"
-                        fill="#C4C7C6"
-                        stroke="#C4C7C6"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M8.66797 9.99935C8.66797 10.916 9.41797 11.666 10.3346 11.666C11.2513 11.666 12.0013 10.916 12.0013 9.99935C12.0013 9.08268 11.2513 8.33268 10.3346 8.33268C9.41797 8.33268 8.66797 9.08268 8.66797 9.99935Z"
-                        fill="#C4C7C6"
-                        stroke="#C4C7C6"
-                        strokeWidth="1.5"
-                      />
-                    </svg>
-                  </div>
+                  <div className="relative flex flex-row"></div>
                 </div>
                 <div className="flex justify-between items-center w-full mt-2">
                   {inProgress ? (
-                    <h1 className="h-10 text-2xl font-manropeL font-bold ">{inProgress.total_In_progress}</h1>
+                    <h1 className="h-10 text-2xl font-manropeL font-bold ">{inProgress.total_In_Progress}</h1>
                   ) : (
-                    <p>Loading...</p>
+                    <div className="bg-white-115 w-30 h-5 rounded-lg text-white-115 "> loading... </div>
                   )}
-                  <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl bg-blue-50 gap-1">
+                  {/* <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl bg-blue-50 gap-1">
                     <Image src="/assets/complaintsassets/blueIcon-left-2.svg" alt="back" width={15} height={15} />
                     <p className="text-blue-105">{inProgress?.percentage_increment}%</p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -546,7 +466,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                     id=""
                     className="border-none outline-none pl-2 text-slate-600 font-manropeL text-xs font-normal"
                   >
-                    <option value="Filter">Filter</option>
+                    <option value="Filter">All</option>
                     <option value="Resolved">Resolved</option>
                     <option value="Pending">Pending</option>
                     <option value="In-progress">In-progress</option>
@@ -557,10 +477,9 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
             <div className="complaintList">
               <div className="tableHead border-solid border-b border-t max-md:w-max max-lg:w-max border-zinc-200">
                 <div className="vendorComplaints py-3 px-10  flex flex-row items-center justify-between ">
-                  <input className="w-6 min-w-[32px] h-5 cursor-pointer" type="checkbox" name="" id="" />
-                  <div className="w-80 name flex flex-row items-center justify-start min-w-[250px]">
+                  <div className="w-80 name flex flex-row gap-3 items-center justify-start min-w-[250px]">
                     <p className=" pr-2 font-manropeL font-medium text-base text-slate-500">Name</p>
-                    <svg
+                    {/* <svg
                       className="cursor-pointer"
                       width="16"
                       height="16"
@@ -575,7 +494,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
-                    </svg>
+                    </svg> */}
                   </div>
                   <p className="w-40 font-manropeL flex items-center justify-center font-medium text-base text-slate-500 max-lg:min-w-[160px] min-w-[120px]">
                     Description
@@ -588,96 +507,115 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                   </p>
                 </div>
               </div>
-              {fetchComplains && Array.isArray(fetchComplains) ? (
-                fetchComplains
-                  .filter((item: Complain) => {
-                    return search.toLowerCase() === ''
-                      ? item
-                      : item.data.user_details.first_name.toLowerCase().includes(search);
-                  })
-                  .map((complain: any) => {
-                    const handleClick = () => {
-                      router.push(`/super-admin/feedback-and-customer-support/general-complaints/${complain.id}`);
-                    };
+              {complaintsToRender
+                .filter((item) => {
+                  const firstName = item.data?.user_details.first_name.toLowerCase();
+                  return search.toLowerCase() === '' ? item : firstName.includes(search);
+                })
+                .map((complain: any) => {
+                  const handleClick = () => {
+                    router.push(`/super-admin/feedback-and-customer-support/general-complaints/${complain.id}`);
+                  };
 
-                    function product() {
-                      updateComplaintStatus(complain.id, newStatus);
-                      handleClick();
-                    }
+                  function product() {
+                    updateComplaintStatus(complain.id, newStatus);
+                    handleClick();
+                  }
 
-                    return (
-                      <>
-                        <div
-                          onClick={product}
-                          key={complain.id}
-                          className="vendorComplaints py-3 px-10 flex flex-row items-center justify-between border-solid border-b cursor-pointer border-zinc-200"
-                        >
-                          <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
-                          <div className="name w-80 flex flex-row items-center min-w-[250px]">
-                            <div className="displayPicture">
-                              <Image
-                                alt=""
-                                src="https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVuJTIwcG9ydHJhaXR8ZW58MHx8MHx8fDA%3D&w=1000&q=80"
-                                className="h-10 w-10 rounded-full object-contain"
-                                width={40}
-                                height={40}
-                              />
+                  return (
+                    <>
+                      <div
+                        onClick={product}
+                        key={complain.id}
+                        className="vendorComplaints py-3 pr-16 pl-10 flex flex-row items-center justify-between border-solid border-b cursor-pointer border-zinc-200"
+                      >
+                        <div className="name w-80 flex flex-row gap-3 items-center min-w-[250px]" key={complain.id}>
+                          {/* <input className="w-6 h-5 cursor-pointer min-w-[30px]" type="checkbox" name="" id="" /> */}
+                          <div className="displayPicture">
+                            <Image
+                              alt=""
+                              src={
+                                complain?.data?.user_details?.profile_pic ||
+                                'https://i.pinimg.com/736x/17/57/1c/17571cdf635b8156272109eaa9cb5900.jpg'
+                              } // Provide a fallback image source
+                              className="h-10 w-10 rounded-full object-contain"
+                              width={40}
+                              height={40}
+                            />
 
-                              {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
+                            {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
+                          </div>
+                          <div key={complain.id} id={complain.id} className="identity pl-2">
+                            <div>
+                              {complain.user_details ? (
+                                <h2 className="font-manropeL font-semibold text-base">
+                                  {complain.user_details.first_name} {complain.user_details.last_name}
+                                </h2>
+                              ) : (
+                                <h2 className="font-manropeL font-semibold text-base">User Details Unavailable</h2>
+                              )}
+                              {complain.user_details ? (
+                                <p className="font-manropeL text-xs font-normal text-slate-500">
+                                  {complain.user_details.email}
+                                </p>
+                              ) : (
+                                <p className="font-manropeL text-xs font-normal text-slate-500">Email Unavailable</p>
+                              )}
                             </div>
-                            <div key={complain.id} id={complain.id} className="identity pl-2">
-                              <div>
-                                {complain.user_details ? (
-                                  <h2 className="font-manropeL font-semibold text-base">
-                                    {complain.user_details.first_name} {complain.user_details.last_name}
-                                  </h2>
-                                ) : (
-                                  <h2 className="font-manropeL font-semibold text-base">User Details Unavailable</h2>
-                                )}
-                                {complain.user_details ? (
-                                  <p className="font-manropeL text-xs font-normal text-slate-500">
-                                    {complain.user_details.email}
-                                  </p>
-                                ) : (
-                                  <p className="font-manropeL text-xs font-normal text-slate-500">Email Unavailable</p>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
-                            <p className="font-manropeL font-medium text-base max-md:text-xs text-slate-500 truncate">
-                              {complain.complaint_text}
-                            </p>
-                          </div>
-                          <div className="date w-40 min-w-[120px] flex items-center justify-center">
-                            {complain.user_details && complain.createdAt ? (
-                              <p className="font-manropeL font-medium text-base truncate text-slate-500">
-                                {complain.createdAt}
-                              </p>
-                            ) : (
-                              <p className="font-manropeL font-medium text-base text-slate-500">Date Unavailable</p>
-                            )}
-                          </div>
-                          <div>
-                            {complain.status === 'Pending' ? (
-                              <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
-                                <div className="w-2 h-2 bg-yellow-300 rounded-md "></div>
-                                <p className="text-xs text-yellow-300">Pending</p>
-                              </div>
-                            ) : (
-                              <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
-                                <div className="w-2 h-2 bg-blue-300 rounded-md "></div>
-                                <p className="text-xs text-blue-300">In Progress</p>
-                              </div>
-                            )}
                           </div>
                         </div>
-                      </>
-                    );
-                  })
-              ) : (
-                <p className="bg-green-">Loading....</p>
-              )}
+                        <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
+                          {complain.user_details ? (
+                            <p className="font-manropeL text-base truncate font-normal text-slate-500">
+                              {complain.complaint_text}
+                            </p>
+                          ) : (
+                            <p className="font-manropeL text-md truncate font-normal text-slate-500">
+                              Description Unavailable
+                            </p>
+                          )}
+                        </div>
+                        <div className="date w-40 min-w-[120px] flex items-center justify-center">
+                          {complain.user_details && complain.createdAt ? (
+                            <p className="font-manropeL font-medium text-base truncate text-slate-500">
+                              {new Date(complain.createdAt).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                // hour: '2-digit',
+                                // minute: '2-digit',
+                              })}
+                            </p>
+                          ) : (
+                            <p className="font-manropeL font-medium text-base text-slate-500">Date Unavailable</p>
+                          )}
+                        </div>
+                        <div className="flex items-start">
+                          {complain.status === 'Pending' ? (
+                            <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                              <div className="w-2 h-2 bg-yellow-300 rounded-md"></div>
+                              <p className="text-xs text-yellow-300">Pending</p>
+                            </div>
+                          ) : complain.status === 'In Progress' ||
+                            complain.status === 'in Progress' ||
+                            complain.status === 'in progress' ? (
+                            <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                              <div className="w-2 h-2 bg-blue-300 rounded-md"></div>
+                              <p className="text-xs text-blue-300">In Progress</p>
+                            </div>
+                          ) : complain.status === 'Resolved' ? (
+                            <div className="bg-green-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                              <div className="w-2 h-2 bg-green-300 rounded-md"></div>
+                              <p className="text-xs text-green-300">Resolved</p>
+                            </div>
+                          ) : (
+                            <div>No Status</div> // You can add a default case if none of the above conditions match
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
             </div>
           </div>
 
