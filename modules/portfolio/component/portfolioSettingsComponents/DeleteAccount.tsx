@@ -24,7 +24,7 @@ function DeleteAccount() {
   const handleDeleteAccount = useCallback(() => {
     setIspending(true);
     axios
-      .delete(`https://hng6-r5y3.onrender.com/api/delete-user-account/${userId}`)
+      .delete(`https://hng6-r5y3.onrender.com/api/v1/delete-user-account/${userId}`)
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
