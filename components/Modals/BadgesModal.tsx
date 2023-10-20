@@ -70,7 +70,7 @@ function BadgeModal({
             link.click();
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
         break;
 
@@ -93,7 +93,7 @@ function BadgeModal({
             link.click();
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
         break;
     }
