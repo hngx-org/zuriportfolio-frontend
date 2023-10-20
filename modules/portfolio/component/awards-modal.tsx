@@ -130,17 +130,17 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       };
       setAwardCounter(awardCounter + 1);
 
-    try {
-      setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${userId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newAward),
-      });
-      setIsLoading(false);
-      const status = response.status;
+      try {
+        setIsLoading(true);
+        const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${userId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newAward),
+        });
+        setIsLoading(false);
+        const status = response.status;
 
         if (response.ok) {
           setCreateAward('Award created successfully');
