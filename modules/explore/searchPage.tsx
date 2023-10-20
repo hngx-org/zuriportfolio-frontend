@@ -125,7 +125,6 @@ export default function SearchModule() {
     queryFn: () => handleAllTrack(),
   });
 
-  console.log(trackData, 'trackdata');
   const allTrack: alltracksType[] = [{ name: 'All Categories', id: 0 }, ...(trackData?.data ?? [])];
 
   // Sliding Left or right

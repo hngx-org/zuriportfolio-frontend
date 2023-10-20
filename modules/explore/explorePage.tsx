@@ -18,11 +18,6 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
   const searchTerm = useRouter();
-  const [backToTop, setBackToTop] = useState(false);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const handleClearFilters = () => {
     setFilters({});
