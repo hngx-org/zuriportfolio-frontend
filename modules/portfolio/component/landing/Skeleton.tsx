@@ -32,6 +32,8 @@ export const About = ({ bio }: AboutProps) => {
 };
 
 export const WorkExperience = ({ data }: SkeletonProps) => {
+  const endYear = data.isEmployee ? 'Present' : data.endYear;
+
   function formatDuration(startMonth: string, startYear: string, endMonth: string, endYear: string): string {
     const startDate = new Date(`${startMonth} 1, ${startYear}`);
     const endDate = new Date(`${endMonth} 1, ${endYear}`);

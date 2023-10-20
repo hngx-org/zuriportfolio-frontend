@@ -95,11 +95,10 @@ const SearchAndFilter = (prop: {
     queryFn: () => handleAllTrack(),
   });
 
-  console.log(trackData, 'trackdata');
   const allTrack: alltracksType[] = [{ name: 'All', id: 0 }, ...(trackData?.data ?? [])];
 
   return (
-    <section className="p-4 xl:px-0">
+    <section id="top" className="p-4 xl:px-0">
       <div className="relative -mt-[7rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
         <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
           <div className="w-full grid grid-cols-2 gap-4 md:grid-cols-[1fr_1fr_1fr_1fr_1fr_48px]">
@@ -238,15 +237,6 @@ const SearchAndFilter = (prop: {
             </div>
           )}
         </div>
-
-        {/* {showFilterComponent && (
-          <FilterComponent
-            closeFilterComponent={closeFilterComponent}
-            showFilterComponent={showFilterComponent}
-            filters={filters}
-            handleFilters={handleFilters}
-          />
-        )} */}
       </div>
     </section>
   );
