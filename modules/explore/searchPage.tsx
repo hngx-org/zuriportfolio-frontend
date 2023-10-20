@@ -313,9 +313,9 @@ export default function SearchModule() {
               }
             />
 
-            <div className="border-b-2 border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
+            <div className="border-b-2 border-zinc-100 flex flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font=manropeB">
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font-manropeB">
                   EXPERIENCE
                 </div>
               </div>
@@ -341,12 +341,12 @@ export default function SearchModule() {
           <div className="w-[100%]">
             {/* Cards ------ */}
             {isLoading && (
-              <div className="grid w-[100%]  py-14 min-h-[300px]">
+              <div className="grid w-[100%] py-14 min-h-[300px]">
                 <Loader />
               </div>
             )}
             {data && data?.data.length > 0 && (
-              <div className="grid min-[1440px]:grid-cols-3 xl:grid-cols-2 md:grid-cols-2 gap-7 pb-4 sm:grid-cols-2">
+              <div className="grid min-[1440px]:grid-cols-3 xl:grid-cols-2 md:grid-cols-2 gap-x-6 gap-y-10 pb-4 sm:grid-cols-2">
                 {data.data.map((item, key) => (
                   <Card key={key} data={item} />
                 ))}
