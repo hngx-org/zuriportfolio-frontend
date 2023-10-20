@@ -43,7 +43,7 @@ const Index = () => {
                 placeHolder="search"
               />
               <div className="">
-                <FilterProduct handleFilter={handleFilter} />
+                {/* <FilterProduct handleFilter={handleFilter} /> */}
               </div>
             </div>
           </div>
