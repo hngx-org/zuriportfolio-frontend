@@ -35,7 +35,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     setSocials((prevValues) => [
       ...prevValues,
       {
-        userId,
+        user_id: userId,
         url: '',
         social_media_id: 1,
       },
@@ -55,22 +55,14 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       setSocials(updatedData);
     }
   };
-  const handleSocialSelectChange = (id: string, newId: number) => {
-    // Find the index of the object with the matching id
-    const index = socials.findIndex((item) => item.id === id);
-
-    if (index !== -1) {
-      // Creates a new array with the updated content for the specific input
-      const updatedData = [...socials];
-      updatedData[index] = {
-        ...updatedData[index],
-        social_media_id: newId,
-        userId,
-      };
-
-      // Update the state with the new array
-      setSocials(updatedData);
-    }
+  const handleSocialSelectChange = (newId: number, index: number) => {
+    const updatedData = [...socials];
+    updatedData[index] = {
+      ...updatedData[index],
+      social_media_id: newId,
+      userId,
+    };
+    setSocials(updatedData);
   };
 
   const handleSocialDelete = (id: string) => {
@@ -93,13 +85,17 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     //   .then((res) => {
     //     console.log(res);
     //   })
-    const data = socials.map(({ id, email, social_media_id, ...rest }) => ({
-      ...rest,
-      social_media_id: Number(social_media_id),
+    // const data = socials.map(({ url, social_media_id, user_id }) => ({
+    //   social_media_id: Number(social_media_id),
+    // }));
+    // console.log('Data', data);
+    const data = socials.map((social) => ({
+      url: social.url,
+      social_media_id: social.social_media_id,
+      user_id: userId, // Ensure you have the userId available
     }));
-    console.log(data);
 
-    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
+    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/v1/contacts')
       .then((res) => {
         setLoading(false);
         notify({
@@ -108,10 +104,12 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
           theme: 'light',
           type: 'success',
         });
-        onSaveModal();
+        console.log(res);
+        // onSaveModal();
       })
       .catch((err) => {
         setLoading(false);
+        console.log(err);
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -124,7 +122,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     console.log('delete clicked');
     const id = 5;
     try {
-      const res = await fetch(`https://hng6-r5y3.onrender.com/api/contacts/${id}`, {
+      const res = await fetch(`https://hng6-r5y3.onrender.com/api/v1/contacts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +139,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
 
   const getSocialsAvailable = async () => {
     try {
-      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/socials`);
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/socials`);
       const data = await response.data;
       console.log(data);
       setAvailableSocials(data?.data);
@@ -197,16 +195,24 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                         <label className="font-semibold text-[#444846] text-[.9rem] mb-10">Select social</label>
                         <Select
                           onValueChange={(value: string) => {
-                            handleSocialSelectChange(social.social_media_id, availableSocials[index].Id);
+                            const selectedSocial = availableSocials.find((socialItem) => socialItem.name === value);
+                            if (selectedSocial) {
+                              handleSocialSelectChange(selectedSocial.Id, index);
+                            }
+                            console.log(value);
+                            console.log(social);
                           }}
-                          value={social.social_media_id}
                         >
                           <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
                             <SelectValue placeholder="Select Social" />
                           </SelectTrigger>
                           <SelectContent className="border-[#E1E3E2]">
                             {availableSocials.map((socialItem, index) => (
-                              <SelectItem className="capitalize" key={index} value={socialItem.name}>
+                              <SelectItem
+                                className="capitalize hover:bg-[#F4FBF6] hover:text-[#009254]"
+                                key={index}
+                                value={socialItem.name}
+                              >
                                 {socialItem.name}
                               </SelectItem>
                             ))}
@@ -240,10 +246,11 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                       Delete
                     </span>
                   </div>
+                  <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
                 </form>
               ))}
           </form>
-          <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
+
           <div className="flex justify-between flex-col sm:flex-row mt-3 gap-3 sm:w-[90%] mx-auto">
             <button
               className="text-brand-green-primary sm:self-center text-[14px] sm:text-[13px] flex items-center gap-1 font-semibold font-manropeB"

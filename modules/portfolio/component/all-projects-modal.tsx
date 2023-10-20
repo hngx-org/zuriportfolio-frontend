@@ -55,7 +55,6 @@ const AllProjectsModal = ({
       })
       .catch((err) => {
         handleLoading(false);
-        console.log(err);
       });
   };
 

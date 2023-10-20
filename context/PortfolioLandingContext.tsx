@@ -18,6 +18,7 @@ import { useQueries, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
 
 type PortfolioContext = {
+  portfolioUrl: string;
   getUserInfo: UseQueryResult<any>;
   getUserSections: UseQueryResult<any>;
   hasPortfolio: boolean;
@@ -107,9 +108,11 @@ const Portfolio = createContext<PortfolioContext>({
   setOpenCustom: () => {},
   idToDelete: '',
   setIdToDelete: () => {},
+  portfolioUrl: '',
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
+  const portfolioUrl = `https://hng6-r5y3.onrender.com/api/v1/portfolio`;
   const { auth } = useAuth();
   const [userId, setUserId] = useState('');
   const [userSections, setUserSections] = useState<any[]>([]);
@@ -157,7 +160,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
         coverImage: getUserInfo.data?.user?.profileCoverPhoto,
       });
     }
-
     if (getUserSections.data) {
       const {
         about,
@@ -170,7 +172,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         awards,
         languages,
         reference,
-        certificate,
+        certificates,
         shop,
         custom,
       } = getUserSections.data;
@@ -185,7 +187,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         awards ||
         languages ||
         reference ||
-        certificate ||
+        certificates ||
         shop ||
         custom
       ) {
@@ -198,7 +200,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Skills', id: 'skills', data: skills },
         { title: 'Interests', id: 'interests', data: interestArray },
         { title: 'Awards', id: 'awards', data: awards },
-        { title: 'Certificate', id: 'certificate', data: certificate },
+        { title: 'Certificate', id: 'certificate', data: certificates },
         { title: 'Languages', id: 'languages', data: languages },
         { title: 'Reference', id: 'reference', data: reference },
         { title: 'Shop', id: 'shop', data: shop },
@@ -210,7 +212,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getUser = async () => {
     try {
-      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
+      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -223,7 +225,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getSections = async () => {
     try {
-      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      const response = await $http.get(`${portfolioUrl}/${userId}`);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -278,7 +280,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
 
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/cover/upload', {
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/profile/cover/upload', {
         method: 'POST',
         body: formData,
       });
@@ -509,6 +511,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setHasPortfolio,
     getUserInfo,
     getUserSections,
+    portfolioUrl,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

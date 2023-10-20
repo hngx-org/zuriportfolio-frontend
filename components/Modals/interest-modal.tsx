@@ -9,7 +9,7 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import Loader from '@ui/Loader';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineCloseCircle, AiOutlinePlus } from 'react-icons/ai';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 
@@ -66,14 +66,12 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
       className="py-2 px-2 flex items-center gap-3 bg-[#E6F5EA] text-sm font-semibold text-[#003A1B] font-manropeL rounded-lg"
     >
       {value}
-      <Image
-        src={close_circle}
-        width={24}
-        height={24}
-        alt="arrow-left"
-        className="cursor-pointer"
+      <span
+        className="text-base rounded-full m-auto ml-4 flex items-center justify-center  group-hover/skillsbtn:border-white-100 cursor-pointer"
         onClick={() => handleListItemClick(value)}
-      />
+      >
+        <AiOutlineCloseCircle />
+      </span>
     </span>
   ));
 
@@ -89,7 +87,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
         userId: userId,
       };
       axios
-        .post(`${endpoint}/api/interests`, data)
+        .post(`${endpoint}/api/v1/interests`, data)
         .then((res) => {
           setLoading(false);
           notify({
@@ -180,26 +178,24 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
             <section className="flex items-center">
               <h4 className="text-[1.2rem] sm:text-[1.4rem] font-bold text-[#2E3130] font-manropeL"> Interest </h4>
             </section>
-            <Image
-              src={close1}
-              width={24}
-              height={24}
-              alt="arrow-left"
-              className="cursor-pointer"
+            <button
+              className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
               onClick={onCloseModal}
-            />
+            >
+              <AiOutlineClose />
+            </button>
           </section>
 
           {values.length > 0 && <section className="flex items-center flex-wrap gap-3 mt-10 mb-5">{items}</section>}
 
           <section
-            className={`w-full flex items-center mt-4 rounded-lg border ${
+            className={`w-full flex items-center mt-12 mb-6 rounded-lg border ${
               checks ? 'border-[#C4C7C6]' : 'border-red-205'
-            } px-2`}
+            } px-2 `}
           >
             <input
               type="text"
-              className="w-full h-full focus:outline-none text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
+              className="w-full h-full focus:outline-none font-manropeL text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
               placeholder="Enter your interest and press “ENTER”"
               onChange={handleInputChange}
               onKeyDown={handleEnterKeyPress}
@@ -209,7 +205,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
           </section>
 
           <section className="mt-5">
-            <h5 className="text-green-600 text-base font-bold font-manropeL"> Suggestions </h5>
+            <h5 className="text-green-600 text-base font-extrabold font-manropeL"> Suggestions </h5>
             <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">{suggestions}</ul>
           </section>
 

@@ -62,7 +62,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
 
   const { userId } = useContext(Portfolio);
   const setnewdegree = useCallback(async () => {
-    fetch('https://hng6-r5y3.onrender.com/api/degree')
+    fetch('https://hng6-r5y3.onrender.com/api/v1/degree')
       .then((res) => {
         return res.json();
       })
@@ -103,7 +103,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         from,
         to,
       };
-      const response = await fetch(`${API_BASE_URL}api/updateEducationDetail/${educationId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${educationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const handleDeleteEducation = async (educationId: number) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/education/${educationId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${educationId}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -165,7 +165,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const getAllEducation = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`${API_BASE_URL}api/v1/getPortfolioDetails/${userId}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -233,7 +233,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       const year = new Date().getFullYear();
       const currYear = String(year);
 
-      const response = await fetch(`${API_BASE_URL}api/education/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON

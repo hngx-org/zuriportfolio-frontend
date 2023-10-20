@@ -1,6 +1,6 @@
 import React from 'react';
-import Wrapper from './Wrapper';
-import { WorkExperience } from '../Skeleton';
+import Wrapper from './placeholders/Wrapper';
+import { WorkExperience } from './Skeleton';
 
 type PworkExperienceProps = {
   id: string;
@@ -10,6 +10,7 @@ type PworkExperienceProps = {
   section: any;
   toggleShowMoreWorkExperience: () => void;
   showMoreWorkExperience: number;
+  icon?: React.ReactNode;
 };
 
 const PworkExperience = ({
@@ -18,13 +19,19 @@ const PworkExperience = ({
   edit,
   remove,
   section,
+  icon,
   toggleShowMoreWorkExperience,
   showMoreWorkExperience,
 }: PworkExperienceProps) => {
   return (
-    <Wrapper id={id} title={title} edit={edit} remove={remove}>
+    <Wrapper icon={icon} id={id} title={title} edit={edit} remove={remove}>
       {section.data.slice(0, showMoreWorkExperience).map((el: any, i: any) => {
-        return <WorkExperience key={i} data={el} />;
+        return (
+          <>
+            <WorkExperience key={i} data={el} />
+            {section.data.length > 1 && <hr className="mb-5 border-gray-100 opacity-20" />}
+          </>
+        );
       })}
       {section.data.length > 2 && (
         <div className="text-brand-green-primary font-semibold cursor-pointer" onClick={toggleShowMoreWorkExperience}>

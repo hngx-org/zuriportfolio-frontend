@@ -9,6 +9,7 @@ import { useGetAllVendor } from '../../../http/super-admin1';
 import { withAdminAuth } from '../../../helpers/withAuth';
 import { Input } from '@ui/Input';
 import { SearchNormal1 } from 'iconsax-react';
+import SuperAdminVendorManagementHeader from '@modules/super-admin/components/vendormanagement/VendorsMgtHeader';
 
 const Index = () => {
   const [page, setPage] = useState(1);
@@ -18,6 +19,8 @@ const Index = () => {
   const handleFilter = () => {};
   return (
     <div className="">
+      <SuperAdminVendorManagementHeader />
+
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto">

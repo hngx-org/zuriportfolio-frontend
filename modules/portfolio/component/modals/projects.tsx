@@ -34,7 +34,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
-  const [tagInput, setTagInput] = useState<string>('');
+  const [tagInput, setTagInput] = useState<string | null>(null);
   const [description, setDescription] = useState<string>('');
   const [media, setMedia] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
@@ -60,17 +60,24 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
     setLink('');
     setThumbnail('');
     setSelectedTags([]);
-    setTagInput('');
+    setTagInput(null);
     setDescription('');
     setMedia([]);
     setFiles([]);
   };
 
+  // if (inputValue.trim() !== '' && !values.includes(inputValue)) {
+  //   setValues((prevValues) => [...prevValues, inputValue]);
+  //   setInputValue('');
+  // }
+
   const handleAddTags = (e: any) => {
+    e.preventDefault();
     if (e.key === 'Enter') {
-      e.preventDefault();
-      setSelectedTags([...selectedTags, tagInput]);
-      setTagInput('');
+      if (tagInput !== null && tagInput.trim() !== '' && !selectedTags.includes(tagInput)) {
+        setSelectedTags([...selectedTags, tagInput]);
+        setTagInput('');
+      }
     }
   };
 
@@ -174,7 +181,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               theme: 'light',
               type: 'error',
             });
-            console.log(err);
           });
       } else {
         const data = {
@@ -184,11 +190,10 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         files.map((item) => {
           formData.append('images', item);
         });
-        formData.append('data', JSON.stringify(data));
-        console.log(formData);
+        formData.append('jsondata', JSON.stringify(data));
 
         axios
-          .post(`${endpoint}/api/projects`, formData)
+          .post(`${endpoint}/api/v1/projects`, formData)
           .then((res) => {
             setLoading(false);
             notify({
@@ -209,7 +214,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               theme: 'light',
               type: 'error',
             });
-            console.log(err);
           });
       }
     }
@@ -235,20 +239,20 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   }, [dataToEdit]);
 
   return (
-    <section className="p-5">
+    <section className="px-16 pt-10 max-sm:w-full max-sm:px-1">
       {/* header */}
-      <div className="flex justify-between items-center">
-        <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Projects</p>
+      <div className="flex justify-between items-center max-sm:w-full">
+        <p className="text-[1.2rem] sm:text-[1.5rem] font-extrabold text-[#2E3130] font-manropeL">Projects</p>
         <CloseSquare size="32" color="#009254" variant="Bold" onClick={close} className="cursor-pointer" />
       </div>
-      <hr className="border-2 rounded-lg border-brand-green-primary mt-2.5 md:mb-1 mb-10" />
-      <div className="w-full flex-col bg-white-100 p-4 py-5 font-manropeL">
+      <hr className="border-2 rounded-lg border-brand-green-primary mt-2.5 md:mb-1 mb-10 " />
+      <div className="w-full flex-col bg-white-100 p-4 py-5 font-manropeL mt-12">
         <div className="flex flex-col gap-5 w-full">
-          <form className="flex flex-col gap-5 w-full">
+          <form className="flex flex-col gap-5 w-full max-sm:w-full">
             {/* title */}
             <div className="flex justify-center items-center flex-col md:flex-row gap-5">
-              <div className="w-full md:w-[50%]">
-                <p className="font-semibold text-gray-200 pb-2">Project Title*</p>
+              <div className="w-full">
+                <p className="font-bold text-gray-200 pb-2 text-base">Project Title*</p>
                 <Input
                   placeHolder="My best yet"
                   onChange={(e) => {
@@ -256,55 +260,37 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                   }}
                   className={`${
                     allChecks.includes('title') ? 'border-red-205' : 'border-[#E1E3E2]'
-                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold`}
+                  } w-full h-[50px] rounded-md border-[2px] text-[12px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                   inputSize={'lg'}
                   value={title}
                 />
               </div>
               <div className="w-full md:w-[50%]">
-                <p className="font-semibold text-gray-200 pb-2">Year*</p>
+                <p className="font-semibold text-gray-200 pb-2 text-base">Year*</p>
                 <select
                   onChange={(e) => handleSetYear(e)}
                   placeholder="Year"
                   className={`w-full h-[50px] bg-white-100 border-2 rounded-md px-4 ${
                     allChecks.includes('year') ? 'border-red-205' : 'border-[#E1E3E2]'
-                  } border-white-300 font-semibold !text-gray-300`}
+                  } border-white-300 font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                 >
                   <option value="">Select Year</option>
                   {years.map((year, index) => (
-                    <option className="text-gray-300 bg-transparent" key={index} value={year}>
+                    <option className="text-gray-300 bg-transparent px-4" key={index} value={year}>
                       {year}
                     </option>
                   ))}
                 </select>
-                {/* <Select
-                  // className="w-full md:w-[50%] h-[60px] text-gray-300"
-                  onValueChange={(value: string) => {
-                    setYear(value);
-                  }}
-                  value={year}
-                >
-                  <SelectTrigger className="w-full h-[50px] font-semibold !text-gray-300">
-                    <SelectValue className="!text-gray-300" placeholder="Month" />
-                  </SelectTrigger>
-                  <SelectContent className="!text-gray-300">
-                    {years.map((year: any, index: any) => (
-                      <SelectItem className="!text-gray-300" key={index} value={year}>
-                        {year}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select> */}
               </div>
             </div>
             {/* Link */}
             <div className="flex justify-center items-center flex-col md:flex-row md:gap-5">
               <div className="flex-[7] w-full md:w-[50%]">
-                <p className="font-semibold text-gray-200 pb-2">Link to project</p>
+                <p className="font-semibold text-gray-200 pb-2 text-base">Link to project</p>
                 <div className="flex">
                   <p
                     className={`min-w-fit grid place-content-center px-2 border-2 rounded-lg border-[#E1E3E2]
-                    rounded-tr-none rounded-br-none border-r-0 font-base text-gray-300`}
+                    rounded-tr-none rounded-br-none border-r-0 font-base text-gray-300 text-base`}
                   >
                     Type link
                   </p>
@@ -316,7 +302,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                     }}
                     className={`${
                       allChecks.includes('url') ? 'border-red-205' : 'border-[#E1E3E2]'
-                    } w-full h-[50px] rounded-md border-[2px] rounded-tl-none rounded-bl-none text-[14px] font-semibold`}
+                    } w-full h-[50px] rounded-md border-[2px] rounded-tl-none rounded-bl-none text-[14px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                     inputSize={'lg'}
                     value={link}
                   />
@@ -346,30 +332,30 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                   <div
                     onClick={() => handleRemoveTag(index)}
                     key={index}
-                    className="rounded-lg px-2 py-1 bg-green-50 text-[12px] flex justify-center items-center gap-1 cursor-pointer"
+                    className="rounded-lg px-2 py-1 bg-green-50 text-sm flex justify-center items-center gap-1 cursor-pointer text-[#003A1B]"
                   >
                     {tag} <CloseCircle className="inline-block w-[16px] text-brand-green-primary " />
                   </div>
                 ))}
               </div>
               <div>
-                <p className="font-semibold text-gray-200 pb-2">Tags</p>
+                <p className="font-semibold text-gray-200 pb-2 text-base">Tags</p>
                 <Input
                   placeHolder="Enter your tag and press 'ENTER'"
                   onKeyDown={handleAddTags}
                   onChange={(e) => setTagInput(e.target.value)}
                   className={`${
                     allChecks.includes('tags') ? 'border-red-205' : 'border-[#E1E3E2]'
-                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold`}
+                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                   inputSize={'lg'}
-                  value={tagInput}
+                  value={tagInput === null ? '' : tagInput}
                 />
               </div>
             </div>
             {/* description */}
             <div className="flex flex-col w-full">
               <div className="w-full">
-                <p className="font-semibold text-gray-200 pb-2">Description</p>
+                <p className="font-semibold text-gray-200 pb-2 text-base">Description</p>
                 <Input
                   placeHolder="Add some details about your project"
                   onChange={(e) => {
@@ -377,22 +363,18 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                   }}
                   className={`${
                     allChecks.includes('description') ? 'border-red-205' : 'border-[#E1E3E2]'
-                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold`}
+                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                   inputSize={'lg'}
                   value={description}
                 />
               </div>
             </div>
             {/* urlsFromCloudinary, media */}
-            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 w-full gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
               {urlsFromCloudinary.length > 0 &&
-                urlsFromCloudinary.map((url: any, index: any) => (
-                  <div
-                    onClick={() => handleRemoveUrlsFromCloudinary(index)}
-                    key={index}
-                    className="flex gap-4 items-center"
-                  >
-                    <div className="relative">
+                urlsFromCloudinary.map((url: string) => (
+                  <div onClick={() => handleRemoveUrlsFromCloudinary(url)} key={url} className="flex items-center">
+                    <div className="relative ">
                       <Image
                         src={url}
                         priority
@@ -400,7 +382,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                         width={0}
                         height={0}
                         alt=""
-                        className="rounded-lg object-cover object-center w-full aspect-square"
+                        className="rounded-lg object-cover object-center w-full h-[60px]"
                       />
                       <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
                     </div>
@@ -408,7 +390,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 ))}
               {media.length > 0 &&
                 media.map((media: any, index: any) => (
-                  <div onClick={() => handleRemoveMedia(index)} key={index} className="flex w-full gap-4 items-center">
+                  <div onClick={() => handleRemoveMedia(index)} key={index} className="flex w-full gap-4 items-center ">
                     <div className="relative">
                       <Image
                         src={media}
@@ -417,15 +399,18 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                         width={0}
                         height={0}
                         alt=""
-                        className="rounded-lg object-cover object-center w-full h-[100px]"
+                        className="rounded-lg object-cover object-center w-full h-[60px]"
                       />
-                      <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
+                      <CloseCircle
+                        className="text-white-100 shadow-md absolute top-2 right-2 cursor-pointer"
+                        size={24}
+                      />
                     </div>
                   </div>
                 ))}
               <label
                 htmlFor="mediaUpload"
-                className={`rounded-lg px-2 h-[100px] w-[100px] py-1 ${
+                className={`rounded-lg mt-2.5 px-2 h-[80px] w-[80px] py-1 ${
                   media.length >= 10 ? 'bg-green-50' : 'bg-green-600'
                 } cursor-pointer text-[12px] flex justify-center items-center`}
               >
