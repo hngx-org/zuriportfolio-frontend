@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Link from 'next/link';
 
 function Footer() {
@@ -72,6 +73,11 @@ function Footer() {
               <li>
                 <Link href="/marketplace" className="hover:underline">
                   Marketplace
+                </Link>
+              </li>
+              <li>
+                <Link href="/status" className="hover:underline">
+                  API Status
                 </Link>
               </li>
             </ul>
