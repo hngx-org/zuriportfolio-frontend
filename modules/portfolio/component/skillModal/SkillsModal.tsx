@@ -47,8 +47,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
       // Make a GET request to the API
       setIsLoading(true);
       const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/skills/${userId}`);
-      const data = response.data.data;
-      console.log(response)
+      const data = response.data.skills;
       setValues(data);
       setIsLoading(false);
     } catch (error) {
@@ -57,6 +56,8 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
       setIsLoading(false);
     }
   }, [userId]);
+  
+  
   // set the data in the db on the modal onload
 
   useEffect(() => {
@@ -95,11 +96,17 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   };
 
   const arrayOneItemAddition = (item: skillListRes) => {
-    if (!values.some((skill) => skill.skill === item.skill)) {
+     console.log("Big",values);
+    
+    if (!values?.some((skill) => skill.skill === item.skill)) {
       //avoid duplicates
+      
       setValues((values) => [...values, item]);
       
+      
     }
+   
+    
   };
 
   // update skill items on the landing page with reloading the page
