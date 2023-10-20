@@ -35,6 +35,7 @@ const sectionButtonsData = [
 
 function CreateCustomSection({ onClose }: { onClose: () => void }) {
   const [getNewSection, setGetNewSection] = React.useState(false);
+  const [newSection, setNewSection] = React.useState(true);
   const [renderedFields, setRenderedFields] = React.useState<React.ReactNode[]>([]);
 
   const form = useForm({
@@ -91,22 +92,28 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
   const handleSubmit = (values: any) => {
     console.log(values);
     setGetNewSection(true);
+    setNewSection(false);
+    form.reset();
+    setRenderedFields([]);
   };
 
   return (
     <>
-      {getNewSection ? (
-        <CustomNewSections onClose={onClose} />
-      ) : (
+      {getNewSection && <CustomNewSections onClose={onClose} setNewSection={setNewSection} newSection={newSection} />}
+      {newSection && (
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <div className="flex flex-col gap-3 my-19">
-            <div className="flex justify-between items-center">
-              <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">
-                Customize your section
-              </p>
-              <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
-            </div>
-            <div className="bg-brand-green-primary h-1 rounded-sm"></div>
+            {!getNewSection && (
+              <>
+                <div className="flex justify-between items-center">
+                  <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">
+                    Customize your section
+                  </p>
+                  <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+                </div>
+                <div className="bg-brand-green-primary h-1 rounded-sm"></div>
+              </>
+            )}
           </div>
           <CustomHeader
             list={form.values.addList}
@@ -122,7 +129,9 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
               Customize and arrange your fields by clicking on the options above
             </div>
           )}
-          <CustomFooter handleClose={handleClose} />
+          {form.values.addList[0].id !== '' || form.values.section[0].fields.length > 0 ? (
+            <CustomFooter handleClose={handleClose} setNewSection={setGetNewSection} />
+          ) : null}
         </form>
       )}
     </>
