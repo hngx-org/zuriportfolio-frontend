@@ -21,6 +21,11 @@ type Product = {
   category_id: any;
   description: any;
   id: any;
+  promo: {
+    amount: number;
+    inPercentage: string;
+    maximum_discount_price: number;
+  } | null;
 };
 const Products = () => {
   const [pageSize, setPageSize] = useState(2);
