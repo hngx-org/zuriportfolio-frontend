@@ -60,7 +60,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     setIsForm(true);
   };
 
-  const { userId } = useContext(Portfolio);
+  const { userId, slug, portfolioUrl } = useContext(Portfolio);
   const setnewdegree = useCallback(async () => {
     fetch('https://hng6-r5y3.onrender.com/api/v1/degree')
       .then((res) => {
@@ -103,7 +103,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         from,
         to,
       };
-      const response = await fetch(`${API_BASE_URL}api/v1/education/${educationId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/updateEducationDetail/${educationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -165,7 +165,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const getAllEducation = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/v1/portfolio/${userId}`);
+      const response = await fetch(`${portfolioUrl}/${slug}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -284,6 +284,9 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     getAllEducation();
     // }
   }, [getAllEducation]);
+  useEffect(() => {
+    console.log(educations);
+  }, [educations]);
 
   return (
     <EducationModalContext.Provider

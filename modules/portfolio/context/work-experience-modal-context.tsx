@@ -50,7 +50,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const [isEditMode, setIsEditMode] = useState(false);
   const [isData, setIsData] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const resetForm = () => {
     setRole('');
     setCompany('');
@@ -63,7 +62,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setIsForm(true);
   };
 
-  const { userId } = useContext(Portfolio);
+  const { userId, portfolioUrl, slug } = useContext(Portfolio);
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
 
@@ -143,7 +142,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const getAllWorkExperience = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/v1/portfolio/${userId}`);
+      const response = await fetch(`${portfolioUrl}/${slug}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -230,12 +229,11 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setIsForm(false);
         setIsData(true);
       } else {
-        // Request failed, handle the error
         const responseJson = await response.json();
         console.error('Request failed with status:', response.status);
         if (
           responseJson?.message &&
-          responseJson?.message.includes('String must contain at least 13 character(s) in description')
+          responseJson?.message?.includes('String must contain at least 13 character(s) in description')
         ) {
           notify({
             message: 'Description must contain more than 13 characters',
@@ -247,7 +245,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         }
         if (
           responseJson?.message &&
-          responseJson?.message.includes('End month must match or exceed start month in the same year')
+          responseJson?.message?.includes('End month must match or exceed start month in the same year')
         ) {
           notify({
             message: 'End month must match or exceed start month in the same year',
@@ -258,7 +256,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         }
         if (
           responseJson?.message &&
-          responseJson?.message.includes('End month must be at or after start month for the same year')
+          responseJson?.message?.includes('End month must be at or after start month for the same year')
         ) {
           notify({
             message: 'End month must be at or after start month for the same year',
@@ -293,12 +291,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   useEffect(() => {
     console.log(workExperiences);
   }, []);
-
-  // useEffect(() => {
-  //   if (workExperiences.length === 0) {
-  //     setIsForm(true);
-  //   }
-  // }, []);
 
   return (
     <WorkExperienceModalContext.Provider

@@ -296,7 +296,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         onValueChange={(value: string) => {
                           setEndMonth(value);
                         }}
-                        value={endMonth}
+                        // value={endMonth}
                       >
                         <SelectTrigger className="w-[180px] outline-none">
                           <SelectValue placeholder="Month" />
@@ -317,7 +317,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         onValueChange={(value: string) => {
                           setEndYear(value);
                         }}
-                        value={endYear}
+                        // value={endYear}
                       >
                         <SelectTrigger className="w-[180px] border-[2px] outline-none">
                           <SelectValue placeholder="Year" />
@@ -347,11 +347,8 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         onChange={() => {
                           setIsChecked(!isChecked);
                           if (isChecked) {
-                            setEndYear('Present');
-                            setEndMonth('Present');
-                          } else {
-                            setEndMonth(endMonth);
-                            setEndYear(endYear);
+                            setEndYear('');
+                            setEndMonth('');
                           }
                         }}
                         className="peer shrink-0 appearance-none h-[100%] w-[100%] border-[1px] border-[#A8ACAB] rounded-md checked:bg-brand-green-primary checked:border-0"
@@ -376,7 +373,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
-                  disabled={isLoading}
                   onClick={(e) => {
                     onCloseModal();
                     resetForm();
@@ -390,7 +386,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button disabled={isLoading} type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                   Save
                 </Button>
               </div>
