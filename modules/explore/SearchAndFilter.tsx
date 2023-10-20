@@ -9,6 +9,7 @@ import {
   Code,
   CommandSquare,
   Data,
+  Element3,
   Filter,
   FilterSquare,
   MobileProgramming,
@@ -94,11 +95,10 @@ const SearchAndFilter = (prop: {
     queryFn: () => handleAllTrack(),
   });
 
-  console.log(trackData, 'trackdata');
   const allTrack: alltracksType[] = [{ name: 'All', id: 0 }, ...(trackData?.data ?? [])];
 
   return (
-    <section className="p-4 xl:px-0">
+    <section id="top" className="p-4 xl:px-0">
       <div className="relative -mt-[7rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
         <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
           <div className="w-full grid grid-cols-2 gap-4 md:grid-cols-[1fr_1fr_1fr_1fr_1fr_48px]">
@@ -166,7 +166,7 @@ const SearchAndFilter = (prop: {
           ref={sliderRef}
           onScroll={handleScroll}
         >
-          <div className="justify-start items-center inline-flex mt-4 gap-6">
+          <div className="justify-start items-center inline-flex mt-4 gap-4">
             {/* {sectionsData.map((section, index) => (
               <div
                 key={index}
@@ -187,7 +187,7 @@ const SearchAndFilter = (prop: {
               allTrack.map((section, index) => (
                 <div
                   key={index}
-                  className={`px-4 py-[0.625rem] rounded-2xl justify-center items-center gap-4 flex cursor-pointer font-manropeB text-[0.875rem] ${
+                  className={`px-4 py-[0.625rem] rounded-lg justify-center items-center gap-2 flex cursor-pointer font-manropeB text-[0.875rem] ${
                     activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
                   } ${section.name === 'All' ? 'hidden sm:flex' : ''}`}
                   onClick={() => {
@@ -196,14 +196,14 @@ const SearchAndFilter = (prop: {
                     setShowFilterComponent(section.name === 'All Filter');
                   }}
                 >
-                  <div className="w-6 h-6 relative">
-                    {activeSection === index ? (
-                      <IconsTrack state="active" name={section.name} />
-                    ) : (
-                      <IconsTrack state="inactive" name={section.name} />
-                    )}
-                  </div>
-                  <div className="text-center">{section.name}</div>
+                  {section.name === 'All' ? (
+                    <div className="flex justify-center gap-2 text-center">
+                      <Element3 size="24" color={activeSection === index ? '#fff' : '#5B5F5E'} variant="Bold" />
+                      {section.name}
+                    </div>
+                  ) : (
+                    <div className="text-center">{section.name}</div>
+                  )}
                 </div>
               ))
               // ....
@@ -237,15 +237,6 @@ const SearchAndFilter = (prop: {
             </div>
           )}
         </div>
-
-        {/* {showFilterComponent && (
-          <FilterComponent
-            closeFilterComponent={closeFilterComponent}
-            showFilterComponent={showFilterComponent}
-            filters={filters}
-            handleFilters={handleFilters}
-          />
-        )} */}
       </div>
     </section>
   );
@@ -253,99 +244,99 @@ const SearchAndFilter = (prop: {
 
 export default SearchAndFilter;
 
-type MyComponentProps = {
-  name: string;
-  state: 'active' | 'inactive';
-};
+// type MyComponentProps = {
+//   name: string;
+//   state: 'active' | 'inactive';
+// };
 
-const IconsTrack: React.FC<MyComponentProps> = ({ name, state }) => {
-  const sectionsData = [
-    {
-      icon: <Filter size={26} color="white" />,
-      activeIcon: <Filter size={26} color="blac" />,
-      text: 'All',
-      filterType: 'none',
-    },
-    {
-      icon: <PenTool2 size={26} color="white" />,
-      activeIcon: <PenTool2 size={26} color="#737373" />,
-      text: 'Design',
-      filterType: 'Track',
-    },
-    {
-      icon: <Code size="26" color="white" />,
-      activeIcon: <Code size={26} color="#737373" />,
-      text: 'Frontend',
-      filterType: 'Track',
-    },
-    {
-      icon: <CommandSquare size="26" color="white" />,
-      activeIcon: <CommandSquare size={26} color="#737373" />,
-      text: 'Backend',
-      filterType: 'Track',
-    },
-    {
-      icon: <MobileProgramming size="26" color="white" />,
-      activeIcon: <MobileProgramming size={26} color="#737373" />,
-      text: 'Mobile',
-      filterType: 'Track',
-    },
-    {
-      icon: <Cloud size="26" color="white" />,
-      activeIcon: <Cloud size={26} color="#737373" />,
-      text: 'Cloud Computing',
-      filterType: 'Track',
-    },
-    {
-      icon: <Data size="26" color="white" />,
-      activeIcon: <Data size={26} color="#737373" />,
-      text: 'Data Science',
-      filterType: 'Track',
-    },
-    {
-      icon: <Airdrop size="26" color="white" />,
-      activeIcon: <Airdrop size={26} color="#737373" />,
-      text: 'Cybersecurity',
-      filterType: 'Track',
-    },
-    {
-      icon: <Code size="26" color="white" />,
-      activeIcon: <Code size={26} color="#737373" />,
-      text: 'Devops',
-      filterType: 'Track',
-    },
-  ];
-  const checkProp = () => {
-    const word = name.slice(0).toLocaleLowerCase(); // Get the first 6 letters of the prop
+// const IconsTrack: React.FC<MyComponentProps> = ({ name, state }) => {
+//   const sectionsData = [
+//     {
+//       icon: <Filter size={26} color="white" />,
+//       activeIcon: <Filter size={26} color="blac" />,
+//       text: 'All',
+//       filterType: 'none',
+//     },
+//     {
+//       icon: <PenTool2 size={26} color="white" />,
+//       activeIcon: <PenTool2 size={26} color="#737373" />,
+//       text: 'Design',
+//       filterType: 'Track',
+//     },
+//     {
+//       icon: <Code size="26" color="white" />,
+//       activeIcon: <Code size={26} color="#737373" />,
+//       text: 'Frontend',
+//       filterType: 'Track',
+//     },
+//     {
+//       icon: <CommandSquare size="26" color="white" />,
+//       activeIcon: <CommandSquare size={26} color="#737373" />,
+//       text: 'Backend',
+//       filterType: 'Track',
+//     },
+//     {
+//       icon: <MobileProgramming size="26" color="white" />,
+//       activeIcon: <MobileProgramming size={26} color="#737373" />,
+//       text: 'Mobile',
+//       filterType: 'Track',
+//     },
+//     {
+//       icon: <Cloud size="26" color="white" />,
+//       activeIcon: <Cloud size={26} color="#737373" />,
+//       text: 'Cloud Computing',
+//       filterType: 'Track',
+//     },
+//     {
+//       icon: <Data size="26" color="white" />,
+//       activeIcon: <Data size={26} color="#737373" />,
+//       text: 'Data Science',
+//       filterType: 'Track',
+//     },
+//     {
+//       icon: <Airdrop size="26" color="white" />,
+//       activeIcon: <Airdrop size={26} color="#737373" />,
+//       text: 'Cybersecurity',
+//       filterType: 'Track',
+//     },
+//     {
+//       icon: <Code size="26" color="white" />,
+//       activeIcon: <Code size={26} color="#737373" />,
+//       text: 'Devops',
+//       filterType: 'Track',
+//     },
+//   ];
+//   const checkProp = () => {
+//     const word = name.slice(0).toLocaleLowerCase(); // Get the first 6 letters of the prop
 
-    if (word.includes('web dev')) {
-      return state === 'active' ? <Code size="26" color="white" /> : <Code size="26" color="#737373" />;
-    } else if (word.includes('mobile')) {
-      return state === 'active' ? (
-        <MobileProgramming size="26" color="white" />
-      ) : (
-        <MobileProgramming size="26" color="#737373" />
-      );
-    } else if (word.includes('security')) {
-      return state === 'active' ? <Airdrop size="26" color="white" /> : <Airdrop size="26" color="#737373" />;
-    } else if (word.includes('all')) {
-      return state === 'active' ? <Filter size={26} color="white" /> : <Filter size={26} color="black" />;
-    } else if (word.includes('-end')) {
-      return state === 'active' ? <Code size="26" color="white" /> : <Code size="26" color="#737373" />;
-    } else if (word.includes('cloud')) {
-      return state === 'active' ? <Cloud size="26" color="white" /> : <Cloud size="26" color="#737373" />;
-    } else if (word.includes('data')) {
-      return state === 'active' ? <Data size="26" color="white" /> : <Data size="26" color="#737373" />;
-    } else if (word.includes('design')) {
-      return state === 'active' ? <PenTool2 size={26} color="white" /> : <PenTool2 size={26} color="#737373" />;
-    } else {
-      return state === 'active' ? (
-        <CommandSquare size="26" color="white" />
-      ) : (
-        <CommandSquare size={26} color="#737373" />
-      );
-    }
-  };
+//     if (word.includes('web dev')) {
+//       return state === 'active' ? <Code size="26" color="white" /> : <Code size="26" color="#737373" />;
+//     } else if (word.includes('mobile')) {
+//       return state === 'active' ? (
+//         <MobileProgramming size="26" color="white" />
+//       ) : (
+//         <MobileProgramming size="26" color="#737373" />
+//       );
+//     } else if (word.includes('security')) {
+//       return state === 'active' ? <Airdrop size="26" color="white" /> : <Airdrop size="26" color="#737373" />;
+//     } else if (word.includes('all')) {
+//       return state === 'active' ? <Filter size={26} color="white" /> : <Filter size={26} color="black" />;
+//     } else if (word.includes('-end')) {
+//       return state === 'active' ? <Code size="26" color="white" /> : <Code size="26" color="#737373" />;
+//     } else if (word.includes('cloud')) {
+//       return state === 'active' ? <Cloud size="26" color="white" /> : <Cloud size="26" color="#737373" />;
+//     } else if (word.includes('data')) {
+//       return state === 'active' ? <Data size="26" color="white" /> : <Data size="26" color="#737373" />;
+//     } else if (word.includes('design')) {
+//       return state === 'active' ? <PenTool2 size={26} color="white" /> : <PenTool2 size={26} color="#737373" />;
+//     } else {
+//       return state === 'active' ? (
+//         <CommandSquare size="26" color="white" />
+//       ) : (
+//         <CommandSquare size={26} color="#737373" />
+//       );
+//     }
+//   };
 
-  return <div>{checkProp()}</div>;
-};
+//   return <div>{checkProp()}</div>;
+// };
