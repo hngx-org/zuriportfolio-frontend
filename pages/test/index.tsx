@@ -11,12 +11,12 @@ const App: React.FC = () => {
     // Simulate loading for 3 seconds
     setTimeout(() => {
       setIsLoading(false);
-    }, 5000);
+    }, 10000);
   }, []);
 
-  // return <div className="App">{isLoading ? <Loader1 /> : <p>Your content here</p>}</div>;
-  return <div className="App">{isLoading ? <Loader2 /> : <p>Your content here</p>}</div>;
-  // return <div className="App">{isLoading ? <Loader3/> : <p>Your content here</p>}</div>;
+  //return <div className="App">{isLoading ? <Loader1 /> : <p>Your content here</p>}</div>;
+  //return <div className="App">{isLoading ? <Loader2 /> : <p>Your content here</p>}</div>;
+  return <div className="App">{isLoading ? <Loader3 /> : <p>Your content here</p>}</div>;
   //return <div className="App">{isLoading ? <Loader4/> : <p>Your content here</p>}</div>;
 };
 
