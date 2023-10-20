@@ -3,7 +3,7 @@ import MainLayout from '../../../components/Layout/MainLayout';
 import SearchModule from '@modules/explore/searchPage';
 import SEO from '../ExploreSEO';
 
-export default function Search({ params, searchParams }: Props) {
+export default function Search() {
   return (
     <MainLayout showTopbar={true} showDashboardSidebar={false} activePage="explore">
       <SEO
