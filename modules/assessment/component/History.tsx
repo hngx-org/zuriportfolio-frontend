@@ -5,6 +5,7 @@ import Pagination from '@ui/Pagination';
 import Image from 'next/image';
 import Link from 'next/link';
 import { fetchAssessmentHistory } from '../../../http/userTakenAssessment';
+import Loader from '@ui/Loader';
 
 // Define a type or interface for the assessment data
 interface Assessment {
@@ -94,7 +95,7 @@ const History: React.FC = () => {
     <div className="w-full font-manropeEL">
       {isLoading ? (
         <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
+          <Loader />
         </div>
       ) : (
         <div className="w-full md:p-8 px-4 flex flex-col">
@@ -105,6 +106,7 @@ const History: React.FC = () => {
             </div>
           </div>
           <div
+            id="table"
             className={`flex items-center sm:flex-row flex-col mb-4 gap-3 w-full m-auto align-middle justify-between ${
               showFilters ? 'flex-col' : 'sm:flex'
             }`}
@@ -284,7 +286,7 @@ const History: React.FC = () => {
               )}
             </table>
           </div>
-          <div className="pagination flex justify-center items-center mt-5 w-full">
+          <a href="#table" className="pagination flex justify-center items-center mt-5 w-fit mx-auto">
             <Pagination
               page={currentPage}
               setPage={setCurrentPage}
@@ -292,7 +294,7 @@ const History: React.FC = () => {
               activePage={currentPage}
               visiblePaginatedBtn={5}
             />
-          </div>
+          </a>
         </div>
       )}
     </div>

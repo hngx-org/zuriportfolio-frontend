@@ -10,6 +10,10 @@ import { LoadingTable } from '@modules/super-admin/components/product-listing/Pr
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
 import { withAdminAuth } from '../../../../helpers/withAuth';
 import { Input } from '@ui/Input';
+import Image from 'next/image';
+import right from '/public/assets/vendor/arrow-right.svg';
+import StatusPill from '@modules/super-admin/components/StatusPill';
+import SuperAdminSancHead from '@modules/super-admin/components/product-listing/sanctioned-products/Header';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -38,6 +42,7 @@ const SanctionedProducts = () => {
   useEffect(() => {
     setFilteredProducts(deletedProd);
   }, [deletedProd]);
+  const router = useRouter();
 
   // const handleSearch = (searchText: string) => {
   //   const filteredProduct: any = data?.data?.filter(
@@ -53,7 +58,16 @@ const SanctionedProducts = () => {
 
   return (
     <>
+      <SuperAdminSancHead />
       <SuperAdminNavbar />
+      <div className=" container">
+        <Image
+          src={right}
+          alt="back"
+          className="  pb-3 cursor-pointer"
+          onClick={() => router.push('/super-admin/product-listing/')}
+        ></Image>
+      </div>
       <div className="container font-manropeL  mx-auto border-2 border-custom-color1">
         <div className="py-3 px-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
@@ -61,7 +75,7 @@ const SanctionedProducts = () => {
             <p className="text-custom-color2 text-sm">List of all deleted products and their details</p>
           </div>
           <div>
-            <div className="w-[400px]">
+            <div className="md:w-[400px]">
               <Input
                 onChange={(e) => {
                   // handleSearch(e.target.value);
@@ -127,27 +141,8 @@ const SanctionedProducts = () => {
                         <td className="hidden md:table-cell tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                           <p>{formatDate(product?.updatedAt)}</p>
                         </td>
-                        <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
-                          <div
-                            className={` hidden  mx-auto rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
-                              product?.product_status === 'Sanctioned'
-                                ? 'mx-auto bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                                : product?.product_status === 'Deleted'
-                                ? 'hidden mx-auto bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                                : 'bg-green-200 bg-opacity-50 text-green-800'
-                            }`}
-                          >
-                            <span
-                              className={`inline-block w-2 h-2 rounded-full ${
-                                product?.product_status === 'Sanctioned'
-                                  ? 'bg-yellow-600'
-                                  : product?.product_status === 'Deleted'
-                                  ? 'bg-red-800'
-                                  : 'bg-green-800'
-                              }`}
-                            ></span>
-                            <span>{product?.product_status}</span>
-                          </div>
+                        <td className="tracking-wide font-manropeL text-base text-gray-900 flex items-center py-9 justify-center text-center">
+                          <StatusPill status={product?.product_status} />
                         </td>
                       </tr>
                     ))}

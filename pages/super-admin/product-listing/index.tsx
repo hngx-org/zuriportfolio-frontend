@@ -10,7 +10,7 @@ const ProductListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchVal, setSearchVal] = useState('');
   const { data, isLoading } = useGetProd(currentPage, searchVal);
-  const { pendData, pendLoading } = useGetPending();
+  const { pendData, pendLoading } = useGetPending(currentPage, searchVal);
   return (
     <div>
       <SuperAdminNavbar />

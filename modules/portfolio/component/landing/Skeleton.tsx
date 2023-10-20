@@ -7,114 +7,185 @@ import axios from 'axios';
 import Link from 'next/link';
 import CustomSectionModal from '../custom-section-modal';
 
+// types
+import successful from '../../../../pages/marketplace/success';
+
 type AboutProps = {
   bio?: string;
-};
-
-export const About = ({ bio }: AboutProps) => {
-  return <p className="text-sm text-gray-300 font-semibold">{bio}</p>;
 };
 
 type SkeletonProps = {
   data?: any;
 };
 
+// styles
+
+const text = `text-gray-500 text-sm font-light leading-6 font-manropeL tracking-wide [word-spacing:3px]`;
+const description = `text-sm text-gray-600 leading-5 font-manropeL tracking-wide`;
+const main = `text-gray-800 text-xl font-semibold`;
+const date = `text-gray-500 text-sm font-semibold`;
+const array = 'grid place-content-center p-2 rounded-lg shadow-[0_0px_4px_1px_rgba(0,0,0,0.1)]';
+const arrayText = 'text-base text-gray-800 font-semibold opacity-70';
+
+// components
+export const About = ({ bio }: AboutProps) => {
+  return <p className={text}>{bio}</p>;
+};
+
 export const WorkExperience = ({ data }: SkeletonProps) => {
+  const endYear = data.isEmployee ? 'Present' : data.endYear;
+
+  function formatDuration(startMonth: string, startYear: string, endMonth: string, endYear: string): string {
+    const startDate = new Date(`${startMonth} 1, ${startYear}`);
+    const endDate = new Date(`${endMonth} 1, ${endYear}`);
+
+    const durationInMilliseconds = endDate.getTime() - startDate.getTime();
+    const millisecondsInYear = 1000 * 60 * 60 * 24 * 365.25;
+    const years = Math.floor(durationInMilliseconds / millisecondsInYear);
+    const remainingMilliseconds = durationInMilliseconds - years * millisecondsInYear;
+    const months = Math.floor(remainingMilliseconds / (1000 * 60 * 60 * 24 * 30.44));
+
+    return `${years} yrs ${months} months`;
+  }
+
+  const duration = formatDuration(data.startMonth, data.startYear, data.endMonth, data.endYear);
+
   return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between  items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6">
-      <p className="text-gray-300 font-semibold text-base flex-[2]">
-        <span>
-          {data?.startMonth} {data?.startYear}
-        </span>{' '}
-        -{' '}
-        <span>
-          {data?.endMonth} {data?.endYear}
-        </span>
-      </p>
-      <div className="flex flex-col mb-2 md:gap-1 flex-[2]">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.company}</h3>
-        <p className="text-base font-manropeL text-brand-green-primary">{data?.role}</p>
+    <div className="flex flex-col justify-start md:justify-between  items-start gap-x-10 gap-y-2 mb-5">
+      <div className="">
+        <h3 className={`${main}`}>{data?.company}</h3>
+        <p className={`${date}`}>{duration}</p>
       </div>
-      <p className="font-semibold text-sm text-gray-400 break-all flex-[2]">{data?.description}</p>
+      <div className="flex flex-col gap-1">
+        <h3 className={`font-bold text-gray-700 text-lg`}>{data?.role}</h3>
+        <p className={`${date}`}>
+          <span>
+            {data?.startMonth} {data?.startYear}
+          </span>{' '}
+          -{' '}
+          <span>
+            {data?.endMonth} {data?.endYear}
+          </span>
+        </p>
+        <p className={description}>{data?.description}</p>
+      </div>
     </div>
   );
 };
 
-export const Education = ({ data }: SkeletonProps) => {
+export const Skill = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
-      <p className="text-gray-300 font-semibold text-base flex-1">
-        <span>{data?.from}</span> - <span>{data?.to}</span>
-      </p>
-      <div className="flex flex-col mb-1 md:gap-1 flex-1">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.fieldOfStudy}</h3>
-        <p className="text-sm font-manropeL text-gray-300">{data?.school}</p>
-      </div>
-      <p className="font-semibold text-sm text-gray-400 break-all flex-1">{data?.description}</p>
+    <div className="flex flex-wrap gap-5 justify-start items-start mt-2">
+      {data?.map((skill: any, i: number) => (
+        <span className={array} key={i}>
+          <p className={arrayText}>{skill.skills}</p>
+        </span>
+      ))}
     </div>
   );
 };
 
-export const Certificate = ({ data }: SkeletonProps) => {
+export const Interests = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between  items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
-      <p className="text-gray-300 font-semibold text-base flex-1">
-        <span>
-          {data?.month} {data?.year}
+    <div className="flex flex-wrap gap-5 justify-start items-start mt-2">
+      {data?.length > 0 &&
+        data?.map((interest: any, i: number) => {
+          return (
+            <span className={array} key={i}>
+              <p className={arrayText}>{interest}</p>
+            </span>
+          );
+        })}
+    </div>
+  );
+};
+
+export const Language = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-wrap gap-5 justify-start items-start">
+      {data?.map((language: any, i: number) => (
+        <span className={array} key={i}>
+          <p className={arrayText}>{language.language}</p>
         </span>
-      </p>
-      <div className="flex flex-col gap-1 mb-4 flex-1 items-start">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.certificate}</h3>
-        <p className="text-base font-manropeB text-gray-200">{data?.school}</p>
-        <a
-          className="flex gap-2 justify-center items-center text-base font-manropeB text-brand-green-primary"
-          target="_blank"
-          href={data?.link}
-          rel="noreferrer"
-        >
-          {data?.linkTitle}
-          <ArrowUp size={20} className="rotate-45 inline ms-1" />
-        </a>
-      </div>
-      <p className="font-semibold text-sm text-gray-400 break-all flex-1">{data?.description}</p>
+      ))}
     </div>
   );
 };
 
 export const Awards = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
-      <p className="text-gray-300 font-semibold text-base flex-[2] flex-wrap break-all">{data?.year}</p>
-      <div className="flex flex-col items-start gap-1 mb-4 flex-[2] flex-wrap break-all">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.title}</h3>
-        <p className="text-base font-manropeB text-gray-200">{data?.org}</p>
-        <a
-          className="flex flex-row gap-1 justify-center items-center text-base font-manropeB text-brand-green-primary flex-[2] break-all"
-          target="_blank"
-          href={data?.url}
-          rel="noreferrer"
-        >
-          {data?.url}{' '}
-          <span>
-            <ArrowUp size={20} className="rotate-45 inline ms-1" />
-          </span>
-        </a>
-      </div>
-      <p className="font-semibold text-sm text-gray-400 flex-wrap break-all flex-[2]">{data?.description}</p>
+    <div className="flex flex-col justify-start items-start gap-1 mb-6">
+      <p className={date}>Award year - {data?.year}</p>
+      <h3 className={main}>{data?.title}</h3>
+      <a
+        className="flex flex-row justify-center items-center text-base font-manropeB text-brand-green-primary break-all"
+        target="_blank"
+        href={data?.url}
+        rel="noreferrer"
+      >
+        {data?.url}{' '}
+        <span>
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
+        </span>
+      </a>
+      <p className={description}>{data?.description}</p>
     </div>
   );
 };
 
-export let projects = [
-  {
-    id: 11,
-    title: 'Project title',
-    description: 'Description',
-    tags: 'Tag 1,Tag 2',
-    url: 'Link',
-    thumbnail: '',
-  },
-];
+export const Reference = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-col flex-wrap mb-4">
+      <div className="flex flex-col" key={data.id}>
+        <span className={main}>{data.referer}</span>
+        <span className={text}>{data.position}</span>
+        <span className={text}>{data.company}</span>
+        <span className={text}>{data.email}</span>
+        <span className={text}>{data.phone_number}</span>
+      </div>
+    </div>
+  );
+};
+
+export const Certificate = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-col justify-center items-start gap-1 mb-6">
+      <h3 className={main}>{data?.title}</h3>
+      <p className={text}>{data?.organization}</p>
+      <p className={date}>Certificate year - {data?.year}</p>
+      <a
+        className="flex justify-center items-center text-base font-manropeB text-brand-green-primary cursor-pointer"
+        target="_blank"
+        href={data?.url}
+        rel="noreferrer"
+      >
+        {data?.url}
+        <ArrowUp size={20} className="rotate-45 inline ms-1" />
+      </a>
+      <p className={description}>{data?.description}</p>
+    </div>
+  );
+};
+
+export const Education = ({ data }: SkeletonProps) => {
+  return (
+    <div className="flex flex-col justify-start md:justify-between  items-start gap-x-10 gap-y-2 mb-5">
+      <div className="">
+        <h3 className={`${main}`}>{data?.fieldOfStudy}</h3>
+        <h3 className={`${date}`}>{data?.degree?.type}</h3>
+      </div>
+      <div className="flex flex-col gap-1">
+        <h3 className={`font-bold text-gray-700 text-lg`}>{data?.role}</h3>
+        <p className={`${date}`}>
+          <span>
+            {data?.from} - {data?.to}
+          </span>
+        </p>
+        <p className={description}>{data?.description}</p>
+      </div>
+    </div>
+  );
+};
 
 export const Project = ({ data }: SkeletonProps) => {
   const dataToMap = data?.tags?.split(',');
@@ -131,20 +202,20 @@ export const Project = ({ data }: SkeletonProps) => {
     'Thumbnail not found'
   );
   return (
-    <div className="flex md:flex-row flex-col mb-10 gap-1 md:gap-5">
-      <div className="min-w-[290px] w-[290px] order-2 md:order-1 rounded-xl">{image}</div>
+    <div className="flex md:flex-row flex-col mb-10 gap-1">
+      <div className="min-w-[250px] w-[250px] order-2 md:order-1 rounded-xl md:mr-5">{image}</div>
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
-        <p className="font-semibold text-sm text-gray-400 break-all">{data?.description}</p>
+        <p className={description}>{data?.description}</p>
         <div className="order-2 md:order-1 flex gap-2 md:mb-0 mb-3">
           {dataToMap.length > 1 &&
             dataToMap?.map((tag: string, i: number) => (
-              <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
-                <p className="text-sm text-gray-400">{tag}</p>
+              <span className={array} key={i}>
+                <p className={arrayText}>{tag}</p>
               </span>
             ))}
         </div>
-        <a className="text-blue-100 font-semibold" target="_blank" href={data?.url} rel="noreferrer">
+        <a className="text-brand-green-primary font-semibold" target="_blank" href={data?.url} rel="noreferrer">
           Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
@@ -152,57 +223,7 @@ export const Project = ({ data }: SkeletonProps) => {
   );
 };
 
-export const Skill = ({ data }: SkeletonProps) => {
-  return (
-    <div className="flex flex-wrap gap-5 justify-start items-start">
-      {data?.map((skill: any, i: number) => (
-        <span
-          className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
-          key={i}
-        >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{skill.skills}</p>
-        </span>
-      ))}
-    </div>
-  );
-};
-
-export const Interests = ({ data }: SkeletonProps) => {
-  console.log(data);
-
-  return (
-    <div className="flex flex-wrap gap-5 justify-start items-start">
-      {data?.length > 0 &&
-        data?.map((interest: any, i: number) => {
-          return (
-            <span
-              className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
-              key={i}
-            >
-              <p className="text-sm text-gray-400 font-semibold opacity-70">{interest}</p>
-            </span>
-          );
-        })}
-    </div>
-  );
-};
-
-export const Language = ({ data }: SkeletonProps) => {
-  return (
-    <div className="flex flex-wrap gap-5 justify-start items-start">
-      {data?.map((language: any, i: number) => (
-        <span
-          className="grid place-content-center border-[1px] md:py-1 md:p-2 p-4 border-gray-300 md:rounded-3xl rounded-lg border-opacity-50"
-          key={i}
-        >
-          <p className="text-sm text-gray-400 font-semibold opacity-70">{language.language}</p>
-        </span>
-      ))}
-    </div>
-  );
-};
-
-export const Shop = () => {
+export const Shop = (data: any) => {
   //demo data
   const shop = [
     {
@@ -252,36 +273,42 @@ export const Shop = () => {
   );
 };
 
-export const Contact = ({ data }: SkeletonProps) => {
-  return (
-    <div className="flex flex-col w-full gap-5">
-      {data?.map((contact: { title: string; info: string; link: string }, i: string) => (
-        <div key={i}>
-          <div className="flex justify-start items-center gap-10">
-            <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
-            <a
-              className="text-blue-100 font-semibold text-sm flex-[2] flex items-center text-center gap-3"
-              href={contact.link}
-            >
-              {contact.info}
-              <ExportSquare size={14} />
-            </a>
-          </div>
-        </div>
-      ))}
-    </div>
+export type GetShopItemProps = {
+  isOpen?: boolean;
+  onCloseModal?: () => void;
+  onSaveModal?: () => void;
+  userId?: any;
+};
+export const GetShopItem = ({ isOpen, onCloseModal, onSaveModal, userId }: GetShopItemProps) => {
+  //Get the function to open the shop modal
+  const { setOpenShop } = useContext(Portfolio);
+
+  let successful: boolean;
+  successful = false;
+
+  useEffect(() => {
+    // if(!successful) setOpenShop(true);
+  }, []);
+
+  return successful ? (
+    <></>
+  ) : (
+    <AddShopErrorModal isOpen={isOpen} onCloseModal={onCloseModal} onSaveModal={onSaveModal} />
   );
 };
 
-export const Reference = ({ data }: SkeletonProps) => {
+export const Contact = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex flex-col flex-wrap mb-2">
-      <div className="flex flex-col" key={data.id}>
-        <span className="text-gray-500 font-semibold text-xl min-w-min">{data.referer}</span>
-        <span className="text-gray-300 font-semibold w-6/12">{data.position}</span>
-        <span className="text-gray-300 font-semibold w-6/12">{data.company}</span>
-        <span className="text-gray-300 font-semibold w-6/12">{data.email}</span>
-        <span className="text-gray-300 font-semibold ">{data.phone_number}</span>
+    <div className="flex flex-col w-full gap-5">
+      <div className="flex justify-start items-center gap-10">
+        <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{data.url}</span>
+        <a
+          className="text-brand-green-primary font-semibold text-sm flex-[2] flex items-center text-center gap-3"
+          href={data.url}
+        >
+          {data.url}
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
+        </a>
       </div>
     </div>
   );
