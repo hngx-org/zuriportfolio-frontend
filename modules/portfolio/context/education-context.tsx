@@ -109,7 +109,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         to,
         degree, // You may need to add the degree information as well
       };
-      const response = await fetch(`${API_BASE_URL}api/updateEducationDetail/${educationId}`, {
+      const response = await fetch(`${API_BASE_URL}api/education/${educationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

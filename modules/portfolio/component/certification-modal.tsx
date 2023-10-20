@@ -524,16 +524,13 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     // Send a PUT request to update the certification
 
     try {
-      const response = await fetch(
-        `https://hng6-r5y3.onrender.com/api/update-certification/${userId}/${id}/${sectionId}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(editedCertification), // Send the edited data
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}/${id}/${sectionId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(editedCertification), // Send the edited data
+      });
       const data = await response.json();
       console.log(data);
       // if (response.ok) {
