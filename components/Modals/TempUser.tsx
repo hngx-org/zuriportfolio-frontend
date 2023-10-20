@@ -19,6 +19,7 @@ interface TempUser {
 const TempUser = ({ isOpen, onClose }: TempUser) => {
   const { auth } = useAuth();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  // const [guestSuccess, setguestSuccess] = useState(false);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -31,6 +32,15 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
     };
     const payment = userForm.get('paymentMethod') as string;
     const tempUser = await createTempUser(data);
+    console.log(tempUser.error);
+
+    if (tempUser.error) {
+      toast.error('User with that email already exists');
+      setIsDisabled(false);
+    } else {
+      toast.success('Guest User created');
+      setIsDisabled(false);
+    }
 
     if (tempUser.data.token) {
       console.log(tempUser.data.token);
@@ -43,13 +53,17 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
         console.log('status passed');
         const response = await makePayment(payment, tempUser.data.token);
         if (response.status == 201) {
+          toast.success('Payment succesful');
           localStorage.setItem('products', '');
           window.location.href = response.data.transaction_url;
         } else {
-          toast.error('Error occured try again');
+          toast.error('Payment not successful');
+          console.log('error:', response.message);
+          setIsDisabled(false);
         }
       } else {
         toast.error('Error making transaction');
+        setIsDisabled(false);
       }
     }
   };

@@ -80,7 +80,7 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-  const baseUrl = 'https://hng6-r5y3.onrender.com/api/';
+  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1';
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
