@@ -28,7 +28,7 @@ const Pprojects = ({
       {section.data.slice(0, showMoreProjects).map((el: any, i: number) => {
         return <Project key={i} data={el} />;
       })}
-      {section.data.length > 2 && (
+      {section.data.length > 1 && (
         <div className="text-brand-green-primary font-semibold cursor-pointer" onClick={toggleShowMoreProjects}>
           {showMoreProjects === 2 ? 'View More' : 'View Less'}
         </div>
