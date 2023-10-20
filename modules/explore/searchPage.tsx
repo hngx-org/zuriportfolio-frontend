@@ -226,7 +226,7 @@ export default function SearchModule() {
         </div>
         {/* .... */}
         <div className="mt-10  flex gap-3">
-          <div className="min-h-screen gap-8 w-[100%]  lg:flex max-w-[320px] hidden px-10 pt-12 pb-12 mb-5 bg-white rounded-2xl  border-[#F2F2F2] border-2 flex-col justify-start items-center ">
+          <div className="min-h-screen gap-8 w-[100%] lg:flex max-w-[320px] hidden px-8 pt-12 pb-12 mb-5 bg-white rounded-2xl  border-[#F2F2F2] border-2 flex-col justify-start items-center xl:gap-x-4">
             <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-start items-center w-full">
                 <div className="text-zinc-800 text-2xl font-semibold  leading-loose">Filters</div>
@@ -235,7 +235,9 @@ export default function SearchModule() {
             </div>
             <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal">SKILLS</div>
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font-manropeB">
+                  SKILLS
+                </div>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -290,12 +292,14 @@ export default function SearchModule() {
             </div>
             <div className="border-b  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal">LOCATION</div>
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font-manropeB">
+                  LOCATION
+                </div>
               </div>
             </div>
             <Input
               placeholder="Location"
-              className="border-[#E1E3E2] border-[1px] placeholder:text-custom-color22"
+              className="w-full border-[#E1E3E2] border-[1px] placeholder:text-custom-color22"
               onChange={(e) => handleFilters('Location', e.target.value.toLocaleLowerCase())}
               rightIcon={
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -311,7 +315,9 @@ export default function SearchModule() {
 
             <div className="border-b-2 border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal">EXPERIENCE</div>
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font=manropeB">
+                  EXPERIENCE
+                </div>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2 text-custom-color22">
