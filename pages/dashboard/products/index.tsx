@@ -124,7 +124,7 @@ const Products = () => {
             <>
               {product.length === 0 ? (
                 <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] mt-[-10px] md:mt-[-10px] md:m-[100px] flex-col items-center justify-center">
-                  <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
+                  <Image src="/assets/images/product.png" alt="discount" width={100} height={100} />
                   <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">
                     You don&apos;t have any product
                   </h2>
