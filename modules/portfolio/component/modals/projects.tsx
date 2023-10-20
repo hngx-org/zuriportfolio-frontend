@@ -7,43 +7,77 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Image from 'next/image';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
+import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
+import { Data, allRouteOptions } from './project-section-modal';
 
 type ProjectSectionProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  userId: string;
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  userId: string | undefined;
+  dataToEdit: Data | null;
+  projects: any[];
+  handleSetRoute: (data: allRouteOptions) => void;
 };
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
-const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId }) => {
+const ProjectSection: React.FC<ProjectSectionProps> = ({
+  dataToEdit,
+  onCloseModal,
+  userId,
+  onSaveModal,
+  projects,
+  handleSetRoute,
+}) => {
   const [title, setTitle] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [link, setLink] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
-  const [tagInput, setTagInput] = useState<string>('');
+  const [tagInput, setTagInput] = useState<string | null>(null);
   const [description, setDescription] = useState<string>('');
   const [media, setMedia] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
+  const [allChecks, setAllChecks] = useState<string[]>([]);
+  const [id, setId] = useState<number | null>();
+  const [urlsFromCloudinary, setUrlsFromCloudinary] = useState<string[]>([]);
   const years = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
 
+  const items = {
+    sectionid: 5,
+    userid: userId,
+    title,
+    year,
+    url: link,
+    tags: selectedTags.join(', '),
+    description,
+  };
+
   const handleDataClear = () => {
+    setId(null);
     setTitle('');
     setYear('');
     setLink('');
     setThumbnail('');
     setSelectedTags([]);
-    setTagInput('');
+    setTagInput(null);
     setDescription('');
     setMedia([]);
+    setFiles([]);
   };
 
+  // if (inputValue.trim() !== '' && !values.includes(inputValue)) {
+  //   setValues((prevValues) => [...prevValues, inputValue]);
+  //   setInputValue('');
+  // }
+
   const handleAddTags = (e: any) => {
+    e.preventDefault();
     if (e.key === 'Enter') {
-      e.preventDefault();
-      setSelectedTags([...selectedTags, tagInput]);
-      setTagInput('');
+      if (tagInput !== null && tagInput.trim() !== '' && !selectedTags.includes(tagInput)) {
+        setSelectedTags([...selectedTags, tagInput]);
+        setTagInput('');
+      }
     }
   };
 
@@ -82,112 +116,182 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
     setMedia(updatedMedia);
   };
 
+  const handleRemoveUrlsFromCloudinary = (index: any) => {
+    const updatedUrls = [...media];
+    updatedUrls.splice(index, 1);
+    setUrlsFromCloudinary(updatedUrls);
+  };
+
   const close = () => {
-    onClose();
+    if (projects.length > 0) {
+      handleDataClear();
+      handleSetRoute('view-projects');
+    } else {
+      handleDataClear();
+      onCloseModal();
+    }
   };
 
-  // {"title":"Live test for issue ART-36 ", "year":"2023", "url":"https://link-to-project.com", "tags":"all, tags, here, comma separated", "description": "Updated new description", "userId":"2c92b6a8-e672-41c5-af97-a643ce56ce6c", "sectionId":"4"}
-  const handleSubmit = (e: any) => {
-    setLoading(true);
+  const handleSetYear = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value === '') {
+      setYear('');
+    } else {
+      setYear(e.target.value);
+    }
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    const { allChecksPassed, failedChecks } = checkObjectProperties(items);
+    setAllChecks(failedChecks);
     const formData = new FormData();
-    const data = {
-      sectionid: 5,
-      userid: userId,
-      title,
-      year,
-      url: link,
-      thumbnail: files[0],
-      tags: selectedTags.join(', '),
-      description,
-    };
-    console.log(data);
-
-    files.map((item) => {
-      formData.append('images', item);
-    });
-    formData.append('jsondata', JSON.stringify(data));
-    console.log(formData);
-
-    axios
-      .post(`${endpoint}/api/projects`, formData)
-      .then((res) => {
-        setLoading(false);
-        notify({
-          message: 'Projects created successfully',
-          position: 'top-center',
-          theme: 'light',
-          type: 'success',
+    if (allChecksPassed) {
+      setLoading(true);
+      if (id) {
+        const data = {
+          ...items,
+          id,
+          thumbnail: files[0],
+          prevImageUrls: urlsFromCloudinary,
+        };
+        files.map((item) => {
+          formData.append('images', item);
         });
-        handleDataClear();
-        onClose();
-        console.log(res);
-      })
-      .catch((err) => {
-        setLoading(false);
-        notify({
-          message: 'Error occurred',
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
+
+        formData.append('jsondata', JSON.stringify(data));
+
+        axios
+          .put(`${endpoint}/api/projects/${id}`, formData)
+          .then((res) => {
+            setLoading(false);
+            notify({
+              message: 'Project updated successfully',
+              position: 'top-center',
+              theme: 'light',
+              type: 'success',
+            });
+            handleDataClear();
+            onSaveModal();
+          })
+          .catch((err) => {
+            setLoading(false);
+            notify({
+              message: 'Error occurred',
+              position: 'top-center',
+              theme: 'light',
+              type: 'error',
+            });
+          });
+      } else {
+        const data = {
+          ...items,
+          thumbnail: files[0],
+        };
+        files.map((item) => {
+          formData.append('images', item);
         });
-        console.log(err);
-      });
+        formData.append('jsondata', JSON.stringify(data));
+
+        axios
+          .post(`${endpoint}/api/v1/projects`, formData)
+          .then((res) => {
+            setLoading(false);
+            notify({
+              message: 'Projects created successfully',
+              position: 'top-center',
+              theme: 'light',
+              type: 'success',
+            });
+            handleDataClear();
+            onSaveModal();
+            console.log(res);
+          })
+          .catch((err) => {
+            setLoading(false);
+            notify({
+              message: 'Error occurred',
+              position: 'top-center',
+              theme: 'light',
+              type: 'error',
+            });
+          });
+      }
+    }
   };
+
+  const handleEditData = () => {
+    if (dataToEdit !== null) {
+      const { title, year, link, thumbnail, tags, description, media, id, projectsImages } = dataToEdit;
+      setTitle(title);
+      setYear(year);
+      setLink(link);
+      setThumbnail(thumbnail);
+      setSelectedTags(tags.split(','));
+      setDescription(description);
+      setUrlsFromCloudinary(projectsImages);
+      setId(id);
+    }
+  };
+
+  useEffect(() => {
+    handleEditData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataToEdit]);
 
   return (
-    <Modal isOpen={true} closeModal={close} isCloseIconPresent={false} size="xl">
-      <div className="w-full flex-col bg-white-100 p-4 py-5 font-manropeL">
+    <section className="px-16 pt-10 max-sm:w-full max-sm:px-1">
+      {/* header */}
+      <div className="flex justify-between items-center max-sm:w-full">
+        <p className="text-[1.2rem] sm:text-[1.5rem] font-extrabold text-[#2E3130] font-manropeL">Projects</p>
+        <CloseSquare size="32" color="#009254" variant="Bold" onClick={close} className="cursor-pointer" />
+      </div>
+      <hr className="border-2 rounded-lg border-brand-green-primary mt-2.5 md:mb-1 mb-10 " />
+      <div className="w-full flex-col bg-white-100 p-4 py-5 font-manropeL mt-12">
         <div className="flex flex-col gap-5 w-full">
-          {/* header */}
-          <div className="flex justify-between items-center">
-            <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Projects</p>
-            <CloseSquare size="32" color="#009254" variant="Bold" onClick={close} className="cursor-pointer" />
-          </div>
-          <hr className="border-2 rounded-lg border-brand-green-primary md:mb-1 mb-10" />
-          <form className="flex flex-col gap-5 w-full">
+          <form className="flex flex-col gap-5 w-full max-sm:w-full">
             {/* title */}
             <div className="flex justify-center items-center flex-col md:flex-row gap-5">
-              <div className="w-full md:w-[50%]">
-                <p className="font-semibold text-gray-200 pb-2">Project Title*</p>
+              <div className="w-full">
+                <p className="font-bold text-gray-200 pb-2 text-base">Project Title*</p>
                 <Input
                   placeHolder="My best yet"
                   onChange={(e) => {
                     setTitle(e.target.value);
                   }}
-                  className="border-[#E1E3E2] w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold"
+                  className={`${
+                    allChecks.includes('title') ? 'border-red-205' : 'border-[#E1E3E2]'
+                  } w-full h-[50px] rounded-md border-[2px] text-[12px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                   inputSize={'lg'}
                   value={title}
                 />
               </div>
               <div className="w-full md:w-[50%]">
-                <p className="font-semibold text-gray-200 pb-2">Year*</p>
-                <Select
-                  // className="w-full md:w-[50%] h-[60px] text-gray-300"
-                  onValueChange={(value: string) => {
-                    setYear(value);
-                  }}
-                  value={year}
+                <p className="font-semibold text-gray-200 pb-2 text-base">Year*</p>
+                <select
+                  onChange={(e) => handleSetYear(e)}
+                  placeholder="Year"
+                  className={`w-full h-[50px] bg-white-100 border-2 rounded-md px-4 ${
+                    allChecks.includes('year') ? 'border-red-205' : 'border-[#E1E3E2]'
+                  } border-white-300 font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                 >
-                  <SelectTrigger className="w-full h-[50px] font-semibold text-gray-300">
-                    <SelectValue className="text-gray-300" placeholder="Month" />
-                  </SelectTrigger>
-                  <SelectContent className="text-gray-300">
-                    {years.map((year: any, index: any) => (
-                      <SelectItem className="text-gray-300" key={index} value={year}>
-                        {year}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  <option value="">Select Year</option>
+                  {years.map((year, index) => (
+                    <option className="text-gray-300 bg-transparent px-4" key={index} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             {/* Link */}
             <div className="flex justify-center items-center flex-col md:flex-row md:gap-5">
               <div className="flex-[7] w-full md:w-[50%]">
-                <p className="font-semibold text-gray-200 pb-2">Link to project</p>
+                <p className="font-semibold text-gray-200 pb-2 text-base">Link to project</p>
                 <div className="flex">
-                  <p className="min-w-fit grid place-content-center px-2 border-2 rounded-lg border-[#E1E3E2] rounded-tr-none rounded-br-none border-r-0 font-base text-gray-300">
+                  <p
+                    className={`min-w-fit grid place-content-center px-2 border-2 rounded-lg border-[#E1E3E2]
+                    rounded-tr-none rounded-br-none border-r-0 font-base text-gray-300 text-base`}
+                  >
                     Type link
                   </p>
 
@@ -196,7 +300,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
                     onChange={(e) => {
                       setLink(e.target.value);
                     }}
-                    className="border-[#E1E3E2] w-full h-[50px] rounded-md border-[2px] rounded-tl-none rounded-bl-none text-[14px] font-semibold"
+                    className={`${
+                      allChecks.includes('url') ? 'border-red-205' : 'border-[#E1E3E2]'
+                    } w-full h-[50px] rounded-md border-[2px] rounded-tl-none rounded-bl-none text-[14px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                     inputSize={'lg'}
                     value={link}
                   />
@@ -226,44 +332,65 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
                   <div
                     onClick={() => handleRemoveTag(index)}
                     key={index}
-                    className="rounded-lg px-2 py-1 bg-green-50 text-[12px] flex justify-center items-center gap-1 cursor-pointer"
+                    className="rounded-lg px-2 py-1 bg-green-50 text-sm flex justify-center items-center gap-1 cursor-pointer text-[#003A1B]"
                   >
                     {tag} <CloseCircle className="inline-block w-[16px] text-brand-green-primary " />
                   </div>
                 ))}
               </div>
               <div>
-                <p className="font-semibold text-gray-200 pb-2">Tags</p>
+                <p className="font-semibold text-gray-200 pb-2 text-base">Tags</p>
                 <Input
                   placeHolder="Enter your tag and press 'ENTER'"
                   onKeyDown={handleAddTags}
                   onChange={(e) => setTagInput(e.target.value)}
-                  className="border-[#E1E3E2] w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold"
+                  className={`${
+                    allChecks.includes('tags') ? 'border-red-205' : 'border-[#E1E3E2]'
+                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                   inputSize={'lg'}
-                  value={tagInput}
+                  value={tagInput === null ? '' : tagInput}
                 />
               </div>
             </div>
-            {/* desctiprion */}
+            {/* description */}
             <div className="flex flex-col w-full">
               <div className="w-full">
-                <p className="font-semibold text-gray-200 pb-2">Description</p>
+                <p className="font-semibold text-gray-200 pb-2 text-base">Description</p>
                 <Input
                   placeHolder="Add some details about your project"
                   onChange={(e) => {
                     setDescription(e.target.value);
                   }}
-                  className="border-[#E1E3E2] w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold"
+                  className={`${
+                    allChecks.includes('description') ? 'border-red-205' : 'border-[#E1E3E2]'
+                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                   inputSize={'lg'}
                   value={description}
                 />
               </div>
             </div>
-            {/* media */}
-            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 w-full gap-4">
+            {/* urlsFromCloudinary, media */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
+              {urlsFromCloudinary.length > 0 &&
+                urlsFromCloudinary.map((url: string) => (
+                  <div onClick={() => handleRemoveUrlsFromCloudinary(url)} key={url} className="flex items-center">
+                    <div className="relative ">
+                      <Image
+                        src={url}
+                        priority
+                        unoptimized
+                        width={0}
+                        height={0}
+                        alt=""
+                        className="rounded-lg object-cover object-center w-full h-[60px]"
+                      />
+                      <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
+                    </div>
+                  </div>
+                ))}
               {media.length > 0 &&
                 media.map((media: any, index: any) => (
-                  <div onClick={() => handleRemoveMedia(index)} key={index} className="flex gap-4 items-center">
+                  <div onClick={() => handleRemoveMedia(index)} key={index} className="flex w-full gap-4 items-center ">
                     <div className="relative">
                       <Image
                         src={media}
@@ -272,36 +399,45 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
                         width={0}
                         height={0}
                         alt=""
-                        className="rounded-lg object-cover object-center w-full aspect-square"
+                        className="rounded-lg object-cover object-center w-full h-[60px]"
                       />
-                      <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
+                      <CloseCircle
+                        className="text-white-100 shadow-md absolute top-2 right-2 cursor-pointer"
+                        size={24}
+                      />
                     </div>
                   </div>
                 ))}
-              {media.length < 10 && (
-                <label
-                  htmlFor="mediaUpload"
-                  className="rounded-lg px-2 py-1 bg-green-50 text-[12px] flex justify-center items-center gap-1 cursor-pointer aspect-square"
-                >
-                  <Add className="text-white-100" size={42} />
-                  <input
-                    id="mediaUpload"
-                    type="file"
-                    onChange={(e) => handleMedia(e)}
-                    className="hidden"
-                    accept="image/png, image/jpeg"
-                  />
-                </label>
-              )}
+              <label
+                htmlFor="mediaUpload"
+                className={`rounded-lg mt-2.5 px-2 h-[80px] w-[80px] py-1 ${
+                  media.length >= 10 ? 'bg-green-50' : 'bg-green-600'
+                } cursor-pointer text-[12px] flex justify-center items-center`}
+              >
+                <Add className="text-white-100" size={42} />
+                <input
+                  disabled={media.length === 10 ? true : false}
+                  id="mediaUpload"
+                  type="file"
+                  onChange={(e) => handleMedia(e)}
+                  className="hidden"
+                  accept="image/png, image/jpeg"
+                />
+              </label>
             </div>
+            <p className="font-semibold text-base text-white-650 mt-2.5">
+              {' '}
+              Note: you can only add 10 images. Sizes 1080 X 566{' '}
+            </p>
+
             {/* buttons */}
             <div className="my-10 flex gap-4 justify-end items-center">
-              <Button intent={'secondary'} className="rounded-lg min-w-[100px]">
+              <Button onClick={close} intent={'secondary'} className="rounded-lg min-w-[100px]">
                 Cancel
               </Button>
               <Button
                 disabled={loading}
-                className={`${loading ? 'opacity-50' : 'opacity-100'} rounded-lg min-w-[100px]`}
+                className={`${loading ? 'opacity-90' : 'opacity-100'} rounded-lg min-w-[100px]`}
                 onClick={handleSubmit}
               >
                 Save
@@ -310,7 +446,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({ isOpen, onClose, userId
           </form>
         </div>
       </div>
-    </Modal>
+    </section>
   );
 };
 

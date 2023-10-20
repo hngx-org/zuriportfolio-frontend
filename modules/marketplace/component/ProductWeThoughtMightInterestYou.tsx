@@ -6,40 +6,32 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useAuth } from '../../../context/AuthContext';
+import { isUserAuthenticated } from '../hooks/useAuthHelper';
+import { CART_ENDPOINT } from '../../../http/checkout';
+import { useCart } from '@modules/shop/component/CartContext';
+import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
 
 export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { auth } = useAuth();
   const [response, setResponse] = useState<IntrestedProducts[]>([]);
   const [product, setProduct] = useState<ProductData | null>(null);
+  const token: any = isUserAuthenticated();
+  const { setCartCountNav, cartCount } = useCart();
+  const [cartLoading, setCartLoading] = useState<boolean>(true);
 
-  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/similar_products/${id}/`;
+  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/similar_products/${id}/`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setResponse(data.products);
+        setResponse(data.data.similar_products);
       });
   }, [url]);
 
-  function formatPrice(price: number | string) {
-    if (typeof price === 'string') {
-      price = parseFloat(price);
-    }
-
-    if (isNaN(price)) {
-      return price;
-    }
-
-    return price.toLocaleString('en-US', {
-      useGrouping: true,
-      minimumFractionDigits: 2,
-    });
-  }
-
   const addToCart = async (ids: string) => {
-    const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout/api/carts`;
-    if (auth) {
+    const apiUrl = `${CART_ENDPOINT}/api/carts`;
+    if (auth?.token) {
       try {
         const response = await axios.post(
           apiUrl,
@@ -52,20 +44,26 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
         );
 
         if (response.status === 200) {
+          setCartCountNav(cartCount + 1);
           toast.success('Added to Cart');
-          console.log('success');
+          setCartLoading(false);
         }
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
       }
     } else {
-      const products: any[] = [];
+      const products: any[] = localStorage.getItem('products')
+        ? JSON.parse(localStorage.getItem('products') as string)
+        : [];
+      console.log('no auth');
+
       if (product) {
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
-        console.log(products);
         toast.success('Item added to cart🎊');
+        setCartLoading(false);
+        setCartCountNav(cartCount + 1);
       }
     }
   };
@@ -76,10 +74,10 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
         Products we thought might interest you!
       </h1>
 
-      <div className="lg:flex lg:flex-row lg:items-center lg:gap-[16px] lg:overflow-hiddenlg:w-[100%] lg:my-[40px] my-[40px] md:grid-cols-2 md:grid md:gap-[16px]">
+      <div className="lg:flex lg:flex-row lg:items-center lg:gap-[16px] lg:overflow-hidden lg:my-[40px] my-[40px] md:grid-cols-2 md:grid md:gap-[16px]">
         {response.map((item, index) => (
-          <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[298px]" key={index}>
-            <Link href={`/marketplace/product-details?id=${item?.id}`}>
+          <div className="p-[16px] mb-10 border-[1px] border-custom-color32 rounded-[8px] w-[298px]" key={index}>
+            <Link href={`/marketplace/product-details/${item?.id}`}>
               <div>
                 <div className="flex flex-col items-center">
                   <div>
@@ -113,7 +111,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
                     </p>
                   </div>
                   <p className="text-custom-color43 font-manropeL text-[22px] font-bold ">
-                    {`$${formatPrice(item.price)}`}
+                    {formatToNigerianNaira(item.price)}
                   </p>
                 </div>
 

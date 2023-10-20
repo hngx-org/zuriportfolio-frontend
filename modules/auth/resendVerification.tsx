@@ -1,5 +1,5 @@
 import Button from '@ui/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import VerificationLayout from './component/verificationLayout';
 import { Input } from '@ui/Input';
@@ -13,11 +13,13 @@ import { resendVerification } from '../../http/auth';
 function ResendVerification() {
   const router = useRouter();
 
-  const onresendEmailVerifySuccess = (data: { message: string; status: string }) => {
+  const [email, setEmail] = useState('');
+
+  const onresendEmailVerifySuccess = (data: { message: string; status: number }) => {
     if (data.message) {
-      notify({ message: data.message, type: data.status === '200' ? 'success' : 'error' });
-      if (data.status === '200') {
-        router.push('/auth/verification');
+      notify({ message: data.message, type: data.status === 200 ? 'success' : 'error' });
+      if (data.status === 200) {
+        router.push(`/auth/verification?email=${email}`);
       }
       return;
     }
@@ -52,6 +54,7 @@ function ResendVerification() {
   });
 
   const handleSignUpWithEmail = (values: any) => {
+    setEmail(values.email);
     resendVerify({ email: values.email });
   };
 
@@ -72,8 +75,8 @@ function ResendVerification() {
             <Input
               type="text"
               {...form.getInputProps('email')}
-              placeHolder="user@example.com"
-              className={`w-full text-[#667085] h-[60px] border ${
+              placeHolder="Enter email"
+              className={`w-full text-black h-[60px] border ${
                 form.errors.email ? 'border-[#EF4444]' : 'border-[#D0D5DD]'
               }`}
             />

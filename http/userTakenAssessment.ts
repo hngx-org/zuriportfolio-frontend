@@ -1,7 +1,7 @@
 import axios from 'axios';
 import $http from './axios';
 
-const assessmentBaseUrl = `http://104.248.143.148/api`;
+const assessmentBaseUrl = `https://assessment.cofucan.tech/api`;
 
 export const fetchAssessmentHistory = async (token: string) => {
   try {
@@ -24,9 +24,12 @@ export const getAssessmentDetails = async (token: string, data: string) => {
         token: token,
       },
     });
+    if (!response.data) {
+      return;
+    }
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log('detail', error);
     throw error;
   }
 };
@@ -38,6 +41,9 @@ export const getAllAssessments = async (token: string) => {
         token: token,
       },
     });
+    if (!response.data) {
+      return;
+    }
     return response.data;
   } catch (error) {
     console.log(error);
@@ -53,7 +59,7 @@ const axiosInstance = axios.create({
 
 export const fetchUserTakenAssessment = async (token: string, id: any) => {
   try {
-    const res = await axiosInstance.post(
+    const res = await axios.post(
       `${assessmentBaseUrl}/assessments/start-assessment`,
       { assessment_id: id },
       {
@@ -63,7 +69,25 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
         },
       },
     );
-    console.log(res.data.data);
+    if (!res.data) {
+      return;
+    }
+    console.log('responce', res.data.data);
+    return res.data;
+  } catch (error) {
+    console.error('Error fetching user taken assessment:', error);
+    throw new Error('Failed to fetch user taken assessment');
+  }
+};
+
+export const fetchUserAssessmentSession = async (token: string, id: any) => {
+  try {
+    const res = await axios.get(`${assessmentBaseUrl}/assessments/session/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        token: token,
+      },
+    });
     return res.data.data;
   } catch (error) {
     console.error('Error fetching user taken assessment:', error);
@@ -78,7 +102,7 @@ export const submitAssessment = async ({
   answer_text,
   token,
 }: {
-  assessment_id: number;
+  assessment_id: number | string | string[];
   question_id: number;
   user_answer_id: number;
   answer_text: string;
@@ -91,7 +115,7 @@ export const submitAssessment = async ({
     },
   });
   try {
-    const res = await axiosInstance.post(`http://104.248.143.148/api/assessments/submit`, {
+    const res = await axiosInstance.post(`${assessmentBaseUrl}/assessments/submit`, {
       assessment_id,
       response: {
         question_id: question_id,
@@ -100,6 +124,35 @@ export const submitAssessment = async ({
       },
     });
     console.log(res);
+  } catch (error) {
+    console.error('Error submitting assessment:', error);
+    throw error;
+  }
+};
+
+export const submitFinalAssessment = async ({
+  assessment_id,
+  token,
+  minutes,
+}: {
+  assessment_id: string | string[] | undefined;
+  token: string;
+  minutes: string;
+}) => {
+  const axiosInstance = axios.create({
+    headers: {
+      'Content-Type': 'application/json',
+      token: token,
+    },
+  });
+  try {
+    const res = await axiosInstance.post(`${assessmentBaseUrl}/assessments/submit`, {
+      assessment_id,
+      is_submitted: true,
+      time_spent: minutes,
+    });
+    console.log(res);
+    return res.data;
   } catch (error) {
     console.error('Error submitting assessment:', error);
     throw error;

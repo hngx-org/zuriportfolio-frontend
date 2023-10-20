@@ -11,12 +11,7 @@ const Pagination = () => {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const handlePageChange = (newPage: number) => {
-    window.scroll(0,10)
-    setCurrentPage(newPage);
-  };
-
-  return <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />;
+  return <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />;
 };
 
 export default Pagination;

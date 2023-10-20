@@ -20,27 +20,29 @@ const PromotionHistory: React.FC = () => {
         <section className="font-manropeB font-semibold mt-4">
           <div className="mb-[25px] gap-[35px] flex justify-end">
             <div className="hidden md:justify-end md:flex  justify-center">
-              <Link href="/dashboard/promotions/discounts">
-                <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                    <path
-                      d="M6.5 12H18.5"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M12.5 18V6"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <span>Add New Promotion</span>
-                </Button>
-              </Link>
+              {promotions.length > 0 && (
+                <Link href="/dashboard/promotions/discounts">
+                  <Button className="flex py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                      <path
+                        d="M6.5 12H18.5"
+                        stroke="white"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12.5 18V6"
+                        stroke="white"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span>Add New Promotion</span>
+                  </Button>
+                </Link>
+              )}
             </div>
             <div className="mb-[25px] gap-[35px] flex justify-end md:hidden">
               <button
@@ -76,7 +78,7 @@ const PromotionHistory: React.FC = () => {
             ) : (
               <>
                 {promotions.length === 0 ? (
-                  <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] md:m-[200px] flex-col items-center justify-center">
+                  <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] mt-[-10px] md:mt-[-10px] md:m-[200px] flex-col items-center justify-center">
                     <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
                     <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">
                       You don&apos;t have any promotion running
@@ -85,8 +87,8 @@ const PromotionHistory: React.FC = () => {
                       Create your first promotion on products
                     </p>
                     <Link
-                      href="/promotions/promotions-type"
-                      className="text-[16px] dark:text-white-100 font-manropeB bg-brand-green-primary px-10 py-2 rounded-md mt-8"
+                      href="/dashboard/promotions/discounts"
+                      className="flex mt-4 py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition"
                     >
                       Create Promotion
                     </Link>
@@ -98,6 +100,7 @@ const PromotionHistory: React.FC = () => {
                       changeSort={changeSortBy}
                       toggleSort={toggleSortOrder}
                       currentSort={sortBy}
+                      getPromotions={getPromotions}
                     />
                   </div>
                 )}

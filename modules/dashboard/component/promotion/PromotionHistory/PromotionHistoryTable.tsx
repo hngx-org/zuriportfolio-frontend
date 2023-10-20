@@ -40,7 +40,15 @@ const PromotionHistoryTable: React.FC<{
   changeSort: (val: keyof PromotionHistory) => void;
   toggleSort: () => void;
   currentSort: string;
-}> = ({ pageItem, currentSort, changeSort, toggleSort }) => {
+  getPromotions: () => Promise<void>;
+}> = ({ pageItem, currentSort, changeSort, toggleSort, getPromotions }) => {
+  const OnCLick = (val: keyof PromotionHistory) => {
+    if (val === currentSort) {
+      toggleSort();
+    } else {
+      changeSort(val);
+    }
+  };
   return (
     <table className="w-full md:table border rounded-lg">
       <thead>
@@ -54,7 +62,7 @@ const PromotionHistoryTable: React.FC<{
       </thead>
       <tbody>
         {pageItem.map((order) => (
-          <PromotionHistoryRow key={order.id} {...order} />
+          <PromotionHistoryRow key={order.id} {...order} getPromotions={getPromotions} />
         ))}
       </tbody>
     </table>

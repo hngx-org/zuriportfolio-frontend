@@ -83,17 +83,15 @@ export const destructureProducts = (products: any[]) => {
     productTitle: product.name,
     productDescription: product.description,
     productPrice: +product.price,
-    productImage: product?.images[0].url,
+    productImage: product?.images[0]?.url || '',
     productDiscount: product.discount_price,
   }));
   return cartProducts;
 };
 
-
-export const getCardItemsId = async(cartsItems: any[]) => {
-  return cartsItems.map((product) => product.id)
-}
-
+export const getCardItemsId = async (cartsItems: any[]) => {
+  return cartsItems.map((product) => product.id);
+};
 
 export const getGuestCartSummary = async (carts: any) => {};
 

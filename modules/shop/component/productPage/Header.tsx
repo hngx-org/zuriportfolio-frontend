@@ -1,15 +1,12 @@
 // components/Header.tsx
 import Link from 'next/link';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import Image from 'next/image';
 import SearchBar from './SearchBar/SearchBar';
 import { ShoppingCart, CloseCircle } from 'iconsax-react';
-import ZuriShopLogo from '../../../../public/assets/shop/techverse_logo.svg';
 import { useRouter } from 'next/router';
 interface HeaderProps {
   setSearchQuery: Dispatch<SetStateAction<string>>;
   setShopOwnerQuery: Dispatch<SetStateAction<string>>;
-  setCategoryQuery: Dispatch<SetStateAction<string>>;
   cartItemCount: number;
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
@@ -22,7 +19,6 @@ const Header: React.FC<HeaderProps> = ({
   selectedCategory,
   handleCategoryChange,
   setShopOwnerQuery,
-  setCategoryQuery,
 }) => {
   const [searchQueryLocal, setSearchQueryLocal] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,20 +32,6 @@ const Header: React.FC<HeaderProps> = ({
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-  const addToSearchHistory = () => {
-    const query = searchQueryLocal;
-
-    if (query.trim() !== '') {
-      const searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
-      searchHistory.push(query);
-      localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-    }
-  };
-
-  useEffect(() => {
-    const searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
-    setSearchHistory(searchHistory);
-  }, []);
 
   const toggleSearchHistoryModal = () => {
     setShowSearchHistory(!showSearchHistory);
@@ -98,12 +80,10 @@ const Header: React.FC<HeaderProps> = ({
             searchQuery={searchQueryLocal}
             setSearchQuery={setSearchQuery}
             setShopOwnerQuery={setShopOwnerQuery}
-            setCategoryQuery={setCategoryQuery}
             setSearchQueryLocal={setSearchQueryLocal}
             clearSearch={clearSearch}
             selectedCategory={selectedCategory}
             handleCategoryChange={handleCategoryChange}
-            addToSearchHistory={addToSearchHistory}
             showSearchHistory={toggleSearchHistoryModal}
           />
         </div>

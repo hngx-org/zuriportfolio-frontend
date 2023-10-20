@@ -10,6 +10,7 @@ import { useState, FormEvent, useEffect } from 'react';
 import index from '../../../marketplace/error-page';
 
 import { useRouter } from 'next/router';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 interface ComplaintDetails {
   data: {
@@ -398,4 +399,4 @@ function ComplaintsDetails() {
   );
 }
 
-export default ComplaintsDetails;
+export default withAdminAuth(ComplaintsDetails);

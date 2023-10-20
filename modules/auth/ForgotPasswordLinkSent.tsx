@@ -6,11 +6,13 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { resendForgetPassword } from '../../http/auth';
 import { useAuth } from '../../context/AuthContext';
 import { notify } from '@ui/Toast';
+import { useRouter } from 'next/router';
 
 function ForgotPasswordLinkSent() {
-  const { email, handleEmail } = useAuth();
+  const router = useRouter();
+  const { email } = router.query;
+
   const onResetLinkSentSuccess = (data: any) => {
-    console.log(data);
     if (data.status === 200) {
       notify({ message: 'Reset Link has been resent.', type: 'success' });
       return;
@@ -25,16 +27,8 @@ function ForgotPasswordLinkSent() {
   });
 
   const handleResetLinkResent = () => {
-    mutate({ email: email });
+    mutate({ email: email as string });
   };
-
-  useEffect(() => {
-    if (!email) {
-      const userEmail = localStorage.getItem('user-email');
-      if (userEmail) handleEmail(userEmail);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <VerificationLayout>

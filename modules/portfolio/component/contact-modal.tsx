@@ -1,5 +1,5 @@
 import Button from '@ui/Button';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import Modal from '@ui/Modal';
@@ -15,21 +15,29 @@ const generateUniqueId = () => {
   return `id-${timestamp}-${randomNumber}`;
 };
 
-function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: boolean; onClose: () => void }) {
+type contactModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  isOpen: boolean;
+  userId: string;
+};
+
+function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModalProps) {
   const [email, setEmail] = useState('');
   const [url, setUrl] = useState('');
   const [socials, setSocials] = useState<any[]>([]);
   const [socialmediaid, setSocialMediaId] = useState('');
   const [isForm, setIsForm] = useState(true);
   const [loading, setLoading] = useState<boolean>(true);
+  const [availableSocials, setAvailableSocials] = useState<{ Id: number; name: string }[] | []>([]);
 
   const handleAddNewSocial = () => {
     setSocials((prevValues) => [
       ...prevValues,
       {
-        id: generateUniqueId(),
+        user_id: userId,
         url: '',
-        social_media_id: '',
+        social_media_id: 1,
       },
     ]);
   };
@@ -41,29 +49,20 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     if (index !== -1) {
       // Creates a new array with the updated content for the specific input
       const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], url: newValue, email: email };
+      updatedData[index] = { ...updatedData[index], url: newValue };
 
       // Update the state with the new array
       setSocials(updatedData);
     }
   };
-
-  const handleSocialSelectChange = (id: string, newId: string) => {
-    // Find the index of the object with the matching id
-    const index = socials.findIndex((item) => item.id === id);
-
-    if (index !== -1) {
-      // Creates a new array with the updated content for the specific input
-      const updatedData = [...socials];
-      updatedData[index] = {
-        ...updatedData[index],
-        social_media_id: newId,
-        user_id: userId,
-      };
-
-      // Update the state with the new array
-      setSocials(updatedData);
-    }
+  const handleSocialSelectChange = (newId: number, index: number) => {
+    const updatedData = [...socials];
+    updatedData[index] = {
+      ...updatedData[index],
+      social_media_id: newId,
+      userId,
+    };
+    setSocials(updatedData);
   };
 
   const handleSocialDelete = (id: string) => {
@@ -86,13 +85,17 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     //   .then((res) => {
     //     console.log(res);
     //   })
-    const data = socials.map(({ id, email, social_media_id, ...rest }) => ({
-      ...rest,
-      social_media_id: Number(social_media_id),
+    // const data = socials.map(({ url, social_media_id, user_id }) => ({
+    //   social_media_id: Number(social_media_id),
+    // }));
+    // console.log('Data', data);
+    const data = socials.map((social) => ({
+      url: social.url,
+      social_media_id: social.social_media_id,
+      user_id: userId, // Ensure you have the userId available
     }));
-    console.log(data);
 
-    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
+    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/v1/contacts')
       .then((res) => {
         setLoading(false);
         notify({
@@ -101,10 +104,12 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
           theme: 'light',
           type: 'success',
         });
-        onClose();
+        console.log(res);
+        // onSaveModal();
       })
       .catch((err) => {
         setLoading(false);
+        console.log(err);
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -117,7 +122,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
     console.log('delete clicked');
     const id = 5;
     try {
-      const res = await fetch(`https://hng6-r5y3.onrender.com/api/contacts/${id}`, {
+      const res = await fetch(`https://hng6-r5y3.onrender.com/api/v1/contacts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -131,15 +136,41 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
   const toggleForm = () => {
     setIsForm(true);
   };
+
+  const getSocialsAvailable = async () => {
+    try {
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/socials`);
+      const data = await response.data;
+      console.log(data);
+      setAvailableSocials(data?.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getSocialsAvailable();
+  }, []);
+
+  useEffect(() => {
+    console.log(socials);
+  }, [socials]);
+
   return (
     <>
-      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         <div className="space-y bg-white-100 sm:p-10">
           <form className="flex flex-col gap-y-5">
             <div className="flex flex-col gap-3 my-19">
               <div className="flex justify-between items-center">
                 <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Contact</p>
-                <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+                <CloseSquare
+                  size="32"
+                  color="#009254"
+                  variant="Bold"
+                  onClick={onCloseModal}
+                  className="cursor-pointer"
+                />
               </div>
               <div className="bg-brand-green-primary h-1 rounded-sm"></div>
             </div>
@@ -156,29 +187,38 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
               />
             </div>
             {socials.length > 0 &&
-              socials.map((social) => (
-                <form key={social.id} onSubmit={handleSubmit} className="flex flex-col gap-y-5">
+              socials.map((social, index) => (
+                <form key={index} onSubmit={handleSubmit} className="flex flex-col gap-y-5">
                   <div className="flex flex-col sm:flex-row items-center justify-between mx-auto w-full sm:w-[90%]  sm:gap-2 gap-5">
-                    <div className="w-full">
-                      <label className="font-semibold text-[#444846] text-[.9rem] mb-10">Select social</label>
-                      <Select
-                        onValueChange={(value: string) => {
-                          handleSocialSelectChange(social.id, value);
-                        }}
-                        value={social.social_media_id}
-                      >
-                        <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
-                          <SelectValue placeholder="Select Social" />
-                        </SelectTrigger>
-                        <SelectContent className="border-[#E1E3E2]">
-                          <SelectItem value="11">Behance</SelectItem>
-                          <SelectItem value="12">Github</SelectItem>
-                          <SelectItem value="13">Instagram</SelectItem>
-                          <SelectItem value="14">LikedIn</SelectItem>
-                          <SelectItem value="15">X</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <p></p>
+                    <div className="flex flex-col sm:flex-row items-center justify-between mx-auto w-full sm:w-[90%]  sm:gap-2 gap-5">
+                      <div className="w-full">
+                        <label className="font-semibold text-[#444846] text-[.9rem] mb-10">Select social</label>
+                        <Select
+                          onValueChange={(value: string) => {
+                            const selectedSocial = availableSocials.find((socialItem) => socialItem.name === value);
+                            if (selectedSocial) {
+                              handleSocialSelectChange(selectedSocial.Id, index);
+                            }
+                            console.log(value);
+                            console.log(social);
+                          }}
+                        >
+                          <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
+                            <SelectValue placeholder="Select Social" />
+                          </SelectTrigger>
+                          <SelectContent className="border-[#E1E3E2]">
+                            {availableSocials.map((socialItem, index) => (
+                              <SelectItem
+                                className="capitalize hover:bg-[#F4FBF6] hover:text-[#009254]"
+                                key={index}
+                                value={socialItem.name}
+                              >
+                                {socialItem.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
 
                     <div className="flex flex-col justify-center w-[100%] h-full">
@@ -206,10 +246,11 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
                       Delete
                     </span>
                   </div>
+                  <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
                 </form>
               ))}
           </form>
-          <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
+
           <div className="flex justify-between flex-col sm:flex-row mt-3 gap-3 sm:w-[90%] mx-auto">
             <button
               className="text-brand-green-primary sm:self-center text-[14px] sm:text-[13px] flex items-center gap-1 font-semibold font-manropeB"
@@ -220,7 +261,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
             <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 type="button"
-                onClick={onClose}
+                onClick={onCloseModal}
                 intent={'secondary'}
                 className="border w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]"
                 size={'sm'}
@@ -228,7 +269,7 @@ function ContactModal({ isOpen, onClose, userId }: { userId?: string; isOpen: bo
                 Cancel
               </Button>
               <Button
-                disabled={loading}
+                // disabled={loading}
                 type="submit"
                 className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]`}
                 size={'sm'}

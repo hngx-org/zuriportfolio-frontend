@@ -2,21 +2,69 @@ import React, { useEffect, useState } from 'react';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
-import ScoringScreen from '@modules/assessment/scoringScreen';
+import ScoringScreen from '../../../../modules/assessment/scoringScreen';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import { ToastContainer, toast } from 'react-toastify';
+import CreateAssessment from '../new';
+import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
 
-export default function DraftPreview() {
+type Props = {
+  assessment: {
+    id: number;
+    title: string;
+    createdAt: Date;
+    duration_minutes: number;
+    questions: {
+      answers: {}[];
+      question_no: number;
+      question_text: string;
+      question_type: string;
+    }[];
+    updatedAt: Date;
+  };
+};
+const DraftPreview = () => {
+  const { questionIndex, setQuestionIndex } = useCreatingAssessmentContext();
+
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
+  const [newQuestions, setNewQuestions] = useState<{ questions: any[] }>({ questions: [] });
 
   const arr = [1, 2, 3];
   const router = useRouter();
-  const data = router.query;
-  const draftId = data.id;
+  const params = useParams();
+  const id = params?.id;
+  console.log(params);
+  // const draftId = data.id;
+  const skillid = 2;
 
+  const [assessment, setAssessment] = useState({
+    id: 0,
+    title: '',
+    createdAt: new Date(), // Initialize with a default date or null if needed
+    duration_minutes: 0,
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: 'question',
+        question_type: 'multiple_choice',
+      },
+    ],
+    updatedAt: new Date(), // Similarly for updatedAt
+  });
+
+  const setDuration = (data: any) => {
+    setAssessment((prevAssessment) => ({
+      ...prevAssessment,
+      duration_minutes: data,
+    }));
+  };
   const [active, setActive] = useState<null | string>('button1');
   const handleClick = (button: string) => {
     setActive(button);
@@ -24,39 +72,158 @@ export default function DraftPreview() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`;
+
+    const token = localStorage.getItem('zpt') ?? '';
+
+    if (id != null) {
+      fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+
+          'X-CSRFTOKEN': token,
+        },
+      })
+        .then((response) => {
+          // toast.info('Loading draft data...');
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json(); // Parse the JSON response
+        })
+        .then((responseData) => {
+          console.log('This is the data', responseData);
+          setDraftData(responseData);
+          setAssessment(responseData);
+          setLoading(false);
+          toast.success('Draft data loaded successfully');
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          setLoading(false);
+          toast.error('Error loading draft data');
+        });
+    }
+  }, [id]);
+
+  const [disable, setDisable] = useState(true);
+
+  const updateDraft = () => {
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${id}/`;
+    const token = localStorage.getItem('zpt') ?? '';
+
+    // Ensure that the draftData is not empty
+    if (draftData && draftData.questions && draftData.title) {
+      // Define the PUT request options
+      const requestOptions = {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'X-CSRFTOKEN': token,
+        },
+        body: JSON.stringify(draftData), // Convert draftData to JSON string
+      };
+
+      fetch(apiUrl, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json(); // Parse the JSON response
+        })
+        .then((responseData) => {
+          console.log('Draft updated successfully:', responseData);
+          toast.success('Draft updated successfully');
+        })
+        .catch((error) => {
+          console.error('Error updating draft:', error);
+          toast.error('Error updating draft');
+        });
+    } else {
+      console.error('Draft data is empty. Cannot update.');
+      toast.error('Draft data is empty. Cannot update.');
+    }
+  };
+
+  function deleteDraft(draftId: number) {
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
+    const token = localStorage.getItem('zpt') || ''; // Replace with your token logic
 
-    const csrfToken = localStorage.getItem('zpt') ?? '';
-
-    toast.info('Loading draft data...');
-
-    fetch(apiUrl, {
+    return fetch(apiUrl, {
+      method: 'DELETE',
       headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${csrfToken}`,
-        'X-CSRFTOKEN': csrfToken,
+        Authorization: `Bearer ${token}`,
+        'X-CSRFTOKEN': token, // Add CSRF token if required
       },
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.status}`);
+        if (response.ok) {
+          // Successfully deleted the resource
+          console.log(`Deleted draft with ID ${draftId} successfully.`);
+        } else {
+          throw new Error(`Failed to delete draft with ID ${draftId}: ${response.status}`);
         }
-        return response.json(); // Parse the JSON response
-      })
-      .then((responseData) => {
-        console.log('This is the data', responseData);
-        setDraftData(responseData);
-        setLoading(false);
-        toast.success('Draft data loaded successfully');
       })
       .catch((error) => {
         console.error('Error:', error);
-        setLoading(false);
-        toast.error('Error loading draft data');
+        // Handle the error as needed
       });
-  }, [draftId]);
+  }
 
-  const [disable, setDisable] = useState(true);
+  const publishAssessment = async () => {
+    // Create the structure matching the endpoint's expected format
+    const combinedQuestions = [...draftData.questions, ...newQuestions.questions];
+    const publishedAssessment = {
+      skill_id: id,
+      questions_and_answers: combinedQuestions.map((question, index) => ({
+        question_no: index + 1,
+        question_text: question.question_text,
+        question_type: 'multiple_choice',
+        answer: {
+          options: question.answer.options,
+          correct_option: question.answer.correct_option,
+        },
+      })),
+      assessment_name: draftData.title, // Update with the correct assessment name
+      duration_in_minutes: 0, // Update with the correct duration if available
+    };
+    console.log('data to be published', publishedAssessment);
+
+    // Send the data to the endpoint using fetch or your preferred HTTP library
+    await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/assessments/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+      body: JSON.stringify(publishedAssessment),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Assessment published successfully!');
+          // deleteDraft(id)
+          // You can also update your UI or navigate to a success page here
+        } else {
+          console.error('Failed to publish the assessment.');
+        }
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error);
+      });
+  };
+
+  // In your component, add a button or trigger to call the publishAssessment function
+  <Button
+    onClick={publishAssessment}
+    // Add other button properties like intent, size, and class name
+  >
+    Publish Assessment
+  </Button>;
 
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
@@ -80,12 +247,12 @@ export default function DraftPreview() {
             <Button intent={'secondary'} size={'sm'} spinnerColor="#000" onClick={() => {}}>
               Save To Drafts
             </Button>
-            <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={() => {}}>
+            <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={publishAssessment}>
               Publish Assesments
             </Button>
           </div>
         ) : (
-          <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000">
+          <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={updateDraft}>
             Save Changes
           </Button>
         )}
@@ -132,43 +299,47 @@ export default function DraftPreview() {
                 </div>
               </div>
             </div>
-            {draftData.questions.map((item, index) => (
+            {draftData.questions?.map((item, index) => (
               <div key={index} className="mt-8 text-left">
                 <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
                   <div className="flex justify-between mb-4">
                     <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <button className="text-md font-manropeB text-black">Edit</button>
+                    <Link
+                      href={`/super-admin/assessment/draft/edit/${id}`}
+                      onClick={() => setQuestionIndex(item.question_no - 1)}
+                    >
+                      <button className="text-md font-manropeB text-black">Edit</button>
+                    </Link>
                   </div>
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
                   <div className="mt-8 flex flex-col gap-[22px]">
-                    {item.answers.map((answer: any, index: number) =>
-                      answer.options.map((option: any, optionIndex: any) => (
-                        <div key={index} className="flex gap-4">
-                          <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
-                          <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
-                            {option}
-                          </label>
-                        </div>
-                      )),
-                    )}
-                  </div>
-                  <div className="flex justify-center gap-12 mt-8">
-                    <Button className="text-sm p-4 hover:bg-green-500 text-green-500 text-center  bg-white-100 hover:text-white-100">
-                      End assessment
-                    </Button>
-                    <Button className="text-sm py-2 px-14 border-2 border-green-500 text-white-100 text-center  bg-green-500">
-                      Next
-                    </Button>
+                    {item.answer?.options.map((option: any, optionIndex: any) => (
+                      <div key={index} className="flex gap-4">
+                        <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
+                        <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
+                          {option}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             ))}
+            <div className="mt-8">
+              <CreateDraftQuestion
+                draftData={draftData}
+                newQuestions={newQuestions}
+                setNewQuestions={setNewQuestions}
+              />
+            </div>
           </>
         ) : (
-          <ScoringScreen />
+          <ScoringScreen assessment={assessment} skillId={skillid} />
         )}
       </div>
     </MainLayout>
   );
-}
+};
+
+export default DraftPreview;
