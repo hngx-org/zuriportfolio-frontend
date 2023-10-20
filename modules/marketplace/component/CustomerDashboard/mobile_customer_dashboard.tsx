@@ -2,11 +2,13 @@ import { useState, useRef } from 'react';
 import Pagination from '@ui/Pagination';
 import { PurchaseData } from '../../../../pages/user/customer-purchase-dashboard';
 import ComplaintsModal from '../../../../components/Modals/ComplaintModal';
+import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 
 const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
   // Function to determine the background color based on status
   const getStatusBackgroundColor = (status: string): string[] => {
     switch (status.toLowerCase()) {
+      case 'completed':
       case 'completed':
         return ['bg-custom-color41', 'text-custom-color35']; // Return an array of background and text colors
       case 'pending':
@@ -20,7 +22,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
 
   // this is the for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 7
+  const totalPages = 7;
 
   // scroll to the top
   const topOfPageRef = useRef<HTMLDivElement>(null);
@@ -29,7 +31,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
   const endIndex = startIndex + totalPages;
   const displayedItems = data.slice(startIndex, endIndex);
 
-  const paginatedPage = Math.ceil(data.length / totalPages)
+  const paginatedPage = Math.ceil(data.length / totalPages);
 
   // function for handling the page change
   const handlePageChange = (page: number) => {
@@ -66,7 +68,8 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
         <div
           className="sm:hidden w-full overflow-hidden sm:overflow-x-auto flex flex-col gap-10"
           id="topOfPage"
-          ref={topOfPageRef}>
+          ref={topOfPageRef}
+        >
           {displayedItems.map((item) => (
             <div
               key={item.id}
@@ -77,7 +80,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
                 <span className="flex gap-3 items-center">
                   <p className="font-light font-manropeL text-brand-green-shade10 ">{item.createdAt.split('T')[0]}</p>
                 </span>
-                <p className="font-manropeB text-xl">{item.order_price}</p>
+                <p className="font-manropeB text-xl">{formatToNigerianNaira(item.order_price)}</p>
               </div>
 
               <div className="flex flex-col gap-2">
