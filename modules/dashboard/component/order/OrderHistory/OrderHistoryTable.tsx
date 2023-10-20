@@ -38,6 +38,8 @@ const OrderHistoryTable: React.FC<{
       changeSort(val);
     }
   };
+
+  console.log(pageItem);
   return (
     <table className="w-full mb-10 hidden md:table">
       <thead>

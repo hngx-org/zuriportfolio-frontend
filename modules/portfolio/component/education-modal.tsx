@@ -9,6 +9,7 @@ import { generateEndYears, years } from '../data';
 import { EducationModalContext } from '../context/education-context';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import Loader from '@ui/Loader';
+import { Edit2, Trash } from 'iconsax-react';
 
 type EducationModalProps = {
   isOpen: boolean;
@@ -147,13 +148,13 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                           setIsData(false);
                         }}
                       >
-                        Edit
+                       <Edit2 size="32" color="#37d67a" variant="Outline" />
                       </span>
                       <span
                         className="font-semibold cursor-pointer text-brand-red-hover"
                         onClick={(e) => handleDeleteEducation(education.id, e)}
                       >
-                        Delete
+                        <Trash size="32" color="#f47373" variant="Outline"/>
                       </span>
                     </div>
                   </article>
@@ -193,7 +194,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   className="font-semibold cursor-pointer text-brand-red-hover"
                   onClick={(e) => handleDeleteEducation(editingEducation?.id, e)}
                 >
-                  Delete
+                  <Trash size="32" color="#f47373" variant="Outline" />
                 </span>
               </div>
             </article>
@@ -205,9 +206,9 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
               onSubmit={(e) => (isEditMode ? handleEditEducation(e, editingEducationId) : addNewEducation(e))}
               className=""
             >
-              <div className="w-full px-4">
+              <div className="w-full px-2">
                 <div className="flex flex-col gap-[.5rem] w-full mb-4">
-                  <label className="font-semibold text-[#444846] text-[1rem] mt-6">Degree</label>
+                  <label className="font-semibold text-[#444846] text-base mt-6">Degree</label>
                   <Select
                     onValueChange={(value: string) => {
                       handleDegreeSelection(value); // Update the selected degree ID
@@ -231,7 +232,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   </Select>
                 </div>
                 <div className="mb-4 w-full">
-                  <label className="block mb-1 text-md font-semibold text-[#444846]" htmlFor="fieldOfStudy">
+                  <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="fieldOfStudy">
                     Field of Study
                   </label>
                   <Input
@@ -243,7 +244,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   />
                 </div>
                 <div className="mb-4  w-full">
-                  <label className="block mb-1 text-md font-semibold text-[#444846]" htmlFor="school">
+                  <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="school">
                     School/Institution
                   </label>
                   <Input
@@ -255,7 +256,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   />
                 </div>
                 <div className="mb-4 w-full">
-                  <label className="block mb-1 text-[16px] font-semibold text-[#444846]" htmlFor="description">
+                  <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="description">
                     Description
                   </label>
                   <textarea

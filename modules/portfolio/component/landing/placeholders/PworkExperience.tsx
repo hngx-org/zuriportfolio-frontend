@@ -1,6 +1,6 @@
 import React from 'react';
-import Wrapper from './placeholders/Wrapper';
-import { WorkExperience } from './Skeleton';
+import Wrapper from './Wrapper';
+import { WorkExperience } from '../Skeleton';
 
 type PworkExperienceProps = {
   id: string;

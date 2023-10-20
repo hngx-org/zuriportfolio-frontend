@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { getAssessmentDetails } from '../../../../http/userTakenAssessment';
 import { withUserAuth } from '../../../../helpers/withAuth';
+import Loader from '@ui/Loader';
 
 type AssessmentDetails = {
   assessment_id: number;
@@ -55,7 +56,7 @@ const TakeTest: FC = () => {
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
+            <Loader />
           </div>
         ) : (
           <>
