@@ -174,7 +174,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               theme: 'light',
               type: 'error',
             });
-            console.log(err);
           });
       } else {
         const data = {
@@ -184,8 +183,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         files.map((item) => {
           formData.append('images', item);
         });
-        formData.append('data', JSON.stringify(data));
-        console.log(formData);
+        formData.append('jsondata', JSON.stringify(data));
 
         axios
           .post(`${endpoint}/api/projects`, formData)
@@ -209,7 +207,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               theme: 'light',
               type: 'error',
             });
-            console.log(err);
           });
       }
     }
