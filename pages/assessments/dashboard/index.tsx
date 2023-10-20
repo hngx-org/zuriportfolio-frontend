@@ -10,6 +10,8 @@ import timer from '../../../public/assets/dashboard/timer.svg';
 import medal from '../../../public/assets/dashboard/medal-star.svg';
 import { useRouter } from 'next/router';
 import { withUserAuth } from '../../../helpers/withAuth';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import assessment from '..';
 
 type AssessmentDetails = {
   id?: string;
@@ -25,8 +27,16 @@ type AssessmentDetails = {
 
 const Dashboard = () => {
   const [result, setResult] = React.useState<AssessmentDetails[]>([]);
+  const [resultTap, setResultTap] = React.useState<AssessmentDetails[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const token = localStorage.getItem('zpt');
+  // Fetch all the user's assessments
+  const { data: assessments } = useQuery(['assessments'], () => getAllAssessments(token as string));
+
+  const newAssessments = assessments?.assessments;
+  console.log('new', newAssessments);
 
   React.useEffect(() => {
     const token = localStorage.getItem('zpt');
@@ -124,7 +134,7 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            {result.length > 0 ? (
+            {newAssessments?.length > 0 ? (
               result.map((item, index) => (
                 <div
                   key={index}
@@ -144,7 +154,7 @@ const Dashboard = () => {
                   </div>
                   <div className="mt-[1rem]">
                     <p className="text-[#2E3130] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1.rem] leading-1">
-                      Unlock your potential and level up your skills – take the assessment now!
+                      Unlock your potential and level up your skills &ndash; take the assessment now!
                     </p>
 
                     <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
