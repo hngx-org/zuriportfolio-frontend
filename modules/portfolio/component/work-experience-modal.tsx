@@ -143,7 +143,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         className="font-semibold cursor-pointer"
                         onClick={(e) => handleDeleteExperience(experience.id, e)}
                       >
-                        <Trash size="32" color="#f47373" variant="Outline"/>
+                        <Trash size="32" color="#f47373" variant="Outline" />
                       </span>
                     </div>
                   </article>

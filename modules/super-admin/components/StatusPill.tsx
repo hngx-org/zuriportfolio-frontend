@@ -9,6 +9,8 @@ const StatusPill = ({ status, ...rest }: { status: string | null }) => {
           return 'red';
         case 'active':
           return 'green';
+        case 'pending':
+          return 'brown';
         default:
           break;
       }
@@ -18,7 +20,9 @@ const StatusPill = ({ status, ...rest }: { status: string | null }) => {
   return (
     <div
       className={` hidden  rounded-2xl px-2 py-1 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
-        getValue(status) === 'yellow'
+        getValue(status) === 'brown'
+          ? 'bg-custom-color40 text-custom-color25  rounded-2xl px-2 py-1 text-center font-manropeL font-medium'
+          : getValue(status) === 'yellow'
           ? 'bg-custom-color40 text-yellow-600 rounded-2xl px-2 py-1 text-center font-manropeL font-medium'
           : getValue(status) === 'red'
           ? 'hidden bg-pink-120 text-custom-color34 rounded-2xl px-2 py-1 text-center font-manropeL font-medium'
