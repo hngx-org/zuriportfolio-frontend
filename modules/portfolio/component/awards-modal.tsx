@@ -543,16 +543,16 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
 
   return (
     <div className="border-b-[1px] border-b-brand-disabled gap-12 py-3">
-      <div className="flex flex-col sm:flex-row gap-6 w-full justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 w-full justify-between ">
         <div className="flex flex-col sm:flex-row sm:gap-10 sm:w-[60%] lg:w-[35%] gap-4  justify-between">
           <div>
-            <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
+            <p className="font-semibold text-[16px] leading-6  text-gray-300 ">{year}</p>
           </div>
-          <div className="flex flex-col gap-2 w-full overflow-hidden text-ellipsis whitespace-nowrap ">
-            <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left ">{title}</h1>
+          <div className="flex flex-col gap-2 w-full  text-ellipsis ">
+            <h1 className="font-semibold text-[22px] leading-7 text-white-700 text-left">{title}</h1>
             <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{presented_by}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
-              <Link href={url} target="_blank" className="flex items-center ">
+              <Link href={url} target="_blank" className="flex items-center mt-4">
                 <span className="whitespace-nowrap overflow-hidden text-ellipsis ">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
@@ -693,7 +693,7 @@ const EditForm: React.FC<{
         </div>
         <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={handleSubmit}>
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-            <div className="flex  flex-col gap-2 flex-1">
+            <div className="flex flex-wrap flex-col gap-2 flex-1">
               <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                 Award Title*
               </label>
@@ -702,7 +702,7 @@ const EditForm: React.FC<{
                 id="title"
                 name="title"
                 placeholder="My best yet"
-                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
+                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full  text-gray-900   rounded-lg border-[1px]"
                 value={award.title}
                 onChange={handleInputChange}
               />
