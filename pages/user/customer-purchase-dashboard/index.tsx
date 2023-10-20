@@ -14,6 +14,7 @@ import FilterModal from '@modules/marketplace/component/CustomerDashboard/Filter
 import { useAuth } from '../../../context/AuthContext';
 import { getAllPurchases, getSearchedData } from '../../../http/customerPurchaseDashboard';
 import { withUserAuth } from '../../../helpers/withAuth';
+import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
 
 // Define a type for the data
 export type PurchaseData = {
@@ -352,10 +353,18 @@ const MyPage: React.FC = () => {
                           <span className="px-4 ml-[1rem] cursor-pointer"> </span>
                           {item.product.name}
                         </td>
-                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.order_id}</td>
-                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.order_price}</td>
-                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.createdAt.split('T')[0]}</td>
-                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.merchant}</td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">
+                          {item.order_id}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">
+                          {formatToNigerianNaira(item.order_price)}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">
+                          {item.createdAt.split('T')[0]}
+                        </td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">
+                          {item.merchant}
+                        </td>
                         <td className="text-[0.75rem] px-4 py-2 cursor-pointer">
                           <span
                             className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl cursor-pointer ${
