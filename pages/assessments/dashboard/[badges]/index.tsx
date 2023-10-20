@@ -6,6 +6,7 @@ import MainLayout from '../../../../components/Layout/MainLayout';
 import BadgeComponent from '@modules/assessment/component/Badges/BadgeComponent';
 import ErrorData from '@modules/assessment/component/Badges/errordata';
 import BadgesComponentHeader from '@modules/assessment/component/Badges/BadgesComponentHeader';
+import { MdArrowBackIosNew } from 'react-icons/md';
 import { withUserAuth } from '../../../../helpers/withAuth';
 
 interface Skill {
@@ -141,6 +142,10 @@ const Earnedbadges: React.FC = () => {
     fetchData();
   }, [router.query]);
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
       <div className="w-full flex flex-col items-center h-auto font-manropeL">
@@ -154,9 +159,16 @@ const Earnedbadges: React.FC = () => {
           <ErrorData />
         ) : (
           <div className="h-full w-full lg:max-w-[1440px]  lg:px-[60px] xl:px-[100px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
-            <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start capitalize">
-              {router.query?.badges} Badges
-            </h1>
+            <div>
+              <div className="hidden lg:flex    py-4 pb-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
+                <div onClick={handleBack}>
+                  <MdArrowBackIosNew />
+                </div>
+              </div>
+              <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start capitalize">
+                {router.query?.badges} Badges
+              </h1>
+            </div>
             {badges.length <= 0 ? (
               <>
                 <h2 className="capitalize">Oops You Have Not Earned A {router.query?.badges} Badge Yet </h2>
@@ -171,7 +183,7 @@ const Earnedbadges: React.FC = () => {
                     imageAlt={`${badge.Badge.name} Page`}
                     title={`${badge.Badge.name}`}
                     description={`Badge earned in the ${badge.Badge.Skill.category_name} category.`}
-                    earnedDate={`Earned on: ${formatDate(badge.Badge.Skill.created_at)}`}
+                    earnedDate={`Earned on: ${formatDate(badge.Badge.Skill.updated_at)}`}
                     badgelabel={'nfj'}
                     href="/assessments/dashboard/badge/[id]"
                     as={`/assessments/dashboard/badge/${badge.id}`}
