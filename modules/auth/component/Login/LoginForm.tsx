@@ -45,7 +45,7 @@ function LoginForm() {
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
       if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
-        localStorage.setItem('zpt', res?.response?.token);
+        localStorage.setItem('2fa', res?.response?.token);
         localStorage.setItem('email', res?.response?.email);
         notify({
           message: 'Two Factor Authentication Code Sent',

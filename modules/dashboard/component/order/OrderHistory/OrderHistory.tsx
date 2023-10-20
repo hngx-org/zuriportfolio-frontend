@@ -135,6 +135,7 @@ const dummyOrders: OrderHistory[] = [
 ];
 const OrderHistory: React.FC = () => {
   const [pageOrders, setOrders] = useState<OrderHistory[]>(dummyOrders);
+  const [allOrders, setAllOrders] = useState<OrderHistory[]>([]);
   const [orderFilter, setOrderFilter] = useState('all');
   const [sort, setSort] = useState<{
     sortBy: keyof OrderHistory;
@@ -160,8 +161,10 @@ const OrderHistory: React.FC = () => {
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
+      const url = `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all?page=${currentPage}`;
+      // const url = `http://localhost:8080/api/orders/all?page=${currentPage}`;
       const { data } = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all?page=${currentPage}`,
+        url,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -175,13 +178,19 @@ const OrderHistory: React.FC = () => {
         return [];
       }
 
-      const transformedOrder = data.data.orders.map((order: any) => ({
-        revenue: 3000,
-        id: order.id.slice(0, 4),
-        status: order.order_status,
-        customerName: order.customerInfo.firstName + ' ' + order.customerInfo.lastName,
-        date: new Date(order.date),
-      }));
+      const transformedOrder = data.data.orders.map((order: any) => {
+        const revenue = order.items.reduce((acc: number, ord: any) => (acc += ord?.price), 0);
+
+        return {
+          revenue,
+          id: order.id.slice(0, 4),
+          fullId: order.id,
+          status: order.order_status,
+          customerName: order.customerInfo.firstName + ' ' + order.customerInfo.lastName,
+          date: new Date(order.date),
+        };
+      });
+      setAllOrders(transformedOrder);
       setTotalPage(data.data.totalPages);
       return transformedOrder ?? [];
     } catch (error) {
@@ -234,9 +243,10 @@ const OrderHistory: React.FC = () => {
   useEffect(() => {
     const order = sortOrders(pageOrders);
     insertOrders(order);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort]);
-  //  Search Logic
 
+  //  Search Logic
   const changeSearchQuery = (val: string) => {
     setSearchQuery(val);
   };
@@ -250,6 +260,9 @@ const OrderHistory: React.FC = () => {
   useEffect(() => {}, [currentPage]);
 
   useEffect(() => {
+    // prevent request from going through if all orders is empty initially
+    if (!loadingOrders && allOrders.length === 0) return;
+
     const changeStatus = async () => {
       changeSearchQuery('');
       const order = await fetchOrders();
@@ -259,6 +272,8 @@ const OrderHistory: React.FC = () => {
     };
     changeStatus();
   }, [orderFilter, currentPage]);
+
+  // console.log(pageOrders);
 
   return (
     <>
