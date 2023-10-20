@@ -151,9 +151,10 @@ export default function ProductDetailsDescription() {
   const handleShowMoreClick = () => {
     setShowAll(!showAll);
   };
+  const breadcrumb: any = product?.name ? `/marketplace/${product?.name}` : null;
 
   return (
-    <CategoryLayout pathName={`/marketplace/${product?.name}`}>
+    <CategoryLayout pathName={breadcrumb}>
       {!product ? (
         <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-4xl text-gray-400">
           Loading...
