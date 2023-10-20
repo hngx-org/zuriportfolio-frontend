@@ -16,7 +16,7 @@ const useIsAuthenticated = () => {
     onError: (res: any) => {
       const error = JSON.parse(res);
       if (error.status === 401 || error.status === 400) {
-        console.log(error);
+        console.error(error);
         setAuthenticatedState(false);
         return false;
       }
