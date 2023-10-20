@@ -130,13 +130,13 @@ export function PortfolioCtxProvider(props: { children: any }) {
         queryKey: ['user'],
         queryFn: () => getUser(),
         enabled: !!userId,
-        refetchInterval: 1000,
+        // refetchInterval: 1000,
       },
       {
         queryKey: ['sections'],
         queryFn: () => getSections(),
         enabled: !!userId,
-        refetchInterval: 1000,
+        // refetchInterval: 1000,
       },
     ],
   });
