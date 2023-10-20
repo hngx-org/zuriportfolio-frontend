@@ -61,7 +61,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const handleClose = () => {};
   const handleToggle = () => {
     setToggle(!toggle);
-    console.log('toggle', toggle);
   };
   const router = useRouter();
   const activeLink = (path: string) =>
@@ -88,7 +87,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         setSearchMobile(false);
       }
       if (searchRef2.current && !searchRef2.current.contains(targetNode)) {
-        console.log(searchRef2.current);
         setToggle(false);
       }
     }

@@ -40,6 +40,7 @@ import { alltracksType } from './@types';
 export default function SearchModule() {
   const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [uiFilter, setUiFilter] = useState<string[]>([]);
   const [filters, setFilters] = useState<{
     SortBy?: number;
     Country?: string;
@@ -60,15 +61,6 @@ export default function SearchModule() {
 
   const handleNumberReset = () => {
     setPageNumber(1);
-  };
-  const handleFilters = (type: string, value: string | number) => {
-    setFilters((prev) => {
-      if (value === '') {
-        delete prev[type];
-        return { ...prev };
-      }
-      return { ...prev, [type]: value };
-    });
   };
 
   const deBounce = useDebounce(`${query}`, 1200);
@@ -106,7 +98,7 @@ export default function SearchModule() {
   const handleMenu = () => {
     setOpenMenu(false);
   };
-
+  const filterActiveUI: string[] = ['skill'];
   const filterUI = ['HTML', 'REACT', 'C+', 'Figma', 'Css', 'Typography'];
   const filterTop3 = filterUI.slice(0, 3);
   const filterRemainder = filterUI.slice(3);
@@ -125,7 +117,6 @@ export default function SearchModule() {
     queryFn: () => handleAllTrack(),
   });
 
-  console.log(trackData, 'trackdata');
   const allTrack: alltracksType[] = [{ name: 'All Categories', id: 0 }, ...(trackData?.data ?? [])];
 
   // Sliding Left or right
@@ -139,6 +130,22 @@ export default function SearchModule() {
   const slideRight = () => {
     const slider = sliderRef.current!; // Non-null assertion
     slider.scrollLeft += 150; // Adjust the scroll distance as needed
+  };
+
+  const handleFilters = (type: string, value: string | number) => {
+    setFilters((prev) => {
+      if (value === '') {
+        delete prev[type];
+        return { ...prev };
+      }
+      if (type === 'Skill' && typeof value === 'string' && !uiFilter.includes(value)) {
+        filterActiveUI.push(value);
+        setUiFilter((prev) => [...prev, value]);
+        console.log('filter', filterActiveUI, uiFilter);
+      }
+
+      return { ...prev, [type]: value };
+    });
   };
 
   return (
@@ -230,7 +237,38 @@ export default function SearchModule() {
             <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-start items-center w-full">
                 <div className="text-zinc-800 text-2xl font-semibold  leading-loose">Filters</div>
-                {/* <div className=" text-right text-emerald-600 text-base font-normal  leading-normal">Applied</div> */}
+                {uiFilter.length > 0 && (
+                  <div className=" ml-auto text-right text-emerald-600 text-base font-normal  leading-normal">
+                    Applied
+                  </div>
+                )}
+              </div>
+              <div className="w-full py-2 flex flex-wrap gap-3">
+                {uiFilter.length > 0 &&
+                  uiFilter.map((item, key) => (
+                    <div
+                      onClick={() => {
+                        setUiFilter((prev) => {
+                          const index = prev.indexOf(item);
+
+                          return [...prev.slice(0, index), ...prev.slice(index + 1)];
+                        });
+                      }}
+                      key={key}
+                      className=" transition-all px-4 py-2 group hover:bg-opacity-30 bg-slate-400 bg-opacity-20 rounded-[100px] w-fit justify-start items-center gap-1 flex cursor-pointer flex-wrap"
+                    >
+                      <span>
+                        {' '}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
+                          <path
+                            fill="#8592A3"
+                            d="M12.666 4.274l-.94-.94L8 7.06 4.273 3.334l-.94.94L7.06 8l-3.727 3.727.94.94L8 8.94l3.726 3.727.94-.94L8.94 8l3.726-3.726z"
+                          ></path>
+                        </svg>
+                      </span>
+                      <span className="text-[#5B5F5E]">{item}</span>
+                    </div>
+                  ))}
               </div>
             </div>
             <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
