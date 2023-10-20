@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { Add } from 'iconsax-react';
-import { FaTimes } from 'react-icons/fa';
-import avatar from './avatar.svg';
 import minus from './minus.svg';
 import questions_and_answers from './newlist';
 import useDisclosure from '../../../hooks/useDisclosure';
@@ -96,7 +94,7 @@ const CreateTemplate = () => {
     const updatedData = [...list];
     const newdata = splicearr(updatedData, delQuestId);
     setList(newdata);
-    updatelistinobj;
+    updatelistinobj();
     setDelModal(false);
   };
 
