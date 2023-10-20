@@ -36,7 +36,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResult, setSearchResults] = useState<ProductResult[]>([]);
   const [dropDown, setDropDown] = useState<string>('Explore');
   const { cartCount, setCartCountNav } = useCart();
 
@@ -112,7 +111,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         toast.error('A search term must be provided.');
       } else {
         if (dropDown === 'Marketplace') {
-          router.push(`/marketplace/search/${searchQuery}`);
+          router.push(`/marketplace/search?q=${searchQuery}`);
         }
         if (dropDown === 'Explore') {
           localStorage.setItem('searchQuery', searchQuery);
@@ -285,6 +284,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </div>
                 </li>
                 <Link
+                  onClick={handleAuthMenu}
                   href={'/shop'}
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
@@ -307,6 +307,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p className="font-manropeL">Your Shop</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
@@ -314,6 +315,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p className="font-manropeL">Customer Dashboard</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/user/customer-purchase-dashboard"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
@@ -321,6 +323,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p className="font-manropeL">Customer Purchase Dashboard</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/portfolio"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
@@ -328,6 +331,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p className="font-manropeL">Manage Portfolio</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/assessments/dashboard"
                   className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 "
                 >
@@ -335,6 +339,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   <p className="font-manropeL">Assessments & Badges</p>
                 </Link>
                 <Link
+                  onClick={handleAuthMenu}
                   href="/settings"
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
@@ -343,7 +348,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </Link>
 
                 {/* Import Logout button */}
-                <div className="font-manropeL">
+                <div className="font-manropeL" onClick={handleAuthMenu}>
                   <Logout />
                 </div>
               </ul>

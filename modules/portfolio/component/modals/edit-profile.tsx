@@ -7,7 +7,10 @@ import Portfolio from '../../../../context/PortfolioLandingContext';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
+import CountryCityDropdown from './CountryCityDropdown';
+
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
+
 const EditProfile = () => {
   const { setUserData, showProfileUpdate, setShowProfileUpdate } = useContext(Portfolio);
   const [picture, setPicture] = useState<string | StaticImport>();
@@ -19,6 +22,8 @@ const EditProfile = () => {
   const [availableTracks, setAvailableTracks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ status: false, message: '' });
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
   const { userId, onSaveModal } = useContext(Portfolio);
   const getUser = async () => {
     try {
@@ -150,7 +155,7 @@ const EditProfile = () => {
   return (
     <Modal isOpen={showProfileUpdate} closeModal={() => setShowProfileUpdate(false)} isCloseIconPresent={false}>
       {isLoading ? (
-        <div className="flex flex-col justify-center items-center gap-3">
+        <div className="space-y-6 bg-white-100 p-4 py-5">
           <Loader />
           <p className="text-brand-success-focused text-lg">Please wait</p>
         </div>
@@ -208,6 +213,8 @@ const EditProfile = () => {
                   value={firstName}
                 />
               </label>
+            </div>
+            <div className="flex flex-col md:flex-row md:gap-5 w-[100%] gap-1">
               <label className="w-full mb-3">
                 Lastname <span className="text-red-200">*</span>
                 <input
@@ -223,54 +230,40 @@ const EditProfile = () => {
               </label>
             </div>
             <div className="w-[100%] flex flex-col justify-center items-start">
-              <label className="pb-1">
-                Track <span className="text-red-200">*</span>{' '}
-              </label>
-              ​
-              <Select
-                onValueChange={(value: string) => {
-                  setSelectedTrack(value);
-                }}
-                value={selectedTrack}
-              >
-                <SelectTrigger className="border-[#59595977] text-gray-300 h-[50px] rounded-[10px]">
-                  <SelectValue
-                    defaultValue={selectedTrack}
-                    placeholder={selectedTrack}
-                    className="hover:border-green-500"
-                  />
-                </SelectTrigger>
-                <SelectContent className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100">
-                  {availableTracks?.map((track: any, index: number) => (
-                    <SelectItem className="text-gray-300" key={index} value={track.track}>
-                      {track.track}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="w-full flex md:flex-row gap-4 justify-between mt-5">
-              <div className="w-full md:w-[47%]">
-                <label>
-                  City
-                  <span> (optional) </span>
-                </label>
-                <input
-                  className={`w-[100%] mt-1 ${inputStyle}`}
-                  onChange={(e) => {
-                    setCity(e.target.value);
+              <label className="w-full mb-3">
+                Track <span className="text-red-200">*</span> ​
+                <Select
+                  onValueChange={(value: string) => {
+                    setSelectedTrack(value);
                   }}
-                  type="text"
-                  disabled={false}
-                  placeholder="Lagos"
-                  value={city}
-                />
-              </div>
-              <div className="w-full md:w-[47%]">
+                  value={selectedTrack}
+                >
+                  <SelectTrigger className="border-[#59595977] text-gray-300 h-[50px] rounded-[10px]">
+                    <SelectValue
+                      defaultValue={selectedTrack}
+                      placeholder="select Track"
+                      className="hover:border-green-500"
+                    />
+                  </SelectTrigger>
+                  <SelectContent
+                    className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100"
+                    style={{ maxHeight: '200px', overflowY: 'auto' }}
+                  >
+                    {availableTracks?.map((track: any, index: number) => (
+                      <SelectItem className="text-green-300" key={index} value={track.track}>
+                        {track.track}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </label>
+            </div>
+
+            {/* <div className="w-full md:w-[47%]">
                 <label>
                   Country
                   <span> (optional) </span>
-                </label>
+               
                 <input
                   className={`w-[100%] mt-1 ${inputStyle}`}
                   onChange={(e) => {
@@ -281,8 +274,34 @@ const EditProfile = () => {
                   placeholder="Nigeria"
                   value={country}
                 />
+                 </label>
+
               </div>
-            </div>
+
+              <div className="w-full md:w-[47%]">
+                <label>
+                  City
+                  <span> (optional) </span>
+               
+                <input
+                  className={`w-[100%] mt-1 ${inputStyle}`}
+                  onChange={(e) => {
+                    setCity(e.target.value);
+                  }}
+                  type="text"
+                  disabled={false}
+                  placeholder="Lagos"
+                  value={city}
+                />
+                 </label>
+              </div> */}
+
+            <CountryCityDropdown
+              selectedCountry={selectedCountry}
+              selectedCity={selectedCity}
+              onCountryChange={setSelectedCountry}
+              onCityChange={setSelectedCity}
+            />
 
             <div className="w-full flex  md:flex-row gap-4 justify-between mt-10">
               <div className="w-full md:w-[47%]">
