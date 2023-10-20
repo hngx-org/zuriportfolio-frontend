@@ -118,10 +118,6 @@ const ZuriLandingPage = () => {
         {shop ? (
           <div className="space-y-12 py-10">
             <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
-
-            <p className="md:text-base text-xs font-normal font-manropeL">
-              Explore our store for courses and E-books that will elevate your skills from novice to expert.
-            </p>
           </div>
         ) : loading ? (
           <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-white bg-opacity-80 z-50">

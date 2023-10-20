@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useAuth } from '../../../../../context/AuthContext';
+import { useState } from 'react';
 
 interface ProductCardProps {
   product: Products;
@@ -19,41 +20,48 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
   const { addToCart } = useCart();
   const { auth } = useAuth();
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   const handleAddToCart = async () => {
-    if (!auth) {
+    if (isAddedToCart) {
+      toast.error('This product is already in your cart', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    } else if (!auth) {
       toast.error('Please Log in before Adding to the Cart', {
         position: 'top-right',
         autoClose: 3000,
       });
-    }
-    try {
-      const response = await axios.post(
-        'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
-        {
-          product_ids: [product.id],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${auth?.token}`,
+    } else {
+      try {
+        const response = await axios.post(
+          'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
+          {
+            product_ids: [product.id],
           },
-        },
-      );
-      if (response.status === 201) {
-        addToCart(product);
-
-        toast.success('Added to Cart', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
-      } else {
-        toast.error('Failed to add to Cart', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${auth?.token}`,
+            },
+          },
+        );
+        if (response.status === 201) {
+          addToCart(product);
+          setIsAddedToCart(true);
+          toast.success('Added to Cart', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        } else {
+          toast.error('Failed to add to Cart', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
       }
-    } catch (error) {
-      console.error('Error adding to cart:', error);
     }
   };
 
@@ -104,7 +112,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => {
       </div>
       <div className="flex flex-col gap-2 flex-grow py-1 px-2">
         <div>
-          <h3 className=" md:text-sm text-xs text-[#052011] font-normal font-manropeEL capitalize">{product.name}</h3>
+          <h3 className=" md:text-xl text-xs text-[#052011] font-normal font-manropeEL capitalize">{product.name}</h3>
           <p className="text-[#052011] md:text-lg text-base font-manropeB ">₦{product.price.toLocaleString()}</p>
           {shopName && (
             <div>
