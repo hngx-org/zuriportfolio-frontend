@@ -8,6 +8,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
   const getStatusBackgroundColor = (status: string): string[] => {
     switch (status.toLowerCase()) {
       case 'completed':
+      case 'completed':
         return ['bg-custom-color41', 'text-custom-color35']; // Return an array of background and text colors
       case 'pending':
         return ['bg-custom-color40', 'text-yellow-600'];
@@ -20,7 +21,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
 
   // this is the for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 7
+  const totalPages = 7;
 
   // scroll to the top
   const topOfPageRef = useRef<HTMLDivElement>(null);
@@ -29,7 +30,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
   const endIndex = startIndex + totalPages;
   const displayedItems = data.slice(startIndex, endIndex);
 
-  const paginatedPage = Math.ceil(data.length / totalPages)
+  const paginatedPage = Math.ceil(data.length / totalPages);
 
   // function for handling the page change
   const handlePageChange = (page: number) => {
@@ -44,8 +45,10 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
   const [selectedOrder, setSelectedOrder] = useState<PurchaseData | null>(null);
 
   const openModalWithOrder = (order: PurchaseData) => {
-    setSelectedOrder(order);
-    setIsModalOpen(true);
+    if (order.order.status === 'pending' || order.order.status === 'failed') {
+      setSelectedOrder(order);
+      setIsModalOpen(true);
+    }
   };
 
   const openModal = () => {
@@ -64,22 +67,22 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
         <div
           className="sm:hidden w-full overflow-hidden sm:overflow-x-auto flex flex-col gap-10"
           id="topOfPage"
-          ref={topOfPageRef}>
+          ref={topOfPageRef}
+        >
           {displayedItems.map((item) => (
             <div
               key={item.id}
               onClick={() => openModalWithOrder(item)}
               className="sm:hidden border border-zinc-300 h-fit rounded-xl p-6 flex flex-col gap-4 cursor-pointer"
             >
-              <div className=" w-full flex justify-between gap-4" onClick={openModal}>
+              <div className=" w-full flex justify-between gap-4">
                 <span className="flex gap-3 items-center">
-                  <input type="checkbox" />
                   <p className="font-light font-manropeL text-brand-green-shade10 ">{item.createdAt.split('T')[0]}</p>
                 </span>
                 <p className="font-manropeB text-xl">{item.order_price}</p>
               </div>
 
-              <div className="flex flex-col gap-2" onClick={openModal}>
+              <div className="flex flex-col gap-2">
                 <h2 className="font-manropeEL text-2xl text-brand-green-shade10">{item.product.name}</h2>
                 <span className="flex gap-1 items-center">
                   <p className="font-manropeL text-[.7rem]">Order ID:</p>
@@ -87,7 +90,7 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
                 </span>
               </div>
 
-              <div className="flex justify-between gap-5" onClick={openModal}>
+              <div className="flex justify-between gap-5">
                 <span className="flex gap-1 items-center">
                   <p className="font-manropeL text-base">By:</p>
                   <p className="font-manropeL text-base">{item.merchant}</p>
@@ -97,7 +100,6 @@ const MobileCustomerDashboard = ({ data }: { data: PurchaseData[] }) => {
                   className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl ${
                     getStatusBackgroundColor(item.order.status)[0]
                   }`}
-                  onClick={openModal}
                 >
                   <p className={`text-[0.75rem] ${getStatusBackgroundColor(item.order.status)[1]}`}>
                     {item.order.status}
