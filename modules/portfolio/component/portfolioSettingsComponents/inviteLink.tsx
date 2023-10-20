@@ -37,7 +37,6 @@ export default function InviteLink() {
   const [openModal, setOPenModal] = useState<boolean>(false);
 
   const toggleModal = () => {
-    const idd = '00fdd774-d5c3-46e7-8457-b3bba0603baf';
     setOPenModal((prev: boolean) => !prev);
     // console.log(`${websiteURL}/portfolio`)
   };
