@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useForm } from '@mantine/form';
 import CustomFooter from './customSection/customFooter';
 import CustomHeader from './customSection/customHeader';
 import { renderFields } from './customSection/renderField';
 import CustomNewSections from './customSection/customNewSections';
-import Portfolio from '../../../context/PortfolioLandingContext';
-import Modal from '@ui/Modal';
+import { CloseSquare } from 'iconsax-react';
 
 const sectionButtonsData = [
   {
@@ -34,13 +33,9 @@ const sectionButtonsData = [
   },
 ];
 
-function CreateCustomSection() {
-  const { openCustom, setOpenCustom } = useContext(Portfolio);
-
-  let isOpen = openCustom,
-    onClose = () => setOpenCustom(false);
-
+function CreateCustomSection({ onClose }: { onClose: () => void }) {
   const [fieldInput, setFieldInput] = React.useState(false);
+  const [getNewSection, setGetNewSection] = React.useState(false);
   const [renderedFields, setRenderedFields] = React.useState<React.ReactNode[]>([]);
 
   const form = useForm({
@@ -88,30 +83,29 @@ function CreateCustomSection() {
   const handleClose = () => {
     form.reset();
     onClose();
-    setFieldInput(false);
+    setGetNewSection(false);
   };
 
   const handleSubmit = (values: any) => {
     console.log(values);
-    setFieldInput(true);
-    onClose();
+    setGetNewSection(true);
   };
 
   return (
     <>
-      <Modal
-        isOpen={fieldInput}
-        closeModal={() => null}
-        closeOnOverlayClick={false}
-        isCloseIconPresent={false}
-        size="xl"
-      >
-        <CustomNewSections onClose={handleClose} />
-        <CustomFooter handleClose={handleClose} />
-      </Modal>
-
-      <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      {getNewSection ? (
+        <CustomNewSections onClose={onClose} />
+      ) : (
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+          <div className="flex flex-col gap-3 my-19">
+            <div className="flex justify-between items-center">
+              <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">
+                Customize your section
+              </p>
+              <CloseSquare size="32" color="#009254" variant="Bold" onClick={onClose} className="cursor-pointer" />
+            </div>
+            <div className="bg-brand-green-primary h-1 rounded-sm"></div>
+          </div>
           <CustomHeader
             list={form.values.addList}
             sectionButtonsData={sectionButtonsData}
@@ -128,7 +122,7 @@ function CreateCustomSection() {
           )}
           <CustomFooter handleClose={handleClose} />
         </form>
-      </Modal>
+      )}
     </>
   );
 }

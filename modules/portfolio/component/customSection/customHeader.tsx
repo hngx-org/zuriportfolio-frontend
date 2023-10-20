@@ -57,6 +57,7 @@ const CustomHeader = ({ sectionButtonsData, handleChange, list }: CustomHeaderPr
           <button
             key={sectionBtn.type}
             onClick={() => handleChange(sectionBtn.type)}
+            type="button"
             disabled={checkDisabled(sectionBtn.type)}
             className="bg-brand-green-ttr px-[.8rem] py-[.5rem] disabled:opacity-50 rounded-md text-lg text-white-650 flex gap-2 justify-between items-center"
           >
