@@ -204,6 +204,7 @@ export default function ProductDetails() {
   return (
     <>
       <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>{shopName ? `${shopName} Shop - ${product?.name} Details` : ''}</title>
         <meta name="description" content={`Explore the details of ${product?.name}. ${product?.description}`} />
         <meta property="og:title" content={shopName ? `${shopName} Shop - ${product?.name} Details` : ''} />
@@ -211,12 +212,12 @@ export default function ProductDetails() {
           property="og:description"
           content={`Discover and explore the details of ${product?.name} by ${shopName} - ${product?.description}.`}
         />
-
         <meta
           property="og:url"
           content="https://zuriportfolio-frontend-pw1h.vercel.app/shop/product?id=ad509f1d-efa4-4f00-a6a4-20b30d3f10f9&shopName=Martinez%20and%20Sons"
         />
       </Head>
+
       <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
@@ -229,11 +230,11 @@ export default function ProductDetails() {
       <main className={`p-4 container mx-auto`}>
         <div className="self-start mb-[8px]">
           <span className="font-manropeEL text-xs md:text-sm tracking-[0.00375rem] md:tracking-[0.00088rem] font-normal lg:text-base">
-            <Breadcrumbs shopId={shopID} />
+            <Breadcrumbs shopId={shopID} productName={product.name} />
           </span>
         </div>
         <a onClick={() => router.back()} className="self-start">
-          <ArrowLeft size="27" color="#000000" className="mb-[8px]" />
+          <ArrowLeft size="27" color="#000000" className="mb-[8px] cursor-pointer" />
         </a>
 
         {/* Product Details  */}

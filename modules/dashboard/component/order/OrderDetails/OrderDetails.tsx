@@ -340,7 +340,7 @@ const OrderDetails = () => {
             </div>
             <div className="flex flex-col gap-[60px]">
               <h1 className=" text-[2rem] leading-[125%] text-black mb-14 hidden md:block">Order Details</h1>
-              <div className="justify-end items-center mb-[25px] gap-[19px] flex md:hidden">
+              <div id="top" className="justify-end items-center mb-[25px] gap-[19px] flex md:hidden">
                 <div className="relative">
                   <button
                     className="px-4 py-[10px] border rounded-lg flex gap-2 border-slate-50 text-[14px] font-manropeL font-medium text-slate-300 items-center leading-[142.857%]"
@@ -470,7 +470,7 @@ const OrderDetails = () => {
               </div>
             )}
           </div>
-          <div className="flex justify-center my-6">
+          <a href="#top" className="flex justify-center my-6 w-fit mx-auto">
             <Pagination
               activePage={currentPage}
               page={currentPage}
@@ -478,7 +478,7 @@ const OrderDetails = () => {
               visiblePaginatedBtn={3}
               setPage={setCurrentPage}
             />
-          </div>
+          </a>
         </>
       )}
     </main>

@@ -1,24 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import VendorsStat from '@modules/super-admin/components/vendormanagement/VendorStat';
 import VendorLists from '@modules/super-admin/components/vendormanagement/VendorLists';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
-import SearchProduct from '@modules/super-admin/components/vendormanagement/SearchProduct';
-import FilterProduct from '@modules/super-admin/components/vendormanagement/FilterProduct';
-import Button from '@ui/Button';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { useGetAllVendor } from '../../../http/super-admin1';
 import { withAdminAuth } from '../../../helpers/withAuth';
-import { Input, SelectInput } from '@ui/Input';
-import { SearchNormal1, Sort } from 'iconsax-react';
+import { Input } from '@ui/Input';
+import { SearchNormal1 } from 'iconsax-react';
 
 const Index = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  // page: number, search: string, status: string
   const { data, isLoading } = useGetAllVendor(page, search);
 
+  const handleFilter = () => {};
   return (
     <div className="">
       <SuperAdminNavbar />
@@ -31,25 +28,21 @@ const Index = () => {
               <p className="text-lg font-bold">Vendor Management</p>
               <p className="text-gray-500 text-sm">List of all vendors and their details</p>
             </div>
-            <div className="flex items-center justify-left md:justify-between gap-4">
-              {/* <SearchProduct handleSearchChange={handleSearch} /> */}
+            <div className="flex justify-between items-center gap-2">
               <Input
                 onChange={(e) => {
+                  // handleSearch(e.target.value);
                   setSearch(e.target.value);
+                  console.log(e.target.value);
                 }}
                 leftIcon={<SearchNormal1 />}
                 type="text"
                 intent={'default'}
                 disabled={false}
-                className=""
-                placeHolder="Search"
+                className="md:min-w-[350px] w-[100%]"
+                placeHolder="search"
               />
-
-              {/* <div className="md:hidden block">
-                <Button intent={'primary'} size={'sm'}>
-                  <Sort />
-                </Button>
-              </div> */}
+              <div className="">{/* <FilterProduct handleFilter={handleFilter} /> */}</div>
             </div>
           </div>
           {isLoading ? (
