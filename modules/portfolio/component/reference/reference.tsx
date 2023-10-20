@@ -353,8 +353,8 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   };
 
   return (
-    <Modal isOpen={isOpen} closeModal={onCloseModal} size="lg" isCloseIconPresent={false}>
-      <div className="mx-auto bg-white-100 rounded-md p-3 py-5">
+    <Modal isOpen={isOpen} closeModal={onCloseModal} size="xl" isCloseIconPresent={false}>
+      <div className="mx-auto bg-white-100 rounded-md p-4 py-5">
         <div className="flex justify-between items-center border-b-[3.6px]  border-brand-green-primary pb-1">
           <div className="flex gap-4 items-center">
             <div
