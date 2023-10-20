@@ -102,34 +102,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
         <>
           {isData && (
             <>
-<<<<<<< HEAD
-              {workExperiences.map((experience: WorkExperience, index: number) => {
-                return (
-                  <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
-                    <WorkExperienceSkeleton data={experience} />
-                    <div className="self-end pb-4 flex gap-4 font-manropeL">
-                      <span
-                        className="font-semibold cursor-pointer text-[#5B8DEF]"
-                        onClick={(e) => {
-                          setIsEditMode(true);
-                          setEditingExperience(experience);
-                          prefillForm(experience);
-                          setIsData(false);
-                        }}
-                      >
-                        Edit
-                      </span>
-                      <span
-                        className="font-semibold cursor-pointer text-brand-red-hover"
-                        onClick={(e) => handleDeleteExperience(experience.id, e)}
-                      >
-                        Delete
-                      </span>
-                    </div>
-                  </article>
-                );
-              })}
-=======
               {workExperiences.map((experience: WorkExperience, index: number) => (
                 <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
                   {/* <WorkExperienceSkeleton data={experience} /> */}
@@ -172,7 +144,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                   </div>
                 </article>
               ))}
->>>>>>> 3930ec7fdb40448f227a12c00888cc06a4e04c94
             </>
           )}
         </>
