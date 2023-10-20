@@ -46,6 +46,7 @@ const CreateAssessment = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
 
  const [assessment, setAssessment] = useState({
+  skill_id: 0,
   id: newobject.id,
   title: newobject.assessment_name, // Assuming 'assessment_name' is the title
   createdAt: new Date(),
