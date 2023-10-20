@@ -160,8 +160,8 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
 
   return (
     <>
-      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
-        <div className="space-y bg-white-100 sm:p-10 ">
+      <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
+        <div className="space-y bg-white-100 sm:p-10">
           <form className="flex flex-col gap-y-5">
             <div className="flex flex-col gap-3 my-19">
               <div className="flex justify-between items-center">
@@ -189,57 +189,54 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
               />
             </div>
             {socials.length > 0 &&
-              socials.map((social) => (
-                <form key={social.id} onSubmit={handleSubmit} className="flex flex-col gap-y-5">
-                  <div className="flex flex-col sm:flex-row items-center justify-between mx-auto w-full sm:w-[90%] sm:gap-2 gap-5">
-                    <div className="w-full">
-                      <div className="font-semibold text-[#444846] text-[.9rem] mb-2">Select social</div>
-                      <Select
-                        onValueChange={(value: string) => {
-                          handleSocialSelectChange(social.id, value);
-                        }}
-                        value={social.social_media_id}
-                      >
-                        <SelectTrigger className="border-[#E1E3E2] w-[100%] h-14 border text-xs font-manropeL">
-                          <SelectValue placeholder="Select Social" />
-                        </SelectTrigger>
-                        <SelectContent className="border-[#E1E3E2]">
-                          <SelectItem value="11" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
-                            Behance
-                          </SelectItem>
-                          <SelectItem value="12" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
-                            Github
-                          </SelectItem>
-                          <SelectItem value="13" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
-                            Instagram
-                          </SelectItem>
-                          <SelectItem value="14" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
-                            LikedIn
-                          </SelectItem>
-                          <SelectItem value="15" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
-                            X
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
+              socials.map((social, index) => (
+                <form key={index} onSubmit={handleSubmit} className="flex flex-col gap-y-5">
+                  <div className="flex flex-col sm:flex-row items-center justify-between mx-auto w-full sm:w-[90%]  sm:gap-2 gap-5">
+                    <div className="flex flex-col sm:flex-row items-center justify-between mx-auto w-full sm:w-[90%]  sm:gap-2 gap-5">
+                      <div className="w-full">
+                        <label className="font-semibold text-[#444846] text-[.9rem] mb-10">Select social</label>
+                        <Select
+                          onValueChange={(value: string) => {
+                            handleSocialSelectChange(social.social_media_id, availableSocials[index].Id);
+                          }}
+                          value={social.social_media_id}
+                        >
+                          <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
+                            <SelectValue placeholder="Select Social" />
+                          </SelectTrigger>
+                          <SelectContent className="border-[#E1E3E2]">
+                            {availableSocials.map((socialItem, index) => (
+                              <SelectItem
+                                className="capitalize hover:bg-[#F4FBF6] hover:text-[#009254]"
+                                key={index}
+                                value={socialItem.name}
+                              >
+                                {socialItem.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
+
                     <div className="flex flex-col justify-center w-[100%] h-full">
-                      <div className="font-semibold text-[#444846] text-[.9rem] mb-2">Link to social</div>
-                      <div className="flex rounded-md justify-center items-center border h-14 border-[#E1E3E2]">
+                      <label className="font-semibold text-[#444846] text-[.9rem] mb-[.1rem]">Link to social</label>
+                      <div className="flex rounded-md justify-center items-center border h-[2.5rem] border-[#E1E3E2]">
                         <span className="font-manropeL w-1/3 text-xs text-center">Type link</span>
                         <Input
                           placeHolder="Enter social link"
                           onChange={(e) => {
                             handleSocialInputChange(social.id, e.target.value);
                           }}
-                          className="border-[#E1E3E2] w-[100%] rounded-none border-0 border-s h-full text-xs font-manropeL "
-                          inputSize={'lg'}
+                          className="border-[#E1E3E2] w-[100%] rounded-none border-0 border-s h-full text-xs font-manropeL"
+                          inputSize={'sm'}
                           value={social.url}
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="mb- font-manropeL mx-auto w-full sm:w-[90%] text-right">
+                  <div className="mb-3 font-manropeL mx-auto w-full sm:w-[90%] text-right">
                     <span
                       className="font-semibold cursor-pointer text-brand-red-hover"
                       onClick={() => handleSocialDelete(social.id)}
@@ -247,7 +244,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                       Delete
                     </span>
                   </div>
-                  <hr className=" border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
+                  <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
                 </form>
               ))}
           </form>
