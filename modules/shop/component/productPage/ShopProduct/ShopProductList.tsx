@@ -1,3 +1,4 @@
+import React from 'react';
 import { toast } from 'react-toastify';
 import { Products, ShopData } from '../../../../../@types';
 import ProductCard from '../ProductCard/ProductCard';
@@ -32,9 +33,9 @@ const ShopProductList: React.FC<ShopProductListProps> = ({ shop, currentPage, pr
 
   return (
     <div className="h-full">
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 md:gap-10 gap-2 container mx-auto">
+      <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 md:gap-4 gap-2">
         {productsToDisplay.map((product: Products) => (
-          <ProductCard key={product.id} product={product} shopName={shopData.name || ''} />
+          <ProductCard key={product.id} product={product} shopName={shopData.name || ''} searchQuery={searchQuery} />
         ))}
       </div>
     </div>

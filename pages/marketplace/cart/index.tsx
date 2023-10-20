@@ -18,6 +18,7 @@ import CartPageSkeleton from '@modules/shop/component/cart/checkout/CartPageSkel
 import { destructureProducts, getDiscountPercentage } from '../../../helpers';
 import { Metadata } from 'next';
 import { useCart } from '@modules/shop/component/CartContext';
+import { toast } from 'react-toastify';
 
 export const metadata: Metadata = {
   title: 'Cart Summary',

@@ -150,14 +150,15 @@ export function PortfolioCtxProvider(props: { children: any }) {
     }
 
     if (getUserInfo.data) {
+      console.log(getUserInfo.data.data);
       setUserData({
-        firstName: getUserInfo.data?.user?.firstName,
-        lastName: getUserInfo.data?.user?.lastName,
-        avatarImage: getUserInfo.data?.user?.profilePic,
-        city: getUserInfo.data?.portfolio?.city,
-        country: getUserInfo.data?.portfolio?.country,
-        tracks: getUserInfo.data?.userTracks,
-        coverImage: getUserInfo.data?.user?.profileCoverPhoto,
+        firstName: getUserInfo.data?.data?.user?.firstName,
+        lastName: getUserInfo.data?.data?.user?.lastName,
+        avatarImage: getUserInfo.data?.data?.user?.profilePic,
+        city: getUserInfo.data?.data?.portfolio?.city,
+        country: getUserInfo.data?.data?.portfolio?.country,
+        tracks: getUserInfo.data?.data?.userTracks,
+        coverImage: getUserInfo.data?.data?.user?.profileCoverPhoto,
       });
     }
     if (getUserSections.data) {
@@ -167,7 +168,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         workExperience,
         education,
         skills,
-        contact,
+        contacts,
         interestArray,
         awards,
         languages,
@@ -182,7 +183,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         workExperience ||
         education ||
         skills ||
-        contact ||
+        contacts ||
         interestArray ||
         awards ||
         languages ||
@@ -204,7 +205,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Languages', id: 'languages', data: languages },
         { title: 'Reference', id: 'reference', data: reference },
         { title: 'Shop', id: 'shop', data: shop },
-        { title: 'Contact', id: 'contact', data: contact },
+        { title: 'Contact', id: 'contact', data: contacts },
         { title: 'Custom', id: 'custom', data: custom },
       ]);
     }
