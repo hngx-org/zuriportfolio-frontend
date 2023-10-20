@@ -10,6 +10,8 @@ import { useCart } from './component/CartContext';
 import Loader from '@ui/Loader';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Error from '../shop/component/error/Error';
+
 const ZuriLandingPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -86,6 +88,7 @@ const ZuriLandingPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''}</title>
         <meta
           name="description"
@@ -126,7 +129,9 @@ const ZuriLandingPage = () => {
             <Loader />
           </div>
         ) : (
-          <div className="text-center py-10">No products available.</div>
+          <div className="text-center py-10">
+            <Error/>
+          </div>
         )}
         <div className="py-10">
           {shop ? (
