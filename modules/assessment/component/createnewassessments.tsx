@@ -6,14 +6,20 @@ import { FaTimes } from 'react-icons/fa';
 import avatar from './avatar.svg';
 import minus from './minus.svg';
 import questions_and_answers from './newlist';
+import useDisclosure from '../../../hooks/useDisclosure';
+import Modal from '@ui/Modal';
 import { ToPushContext } from '../../../pages/super-admin/assessment/new';
 import { UpdateContext } from '../../../pages/super-admin/assessment/new';
+import { toast } from 'react-toastify';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 import Image from 'next/image';
 const CreateTemplate = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const [newobject, setObject]: any = useContext(ToPushContext);
   const [list, setList] = useState(questions_and_answers);
+  const [delModal, setDelModal] = useState(false);
+  const [delQuestId, setDelQuestId] = useState(0);
   const updatelistinobj = () => {
     const newt = { ...newobject };
     newt.questions_and_answers = list;
@@ -78,16 +84,20 @@ const CreateTemplate = () => {
     ]);
     updatelistinobj();
   };
-  const handleRemovequest = () => {
-    setList((list) => {
-      if (list.length > 1) {
-        const updatedList = [...list.slice(0, list.length - 1)];
-        return updatedList;
-      } else {
-        return list;
-      }
-    });
-    updatelistinobj();
+  const delquest = (index: number) => {
+    if (list.length > 1) {
+      setDelQuestId(index);
+      setDelModal(true);
+    } else {
+      toast.error('You have only one question, you can not delete it');
+    }
+  };
+  const confirmDelQuest = () => {
+    const updatedData = [...list];
+    const newdata = splicearr(updatedData, delQuestId);
+    setList(newdata);
+    updatelistinobj;
+    setDelModal(false);
   };
 
   useEffect(() => {
@@ -117,6 +127,24 @@ const CreateTemplate = () => {
   return (
     <>
       <div className="flex flex-col gap-y-8">
+        {delModal && (
+          <Modal
+            isOpen={!isOpen}
+            closeModal={onOpen}
+            title={'Are you sure you are deleting this question? Deleted questions can not be retrieved'}
+            isCloseIconPresent={false}
+            size="sm"
+          >
+            <div className="flex my-5 gap-2 w-full">
+              <Button className="w-full flex-1" onClick={() => setDelModal(false)}>
+                NO
+              </Button>
+              <Button className="w-full bg-red-300 flex-1" onClick={confirmDelQuest}>
+                Yes
+              </Button>
+            </div>
+          </Modal>
+        )}
         {list.map((item, index) => {
           return (
             <div
@@ -135,8 +163,13 @@ const CreateTemplate = () => {
                   intent={'default'}
                   size={15}
                 />
-                <div className="bg-[#dcd2d2] rounded">
-                  <Image src={avatar} alt="avatar" width={36} height={36} />
+                <div
+                  className="text-white-100 bg-red-200 p-3 shadow cursor-pointer rounded hover:shadow-lg"
+                  onClick={() => {
+                    delquest(index);
+                  }}
+                >
+                  Del
                 </div>
               </div>
               <div className=" text-[20px] font-semibold pt-4 text-[#1A1C1B]">Answers</div>
@@ -216,17 +249,6 @@ const CreateTemplate = () => {
         >
           Add Question
         </Button>
-        {list.length > 1 && (
-          <Button
-            onClick={handleRemovequest}
-            leftIcon={<FaTimes color="black" />}
-            intent={'primary'}
-            size={'md'}
-            className="bg-[transparent] text-dark-100 border-2 border-red-100 hover:bg-red-200 hover:text-white-100"
-          >
-            Delete Question
-          </Button>
-        )}
       </div>
     </>
   );
