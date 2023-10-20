@@ -100,10 +100,12 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
           theme: 'light',
           type: 'success',
         });
-        onSaveModal();
+        console.log(res);
+        // onSaveModal();
       })
       .catch((err) => {
         setLoading(false);
+        console.log(err);
         notify({
           message: 'Error occurred',
           position: 'top-center',
