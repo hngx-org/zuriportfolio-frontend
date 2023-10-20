@@ -7,24 +7,26 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
-import ProjectSection from '@modules/portfolio/component/modals/projects';
 import PortfolioAbout from '@modules/portfolio/component/about/about';
 import PortfolioReference from '@modules/portfolio/component/reference/reference';
 import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
+import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
+import { useQueries, UseQueryResult } from '@tanstack/react-query';
+import $http from '../http/axios';
 
 type PortfolioContext = {
-  setShowBuildPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowProfileUpdate: React.Dispatch<React.SetStateAction<boolean>>;
-  gettinSection: boolean;
-  userId: string;
+  getUserInfo: UseQueryResult<any>;
+  getUserSections: UseQueryResult<any>;
   hasPortfolio: boolean;
   setHasPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowBuildPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowProfileUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  userId: string;
   setUserData: React.Dispatch<React.SetStateAction<any>>;
   userData: any;
-  hasData: boolean;
   sections: Array<any>;
   modalStates: { [key: string]: boolean };
   modals: any[];
@@ -38,7 +40,6 @@ type PortfolioContext = {
   onClose: () => void;
   onCloseModal: (modalToClose: string) => void;
   editSection: (modalToOpen: string) => void;
-  setHasData: React.Dispatch<React.SetStateAction<boolean>>;
   setModalStates: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>;
   setSections: React.Dispatch<React.SetStateAction<any[]>>;
   profileUpdate: () => void;
@@ -58,19 +59,21 @@ type PortfolioContext = {
   setOpenShop: React.Dispatch<React.SetStateAction<boolean>>;
   openCustom: boolean;
   setOpenCustom: React.Dispatch<React.SetStateAction<boolean>>;
+  idToDelete: string;
+  setIdToDelete: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Portfolio = createContext<PortfolioContext>({
-  setShowBuildPortfolio: () => {},
-  setShowProfileUpdate: () => {},
-  gettinSection: true,
-  userId: '',
+  getUserInfo: {} as UseQueryResult<any>,
+  getUserSections: {} as UseQueryResult<any>,
   hasPortfolio: false,
   setHasPortfolio: () => {},
+  setShowBuildPortfolio: () => {},
+  setShowProfileUpdate: () => {},
+  userId: '',
   setUserData: () => {},
   userData: {},
   selectedSections: [],
-  hasData: false,
   sections: [],
   modals: [],
   isOpen: false,
@@ -79,7 +82,6 @@ const Portfolio = createContext<PortfolioContext>({
   showBuildPortfolio: false,
   showViewtemplates: false,
   avatarImage: '' as string | StaticImport,
-  setHasData: () => {},
   onOpen: () => {},
   onClose: () => {},
   setModalStates: () => {},
@@ -103,37 +105,14 @@ const Portfolio = createContext<PortfolioContext>({
   setOpenShop: () => {},
   openCustom: false,
   setOpenCustom: () => {},
+  idToDelete: '',
+  setIdToDelete: () => {},
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
-  const [userId, setUserId] = useState('');
   const { auth } = useAuth();
+  const [userId, setUserId] = useState('');
   const [userSections, setUserSections] = useState<any[]>([]);
-
-  useEffect(() => {
-    if (auth?.user?.id) {
-      setUserId(auth.user.id);
-      getUser(auth.user.id);
-      getUserSections(auth.user.id);
-    }
-  }, [auth?.user?.id]);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [gettinSection, setGettingSection] = useState(true);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [hasData, setHasData] = useState<boolean>(false);
-  const [modalStates, setModalStates] = useState<{ [key: string]: boolean }>({});
-  const [sections, setSections] = useState<Array<any>>(s);
-  const [openDelete, setOpenDelete] = useState<boolean>(false);
-  const [openShop, setOpenShop] = useState<boolean>(true);
-  const [openCustom, setOpenCustom] = useState<boolean>(false);
-  const [hasPortfolio, setHasPortfolio] = useState<boolean>(false);
-  const [error, setError] = useState<any>(null);
-  const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
-  const [avatarImage, setAvatarImage] = useState<File | any>();
-  const [showProfileUpdate, setShowProfileUpdate] = useState<boolean>(false);
-  const [showBuildPortfolio, setShowBuildPortfolio] = useState<boolean>(false);
-  const [showViewtemplates, setShowViewtemplates] = useState<boolean>(false);
 
   const [userData, setUserData] = useState<any>({
     firstName: '',
@@ -145,31 +124,41 @@ export function PortfolioCtxProvider(props: { children: any }) {
     tracks: [],
   });
 
-  const getUser = async (userId: string) => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
-      const data = await response.json();
-      setUserData({
-        firstName: data?.user?.firstName,
-        lastName: data?.user?.lastName,
-        avatarImage: data?.user?.profilePic,
-        city: data?.portfolio?.city,
-        country: data?.portfolio?.country,
-        tracks: data?.userTracks,
-        coverImage: data?.user?.profileCoverPhoto,
-      });
-      setIsLoading(false);
-    } catch (error: any) {
-      setError({ state: true, error: error.message });
-    }
-  };
+  const [getUserInfo, getUserSections] = useQueries({
+    queries: [
+      {
+        queryKey: ['user'],
+        queryFn: () => getUser(),
+        enabled: !!userId,
+        refetchInterval: 1000,
+      },
+      {
+        queryKey: ['sections'],
+        queryFn: () => getSections(),
+        enabled: !!userId,
+        refetchInterval: 1000,
+      },
+    ],
+  });
 
-  const getUserSections = async (userId: string) => {
-    try {
-      setGettingSection(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-      const data = await response.json();
+  useEffect(() => {
+    if (auth?.user?.id) {
+      setUserId(auth.user.id);
+    }
+
+    if (getUserInfo.data) {
+      setUserData({
+        firstName: getUserInfo.data?.user?.firstName,
+        lastName: getUserInfo.data?.user?.lastName,
+        avatarImage: getUserInfo.data?.user?.profilePic,
+        city: getUserInfo.data?.portfolio?.city,
+        country: getUserInfo.data?.portfolio?.country,
+        tracks: getUserInfo.data?.userTracks,
+        coverImage: getUserInfo.data?.user?.profileCoverPhoto,
+      });
+    }
+
+    if (getUserSections.data) {
       const {
         about,
         projects,
@@ -177,14 +166,14 @@ export function PortfolioCtxProvider(props: { children: any }) {
         education,
         skills,
         contact,
-        interests,
+        interestArray,
         awards,
-        language,
+        languages,
         reference,
-        certificate,
+        certificates,
         shop,
         custom,
-      } = data;
+      } = getUserSections.data;
       if (
         about ||
         projects ||
@@ -192,16 +181,14 @@ export function PortfolioCtxProvider(props: { children: any }) {
         education ||
         skills ||
         contact ||
-        interests ||
+        interestArray ||
         awards ||
-        language ||
+        languages ||
         reference ||
-        certificate ||
+        certificates ||
         shop ||
         custom
       ) {
-        setHasData(true);
-        setHasPortfolio(true);
       }
       setUserSections([
         { title: 'About', id: 'about', data: about },
@@ -209,22 +196,59 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Work Experience', id: 'workExperience', data: workExperience },
         { title: 'Education', id: 'education', data: education },
         { title: 'Skills', id: 'skills', data: skills },
-        { title: 'Interests', id: 'interests', data: interests },
+        { title: 'Interests', id: 'interests', data: interestArray },
         { title: 'Awards', id: 'awards', data: awards },
-        { title: 'Certificate', id: 'certificate', data: certificate },
-        { title: 'Language', id: 'language', data: language },
+        { title: 'Certificate', id: 'certificate', data: certificates },
+        { title: 'Languages', id: 'languages', data: languages },
         { title: 'Reference', id: 'reference', data: reference },
         { title: 'Shop', id: 'shop', data: shop },
         { title: 'Contact', id: 'contact', data: contact },
         { title: 'Custom', id: 'custom', data: custom },
       ]);
-      setGettingSection(false);
-    } catch (error: any) {
-      setError({ state: true, error: error.message });
-      setHasData(false);
-      setHasPortfolio(false);
+    }
+  }, [auth?.user?.id, getUserInfo.data, getUserSections.data]);
+
+  const getUser = async () => {
+    try {
+      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+    } catch (error) {
+      throw error;
     }
   };
+
+  const getSections = async () => {
+    try {
+      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [modalStates, setModalStates] = useState<{ [key: string]: boolean }>({});
+  const [sections, setSections] = useState<Array<any>>(s);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [idToDelete, setIdToDelete] = useState<string>('');
+  const [openShop, setOpenShop] = useState<boolean>(true);
+  const [openCustom, setOpenCustom] = useState<boolean>(false);
+  const [error, setError] = useState<any>(null);
+  const [selectedSections, setSelectedSections] = useState<Array<any>>([]);
+  const [avatarImage, setAvatarImage] = useState<File | any>();
+  const [showProfileUpdate, setShowProfileUpdate] = useState<boolean>(false);
+  const [showBuildPortfolio, setShowBuildPortfolio] = useState<boolean>(false);
+  const [showViewtemplates, setShowViewtemplates] = useState<boolean>(false);
+  const [hasPortfolio, setHasPortfolio] = useState<boolean>(false);
 
   const profileUpdate = () => {
     setShowProfileUpdate(true);
@@ -237,8 +261,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowBuildPortfolio(true);
     setShowProfileUpdate(false);
     setShowViewtemplates(false);
-    setHasData(true);
-    setHasPortfolio(true);
     onOpen();
   };
 
@@ -312,8 +334,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowViewtemplates(false);
     onClose();
     onCloseModal(sectionTitle || '');
-    getUser(userId);
-    getUserSections(userId);
   };
 
   const onCloseModal = (modalToClose: string) => {
@@ -347,7 +367,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'projects',
       modal: (
-        <ProjectSection
+        <ProjectSectionModal
           isOpen={modalStates['projects']}
           onCloseModal={() => onCloseModal('projects')}
           onSaveModal={() => onSaveModal('projects')}
@@ -356,12 +376,12 @@ export function PortfolioCtxProvider(props: { children: any }) {
       ),
     },
     {
-      id: 'language',
+      id: 'languages',
       modal: (
         <LanguageModal
-          isOpen={modalStates['language']}
-          onCloseModal={() => onCloseModal('language')}
-          onSaveModal={() => onSaveModal('language')}
+          isOpen={modalStates['languages']}
+          onCloseModal={() => onCloseModal('languages')}
+          onSaveModal={() => onSaveModal('languages')}
           userId={userId}
         />
       ),
@@ -383,8 +403,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
         <SkillModal
           isOpen={modalStates['skills']}
           onCloseModal={() => onCloseModal('skills')}
-          onSaveModal={() => onSaveModal('skills')}
           userId={userId}
+          onSaveModal={() => onSaveModal('skills')}
         />
       ),
     },
@@ -447,7 +467,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const contextValue = {
     isOpen,
     modalStates,
-    hasData,
     sections,
     modals,
     avatarImage,
@@ -458,7 +477,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
     onOpen,
     onClose,
     setModalStates,
-    setHasData,
     onCloseModal,
     editSection,
     setSections,
@@ -478,16 +496,19 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setOpenDelete,
     setUserData,
     userId,
-    hasPortfolio,
-    setHasPortfolio,
     openShop,
     setOpenShop,
     getUser,
     openCustom,
     setOpenCustom,
-    gettinSection,
+    idToDelete,
+    setIdToDelete,
     setShowProfileUpdate,
     setShowBuildPortfolio,
+    hasPortfolio,
+    setHasPortfolio,
+    getUserInfo,
+    getUserSections,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

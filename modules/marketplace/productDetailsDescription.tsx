@@ -1,5 +1,5 @@
+import Link from 'next/link';
 import Image from 'next/image';
-import mainImage from '../../public/assets/mainImage.png';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
 import likeIcon from '../../public/assets/icons/like.svg';
@@ -17,12 +17,12 @@ import { ProductData } from '../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
-import { destructureProducts } from '../../helpers';
 import { isUserAuthenticated } from './hooks/useAuthHelper';
 import { CART_ENDPOINT } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
+import { ProductReview } from './component/ProductReview';
 
 export default function ProductDetailsDescription() {
   const { auth } = useAuth();
@@ -35,9 +35,11 @@ export default function ProductDetailsDescription() {
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
 
+  // const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`
+
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${id}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${id}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -48,46 +50,48 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
-        setProduct(response.data);
+        console.log(response);
+        setProduct(response.data.data);
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+      .catch((error) => {});
   }, [apiUrl, id]);
 
   const addToCart = async () => {
     const apiUrl = `${CART_ENDPOINT}/carts`;
+    const bearerToken = localStorage.getItem('zpt');
+    console.log(bearerToken);
     if (auth?.token) {
+      console.log(auth.token);
       try {
         const response = await axios.post(
           apiUrl,
           { product_ids: [`${id}`] },
           {
             headers: {
-              Authorization: `Bearer ${auth?.token}`,
+              Authorization: `Bearer ${bearerToken}`,
             },
           },
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           setCartCountNav(cartCount + 1);
+          toast.success('Item Added to Cart');
           setCartLoading(false);
         }
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
       }
-      toast.success('Added to Cart');
     } else {
       const products: any[] = localStorage.getItem('products')
         ? JSON.parse(localStorage.getItem('products') as string)
         : [];
+      console.log('no auth');
 
       if (product) {
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
-        console.log(products);
         toast.success('Item added to cart🎊');
         setCartLoading(false);
         setCartCountNav(cartCount + 1);
@@ -102,8 +106,9 @@ export default function ProductDetailsDescription() {
     };
 
     try {
-      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
+      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/wishlist/', data);
 
+      console.log(response);
       if (response.status === 201) {
         toast.success(response.data.message);
       }
@@ -148,7 +153,7 @@ export default function ProductDetailsDescription() {
   };
 
   return (
-    <CategoryLayout>
+    <CategoryLayout pathName={`/marketplace/${product?.name}`}>
       {!product ? (
         <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-4xl text-gray-400">
           Loading...
@@ -193,7 +198,16 @@ export default function ProductDetailsDescription() {
                       (50 Customers)
                     </p>
                   </div>
-                ) : null}
+                ) : (
+                  <div className="flex flex-wrap items-center">
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <p>(no ratings for this product)</p>
+                  </div>
+                )}
               </div>
 
               <hr className="bg-white-110 text-white-110 h-[2px] border-0 lg:block hidden" />
@@ -202,7 +216,7 @@ export default function ProductDetailsDescription() {
                 <p className="text-base font-normal font-manropeL leading-normal tracking-tight">
                   Total Payment (Incl. taxes)
                 </p>
-                <p className="flex gap-x-4 items-center">
+                <p className="flex flex-wrap gap-x-4 items-center">
                   <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
                     {product?.discount_price === '0.00'
                       ? formatToNigerianNaira(product?.price)
@@ -243,7 +257,7 @@ export default function ProductDetailsDescription() {
 
           {/* Description, Specification, Reviews (Desktop View)  */}
           {/* Pass all the data down to this component as props  */}
-          <TabContainer desc={product?.description} />
+          <TabContainer desc={product?.description} id={product?.id} />
 
           {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
           <div className="md:hidden block mt-[26px] mr-auto">
@@ -269,11 +283,13 @@ export default function ProductDetailsDescription() {
 
             <div className="mt-4">
               <h2 className="text-[#101928] font-manropeB font-semibold text-[22px] text-left">Customer Feedback</h2>
-              <p className="text-sm font-manropeL mt-4">
+              {/* <p className="text-sm font-manropeL mt-4">
                 VERIFIED RATINGS <span>(173)</span>
-              </p>
+              </p> */}
 
-              <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
+              <ProductReview id={product?.id} />
+
+              {/* <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
                 <div className="w-6/12 py-8 px-6 flex flex-col gap-[20px] rounded-2xl border-custom-color32 border-[1px] items-center sm:w-full">
                   <h2 className="text-4xl font-manropeB font-semibold">3.0/5</h2>
                   <div className="flex mr-[17px]">
@@ -448,7 +464,7 @@ export default function ProductDetailsDescription() {
                     required
                   ></textarea>
                 </form>
-              </div>
+              </div> */}
             </div>
           </div>
 
