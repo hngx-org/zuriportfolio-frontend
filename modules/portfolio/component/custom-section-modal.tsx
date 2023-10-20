@@ -28,8 +28,8 @@ const CustomSectionModal = () => {
     onClose = () => setOpenCustom(false);
 
   return (
-    <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xxl">
-      <div className="max-w-3xl mx-auto my-10">
+    <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      <div className="max-w-[600px] mx-auto my-10">
         <Demo onClose={onClose} />
       </div>
     </Modal>

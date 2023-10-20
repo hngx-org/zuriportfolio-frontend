@@ -34,7 +34,6 @@ const sectionButtonsData = [
 ];
 
 function CreateCustomSection({ onClose }: { onClose: () => void }) {
-  const [fieldInput, setFieldInput] = React.useState(false);
   const [getNewSection, setGetNewSection] = React.useState(false);
   const [renderedFields, setRenderedFields] = React.useState<React.ReactNode[]>([]);
 
