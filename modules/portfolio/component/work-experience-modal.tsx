@@ -102,32 +102,48 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
         <>
           {isData && (
             <>
-              {workExperiences.map((experience: WorkExperience, index: number) => {
-                return (
-                  <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
-                    <WorkExperienceSkeleton data={experience} />
-                    <div className="self-end pb-4 flex gap-4 font-manropeL">
-                      <span
-                        className="font-semibold cursor-pointer text-[#5B8DEF]"
-                        onClick={(e) => {
-                          setIsEditMode(true);
-                          setEditingExperience(experience);
-                          prefillForm(experience);
-                          setIsData(false);
-                        }}
-                      >
-                        Edit
+              {workExperiences.map((experience: WorkExperience, index: number) => (
+                <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
+                  {/* <WorkExperienceSkeleton data={experience} /> */}
+                  <section className="flex w-full gap-x-10 mb-4 max-sm:flex-col max-sm:gap-y-3">
+                    <p className="text-gray-300 font-semibold text-sm flex-[3]">
+                      <span>
+                        {experience?.startMonth} {experience?.startYear}
+                      </span>{' '}
+                      -{' '}
+                      <span>
+                        {experience?.endMonth} {experience?.endYear}
                       </span>
-                      <span
-                        className="font-semibold cursor-pointer text-brand-red-hover"
-                        onClick={(e) => handleDeleteExperience(experience.id, e)}
-                      >
-                        Delete
-                      </span>
+                    </p>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-200">{experience?.company}</h3>
+                      <p className="text-sm font-manropeL text-brand-green-primary">{experience?.role}</p>
                     </div>
-                  </article>
-                );
-              })}
+                    <p className="font-semibold text-sm text-gray-400 break-all flex-[4] break-normal">
+                      {experience?.description}
+                    </p>
+                  </section>
+                  <div className="self-end pb-4 flex gap-4 font-manropeL">
+                    <span
+                      className="font-semibold cursor-pointer text-[#5B8DEF]"
+                      onClick={(e) => {
+                        setIsEditMode(true);
+                        setEditingExperience(experience);
+                        prefillForm(experience);
+                        setIsData(false);
+                      }}
+                    >
+                      Edit
+                    </span>
+                    <span
+                      className="font-semibold cursor-pointer text-brand-red-hover"
+                      onClick={(e) => handleDeleteExperience(experience.id, e)}
+                    >
+                      Delete
+                    </span>
+                  </div>
+                </article>
+              ))}
             </>
           )}
         </>
@@ -149,7 +165,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     whiteSpace: 'normal',
                     overflowWrap: 'break-word',
                   }}
-                  className="font-semibold text-left sm:text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
+                  className="font-semibold text-left sm:text-left font-manropeEB text-[12px] max-w-full  text-ellipsis text-[#737876]"
                 >
                   {editingExperience?.description}
                 </p>

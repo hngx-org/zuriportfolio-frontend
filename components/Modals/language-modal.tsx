@@ -105,7 +105,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
   };
 
   const handleDelete = async (params: any) => {
-    const data = await fetch(`https://hng6-r5y3.onrender.com/api/language`, {
+    const data = await fetch(`https://hng6-r5y3.onrender.com/api/v1/languages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
         sectionId: 5,
       };
       axios
-        .post(`${endpoint}/api/language`, data)
+        .post(`${endpoint}/api/v1/languages`, data)
         .then(async (res) => {
           setLoading(false);
           notify({
@@ -155,7 +155,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
             type: 'success',
           });
           setValues([]);
-          await fetch(`${endpoint}/api/getPorfolio/${userId}`);
+          await fetch(`${endpoint}/api/v1/getPorfolio/${userId}`);
           onSaveModal();
         })
         .catch((err) => {
@@ -173,7 +173,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
   const getAllLanguages = () => {
     setInitialLoading(true);
     axios
-      .get(`${endpoint}/api/language/${userId}`)
+      .get(`${endpoint}/api/v1/languages/${userId}`)
       .then((res) => {
         if (res.data.data !== null) {
           setInitialLoading(false);
@@ -201,7 +201,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
       ) : (
         <>
           <section className="py-6 px-16">
-            <section className="flex justify-between items-center border-b-4 pb-3 border-b-[#009254]">
+            <section className="flex justify-between items-center border-b-4 pb-3 mb-12 border-b-[#009254]">
               <section className="flex items-center gap-5">
                 <h4 className="text-[1.2rem] sm:text-[1.4rem] font-bold text-[#2E3130] font-manropeL"> Language </h4>
               </section>
