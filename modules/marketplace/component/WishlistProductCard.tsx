@@ -36,7 +36,11 @@ export const WishlistProductCard = ({
             <div className="flex flex-col gap-2 md:gap-3">
               <div className="flex gap-2 md:gap-3 items-center">
                 <div className="flex flex-col gap-2">
-                  <p className="text-[10px] md:text-xs text-custom-color16">{'Software Engineering'}</p>
+                  <p className="text-[10px] md:text-xs text-custom-color16">
+                    <Link target='_blank' href={`categories/${
+                      product.category.name.split(' ').join('_')
+                    }`}>{product.category.name}</Link>
+                  </p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
                     <Link href={`/marketplace/product-details?id=${product.id}`}>{product.name}</Link>
                   </p>
