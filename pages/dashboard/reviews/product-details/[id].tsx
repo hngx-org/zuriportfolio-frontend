@@ -38,6 +38,7 @@ const UserReview = () => {
   const [rats, setRats] = useState<RatsData>();
   const [filterRating, setFilterRating] = useState<string>('all');
   const [filterView, setFilterView] = useState<string>('topReviews');
+  const [metaData, setMetaData] = useState<any>();
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
   const [productName, setProductName] = useState<string>('');
   const [mountUI, setMountUI] = useState<boolean>(false);
@@ -70,7 +71,10 @@ const UserReview = () => {
       }&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
-        .then((data) => setData(data.data.items))
+        .then((data) => {
+          setMetaData(data.data.meta);
+          setData(data.data.items);
+        })
         .catch((e) => console.log(e));
     } else {
       const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/${id}/reviews/rating?rating=${filterRating}&pageNumber=${
@@ -78,7 +82,10 @@ const UserReview = () => {
       }&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
-        .then((data) => setData(data.data.items))
+        .then((data) => {
+          setMetaData(data.data.meta);
+          setData(data.data.items);
+        })
         .catch((e) => console.log(e));
     }
   }, [mountUI, filterRating, filterView, currentPage, id]);
@@ -233,7 +240,7 @@ const UserReview = () => {
             </div>
             <Pagination
               page={currentPage}
-              pages={data[0]?.numberOfPages}
+              pages={metaData?.totalPages!}
               activePage={currentPage}
               visiblePaginatedBtn={3}
               setPage={setPage}
