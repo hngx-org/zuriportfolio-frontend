@@ -17,6 +17,8 @@ type ApiData = {
   SHOP: ApiEndpoint[];
   'Market Place': ApiEndpoint[];
   'Cart Checkout': ApiEndpoint[];
+  'MESSAGING/ EMAIL': ApiEndpoint[];
+  BADGES: ApiEndpoint[];
 };
 
 const ApiStatusPage = () => {
@@ -44,6 +46,12 @@ const ApiStatusPage = () => {
   const [isCartCheckoutDropdownOpen, setIsCartCheckoutDropdownOpen] = useState(false);
   const [cartCheckoutData, setCartCheckoutData] = useState<ApiEndpoint[]>([]);
 
+  const [isMessageDropdownOpen, setIsMessageDropdownOpen] = useState(false);
+  const [messageData, setMessageData] = useState<ApiEndpoint[]>([]);
+
+  const [isBadgesDropdownOpen, setIsBadgesDropdownOpen] = useState(false);
+  const [badgesData, setBadgesData] = useState<ApiEndpoint[]>([]);
+
   useEffect(() => {
     const fetchApiData = async () => {
       try {
@@ -66,6 +74,8 @@ const ApiStatusPage = () => {
             setShopData(data['SHOP']);
             setMarketPlaceData(data['Market Place']);
             setCartCheckoutData(data['Cart Checkout']);
+            setMessageData(data['MESSAGING/ EMAIL']);
+            setBadgesData(data['BADGES']);
           }
         } else {
           console.error('API returned an error status:', response.status);
@@ -109,6 +119,14 @@ const ApiStatusPage = () => {
 
   const toggleCartCheckoutDropdown = () => {
     setIsCartCheckoutDropdownOpen(!isCartCheckoutDropdownOpen);
+  };
+
+  const toggleMessageDropdown = () => {
+    setIsMessageDropdownOpen(!isMessageDropdownOpen);
+  };
+
+  const toggleBadgesDropdown = () => {
+    setIsBadgesDropdownOpen(!isBadgesDropdownOpen);
   };
 
   return (
@@ -470,6 +488,92 @@ const ApiStatusPage = () => {
                   <td className="col-span-2 w-full">
                     <ul className="">
                       {cartCheckoutData.map((assessment, index) => (
+                        <li className="flex items-center justify-between p-1 max-sm:text-xs" key={index}>
+                          <span className="truncate md:max-w-[500px] max-sm:max-w-[210px] lg:max-w-[600px]">
+                            {assessment.endpoint}
+                          </span>
+                          <span>
+                            {assessment.status === 'active' ? (
+                              <span className="text-green-500">Operational</span>
+                            ) : (
+                              <span className="text-red-200">Major Outage</span>
+                            )}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            <tbody className="border border-1 border-gray-100">
+              <tr className="flex justify-between content-center max-sm:text-sm p-4">
+                <td className="flex items-center gap-2" onClick={toggleMessageDropdown}>
+                  {isMessageDropdownOpen ? (
+                    <FaMinusSquare style={{ color: '#b8b7b7' }} />
+                  ) : (
+                    <FaPlusSquare style={{ color: '#b8b7b7' }} />
+                  )}{' '}
+                  Zuri Message & Emails
+                </td>
+                {!isMessageDropdownOpen && (
+                  <td className=" ">
+                    {messageData.every((assessment) => assessment.status === 'active') ? (
+                      <span className="text-green-500">Operational</span>
+                    ) : (
+                      <span className="text-red-200">Major Outage</span>
+                    )}
+                  </td>
+                )}
+              </tr>
+              {isMessageDropdownOpen && (
+                <tr className="flex justify-between content-center max-sm:text-sm py-2 pl-10 pr-3">
+                  <td className="col-span-2 w-full">
+                    <ul className="">
+                      {messageData.map((assessment, index) => (
+                        <li className="flex items-center justify-between p-1 max-sm:text-xs" key={index}>
+                          <span className="truncate md:max-w-[500px] max-sm:max-w-[210px] lg:max-w-[600px]">
+                            {assessment.endpoint}
+                          </span>
+                          <span>
+                            {assessment.status === 'active' ? (
+                              <span className="text-green-500">Operational</span>
+                            ) : (
+                              <span className="text-red-200">Major Outage</span>
+                            )}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            <tbody className="border border-1 border-gray-100">
+              <tr className="flex justify-between content-center max-sm:text-sm p-4">
+                <td className="flex items-center gap-2" onClick={toggleBadgesDropdown}>
+                  {isBadgesDropdownOpen ? (
+                    <FaMinusSquare style={{ color: '#b8b7b7' }} />
+                  ) : (
+                    <FaPlusSquare style={{ color: '#b8b7b7' }} />
+                  )}{' '}
+                  Zuri Badges
+                </td>
+                {!isBadgesDropdownOpen && (
+                  <td className=" ">
+                    {badgesData.every((assessment) => assessment.status === 'active') ? (
+                      <span className="text-green-500">Operational</span>
+                    ) : (
+                      <span className="text-red-200">Major Outage</span>
+                    )}
+                  </td>
+                )}
+              </tr>
+              {isBadgesDropdownOpen && (
+                <tr className="flex justify-between content-center max-sm:text-sm py-2 pl-10 pr-3">
+                  <td className="col-span-2 w-full">
+                    <ul className="">
+                      {badgesData.map((assessment, index) => (
                         <li className="flex items-center justify-between p-1 max-sm:text-xs" key={index}>
                           <span className="truncate md:max-w-[500px] max-sm:max-w-[210px] lg:max-w-[600px]">
                             {assessment.endpoint}
