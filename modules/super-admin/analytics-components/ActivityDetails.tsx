@@ -25,10 +25,11 @@ const fetchActivityDetails = async (token: string) => {
 };
 
 const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
-  const { data: activityDetails, isLoading, isError } = useQuery<activity[]>(
-    ['activityDetails', token],
-    () => fetchActivityDetails(token)
-  );
+  const {
+    data: activityDetails,
+    isLoading,
+    isError,
+  } = useQuery<activity[]>(['activityDetails', token], () => fetchActivityDetails(token));
 
   return (
     <section className="lg:w-[25%]">
