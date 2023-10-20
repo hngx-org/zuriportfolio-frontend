@@ -73,18 +73,18 @@ function DeleteAccount() {
         </p>
       </div>
       <Modal size="sm" isOpen={openModal} isCloseIconPresent={false} closeModal={handleToggleModal} closeOnOverlayClick>
-        <div className="w-full px-[24px lg:px-[32px] flex flex-col">
+        <div className="w-full px-[8px] flex flex-col">
           {modalTitle}
-          <p className=" font-manropeEL text-[0.75rem] sm:text-[0.875rem] lg:text-[1rem] leading-[1rem] lg:leading-[1.5rem] text-[#8D9290]">
+          <p className="sm:pr-5 font-manropeEL text-[0.75rem] sm:text-[0.875rem] lg:text-[1rem] leading-[1rem] lg:leading-[1.5rem] text-[#8D9290]">
             Are you sure you want to delete your account? This action will permanently remove your profile, projects,
             and all associated data from the platform.
           </p>
-          <div className="flex flex-row justify-end mt-[45px] gap-x-[16px]">
+          <div className="flex flex-row justify-end mt-[30px] sm:mt-[38px] gap-x-[16px]">
             <Button
               onClick={handleToggleModal}
               size="sm"
               intent="secondary"
-              className="w-fit rounded-[0.5rem] py-[0.5rem] px-[1rem] sm:text-[0.875rem] lg:text-[1rem] font-manropeB border-[1px]"
+              className="w-fit rounded-[0.5rem] py-[4px] px-[14px] sm:py-[4px] text-[12px] sm:text-[14px] lg:text-[16px] font-manropeB border-[1px]"
             >
               Cancel
             </Button>
@@ -94,7 +94,7 @@ function DeleteAccount() {
               onClick={handleDeleteAccount}
               size="sm"
               intent="error"
-              className="w-fit rounded-[0.5rem] py-[0.5rem] px-[1rem] sm:text-[0.875rem] lg:text-[1rem] font-manropeB bg-[#FF2E2E]"
+              className="w-fit rounded-[0.5rem] py-[4px] px-[14px] sm:py-[4px] text-[12px] sm:text-[14px] lg:text-[16px] font-manropeB bg-[#FF2E2E]"
             >
               Delete
             </Button>
