@@ -71,7 +71,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
       ...assessmentScoring,
       badge_option: value,
     });
-    console.log(assessmentScoring);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +83,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
     }));
 
     if (e.target.value != '') {
-      console.log(e.target.value);
       handleFormSubmit();
     }
   };
@@ -160,13 +158,12 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
         // Handle error if needed
       }
     } catch (error) {
-      console.error(`Error while saving scoring for ${level}:`, error);
       toast.error(`Error while saving scoring for ${level}`);
       // Handle error if needed
     }
   };
 
-  // console.log('assessment scoring screen',assessment)
+  //
 
   const handleFormSubmit = async () => {
     const { hours, minutes, seconds } = examTime;
@@ -196,7 +193,6 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
       setSuccessMessage('Assessment duration updated successfully');
       seterrorMessage('');
     } catch (error) {
-      console.error('Error:', error);
       setSuccessMessage('');
       seterrorMessage('Error updating assessment data');
     }
@@ -211,14 +207,14 @@ const ScoringScreen: React.FC<ScoringScreenProps> = ({ assessment, skillId }) =>
   //         },
   //       });
   //       if (!response.ok) {
-  //         console.log('Failed to fetch data');
+  //
   //         throw new Error('Failed to fetch data');
   //       }
   //       const data = await response.json();
   //       // setDrafts(data);
-  //       console.log(data);
+  //
   //     } catch (error) {
-  //       console.error('Error fetching data:', error);
+  //
   //     }
   //   }
   //   if (token) {

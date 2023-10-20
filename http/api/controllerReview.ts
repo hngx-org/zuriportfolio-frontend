@@ -28,7 +28,6 @@ export const postReviewByProductId = async (
     const res = await axiosReviewInstance.post(`/products/1/reviews`, payload);
     return res?.data;
   } catch (e: any) {
-    console.log(e);
     return e.response?.data ?? { message: e.message };
   }
 };

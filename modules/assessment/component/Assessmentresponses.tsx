@@ -22,7 +22,7 @@ type PropsAss<T> = {
 
 function Assessmentresponses(props: PropsAss<any>) {
   const { assessments, onDelete } = props;
-  console.log(assessments);
+
   //Uses and updates the list from the index page
   const [list, setList]: any = useContext(ListContext);
   const [deleting, setDeleting] = useState(false);
@@ -39,12 +39,10 @@ function Assessmentresponses(props: PropsAss<any>) {
   //holdon, to stop deleting flow
   const holdon = () => {
     setTodel(false);
-    console.log(assessments);
   };
   //to confirm and delete item
   //still throwing forbidden do not uncomment ==> Error 403
   const yesdelete = async (currId: any) => {
-    console.log(assessments);
     const reqOptions = {
       method: 'DELETE',
       headers: {

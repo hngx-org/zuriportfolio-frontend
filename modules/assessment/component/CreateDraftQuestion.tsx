@@ -90,7 +90,6 @@ const CreateDraftQuestion: React.FC<CreateassProps> = ({ draftData, setDraftData
 
   useEffect(() => {
     setNewQuestions({ questions: [...questions] });
-    console.log(newQuestions);
   }, [questions]);
 
   return (

@@ -34,19 +34,16 @@ interface AssessmentEditorProps {
 const EditDraft: React.FC<AssessmentEditorProps> = ({ draftData, setDraftData }) => {
   const { questionIndex } = useCreatingAssessmentContext();
 
-  console.log('draftData in edit', draftData);
   const router = useRouter();
   const id = router.query.id;
-  console.log(id);
 
   const [options, setOptions] = useState(draftData?.questions[0]?.answer.options || []);
   const [questionText, setQuestionText] = useState(draftData?.questions[0]?.question_text);
   const [correctOption, setCorrectOption] = useState(draftData?.questions[0]?.answer.correct_option);
 
   const handleDelete = (indexToDelete: number) => {
-    console.log('Before deletion:', options);
     const updatedOptions = options.filter((item: string, index: number) => index !== indexToDelete);
-    console.log('After deletion:', updatedOptions);
+
     setOptions(updatedOptions);
     const updatedQuestions = [...draftData.questions];
     updatedQuestions[questionIndex].answer.options = updatedOptions;

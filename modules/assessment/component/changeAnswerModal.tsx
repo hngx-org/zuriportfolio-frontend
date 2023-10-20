@@ -25,7 +25,6 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
   const [isChanging, setIsChanging] = useState(false);
 
   const handleOnChange = async (question_id?: number, user_answer_id?: number, answer_text?: string) => {
-    console.log(question_id, user_answer_id, answer_text);
     try {
       if (token && assessment_id && selectedOption && question_id && user_answer_id && answer_text) {
         setIsChanging(true);
@@ -52,9 +51,7 @@ export const ChangeAnswerModal: FC<ChangeAnswerModalProps> = ({
     try {
       const res = await fetchUserAssessmentSession(token as string, assessment_id as string);
       setResult(res);
-    } catch (error) {
-      console.log('catch error', error);
-    }
+    } catch (error) {}
   };
 
   return (
