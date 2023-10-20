@@ -28,10 +28,10 @@
             Hi, Dare
           </mj-text>
           <mj-text font-size="16px" line-height="20px" font-weight="600" color="#009254">
-            Product Publish Pending
+            Notice: Product Pending
           </mj-text>
           <mj-text color="#191c1d" line-height="20px" font-family="Century Gothic, sans-serif" font-size="14px" letter-spacing="0.035px">
-            We're thrilled to inform you that your product, <mj-raw>
+            We want to inform you that your product, <mj-raw>
               <span style="font-weight: bold; color: #191c1d">‘Road to marketing’</span>
             </mj-raw>, is currently pending review before it can be published on our marketplace.
           </mj-text>
