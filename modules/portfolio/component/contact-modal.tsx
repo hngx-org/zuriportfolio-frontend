@@ -89,7 +89,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       ...rest,
       social_media_id: Number(social_media_id),
     }));
-    console.log(data);
+    console.log('Data', data);
 
     sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
       .then((res) => {
@@ -198,7 +198,6 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                             console.log(value);
                             console.log(social);
                           }}
-                          // value={availableSocials[social.social_media_id]?.name}
                         >
                           <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
                             <SelectValue placeholder="Select Social" />
