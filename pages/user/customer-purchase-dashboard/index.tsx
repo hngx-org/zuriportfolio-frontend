@@ -69,8 +69,10 @@ const MyPage: React.FC = () => {
 
   // Function to open the ComplaintsModal and set the selected order
   const openModalWithOrder = (order: PurchaseData) => {
-    setSelectedOrder(order);
-    setIsModalOpen(true);
+    if (order.order.status === 'pending' || order.order.status === 'failed') {
+      setSelectedOrder(order);
+      setIsModalOpen(true);
+    }
   };
 
   // function to handle delete
@@ -346,23 +348,15 @@ const MyPage: React.FC = () => {
                         className="border-b border-white-200 border-solid border-1 h-[3.75rem]"
                         onClick={() => openModalWithOrder(item)}
                       >
-                        <td className="text-[0.75rem] flex items-center mt-5 cursor-pointer" onClick={openModal}>
+                        <td className="text-[0.75rem] flex items-center mt-5 cursor-pointer">
                           <span className="px-4 ml-[1rem] cursor-pointer"> </span>
                           {item.product.name}
                         </td>
-                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
-                          {item.order_id}
-                        </td>
-                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
-                          {item.order_price}
-                        </td>
-                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
-                          {item.createdAt.split('T')[0]}
-                        </td>
-                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
-                          {item.merchant}
-                        </td>
-                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer" onClick={openModal}>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.order_id}</td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.order_price}</td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.createdAt.split('T')[0]}</td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">{item.merchant}</td>
+                        <td className="text-[0.75rem] px-4 py-2 cursor-pointer">
                           <span
                             className={`flex items-center justify-center h-[28px] w-[90px] rounded-xl cursor-pointer ${
                               getStatusBackgroundColor(item.order.status)[0]
@@ -380,7 +374,7 @@ const MyPage: React.FC = () => {
               </table>
             </div>
           )}
-          {data?.length > 0 && <MobileCustomerDashboard data={data} />}
+          {data?.length > 0 && <MobileCustomerDashboard data={data}/>}
           {/* error page */}
           {data?.length === 0 && !isLoading && <PurchaseNotFound back={onBack} />}
         </div>

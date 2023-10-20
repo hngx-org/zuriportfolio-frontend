@@ -51,7 +51,10 @@ const SuperAdminPagination = ({ currentPage, totalPages, setCurrentPage }: Admin
       pageNumbers.push(
         <button
           key={i}
-          onClick={() => setCurrentPage(i)}
+          onClick={() => {
+            window.scroll(0, 10);
+            setCurrentPage(i);
+          }}
           className={`w-9 h-8 rounded-md ${
             i === currentPage ? 'bg-brand-green-primary text-white-100' : 'text-[gray-600] hover:bg-white-140'
           }`}

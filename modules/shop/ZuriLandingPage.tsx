@@ -112,7 +112,7 @@ const ZuriLandingPage = () => {
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       />
-      <div className=" flex-grow px-4 sm:px-6 md:px-3 py-5 container mx-auto">
+      <div id="top" className=" flex-grow px-4 sm:px-6 md:px-3 py-5 container mx-auto">
         {shop ? (
           <div className="space-y-12 py-10">
             <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
@@ -139,7 +139,7 @@ const ZuriLandingPage = () => {
           ) : null}
         </div>
 
-        <div className="w-full mx-auto flex justify-center">
+        <a href="#top" className="w-fit mx-auto flex justify-center">
           {totalPageCount > 1 && (
             <Pagination
               visiblePaginatedBtn={5}
@@ -149,7 +149,7 @@ const ZuriLandingPage = () => {
               setPage={handlePageChange}
             />
           )}
-        </div>
+        </a>
       </div>
       <Footer shopName={shop ? shop.data?.name : ''} />
     </div>

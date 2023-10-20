@@ -63,13 +63,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   };
 
   const { userId } = useContext(Portfolio);
-
-  const getUserWorkExperience = async () => {
-    const data = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
-    const response = await data.json();
-    const { workExperience } = response;
-    console.log('User work experience', workExperience);
-  };
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
 
@@ -101,9 +94,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setIsData(true);
         setIsForm(false);
         getAllWorkExperience();
-        console.log('Response', response);
       }
-      console.log(userId);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -135,7 +126,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setWorkExperiences((prevExperiences) => prevExperiences.filter((experience) => experience.id !== experienceId));
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       notify({
         message: 'Was not able to delete work experience 😞',
         position: 'top-center',
@@ -159,7 +150,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setWorkExperiences(workExperience);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     } finally {
       setIsLoading(false);
@@ -167,6 +158,11 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   }, [userId]);
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
+    const startDate = `${startMonth} ${startYear}`;
+    const endDate = `${endMonth} ${endYear}`;
+
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
     e?.preventDefault();
     setIsLoading(true);
     try {
@@ -193,6 +189,16 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       // if (endYear === '') {
       //   missingFields.push('End Year');
       // }
+
+      if (endDateObj < startDateObj) {
+        notify({
+          message: 'End date must be greater that start date',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
 
       if (missingFields.length > 0) {
         // Handle the case when required values are missing
@@ -246,7 +252,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         resetForm();
         setIsForm(false);
         setIsData(true);
-        console.log(response);
       } else {
         // Request failed, handle the error
         console.error('Request failed with status:', response.status);

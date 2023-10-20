@@ -52,9 +52,7 @@ const AnalyticsAndReportingGraphs = () => {
   });
   const [activePeriodGraph1, setActivePeriodGraph1] = useState('12months');
   const [activePeriodGraph2, setActivePeriodGraph2] = useState('12months');
-
-  const bearerToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+  const [bearerToken, setBearerToken] = useState('');
 
   useEffect(() => {
     const fetchDataForGraph = async (period: any, graphIndex: number) => {
@@ -119,7 +117,14 @@ const AnalyticsAndReportingGraphs = () => {
 
     fetchDataForGraph(activePeriodGraph1, 0);
     fetchDataForGraph(activePeriodGraph2, 1);
-  }, [activePeriodGraph1, activePeriodGraph2]);
+  }, [activePeriodGraph1, activePeriodGraph2, bearerToken]);
+
+  const getTokenFromLocalStorage = () => {
+    const tokenFromLocalStorage = localStorage.getItem('zpt');
+    if (tokenFromLocalStorage) {
+      setBearerToken(tokenFromLocalStorage);
+    }
+  };
 
   useEffect(() => {
     const updateIsGraph = () => {
@@ -128,6 +133,8 @@ const AnalyticsAndReportingGraphs = () => {
     updateIsGraph();
 
     window.addEventListener('resize', updateIsGraph);
+
+    getTokenFromLocalStorage();
 
     return () => {
       window.removeEventListener('resize', updateIsGraph);
@@ -146,7 +153,6 @@ const AnalyticsAndReportingGraphs = () => {
       setActivePeriodGraph2(period);
     }
 
-    // Reset the loading state for the other graph
     const otherGraphIndex = graphIndex === 0 ? 1 : 0;
     setLoadingStates((prevLoadingStates) => ({
       ...prevLoadingStates,
@@ -277,12 +283,11 @@ const AnalyticsAndReportingGraphs = () => {
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
                           <Tooltip />
                           <YAxis tickFormatter={formatCurrency} />
-                          <ReferenceLine y={1000} stroke="#00000" />
-                          <ReferenceLine y={3200} stroke="#F2F4F7" />
-                          <ReferenceLine y={5200} stroke="#F2F4F7" />
-                          <ReferenceLine y={7200} stroke="#F2F4F7" />
-                          <ReferenceLine y={9200} stroke="#F2F4F7" />
-                          <Line type="natural" dataKey="sales" stroke="#EABE95" strokeWidth={3} dot={false} />
+                          <ReferenceLine y={80} stroke="#F2F4F7" />
+                          <ReferenceLine y={60} stroke="#F2F4F7" />
+                          <ReferenceLine y={40} stroke="#F2F4F7" />
+                          <ReferenceLine y={20} stroke="#F2F4F7" />
+                          <Line type="natural" dataKey="sales" stroke="#EABE95" strokeWidth={3} />
                         </LineChart>
                       )}
                     </ResponsiveContainer>
@@ -294,9 +299,10 @@ const AnalyticsAndReportingGraphs = () => {
                         <BarChart data={graphData[1]}>
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
                           <Tooltip />
-                          <ReferenceLine y={1800} stroke="#F2F4F7" />
-                          <ReferenceLine y={3600} stroke="#F2F4F7" />
-                          <ReferenceLine y={7200} stroke="#F2F4F7" />
+                          <ReferenceLine y={300} stroke="#F2F4F7" />
+                          <ReferenceLine y={600} stroke="#F2F4F7" />
+                          <ReferenceLine y={900} stroke="#F2F4F7" />
+                          <ReferenceLine y={1200} stroke="#F2F4F7" />
                           <Bar dataKey="sales" fill="#F1AE67" barSize={10} />
                           <Bar dataKey="orders" fill="#06C270" barSize={10} />
                           <Bar dataKey="users" fill="#A46A26" barSize={10} />

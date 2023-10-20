@@ -35,10 +35,7 @@ export default function ProductDetailsDescription() {
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
 
- 
   // const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`
-
- 
 
   const apiUrl: string = token
     ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${id}/${token?.id}/?guest=false`
@@ -289,7 +286,7 @@ export default function ProductDetailsDescription() {
               {/* <p className="text-sm font-manropeL mt-4">
                 VERIFIED RATINGS <span>(173)</span>
               </p> */}
-              
+
               <ProductReview id={product?.id} />
 
               {/* <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
