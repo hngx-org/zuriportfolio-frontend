@@ -650,6 +650,7 @@ export type SectionModalProps = {
   primaryText?: string;
   onClickAction?: () => void;
   sectionToDelete?: string;
+  loading?: boolean;
 };
 
 export interface PaymentStatusModalProps {
