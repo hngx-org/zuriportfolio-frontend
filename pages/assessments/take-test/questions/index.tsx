@@ -52,7 +52,6 @@ const Questions: React.FC = () => {
   const [duration, setDuration] = React.useState<number | null>(null);
   const queryClient = useQueryClient();
   const [isError, setIsError] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [storedAssessment, setStoredAssessment] = React.useState<Question[]>([]);
   const [assessmentData, setAssessmentData] = React.useState<AssessmentDetails>();
@@ -116,8 +115,8 @@ const Questions: React.FC = () => {
     if (!sessionLoading && !sessionIsErrorr && session?.length !== 0 && !sessionError) {
       const assessmentData = sortQuestionsByQuestionNo(session);
       setStoredAssessment(assessmentData);
-      setIsLoading(false);
-      setIsError(false);
+      setIsLoading(sessionLoading);
+      setIsError(sessionIsErrorr);
     } else if (!newIsLoading && !newIsError && newQuestions?.data?.questions?.length !== 0 && !newError) {
       setStoredAssessment(newQuestions?.data?.questions);
       setIsLoading(newIsLoading);
