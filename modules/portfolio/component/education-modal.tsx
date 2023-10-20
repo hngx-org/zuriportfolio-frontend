@@ -79,8 +79,8 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
-      <div className="space-y-6 bg-white-100 p-4 py-5">
-        <div className="flex flex-col gap-3 px-6 mb-6">
+      <div className="space-y-6 bg-white-100 px-16 py-5 max-sm:px-">
+        <div className="flex flex-col gap-3 mb-6  w-full">
           <div className="flex justify-between items-center">
             <>
               {isEditMode && (
@@ -164,7 +164,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
         </>
         <div>
           {isEditMode && (
-            <article className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}>
+            <article className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0 `}>
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                 <div className="flex gap-3 sm:gap-5 flex-col sm:flex-row">
                   <p className="text-[#8D9290] font-semibold font-manropeB">
@@ -205,9 +205,9 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
               onSubmit={(e) => (isEditMode ? handleEditEducation(e, editingEducationId) : addNewEducation(e))}
               className=""
             >
-              <div className="w-full">
+              <div className="w-full px-2">
                 <div className="flex flex-col gap-[.5rem] w-full mb-4">
-                  <label className="font-semibold text-[#444846] text-[1rem] mt-6">Degree</label>
+                  <label className="font-semibold text-[#444846] text-base mt-6">Degree</label>
                   <Select
                     onValueChange={(value: string) => {
                       handleDegreeSelection(value); // Update the selected degree ID
@@ -231,7 +231,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   </Select>
                 </div>
                 <div className="mb-4 w-full">
-                  <label className="block mb-1 text-md font-semibold" htmlFor="fieldOfStudy">
+                  <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="fieldOfStudy">
                     Field of Study
                   </label>
                   <Input
@@ -243,7 +243,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   />
                 </div>
                 <div className="mb-4  w-full">
-                  <label className="block mb-1 text-md font-semibold" htmlFor="school">
+                  <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="school">
                     School/Institution
                   </label>
                   <Input
@@ -255,7 +255,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   />
                 </div>
                 <div className="mb-4 w-full">
-                  <label className="block mb-1 text-[16px]  font-semibold" htmlFor="description">
+                  <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="description">
                     Description
                   </label>
                   <textarea
@@ -269,73 +269,64 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
               </div>
               <div className="w-full">
                 <div className="flex gap-4 ">
-                  <div className="w-1/2 font-semibold">
-                    <label>From*</label>
+                  <div className=" font-semibold w-3/6">
+                    <label className="text-[#444846]">From*</label>
+                    <>
+                      <Select
+                        onValueChange={(value: string) => {
+                          setFrom(value);
+                          setSelectedStartYear(value); // Update selected start year
+                          const generatedEndYears = generateEndYears(value); // Generate end year options
+                          setEndYears(generatedEndYears); // Set end year options
+                        }}
+                        value={from}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="2020" />
+                        </SelectTrigger>
+                        <>
+                          <SelectContent>
+                            {years.map((year, index) => (
+                              <SelectItem key={index} value={year.value}>
+                                {year.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </>
+                      </Select>
+                    </>
                   </div>
-                  <div className="font-semibold w-[300px]">
-                    <label>To*</label>
+                  <div className="font-semibold w-3/6">
+                    <label className="text-[#444846]">To*</label>
+                    <>
+                      <Select
+                        onValueChange={(value: string) => {
+                          setTo(value);
+                        }}
+                        value={to}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Present" />
+                        </SelectTrigger>
+                        <>
+                          <SelectContent>
+                            {endYears.length === 0
+                              ? years.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))
+                              : endYears.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))}
+                          </SelectContent>
+                        </>
+                      </Select>
+                    </>
+                    {''}
                   </div>
-                </div>
-
-                <div className="w-full flex gap-4">
-                  <>
-                    <Select
-                      onValueChange={(value: string) => {
-                        setFrom(value);
-                        setSelectedStartYear(value); // Update selected start year
-                        const generatedEndYears = generateEndYears(value); // Generate end year options
-                        setEndYears(generatedEndYears); // Set end year options
-                      }}
-                      value={from}
-                    >
-                      <SelectTrigger className="w-[320px]">
-                        <SelectValue placeholder="2020" />
-                      </SelectTrigger>
-                      <>
-                        <SelectContent>
-                          {years.map((year, index) => (
-                            <SelectItem key={index} value={year.value}>
-                              {year.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </>
-                    </Select>
-                  </>
-                  <>
-                    <Select
-                      onValueChange={(value: string) => {
-                        setTo(value);
-                      }}
-                      value={to}
-                    >
-                      <SelectTrigger className="w-[320px]">
-                        <SelectValue placeholder="Present" />
-                      </SelectTrigger>
-                      <>
-                        {/* <SelectContent>
-                          {years.map((year, index) => (
-                            <SelectItem key={index} value={year.value}>
-                              {year.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent> */}
-                        <SelectContent>
-                          {endYears.length === 0
-                            ? years.map((year: any, index: number) => (
-                                <SelectItem key={index} value={year.value}>
-                                  {year.label}
-                                </SelectItem>
-                              ))
-                            : endYears.map((year: any, index: number) => (
-                                <SelectItem key={index} value={year.value}>
-                                  {year.label}
-                                </SelectItem>
-                              ))}
-                        </SelectContent>
-                      </>
-                    </Select>
-                  </>
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end mt-6">

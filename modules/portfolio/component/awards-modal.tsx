@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
-import { ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
+import { Add, ArrowLeft2, ArrowUp, CloseSquare } from 'iconsax-react';
 import Link from 'next/link';
 import Modal from '@ui/Modal';
 import { Award, AwardItemProps, AwardListProps } from '../../../@types';
@@ -50,7 +50,8 @@ type awardsModalProps = {
 const myContext = createContext(initialContextValue);
 // Interfaces
 
-const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps) => {
+const Awards = ({ isOpen, onCloseModal, onSaveModal }: awardsModalProps) => {
+  const { userId } = useContext(Portfolio);
   const [formData, setFormData] = useState({
     title: '',
     year: '',
@@ -80,7 +81,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
 
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${userId}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,6 +90,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       });
       setIsLoading(false);
       const status = response.status;
+      console.log(response);
 
       if (response.ok) {
         // Handle success (status 200)
@@ -201,7 +203,6 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
             <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
               <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
                 <div className="flex items-center gap-6" onClick={onCloseModal}>
-                  <ArrowLeft2 />
                   <h1 className="font-bold text-2xl text-white-700">Awards</h1>
                 </div>
                 <div onClick={onCloseModal}>
@@ -348,7 +349,6 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
         <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
           <div onClick={onClose} className="flex items-center gap-6">
-            <ArrowLeft2 />
             <h1 className="font-bold text-2xl text-white-700 ">Awards</h1>
           </div>
           <div
@@ -360,17 +360,17 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
           </div>
         </div>
         <AwardList isModalOpen={isOpen} />
-        <div className="flex flex-col sm:flex-row justify-between gap-6">
-          <div>
-            <p
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
-              className="font-bold cursor-pointer text-[16px] leading-6 text-brand-green-primary"
-            >
-              Add new awards
-            </p>
-          </div>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
+          <p
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+            className="font-bold cursor-pointer leading-6  justify-center text-[12px] sm:text-[15px] flex items-center gap-1 text-brand-green-primary"
+          >
+            <Add size="16" color="#009254" />
+            Add new awards
+          </p>
+
           <div className="flex gap-4 justify-start items-center">
             <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
               Cancel
@@ -386,12 +386,14 @@ const AwardRead = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
 };
 const AwardList: React.FC<AwardListProps> = () => {
   const { refreshPage, setError, isModalOpen, setIsLoading } = useContext(myContext);
+  const { userId } = useContext(Portfolio);
   const [awards, setAwards] = useState<Award[]>([]);
+  console.log('this are my awards', awards);
 
   const fetchAwards = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards`);
       setIsLoading(false);
       const status = response.status;
 
@@ -424,7 +426,7 @@ const AwardList: React.FC<AwardListProps> = () => {
         // Handle a 500 Internal Server Error
       } else {
         notify({
-          message: 'An error occurred',
+          message: 'Error occurred while fetching awards',
           position: 'top-center',
           theme: 'light',
           type: 'error',
@@ -460,20 +462,17 @@ const AwardList: React.FC<AwardListProps> = () => {
 
 const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const { id, year, title, presented_by, url, description } = award;
-  const [deletedMessage, setDeletedMessage] = useState('');
-  const [editedMessage, setEditedMessage] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const { refreshPage, setRefreshPage } = useContext(myContext);
-  console.log('these are the awards', award);
 
-  // State to store the edited data
   const [editedAward, setEditedAward] = useState(award);
   const openEditForm = () => {
     setIsEditFormOpen(true);
   };
 
+  console.log('this is the award', award);
   // Function to close the Edit form
   const closeEditForm = () => {
     setIsEditFormOpen(false);
@@ -484,7 +483,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
     // Send a PUT request to update the award
     try {
       setEditLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -545,16 +544,13 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
       });
     }
   };
-  const extractHostname = (url: string) => {
-    const { hostname } = new URL(url);
-    return hostname;
-  };
+
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // Extract the id from the event
 
     try {
       setDeleteLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${id}`, {
         method: 'DELETE',
       });
       const status = response.status;
@@ -623,7 +619,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
             <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{presented_by}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis "> {extractHostname(url)}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis "> {url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>
@@ -830,5 +826,8 @@ const EditForm: React.FC<{
     </Modal>
   );
 };
+function setDeleteLoading(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
 
 export default Awards;

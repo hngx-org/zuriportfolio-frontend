@@ -2,7 +2,11 @@ import axios from 'axios';
 
 export const sendArrayOfObjects = async (objectsArray: any[], endpoint: string) => {
   const promises = objectsArray.map((data) => {
-    return axios.post(endpoint, data);
+    return axios.post(endpoint, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   });
 
   try {
