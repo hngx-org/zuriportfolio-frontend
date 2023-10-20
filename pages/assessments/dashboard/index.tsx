@@ -11,7 +11,6 @@ import medal from '../../../public/assets/dashboard/medal-star.svg';
 import { useRouter } from 'next/router';
 import { withUserAuth } from '../../../helpers/withAuth';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import assessment from '..';
 
 type AssessmentDetails = {
   id?: string;
