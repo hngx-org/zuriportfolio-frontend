@@ -15,7 +15,7 @@ import Profile from '../landing/avatars';
 export default function InviteLink() {
   const { auth } = useAuth();
   const websiteURL = window.location.origin;
-  const profileUrl = `${websiteURL}/portfolio}`;
+  const profileUrl = `${websiteURL}/portfolio`;
   const copyInvite = useRef<any>(null);
   const handleCopyToClipboard = () => {
     if (copyInvite.current) {
@@ -38,14 +38,14 @@ export default function InviteLink() {
 
   const toggleModal = () => {
     setOPenModal((prev: boolean) => !prev);
-    // console.log(`${websiteURL}/portfolio`)
+    console.log(`${websiteURL}/portfolio/${auth?.user.id}`);
   };
 
   return (
     <div className={`  space-y-4 font-manropeB container mx-auto  `}>
       <p className="  text-dark-110  font-manropeB text-sm md:text-[22px]">Invite your friends! </p>
       <p className="text-white-650 leading-[20px]  font-manropeL  text-sm">
-        Use the website link to help us grow the community and get rewards.{' '}
+        Share the website link to help us grow the community and get rewards.{' '}
       </p>
       <div className="w-full flex  ">
         <input

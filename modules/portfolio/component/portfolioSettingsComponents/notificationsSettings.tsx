@@ -14,7 +14,7 @@ type Props = {
 };
 
 const getUserNotifications = async (userId: string) => {
-  const response = await $http.get(`https://hng6-r5y3.onrender.com/api/get-notification-settings/${userId}`);
+  const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/get-notification-settings/${userId}`);
   if (response.status === 200) {
     return response.data;
   }

@@ -6,15 +6,18 @@ import Image from 'next/image';
 import defaultpic from '../../../../public/assets/inviteAssets/profile.svg';
 import $http from '../../../../http/axios';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import addPics from '../../../../public/assets/inviteAssets/add-circle.svg';
 import { notify } from '@ui/Toast';
 
 const UpdatingProfilePic = () => {
+  const queryClient = useQueryClient();
+
   const [selectedPics, setSelectedPics] = React.useState<string | StaticImport>('');
+  const [reload, setReload] = React.useState<boolean>(false);
   const { auth } = useAuth();
-  const baseUrl = 'https://hng6-r5y3.onrender.com/api/';
+  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1/';
   const {
     data: userData,
     isLoading: isUserDataLoading,
@@ -49,10 +52,14 @@ const UpdatingProfilePic = () => {
     }
   });
 
+  if (profilePicMutation.isSuccess) {
+    queryClient.invalidateQueries(['userData', auth?.user.id]);
+  }
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       const image = URL.createObjectURL(file);
+      setSelectedPics(image);
       if (e.target.id === 'avatarUpload') {
         setSelectedPics(image);
       }
@@ -102,7 +109,7 @@ const UpdatingProfilePic = () => {
         >
           <>
             <Image
-              src={selectedPics || userData?.user?.profilePic || defaultpic}
+              src={selectedPics || userData?.data?.user?.profilePic || defaultpic}
               width={280}
               height={180}
               alt="avatar"
