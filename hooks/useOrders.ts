@@ -158,13 +158,11 @@ const useOrders = () => {
       });
       const { data } = res;
       if (!!data?.errorStatus) {
-        console.log('Error');
+        console.error('Error');
 
         return [];
       }
       if (data?.data === 'user not found') {
-        console.log('no data');
-
         return [];
       }
       if (!data.data) {
