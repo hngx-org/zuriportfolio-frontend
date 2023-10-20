@@ -40,7 +40,7 @@ const SanctionedProducts = () => {
             <p className="text-custom-color2 text-sm">List of all sanctioned products and their details</p>
           </div>
           <div>
-            <div className="w-[400px]">
+            <div className="md:w-[400px]">
               <Input
                 onChange={(e) => {
                   // handleSearch(e.target.value);
