@@ -2,6 +2,7 @@ import HeroSection from '@modules/home/features/Hero';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import SearchAndFilterProducts from './SearchAndFilterProducts';
+import Button from '@ui/Button';
 
 const SectionProducts = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -16,17 +17,15 @@ const SectionProducts = () => {
   const handleNumberReset = () => {
     setPageNumber(1);
   };
-  const handleFilters = (type: string, value: string | number) => {
-    setFilters((prev) => {
-      if (type === 'none') {
-        return {};
-      }
-      return { ...prev, [type]: value };
-    });
+  const handleFilters = (filterType: string, option: string | number) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: option,
+    }));
   };
 
   const handleGo = () => {
-    searchTerm.push(`/explore/search?searchQuery=${searchQuery}`);
+    searchTerm.push(`/marketplace/search?q=${searchQuery}`);
   };
 
   return (
@@ -49,6 +48,15 @@ const SectionProducts = () => {
           setFilter={handleClearFilters}
           setPageNumber={handleNumberReset}
         />
+      </div>
+
+      <div className="flex justify-center mt-10 mb-20">
+        <Button
+          href="/marketplace"
+          className="text-[16px] font-manropeEL tracking-wide rounded-[8px] active:bg-brand-green-primary visited:bg-brand-green-primary focus:bg-brand-green-primary hover:bg-brand-green-primary"
+        >
+          Continue Shopping on Zuri Marketplace
+        </Button>
       </div>
     </div>
   );

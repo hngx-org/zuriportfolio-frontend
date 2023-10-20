@@ -100,7 +100,7 @@ const PortfolioCarousel = () => {
     speed: 500,
     arrows: false,
     autoplay: true,
-    slidesToShow: 6,
+    slidesToShow: 5.5,
     slidesToScroll: 1,
     pauseOnHover: false,
     responsive: [
