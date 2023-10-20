@@ -34,7 +34,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
-  const [tagInput, setTagInput] = useState<string | null>(null);
+  const [tagInput, setTagInput] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [media, setMedia] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
@@ -60,7 +60,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
     setLink('');
     setThumbnail('');
     setSelectedTags([]);
-    setTagInput(null);
+    setTagInput('');
     setDescription('');
     setMedia([]);
     setFiles([]);
@@ -71,10 +71,10 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   //   setInputValue('');
   // }
 
-  const handleAddTags = (e: any) => {
-    e.preventDefault();
+  const handleAddTags = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      if (tagInput !== null && tagInput.trim() !== '' && !selectedTags.includes(tagInput)) {
+      e.preventDefault();
+      if (tagInput.trim() !== '' && !selectedTags.includes(tagInput)) {
         setSelectedTags([...selectedTags, tagInput]);
         setTagInput('');
       }
@@ -101,7 +101,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
     const files = e.target.files;
 
     if (files && files.length > 0) {
-      const selectedImages = Array.from(files).slice(0, 10);
+      const selectedImages = Array.from(files).slice(0, 5);
 
       const imageUrls = selectedImages.map((file) => URL.createObjectURL(file));
 
@@ -260,19 +260,19 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                   }}
                   className={`${
                     allChecks.includes('title') ? 'border-red-205' : 'border-[#E1E3E2]'
-                  } w-full h-[50px] rounded-md border-[2px] text-[12px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
+                  } w-full h-[50px] rounded-md border-[2px] text-[12px] font-medium placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                   inputSize={'lg'}
                   value={title}
                 />
               </div>
               <div className="w-full md:w-[50%]">
-                <p className="font-semibold text-gray-200 pb-2 text-base">Year*</p>
+                <p className="font-medium text-gray-200 pb-2 text-base">Year*</p>
                 <select
                   onChange={(e) => handleSetYear(e)}
                   placeholder="Year"
                   className={`w-full h-[50px] bg-white-100 border-2 rounded-md px-4 ${
                     allChecks.includes('year') ? 'border-red-205' : 'border-[#E1E3E2]'
-                  } border-white-300 font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
+                  } border-white-300 font-medium placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                 >
                   <option value="">Select Year</option>
                   {years.map((year, index) => (
@@ -286,7 +286,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
             {/* Link */}
             <div className="flex justify-center items-center flex-col md:flex-row md:gap-5">
               <div className="flex-[7] w-full md:w-[50%]">
-                <p className="font-semibold text-gray-200 pb-2 text-base">Link to project</p>
+                <p className="font-medium text-gray-200 pb-2 text-base">Link to project</p>
                 <div className="flex">
                   <p
                     className={`min-w-fit grid place-content-center px-2 border-2 rounded-lg border-[#E1E3E2]
@@ -302,7 +302,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                     }}
                     className={`${
                       allChecks.includes('url') ? 'border-red-205' : 'border-[#E1E3E2]'
-                    } w-full h-[50px] rounded-md border-[2px] rounded-tl-none rounded-bl-none text-[14px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
+                    } w-full h-[50px] rounded-md border-[2px] rounded-tl-none rounded-bl-none text-[14px] font-medium placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                     inputSize={'lg'}
                     value={link}
                   />
@@ -339,23 +339,23 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 ))}
               </div>
               <div>
-                <p className="font-semibold text-gray-200 pb-2 text-base">Tags</p>
+                <p className="font-medium text-gray-200 pb-2 text-base">Tags</p>
                 <Input
                   placeHolder="Enter your tag and press 'ENTER'"
                   onKeyDown={handleAddTags}
                   onChange={(e) => setTagInput(e.target.value)}
                   className={`${
                     allChecks.includes('tags') ? 'border-red-205' : 'border-[#E1E3E2]'
-                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
+                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-medium placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                   inputSize={'lg'}
-                  value={tagInput === null ? '' : tagInput}
+                  value={tagInput}
                 />
               </div>
             </div>
             {/* description */}
             <div className="flex flex-col w-full">
               <div className="w-full">
-                <p className="font-semibold text-gray-200 pb-2 text-base">Description</p>
+                <p className="font-medium text-gray-200 pb-2 text-base">Description</p>
                 <Input
                   placeHolder="Add some details about your project"
                   onChange={(e) => {
@@ -363,7 +363,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                   }}
                   className={`${
                     allChecks.includes('description') ? 'border-red-205' : 'border-[#E1E3E2]'
-                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
+                  } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-medium placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                   inputSize={'lg'}
                   value={description}
                 />
@@ -411,12 +411,12 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               <label
                 htmlFor="mediaUpload"
                 className={`rounded-lg mt-2.5 px-2 h-[80px] w-[80px] py-1 ${
-                  media.length >= 10 ? 'bg-green-50' : 'bg-green-600'
+                  media.length >= 5 ? 'bg-green-50' : 'bg-green-600'
                 } cursor-pointer text-[12px] flex justify-center items-center`}
               >
                 <Add className="text-white-100" size={42} />
                 <input
-                  disabled={media.length === 10 ? true : false}
+                  disabled={media.length === 5 ? true : false}
                   id="mediaUpload"
                   type="file"
                   onChange={(e) => handleMedia(e)}
@@ -425,9 +425,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 />
               </label>
             </div>
-            <p className="font-semibold text-base text-white-650 mt-2.5">
+            <p className="font-medium text-base text-white-650 mt-2.5">
               {' '}
-              Note: you can only add 10 images. Sizes 1080 X 566{' '}
+              Note: you can only add 5 images. Sizes 1080 X 566{' '}
             </p>
 
             {/* buttons */}
