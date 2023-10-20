@@ -508,7 +508,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
         <Cart items={cartCount} />
 
-        <span>
+        <span className="px-1 cursor-pointer">
           <Image draggable={false} src={notificationIcon} alt="notification icon" />
         </span>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
