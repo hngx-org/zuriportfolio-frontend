@@ -44,7 +44,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
   // }, []);
 
   const navContainerRef = useRef<HTMLDivElement>(null);
-  console.log(props);
+
   useEffect(() => {
     if (active >= 0) setAllCatActive(false);
   }, [active]);

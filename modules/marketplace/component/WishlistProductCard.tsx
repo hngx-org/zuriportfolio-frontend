@@ -36,7 +36,11 @@ export const WishlistProductCard = ({
             <div className="flex flex-col gap-2 md:gap-3">
               <div className="flex gap-2 md:gap-3 items-center">
                 <div className="flex flex-col gap-2">
-                  <p className="text-[10px] md:text-xs text-custom-color16">{'Software Engineering'}</p>
+                  <p className="text-[10px] md:text-xs text-custom-color16">
+                    <Link target='_blank' href={`categories/${
+                      product.category.name.split(' ').join('_')
+                    }`}>{product.category.name}</Link>
+                  </p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
                     <Link href={`/marketplace/product-details?id=${product.id}`}>{product.name}</Link>
                   </p>
@@ -82,7 +86,7 @@ export const WishlistProductCard = ({
               </div>
             </div>
 
-            <div className="hidden md:flex gap-3 self-start">
+            <div className="hidden md:flex items-center gap-3 self-start">
               <Button
                 className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 focus:outline-none  focus:bg-red-200 focus:text-white-100 active:bg-red-200 active:text-white-100"
                 size={'sm'}
@@ -92,15 +96,13 @@ export const WishlistProductCard = ({
                 <RiDeleteBin6Line className="text-[18px] text-white-650 group-hover:fill-white-100" />
                 Remove
               </Button>
-              <Button
-                className={`hover:bg-white-100 bg-white-100 rounded-md border border-custom-color17 ${
+              <p
+                className={`hover:bg-white-100 bg-white-100 rounded-md  ${
                   product.inStock ? 'text-brand-green-primary' : 'text-brand-red-primary'
                 }`}
-                size={'sm'}
-                intent={'tertiary'}
               >
                 {product.inStock ? 'In Stock' : 'Out of Stock'}
-              </Button>
+              </p>
             </div>
           </div>
         </div>

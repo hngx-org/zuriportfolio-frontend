@@ -5,8 +5,10 @@ import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Education, DegreeOption } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import { years } from '../data';
+import { generateEndYears, years } from '../data';
 import { EducationModalContext } from '../context/education-context';
+import Portfolio from '../../../context/PortfolioLandingContext';
+import Loader from '@ui/Loader';
 
 type EducationModalProps = {
   isOpen: boolean;
@@ -15,6 +17,9 @@ type EducationModalProps = {
 };
 
 const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal, onSaveModal }) => {
+  const [selectedStartYear, setSelectedStartYear] = useState('');
+  const [endYears, setEndYears] = useState<any>([]);
+
   const {
     degreeOptions,
     fieldOfStudy,
@@ -48,6 +53,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
     setnewdegree,
     setEditingEducationId,
     editingEducationId,
+    isLoading,
   } = useContext(EducationModalContext);
   const [editingEducation, setEditingEducation] = useState<Education | null>(null);
 
@@ -67,7 +73,10 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
     setIsForm(true);
   };
 
-  console.log(degreeOptions, 'degreeOptions from');
+  useEffect(() => {
+    console.log(isEditMode);
+  }, [isEditMode]);
+
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
       <div className="space-y-6 bg-white-100 px-16 py-5 max-sm:px-2">
@@ -92,6 +101,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
+        <>{isLoading && <Loader />}</>
         <>
           {isData && (
             <div className="">
@@ -134,7 +144,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                           setIsEditMode(true);
                           setEditingEducation(education);
                           prefillForm(education);
-                          // handleEditEducation(education.id);
                           setIsData(false);
                         }}
                       >
@@ -193,7 +202,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
         <>
           {isForm && (
             <form
-              // onSubmit={(e) => addNewEducation(e)}
               onSubmit={(e) => (isEditMode ? handleEditEducation(e, editingEducationId) : addNewEducation(e))}
               className=""
             >
@@ -250,13 +258,13 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   <label className="block mb-1 text-[16px] font-semibold text-[#444846]" htmlFor="description">
                     Description
                   </label>
-                  <Input
-                    type="text"
-                    placeHolder="Add more details"
+                  <textarea
+                    className="resize-none border-[1px] border-solid w-full border-[#E1E3E2] pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary "
+                    rows={4}
                     value={description}
+                    placeholder="Add more details"
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full border-white-120"
-                  />
+                  ></textarea>
                 </div>
               </div>
               <div className="w-full px-4">
@@ -317,6 +325,9 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                     <Select
                       onValueChange={(value: string) => {
                         setFrom(value);
+                        setSelectedStartYear(value); // Update selected start year
+                        const generatedEndYears = generateEndYears(value); // Generate end year options
+                        setEndYears(generatedEndYears); // Set end year options
                       }}
                       value={from}
                     >
@@ -345,12 +356,25 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                         <SelectValue placeholder="Present" />
                       </SelectTrigger>
                       <>
-                        <SelectContent>
+                        {/* <SelectContent>
                           {years.map((year, index) => (
                             <SelectItem key={index} value={year.value}>
                               {year.label}
                             </SelectItem>
                           ))}
+                        </SelectContent> */}
+                        <SelectContent>
+                          {endYears.length === 0
+                            ? years.map((year: any, index: number) => (
+                                <SelectItem key={index} value={year.value}>
+                                  {year.label}
+                                </SelectItem>
+                              ))
+                            : endYears.map((year: any, index: number) => (
+                                <SelectItem key={index} value={year.value}>
+                                  {year.label}
+                                </SelectItem>
+                              ))}
                         </SelectContent>
                       </>
                     </Select>
@@ -372,7 +396,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button disabled={isLoading} type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                   Save
                 </Button>
               </div>
@@ -387,6 +411,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 onClick={() => {
                   setIsForm(true);
                   setIsData(false);
+                  resetForm();
                 }}
               >
                 <Add size="16" color="#009254" /> Add new Education
@@ -411,6 +436,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   className="w-full rounded-md sm:w-[6rem]"
                   size={'lg'}
                   onClick={() => {
+                    console.log('SAVING');
                     onSaveModal();
                   }}
                 >
