@@ -10,6 +10,7 @@ import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
 import { withUserAuth } from '../../../../helpers/withAuth';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { fetchUserTakenAssessment, getAssessmentDetails,submitAssessment,fetchUserAssessmentSession } from '../../../../http/userTakenAssessment';
 type AssessmentDetails = {
   id?: string;
@@ -41,19 +42,37 @@ interface QuestionArrays {
 const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
   const router = useRouter();
-  const [storedAssessment, setStoredAssessment] = React.useState<any>([]);
   const [result, setResult] = React.useState<AssessmentDetails>();
   const tokenRef = useRef<string | null>(null);
   const [minute, setMinute] = React.useState<number | null>(null);
   const [second, setSecond] = React.useState<number | null>(null);
   const [duration, setDuration] = React.useState<number | null>(null);
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
-  const [isError,setIsError]=React.useState<boolean>(false);
-  const [error, setError] = React.useState<string>("");
+  const queryClient = useQueryClient()
+
+  const {
+    isLoading,
+    isError,
+    error,
+    data: questionData,
+  } = useQuery(['questionData'], () => fetchUserTakenAssessment(tokenRef.current as string, router.query?.id as string));
+
+  const {
+    data: assessment
+  } = useQuery(['assessment'], () => getAssessmentDetails(tokenRef.current as string, router.query?.data as string));
+
+  const submitAnswer = useMutation((data: any) => submitAssessment(data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['questionData'])
+    },
+    onError: (error) => {
+      console.error('Error submitting assessment:', error);
+    },
+  })
+  const Data = questionData?.data?.questions;
 
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
-    handleGetStarted();
+    setDuration(assessment?.duration_minutes);
     const setTimeFunction = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
         const minuteString = localStorage.getItem('minute');
@@ -134,6 +153,9 @@ const Questions: React.FC = () => {
     if (!input) return [];
     // Concatenate the 'answered_questions' and 'unanswered_questions' arrays
     const allQuestions = input.answered_questions.concat(input.unanswered_questions);
+  useEffect(() => {
+    setDuration(assessment?.duration_minutes);
+  },[duration, assessment?.duration_minutes])
 
     // Sort the combined array based on 'question_no'
     return allQuestions.sort((a, b) => a.question_no - b.question_no);
@@ -142,7 +164,7 @@ const Questions: React.FC = () => {
     const token = tokenRef.current;    
     try {
       if (token && result?.assessment_id) {
-        await submitAssessment({
+        await submitAnswer.mutateAsync({
           assessment_id: result.assessment_id,
           question_id,
           user_answer_id,
@@ -192,13 +214,17 @@ const Questions: React.FC = () => {
       </>
     )
   }else{
-    return (
+  
+  const pageTitle = `${assessment?.title}`
+  const metaDescription = `${assessment?.description}`
+
+  return (
       <>
         {isTimeOut && (
           <OutOfTime
             onClose={() => router.push('/assessments/dashboard')}
             onRetake={() => {
-              router.push(`/assessments/take-test/intro?data=${result?.skill_id}`);
+              router.push(`/assessments/take-test/intro?data=${assessment?.skill_id}`);
             }}
             message="You’ve run out of time!"
             btn1={true}
@@ -223,7 +249,9 @@ const Questions: React.FC = () => {
           <title>Assessment | Questions</title>
           <meta name="description" content="Zuri Portfolio Assessment Question Page" />
         <link rel="icon" href="./public/assets/zuriLogo.svg" />          
-        </Head>
+          <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
+      </Head>
         <MainLayout activePage={'questions'} showTopbar showFooter showDashboardSidebar={false}>
         {isLoading ? (
             <div className="flex justify-center items-center h-screen">

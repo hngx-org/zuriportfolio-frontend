@@ -10,6 +10,8 @@ import { useCart } from './component/CartContext';
 import Loader from '@ui/Loader';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Error from '../shop/component/error/Error';
+
 const ZuriLandingPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -86,6 +88,7 @@ const ZuriLandingPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''}</title>
         <meta
           name="description"
@@ -112,7 +115,7 @@ const ZuriLandingPage = () => {
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       />
-      <div className=" flex-grow px-4 sm:px-6 md:px-3 py-5 container mx-auto">
+      <div id="top" className=" flex-grow px-4 sm:px-6 md:px-3 py-5 container mx-auto">
         {shop ? (
           <div className="space-y-12 py-10">
             <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
@@ -126,7 +129,9 @@ const ZuriLandingPage = () => {
             <Loader />
           </div>
         ) : (
-          <div className="text-center py-10">No products available.</div>
+          <div className="text-center py-10">
+            <Error/>
+          </div>
         )}
         <div className="py-10">
           {shop ? (
@@ -139,7 +144,7 @@ const ZuriLandingPage = () => {
           ) : null}
         </div>
 
-        <div className="w-full mx-auto flex justify-center">
+        <a href="#top" className="w-fit mx-auto flex justify-center">
           {totalPageCount > 1 && (
             <Pagination
               visiblePaginatedBtn={5}
@@ -149,7 +154,7 @@ const ZuriLandingPage = () => {
               setPage={handlePageChange}
             />
           )}
-        </div>
+        </a>
       </div>
       <Footer shopName={shop ? shop.data?.name : ''} />
     </div>
