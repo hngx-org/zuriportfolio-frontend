@@ -147,7 +147,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
   const getAllInterests = () => {
     setInitialLoading(true);
     axios
-      .get(`${endpoint}/api/interests/${userId}`)
+      .get(`${endpoint}/api/v1/interests/${userId}`)
       .then((res) => {
         setInitialLoading(false);
         const interestsArray: string[] = res.data?.interestArray;

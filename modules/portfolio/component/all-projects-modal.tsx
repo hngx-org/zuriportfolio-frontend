@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Data, allRouteOptions } from './modals/project-section-modal';
@@ -89,7 +89,7 @@ const AllProjectsModal = ({
           projects.map((project: Data) => {
             const { description, tags, url, title, thumbnail, id } = project;
             return (
-              <>
+              <Fragment key={id}>
                 <section className="flex flex-wrap gap-10 mt-10">
                   <section className="w-full min-[920px]:w-[250px] h-[220px]">
                     <Image src={thumbnail} width={250} height={400} className="h-full" alt="Project sample image" />
@@ -137,7 +137,7 @@ const AllProjectsModal = ({
                 </section>
 
                 <div className="bg-[#E1E3E2] w-full h-[1px] mt-5" />
-              </>
+              </Fragment>
             );
           })}
       </section>
