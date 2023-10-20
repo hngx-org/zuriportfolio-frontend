@@ -214,7 +214,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getUser = async () => {
     try {
-      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
+      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${userId}`);
       if (response.status === 200) {
         return response.data;
       } else {

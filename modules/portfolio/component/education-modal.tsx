@@ -9,6 +9,7 @@ import { generateEndYears, years } from '../data';
 import { EducationModalContext } from '../context/education-context';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import Loader from '@ui/Loader';
+import { Edit2, Trash } from 'iconsax-react';
 
 type EducationModalProps = {
   isOpen: boolean;
@@ -147,13 +148,13 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                           setIsData(false);
                         }}
                       >
-                        Edit
+                       <Edit2 size="32" color="#37d67a" variant="Outline" />
                       </span>
                       <span
                         className="font-semibold cursor-pointer text-brand-red-hover"
                         onClick={(e) => handleDeleteEducation(education.id, e)}
                       >
-                        Delete
+                        <Trash size="32" color="#f47373" variant="Outline"/>
                       </span>
                     </div>
                   </article>
@@ -193,7 +194,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   className="font-semibold cursor-pointer text-brand-red-hover"
                   onClick={(e) => handleDeleteEducation(editingEducation?.id, e)}
                 >
-                  Delete
+                  <Trash size="32" color="#f47373" variant="Outline" />
                 </span>
               </div>
             </article>
