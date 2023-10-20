@@ -1,9 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import SuperAdminPagination from '../components/pagination';
+import WithoutScroolPagination from '../components/withoutScroolPagination';
 import { topListingProduct } from '../../../@types';
-import Logo from '../../../public/assets/tsImages/image 12.png';
 import Loading from '../../../public/assets/tsImages/Loading_spin.svg';
 import Link from 'next/link';
 import { Input } from '@ui/Input';
@@ -13,7 +12,7 @@ const AnalyticsAndReportingTopSelling = () => {
   const [products, setProducts] = useState<topListingProduct | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const totalPages = 1;
+  const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState('');
 
   const bearerToken =
@@ -37,6 +36,7 @@ const AnalyticsAndReportingTopSelling = () => {
         }
         const data = await res.json();
         setProducts(data.results.data);
+        setTotalPages(data.results.total_page);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -103,7 +103,7 @@ const AnalyticsAndReportingTopSelling = () => {
                   key={product.product_id}
                   href={`/super-admin/product-listing/product-details/${product.product_id}`}
                 >
-                  <div className="grid grid-cols-3 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 md:whitespace-normal hover:bg-[#E0E0E0]">
+                  <div className="grid grid-cols-3 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 md:whitespace-normal hover:bg-[#E0E0E0] ">
                     <div className="flex items-center md:pl-8 ">
                       <Image src={product.product_image_url} alt={product.product_id} width={30} height={30} />
 
@@ -125,7 +125,7 @@ const AnalyticsAndReportingTopSelling = () => {
             </div>
           )}
         </div>
-        <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+        <WithoutScroolPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
       </div>
     </section>
   );

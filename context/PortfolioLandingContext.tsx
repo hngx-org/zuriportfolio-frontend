@@ -130,13 +130,13 @@ export function PortfolioCtxProvider(props: { children: any }) {
         queryKey: ['user'],
         queryFn: () => getUser(),
         enabled: !!userId,
-        refetchInterval: 1000,
+        // refetchInterval: 1000,
       },
       {
         queryKey: ['sections'],
         queryFn: () => getSections(),
         enabled: !!userId,
-        refetchInterval: 1000,
+        // refetchInterval: 1000,
       },
     ],
   });
@@ -210,7 +210,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getUser = async () => {
     try {
-      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
+      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -223,7 +223,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getSections = async () => {
     try {
-      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/getPortfolioDetails/${userId}`);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -278,7 +278,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
 
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/cover/upload', {
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/profile/cover/upload', {
         method: 'POST',
         body: formData,
       });

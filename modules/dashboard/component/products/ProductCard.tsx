@@ -643,7 +643,7 @@ const ProductCard = (props: {
             {product?.name}
           </p>
           <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
-            ${product.price}
+            ₦{product.price}
           </p>
           <div className="flex items-center lg:gap-6 md:gap-5 gap-3 justify-between">
             <button

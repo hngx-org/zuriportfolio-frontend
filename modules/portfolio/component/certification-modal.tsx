@@ -77,7 +77,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
 
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/add-certificate/${userId}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/add-certificate/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -383,7 +383,7 @@ const CertificationList: React.FC<CertificationListProps> = () => {
   const fetchCertifications = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/certificates/${userId}`);
       const status = response.status;
       if (response.ok) {
         setIsLoading(false);
@@ -492,7 +492,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
 
     try {
       setEditLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${userId}/${id}/1`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/certificates/${userId}/${id}/1`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -559,7 +559,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
 
     try {
       setDeleteLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificates/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/certificates/${id}`, {
         method: 'DELETE',
       });
       setDeleteLoading(false);

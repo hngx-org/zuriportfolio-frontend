@@ -10,15 +10,13 @@ const Portfolio = () => {
   const queryClient = new QueryClient();
   return (
     <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
-      <QueryClientProvider client={queryClient}>
-        <PortfolioCtxProvider>
-          <WorkExperienceModalContextProvider>
-            <EducationModalContextProvider>
-              <Landing />
-            </EducationModalContextProvider>
-          </WorkExperienceModalContextProvider>
-        </PortfolioCtxProvider>
-      </QueryClientProvider>
+      <PortfolioCtxProvider>
+        <WorkExperienceModalContextProvider>
+          <EducationModalContextProvider>
+            <Landing />
+          </EducationModalContextProvider>
+        </WorkExperienceModalContextProvider>
+      </PortfolioCtxProvider>
     </MainLayout>
   );
 };
