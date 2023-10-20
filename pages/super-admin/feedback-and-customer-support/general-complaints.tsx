@@ -88,7 +88,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   async function updateComplaintStatus(complaintId: number, newStatus: string) {
     try {
       // Create the URL for the specific complaint using complaintId
-      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/${complaintId}/`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/${complaintId}/`;
 
       const bearertoken = localStorage.getItem('zpt');
       const headers = {
@@ -146,7 +146,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
   React.useEffect(() => {
     const bearertoken = localStorage.getItem('zpt');
-    fetch('https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint', {
+    fetch('https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints', {
       headers: {
         Authorization: `Bearer ${bearertoken}`,
       },
@@ -175,7 +175,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   const pageComplain = async (currentPage: number) => {
     const bearertoken = localStorage.getItem('zpt');
     const res = await fetch(
-      `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaint/?page=${currentPage}`,
+      `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/complaints/?page=${currentPage}`,
       {
         headers: {
           Authorization: `Bearer ${bearertoken}`,
@@ -202,7 +202,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     async function fetchData() {
       try {
         const response = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/total_complaints/',
+          'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/total-complaints/',
           {
             headers: {
               Authorization: `Bearer ${bearertoken}`,
@@ -235,7 +235,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     async function fetchData() {
       try {
         const response = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/pending/',
+          'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/pending/',
           {
             headers: {
               Authorization: `Bearer ${bearertoken}`,
@@ -265,7 +265,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     async function fetchData() {
       try {
         const response = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/in_progress/',
+          'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/in-progress/',
           {
             headers: {
               Authorization: `Bearer ${bearertoken}`,
@@ -295,7 +295,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     async function fetchData() {
       try {
         const response = await fetch(
-          'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/resolved/',
+          'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/resolved/',
           {
             headers: {
               Authorization: `Bearer ${bearertoken}`,
@@ -509,8 +509,8 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
               </div>
               {complaintsToRender
                 .filter((item) => {
-                  const firstName = item.data?.user_details.first_name.toLowerCase();
-                  return search.toLowerCase() === '' ? item : firstName.includes(search);
+                  const firstName = item?.data?.user_details.first_name.toLowerCase();
+                  return search.toLowerCase() === '' ? item : firstName?.includes(search);
                 })
                 .map((complain: any) => {
                   const handleClick = () => {

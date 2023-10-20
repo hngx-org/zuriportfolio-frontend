@@ -38,7 +38,7 @@ const newStatus = 'Resolved';
 async function updateComplaintStatus(complaintId: number, newStatus: string) {
   try {
     // Create the URL for the specific complaint using complaintId
-    const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/${complaintId}/`;
+    const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/${complaintId}/`;
 
     const bearertoken = localStorage.getItem('zpt');
     const headers = {
@@ -97,7 +97,7 @@ function ComplaintsDetails() {
 
     try {
       const response = await axios.get(
-        `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/complaints/${complaintsId}/`,
+        `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints/${complaintsId}/`,
         {
           headers: {
             Authorization: `Bearer ${bearertoken}`,
@@ -165,7 +165,7 @@ function ComplaintsDetails() {
       };
 
       const response = await axios.post(
-        'https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/comments/',
+        'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/comments/',
         requestBody,
         {
           headers: {
@@ -260,7 +260,7 @@ function ComplaintsDetails() {
                   complainDetails?.data.status === 'In Progress' || complainDetails?.data.status === 'in Progress' ? (
                     <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
                       <div className="w-2 h-2 bg-blue-105 rounded-md"></div>
-                      <p className="text-xs text-blue-105">In Pending</p>
+                      <p className="text-xs text-blue-105">In Progress</p>
                     </div>
                   ) : complainDetails?.data.status === 'Resolved' ? (
                     <div className="bg-green-30 px-3 py-2 flex items-center gap-2 rounded-full">
@@ -268,10 +268,11 @@ function ComplaintsDetails() {
                       <p className="text-xs text-green-750">Resolved</p>
                     </div>
                   ) : (
-                    <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
-                      <div className="w-2 h-2 bg-yellow-300 rounded-md"></div>
-                      <p className="text-xs text-yellow-300">Pending</p>
-                    </div>
+                    <div>...</div>
+                    // <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                    //   <div className="w-2 h-2 bg-yellow-300 rounded-md"></div>
+                    //   <p className="text-xs text-yellow-300">Pending</p>
+                    // </div>
                   ) // Add another case or null if needed
                 }
               </div>
@@ -380,7 +381,7 @@ function ComplaintsDetails() {
                   onClick={() => {
                     setconfirmModal(false);
                     setmodalOpen(false);
-                    setResolve(true);
+                    onResolve();
                     if (complainDetails) {
                       updateComplaintStatus(complainDetails.data.id, newStatus);
                     }
