@@ -10,6 +10,7 @@ import { Fragment } from 'react';
 import { constructApiUrl } from '@modules/marketplace/component/filter/helper';
 import Pagination from '@ui/Pagination';
 import { useRouter } from 'next/router';
+import http from '@modules/marketplace/http';
 
 interface Props {
   products: ProductList[];
@@ -87,11 +88,8 @@ export const getServerSideProps = (async (context) => {
     const page = context.query.page ? parseInt(context.query.page as string) : 1;
 
     const queryParams = { category, subCategory, price, discount, rating };
-    let apiUrl = constructApiUrl(
-      'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products-filter',
-      queryParams,
-    );
-    const { data, status } = await axios.get<{ data: { products: ProductList[] } }>(apiUrl.toString());
+    let apiUrl = constructApiUrl('/products-filter', queryParams);
+    const { data, status } = await http.get<{ data: { products: ProductList[] } }>(apiUrl.toString());
     if (status === 400 || status === 500) {
       console.error('Bad request');
     }
