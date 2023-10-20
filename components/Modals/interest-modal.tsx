@@ -89,7 +89,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
         userId: userId,
       };
       axios
-        .post(`${endpoint}/api/interests`, data)
+        .post(`${endpoint}/api/v1/interests`, data)
         .then((res) => {
           setLoading(false);
           notify({
