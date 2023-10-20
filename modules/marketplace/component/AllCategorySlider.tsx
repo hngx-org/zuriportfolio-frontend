@@ -15,15 +15,15 @@ interface CategoryTypes {
 function AllCategorySlider() {
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [secondApiData, setSecondApiData] = useState<CategoryTypes[]>([]);
-  const apiUrl: string = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
+  const apiUrl: string = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
 
   useEffect(() => {
     // API request to fetch categories
     axios
       .get(`${apiUrl}category-name/`)
       .then((response) => {
-        if (Array.isArray(response.data.categories)) {
-          const categoryData = response.data.categories;
+        if (Array.isArray(response.data.data)) {
+          const categoryData = response.data.data;
           setCategories(categoryData);
           ////////////////////////////////////////////////////////////////////////////////////
           // API request to fetch images based of number of items returned from the categroy API

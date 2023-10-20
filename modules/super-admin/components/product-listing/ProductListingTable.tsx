@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { ArrowDown, Sort } from 'iconsax-react';
-import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
-import FilterProduct from '@modules/super-admin/components/product-listing/filterProduct';
-import Button from '@ui/Button';
+import React, { Dispatch, SetStateAction } from 'react';
+import { ArrowDown, SearchNormal1, Sort } from 'iconsax-react';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { formatDate } from './product-details';
 import { useRouter } from 'next/router';
+import { Input } from '@ui/Input';
+import StatusPill from '../StatusPill';
 
 export const LoadingTable = () => {
   return (
@@ -13,60 +12,22 @@ export const LoadingTable = () => {
   );
 };
 
-const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
-  const [searchVal, setSearchVal] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(data?.data);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Number of items to display per page
-
-  // Calculate the range of products to display
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
-
-  useEffect(() => {
-    setFilteredProducts(data?.data);
-  }, [data]);
-
-  const handleSearch = (searchText: string) => {
-    const filteredProduct: any = data?.data?.filter(
-      (product: any) => product?.product_name?.toLowerCase()?.includes(searchText.toLowerCase()),
-    );
-    setSearchVal(searchText);
-    setFilteredProducts(filteredProduct);
-  };
-
+const ProductListingTable = ({
+  data,
+  isLoading,
+  currentPage,
+  setCurrentPage,
+  searchVal,
+  setSearchVal,
+}: {
+  data: any;
+  isLoading: boolean;
+  currentPage: number;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+  searchVal: string;
+  setSearchVal: Dispatch<SetStateAction<string>>;
+}) => {
   const route = useRouter();
-
-  const handleFilter = (status: string) => {
-    if (data?.data) {
-      let sortedProducts: any = [...data.data]; // Create a copy of the full dataset
-
-      sortedProducts = sortedProducts.sort((a: any, b: any) => {
-        const dateA = new Date(a.createdAt);
-        const dateB = new Date(b.createdAt);
-
-        if (status === 'newest') {
-          return dateB.getTime() - dateA.getTime(); // Newest to oldest
-        } else if (status === 'oldest') {
-          return dateA.getTime() - dateB.getTime(); // Oldest to newest
-        } else if (status === 'status') {
-          if (a.product_status === 'Active' && b.product_status !== 'Active') return -1;
-          if (a.product_status !== 'Active' && b.product_status === 'Active') return 1;
-          if (a.product_status === 'Sanctioned' && b.product_status === 'Deleted') return -1;
-          if (a.product_status === 'Deleted' && b.product_status === 'Sanctioned') return 1;
-        }
-      });
-
-      setFilteredProducts(sortedProducts);
-    }
-  };
-
-  const handlePageChange = (newPage: number) => {
-    window.scroll(0, 10);
-    setCurrentPage(newPage);
-  };
 
   return (
     <div className="font-manropeL mb-8 container mx-auto border-2 border-custom-color1 mt-4">
@@ -77,16 +38,25 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         </div>
 
         <div className="flex justify-between items-center gap-2">
-          <SearchProduct handleSearchChange={handleSearch} />
+          <Input
+            onChange={(e) => {
+              setCurrentPage(1);
+              setSearchVal(e.target.value);
+            }}
+            leftIcon={<SearchNormal1 />}
+            type="text"
+            intent={'default'}
+            disabled={false}
+            className="md:min-w-[350px] w-[100%]"
+            placeHolder="search"
+          />
           <div>
-            <div className="md:block hidden">
-              <FilterProduct handleFilter={handleFilter} />
-            </div>
-            <div className="md:hidden block">
+            <div className="">{/* <FilterProduct handleFilter={handleFilter} /> */}</div>
+            {/* <div className="md:hidden block">
               <Button>
                 <Sort />
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -94,7 +64,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
         <LoadingTable />
       ) : (
         <div className="mb-4">
-          {visibleProducts?.length > 0 ? (
+          {data?.data?.length > 0 ? (
             <>
               <table className="w-full md:table-fixed">
                 <thead>
@@ -116,7 +86,7 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                   </tr>
                 </thead>
                 <tbody>
-                  {visibleProducts?.map((product: any) => (
+                  {data?.data.map((product: any) => (
                     <tr
                       className="border-t  border-custom-color1 cursor-pointer transition delay-100 hover:bg-white-200 py-4"
                       key={product?.product_id}
@@ -134,33 +104,18 @@ const ProductListingTable = ({ data, isLoading }: { data: any; isLoading: boolea
                       <td className="hidden md:table-cell tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
                         <p>{formatDate(product?.createdAt)}</p>
                       </td>
-                      <td className="tracking-wide font-manropeL text-base text-gray-900 px-6 py-6 text-center">
-                        <div
-                          className={` hidden  mx-auto rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
-                            product?.product_status === 'Sanctioned'
-                              ? 'mx-auto bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                              : product?.product_status === 'Deleted'
-                              ? 'hidden mx-auto bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                              : 'bg-green-200 bg-opacity-50 text-green-800'
-                          }`}
-                        >
-                          <span
-                            className={`inline-block w-2 h-2 rounded-full ${
-                              product?.product_status === 'Sanctioned'
-                                ? 'bg-yellow-600'
-                                : product?.product_status === 'Deleted'
-                                ? 'bg-red-800'
-                                : 'bg-green-800'
-                            }`}
-                          ></span>
-                          <span>{product?.product_status}</span>
-                        </div>
+                      <td className="tracking-wide font-manropeL text-base text-gray-900 flex items-center py-9 justify-center text-center">
+                        <StatusPill status={product?.product_status} />
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+              <SuperAdminPagination
+                currentPage={currentPage}
+                totalPages={data?.total_pages}
+                setCurrentPage={setCurrentPage}
+              />
             </>
           ) : (
             <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

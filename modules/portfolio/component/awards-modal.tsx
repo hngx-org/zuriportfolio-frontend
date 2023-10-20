@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -33,10 +34,17 @@ const initialContextValue: Context = {
   setCloseAllModal: () => {},
 };
 
+type awardsModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  isOpen: boolean;
+  userId: string;
+};
+
 const myContext = createContext(initialContextValue);
 // Interfaces
 
-const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId: string }) => {
+const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps) => {
   const [formData, setFormData] = useState({
     id: '',
     title: '',
@@ -56,6 +64,8 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
   const [acceptedDescription, setAcceptedDescription] = useState(false);
   const [createAward, setCreateAward] = useState('');
   const [closeAllModal, setCloseAllModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const validateUrl = (url: string) => {
     const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
@@ -120,16 +130,17 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
       };
       setAwardCounter(awardCounter + 1);
 
-      try {
-        const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${userId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newAward),
-        });
-        console.log('Response Status:', response.status);
-        console.log('Response Data:', await response.json());
+    try {
+      setIsLoading(true);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newAward),
+      });
+      setIsLoading(false);
+      const status = response.status;
 
         if (response.ok) {
           setCreateAward('Award created successfully');
@@ -231,14 +242,14 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
           <div>
             {' '}
             {!isModalOpen && (
-              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+              <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
                 <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
                   <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
-                    <div className="flex items-center gap-6" onClick={onClose}>
+                    <div className="flex items-center gap-6" onClick={onCloseModal}>
                       <ArrowLeft2 />
                       <h1 className="font-bold text-2xl text-white-700">Awards</h1>
                     </div>
-                    <div onClick={onClose}>
+                    <div onClick={onCloseModal}>
                       <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
                     </div>
                   </div>
@@ -350,7 +361,7 @@ const Awards = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => v
                       </div>
                       <div className="flex gap-4  items-center">
                         <Button
-                          onClick={onClose}
+                          onClick={onCloseModal}
                           intent={'secondary'}
                           className="w-full rounded-md sm:w-[6rem]"
                           size={'md'}
@@ -429,7 +440,7 @@ const AwardList: React.FC<AwardListProps> = () => {
 
   const fetchAwards = async () => {
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/awards');
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/awards');
       if (response.ok) {
         const data = await response.json();
         console.log('Fetched awards data:', data.awards);
@@ -487,7 +498,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const handleSave = async () => {
     // Send a PUT request to update the award
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -516,7 +527,8 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
     // Extract the id from the event
 
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
+      setDeleteLoading(true);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/award/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -536,16 +548,16 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
 
   return (
     <div className="border-b-[1px] border-b-brand-disabled gap-12 py-3">
-      <div className="flex flex-col sm:flex-row gap-6 w-full justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 w-full justify-between ">
         <div className="flex flex-col sm:flex-row sm:gap-10 sm:w-[60%] lg:w-[35%] gap-4  justify-between">
           <div>
-            <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
+            <p className="font-semibold text-[16px] leading-6  text-gray-300 ">{year}</p>
           </div>
-          <div className="flex flex-col gap-2 w-full overflow-hidden text-ellipsis whitespace-nowrap ">
-            <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left ">{title}</h1>
+          <div className="flex flex-col gap-2 w-full  text-ellipsis ">
+            <h1 className="font-semibold text-[22px] leading-7 text-white-700 text-left">{title}</h1>
             <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{presented_by}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
-              <Link href={url} target="_blank" className="flex items-center ">
+              <Link href={url} target="_blank" className="flex items-center mt-4">
                 <span className="whitespace-nowrap overflow-hidden text-ellipsis ">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
@@ -686,7 +698,7 @@ const EditForm: React.FC<{
         </div>
         <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={handleSubmit}>
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-            <div className="flex  flex-col gap-2 flex-1">
+            <div className="flex flex-wrap flex-col gap-2 flex-1">
               <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                 Award Title*
               </label>
@@ -695,7 +707,7 @@ const EditForm: React.FC<{
                 id="title"
                 name="title"
                 placeholder="My best yet"
-                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
+                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full  text-gray-900   rounded-lg border-[1px]"
                 value={award.title}
                 onChange={handleInputChange}
               />
@@ -798,3 +810,6 @@ const EditForm: React.FC<{
 };
 
 export default Awards;
+function setDeleteLoading(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}

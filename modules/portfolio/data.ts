@@ -1,6 +1,6 @@
 export const months = [
   {
-    label: 'Month',
+    label: 'January',
     value: 'January',
   },
   {
@@ -53,7 +53,7 @@ export const years: { label: string; value: string }[] = [];
 
 // Define the range of years you want to create
 const startFrom = 2000;
-const endAt = 2023;
+const endAt = 2022;
 
 // Loop through the range and create objects for each year
 for (let year = startFrom; year <= endAt; year++) {
@@ -66,3 +66,19 @@ for (let year = startFrom; year <= endAt; year++) {
   // Push the object into the "years" array
   years.push(yearObject);
 }
+
+export const generateEndYears = (startYear: string): { label: string; value: string }[] => {
+  const selectedStartYear = parseInt(startYear, 10);
+  const endYears: { label: string; value: string }[] = [];
+
+  // Loop through the years to create endYears greater than the selected startYear
+  for (let year = selectedStartYear; year <= endAt; year++) {
+    const yearObject = {
+      label: year.toString(),
+      value: year.toString(),
+    };
+    endYears.push(yearObject);
+  }
+
+  return endYears;
+};

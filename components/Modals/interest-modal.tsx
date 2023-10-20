@@ -8,20 +8,28 @@ import Button from '@ui/Button';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
+import Loader from '@ui/Loader';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 
-const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: () => void; userId?: string }) => {
+type interestModalProps = {
+  onCloseModal: () => void;
+  onSaveModal: () => void;
+  isOpen: boolean;
+  userId: string;
+};
+
+const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestModalProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [values, setValues] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [initialoading, setInitialLoading] = useState<boolean>(false);
+  const [checks, setChecks] = useState<boolean>(true);
 
   const interestItems = {
     interests: values,
   };
-
-  // checks if all input paramters has been filled, allChecksPassed - returns a boolean, failedChecks returns an array of calues that failed the checks
-  const { allChecksPassed, failedChecks } = checkObjectProperties(interestItems);
 
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -55,7 +63,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   const items = values.map((value) => (
     <span
       key={value}
-      className="py-1 px-2 flex items-center gap-3 bg-[#E6F5EA] text-sm font-semibold text-[#003A1B]  rounded-lg"
+      className="py-2 px-2 flex items-center gap-3 bg-[#E6F5EA] text-sm font-semibold text-[#003A1B] font-manropeL rounded-lg"
     >
       {value}
       <Image
@@ -70,6 +78,9 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   ));
 
   const handleSubmit = () => {
+    // checks if all input paramters has been filled, allChecksPassed - returns a boolean, failedChecks returns an array of calues that failed the checks
+    const { allChecksPassed, failedChecks } = checkObjectProperties(interestItems);
+    setChecks(allChecksPassed);
     if (allChecksPassed) {
       setLoading(true);
       const data = {
@@ -78,7 +89,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
         userId: userId,
       };
       axios
-        .post(`${endpoint}/api/interests`, data)
+        .post(`${endpoint}/api/v1/interests`, data)
         .then((res) => {
           setLoading(false);
           notify({
@@ -87,8 +98,9 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             theme: 'light',
             type: 'success',
           });
+          setChecks(true);
           setValues([]);
-          onClose();
+          onSaveModal();
         })
         .catch((err) => {
           setLoading(false);
@@ -98,6 +110,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
             theme: 'light',
             type: 'error',
           });
+          setChecks(true);
           console.log(err);
         });
     }
@@ -106,6 +119,7 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   const suggestionsArray = [
     'Dance',
     'Designing',
+    'Art',
     'Reading',
     'Writing',
     'Movies',
@@ -113,35 +127,39 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
     'Gardening',
     'Producing',
     'Painting',
-    'Art',
     'Photography',
   ];
   const suggestions = suggestionsArray.map((suggestion) => (
-    <span
-      key={suggestion}
-      className="border-[#D0D5DD] rounded-lg border bg-white-100 text-[#737876] text-base font-semibold p-4 flex items-center gap-2"
-    >
-      {suggestion}
-      <Image
-        src={add}
-        width={24}
-        height={24}
-        alt="add"
-        className="cursor-pointer"
-        onClick={() => handleSuggestionAddition(suggestion)}
-      />
-    </span>
+    <li key={suggestion}>
+      <Button
+        className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100 focus:text-white-100 "
+        onClick={() => {
+          handleSuggestionAddition(suggestion);
+        }}
+        type="button"
+      >
+        {suggestion}
+        <span className="group-hover/skillsbtn:border-white-100">
+          <AiOutlinePlus />
+        </span>
+      </Button>
+    </li>
   ));
 
   const getAllInterests = () => {
-    const userID = 'f8e1d17d-0d9e-4d21-89c5-7a564f8a1e90';
+    setInitialLoading(true);
     axios
-      .get(`${endpoint}/api/interests/${userID}`)
+      .get(`${endpoint}/api/interests/${userId}`)
       .then((res) => {
+        setInitialLoading(false);
         const interestsArray: string[] = res.data?.interestArray;
+        console.log(interestsArray);
         setValues(interestsArray ? interestsArray : []);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setInitialLoading(false);
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -150,64 +168,67 @@ const InterestModal = ({ isOpen, onClose, userId }: { isOpen: boolean; onClose: 
   }, []);
 
   return (
-    <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false}>
-      <section className="">
-        <section className="flex justify-between items-center border-b-4 pb-3 border-b-[#009254]">
-          <section className="flex items-center">
-            <h4 className="text-2xl font-bold text-[#2E3130]"> Interest </h4>
+    <Modal size="xl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
+      {initialoading ? (
+        <>
+          <Loader />
+          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+        </>
+      ) : (
+        <section className="py-6 px-16">
+          <section className="flex justify-between items-center border-b-4 pb-3 border-b-[#009254]">
+            <section className="flex items-center">
+              <h4 className="text-[1.2rem] sm:text-[1.4rem] font-bold text-[#2E3130] font-manropeL"> Interest </h4>
+            </section>
+            <Image
+              src={close1}
+              width={24}
+              height={24}
+              alt="arrow-left"
+              className="cursor-pointer"
+              onClick={onCloseModal}
+            />
           </section>
-          <Image src={close1} width={24} height={24} alt="arrow-left" className="cursor-pointer" onClick={onClose} />
-        </section>
 
-        {values.length > 0 && <section className="flex items-center flex-wrap gap-2.5 mt-2 mb-5">{items}</section>}
+          {values.length > 0 && <section className="flex items-center flex-wrap gap-3 mt-10 mb-5">{items}</section>}
 
-        <section className="w-full flex items-center mt-10 rounded-lg border border-[#C4C7C6] px-2">
-          <input
-            type="text"
-            className="w-full h-full focus:outline-none text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
-            placeholder="Enter your skill and press “ENTER”"
-            onChange={handleInputChange}
-            onKeyDown={handleEnterKeyPress}
-          />
-        </section>
+          <section
+            className={`w-full flex items-center mt-12 mb-6 rounded-lg border ${
+              checks ? 'border-[#C4C7C6]' : 'border-red-205'
+            } px-2 `}
+          >
+            <input
+              type="text"
+              className="w-full h-full focus:outline-none text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
+              placeholder="Enter your interest and press “ENTER”"
+              onChange={handleInputChange}
+              onKeyDown={handleEnterKeyPress}
+              maxLength={30}
+              value={inputValue}
+            />
+          </section>
 
-        <section className="flex flex-col gap-2">
-          {failedChecks.length > 0 && (
-            <p className="mt-4 text-base font-medium text-start text-red-300"> Kindly fill the following fields: </p>
-          )}
-          {failedChecks.map((item) => (
-            <span className="text-sm text-start text-red-300 pl-5" key={item}>
+          <section className="mt-5">
+            <h5 className="text-green-600 text-base font-extrabold font-manropeL"> Suggestions </h5>
+            <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">{suggestions}</ul>
+          </section>
+
+          <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-4">
+            <Button onClick={onCloseModal} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+              Cancel
+            </Button>
+            <Button
+              disabled={loading}
+              onClick={handleSubmit}
+              className={`${loading ? 'opacity-80' : 'opacity-100'} w-full rounded-md sm:w-[6rem]`}
+              size={'lg'}
+            >
               {' '}
-              {item}{' '}
-            </span>
-          ))}
+              Save{' '}
+            </Button>
+          </section>
         </section>
-
-        <section className="mt-2.5">
-          <h5 className="text-green-600 text-base font-bold"> Suggestions </h5>
-
-          <section className="flex items-center flex-wrap gap-4 mt-2.5 mb-5">{suggestions}</section>
-        </section>
-
-        <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-2.5">
-          <Button
-            onClick={onClose}
-            className="border flex justify-center border-[#009444] bg-white-100 py-3 px-5 text-sm sm:text-base font-normal text-[#009444] text-center rounded-lg hover:bg-white-100 hover:text-[#009444]"
-          >
-            Cancel
-          </Button>
-          <Button
-            disabled={loading}
-            onClick={handleSubmit}
-            className={`${
-              loading ? 'opacity-80' : 'opacity-100'
-            } border flex justify-center border-[#009444] bg-[#009444] py-3 px-5 text-sm sm:text-base font-normal text-white-100 text-center rounded-lg`}
-          >
-            {' '}
-            Save{' '}
-          </Button>
-        </section>
-      </section>
+      )}
     </Modal>
   );
 };

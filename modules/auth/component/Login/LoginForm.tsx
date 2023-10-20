@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { notify } from '@ui/Toast';
@@ -15,11 +15,19 @@ import { ADMIN_ID, useAuth } from '../../../../context/AuthContext';
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 
-
 function LoginForm() {
   const { handleAuth, userCameFrom } = useAuth();
   const router = useRouter();
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
+
+  const [isMicrosoftEdge, setIsMicrosoftEdge] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is using Microsoft Edge
+    if (window.navigator.userAgent.includes('Edg') || window.navigator.userAgent.includes('Edge')) {
+      setIsMicrosoftEdge(true);
+    }
+  }, []);
 
   const schema = z.object({
     email: z.string().email(),
@@ -36,8 +44,7 @@ function LoginForm() {
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      if(res?.response && res?.response?.message === "TWO FACTOR AUTHENTICATION CODE SENT")
-      {
+      if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
         localStorage.setItem('zpt', res?.response?.token);
         localStorage.setItem('email', res?.response?.email);
         notify({
@@ -49,12 +56,13 @@ function LoginForm() {
       }
 
       if (res.message === 'Login successful') {
+        console.log(res.data);
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
 
         // redirecting the user  to admin dashbord if they are an admin
         if (res.data.user.roleId === ADMIN_ID) {
-          router.push('/super-admin/product-listing');
+          router.push('/super-admin/analytics-and-reporting');
           return;
         }
 
@@ -82,6 +90,7 @@ function LoginForm() {
           message: 'Please verify your account',
           type: 'error',
         });
+        router.push('/auth/verification-complete');
         return;
       }
     },
@@ -146,7 +155,7 @@ function LoginForm() {
                 }`}
                 type={isPasswordShown ? 'text' : 'password'}
                 rightIcon={
-                  isPasswordShown ? (
+                  isMicrosoftEdge ? null : isPasswordShown ? ( // Hide the icons in Microsoft Edge
                     <Eye className="cursor-pointer" onClick={() => setIsPassowordShwon(false)} />
                   ) : (
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />

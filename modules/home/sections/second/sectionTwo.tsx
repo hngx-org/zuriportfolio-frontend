@@ -1,9 +1,8 @@
 import Features from '@modules/home/features/features';
-import FeatureOne from '../../../../public/assets/home/featureOne.png';
-import FeatureTwo from '../../../../public/assets/home/featureTwo.png';
-import FeatureThree from '../../../../public/assets/home/featureThree.png';
-import FeatureFour from '../../../../public/assets/home/featureFour.png';
-import LogoSlider from '../../../../public/assets/home/logoSlider.png';
+import FeatureOne from '../../../../public/assets/home/featureOne.webp';
+import FeatureTwo from '../../../../public/assets/home/featureTwo.webp';
+import FeatureThree from '../../../../public/assets/home/featureThree.webp';
+import FeatureFour from '../../../../public/assets/home/featureFour.webp';
 import LogoCarousel from '@modules/home/carousel/logos/logosCarousel';
 import HeroSection from '@modules/home/features/Hero';
 
@@ -38,36 +37,19 @@ const data = [
   },
 ];
 
-const slides = [
-  {
-    src: LogoSlider.src,
-    alt: '* Zuri Potfolio Explore*',
-  },
-  {
-    src: LogoSlider.src,
-    alt: '* Zuri Shop*',
-  },
-  {
-    src: LogoSlider.src,
-    alt: '* Zuri Marketplace*',
-  },
-  {
-    src: LogoSlider.src,
-    alt: '* Zuri Portfolio*',
-  },
-  {
-    src: LogoSlider.src,
-    alt: '* Zuri Potfolio Explore*',
-  },
-];
-
 const SectionTwo = () => {
   return (
     <div className="flex flex-col w-full">
       <div className="flex justify-center items-center py-5  w-full">
         <HeroSection
           title="How exactly does Zuri Portfolio help Talents?"
-          desc="Explore a world of talents, create your personalized portfolio, and sell your digital products in your very own shop. Your dreams, your creations, your success – all in one place. Start your journey today."
+          bottom={true}
+          desc={
+            <p className="text-[#0D0C22] text-left md:text-justify font-manropeL text-[16px]">
+              Explore a world of talents, create your personalized portfolio, and sell your digital products in your
+              very own shop. Your dreams, your creations, your success – all in one place. Start your journey today.
+            </p>
+          }
           slug="Get Started"
           href="/dashboard"
         />
@@ -76,7 +58,7 @@ const SectionTwo = () => {
         <Features data={data} />
       </div>
       <div className="w-full">
-        <LogoCarousel logos={slides} />
+        <LogoCarousel color={false} />
       </div>
     </div>
   );

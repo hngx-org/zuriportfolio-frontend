@@ -3,140 +3,214 @@ import React, { useState, useRef, useEffect } from 'react';
 import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 type aboutModalProps = {
-  onClose: () => void;
+  onCloseModal: () => void;
+  onSaveModal: () => void;
   isOpen: boolean;
   userId: string;
 };
 
-const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) => {
-  const [text, setText] = useState<string>('');
+const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, isOpen, userId }) => {
+  const [bio, setBio] = useState({ bio: '', section_id: 54 });
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [getloading, setgetLoading] = useState(false);
+  const [hide, setHide] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
-  const [isError, setisError] = useState(true);
   const [errorBorder, setErrorBorder] = useState('[#E1E3E2]');
 
-  const response = async () => {
+  // POST ABOUT VALUE TO DATABASE
+  const API_BASE_URL = 'https://hng6-r5y3.onrender.com';
+  const createResponse = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/about/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          bio: text,
-        }),
-      });
-      if (!response.ok) {
+      const axiosConfig = {
+        method: 'put',
+        url: `${API_BASE_URL}/api/v1/about/${userId}`,
+        data: bio,
+      };
+
+      const response = await axios(axiosConfig);
+      if (response.status !== 200 && response.status !== 201) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      await response.json();
-      await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-      onClose();
       setLoading(false);
+      toast.success(`Successful`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      const data = await response.data;
+      console.log(data);
+      onSaveModal();
     } catch (error) {
-      setMessage(`${error}`);
-      setTimeout(() => {
-        setMessage('');
-      }, 5000);
+      console.error('An error occurred:', error);
+      toast.warning(`Waiting for endpoint`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
       setLoading(false);
-      setisError(true);
     }
   };
 
-  const getAbout = async () => {
-    setLoading(true);
-    const response = await fetch(`https://hng6-r5y3.onrender.com/api/about/${userId}`);
-    const data = await response.json();
-    setText(data?.about?.bio);
-    setLoading(false);
-  };
-
   useEffect(() => {
-    getAbout();
     if (isEditing && inputRef.current) {
       inputRef.current.focus();
     }
   }, [isEditing]);
 
+  // GET ABOUT VALUE FROM DATA BASE
+  const getResponse = async () => {
+    setgetLoading(true);
+    try {
+      const axiosConfig = {
+        method: 'get',
+        url: `${API_BASE_URL}/api/about/${userId}`,
+      };
+
+      const response = await axios(axiosConfig);
+      if (response.status !== 200 && response.status !== 201) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.data;
+
+      console.log(data.about);
+      setBio({ ...bio, bio: data.about.bio });
+      setgetLoading(false);
+      toast.success(`${data.message}`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    } catch (error) {
+      console.error('An error occurred:', error);
+      setgetLoading(false);
+    }
+  };
+  useEffect(() => {
+    getResponse();
+  }, []);
+
   const handleEditClick = () => {
-    setIsEditing(false);
+    if (!loading) {
+      setIsEditing(false);
+    }
   };
   const handleDeleteClick = () => {
-    setText('');
-    setIsEditing(false);
+    if (!loading) {
+      setBio({ ...bio, bio: '' });
+      setIsEditing(false);
+
+      const delResponse = async () => {
+        console.log(bio);
+        setgetLoading(true);
+        try {
+          const axiosConfig = {
+            method: 'put',
+            url: `${API_BASE_URL}/api/about/${userId}`,
+            data: bio,
+          };
+
+          const response = await axios(axiosConfig);
+          if (response.status !== 200 && response.status !== 201) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const data = await response.data;
+
+          console.log(data.about);
+          setBio({ ...bio, bio: data.about.bio });
+          setgetLoading(false);
+          toast.success(`About deleted`, {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        } catch (error) {
+          console.error('An error occurred:', error);
+          setgetLoading(false);
+        }
+      };
+
+      delResponse();
+    }
   };
 
   const submitAbout = (event: React.FormEvent<HTMLFormElement | any>) => {
-    event.preventDefault();
-    //   if (text !== '') {
-    //     if (!isEditing) {
-    //       setIsEditing(!isEditing);
-    //       setErrorBorder('[#E1E3E2]');
-    //       setError('');
-    //     } else {
-    //       if (!loading) {
-    //         response();
-    //       }
-    //     }
-    //   } else {
-    //     setErrorBorder('brand-red-primary');
-    //     setError('This field is required');
-    //   }
-    // };
-
-    if (text !== '') {
-      // if (!isEditing) {
-      //       setIsEditing(!isEditing);
-      //       setErrorBorder('[#E1E3E2]');
-      //       setError('');
-      //     } else {
-      // if (!loading) {
-      response();
-      // }
-      //     }
+    if (bio.bio !== '') {
+      if (bio.bio.length > 1000) {
+        setErrorBorder('brand-red-primary');
+        setError('About must be less than 140 words');
+      } else if (bio.bio.length < 20) {
+        setErrorBorder('brand-red-primary');
+        setError('Must be greater than 20 characters');
+      } else {
+        if (!isEditing) {
+          setIsEditing(!isEditing);
+          setErrorBorder('[#E1E3E2]');
+          setError('');
+        } else {
+          if (!loading) {
+            console.log('successfully loaded!');
+            createResponse();
+          }
+        }
+      }
     } else {
       setErrorBorder('brand-red-primary');
       setError('This field is required');
     }
-    // }
   };
 
   return (
     <Modal
       isOpen={isOpen}
       closeModal={() => {
-        onClose();
+        setHide(!hide);
       }}
       isCloseIconPresent={false}
       size="lg"
     >
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <div
-            className={`${isError ? 'bg-brand-red-hover' : 'bg-brand-green-hover'} ${
-              message === '' ? 'hidden' : 'block'
-            } text-white-100 font-normal text-center rounded shadow-md shadow-[#00000040] mb-3 p-2 transition`}
-          >
-            {message}
-          </div>
-          <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
-            <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">
-              <span className="font-semibold text-lg">About</span>
-              <div
-                className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"
-                onClick={onClose}
-              >
-                x
-              </div>
+      {
+        <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
+          <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">
+            <span className="font-semibold text-lg">About</span>
+            <div
+              className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"
+              onClick={onCloseModal}
+            >
+              x
             </div>
+          </div>
+          {getloading ? (
+            <div className="py-36">
+              <Loader />
+            </div>
+          ) : (
             <form className="py-3 md:pt-7" onSubmit={submitAbout}>
               {!isEditing ? (
                 <div className="w-full">
@@ -149,10 +223,10 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
                       name="about"
                       id=""
                       rows={4}
-                      value={text}
+                      value={bio.bio}
                       placeholder="Bio"
                       onChange={(e) => {
-                        setText(e.target.value);
+                        setBio({ ...bio, bio: e.target.value });
                         if (e.target.value !== '') {
                           setError('');
                           setErrorBorder('[#E1E3E2]');
@@ -164,7 +238,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
                 </div>
               ) : (
                 <>
-                  <span className="text-[#737876] inline-block font-normal">{text}</span>
+                  <span className="text-[#737876] inline-block font-normal">{bio.bio}</span>
                 </>
               )}
               <div className={`flex gap-2 flex-col justify-end mt-8 ${!isEditing ? 'px-3' : 'px-0'}`}>
@@ -173,7 +247,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
                     <p onClick={handleEditClick} className="text-blue-300 cursor-pointer">
                       Edit
                     </p>
-                    <p onClick={handleDeleteClick} className="text-brand-red-primary cursor-pointer">
+                    <p onClick={handleDeleteClick} className={`text-brand-red-primary cursor-pointer`}>
                       Delete
                     </p>
                   </div>
@@ -187,7 +261,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
                     className="w-full md:w-24 rounded-lg"
                     type="button"
                     disabled={loading}
-                    onClick={onClose}
+                    onClick={onCloseModal}
                   >
                     Close
                   </Button>
@@ -224,9 +298,9 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) 
                 </div>
               </div>
             </form>
-          </div>
-        </>
-      )}
+          )}
+        </div>
+      }
     </Modal>
   );
 };

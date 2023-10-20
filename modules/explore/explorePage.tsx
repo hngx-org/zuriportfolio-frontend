@@ -17,10 +17,7 @@ const HomePage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pageNumber]);
+  const searchTerm = useRouter();
 
   const handleClearFilters = () => {
     setFilters({});
@@ -31,11 +28,19 @@ const HomePage = () => {
   };
   const handleFilters = (type: string, value: string | number) => {
     setFilters((prev) => {
+      if (type === 'All' || value === 'All') {
+        return {};
+      }
       if (type === 'none') {
         return {};
       }
+
       return { ...prev, [type]: value };
     });
+  };
+
+  const handleGo = () => {
+    searchTerm.push(`/explore/search?searchQuery=${searchQuery}`);
   };
 
   const deBounce = useDebounce(searchQuery, 1200);
@@ -71,44 +76,50 @@ const HomePage = () => {
   });
 
   return (
-    <>
+    <main>
       <Banner />
       <SearchAndFilter
+        handleGo={handleGo}
         setPageNumber={handleNumberReset}
         setFilter={handleClearFilters}
         handleFilters={handleFilters}
         filters={filters}
         setSearchQuery={setSearchQuery}
       />
-      {isLoading && (
-        <div className="grid place-items-center min-h-[300px]">
-          <Loader />
-        </div>
-      )}
-      {data?.data?.length === 0 && (
-        <div className="grid place-items-center min-h-[300px]">
-          <p>No Results</p>
-        </div>
-      )}
-      {data && (
-        <div className="m-auto p-6">
-          <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
-            {data.data.map((card, key) => (
-              <Card key={key} data={card} />
-            ))}
+
+      <section>
+        {isLoading && (
+          <div className="grid place-items-center min-h-[300px]">
+            <Loader />
           </div>
-        </div>
-      )}
-      <div className="w-full mx-auto my-4 mb-12 flex justify-center">
-        <Pagination
-          visiblePaginatedBtn={5}
-          activePage={pageNumber}
-          pages={2}
-          page={pageNumber}
-          setPage={setPageNumber}
-        />
-      </div>
-    </>
+        )}
+        {data?.data?.length === 0 && (
+          <div className="grid place-items-center min-h-[300px]">
+            <p>No Results</p>
+          </div>
+        )}
+        {data && (
+          <div className="m-auto p-6">
+            <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
+              {data.data.map((card, key) => (
+                <Card key={key} data={card} />
+              ))}
+            </div>
+          </div>
+        )}
+        {data?.data?.length === 0 || isLoading ? null : (
+          <a href="#top" className="w-fit mx-auto my-4 mb-12 flex justify-center">
+            <Pagination
+              visiblePaginatedBtn={5}
+              activePage={pageNumber}
+              pages={5}
+              page={pageNumber}
+              setPage={setPageNumber}
+            />
+          </a>
+        )}
+      </section>
+    </main>
   );
 };
 

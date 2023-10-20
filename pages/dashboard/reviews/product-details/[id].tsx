@@ -1,3 +1,5 @@
+//* Removed some unnecessary imports
+
 import React, { useState, useEffect } from 'react';
 import NavDashBoard from '../../../../modules/dashboard/component/Navbar';
 import Image from 'next/image';
@@ -7,80 +9,88 @@ import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingC
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import SellerReview from '@modules/dashboard/component/reviews/review-page/SellersReview';
 import Filter from '@modules/dashboard/component/reviews/review-page/ReviewFilter';
-import PaginationBar from '../../../../modules/dashboard/component/order/PaginationBar';
+import Pagination from '@ui/Pagination';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/EmptyReviewPage';
 import Container from '@modules/auth/component/Container/Container';
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { ParsedUrlQuery } from 'querystring';
-import withAuth from '../../../../helpers/withAuth';
-// import { ratingData, cardData } from '../../../../db/reviews';
+import Loader from '@ui/Loader';
+import { ReviewData, ReviewApiResponse, RatsData } from '../../../../@types';
+import { set } from 'nprogress';
 
-interface ReviewData {
-  productId: string;
-  reviewId: string;
-  customerName: string;
-  isHelpful: number;
-  title: string;
-  description: string;
-  rating: number;
-  reply: {
-    replyId: string;
-    name: string;
-    message: string;
-    createdAt: string;
+//* Moved type definitions to @types/index.d.ts
+const UserReview = () => {
+  //* Added a function to set the page number in the url
+  const setPage = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: pageNumber },
+    });
   };
-  createdAt: string;
-}
 
-interface ReviewApiResponse {
-  data: ReviewData[];
-}
-interface RatsData {
-  oneStar: number;
-  twoStar: number;
-  threeStar: number;
-  fourStar: number;
-  fiveStar: number;
-  totalRating: number;
-  averageRating: number;
-  numberOfRating: number;
-  productId: string;
-  id: string;
-}
+  const router = useRouter();
+  const { id, title } = router.query;
 
-interface RatsApiResponse {
-  data: RatsData;
-}
+  //* Added page variable and current page state also added isLoading state to hide page change
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-interface Params extends ParsedUrlQuery {
-  id: string;
-}
-
-const UserReview: NextPage = () => {
   const [data, setData] = useState<ReviewData[] | null>(null);
   const [rats, setRats] = useState<RatsData>();
+  const [filterRating, setFilterRating] = useState<string>('all');
+  const [filterView, setFilterView] = useState<string>('topReviews');
   const [filteredData, setFilteredData] = useState<ReviewData[] | null>(null);
+  const [productName, setProductName] = useState<string>('');
+  const [mountUI, setMountUI] = useState<boolean>(false);
+
+  // ToDo: Remove all commented out code
   // const [total5Star, setTotal5Star] = useState<number>(0);
   // const [total4Star, setTotal4Star] = useState<number>(0);
   // const [total3Star, setTotal3Star] = useState<number>(0);
   // const [total2Star, setTotal2Star] = useState<number>(0);
   // const [total1Star, setTotal1Star] = useState<number>(0);
 
-  const router = useRouter();
+  // useEffect(() => {
+  //   fetch(`https://team-liquid-repo.onrender.com/api/review/shop/10/reviews?pageNumber=0&pageSize=10`)
+  //     .then((res) => res.json())
+  //     .then((data: ReviewApiResponse) => setData(data.data))
+  //     .catch((e) => console.log(e));
+  // }, []);
+  // useEffect(() => {
+  //   fetch('https://team-liquid-repo.onrender.com/api/review/products/10/rating')
+  //     .then((res) => res.json())
+  //     .then((data) => setRats(data.data))
+  //     .catch((e) => console.log(e));
+  // }, []);
 
+  // ToDo: Move all fetch requests to a separate file
   useEffect(() => {
-    fetch(`https://team-liquid-repo.onrender.com/api/review/shop/10/reviews?pageNumber=0&pageSize=10`)
-      .then((res) => res.json())
-      .then((data: ReviewApiResponse) => setData(data.data))
-      .catch((e) => console.log(e));
-  }, []);
+    if (id && filterRating === 'all') {
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews?pageNumber=${
+        currentPage - 1
+      }&pageSize=10`;
+      fetch(url)
+        .then((res) => res.json())
+        .then((data: ReviewApiResponse) => setData(data.data))
+        .catch((e) => console.log(e));
+    } else {
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=${
+        currentPage - 1
+      }&pageSize=10`;
+      fetch(url)
+        .then((res) => res.json())
+        .then((data: ReviewApiResponse) => setData(data.data))
+        .catch((e) => console.log(e));
+    }
+  }, [mountUI, filterRating, filterView, currentPage, id]);
   useEffect(() => {
-    fetch('https://team-liquid-repo.onrender.com/api/review/products/10/rating')
-      .then((res) => res.json())
-      .then((data) => setRats(data.data))
-      .catch((e) => console.log(e));
-  }, []);
+    if (id) {
+      const apiUrl: string = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`;
+      fetch(apiUrl)
+        .then((res) => res.json())
+        .then((data) => setRats(data.data))
+        .catch((e) => console.log(e));
+    }
+  }, [id]);
 
   const ratingData = [
     { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
@@ -90,6 +100,7 @@ const UserReview: NextPage = () => {
     { rating: 1, users: rats?.oneStar!, total: rats?.numberOfRating! },
   ];
 
+  // ToDo: Remove all commented out code
   // useEffect(() => {
   //   if (data) {
   //     const total5 = data.filter((review) => review.rating === 5).length;
@@ -106,12 +117,7 @@ const UserReview: NextPage = () => {
   // }, [data]);
 
   function filterReviews(view: string, rating: string, data: ReviewData[]) {
-    let filteredReviews: ReviewData[] = [];
-    if (rating === 'all') {
-      filteredReviews = data.filter((review) => data.length);
-    } else {
-      filteredReviews = data.filter((review) => review.rating === parseInt(rating));
-    }
+    let filteredReviews = data;
 
     if (view === 'topReviews') {
       filteredReviews.sort((a, b) => b.isHelpful - a.isHelpful);
@@ -125,57 +131,72 @@ const UserReview: NextPage = () => {
   }
 
   function handleFilter(view: string, rating: string) {
+    setFilterView(view);
+    setFilterRating(rating);
     if (data !== null && data !== undefined) {
       const filteredReviews = filterReviews(view, rating, data);
-      setFilteredData(filteredReviews); // update the filteredData state with the filtered reviews
+      setFilteredData(filteredReviews);
     }
   }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMountUI(true);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
       <Container>
         <NavDashBoard active="reviews" />
-        {data === null || data.length === 0 ? (
+        {!data ? (
+          <div className=" h-[70vh] flex justify-center items-center">
+            <Loader />
+          </div>
+        ) : data === null || data.length === 0 ? (
           <EmptyReviewPage />
         ) : (
-          <div className="flex flex-col md:mx-24">
-            <div className="flex flex-col w-full mb-10 items-center justify-center">
-              <div className="flex justify-start items-center w-full mb-20">
+          <div className="flex flex-col justify-center items-center md:mb-16">
+            <div className="flex flex-col w-full mb-10  justify-center">
+              <div className="flex justify-start  w-full mb-10">
                 <div
-                  className="flex flex-row justify-start items-center cursor-pointer"
-                  onClick={() => router.push('/dashboard/reviews')}
+                  className="flex flex-row justify-start lg:text-2xl md:text-xl text-xs tracking-wide font-semibold font-manropeL text-[#444846] items-center cursor-pointer"
+                  onClick={() => router.back()}
                 >
                   <Image src="/assets/reviews/return-icon.svg" width={32} height={32} alt="return" />
-                  The Complete Ruby on Rails Developer Course
+                  {/* Commented out title for testing */}
+                  {/* {router.query.title} */}
+                  Customer Reviews
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row lg:gap-16 md:gap-10 gap-4">
+              <div className="flex flex-col md:flex-row lg:gap-24 md:gap-10 gap-4 mx-5">
                 <div className="flex flex-row md:flex-col gap-4 md:gap-8 lg:w-80 md:w-48">
                   <div>
                     <RatingBar avgRating={rats?.averageRating!} verUser={100} />
-                    <div className="md:hidden block">
+                    {/* <div className="md:hidden block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
-                        href={`/dashboard/reviews/new`}
+                        href={`../create/${rats?.productId}`}
                         className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="flex flex-col gap-2">
                     {ratingData.map((data, index) => (
                       <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />
                     ))}
-                    <div className="hidden md:block">
+                    {/* <div className="hidden md:block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
-                        href={`/dashboard/reviews/new`}
-                        className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
+                        href={`../create/${rats?.productId}`}
+                        className="flexfont-manropeB text-brand-green-pressed h-5 w-36 self-start"
                       >
                         <button className="hover:text-green-200">Write a Review!</button>
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -187,7 +208,9 @@ const UserReview: NextPage = () => {
                     />
                   </div>
                   <div className="mt-4 mx-1">
-                    {filteredData?.length === 0 ? (
+                    {!filteredData ? (
+                      <Loader />
+                    ) : filteredData?.length === 0 ? (
                       <h2>No results</h2>
                     ) : (
                       filteredData?.map((review) => (
@@ -208,7 +231,13 @@ const UserReview: NextPage = () => {
                 </div>
               </div>
             </div>
-            <PaginationBar pageLength={1} currentPage={0} changeCurrentPage={() => null} />
+            <Pagination
+              page={currentPage}
+              pages={data[0]?.numberOfPages}
+              activePage={currentPage}
+              visiblePaginatedBtn={3}
+              setPage={setPage}
+            />
           </div>
         )}
       </Container>
@@ -216,4 +245,4 @@ const UserReview: NextPage = () => {
   );
 };
 
-export default withAuth(UserReview);
+export default UserReview;

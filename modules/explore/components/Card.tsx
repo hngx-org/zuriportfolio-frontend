@@ -2,16 +2,12 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { CardData } from '../../../@types';
-import total_projects from '../../../public/assets/images/explore_img/total-projects.svg';
-import badge_beginner from '../../../public/assets/images/explore_img/badge-beginner.svg';
-import Location from '../../../public/assets/images/explore_img/location.svg';
 import CardHover from './CardHover';
 import { UserInfo } from '../../../@types';
 
-import bg1 from '../../../public/assets/images/explore_img/bg1.svg';
 import photo2 from '../assets/photo2.png';
 import Link from 'next/link';
-import { Copy } from 'iconsax-react';
+import { Location } from 'iconsax-react';
 import { notify } from '@ui/Toast';
 
 interface CardProps {
@@ -20,10 +16,10 @@ interface CardProps {
 
 const Card = ({ data }: { data: UserInfo }) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const shareBtnRef = useRef<HTMLDivElement>(null);
-  const btnPortfolioRef = useRef<HTMLAnchorElement>(null);
+  // const cardRef = useRef<HTMLDivElement>(null);
+  // const overlayRef = useRef<HTMLDivElement>(null);
+  // const shareBtnRef = useRef<HTMLDivElement>(null);
+  // const btnPortfolioRef = useRef<HTMLAnchorElement>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
 
   const slashIndex = window.location.href.split('').findIndex((e, i, a) => i === a.lastIndexOf('/'));
@@ -65,11 +61,14 @@ const Card = ({ data }: { data: UserInfo }) => {
   return (
     <div
       className="relative transition-all ease-in-out duration-500 hover:scale-105 overflow-hidden rounded-lg shadow-md"
-      ref={cardRef}
+      // ref={cardRef}
       // onMouseEnter={showButtons}
       // onMouseLeave={hideButtons}
     >
-      <button className="flex justify-center items-center gap-2 absolute top-6 left-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce">
+      <span
+        className="flex justify-center items-center gap-2 absolute top-6 left-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 cursor hover:animate-bounce"
+        title="Number of projects"
+      >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M12 7C12.5523 7 13 6.55228 13 6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44772 11 6C11 6.55228 11.4477 7 12 7Z"
@@ -84,20 +83,21 @@ const Card = ({ data }: { data: UserInfo }) => {
             fill="#8592A3"
           />
         </svg>
-        <span className="font-manropeL text-base text-[#32475c]">0</span>
-      </button>
+        <span className="font-manropeL text-base text-[#32475c]">{data?.projects}</span>
+      </span>
 
       <button
         className="absolute top-6 right-6 w-30 rounded-full bg-white transition-all ease-in-out duration-500 hover:animate-bounce"
+        title="Copy portfolio link"
         onClick={copyUrl}
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M20 12L13.6 5V8.5C10.4 8.5 4 10.6 4 19C4 17.833 5.92 15.5 13.6 15.5V19L20 12Z"
             stroke="#8592A3"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </button>
@@ -148,20 +148,14 @@ const Card = ({ data }: { data: UserInfo }) => {
         </div>
 
         <div className="flex justify-center items-center gap-1 text-center">
-          <Image src={Location} alt="Location" width={20} height={20} />
+          <Location color="#444846" />
           <div>
             <span className="text-custom-color43 ">{data?.address.length < 3 ? 'Not Specified' : data.address}</span>
           </div>
         </div>
       </div>
 
-      <input
-        type="text"
-        value={`${homepageURl}portfolio/${data?.firstName.toLowerCase()}-${data?.lastName.toLowerCase()}`}
-        disabled
-        ref={urlInputRef}
-        className="hidden"
-      />
+      <input type="text" value={`${homepageURl}portfolio/${data.id}`} disabled ref={urlInputRef} className="hidden" />
     </div>
   );
 };
