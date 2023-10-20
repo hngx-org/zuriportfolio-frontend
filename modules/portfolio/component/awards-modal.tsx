@@ -7,6 +7,7 @@ import Modal from '@ui/Modal';
 import { Award, AwardItemProps, AwardListProps } from '../../../@types';
 import Loader from '@ui/Loader';
 import Portfolio from '../../../context/PortfolioLandingContext';
+import { Edit2, Trash } from 'iconsax-react';
 
 import { notify } from '@ui/Toast';
 
@@ -639,13 +640,13 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
             onClick={openEditForm}
             className="border-none outline-none text-[#5B8DEF] bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            Edit
+             <Edit2 size="32" color="#37d67a" variant="Outline" />
           </Button>{' '}
           <Button
             onClick={handleDelete}
             className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            Delete
+            <Trash size="32" color="#f47373" variant="Outline"/>
           </Button>
         </div>
       </div>
