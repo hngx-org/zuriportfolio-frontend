@@ -19,6 +19,7 @@ import StarRating from '@modules/super-admin/components/StarRating';
 import DeleteModal from '@modules/super-admin/components/product-listing/product-details/DeleteModal';
 import { useQueryClient } from '@tanstack/react-query';
 import { withAdminAuth } from '../../../../../helpers/withAuth';
+import StatusPill from '@modules/super-admin/components/StatusPill';
 
 export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
@@ -194,26 +195,7 @@ function VendorDetails() {
                     <p>
                       ({data?.rating_id ?? 0} Customer{data?.rating_id > 0 ? 's' : ''})
                     </p>
-                    <div
-                      className={` hidden  rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
-                        details?.vendor_status === 'Banned'
-                          ? 'bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                          : details?.vendor_status === 'Deleted'
-                          ? 'hidden bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                          : 'bg-green-200 bg-opacity-50 text-green-800'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block w-2 h-2 rounded-full ${
-                          details?.vendor_status === 'Banned'
-                            ? 'bg-yellow-600'
-                            : details?.vendor_status === 'Deleted'
-                            ? 'bg-red-800'
-                            : 'bg-green-800'
-                        }`}
-                      ></span>
-                      <span>{details?.vendor_status}</span>
-                    </div>
+                    <StatusPill status={data?.vendor_status} />
                   </div>
                   <div className="buttons w-full flex items-center justify-between mt-6"></div>
                   <div className="flex py-8 justify-center space-x-9">

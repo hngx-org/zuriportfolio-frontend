@@ -16,7 +16,7 @@ const SectionThree = () => {
               alt="banner"
               width={450}
               height={500}
-              className="md:-mt-10 md:absolute md:w-[320px] lg:w-[450px]"
+              className="md:-mt-10 md:absolute md:w-[300px] lg:w-[450px]"
             />
           }
           slug="Create Portfolio"
