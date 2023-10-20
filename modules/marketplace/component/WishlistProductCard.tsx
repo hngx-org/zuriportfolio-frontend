@@ -42,7 +42,7 @@ export const WishlistProductCard = ({
                     </Link>
                   </p>
                   <p className="line-clamp-1 text-[12px] md:text-[16px] font-semibold overflow-ellipsis">
-                    <Link href={`/marketplace/product-details?id=${product.id}`}>{product.name}</Link>
+                    <Link href={`/marketplace/product-details/${product.id}`}>{product.name}</Link>
                   </p>
                 </div>
 

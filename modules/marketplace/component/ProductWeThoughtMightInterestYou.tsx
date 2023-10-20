@@ -77,7 +77,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
       <div className="lg:flex lg:flex-row lg:items-center lg:gap-[16px] lg:overflow-hidden lg:my-[40px] my-[40px] md:grid-cols-2 md:grid md:gap-[16px]">
         {response.map((item, index) => (
           <div className="p-[16px] mb-10 border-[1px] border-custom-color32 rounded-[8px] w-[298px]" key={index}>
-            <Link href={`/marketplace/product-details?id=${item?.id}`}>
+            <Link href={`/marketplace/product-details/${item?.id}`}>
               <div>
                 <div className="flex flex-col items-center">
                   <div>

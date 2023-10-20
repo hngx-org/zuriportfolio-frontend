@@ -10,12 +10,30 @@ type PinterestsProps = {
   remove: () => void;
   section: any;
   icon?: React.ReactNode;
+  showMoreInterests: number;
+  toggleShowMoreInterest?: () => void;
 };
 
-const Pinterests = ({ i, id, title, edit, remove, section, icon }: PinterestsProps) => {
+const Pinterests = ({
+  i,
+  id,
+  title,
+  edit,
+  remove,
+  section,
+  icon,
+  showMoreInterests,
+  toggleShowMoreInterest,
+}: PinterestsProps) => {
+  const data = showMoreInterests === 9999 ? section?.data : section?.data ? section.data.slice(0, 5) : [];
   return (
     <Wrapper icon={icon} id={id} title={title} edit={edit} remove={remove}>
-      <Interests key={i} data={section.data} />
+      <Interests key={i} data={data} />
+      {section.data.length > 2 && (
+        <div className="text-brand-green-primary font-semibold cursor-pointer mt-5" onClick={toggleShowMoreInterest}>
+          {showMoreInterests === 2 ? 'View More' : 'View Less'}
+        </div>
+      )}
     </Wrapper>
   );
 };

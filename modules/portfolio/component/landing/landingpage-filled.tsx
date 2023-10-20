@@ -13,24 +13,11 @@ import {
   Verify,
 } from 'iconsax-react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
-import {
-  Education,
-  About,
-  Awards,
-  Contact,
-  Custom,
-  Interests,
-  Language,
-  Project,
-  Reference,
-  Shop,
-  Skill,
-  Certificate,
-} from './Skeleton';
+import { Education, Shop } from './Skeleton';
 
 import { SectionDeleteModal } from '../warningModals';
 import Wrapper from './placeholders/Wrapper';
-import PworkExperience from './placeholders/PworkExperience';
+import PworkExperience from './PworkExperience';
 import Pabout from './placeholders/Pabout';
 import Pskils from './placeholders/Pskills';
 import Planguages from './placeholders/Planguages';
@@ -60,6 +47,7 @@ const LandingPageFilled: React.FC = () => {
   const [showMoreInterests, setShowMoreInterests] = useState(2);
   const [showMoreLanguages, setShowMoreLanguages] = useState(2);
   const [showMoreReferences, setShowMoreReferences] = useState(2);
+  const [showMoreSkills, setShowMoreSkills] = useState(2);
 
   // Function to toggle "View More" and "View Less"
   const toggleShowMoreWorkExperience = () => {
@@ -88,6 +76,10 @@ const LandingPageFilled: React.FC = () => {
 
   const toggleShowMoreLanguages = () => {
     setShowMoreLanguages(showMoreLanguages === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreSkills = () => {
+    setShowMoreSkills(showMoreSkills === 2 ? 9999 : 2);
   };
 
   const toggleShowMoreReferences = () => {
@@ -164,6 +156,8 @@ const LandingPageFilled: React.FC = () => {
                   i={i}
                   id={section.id}
                   title={section.title}
+                  showMoreSkills={showMoreSkills}
+                  toggleShowMoreSkills={toggleShowMoreSkills}
                   edit={() => editSection(section.id)}
                   remove={() => {
                     setIdToDelete(section.id);
@@ -195,6 +189,8 @@ const LandingPageFilled: React.FC = () => {
                   key={i}
                   i={i}
                   id={section.id}
+                  showMoreInterests={showMoreInterests}
+                  toggleShowMoreInterest={toggleShowMoreInterests}
                   title={section.title}
                   edit={() => editSection(section.id)}
                   remove={() => {

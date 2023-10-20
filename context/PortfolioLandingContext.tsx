@@ -18,6 +18,7 @@ import { useQueries, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
 
 type PortfolioContext = {
+  portfolioUrl: string;
   getUserInfo: UseQueryResult<any>;
   getUserSections: UseQueryResult<any>;
   hasPortfolio: boolean;
@@ -107,9 +108,11 @@ const Portfolio = createContext<PortfolioContext>({
   setOpenCustom: () => {},
   idToDelete: '',
   setIdToDelete: () => {},
+  portfolioUrl: '',
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
+  const portfolioUrl = `https://hng6-r5y3.onrender.com/api/v1/portfolio`;
   const { auth } = useAuth();
   const [userId, setUserId] = useState('');
   const [userSections, setUserSections] = useState<any[]>([]);
@@ -157,7 +160,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
         coverImage: getUserInfo.data?.user?.profileCoverPhoto,
       });
     }
-
     if (getUserSections.data) {
       const {
         about,
@@ -223,7 +225,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getSections = async () => {
     try {
-      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/getPortfolioDetails/${userId}`);
+      const response = await $http.get(`${portfolioUrl}/${userId}`);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -509,6 +511,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setHasPortfolio,
     getUserInfo,
     getUserSections,
+    portfolioUrl,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

@@ -12,6 +12,7 @@ import { Input } from '@ui/Input';
 import Image from 'next/image';
 import right from '/public/assets/vendor/arrow-right.svg';
 import { useRouter } from 'next/router';
+import SuperAdminBannedVendorsHeader from '@modules/super-admin/components/vendormanagement/BannedVendorsHeader';
 
 const Index = () => {
   //Variables for the pagination
@@ -22,6 +23,8 @@ const Index = () => {
   const router = useRouter();
   return (
     <div className="">
+      <SuperAdminBannedVendorsHeader />
+
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto ">
