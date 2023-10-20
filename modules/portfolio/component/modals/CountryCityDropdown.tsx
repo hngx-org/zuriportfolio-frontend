@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-
 type OptionType = {
   label: string;
   value: string;
   cities: string[];
 };
-
 type Props = {
   selectedCountry: string | null;
   selectedCity: string | null;
-  onCountryChange: (country: string) => void;
-  onCityChange: (city: string) => void;
+  setSelectedCity: (city: string) => void;
+  setSelectedCountry: (country: string) => void;
 };
-
-const CountryCityDropdown: React.FC<Props> = ({ onCountryChange, onCityChange }) => {
+const CountryCityDropdown: React.FC<Props> = ({
+  selectedCity,
+  selectedCountry,
+  setSelectedCity,
+  setSelectedCountry,
+}) => {
   const [countries, setCountries] = useState<OptionType[]>([]);
   const [cities, setCities] = useState<string[]>([]); // Store cities as a plain string array
-  const [selectedCountry, setSelectedCountry] = useState<string>('');
-  const [selectedCity, setSelectedCity] = useState<string>('');
-
   useEffect(() => {
     // Fetch the list of countries from the API
     fetch('https://countriesnow.space/api/v0.1/countries')
@@ -32,7 +31,6 @@ const CountryCityDropdown: React.FC<Props> = ({ onCountryChange, onCityChange })
             value: country.country,
             cities: country.cities, // Include the list of cities for each country
           }));
-
           setCountries(countryNames);
         }
       })
@@ -40,12 +38,10 @@ const CountryCityDropdown: React.FC<Props> = ({ onCountryChange, onCityChange })
         console.error('Error fetching countries:', error);
       });
   }, []);
-
   useEffect(() => {
     if (selectedCountry) {
       // Find the selected country and its cities
       const selectedCountryData = countries.find((country) => country.value === selectedCountry);
-
       if (selectedCountryData) {
         setCities(selectedCountryData.cities);
       }
@@ -53,7 +49,7 @@ const CountryCityDropdown: React.FC<Props> = ({ onCountryChange, onCityChange })
   }, [selectedCountry, countries]);
 
   return (
-    <div className="w-full flex md:flex-row gap-4 justify-between">
+    <div className="w-full flex md:flex-row gap-4 justify-between mt-[-15px]">
       <div className="w-full md:w-[47%]">
         <label>
           Select Country
@@ -63,8 +59,8 @@ const CountryCityDropdown: React.FC<Props> = ({ onCountryChange, onCityChange })
             }}
             value={selectedCountry || ''}
           >
-            <SelectTrigger className="border-[#59595977] text-green-300 h-[50px] rounded-[10px]">
-              <SelectValue defaultValue={selectedCountry || ''} placeholder={selectedCountry} />
+            <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
+              <SelectValue defaultValue={selectedCountry || ''} placeholder={'Select Country'} />
             </SelectTrigger>
             <SelectContent style={{ maxHeight: '200px', overflowY: 'auto' }}>
               {countries.map((country) => (
@@ -85,10 +81,13 @@ const CountryCityDropdown: React.FC<Props> = ({ onCountryChange, onCityChange })
             }}
             value={selectedCity || ''}
           >
-            <SelectTrigger className="border-[#59595977] text-green-300 h-[50px] rounded-[10px]">
-              <SelectValue defaultValue={selectedCity || ''} placeholder={selectedCity} />
+            <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
+              <SelectValue defaultValue={selectedCity || ''} placeholder={'Select City'} />
             </SelectTrigger>
-            <SelectContent style={{ maxHeight: '200px', overflowY: 'auto' }}>
+            <SelectContent
+              className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100"
+              style={{ maxHeight: '200px', overflowY: 'auto' }}
+            >
               {cities.map((city) => (
                 <SelectItem key={city} value={city}>
                   {city}
@@ -101,5 +100,4 @@ const CountryCityDropdown: React.FC<Props> = ({ onCountryChange, onCityChange })
     </div>
   );
 };
-
 export default CountryCityDropdown;
