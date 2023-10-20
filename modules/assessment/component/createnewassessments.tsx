@@ -90,13 +90,19 @@ const CreateTemplate = () => {
       toast.error('You have only one question, you can not delete it');
     }
   };
+  const [yesdel, setYesdel] = useState(false);
   const confirmDelQuest = () => {
-    const updatedData = [...list];
-    const newdata = splicearr(updatedData, delQuestId);
-    setList(newdata);
-    updatelistinobj();
+    setYesdel(true);
     setDelModal(false);
   };
+  useEffect(() => {
+    if (yesdel === true) {
+      const updatedData = [...list];
+      const newdata = splicearr(updatedData, delQuestId);
+      newobject.questions_and_answers = newdata;
+      setList(newobject.questions_and_answers);
+    }
+  }, [delModal, newobject]);
 
   useEffect(() => {
     if (listupdate === 'addquest') {
