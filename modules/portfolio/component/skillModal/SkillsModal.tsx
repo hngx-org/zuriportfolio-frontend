@@ -7,6 +7,7 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import Loader from '@ui/Loader';
 
+
 type skillModalProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
