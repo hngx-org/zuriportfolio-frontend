@@ -18,6 +18,7 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
   const searchTerm = useRouter();
+  const [backToTop, setBackToTop] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -111,8 +112,8 @@ const HomePage = () => {
             </div>
           </div>
         )}
-        {data?.data?.length === 0 ? null : (
-          <div className="w-full mx-auto my-4 mb-12 flex justify-center">
+        {data?.data?.length === 0 || isLoading ? null : (
+          <a href="#top" className="w-fit mx-auto my-4 mb-12 flex justify-center">
             <Pagination
               visiblePaginatedBtn={5}
               activePage={pageNumber}
@@ -120,7 +121,7 @@ const HomePage = () => {
               page={pageNumber}
               setPage={setPageNumber}
             />
-          </div>
+          </a>
         )}
       </section>
     </main>
