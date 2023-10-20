@@ -652,7 +652,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             onClick={handleDelete}
             className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            <Trash size="32" color="#f47373" variant="Outline"/>
+            <Trash size="32" color="#f47373" variant="Outline" />
           </Button>
         </div>
       </div>
