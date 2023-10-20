@@ -80,7 +80,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
 
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${userId}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -484,7 +484,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
     // Send a PUT request to update the award
     try {
       setEditLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -554,7 +554,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
 
     try {
       setDeleteLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${id}`, {
         method: 'DELETE',
       });
       const status = response.status;
