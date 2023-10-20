@@ -95,7 +95,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       user_id: userId, // Ensure you have the userId available
     }));
 
-    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
+    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/v1/contacts')
       .then((res) => {
         setLoading(false);
         notify({
@@ -122,7 +122,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     console.log('delete clicked');
     const id = 5;
     try {
-      const res = await fetch(`https://hng6-r5y3.onrender.com/api/contacts/${id}`, {
+      const res = await fetch(`https://hng6-r5y3.onrender.com/api/v1/contacts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
 
   const getSocialsAvailable = async () => {
     try {
-      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/socials`);
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/socials`);
       const data = await response.data;
       console.log(data);
       setAvailableSocials(data?.data);

@@ -54,7 +54,7 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
   const getAllProjects = () => {
     setLoading(true);
     axios
-      .get(`${endpoint}/api/users/${userId}/projects`)
+      .get(`${endpoint}/api/v1/users/${userId}/projects`)
       .then((res) => {
         setLoading(false);
         setProjects(res.data.data);
