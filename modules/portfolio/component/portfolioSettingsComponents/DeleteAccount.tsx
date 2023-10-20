@@ -5,51 +5,50 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../../../context/AuthContext';
 import { notify } from '@ui/Toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function DeleteAccount() {
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [isPending, setIspending] = useState<boolean>(false);
   const { auth } = useAuth();
   const router = useRouter();
   const handleToggleModal = () => {
     setOpenModal((prev: boolean) => !prev);
   };
+  const userId: string | undefined = auth?.user.id;
+  const deleteAccountMutation = useMutation(
+    () => axios.delete(`https://hng6-r5y3.onrender.com/api/delete-user-account/${userId}`),
+    {
+      onSuccess: () => {
+        // If the delete operation is successful, you can perform any necessary actions here.
+        console.log('Account Delete Successful!');
+        notify({
+          message: 'Account Delete Successful!',
+          type: 'success',
+        });
+        localStorage.removeItem('zpt');
+        setOpenModal((prev: boolean) => !prev);
+        router.push('/');
+      },
+      onError: (error: any) => {
+        // Handle errors
+        console.log(error);
+        notify({
+          message: `Error: ${error?.response?.data?.message || error?.message}`,
+          type: 'error',
+        });
+      },
+    },
+  );
+  const handleDeleteAccount = () => {
+    deleteAccountMutation.mutate();
+  };
+
   const modalTitle = (
     <p className=" font-manropeEL text-[0.75rem] sm:text-[0.875rem] lg:text-[1rem] leading-[1rem] lg:leading-[1.5rem] text-[#444846] mb-[16px]">
       <span className="text-[#E53535] font-manropeB">Warning: </span>
       <span>Deleting your account is irreversible</span>
     </p>
   );
-  const userId: string | undefined = auth?.user.id;
-  const handleDeleteAccount = useCallback(() => {
-    setIspending(true);
-    axios
-      .delete(`https://hng6-r5y3.onrender.com/api/delete-user-account/${userId}`)
-      .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          notify({
-            message: 'Account Delete Successful!',
-            type: 'success',
-          });
-          localStorage.removeItem('zpt');
-          setOpenModal((prev: boolean) => !prev);
-          setIspending(false);
-          router.push('/');
-        }
-      })
-      .catch((error) => {
-        setIspending(false);
-        console.log(error);
-        if (error) {
-          notify({
-            message: `Error: ${error?.response?.data?.message || error?.message}`,
-            type: 'error',
-          });
-        }
-      })
-      .finally(() => console.log(''));
-  }, []);
   return (
     <div className="w-full sm:w-[465px] mt-[2rem] sm:mt-0">
       <div className="flex flex-col gap-y-[1rem]">
@@ -90,8 +89,8 @@ function DeleteAccount() {
               Cancel
             </Button>
             <Button
-              disabled={isPending}
-              isLoading={isPending}
+              disabled={deleteAccountMutation.isLoading}
+              isLoading={deleteAccountMutation.isLoading}
               onClick={handleDeleteAccount}
               size="sm"
               intent="error"
