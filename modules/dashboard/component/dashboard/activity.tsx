@@ -1,9 +1,21 @@
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import React from 'react';
 import { ActivityCardProps } from '../../../../@types';
 import { activityData } from '../../../../db/dashboard';
+import { fetchActivity } from '../../../../http/dashboard';
 
 export const Activity: React.FC<{ isPage: boolean }> = ({ isPage }) => {
+  const {
+    data: queryActivity,
+    isFetched,
+    isFetching,
+  } = useQuery({
+    queryFn: () => fetchActivity(),
+    queryKey: ['activity'],
+    enabled: true,
+  });
+
   const displayedData = isPage ? activityData : activityData.slice(activityData.length - 10, activityData.length);
 
   return (

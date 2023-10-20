@@ -105,6 +105,7 @@ const History: React.FC = () => {
             </div>
           </div>
           <div
+            id="table"
             className={`flex items-center sm:flex-row flex-col mb-4 gap-3 w-full m-auto align-middle justify-between ${
               showFilters ? 'flex-col' : 'sm:flex'
             }`}
@@ -284,7 +285,7 @@ const History: React.FC = () => {
               )}
             </table>
           </div>
-          <div className="pagination flex justify-center items-center mt-5 w-full">
+          <a href="#table" className="pagination flex justify-center items-center mt-5 w-fit mx-auto">
             <Pagination
               page={currentPage}
               setPage={setCurrentPage}
@@ -292,7 +293,7 @@ const History: React.FC = () => {
               activePage={currentPage}
               visiblePaginatedBtn={5}
             />
-          </div>
+          </a>
         </div>
       )}
     </div>

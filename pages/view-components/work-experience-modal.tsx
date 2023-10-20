@@ -9,8 +9,8 @@ const WorkExperienceModal = () => {
 
   return (
     <WorkExperienceModalContextProvider>
-      {/* <WorkExperienceModalSection isOpen={isOpen} onClose={onClose} /> */}
-      <CustomSectionModal />
+      {/* <WorkExperienceModalSection isOpen={isOpen} onCloseModal={onClose} /> */}
+      {/* <CustomSectionModal /> */}
       <button onClick={onOpen}>Open bobo</button>
     </WorkExperienceModalContextProvider>
   );

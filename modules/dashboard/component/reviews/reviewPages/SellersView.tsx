@@ -179,7 +179,7 @@ const SellersView = () => {
                     ))}
                   </div>
                 </div>
-                <div className="flex flex-col">
+                <div id="top" className="flex flex-col">
                   <div className="w-full justify-start">
                     <Filter
                       rating={rats?.totalRating!}
@@ -214,13 +214,15 @@ const SellersView = () => {
             {data === null || data === undefined || data.length === 0 ? (
               <div className=" w-0 h-0 m-0 p-0 hidden"></div>
             ) : (
-              <Pagination
-                page={currentPage}
-                pages={data[0]?.numberOfPages}
-                activePage={currentPage}
-                visiblePaginatedBtn={3}
-                setPage={setPage}
-              />
+              <a href="#top" className="w-fit">
+                <Pagination
+                  page={currentPage}
+                  pages={data[0]?.numberOfPages}
+                  activePage={currentPage}
+                  visiblePaginatedBtn={3}
+                  setPage={setPage}
+                />
+              </a>
             )}
           </div>
         )}

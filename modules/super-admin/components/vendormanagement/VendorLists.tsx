@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { brokenImage } from '../../../../pages/super-admin/vendor-management/vendor-details/[id]';
+import StatusPill from '../StatusPill';
 export const imageUrl =
   'https://media.istockphoto.com/id/1321856038/photo/portrait-beautiful-young-woman-with-clean-fresh-skin.jpg?s=612x612&w=0&k=20&c=jP4pZTdV_7hHPMhFUaFNZSAbIDQAOUEcrMPMwSKFLqk=';
 
@@ -26,32 +27,15 @@ const VendorLists = ({ data }: any) => {
           </div>
           <div className="flex flex-col items-start text-left">
             <p className="text-base lg:text-lg font-bold text-black">{data?.vendor_name}</p>
-            <p className="text-sm md:text-xs lg:text-sm">{data?.merchant_email}</p>
+            <p className="text-sm md:text-xs lg:text-sm max-w-[15vw] truncate">{data?.merchant_email}</p>
           </div>
         </div>
       </div>
       <p className="hidden md:block text-sm md:text-xs lg:text-sm">{data?.total_products}</p>
       <p className="hidden md:block text-sm md:text-xs lg:text-sm">{data?.total_products}</p>
       <p className="hidden md:block text-sm md:text-xs lg:text-sm">{data?.joined_date}</p>
-      <div
-        className={` hidden  mx-auto rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
-          data?.vendor_status === 'Banned'
-            ? 'mx-auto bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-            : data?.vendor_status === 'Deleted'
-            ? 'hidden mx-auto bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-            : 'bg-green-200 bg-opacity-50 text-green-800'
-        }`}
-      >
-        <span
-          className={`inline-block w-2 h-2 rounded-full ${
-            data?.vendor_status === 'Banned'
-              ? 'bg-yellow-600'
-              : data?.vendor_status === 'Deleted'
-              ? 'bg-red-800'
-              : 'bg-green-800'
-          }`}
-        ></span>
-        <span>{data?.vendor_status}</span>
+      <div className="flex items-center justify-center">
+        <StatusPill status={data?.vendor_status} />
       </div>
     </div>
   );
