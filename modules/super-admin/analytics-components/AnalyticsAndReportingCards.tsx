@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { cardinfo } from '../../../@types';
 
 const AnalyticsAndReportingCards = () => {
-  const bearerToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+  const [bearerToken, setBearerToken] = useState('');
 
   const fetchAnalyticsData = async () => {
     const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/';
@@ -30,6 +29,16 @@ const AnalyticsAndReportingCards = () => {
     ['analyticsData'], 
     fetchAnalyticsData
   );
+
+  const getTokenFromLocalStorage = () => {
+    const tokenFromLocalStorage = localStorage.getItem('zpt');
+    if (tokenFromLocalStorage) {
+      setBearerToken(tokenFromLocalStorage);
+    }
+  };
+  useEffect(() => {
+    getTokenFromLocalStorage();
+  }, []);
   
 
   const formattedAmount = (amount: number | string) => {

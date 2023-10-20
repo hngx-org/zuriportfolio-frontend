@@ -52,9 +52,7 @@ const AnalyticsAndReportingGraphs = () => {
   });
   const [activePeriodGraph1, setActivePeriodGraph1] = useState('12months');
   const [activePeriodGraph2, setActivePeriodGraph2] = useState('12months');
-
-  const bearerToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+  const [bearerToken, setBearerToken] = useState('');
 
   useEffect(() => {
     const fetchDataForGraph = async (period: any, graphIndex: number) => {
@@ -119,7 +117,14 @@ const AnalyticsAndReportingGraphs = () => {
 
     fetchDataForGraph(activePeriodGraph1, 0);
     fetchDataForGraph(activePeriodGraph2, 1);
-  }, [activePeriodGraph1, activePeriodGraph2]);
+  }, [activePeriodGraph1, activePeriodGraph2, bearerToken]);
+
+  const getTokenFromLocalStorage = () => {
+    const tokenFromLocalStorage = localStorage.getItem('zpt');
+    if (tokenFromLocalStorage) {
+      setBearerToken(tokenFromLocalStorage);
+    }
+  };
 
   useEffect(() => {
     const updateIsGraph = () => {
@@ -128,6 +133,8 @@ const AnalyticsAndReportingGraphs = () => {
     updateIsGraph();
 
     window.addEventListener('resize', updateIsGraph);
+
+    getTokenFromLocalStorage();
 
     return () => {
       window.removeEventListener('resize', updateIsGraph);
