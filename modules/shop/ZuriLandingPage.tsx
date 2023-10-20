@@ -10,6 +10,8 @@ import { useCart } from './component/CartContext';
 import Loader from '@ui/Loader';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Error from '../shop/component/error/Error';
+
 const ZuriLandingPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -63,8 +65,6 @@ const ZuriLandingPage = () => {
     fetchShopData();
   }, [router.query.shop_id, shop_id]);
 
-  console.log('Current shop_id:', shop_id);
-  console.log('Shop data:', shop);
   if (shop && shop.data) {
     const shopName = shop.data?.name;
   }
@@ -88,6 +88,7 @@ const ZuriLandingPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''}</title>
         <meta
           name="description"
@@ -124,7 +125,9 @@ const ZuriLandingPage = () => {
             <Loader />
           </div>
         ) : (
-          <div className="text-center py-10">No products available.</div>
+          <div className="text-center py-10">
+            <Error />
+          </div>
         )}
         <div className="py-10">
           {shop ? (
@@ -137,7 +140,7 @@ const ZuriLandingPage = () => {
           ) : null}
         </div>
 
-        <div className="w-full mx-auto flex justify-center">
+        <a href="#top" className="w-fit mx-auto flex justify-center">
           {totalPageCount > 1 && (
             <Pagination
               visiblePaginatedBtn={5}
@@ -147,7 +150,7 @@ const ZuriLandingPage = () => {
               setPage={handlePageChange}
             />
           )}
-        </div>
+        </a>
       </div>
       <Footer shopName={shop ? shop.data?.name : ''} />
     </div>

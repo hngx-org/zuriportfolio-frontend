@@ -1,130 +1,55 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
-import { Sort } from 'iconsax-react';
 import VendorsStat from '@modules/super-admin/components/vendormanagement/VendorStat';
 import VendorLists from '@modules/super-admin/components/vendormanagement/VendorLists';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
-import SearchProduct from '@modules/super-admin/components/vendormanagement/SearchProduct';
-import FilterProduct from '@modules/super-admin/components/vendormanagement/FilterProduct';
-import Button from '@ui/Button';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { useGetAllVendor } from '../../../http/super-admin1';
 import { withAdminAuth } from '../../../helpers/withAuth';
+import { Input } from '@ui/Input';
+import { SearchNormal1 } from 'iconsax-react';
 
 const Index = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  // page: number, search: string, status: string
-  const { data, isLoading } = useGetAllVendor();
-  //Variables for the pagination
-  const [showBanned, setShowBanned] = useState(false);
-  const [showDeleted, setShowDeleted] = useState(false);
-  const [searchVal, setSearchVal] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(data?.data);
-  const itemsPerPage = 10; // Number of items to display per page
-  //Range of items to display on the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const visibleVendors = filteredProducts?.slice(startIndex, endIndex);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
+  const { data, isLoading } = useGetAllVendor(page, search);
 
-  const handlePageChange = (newPage: number) => {
-    window.scroll(0, 10);
-    setCurrentPage(newPage);
-  };
-
-  useEffect(() => {
-    setFilteredProducts(data?.data);
-  }, [data]);
-  useEffect(() => {
-    handleSearch(searchVal);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const bannedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Banned');
-  const deletedVendors = filteredProducts?.filter((vendor: any) => vendor?.vendor_status === 'Deleted');
-  const handleSearch = (searchText: string) => {
-    const filteredProduct: any = data?.data?.filter(
-      (product: any) => product?.merchant_name?.toLowerCase().includes(searchText.toLowerCase()),
-    );
-    setSearchVal(searchText);
-    setFilteredProducts(filteredProduct);
-  };
-
-  const totalPages = showDeleted
-    ? Math.ceil(deletedVendors.length / itemsPerPage)
-    : showBanned
-    ? Math.ceil(bannedVendors.length / itemsPerPage)
-    : Math.ceil(data?.data?.length / itemsPerPage);
-
-  const handleFilter = (status: string) => {
-    if (data?.data) {
-      let sortedProducts: any = [...data.data]; // Create a copy of the full dataset
-
-      sortedProducts = sortedProducts.sort((a: any, b: any) => {
-        const dateA = new Date(a.createdAt);
-        const dateB = new Date(b.createdAt);
-
-        if (status === 'newest') {
-          return dateB.getTime() - dateA.getTime(); // Newest to oldest
-        } else if (status === 'oldest') {
-          return dateA.getTime() - dateB.getTime(); // Oldest to newest
-        } else if (status === 'lowest') {
-          return a.total_products - b.total_products;
-        } else if (status === 'highest') {
-          return b.total_products - a.total_products;
-        } else {
-          const statusOrder: { [key: string]: number } = {
-            Active: 1,
-            Banned: 2,
-            Deleted: 3,
-          };
-          return statusOrder[a.vendor_status] - statusOrder[b.vendor_status];
-        }
-      });
-
-      setFilteredProducts(sortedProducts);
-    }
-  };
+  const handleFilter = () => {};
   return (
     <div className="">
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto">
-        <VendorsStat
-          showBanned={showBanned}
-          setShowBanned={setShowBanned}
-          showDeleted={showDeleted}
-          setShowDeleted={setShowDeleted}
-          data={data}
-          isLoading={isLoading}
-        />
+        <VendorsStat data={data} isLoading={isLoading} />
         <section className="border-white-115 border-2 py-4 rounded-md container mx-auto mb-10">
           <div className=" border-b border-white-115 border-solid py-2 px-3 flex flex-col md:flex-row items-left md:items-center justify-between">
             <div className="mb-4 md:mb-0">
               <p className="text-lg font-bold">Vendor Management</p>
               <p className="text-gray-500 text-sm">List of all vendors and their details</p>
             </div>
-            <div className="flex items-center justify-left md:justify-between gap-4">
-              <SearchProduct handleSearchChange={handleSearch} />
-              {showBanned || showDeleted ? (
-                <div></div>
-              ) : (
-                <div className="md:block hidden">
-                  <FilterProduct handleFilter={handleFilter} />
-                </div>
-              )}
-
-              <div className="md:hidden block">
-                <Button intent={'primary'} size={'sm'}>
-                  <Sort />
-                </Button>
-              </div>
+            <div className="flex justify-between items-center gap-2">
+              <Input
+                onChange={(e) => {
+                  // handleSearch(e.target.value);
+                  setSearch(e.target.value);
+                  console.log(e.target.value);
+                }}
+                leftIcon={<SearchNormal1 />}
+                type="text"
+                intent={'default'}
+                disabled={false}
+                className="md:min-w-[350px] w-[100%]"
+                placeHolder="search"
+              />
+              <div className="">{/* <FilterProduct handleFilter={handleFilter} /> */}</div>
             </div>
           </div>
           {isLoading ? (
             <LoadingTable />
           ) : (
             <>
-              {bannedVendors?.length > 0 || deletedVendors?.legnth > 0 || filteredProducts?.length > 0 ? (
+              {data.data?.length > 0 ? (
                 <>
                   <div className="border-b border-white-115 border-solid py-5 px-5 grid lg:grid-cols-5 md:grid-cols-4 grid-cols-1 text-gray-500 text-center text-sm overflow-x-auto ">
                     <div className="flex items-center">
@@ -135,18 +60,8 @@ const Index = () => {
                     <p className="hidden md:block">Date Joined</p>
                     <p className="hidden lg:block">Status</p>
                   </div>
-                  <div>
-                    {showBanned
-                      ? bannedVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)
-                      : showDeleted
-                      ? deletedVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)
-                      : visibleVendors?.map((data: any) => <VendorLists key={data?.id} data={data} />)}
-                  </div>
-                  {/* <SuperAdminPagination
-                    currentPage={currentPage}
-                    totalPages={data?.total_pages}
-                    setCurrentPage={setCurrentPage}
-                  /> */}
+                  <div>{data.data?.map((data: any) => <VendorLists key={data?.id} data={data} />)}</div>
+                  <SuperAdminPagination currentPage={page} totalPages={data?.total_pages} setCurrentPage={setPage} />
                 </>
               ) : (
                 <p className="text-red-100 my-10 w-fit mx-auto">Nothing to show</p>

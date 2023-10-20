@@ -1,33 +1,38 @@
 'use-client';
 import React, { useState, useEffect, useContext } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import Image from 'next/image';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
+import CountryCityDropdown from './CountryCityDropdown';
+
+const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
+
 const EditProfile = () => {
+  const { setUserData, showProfileUpdate, setShowProfileUpdate } = useContext(Portfolio);
   const [picture, setPicture] = useState<string | StaticImport>();
-  const [name, setName] = useState('');
-  const [track, setTrack] = useState('');
-  const [tracks, setTracks] = useState([]);
+  const [firstName, setFirstname] = useState('');
+  const [lastName, setLastName] = useState('');
   const [selectedTrack, setSelectedTrack] = useState<any>();
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [availableTracks, setAvailableTracks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { userId } = useContext(Portfolio);
+  const [error, setError] = useState({ status: false, message: '' });
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
+  const { userId, onSaveModal } = useContext(Portfolio);
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const getUser = async () => {
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
       const data = await response.json();
-      setSelectedTrack(data?.tracks?.[0].track);
-      setPicture(data?.user?.profilePic);
-      setName(data?.user?.firstName + ' ' + data?.user?.lastName);
-      setCity(data?.portfolio?.city);
-      setCountry(data?.portfolio?.country);
+      return data;
     } catch (error: any) {
       console.log(error);
     }
@@ -36,53 +41,95 @@ const EditProfile = () => {
     try {
       const response = await fetch('https://hng6-r5y3.onrender.com/api/tracks');
       const data = await response.json();
-      setAvailableTracks(data.data);
+      return data.data;
     } catch (error: any) {
       console.log(error);
     }
   };
-  const { setUserData, showProfileUpdate, onSaveModal } = useContext(Portfolio);
 
   useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true);
-      await getUser();
-      await getTracks();
-      setIsLoading(false);
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const userData = await getUser();
+        const tracks = await getTracks();
+        setPicture(userData?.user?.profilePic);
+        setFirstname(userData?.user?.firstName);
+        setLastName(userData?.user?.lastName);
+        setCity(userData?.portfolio?.city);
+        setCountry(userData?.portfolio?.country);
+        setSelectedTrack(userData?.userTracks?.track);
+        setAvailableTracks(tracks);
+        setIsLoading(false);
+      } catch (error: any) {
+        setError({ status: true, message: error.message });
+        setIsLoading(false);
+      }
     };
-    getData();
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const firstName = name.split(' ')[0];
-    const lastName = name.split(' ')[1];
-    const body = {
-      name: firstName + ' ' + lastName,
-      trackId: 1,
-      city: city,
-      country: country,
-    };
-    console.log(body);
-    try {
-      setIsLoading(true);
-      const update = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-      await update.json();
-      await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-      setIsLoading(false);
-      onSaveModal();
-    } catch (error) {
-      console.error(error);
-      await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-      setIsLoading(false);
+    let matchingTrack: any;
+    matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
+    if (!isLoading) {
+      try {
+        if (firstName.trim().length === 0 || lastName.trim().length === 0) {
+          setError({ status: true, message: 'Please fill out the required field' });
+          return;
+        }
+        matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
+        if (matchingTrack) {
+          setIsLoading(true);
+          const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: firstName + ' ' + lastName,
+              trackId: matchingTrack?.id,
+              city: selectedCity,
+              country: selectedCountry,
+            }),
+          });
+          // if (!response.ok) {
+          //   throw new Error('Failed to update data');
+          // }
+          const data = await response.json();
+          onSaveModal();
+          setIsLoading(false);
+          setShowProfileUpdate(false);
+        } else {
+          setError({ status: true, message: 'No matching track found' });
+        }
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+        setError({ status: true, message: 'An error occurred while updating data' });
+      }
     }
   };
-
+  // try {
+  //   setIsLoading(true);
+  //   const update = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`, {
+  //     method: 'Post',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(body),
+  //   });
+  //   await update.json();
+  //   console.log(update);
+  //   await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+  //   setIsLoading(false);
+  //   modal();
+  // } catch (error) {
+  //   console.error(error);
+  //   await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+  //   setIsLoading(false);
+  // }
   const uploadProfile = async (coverImage: string | Blob) => {
     try {
       const formData = new FormData();
@@ -109,15 +156,15 @@ const EditProfile = () => {
     }
   };
   return (
-    <Modal isOpen={showProfileUpdate} closeModal={() => onSaveModal()} isCloseIconPresent={false}>
+    <Modal isOpen={showProfileUpdate} closeModal={() => setShowProfileUpdate(false)} isCloseIconPresent={false}>
       {isLoading ? (
-        <div className="flex flex-col justify-center items-center gap-3">
+        <div className="space-y-6 bg-white-100 p-4 py-5">
           <Loader />
           <p className="text-brand-success-focused text-lg">Please wait</p>
         </div>
       ) : (
         <form
-          className="p-4 mt-3 flex flex-col gap-4 rounded-lg border-brand-disabled items-center justify-start hover:border-green-500"
+          className="p-4 mt-3 flex flex-col rounded-lg border-brand-disabled items-center justify-start hover:border-green-500"
           onSubmit={handleSubmit}
         >
           <div className="grid place-content-center absolute w-[120px] md:w-[150px] object-cover object-center aspect-square rounded-full bg-emerald-50 mx-auto">
@@ -155,88 +202,81 @@ const EditProfile = () => {
             </label>
           </div>
           <div className="mt-[150px] md:mt-[170px] w-[100%]">
-            <div className="w-[100%]">
-              <label>Name *</label>
-              <Input
-                className="w-[100%] mt-3"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                type="text"
-                intent={'default'}
-                disabled={false}
-                placeHolder="Enter your name"
-                value={name}
-              />
-            </div>
-            <div className="w-[100%] mt-5 block">
-              <label className="mb-5">Track *</label>
-              <Select
-                onValueChange={(value: string) => {
-                  setSelectedTrack(value);
-                }}
-                value={selectedTrack}
-              >
-                <SelectTrigger className="border-[#59595977] text-gray-300 h-[50px] rounded-[10px]">
-                  <SelectValue
-                    defaultValue={selectedTrack}
-                    placeholder={'Select Track'}
-                    className="hover:border-green-500 text-red-100"
-                  />
-                </SelectTrigger>
-                <SelectContent className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100">
-                  {availableTracks?.map((track: any, index: number) => (
-                    <SelectItem className="text-gray-300" key={index} value={track.track}>
-                      {track.track}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="w-full flex md:flex-row gap-4 justify-between mt-5">
-              <div className="w-full md:w-[47%]">
-                <label>
-                  City
-                  <span> (optional) </span>
-                </label>
-                <Input
-                  className="w-[100%] mt-3"
+            <div className="flex flex-col md:flex-row md:gap-5 w-[100%] gap-1">
+              <label className="w-full mb-3">
+                Firstname <span className="text-red-200">*</span>
+                <input
+                  className={`w-[100%] mt-1 ${inputStyle}`}
                   onChange={(e) => {
-                    setCity(e.target.value);
+                    setFirstname(e.target.value);
                   }}
                   type="text"
-                  intent={'default'}
                   disabled={false}
-                  placeHolder="Lagos"
-                  value={city}
+                  placeholder="Enter your firstname"
+                  value={firstName}
                 />
-              </div>
-              <div className="w-full md:w-[47%]">
-                <label>
-                  Country
-                  <span> (optional) </span>
-                </label>
-                <Input
-                  className="w-[100%] mt-3"
+              </label>
+            </div>
+            <div className="flex flex-col md:flex-row md:gap-5 w-[100%] gap-1">
+              <label className="w-full mb-3">
+                Lastname <span className="text-red-200">*</span>
+                <input
+                  className={`w-[100%] mt-1 ${inputStyle}`}
                   onChange={(e) => {
-                    setCountry(e.target.value);
+                    setLastName(e.target.value);
                   }}
                   type="text"
-                  intent={'default'}
                   disabled={false}
-                  placeHolder="Nigeria"
-                  value={country}
+                  placeholder="Enter your lastname"
+                  value={lastName}
                 />
-              </div>
+              </label>
             </div>
-            <div className="w-full flex  md:flex-row gap-4 justify-between mt-10">
+            <div className="w-[100%] flex flex-col justify-center items-start">
+              <label className="w-full mb-3">
+                Track <span className="text-red-200">*</span> ​
+                <Select
+                  onValueChange={(value: string) => {
+                    setSelectedTrack(value);
+                  }}
+                  value={selectedTrack}
+                >
+                  <SelectTrigger className="border-[#59595977] text-gray-300 h-[50px] rounded-[10px]">
+                    <SelectValue
+                      defaultValue={selectedTrack}
+                      placeholder="select Track"
+                      className="hover:border-green-500"
+                    />
+                  </SelectTrigger>
+                  <SelectContent
+                    className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100"
+                    style={{ maxHeight: '200px', overflowY: 'auto' }}
+                  >
+                    {availableTracks?.map((track: any, index: number) => (
+                      <SelectItem className="text-green-300" key={index} value={track.track}>
+                        {track.track}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </label>
+            </div>
+            ​ ​
+            <CountryCityDropdown
+              setSelectedCountry={setSelectedCountry}
+              setSelectedCity={setSelectedCity}
+              selectedCountry={selectedCountry}
+              selectedCity={selectedCity}
+            />
+            ​
+            <div className="w-full flex  md:flex-row gap-4 justify-between mt-6">
               <div className="w-full md:w-[47%]">
                 <Button
                   intent={'secondary'}
                   size={'sm'}
                   className="w-full rounded-lg"
                   type="button"
-                  onClick={() => onSaveModal()}
+                  onClick={() => setShowProfileUpdate(false)}
                 >
                   Close
                 </Button>
@@ -248,6 +288,7 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
+          {error.status && <p className="text-red-200 font-semibold mt-5">{error.message}</p>}
         </form>
       )}
     </Modal>

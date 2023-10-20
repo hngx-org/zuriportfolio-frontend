@@ -17,6 +17,7 @@ export interface MainLayoutProps {
 }
 
 export interface ProductData {
+  [x: string]: SetStateAction<ProductData | null>;
   id: string;
   name: string;
   discount_price: string;
@@ -622,6 +623,11 @@ export interface reviewProps {
   help?: number;
 }
 
+export interface revNavProps {
+  shopNav?: boolean;
+  marketPlaceNav?: boolean;
+}
+
 export interface searchProp {
   handleSearchChange: (searchString: string) => void;
 }
@@ -655,10 +661,6 @@ export interface Vendor {
 }
 
 export type BannedDeletedVendorsProps = {
-  showBanned: boolean;
-  setShowBanned: (any: boolean) => void;
-  showDeleted: boolean;
-  setShowDeleted: (any: boolean) => void;
   data: any;
   isLoading: Boolean;
 };
@@ -693,6 +695,7 @@ export type Graph = {
 };
 
 export type topListingProduct = {
+  filter: any;
   map(arg0: (item: any, id: any) => React.JSX.Element): React.ReactNode;
   product_id?: number;
   product_name?: string;
@@ -719,9 +722,11 @@ type activity = {
 };
 export type cardinfo = {
   title: string;
-  amount: any;
+  amount: number;
   ratio: number;
 };
+
+type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
 
 export type inputErrorMessage = {
   errorMessage: string;
@@ -890,4 +895,11 @@ export interface RatsData {
   numberOfRating: number;
   productId: string;
   id: string;
+}
+
+export interface ExploreSEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }

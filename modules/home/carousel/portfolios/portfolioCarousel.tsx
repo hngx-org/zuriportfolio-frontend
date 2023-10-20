@@ -100,7 +100,7 @@ const PortfolioCarousel = () => {
     speed: 500,
     arrows: false,
     autoplay: true,
-    slidesToShow: 6,
+    slidesToShow: 5.5,
     slidesToScroll: 1,
     pauseOnHover: false,
     responsive: [
@@ -162,7 +162,7 @@ const PortfolioCarousel = () => {
                 </div>
               </div>
             )}
-            Shop section
+            {/* Shop section */}
             {logo?.section === 'shop' && (
               <div
                 className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"

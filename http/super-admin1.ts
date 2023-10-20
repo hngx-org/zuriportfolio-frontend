@@ -74,9 +74,12 @@ export const useRestore = () => {
   };
 };
 
-export const useGetProd = () => {
-  return useQuery(['get-prod'], async () => {
-    return makeRequest(`product/all`, 'get');
+export const useGetProd = (page: number, search: string, status?: string) => {
+  return useQuery(['get-prod', page, search, status], async () => {
+    return makeRequest(
+      `product/all?page=${page}${search ? `&search=${search}` : ''}${status ? `&status=${status}` : ''}`,
+      'get',
+    );
   });
 };
 
@@ -92,9 +95,12 @@ export const useSanction = () => {
 };
 
 //vendors
-export const useGetAllVendor = () => {
-  return useQuery(['get-vendor'], async () => {
-    return makeRequest('shop/all', 'get');
+export const useGetAllVendor = (page: number, search: string, status?: string) => {
+  return useQuery(['get-vendor', page, search, status], async () => {
+    return makeRequest(
+      `shop/all?page=${page}${search ? `&search=${search}` : ''}${status ? `&status=${status}` : ''}`,
+      'get',
+    );
   });
 };
 
