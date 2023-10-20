@@ -14,16 +14,16 @@ import Image from 'next/image';
 const CreateTemplate = () => {
   const [newobject, setObject]: any = useContext(ToPushContext);
   const [list, setList] = useState(questions_and_answers);
-  const updatelistinobj = () => {
+  const updatelistinobj = (question: any[]) => {
     const newt = { ...newobject };
-    newt.questions_and_answers = list;
+    newt.questions_and_answers = question;
     setObject(newt);
   };
   const handleinputQuestion = (e: any, index: number) => {
     const updatedData = [...list];
     updatedData[index].question_text = e.target.value;
     setList(updatedData);
-    updatelistinobj();
+    updatelistinobj(updatedData);
   };
 
   const [listupdate, setListupdate]: any = useContext(UpdateContext);
@@ -31,7 +31,7 @@ const CreateTemplate = () => {
     const updatedData = [...list];
     updatedData[index].options[n] = e.target.value;
     setList(updatedData);
-    updatelistinobj();
+    updatelistinobj(updatedData);
   };
   function splicearr(arr: any, index: number) {
     const resultArray = arr.slice(0, index).concat(arr.slice(index + 1));
@@ -47,7 +47,7 @@ const CreateTemplate = () => {
       const newdata = splicearr(updatedData[index].options, n);
       updatedData[index].options = newdata;
       setList(updatedData);
-      updatelistinobj();
+      updatelistinobj(updatedData);
     }
   };
   //adding options
@@ -56,17 +56,17 @@ const CreateTemplate = () => {
     //updatedData[indextoadd]?.options.push('')
     updatedData[index].options.push('');
     setList(updatedData);
-    updatelistinobj();
+    updatelistinobj(updatedData);
   };
   const setCorrect = (value: any, index: number) => {
     const updatedData = [...list];
     updatedData[index].correct_option = Number(value);
     setList(updatedData);
-    updatelistinobj();
+    updatelistinobj(updatedData);
   };
   //handling Adding questions
   const handleAddquestion = () => {
-    setList((list) => [
+    const addquestion = [
       ...list,
       {
         question_no: list.length + 1,
@@ -75,19 +75,20 @@ const CreateTemplate = () => {
         options: [''],
         correct_option: 0,
       },
-    ]);
-    updatelistinobj();
+    ];
+    setList(addquestion);
+    updatelistinobj(addquestion);
   };
   const handleRemovequest = () => {
-    setList((list) => {
-      if (list.length > 1) {
-        const updatedList = [...list.slice(0, list.length - 1)];
-        return updatedList;
-      } else {
-        return list;
-      }
-    });
-    updatelistinobj();
+    let newList = [];
+    if (list.length > 1) {
+      const updatedList = [...list.slice(0, list.length - 1)];
+      newList = updatedList;
+    } else {
+      newList = list;
+    }
+    setList(newList);
+    updatelistinobj(newList);
   };
 
   useEffect(() => {
@@ -176,7 +177,7 @@ const CreateTemplate = () => {
                   rightIcon={<Add color="black" />}
                   intent={'primary'}
                   size={'md'}
-                  className="bg-[tansparent] text-dark-100 hover:text-dark-100 hover:bg-[transparent]"
+                  className="bg-[tansparent]  text-dark-100 hover:text-dark-100 hover:bg-[transparent]"
                 >
                   Add Another Option
                 </Button>

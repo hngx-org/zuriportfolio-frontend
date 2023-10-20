@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
 import Link from 'next/link';
@@ -93,59 +93,72 @@ const CreateAssessment = () => {
     handleClick('button1');
   };
 
-  const publishAssessment = async () => {
+  const publishAssessment = async (assessmentsInfo: any, id: any) => {
     // split question and string and number
-    var url = '';
-    if (destination === 'Publishing assessments') {
-      url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
-    } else {
-      url = 'https://piranha-assessment-jco5.onrender.com/api/admin/drafts/';
-    }
-
-    const reqOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-      },
-      body: JSON.stringify(newobject),
-    };
-    const postEnd = await fetch(url, reqOptions);
-    const response = await postEnd.json();
-
-    if (!postEnd.ok) {
-      console.log('Error' + postEnd.status);
-      if (postEnd.status === 409) {
-        toast.error('Looks like the assessment name exists already! Give a unique name');
-      } else if (postEnd.status === 406) {
-        toast.error(`${postEnd.status}, Please make sure fields are correectly field`);
-      } else {
-        toast.error(postEnd.status, response?.message);
-      }
-
-      setPostLoading(false);
-      setListupdate('waiting');
-    }
-    if (postEnd.ok) {
+    try {
+      var url = '';
+      console.log(destination);
       if (destination === 'Publishing assessments') {
-        setNewTitle(`${newobject.assessment_name} Succesfully Published!`);
+        url = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
       } else {
-        setNewTitle(`${newobject.assessment_name} added to drafts!`);
+        url = 'https://piranha-assessment-jco5.onrender.com/api/admin/drafts/';
       }
+
+      const transformedAssesment = { ...assessmentsInfo, skill_id: id };
+      const reqOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+        body: JSON.stringify(transformedAssesment),
+      };
+
+      const postEnd = await fetch(url, reqOptions);
+      const response = await postEnd.json();
+
+      if (!postEnd.ok) {
+        console.log('Error' + postEnd.status);
+        if (postEnd.status === 409) {
+          toast.error('Looks like the assessment name exists already! Give a unique name');
+        } else if (postEnd.status === 406) {
+          toast.error(`${postEnd.status}, Please make sure fields are correectly field`);
+        } else {
+          toast.error(postEnd.status, response?.message);
+        }
+
+        // setPostLoading(false);
+        setListupdate('waiting');
+      }
+      if (postEnd.ok) {
+        if (destination === 'Publishing assessments') {
+          setNewTitle(`${newobject.assessment_name} Succesfully Published!`);
+        } else {
+          setNewTitle(`${newobject.assessment_name} added to drafts!`);
+        }
+        setPostLoading(false);
+        setModalOpen(true);
+        onclose;
+        setListupdate('clear');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
       setPostLoading(false);
-      setModalOpen(true);
-      onclose;
-      setListupdate('clear');
     }
   };
 
   useEffect(() => {
-    if (listupdate === 'post') {
-      publishAssessment();
-      setPostLoading(true);
-      setListupdate('waiting');
-    }
-  }, [listupdate, publishAssessment]);
+    const assessments = newobject;
+    const sendAssesment = async () => {
+      if (listupdate === 'post') {
+        publishAssessment(assessments, skillid);
+        setPostLoading(true);
+        setListupdate('waiting');
+      }
+    };
+    sendAssesment();
+  }, [listupdate]);
 
   return (
     <>
@@ -198,7 +211,7 @@ const CreateAssessment = () => {
                 <div
                   className="flex space-x-1 items-center cursor-pointer"
                   onClick={() => {
-                    window.history.back();
+                    router.back();
                   }}
                 >
                   <Image alt="go back" src={backarrow} width={'20'} height={'20'} />

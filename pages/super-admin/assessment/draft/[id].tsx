@@ -13,6 +13,7 @@ import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuesti
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
+import Loader from '@ui/Loader';
 
 type Props = {
   assessment: {
@@ -32,7 +33,10 @@ type Props = {
 const DraftPreview = () => {
   const { questionIndex, setQuestionIndex } = useCreatingAssessmentContext();
 
-  const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
+  const [draftData, setDraftData] = useState<{ questions: any[]; title: string; duration_in_minutes?: any }>({
+    questions: [],
+    title: '',
+  });
   const [newQuestions, setNewQuestions] = useState<{ questions: any[] }>({ questions: [] });
 
   const arr = [1, 2, 3];
@@ -77,6 +81,7 @@ const DraftPreview = () => {
     const token = localStorage.getItem('zpt') ?? '';
 
     if (id != null) {
+      setLoading(true);
       fetch(apiUrl, {
         method: 'GET',
         headers: {
@@ -104,6 +109,9 @@ const DraftPreview = () => {
           console.error('Error:', error);
           setLoading(false);
           toast.error('Error loading draft data');
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }, [id]);
@@ -184,13 +192,11 @@ const DraftPreview = () => {
         question_no: index + 1,
         question_text: question.question_text,
         question_type: 'multiple_choice',
-        answer: {
-          options: question.answer.options,
-          correct_option: question.answer.correct_option,
-        },
+        options: question.answer.options,
+        correct_option: question.answer.correct_option,
       })),
       assessment_name: draftData.title, // Update with the correct assessment name
-      duration_in_minutes: 0, // Update with the correct duration if available
+      duration_in_minutes: draftData?.duration_in_minutes || 0, // Update with the correct duration if available
     };
     console.log('data to be published', publishedAssessment);
 
@@ -236,7 +242,7 @@ const DraftPreview = () => {
         <div
           className="flex space-x-1 items-center cursor-pointer"
           onClick={() => {
-            window.history.back();
+            router.back();
           }}
         >
           <Image alt="go back" src={backarrow} width={'20'} height={'20'} />
@@ -257,87 +263,99 @@ const DraftPreview = () => {
           </Button>
         )}
       </div>
-      <div className="pt-4 pb-2 flex space-x-10 justify-center">
-        <div
-          className={` cursor-pointer ${
-            active === 'button1' ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443] ' : 'text-dark-100 rounded-sm'
-          }`}
-          onClick={() => handleClick('button1')}
-        >
-          Questions &amp; Answers
+      {loading ? (
+        <div className="z-50 inset-0 min-h-[300px] grid place-items-center">
+          <Loader />
         </div>
-        <div
-          className={` cursor-pointer ${
-            active === 'button2' ? 'text-[#BF8443] font-bold rounded-sm border-b-4 border-[#BF8443]' : 'text-dark-100'
-          }`}
-          onClick={() => handleClick('button2')}
-        >
-          Scoring
-        </div>
-      </div>
-      <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
-      <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
-        {active === 'button1' ? (
-          <>
-            <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
-              <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
-              <div className="p-4 flex justify-between items-center">
-                <div className="text-[20px]">
-                  <input
-                    type="text"
-                    id="input_assessment"
-                    className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
-                    placeholder={draftData.title}
-                    disabled={disable}
-                    onChange={(e) => {}}
+      ) : (
+        <>
+          <div className="pt-4 pb-2 flex space-x-10 justify-center">
+            <div
+              className={` cursor-pointer ${
+                active === 'button1'
+                  ? 'text-[#BF8443] font-bold border-b-4 border-[#BF8443] '
+                  : 'text-dark-100 rounded-sm'
+              }`}
+              onClick={() => handleClick('button1')}
+            >
+              Questions &amp; Answers
+            </div>
+            <div
+              className={` cursor-pointer ${
+                active === 'button2'
+                  ? 'text-[#BF8443] font-bold rounded-sm border-b-4 border-[#BF8443]'
+                  : 'text-dark-100'
+              }`}
+              onClick={() => handleClick('button2')}
+            >
+              Scoring
+            </div>
+          </div>
+          <div className="w-[\100%\] bg-[#DFE3E6] h-[2px] translate-y-[-8px] "></div>
+          <div className="pt-[4rem] pb-[8rem] text-center container mx-auto max-w-xl px-[0px] ">
+            {active === 'button1' ? (
+              <>
+                <div className="border-[1px] border-[#DFE3E6] rounded-t-[20px]">
+                  <div className="bg-[#BF8443] p-2 rounded-t-[20px]"></div>
+                  <div className="p-4 flex justify-between items-center">
+                    <div className="text-[20px]">
+                      <input
+                        type="text"
+                        id="input_assessment"
+                        className="outline-none border-none bg-transparent placeholder-black focus:placeholder-transparent focus:border-transparent focus:ring-transparent"
+                        placeholder={draftData.title}
+                        disabled={disable}
+                        onChange={(e) => {}}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="input_assessment">
+                        <Edit className="w-[25px] cursor-pointer" onClick={() => setDisable(false)} />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                {draftData.questions?.map((item, index) => (
+                  <div key={index} className="mt-8 text-left">
+                    <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
+                      <div className="flex justify-between mb-4">
+                        <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
+                        <Link
+                          href={`/super-admin/assessment/draft/edit/${id}`}
+                          onClick={() => setQuestionIndex(item.question_no - 1)}
+                        >
+                          <button className="text-md font-manropeB text-black">Edit</button>
+                        </Link>
+                      </div>
+                      <p className="text-sm text-[#2E3130]">{item.question_text}</p>
+                      <p className="text-xs text-blue-700">Pick only one correct answer</p>
+                      <div className="mt-8 flex flex-col gap-[22px]">
+                        {item.answer?.options.map((option: any, optionIndex: any) => (
+                          <div key={index} className="flex gap-4">
+                            <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
+                            <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
+                              {option}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <div className="mt-8">
+                  <CreateDraftQuestion
+                    draftData={draftData}
+                    newQuestions={newQuestions}
+                    setNewQuestions={setNewQuestions}
                   />
                 </div>
-                <div>
-                  <label htmlFor="input_assessment">
-                    <Edit className="w-[25px] cursor-pointer" onClick={() => setDisable(false)} />
-                  </label>
-                </div>
-              </div>
-            </div>
-            {draftData.questions?.map((item, index) => (
-              <div key={index} className="mt-8 text-left">
-                <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
-                  <div className="flex justify-between mb-4">
-                    <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <Link
-                      href={`/super-admin/assessment/draft/edit/${id}`}
-                      onClick={() => setQuestionIndex(item.question_no - 1)}
-                    >
-                      <button className="text-md font-manropeB text-black">Edit</button>
-                    </Link>
-                  </div>
-                  <p className="text-sm text-[#2E3130]">{item.question_text}</p>
-                  <p className="text-xs text-blue-700">Pick only one correct answer</p>
-                  <div className="mt-8 flex flex-col gap-[22px]">
-                    {item.answer?.options.map((option: any, optionIndex: any) => (
-                      <div key={index} className="flex gap-4">
-                        <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
-                        <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
-                          {option}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-            <div className="mt-8">
-              <CreateDraftQuestion
-                draftData={draftData}
-                newQuestions={newQuestions}
-                setNewQuestions={setNewQuestions}
-              />
-            </div>
-          </>
-        ) : (
-          <ScoringScreen assessment={assessment} skillId={skillid} />
-        )}
-      </div>
+              </>
+            ) : (
+              <ScoringScreen assessment={assessment} skillId={skillid} />
+            )}
+          </div>
+        </>
+      )}
     </MainLayout>
   );
 };
