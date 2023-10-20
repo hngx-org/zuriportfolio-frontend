@@ -43,7 +43,7 @@ export default function Index({ products, activePage, totalPages }: Props) {
               {products?.map((item: ProductList) => {
                 return (
                   <Link
-                    href={`marketplace/product-details?id=${item.id}`}
+                    href={`marketplace/product-details/${item.id}`}
                     key={item.id}
                     className="relative w-1/2 md:w-1/3 lg:w-1/4 pr-2 md:pr-4 lg:pr-8"
                   >
