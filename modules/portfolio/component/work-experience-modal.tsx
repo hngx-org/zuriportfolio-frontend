@@ -320,19 +320,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                                   </SelectItem>
                                 ))}
                           </SelectContent>
-                          {/* <SelectContent>
-                            {endYear.length === 0
-                              ? years.map((year: any, index: number) => (
-                                  <SelectItem key={index} value={year.value}>
-                                    {year.label}
-                                  </SelectItem>
-                                ))
-                              : endYears.map((year: any, index: number) => (
-                                  <SelectItem key={index} value={year.value}>
-                                    {year.label}
-                                  </SelectItem>
-                                ))}
-                          </SelectContent> */}
                         </>
                       </Select>
                     </>
@@ -373,6 +360,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
+                  disabled={isLoading}
                   onClick={(e) => {
                     onCloseModal();
                     resetForm();
@@ -386,12 +374,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 >
                   Cancel
                 </Button>
-                <Button
-                  // onClick={createWorkExperience}
-                  type="submit"
-                  className="w-full rounded-md sm:w-[6rem]"
-                  size={'lg'}
-                >
+                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                   Save
                 </Button>
               </div>
