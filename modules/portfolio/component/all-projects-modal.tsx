@@ -6,6 +6,7 @@ import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
+import { Edit2, Trash } from 'iconsax-react';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 const AllProjectsModal = ({
@@ -129,10 +130,10 @@ const AllProjectsModal = ({
                       handleSetRoute('add-project');
                     }}
                   >
-                    Edit
+                     <Edit2 size="32" color="#37d67a" variant="Outline" />
                   </span>
                   <span className="text-[#FF5C5C] cursor-pointer font-manropeL" onClick={() => handleDelete(id)}>
-                    Delete
+                  <Trash size="32" color="#f47373" variant="Outline"/>
                   </span>
                 </section>
 

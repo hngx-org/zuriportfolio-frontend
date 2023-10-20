@@ -40,12 +40,13 @@ const CountryCityDropdown: React.FC<Props> = ({
       });
   }, []);
   useEffect(() => {
+    if (!selectedCountry) {
+        setCityError('Pick a country first');
+        setCities([]); // Clear the cities
+      } else {
+        setCityError(null);
     if (selectedCountry) {
-        if (!selectedCountry) {
-            setCityError('Pick a country first');
-            setCities([]); // Clear the cities
-          } else {
-            setCityError(null);
+        
       // Find the selected country and its cities
       const selectedCountryData = countries.find((country) => country.value === selectedCountry);
       if (selectedCountryData) {
