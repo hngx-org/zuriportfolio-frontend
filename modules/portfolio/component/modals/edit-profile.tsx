@@ -261,9 +261,7 @@ const EditProfile = () => {
                 </Select>
               </label>
             </div>
-            ​
-            
-            ​
+            ​ ​
             <CountryCityDropdown
               setSelectedCountry={setSelectedCountry}
               setSelectedCity={setSelectedCity}
