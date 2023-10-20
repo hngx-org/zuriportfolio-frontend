@@ -35,7 +35,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     setSocials((prevValues) => [
       ...prevValues,
       {
-        userId,
+        user_id: userId,
         url: '',
         social_media_id: 1,
       },
@@ -85,11 +85,15 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     //   .then((res) => {
     //     console.log(res);
     //   })
-    const data = socials.map(({ id, email, social_media_id, ...rest }) => ({
-      ...rest,
-      social_media_id: Number(social_media_id),
+    // const data = socials.map(({ url, social_media_id, user_id }) => ({
+    //   social_media_id: Number(social_media_id),
+    // }));
+    // console.log('Data', data);
+    const data = socials.map((social) => ({
+      url: social.url,
+      social_media_id: social.social_media_id,
+      user_id: userId, // Ensure you have the userId available
     }));
-    console.log('Data', data);
 
     sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
       .then((res) => {
