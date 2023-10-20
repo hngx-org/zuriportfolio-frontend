@@ -485,7 +485,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
 
     try {
       setEditLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/certificate/${userId}/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/certificate/${userId}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
