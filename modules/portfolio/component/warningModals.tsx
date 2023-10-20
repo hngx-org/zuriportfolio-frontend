@@ -106,7 +106,7 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
     const notify = () => (toastId.current = toast.success('Section deleted successfully'));
 
     //fetch the endpoint for deleting
-    await fetch(`https://hng6-r5y3.onrender.com/api/profile/details/${userId}`, requestOptions)
+    await fetch(`https://hng6-r5y3.onrender.com/api/v1/profile/details/${userId}`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         //Show popup when section is deleted successfully
