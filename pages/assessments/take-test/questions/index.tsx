@@ -33,27 +33,29 @@ const Questions: React.FC = () => {
   const [minute, setMinute] = React.useState<number | null>(null);
   const [second, setSecond] = React.useState<number | null>(null);
   const [duration, setDuration] = React.useState<number | null>(null);
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const {
     isLoading,
     isError,
     error,
     data: questionData,
-  } = useQuery(['questionData'], () => fetchUserTakenAssessment(tokenRef.current as string, router.query?.id as string));
+  } = useQuery(['questionData'], () =>
+    fetchUserTakenAssessment(tokenRef.current as string, router.query?.id as string),
+  );
 
-  const {
-    data: assessment
-  } = useQuery(['assessment'], () => getAssessmentDetails(tokenRef.current as string, router.query?.data as string));
+  const { data: assessment } = useQuery(['assessment'], () =>
+    getAssessmentDetails(tokenRef.current as string, router.query?.data as string),
+  );
 
   const submitAnswer = useMutation((data: any) => submitAssessment(data), {
     onSuccess: () => {
-      queryClient.invalidateQueries(['questionData'])
+      queryClient.invalidateQueries(['questionData']);
     },
     onError: (error) => {
       console.error('Error submitting assessment:', error);
     },
-  })
+  });
   const Data = questionData?.data?.questions;
 
   useEffect(() => {
@@ -81,7 +83,7 @@ const Questions: React.FC = () => {
 
   useEffect(() => {
     setDuration(assessment?.duration_minutes);
-  },[duration, assessment?.duration_minutes])
+  }, [duration, assessment?.duration_minutes]);
 
   const handleUserAnswerClick = async (question_id: number, user_answer_id: number, answer_text: string) => {
     const token = tokenRef.current;
@@ -101,9 +103,8 @@ const Questions: React.FC = () => {
     }
   };
 
-
-  const pageTitle = `${assessment?.title}`
-  const metaDescription = `${assessment?.description}`
+  const pageTitle = `${assessment?.title}`;
+  const metaDescription = `${assessment?.description}`;
 
   return (
     <>
