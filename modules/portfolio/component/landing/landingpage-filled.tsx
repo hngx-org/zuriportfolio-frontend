@@ -4,6 +4,7 @@ import Button from '@ui/Button';
 import {
   Add,
   Award,
+  Book,
   Briefcase,
   LanguageSquare,
   LikeTag,
@@ -17,7 +18,7 @@ import { Education, Shop } from './Skeleton';
 
 import { SectionDeleteModal } from '../warningModals';
 import Wrapper from './placeholders/Wrapper';
-import PworkExperience from './PworkExperience';
+import PworkExperience from './placeholders/PworkExperience';
 import Pabout from './placeholders/Pabout';
 import Pskils from './placeholders/Pskills';
 import Planguages from './placeholders/Planguages';
@@ -26,6 +27,7 @@ import Pprojects from './placeholders/Pprojects';
 import Pawards from './placeholders/Pawards';
 import Preferences from './placeholders/Preference';
 import Pcertificates from './placeholders/Pcertificate';
+import Peducation from './placeholders/Peducation';
 
 const LandingPageFilled: React.FC = () => {
   const {
@@ -250,33 +252,21 @@ const LandingPageFilled: React.FC = () => {
                   }}
                 />
               )}
-              {/* todo */}
               {section?.id === 'education' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    icon={<Shop />}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    {section.data.slice(0, showMoreEducation).map((el: any, i: any) => {
-                      return <Education key={i} data={el} />;
-                    })}
-                    {section.data.length > 2 && (
-                      <div
-                        className="text-brand-green-primary font-semibold cursor-pointer"
-                        onClick={toggleShowMoreEducation}
-                      >
-                        {showMoreEducation === 2 ? 'View More' : 'View Less'}
-                      </div>
-                    )}
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
+                <Peducation
+                  icon={<Book variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  id={section.id}
+                  title={section.title}
+                  showMoreEducation={showMoreEducation}
+                  toggleShowMoreEducation={toggleShowMoreEducation}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
               )}
             </React.Fragment>
           );
