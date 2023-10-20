@@ -8,6 +8,7 @@ import useDisclosure from '../../../hooks/useDisclosure';
 import axios from 'axios';
 import { sendArrayOfObjects } from '../functions/sendArrayOfObjects';
 import { notify } from '@ui/Toast';
+import { Trash } from 'iconsax-react';
 
 const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -243,7 +244,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                       className="font-semibold cursor-pointer text-brand-red-hover"
                       onClick={() => handleSocialDelete(social.id)}
                     >
-                      Delete
+                      <Trash size="32" color="#f47373" variant="Outline" />
                     </span>
                   </div>
                   <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />

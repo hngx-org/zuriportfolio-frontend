@@ -1,6 +1,6 @@
 import React from 'react';
 import Wrapper from './Wrapper';
-import { Project, WorkExperience } from '../Skeleton';
+import { Project } from '../Skeleton';
 
 type PprojectsProps = {
   id: string;
@@ -26,9 +26,14 @@ const Pprojects = ({
   return (
     <Wrapper icon={icon} id={id} title={title} edit={edit} remove={remove}>
       {section.data.slice(0, showMoreProjects).map((el: any, i: number) => {
-        return <Project key={i} data={el} />;
+        return (
+          <>
+            <Project key={i} data={el} />
+            {section.data.length > 1 && <hr className="mb-5 border-gray-100 opacity-20" />}
+          </>
+        );
       })}
-      {section.data.length > 2 && (
+      {section.data.length > 1 && (
         <div className="text-brand-green-primary font-semibold cursor-pointer" onClick={toggleShowMoreProjects}>
           {showMoreProjects === 2 ? 'View More' : 'View Less'}
         </div>
