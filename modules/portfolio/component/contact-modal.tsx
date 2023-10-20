@@ -99,7 +99,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     }));
     console.log(data);
 
-    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/contacts')
+    sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/v1/contacts')
       .then((res) => {
         setLoading(false);
         notify({
@@ -124,7 +124,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     console.log('delete clicked');
     const id = 5;
     try {
-      const res = await fetch(`https://hng6-r5y3.onrender.com/api/contacts/${id}`, {
+      const res = await fetch(`https://hng6-r5y3.onrender.com/api/v1/contacts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
 
   const getSocialsAvailable = async () => {
     try {
-      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/socials`);
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/socials`);
       const data = await response.data;
       console.log(data);
       setAvailableSocials(data?.data);
@@ -206,7 +206,11 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                           </SelectTrigger>
                           <SelectContent className="border-[#E1E3E2]">
                             {availableSocials.map((socialItem, index) => (
-                              <SelectItem className="capitalize" key={index} value={socialItem.name}>
+                              <SelectItem
+                                className="capitalize hover:bg-[#F4FBF6] hover:text-[#009254]"
+                                key={index}
+                                value={socialItem.name}
+                              >
                                 {socialItem.name}
                               </SelectItem>
                             ))}
@@ -240,10 +244,11 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                       Delete
                     </span>
                   </div>
+                  <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
                 </form>
               ))}
           </form>
-          <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
+
           <div className="flex justify-between flex-col sm:flex-row mt-3 gap-3 sm:w-[90%] mx-auto">
             <button
               className="text-brand-green-primary sm:self-center text-[14px] sm:text-[13px] flex items-center gap-1 font-semibold font-manropeB"
