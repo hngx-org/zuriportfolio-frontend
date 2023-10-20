@@ -101,7 +101,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
     const files = e.target.files;
 
     if (files && files.length > 0) {
-      const selectedImages = Array.from(files).slice(0, 5);
+      const selectedImages = Array.from(files).slice(0, 6);
 
       const imageUrls = selectedImages.map((file) => URL.createObjectURL(file));
 
@@ -370,7 +370,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               </div>
             </div>
             {/* urlsFromCloudinary, media */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
               {urlsFromCloudinary.length > 0 &&
                 urlsFromCloudinary.map((url: string) => (
                   <div onClick={() => handleRemoveUrlsFromCloudinary(url)} key={url} className="flex items-center">
@@ -382,7 +382,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                         width={0}
                         height={0}
                         alt=""
-                        className="rounded-lg object-cover object-center w-full h-[60px]"
+                        className="rounded-lg object-cover object-center w-full h-[80px]"
                       />
                       <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
                     </div>
@@ -399,7 +399,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                         width={0}
                         height={0}
                         alt=""
-                        className="rounded-lg object-cover object-center w-full h-[60px]"
+                        className="rounded-lg object-cover object-center w-full h-[80px]"
                       />
                       <CloseCircle
                         className="text-white-100 shadow-md absolute top-2 right-2 cursor-pointer"
@@ -411,12 +411,12 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               <label
                 htmlFor="mediaUpload"
                 className={`rounded-lg mt-2.5 px-2 h-[80px] w-[80px] py-1 ${
-                  media.length >= 5 ? 'bg-green-50' : 'bg-green-600'
+                  media.length >= 6 ? 'bg-green-50' : 'bg-green-600'
                 } cursor-pointer text-[12px] flex justify-center items-center`}
               >
                 <Add className="text-white-100" size={42} />
                 <input
-                  disabled={media.length === 5 ? true : false}
+                  disabled={media.length === 6 ? true : false}
                   id="mediaUpload"
                   type="file"
                   onChange={(e) => handleMedia(e)}
@@ -427,7 +427,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
             </div>
             <p className="font-medium text-base text-white-650 mt-2.5">
               {' '}
-              Note: you can only add 5 images. Sizes 1080 X 566{' '}
+              Note: you can only add 6 images. Sizes 1080 X 566{' '}
             </p>
 
             {/* buttons */}
