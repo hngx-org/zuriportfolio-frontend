@@ -34,7 +34,7 @@ const UserReview = () => {
   //* Added page variable and current page state also added isLoading state to hide page change
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const [data, setData] = useState<ReviewData[] | null>(null);
+  const [data, setData] = useState<ReviewData[] | null>([]);
   const [rats, setRats] = useState<RatsData>();
   const [filterRating, setFilterRating] = useState<string>('all');
   const [filterView, setFilterView] = useState<string>('topReviews');
@@ -73,7 +73,7 @@ const UserReview = () => {
         .then((data) => setData(data.data.items))
         .catch((e) => console.log(e));
     } else {
-      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=${
+      const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/${id}/reviews/rating?rating=${filterRating}&pageNumber=${
         currentPage - 1
       }&pageSize=10`;
       fetch(url)
@@ -154,7 +154,7 @@ const UserReview = () => {
           <div className=" h-[70vh] flex justify-center items-center">
             <Loader />
           </div>
-        ) : data === null || data.length === 0 ? (
+        ) : data === null ? (
           <EmptyReviewPage />
         ) : (
           <div className="flex flex-col justify-center items-center md:mb-16">
