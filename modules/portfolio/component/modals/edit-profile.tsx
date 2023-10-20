@@ -8,9 +8,8 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
 import CountryCityDropdown from './CountryCityDropdown';
-import response from '../../../../pages/super-admin/assessment/response';
-import Badges from '@modules/assessment/component/Badges/Badges';
-
+// import response from '../../../../pages/super-admin/assessment/response';
+// import Badges from '@modules/assessment/component/Badges/Badges';
 
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
@@ -31,27 +30,27 @@ const EditProfile = () => {
 
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const [badgeData, setBadgeData] = useState({
-    badgeLabel: 'expert', // Initialize with empty values
-    badgeImage: '',
-  });
+  // const [badgeData, setBadgeData] = useState({
+  //   badgeLabel: 'expert', // Initialize with empty values
+  //   badgeImage: '',
+  // });
 
-  useEffect(() => {
-    // Fetch badge data here from your API
-    // You can replace this with your actual API endpoint
-    fetch('https://your-api-url/user/badge')
-      .then((response) => response.json())
-      .then((data) => {
-        // Set the badge data once it's fetched
-        setBadgeData({
-          badgeLabel: data.badgeLabel,
-          badgeImage: data.badgeImage,
-        });
-      })
-      .catch((error) => {
-        console.error('Error fetching badge data:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // Fetch badge data here from your API
+  //   // You can replace this with your actual API endpoint
+  //   fetch('https://hng6-r5y3.onrender.com/api/v1/users/badge')
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Set the badge data once it's fetched
+  //       setBadgeData({
+  //         badgeLabel: data.badgeLabel,
+  //         badgeImage: data.badgeImage,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching badge data:', error);
+  //     });
+  // }, []);
 
   const getUser = async () => {
     try {
@@ -64,7 +63,7 @@ const EditProfile = () => {
   };
   const getTracks = async () => {
     try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/tracks/${userId}`');
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/tracks');
       const data = await response.json();
       return data.data;
     } catch (error: any) {
@@ -93,7 +92,7 @@ const EditProfile = () => {
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    console.log(response)
+    // console.log(response);
   }, []);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -186,7 +185,6 @@ const EditProfile = () => {
       {isLoading ? (
         <div className="space-y-6 bg-white-100 p-4 py-5">
           <Loader />
-         
         </div>
       ) : (
         <form
