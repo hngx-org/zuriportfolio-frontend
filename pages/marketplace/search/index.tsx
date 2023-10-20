@@ -44,7 +44,8 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>{`Search Result for ${Query}`}</title>
+        <title>{`Search Result For ${Query}`} - ZuriPortfolio </title>
+        <meta property="og:title" content={`Search Result For ${Query} - ZuriPortfolio`} key="title" />
       </Head>
       {results && results?.length > 0 && (
         <CategoryLayout>
