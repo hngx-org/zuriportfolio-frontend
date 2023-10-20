@@ -186,7 +186,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         formData.append('jsondata', JSON.stringify(data));
 
         axios
-          .post(`${endpoint}/api/projects`, formData)
+          .post(`${endpoint}/api/v1/projects`, formData)
           .then((res) => {
             setLoading(false);
             notify({

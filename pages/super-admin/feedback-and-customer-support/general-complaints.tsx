@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import Button from '@ui/Button';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { withAdminAuth } from '../../../helpers/withAuth';
+import { ImSpinner8 } from 'react-icons/im';
 
 interface ComplainType {
   total_complaints: number;
@@ -330,75 +331,86 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
             <h1 className="font-manropeB text-2xl mb-2.5 mt-2.5  font-semibold">Complaints Overview</h1>
             <div className="w-full flex flex-row justify-between gap-4 max-md:flex max-md:flex-col">
               <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-md max-lg:w-60 max-md:w-full">
-                <div className="flex justify-between w-full ">
-                  <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">Total Complaints</h2>
-                </div>
-                <div className="flex justify-between items-center w-full mt-2">
-                  {totalComplaint ? (
-                    <h1 className="h-10 text-2xl font-manropeB font-bold ">{totalComplaint.total_complaints}</h1>
-                  ) : (
-                    <p className="font-manropeB">Loading....</p>
-                  )}
-                  <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-gray-50">
-                    <Image src="/assets/complaintsassets/greenIcon-left.svg" alt="back" width={15} height={15} />
-                    <p className="text-white-400 font-manropeB">
-                      {totalComplaint && totalComplaint.percentage_increment !== undefined
-                        ? `${totalComplaint.percentage_increment}%`
-                        : ''}
-                    </p>
-                  </div>
-                </div>
+                {totalComplaint ? (
+                  <>
+                    <div className="flex justify-between w-full ">
+                      <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">Total Complaints</h2>
+                    </div>
+                    <div className="flex justify-between items-center w-full mt-2">
+                      <h1 className="h-10 text-2xl font-manropeB font-bold ">{totalComplaint.total_complaints}</h1>
+                      <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-gray-50">
+                        <Image src="/assets/complaintsassets/greenIcon-left.svg" alt="back" width={15} height={15} />
+                        <p className="text-white-400 font-manropeB">
+                          {totalComplaint && totalComplaint.percentage_increment !== undefined
+                            ? `${totalComplaint.percentage_increment}%`
+                            : ''}
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+                )}
               </div>
               <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-md max-lg:w-60 max-md:w-full">
-                <div className="flex justify-between w-full ">
-                  <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">Resolved</h2>
-                </div>
-                <div className="flex justify-between items-center w-full mt-2">
-                  {resolved ? (
-                    <h1 className="h-10 text-2xl font-manropeL font-bold ">{resolved.total_Resolved}</h1>
-                  ) : (
-                    <p className="font-manropeB">Loading....</p>
-                  )}
-                  <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-green-50">
-                    <Image src="/assets/complaintsassets/greenIcon-left.svg" alt="back" width={15} height={15} />
-                    <p className="text-green-200">{resolved?.percentage_increment}%</p>
-                  </div>
-                </div>
+                {resolved ? (
+                  <>
+                    <div className="flex justify-between w-full ">
+                      <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">Resolved</h2>
+                    </div>
+                    <div className="flex justify-between items-center w-full mt-2">
+                      <h1 className="h-10 text-2xl font-manropeL font-bold ">{resolved.total_Resolved}</h1>
+                      <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl gap-1 bg-green-50">
+                        <Image src="/assets/complaintsassets/greenIcon-left.svg" alt="back" width={15} height={15} />
+                        <p className="text-green-200">{resolved?.percentage_increment}%</p>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+                )}
               </div>
               <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-md max-lg:w-60 max-md:w-full">
-                <div className="flex justify-between w-full ">
-                  <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">Pending</h2>
-                </div>
-                <div className="flex justify-between items-center w-full mt-2">
-                  {pending ? (
-                    <h1 className="h-10 text-2xl font-manropeL font-bold ">{pending.total_Pending}</h1>
-                  ) : (
-                    <p className="font-manropeB">Loading...</p>
-                  )}
-                  <div className="flex flex-row items-center justify-center gap-1 h-6 w-16 rounded-xl bg-yellow-50">
-                    <Image src="/assets/complaintsassets/yellowIcon-left-1.svg" alt="back" width={15} height={15} />
-                    <p className="text-yellow-200">
-                      {pending && pending.percentage_increment !== undefined ? `${pending.percentage_increment}%` : ''}
-                    </p>
-                  </div>
-                </div>
+                {pending ? (
+                  <>
+                    {' '}
+                    <div className="flex justify-between w-full ">
+                      <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">Pending</h2>
+                    </div>
+                    <div className="flex justify-between items-center w-full mt-2">
+                      <h1 className="h-10 text-2xl font-manropeL font-bold ">{pending.total_Pending}</h1>
+                      <div className="flex flex-row items-center justify-center gap-1 h-6 w-16 rounded-xl bg-yellow-50">
+                        <Image src="/assets/complaintsassets/yellowIcon-left-1.svg" alt="back" width={15} height={15} />
+                        <p className="text-yellow-300">
+                          {pending && pending.percentage_increment !== undefined
+                            ? `${pending.percentage_increment}%`
+                            : ''}
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+                )}
               </div>
               <div className="w-96 flex flex-col justify-between p-6 items-start h-28 hover:shadow-md border border-white-115 rounded-md max-lg:w-60 max-md:w-full">
-                <div className="flex justify-between w-full ">
-                  <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">In Progress</h2>
-                  <div className="relative flex flex-row"></div>
-                </div>
-                <div className="flex justify-between items-center w-full mt-2">
-                  {inProgress ? (
-                    <h1 className="h-10 text-2xl font-manropeL font-bold ">{inProgress.total_In_progress}</h1>
-                  ) : (
-                    <p className="font-manropeB">Loading...</p>
-                  )}
-                  <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl bg-blue-50 gap-1">
-                    <Image src="/assets/complaintsassets/blueIcon-left-2.svg" alt="back" width={15} height={15} />
-                    <p className="text-blue-105">{inProgress?.percentage_increment}%</p>
-                  </div>
-                </div>
+                {inProgress ? (
+                  <>
+                    <div className="flex justify-between w-full ">
+                      <h2 className="font-manropeB text-sm font-normal h-5 text-neutral-500">In Progress</h2>
+                      <div className="relative flex flex-row"></div>
+                    </div>
+                    <div className="flex justify-between items-center w-full mt-2">
+                      <h1 className="h-10 text-2xl font-manropeL font-bold ">{inProgress.total_In_progress}</h1>
+                      <div className="flex flex-row items-center justify-center h-6 w-16 rounded-xl bg-blue-50 gap-1">
+                        <Image src="/assets/complaintsassets/blueIcon-left-2.svg" alt="back" width={15} height={15} />
+                        <p className="text-blue-105">{inProgress?.percentage_increment}%</p>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
+                )}
               </div>
             </div>
           </div>
@@ -508,7 +520,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                         <div
                           onClick={product}
                           key={complain.id}
-                          className="vendorComplaints py-3 px-10 flex flex-row items-center justify-between border-solid border-b cursor-pointer border-zinc-200"
+                          className="vendorComplaints py-3 px-10 flex flex-row items-center justify-between border-solid border-b cursor-pointer max-md:w-max max-lg:w-max border-zinc-200"
                         >
                           <input className="w-6 h-5 cursor-pointer min-w-[32px]" type="checkbox" name="" id="" />
                           <div className="name w-80 flex flex-row items-center min-w-[250px]">
@@ -523,7 +535,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
                               {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
                             </div>
-                            <div key={complain.id} id={complain.id} className="identity pl-2">
+                            <div key={complain.id} id={complain.id} className="identity pl-2 min-w-[250px]">
                               <div>
                                 {complain.user_details ? (
                                   <h2 className="font-manropeB font-semibold text-base">
@@ -542,7 +554,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                               </div>
                             </div>
                           </div>
-                          <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
+                          <div className="description w-40 min-w-[160px] flex items-center justify-center">
                             <p className="font-manropeB font-medium text-base max-md:text-xs text-slate-500 truncate">
                               {complain.complaint_text}
                             </p>
@@ -556,14 +568,14 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                               <p className="font-manropeB font-medium text-base text-slate-500">Date Unavailable</p>
                             )}
                           </div>
-                          <div>
+                          <div className="date w-40 min-w-[120px] flex items-center justify-center">
                             {complain.status === 'Pending' ? (
-                              <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                              <div className="bg-yellow-50 px-2 py-1 flex items-center gap-2 rounded-full">
                                 <div className="w-2 h-2 bg-yellow-300 rounded-md "></div>
                                 <p className="text-xs text-yellow-300">Pending</p>
                               </div>
                             ) : (
-                              <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                              <div className="bg-blue-50 px-2 py-1 flex items-center gap-2 rounded-full">
                                 <div className="w-2 h-2 bg-blue-300 rounded-md "></div>
                                 <p className="text-xs text-blue-300">In Progress</p>
                               </div>
@@ -574,7 +586,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                     );
                   })
               ) : (
-                <p className="bg-green-">Loading....</p>
+                <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />
               )}
             </div>
           </div>
