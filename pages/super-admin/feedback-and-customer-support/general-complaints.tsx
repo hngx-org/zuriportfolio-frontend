@@ -175,7 +175,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   const pageComplain = async (currentPage: number) => {
     const bearertoken = localStorage.getItem('zpt');
     const res = await fetch(
-      `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/complaints/?page=${currentPage}`,
+      `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/feedback/complaints?page=${currentPage}`,
       {
         headers: {
           Authorization: `Bearer ${bearertoken}`,
