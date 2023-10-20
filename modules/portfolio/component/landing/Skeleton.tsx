@@ -170,15 +170,13 @@ export const Certificate = ({ data }: SkeletonProps) => {
 
 export const Education = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex md:flex-row flex-col justify-start md:justify-between items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6 ">
+    <div className="flex flex-col justify-start items-start gap-1 mb-6">
       <p className="text-gray-300 font-semibold text-base flex-1">
         <span>{data?.from}</span> - <span>{data?.to}</span>
       </p>
-      <div className="flex flex-col mb-1 md:gap-1 flex-1">
-        <h3 className="text-lg font-semibold text-gray-200">{data?.fieldOfStudy}</h3>
-        <p className="text-sm font-manropeL text-gray-300">{data?.school}</p>
-      </div>
-      <p className="font-semibold text-sm text-gray-400 break-all flex-1">{data?.description}</p>
+      <h3 className="text-lg font-semibold text-gray-200">{data?.fieldOfStudy}</h3>
+      <p className="text-sm font-manropeL text-gray-300">{data?.school}</p>
+      <p className={description}>{data?.description}</p>
     </div>
   );
 };
@@ -198,20 +196,20 @@ export const Project = ({ data }: SkeletonProps) => {
     'Thumbnail not found'
   );
   return (
-    <div className="flex md:flex-row flex-col mb-10 gap-1 md:gap-5">
+    <div className="flex md:flex-row flex-col mb-10 gap-1">
       <div className="min-w-[250px] w-[250px] order-2 md:order-1 rounded-xl">{image}</div>
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
-        <p className="font-semibold text-sm text-gray-400 break-all">{data?.description}</p>
+        <p className={description}>{data?.description}</p>
         <div className="order-2 md:order-1 flex gap-2 md:mb-0 mb-3">
           {dataToMap.length > 1 &&
             dataToMap?.map((tag: string, i: number) => (
-              <span className="grid place-content-center border-[1px] py-1 p-2 border-gray-300 rounded-3xl" key={i}>
-                <p className="text-sm text-gray-400">{tag}</p>
+              <span className={array} key={i}>
+                <p className={arrayText}>{tag}</p>
               </span>
             ))}
         </div>
-        <a className="text-blue-100 font-semibold" target="_blank" href={data?.url} rel="noreferrer">
+        <a className="text-brand-green-primary font-semibold" target="_blank" href={data?.url} rel="noreferrer">
           Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
