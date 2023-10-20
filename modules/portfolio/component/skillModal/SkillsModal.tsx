@@ -48,6 +48,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
       setIsLoading(true);
       const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/skills/${userId}`);
       const data = response.data.data;
+      console.log(response)
       setValues(data);
       setIsLoading(false);
     } catch (error) {
@@ -97,6 +98,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
     if (!values.some((skill) => skill.skill === item.skill)) {
       //avoid duplicates
       setValues((values) => [...values, item]);
+      
     }
   };
 
@@ -104,7 +106,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   const getAllSkill = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/getPortfolioDetails/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${userId}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -239,7 +241,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
                       <Button
                         className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100 focus:text-white-100 "
                         onClick={() => {
-                          arrayOneItemAddition(item);
+                          arrayOneItemAddition(item);                          
                         }}
                         type="button"
                       >
