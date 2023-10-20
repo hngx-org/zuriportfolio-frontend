@@ -34,7 +34,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [thumbnail, setThumbnail] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
-  const [tagInput, setTagInput] = useState<string>('');
+  const [tagInput, setTagInput] = useState<string | null>(null);
   const [description, setDescription] = useState<string>('');
   const [media, setMedia] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
@@ -60,7 +60,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
     setLink('');
     setThumbnail('');
     setSelectedTags([]);
-    setTagInput('');
+    setTagInput(null);
     setDescription('');
     setMedia([]);
     setFiles([]);
@@ -274,24 +274,6 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                     </option>
                   ))}
                 </select>
-                {/* <Select
-                  // className="w-full md:w-[50%] h-[60px] text-gray-300"
-                  onValueChange={(value: string) => {
-                    setYear(value);
-                  }}
-                  value={year}
-                >
-                  <SelectTrigger className="w-full h-[50px] font-semibold !text-gray-300">
-                    <SelectValue className="!text-gray-300" placeholder="Month" />
-                  </SelectTrigger>
-                  <SelectContent className="!text-gray-300">
-                    {years.map((year: any, index: any) => (
-                      <SelectItem className="!text-gray-300" key={index} value={year}>
-                        {year}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select> */}
               </div>
             </div>
             {/* Link */}
@@ -359,7 +341,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                     allChecks.includes('tags') ? 'border-red-205' : 'border-[#E1E3E2]'
                   } w-full h-[50px]  rounded-md border-[2px] text-[12px] font-semibold`}
                   inputSize={'lg'}
-                  value={tagInput}
+                  value={tagInput === null ? '' : tagInput}
                 />
               </div>
             </div>
@@ -381,7 +363,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               </div>
             </div>
             {/* urlsFromCloudinary, media */}
-            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 w-full gap-4">
+            <div className="grid grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-3  w-full gap-4">
               {urlsFromCloudinary.length > 0 &&
                 urlsFromCloudinary.map((url: any, index: any) => (
                   <div
@@ -397,9 +379,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                         width={0}
                         height={0}
                         alt=""
-                        className="rounded-lg object-cover object-center w-full aspect-square"
+                        className="rounded-lg object-cover object-center w-full h-[50px]"
                       />
-                      <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
+                      <CloseCircle className="text-green-600 absolute top-2 right-2 cursor-pointer" size={24} />
                     </div>
                   </div>
                 ))}
@@ -414,9 +396,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                         width={0}
                         height={0}
                         alt=""
-                        className="rounded-lg object-cover object-center w-full h-[100px]"
+                        className="rounded-lg object-cover object-center w-full h-[50px]"
                       />
-                      <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
+                      <CloseCircle className="text-green-600 absolute top-2 right-2 cursor-pointer" size={24} />
                     </div>
                   </div>
                 ))}
