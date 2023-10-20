@@ -45,7 +45,6 @@ const AddProduct = () => {
     assets_type: z.string(),
     assets_notes: z.string().min(4, { message: 'Leave a note about the file' }),
     assets_name: z.string().min(4, { message: 'Add File name' }),
-    shopId: z.string().min(3, { message: 'Select Shop' }),
     quantity: z.number(),
   });
   const form = useForm({
@@ -55,14 +54,13 @@ const AddProduct = () => {
       description: '',
       category_id: '',
       price: '',
-      discountPrice: '',
+      discountPrice: '0',
       tax: '',
       currency: 'NGN',
       assets_link: '',
       assets_type: 'external',
       assets_notes: '',
       assets_name: '',
-      shopId: '',
       quantity: 1,
     },
   });
@@ -87,7 +85,6 @@ const AddProduct = () => {
     async function fetchCategoriesData() {
       const updatedCategories = await fetchCategories();
       setCategoriesData(updatedCategories);
-      await getShopId();
     }
 
     fetchCategoriesData();
@@ -165,22 +162,7 @@ const AddProduct = () => {
       return [];
     }
   };
-  const getShopId = async () => {
-    try {
-      const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/shops/merchant', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-        },
-      });
-      console.log(data);
-      if (data.data.length > 0) {
-        setShops(data.data);
-      }
-    } catch (error) {
-      setShops([]);
-    }
-  };
+
   const [products, setProducts] = useState({
     image: '',
     name: '',
@@ -479,30 +461,6 @@ const AddProduct = () => {
                       </option>
                     ))}
                   </select>
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label>
-                  <select
-                    className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
-                    }`}
-                    // value={products.sub_category_id}
-                    // onChange={handleOptionChange}
-
-                    {...form.getInputProps('shopId')}
-                  >
-                    <option value="" className="placeholder:text-[#191C1E] capitalize">
-                      Select shop
-                    </option>
-                    {shops.map((shop: any) => (
-                      <option
-                        value={shop.id}
-                        key={shop.id}
-                        className="placeholder:text-[#191C1E] text-black capitalize"
-                      >
-                        {shop.name}
-                      </option>
-                    ))}
-                  </select>
-                  <p className="text-[red] text-lg my-3 font-semibold">{form.errors.shopId && form.errors.shop_id}</p>
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">

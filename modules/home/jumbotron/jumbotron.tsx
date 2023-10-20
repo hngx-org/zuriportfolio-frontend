@@ -32,7 +32,10 @@ const Jumbotron = () => {
             </p>
           </div>
           <div className="pt-[15px] flex justify-center items-center">
-            <Button href="/auth/signup" className="text-[16px] rounded-[8px]">
+            <Button
+              href="/auth/signup"
+              className="text-[16px] rounded-[8px] active:bg-brand-green-primary visited:bg-brand-green-primary focus:bg-brand-green-primary hover:bg-brand-green-primary"
+            >
               Get Started
             </Button>
             <Button

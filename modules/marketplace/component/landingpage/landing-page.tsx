@@ -9,6 +9,7 @@ import RecentlyViewed from './recentlyViewed/recentlyViewed';
 import useCategory from '../filter/hooks/useCategory';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import { useQuery } from '@tanstack/react-query';
+import Head from 'next/head';
 
 function LandingPage() {
   const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
@@ -22,6 +23,10 @@ function LandingPage() {
   const { categories, loading } = useCategoryNav();
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+      <Head>
+        <title>Marketplace Landing Page</title>
+        <meta name="description" content="Zuri marketplace - Browse varieties of products based on choice." />
+      </Head>
       <CategoriesNav navItems={categories} isLoading={loading} />
 
       <div className="py-6 px-4 overflow-hidden w-full lg:max-w-[1350px] mx-auto">

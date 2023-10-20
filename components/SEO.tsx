@@ -12,6 +12,7 @@ const SEO: React.FC<SEOProps> = ({ title, description, image, url }) => {
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:url" content={url} />
+      <link rel="icon" href="/assets/zuriLogo.svg" />
     </Head>
   );
 };
