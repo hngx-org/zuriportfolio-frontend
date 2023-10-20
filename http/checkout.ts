@@ -26,7 +26,7 @@ export const addToCart = async (cartItems: string[], token: string) => {
     }
     return { status: 400 };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return { status: false, error: error };
   }
 };

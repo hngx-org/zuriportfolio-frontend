@@ -33,14 +33,11 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
     const tempUser = await createTempUser(data);
 
     if (tempUser.data.token) {
-      console.log(tempUser.data.token);
-
       const cartItems = JSON.parse(localStorage.getItem('products') as string);
       const cartIds = await getCardItemsId(cartItems);
 
       const cartResponse = await addToCart(cartIds, tempUser.data.token);
       if (cartResponse.status == 201) {
-        console.log('status passed');
         const response = await makePayment(payment, tempUser.data.token);
         if (response.status == 201) {
           localStorage.setItem('products', '');

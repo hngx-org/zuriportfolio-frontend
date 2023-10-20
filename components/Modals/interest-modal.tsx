@@ -153,7 +153,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
       .then((res) => {
         setInitialLoading(false);
         const interestsArray: string[] = res.data?.interestArray;
-        console.log(interestsArray);
+
         setValues(interestsArray ? interestsArray : []);
       })
       .catch((err) => {

@@ -8,7 +8,6 @@ const useIsAuthenticated = () => {
   const { mutate } = useMutation(authorizeToken, {
     onSuccess: (res) => {
       if (res.status === 200) {
-        console.log(res);
         setAuthenticatedState(true);
         return true;
       }
@@ -16,7 +15,6 @@ const useIsAuthenticated = () => {
     onError: (res: any) => {
       const error = JSON.parse(res);
       if (error.status === 401 || error.status === 400) {
-        console.error(error);
         setAuthenticatedState(false);
         return false;
       }

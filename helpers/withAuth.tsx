@@ -46,7 +46,7 @@ export const withAdminAuth = <P extends { children?: React.ReactNode }>(WrappedC
 
       if (authenticatedState === false) {
         router.replace('/auth/login');
-        console.log(authenticatedState, 'authenticated state');
+
         return;
       }
 
@@ -92,7 +92,7 @@ export const withUserAuth = <P extends { children: React.ReactNode }>(WrappedCom
 
       if (authenticatedState === false) {
         router.replace('/auth/login');
-        console.log(authenticatedState, 'authenticated state');
+
         return;
       }
 
