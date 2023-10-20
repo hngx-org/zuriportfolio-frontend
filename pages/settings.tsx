@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { NotificationCheckboxType } from '../@types';
 import { useRouter } from 'next/router';
 import withAuth from '../helpers/withAuth';
-import Image from 'next/image';
 import { useAuth } from '../context/AuthContext';
 import Handling2FA from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 import UpdatingProfilePic from '@modules/portfolio/component/portfolioSettingsComponents/UpdatingProfilePic';
@@ -84,9 +83,6 @@ const SettingPage = () => {
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
-      const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
-      const method = storedNotificationData ? 'PATCH' : 'POST';
-
       const url = `${baseUrl}set-notification-settings/${auth?.user.id}`;
       const response = await fetch(url, {
         method: 'POST',
@@ -98,15 +94,8 @@ const SettingPage = () => {
       });
 
       if (response.ok) {
-        console.log('Request type:', method);
         const data = await response.json();
         console.log('Notification settings updated successfully:', data.data);
-        const { userId, ...notificationData } = data.data;
-
-        setCheckboxState(notificationData);
-
-        localStorage.setItem(`notificationData${auth?.user.id}`, JSON.stringify(notificationData));
-
         toast.success('Updated Successfully', {
           position: 'top-center',
           autoClose: 2000,

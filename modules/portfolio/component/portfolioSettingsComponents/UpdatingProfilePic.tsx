@@ -24,7 +24,6 @@ const UpdatingProfilePic = () => {
     if (response.status === 200) {
       return response.data;
     }
-    throw new Error('Failed to fetch user data');
   });
 
   const profilePicMutation = useMutation(async (coverImage: string | Blob) => {
@@ -38,10 +37,15 @@ const UpdatingProfilePic = () => {
       if (response.status === 200) {
         return response.data;
       } else {
-        throw new Error('Failed to upload the image');
       }
     } catch (error) {
-      throw new Error('An error occurred while uploading the image');
+      notify({
+        type: 'error',
+        message: 'uploaded failed',
+      });
+      setTimeout(() => {
+        toast.dismiss();
+      }, 4000);
     }
   });
 
@@ -60,11 +64,13 @@ const UpdatingProfilePic = () => {
           success: 'Image uploaded successfully',
           error: 'An error occurred while uploading the image',
         })
-        .then(() => {
-          notify({
-            type: 'success',
-            message: 'uploaded sucessfully',
-          });
+        .then((res) => {
+          if (res?.statues == 200) {
+            notify({
+              type: 'success',
+              message: 'uploaded sucessfully',
+            });
+          }
           setTimeout(() => {
             toast.dismiss();
           }, 4000);
@@ -73,9 +79,12 @@ const UpdatingProfilePic = () => {
       promise.catch((error) => {
         console.error('An error occurred while uploading the image:', error);
         notify({
-          type: 'success',
+          type: 'error',
           message: 'failed to upload',
         });
+        setTimeout(() => {
+          toast.dismiss();
+        }, 4000);
       });
     }
   };
