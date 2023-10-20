@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import Loader from '@ui/Loader';
 import Image from 'next/image';
 import { MetricCardProps } from '../../../../@types';
-import { logQueryResult } from '../../../../helpers/index';
+import { logQueryResult } from '../../../../helpers/dashboard';
 import {
   fetchTodaysAverageOrderValue,
   fetchTodaysOrders,

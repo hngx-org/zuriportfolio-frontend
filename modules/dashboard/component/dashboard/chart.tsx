@@ -2,7 +2,7 @@ import Loader from '@ui/Loader';
 import React from 'react';
 import { BarChart, Bar, XAxis, CartesianGrid, LineChart, Tooltip, Line, ResponsiveContainer } from 'recharts';
 import { ChartProps } from '../../../../@types/index';
-import { sevenDays, twelveMonths, twentyFourHours, thirtyDays } from '../../../../db/dashboard';
+import { chartMargins, getSalesTooltipMessage, getTrafficTooltipMessage } from '../../../../helpers/dashboard';
 
 const Chart: React.FC<ChartProps> = ({ isBarChart, data, isFetching, isFetched }) => {
   return (
@@ -42,13 +42,6 @@ const Chart: React.FC<ChartProps> = ({ isBarChart, data, isFetching, isFetched }
   );
 };
 
-const chartMargins = {
-  top: 5,
-  right: 20,
-  left: 20,
-  bottom: 5,
-};
-
 const SalesTooltip = ({ active, payload, label }: any) => {
   const tooltipMessage = getSalesTooltipMessage(label, payload);
   if (active && payload && payload.length) {
@@ -74,43 +67,5 @@ const TrafficTooltip = ({ active, payload, label }: any) => {
 
   return null;
 };
-
-function getSalesTooltipMessage(label: any, payload: any[]) {
-  let message = `Your total revenue `;
-  if (label && payload && payload[0]) {
-    if (twelveMonths.includes(label)) {
-      message += `in ${label} was $${payload[0]?.value}`;
-    } else if (sevenDays.includes(label)) {
-      message += `on ${label} was $${payload[0]?.value}`;
-    } else if (thirtyDays.includes(label)) {
-      message += `on the ${label} was $${payload[0]?.value}`;
-    } else if (twentyFourHours.includes(label)) {
-      message += `at ${label} was $${payload[0]?.value}`;
-    } else {
-      message += `for ${label} was $${payload[0]?.value}`;
-    }
-  }
-
-  return message;
-}
-
-function getTrafficTooltipMessage(label: any, payload: any[]) {
-  let message = `Your store had `;
-  if (label && payload && payload[0]) {
-    if (twelveMonths.includes(label)) {
-      message += `${payload[0]?.value} views in ${label}`;
-    } else if (sevenDays.includes(label)) {
-      message += `${payload[0]?.value} views on ${label}`;
-    } else if (thirtyDays.includes(label)) {
-      message += `${payload[0]?.value} views on the ${label}`;
-    } else if (twentyFourHours.includes(label)) {
-      message += `${payload[0]?.value} views at ${label}`;
-    } else {
-      message += `${payload[0]?.value} views`;
-    }
-  }
-
-  return message;
-}
 
 export default Chart;
