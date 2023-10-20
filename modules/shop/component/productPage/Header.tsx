@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <nav className="bg-white-100 shadow">
-      <div className="container mx-auto px-4 sm:px-6 md:px-3 py-5 flex flex-col md:flex-row  items-center">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-10  py-5 flex flex-col md:flex-row  items-center">
         <div className="flex items-center justify-between w-full md:w-auto ">
           <Link href="/" className="text-white text-2xl font-bold">
             <svg xmlns="http://www.w3.org/2000/svg" width="126" height="24" fill="none" viewBox="0 0 126 24">
@@ -82,9 +82,6 @@ const Header: React.FC<HeaderProps> = ({
             setShopOwnerQuery={setShopOwnerQuery}
             setSearchQueryLocal={setSearchQueryLocal}
             clearSearch={clearSearch}
-            selectedCategory={selectedCategory}
-            handleCategoryChange={handleCategoryChange}
-            showSearchHistory={toggleSearchHistoryModal}
           />
         </div>
 

@@ -7,7 +7,7 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ shopName }) => {
   return (
     <footer className="bg-green-600 w-full text-white-100 ">
-      <div className="container mx-auto py-10 px-4 sm:px-6 md:px-3">
+      <div className="container mx-auto py-10 px-4 sm:px-6 md:px-6 lg:px-10 ">
         <div className="flex  md:flex-row flex-col  items-center justify-between">
           <div className="flex  md:flex-col md:text-base text-xs font-manropeEB flex-row items-center md:items-start md:gap-2 gap-6 text-left mb-4 md:mb-0">
             Shop By

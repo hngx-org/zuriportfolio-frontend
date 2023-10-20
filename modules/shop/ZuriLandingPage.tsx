@@ -114,7 +114,7 @@ const ZuriLandingPage = () => {
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       />
-      <div className=" flex-grow px-4 sm:px-6 md:px-3 py-5 container mx-auto">
+      <div className=" flex-grow px-4 sm:px-6 md:px-6 lg:px-10 py-5 container mx-auto">
         {shop ? (
           <div className="space-y-12 py-10">
             <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
