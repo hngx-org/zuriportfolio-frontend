@@ -26,7 +26,7 @@ const useAuthRevalidate = () => {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('zpt');
         }
-        console.log(response.data.message, 'from the useAuthRevalidate hook');
+
         return;
       }
     },

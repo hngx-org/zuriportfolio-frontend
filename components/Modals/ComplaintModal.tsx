@@ -47,14 +47,13 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
             theme: 'light',
           });
           const res = await response.json();
-          console.log(res.data);
+
           setError(''); // Clear any previous errors
           onClose();
         } else {
           setError('Failed to submit complaint. Please try again.');
         }
       } catch (err) {
-        console.log(err);
         toast.error('An error occurred while submitting your complaint', {
           position: 'top-right',
           autoClose: 5000,

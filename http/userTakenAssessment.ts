@@ -29,7 +29,7 @@ export const getAssessmentDetails = async (token: string, data: string) => {
     }
     return response.data;
   } catch (error) {
-    console.log('detail', error);
+    console.error('detail', error);
     throw error;
   }
 };
@@ -46,7 +46,7 @@ export const getAllAssessments = async (token: string) => {
     }
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
 };
@@ -72,7 +72,6 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
     if (!res.data) {
       return;
     }
-    console.log('responce', res.data.data);
     return res.data;
   } catch (error) {
     console.error('Error fetching user taken assessment:', error);
@@ -123,7 +122,6 @@ export const submitAssessment = async ({
         answer_text: answer_text,
       },
     });
-    console.log(res);
   } catch (error) {
     console.error('Error submitting assessment:', error);
     throw error;
@@ -151,7 +149,6 @@ export const submitFinalAssessment = async ({
       is_submitted: true,
       time_spent: minutes,
     });
-    console.log(res);
     return res.data;
   } catch (error) {
     console.error('Error submitting assessment:', error);

@@ -35,9 +35,7 @@ export default function Preview() {
         }
 
         const data = await response.json();
-        console.log(data);
         setAssessments(data);
-        console.log('assessment data', data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

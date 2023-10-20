@@ -25,7 +25,7 @@ export const fetchTodaysRevenue = async () => {
     return todaysRevenue;
   } catch (error) {
     // fetchErrorToast("today's revenue");
-    // console.error('Error fetching revenues:', error);
+    //
     throw error;
   }
 };
@@ -41,7 +41,7 @@ export const fetchTodaysOrders = async () => {
     return orderCount;
   } catch (error) {
     // fetchErrorToast("today's orders");
-    // console.error('Error fetching todays orders:', error);
+    //
     throw error;
   }
 };
@@ -57,7 +57,7 @@ export const fetchTodaysAverageOrderValue = async () => {
     return todaysAverageOrderValue;
   } catch (error) {
     // fetchErrorToast('todays average order value');
-    // console.error('Error fetching order/average:', error);
+    //
     throw error;
   }
 };
@@ -75,7 +75,7 @@ export const fetchYesterdaysRevenue = async () => {
     return yesterdaysRevenue;
   } catch (error) {
     // fetchErrorToast("yesterday's revenue");
-    // console.error('Error fetching yesterdays revenues:', error);
+    //
     throw error;
   }
 };
@@ -91,7 +91,7 @@ export const fetchYesterdaysOrders = async () => {
     return orderCount;
   } catch (error) {
     // fetchErrorToast("yesterday's orders");
-    // console.error('Error fetching Yesterdays orders:', error);
+    //
     throw error;
   }
 };
@@ -107,7 +107,7 @@ export const fetchYesterdaysAverageOrderValue = async () => {
     return yesterdaysAverageOrderValue;
   } catch (error) {
     // fetchErrorToast('yesterdays average order value');
-    // console.error('Error fetching order/average:', error);
+    //
     throw error;
   }
 };
@@ -121,11 +121,11 @@ export const fetchSalesReports = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    // console.log(res);
+    //
     return res.data;
   } catch (error) {
     // fetchErrorToast('sales reports');
-    // console.error('Error fetching reports:', error);
+    //
     throw error;
   }
 };
@@ -137,11 +137,11 @@ export const fetchStoreTraffic = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    // console.log(res);
+    //
     return res.data;
   } catch (error) {
     // fetchErrorToast('store traffic');
-    // console.error('Error fetching store-traffic:', error);
+    //
     throw error;
   }
 };
@@ -155,11 +155,11 @@ export const fetchActivity = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    // console.log(res);
+    //
     return res.data;
   } catch (error) {
     // fetchErrorToast('activity');
-    // console.error('Error fetching activity:', error);
+    //
     throw error;
   }
 };

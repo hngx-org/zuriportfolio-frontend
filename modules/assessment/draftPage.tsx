@@ -51,7 +51,6 @@ const DraftPage = () => {
           return;
         }
 
-        console.log(data);
         setLoading(false);
         toast.dismiss(); // Dismiss the loading notification
         setDraftList(data);

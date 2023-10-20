@@ -115,7 +115,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
             theme: 'light',
             type: 'error',
           });
-          console.log(err);
+          console.error(err);
         });
     }
   };

@@ -16,7 +16,6 @@ const useInputError = () => {
     const formValuesArray = Object.entries(formValuesObj);
     const validFormValues = formValuesArray.map((value) => getInputError(value[0], value[1] as string));
     setInputErrors(validFormValues);
-    console.log(validFormValues);
   };
 
   return { inputErrors, handleSubmit };

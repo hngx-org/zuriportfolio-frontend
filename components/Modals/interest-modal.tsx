@@ -111,7 +111,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
             type: 'error',
           });
           setChecks(true);
-          console.log(err);
+          console.error(err);
         });
     }
   };
@@ -153,12 +153,12 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
       .then((res) => {
         setInitialLoading(false);
         const interestsArray: string[] = res.data?.interestArray;
-        console.log(interestsArray);
+
         setValues(interestsArray ? interestsArray : []);
       })
       .catch((err) => {
         setInitialLoading(false);
-        console.log(err);
+        console.error(err);
       });
   };
 

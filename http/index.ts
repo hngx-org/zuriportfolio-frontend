@@ -9,7 +9,6 @@ export const getUserByName = async (props: { name: string }) => {
     const res = await $http.get(`/user/${props?.name}`);
     return res?.data;
   } catch (e: any) {
-    console.log(e);
     return e.response.data ?? { message: e.message };
   }
 };
@@ -27,7 +26,6 @@ export const removeFromWishlist = async (userId: any, productId: any, token: any
 
     return response;
   } catch (error) {
-    console.error('Error deleting:', error);
     throw error;
   }
 };

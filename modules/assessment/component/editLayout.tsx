@@ -64,7 +64,6 @@ const EditLayout = () => {
     const newOptions = [...editedOptions];
     newOptions[index] = newValue;
     setEditedOptions(newOptions);
-    console.log(editedOptions);
   };
 
   //state to store edited questions
@@ -104,8 +103,6 @@ const EditLayout = () => {
     },
   };
   function updateQuestionArray(questionArray: Question[], newQuestion: Question): Question[] {
-    console.log('questionArray', questionArray);
-    console.log('newQuestion', newQuestion);
     const updatedArray: Question[] = [...questionArray]; // Create a new array to avoid modifying the original one
 
     // Check if a question with the same question_no already exists
@@ -147,7 +144,6 @@ const EditLayout = () => {
   }
 
   async function updateAssessment(assessmentId: number, assessmentData: AssessmentData): Promise<void> {
-    console.log(assessmentData);
     const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${assessmentId}/`;
 
     const zptToken = localStorage.getItem('zpt') ?? '';
@@ -169,7 +165,7 @@ const EditLayout = () => {
       }
 
       const data = await response.json();
-      console.log('Assessment updated successfully:', data);
+
       // alert('Assessment updated successfully, You can go back');
       notify();
       <ToastContainer />;
@@ -182,7 +178,6 @@ const EditLayout = () => {
     const theSkillId = Number(sessionStorage.getItem('assessmentId'));
 
     if (theSkillId) {
-      console.log('Dont Navigate');
       setAssessmentId(theSkillId);
       const fetchSkillsQuestions = async () => {
         try {
@@ -200,7 +195,7 @@ const EditLayout = () => {
           });
 
           const data = await response.json();
-          console.log('data', data);
+
           setAssessmentTitle(data.title);
           setOriginalArrayQuestions(data.questions);
 
@@ -212,13 +207,10 @@ const EditLayout = () => {
           setEditedOptions(editable[0].answer.options);
           setAssessmentQuestionNumber(editable[0].question_no);
           setCorrectOption(editable[0].answer.correct_option);
-        } catch (error) {
-          console.error('Error fetching data in editlayout:', error);
-        }
+        } catch (error) {}
       };
       fetchSkillsQuestions();
     } else {
-      console.log('Navigate');
       navigate.push('/super-admin/assessment/');
     }
   }, []);

@@ -24,7 +24,6 @@ const CreateTemplate = () => {
   };
   const [listupdate, setListupdate]: any = useContext(UpdateContext);
   const handleinputOption = (e: any, index: number, n: number) => {
-    console.log(index, n);
     const updatedData = [...list];
     updatedData[index].answer.options[n] = e.target.value;
     setList(updatedData);
@@ -49,8 +48,6 @@ const CreateTemplate = () => {
     //updatedData[indextoadd]?.options.push('')
     updatedData[index].answer.options.push('');
     setList(updatedData);
-    console.log(list[index]);
-    console.log(newobject);
   };
   const setCorrect = (value: any, index: number) => {
     const updatedData = [...list];
@@ -89,7 +86,7 @@ const CreateTemplate = () => {
   useEffect(() => {
     if (listupdate === 'addquest') {
       setList(newobject.questions_and_answers);
-      console.log(list, newobject);
+
       setListupdate('waiting');
     }
 
