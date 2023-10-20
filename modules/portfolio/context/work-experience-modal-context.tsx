@@ -66,8 +66,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
 
-  console.log(userId);
-
   const handleEditExperience = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     e?.preventDefault();
@@ -96,9 +94,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setIsData(true);
         setIsForm(false);
         getAllWorkExperience();
-        console.log('Response', response);
       }
-      console.log(userId);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -130,7 +126,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setWorkExperiences((prevExperiences) => prevExperiences.filter((experience) => experience.id !== experienceId));
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       notify({
         message: 'Was not able to delete work experience 😞',
         position: 'top-center',
@@ -154,7 +150,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setWorkExperiences(workExperience);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     } finally {
       setIsLoading(false);
@@ -195,7 +191,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       // }
 
       if (endDateObj < startDateObj) {
-        console.log('true');
         notify({
           message: 'End date must be greater that start date',
           position: 'top-center',
@@ -204,8 +199,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         });
         return;
       }
-
-      console.log(startDate, endDate);
 
       if (missingFields.length > 0) {
         // Handle the case when required values are missing
@@ -259,7 +252,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         resetForm();
         setIsForm(false);
         setIsData(true);
-        console.log(response);
       } else {
         // Request failed, handle the error
         console.error('Request failed with status:', response.status);

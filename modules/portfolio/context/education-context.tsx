@@ -75,20 +75,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       })
       .catch((error) => console.log({ error: error }));
   }, [userId]);
-  // function setnewdegree() {
-  //   fetch('https://hng6-r5y3.onrender.com/api/degree')
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       if (data?.data) {
-  //         setDegreeOptions(
-  //           () => data.data?.map((item: DegreeOption) => ({ id: String(item.id), type: String(item.type) })),
-  //         );
-  //       }
-  //     })
-  //     .catch((error) => console.log({ error: error }));
-  // }
 
   useEffect(() => {
     setnewdegree();
@@ -107,7 +93,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const handleEditEducation = async (e: React.FormEvent<HTMLFormElement>, educationId: number) => {
     setIsLoading(true);
     e.preventDefault();
-    console.log('editing');
     try {
       const updatedEducation = {
         degree, // You may need to add the degree information as well
@@ -164,7 +149,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setEducations((prevEducations) => prevEducations.filter((education) => education.id !== educationId));
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       notify({
         message: 'Was not able to delete education',
         position: 'top-center',
@@ -179,7 +164,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   // Extract the education IDs
   const getAllEducation = useCallback(async () => {
     setIsLoading(true);
-    console.log('Edu', userId);
     try {
       const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
 
@@ -189,9 +173,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setEducations(education);
         // Extract the education IDs
         const educationIds = educations.map((education) => education.id);
-        console.log(education.degree);
-        // console.log(education.degree.id)
-        console.log(educations);
       }
     } catch (error) {
       console.log('Error dey for here', error);
@@ -303,17 +284,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     getAllEducation();
     // }
   }, [getAllEducation]);
-
-  useEffect(() => {
-    console.log('Mode', isEditMode);
-  }, [isEditMode]);
-
-  useEffect(() => {
-    console.log('Educations', educations);
-  }, [educations]);
-  useEffect(() => {
-    console.log('degreeOptions', degreeOptions);
-  }, [degreeOptions]);
 
   return (
     <EducationModalContext.Provider

@@ -72,13 +72,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     setIsForm(true);
   };
 
-  // useEffect(() => {
-  //   console.log(isForm);
-  // }, [isForm]);
-  useEffect(() => {
-    console.log(isChecked);
-  }, [isChecked]);
-
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
       <div className="space-y-6 bg-white-100 p-4 py-5">
