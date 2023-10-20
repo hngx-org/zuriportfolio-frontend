@@ -1,7 +1,9 @@
 import React from 'react';
+
+import { boolean } from 'zod';
+
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
-import { boolean } from 'zod';
 
 // export all interfaces and types
 declare module 'nprogress';
@@ -288,6 +290,11 @@ export interface IntrestedProducts {
     id: string;
     name: string;
   };
+}
+
+export interface ApiData {
+  endpoint: string;
+  status: string;
 }
 
 export interface ratingProps {
