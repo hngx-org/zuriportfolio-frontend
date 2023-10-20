@@ -60,7 +60,7 @@ const CountryCityDropdown: React.FC<Props> = ({
             }}
             value={selectedCountry || ''}
           >
-            <SelectTrigger className="border-[#59595977] text-green-300 h-[50px] rounded-[10px]">
+            <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
               <SelectValue defaultValue={selectedCountry || ''} placeholder={"Select Country"} />
             </SelectTrigger>
             <SelectContent style={{ maxHeight: '200px', overflowY: 'auto' }}>
@@ -82,10 +82,10 @@ const CountryCityDropdown: React.FC<Props> = ({
             }}
             value={selectedCity || ''}
           >
-            <SelectTrigger className="border-[#59595977] text-green-300 h-[50px] rounded-[10px]">
+            <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
               <SelectValue defaultValue={selectedCity || ''} placeholder={"Select City"} />
             </SelectTrigger>
-            <SelectContent style={{ maxHeight: '200px', overflowY: 'auto' }}>
+            <SelectContent className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100" style={{ maxHeight: '200px', overflowY: 'auto' }}>
               {cities.map((city) => (
                 <SelectItem key={city} value={city}>
                   {city}
