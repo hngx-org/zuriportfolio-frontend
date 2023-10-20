@@ -275,20 +275,16 @@ export const Shop = () => {
 export const Contact = ({ data }: SkeletonProps) => {
   return (
     <div className="flex flex-col w-full gap-5">
-      {data?.map((contact: { title: string; info: string; link: string }, i: string) => (
-        <div key={i}>
-          <div className="flex justify-start items-center gap-10">
-            <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
-            <a
-              className="text-blue-100 font-semibold text-sm flex-[2] flex items-center text-center gap-3"
-              href={contact.link}
-            >
-              {contact.info}
-              <ExportSquare size={14} />
-            </a>
-          </div>
-        </div>
-      ))}
+      <div className="flex justify-start items-center gap-10">
+        <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{data.url}</span>
+        <a
+          className="text-brand-green-primary font-semibold text-sm flex-[2] flex items-center text-center gap-3"
+          href={data.url}
+        >
+          {data.url}
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
+        </a>
+      </div>
     </div>
   );
 };
