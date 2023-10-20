@@ -112,23 +112,8 @@ const dummyOrders: OrderHistory[] = [
     revenue: 1120000,
   },
 ];
+
 const OrderDetails = () => {
-  // const {
-  //   orders: pageOrders,
-  //   orderFilter,
-  //   changeFilter,
-  //   changeSortBy,
-  //   sortBy,
-  //   changeSearchQuery,
-  //   fetchOrders,
-  //   getSearchResult,
-  //   insertOrders,
-  //   searchQuery,
-  //   filterFunc,
-  //   sortOrders,
-  //   loading: loadingOrders,
-  //   searching,
-  //   totalPage,
   const [pageOrders, setOrders] = useState<OrderHistory[]>(dummyOrders);
   const [orderFilter, setOrderFilter] = useState('all');
   const [sort, setSort] = useState<{
