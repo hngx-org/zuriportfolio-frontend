@@ -88,7 +88,7 @@ const PromotionHistory: React.FC = () => {
                     </p>
                     <Link
                       href="/dashboard/promotions/discounts"
-                      className="text-[16px] dark:text-white-100 font-manropeB bg-brand-green-primary px-10 py-2 rounded-md mt-8"
+                      className="flex mt-4 py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition"
                     >
                       Create Promotion
                     </Link>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Input } from '@ui/Input';
 import { useAuth } from '../../../../context/AuthContext';
 import { notify } from '@ui/Toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface userDetailsI {
   email: string;
@@ -32,49 +33,54 @@ function UpdatePassword() {
   });
   const { auth } = useAuth();
   const [errorMsg, setErrorMsg] = useState<any>(null);
-  const [isPending, setIspending] = useState<boolean>(false);
   const onInputChange = (event: React.ChangeEvent) => {
     let { name, value } = event.target as any;
     setUserDetails((prevVals) => ({ ...prevVals, [name]: value }));
   };
   let errors: any = {};
+  const { mutate, isLoading } = useMutation(
+    (formData: any) => {
+      // This function will be called when you call the mutate function
+      return axios.post('https://staging.zuri.team/api/auth/api/auth/reset-password/change', formData);
+    },
+    {
+      // onSuccess callback is triggered when the mutation is successful
+      onSuccess: (data) => {
+        console.log(data);
+        notify({
+          message: 'Account Update Successful',
+          type: 'success',
+        });
+        setUserDetails((prevVals) => ({
+          ...prevVals,
+          email: '',
+          currentPassword: '',
+          newPassword: '',
+          confirmNewPassword: '',
+        }));
+      },
+      // onError callback is triggered when the mutation fails
+      onError: (error: any) => {
+        console.log(error);
+        notify({
+          message: `Error: ${error?.response?.data?.message || error?.message}`,
+          type: 'error',
+        });
+      },
+    },
+  );
   const handleUpdateAccount = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formValidate = validateForm();
     setErrorMsg(errors);
+
     if (Object.keys(formValidate).length === 0) {
-      setIspending(true);
-      axios
-        .post(`https://staging.zuri.team/api/auth/api/auth/reset-password/change`, {
-          token: auth?.token,
-          oldPassword: userDetails?.currentPassword,
-          newPassword: userDetails?.newPassword,
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.status === 200) {
-            notify({
-              message: 'Account Update Successful',
-              type: 'success',
-            });
-            setIspending(false);
-            setUserDetails((prevVals) => ({
-              ...prevVals,
-              email: '',
-              currentPassword: '',
-              newPassword: '',
-              confirmNewPassword: '',
-            }));
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          setIspending(false);
-          notify({
-            message: `Error: ${error?.response?.data?.message || error?.message}`,
-            type: 'error',
-          });
-        });
+      const { currentPassword, newPassword } = userDetails;
+      mutate({
+        token: auth?.token,
+        oldPassword: currentPassword,
+        newPassword: newPassword,
+      });
     }
   };
   const validateForm = () => {
@@ -96,6 +102,7 @@ function UpdatePassword() {
     console.log(errors);
     return errors;
   };
+
   return (
     <div className="lg:ml-0 sm:w-[465px] flex flex-col mt-[1rem] lg:mt-0 sm:mt-[2rem] sm:ml-[18px] gap-y-[1rem] mb-[37px] lg:mb-0">
       <form onSubmit={handleUpdateAccount} className="flex flex-col lg:gap-y-[0.5rem] gap-y-[1rem]">
@@ -338,8 +345,8 @@ function UpdatePassword() {
           </div>
         </div>
         <Button
-          disabled={isPending}
-          isLoading={isPending}
+          disabled={isLoading}
+          isLoading={isLoading}
           type="submit"
           // size="md"
           intent="primary"

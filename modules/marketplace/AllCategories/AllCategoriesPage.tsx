@@ -5,6 +5,7 @@ import Link from 'next/link';
 import CategoryLoading from '../component/categories/CategoryLoading';
 import axios from 'axios';
 import NoEndpoint from '../component/no-endpoint/no-endpoint';
+import Head from 'next/head';
 
 interface Cat {
   isLoading: boolean;
@@ -70,6 +71,10 @@ export default function AllCategoriesPage() {
 
   return (
     <>
+      <Head>
+        <title>All Categories Page</title>
+        <meta name="description" content="Explore products from All categories here." />
+      </Head>
       {categoryProducts.isLoading ? (
         <div
           className={`flex flex-nowrap lg:grid grid-cols-4 justify-between gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}

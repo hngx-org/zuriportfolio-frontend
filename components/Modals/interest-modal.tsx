@@ -89,7 +89,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
         userId: userId,
       };
       axios
-        .post(`${endpoint}/api/interests`, data)
+        .post(`${endpoint}/api/v1/interests`, data)
         .then((res) => {
           setLoading(false);
           notify({
@@ -193,9 +193,9 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
           {values.length > 0 && <section className="flex items-center flex-wrap gap-3 mt-10 mb-5">{items}</section>}
 
           <section
-            className={`w-full flex items-center mt-4 rounded-lg border ${
+            className={`w-full flex items-center mt-12 mb-6 rounded-lg border ${
               checks ? 'border-[#C4C7C6]' : 'border-red-205'
-            } px-2`}
+            } px-2 `}
           >
             <input
               type="text"
@@ -209,7 +209,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
           </section>
 
           <section className="mt-5">
-            <h5 className="text-green-600 text-base font-bold font-manropeL"> Suggestions </h5>
+            <h5 className="text-green-600 text-base font-extrabold font-manropeL"> Suggestions </h5>
             <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">{suggestions}</ul>
           </section>
 

@@ -66,7 +66,7 @@ export default function ReviewDashboard() {
               ) : // Conditional rendering based on the products array
               products.length === 0 ? (
                 <main className="max-w-[1240px] p-10 mx-auto flex m-[100px] mt-[-10px] md:mt-[-10px] md:m-[100px] flex-col items-center justify-center">
-                  <Image src="/assets/images/discount.png" alt="discount" width={100} height={100} />
+                  <Image src="/assets/images/review.png" alt="discount" width={100} height={100} />
                   <h2 className="text-[28px] font-bold text-center font-manropeB mt-4">No product to review</h2>
                   <Link href="/dashboard/products/add-product">
                     <Button className="flex mt-4 py-3 px-5 gap-4 rounded-2xl text-white-100 items-center bg-brand-green-primary transition after:transition">
