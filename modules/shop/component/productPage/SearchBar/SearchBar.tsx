@@ -50,8 +50,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <>
-      <div className="border-[0.1px] border-[#A8ACAB] max-w-md container mx-auto px-4 py-2 w-full flex items-center rounded-md">
-        <SearchNormal1 size={16} color="#737876" />
+      <div className=" max-w-md container mx-auto px-4 py-2 w-full flex items-center rounded-md">
         <input
           type="text"
           placeholder="Search..."

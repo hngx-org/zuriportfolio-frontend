@@ -25,9 +25,8 @@ import Head from 'next/head';
 
 export default function ProductDetails() {
   const router = useRouter();
-  const { cart } = useCart();
   const { auth } = useAuth();
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
   const [product, setProduct] = useState<Products | null>(null);
   const [showAll, setShowAll] = useState(false);
   const [shopID, setShopID] = useState('');
@@ -38,6 +37,8 @@ export default function ProductDetails() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showFullDescription, setShowFullDescription] = useState(false);
   const cartItemCount = cart.length;
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
+
   const handleCategoryChange = () => {};
   const ZOOM = 250;
 
@@ -140,42 +141,47 @@ export default function ProductDetails() {
   }
 
   const handleAddToCart = async () => {
-    if (!auth) {
+    if (isAddedToCart) {
+      toast.error('This product is already in your cart', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    } else if (!auth) {
       toast.error('Please Log in before Adding to the Cart', {
         position: 'top-right',
         autoClose: 3000,
       });
-    }
-    try {
-      const response = await axios.post(
-        'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
-        {
-          product_ids: [product.id],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${auth?.token}`,
+    } else {
+      try {
+        const response = await axios.post(
+          'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
+          {
+            product_ids: [product.id],
           },
-        },
-      );
-      if (response.status === 201) {
-        addToCart(product);
-
-        toast.success('Added to Cart', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
-      } else {
-        toast.error('Failed to add to Cart', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${auth?.token}`,
+            },
+          },
+        );
+        if (response.status === 201) {
+          addToCart(product);
+          setIsAddedToCart(true);
+          toast.success('Added to Cart', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        } else {
+          toast.error('Failed to add to Cart', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
       }
-    } catch (error) {
-      console.error('Error adding to cart:', error);
     }
   };
-
   {
     /*const renderRatingStars = (rating: number) => {
     const stars = [];
