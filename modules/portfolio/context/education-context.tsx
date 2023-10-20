@@ -165,7 +165,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const getAllEducation = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/v1/getPortfolioDetails/${userId}`);
+      const response = await fetch(`${API_BASE_URL}api/v1/portfolio/${userId}`);
 
       if (response.ok) {
         const data = await response.json();

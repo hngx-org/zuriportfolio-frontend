@@ -42,25 +42,33 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     ]);
   };
 
-  const handleSocialInputChange = (id: string, newValue: string) => {
-    // Find the index of the object with the matching id
-    const index = socials.findIndex((item) => item.id === id);
+  const handleSocialInputChange = (index: number, newValue: string) => {
+    // Creates a new array with the updated content for the specific input
+    const updatedData = [...socials];
+    updatedData[index] = { ...updatedData[index], url: newValue };
 
-    if (index !== -1) {
-      // Creates a new array with the updated content for the specific input
-      const updatedData = [...socials];
-      updatedData[index] = { ...updatedData[index], url: newValue };
-
-      // Update the state with the new array
-      setSocials(updatedData);
-    }
+    // Update the state with the new array
+    setSocials(updatedData);
   };
+  // const handleSocialInputChange = (id: string, newValue: string) => {
+  //   // Find the index of the object with the matching id
+  //   const index = socials.findIndex((item) => item.id === id);
+
+  //   if (index !== -1) {
+  //     // Creates a new array with the updated content for the specific input
+  //     const updatedData = [...socials];
+  //     updatedData[index] = { ...updatedData[index], url: newValue };
+
+  //     // Update the state with the new array
+  //     setSocials(updatedData);
+  //   }
+  // };
   const handleSocialSelectChange = (newId: number, index: number) => {
     const updatedData = [...socials];
     updatedData[index] = {
       ...updatedData[index],
       social_media_id: newId,
-      userId,
+      user_id: userId,
     };
     setSocials(updatedData);
   };
@@ -83,7 +91,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     }));
 
     sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/v1/contacts')
-      .then((res) => {
+      .then((response) => {
         setLoading(false);
         notify({
           message: 'Contact created successfully',
@@ -91,8 +99,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
           theme: 'light',
           type: 'success',
         });
-        console.log(res);
-        // onSaveModal();
+        console.log('response', response);
       })
       .catch((err) => {
         setLoading(false);
@@ -229,7 +236,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                         <Input
                           placeHolder="Enter social link"
                           onChange={(e) => {
-                            handleSocialInputChange(social.id, e.target.value);
+                            handleSocialInputChange(index, e.target.value);
                           }}
                           className="border-[#E1E3E2] w-[100%] rounded-none border-0 border-s h-full text-xs font-manropeL"
                           inputSize={'sm'}

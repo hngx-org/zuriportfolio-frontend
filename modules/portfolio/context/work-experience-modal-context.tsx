@@ -143,7 +143,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const getAllWorkExperience = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/v1/getPortfolioDetails/${userId}`);
+      const response = await fetch(`${API_BASE_URL}api/v1/portfolio/${userId}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -159,11 +159,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   }, [userId]);
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
-    const startDate = `${startMonth} ${startYear}`;
-    const endDate = `${endMonth} ${endYear}`;
-
-    const startDateObj = new Date(startDate);
-    const endDateObj = new Date(endDate);
     e?.preventDefault();
     setIsLoading(true);
     try {
@@ -178,27 +173,17 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       if (description === '') {
         missingFields.push('Description');
       }
-      // if (startMonth === '') {
-      //   missingFields.push('Start Month');
-      // }
-      // if (startYear === '') {
-      //   missingFields.push('Start Year');
-      // }
-      // if (endMonth === '') {
-      //   missingFields.push('End Month');
-      // }
-      // if (endYear === '') {
-      //   missingFields.push('End Year');
-      // }
-
-      if (endDateObj < startDateObj) {
-        notify({
-          message: 'End date must be greater that start date',
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
-        return;
+      if (startMonth === '') {
+        missingFields.push('Start Month');
+      }
+      if (startYear === '') {
+        missingFields.push('Start Year');
+      }
+      if (endMonth === '') {
+        missingFields.push('End Month');
+      }
+      if (endYear === '') {
+        missingFields.push('End Year');
       }
 
       if (missingFields.length > 0) {
@@ -248,7 +233,10 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         // Request failed, handle the error
         const responseJson = await response.json();
         console.error('Request failed with status:', response.status);
-        if (responseJson?.message && responseJson.message.includes('Code: too_small ~ Path: description')) {
+        if (
+          responseJson?.message &&
+          responseJson?.message.includes('String must contain at least 13 character(s) in description')
+        ) {
           notify({
             message: 'Description must contain more than 13 characters',
             position: 'top-center',
@@ -259,12 +247,21 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         }
         if (
           responseJson?.message &&
-          responseJson?.message.includes(
-            'End month must be greater than or equal to start month when end year is the same as start year, End month must be greater than or equal to start month when end year is the same as start year',
-          )
+          responseJson?.message.includes('End month must match or exceed start month in the same year')
         ) {
           notify({
-            message: 'You cant select a date from the past',
+            message: 'End month must match or exceed start month in the same year',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
+        if (
+          responseJson?.message &&
+          responseJson?.message.includes('End month must be at or after start month for the same year')
+        ) {
+          notify({
+            message: 'End month must be at or after start month for the same year',
             position: 'top-center',
             theme: 'light',
             type: 'error',
@@ -294,10 +291,14 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   }, [getAllWorkExperience, userId]);
 
   useEffect(() => {
-    if (workExperiences.length === 0) {
-      setIsForm(true);
-    }
+    console.log(workExperiences);
   }, []);
+
+  // useEffect(() => {
+  //   if (workExperiences.length === 0) {
+  //     setIsForm(true);
+  //   }
+  // }, []);
 
   return (
     <WorkExperienceModalContext.Provider
