@@ -40,6 +40,7 @@ import { alltracksType } from './@types';
 export default function SearchModule() {
   const [pageNumber, setPageNumber] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [uiFilter, setUiFilter] = useState<string[]>([]);
   const [filters, setFilters] = useState<{
     SortBy?: number;
     Country?: string;
@@ -60,15 +61,6 @@ export default function SearchModule() {
 
   const handleNumberReset = () => {
     setPageNumber(1);
-  };
-  const handleFilters = (type: string, value: string | number) => {
-    setFilters((prev) => {
-      if (value === '') {
-        delete prev[type];
-        return { ...prev };
-      }
-      return { ...prev, [type]: value };
-    });
   };
 
   const deBounce = useDebounce(`${query}`, 1200);
@@ -106,7 +98,7 @@ export default function SearchModule() {
   const handleMenu = () => {
     setOpenMenu(false);
   };
-
+  const filterActiveUI: string[] = ['skill'];
   const filterUI = ['HTML', 'REACT', 'C+', 'Figma', 'Css', 'Typography'];
   const filterTop3 = filterUI.slice(0, 3);
   const filterRemainder = filterUI.slice(3);
@@ -125,7 +117,6 @@ export default function SearchModule() {
     queryFn: () => handleAllTrack(),
   });
 
-  console.log(trackData, 'trackdata');
   const allTrack: alltracksType[] = [{ name: 'All Categories', id: 0 }, ...(trackData?.data ?? [])];
 
   // Sliding Left or right
@@ -141,11 +132,27 @@ export default function SearchModule() {
     slider.scrollLeft += 150; // Adjust the scroll distance as needed
   };
 
+  const handleFilters = (type: string, value: string | number) => {
+    setFilters((prev) => {
+      if (value === '') {
+        delete prev[type];
+        return { ...prev };
+      }
+      if (type === 'Skill' && typeof value === 'string' && !uiFilter.includes(value)) {
+        filterActiveUI.push(value);
+        setUiFilter((prev) => [...prev, value]);
+        console.log('filter', filterActiveUI, uiFilter);
+      }
+
+      return { ...prev, [type]: value };
+    });
+  };
+
   return (
     <>
       {openMenu && <FilterMobileMenu openHandler={handleMenu} />}
-      <div className="min-h-screen m-auto p-6 pt-0 font-manropeL max-w-[1264px]">
-        <div
+      <main className="min-h-screen m-auto p-6 pt-0 font-manropeL max-w-[1264px]">
+        <section
           className="h-full overflow-x-scroll mb-10 mr-[7rem] scroll whitespace-nowrap scroll-smooth scrollbar-none"
           ref={sliderRef}
         >
@@ -169,7 +176,7 @@ export default function SearchModule() {
               // ....
             }
           </div>
-        </div>
+        </section>
         <div className="relative -right-1 -top-[2.25rem] flex">
           <div
             className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
@@ -196,10 +203,10 @@ export default function SearchModule() {
 
         <Breadcrumbs />
 
-        <div className="mt-6 flex justify-between items-center sm:items-center">
+        <section className="mt-6 flex justify-between items-center sm:items-center">
           <h2 className="text-zinc-900 font-manropeEB text-xl md:text-4xl">Search Results for “{query}”</h2>
           <div className="text-zinc-700 text-right text-lg md:text-[1.375rem]">{data?.data?.length} Results</div>
-        </div>
+        </section>
         <div className="lg:hidden mt-6">
           <span className="flex items-center gap-1" onClick={() => setOpenMenu(true)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" viewBox="0 0 25 25">
@@ -225,17 +232,50 @@ export default function SearchModule() {
           </span>
         </div>
         {/* .... */}
-        <div className="mt-10  flex gap-3">
-          <div className="min-h-screen gap-8 w-[100%]  lg:flex max-w-[320px] hidden px-10 pt-12 pb-12 mb-5 bg-white rounded-2xl  border-[#F2F2F2] border-2 flex-col justify-start items-center ">
+        <section className="mt-10  flex gap-3">
+          <aside className="min-h-screen gap-8 w-[100%]  lg:flex max-w-[320px] hidden px-10 pt-12 pb-12 mb-5 bg-white rounded-2xl  border-[#F2F2F2] border-2 flex-col justify-start items-center ">
             <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-start items-center w-full">
                 <div className="text-zinc-800 text-2xl font-semibold  leading-loose">Filters</div>
-                {/* <div className=" text-right text-emerald-600 text-base font-normal  leading-normal">Applied</div> */}
+                {uiFilter.length > 0 && (
+                  <div className=" ml-auto text-right text-emerald-600 text-base font-normal  leading-normal">
+                    Applied
+                  </div>
+                )}
+              </div>
+              <div className="w-full py-2 flex flex-wrap gap-3">
+                {uiFilter.length > 0 &&
+                  uiFilter.map((item, key) => (
+                    <div
+                      onClick={() => {
+                        setUiFilter((prev) => {
+                          const index = prev.indexOf(item);
+
+                          return [...prev.slice(0, index), ...prev.slice(index + 1)];
+                        });
+                      }}
+                      key={key}
+                      className=" transition-all px-4 py-2 group hover:bg-opacity-30 bg-slate-400 bg-opacity-20 rounded-[100px] w-fit justify-start items-center gap-1 flex cursor-pointer flex-wrap"
+                    >
+                      <span>
+                        {' '}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
+                          <path
+                            fill="#8592A3"
+                            d="M12.666 4.274l-.94-.94L8 7.06 4.273 3.334l-.94.94L7.06 8l-3.727 3.727.94.94L8 8.94l3.726 3.727.94-.94L8.94 8l3.726-3.726z"
+                          ></path>
+                        </svg>
+                      </span>
+                      <span className="text-[#5B5F5E]">{item}</span>
+                    </div>
+                  ))}
               </div>
             </div>
             <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal">SKILLS</div>
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font-manropeB">
+                  SKILLS
+                </div>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -290,12 +330,14 @@ export default function SearchModule() {
             </div>
             <div className="border-b  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal">LOCATION</div>
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font-manropeB">
+                  LOCATION
+                </div>
               </div>
             </div>
             <Input
               placeholder="Location"
-              className="border-[#E1E3E2] border-[1px] placeholder:text-custom-color22"
+              className="w-full border-[#E1E3E2] border-[1px] placeholder:text-custom-color22"
               onChange={(e) => handleFilters('Location', e.target.value.toLocaleLowerCase())}
               rightIcon={
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -309,9 +351,11 @@ export default function SearchModule() {
               }
             />
 
-            <div className="border-b-2 border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
+            <div className="border-b-2 border-zinc-100 flex flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal">EXPERIENCE</div>
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font-manropeB">
+                  EXPERIENCE
+                </div>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2 text-custom-color22">
@@ -330,17 +374,17 @@ export default function SearchModule() {
                 </div>
               ))}
             </div>
-          </div>
+          </aside>
 
           <div className="w-[100%]">
             {/* Cards ------ */}
             {isLoading && (
-              <div className="grid w-[100%]  py-14 min-h-[300px]">
+              <div className="grid w-[100%] py-14 min-h-[300px]">
                 <Loader />
               </div>
             )}
             {data && data?.data.length > 0 && (
-              <div className="grid min-[1440px]:grid-cols-3 xl:grid-cols-2 md:grid-cols-2 gap-7 pb-4 sm:grid-cols-2">
+              <div className="grid min-[1440px]:grid-cols-3 xl:grid-cols-2 md:grid-cols-2 gap-x-6 gap-y-10 pb-4 sm:grid-cols-2">
                 {data.data.map((item, key) => (
                   <Card key={key} data={item} />
                 ))}
@@ -352,8 +396,8 @@ export default function SearchModule() {
               </div>
             )}
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </>
   );
 }

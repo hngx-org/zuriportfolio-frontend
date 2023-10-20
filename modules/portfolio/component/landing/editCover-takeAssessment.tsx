@@ -3,10 +3,9 @@ import React from 'react';
 type Props = {
   handleUploadCover?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   Link: any;
-  link: string;
 };
 
-const EditCover = ({ handleUploadCover, Link, link }: Props) => {
+const EditCover = ({ handleUploadCover, Link }: Props) => {
   return (
     <>
       <label htmlFor="coverUpload" className="bg-white-100 rounded-full p-2 cursor-pointer">
@@ -46,7 +45,7 @@ const EditCover = ({ handleUploadCover, Link, link }: Props) => {
       />
       <Link
         href={'/assessments/dashboard'}
-        className="rounded-lg bg-brand-green-primary text-white-100 focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled   px-4 py-3 flex items-center justify-center gap-5 w-fit h-[48px] font-manropeB"
+        className="rounded-lg bg-brand-green-primary text-white-100 focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled   px-4 py-3 flex items-center justify-center gap-5 w-fit h-[48px] font-manropeB bg-opacity-50 cursor-pointer shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] scale-110 hover:scale-[1.15] transition-all duration-200 hover:bg-green-600"
       >
         Take Assesment
       </Link>

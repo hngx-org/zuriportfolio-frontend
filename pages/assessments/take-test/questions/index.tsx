@@ -11,6 +11,8 @@ import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
 import { fetchUserTakenAssessment, getAssessmentDetails, submitAssessment } from '../../../../http/userTakenAssessment';
 import { withUserAuth } from '../../../../helpers/withAuth';
+import Loader from '@ui/Loader';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 type AssessmentDetails = {
   id?: string;
@@ -27,17 +29,39 @@ type AssessmentDetails = {
 const Questions: React.FC = () => {
   const [isTimeOut, setIsTimeOut] = React.useState<boolean>(false);
   const router = useRouter();
-  const [storedAssessment, setStoredAssessment] = React.useState<any>([]);
   const [result, setResult] = React.useState<AssessmentDetails>();
   const tokenRef = useRef<string | null>(null);
   const [minute, setMinute] = React.useState<number | null>(null);
   const [second, setSecond] = React.useState<number | null>(null);
   const [duration, setDuration] = React.useState<number | null>(null);
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const queryClient = useQueryClient();
+
+  const {
+    isLoading,
+    isError,
+    error,
+    data: questionData,
+  } = useQuery(['questionData'], () =>
+    fetchUserTakenAssessment(tokenRef.current as string, router.query?.id as string),
+  );
+
+  const { data: assessment } = useQuery(['assessment'], () =>
+    getAssessmentDetails(tokenRef.current as string, router.query?.data as string),
+  );
+
+  const submitAnswer = useMutation((data: any) => submitAssessment(data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['questionData']);
+    },
+    onError: (error) => {
+      console.error('Error submitting assessment:', error);
+    },
+  });
+  const Data = questionData?.data?.questions;
 
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
-    handleGetStarted();
+    setDuration(assessment?.duration_minutes);
   }, []);
 
   useEffect(() => {
@@ -58,36 +82,16 @@ const Questions: React.FC = () => {
     setTimeFunction();
   }, [duration, minute, second]);
 
-  const handleGetStarted = async () => {
-    const token = tokenRef.current;
-    const data = router.query?.data;
-    const id = router.query?.id;
-
-    console.log('1', token, data, id);
-    try {
-      const assessmentsData = await getAssessmentDetails(token as string, data as string);
-      const questionData = await fetchUserTakenAssessment(token as string, id as string);
-      if (!questionData || !assessmentsData) {
-        setIsLoading(false);
-        throw new Error('Network response was not ok');
-      }
-      setResult(assessmentsData);
-      setStoredAssessment(questionData.data.questions);
-      setDuration(assessmentsData?.duration_minutes);
-      setIsLoading(false);
-      console.log('2', assessmentsData);
-      console.log('3', questionData.questions);
-    } catch (error) {
-      console.log('catch error', error);
-    }
-  };
+  useEffect(() => {
+    setDuration(assessment?.duration_minutes);
+  }, [duration, assessment?.duration_minutes]);
 
   const handleUserAnswerClick = async (question_id: number, user_answer_id: number, answer_text: string) => {
     const token = tokenRef.current;
     console.log(question_id, user_answer_id, answer_text, result?.assessment_id);
     try {
       if (token && result?.assessment_id) {
-        await submitAssessment({
+        await submitAnswer.mutateAsync({
           assessment_id: result.assessment_id,
           question_id,
           user_answer_id,
@@ -100,13 +104,16 @@ const Questions: React.FC = () => {
     }
   };
 
+  const pageTitle = `${assessment?.title}`;
+  const metaDescription = `${assessment?.description}`;
+
   return (
     <>
       {isTimeOut && (
         <OutOfTime
           onClose={() => router.push('/assessments/dashboard')}
           onRetake={() => {
-            router.push(`/assessments/take-test/intro?data=${result?.skill_id}`);
+            router.push(`/assessments/take-test/intro?data=${assessment?.skill_id}`);
           }}
         />
       )}
@@ -125,11 +132,13 @@ const Questions: React.FC = () => {
       }
         `}
         </style>
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
       </Head>
       <MainLayout activePage={'questions'} showTopbar showFooter showDashboardSidebar={false}>
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
+            <Loader />
           </div>
         ) : (
           <>
@@ -153,10 +162,10 @@ const Questions: React.FC = () => {
               </div>
               <form action="#">
                 <ul className="overscroll md:max-w-xl max-w-xs flex flex-col  w-full gap-y-4 overflow-y-scroll max-h-screen h-full mb-4">
-                  {storedAssessment.map((question: any, index: number) => (
+                  {Data.map((question: any, index: number) => (
                     <li key={index} className="w-full md:max-w-lg py-8 px-4 border border-slate-100 rounded-lg">
                       <h1 className="text-xl text-brand-green-primary text-center font-bold mb-4">
-                        Question {storedAssessment.indexOf(question) + 1} of {storedAssessment?.length}
+                        Question {Data.indexOf(question) + 1} of {Data?.length}
                       </h1>
                       <p className="text-sm pl-4">{question[index]?.question_id}</p>
                       <span className="text-blue-100 text-xs pl-4 ">{question.question_text}</span>
@@ -179,7 +188,7 @@ const Questions: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                <Link href={`/assessments/overview?data=${result?.assessment_id}`}>
+                <Link href={`/assessments/overview?data=${assessment?.assessment_id}`}>
                   <Button
                     intent={'primary'}
                     size={'md'}

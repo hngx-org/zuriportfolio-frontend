@@ -695,6 +695,7 @@ export type Graph = {
 };
 
 export type topListingProduct = {
+  filter: any;
   map(arg0: (item: any, id: any) => React.JSX.Element): React.ReactNode;
   product_id?: number;
   product_name?: string;
@@ -721,9 +722,11 @@ type activity = {
 };
 export type cardinfo = {
   title: string;
-  amount: any;
+  amount: number;
   ratio: number;
 };
+
+type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
 
 export type inputErrorMessage = {
   errorMessage: string;
@@ -816,6 +819,7 @@ export type User = {
   roleId: number;
   twoFactorAuth: boolean;
   two_factor_auth: boolean;
+  slug: string | null;
 };
 
 export type AuthResponse = {

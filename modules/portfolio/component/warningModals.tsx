@@ -37,9 +37,9 @@ function SectionModal({
         />
 
         <div className="box-border h-full w-full my-14 text-center font-normal flex justify-center items-center flex-col gap-6 py-8 px-1">
-          <h1 className="text-red-200 text-xl font-manropeL">{heading}</h1>
+          <h1 className="text-[#FF5C5C] text-xl font-manropeEB">{heading}</h1>
 
-          <p className="text-sm sm:w-3/5 text-gray-400 font-manropeE">{paragraph}</p>
+          <p className="text-sm sm:w-3/5 text-[#737876] font-manropeE">{paragraph}</p>
 
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-2 sm:px-5 w-9/12 sm:w-full">
             <Button
@@ -84,9 +84,7 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
 
   //function to delete sections
   const deleteSection = async () => {
-    //If the section to delete is mainly backend
     //Query the backend
-    // if (deleteFromBe) {
     let myHeaders: any;
     myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
@@ -108,7 +106,7 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
     const notify = () => (toastId.current = toast.success('Section deleted successfully'));
 
     //fetch the endpoint for deleting
-    await fetch(`https://hng6-r5y3.onrender.com/api/profile/details/${userId}`, requestOptions)
+    await fetch(`https://hng6-r5y3.onrender.com/api/v1/profile/details/${userId}`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         //Show popup when section is deleted successfully
@@ -117,8 +115,6 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
         setOpenDelete(false);
         //Update the main page
         onSaveModal(idToDelete);
-        // toggleSection(idToDelete);
-        // setUserData((p: any) => ({ ...p, showBuildPortfolio: false }));
       })
       .catch((error) => console.log({ error: error }));
 
