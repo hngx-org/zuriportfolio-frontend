@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
 import { ArrowLeft2 } from 'iconsax-react';
 import MainLayout from '../components/Layout/MainLayout';
@@ -6,8 +6,6 @@ import InviteLink from '../modules/portfolio/component/portfolioSettingsComponen
 import NotificationSettings from '../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
 import { SettingOptionTypes } from '../@types';
 import DeleteAccount from '@modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
-import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
-import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NotificationCheckboxType } from '../@types';
@@ -17,7 +15,7 @@ import Image from 'next/image';
 import { useAuth } from '../context/AuthContext';
 import Handling2FA from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 import UpdatingProfilePic from '@modules/portfolio/component/portfolioSettingsComponents/UpdatingProfilePic';
-import axios from 'axios';
+import UpdatePassword from '@modules/portfolio/component/portfolioSettingsComponents/UpdatePassword';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -152,18 +150,6 @@ const SettingPage = () => {
     }
   };
 
-  //  const getNotificationSettingsFromLocalStorage = () => {
-  //   const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
-  //   if (storedNotificationData) {
-  //     const parsedData = JSON.parse(storedNotificationData);
-  //     setCheckboxState(parsedData);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getNotificationSettingsFromLocalStorage();
-  // }, [local]);
-
   const toggleShow = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
     setter((prev: boolean) => !prev);
   };
@@ -271,11 +257,11 @@ const SettingPage = () => {
                   )}
                   {settingOption.deleteAccount && <DeleteAccount />}
                   {settingOption.accountManagement && (
-                    <>
+                    <div>
                       <UpdatingProfilePic />
-                      <AccountManagement />
+                      <UpdatePassword />
                       <Handling2FA closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
-                    </>
+                    </div>
                   )}
                 </div>
               )}
@@ -386,7 +372,7 @@ const SettingPage = () => {
                       {closeAcc && (
                         <>
                           <UpdatingProfilePic />
-                          <AccountManagementMobile />
+                          <UpdatePassword />
                         </>
                       )}
                       <Handling2FA closeAcc={closeAcc} setCloseAcc={setCloseAcc} />

@@ -169,6 +169,8 @@ const Handling2FA = (props: close) => {
     }
   };
 
+  const [showHint, setShowHint] = useState<boolean>(false);
+
   const toggleModal = () => {
     setOpen2Fa((prev: boolean) => !prev);
     props.setCloseAcc(false);
@@ -180,6 +182,17 @@ const Handling2FA = (props: close) => {
     setOpen2Fa(false);
     setLoading(false);
   };
+
+  const handleResize = () => {
+    if (window.innerWidth >= 768) {
+      setLgModal(true);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleResize();
+  }, []);
 
   return (
     <div className="space-y-[4px] mb-6 max-w-[500px] text-dark-110 text-[14px]">
@@ -339,7 +352,7 @@ const Handling2FA = (props: close) => {
         <div className="hidden md:block">
           <Modal isOpen={open2Fa} closeModal={toggleModal} size={'sm'} isCloseIconPresent={false}>
             <div className=" relative  max-w-[440px] px-5 text-[14px] py-[40px]">
-              <button onClick={toggleModal} className="absolute right-0 top-[-10px]">
+              <button onClick={toggleModal} className="absolute right-0 top-0">
                 {' '}
                 <CloseCircle size="20" color="#009254" />
               </button>
@@ -355,12 +368,25 @@ const Handling2FA = (props: close) => {
                   className="border-[1px] outline-none  rounded-lg py-[10px] px-[14px] border-[#D0D5DD]"
                 />
                 <Image
+                  // onClick={() =>  setShowHint(prv=>!prv)}
+                  onMouseOver={() => setShowHint((prv) => !prv)}
+                  onMouseOut={() => setShowHint((prv) => !prv)}
                   src={Help}
                   width={'20'}
                   height={'20'}
                   alt="help"
-                  className="absolute right-[12px]   top-[35px]"
+                  className="absolute
+                   right-[12px] hover:before:content-['your OTP will be sent here']   top-[35px]"
                 ></Image>
+                <p
+                  className={`${
+                    showHint
+                      ? 'absolute lg:-bottom-7 -bottom-6 right-0 text-[9px] lg:text-[10px] text-[#667085] p-2 font-manropeL'
+                      : 'hidden'
+                  }`}
+                >
+                  The otp code will be sent here
+                </p>
               </label>
 
               <Button
@@ -416,8 +442,22 @@ const Handling2FA = (props: close) => {
               >
                 Resend OTP
               </button>
+              {/* <button
+                            onClick={() => {
+                              auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth ? handleVerifyAndDisable2FA(): handleVerifyAndEnable2FA() ;
+                            }}
+                className={`w-full bg-brand-green-primary text-white-100 text-center
+                             font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg           ${
+                               digits.some((digit) => !digit)
+                                 ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900'
+                                 : ''
+                             } `}
+              >
+                Continue
+              </button> */}
 
               <Button
+                //leftIcon={<I24Support color="#06C270" />}
                 intent={'secondary'}
                 onClick={() => {
                   auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth

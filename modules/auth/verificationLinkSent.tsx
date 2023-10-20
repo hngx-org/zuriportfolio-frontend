@@ -7,13 +7,15 @@ import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { resendVerification } from '../../http/auth';
 import { useAuth } from '../../context/AuthContext';
 import { notify } from '@ui/Toast';
+import { useRouter } from 'next/router';
 
 type Props = {
   handleClick: VerificationLayoutProps['handleClick'];
 };
 
 function VerificationLinkSent({ handleClick }: Props) {
-  const { email, handleEmail } = useAuth();
+  const router = useRouter();
+  const { email: userEmail } = router.query;
 
   const [countdown, setCountdown] = useState(600);
 
@@ -34,16 +36,8 @@ function VerificationLinkSent({ handleClick }: Props) {
 
   const handleVerificationLink = () => {
     setCountdown(600);
-    mutate({ email: email });
+    mutate({ email: userEmail as string });
   };
-
-  useEffect(() => {
-    if (!email) {
-      const userEmail = localStorage.getItem('user-email');
-      if (userEmail) handleEmail(userEmail);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -75,8 +69,8 @@ function VerificationLinkSent({ handleClick }: Props) {
         <h1 className=" font-manropeEB text-[24px] md:text-[36px] text-center">Verification Link Sent</h1>
         <p className=" font-manropeL text-[12px] md:text-[16px] text-center md:w-[90%] mx-auto text-[#737876] md:text-[#000] py-[16px]  lg:py-[32px]">
           We&apos;ve sent an email to your{' '}
-          <span className=" font-manropeEB text-[#003A1B] text-[14px] md:text-[16px]">{email}</span> with a verification
-          link.
+          <span className=" font-manropeEB text-[#003A1B] text-[14px] md:text-[16px]">{userEmail}</span> with a
+          verification link.
         </p>
 
         <Button

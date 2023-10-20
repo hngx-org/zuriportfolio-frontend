@@ -10,10 +10,12 @@ import Social1 from '../../../../public/assets/inviteAssets/Social1.svg';
 import Share from '../../../../public/assets/inviteAssets/share-01.svg';
 import { useAuth } from '../../../../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
+import Profile from '../landing/avatars';
 
 export default function InviteLink() {
   const { auth } = useAuth();
-  const websiteURL = 'https://zuriportfolio-frontend-pw1h.vercel.app';
+  const websiteURL = window.location.origin;
+  const profileUrl = `${websiteURL}/portfolio}`;
   const copyInvite = useRef<any>(null);
   const handleCopyToClipboard = () => {
     if (copyInvite.current) {
@@ -35,14 +37,16 @@ export default function InviteLink() {
   const [openModal, setOPenModal] = useState<boolean>(false);
 
   const toggleModal = () => {
+    const idd = '00fdd774-d5c3-46e7-8457-b3bba0603baf';
     setOPenModal((prev: boolean) => !prev);
+    // console.log(`${websiteURL}/portfolio`)
   };
 
   return (
     <div className={`  space-y-4 font-manropeB container mx-auto  `}>
       <p className="  text-dark-110  font-manropeB text-sm md:text-[22px]">Invite your friends! </p>
       <p className="text-white-650 leading-[20px]  font-manropeL  text-sm">
-        Use your referral link to help us grow the community and get rewards.{' '}
+        Use the website link to help us grow the community and get rewards.{' '}
       </p>
       <div className="w-full flex  ">
         <input
@@ -53,7 +57,7 @@ export default function InviteLink() {
            outline-none px-[8px] border-[1px] leading-6  grow max-w-[232px]
             md:max-w-[268px] height-[24px] border-[#D0D5DD]
              lg:px-[12px] py-[10px] text-[12px] md:text-[14px] rounded-l-md text-[#667085]"
-          value={`portfolio.zuri/invite?=${auth?.user.firstName}`}
+          value={profileUrl}
           readOnly
         />
 
@@ -84,22 +88,20 @@ export default function InviteLink() {
             </span>
           </div>
           <p className=" text-[#8d9290] font-manropeEL font-normal">
-            share your referal link to help us grow the community
+            share your profile link to help us grow the community
           </p>
           <div className="flex  w-[90%] justify-between">
             <a
-              href={`https://www.twitter.com/sharer/sharer.php?u=${encodeURIComponent(websiteURL)}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                'Check out my portfolio at ' + profileUrl,
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image src={Social} height={30} width={30} alt="social" />
             </a>
 
-            <a
-              href={`https://web.whatsapp.com/send?text=${encodeURIComponent(websiteURL)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={`https://wa.me/?text=${encodeURIComponent(profileUrl)}`} target="_blank" rel="noopener noreferrer">
               <Image src={Social1} height={30} width={30} alt="social1" />
             </a>
 
@@ -108,7 +110,7 @@ export default function InviteLink() {
             </a>
 
             <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(websiteURL)}`}
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileUrl)}`}
               target="_blank"
               rel="noopener noreferrer"
             >
