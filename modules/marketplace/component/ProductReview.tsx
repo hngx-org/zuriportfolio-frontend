@@ -7,11 +7,12 @@ import { reviewProps } from '../../../@types';
 
 export const ProductReview = ({ id }: { id: string }) => {
   const [reviews, setReviews] = useState<reviewProps[] | null>(null);
-  const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews`;
+  // const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews`;
+  const reviewURL = `https://team-titan.mrprotocoll.me/api/messaging/store/${id}review`
   useEffect(() => {
     const getReviews = async () => {
       try {
-        const response = await axios.get(reviewsUrl);
+        const response = await axios.get(reviewURL);
         console.log(response);
         setReviews(response.data.data);
       } catch (error) {
@@ -19,7 +20,7 @@ export const ProductReview = ({ id }: { id: string }) => {
       }
     };
     getReviews();
-  }, [reviewsUrl]);
+  }, [reviewURL]);
   return (
     <div className="mt-4 mx-1">
       {!reviews ? (

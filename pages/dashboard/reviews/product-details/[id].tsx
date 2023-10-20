@@ -100,24 +100,8 @@ const UserReview = () => {
     { rating: 1, users: rats?.oneStar!, total: rats?.numberOfRating! },
   ];
 
-  // ToDo: Remove all commented out code
-  // useEffect(() => {
-  //   if (data) {
-  //     const total5 = data.filter((review) => review.rating === 5).length;
-  //     const total4 = data.filter((review) => review.rating === 4).length;
-  //     const total3 = data.filter((review) => review.rating === 3).length;
-  //     const total2 = data.filter((review) => review.rating === 2).length;
-  //     const total1 = data.filter((review) => review.rating === 1).length;
-  //     setTotal5Star(total5);
-  //     setTotal4Star(total4);
-  //     setTotal3Star(total3);
-  //     setTotal2Star(total2);
-  //     setTotal1Star(total1);
-  //   }
-  // }, [data]);
-
   function filterReviews(view: string, rating: string, data: ReviewData[]) {
-    let filteredReviews = data;
+    let filteredReviews = [...data];
 
     if (view === 'topReviews') {
       filteredReviews.sort((a, b) => b.isHelpful - a.isHelpful);
