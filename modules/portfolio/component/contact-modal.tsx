@@ -252,7 +252,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                       className="font-semibold cursor-pointer text-brand-red-hover"
                       onClick={() => handleSocialDelete(social.id)}
                     >
-                     <Trash size="32" color="#f47373" variant="Outline"/>
+                      <Trash size="32" color="#f47373" variant="Outline" />
                     </span>
                   </div>
                   <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
