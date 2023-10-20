@@ -94,7 +94,7 @@ export default function AllCategoriesPage() {
                     </div>
                     {reduceItem(row?.product?.data)?.length > 0 && (
                       <Link
-                        className="flex items-center gap-2 text-sm font-bold ml-auto leading-normal text-brand-green-shade50"
+                        className="lg:hover:opacity-[0.5] lg:active:bg-green-300 lg:active:text-white-100 flex items-center gap-2 text-sm font-bold ml-auto leading-normal text-brand-green-shade50"
                         href={`/marketplace/categories/${row.title}`}
                       >
                         View All
