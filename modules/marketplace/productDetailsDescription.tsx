@@ -35,8 +35,8 @@ export default function ProductDetailsDescription({ productId }: { productId: st
   const { setCartCountNav, cartCount } = useCart();
 
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${id}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${id}/none/?guest=true`;
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
