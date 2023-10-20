@@ -136,7 +136,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const handleDeleteEducation = async (educationId: number) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/education/${educationId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${educationId}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -233,7 +233,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       const year = new Date().getFullYear();
       const currYear = String(year);
 
-      const response = await fetch(`${API_BASE_URL}api/education/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON
