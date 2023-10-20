@@ -46,6 +46,11 @@ const dummyHandPickedData: MarketPlaceProductCardProps[] = [
   },
 ];
 
+const scrollToFunc = () => {
+  // console.log('ddjjdjdjd');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
 const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
   const [productCards, setProductCards] = useState<MarketPlaceProductCardProps[]>(dummyHandPickedData);
   const [pageNumber, setPageNumber] = useState(0);
@@ -169,7 +174,7 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
 
               {/* Pagination */}
               {/* place here pagination component here.. don't add margin top to move it..i done it already */}
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center" onClick={scrollToFunc}>
                 <div className="flex gap-4  items-center border-2 rounded-lg bg-white-110 border-white-110 p-2">
                   <button
                     onClick={prevPage}

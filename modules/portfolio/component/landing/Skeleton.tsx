@@ -20,6 +20,8 @@ type SkeletonProps = {
 };
 
 export const WorkExperience = ({ data }: SkeletonProps) => {
+  const endYear = data.isEmployee ? 'Present' : data.endYear;
+
   return (
     <div className="flex md:flex-row flex-col justify-start md:justify-between  items-start gap-x-10 md:gap-y-0 gap-y-1 mb-6">
       <p className="text-gray-300 font-semibold text-base flex-[2]">
@@ -28,7 +30,7 @@ export const WorkExperience = ({ data }: SkeletonProps) => {
         </span>{' '}
         -{' '}
         <span>
-          {data?.endMonth} {data?.endYear}
+          {data?.endMonth} {endYear}
         </span>
       </p>
       <div className="flex flex-col mb-2 md:gap-1 flex-[2]">
@@ -168,8 +170,6 @@ export const Skill = ({ data }: SkeletonProps) => {
 };
 
 export const Interests = ({ data }: SkeletonProps) => {
-  console.log(data);
-
   return (
     <div className="flex flex-wrap gap-5 justify-start items-start">
       {data?.length > 0 &&

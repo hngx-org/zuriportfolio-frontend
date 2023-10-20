@@ -3,6 +3,7 @@ import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 import { RecentlyViewedData } from '../../../../../@types';
 import ProductCard from '../../ProductCard';
 import styles from '../productCardWrapper/product-card-wrapper.module.css';
+import CategoryLoading from '../../categories/CategoryLoading';
 
 function RecentlyViewed() {
   const [isLoading, setLoading] = useState(true);
@@ -43,7 +44,13 @@ function RecentlyViewed() {
       </h3>
 
       {isLoading ? (
-        <div className="animate-pulse text-center mt-10 text-3xl text-gray-400">Loading...</div>
+        <div
+          className={`flex flex-nowrap lg:grid grid-cols-4 gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+        >
+          {[1, 2, 3, 4].map((item) => {
+            return <CategoryLoading key={item} />;
+          })}
+        </div>
       ) : (
         <>
           {recentlyViewed.length > 0 ? (
