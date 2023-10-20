@@ -50,7 +50,7 @@ const Landing = () => {
       <div>
         {showProfileUpdate && <EditProfile />}
         {showBuildPortfolio && <Home />}
-        {showViewtemplates && <ViewTemplate />}
+        {/* {showViewtemplates && <ViewTemplate />} */}
       </div>
       <div className="mx-auto w-[min(90vw,1200px)] font-manropeB pb-20 min-h-[50vh]">
         {getUserInfo.isLoading || getUserSections.isLoading ? (
