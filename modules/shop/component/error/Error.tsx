@@ -13,6 +13,7 @@ function Error404() {
     <>
     <Head>
         <link rel="icon" href="/assets/zuriLogo.svg" />
+        <title>No Products Available</title>
     </Head>
     <main className=" bg-white-100 max-h-[65vh]">
       <Container>
