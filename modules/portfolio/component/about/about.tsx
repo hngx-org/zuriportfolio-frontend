@@ -30,7 +30,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     try {
       const axiosConfig = {
         method: 'put',
-        url: `${API_BASE_URL}/api/about/${userId}`,
+        url: `${API_BASE_URL}/api/v1/about/${userId}`,
         data: bio,
       };
 

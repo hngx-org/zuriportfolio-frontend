@@ -194,7 +194,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       const response = async () => {
         const axiosConfig = {
           method: 'get',
-          url: `${API_BASE_URL}/api/references/${userId}`,
+          url: `${API_BASE_URL}/api/v1/references/${userId}`,
         };
 
         const response = await axios(axiosConfig);
