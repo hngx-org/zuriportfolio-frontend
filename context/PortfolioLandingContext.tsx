@@ -130,13 +130,13 @@ export function PortfolioCtxProvider(props: { children: any }) {
         queryKey: ['user'],
         queryFn: () => getUser(),
         enabled: !!userId,
-        // refetchInterval: 1000,
+        refetchInterval: 1000,
       },
       {
         queryKey: ['sections'],
         queryFn: () => getSections(),
         enabled: !!userId,
-        // refetchInterval: 1000,
+        refetchInterval: 1000,
       },
     ],
   });
@@ -170,7 +170,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         awards,
         languages,
         reference,
-        certificate,
+        certificates,
         shop,
         custom,
       } = getUserSections.data;
@@ -185,7 +185,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         awards ||
         languages ||
         reference ||
-        certificate ||
+        certificates ||
         shop ||
         custom
       ) {
@@ -198,7 +198,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         { title: 'Skills', id: 'skills', data: skills },
         { title: 'Interests', id: 'interests', data: interestArray },
         { title: 'Awards', id: 'awards', data: awards },
-        { title: 'Certificate', id: 'certificate', data: certificate },
+        { title: 'Certificate', id: 'certificate', data: certificates },
         { title: 'Languages', id: 'languages', data: languages },
         { title: 'Reference', id: 'reference', data: reference },
         { title: 'Shop', id: 'shop', data: shop },
