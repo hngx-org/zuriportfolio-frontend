@@ -337,7 +337,7 @@ const ApiStatusPage = () => {
             <tbody className="border border-1 border-gray-100">
               <tr className="flex justify-between content-center max-sm:text-sm p-4">
                 <td className="flex items-center gap-2" onClick={toggleReviewsDropdown}>
-                  {isSuperAdmin1DropdownOpen ? (
+                  {isReviewsDropdownOpen ? (
                     <FaMinusSquare style={{ color: '#b8b7b7' }} />
                   ) : (
                     <FaPlusSquare style={{ color: '#b8b7b7' }} />
