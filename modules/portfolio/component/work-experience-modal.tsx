@@ -10,6 +10,7 @@ import { WorkExperienceModalContext } from '../context/work-experience-modal-con
 import Loader from '@ui/Loader';
 import { WorkExperience as WorkExperienceSkeleton } from './landing/Skeleton';
 import Portfolio from '../../../context/PortfolioLandingContext';
+import { generateEndYears } from '../data';
 
 type WorkExperienceModalProps = {
   onCloseModal: () => void;
@@ -51,7 +52,8 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
   } = useContext(WorkExperienceModalContext);
   const [editingExperienceId, setEditingExperienceId] = useState<number | null>(null);
   const [editingExperience, setEditingExperience] = useState<WorkExperience | null>(null);
-  // const { onSaveModal } = useContext(Portfolio);
+  const [selectedStartYear, setSelectedStartYear] = useState('');
+  const [endYears, setEndYears] = useState<any>([]);
 
   const prefillForm = (experience: WorkExperience) => {
     setEditingExperienceId(experience.id);
@@ -69,13 +71,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     }
     setIsForm(true);
   };
-
-  // useEffect(() => {
-  //   console.log(isForm);
-  // }, [isForm]);
-  useEffect(() => {
-    console.log(isChecked);
-  }, [isChecked]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
@@ -107,48 +102,32 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
         <>
           {isData && (
             <>
-              {workExperiences.map((experience: WorkExperience, index: number) => (
-                <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
-                  {/* <WorkExperienceSkeleton data={experience} /> */}
-                  <section className="flex w-full gap-x-10 mb-4 max-sm:flex-col max-sm:gap-y-3">
-                    <p className="text-gray-300 font-semibold text-sm flex-[3]">
-                      <span>
-                        {experience?.startMonth} {experience?.startYear}
-                      </span>{' '}
-                      -{' '}
-                      <span>
-                        {experience?.endMonth} {experience?.endYear}
+              {workExperiences.map((experience: WorkExperience, index: number) => {
+                return (
+                  <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
+                    <WorkExperienceSkeleton data={experience} />
+                    <div className="self-end pb-4 flex gap-4 font-manropeL">
+                      <span
+                        className="font-semibold cursor-pointer text-[#5B8DEF]"
+                        onClick={(e) => {
+                          setIsEditMode(true);
+                          setEditingExperience(experience);
+                          prefillForm(experience);
+                          setIsData(false);
+                        }}
+                      >
+                        Edit
                       </span>
-                    </p>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-200">{experience?.company}</h3>
-                      <p className="text-sm font-manropeL text-brand-green-primary">{experience?.role}</p>
+                      <span
+                        className="font-semibold cursor-pointer text-brand-red-hover"
+                        onClick={(e) => handleDeleteExperience(experience.id, e)}
+                      >
+                        Delete
+                      </span>
                     </div>
-                    <p className="font-semibold text-sm text-gray-400 break-all flex-[4] break-normal">
-                      {experience?.description}
-                    </p>
-                  </section>
-                  <div className="self-end pb-4 flex gap-4 font-manropeL">
-                    <span
-                      className="font-semibold cursor-pointer text-[#5B8DEF]"
-                      onClick={(e) => {
-                        setIsEditMode(true);
-                        setEditingExperience(experience);
-                        prefillForm(experience);
-                        setIsData(false);
-                      }}
-                    >
-                      Edit
-                    </span>
-                    <span
-                      className="font-semibold cursor-pointer text-brand-red-hover"
-                      onClick={(e) => handleDeleteExperience(experience.id, e)}
-                    >
-                      Delete
-                    </span>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </>
           )}
         </>
@@ -244,7 +223,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         }}
                         value={startMonth}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] outline-none">
                           <SelectValue placeholder="Month" />
                         </SelectTrigger>
                         <>
@@ -262,10 +241,13 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                       <Select
                         onValueChange={(value: string) => {
                           setStartYear(value);
+                          setSelectedStartYear(value); // Update selected start year
+                          const generatedEndYears = generateEndYears(value); // Generate end year options
+                          setEndYears(generatedEndYears); // Set end year options
                         }}
                         value={startYear}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] outline-none">
                           <SelectValue placeholder="Year" />
                         </SelectTrigger>
                         <>
@@ -293,7 +275,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         }}
                         value={endMonth}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] outline-none">
                           <SelectValue placeholder="Month" />
                         </SelectTrigger>
                         <>
@@ -314,16 +296,22 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         }}
                         value={endYear}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] border-[2px] outline-none">
                           <SelectValue placeholder="Year" />
                         </SelectTrigger>
                         <>
                           <SelectContent>
-                            {years.map((year, index) => (
-                              <SelectItem key={index} value={year.value}>
-                                {year.label}
-                              </SelectItem>
-                            ))}
+                            {endYears.length === 0
+                              ? years.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))
+                              : endYears.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))}
                           </SelectContent>
                         </>
                       </Select>
@@ -365,6 +353,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
+                  disabled={isLoading}
                   onClick={(e) => {
                     onCloseModal();
                     resetForm();
@@ -378,12 +367,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 >
                   Cancel
                 </Button>
-                <Button
-                  // onClick={createWorkExperience}
-                  type="submit"
-                  className="w-full rounded-md sm:w-[6rem]"
-                  size={'lg'}
-                >
+                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                   Save
                 </Button>
               </div>
