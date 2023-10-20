@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Edit } from 'iconsax-react';
-import { FaSpinner } from 'react-icons/fa';
 import Link from 'next/link';
 import Head from 'next/head';
 import Button from '@ui/Button';
@@ -19,8 +18,6 @@ import Modal from '@ui/Modal';
 export const ToPushContext = React.createContext({});
 export const UpdateContext: any = React.createContext({});
 const CreateAssessment = () => {
-  //Please edit for scoring screen
-  //const [examDuration, setExamDuration]:any = useContext(useCreatin  const [errContent, setErrContent] = useState('');
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const router = useRouter();
@@ -118,10 +115,14 @@ const CreateAssessment = () => {
 
     if (!postEnd.ok) {
       console.log('Error' + postEnd.status);
-      // setModalOpen(false);
-      if (destination === 'Publishing assessments') {
-        toast.error('Be sure the assessment name does not exist already. Double check fields');
+      if (postEnd.status === 409) {
+        toast.error('Looks like the assessment name exists already! Give a unique name');
+      } else if (postEnd.status === 406) {
+        toast.error(`${postEnd.status}, Please make sure fields are correectly field`);
+      } else {
+        toast.error(postEnd.status, response?.message);
       }
+
       setPostLoading(false);
       setListupdate('waiting');
     }
