@@ -819,6 +819,7 @@ export type User = {
   roleId: number;
   twoFactorAuth: boolean;
   two_factor_auth: boolean;
+  slug: string;
 };
 
 export type AuthResponse = {
