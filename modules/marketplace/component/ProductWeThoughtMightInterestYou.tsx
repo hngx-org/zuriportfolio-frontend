@@ -29,6 +29,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
       });
   }, [url]);
 
+
   function formatPrice(price: number | string) {
     if (typeof price === 'string') {
       price = parseFloat(price);
@@ -43,7 +44,6 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
       minimumFractionDigits: 2,
     });
   }
-
   const addToCart = async (ids: string) => {
     const apiUrl = `${CART_ENDPOINT}/api/carts`;
     if (auth?.token) {

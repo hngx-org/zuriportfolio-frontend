@@ -19,10 +19,6 @@ const HomePage = () => {
   const [filters, setFilters] = useState<{ SortBy?: number; Country?: string }>({});
   const searchTerm = useRouter();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleClearFilters = () => {
     setFilters({});
   };
@@ -80,7 +76,7 @@ const HomePage = () => {
   });
 
   return (
-    <>
+    <main>
       <Banner />
       <SearchAndFilter
         handleGo={handleGo}
@@ -90,37 +86,40 @@ const HomePage = () => {
         filters={filters}
         setSearchQuery={setSearchQuery}
       />
-      {isLoading && (
-        <div className="grid place-items-center min-h-[300px]">
-          <Loader />
-        </div>
-      )}
-      {data?.data?.length === 0 && (
-        <div className="grid place-items-center min-h-[300px]">
-          <p>No Results</p>
-        </div>
-      )}
-      {data && (
-        <div className="m-auto p-6">
-          <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
-            {data.data.map((card, key) => (
-              <Card key={key} data={card} />
-            ))}
+
+      <section>
+        {isLoading && (
+          <div className="grid place-items-center min-h-[300px]">
+            <Loader />
           </div>
-        </div>
-      )}
-      {data?.data?.length === 0 ? null : (
-        <div className="w-full mx-auto my-4 mb-12 flex justify-center">
-          <Pagination
-            visiblePaginatedBtn={5}
-            activePage={pageNumber}
-            pages={5}
-            page={pageNumber}
-            setPage={setPageNumber}
-          />
-        </div>
-      )}
-    </>
+        )}
+        {data?.data?.length === 0 && (
+          <div className="grid place-items-center min-h-[300px]">
+            <p>No Results</p>
+          </div>
+        )}
+        {data && (
+          <div className="m-auto p-6">
+            <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
+              {data.data.map((card, key) => (
+                <Card key={key} data={card} />
+              ))}
+            </div>
+          </div>
+        )}
+        {data?.data?.length === 0 || isLoading ? null : (
+          <a href="#top" className="w-fit mx-auto my-4 mb-12 flex justify-center">
+            <Pagination
+              visiblePaginatedBtn={5}
+              activePage={pageNumber}
+              pages={5}
+              page={pageNumber}
+              setPage={setPageNumber}
+            />
+          </a>
+        )}
+      </section>
+    </main>
   );
 };
 
