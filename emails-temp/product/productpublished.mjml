@@ -1,11 +1,6 @@
 <mjml>
   <mj-head>
-    <mj-style>
-      body {
-        margin: initial;
-        padding: 24px 24px 48px 24px;
-      }
-    </mj-style>
+    <mj-style> body { margin: initial; padding: 24px 24px 48px 24px; } </mj-style>
     <mj-attributes>
       <mj-image padding="0px" />
       <mj-body background-color="#F0ECE6" />
@@ -17,61 +12,119 @@
     <mj-wrapper padding="0px" full-width="full-width">
       <mj-section>
         <mj-column>
-          <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/greenzurilogo.png" alt="zuri portfolio logo" width="150px" />
+          <mj-image
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/greenzurilogo.png"
+            alt="zuri portfolio logo"
+            width="150px"
+          />
         </mj-column>
       </mj-section>
     </mj-wrapper>
     <mj-wrapper background-color="#fff">
       <mj-section padding="40px 2px 0px 2px">
         <mj-column>
-          <mj-text font-size="16px" font-weight="600" color="#000">
-            Hi, Dare
-          </mj-text>
+          <mj-text font-size="16px" font-weight="600" color="#000"> Hi, Dare </mj-text>
           <mj-text font-size="16px" line-height="20px" font-weight="600" color="#009254">
             Notice: Product Published
           </mj-text>
-          <mj-text color="#191c1d" line-height="20px" font-family="Century Gothic, sans-serif" font-size="14px" letter-spacing="0.035px">
-            We're thrilled to inform you that your product, <mj-raw>
-              <span style="font-weight: bold; color: #191c1d">‘Road to marketing’</span>
-            </mj-raw>, is now live on our marketplace.
+          <mj-text
+            color="#191c1d"
+            line-height="20px"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
+            We're thrilled to inform you that your product,
+            <mj-raw>
+              <span style="font-weight: bold; color: #191c1d">‘Road to marketing’</span> </mj-raw
+            >, is now live on our marketplace.
           </mj-text>
 
-          <mj-text color="#191c1d" line-height="20px" font-family="Century Gothic, sans-serif" font-size="14px" letter-spacing="0.035px">
-            We want to express our gratitude for choosing our marketplace to showcase your products. We believe that your presence will contribute to the success of our platform, and we are committed to supporting you in your journey as a seller.
+          <mj-text
+            color="#191c1d"
+            line-height="20px"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
+            We want to express our gratitude for choosing our marketplace to showcase your products. We believe that
+            your presence will contribute to the success of our platform, and we are committed to supporting you in your
+            journey as a seller.
           </mj-text>
 
-          <mj-text color="#191c1d" line-height="20px" font-family="Century Gothic, sans-serif" font-size="14px" letter-spacing="0.035px">
-            If you have any questions, encounter any issues, or need guidance on optimizing your product listings, please don't hesitate to contact support <mj-raw>
-              <span style="color: #009254; text-decoration: underline">support@zuriportolio.com</span>.
-            </mj-raw>
+          <mj-text
+            color="#191c1d"
+            line-height="20px"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
+            If you have any questions, encounter any issues, or need guidance on optimizing your product listings,
+            please don't hesitate to contact support
+            <mj-raw> <span style="color: #009254; text-decoration: underline">support@zuriportolio.com</span>. </mj-raw>
           </mj-text>
         </mj-column>
       </mj-section>
 
       <mj-section padding="30px 2px 0px 2px">
         <mj-column>
-          <mj-text color="#191C1D" line-height="0" font-family="Century Gothic, sans-serif" font-size="14px" letter-spacing="0.035px">
+          <mj-text
+            color="#191C1D"
+            line-height="0"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
             Thank you for choosing Zuriportfolio!
           </mj-text>
 
-          <mj-text color="#865311" font-weight="700" line-height="1px" font-family="Century Gothic, sans-serif" font-size="14px" letter-spacing="0.035px">
+          <mj-text
+            color="#865311"
+            font-weight="700"
+            line-height="1px"
+            font-family="Century Gothic, sans-serif"
+            font-size="14px"
+            letter-spacing="0.035px"
+          >
             Zuri Team
           </mj-text>
         </mj-column>
-
       </mj-section>
     </mj-wrapper>
 
     <mj-section background-color="#009254">
       <mj-column>
-        <mj-image src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/logoo.png" alt="zuriportfolio logo" width="125px" />
+        <mj-image
+          src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/logoo.png"
+          alt="zuriportfolio logo"
+          width="125px"
+        />
         <mj-social align="center" icon-size="24px" mode="horizontal" padding="10px 0 0 0">
-          <mj-social-element name="instagram" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/instagram.png"></mj-social-element>
-          <mj-social-element name="facebook" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/facebook.png"></mj-social-element>
-          <mj-social-element name="twitter" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/twitter.png"></mj-social-element>
-          <mj-social-element name="linkedin" src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/linkedin.png"></mj-social-element>
+          <mj-social-element
+            name="instagram"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/instagram.png"
+          ></mj-social-element>
+          <mj-social-element
+            name="facebook"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/facebook.png"
+          ></mj-social-element>
+          <mj-social-element
+            name="twitter"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/twitter.png"
+          ></mj-social-element>
+          <mj-social-element
+            name="linkedin"
+            src="https://zuriportfolio-frontend-pw1h.vercel.app/assets/images/emails-temp/newbadge/linkedin.png"
+          ></mj-social-element>
         </mj-social>
-        <mj-text color="#fff" font-family="Verdana" padding="10px 0 0 0" font-size="14px" letter-spacing="0.048px" align="center">
+        <mj-text
+          color="#fff"
+          font-family="Verdana"
+          padding="10px 0 0 0"
+          font-size="14px"
+          letter-spacing="0.048px"
+          align="center"
+        >
           Beaverton, Oregon, Washington County, USA
         </mj-text>
         <mj-text color="#fff" font-size="12px" align="center" letter-spacing="0.048px">

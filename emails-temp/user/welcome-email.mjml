@@ -40,7 +40,13 @@
         </mj-column>
 
         <mj-column padding-top="5px" width="5%">
-          <mj-text><div style="color:white; background-color:#865311; padding:2px 3px; border-radius:50%; font-size: 12px;">&#10003;</div></mj-text>
+          <mj-text
+            ><div
+              style="color: white; background-color: #865311; padding: 2px 3px; border-radius: 50%; font-size: 12px"
+            >
+              &#10003;
+            </div></mj-text
+          >
         </mj-column>
         <mj-column width="95%" padding-left="20px">
           <mj-text line-height="25px" font-family="Verdana, Century Gothic">
@@ -49,7 +55,13 @@
         </mj-column>
 
         <mj-column padding-top="5px" width="5%">
-          <mj-text><div style="color:white; background-color:#865311; padding:2px 3px; border-radius:50%; font-size: 12px;">&#10003;</div></mj-text>
+          <mj-text
+            ><div
+              style="color: white; background-color: #865311; padding: 2px 3px; border-radius: 50%; font-size: 12px"
+            >
+              &#10003;
+            </div></mj-text
+          >
         </mj-column>
         <mj-column width="95%" padding-left="20px">
           <mj-text line-height="25px" font-family="Verdana, Century Gothic">
@@ -58,7 +70,13 @@
         </mj-column>
 
         <mj-column padding-top="5px" width="5%">
-          <mj-text><div style="color:white; background-color:#865311; padding:2px 3px; border-radius:50%; font-size: 12px;">&#10003;</div></mj-text>
+          <mj-text
+            ><div
+              style="color: white; background-color: #865311; padding: 2px 3px; border-radius: 50%; font-size: 12px"
+            >
+              &#10003;
+            </div></mj-text
+          >
         </mj-column>
         <mj-column width="95%" padding-left="20px">
           <mj-text line-height="25px" font-family="Verdana, Century Gothic">
@@ -67,7 +85,13 @@
         </mj-column>
 
         <mj-column padding-top="5px" width="5%">
-          <mj-text><div style="color:white; background-color:#865311; padding:2px 3px; border-radius:50%; font-size: 12px;">&#10003;</div></mj-text>
+          <mj-text
+            ><div
+              style="color: white; background-color: #865311; padding: 2px 3px; border-radius: 50%; font-size: 12px"
+            >
+              &#10003;
+            </div></mj-text
+          >
         </mj-column>
         <mj-column width="95%" padding-left="20px">
           <mj-text line-height="25px" font-family="Verdana, Century Gothic">
