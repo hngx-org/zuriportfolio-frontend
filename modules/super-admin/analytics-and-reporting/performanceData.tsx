@@ -35,12 +35,10 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         .then((res) => res.json())
         .then((data) => {
           setPerformanceDataArray(data.data);
-          console.log(data);
           toast.error('No performance data within that Date Range');
           setLoadingState(false);
         })
         .catch((err) => {
-          console.log(err);
           setLoadingState(false);
         });
     } else {
@@ -57,11 +55,9 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         .then((res) => res.json())
         .then((data) => {
           setPerformanceDataArray(data.data);
-          console.log(data);
           setLoadingState(false);
         })
         .catch((err) => {
-          console.log(err);
           setLoadingState(false);
           toast.error('No performance data to Load');
         });

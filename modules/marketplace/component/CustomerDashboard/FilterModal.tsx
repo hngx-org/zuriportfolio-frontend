@@ -7,13 +7,15 @@ import $http from '../../../../http/axios';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { PurchaseData } from '../../../../pages/user/customer-purchase-dashboard';
+import { getDataByMonth, getDataByPrice, getDataByYear } from '../../../../http/customerPurchaseDashboard';
 
 type Props = {
   filter: string | any;
   isOpen: boolean;
   onClose: () => void;
-  token: string;
+  token?: string | null | undefined;
   setData: (data: PurchaseData[]) => void;
+  setLoading: (loading: boolean) => void;
 };
 
 const MONTH = [
@@ -31,23 +33,18 @@ const MONTH = [
   'December',
 ];
 
-const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
+const FilterModal = ({ filter, isOpen, onClose, setData, setLoading }: Props) => {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [year, setYear] = useState('');
 
   const filterByPrice = async () => {
+    setLoading(true);
     try {
-      const response = await $http.get(
-        `https://customer-purchase.onrender.com/api/orders/filter-transactions?price=${from}-${to}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setData(response?.data?.data);
-      console.log(response.data);
+      const response = await getDataByPrice(from, to);
+      setData(response);
+      onClose();
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data?.message}`, {
@@ -62,21 +59,18 @@ const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
         });
         console.error(error.response?.data?.message);
       }
+      setLoading(false);
+      setData([]);
       onClose();
     }
   };
   const filterByMonth = async (month: string) => {
+    setLoading(true);
     try {
-      const response = await $http.get(
-        `https://customer-purchase.onrender.com/api/orders/filter-transactions?month=${month}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setData(response?.data?.data);
-      console.log(response.data);
+      const response = await getDataByMonth(month);
+      setData(response);
+      onClose();
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data?.message}`, {
@@ -91,21 +85,18 @@ const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
         });
         console.error(error.response?.data?.message);
       }
+      setLoading(false);
+      setData([]);
       onClose();
     }
   };
   const filterByYear = async () => {
+    setLoading(true);
     try {
-      const response = await $http.get(
-        `https://customer-purchase.onrender.com/api/orders/filter-transactions?year=${year}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setData(response?.data?.data);
-      console.log(response.data);
+      const response = await getDataByYear(year);
+      setData(response);
+      onClose();
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data?.message}`, {
@@ -120,6 +111,8 @@ const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
         });
         console.error(error.response?.data?.message);
       }
+      setLoading(false);
+      setData([]);
       onClose();
     }
   };
@@ -139,6 +132,7 @@ const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
                 intent={'default'}
                 disabled={false}
                 placeHolder="from"
+                className="w-[12rem]"
               />
               <Input
                 onChange={(e) => {
@@ -148,11 +142,12 @@ const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
                 intent={'default'}
                 disabled={false}
                 placeHolder="to"
+                className="w-[12rem]"
               />
             </div>
           </div>
-          <div className="cta flex justify-end mt-[2rem]">
-            <Button intent={'primary'} size={'md'} onClick={filterByPrice}>
+          <div className="cta flex justify-center mt-[2rem]">
+            <Button intent={'primary'} size={'md'} onClick={filterByPrice} className="w-[10rem] rounded-lg">
               Filter
             </Button>
           </div>
@@ -179,17 +174,18 @@ const FilterModal = ({ filter, isOpen, onClose, token, setData }: Props) => {
       {filter === 'year' && (
         <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
           <h5 className="mb-[1rem] font-bold">Enter year</h5>
-          <Input
-            onChange={(e) => {
-              setYear(e.target.value);
-            }}
-            type="number"
-            intent={'default'}
-            disabled={false}
-            placeHolder="year"
-          />
-          <div className="cta flex justify-end mt-[2rem]">
-            <Button intent={'primary'} size={'md'} onClick={filterByYear}>
+          <div className="cta flex justify-between ">
+            <Input
+              onChange={(e) => {
+                setYear(e.target.value);
+              }}
+              type="number"
+              intent={'default'}
+              disabled={false}
+              placeHolder="year"
+            />
+
+            <Button intent={'primary'} size={'md'} onClick={filterByYear} className="rounded-lg">
               Filter
             </Button>
           </div>

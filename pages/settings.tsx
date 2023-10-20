@@ -6,8 +6,8 @@ import InviteLink from '../modules/portfolio/component/portfolioSettingsComponen
 import NotificationSettings from '../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
 import { SettingOptionTypes } from '../@types';
 import DeleteAccount from '@modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
-import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
-import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
+// import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
+// import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NotificationCheckboxType } from '../@types';
@@ -18,6 +18,12 @@ import { useAuth } from '../context/AuthContext';
 import Twofa from '@modules/portfolio/component/portfolioSettingsComponents/2fa';
 import defaultpic from '../public/assets/inviteAssets/profile.svg';
 import { notify } from '@ui/Toast';
+import axios from 'axios';
+import Success from './auth/success';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import nProgress from 'nprogress';
+import UpdatePassword from '@modules/portfolio/component/portfolioSettingsComponents/UpdatePassword';
+
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
     accountManagement: false,
@@ -89,9 +95,9 @@ const SettingPage = () => {
       const storedNotificationData = localStorage.getItem(`notificationData${auth?.user.id}`);
       const method = storedNotificationData ? 'PATCH' : 'POST';
 
-      const url = `${baseUrl}${storedNotificationData ? 'update' : 'set'}-notification-settings/${auth?.user.id}`;
+      const url = `${baseUrl}set-notification-settings/${auth?.user.id}`;
       const response = await fetch(url, {
-        method: method,
+        method: 'POST',
 
         headers: {
           'Content-Type': 'application/json',
@@ -189,54 +195,80 @@ const SettingPage = () => {
     setter((prev: boolean) => !prev);
   };
 
-  const handlePics = async () => {
-    if (selectedFile) {
+  // const hhh = async () => {
+  //   if (selectedFile) {
+  //     const formData = new FormData();
+  //     formData.append('profilepics', selectedFile);
+  //     formData.append('profilepics', auth?.user.id || '');
+
+  //     const url = 'https://hng6-r5y3.onrender.com/api/profile/image/upload';
+
+  //     try {
+  //       // Use toast.promise to display upload progress and results
+  //       toast.promise(axios.post(url, formData), {
+  //         pending: 'Uploading...',
+  //         success: 'Upload successful',
+  //         error: 'Failed to upload',
+  //       });
+  //     } catch (error) {
+  //       console.error('An error occurred:', error);
+  //     }
+  //   } else {
+  //     console.error('Please select a file to upload');
+  //   }
+  // };
+
+  const [selectedPics, setSelectedPics] = useState<string | StaticImport>('');
+
+  // const handleFileChang = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const files = event.target.files;
+
+  //   if (files) {
+  //     const file = files[0];
+  //     setSelectedPics(URL?.createObjectURL(file));
+  //     setSelectedFile(file);
+  //   } else {
+  //     setSelectedPics('');
+  //     setSelectedFile(undefined);
+  //   }
+  // };
+
+  const handlePic = async (coverImage: string | Blob) => {
+    try {
       const formData = new FormData();
-      formData.append('profilepics', selectedFile);
+      formData.append('images', coverImage as string | Blob);
+      formData.append('userId', auth?.user?.id as string);
 
-      try {
-        const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/image/upload', {
-          method: 'POST',
-          body: formData,
-        });
+      const promise = axios.post('https://hng6-r5y3.onrender.com/api/profile/image/upload', formData);
 
-        if (response.ok) {
-          console.log('File uploaded successfully');
-          notify({
-            message: 'Uploaded succefully',
-            type: 'success',
-          });
-        } else {
-          console.error('File upload failed');
-          notify({
-            message: 'faile to upload',
-            type: 'error',
-          });
-        }
-      } catch (error) {
-        console.error('An error occurred:', error);
+      const successMessage = 'Image uploaded successfully';
+      const response = await toast.promise(promise, {
+        pending: 'Uploading image...',
+        success: successMessage,
+        error: 'An error occurred while uploading the image',
+      });
+
+      setTimeout(() => {
+        toast.dismiss();
+      }, 5000);
+
+      console.log('uploaded', response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const image = URL.createObjectURL(file);
+      if (e.target.id === 'avatarUpload') {
+        setSelectedPics(image);
       }
-    } else {
-      console.error('Please select a file to upload');
+      await handlePic(file);
     }
   };
 
-  const [selectedFile, setSelectedFile] = useState<string>('');
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-
-    if (files) {
-      const file = files[0];
-      setSelectedFile(URL.createObjectURL(file));
-    } else {
-      setSelectedFile('');
-    }
-  };
-
-  useEffect(() => {
-    handlePics();
-  }, [selectedFile]);
   return (
     <MainLayout activePage="setting" showFooter={true} showDashboardSidebar={false} showTopbar className="relative">
       <div className="w-full   relative font-manropeEB mb-4  lg:mb-2   flex flex-col  ">
@@ -346,32 +378,30 @@ const SettingPage = () => {
                       </h3>
                       <div className=" rounded-full  ">
                         <label
-                          htmlFor="profilepics"
+                          htmlFor="avatarUpload"
                           className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
                         >
                           <>
                             <Image
-                              src={userPic || selectedFile || defaultpic}
+                              src={selectedPics || userPic || defaultpic}
                               width={280}
                               height={180}
                               alt=""
                               className=" w-[140px] h-[140px]  rounded-full   bg-brand-green-ttr"
                             ></Image>
                           </>
-                          {/* <button className="mb-4">Edit</button>
-                          {selectedFile && <button onClick={handlePics}
-                               className='text-brand-green-primary'></button>} */}
+                          Edit
                         </label>
                         <input
                           type="file"
                           name="profilepics"
-                          id="profilepics"
+                          id="avatarUpload"
                           className="hidden outline-none"
                           onChange={handleFileChange}
                         />
                       </div>
 
-                      <AccountManagement />
+                      <UpdatePassword />
                       <Twofa closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
                     </div>
                   )}
@@ -488,31 +518,29 @@ const SettingPage = () => {
                           </h3>
                           <div className=" rounded-full  ">
                             <label
-                              htmlFor="profilepics"
+                              htmlFor="avatarUpload"
                               className="flex rounded-full w-fit items-end gap-3 my-4 text-[#5B8DEF] text-[16px]"
                             >
                               <>
                                 <Image
-                                  src={userPic || selectedFile || defaultpic}
+                                  src={selectedPics || userPic || defaultpic}
                                   width={280}
                                   height={180}
                                   alt=""
                                   className=" w-[140px] h-[140px]  rounded-full  "
                                 ></Image>
                               </>
-                              {/* <button
-                               className="mb-4">Edit</button> */}
+                              Edit
                             </label>
                             <input
                               type="file"
                               onChange={handleFileChange}
                               name="profilepics"
-                              id="profilepics"
+                              id="avatarUpload"
                               className=" hidden outline-none"
                             />
                           </div>
-
-                          <AccountManagementMobile />
+                          <UpdatePassword />
                         </>
                       )}
                       <Twofa closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
@@ -541,7 +569,7 @@ const SettingPage = () => {
            } ${settingOption.notificationSettings && 'md:block'}
            hover:bg-brand-green-hover hover:text-white-100 `}
         >
-          Save <span className={` ${showReferInfo && 'hidden md:inline'}`}>& Close </span>
+          Save <span className={` ${showReferInfo && 'hidden md b:inline'}`}>& Close </span>
         </Button>
       </div>
     </MainLayout>

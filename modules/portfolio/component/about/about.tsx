@@ -68,6 +68,12 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     }
   };
 
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
   // GET ABOUT VALUE FROM DATA BASE
   const getResponse = async () => {
     setgetLoading(true);
@@ -101,13 +107,6 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
       setgetLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (isEditing && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isEditing]);
-
   useEffect(() => {
     getResponse();
   }, []);
@@ -197,7 +196,9 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
       size="lg"
     >
       {loading ? (
-        <Loader />
+        <div className="py-32">
+          <Loader />
+        </div>
       ) : (
         <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
           <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">

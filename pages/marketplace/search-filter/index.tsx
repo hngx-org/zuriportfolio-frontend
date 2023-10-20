@@ -3,30 +3,42 @@ import styles from '../../../modules/marketplace/component/landingpage/productCa
 import Link from 'next/link';
 import Error from '@modules/marketplace/component/landingpageerror/ErrorPage';
 import { GetServerSideProps } from 'next';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ProductList } from '@modules/marketplace/types/filter-types';
 import CategoryLayout from '@modules/marketplace/component/layout/category-layout';
 import { Fragment } from 'react';
 import { constructApiUrl } from '@modules/marketplace/component/filter/helper';
+import Pagination from '@ui/Pagination';
+import { useRouter } from 'next/router';
 
 interface Props {
   products: ProductList[];
+  activePage: number;
+  totalPages: number;
 }
 
-export default function Index({ products }: Props) {
+export default function Index({ products, activePage, totalPages }: Props) {
+  const router = useRouter();
+  const handlePageChange = (page: number) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: page.toString() },
+    });
+  };
+
   return (
     <Fragment>
       {Array.isArray(products) && products?.length === 0 ? (
         <Error />
       ) : (
-        <CategoryLayout>
+        <CategoryLayout isBreadcrumb={false}>
           <div className="max-w-[1240px] mx-auto"></div>
-          <div className="px-4 max-w-[1240px] mx-auto">
+          <div id="top" className="px-4 max-w-[1240px] mx-auto">
             <h1 className="text-custom-color31 font-manropeL mt-5 lg:pt-5 md:mb-1 font-bold md:text-2xl leading-normal flex items-center justify-between">
               Search Result for Products
             </h1>
             <div
-              className={`flex py-8 flex-nowrap lg:flex-wrap gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+              className={`flex py-8 flex-nowrap lg:flex-wrap gap-y-[70px] mb-5 w-full overflow-scroll ${styles['hide-scroll']}`}
             >
               {products?.map((item: ProductList) => {
                 return (
@@ -53,6 +65,15 @@ export default function Index({ products }: Props) {
                 );
               })}
             </div>
+            <a href="#top" className="flex items-center justify-center mb-14 mx-auto w-fit">
+              <Pagination
+                activePage={activePage}
+                pages={totalPages}
+                setPage={handlePageChange}
+                page={activePage}
+                visiblePaginatedBtn={4}
+              />
+            </a>
           </div>
         </CategoryLayout>
       )}
@@ -61,20 +82,49 @@ export default function Index({ products }: Props) {
 }
 
 export const getServerSideProps = (async (context) => {
-  let category = context.query.category as string;
-  let subCategory = context.query.subCategory as string;
-  let price = !isNaN(parseInt(context.query.price as string)) ? (context.query.price as string) : '';
-  let discount = !isNaN(parseInt(context.query.discount as string)) ? (context.query.discount as string) : '';
-  let rating = context.query.rating as string;
-  const queryParams = { category, subCategory, price, discount, rating };
-  let apiUrl = constructApiUrl('https://coral-app-8bk8j.ondigitalocean.app/api/products-filter', queryParams);
-  const { data, status } = await axios.get<{ products: ProductList[] }>(apiUrl.toString());
-  if (status === 400 || status === 500) {
-    console.error('Bad request');
-  }
+  try {
+    let category = context.query.category as string;
+    let subCategory = context.query.subCategory as string;
+    let price = !isNaN(parseInt(context.query.price as string)) ? (context.query.price as string) : '';
+    let discount = !isNaN(parseInt(context.query.discount as string)) ? (context.query.discount as string) : '';
+    let rating = context.query.rating as string;
 
-  const res = data.products ? data.products : [];
-  return { props: { products: res } };
+    const page = context.query.page ? parseInt(context.query.page as string) : 1;
+
+    const queryParams = { category, subCategory, price, discount, rating };
+    let apiUrl = constructApiUrl(
+      'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products-filter',
+      queryParams,
+    );
+    const { data, status } = await axios.get<{ products: ProductList[]; data: ProductList[] }>(apiUrl.toString());
+    if (status === 400 || status === 500) {
+      console.error('Bad request');
+    }
+    const res = data?.products ? data?.products : data?.data ? data?.data : [];
+    const itemsPerPage = 8;
+    const totalProducts = res.length;
+    const totalPages = Math.ceil(totalProducts / itemsPerPage);
+
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    const products = res?.slice(startIndex, endIndex);
+
+    return { props: { products: products, activePage: page, totalPages } };
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      if (error.status === 400 || error.status === 500) {
+        return {
+          redirect: { destination: '/404', permanent: false },
+        };
+      }
+    }
+    return {
+      redirect: { destination: '/marketplace/error-page', permanent: false },
+    };
+  }
 }) satisfies GetServerSideProps<{
   products: ProductList[];
+  activePage: number;
+  totalPages: number;
 }>;

@@ -10,6 +10,7 @@ import axios from 'axios';
 import { postReviewByProductId } from '../../../../http/api/controllerReview';
 import { useRouter } from 'next/router';
 import ReviewSentModal from '../../../../components/Modals/ReviewSentModal';
+import { toast } from 'react-toastify';
 
 function ReviewForms() {
   const router = useRouter();
@@ -66,16 +67,24 @@ function ReviewForms() {
           .then((res) => {
             setModalIsOpen(true);
             setTimeout(closeModal, 3000);
+            console.log(res);
+            // if (res.status === "BAD_REQUEST") {
+            //   toast.error(res.data.rateNo);
+            //   setLoad(false);
+            // }
           });
         console.log(newReview);
         // router.push(`/dashboard/reviews/product-details/${id}`);
         // You can also handle success, show a message, or redirect the user
-      } catch (error) {}
+      } catch (error: any) {
+        setLoad(false);
+        toast.error('Kindly ensure to fill all fields *Including ratings*');
+      }
     }
   };
   function closeModal() {
     setModalIsOpen(false);
-    router.push(`/dashboard/reviews/product-details/${id}`);
+    router.back();
   }
 
   return (

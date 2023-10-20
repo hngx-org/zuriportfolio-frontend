@@ -5,6 +5,8 @@ import type { GetServerSideProps } from 'next';
 import { FilterContextProvider } from '@modules/marketplace/component/filter/hooks/context';
 import { useContext, useEffect, useState } from 'react';
 import { PreviousUrlContext } from '@modules/marketplace/context/PreviousUrlProvider';
+import Head from 'next/head';
+import style from '../../../../modules/marketplace/component/categories/RemoveDefault.module.css';
 
 interface CardType {
   id: string;
@@ -53,9 +55,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
   }
 
   try {
-    const res = await axios.get(`https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}/${subCategory}/`);
+    const res = await axios.get(
+      `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}/${subCategory}/`,
+    );
 
-    if (res.data.products.length === 0) {
+    if (res.data.data.length === 0) {
       return {
         props: {
           response: {
@@ -72,7 +76,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
         response: {
           error: false,
           errorMessage: '',
-          data: res.data.products,
+          data: res.data.data,
         },
       },
     };
@@ -127,8 +131,14 @@ export default function SubCategoryPage({ response }: ResponseType) {
   }, [router.asPath, updatePath]);
 
   return (
-    <FilterContextProvider>
-      {isReady && <SpecificSubCategory subCategory={subCategory as string} response={response} />}
-    </FilterContextProvider>
+    <div id="divine" className={style.marketPlaceSubCategory}>
+      <Head>
+        <title>Products available in {subCategory}</title>
+        <meta name="description" content={`Explore a wide range of ${subCategory} product`} />
+      </Head>
+      <FilterContextProvider>
+        {isReady && <SpecificSubCategory subCategory={subCategory as string} response={response} />}
+      </FilterContextProvider>
+    </div>
   );
 }

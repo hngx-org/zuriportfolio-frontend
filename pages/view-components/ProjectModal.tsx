@@ -5,6 +5,7 @@ import useDisclosure from '../../hooks/useDisclosure';
 import { ProjectModalProps } from '../../@types';
 import projectPlaceholder from '../../public/assets/images/portfolio/project.png';
 import Button from '@ui/Button';
+import Link from 'next/link';
 
 function ProjectModal({
   title = 'Byte Financial App',
@@ -34,34 +35,35 @@ function ProjectModal({
       >
         Toggle Project Modal
       </Button>
-      <Modal isOpen={!isOpen} closeModal={onOpen}>
-        <section className="py-6 pt-10 grid gap-4 font-manropeL">
-          <h2 className="font-manropeEB text-3xl md:text-4xl">{title}</h2>
+      <Modal size="xxl" isOpen={!isOpen} closeModal={onOpen}>
+        <section className="flex flex-wrap gap-10 mt-10">
+          <section className="w-full min-[920px]:w-[300px] h-[300px]">
+            <Image src={projectPlaceholder} className="w-full h-full" alt="Project sample image" />
+          </section>
+          <section className="min-[920px]:flex-1 font-manropeL">
+            <h2 className="font-manropeEB text-2xl sm:text-3xl md:text-4xl">{title}</h2>
 
-          <div className="flex flex-wrap gap-x-3 gap-y-2 text-sm text-[#444846] capitalize">
-            {tags.map((tag, id) => (
-              <span key={id} className="border-2 border-[#8D9290] rounded-full px-2 py-1 font-manropeL">
-                {tag}
-              </span>
-            ))}
-          </div>
+            <p className="font-semibold mt-5 text-sm sm:text-base text-white-650 md:text-xl md:leading-[2rem]">
+              {description}
+            </p>
 
-          <p className="font-semibold text-[1rem] text-white-650 md:text-xl md:leading-[2rem]">{description}</p>
+            <div className="flex flex-wrap gap-3 mt-5 mb-5 text-sm text-[#444846] capitalize">
+              {tags.map((tag, id) => (
+                <span key={id} className="border-2 border-[#8D9290] rounded-full px-2 py-1 font-manropeL">
+                  {tag}
+                </span>
+              ))}
+            </div>
 
-          <a
-            href={url}
-            target="_blank"
-            rel="noreferrer"
-            className="font-semibold text-[#5B8DEF] hover:underline md:text-[1rem]"
-          >
-            Link to project <span className="ml-1 text-base">&#8599;</span>
-          </a>
-        </section>
-
-        <section className="my-4 overflow-y-scroll grid grid-cols-2 gap-4">
-          {images.map((image, id) => (
-            <Image key={id} src={projectPlaceholder} alt="Project sample image" />
-          ))}
+            <Link
+              href={url}
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-[#5B8DEF] text-sm md:text-base mt-5"
+            >
+              Link to project <span className="ml-1 text-base">&#8599;</span>
+            </Link>
+          </section>
         </section>
       </Modal>
     </>

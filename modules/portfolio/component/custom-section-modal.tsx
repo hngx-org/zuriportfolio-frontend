@@ -37,6 +37,7 @@ const CustomSectionModal = () => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [idCounter, setIdCounter] = useState(1);
 
+  // Check if any of the field is empty
   const isFieldEmpty = (field: Section) => {
     if (field.data.title === '') {
       alert('pls fill in all fields');
@@ -46,6 +47,7 @@ const CustomSectionModal = () => {
     return false; // Default to not empty if the field type is not recognized.
   };
 
+  // Create a new field i.e Links, Inputs etc
   const handleAddField = (sectionType: string) => {
     setIdCounter((prev) => prev + 1);
     // Check if the section type is in the oneInstanceTypes array
@@ -87,19 +89,22 @@ const CustomSectionModal = () => {
     setFields([]);
   };
 
+  // Update field with value of input
   const handleUpdateField = ({ sectionIndex, newData }: { sectionIndex: number; newData: Record<string, any> }) => {
     const updatedFields = [...fields];
     updatedFields[sectionIndex].data = newData;
     setFields(updatedFields);
   };
 
+  // Delete custom section
   const handleDeleteCustomItem = (id: number) => {
     const updatedExperience = sections.filter((section) => section.id !== id);
     setSections(updatedExperience);
   };
+
+  // Render fields based on buttons clicked
   const renderfields = () => {
     return (
-      // <div className="flex flex-col gap-7">
       <>
         {fields.map((field, index) => (
           <React.Fragment key={index}>
@@ -119,6 +124,7 @@ const CustomSectionModal = () => {
                     className="border-[#E1E3E2] w-full h-[54px] rounded-md border-[1px]"
                     inputSize={'lg'}
                     onChange={(e) => {
+                      // data to add to field
                       const newData = { ...field.data, title: e.target.value };
                       handleUpdateField({ sectionIndex: index, newData });
                     }}
@@ -265,6 +271,7 @@ const CustomSectionModal = () => {
 
   return (
     <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
+      {/* Get all custom sections */}
       <div className="px-5 flex flex-col gap-7">
         {sections.map((section, index) => (
           <CustomSectionItem
@@ -403,7 +410,6 @@ const SectionBtns = ({
         gridTemplateColumns: 'repeat(auto-fit, minmax(8rem, 1fr))',
         gap: '1rem',
       }}
-      className=""
     >
       <button
         onClick={handleAddTitle}

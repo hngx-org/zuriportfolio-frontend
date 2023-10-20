@@ -32,7 +32,7 @@ const ShopProductList: React.FC<ShopProductListProps> = ({ shop, currentPage, pr
 
   return (
     <div className="h-full">
-      <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 md:gap-10 gap-2 ">
+      <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 md:gap-10 gap-2 container mx-auto">
         {productsToDisplay.map((product: Products) => (
           <ProductCard key={product.id} product={product} shopName={shopData.name || ''} />
         ))}

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -63,6 +64,8 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   const [acceptedDescription, setAcceptedDescription] = useState(false);
   const [createAward, setCreateAward] = useState('');
   const [closeAllModal, setCloseAllModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false)
 
   const validateUrl = (url: string) => {
     const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
@@ -127,16 +130,17 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       };
       setAwardCounter(awardCounter + 1);
 
-      try {
-        const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${userId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newAward),
-        });
-        console.log('Response Status:', response.status);
-        console.log('Response Data:', await response.json());
+    try {
+      setIsLoading(true);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newAward),
+      });
+      setIsLoading(false);
+      const status = response.status;
 
         if (response.ok) {
           setCreateAward('Award created successfully');
@@ -494,7 +498,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const handleSave = async () => {
     // Send a PUT request to update the award
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -523,6 +527,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
     // Extract the id from the event
 
     try {
+      setDeleteLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
         method: 'DELETE',
       });
@@ -543,16 +548,16 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
 
   return (
     <div className="border-b-[1px] border-b-brand-disabled gap-12 py-3">
-      <div className="flex flex-col sm:flex-row gap-6 w-full justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 w-full justify-between ">
         <div className="flex flex-col sm:flex-row sm:gap-10 sm:w-[60%] lg:w-[35%] gap-4  justify-between">
           <div>
-            <p className="font-semibold text-[16px] leading-6  text-gray-300">{year}</p>
+            <p className="font-semibold text-[16px] leading-6  text-gray-300 ">{year}</p>
           </div>
-          <div className="flex flex-col gap-2 w-full overflow-hidden text-ellipsis whitespace-nowrap ">
-            <h1 className="font-semibold text-[22px] leading-7 text-white-700  text-left ">{title}</h1>
+          <div className="flex flex-col gap-2 w-full  text-ellipsis ">
+            <h1 className="font-semibold text-[22px] leading-7 text-white-700 text-left">{title}</h1>
             <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{presented_by}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
-              <Link href={url} target="_blank" className="flex items-center ">
+              <Link href={url} target="_blank" className="flex items-center mt-4">
                 <span className="whitespace-nowrap overflow-hidden text-ellipsis ">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
@@ -693,7 +698,7 @@ const EditForm: React.FC<{
         </div>
         <form className="flex flex-col gap-6 px-2 sm:px-4" onSubmit={handleSubmit}>
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
-            <div className="flex  flex-col gap-2 flex-1">
+            <div className="flex flex-wrap flex-col gap-2 flex-1">
               <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
                 Award Title*
               </label>
@@ -702,7 +707,7 @@ const EditForm: React.FC<{
                 id="title"
                 name="title"
                 placeholder="My best yet"
-                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full    text-gray-900   rounded-lg border-[1px]"
+                className="p-4 border-brand-disabled  text-[16px]  leading-6 w-full  text-gray-900   rounded-lg border-[1px]"
                 value={award.title}
                 onChange={handleInputChange}
               />
@@ -805,3 +810,7 @@ const EditForm: React.FC<{
 };
 
 export default Awards;
+function setDeleteLoading(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+

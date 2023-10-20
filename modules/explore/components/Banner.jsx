@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import heroBg from '../assets/hero-bg.png';
 import heroMan from '../assets/hero-image.png';
-import JumboIconTwo from '../../../public/assets/home/jumbo-circle-two.png';
-import JumboIconThree from '../../../public/assets/home/jumbo-circle-three.png';
+import JumboIconTwo from '../../../public/assets/home/jumbo-circle-two.webp';
+import JumboIconThree from '../../../public/assets/home/jumbo-circle-three.webp';
 
 const Banner = () => {
   return (

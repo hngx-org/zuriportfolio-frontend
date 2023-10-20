@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { RatingCardProps } from '../../../../../@types';
 
 const RatingCard = ({ rating, users, totalReviews }: RatingCardProps) => {
-  const [volume, setVolume] = useState<number>(40);
+  const [volume, setVolume] = useState<number>(0);
 
   useEffect(() => {
     if (users >= 50) {

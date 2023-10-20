@@ -24,6 +24,7 @@ tsconfig.tsbuildinfo
 
 /.vscode
 .DS_Store 
+health_check.md
 # /helpers/withAuth.tsx
 # /helpers/withoutAuth.tsx
 

@@ -6,16 +6,30 @@ import useSearchFilter from './hooks/useSearchFilter';
 import { manropeL } from '../../../../config/font';
 import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 import useCategory from './hooks/useCategory';
+import { ProductList } from '@modules/marketplace/types/filter-types';
 
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
   const { resetFilter, handleSearch, loading } = useSearchFilter();
   const { categories, loading: isLoading, products } = useCategory();
   const sub_categories = categories.flatMap((category) => category.subcategories).map((sub: any) => sub?.name);
-  const prices = products.map((product) => product.price);
+  function getLowestAndHighestPrices(products: ProductList[]) {
+    const sortedPrices = products
+      .map((product) => parseInt(product.price))
+      .slice()
+      .sort((a, b) => a - b);
+
+    const lowestPrices = sortedPrices.slice(0, 10);
+
+    const highestPrices = sortedPrices.slice(-10);
+
+    return {
+      lowest: lowestPrices,
+      highest: highestPrices,
+    };
+  }
+  const results = getLowestAndHighestPrices(products);
+  const prices = [...results.lowest, ...results.highest];
   const uniquePrices = Array.from(new Set(prices)).map((price) => formatToNigerianNaira(price));
-  const discounts = products.map((product) => product.discount_price);
-  const productsRating = products.map((product) => product.rating?.toString());
-  const rating = Array.from(new Set(productsRating)).map((rating) => rating);
   const discount_price = [5, 10, 20, 30, 40, 50];
 
   return (

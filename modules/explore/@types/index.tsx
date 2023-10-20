@@ -16,3 +16,8 @@ export interface UserInfo {
     track: string;
   }[];
 }
+
+export interface alltracksType {
+  id: number;
+  name: string;
+}

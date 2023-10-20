@@ -8,7 +8,8 @@ import Button from '@ui/Button';
 import { addToCart, createTempUser, makePayment } from '../../http/checkout';
 import { useAuth } from '../../context/AuthContext';
 import { getCardItemsId } from '../../helpers';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import { useState } from 'react';
 
 interface TempUser {
   isOpen: boolean;
@@ -17,9 +18,12 @@ interface TempUser {
 
 const TempUser = ({ isOpen, onClose }: TempUser) => {
   const { auth } = useAuth();
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  // const [guestSuccess, setguestSuccess] = useState(false);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
+    setIsDisabled(true);
     const userForm = new FormData(event.currentTarget);
     const data = {
       email: userForm.get('email') as string,
@@ -28,16 +32,38 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
     };
     const payment = userForm.get('paymentMethod') as string;
     const tempUser = await createTempUser(data);
+    console.log(tempUser.error);
+
+    if (tempUser.error) {
+      toast.error('User with that email already exists');
+      setIsDisabled(false);
+    } else {
+      toast.success('Guest User created');
+      setIsDisabled(false);
+    }
 
     if (tempUser.data.token) {
+      console.log(tempUser.data.token);
+
       const cartItems = JSON.parse(localStorage.getItem('products') as string);
       const cartIds = await getCardItemsId(cartItems);
 
       const cartResponse = await addToCart(cartIds, tempUser.data.token);
-      if (cartResponse.status) {
+      if (cartResponse.status == 201) {
+        console.log('status passed');
         const response = await makePayment(payment, tempUser.data.token);
-        if (response.statug) localStorage.setItem('products', '');
-        window.location.href = response.transaction_url;
+        if (response.status == 201) {
+          toast.success('Payment succesful');
+          localStorage.setItem('products', '');
+          window.location.href = response.data.transaction_url;
+        } else {
+          toast.error('Payment not successful');
+          console.log('error:', response.message);
+          setIsDisabled(false);
+        }
+      } else {
+        toast.error('Error making transaction');
+        setIsDisabled(false);
       }
     }
   };
@@ -116,12 +142,25 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
             <Image src={flutterwave} alt="mastercard" width={76} height={76} />
           </div>
           <div className="flex w-[360px]">
-            <Button
-              type="submit"
-              className="flex w-full px-[24px] py-[16px] flex-col justify-center items-center gap-[10px] rounded-[10px] bg-[#006F37]"
-            >
-              Submit
-            </Button>
+            {isDisabled ? (
+              <Button
+                type="submit"
+                className="flex w-full px-[24px] py-[16px] flex-col justify-center items-center gap-[10px] rounded-[10px] bg-[#006F37]"
+                disabled
+              >
+                <svg className="animate-spin h-4 w-4 inline mr-2 text-[#f5f6f1]" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="none" strokeWidth="4" stroke="currentColor" />
+                </svg>
+                Processing Payment...
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className="flex w-full px-[24px] py-[16px] flex-col justify-center items-center gap-[10px] rounded-[10px] bg-[#006F37]"
+              >
+                Proceed
+              </Button>
+            )}
           </div>
         </form>
       </Modal>

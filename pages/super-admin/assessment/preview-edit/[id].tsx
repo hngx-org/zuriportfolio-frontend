@@ -7,6 +7,7 @@ import EditLayout from '@modules/assessment/component/editLayout';
 import { useRouter } from 'next/router';
 // import ScoringS from '@modules/assessment/component/scoreDropdown';
 import ScoringScreen from '@modules/assessment/scoringScreen';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const EditAssesment = () => {
   const [active, setActive] = useState<null | string>('button1');
@@ -42,13 +43,12 @@ const EditAssesment = () => {
     const fetchData = async () => {
       try {
         const url = `https://piranha-assessment-jco5.onrender.com/api/admin/assessments/${id}/`;
-        const csrfToken = localStorage.getItem('zpt') ?? '';
+        const zptToken = localStorage.getItem('zpt') ?? '';
 
         const response = await fetch(url, {
           headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${csrfToken}`,
-            'X-CSRFTOKEN': csrfToken,
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${zptToken}`,
           },
         });
 
@@ -72,6 +72,7 @@ const EditAssesment = () => {
       title: data,
     }));
   };
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <main className="w-full">
@@ -139,4 +140,4 @@ const EditAssesment = () => {
   );
 };
 
-export default EditAssesment;
+export default withAdminAuth(EditAssesment);

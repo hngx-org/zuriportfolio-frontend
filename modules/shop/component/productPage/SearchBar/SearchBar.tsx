@@ -9,10 +9,8 @@ interface SearchBarProps {
   clearSearch: () => void;
   selectedCategory: string;
   handleCategoryChange: (category: string) => void;
-  addToSearchHistory: () => void;
   showSearchHistory: () => void;
   setShopOwnerQuery: (query: string) => void;
-  setCategoryQuery: (query: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -20,12 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setSearchQuery,
   setSearchQueryLocal,
   clearSearch,
-  selectedCategory,
-  handleCategoryChange,
   setShopOwnerQuery,
-  setCategoryQuery,
-  addToSearchHistory,
-  showSearchHistory,
 }) => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -44,9 +37,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const handleSearch = () => {
     const query = searchQuery;
     setSearchQuery(query);
-    addToSearchHistory();
     setShopOwnerQuery(query);
-    setCategoryQuery(query);
 
     if (router.pathname === '/shop/product') {
       router.push('/shop');
