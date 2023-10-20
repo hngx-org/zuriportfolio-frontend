@@ -19,7 +19,7 @@ const Chart: React.FC<ChartProps> = ({ isBarChart, data, isFetching, isFetched }
               <CartesianGrid vertical={false} strokeDasharray="1 0" />
               <XAxis dataKey="timeline" />
               <Tooltip cursor={false} content={<TrafficTooltip />} />
-              <Bar dataKey="income" fill="#CBEAD4" className="cursor-pointer" background={{ fill: '#fff' }} />
+              <Bar dataKey="income" fill="#CBEAD4" className="cursor-pointer" />
             </BarChart>
           ) : (
             <LineChart width={800} height={250} data={data} margin={chartMargins}>
