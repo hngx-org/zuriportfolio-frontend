@@ -460,20 +460,17 @@ const AwardList: React.FC<AwardListProps> = () => {
 
 const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const { id, year, title, presented_by, url, description } = award;
-  const [deletedMessage, setDeletedMessage] = useState('');
-  const [editedMessage, setEditedMessage] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const { refreshPage, setRefreshPage } = useContext(myContext);
-  console.log('these are the awards', award);
 
-  // State to store the edited data
   const [editedAward, setEditedAward] = useState(award);
   const openEditForm = () => {
     setIsEditFormOpen(true);
   };
 
+  console.log('this is the award', award);
   // Function to close the Edit form
   const closeEditForm = () => {
     setIsEditFormOpen(false);
@@ -545,10 +542,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
       });
     }
   };
-  const extractHostname = (url: string) => {
-    const { hostname } = new URL(url);
-    return hostname;
-  };
+
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // Extract the id from the event
 
@@ -623,7 +617,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
             <h2 className="font-bold text-[16px] leading-6 text-white-700  text-left">{presented_by}</h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis "> {extractHostname(url)}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis "> {url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>

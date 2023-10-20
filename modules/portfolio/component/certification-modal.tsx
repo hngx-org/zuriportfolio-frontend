@@ -454,32 +454,14 @@ const CertificationList: React.FC<CertificationListProps> = () => {
 const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) => {
   const { userId } = useContext(Portfolio);
   const { id, year, title, organization, url, description } = certification;
-  const [deletedMessage, setDeletedMessage] = useState('');
-  const [editedMessage, setEditedMessage] = useState('');
-  const [editMessageError, setEditMessageError] = useState('');
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const { refreshPage, setRefreshPage } = useContext(myContext);
-
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
-  const initialEditedCertification = {
-    id: id,
-    year: year,
-    title: title,
-    organization: organization,
-    url: url,
-    description: description,
-    sectionId: 1,
-  };
-  // State to store the edited data
-  const [editedCertification, setEditedCertification] = useState(initialEditedCertification);
+  const [editedCertification, setEditedCertification] = useState(certification);
 
   const openEditForm = () => {
     setIsEditFormOpen(true);
-  };
-  const extractHostname = (url: string) => {
-    const { hostname } = new URL(url);
-    return hostname;
   };
 
   // Function to close the Edit form
@@ -631,7 +613,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             </h2>
             <p className="font-semibold text-[14px] leading-5 text-brand-green-hover border-brand-green-primary text-left">
               <Link href={url} target="_blank" className="flex items-center ">
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis">{extractHostname(url)}</span>{' '}
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis">{url}</span>{' '}
                 <ArrowUp className="w-4 h-4  rotate-45" />
               </Link>
             </p>

@@ -83,7 +83,7 @@ export interface RecentlyViewedData {
 }
 export interface Award {
   id: number;
-  sectionId: number;
+  // sectionId: number;
   year: string;
   title: string;
   presented_by: string;
