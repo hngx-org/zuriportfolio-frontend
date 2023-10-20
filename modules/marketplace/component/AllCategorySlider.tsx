@@ -1,11 +1,11 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
-import styles from '././landingpage/productCardWrapper/product-card-wrapper.module.css';
+import styles from './landingpage/productCardWrapper/product-card-wrapper.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
 import dummyImage from '../../../public/assets/AllCategorySlider/dummyImage.webp';
-//I tried including my types in the index.d.ts but it resulted to merge conflict. I had to do it this way
+import CategoryLoading from './categories/CategoryLoading';
+
 interface CategoryTypes {
   name: string;
   image: string;
@@ -15,9 +15,11 @@ interface CategoryTypes {
 function AllCategorySlider() {
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [secondApiData, setSecondApiData] = useState<CategoryTypes[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const apiUrl: string = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
 
   useEffect(() => {
+    setIsLoading(true);
     // API request to fetch categories
     axios
       .get(`${apiUrl}category-name/`)
@@ -33,24 +35,36 @@ function AllCategorySlider() {
               const numCategories = categoryData.length;
               const slicedSecondApiData = imageResponse.data.slice(0, numCategories);
               setSecondApiData(slicedSecondApiData);
+              setIsLoading(false);
             })
             .catch((error) => {
               console.error('Error fetching second API data:', error);
+              setIsLoading(false);
             });
         } else {
           console.log('All Category slider images and texts not found');
           const err = 'Invalid data format in the response.';
+          setIsLoading(false);
         }
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
+        setIsLoading(false);
       });
   }, []);
 
   return (
     <div className="allCategoryText  py-10 font-[500] text-xl max-w-[1240px] mx-auto w-full">
       <h1 className="text-[#101928] font-manropeL font-bold md:text-2xl leading-normal">All Categories</h1>
-      {categories.length === 0 ? (
+      {isLoading ? (
+        <div
+          className={`flex flex-nowrap lg:grid grid-cols-4 gap-y-[70px] mt-5 w-full overflow-scroll ${styles['hide-scroll']}`}
+        >
+          {[1, 2, 3, 4].map((item) => {
+            return <CategoryLoading key={item} />;
+          })}
+        </div>
+      ) : categories.length === 0 ? (
         <div className="py-8 px-4 mt-8 text-center rounded-2xl border border-dark-110/20 text-dark-110 font-manropeL text-xl md:text-2xl font-semibold">
           No Category To Show
         </div>
