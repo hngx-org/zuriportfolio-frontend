@@ -48,7 +48,7 @@ const View = () => {
   const getUser = async (userId: string) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/getPortfolioDetails/${userId}`);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setUserData({
