@@ -142,6 +142,7 @@ function AssessmentOverview() {
       {isTimeOut && (
         <OutOfTime
           onClose={() => router.push('/assessments/dashboard')}
+          message='Your time has elapsed!'
           btn1={true}
           btn2={false}
         />
