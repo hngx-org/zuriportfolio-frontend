@@ -21,7 +21,7 @@ function GoogleRedirect() {
       // Checking if user enabled 2fa
       if (data?.response && data?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
         // Setting to localStorage because 2fa page needs them
-        localStorage.setItem('zpt', data?.response?.token);
+        localStorage.setItem('2fa', data?.response?.token);
         localStorage.setItem('email', data?.response?.email);
 
         router.push('/auth/2fa');
