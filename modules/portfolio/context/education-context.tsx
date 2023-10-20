@@ -47,11 +47,11 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const [editingEducationId, setEditingEducationId] = useState<string | null>();
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedDegreeId, setSelectedDegreeId] = useState('');
-  const [isData, setIsData] = useState(false);
+  const [isData, setIsData] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const resetForm = () => {
     setFieldOfStudy('');
-    setDegreeOptions([]);
     setDescription('');
     setSchool('');
     setFrom('');
@@ -61,8 +61,8 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   };
 
   const { userId } = useContext(Portfolio);
-  function setnewdegree() {
-    fetch('https://hng6-r5y3.onrender.com/api/degree')
+  const setnewdegree = useCallback(async () => {
+    fetch('https://hng6-r5y3.onrender.com/api/v1/degree')
       .then((res) => {
         return res.json();
       })
@@ -74,11 +74,11 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         }
       })
       .catch((error) => console.log({ error: error }));
-  }
+  }, [userId]);
 
   useEffect(() => {
     setnewdegree();
-  }, []);
+  }, [userId]);
 
   const handleDegreeSelection = (selectedDegree: string) => {
     const selectedDegreeObject = degreeOptions && degreeOptions?.find((option) => option?.id === selectedDegree);
@@ -87,34 +87,28 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     }
   };
 
-  const getUserEducation = async () => {
-    const data = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
-    const response = await data.json();
-    const { education } = response;
-    console.log('User education', education);
-  };
-
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [educations, setEducations] = useState<Education[] | []>([]);
 
   const handleEditEducation = async (e: React.FormEvent<HTMLFormElement>, educationId: number) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
       const updatedEducation = {
-        id: editingEducationId,
+        degree, // You may need to add the degree information as well
         fieldOfStudy,
-        description,
+        id: educationId,
         school,
+        description,
         from,
         to,
-        degree, // You may need to add the degree information as well
       };
-      const response = await fetch(`${API_BASE_URL}api/updateEducationDetail/${educationId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${educationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ updatedEducation }),
+        body: JSON.stringify(updatedEducation),
       });
       if (response.ok) {
         notify({
@@ -124,24 +118,30 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
           type: 'success',
         });
         resetForm();
+        setIsEditMode(false);
         setIsForm(false);
         setIsData(true);
         setEditingEducationId('');
+        getAllEducation();
       } else {
       } // Request failed, handle the error
       console.error('Request failed with status:', response.status);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleDeleteEducation = async (educationId: number) => {
+    setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/education/${educationId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${educationId}`, {
         method: 'DELETE',
       });
       if (response.ok) {
         notify({
-          message: `education ${isEditMode ? 'Edited' : 'Deleted'} successfully`,
+          message: `Education Deleted successfully`,
           position: 'top-center',
           theme: 'light',
           type: 'success',
@@ -149,20 +149,23 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setEducations((prevEducations) => prevEducations.filter((education) => education.id !== educationId));
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       notify({
         message: 'Was not able to delete education',
         position: 'top-center',
         theme: 'light',
         type: 'success',
       });
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
   // Extract the education IDs
   const getAllEducation = useCallback(async () => {
-    console.log('Edu', userId);
+    setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`${API_BASE_URL}api/v1/getPortfolioDetails/${userId}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -170,15 +173,17 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setEducations(education);
         // Extract the education IDs
         const educationIds = educations.map((education) => education.id);
-        console.log(education.degree);
-        // console.log(education.degree.id)
       }
     } catch (error) {
-      console.log(error);
+      console.log('Error dey for here', error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
-  }, []);
+  }, [userId]);
 
   const addNewEducation = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
       const missingFields = [];
@@ -191,6 +196,25 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       }
       if (description === '') {
         missingFields.push('Description');
+      }
+      if (selectedDegreeId === '') {
+        missingFields.push('Degree');
+      }
+      if (from === '') {
+        missingFields.push('Start date');
+      }
+      if (to === '') {
+        missingFields.push('End date');
+      }
+
+      if (from === to) {
+        notify({
+          message: `Start date and end date cant be the same`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
       }
 
       if (missingFields.length > 0) {
@@ -209,7 +233,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       const year = new Date().getFullYear();
       const currYear = String(year);
 
-      const response = await fetch(`${API_BASE_URL}api/education/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON
@@ -249,18 +273,17 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       }
     } catch (error) {
       console.error('Error:', error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (userId.trim().length > 0) {
-      getAllEducation();
-    }
-  }, [getAllEducation, userId]);
-
-  // useEffect(() => {
-  //   console.log('User work experience ', workExperiences);
-  // }, [workExperiences]);
+    // if (userId.trim().length > 0) {
+    getAllEducation();
+    // }
+  }, [getAllEducation]);
 
   return (
     <EducationModalContext.Provider
@@ -295,6 +318,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setnewdegree,
         editingEducationId,
         setEditingEducationId,
+        isLoading,
       }}
     >
       {children}
