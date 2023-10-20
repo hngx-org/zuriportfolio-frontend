@@ -100,3 +100,7 @@ export const getDiscountPercentage = (costPrice: string, sellingPrice: string) =
   const discountPercentage = (diffrence / Number(costPrice)) * 100;
   return discountPercentage;
 };
+
+export function logQueryResult(queryName: string, queryData: any) {
+  console.log(`${queryName}:`, queryData);
+}

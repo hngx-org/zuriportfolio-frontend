@@ -21,7 +21,7 @@ export const fetchTodaysRevenue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const todaysRevenue = res?.data?.data?.data;
+    const todaysRevenue = res?.data?.data?.todayRevenue;
     return todaysRevenue;
   } catch (error) {
     // fetchErrorToast("today's revenue");
@@ -54,9 +54,6 @@ export const fetchTodaysAverageOrderValue = async () => {
       },
     });
     const todaysAverageOrderValue = res?.data?.data?.averageOrderValue;
-    if (!todaysAverageOrderValue) {
-      return 0;
-    }
     return todaysAverageOrderValue;
   } catch (error) {
     // fetchErrorToast('todays average order value');
@@ -74,7 +71,7 @@ export const fetchYesterdaysRevenue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const yesterdaysRevenue = res?.data?.data?.data;
+    const yesterdaysRevenue = res?.data?.data?.todayRevenue;
     return yesterdaysRevenue;
   } catch (error) {
     // fetchErrorToast("yesterday's revenue");
@@ -107,9 +104,6 @@ export const fetchYesterdaysAverageOrderValue = async () => {
       },
     });
     const yesterdaysAverageOrderValue = res?.data?.data?.averageOrderValue;
-    if (!yesterdaysAverageOrderValue) {
-      return 0;
-    }
     return yesterdaysAverageOrderValue;
   } catch (error) {
     // fetchErrorToast('yesterdays average order value');

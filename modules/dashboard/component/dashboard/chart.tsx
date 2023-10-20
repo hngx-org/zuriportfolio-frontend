@@ -15,17 +15,17 @@ const Chart: React.FC<ChartProps> = ({ isBarChart, data, isFetching, isFetched }
       {!isFetching && isFetched && (
         <ResponsiveContainer height={250}>
           {isBarChart ? (
-            <BarChart width={800} height={250} data={data} margin={chartMargins}>
+            <BarChart width={800} height={250} data={data} margin={chartMargins} barSize={30}>
               <CartesianGrid vertical={false} strokeDasharray="1 0" />
               <XAxis dataKey="timeline" />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar barSize={30} dataKey="income" fill="#CBEAD4" className="cursor-pointer" />
+              <Tooltip cursor={false} content={<TrafficTooltip />} />
+              <Bar dataKey="income" fill="#CBEAD4" className="cursor-pointer" background={{ fill: '#fff' }} />
             </BarChart>
           ) : (
             <LineChart width={800} height={250} data={data} margin={chartMargins}>
               <CartesianGrid vertical={false} strokeDasharray="1 0" />
               <XAxis dataKey="timeline" />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip cursor={false} content={<SalesTooltip />} />
               <Line
                 dot={true}
                 type="monotone"
@@ -49,8 +49,8 @@ const chartMargins = {
   bottom: 5,
 };
 
-const CustomTooltip = ({ active, payload, label }: any) => {
-  const tooltipMessage = getTooltipMessage(label, payload);
+const SalesTooltip = ({ active, payload, label }: any) => {
+  const tooltipMessage = getSalesTooltipMessage(label, payload);
   if (active && payload && payload.length) {
     return (
       <div className="bg-zinc-100 opacity-100 shadow rounded-md p-3 text-sm md:text-base">
@@ -62,7 +62,20 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-function getTooltipMessage(label: any, payload: any[]) {
+const TrafficTooltip = ({ active, payload, label }: any) => {
+  const tooltipMessage = getTrafficTooltipMessage(label, payload);
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-zinc-100 opacity-100 shadow rounded-md p-3 text-sm md:text-base">
+        <p className="">{tooltipMessage}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+function getSalesTooltipMessage(label: any, payload: any[]) {
   let message = `Your total revenue `;
   if (label && payload && payload[0]) {
     if (twelveMonths.includes(label)) {
@@ -75,6 +88,25 @@ function getTooltipMessage(label: any, payload: any[]) {
       message += `at ${label} was $${payload[0]?.value}`;
     } else {
       message += `for ${label} was $${payload[0]?.value}`;
+    }
+  }
+
+  return message;
+}
+
+function getTrafficTooltipMessage(label: any, payload: any[]) {
+  let message = `Your store had `;
+  if (label && payload && payload[0]) {
+    if (twelveMonths.includes(label)) {
+      message += `${payload[0]?.value} views in ${label}`;
+    } else if (sevenDays.includes(label)) {
+      message += `${payload[0]?.value} views on ${label}`;
+    } else if (thirtyDays.includes(label)) {
+      message += `${payload[0]?.value} views on the ${label}`;
+    } else if (twentyFourHours.includes(label)) {
+      message += `${payload[0]?.value} views at ${label}`;
+    } else {
+      message += `${payload[0]?.value} views`;
     }
   }
 

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import Loader from '@ui/Loader';
 import Image from 'next/image';
 import { MetricCardProps } from '../../../../@types';
+import { logQueryResult } from '../../../../helpers/index';
 import {
   fetchTodaysAverageOrderValue,
   fetchTodaysOrders,
@@ -15,10 +16,6 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
   let todaysFinalCardValue;
   let yesterdaysFinalCardValue;
   let finalPercentage = 0;
-
-  function logQueryResult(queryName: string, queryData: any) {
-    console.log(`${queryName}:`, queryData);
-  }
 
   const {
     data: queryTodaysAverageOrderValue,
@@ -73,12 +70,8 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
     todaysFinalCardValue = queryTodaysOrders;
     yesterdaysFinalCardValue = queryYesterdaysOrders;
   } else if (title === "Today's revenue") {
-    if (Array.isArray(queryTodaysRevenue) && queryTodaysRevenue.length > 0) {
-      todaysFinalCardValue = queryTodaysRevenue;
-    }
-    if (Array.isArray(queryYesterdaysRevenue) && queryYesterdaysRevenue.length > 0) {
-      yesterdaysFinalCardValue = queryYesterdaysRevenue;
-    }
+    todaysFinalCardValue = queryTodaysRevenue;
+    yesterdaysFinalCardValue = queryYesterdaysRevenue;
   }
 
   if (todaysFinalCardValue === undefined || todaysFinalCardValue === null) {
@@ -95,9 +88,6 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
     <div className="shadow rounded-md px-5 py-3 space-y-3">
       <p className="flex items-center justify-between">
         <span className="text-xs md:text-sm text-brand-white-650">{title}</span>
-        {/* <button className="mr-1">
-          <Image src="/assets/images/more.png" width={16} height={16} alt={title} />
-        </button> */}
       </p>
       {isFetching && (
         <div className="p-2 font-medium">
