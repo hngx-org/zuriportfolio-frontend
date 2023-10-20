@@ -18,7 +18,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
   const { setCartCountNav, cartCount } = useCart();
   const [cartLoading, setCartLoading] = useState<boolean>(true);
 
-  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/similar_products/${id}/`;
+  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/similar_products/${id}/`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
@@ -44,7 +44,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
   }
 
   const addToCart = async (ids: string) => {
-    const apiUrl = `${CART_ENDPOINT}/carts`;
+    const apiUrl = `${CART_ENDPOINT}/api/carts`;
     if (auth?.token) {
       try {
         const response = await axios.post(
@@ -57,7 +57,7 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
           },
         );
 
-        if (response.status === 201) {
+        if (response.status === 200) {
           setCartCountNav(cartCount + 1);
           toast.success('Added to Cart');
           setCartLoading(false);
@@ -88,9 +88,9 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
         Products we thought might interest you!
       </h1>
 
-      <div className="lg:flex lg:flex-row lg:items-center lg:gap-[16px] lg:overflow-hiddenlg:w-[100%] lg:my-[40px] my-[40px] md:grid-cols-2 md:grid md:gap-[16px]">
+      <div className="lg:flex lg:flex-row lg:items-center lg:gap-[16px] lg:overflow-hidden lg:my-[40px] my-[40px] md:grid-cols-2 md:grid md:gap-[16px]">
         {response.map((item, index) => (
-          <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] w-[298px]" key={index}>
+          <div className="p-[16px] mb-10 border-[1px] border-custom-color32 rounded-[8px] w-[298px]" key={index}>
             <Link href={`/marketplace/product-details?id=${item?.id}`}>
               <div>
                 <div className="flex flex-col items-center">
