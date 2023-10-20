@@ -16,6 +16,9 @@ import z from 'zod';
 import Loader from '@ui/Loader';
 import axios from 'axios';
 import { type } from 'os';
+import { MdDiscount } from 'react-icons/md';
+import { BiSolidDiscount } from 'react-icons/bi';
+import { twMerge } from 'tailwind-merge';
 
 type Product = {
   product_id: any;
@@ -28,6 +31,11 @@ type Product = {
   category_id: any;
   description: any;
   id: any;
+  promo: {
+    amount: number;
+    inPercentage: string;
+    maximum_discount_price: number;
+  } | null;
 };
 type Assets = {
   link: any;
@@ -610,6 +618,9 @@ const ProductCard = (props: {
 }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+
+  const imageNotFound = `https://fisnikde.com/wp-content/uploads/2019/01/broken-image.png`;
+
   const closeDeleteModal = () => {
     setDeleteModal(false);
   };
@@ -623,16 +634,28 @@ const ProductCard = (props: {
     setEditModal(true);
   };
 
+  const calculateDiscount = (amount: number, rate: number) => (rate * amount) / 100;
+
+  console.log(props.product);
+
   return (
     <>
       {props.product.map((product, index) => (
         <div
           key={index}
-          className="lg:px-[20.15px] md:px-[17px] px-3  py-[10px] md:py-4 lg:pt-[17.78px] bg-white-100 pb-[11.85px] rounded-[10px] border border-brand-disabled2 items-center"
+          className="relative lg:px-[20.15px] md:px-[17px] px-3  py-[10px] md:py-4 lg:pt-[17.78px] bg-white-100 pb-[11.85px] rounded-[10px] border border-brand-disabled2 items-center"
         >
+          {product?.promo !== null && (
+            <div className="absolute top-[10px] right-[1em]">
+              <div className="w-auto px-2 py-1 scale-[.95] rounded-[30px] flex items-center justify-center gap-1 bg-red-305">
+                <span className="text-white-100 text-[12px] font-manropeR">{product.promo.inPercentage}</span>
+                <BiSolidDiscount className="text-white-100" />
+              </div>
+            </div>
+          )}
           <figure className="md:mb-8 mb-3">
             <Image
-              src={product.image[0].url}
+              src={product.image[0]?.url ?? imageNotFound}
               alt="Product"
               width={240}
               height={143}
@@ -642,9 +665,20 @@ const ProductCard = (props: {
           <p className="font-manropeL font-normal text-[14px] capitalize leading-[142.857%] tracking-[0.035px] text-custom-color43 mb-[2px]">
             {product?.name}
           </p>
-          <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
-            ₦{product.price}
-          </p>
+          <div className="w-full flex items-center justify-start gap-2">
+            <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
+              ₦{product.promo !== null ? calculateDiscount(product.promo.amount, product.price) : product.price}
+            </p>
+            {product?.promo !== null && (
+              <p
+                className={twMerge(
+                  'font-manropeB leading-[150%] tracking-[0.08px] text-white-400 text-[14px] line-through md:mb-7 mb-3',
+                )}
+              >
+                ₦{product.price}
+              </p>
+            )}
+          </div>
           <div className="flex items-center lg:gap-6 md:gap-5 gap-3 justify-between">
             <button
               className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2 basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-white-650 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"
