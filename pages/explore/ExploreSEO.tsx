@@ -14,10 +14,8 @@ const SEO: React.FC<ExploreSEOProps> = ({ title, description, image, url }) => {
 
       {/* content-type, viewport, charSet, content-language, robots */}
       <meta httpEquiv="Content-Type" content="text/html;charset=UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="robots" content="index, follow" />
       <meta httpEquiv="content-language" content="en" />
-      <meta charSet="UTF-8" />
 
       {/* fb/og */}
       <meta property="og:image" content={image} />
