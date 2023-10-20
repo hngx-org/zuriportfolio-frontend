@@ -160,8 +160,13 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
 
   return (
     <>
+<<<<<<< HEAD
       <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         <div className="space-y bg-white-100 sm:p-10">
+=======
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
+        <div className="space-y bg-white-100 sm:p-10 ">
+>>>>>>> 3930ec7fdb40448f227a12c00888cc06a4e04c94
           <form className="flex flex-col gap-y-5">
             <div className="flex flex-col gap-3 my-19">
               <div className="flex justify-between items-center">
@@ -189,6 +194,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
               />
             </div>
             {socials.length > 0 &&
+<<<<<<< HEAD
               socials.map((social, index) => (
                 <form key={index} onSubmit={handleSubmit} className="flex flex-col gap-y-5">
                   <div className="flex flex-col sm:flex-row items-center justify-between mx-auto w-full sm:w-[90%]  sm:gap-2 gap-5">
@@ -213,8 +219,41 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                           </SelectContent>
                         </Select>
                       </div>
+=======
+              socials.map((social) => (
+                <form key={social.id} onSubmit={handleSubmit} className="flex flex-col gap-y-5">
+                  <div className="flex flex-col sm:flex-row items-center justify-between mx-auto w-full sm:w-[90%] sm:gap-2 gap-5">
+                    <div className="w-full">
+                      <div className="font-semibold text-[#444846] text-[.9rem] mb-2">Select social</div>
+                      <Select
+                        onValueChange={(value: string) => {
+                          handleSocialSelectChange(social.id, value);
+                        }}
+                        value={social.social_media_id}
+                      >
+                        <SelectTrigger className="border-[#E1E3E2] w-[100%] h-14 border text-xs font-manropeL">
+                          <SelectValue placeholder="Select Social" />
+                        </SelectTrigger>
+                        <SelectContent className="border-[#E1E3E2]">
+                          <SelectItem value="11" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
+                            Behance
+                          </SelectItem>
+                          <SelectItem value="12" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
+                            Github
+                          </SelectItem>
+                          <SelectItem value="13" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
+                            Instagram
+                          </SelectItem>
+                          <SelectItem value="14" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
+                            LikedIn
+                          </SelectItem>
+                          <SelectItem value="15" className="hover:bg-[#F4FBF6] hover:text-[#009254]">
+                            X
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+>>>>>>> 3930ec7fdb40448f227a12c00888cc06a4e04c94
                     </div>
-
                     <div className="flex flex-col justify-center w-[100%] h-full">
                       <div className="font-semibold text-[#444846] text-[.9rem] mb-2">Link to social</div>
                       <div className="flex rounded-md justify-center items-center border h-14 border-[#E1E3E2]">
