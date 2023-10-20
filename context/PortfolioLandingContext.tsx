@@ -15,7 +15,7 @@ import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
 import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
-import { GetShopItem } from '@modules/portfolio/component/landing/Skeleton';
+import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
 
 type PortfolioContext = {
   setGettingSection: React.Dispatch<React.SetStateAction<boolean>>;
@@ -445,7 +445,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     {
       id: 'shop',
       modal: (
-        <GetShopItem
+        <AddShopModal
           isOpen={modalStates['shop']}
           onCloseModal={() => onCloseModal('shop')}
           onSaveModal={() => onSaveModal('shop')}
