@@ -1,6 +1,3 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import logo from '../../../../public/assets/404/logo-zuri-auth.svg';
 import {
   Book,
   Chart,
@@ -11,8 +8,13 @@ import {
   SearchNormal1,
   SecuritySafe,
 } from 'iconsax-react';
-import { Input } from '@ui/Input';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+
+import { Input } from '@ui/Input';
+
+import logo from '../../../../public/assets/404/logo-zuri-auth.svg';
 import Sidebar from './SuperAdminSidebar';
 
 export const menu = [

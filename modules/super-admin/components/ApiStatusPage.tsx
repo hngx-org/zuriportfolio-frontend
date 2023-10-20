@@ -58,7 +58,7 @@ const ApiStatusPage = () => {
 
   return (
     <>
-      <div className="w-full max-sm:x-4 md:px-4 lg:px-0 font-manropeL lg:max-w-[1240px] mx-auto mb-5">
+      <div className="container px-5 md:px-0 lg:px-0 font-manropeL mx-auto mb-5">
         <div className="w-full bg-custom-color17">
           <Image
             src={'/assets/apiStatus/zuri work.png'}
@@ -68,9 +68,9 @@ const ApiStatusPage = () => {
             height={1080}
           />
         </div>
-        <div className="w-full max-sm:px-4 md:px-0 lg:px-0">
-          <div className="py-10">
-            <h1 className="text-3xl max-sm:text-xl mb-[11px] font-manropeB">About This Site</h1>
+        <div className="w-full">
+          <div className="py-7">
+            <h1 className="text-3xl max-sm:text-xl mb-[11px] max-sm:mb-2 font-manropeB">About This Site</h1>
             <p className="text-sm max-sm:text-sm text-gray-100">
               This is Zuri&apos;s status page, where you can get updates on how our systems are doing. If there are
               interruptions to service, we will post a note here.
@@ -101,10 +101,10 @@ const ApiStatusPage = () => {
                 </td>
                 {!isAssessmentsDropdownOpen && (
                   <td className=" ">
-                    {assessmentsData.some((assessment) => assessment.status === 'inactive') ? (
-                      <span className="text-red-200">Major Outage</span>
-                    ) : (
+                    {assessmentsData.every((assessment) => assessment.status === 'active') ? (
                       <span className="text-green-500">Operational</span>
+                    ) : (
+                      <span className="text-red-200">Major Outage</span>
                     )}
                   </td>
                 )}
@@ -144,10 +144,10 @@ const ApiStatusPage = () => {
                 </td>
                 {!isTakeAssessmentsDropdownOpen && (
                   <td className=" ">
-                    {assessmentsData.some((assessment) => assessment.status === 'inactive') ? (
-                      <span className="text-red-200">Major Outage</span>
-                    ) : (
+                    {takeAssessmentsData.every((assessment) => assessment.status === 'active') ? (
                       <span className="text-green-500">Operational</span>
+                    ) : (
+                      <span className="text-red-200">Major Outage</span>
                     )}
                   </td>
                 )}
