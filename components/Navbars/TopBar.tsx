@@ -22,6 +22,7 @@ import useUserSession from '../../hooks/Auth/useUserSession';
 import { getUserCart } from '../../http/checkout';
 import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 import { useCart } from '@modules/shop/component/CartContext';
+import { toast } from 'react-toastify';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -106,12 +107,18 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
-    if (e.key === 'Enter' && dropDown === 'Marketplace') {
-      router.push(`/marketplace/search/${searchQuery}`);
-    }
-    if (e.key === 'Enter' && dropDown === 'Explore') {
-      localStorage.setItem('searchQuery', searchQuery);
-      router.push(`/explore/search?searchQuery=${searchQuery}`);
+    if (e.key === 'Enter') {
+      if (searchQuery.trim() === '') {
+        toast.error('A search term must be provided.');
+      } else {
+        if (dropDown === 'Marketplace') {
+          router.push(`/marketplace/search/${searchQuery}`);
+        }
+        if (dropDown === 'Explore') {
+          localStorage.setItem('searchQuery', searchQuery);
+          router.push(`/explore/search?searchQuery=${searchQuery}`);
+        }
+      }
     }
   };
 

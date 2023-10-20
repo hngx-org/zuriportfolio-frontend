@@ -17,6 +17,7 @@ export interface MainLayoutProps {
 }
 
 export interface ProductData {
+  [x: string]: SetStateAction<ProductData | null>;
   id: string;
   name: string;
   discount_price: string;
@@ -164,7 +165,7 @@ export interface Products {
   discount_price: string;
 }
 
-interface Data {
+export interface Data {
   id: string;
   merchant_id: string;
   name: string;
@@ -178,17 +179,16 @@ interface Data {
   updatedAt: string;
   products: Product;
 }
-interface ShopData {
+export interface ShopData {
   products: Product;
   data?: Data;
-
-  // Add other properties here
 }
 
-interface Shop {
-  id: number;
-  name: string;
-  // Add other properties as needed
+export interface SEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }
 export interface SuperAdminPagination {
   title: any;
@@ -623,6 +623,11 @@ export interface reviewProps {
   help?: number;
 }
 
+export interface revNavProps {
+  shopNav?: boolean;
+  marketPlaceNav?: boolean;
+}
+
 export interface searchProp {
   handleSearchChange: (searchString: string) => void;
 }
@@ -656,10 +661,6 @@ export interface Vendor {
 }
 
 export type BannedDeletedVendorsProps = {
-  showBanned: boolean;
-  setShowBanned: (any: boolean) => void;
-  showDeleted: boolean;
-  setShowDeleted: (any: boolean) => void;
   data: any;
   isLoading: Boolean;
 };

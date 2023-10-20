@@ -15,22 +15,24 @@ import Loader from '@ui/Loader';
 
 export default function Index() {
   const [results, setResults] = useState<ProductResult[] | null>(null);
+
+  // access the query parameter from the URL using router
   const {
     query: { query },
   } = useRouter();
-  console.log(query);
 
   const searchQuery = Array.isArray(query) ? query[0] : query;
 
+  // fetch and update search results when the component mounts or searchQuery changes
   useEffect(() => {
     if (searchQuery) {
       const fetchData = async () => {
         try {
           const results = await searchProducts(searchQuery);
           setResults(results);
-        } catch (error) {
-          toast.error('An error occurred. Please try again.');
-          console.error(error);
+        } catch (error: any) {
+          console.log(error);
+          toast.error(error);
         }
       };
 
@@ -88,7 +90,7 @@ export default function Index() {
         </CategoryLayout>
       )}
 
-      {results?.length === 0 && <Error />}
+      {results && results?.length === 0 && <Error />}
     </>
   );
 }

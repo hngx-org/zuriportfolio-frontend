@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MainLayout from '../../../../components/Layout/MainLayout';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import Button from '@ui/Button';
-import ScoringScreen from '@modules/assessment/scoringScreen';
+import ScoringScreen from '../../../../modules/assessment/scoringScreen';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -12,7 +12,7 @@ import CreateAssessment from '../new';
 import CreateDraftQuestion from '@modules/assessment/component/CreateDraftQuestion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { withAdminAuth } from '../../../../helpers/withAuth';
+import { useCreatingAssessmentContext } from '../../../../context/assessment/CreatingAssessmentContext';
 
 type Props = {
   assessment: {
@@ -30,7 +30,10 @@ type Props = {
   };
 };
 const DraftPreview = () => {
+  const { questionIndex, setQuestionIndex } = useCreatingAssessmentContext();
+
   const [draftData, setDraftData] = useState<{ questions: any[]; title: string }>({ questions: [], title: '' });
+  const [newQuestions, setNewQuestions] = useState<{ questions: any[] }>({ questions: [] });
 
   const arr = [1, 2, 3];
   const router = useRouter();
@@ -146,6 +149,82 @@ const DraftPreview = () => {
     }
   };
 
+  function deleteDraft(draftId: number) {
+    const apiUrl = `https://piranha-assessment-jco5.onrender.com/api/admin/drafts/${draftId}/`;
+    const token = localStorage.getItem('zpt') || ''; // Replace with your token logic
+
+    return fetch(apiUrl, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+        'X-CSRFTOKEN': token, // Add CSRF token if required
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Successfully deleted the resource
+          console.log(`Deleted draft with ID ${draftId} successfully.`);
+        } else {
+          throw new Error(`Failed to delete draft with ID ${draftId}: ${response.status}`);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        // Handle the error as needed
+      });
+  }
+
+  const publishAssessment = async () => {
+    // Create the structure matching the endpoint's expected format
+    const combinedQuestions = [...draftData.questions, ...newQuestions.questions];
+    const publishedAssessment = {
+      skill_id: id,
+      questions_and_answers: combinedQuestions.map((question, index) => ({
+        question_no: index + 1,
+        question_text: question.question_text,
+        question_type: 'multiple_choice',
+        answer: {
+          options: question.answer.options,
+          correct_option: question.answer.correct_option,
+        },
+      })),
+      assessment_name: draftData.title, // Update with the correct assessment name
+      duration_in_minutes: 0, // Update with the correct duration if available
+    };
+    console.log('data to be published', publishedAssessment);
+
+    // Send the data to the endpoint using fetch or your preferred HTTP library
+    await fetch('https://piranha-assessment-jco5.onrender.com/api/admin/assessments/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+      body: JSON.stringify(publishedAssessment),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Assessment published successfully!');
+          // deleteDraft(id)
+          // You can also update your UI or navigate to a success page here
+        } else {
+          console.error('Failed to publish the assessment.');
+        }
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error);
+      });
+  };
+
+  // In your component, add a button or trigger to call the publishAssessment function
+  <Button
+    onClick={publishAssessment}
+    // Add other button properties like intent, size, and class name
+  >
+    Publish Assessment
+  </Button>;
+
   return (
     <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
       <AssessmentBanner
@@ -168,7 +247,7 @@ const DraftPreview = () => {
             <Button intent={'secondary'} size={'sm'} spinnerColor="#000" onClick={() => {}}>
               Save To Drafts
             </Button>
-            <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={() => {}}>
+            <Button className="p-3" intent={'primary'} size={'sm'} spinnerColor="#000" onClick={publishAssessment}>
               Publish Assesments
             </Button>
           </div>
@@ -225,14 +304,17 @@ const DraftPreview = () => {
                 <div className="border-[1px] border-[#DFE3E6] rounded-[20px] p-4">
                   <div className="flex justify-between mb-4">
                     <h3 className="text-green-300 font-manropeEB text-xl">{`Question ${item.question_no} out of ${draftData.questions.length}`}</h3>
-                    <Link href={`/super-admin/assessment/draft/edit/${id}`}>
+                    <Link
+                      href={`/super-admin/assessment/draft/edit/${id}`}
+                      onClick={() => setQuestionIndex(item.question_no - 1)}
+                    >
                       <button className="text-md font-manropeB text-black">Edit</button>
                     </Link>
                   </div>
                   <p className="text-sm text-[#2E3130]">{item.question_text}</p>
                   <p className="text-xs text-blue-700">Pick only one correct answer</p>
                   <div className="mt-8 flex flex-col gap-[22px]">
-                    {item.answer.options.map((option: any, optionIndex: any) => (
+                    {item.answer?.options.map((option: any, optionIndex: any) => (
                       <div key={index} className="flex gap-4">
                         <input type="radio" name={`Question${item.question_no}`} id={`option${optionIndex + 1}`} />
                         <label htmlFor={`option${optionIndex + 1}`} className="text-xs text-gray-700">
@@ -245,7 +327,11 @@ const DraftPreview = () => {
               </div>
             ))}
             <div className="mt-8">
-              <CreateDraftQuestion />
+              <CreateDraftQuestion
+                draftData={draftData}
+                newQuestions={newQuestions}
+                setNewQuestions={setNewQuestions}
+              />
             </div>
           </>
         ) : (
@@ -256,4 +342,4 @@ const DraftPreview = () => {
   );
 };
 
-export default withAdminAuth(DraftPreview);
+export default DraftPreview;
