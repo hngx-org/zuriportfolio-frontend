@@ -636,8 +636,6 @@ const ProductCard = (props: {
 
   const calculateDiscount = (amount: number, rate: number) => (rate * amount) / 100;
 
-  console.log(props.product);
-
   return (
     <>
       {props.product.map((product, index) => (
