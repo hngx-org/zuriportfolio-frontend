@@ -130,7 +130,7 @@ const ZuriLandingPage = () => {
           </div>
         ) : (
           <div className="text-center py-10">
-            <Error/>
+            <Error />
           </div>
         )}
         <div className="py-10">
