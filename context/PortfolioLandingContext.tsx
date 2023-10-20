@@ -16,6 +16,7 @@ import { useAuth } from './AuthContext';
 import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
 import { useQueries, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
+import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
 
 type PortfolioContext = {
   portfolioUrl: string;
@@ -213,7 +214,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
 
   const getUser = async () => {
     try {
-      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
+      const response = await $http.get(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${userId}`);
       if (response.status === 200) {
         return response.data;
       } else {
@@ -462,6 +463,17 @@ export function PortfolioCtxProvider(props: { children: any }) {
           onCloseModal={() => onCloseModal('awards')}
           onSaveModal={() => onSaveModal('awards')}
           userId={userId}
+        />
+      ),
+    },
+    {
+      id: 'shop',
+      modal: (
+        <AddShopModal
+          isOpen={modalStates['shop']}
+          onCloseModal={() => onCloseModal('shop')}
+          onSaveModal={() => onSaveModal('shop')}
+          // userId={userId}
         />
       ),
     },
