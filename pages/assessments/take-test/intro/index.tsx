@@ -35,7 +35,7 @@ const TakeTest: FC = () => {
   }, []);
 
   const handleGetStarted = async () => {
-    const token = tokenRef.current; 
+    const token = tokenRef.current;
     try {
       const res = await getAssessmentDetails(token as string, data as string);      
       if (!res) {

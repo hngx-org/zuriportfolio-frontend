@@ -46,7 +46,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
     try {
       // Make a GET request to the API
       setIsLoading(true);
-      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/skills-details/${userId}`);
+      const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/skills/${userId}`);
       const data = response.data.data;
       setValues(data);
       setIsLoading(false);
@@ -104,7 +104,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   const getAllSkill = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/getPortfolioDetails/${userId}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -118,7 +118,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
     }
   };
 
-  const apiUrl = 'https://hng6-r5y3.onrender.com/api/create-skills/';
+  const apiUrl = 'https://hng6-r5y3.onrender.com/api/v1/skills/';
   const requestData = {
     skills: values?.map((obj) => obj.skill),
     sectionId: 5,
@@ -152,7 +152,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
 
   async function deleteSkillsData(id: number) {
     try {
-      const response = await axios.delete(`https://hng6-r5y3.onrender.com/api/delete-skills/${id}}`);
+      const response = await axios.delete(`https://hng6-r5y3.onrender.com/api/v1/skills/${id}}`);
       if (response.data.successful) {
         fetchSkillData();
       }
