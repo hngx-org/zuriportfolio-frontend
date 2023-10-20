@@ -64,8 +64,8 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   const [acceptedDescription, setAcceptedDescription] = useState(false);
   const [createAward, setCreateAward] = useState('');
   const [closeAllModal, setCloseAllModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
-  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const validateUrl = (url: string) => {
     const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
@@ -130,17 +130,17 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       };
       setAwardCounter(awardCounter + 1);
 
-    try {
-      setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${userId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newAward),
-      });
-      setIsLoading(false);
-      const status = response.status;
+      try {
+        setIsLoading(true);
+        const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/awards/${userId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newAward),
+        });
+        setIsLoading(false);
+        const status = response.status;
 
         if (response.ok) {
           setCreateAward('Award created successfully');
@@ -813,4 +813,3 @@ export default Awards;
 function setDeleteLoading(arg0: boolean) {
   throw new Error('Function not implemented.');
 }
-
