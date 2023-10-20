@@ -202,7 +202,7 @@ export const Project = ({ data }: SkeletonProps) => {
   );
   return (
     <div className="flex md:flex-row flex-col mb-10 gap-1">
-      <div className="min-w-[250px] w-[250px] order-2 md:order-1 rounded-xl">{image}</div>
+      <div className="min-w-[250px] w-[250px] order-2 md:order-1 rounded-xl md:mr-5">{image}</div>
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className={description}>{data?.description}</p>
