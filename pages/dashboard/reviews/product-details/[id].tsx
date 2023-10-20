@@ -16,6 +16,7 @@ import Container from '@modules/auth/component/Container/Container';
 import Loader from '@ui/Loader';
 import { ReviewData, ReviewApiResponse, RatsData } from '../../../../@types';
 import { set } from 'nprogress';
+import Head from 'next/head';
 
 //* Moved type definitions to @types/index.d.ts
 const UserReview = () => {
@@ -148,6 +149,16 @@ const UserReview = () => {
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
+      <Head>
+        <title>User Reviews</title>
+        <meta
+          name="description"
+          content="Discover real insights from customers like you. Our User Review page showcases authentic feedback and ratings from users who have experienced our products and services."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta name="keywords" content="reviews, preferences, customization"></meta>
+        {/* Add more meta tags for SEO as needed */}
+      </Head>
       <Container>
         <NavDashBoard active="reviews" />
         {!data ? (
