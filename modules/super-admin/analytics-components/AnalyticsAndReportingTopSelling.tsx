@@ -70,7 +70,7 @@ const AnalyticsAndReportingTopSelling = () => {
         </div>
 
         <div className="grid grid-cols-3 min-w-[1000px] items-center text-custom-color2  pt-3 bord no-scrollbar">
-          <div className="flex items-center gap-1 bg-[#FCFCFD] border-[#EAECF0] ms-2">
+          <div className="flex items-center gap-1 bg-[#FCFCFD] border-[#EAECF0] ms-2 md:ms-0">
             <span className="md:pl-8   py-3 ps-3">Product Name </span>
             <Image
               src="/assets/tsImages/arrow-down.png"
@@ -110,7 +110,7 @@ const AnalyticsAndReportingTopSelling = () => {
                       <span className="ml-4 text-md md:text-lg ">{product.product_name}</span>
                     </div>
                     <div className="grid col-span-2 ps-10 grid-cols-4 text-custom-color2 text-center min-w-[100px] flex ">
-                      <p className="border-b border-[#EAECF0] me-3 min-h-[5rem] flex items-center justify-center">
+                      <p className="border-b border-[#EAECF0] me-3 my-3 min-h-[5rem] flex items-center justify-center">
                         {product.category_name}
                       </p>
                       <p className="border-b border-[#EAECF0] me-3 min-h-[5rem] flex items-center justify-center">
