@@ -111,7 +111,7 @@ const HomePage = () => {
         </div>
       )}
       {data?.data?.length === 0 || isLoading ? null : (
-        <a href="#top" className="w-full mx-auto my-4 mb-12 flex justify-center">
+        <a href="#top" className="w-fit mx-auto my-4 mb-12 flex justify-center">
           <Pagination
             visiblePaginatedBtn={5}
             activePage={pageNumber}
