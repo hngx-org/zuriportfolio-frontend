@@ -145,7 +145,6 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       const data = await response.data;
       console.log(data);
       setAvailableSocials(data?.data);
-      console.log(userId);
     } catch (error) {
       console.error(error);
     }
@@ -189,8 +188,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                 inputSize={'sm'}
               />
             </div>
-            <div>{}</div>
-            {/* {socials.length > 0 &&
+            {socials.length > 0 &&
               socials.map((social, index) => (
                 <form key={index} onSubmit={handleSubmit} className="flex flex-col gap-y-5">
                   <div className="flex flex-col sm:flex-row items-center justify-between mx-auto w-full sm:w-[90%]  sm:gap-2 gap-5">
@@ -243,7 +241,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                     </span>
                   </div>
                 </form>
-              ))} */}
+              ))}
           </form>
           <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
           <div className="flex justify-between flex-col sm:flex-row mt-3 gap-3 sm:w-[90%] mx-auto">
