@@ -12,18 +12,23 @@ import { useAuth } from '../../context/AuthContext';
 
 const View = () => {
   const router = useRouter();
-  const urlSlug = Array.isArray(router?.query?.urlSlug) ? router?.query?.urlSlug[0] : router?.query?.urlSlug;
-
+  const urlSlug = Array.isArray(router?.query?.id) ? router?.query?.id[0] : router?.query?.id;
+  
+  
   // Auth to get userid
   const { auth } = useAuth();
-
+  
+  
   useEffect(() => {
     // wait for router to be ready
     if (!router.isReady) return;
-
+    if (!auth?.user?.slug) {
+      return
+    }
     // if user is logged in and user id is same as id in url, redirect to dashboard
     if (auth?.user?.slug === urlSlug) {
       router.push(`/portfolio`);
+      
     } else {
       // if user is not logged in and id is not in url, fetch info with the id from url
       if (urlSlug) {
