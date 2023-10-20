@@ -22,14 +22,16 @@ const EditProfile = () => {
   const [availableTracks, setAvailableTracks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ status: false, message: '' });
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
   const { userId, onSaveModal } = useContext(Portfolio);
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const getUser = async () => {
     try {
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
       const data = await response.json();
-      console.log(data);
       return data;
     } catch (error: any) {
       console.log(error);
@@ -39,12 +41,12 @@ const EditProfile = () => {
     try {
       const response = await fetch('https://hng6-r5y3.onrender.com/api/tracks');
       const data = await response.json();
-      console.log(data);
       return data.data;
     } catch (error: any) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -70,6 +72,7 @@ const EditProfile = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     let matchingTrack: any;
+    matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
     if (!isLoading) {
       try {
         if (firstName.trim().length === 0 || lastName.trim().length === 0) {
@@ -87,8 +90,8 @@ const EditProfile = () => {
             body: JSON.stringify({
               name: firstName + ' ' + lastName,
               trackId: matchingTrack?.id,
-              city: city,
-              country: country,
+              city: selectedCity,
+              country: selectedCountry,
             }),
           });
           // if (!response.ok) {
@@ -245,7 +248,10 @@ const EditProfile = () => {
                       className="hover:border-green-500"
                     />
                   </SelectTrigger>
-                  <SelectContent className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                  <SelectContent
+                    className="border-[#FFFFFF] text-gray-300 hover:border-green-500 bg-white-100"
+                    style={{ maxHeight: '200px', overflowY: 'auto' }}
+                  >
                     {availableTracks?.map((track: any, index: number) => (
                       <SelectItem className="text-green-300" key={index} value={track.track}>
                         {track.track}
@@ -255,53 +261,15 @@ const EditProfile = () => {
                 </Select>
               </label>
             </div>
-            
-              {/* <div className="w-full md:w-[47%]">
-                <label>
-                  Country
-                  <span> (optional) </span>
-               
-                <input
-                  className={`w-[100%] mt-1 ${inputStyle}`}
-                  onChange={(e) => {
-                    setCountry(e.target.value);
-                  }}
-                  type="text"
-                  disabled={false}
-                  placeholder="Nigeria"
-                  value={country}
-                />
-                 </label>
-
-              </div>
-
-              <div className="w-full md:w-[47%]">
-                <label>
-                  City
-                  <span> (optional) </span>
-               
-                <input
-                  className={`w-[100%] mt-1 ${inputStyle}`}
-                  onChange={(e) => {
-                    setCity(e.target.value);
-                  }}
-                  type="text"
-                  disabled={false}
-                  placeholder="Lagos"
-                  value={city}
-                />
-                 </label>
-              </div> */}
-
-              <CountryCityDropdown
-                selectedCountry={selectedCountry}
-                selectedCity={selectedCity}
-                onCountryChange={setSelectedCountry}
-                onCityChange={setSelectedCity}
-              />
-          
-
-            <div className="w-full flex  md:flex-row gap-4 justify-between mt-10">
+            ​ ​
+            <CountryCityDropdown
+              setSelectedCountry={setSelectedCountry}
+              setSelectedCity={setSelectedCity}
+              selectedCountry={selectedCountry}
+              selectedCity={selectedCity}
+            />
+            ​
+            <div className="w-full flex  md:flex-row gap-4 justify-between mt-6">
               <div className="w-full md:w-[47%]">
                 <Button
                   intent={'secondary'}
