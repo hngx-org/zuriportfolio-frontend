@@ -74,6 +74,9 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
     } else if (field === 'images') {
       form.setFieldValue('addList.0.images', '');
       setRenderedFields((prev) => [...prev, renderFields(field, newKey)]);
+    } else if (field === 'description') {
+      form.setFieldValue('addList.0.description', '');
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey)]);
     } else {
       form.insertListItem('addList.0.fields', { [field]: '', value: '', key: newKey });
       setRenderedFields((prev) => [...prev, renderFields(field, newKey)]);
@@ -81,8 +84,8 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
   };
 
   const handleClose = () => {
-    form.reset();
     onClose();
+    form.reset();
     setGetNewSection(false);
   };
 

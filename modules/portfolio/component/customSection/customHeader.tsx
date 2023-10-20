@@ -20,6 +20,9 @@ const CustomHeader = ({ sectionButtonsData, handleChange, list }: CustomHeaderPr
   const isImageEmpty = () => {
     return list[0].images === '';
   };
+  const isDescEmpty = () => {
+    return list[0].description === '';
+  };
 
   const checkDisabled = (type: string) => {
     if (isTitleEmpty()) {
@@ -32,6 +35,9 @@ const CustomHeader = ({ sectionButtonsData, handleChange, list }: CustomHeaderPr
       return true;
     }
     if (type === 'images' && isImageEmpty()) {
+      return true;
+    }
+    if (type === 'description' && isDescEmpty()) {
       return true;
     }
   };
