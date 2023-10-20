@@ -1,48 +1,121 @@
 import React from 'react';
 import { Instagram } from 'iconsax-react';
+import Link from 'next/link';
 
 interface FooterProps {
   shopName?: any;
 }
 const Footer: React.FC<FooterProps> = ({ shopName }) => {
   return (
-    <footer className="bg-green-600 w-full text-white-100 ">
-      <div className="container mx-auto py-10 px-4 sm:px-6 md:px-3">
-        <div className="flex  md:flex-row flex-col  items-center justify-between">
-          <div className="flex  md:flex-col md:text-base text-xs font-manropeEB items-center md:items-start md:gap-2 text-left mb-4 md:mb-0 tracking-[0.005rem] flex-col">
-            zuriportfolio shop by:
-            <p className="md:text-base text-xs font-manropeEL">{shopName}</p>{' '}
+    <footer className="bg-brand-green-pressed font-manropeL w-full text-white-100 ">
+      <div className="container mx-auto py-10 px-4 sm:px-6 md:px-6 lg:px-10 ">
+        <div
+          className="px-6 py-[4rem] flex
+      flex-col gap-12 md:py-[4rem] md:flex-row md:justify-between xl:max-w-[77.5rem] xl:mx-auto"
+        >
+          <div className="flex flex-col gap-8 md:w-[20rem] xl:w-[32.5rem]">
+            <Link href="/" className="flex items-center gap-2 hover:underline">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="https://www.w3.org/2000/svg">
+                <path
+                  d="M18.0563 -0.000488281H1.94452C1.4288 -0.000488281 0.934207 0.204381 0.569538 0.56905C0.204869 0.933718 0 1.42832 0 1.94404V18.0558C0 18.5715 0.204869 19.0661 0.569538 19.4308C0.934207 19.7955 1.4288 20.0003 1.94452 20.0003H18.0563C18.572 20.0003 19.0666 19.7955 19.4313 19.4308C19.7959 19.0661 20.0008 18.5715 20.0008 18.0558V1.94404C20.0008 1.42832 19.7959 0.933718 19.4313 0.56905C19.0666 0.204381 18.572 -0.000488281 18.0563 -0.000488281ZM15.6542 12.0083V13.4914C15.6403 13.6333 15.5783 13.7662 15.4787 13.8681C15.3791 13.9701 15.2477 14.0351 15.1062 14.0523L6.73222 14.0529C6.11219 14.0529 5.58356 13.8529 5.14688 13.4537C4.71047 13.0542 4.49213 12.5711 4.49213 12.0033C4.49213 11.5516 4.63963 11.1502 4.93492 10.7963C5.23049 10.4435 5.60467 10.198 6.05747 10.0585L13.3747 7.96761H4.4924V6.552C4.49452 6.41024 4.54448 6.27336 4.63419 6.16358C4.72391 6.05379 4.84809 5.97756 4.98659 5.94725H13.4142C14.0342 5.94725 14.5623 6.14559 14.9989 6.54144C15.4356 6.93785 15.6542 7.41092 15.6542 7.9615C15.6542 8.42124 15.5054 8.8257 15.2078 9.17572C14.9103 9.52629 14.5275 9.77046 14.0595 9.90769L6.73222 12.0083H15.6542Z"
+                  fill="white"
+                />
+              </svg>
+              <span className="font-bold tracking-[0.008rem]"> zuriportfolio shop by:</span>
+            </Link>
+            <p className="md:text-base text-xs font-manropeEB">{shopName}</p>{' '}
+            <p className="font-normal md:text-base text-sm">
+              Zuri Portfolio shows you with the brightest and most creative talents from across the globe. Whether
+              you&apos;re searching for the best designers, developers, engineers or any other talent, we&apos;ve got
+              you covered. Explore our page and discover the talent that will take your projects to new heights. Your
+              next masterpiece begins here.
+            </p>
           </div>
-          <div className=" flex md:flex-row flex-col md:space-y-0 space-y-6 md:items-center items-center   md:space-x-6">
-            <div className="flex flex-row items-center gap-6 justify-between">
-              <h1 className="md:text-sm text-xs cursor-pointer font-manropeEL text-normal">Contact Us</h1>
+          <div className="grid grid-cols-2 gap-[4rem] justify-between md:gap-[4rem] lg:grid-cols-3 xl:gap-16">
+            <div className="flex flex-col gap-2">
+              <h4 className="font-semibold text-[1.375rem] leading-[1.75]">Social Media</h4>
+
+              <ul className="flex flex-col gap-2 font-normal">
+                <li>
+                  <a
+                    href="https://www.instagram.com/thezuriteam/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline"
+                  >
+                    Instagram
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://twitter.com/theZuriTeam"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline"
+                  >
+                    Twitter
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://web.facebook.com/thezuriteam"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline"
+                  >
+                    Facebook
+                  </a>
+                </li>
+              </ul>
             </div>
 
-            <div className="flex flex-row gap-6 items-center justify-between">
-              <h1 className="md:text-sm text-xs cursor-pointer font-manropeEL text-normal">Follow Us</h1>
+            <div className="flex flex-col gap-2">
+              <h4 className="font-semibold text-[1.375rem] leading-[1.75]">Services</h4>
 
-              <div className="flex items-center gap-x-4">
-                <a href="#" className="text-white cursor-pointer bg-[#1DA1F2] rounded-full p-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 32 32">
-                    <path
-                      d="M31.999 6.075c-1.177.523-2.448.875-3.999 1.033 1.439-.865 2.542-2.232 3.057-3.866-1.34.794-2.826 1.369-4.411 1.684-1.266-1.352-3.062-2.196-5.055-2.196-3.815 0-6.914 3.097-6.914 6.911 0 .543.062 1.073.18 1.587-5.748-.288-10.859-3.041-14.291-7.236-.599 1.034-.944 2.244-.944 3.535 0 2.448 1.248 4.61 3.15 5.879-1.16-.038-2.25-.354-3.216-.878-.001.032-.001.065-.001.097 0 3.415 2.434 6.265 5.667 6.921-.592.162-1.221.248-1.867.248-.455 0-.898-.043-1.331-.125.9 2.773 3.522 4.792 6.623 4.852-2.422 1.887-5.469 3.014-8.774 3.014-.571 0-1.136-.034-1.693-.1 3.144 2.019 6.871 3.204 10.887 3.204 13.063 0 20.202-10.831 20.202-20.202 0-.309-.007-.617-.018-.924 1.389-1 2.589-2.248 3.536-3.669z"
-                      fill="#ffffff"
-                    />
-                  </svg>
-                </a>
-                <a href="" className="bg-[#F00073] cursor-pointer rounded-full p-2 text-white">
-                  <Instagram size={15} color="#fff" />
-                </a>
-                <a href="#" className="text-white cursor-pointer rounded-full -ml-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35" viewBox="0 0 48 48">
-                    <path fill="#039be5" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"></path>
-                    <path
-                      fill="#fff"
-                      d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"
-                    ></path>
-                  </svg>
-                </a>
-              </div>
+              <ul className="flex flex-col gap-2 font-normal">
+                <li>
+                  <Link href="/explore" className="hover:underline">
+                    Explore
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/marketplace" className="hover:underline">
+                    Marketplace
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <h4 className="font-semibold text-[1.375rem] leading-[1.75]">Links</h4>
+
+              <ul className="flex flex-col gap-2 font-normal">
+                <li>
+                  <a href="https://training.zuri.team/" className="hover:underline">
+                    Zuri Training
+                  </a>
+                </li>
+                <li>
+                  <a href="https://internship.zuri.team/" className="hover:underline">
+                    Zuri Internship
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.zuri.team/partner" className="hover:underline">
+                    Partner with Us
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.zuri.team/recruit-talent" className="hover:underline">
+                    Recruit Talent
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.zuri.team/find-a-training-partner" className="hover:underline">
+                    Partner to Train
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
