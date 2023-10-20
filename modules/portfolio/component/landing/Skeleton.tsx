@@ -166,17 +166,22 @@ export const Certificate = ({ data }: SkeletonProps) => {
   );
 };
 
-// undone
-
 export const Education = ({ data }: SkeletonProps) => {
   return (
-    <div className="flex flex-col justify-start items-start gap-1 mb-6">
-      <p className="text-gray-300 font-semibold text-base flex-1">
-        <span>{data?.from}</span> - <span>{data?.to}</span>
-      </p>
-      <h3 className="text-lg font-semibold text-gray-200">{data?.fieldOfStudy}</h3>
-      <p className="text-sm font-manropeL text-gray-300">{data?.school}</p>
-      <p className={description}>{data?.description}</p>
+    <div className="flex flex-col justify-start md:justify-between  items-start gap-x-10 gap-y-2 mb-5">
+      <div className="">
+        <h3 className={`${main}`}>{data?.fieldOfStudy}</h3>
+        <h3 className={`${date}`}>{data?.degree?.type}</h3>
+      </div>
+      <div className="flex flex-col gap-1">
+        <h3 className={`font-bold text-gray-700 text-lg`}>{data?.role}</h3>
+        <p className={`${date}`}>
+          <span>
+            {data?.from} - {data?.to}
+          </span>
+        </p>
+        <p className={description}>{data?.description}</p>
+      </div>
     </div>
   );
 };
