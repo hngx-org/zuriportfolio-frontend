@@ -16,6 +16,7 @@ import { useAuth } from './AuthContext';
 import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
 import { useQueries, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
+import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
 
 type PortfolioContext = {
   portfolioUrl: string;
@@ -462,6 +463,17 @@ export function PortfolioCtxProvider(props: { children: any }) {
           onCloseModal={() => onCloseModal('awards')}
           onSaveModal={() => onSaveModal('awards')}
           userId={userId}
+        />
+      ),
+    },
+    {
+      id: 'shop',
+      modal: (
+        <AddShopModal
+          isOpen={modalStates['shop']}
+          onCloseModal={() => onCloseModal('shop')}
+          onSaveModal={() => onSaveModal('shop')}
+          // userId={userId}
         />
       ),
     },
