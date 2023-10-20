@@ -55,22 +55,14 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       setSocials(updatedData);
     }
   };
-  const handleSocialSelectChange = (id: string, newId: number) => {
-    // Find the index of the object with the matching id
-    const index = socials.findIndex((item) => item.id === id);
-
-    if (index !== -1) {
-      // Creates a new array with the updated content for the specific input
-      const updatedData = [...socials];
-      updatedData[index] = {
-        ...updatedData[index],
-        social_media_id: newId,
-        userId,
-      };
-
-      // Update the state with the new array
-      setSocials(updatedData);
-    }
+  const handleSocialSelectChange = (newId: number, index: number) => {
+    const updatedData = [...socials];
+    updatedData[index] = {
+      ...updatedData[index],
+      social_media_id: newId,
+      userId,
+    };
+    setSocials(updatedData);
   };
 
   const handleSocialDelete = (id: string) => {
@@ -197,9 +189,14 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                         <label className="font-semibold text-[#444846] text-[.9rem] mb-10">Select social</label>
                         <Select
                           onValueChange={(value: string) => {
-                            handleSocialSelectChange(social.social_media_id, availableSocials[index].Id);
+                            const selectedSocial = availableSocials.find((socialItem) => socialItem.name === value);
+                            if (selectedSocial) {
+                              handleSocialSelectChange(selectedSocial.Id, index);
+                            }
+                            console.log(value);
+                            console.log(social);
                           }}
-                          value={social.social_media_id}
+                          // value={availableSocials[social.social_media_id]?.name}
                         >
                           <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">
                             <SelectValue placeholder="Select Social" />
