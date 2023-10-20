@@ -13,6 +13,7 @@ import { Input } from '@ui/Input';
 import Image from 'next/image';
 import right from '/public/assets/vendor/arrow-right.svg';
 import StatusPill from '@modules/super-admin/components/StatusPill';
+import SuperAdminSancHead from '@modules/super-admin/components/product-listing/sanctioned-products/Header';
 
 const SanctionedProducts = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -57,6 +58,7 @@ const SanctionedProducts = () => {
 
   return (
     <>
+      <SuperAdminSancHead />
       <SuperAdminNavbar />
       <div className=" container">
         <Image
