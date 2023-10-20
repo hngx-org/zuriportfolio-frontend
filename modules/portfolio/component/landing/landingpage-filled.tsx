@@ -28,6 +28,7 @@ import Pawards from './placeholders/Pawards';
 import Preferences from './placeholders/Preference';
 import Pcertificates from './placeholders/Pcertificate';
 import Peducation from './placeholders/Peducation';
+import Pcontact from './placeholders/Pcontact';
 
 const LandingPageFilled: React.FC = () => {
   const {
@@ -50,6 +51,7 @@ const LandingPageFilled: React.FC = () => {
   const [showMoreLanguages, setShowMoreLanguages] = useState(2);
   const [showMoreReferences, setShowMoreReferences] = useState(2);
   const [showMoreSkills, setShowMoreSkills] = useState(2);
+  const [showMoreContacts, setShowMoreContacts] = useState(2);
 
   // Function to toggle "View More" and "View Less"
   const toggleShowMoreWorkExperience = () => {
@@ -78,6 +80,10 @@ const LandingPageFilled: React.FC = () => {
 
   const toggleShowMoreLanguages = () => {
     setShowMoreLanguages(showMoreLanguages === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreContact = () => {
+    setShowMoreContacts(showMoreContacts === 2 ? 9999 : 2);
   };
 
   const toggleShowMoreSkills = () => {
@@ -261,6 +267,22 @@ const LandingPageFilled: React.FC = () => {
                   title={section.title}
                   showMoreEducation={showMoreEducation}
                   toggleShowMoreEducation={toggleShowMoreEducation}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
+              )}
+              {section?.id === 'contact' && section?.data?.length > 0 && (
+                <Pcontact
+                  icon={<Book variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  id={section.id}
+                  title={section.title}
+                  showMoreContacts={showMoreContacts}
+                  toggleShowMoreContact={toggleShowMoreContact}
                   edit={() => editSection(section.id)}
                   remove={() => {
                     setIdToDelete(section.id);
