@@ -7,6 +7,8 @@ import StarRating from '../../StarRating';
 import { brokenImage } from '../../../../../pages/super-admin/vendor-management/vendor-details/[id]';
 import useProdDetailsLogic from './useProdDetailsLogic';
 import SuperAdminProdHeader from './Header';
+import { useQueryClient } from '@tanstack/react-query';
+import StatusPill from '../../StatusPill';
 
 export function formatNumber(number: any) {
   if (typeof number !== 'number') {
@@ -121,26 +123,7 @@ const SuperAdminProdDetails = ({
                     <p>{formatDate(data?.updatedAt)}</p>
                   </div>
                   <div className="flex flex-end">
-                    <div
-                      className={` hidden  mx-auto rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
-                        data?.product_status === 'Sanctioned'
-                          ? 'mx-auto bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                          : data?.product_status === 'Deleted'
-                          ? 'hidden mx-auto bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                          : 'bg-green-200 bg-opacity-50 text-green-800'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block w-2 h-2 rounded-full ${
-                          data?.product_status === 'Sanctioned'
-                            ? 'bg-yellow-600'
-                            : data?.product_status === 'Deleted'
-                            ? 'bg-red-800'
-                            : 'bg-green-800'
-                        }`}
-                      ></span>
-                      <span>{data?.product_status}</span>
-                    </div>
+                    <StatusPill status={data?.product_status} />
                   </div>
                 </div>
               </div>
