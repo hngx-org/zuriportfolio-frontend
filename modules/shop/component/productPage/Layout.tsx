@@ -10,7 +10,6 @@ interface LayoutProps {
   children: React.ReactNode;
   setSearchQuery: Dispatch<SetStateAction<string>>;
   setShopOwnerQuery: Dispatch<SetStateAction<string>>;
-  setCategoryQuery: Dispatch<SetStateAction<string>>;
   cartItemCount: number;
   categories: string[];
   selectedCategory: string;
@@ -24,7 +23,6 @@ const Layout: React.FC<LayoutProps> = ({
   setSearchQuery,
   categories,
   selectedCategory,
-  setCategoryQuery,
   setSelectedCategory,
   setShopOwnerQuery,
   handleCategoryChange,
@@ -39,7 +37,6 @@ const Layout: React.FC<LayoutProps> = ({
         setSearchQuery={setSearchQuery}
         cartItemCount={cartItemCount}
         setShopOwnerQuery={setShopOwnerQuery}
-        setCategoryQuery={setCategoryQuery}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}

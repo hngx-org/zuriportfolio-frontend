@@ -56,7 +56,7 @@ export default function ProductCard({
                 </div>
               ) : showDiscount ? (
                 <div className="absolute w-[100px] h-[36px] bg-brand-green-shade95 rounded-[8px] flex items-center justify-center text-brand-green-shade50 tracking-[0.4%] font-manropeL font-semibold text-[12px]">
-                  {`${discount_price}% Off`}
+                  {`${discount_price ? Math.floor((discount_price / price) * 100) : 0}% Off`}
                 </div>
               ) : showLimitedOffer ? (
                 <div className="absolute w-[100px] h-[36px] bg-custom-color24 rounded-[8px] flex items-center justify-center text-custom-color25 tracking-[0.4%] font-manropeL font-semibold text-[12px]">

@@ -100,6 +100,7 @@ const PromotionHistory: React.FC = () => {
                       changeSort={changeSortBy}
                       toggleSort={toggleSortOrder}
                       currentSort={sortBy}
+                      getPromotions={getPromotions}
                     />
                   </div>
                 )}

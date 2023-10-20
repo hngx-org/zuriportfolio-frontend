@@ -1,6 +1,5 @@
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import AnalysisCards from '@modules/super-admin/analytics-and-reporting/analysisCards';
-import BusinessOveriview from '@modules/super-admin/analytics-and-reporting/businessOverview';
 import PerformanceData from '@modules/super-admin/analytics-and-reporting/performanceData';
 import PortfolioCreation from '@modules/super-admin/analytics-and-reporting/portfolioCreation';
 import TopSellingProducts from '@modules/super-admin/analytics-and-reporting/topSellingProduct';
@@ -12,6 +11,7 @@ import Modal from '@ui/Modal';
 import { DateObject } from 'react-multi-date-picker';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { withAdminAuth } from '../../../../helpers/withAuth';
 
 const AnalyticsAndReport: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(true);
@@ -59,6 +59,8 @@ const AnalyticsAndReport: React.FC = () => {
           setGet(false);
         });
       setReportClicked(!reportClicked);
+    } else {
+      toast.error('Kindly Select a date range!');
     }
   };
 
@@ -91,7 +93,7 @@ const AnalyticsAndReport: React.FC = () => {
   }
   const handleExport = () => {
     console.log('handleExport called');
-    if (selectedDateRange.length === 2) {
+    if (selectedDateRange.length === 2 && selectedFileFormat) {
       const startDate = selectedDateRange[0].format('YYYY-MM-DD');
       const endDate = selectedDateRange[1].format('YYYY-MM-DD');
       const bearerToken =
@@ -112,11 +114,15 @@ const AnalyticsAndReport: React.FC = () => {
           console.log(response);
           saveFile(response.data, 'Analytics Data');
           setGetReport(false);
+          setReportModalOpen(false);
         })
         .catch((error) => {
           setGetReport(false);
           console.error('Error exporting report:', error);
         });
+    } else if (!selectedFileFormat) {
+      toast.error('Kindly Select a file format!');
+      setReportModalOpen(false);
     } else {
       toast.warning('Kindly select a date range!');
     }
@@ -262,4 +268,4 @@ const AnalyticsAndReport: React.FC = () => {
   );
 };
 
-export default AnalyticsAndReport;
+export default withAdminAuth(AnalyticsAndReport);

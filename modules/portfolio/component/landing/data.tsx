@@ -66,8 +66,8 @@ export const sections = [
     modal: <Certificate />,
   },
   {
-    id: 'language',
-    title: 'Language',
+    id: 'languages',
+    title: 'Languages',
     description: 'A place to highlight your professional experience A place to highlight your professional ',
     icon: <Global />,
     modal: <Language />,

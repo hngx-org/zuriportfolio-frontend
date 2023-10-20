@@ -5,9 +5,9 @@ import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingC
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
 import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
 // import { ratingData } from '../../../db/reviews';
-import CategoriesNav from '@modules/marketplace/component/CategoriesNav/CategoriesNav';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import { useRouter } from 'next/router';
+import NavDashBoard from '@modules/dashboard/component/Navbar';
 
 interface RatsData {
   oneStar: number;
@@ -50,24 +50,23 @@ export default function UserReview() {
   }, [id]);
 
   const ratingData = [
-    { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
-    { rating: 4, users: rats?.fourStar!, total: rats?.numberOfRating! },
-    { rating: 3, users: rats?.threeStar!, total: rats?.numberOfRating! },
-    { rating: 2, users: rats?.twoStar!, total: rats?.numberOfRating! },
-    { rating: 1, users: rats?.oneStar!, total: rats?.numberOfRating! },
+    { rating: 5, users: rats ? rats?.fiveStar! : 0, total: rats?.numberOfRating! },
+    { rating: 4, users: rats ? rats?.fourStar! : 0, total: rats?.numberOfRating! },
+    { rating: 3, users: rats ? rats?.threeStar! : 0, total: rats?.numberOfRating! },
+    { rating: 2, users: rats ? rats?.twoStar! : 0, total: rats?.numberOfRating! },
+    { rating: 1, users: rats ? rats?.oneStar! : 0, total: rats?.numberOfRating! },
   ];
 
   return (
     <div className="">
       <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
         <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
-          {/* from marketplace: this component you are using is from marketplace and it has been updated and we have updated it on your end also, this is important to allow sync without error take note  */}
-          <CategoriesNav navItems={categories} isLoading={loading} />
+          <NavDashBoard active="reviews" />
         </div>
         <Container>
           <div className="flex flex-col  md:flex-row md:items-start items-center content-center  justify-center m-0">
             <div className=" flex md:flex-col items-center flex-row md:mr-7 mr-0 p-4 ">
-              <RatingBar avgRating={rats?.averageRating!} verUser={100} />
+              <RatingBar avgRating={rats?.averageRating === undefined ? 0 : rats?.averageRating!} verUser={100} />
               <div className=" my-5">
                 {ratingData.map((data, index) => (
                   <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />

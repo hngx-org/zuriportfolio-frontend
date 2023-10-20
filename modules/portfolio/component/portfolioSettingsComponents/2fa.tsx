@@ -13,11 +13,7 @@ import { verfiy2FA, resend2FACode, enabled2FA, disable2FA } from '../../../../ht
 import _2FA from '../../../../pages/auth/2fa';
 import { AuthResponse, User } from '../../../../@types';
 import Logic2FA from '../../../../modules/auth/Logic2FA';
-
-type user = {
-  // ...
-  two_factor_auth: boolean;
-};
+import Button from '@ui/Button';
 
 interface close {
   closeAcc: boolean;
@@ -27,46 +23,64 @@ const Handling2FA = (props: close) => {
   const { auth, userCameFrom, handleAuth } = useAuth();
   const [open2Fa, setOpen2Fa] = useState<boolean>(false);
   const [enabled, setEnabled] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [countinue2Fa, setContinue2Fa] = useState<boolean>(false);
   const [authdata, setAuthData] = useState<User>();
   const [lgModal, setLgModal] = useState<boolean>(false);
   const [token, setToken] = useState<string>('');
+  const [fill, setFill] = useState<boolean>(false);
   const [toggleSize, setToggleSize] = useState<boolean>(false);
 
-  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange, handleSubmit, loading, handleResend } =
-    Logic2FA();
+  const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange } = Logic2FA();
   const router = useRouter();
 
   const handleResend2FACode = async () => {
+    setLoading(true);
     try {
       const email = auth?.user.email;
       if (email) {
         const resendResponse = await resend2FACode({ email });
         console.log(resendResponse);
         setToken(resendResponse?.response?.token);
+        setLoading(false);
+        setOpen2Fa(false);
+        setContinue2Fa(true);
         notify({
           message: 'code sent check your mail',
           type: 'success',
         });
+        setTimeout(() => {
+          if (inputRefs.length > 0) {
+            inputRefs[0]?.current?.focus();
+          }
+        }, 500);
+        setFill(false);
       } else {
+        setLoading(false);
         notify({
           message: 'unable to  send code mail',
           type: 'error',
         });
       }
     } catch (error) {
-      // notify({
-      //     message: 'unable to  send code mail',
-      //     type: 'error',
-      //   });
+      setLoading(false);
+      notify({
+        message: 'unable to  send code mail',
+        type: 'error',
+      });
+
+      console.error(error);
     }
   };
 
   const handleVerifyAndEnable2FA = async () => {
+    setLoading(true);
+    const unFilled = digits.filter((o) => o === '').map((o) => o);
+    setFill(true);
     try {
       const code = digits.join('');
 
-      if (token) {
+      if (token && unFilled.length == 0) {
         const verificationResponse = await verfiy2FA({ token, code });
 
         if (verificationResponse.status === 200) {
@@ -74,8 +88,10 @@ const Handling2FA = (props: close) => {
 
           const enableResponse = await enabled2FA({ token });
           if (enableResponse.status === 200) {
-            console.log('enabled');
-            setEnabled(true);
+            handleAuth(enableResponse.data);
+            console.log(enableResponse);
+            setLoading(false);
+            setOpen2Fa(false);
             notify({
               message: '2FA Enabled',
               type: 'success',
@@ -84,20 +100,24 @@ const Handling2FA = (props: close) => {
               router.push('/');
             }, 3000);
           } else {
+            setLoading(false);
             notify({
               message: 'Invalid Code',
               type: 'error',
             });
           }
         } else {
+          setLoading(false);
           notify({
             message: 'Invalid code',
             type: 'error',
           });
         }
       } else {
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       notify({
         message: 'error occurred',
         type: 'error',
@@ -106,17 +126,22 @@ const Handling2FA = (props: close) => {
   };
 
   const handleVerifyAndDisable2FA = async () => {
+    setLoading(true);
+    const unFilled = digits.filter((o) => o === '').map((o) => o);
+    setFill(true);
     try {
       const code = digits.join('');
 
-      if (token) {
+      if (token && unFilled.length == 0) {
         const verificationResponse = await verfiy2FA({ token, code });
 
         if (verificationResponse.status === 200) {
           const disableResponse = await disable2FA({ token });
           if (disableResponse.status === 200) {
+            handleAuth(disableResponse?.data);
             console.log('disable');
-            setEnabled(false);
+            console.log('diabled', disableResponse);
+            setLoading(false);
             notify({
               message: '2FA disabled',
               type: 'success',
@@ -126,20 +151,24 @@ const Handling2FA = (props: close) => {
               router.push('/');
             }, 3000);
           } else {
+            setLoading(false);
             notify({
               message: 'Invalid Code',
               type: 'error',
             });
           }
         } else {
+          setLoading(false);
           notify({
             message: 'Invalid code',
             type: 'error',
           });
         }
       } else {
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       notify({
         message: 'error occurred',
         type: 'error',
@@ -149,44 +178,34 @@ const Handling2FA = (props: close) => {
 
   const [error, setError] = useState<string>('');
   const [inputError, setInputError] = useState(false);
-
+  console.log('true', auth?.user.two_factor_auth);
+  console.log('true2', auth?.user.twoFactorAuth);
+  console.log('user4', auth?.user);
   const toggleModal = () => {
     setOpen2Fa((prev: boolean) => !prev);
     props.setCloseAcc(false);
+    setLoading(false);
   };
 
   const toggleModal2 = () => {
     setContinue2Fa((prev: boolean) => !prev);
     setOpen2Fa(false);
-    handleResend2FACode();
+    setLoading(false);
   };
 
   const handleResize = () => {
     if (window.innerWidth >= 768) {
       setLgModal(true);
+      setLoading(false);
     }
   };
-
-  window.addEventListener('resize', handleResize);
-
-  window.removeEventListener('resize', handleResize);
 
   useEffect(() => {
     handleResize();
   }, []);
 
-  const Checking2FA = useMemo(() => {
-    const newEnabled = Boolean(auth?.user?.two_factor_auth);
-    return newEnabled;
-  }, [auth?.user?.twoFactorAuth]);
-
-  useEffect(() => {
-    setEnabled(Checking2FA);
-    console.log('yesrt', enabled);
-  }, []);
-
   return (
-    <div className="space-y-[4px] mb-6 text-dark-110 text-[14px]">
+    <div className="space-y-[4px] mb-6 max-w-[500px] text-dark-110 text-[14px]">
       {props.closeAcc || lgModal ? (
         <>
           {' '}
@@ -200,13 +219,19 @@ const Handling2FA = (props: close) => {
           >
             <p>Two factor authentication</p>
 
-            <label htmlFor="2fa" className="relative inline-flex items-center cursor-pointer mx-end">
+            <label
+              onClick={() => {
+                setOpen2Fa((prv) => !prv);
+                !lgModal && props.setCloseAcc(false);
+              }}
+              className="relative inline-flex items-center cursor-pointer mx-end"
+            >
               <input
                 type="checkbox"
                 name=""
                 id="2fa"
-                checked={enabled}
-                value={'Disabled'}
+                disabled
+                checked={auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth}
                 onChange={() => {
                   setOpen2Fa((prv) => !prv);
                   !lgModal && props.setCloseAcc(false);
@@ -215,14 +240,15 @@ const Handling2FA = (props: close) => {
               />
               <div
                 className={`w-11 h-6 bg-[#D4D4D4] rounded-full peer peer-focus:ring-white
-  ${
-    enabled && ' peer-checked:after:translate-x-full peer-checked:bg-brand-green-primary'
-  } peer-checked:after:border-white after:bg-white-100 
+    peer-checked:after:translate-x-full peer-checked:bg-brand-green-primary
+   peer-checked:after:border-white after:bg-white-100 
     after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white
      after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all
        `}
               ></div>
-              <span className="ml-3 text-sm font-medium text-gray-900 ">{enabled ? 'Enabled' : 'Disabled'}</span>
+              <span className="ml-3 text-sm font-medium text-gray-900 ">
+                {auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth ? 'Enabled' : 'Disabled'}
+              </span>
             </label>
           </div>{' '}
         </>
@@ -252,13 +278,17 @@ const Handling2FA = (props: close) => {
             ></Image>
           </label>
 
-          <button
-            onClick={toggleModal2}
-            className="w-full bg-brand-green-primary text-white-100 text-center
+          <Button
+            intent={'secondary'}
+            size={'sm'}
+            isLoading={loading}
+            spinnerColor="#39D98A"
+            onClick={handleResend2FACode}
+            className="w-full bg-brand-green-primary  hover:bg-brand-green-hover border-[0px] text-white-100 text-center
                              font-manropeB text-[16px] py-[14px] rounded-lg "
           >
             Continue
-          </button>
+          </Button>
         </div>
       )}
 
@@ -290,7 +320,10 @@ const Handling2FA = (props: close) => {
                 onPaste={(e) => handlePaste(e, index)}
                 ref={inputRefs[index]}
                 aria-label={`Digit ${index + 1}`}
-                className="w-[30px] h-[30px] text-center border border-gray-300 rounded-lg border-opacity-70 focus:outline-green-600"
+                className={`w-[30px] h-[30px] ${
+                  digit == '' && fill && 'border-red-200'
+                }  text-center border border-gray-300 rounded-lg border-opacity-70 
+                focus:outline-green-600`}
               />
             ))}
           </div>
@@ -303,19 +336,25 @@ const Handling2FA = (props: close) => {
             Resend OTP
           </button>
 
-          <button
+          <Button
+            intent={'secondary'}
+            size={'sm'}
+            isLoading={loading}
+            spinnerColor="#39D98A"
             onClick={() => {
-              !enabled ? handleVerifyAndEnable2FA() : handleVerifyAndDisable2FA();
+              auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth
+                ? handleVerifyAndDisable2FA()
+                : handleVerifyAndEnable2FA();
             }}
-            className={`w-full bg-brand-green-primary text-white-100 text-center
-                             font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg ${
-                               digits.some((digit) => !digit)
-                                 ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900'
-                                 : ''
-                             } `}
+            className={`w-full bg-brand-green-primary border-0  hover:bg-brand-green-hover text-white-100 text-center
+                           font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg ${
+                             digits.some((digit) => !digit)
+                               ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900'
+                               : ''
+                           } `}
           >
-            Continue
-          </button>
+            Continue{' '}
+          </Button>
         </div>
       )}
 
@@ -347,13 +386,17 @@ const Handling2FA = (props: close) => {
                 ></Image>
               </label>
 
-              <button
-                onClick={toggleModal2}
-                className="w-full bg-brand-green-primary text-white-100 text-center
+              <Button
+                intent={'secondary'}
+                size={'sm'}
+                isLoading={loading}
+                spinnerColor="#39D98A"
+                onClick={handleResend2FACode}
+                className="w-full bg-brand-green-primary border-[0px]  hover:bg-brand-green-hover text-white-100 text-center
                              font-manropeB text-[16px] py-[14px] rounded-lg "
               >
                 Continue
-              </button>
+              </Button>
             </div>
           </Modal>
 
@@ -381,7 +424,10 @@ const Handling2FA = (props: close) => {
                     onPaste={(e) => handlePaste(e, index)}
                     ref={inputRefs[index]}
                     aria-label={`Digit ${index + 1}`}
-                    className="w-[30px] h-[30px]  text-center border border-gray-300 rounded-lg border-opacity-70 focus:outline-green-600"
+                    className={`w-[45px] h-[44px] ${
+                      digit == '' && fill && 'border-red-200'
+                    }  text-center border border-gray-300 rounded-lg border-opacity-70 
+                    focus:outline-green-600`}
                   />
                 ))}
               </div>
@@ -393,10 +439,10 @@ const Handling2FA = (props: close) => {
               >
                 Resend OTP
               </button>
-              <button
-                onClick={() => {
-                  !enabled ? handleVerifyAndEnable2FA() : handleVerifyAndDisable2FA();
-                }}
+              {/* <button
+                            onClick={() => {
+                              auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth ? handleVerifyAndDisable2FA(): handleVerifyAndEnable2FA() ;
+                            }}
                 className={`w-full bg-brand-green-primary text-white-100 text-center
                              font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg           ${
                                digits.some((digit) => !digit)
@@ -405,7 +451,26 @@ const Handling2FA = (props: close) => {
                              } `}
               >
                 Continue
-              </button>
+              </button> */}
+
+              <Button
+                //leftIcon={<I24Support color="#06C270" />}
+                intent={'secondary'}
+                onClick={() => {
+                  auth?.user?.twoFactorAuth || auth?.user?.two_factor_auth
+                    ? handleVerifyAndDisable2FA()
+                    : handleVerifyAndEnable2FA();
+                }}
+                size={'sm'}
+                isLoading={loading}
+                spinnerColor="#39D98A"
+                className={`w-full bg-brand-green-primary border-[0px] hover:bg-brand-green-hover text-white-100 text-center
+          font-manropeB text-[16px]  mt-6 py-[14px] rounded-lg           ${
+            digits.some((digit) => !digit) ? 'rounded-lg bg-gray-300 hover:bg-gray-400 bg-opacity-50 text-gray-900' : ''
+          } `}
+              >
+                Continue
+              </Button>
             </div>
           </Modal>
         </div>

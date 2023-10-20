@@ -50,12 +50,15 @@ function ProductCardWrapper({
           <>
             {productsList?.items?.length ? (
               <div
-                className={`flex flex-nowrap lg:grid grid-cols-4 gap-y-[70px] mb-[74px] w-full overflow-scroll ${styles['hide-scroll']}`}
+                className={`flex flex-nowrap lg:grid grid-cols-4 gap-x-2 md:gap-x-4 gap-y-[70px] mb-[74px] lg:[grid-column-gap:2rem] w-full overflow-scroll ${styles['hide-scroll']}`}
               >
                 {productsList.items.map((item, index) => {
                   if (index <= 7) {
                     return (
-                      <div key={index} className="relative w-1/2 md:w-1/3 lg:w-full pr-2 md:pr-4 lg:pr-0">
+                      <div
+                        key={index}
+                        className="relative w-1/2 md:w-1/3 lg:justify-items-stretch lg:w-full pr-2 md:pr-4 lg:pr-0"
+                      >
                         <ProductCard
                           id={item?.id}
                           currency={item?.currency}
@@ -64,7 +67,7 @@ function ProductCardWrapper({
                           price={item?.price}
                           user={item?.shop ? `${item?.shop?.name}` : 'null'}
                           rating={item?.rating}
-                          showDiscount={item?.showDiscount}
+                          showDiscount={title === 'Limited Offers' ? true : false}
                           showTopPicks={showTopPicks}
                           discount_price={item?.discount_price}
                           shop={item?.shop}

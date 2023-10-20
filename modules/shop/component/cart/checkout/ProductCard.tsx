@@ -36,36 +36,51 @@ export default function ProductCard({
   };
 
   return (
-    <Link
-      href={`/marketplace/product-details?id=${id}`}
-      className="border border-[#d5dbdd] hover:border-2 hover:shadow-md cursor-pointer rounded-md  lg:gap-x-3 lg:w-1/4 md:w-1/2 md:max-w-[290px] h-min-[250px] flex flex-col p-3 "
+    <div
+      className="border min-w-[250px] w-[350px] relative border-[#d5dbdd] hover:border-2 hover:shadow-md 
+            cursor-pointer rounded-md lg:gap-x-3 lg:w-1/4 md:w-1/2 
+            md:max-w-[290px] h-min-[250px] flex flex-col p-3 "
     >
-      <div className="relative w-full lg:items-stretch flex-1 mb-3 overflow-hidden">
-        <Image width={254} height={209} src={productImage} className="rounded-md" alt={productTitle}></Image>
-        {discountPercentage && (
-          <span className="absolute py-2 px-3 top-0 left-0 bg-[#e6f5ea] rounded-md">{discountPercentage}% off</span>
-        )}
-        {tag && <span className={tagStyle}>{tag}</span>}
-        <Image
-          onClick={closeHandler}
-          id={id}
-          className="absolute top-0 right-3"
-          width={25}
-          height={25}
-          src="/assets/icons/close.svg"
-          alt="close"
-        ></Image>
-      </div>
-      <div className="md:w-[252px] ">
-        <p className="truncate font-manropeL text-sm">{productTitle}</p>
-        <p className="text-2xl font-bold font-manropeEB">${productPrice}</p>
-        <div className="mt-2 font-light font-manropeL">
-          <span>By:</span> <span className="underline">{productSeller}</span>
+      <Image
+        onClick={closeHandler}
+        id={id}
+        className="absolute top-3 right-3 z-20"
+        width={25}
+        height={25}
+        src="/assets/icons/close.svg"
+        alt="close"
+      ></Image>
+      <Link href={`/marketplace/product-details?id=${id}`}>
+        <div className="relative w-full md:items-stretch flex-1 mb-3 overflow-hidden">
+          <div className="lg:max-w-[300px] lg:w-[100%] h-[200px] md:h-[209px] overflow-hidden z-50">
+            <Image
+              width={0}
+              height={0}
+              src={productImage}
+              alt={productTitle}
+              style={{ height: '100%', width: '100vw' }}
+              sizes="100vw"
+              className="rounded-[8px] object-cover h-[100%] w-[100%]"
+            />
+            {discountPercentage && (
+              <span className="absolute py-2 px-3 top-0 left-0 bg-[#e6f5ea] rounded-md">
+                {discountPercentage.toFixed(1)}% off
+              </span>
+            )}
+            {tag && <span className={tagStyle}>{tag}</span>}
+          </div>
         </div>
-        <div className="flex mt-5 mb-3">
-          {getRating()} <span className="ml-2 font-manropeB">({productRating})</span>
+        <div className="md:w-[252px] ">
+          <p className="truncate font-manropeL text-sm">{productTitle}</p>
+          <p className="text-2xl font-bold font-manropeEB">${productPrice}</p>
+          <div className="mt-2 font-light font-manropeL">
+            <span>By:</span> <span className="underline">{productSeller}</span>
+          </div>
+          <div className="flex mt-5 mb-3">
+            {getRating()} <span className="ml-2 font-manropeB">({productRating})</span>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
