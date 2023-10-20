@@ -10,17 +10,6 @@ const Portfolio = () => {
   const queryClient = new QueryClient();
   return (
     <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
-<<<<<<< HEAD
-      <QueryClientProvider client={queryClient}>
-        <PortfolioCtxProvider>
-          <WorkExperienceModalContextProvider>
-            <EducationModalContextProvider>
-              <Landing />
-            </EducationModalContextProvider>
-          </WorkExperienceModalContextProvider>
-        </PortfolioCtxProvider>
-      </QueryClientProvider>
-=======
       <PortfolioCtxProvider>
         <WorkExperienceModalContextProvider>
           <EducationModalContextProvider>
@@ -28,7 +17,6 @@ const Portfolio = () => {
           </EducationModalContextProvider>
         </WorkExperienceModalContextProvider>
       </PortfolioCtxProvider>
->>>>>>> 3930ec7fdb40448f227a12c00888cc06a4e04c94
     </MainLayout>
   );
 };
