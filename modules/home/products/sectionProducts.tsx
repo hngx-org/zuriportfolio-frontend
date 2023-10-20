@@ -17,17 +17,15 @@ const SectionProducts = () => {
   const handleNumberReset = () => {
     setPageNumber(1);
   };
-  const handleFilters = (type: string, value: string | number) => {
-    setFilters((prev) => {
-      if (type === 'none') {
-        return {};
-      }
-      return { ...prev, [type]: value };
-    });
+  const handleFilters = (filterType: string, option: string | number) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: option,
+    }));
   };
 
   const handleGo = () => {
-    searchTerm.push(`/explore/search?searchQuery=${searchQuery}`);
+    searchTerm.push(`/marketplace/search?q=${searchQuery}`);
   };
 
   return (
