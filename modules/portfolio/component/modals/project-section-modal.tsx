@@ -58,7 +58,6 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
       .then((res) => {
         setLoading(false);
         setProjects(res.data.data);
-        console.log(res.data, 'all projects for', userId);
 
         if (res?.data?.data.length > 0) {
           setRoute('view-projects');
@@ -66,7 +65,6 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
       });
   };
 

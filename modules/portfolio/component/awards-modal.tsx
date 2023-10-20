@@ -64,6 +64,8 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   const [acceptedDescription, setAcceptedDescription] = useState(false);
   const [createAward, setCreateAward] = useState('');
   const [closeAllModal, setCloseAllModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false)
 
   const validateUrl = (url: string) => {
     const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
@@ -128,16 +130,17 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
       };
       setAwardCounter(awardCounter + 1);
 
-      try {
-        const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${userId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newAward),
-        });
-        console.log('Response Status:', response.status);
-        console.log('Response Data:', await response.json());
+    try {
+      setIsLoading(true);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newAward),
+      });
+      setIsLoading(false);
+      const status = response.status;
 
         if (response.ok) {
           setCreateAward('Award created successfully');
@@ -495,7 +498,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const handleSave = async () => {
     // Send a PUT request to update the award
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/awards/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -524,6 +527,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
     // Extract the id from the event
 
     try {
+      setDeleteLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/award/${id}`, {
         method: 'DELETE',
       });
@@ -806,3 +810,7 @@ const EditForm: React.FC<{
 };
 
 export default Awards;
+function setDeleteLoading(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+
