@@ -160,7 +160,7 @@ const Earnedbadges: React.FC = () => {
         ) : (
           <div className="h-full w-full lg:max-w-[1440px]  lg:px-[60px] xl:px-[100px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
             <div>
-              <div className="hidden lg:flex    py-4 pb-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
+              <div className="flex py-4 pb-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
                 <div onClick={handleBack}>
                   <MdArrowBackIosNew />
                 </div>
