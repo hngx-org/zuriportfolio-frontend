@@ -142,7 +142,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const getAllWorkExperience = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`${API_BASE_URL}api/v1/getPortfolioDetails/${userId}`);
 
       if (response.ok) {
         const data = await response.json();

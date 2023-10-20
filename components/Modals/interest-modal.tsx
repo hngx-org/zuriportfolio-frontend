@@ -195,7 +195,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
           >
             <input
               type="text"
-              className="w-full h-full focus:outline-none text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
+              className="w-full h-full focus:outline-none font-manropeL text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
               placeholder="Enter your interest and press “ENTER”"
               onChange={handleInputChange}
               onKeyDown={handleEnterKeyPress}

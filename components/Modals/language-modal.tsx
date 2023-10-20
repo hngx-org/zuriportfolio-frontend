@@ -77,18 +77,14 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
       language.toLowerCase().includes(searchValue.toLowerCase()),
     );
     setSuggestions(filteredSuggestions);
-    setShowSuggestions(!!searchValue); // Show suggestions only if searchValue is not empty
+    setShowSuggestions(!!searchValue && filteredSuggestions.length > 0); // Show suggestions only if searchValue is not empty and there is at least a matching suggestion
   };
 
   const delayedSearch = debounce(handleSearch, 300);
 
-  const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Prevent the default form submission
-      if (inputValue.trim() !== '' && !values.includes(inputValue)) {
-        setValues((prevValues) => [...prevValues, inputValue]);
-        setInputValue('');
-      }
+  const handleItemSelect = (value: string) => {
+    if (!values.includes(inputValue)) {
+      setValues((prevValues) => [...prevValues, value]);
     }
   };
 
@@ -223,25 +219,25 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
               <input
                 type="text"
                 className={`w-full h-full focus:outline-none text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal`}
-                placeholder="Enter your preferred language and press “ENTER”"
+                placeholder="Search for your preferred language"
                 onChange={handleInputChange}
-                onKeyDown={handleEnterKeyPress}
                 value={inputValue}
                 maxLength={30}
               />
-              {showSuggestions && (
-                <section className="absolute mt-10 w-full shadow-md h-[80px]">
-                  {suggestions.map((suggestion) => (
-                    <span
-                      className="w-full block font-manropeL text-sm p-2 text-start hover:bg-green-600  hover:text-white-100 cursor-pointer"
-                      key={suggestion}
-                    >
-                      {suggestion}
-                    </span>
-                  ))}
-                </section>
-              )}
             </section>
+            {showSuggestions && (
+              <section className="w-full shadow-md h-fit max-h-[80px] overflow-y-auto">
+                {suggestions.map((suggestion) => (
+                  <span
+                    onClick={() => handleItemSelect(suggestion)}
+                    className="w-full block font-manropeL text-sm p-2 text-start hover:bg-green-600  hover:text-white-100 cursor-pointer"
+                    key={suggestion}
+                  >
+                    {suggestion}
+                  </span>
+                ))}
+              </section>
+            )}
 
             <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-4">
               <Button onClick={onCloseModal} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
