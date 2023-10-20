@@ -82,9 +82,7 @@ const Index = () => {
                     <p className="hidden lg:block">Status</p>
                     {/* <p className="hidden lg:block">Action</p> */}
                   </div>
-                  <div>
-                    {data.data?.map((data: any) => <VendorLists key={data?.id} data={data} vendor_status="deleted" />)}
-                  </div>
+                  <div>{data.data?.map((data: any) => <VendorLists key={data?.id} data={data} />)}</div>
                   <SuperAdminPagination
                     currentPage={currentPage}
                     totalPages={data?.total_pages}
