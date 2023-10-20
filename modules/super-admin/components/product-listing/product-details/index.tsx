@@ -2,12 +2,11 @@ import React from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import arrowRight from '../../../../../public/assets/arrowtoRight.svg';
-import { NextRouter, useRouter } from 'next/router';
-import { useRemoveSanction, useRestore, useSanction, useTempDeleteProd } from '../../../../../http/super-admin1';
-import { toast } from 'react-toastify';
+import { NextRouter } from 'next/router';
 import StarRating from '../../StarRating';
 import { brokenImage } from '../../../../../pages/super-admin/vendor-management/vendor-details/[id]';
-import { useQueryClient } from '@tanstack/react-query';
+import useProdDetailsLogic from './useProdDetailsLogic';
+import SuperAdminProdHeader from './Header';
 
 export function formatNumber(number: any) {
   if (typeof number !== 'number') {
@@ -44,92 +43,21 @@ const SuperAdminProdDetails = ({
   data: Record<string, any> | null;
   id: string;
 }) => {
-  const route = useRouter();
-  const { removeSanction, isLoading } = useRemoveSanction();
-  const { restoreProd, isLoading: isRestoring } = useRestore();
-  const { deleteSanction, isLoading: isTempDeleting } = useTempDeleteProd();
-  const { santionProd, isLoading: isSanctioning } = useSanction();
-  const client = useQueryClient();
-
-  const handleRemoveSaction = () => {
-    removeSanction(id, {
-      onSuccess: (response) => {
-        if (response.response.status < 300) {
-          toast.success(response.response.status);
-          client.invalidateQueries(['get-prod']);
-          handleBack(route);
-        } else {
-          toast.error(response.response.data.message);
-        }
-      },
-      onError: () => {
-        toast.success('This product is no longer sanctioned');
-        client.invalidateQueries(['get-prod']);
-        handleBack(route);
-      },
-    });
-  };
-
-  const handleRestoreProd = () => {
-    restoreProd(id, {
-      onSuccess: (response) => {
-        if (response.response.status < 300) {
-          client.invalidateQueries(['get-prod']);
-          toast.success(response.response.status || 'Product restored successfully');
-          handleBack(route);
-        } else {
-          toast.error(response.response.data.message || 'Error restoring the product');
-        }
-      },
-      onError: (error) => {
-        console.log(error);
-        client.invalidateQueries(['get-prod']);
-        toast.success('Product restored successfully');
-        handleBack(route);
-      },
-    });
-  };
-
-  const handleDelete = () => {
-    deleteSanction(id, {
-      onSuccess: (response) => {
-        if (response.response.status < 300) {
-          client.invalidateQueries(['get-prod']);
-          toast.success(response.response.status || 'Product deleted successfully');
-          handleBack(route);
-        } else {
-          toast.error(response.response.data.message || 'Error deleting the product');
-        }
-      },
-      onError: () => {
-        client.invalidateQueries(['get-prod']);
-        toast.success('Product permanently deleted');
-        handleBack(route);
-      },
-    });
-  };
-
-  const handleSanction = () => {
-    santionProd(id, {
-      onSuccess: (response) => {
-        if (response.response.status < 300) {
-          client.invalidateQueries(['get-prod']);
-          toast.success(response.response.status || 'Product sanctioned successfully');
-          handleBack(route);
-        } else {
-          toast.error(response.response.data.message || 'Error sanctioning the product');
-        }
-      },
-      onError: () => {
-        client.invalidateQueries(['get-prod']);
-        toast.success('Product sanctioned');
-        handleBack(route);
-      },
-    });
-  };
+  const {
+    route,
+    isLoading,
+    isRestoring,
+    isSanctioning,
+    isTempDeleting,
+    handleDelete,
+    handleSanction,
+    handleRestoreProd,
+    handleRemoveSaction,
+  } = useProdDetailsLogic(id);
 
   return (
     <>
+      <SuperAdminProdHeader />
       <div className="container">
         <div className="lg:mx-5 mx-3">
           <div className="flex gap-[16px] py-3 border-b-[1px] border-custom-color1">
