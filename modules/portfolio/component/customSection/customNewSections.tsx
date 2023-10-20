@@ -3,17 +3,7 @@ import { CloseSquare } from 'iconsax-react';
 import React from 'react';
 import CustomFooter from './customFooter';
 
-const CustomNewSections = ({
-  onClose,
-  setNewSection,
-  newSection,
-}: {
-  onClose: () => void;
-  setNewSection: React.Dispatch<React.SetStateAction<boolean>>;
-  newSection: boolean;
-}) => {
-  const [collapse, setCollapse] = React.useState(true);
-
+const CustomNewSections = ({ onClose }: { onClose: () => void }) => {
   return (
     <>
       <article className="flex flex-col gap-4 justify-between">
@@ -46,7 +36,7 @@ const CustomNewSections = ({
           </span>
         </div>
       </article>
-      <CustomFooter handleClose={onClose} setNewSection={setNewSection} collapse={collapse} newSection={newSection} />
+      <CustomFooter handleClose={onClose} />
     </>
   );
 };

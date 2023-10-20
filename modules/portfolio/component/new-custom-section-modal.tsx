@@ -99,7 +99,7 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      {getNewSection && <CustomNewSections onClose={onClose} setNewSection={setNewSection} newSection={newSection} />}
+      {getNewSection && <CustomNewSections onClose={onClose} />}
       {newSection && (
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <div className="flex flex-col gap-3 my-19">
@@ -130,7 +130,7 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
             </div>
           )}
           {form.values.addList[0].id !== '' || form.values.section[0].fields.length > 0 ? (
-            <CustomFooter handleClose={handleClose} setNewSection={setGetNewSection} />
+            <CustomFooter handleClose={handleClose} />
           ) : null}
         </form>
       )}
