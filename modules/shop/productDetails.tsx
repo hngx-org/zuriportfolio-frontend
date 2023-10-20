@@ -11,55 +11,56 @@ import star2 from '../../public/assets/star2.svg';
 import Button from '@ui/Button';
 import ShopProductList from './component/otherProductList';
 import Breadcrumbs from '../shop/component/Breadcrumbs';
-import Link from 'next/link';
 import TabContainer from '../shop/component/Tabbed';
-import likeIcon from '../../public/assets/icons/like.svg';
-import verifyIcon from '../../public/assets/icons/verify.svg';
-import profileImg from '../../public/assets/images/profile-img.png';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Header from './component/productPage/Header';
 import Footer from './component/productPage/Footer';
 import Loader from '@ui/Loader';
 import Head from 'next/head';
+import Error from './component/error/Error';
 
 export default function ProductDetails() {
   const router = useRouter();
-  const { cart } = useCart();
+  const { auth } = useAuth();
+  const { addToCart, cart } = useCart();
   const [product, setProduct] = useState<Products | null>(null);
-  const [image, setImage] = useState<any>(product?.image);
-  const [showAll, setShowAll] = useState(false);
   const [shopID, setShopID] = useState('');
+  const [shopName, setShopName] = useState('');
   const [otherProducts, setOtherProducts] = useState<Products[]>([]);
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const { auth } = useAuth();
   const cartItemCount = cart.length;
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   const handleCategoryChange = () => {};
-  const handleShowMoreClick = () => {
-    setShowAll(!showAll);
-  };
-
   const ZOOM = 250;
-  const shopName = router.query.shopName || '';
 
   useEffect(() => {
     const { id } = router.query;
     if (id) {
+      setLoading(true);
       fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
         .then((response) => response.json())
         .then((response) => {
           setProduct(response.data);
           setShopID(response.data.shop.id);
+          setShopName(response.data.shop.name);
+
+          setTimeout(() => {
+            setLoading(false);
+          }, 1500);
         })
         .catch((error) => {
           console.error('Error fetching product details:', error);
           setProduct(null);
+          setLoading(false);
         });
+    } else {
+      setLoading(false);
     }
   }, [router.query, auth]);
 
@@ -136,7 +137,7 @@ export default function ProductDetails() {
     };
   }, [product]);
 
-  if (!product) {
+  if (loading) {
     return (
       <div className="h-screen flex items-center justify-center">
         <Loader />
@@ -144,57 +145,69 @@ export default function ProductDetails() {
     );
   }
 
-  // const updateImage = (newImage: any) => {
-  //   setImage(newImage);
-  // };
+  if (!product) {
+    return (
+      <>
+        <Header
+          setSearchQuery={setSearchQuery}
+          setShopOwnerQuery={setShopOwnerQuery}
+          cartItemCount={cartItemCount}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          handleCategoryChange={handleCategoryChange}
+        />
+        <div className="h-[85vh] flex items-center justify-center">
+          <Error />
+        </div>
+        <Footer shopName={shopName} />
+      </>
+    );
+  }
 
   const handleAddToCart = async () => {
-    if (!auth) {
+    if (isAddedToCart) {
+      toast.error('This product is already in your cart', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    } else if (!auth) {
       toast.error('Please Log in before Adding to the Cart', {
         position: 'top-right',
         autoClose: 3000,
       });
-    }
-    try {
-      const response = await axios.post(
-        'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
-        {
-          product_ids: [product.id],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${auth?.token}`,
+    } else {
+      try {
+        const response = await axios.post(
+          'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
+          {
+            product_ids: [product.id],
           },
-        },
-      );
-      if (response.status === 201) {
-        addToCart(product);
-
-        toast.success('Added to Cart', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
-      } else {
-        toast.error('Failed to add to Cart', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${auth?.token}`,
+            },
+          },
+        );
+        if (response.status === 201) {
+          addToCart(product);
+          setIsAddedToCart(true);
+          toast.success('Added to Cart', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        } else {
+          toast.error('Failed to add to Cart', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
       }
-    } catch (error) {
-      console.error('Error adding to cart:', error);
     }
   };
-
-  {
-    /*const renderRatingStars = (rating: number) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      const starType = i <= rating ? 'star1' : 'star2';
-      stars.push(<Image src={starType === 'star1' ? star1 : star2} alt={`Star ${i}`} key={i} />);
-    }
-    return stars;
-  }; */
-  }
+ 
+ 
 
   const handleReadMoreClick = () => {
     setShowFullDescription(!showFullDescription); // Step 2
@@ -207,12 +220,21 @@ export default function ProductDetails() {
       ? product.description
       : product.description?.slice(0, 400);
 
-  const readMoreBtn = document.querySelector('.read-more-btn') as HTMLElement | null;
-  const text = document.querySelector('.text-wrapper') as HTMLElement | null;
+  {
+    /*const renderRatingStars = (rating: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      const starType = i <= rating ? 'star1' : 'star2';
+      stars.push(<Image src={starType === 'star1' ? star1 : star2} alt={`Star ${i}`} key={i} />);
+    }
+    return stars;
+  }; */
+  }
 
   return (
     <>
       <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>{shopName ? `${shopName} Shop - ${product?.name} Details` : ''}</title>
         <meta name="description" content={`Explore the details of ${product?.name}. ${product?.description}`} />
         <meta property="og:title" content={shopName ? `${shopName} Shop - ${product?.name} Details` : ''} />
@@ -220,12 +242,12 @@ export default function ProductDetails() {
           property="og:description"
           content={`Discover and explore the details of ${product?.name} by ${shopName} - ${product?.description}.`}
         />
-
         <meta
           property="og:url"
           content="https://zuriportfolio-frontend-pw1h.vercel.app/shop/product?id=ad509f1d-efa4-4f00-a6a4-20b30d3f10f9&shopName=Martinez%20and%20Sons"
         />
       </Head>
+
       <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
@@ -238,11 +260,11 @@ export default function ProductDetails() {
       <main className={`p-4 container mx-auto`}>
         <div className="self-start mb-[8px]">
           <span className="font-manropeEL text-xs md:text-sm tracking-[0.00375rem] md:tracking-[0.00088rem] font-normal lg:text-base">
-            <Breadcrumbs shopId={shopID}/>
+            <Breadcrumbs shopId={shopID} productName={product.name} />
           </span>
         </div>
         <a onClick={() => router.back()} className="self-start">
-          <ArrowLeft size="27" color="#000000" className="mb-[8px]" />
+          <ArrowLeft size="27" color="#000000" className="mb-[8px] cursor-pointer" />
         </a>
 
         {/* Product Details  */}
@@ -258,8 +280,8 @@ export default function ProductDetails() {
                 src={product.image && product.image[0] ? product.image[0].url : ''}
                 alt={product.name}
                 fill
-                style={{objectFit:"cover"}}
-                sizes='100vw'
+                style={{ objectFit: 'cover' }}
+                sizes="100vw"
                 priority
                 className="img max-w-none w-full h-auto absolute"
               />
@@ -347,113 +369,6 @@ export default function ProductDetails() {
         <span id="description" className="mt-10">
           <TabContainer />
         </span>
-        {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
-        <div className="md:hidden block mr-auto mt-10">
-          <hr className="bg-brand-disabled text-brand-disabled h-[1px] w-full border-0  sm:hidden" />
-
-          <div className="mt-4">
-            <h2 className="text-[#101928] font-manropeB font-semibold text-[22px] text-left">Customer Feedback</h2>
-            <p className="text-sm font-manropeL mt-4">
-              VERIFIED RATINGS <span>(173)</span>
-            </p>
-
-            <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
-              <div className="w-full py-8 px-6 flex flex-col gap-[20px] rounded-2xl border-custom-color32 border-[1px] items-center">
-                <h2 className="text-4xl font-manropeB font-semibold">3.0/5</h2>
-                <div className="flex mr-[17px]">
-                  <Image src={star1} alt="rating star" />
-                  <Image src={star1} alt="rating star" />
-                  <Image src={star1} alt="rating star" />
-                  <Image src={star2} alt="rating star" />
-                  <Image src={star2} alt="rating star" />
-                </div>
-                <p className="text-base font-manropeL font-normal text-center">
-                  <span>12,000</span> verified users
-                </p>
-              </div>
-
-              <div>
-                <div className="flex mb-4 sm:hidden">
-                  <div className="flex align-center gap-[5.3px]">
-                    <Image src={profileImg} alt="Profile Img" className="block sm:hidden" />
-                    <h3 className="text-green-900 sm:text-custom-color39 font-manropeL text-xs  mr-3.5">Dorcas</h3>
-                  </div>
-                  <hr className="hidden sm:block w-px h-3.5 bg-brand-disabled2 text-brand-disabled2 border-0" />
-                  <span className="font-manropeL text-xs text-custom-color39 ml-3.5">September 22, 2023.</span>
-                </div>
-                <div className="flex item-center gap-4 sm:inline-block">
-                  <div className="flex ">
-                    <Image src={star1} alt="rating star" />
-                    <Image src={star1} alt="rating star" />
-                    <Image src={star1} alt="rating star" />
-                    <Image src={star2} alt="rating star" />
-                    <Image src={star2} alt="rating star" />
-                  </div>
-
-                  <div className="flex gap-2 align-center sm:hidden">
-                    <Image src={verifyIcon} alt="Verify Icon" />
-                    <p className="color-green-300 font-manropeB text-sm font-semibold text-brand-green-shade50">
-                      Verified Purchase
-                    </p>
-                  </div>
-                </div>
-                <div className="hidden sm:flex mt-4">
-                  <h3 className="text-green-900 sm:text-custom-color39 font-manropeL text-xs  mr-3.5">Dorcas</h3>
-                  <hr className="hidden sm:block w-px h-3.5 bg-brand-disabled2 text-brand-disabled2 border-0" />
-                  <span className="font-manropeL text-xs text-custom-color39 ml-3.5">September 22, 2023.</span>
-                </div>
-
-                <p className="font-manropeL text-sm font-normal color-green-900 mt-4">
-                  Having this product is the best thing that has happened to me in a very long time. Thank you so much
-                  for this product. The shipping and delivery was also very good. But there a few tweaks that this can
-                  actually have though.
-                </p>
-
-                <button className="mt-3 hidden sm:flex text-gray-300 items-center gap-2.5 font-manropeB text-sm font-medium rounded-[10px] border-[1px] border-gray-300 px-3 py-2 mr-3.5">
-                  <Image src={likeIcon} alt="Like Icon" />
-                  Helpful
-                </button>
-
-                <div className="flex sm:hidden pt-4 items-center">
-                  <button className="text-gray-300 font-manropeB text-xs font-medium rounded-[5.897px] border-[1px] border-gray-300 py-[3px] px-[8px] mr-3.5">
-                    Helpful
-                  </button>
-                  <hr className="w-px h-[15px] bg-brand-disabled2 text-brand-disabled2 border-0" />
-
-                  <button className="text-gray-300 font-manropeB text-xs font-medium ml-3.5">Report</button>
-                </div>
-
-                <div className="mt-5 pt-[18px] pb-[46px] pr-[70px] pl-[16px] bg-custom-color38">
-                  <div className="flex items-center justify-between w-full">
-                    <h3 className="font-manropeB text-sm font-semibold">ZuriShopOwner</h3>
-                    <p className="font-manropeL text-xs font-normal text-custom-color39">September 22, 2023.</p>
-                  </div>
-                  <p className="font-manropeL text-sm font-normal mt-4">
-                    Having this product is the best thing that has happened to me in a very long time. Thank you so much
-                    for this product. The shipping and delivery was also very good. But there a few tweaks that this can
-                    actually have though.
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  className="hidden sm:flex text-base leading-6 mt-7  font-manropeB font-bold text-brand-green-primary mx-auto"
-                >
-                  See more reviews
-                </button>
-              </div>
-              <div className="flex items-center justify-center sm:hidden ">
-
-                <button
-                  type="button"
-                  className="flex leading-6 text-base font-manropeB font-bold text-brand-green-primary"
-                >
-                  <Link href={'/dashboard/reviews/product-details/1'}>See more reviews</Link>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* favorite products  */}
         <div className="mt-[4.4rem] mb-[2.37rem]">
@@ -465,13 +380,13 @@ export default function ProductDetails() {
           {otherProducts.length > 0 ? (
             <>
               <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
-                <ShopProductList products={otherProducts.slice(0, 8)} productId={product.id} />
+                <ShopProductList products={otherProducts.slice(0, 8)} productId={product.id} shopName={shopName} />
               </div>
               <div className="md:mx-[0.66rem] mx-0 hidden lg:hidden md:block">
-                <ShopProductList products={otherProducts.slice(0, 6)} productId={product.id} />
+                <ShopProductList products={otherProducts.slice(0, 6)} productId={product.id} shopName={shopName} />
               </div>
               <div className="md:mx-[0.66rem] mx-0 md:hidden block">
-                <ShopProductList products={otherProducts.slice(0, 4)} productId={product.id} />
+                <ShopProductList products={otherProducts.slice(0, 4)} productId={product.id} shopName={shopName} />
               </div>
             </>
           ) : (

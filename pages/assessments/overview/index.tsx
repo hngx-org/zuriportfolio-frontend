@@ -13,6 +13,8 @@ import { fetchUserAssessmentSession, submitFinalAssessment } from '../../../http
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { TimerStart } from 'iconsax-react';
+import { withUserAuth } from '../../../helpers/withAuth';
+import Loader from '@ui/Loader';
 
 export interface Question {
   answer_id: number;
@@ -148,7 +150,7 @@ function AssessmentOverview() {
         <SuccessFeedbackModal showModal={showSuccessConfirm} setShowModal={setShowSuccessConfirm} badgeID={badgeEarn} />
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
+            <Loader />
           </div>
         ) : (
           <main className="w-full">
@@ -204,4 +206,4 @@ function AssessmentOverview() {
   );
 }
 
-export default AssessmentOverview;
+export default withUserAuth(AssessmentOverview);

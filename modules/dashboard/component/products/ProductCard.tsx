@@ -16,6 +16,9 @@ import z from 'zod';
 import Loader from '@ui/Loader';
 import axios from 'axios';
 import { type } from 'os';
+import { MdDiscount } from 'react-icons/md';
+import { BiSolidDiscount } from 'react-icons/bi';
+import { twMerge } from 'tailwind-merge';
 
 type Product = {
   product_id: any;
@@ -28,6 +31,11 @@ type Product = {
   category_id: any;
   description: any;
   id: any;
+  promo: {
+    amount: number;
+    inPercentage: string;
+    maximum_discount_price: number;
+  } | null;
 };
 type Assets = {
   link: any;
@@ -429,7 +437,7 @@ const EditModal = (props: {
               {...form.getInputProps('description')}
               inputMode="none"
             />
-            <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
+            {/* <label className="font-manropeB text-[16px] mt-6 mb-2">Update Product File</label>
             <input
               type="file"
               accept="image/*"
@@ -437,7 +445,7 @@ const EditModal = (props: {
               style={{ display: 'none' }}
               id="imageUploadInput"
               name="image"
-            />
+            /> */}
             <label className="font-manropeB text-[16px] mt-6">Update Product Thumbnail</label>
             <div className="relative">
               <div className="p-3 border border-[#00000024] rounded-md mt-3 placeholder:text-[#191C1E] text-black">
@@ -548,8 +556,8 @@ const EditModal = (props: {
               <div>
                 <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Name</label>
                 <Input
-                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300"
-                  placeholder="Add the link to your file"
+                  className="w-full mb-5 mt-2 placeholder:text-[#191C1E] capitalize text-black disabled:bg-gray-300"
+                  placeholder="Update assets name"
                   inputMode="none"
                   disabled={!editAssets}
                   value={assets?.name || ''}
@@ -560,7 +568,7 @@ const EditModal = (props: {
                 <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Notes</label>
                 <textarea
                   className="w-full border-solid border-[2px] border-white-400 focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 placeholder:text-[#191C1E] text-black disabled:bg-gray-300/40 disabled:cursor-not-allowed"
-                  placeholder="Add the link to your file"
+                  placeholder="Update Assets Note"
                   inputMode="none"
                   disabled={!editAssets}
                   value={assets?.notes || ''}
@@ -610,6 +618,9 @@ const ProductCard = (props: {
 }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+
+  const imageNotFound = `https://fisnikde.com/wp-content/uploads/2019/01/broken-image.png`;
+
   const closeDeleteModal = () => {
     setDeleteModal(false);
   };
@@ -623,16 +634,26 @@ const ProductCard = (props: {
     setEditModal(true);
   };
 
+  const calculateDiscount = (amount: number, rate: number) => (rate * amount) / 100;
+
   return (
     <>
       {props.product.map((product, index) => (
         <div
           key={index}
-          className="lg:px-[20.15px] md:px-[17px] px-3  py-[10px] md:py-4 lg:pt-[17.78px] bg-white-100 pb-[11.85px] rounded-[10px] border border-brand-disabled2 items-center"
+          className="relative lg:px-[20.15px] md:px-[17px] px-3  py-[10px] md:py-4 lg:pt-[17.78px] bg-white-100 pb-[11.85px] rounded-[10px] border border-brand-disabled2 items-center"
         >
+          {product?.promo !== null && (
+            <div className="absolute top-[10px] right-[1em]">
+              <div className="w-auto px-2 py-1 scale-[.95] rounded-[30px] flex items-center justify-center gap-1 bg-red-305">
+                <span className="text-white-100 text-[12px] font-manropeR">{product.promo.inPercentage}</span>
+                <BiSolidDiscount className="text-white-100" />
+              </div>
+            </div>
+          )}
           <figure className="md:mb-8 mb-3">
             <Image
-              src={product.image[0].url}
+              src={product.image[0]?.url ?? imageNotFound}
               alt="Product"
               width={240}
               height={143}
@@ -642,9 +663,20 @@ const ProductCard = (props: {
           <p className="font-manropeL font-normal text-[14px] capitalize leading-[142.857%] tracking-[0.035px] text-custom-color43 mb-[2px]">
             {product?.name}
           </p>
-          <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
-            ${product.price}
-          </p>
+          <div className="w-full flex items-center justify-start gap-2">
+            <p className="font-manropeEB font-bold text-[16px] leading-[150%] tracking-[0.08px] text-custom-color43 md:mb-7 mb-3">
+              ₦{product.promo !== null ? calculateDiscount(product.promo.amount, product.price) : product.price}
+            </p>
+            {product?.promo !== null && (
+              <p
+                className={twMerge(
+                  'font-manropeB leading-[150%] tracking-[0.08px] text-white-400 text-[14px] line-through md:mb-7 mb-3',
+                )}
+              >
+                ₦{product.price}
+              </p>
+            )}
+          </div>
           <div className="flex items-center lg:gap-6 md:gap-5 gap-3 justify-between">
             <button
               className="border bg-transparent hover.bg-transparent border-brand-disabled2 rounded-[5px] py-1 px-2 basis-1/2 flex justify-center items-center lg:gap-[10px] gap-[2px] text-white-650 font-manropeB font-semibold md:text-[12px] text-[10px] leading-[166.667%] tracking-[0.06px]"

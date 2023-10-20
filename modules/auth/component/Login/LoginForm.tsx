@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { notify } from '@ui/Toast';
@@ -20,6 +20,15 @@ function LoginForm() {
   const router = useRouter();
   const [isPasswordShown, setIsPassowordShwon] = useState(false);
 
+  const [isMicrosoftEdge, setIsMicrosoftEdge] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is using Microsoft Edge
+    if (window.navigator.userAgent.includes('Edg') || window.navigator.userAgent.includes('Edge')) {
+      setIsMicrosoftEdge(true);
+    }
+  }, []);
+
   const schema = z.object({
     email: z.string().email(),
     password: z.string().min(1, { message: 'Password is required' }),
@@ -36,7 +45,7 @@ function LoginForm() {
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
       if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
-        localStorage.setItem('zpt', res?.response?.token);
+        localStorage.setItem('2fa', res?.response?.token);
         localStorage.setItem('email', res?.response?.email);
         notify({
           message: 'Two Factor Authentication Code Sent',
@@ -81,6 +90,7 @@ function LoginForm() {
           message: 'Please verify your account',
           type: 'error',
         });
+        router.push('/auth/verification-complete');
         return;
       }
     },
@@ -145,7 +155,7 @@ function LoginForm() {
                 }`}
                 type={isPasswordShown ? 'text' : 'password'}
                 rightIcon={
-                  isPasswordShown ? (
+                  isMicrosoftEdge ? null : isPasswordShown ? ( // Hide the icons in Microsoft Edge
                     <Eye className="cursor-pointer" onClick={() => setIsPassowordShwon(false)} />
                   ) : (
                     <EyeSlash className="cursor-pointer" onClick={() => setIsPassowordShwon(true)} />

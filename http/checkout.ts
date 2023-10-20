@@ -1,12 +1,16 @@
 import { CartItemProps } from '../@types';
 import { useAuth } from '../context/AuthContext';
 import $http from './axios';
+import axios from 'axios';
 
 export const CART_ENDPOINT =
   process.env.NEXT_PUBLIC_CART_API_URL || 'https://zuri-cart-checkout.onrender.com/api/checkout_cart';
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const RECENTLY_VIEWED_ENDPOINT =
-  process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT || 'https://coral-app-8bk8j.ondigitalocean.app/api/recently-viewed';
+  process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT ||
+  'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recently-viewed';
+
+
 
 export const addToCart = async (cartItems: string[], token: string) => {
   try {
@@ -148,7 +152,7 @@ export const getRecentlyViewedProducts = async (token: string) => {
 
   try {
     const apiUrl = `${RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
-    const response = await $http.get(apiUrl, {
+    const response = await axios.get(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -159,3 +163,15 @@ export const getRecentlyViewedProducts = async (token: string) => {
     return [];
   }
 };
+
+
+export const getRecommendedProducts = async() => {
+  const apiUrl = "https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recommendations";
+  try {
+    const response = await axios.get(apiUrl);
+    return response.data.data
+  }catch {
+    return {error: "Failed to fetch"}
+  }
+
+}

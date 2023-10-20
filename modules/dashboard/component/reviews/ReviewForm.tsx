@@ -10,10 +10,13 @@ import axios from 'axios';
 import { postReviewByProductId } from '../../../../http/api/controllerReview';
 import { useRouter } from 'next/router';
 import ReviewSentModal from '../../../../components/Modals/ReviewSentModal';
+import { toast } from 'react-toastify';
 
 function ReviewForms() {
   const router = useRouter();
   const { id } = router.query;
+
+  const teamLiquidReviewUrl = '  https://team-liquid-repo.onrender.com/api/review/products/${id}/reviews'
 
   const [rateNo, setRating] = useState(0);
   const [name, setName] = useState('');
@@ -62,15 +65,23 @@ function ReviewForms() {
           headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
         };
         await axios
-          .post(`https://team-liquid-repo.onrender.com/api/review/products/${id}/reviews`, newReview)
+          .post(`https://team-titan.mrprotocoll.me/api/messaging/store/${id}/review`, newReview)
           .then((res) => {
             setModalIsOpen(true);
             setTimeout(closeModal, 3000);
+            console.log(res);
+            // if (res.status === "BAD_REQUEST") {
+            //   toast.error(res.data.rateNo);
+            //   setLoad(false);
+            // }
           });
         console.log(newReview);
         // router.push(`/dashboard/reviews/product-details/${id}`);
         // You can also handle success, show a message, or redirect the user
-      } catch (error) {}
+      } catch (error: any) {
+        setLoad(false);
+        toast.error('Kindly ensure to fill all fields *Including ratings*');
+      }
     }
   };
   function closeModal() {
