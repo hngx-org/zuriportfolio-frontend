@@ -312,10 +312,12 @@ export default function ProductDetails() {
               </p>
               <p className="flex gap-x-4 items-center">
                 <span className="text-black text-xl md:text-3xl lg:text-3xl font-normal lg:font-semibold font-manropeEB leading-10">
-                  ₦ {product.price.toLocaleString()}
+                  {product.discount_price
+                    ? '₦' + product.discount_price.toLocaleString()
+                    : product.price.toLocaleString()}
                 </span>
                 <span className="text-xl font-light md:text-2xl lg:text-[1.375rem] font-manrope line-through leading-7 text-gray-300">
-                  {product.discount_price ? '₦' + product.discount_price.toLocaleString() : null}
+                  ₦{product.discount_price ? product.price.toLocaleString() : null}
                 </span>
               </p>
 
