@@ -8,11 +8,12 @@ import { ChangeAnswerModal } from '@modules/assessment/component/changeAnswerMod
 import { ConfirmSubmitModal } from '@modules/assessment/component/confirmSubmitModal';
 import { SuccessFeedbackModal } from '@modules/assessment/component/successFeedbackModal';
 import Button from '@ui/Button';
-import { fetchUserAssessmentSession, submitFinalAssessment } from '../../../http/userTakenAssessment';
+import { fetchUserAssessmentSession, getAssessmentDetails, submitFinalAssessment } from '../../../http/userTakenAssessment';
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { TimerStart } from 'iconsax-react';
 import { withUserAuth } from '../../../helpers/withAuth';
+import Head from 'next/head';
 
 export interface Question {
   answer_id: number;
@@ -63,6 +64,9 @@ function AssessmentOverview() {
       localStorage.removeItem("minute")
       localStorage.removeItem("second")
     }
+    if(timeUp){
+      setIsTimeOut(true)
+    }
   },[timeUp,isSubmit])
   useEffect(() => {
     const setTimeFunction = () => {
@@ -84,7 +88,7 @@ function AssessmentOverview() {
   const handleGetSession = async () => {
     const token = tokenRef.current;
     try {
-      const res = await fetchUserAssessmentSession(token as string, data as string);
+      const res = await fetchUserAssessmentSession(token as string, data as string);     
       setResult(res);
       if (!res) {
         setIsLoading(false);
@@ -130,12 +134,16 @@ function AssessmentOverview() {
 
   return (
     <>
+    <Head>
+        <title>Assessment | Overview</title>
+        <meta name="description" content="Zuri Portfolio Assessment Overview" />
+        <link rel="icon" href="./public/assets/zuriLogo.svg" />
+    </Head>
       {isTimeOut && (
         <OutOfTime
           onClose={() => router.push('/assessments/dashboard')}
-          onRetake={() => {
-            router.push('/assessments/take-test/intro');
-          }}
+          btn1={true}
+          btn2={false}
         />
       )}
       <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
@@ -158,14 +166,14 @@ function AssessmentOverview() {
             <div className="w-full md:max-w-full px-4 max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
               <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary mt-5">
                 <p className="text-white-100 text-2xl font-bold">
-                  {minute !== null && second !== null ? (
+                  {(minute !== null||undefined) && (second !== null||undefined) ? (
                     <CountdownTimer
                       action={() => setTimeUp(true)}
                       minutes={minute}
                       seconds={second}
                     />
                   ) : (
-                    <span>--:--</span>
+                    <span>- - : - -</span>
                   )}
                 </p>
                 <span>

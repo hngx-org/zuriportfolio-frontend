@@ -106,24 +106,22 @@ const Questions: React.FC = () => {
     const data = router.query?.data;
     const id = router.query?.id;
 
-    console.log('1', token, data, id);
     try {
       const assessmentsData = await getAssessmentDetails(token as string, data as string);
       const questionData = await fetchUserTakenAssessment(token as string, id as string);
       const res = await fetchUserAssessmentSession(token as string, id as string);
-     if(res.length!==0){
+     if(res.length!==0 || !res){
       const result = sortQuestionsByQuestionNo(res)
       setStoredAssessment(result)
-      console.log(result)
      }else{
       setStoredAssessment(questionData.data.questions);
-     }      
+     }     
+     setStoredAssessment(questionData.data.questions);
+
       setResult(assessmentsData);
       setDuration(assessmentsData?.duration_minutes);
       setIsError(false)
-      setIsLoading(false)
-      console.log('2', assessmentsData);
-      console.log('3', questionData.questions);
+      setIsLoading(false)      
     } catch (error:any) {
       console.log('catch error', error);      
       setIsError(true);
@@ -141,8 +139,7 @@ const Questions: React.FC = () => {
     return allQuestions.sort((a, b) => a.question_no - b.question_no);
   }
   const handleUserAnswerClick = async (question_id: number, user_answer_id: number, answer_text: string) => {
-    const token = tokenRef.current;
-    console.log(question_id, user_answer_id, answer_text, result?.assessment_id);
+    const token = tokenRef.current;    
     try {
       if (token && result?.assessment_id) {
         await submitAssessment({
@@ -159,19 +156,40 @@ const Questions: React.FC = () => {
   };
   if(isError){
     return (
-      <MainLayout activePage={'questions'} showTopbar showFooter showDashboardSidebar={false}>
-        <AssessmentBanner
-          title="Assessment test"
-          subtitle="Something went wrong while trying to get your assessment"
-          bannerImageSrc="/assets/images/banner/assm_1.svg"
-        />
-        <div className="flex justify-center items-center h-screen">
-          <div className="flex flex-col items-center gap-5">
-            <h1 className="text-7xl font-extrabold text-brand-green-primary text-center">OOPS!</h1>
-          <h1 className="text-2xl text-brand-green-primary text-center font-bold mb-4">{error}</h1>
+      <>
+      <Head>
+          <style>
+            {`
+          
+          .overscroll::-webkit-scrollbar{
+            width: 7px;
+            height: 10px;
+            background: #eee;
+        }
+        .overscroll::-webkit-scrollbar-thumb{
+            background: #009254;
+            border-radius: 5px;
+        }
+          `}
+          </style>
+          <title>Assessment | Questions</title>
+          <meta name="description" content="Zuri Portfolio Assessment Question Page" />
+        <link rel="icon" href="/public/assets/zuriLogo.svg" />          
+        </Head>
+        <MainLayout activePage={'questions'} showTopbar showFooter showDashboardSidebar={false}>
+          <AssessmentBanner
+            title="Assessment test"
+            subtitle="Something went wrong while trying to get your assessment"
+            bannerImageSrc="/assets/images/banner/assm_1.svg"
+          />
+          <div className="flex justify-center items-center h-screen">
+            <div className="flex flex-col items-center gap-5">
+              <h1 className="text-7xl font-extrabold text-brand-green-primary text-center">OOPS!</h1>
+            <h1 className="text-2xl text-brand-green-primary text-center font-bold mb-4">{error}</h1>
+            </div>
           </div>
-        </div>
-      </MainLayout>
+        </MainLayout>
+      </>
     )
   }else{
     return (
@@ -182,6 +200,9 @@ const Questions: React.FC = () => {
             onRetake={() => {
               router.push(`/assessments/take-test/intro?data=${result?.skill_id}`);
             }}
+            message="You’ve run out of time!"
+            btn1={true}
+            btn2={true}
           />
         )}
         <Head>
@@ -199,6 +220,9 @@ const Questions: React.FC = () => {
         }
           `}
           </style>
+          <title>Assessment | Questions</title>
+          <meta name="description" content="Zuri Portfolio Assessment Question Page" />
+        <link rel="icon" href="./public/assets/zuriLogo.svg" />          
         </Head>
         <MainLayout activePage={'questions'} showTopbar showFooter showDashboardSidebar={false}>
         {isLoading ? (
@@ -215,11 +239,15 @@ const Questions: React.FC = () => {
           <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
             <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary">
               <span className="text-white-100 text-2xl font-bold">
-                {minute !== null && second !== null ? (
-                  <CountdownTimer action={() => setIsTimeOut(true)} minutes={minute} seconds={second} />
-                ) : (
-                  '- -:- -'
-                )}
+              {(minute !== null||undefined) && (second !== null||undefined) ? (
+                    <CountdownTimer
+                      action={() => setIsTimeOut(true)}
+                      minutes={minute}
+                      seconds={second}
+                    />
+                  ) : (
+                    <span>- - : - -</span>
+                  )}
               </span>
               <span>
                 <TimerStart color="#fff" />
@@ -242,7 +270,7 @@ const Questions: React.FC = () => {
                                 id={`${option}`}
                                 name={question.question_id}
                                 value={option[index]}
-                                checked={question.user_selected_answer === option}
+                                checked={(question.user_selected_answer === option)?true:undefined}
                                 onClick={() => handleUserAnswerClick(question.question_id, question.answer_id, option)}
                               />
                           <label className="text-xs text-gray-700 " htmlFor={`${option}`}>
