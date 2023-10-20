@@ -152,7 +152,7 @@ const AnalyticsAndReport: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Reports main page</title>
+        <title>Super Admin Reports Page</title>
         <meta name="description" content="Reports Main Page for zuriportfolio, marketplace, etc." />
         <meta
           name="keywords"
