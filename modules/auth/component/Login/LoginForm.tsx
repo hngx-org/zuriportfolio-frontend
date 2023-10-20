@@ -90,6 +90,7 @@ function LoginForm() {
           message: 'Please verify your account',
           type: 'error',
         });
+        router.push('/auth/verification-complete');
         return;
       }
     },

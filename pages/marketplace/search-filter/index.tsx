@@ -33,7 +33,7 @@ export default function Index({ products, activePage, totalPages }: Props) {
       ) : (
         <CategoryLayout isBreadcrumb={false}>
           <div className="max-w-[1240px] mx-auto"></div>
-          <div className="px-4 max-w-[1240px] mx-auto">
+          <div id="top" className="px-4 max-w-[1240px] mx-auto">
             <h1 className="text-custom-color31 font-manropeL mt-5 lg:pt-5 md:mb-1 font-bold md:text-2xl leading-normal flex items-center justify-between">
               Search Result for Products
             </h1>
@@ -65,7 +65,7 @@ export default function Index({ products, activePage, totalPages }: Props) {
                 );
               })}
             </div>
-            <div className="flex items-center justify-center mb-14">
+            <a href="#top" className="flex items-center justify-center mb-14 mx-auto w-fit">
               <Pagination
                 activePage={activePage}
                 pages={totalPages}
@@ -73,7 +73,7 @@ export default function Index({ products, activePage, totalPages }: Props) {
                 page={activePage}
                 visiblePaginatedBtn={4}
               />
-            </div>
+            </a>
           </div>
         </CategoryLayout>
       )}
@@ -92,7 +92,10 @@ export const getServerSideProps = (async (context) => {
     const page = context.query.page ? parseInt(context.query.page as string) : 1;
 
     const queryParams = { category, subCategory, price, discount, rating };
-    let apiUrl = constructApiUrl('https://coral-app-8bk8j.ondigitalocean.app/api/products-filter', queryParams);
+    let apiUrl = constructApiUrl(
+      'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products-filter',
+      queryParams,
+    );
     const { data, status } = await axios.get<{ products: ProductList[]; data: ProductList[] }>(apiUrl.toString());
     if (status === 400 || status === 500) {
       console.error('Bad request');
