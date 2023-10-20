@@ -11,7 +11,6 @@ export function isUserAuthenticated() {
   }
 
   const decodedToken = jwtDecode(token);
-  console.log(decodedToken);
 
   return decodedToken;
 }

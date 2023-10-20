@@ -50,6 +50,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const [isEditMode, setIsEditMode] = useState(false);
   const [isData, setIsData] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const resetForm = () => {
     setRole('');
     setCompany('');
@@ -63,13 +64,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   };
 
   const { userId } = useContext(Portfolio);
-
-  const getUserWorkExperience = async () => {
-    const data = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
-    const response = await data.json();
-    const { workExperience } = response;
-    console.log('User work experience', workExperience);
-  };
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com/';
   const [workExperiences, setWorkExperiences] = useState<WorkExperience[] | []>([]);
 
@@ -89,7 +83,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       sectionId: 2,
     });
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/update-work-experience/${id}`, {
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/update-work-experience/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -101,9 +95,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setIsData(true);
         setIsForm(false);
         getAllWorkExperience();
-        console.log('Response', response);
       }
-      console.log(userId);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -122,7 +114,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}api/work-experience/${id}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/work-experience/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -135,7 +127,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setWorkExperiences((prevExperiences) => prevExperiences.filter((experience) => experience.id !== experienceId));
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       notify({
         message: 'Was not able to delete work experience 😞',
         position: 'top-center',
@@ -151,7 +143,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   const getAllWorkExperience = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`${API_BASE_URL}api/v1/getPortfolioDetails/${userId}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -159,7 +151,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         setWorkExperiences(workExperience);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     } finally {
       setIsLoading(false);
@@ -167,6 +159,11 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
   }, [userId]);
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
+    const startDate = `${startMonth} ${startYear}`;
+    const endDate = `${endMonth} ${endYear}`;
+
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
     e?.preventDefault();
     setIsLoading(true);
     try {
@@ -194,6 +191,16 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       //   missingFields.push('End Year');
       // }
 
+      if (endDateObj < startDateObj) {
+        notify({
+          message: 'End date must be greater that start date',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
       if (missingFields.length > 0) {
         // Handle the case when required values are missing
         const missingFieldsString = missingFields.join(', ');
@@ -207,16 +214,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         return;
       }
 
-      if (endYear < startYear) {
-        notify({
-          message: `End year must be greater than start year`,
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
-        return;
-      }
-      const response = await fetch(`${API_BASE_URL}api/create-work-experience/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/create-work-experience/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON
@@ -246,10 +244,32 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         resetForm();
         setIsForm(false);
         setIsData(true);
-        console.log(response);
       } else {
         // Request failed, handle the error
+        const responseJson = await response.json();
         console.error('Request failed with status:', response.status);
+        if (responseJson?.message && responseJson.message.includes('Code: too_small ~ Path: description')) {
+          notify({
+            message: 'Description must contain more than 13 characters',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+          console.log(true);
+        }
+        if (
+          responseJson?.message &&
+          responseJson?.message.includes(
+            'End month must be greater than or equal to start month when end year is the same as start year, End month must be greater than or equal to start month when end year is the same as start year',
+          )
+        ) {
+          notify({
+            message: 'You cant select a date from the past',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
         notify({
           message: 'We had some issues adding ur work experience',
           position: 'top-center',
@@ -257,9 +277,10 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
           type: 'error',
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       // Handle network or other errors
       console.error('Error:', error);
+      console.log(error.message);
       setIsLoading(false);
     } finally {
       setIsLoading(false);
@@ -271,6 +292,12 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       getAllWorkExperience();
     }
   }, [getAllWorkExperience, userId]);
+
+  useEffect(() => {
+    if (workExperiences.length === 0) {
+      setIsForm(true);
+    }
+  }, []);
 
   return (
     <WorkExperienceModalContext.Provider

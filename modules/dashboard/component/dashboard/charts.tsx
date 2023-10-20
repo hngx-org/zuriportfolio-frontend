@@ -9,6 +9,7 @@ import {
   sevenDays,
   twentyFourHours,
 } from '../../../../db/dashboard';
+import { logQueryResult } from '../../../../helpers/dashboard';
 import { fetchSalesReports, fetchStoreTraffic } from '../../../../http/dashboard';
 import Chart from './chart';
 
@@ -17,6 +18,7 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
   const [timeline, setTimeline] = useState({ active: true, index: 0 });
   const [chartData, setChartData] = useState(twelveMonths);
 
+  // try to fetch sales and traffic data
   const {
     data: querySalesReportData,
     isFetched,
@@ -26,15 +28,16 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     queryKey: ['sales-reports'],
     enabled: true,
   });
-  // console.log(querySalesReportData);
+  logQueryResult('Query Sales Report', querySalesReportData);
 
   const { data: queryStoreTrafficData } = useQuery({
     queryFn: () => fetchStoreTraffic(),
     queryKey: ['store-traffic'],
     enabled: true,
   });
-  // console.log(queryStoreTrafficData);
+  logQueryResult('Query Store Traffic', queryStoreTrafficData);
 
+  //  create mock sales and report data
   const updateChartData = (index: number) => {
     switch (index) {
       case 0:
@@ -74,15 +77,14 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     const timeline: string = chartData[i % chartData.length];
     return { timeline, income };
   });
-  console.log(mockSalesReportData);
 
   const mockStoreTrafficData = Array.from({ length: numBarsAsNumber }, (_, i) => {
     const income: number = Math.floor(Math.random() * 1001) + 500;
     const timeline: string = chartData[i % chartData.length];
     return { timeline, income };
   });
-  console.log(mockStoreTrafficData);
 
+  // if fetch is successful, use queried data, else use mock data
   if (isBarChart) {
     if (querySalesReportData?.timeline) {
       data = querySalesReportData;
@@ -101,9 +103,6 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     <div className="shadow rounded-md px-5 py-5 space-y-1.5 md:space-y-3">
       <p className="flex items-center justify-between font-light">
         <span className="text-base md:text-lg">{title}</span>
-        {/* <button className="p-1.5 md:p-2 border border-brand-green-disabled rounded-md text-sm md:text-base">
-          View report
-        </button> */}
       </p>
       <p className="space-x-2">
         {metricsChartTimeline.map((data, index) => {

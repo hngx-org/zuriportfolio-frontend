@@ -22,7 +22,7 @@ import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 
-export default function ProductDetailsDescription() {
+export default function ProductDetailsDescription({productId}:{productId: string}) {
   const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -34,8 +34,8 @@ export default function ProductDetailsDescription() {
   const { setCartCountNav, cartCount } = useCart();
 
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -253,7 +253,7 @@ export default function ProductDetailsDescription() {
 
           {/* Description, Specification, Reviews (Desktop View)  */}
           {/* Pass all the data down to this component as props  */}
-          <TabContainer desc={product?.description} />
+          <TabContainer desc={product?.description} id={productId} />
 
           {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
           <div className="md:hidden block mt-[26px] mr-auto">
