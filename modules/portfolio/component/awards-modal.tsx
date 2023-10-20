@@ -64,8 +64,8 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
   const [acceptedDescription, setAcceptedDescription] = useState(false);
   const [createAward, setCreateAward] = useState('');
   const [closeAllModal, setCloseAllModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
-  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const validateUrl = (url: string) => {
     const urlPattern = new RegExp(/^(ftp|http|https|www):\/\/[^ "]+$/);
@@ -813,4 +813,3 @@ export default Awards;
 function setDeleteLoading(arg0: boolean) {
   throw new Error('Function not implemented.');
 }
-

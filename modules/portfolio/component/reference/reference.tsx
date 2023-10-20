@@ -4,6 +4,8 @@ import Modal from '@ui/Modal';
 import DynamicInput from '../about/dynamic-input';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { countryData } from './countrycode';
+import Loader from '@ui/Loader';
 
 interface formData {
   referer: string;
@@ -28,6 +30,7 @@ interface Errors {
   company?: string;
   email?: string;
   phone?: string;
+  position?: string;
 }
 
 type referenceModalProps = {
@@ -55,6 +58,7 @@ interface EditFormData {
 const API_BASE_URL = 'https://hng6-r5y3.onrender.com';
 
 const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModal, onSaveModal, userId }) => {
+  // console.log(countryData)
   const initialFormData: formData = {
     referer: '',
     company: '',
@@ -68,16 +72,16 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const [formData, setFormData] = useState<formData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const [editing, setEditing] = useState(false);
   const [arrData, setArrData] = useState<fetchedArrData[] | any>([]);
-  const [editArrData, setEditArrData] = useState<fetchedArrData[] | any>([]);
   const [isData, setIsData] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
   const [refId, setRefId] = useState(Number);
+  const [country, setCountry] = useState('+234');
+  const [selHide, setselHide] = useState(true);
 
   function validatePhoneNumber(phoneNumber: string): boolean {
-    return /^[0-9]{8,11}$/.test(phoneNumber);
+    return /^[0-9]{8,10}$/.test(phoneNumber);
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,9 +106,16 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
     }));
   };
 
+  const selectToggle = () => {
+    setselHide(!selHide);
+  };
+
   const validateAllFieldsNotEmpty = () => {
-    let hasEmptyField = false;
     const fieldsToValidate = ['referer', 'email', 'company'];
+
+    const onlyLettersAndSpacesRegExp = /^[A-Za-z\s]+$/; // Regular expression for letters and spaces
+
+    let hasEmptyField = false; // Declare 'hasEmptyField' within the function scope
 
     Object.entries(formData).forEach(([inputName, inputValue]) => {
       // Check if inputName is one of the fields to validate
@@ -119,6 +130,15 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
           setErrors((prevErrors) => ({
             ...prevErrors,
             [inputName]: 'Invalid email format'.charAt(0).toUpperCase() + 'Invalid email format'.slice(1),
+          }));
+          hasEmptyField = true;
+        } else if (
+          (inputName === 'referer' || inputName === 'company') &&
+          !onlyLettersAndSpacesRegExp.test(inputValue)
+        ) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            [inputName]: `${inputName} should contain only letters and spaces`,
           }));
           hasEmptyField = true;
         }
@@ -146,12 +166,22 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
         // Handle case when the phone number is invalid
         setErrors({ ...errors, phone: 'Invalid phone number' });
       } else {
-        if (!loading) {
-          setErrors({ ...errors, phone: '' });
-          if (isEditData) {
-            handleEdit(refId);
+        if (formData.position !== '' && formData.position.length < 4 && formData.position.length > 30) {
+          setErrors({ ...errors, position: 'Enter a valid input' });
+        } else {
+          if (formData.referer.length < 3 && formData.referer.length > 35) {
+            setErrors({ ...errors, referer: 'Name must not be less than 3 character' });
           } else {
-            response();
+            if (!loading) {
+              setErrors({ ...errors, phone: '' });
+              setErrors({ ...errors, position: '' });
+              setErrors({ ...errors, referer: '' });
+              if (isEditData) {
+                handleEdit(refId);
+              } else {
+                response();
+              }
+            }
           }
         }
       }
@@ -189,7 +219,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
     console.log(formData);
     const correctData = {
       ...formData,
-      phoneNumber: `0${formData.phoneNumber}`,
+      phoneNumber: `${country + formData.phoneNumber}`,
     };
     try {
       const axiosConfig = {
@@ -284,7 +314,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       company: formData.company,
       position: formData.position,
       email: formData.email,
-      phone_number: `0${formData.phoneNumber}`,
+      phone_number: `${country + formData.phoneNumber}`,
     };
     // console.log('Edited Data: ' + editObjData);
     const response = async () => {
@@ -339,12 +369,23 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const editData = (id: number) => {
     arrData.forEach((data: any) => {
       if (id === data.id) {
+        const phoneNumber = data.phone_number;
+        // Get the last 10 digits
+        const last10Digits = phoneNumber.slice(-10);
+
+        // Get the remaining characters before the last 10 digits
+        const remainingCharacters = phoneNumber.slice(0, -10);
+
+        console.log('Last 10 digits: ' + last10Digits);
+        console.log('Remaining characters: ' + remainingCharacters);
+
         setIsEditData(true);
+        setCountry(remainingCharacters);
         setFormData({
           ...formData,
           referer: data.referer,
           email: data.email,
-          phoneNumber: data.phone_number.slice(1),
+          phoneNumber: last10Digits,
           company: data.company,
           position: data.position,
         });
@@ -352,9 +393,24 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
     });
   };
 
+  function sortByCode(a: number | any, b: number | any) {
+    // Extract the numeric part of the code, convert to a number, and compare
+    const codeA = Number(a.code.match(/\d+/)[0]);
+    const codeB = Number(b.code.match(/\d+/)[0]);
+
+    return codeA - codeB;
+  }
+
+  // Map through the original data, sort it, and create a new array
+  const sortedCountryData = countryData.slice().sort(sortByCode);
   return (
-    <Modal isOpen={isOpen} closeModal={onCloseModal} size="xl" isCloseIconPresent={false}>
-      <div className="mx-auto bg-white-100 rounded-md p-4 py-5">
+    <Modal isOpen={isOpen} closeModal={onCloseModal} size="lg" isCloseIconPresent={false}>
+      <div
+        className="mx-auto bg-white-100 rounded-md p-3 py-5"
+        onClick={() => {
+          !selHide ? setselHide(true) : '';
+        }}
+      >
         <div className="flex justify-between items-center border-b-[3.6px]  border-brand-green-primary pb-1">
           <div className="flex gap-4 items-center">
             <div
@@ -427,6 +483,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                     labelFor="position"
                     value={formData.position}
                     required={false}
+                    error={errors.position}
                   />
                 </div>
               </div>
@@ -442,20 +499,52 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                 required={true}
                 error={errors.email}
               />
-              <DynamicInput
-                onChange={handleInputChange}
-                type="text"
-                placeholder=""
-                InputId="ptfl-phone"
-                name="phoneNumber"
-                label="Phone Number"
-                labelFor="phoneNumber"
-                value={formData.phoneNumber}
-                error={errors.phone}
-                required={false}
-                leftIcon={<span>+234</span>}
-                pattern={'[0-9]{3}-[0-9]{2}-[0-9]{3}'}
-              />
+              <div className="w-full">
+                <label htmlFor="phoneNumber" className="block mb-2 font-medium text-[#444846]">
+                  Phone Number
+                </label>
+                <div className="w-full">
+                  <div
+                    onClick={selectToggle}
+                    className="flex items-center text-sm justify-center font-medium text-dark-600 border-white-400 float-left h-[48px] w-[30%] md:w-[20%] border rounded-[10px] rounded-r-none border-r-0 cursor-pointer"
+                  >
+                    <div className="w-[60px] flex justify-start items-center text-ellipsis overflow-hidden whitespace-nowrap text-center">
+                      {country}
+                    </div>
+                    <div
+                      className={`top-10 h-full absolute overflow-auto w-32 pb-48 mt-1 scrollbar-none z-10 rounded-xl p-2 ${
+                        selHide ? 'hidden' : 'block'
+                      }`}
+                    >
+                      <div className="white-100 w-full h-auto bg-white-100 mt-1 z-10 rounded-xl shadow-md">
+                        {sortedCountryData.map((country) => (
+                          <div
+                            onClick={() => {
+                              setCountry(country.code);
+                              setselHide(true);
+                            }}
+                            key={country.abbreviation}
+                            className="p-2 hover:bg-white-200 text-base font-normal transition cursor-pointer"
+                          >
+                            {country.code}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <DynamicInput
+                    onChange={handleInputChange}
+                    type="text"
+                    placeholder=""
+                    InputId="ptfl-phone"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    error={errors.phone}
+                    required={false}
+                    className="rounded-l-none w-auto"
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="flex gap-2 justify-end">
@@ -526,7 +615,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                       }`}
                     >
                       Phone
-                      <p className={`text-base font-normal`}>+234 {reference.phone_number.slice(1)}</p>
+                      <p className={`text-base font-normal`}>{reference.phone_number}</p>
                     </div>
 
                     <div>
@@ -537,6 +626,8 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                             editData(reference.id);
                             setIsEditData(true);
                             setRefId(reference.id);
+                            setErrors({ ...errors, company: '', phone: '', email: '', referer: '', position: '' });
+                            setselHide(true);
                           }}
                           className="text-blue-300 cursor-pointer"
                         >
@@ -556,23 +647,8 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                 ))}
               </div>
             ) : (
-              <div className="block w-[10%] mx-auto my-32">
-                <svg
-                  aria-hidden="true"
-                  className="text-brand-green-hover animate-spin fill-white-100"
-                  viewBox="0 0 100 101"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                    fill="currentColor"
-                  />
-                  <path
-                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                    fill="currentFill"
-                  />
-                </svg>
+              <div className="py-36">
+                <Loader />
               </div>
             )}
             <div className="w-full flex justify-between items-center">
@@ -581,6 +657,8 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   setEditing(true);
                   setFormData(initialFormData);
                   setIsEditData(false);
+                  setselHide(true);
+                  setCountry('+234');
                 }}
                 className="text-[1.05rem] text-brand-green-primary font-normal px-3 transition cursor-pointer py-1 rounded-full hover:bg-brand-green-primary hover:text-white-100"
               >
