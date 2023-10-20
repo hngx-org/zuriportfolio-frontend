@@ -724,6 +724,7 @@ export type cardinfo = {
   title: string;
   amount: number;
   ratio: number;
+  color: any
 };
 
 type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';

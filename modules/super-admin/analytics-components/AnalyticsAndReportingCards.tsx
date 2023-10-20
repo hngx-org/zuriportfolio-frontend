@@ -3,11 +3,18 @@ import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { cardinfo } from '../../../@types';
 
+type PreviousData = {
+  [key: string]: {
+    amount: number;
+  };
+};
+
 const AnalyticsAndReportingCards = () => {
   const [bearerToken, setBearerToken] = useState('');
+  const [previousData, setPreviousData] = useState<PreviousData>({});
 
   const fetchAnalyticsData = async () => {
-    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/';
+    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data';
 
     const response = await fetch(apiUrl, {
       headers: {
@@ -18,17 +25,34 @@ const AnalyticsAndReportingCards = () => {
     const result = await response.json();
 
     if (Array.isArray(result.data)) {
-      return result.data;
+      const cardData = result.data;
+      cardData.forEach((item: any) => {
+        const cardType: string = item.type; 
+        const previousItem = previousData[cardType] || null; 
+
+        if (previousItem) {
+          if (item.amount > previousItem.amount) {
+            item.color = 'green';
+            item.arrowIcon = '/assets/tsImages/arrow-up.svg';
+          } else if (item.amount < previousItem.amount) {
+            item.color = 'red'; 
+            item.arrowIcon = '/assets/tsImages/arrow-down.svg';
+          } else {
+            item.color = 'default'; 
+            item.arrowIcon = '/assets/tsImages/arrow-up.svg'; 
+          }
+        } 
+      });
+      setPreviousData(cardData);
+
+      return cardData;
     } else {
       console.error('Data is not an array:', result.data);
       throw new Error('Data is not in the expected format');
     }
   };
 
-  const { data: analyticsData, isLoading, isError } = useQuery<cardinfo[]>(
-    ['analyticsData'], 
-    fetchAnalyticsData
-  );
+  const { data: analyticsData, isLoading, isError } = useQuery<cardinfo[]>(['analyticsData'], fetchAnalyticsData);
 
   const getTokenFromLocalStorage = () => {
     const tokenFromLocalStorage = localStorage.getItem('zpt');
@@ -36,25 +60,23 @@ const AnalyticsAndReportingCards = () => {
       setBearerToken(tokenFromLocalStorage);
     }
   };
+
   useEffect(() => {
     getTokenFromLocalStorage();
   }, []);
-  
 
   const formattedAmount = (amount: number | string) => {
     const amountValue = typeof amount === 'string' ? parseFloat(amount) : amount;
     const roundedValue = Math.round(amountValue);
     const formattedValue =
-      roundedValue % 1 === 0
-        ? roundedValue.toLocaleString().replace('.00', '')
-        : amountValue.toLocaleString();
+      roundedValue % 1 === 0 ? roundedValue.toLocaleString().replace('.00', '') : amountValue.toLocaleString();
     return formattedValue;
   };
 
   return (
     <div>
       <section className="max-w-[1270px] mx-auto mt-10 font-manropeL lg:max-w-[1100px] xl:max-w-[1270px] 2xl:max-w-[1520px]">
-        <div className="grid gap-4 px-6 sm:grid-cols-3 md:grid-cols-3  sm:gap-6">
+        <div className="grid gap-4 px-6 sm:grid-cols-3 md:grid-cols-3 sm:gap-6">
           {isLoading
             ? Array.from({ length: 3 }).map((_, index) => (
                 <div
@@ -92,7 +114,17 @@ const AnalyticsAndReportingCards = () => {
                         height={17}
                         className="object-contain"
                       />
-                      <p className="text-[14px] text-brand-green-focused">{`${items.ratio}%`}</p>
+                      <p
+                        className={`text-[14px] ${
+                          items.color === 'green'
+                            ? 'text-[#E6F5EA]'
+                            : items.color === 'red'
+                            ? 'text-[#FFDCDC]'
+                            : 'text-custom-color30'
+                        }`}
+                      >
+                        {`${items.ratio}%`}
+                      </p>
                     </div>
                   </div>
                   <div className="flex justify-between items-center mt-1">
@@ -130,19 +162,29 @@ const AnalyticsAndReportingCards = () => {
                   key={index}
                   className="px-5 text= border border-white-200 bg-white-100  rounded-lg py-6 mx-2 min-w-[300px] sm:min-w-0"
                 >
-                  <div className="flex justify-between items-center">
-                    <p className="font-light text-[15px] text-custom-color30">{items.title}</p>
-                    <div className="flex items-center gap-2 rounded-full py-0.5 px-2 bg-[#E6F5EA]">
-                      <Image
-                        src="/assets/tsImages/arrow-up.svg"
-                        alt="kmenu"
-                        width={17}
-                        height={17}
-                        className="object-contain"
-                      />
-                      <p className="text-[14px] text-brand-green-focused">{`${items.ratio}%`}</p>
+                    <div className="flex justify-between items-center">
+                      <p className="font-light text-[15px] text-custom-color30">{items.title}</p>
+                      <div className="flex items-center gap-2 rounded-full py-0.5 px-2 bg-[#E6F5EA]">
+                        <Image
+                          src="/assets/tsImages/arrow-up.svg"
+                          alt="kmenu"
+                          width={17}
+                          height={17}
+                          className="object-contain"
+                        />
+                        <p
+                          className={`text-[14px] ${
+                            items.color === 'green'
+                              ? 'text-[#E6F5EA]'
+                              : items.color === 'red'
+                              ? 'text-[#FFDCDC]'
+                              : 'text-custom-color30' 
+                          }`}
+                        >
+                          {`${items.ratio}%`}
+                        </p>
+                      </div>
                     </div>
-                  </div>
                   <div className="flex justify-between items-center mt-1">
                     <h1 className="text-[30px] font-bold  ">
                       {index === 0 ? '\u20A6' + formattedAmount(items.amount) : formattedAmount(items.amount)}

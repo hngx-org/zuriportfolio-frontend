@@ -8,7 +8,7 @@ interface ActivityDetailsProps {
 
 const fetchActivityDetails = async (token: string) => {
   const response = await fetch(
-    'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/activities/',
+    'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/activities/',
     {
       headers: {
         Authorization: `Bearer ${token}`,
