@@ -31,14 +31,8 @@ const ProductListingTable = ({
 }) => {
   const sanctionedProd = data?.data;
   const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
-  // const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Number of items to display per page
 
-  // Calculate the range of products to display
-  // const startIndex = (currentPage - 1) * itemsPerPage;
-  // const endIndex = startIndex + itemsPerPage;
-  // const visibleProducts = filteredProducts?.slice(startIndex, endIndex);
-  // const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
+  const itemsPerPage = 10; // Number of items to display per page
 
   useEffect(() => {
     setFilteredProducts(sanctionedProd);
@@ -167,7 +161,9 @@ const ProductListingTable = ({
                           className={` hidden  mx-auto rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
                             product?.product_status === 'Sanctioned'
                               ? 'mx-auto bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                              : product?.product_status === 'Deleted'
+                              : // product?.product_status === 'Pending'
+                              //   ? 'mx-auto bg-custom-color40 text-custom-color25 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
+                              product?.product_status === 'Deleted'
                               ? 'hidden mx-auto bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
                               : 'bg-green-200 bg-opacity-50 text-green-800'
                           }`}
@@ -176,7 +172,9 @@ const ProductListingTable = ({
                             className={`inline-block w-2 h-2 rounded-full ${
                               product?.product_status === 'Sanctioned'
                                 ? 'bg-yellow-600'
-                                : product?.product_status === 'Deleted'
+                                : // product?.product_status === 'Pending'
+                                // ? 'text-custom-color25'
+                                product?.product_status === 'Deleted'
                                 ? 'bg-red-800'
                                 : 'bg-green-800'
                             }`}

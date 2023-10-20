@@ -11,7 +11,7 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
         'Content-Type': 'application/json; charset=UTF-8',
       },
       method,
-      url: `https://staging.zuri.team/api/admin/${apiUrl}`,
+      url: `https://spitfire-superadmin-1.onrender.com/api/admin/${apiUrl}`,
       data,
       ...config,
     };
@@ -23,12 +23,30 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
   }
 };
 
+// Getting pending products starts here
+
+//
+//Getting pending product ends here
+
 // products
 export const useGetProdDetails = (id: string) => {
   return useQuery(['get-prod', id], async () => {
     return makeRequest(`product/${id}`, 'get');
   });
 };
+
+//pending product start
+export const useGetPending = () => {
+  const pendingData = useQuery(['get-pending'], async () => {
+    return makeRequest(`product/pending/all`, 'get');
+  });
+  return {
+    pendData: pendingData.data,
+    pendLoading: pendingData.isLoading,
+  };
+};
+
+// pending product end
 
 export const useRemoveSanction = () => {
   const removeSanctionMutation = useMutation((id: string) => {
