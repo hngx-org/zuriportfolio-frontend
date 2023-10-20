@@ -3,7 +3,6 @@ import { Popover, Transition } from '@headlessui/react';
 import React, { Dispatch, Fragment, useEffect, useRef, useState } from 'react';
 import {
   Airdrop,
-  ArrowDown2,
   ArrowLeft2,
   ArrowRight2,
   Cloud,
@@ -153,14 +152,49 @@ const SearchAndFilterProducts = (prop: {
     data: categoryData = [],
     isLoading: isCategoryLoading,
     isError: isCategoryError,
+    refetch: refetchCategories,
+    isRefetching: isRefetchingCategories,
   } = useQuery(['categories'], fetchCategoryNames);
 
   const {
     data: productsData,
     isLoading: isProductsLoading,
     isError: isProductsError,
-  } = useQuery(['products', activeSection], () =>
-    activeSection < 11 ? fetchProducts(categoryData[activeSection]?.text) : fetchAllProducts(),
+  } = useQuery(
+    ['products', activeSection, filters],
+    () => {
+      if (activeSection < 11) {
+        return fetchProducts(categoryData[activeSection]?.text);
+      } else {
+        return fetchAllProducts();
+      }
+    },
+    {
+      select: (data) => {
+        let filteredProducts = data;
+
+        if (filters.Price) {
+          if (filters.Price === 'Lowest') {
+            filteredProducts.sort((a: { price: number }, b: { price: number }) => a.price - b.price);
+          } else {
+            filteredProducts.sort((a: { price: number }, b: { price: number }) => b.price - a.price);
+          }
+        }
+
+        if (filters.SortBy) {
+          if (filters.SortBy === 1) {
+            filteredProducts.sort((a: { name: string }, b: { name: any }) => a.name.localeCompare(b.name));
+          } else if (filters.SortBy === 2) {
+            filteredProducts.sort(
+              (a: { createdAt: string | number | Date }, b: { createdAt: string | number | Date }) =>
+                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+            );
+          }
+        }
+
+        return filteredProducts;
+      },
+    },
   );
 
   const fetchAllProducts = async () => {
@@ -184,7 +218,7 @@ const SearchAndFilterProducts = (prop: {
     }
   }, [activeSection, queryClient]);
 
-  if (isCategoryLoading) {
+  if (isCategoryLoading || isRefetchingCategories) {
     return (
       <div className="text-center flex justify-center items-center">
         <div
@@ -199,7 +233,14 @@ const SearchAndFilterProducts = (prop: {
   }
 
   if (isCategoryError || isProductsError) {
-    return <div>Error loading data...</div>;
+    return (
+      <div className="flex justify-center items-center flex-col space-y-4">
+        <div>Error loading data...</div>
+        <button onClick={() => refetchCategories()} className="text-green-600">
+          Retry
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -211,7 +252,6 @@ const SearchAndFilterProducts = (prop: {
               <Input
                 onChange={(e) => {
                   prop.setSearchQuery && prop.setSearchQuery(e.target.value);
-                  prop.setFilter({});
                   setPageNumber();
                 }}
                 leftIcon={<SearchNormal1 className="text-white-400" />}
@@ -219,6 +259,11 @@ const SearchAndFilterProducts = (prop: {
                 name="search input"
                 intent={'default'}
                 placeHolder="Search product"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleGo();
+                  }
+                }}
                 className="w-full placeholder-white-500 text-gray-500  border-[1px] border-[#F0F1F0] rounded-lg"
               />
 
@@ -256,7 +301,7 @@ const SearchAndFilterProducts = (prop: {
                               />
                             </div>
 
-                            <div>
+                            <div className="mt-4">
                               <CustomFilterDropdown
                                 options={['Name', 'Date created']}
                                 selectedValue={selectedOption2}
@@ -279,6 +324,11 @@ const SearchAndFilterProducts = (prop: {
                                   handleFilters={handleFilters}
                                   fetchAllData={fetchAllProducts}
                                   setShowFilterComponent={setShowFilterComponent}
+                                  searchFilter={() => prop.setFilter({})}
+                                  selectedOption={selectedOption}
+                                  setSelectedOption={setSelectedOption}
+                                  selectedOption1={selectedOption2}
+                                  setSelectedOption1={setSelectedOption2}
                                 />
                               </div>
                               <div className="relative -right-1 flex">
@@ -350,6 +400,11 @@ const SearchAndFilterProducts = (prop: {
               handleFilters={handleFilters}
               fetchAllData={fetchAllProducts}
               setShowFilterComponent={setShowFilterComponent}
+              searchFilter={() => prop.setFilter({})}
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
+              selectedOption1={selectedOption2}
+              setSelectedOption1={setSelectedOption2}
             />
           </div>
           <div className="relative -right-1 flex">

@@ -235,7 +235,9 @@ export default function SearchModule() {
             </div>
             <div className="border-b-2  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal">SKILLS</div>
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font-manropeB">
+                  SKILLS
+                </div>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -290,12 +292,14 @@ export default function SearchModule() {
             </div>
             <div className="border-b  border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal">LOCATION</div>
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font-manropeB">
+                  LOCATION
+                </div>
               </div>
             </div>
             <Input
               placeholder="Location"
-              className="border-[#E1E3E2] border-[1px] placeholder:text-custom-color22"
+              className="w-full border-[#E1E3E2] border-[1px] placeholder:text-custom-color22"
               onChange={(e) => handleFilters('Location', e.target.value.toLocaleLowerCase())}
               rightIcon={
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -309,9 +313,11 @@ export default function SearchModule() {
               }
             />
 
-            <div className="border-b-2 border-zinc-100 flex  flex-col pb-5 justify-between items-center w-full">
+            <div className="border-b-2 border-zinc-100 flex flex-col pb-5 justify-between items-center w-full">
               <div className="flex justify-between items-center w-full">
-                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal">EXPERIENCE</div>
+                <div className="text-center text-custom-color11 text-lg   uppercase leading-normal font-manropeB">
+                  EXPERIENCE
+                </div>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2 text-custom-color22">
@@ -335,12 +341,12 @@ export default function SearchModule() {
           <div className="w-[100%]">
             {/* Cards ------ */}
             {isLoading && (
-              <div className="grid w-[100%]  py-14 min-h-[300px]">
+              <div className="grid w-[100%] py-14 min-h-[300px]">
                 <Loader />
               </div>
             )}
             {data && data?.data.length > 0 && (
-              <div className="grid min-[1440px]:grid-cols-3 xl:grid-cols-2 md:grid-cols-2 gap-7 pb-4 sm:grid-cols-2">
+              <div className="grid min-[1440px]:grid-cols-3 xl:grid-cols-2 md:grid-cols-2 gap-x-6 gap-y-10 pb-4 sm:grid-cols-2">
                 {data.data.map((item, key) => (
                   <Card key={key} data={item} />
                 ))}
