@@ -15,6 +15,7 @@ const Index = () => {
   const [search, setSearch] = useState('');
   const { data, isLoading } = useGetAllVendor(page, search);
 
+  const handleFilter = () => {};
   return (
     <div className="">
       <SuperAdminNavbar />
@@ -27,25 +28,23 @@ const Index = () => {
               <p className="text-lg font-bold">Vendor Management</p>
               <p className="text-gray-500 text-sm">List of all vendors and their details</p>
             </div>
-            <div className="flex items-center justify-left md:justify-between gap-4">
-              {/* <SearchProduct handleSearchChange={handleSearch} /> */}
+            <div className="flex justify-between items-center gap-2">
               <Input
                 onChange={(e) => {
+                  // handleSearch(e.target.value);
                   setSearch(e.target.value);
+                  console.log(e.target.value);
                 }}
                 leftIcon={<SearchNormal1 />}
                 type="text"
                 intent={'default'}
                 disabled={false}
-                className=""
-                placeHolder="Search"
+                className="md:min-w-[350px] w-[100%]"
+                placeHolder="search"
               />
-
-              {/* <div className="md:hidden block">
-                <Button intent={'primary'} size={'sm'}>
-                  <Sort />
-                </Button>
-              </div> */}
+              <div className="">
+                <FilterProduct handleFilter={handleFilter} />
+              </div>
             </div>
           </div>
           {isLoading ? (
