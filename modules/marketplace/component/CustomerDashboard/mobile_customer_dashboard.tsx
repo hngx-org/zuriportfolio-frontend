@@ -21,7 +21,7 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
 
   // this is the for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 7
+  const totalPages = 7;
 
   // scroll to the top
   const topOfPageRef = useRef<HTMLDivElement>(null);
@@ -30,7 +30,7 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
   const endIndex = startIndex + totalPages;
   const displayedItems = data.slice(startIndex, endIndex);
 
-  const paginatedPage = Math.ceil(data.length / totalPages)
+  const paginatedPage = Math.ceil(data.length / totalPages);
 
   // function for handling the page change
   const handlePageChange = (page: number) => {
@@ -67,7 +67,8 @@ const MobileCustomerDashboard = ({ data}: { data: PurchaseData[] }) => {
         <div
           className="sm:hidden w-full overflow-hidden sm:overflow-x-auto flex flex-col gap-10"
           id="topOfPage"
-          ref={topOfPageRef}>
+          ref={topOfPageRef}
+        >
           {displayedItems.map((item) => (
             <div
               key={item.id}
