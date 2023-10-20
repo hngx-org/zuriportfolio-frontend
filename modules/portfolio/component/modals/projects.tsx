@@ -184,7 +184,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         files.map((item) => {
           formData.append('images', item);
         });
-        formData.append('data', JSON.stringify(data));
+        formData.append('jsondata', JSON.stringify(data));
         console.log(formData);
 
         axios
