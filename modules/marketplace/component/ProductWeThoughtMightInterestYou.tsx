@@ -29,7 +29,6 @@ export default function ProductWeThoughtMightInterestYou({ id }: any) {
       });
   }, [url]);
 
-
   const addToCart = async (ids: string) => {
     const apiUrl = `${CART_ENDPOINT}/api/carts`;
     if (auth?.token) {
