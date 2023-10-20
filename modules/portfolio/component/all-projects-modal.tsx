@@ -4,29 +4,91 @@ import Link from 'next/link';
 import { Data, allRouteOptions } from './modals/project-section-modal';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
+import axios from 'axios';
+import { notify } from '@ui/Toast';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 const AllProjectsModal = ({
   onEdit,
   projects,
   handleSetRoute,
+  handleLoading,
+  handleSetProjects,
   onCloseModal,
+  userId,
 }: {
   projects: any[];
   onEdit: (data: Data) => void;
   onCloseModal: () => void;
   handleSetRoute: (data: allRouteOptions) => void;
+  handleSetProjects: (data: any[]) => void;
+  handleLoading: (data: boolean) => void;
+  userId: string | undefined;
 }) => {
   const handleEdit = (data: Data) => {
     onEdit(data);
   };
 
+  const handleAddNewProject = () => {
+    handleSetRoute('add-project');
+    onEdit({
+      description: '',
+      tags: '',
+      url: '',
+      title: '',
+      thumbnail: '',
+      id: null,
+      year: '',
+      link: '',
+      media: [],
+      projectsImages: [],
+    });
+  };
+
+  const getAllProjects = () => {
+    handleLoading(true);
+    axios
+      .get(`${endpoint}/api/users/${userId}/projects`)
+      .then((res) => {
+        handleLoading(false);
+        handleSetProjects(res.data.data);
+      })
+      .catch((err) => {
+        handleLoading(false);
+        console.log(err);
+      });
+  };
+
+  const handleDelete = (id: number | null) => {
+    axios
+      .delete(`${endpoint}/api/projects/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        notify({
+          message: 'Project deleted successfully',
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
+        getAllProjects();
+      })
+      .catch((err) => {
+        console.log(err);
+        notify({
+          message: 'Error occurred',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+      });
+  };
+
   return (
     <section className="p-5">
-      <section className="h-[400px] w-full overflow-y-auto">
+      <section className="h-[350px] w-full overflow-y-auto">
         {projects.length > 0 &&
           projects.map((project: Data) => {
-            const { description, tags, url, title, thumbnail } = project;
+            const { description, tags, url, title, thumbnail, id } = project;
             return (
               <>
                 <section className="flex flex-wrap gap-10 mt-10">
@@ -70,7 +132,9 @@ const AllProjectsModal = ({
                   >
                     Edit
                   </span>
-                  <span className="text-[#FF5C5C] cursor-pointer font-manropeL"> Delete </span>
+                  <span className="text-[#FF5C5C] cursor-pointer font-manropeL" onClick={() => handleDelete(id)}>
+                    Delete
+                  </span>
                 </section>
 
                 <div className="bg-[#E1E3E2] w-full h-[1px] mt-5" />
@@ -82,7 +146,7 @@ const AllProjectsModal = ({
         <section>
           <p
             className="text-base font-semibold font-manropeL flex items-center gap-2 text-green-600 cursor-pointer"
-            onClick={() => handleSetRoute('add-project')}
+            onClick={handleAddNewProject}
           >
             <Add color="#009254" /> Add new project
           </p>

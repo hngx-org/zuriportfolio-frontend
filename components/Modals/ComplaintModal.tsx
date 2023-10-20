@@ -15,10 +15,13 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
+  const payload = { user_id: customerID, product_id: product, complaint_text: description };
+  const stringifyData = JSON.stringify(payload);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (description === '') {
+    if (description.length == 0) {
       setError('Complaint cannot be empty');
     } else {
       try {
@@ -29,11 +32,7 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              user_id: customerID, // Replace 'user_id' with the actual user ID
-              product_id: product, // Replace 'product_id' with the actual product ID
-              complaint_text: description,
-            }),
+            body: stringifyData,
           },
         );
         if (response.ok) {
@@ -49,9 +48,11 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
           });
           const res = await response.json();
           console.log(res.data);
+          setError(''); // Clear any previous errors
+          onClose();
+        } else {
+          setError('Failed to submit complaint. Please try again.');
         }
-        setError('');
-        onClose();
       } catch (err) {
         console.log(err);
         toast.error('An error occurred while submitting your complaint', {
@@ -74,42 +75,17 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
 
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
-      <div className="p-4 container">
-        <h1 className="text-2xl font-bold">Submit a Complaint</h1>
-        <form className="mt-4" onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="productID" className="block text-sm font-medium text-gray-700">
-              Product ID
-            </label>
-            <input
-              id="productID"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              type="text"
-              value={product}
-              readOnly
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="customerID" className="block text-sm font-medium text-gray-700">
-              Customer ID
-            </label>
-            <input
-              id="customerID"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              type="text"
-              value={customerID}
-              readOnly
-            />
-          </div>
-          <div className="mb-4">
+      <div className="p-4 container flex flex-col gap-7">
+        <h1 className="text-2xl font-bold">Submit your Complaint</h1>
+        <form className="flex flex-col gap-7" onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-2">
             <label htmlFor="description" className="block text-sm font-medium text-gray-700">
               Complaint Description
             </label>
             <textarea
               id="description"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              rows={4}
+              className="p-3 w-full border-2 border-brand-green-primary rounded-md"
+              rows={5}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -120,14 +96,14 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
           <div className="flex justify-between flex-row-reverse">
             <button
               type="submit"
-              className="px-4 py-2 bg-brand-green-primary text-white-100 rounded-md hover:bg-green-100 hover:text-brand-green-primary "
+              className="px-4 py-2 bg-brand-green-primary text-white-100 rounded-md hover:bg-brand-green-pressed"
               onClick={handleSubmit}
             >
               Submit
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-brand-red-primary text-white-100 rounded-md hover:bg-brand-red-hover "
+              className="px-4 py-2 border border-brand-red-primary text-brand-red-primary rounded-md hover:bg-brand-red-hover hover:text-white-100 cursor-pointer"
               onClick={onClose}
             >
               Cancel

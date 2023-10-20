@@ -5,6 +5,7 @@ import deleteIcon from '../../../public/assets/wishlistAssets/delete.svg';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import Link from 'next/link';
 import { Product } from '../wishlist';
+import { formatToNigerianNaira } from '../../../helpers/formatCurrency';
 
 export const WishlistProductCard = ({
   product,
@@ -42,7 +43,7 @@ export const WishlistProductCard = ({
                 </div>
 
                 <p className="font-bold text-[12px] md:text-[16px]">
-                  $<span>{product.price}</span>
+                  <span>{`${formatToNigerianNaira(product.price)}`}</span>
                 </p>
               </div>
 
@@ -81,7 +82,7 @@ export const WishlistProductCard = ({
               </div>
             </div>
 
-            <div className="hidden md:flex gap-3 self-start">
+            <div className="hidden md:flex items-center gap-3 self-start">
               <Button
                 className="hover:bg-red-200 hover:text-white-100 p-3 bg-white rounded-md group border border-custom-color17 text-white-650 focus:outline-none  focus:bg-red-200 focus:text-white-100 active:bg-red-200 active:text-white-100"
                 size={'sm'}
@@ -91,15 +92,13 @@ export const WishlistProductCard = ({
                 <RiDeleteBin6Line className="text-[18px] text-white-650 group-hover:fill-white-100" />
                 Remove
               </Button>
-              <Button
-                className={`hover:bg-white-100 bg-white-100 rounded-md border border-custom-color17 ${
+              <p
+                className={`hover:bg-white-100 bg-white-100 rounded-md  ${
                   product.inStock ? 'text-brand-green-primary' : 'text-brand-red-primary'
                 }`}
-                size={'sm'}
-                intent={'tertiary'}
               >
                 {product.inStock ? 'In Stock' : 'Out of Stock'}
-              </Button>
+              </p>
             </div>
           </div>
         </div>
