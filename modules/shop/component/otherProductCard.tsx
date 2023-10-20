@@ -30,7 +30,7 @@ const OtherProductCard: React.FC<ProductCardProps> = ({ product, shopName }) => 
           <h3 className="mt-2 text-sm text-[#052011] font-normal capitalize truncate md:tracking-[0.00088rem]">
             {product.name}
           </h3>
-          <p className="text-[#052011] text-base md:text-lg font-semibold">₦{product.price}</p>
+          <p className="text-[#052011] text-base md:text-lg font-semibold">₦{product.price.toLocaleString()}</p>
         </div>
         <div>
           <p className="text-[0.7rem] md:text-sm text-[#4F4E4E] font-normal tracking-[0.00219rem] -mt-1 md:mt-0">
