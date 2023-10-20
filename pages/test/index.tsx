@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Loader2 from '../../components/Loader/loader2';
+import Loader from '../../components/Loader/loader2';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +10,7 @@ const App: React.FC = () => {
     }, 20000);
   }, []);
 
-  return <div className="App">{isLoading ? <Loader2 /> : <p>Your content here</p>}</div>;
+  return <div className="App">{isLoading ? <Loader /> : <p>Your content here</p>}</div>;
 };
 
 export default App;
