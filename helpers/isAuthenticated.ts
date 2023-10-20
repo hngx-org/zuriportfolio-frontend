@@ -2,8 +2,7 @@ import jwtDecode from 'jwt-decode';
 import { isEmpty } from '.';
 
 const clearLocalStorage = () => {
-  localStorage.removeItem('authToken');
-  localStorage.removeItem('userData');
+  localStorage.removeItem('zpt');
 };
 
 function isAuthenticated(token: string) {

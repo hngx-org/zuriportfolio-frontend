@@ -6,8 +6,8 @@ import InviteLink from '../modules/portfolio/component/portfolioSettingsComponen
 import NotificationSettings from '../modules/portfolio/component/portfolioSettingsComponents/notificationsSettings';
 import { SettingOptionTypes } from '../@types';
 import DeleteAccount from '@modules/portfolio/component/portfolioSettingsComponents/DeleteAccount';
-import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
-import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
+// import AccountManagement from '@modules/portfolio/component/portfolioSettingsComponents/AccountManagement';
+// import AccountManagementMobile from '@modules/portfolio/component/portfolioSettingsComponents/AcctMgtMobile';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NotificationCheckboxType } from '../@types';
@@ -22,6 +22,7 @@ import axios from 'axios';
 import Success from './auth/success';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import nProgress from 'nprogress';
+import UpdatePassword from '@modules/portfolio/component/portfolioSettingsComponents/UpdatePassword';
 
 const SettingPage = () => {
   const [settingOption, setSettingOption] = useState<SettingOptionTypes>({
@@ -87,7 +88,7 @@ const SettingPage = () => {
     followUpdate: false,
     newMessages: false,
   });
-  const baseUrl = 'https://hng6-r5y3.onrender.com/api/';
+  const baseUrl = 'https://hng6-r5y3.onrender.com/api/v1';
   const handleNotificationUpdate = async () => {
     setLoading(true);
     try {
@@ -238,7 +239,7 @@ const SettingPage = () => {
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', auth?.user?.id as string);
 
-      const promise = axios.post('https://hng6-r5y3.onrender.com/api/profile/image/upload', formData);
+      const promise = axios.post('https://hng6-r5y3.onrender.com/api/v1/profile/image/upload', formData);
 
       const successMessage = 'Image uploaded successfully';
       const response = await toast.promise(promise, {
@@ -400,7 +401,7 @@ const SettingPage = () => {
                         />
                       </div>
 
-                      <AccountManagement />
+                      <UpdatePassword />
                       <Twofa closeAcc={closeAcc} setCloseAcc={setCloseAcc} />
                     </div>
                   )}
@@ -539,8 +540,7 @@ const SettingPage = () => {
                               className=" hidden outline-none"
                             />
                           </div>
-
-                          <AccountManagementMobile />
+                          <UpdatePassword />
                         </>
                       )}
                       <Twofa closeAcc={closeAcc} setCloseAcc={setCloseAcc} />

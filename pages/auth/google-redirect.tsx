@@ -5,6 +5,7 @@ import { signUpWithOAuth } from '../../http/auth';
 import useAuthMutation from '../../hooks/Auth/useAuthMutation';
 import { ADMIN_ID, useAuth } from '../../context/AuthContext';
 import { notify } from '@ui/Toast';
+import Head from 'next/head';
 
 function GoogleRedirect() {
   const router = useRouter();
@@ -14,8 +15,8 @@ function GoogleRedirect() {
       // TODO: Find out the response for succesful signup for users with 2fa enabled and disabled
       console.log('Google success data: ', data);
 
-      const token = data.data.token;
-      localStorage.setItem('zpt', token);
+      // const token = data.data.token;
+      // localStorage.setItem('zpt', token);
 
       // Checking if user enabled 2fa
       if (data?.response && data?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
@@ -58,6 +59,48 @@ function GoogleRedirect() {
     signUserWithGoogle({ query, oAuth: 'google' });
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
-  return <div className="flex item-center justify-center mt-[2rem]">Please Wait...</div>;
+  return (
+    <>
+      {' '}
+      <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+
+        {/* SEO Stuff start */}
+        <title>Google Redirect - Zuri Portfolio</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Zuri Portfolio" />
+
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta
+          key="metadescription"
+          itemProp="description"
+          name="description"
+          content="Google redirect for you Zuri Portfolio."
+        />
+        <meta name="keywords" content="Zuri, Portfolio, Google redirect" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <meta name="language" content="English" />
+        {/* <meta key="metaimage" itemProp="image" name="image" content="screen image is supposed to be here" /> */}
+
+        {/* <!-- Twitter Meta Tags --> */}
+        <meta key="twitter:title" name="twitter:title" content="Zuri Portfolio" />
+        <meta key="twitter:description" name="twitter:description" content="Google redirect for you Zuri Portfolio." />
+        <meta key="twitter:image" name="twitter:image" content="https://staging.zuri.team/auth/google-redirect" />
+        {/* <meta key="twitter:card" name="twitter:card" content="summary_large_image" /> */}
+
+        {/* <!-- Facebook Meta Tags --> */}
+        <meta property="og:url" content="https://staging.zuri.team" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Zuri Portfolio" />
+        <meta property="og:description" content="Google redirect for you Zuri Portfolio." />
+        {/* <meta property="og:image" content="https://i.imgur.com/3JjV8Dx.jpg" /> */}
+
+        {/* SEO Stuff end */}
+      </Head>
+      <div className="flex item-center justify-center mt-[2rem]">Please Wait...</div>
+    </>
+  );
 }
 export default GoogleRedirect;

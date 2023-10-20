@@ -5,8 +5,10 @@ import { Input } from '@ui/Input';
 import Button from '@ui/Button';
 import { Education, DegreeOption } from '../../../@types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import { years } from '../data';
+import { generateEndYears, years } from '../data';
 import { EducationModalContext } from '../context/education-context';
+import Portfolio from '../../../context/PortfolioLandingContext';
+import Loader from '@ui/Loader';
 
 type EducationModalProps = {
   isOpen: boolean;
@@ -15,6 +17,9 @@ type EducationModalProps = {
 };
 
 const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal, onSaveModal }) => {
+  const [selectedStartYear, setSelectedStartYear] = useState('');
+  const [endYears, setEndYears] = useState<any>([]);
+
   const {
     degreeOptions,
     fieldOfStudy,
@@ -48,6 +53,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
     setnewdegree,
     setEditingEducationId,
     editingEducationId,
+    isLoading,
   } = useContext(EducationModalContext);
   const [editingEducation, setEditingEducation] = useState<Education | null>(null);
 
@@ -67,11 +73,14 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
     setIsForm(true);
   };
 
-  console.log(degreeOptions, 'degreeOptions from');
+  useEffect(() => {
+    console.log(isEditMode);
+  }, [isEditMode]);
+
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
-      <div className="space-y-6 bg-white-100 p-4 py-5">
-        <div className="flex flex-col gap-3 px-6 mb-6">
+      <div className="space-y-6 bg-white-100 px-16 py-5 max-sm:px-">
+        <div className="flex flex-col gap-3 mb-6  w-full">
           <div className="flex justify-between items-center">
             <>
               {isEditMode && (
@@ -92,6 +101,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
+        <>{isLoading && <Loader />}</>
         <>
           {isData && (
             <div className="">
@@ -134,7 +144,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                           setIsEditMode(true);
                           setEditingEducation(education);
                           prefillForm(education);
-                          // handleEditEducation(education.id);
                           setIsData(false);
                         }}
                       >
@@ -155,7 +164,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
         </>
         <div>
           {isEditMode && (
-            <article className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}>
+            <article className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0 `}>
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                 <div className="flex gap-3 sm:gap-5 flex-col sm:flex-row">
                   <p className="text-[#8D9290] font-semibold font-manropeB">
@@ -193,13 +202,12 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
         <>
           {isForm && (
             <form
-              // onSubmit={(e) => addNewEducation(e)}
               onSubmit={(e) => (isEditMode ? handleEditEducation(e, editingEducationId) : addNewEducation(e))}
               className=""
             >
-              <div className="w-full">
+              <div className="w-full px-2">
                 <div className="flex flex-col gap-[.5rem] w-full mb-4">
-                  <label className="font-semibold text-[#444846] text-[1rem] mt-6">Degree</label>
+                  <label className="font-semibold text-[#444846] text-base mt-6">Degree</label>
                   <Select
                     onValueChange={(value: string) => {
                       handleDegreeSelection(value); // Update the selected degree ID
@@ -223,7 +231,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   </Select>
                 </div>
                 <div className="mb-4 w-full">
-                  <label className="block mb-1 text-md font-semibold" htmlFor="fieldOfStudy">
+                  <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="fieldOfStudy">
                     Field of Study
                   </label>
                   <Input
@@ -235,7 +243,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   />
                 </div>
                 <div className="mb-4  w-full">
-                  <label className="block mb-1 text-md font-semibold" htmlFor="school">
+                  <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="school">
                     School/Institution
                   </label>
                   <Input
@@ -247,72 +255,78 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   />
                 </div>
                 <div className="mb-4 w-full">
-                  <label className="block mb-1 text-[16px]  font-semibold" htmlFor="description">
+                  <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="description">
                     Description
                   </label>
-                  <Input
-                    type="text"
-                    placeHolder="Add more details"
+                  <textarea
+                    className="resize-none border-[1px] border-solid w-full border-[#E1E3E2] pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary "
+                    rows={4}
                     value={description}
+                    placeholder="Add more details"
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full border-white-120"
-                  />
+                  ></textarea>
                 </div>
               </div>
               <div className="w-full">
                 <div className="flex gap-4 ">
-                  <div className="w-1/2 font-semibold">
-                    <label>From*</label>
+                  <div className=" font-semibold w-3/6">
+                    <label className="text-[#444846]">From*</label>
+                    <>
+                      <Select
+                        onValueChange={(value: string) => {
+                          setFrom(value);
+                          setSelectedStartYear(value); // Update selected start year
+                          const generatedEndYears = generateEndYears(value); // Generate end year options
+                          setEndYears(generatedEndYears); // Set end year options
+                        }}
+                        value={from}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="2020" />
+                        </SelectTrigger>
+                        <>
+                          <SelectContent>
+                            {years.map((year, index) => (
+                              <SelectItem key={index} value={year.value}>
+                                {year.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </>
+                      </Select>
+                    </>
                   </div>
-                  <div className="font-semibold w-[300px]">
-                    <label>To*</label>
+                  <div className="font-semibold w-3/6">
+                    <label className="text-[#444846]">To*</label>
+                    <>
+                      <Select
+                        onValueChange={(value: string) => {
+                          setTo(value);
+                        }}
+                        value={to}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Present" />
+                        </SelectTrigger>
+                        <>
+                          <SelectContent>
+                            {endYears.length === 0
+                              ? years.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))
+                              : endYears.map((year: any, index: number) => (
+                                  <SelectItem key={index} value={year.value}>
+                                    {year.label}
+                                  </SelectItem>
+                                ))}
+                          </SelectContent>
+                        </>
+                      </Select>
+                    </>
                     {''}
                   </div>
-                </div>
-
-                <div className="w-full flex gap-4">
-                  <>
-                    <Select
-                      onValueChange={(value: string) => {
-                        setFrom(value);
-                      }}
-                      value={from}
-                    >
-                      <SelectTrigger className="w-[320px]">
-                        <SelectValue placeholder="2020" />
-                      </SelectTrigger>
-                      <>
-                        <SelectContent>
-                          {years.map((year, index) => (
-                            <SelectItem key={index} value={year.value}>
-                              {year.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </>
-                    </Select>
-                  </>
-                  <>
-                    <Select
-                      onValueChange={(value: string) => {
-                        setTo(value);
-                      }}
-                      value={to}
-                    >
-                      <SelectTrigger className="w-[320px]">
-                        <SelectValue placeholder="Present" />
-                      </SelectTrigger>
-                      <>
-                        <SelectContent>
-                          {years.map((year, index) => (
-                            <SelectItem key={index} value={year.value}>
-                              {year.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </>
-                    </Select>
-                  </>
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end mt-6">
@@ -330,7 +344,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button disabled={isLoading} type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                   Save
                 </Button>
               </div>
@@ -345,6 +359,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 onClick={() => {
                   setIsForm(true);
                   setIsData(false);
+                  resetForm();
                 }}
               >
                 <Add size="16" color="#009254" /> Add new Education
@@ -369,6 +384,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   className="w-full rounded-md sm:w-[6rem]"
                   size={'lg'}
                   onClick={() => {
+                    console.log('SAVING');
                     onSaveModal();
                   }}
                 >

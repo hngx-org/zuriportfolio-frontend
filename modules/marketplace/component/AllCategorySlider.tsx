@@ -15,7 +15,7 @@ interface CategoryTypes {
 function AllCategorySlider() {
   const [categories, setCategories] = useState<CategoryTypes[]>([]);
   const [secondApiData, setSecondApiData] = useState<CategoryTypes[]>([]);
-  const apiUrl: string = 'https://coral-app-8bk8j.ondigitalocean.app/api/';
+  const apiUrl: string = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
 
   useEffect(() => {
     // API request to fetch categories

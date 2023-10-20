@@ -15,7 +15,7 @@ export type Data = {
   tags: string;
   description: string;
   media: any[];
-  id: number;
+  id: number | null;
   url: string;
   projectsImages: any[];
 };
@@ -24,7 +24,7 @@ type ProjectModalProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
   isOpen: boolean;
-  userId?: string;
+  userId?: string | undefined;
 };
 
 const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: ProjectModalProps) => {
@@ -32,7 +32,7 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
   const [dataToEdit, setDataToEdit] = useState<Data | null>(null);
   const [route, setRoute] = useState<allRouteOptions>('add-project');
   const [loading, setLoading] = useState<boolean>(false);
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<any[]>([]);
 
   const handleEditData = (data: Data) => {
     setDataToEdit(data);
@@ -42,21 +42,29 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     setRoute(data);
   };
 
+  const handleSetProjects = (data: any[]) => {
+    setProjects(data);
+  };
+
+  const handleLoading = (data: boolean) => {
+    setLoading(data);
+  };
+
   const endpoint = 'https://hng6-r5y3.onrender.com';
   const getAllProjects = () => {
     setLoading(true);
     axios
-      .get(`${endpoint}/api/users/${userId}/projects`)
+      .get(`${endpoint}/api/v1/users/${userId}/projects`)
       .then((res) => {
         setLoading(false);
         setProjects(res.data.data);
+
         if (res?.data?.data.length > 0) {
           setRoute('view-projects');
         }
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
       });
   };
 
@@ -65,10 +73,20 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (projects.length < 0) {
+      setRoute('add-project');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Modal size="xxl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
       {loading ? (
-        <Loader />
+        <>
+          <Loader />
+          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+        </>
       ) : (
         <>
           {route === allRoutes[0] && (
@@ -83,10 +101,13 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
           )}
           {route === allRoutes[1] && (
             <AllProjectsModal
+              handleSetProjects={handleSetProjects}
               handleSetRoute={handleSetRoute}
+              handleLoading={handleLoading}
               projects={projects}
               onEdit={handleEditData}
               onCloseModal={onCloseModal}
+              userId={userId}
             />
           )}
         </>

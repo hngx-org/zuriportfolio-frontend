@@ -3,9 +3,9 @@ import React from 'react';
 
 interface DynamicInputProps {
   placeholder: string;
-  labelFor: string;
+  labelFor?: string;
   InputId: string;
-  label: string;
+  label?: string;
   name: string; // Use keyof to ensure that 'name' corresponds to a key in FormData
   type: string;
   value: string;
@@ -13,6 +13,7 @@ interface DynamicInputProps {
   leftIcon?: any;
   pattern?: any;
   error?: string;
+  className?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -29,6 +30,7 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
   leftIcon,
   pattern,
   error,
+  className,
 }) => {
   return (
     <div>
@@ -42,7 +44,7 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
         value={value}
         placeHolder={placeholder}
         key={InputId}
-        className="w-full border text-dark-800 placeholder-white-110"
+        className={`w-full border text-dark-800 placeholder-white-110 ${className}`}
         required={required}
         leftIcon={leftIcon}
         pattern={pattern}

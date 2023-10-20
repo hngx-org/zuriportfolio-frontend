@@ -74,7 +74,7 @@ const FilterComponent = (prop: Option) => {
       Tag: '',
     });
 
-    // Also, clear the corresponding filter options in the state if needed
+    // Also, clear the corresponding filter options in the state
     handleFilters('Location', '');
     handleFilters('Skill', '');
     handleFilters('Track', '');

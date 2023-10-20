@@ -35,17 +35,17 @@ const AddProduct = () => {
 
   const productScehema = z.object({
     name: z.string().min(5, { message: 'Add Product Name' }),
-    description: z.string().min(10, { message: 'Add  description' }),
+    description: z.string().min(50, { message: 'Add a minimum of 50 words' }),
     category_id: z.string().min(1, { message: 'Select category' }),
     price: z.string().min(1, { message: 'Add Price' }),
     discountPrice: z.string().min(1, { message: 'Add discount' }),
-    tax: z.string().min(1, { message: 'Add tax' }),
+    tax: z.string(),
     currency: z.string().min(1),
     assets_link: z.string().min(4, { message: 'Provide the link to your file' }),
     assets_type: z.string(),
-    assets_notes: z.string().min(4, { message: 'Leave a note about the file' }),
+    assets_notes: z.string().min(50, { message: 'Add a minimum of 50 words' }),
     assets_name: z.string().min(4, { message: 'Add File name' }),
-    shopId: z.string().min(3, { message: 'Select Shop' }),
+    // shopId: z.string().min(3, { message: 'Select Shop' }),
     quantity: z.number(),
   });
   const form = useForm({
@@ -62,7 +62,7 @@ const AddProduct = () => {
       assets_type: 'external',
       assets_notes: '',
       assets_name: '',
-      shopId: '',
+      // shopId: '',
       quantity: 1,
     },
   });
@@ -215,8 +215,6 @@ const AddProduct = () => {
           },
         },
       );
-
-      // Handle the response, e.g., show a success message or redirect
       console.log(response.data);
       toast.success(`Product added successfully`, {
         position: 'top-right',
@@ -286,13 +284,6 @@ const AddProduct = () => {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
       });
-      // Make a POST request to your API endpoint with Axios
-      // const response = await axios.post('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
-      //   body: values,
-      //   header: {
-      //     Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-      //   },
-      // });
 
       // Handle the response, e.g., show a success message or redirect
       const response = await res.json();
@@ -410,6 +401,37 @@ const AddProduct = () => {
                   {form.errors.assets_notes && form.errors.assets_notes}
                 </p>
               </div>
+
+              <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
+                <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product thumbnail</span>
+                <div className="mt-3 flex flex-col">
+                  <div
+                    className={`bg-[#F8F9FA] p-2 rounded-sm items-center text-center ${
+                      form.errors.email && 'border-red-20'
+                    }`}
+                  >
+                    <center>
+                      <Image
+                        src={uploadorange}
+                        alt="uploadicon"
+                        className="w-10 object-contain mb-2 cursor-pointer"
+                        onClick={handleImageUploadClick}
+                      />
+
+                      <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px] cursor-pointer">
+                        <span
+                          className="text-[12px] md:text-[16px] text-[#F1AE67] font-manropeL mr-2"
+                          onClick={handleImageUploadClick}
+                        >
+                          Click here
+                        </span>
+                        or drag and drop to upload file
+                      </span>
+                    </center>
+                  </div>
+                  {/* <p className="text-[red] text-lg my-3 font-semibold">{form.errors.image && form.errors.image}</p> */}
+                </div>
+              </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product details</span>
                 <div className="mt-5 flex flex-col">
@@ -458,7 +480,7 @@ const AddProduct = () => {
                   /> */}
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
                   <select
-                    className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
+                    className={`border-solid border-[2px] capitalize text-black py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
                       form.errors.category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
                     // value={products.category_id}
@@ -466,21 +488,21 @@ const AddProduct = () => {
 
                     {...form.getInputProps('category_id')}
                   >
-                    <option value="" className="placeholder:text-[#191C1E] capitalize">
+                    <option value="" className="placeholder:text-[#000] text-black capitalize">
                       Select product category
                     </option>
                     {categoriesData.map((category: any) => (
                       <option
                         value={category.id}
                         key={category.id}
-                        className="placeholder:text-[#191C1E] text-black capitalize"
+                        className="placeholder:text-[#000] text-black capitalize"
                       >
                         {category.name}
                       </option>
                     ))}
                   </select>
-                  <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label>
-                  <select
+                  {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label> */}
+                  {/* <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
                       form.errors.category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
@@ -501,38 +523,8 @@ const AddProduct = () => {
                         {shop.name}
                       </option>
                     ))}
-                  </select>
+                  </select> */}
                   <p className="text-[red] text-lg my-3 font-semibold">{form.errors.shopId && form.errors.shop_id}</p>
-                </div>
-              </div>
-              <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
-                <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product thumbnail</span>
-                <div className="mt-3 flex flex-col">
-                  <div
-                    className={`bg-[#F8F9FA] p-2 rounded-sm items-center text-center ${
-                      form.errors.email && 'border-red-20'
-                    }`}
-                  >
-                    <center>
-                      <Image
-                        src={uploadorange}
-                        alt="uploadicon"
-                        className="w-10 object-contain mb-2 cursor-pointer"
-                        onClick={handleImageUploadClick}
-                      />
-
-                      <span className="font-manropeL text-[#8D9290] text-[12px] md:text-[16px] cursor-pointer">
-                        <span
-                          className="text-[12px] md:text-[16px] text-[#F1AE67] font-manropeL mr-2"
-                          onClick={handleImageUploadClick}
-                        >
-                          Click here
-                        </span>
-                        or drag and drop to upload file
-                      </span>
-                    </center>
-                  </div>
-                  {/* <p className="text-[red] text-lg my-3 font-semibold">{form.errors.image && form.errors.image}</p> */}
                 </div>
               </div>
               <div className="p-3 border flex flex-col border-[#00000024] rounded-md mt-3">
@@ -550,13 +542,13 @@ const AddProduct = () => {
                   />
                   <p className="text-[red] text-lg my-3 font-semibold">{form.errors.price && form.errors.price}</p>
                   <div className="flex flex-row justify-between w-[100%] md:w-[50%] items-center">
-                    <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">
+                    {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">
                       Product Discount Price
-                    </label>
+                    </label> */}
 
                     {/* <Input type="checkbox" className="border-hidden p-0" /> */}
                   </div>
-                  <Input
+                  {/* <Input
                     className={`w-[100%] md:w-[50%]  mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
                       form.errors.discountPrice ? 'border-red-200' : 'border-slate-50'
                     }`}
@@ -566,7 +558,7 @@ const AddProduct = () => {
                   />
                   <p className="text-[red] text-lg my-3 font-semibold">
                     {form.errors.discountPrice && form.errors.discountPrice}
-                  </p>
+                  </p> */}
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Value Added Tax (VAT)</label>
                   <Input
                     className={`w-[50%] md:w-[30%] mb-5 mt-2 placeholder:text-[#191C1E] text-black ${
@@ -607,9 +599,9 @@ const AddProduct = () => {
                     https://staging.zuri.team/store/product_name
                   </Link>
                 </div>
-                <div onClick={handleCopyLink} className="cursor-pointer">
+                {/* <div onClick={handleCopyLink} className="cursor-pointer">
                   <Image src={copy} alt="copy" width={20} height={20} />
-                </div>
+                </div> */}
               </div>
 
               <Button

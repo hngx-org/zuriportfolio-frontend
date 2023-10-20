@@ -1,0 +1,9 @@
+/* .marketPlaceSubCategory {
+  border: 1px solid;
+} */
+
+.marketPlaceSubCategory > div:first-child {
+  /* remove css defaults placed in mainLayout comoent */
+  overflow: visible !important;
+  height: auto !important;
+}

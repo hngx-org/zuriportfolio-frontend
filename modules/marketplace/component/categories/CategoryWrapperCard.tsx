@@ -16,7 +16,7 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
   //   console.log(subCategory, category);
-  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/products/${category}/${subCategory}/`;
+  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}/${subCategory}/`;
 
   useEffect(() => {
     const fetchSubCategories = async () => {

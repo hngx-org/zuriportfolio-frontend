@@ -1,4 +1,5 @@
 import React, { MouseEvent, useState, useEffect, ReactElement, useContext } from 'react';
+import Head from 'next/head';
 import MainLayout from '../../../components/Layout/MainLayout';
 import ProductCard from '../../../modules/shop/component/cart/checkout/ProductCard';
 import CartItem from '../../../modules/shop/component/cart/checkout/CartItem';
@@ -68,6 +69,7 @@ export default function Cart() {
   }, []);
 
   const closeHandler = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
     let id = event.currentTarget.id;
     let recentlyViewedProducts = recentlyViewed.filter((product) => product.product.id != id);
     setRecentlyViewed(recentlyViewedProducts);
@@ -130,6 +132,10 @@ export default function Cart() {
 
   return (
     <MainLayout activePage="home" showDashboardSidebar={false} showTopbar>
+      <Head>
+        <title>Marketplace | Cart</title>
+        <meta property="og:title" content="Marketplace | Cart" key="title" />
+      </Head>
       {isLoading ? (
         <CartPageSkeleton></CartPageSkeleton>
       ) : (
@@ -141,7 +147,7 @@ export default function Cart() {
                   <h1 className="text-2xl mb-7 font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
                   {cartProductItems}
                 </div>
-                <div className="flex md:flex-none justify-center lg:w-2/5 md:mx-0">
+                <div className="flex md:flex-none justify-center lg:w-[35%] md:mx-0">
                   <Summary token={auth?.token ? (auth.token as string) : ''} summary={cartSummary} />
                 </div>
               </section>
@@ -150,8 +156,9 @@ export default function Cart() {
                 <section className="w-full flex flex-col mt-[50px] mb-[10%]">
                   <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
                   <div
-                    className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden items-center lg:items-stretch lg:justify-normal 
-                md:flex-row md:justify-center md:flex-wrap md:gap-x-4 gap-y-4 lg:gap-x-4 mt-4 "
+                    className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden 
+                    lg:items-center lg:items-stretch lg:justify-normal 
+                    md:flex-row md:justify-center md:flex-wrap md:gap-x-4 gap-y-4 lg:gap-x-4 mt-4 "
                   >
                     {recentlyViewedProducts}
                   </div>

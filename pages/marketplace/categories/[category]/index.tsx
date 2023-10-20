@@ -3,6 +3,7 @@ import CategoriesPage from '@modules/marketplace/component/categories/Categories
 import axios from 'axios';
 import { useContext, useEffect } from 'react';
 import { PreviousUrlContext } from '@modules/marketplace/context/PreviousUrlProvider';
+import Head from 'next/head';
 
 export const getServerSideProps = async (context: any) => {
   const { category: _category } = context.query;
@@ -18,7 +19,7 @@ export const getServerSideProps = async (context: any) => {
   }
 
   try {
-    const res = await axios('https://coral-app-8bk8j.ondigitalocean.app/api/category-name/');
+    const res = await axios('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/');
     const isCategoryAvailable = res.data?.data.filter((el: any) => el.name === category);
 
     if (isCategoryAvailable.length === 0) {
@@ -62,5 +63,13 @@ export default function CategoryPage(props: any) {
     // console.log('category page');
   }, [router.asPath, updatePath]);
 
-  return <CategoriesPage error={props.error} errorMessage={props.errorMessage} data={props.data} />;
+  return (
+    <div>
+      <Head>
+        <title>Products available in {category}</title>
+        <meta name="description" content={`Explore a wide range of ${category} product`} />
+      </Head>
+      <CategoriesPage error={props.error} errorMessage={props.errorMessage} data={props.data} />
+    </div>
+  );
 }
