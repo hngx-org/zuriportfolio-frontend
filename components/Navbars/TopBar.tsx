@@ -394,7 +394,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     <p className=" font-bold ">
                       {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
                     </p>
-                    <p className="text-sm ">Zuri Team</p>
                   </div>
                   <div className="w-10 h-10 aspect-square relative bg-gray-400 rounded-[100px]" />
                 </div>
