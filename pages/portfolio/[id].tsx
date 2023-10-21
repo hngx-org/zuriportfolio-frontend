@@ -42,7 +42,9 @@ const View = () => {
     avatarImage: '',
     city: '',
     country: '',
-    tracks: [],
+    tracks: {
+      track: '',
+    },
     coverImage: '',
   });
   const [userSections, setUserSections] = useState<any>([]);
@@ -108,6 +110,8 @@ const View = () => {
     <CoverDiv className={`bg-[#F0F1F0] opacity-80 ${headerMargin}`} />
   );
 
+  console.log(tracks);
+
   return (
     <PortfolioCtxProvider>
       <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
@@ -128,10 +132,8 @@ const View = () => {
                       {lastName === 'undefined' || !lastName ? '' : lastName}
                     </h1>
                     <div className="flex items-center space-x-2">
-                      {tracks.length > 0 && (
-                        <p className="flex flex-col text-gray-500 font-semibold text-[15px]">
-                          {(tracks[0] as { track: string }).track}
-                        </p>
+                      {tracks && (
+                        <p className="flex flex-col text-gray-500 font-semibold text-[15px]">{tracks?.track}</p>
                       )}
                     </div>
                     <p className="text-gray-500 text-[14px] md:text-base font-semibold">
