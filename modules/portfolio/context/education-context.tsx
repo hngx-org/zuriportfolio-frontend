@@ -104,14 +104,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         user_id: userId,
         section_id: 2,
       };
-      // const updatedEducation = {
-      //   degree,
-      //   fieldOfStudy,
-      //   school,
-      //   description,
-      //   from,
-      //   to,
-      // };
+
       const response = await fetch(`${API_BASE_URL}api/v1/updateEducationDetail/${educationId}`, {
         method: 'PATCH',
         headers: {
@@ -119,6 +112,31 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         },
         body: JSON.stringify(updatedEducation),
       });
+
+      const numberFields: string[] = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
+
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (numbersOnlyRegex.test(fieldOfStudy)) {
+        numberFields.push('Field Of Study');
+      }
+      if (numbersOnlyRegex.test(school)) {
+        numberFields.push('School');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
+
       if (response.ok) {
         notify({
           message: 'Education detail updated successfully',
@@ -199,7 +217,18 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     e.preventDefault();
     try {
       const missingFields = [];
+      const numberFields: string[] = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
 
+      if (numbersOnlyRegex.test(fieldOfStudy)) {
+        numberFields.push('Field Of Study');
+      }
+      if (numbersOnlyRegex.test(school)) {
+        numberFields.push('School');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
       if (fieldOfStudy === '') {
         missingFields.push('fieldOfStudy');
       }
@@ -219,16 +248,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         missingFields.push('End date');
       }
 
-      if (from === to) {
-        notify({
-          message: `Start date and end date cant be the same`,
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
-        return;
-      }
-
       if (to < from) {
         notify({
           message: `To cant be less than that from`,
@@ -245,6 +264,27 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         // Notify the user about missing fields
         notify({
           message: `Please fill in the required fields: ${missingFieldsString}`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (description.length < 13) {
+        notify({
+          message: `Description cant be less than 13 characters`,
           position: 'top-center',
           theme: 'light',
           type: 'error',
@@ -319,6 +359,13 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   }, [getAllEducation]);
   useEffect(() => {
     console.log(educations);
+  }, [educations]);
+
+  useEffect(() => {
+    console.log('educations', educations);
+    if (educations.length === 0) {
+      setIsForm(true);
+    }
   }, [educations]);
 
   return (
