@@ -21,6 +21,7 @@ import { CART_ENDPOINT } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
+import Loader from '@ui/Loader';
 
 export default function ProductDetailsDescription({ productId }: { productId: string }) {
   const { auth } = useAuth();
@@ -34,8 +35,8 @@ export default function ProductDetailsDescription({ productId }: { productId: st
   const { setCartCountNav, cartCount } = useCart();
 
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/none/?guest=true`;
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -148,11 +149,13 @@ export default function ProductDetailsDescription({ productId }: { productId: st
     setShowAll(!showAll);
   };
 
+  const breadcrumbs: any = product?.name ? `/marketplace/${product?.name}` : '/marketplace/';
+
   return (
-    <CategoryLayout>
+    <CategoryLayout isBreadcrumb={true} pathName={breadcrumbs}>
       {!product ? (
         <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-4xl text-gray-400">
-          Loading...
+          <Loader />
         </div>
       ) : (
         <main className={`flex flex-col items-center max-w-[1240px] mx-auto lg:px-0 px-4 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
