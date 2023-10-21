@@ -95,9 +95,8 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     e.preventDefault();
     try {
       const updatedEducation = {
-        degree, // You may need to add the degree information as well
+        degree,
         fieldOfStudy,
-        id: educationId,
         school,
         description,
         from,

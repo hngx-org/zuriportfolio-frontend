@@ -270,8 +270,6 @@ export const Shop = () => {
 };
 
 export const Contact = ({ data }: SkeletonProps) => {
-  console.log('Contact data', data);
-
   return (
     <div className="flex flex-col w-full gap-5">
       {/* {data?.map((contact: { title: string; info: string; url: string }, i: string) => ( */}

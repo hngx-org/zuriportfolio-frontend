@@ -12,6 +12,7 @@ import { WorkExperience as WorkExperienceSkeleton } from './landing/Skeleton';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { generateEndYears } from '../data';
 import { Edit2, Trash } from 'iconsax-react';
+import { boolean } from 'zod';
 
 type WorkExperienceModalProps = {
   onCloseModal: () => void;
@@ -72,6 +73,19 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     }
     setIsForm(true);
   };
+
+  useEffect(() => {
+    const date = new Date();
+    const currMonth = months[date.getMonth()];
+    const currYr = date.getFullYear();
+    if (isChecked) {
+      setEndMonth(currMonth?.value);
+      setEndYear(String(currYr));
+    } else {
+      setEndMonth(endMonth);
+      setEndYear(endYear);
+    }
+  }, [isChecked, endMonth, endYear]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
@@ -296,7 +310,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         onValueChange={(value: string) => {
                           setEndMonth(value);
                         }}
-                        // value={endMonth}
+                        value={endMonth}
                       >
                         <SelectTrigger className="w-[180px] outline-none">
                           <SelectValue placeholder="Month" />
@@ -317,7 +331,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                         onValueChange={(value: string) => {
                           setEndYear(value);
                         }}
-                        // value={endYear}
+                        value={endYear}
                       >
                         <SelectTrigger className="w-[180px] border-[2px] outline-none">
                           <SelectValue placeholder="Year" />
@@ -344,12 +358,16 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     <div className="relative w-7 h-7 flex items-center justify-center">
                       <input
                         type="checkbox"
+                        checked={isChecked}
                         onChange={() => {
-                          setIsChecked(!isChecked);
-                          if (isChecked) {
-                            setEndYear('');
-                            setEndMonth('');
-                          }
+                          setIsChecked((prev: boolean) => !prev);
+                          // const date = new Date();
+                          // const currMonth = months[date.getMonth()];
+                          // const currYr = date.getFullYear();
+                          // if (!isChecked) {
+                          //   setEndMonth(currMonth?.value);
+                          //   setEndYear(String(currYr));
+                          // }
                         }}
                         className="peer shrink-0 appearance-none h-[100%] w-[100%] border-[1px] border-[#A8ACAB] rounded-md checked:bg-brand-green-primary checked:border-0"
                       />

@@ -3,6 +3,7 @@ import { WorkExperience } from '../../../@types';
 import { notify } from '@ui/Toast';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import axios from 'axios';
+import { months } from '../data';
 
 interface WorkExperienceModalContextType {
   workExperiences: WorkExperience[];
@@ -82,7 +83,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       sectionId: 2,
     });
     try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/update-work-experience/${id}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/updateexperience/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -113,7 +114,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}api/v1/work-experience/${id}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/experience/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -147,6 +148,9 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       if (response.ok) {
         const data = await response.json();
         const { workExperience } = data;
+        if (workExperience.length === 0) {
+          setIsForm(true);
+        }
         setWorkExperiences(workExperience);
       }
     } catch (error) {
@@ -155,7 +159,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, slug]);
 
   const addWorkExperience = async (e: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
@@ -198,19 +202,20 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}api/v1/create-work-experience/${userId}`, {
+      const endYearValue = isChecked ? 'Present' : endYear;
+
+      const response = await fetch(`${API_BASE_URL}api/v1/createexperience/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON
         },
         body: JSON.stringify({
-          company, // Assuming `company` is a variable in your scope
-          // Add other data you want to send to the backend here
+          company,
           role,
           startMonth,
           startYear,
-          endMonth: endMonth,
-          endYear: endYear,
+          endMonth,
+          endYear: endYearValue,
           description,
           isEmployee: isChecked,
           userId,
@@ -241,7 +246,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
             theme: 'light',
             type: 'error',
           });
-          console.log(true);
         }
         if (
           responseJson?.message &&
@@ -275,7 +279,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     } catch (error: any) {
       // Handle network or other errors
       console.error('Error:', error);
-      console.log(error.message);
       setIsLoading(false);
     } finally {
       setIsLoading(false);
@@ -287,10 +290,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       getAllWorkExperience();
     }
   }, [getAllWorkExperience, userId]);
-
-  useEffect(() => {
-    console.log(workExperiences);
-  }, []);
 
   return (
     <WorkExperienceModalContext.Provider
