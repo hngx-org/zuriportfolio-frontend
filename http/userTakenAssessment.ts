@@ -1,7 +1,7 @@
 import axios from 'axios';
 import $http from './axios';
 
-const assessmentBaseUrl = `https://assessment.cofucan.tech/api`;
+const assessmentBaseUrl = `https://assessment.cofucan.tech/api/v1`;
 
 export const fetchAssessmentHistory = async (token: string) => {
   try {
@@ -41,9 +41,6 @@ export const getAllAssessments = async (token: string) => {
         token: token,
       },
     });
-    if (!response.data) {
-      return;
-    }
     return response.data;
   } catch (error) {
     console.log(error);
@@ -69,9 +66,6 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
         },
       },
     );
-    if (!res.data) {
-      return;
-    }
     console.log('responce', res.data.data);
     return res.data;
   } catch (error) {

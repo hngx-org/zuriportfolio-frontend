@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Image from 'next/image';
 import Button from '@ui/Button';
 import { LevelData } from '../../../helpers/dashboardui';
@@ -8,9 +8,9 @@ import { getAllAssessments } from '../../../http/userTakenAssessment';
 import task from '../../../public/assets/dashboard/task.svg';
 import timer from '../../../public/assets/dashboard/timer.svg';
 import medal from '../../../public/assets/dashboard/medal-star.svg';
-import { useRouter } from 'next/router';
 import { withUserAuth } from '../../../helpers/withAuth';
 import Loader from '@ui/Loader';
+import { useQuery } from '@tanstack/react-query';
 
 type AssessmentDetails = {
   id?: string;
@@ -22,35 +22,24 @@ type AssessmentDetails = {
   status: string;
   start_date: Date;
   end_date: Date;
+  taken: boolean;
 };
 
 const Dashboard = () => {
-  const [result, setResult] = React.useState<AssessmentDetails[]>([]);
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
-  const router = useRouter();
+  const tokenRef = useRef<string | null>(null);
+
+  const {
+    isLoading,
+    isError,
+    error,
+    data: allAssessment,
+  } = useQuery(['allAssessment'], () => getAllAssessments(tokenRef.current as string));
+  console.log('assessment', allAssessment?.assessments);
+
+  const result = allAssessment?.assessments;
 
   React.useEffect(() => {
-    const token = localStorage.getItem('zpt');
-    const fetchData = async () => {
-      try {
-        const data = await getAllAssessments(token as string);
-        const res = data.assessments;
-        console.log('data', data);
-        console.log('res', res);
-        if (!data) {
-          setIsLoading(false);
-          throw new Error('Network response was not ok');
-        } else {
-          console.log(res);
-          setResult(res);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        // Handle errors, e.g., set an error state or display an error message.
-        console.error(error);
-      }
-    };
-    fetchData();
+    tokenRef.current = localStorage.getItem('zpt');
   }, []);
 
   return (
@@ -125,8 +114,8 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            {result.length > 0 ? (
-              result.map((item, index) => (
+            {result?.length > 0 ? (
+              result?.map((item: AssessmentDetails, index: number) => (
                 <div
                   key={index}
                   className="mt-[2.5rem] border-[.58px] p-[1rem] lg:p-[1.5rem] rounded-md border-[#A8ACAB]"
@@ -186,9 +175,9 @@ const Dashboard = () => {
                       </span>
                     </div>
                   </div>
-                  <Link href={`/assessments/take-test/intro?data=${item.skill_id}`}>
+                  <Link href={`/assessments/take-test/intro?data=${item.id}`}>
                     <Button className="mt-[1.5rem] lg:mt-[1.8rem] xl:mt-[2.9rem] mx-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1.125rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md">
-                      Take Assessment
+                      {item.taken ? 'Retake Assessment' : 'Take Assessment'}
                     </Button>
                   </Link>
                 </div>
