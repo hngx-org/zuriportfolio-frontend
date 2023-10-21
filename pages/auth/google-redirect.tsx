@@ -13,7 +13,7 @@ function GoogleRedirect() {
   const { mutate: signUserWithGoogle } = useAuthMutation(signUpWithOAuth, {
     onSuccess: (data) => {
       // Checking if user enabled 2fa
-      if (data?.response && data?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+      if (data?.status === 202) {
         // Setting to localStorage because 2fa page needs them
         localStorage.setItem('2fa', data?.response?.token);
         localStorage.setItem('email', data?.response?.email);
@@ -22,7 +22,7 @@ function GoogleRedirect() {
         return;
       }
 
-      if (data.message === 'Login successful') {
+      if (data.status === 200) {
         handleAuth(data.data);
         localStorage.setItem('zpt', data?.data?.token);
 
@@ -36,12 +36,12 @@ function GoogleRedirect() {
         return;
       }
     },
-    onError: (error:any) => {
-      console.log("Google OAuth error", error);
+    onError: (error: any) => {
+      console.log('Google OAuth error', error);
 
-      if(error.response && error.response.message === "INTERNAL SERVER ERROR") {
+      if (error.response && error.response.message === 'INTERNAL SERVER ERROR') {
         notify({
-          message: "Something went wrong, please try again later",
+          message: 'Something went wrong, please try again later',
           type: 'error',
         });
 
@@ -52,6 +52,7 @@ function GoogleRedirect() {
       notify({
         message: error.message,
         type: 'error',
+        theme: 'light',
       });
 
       // if an error occurs, take the user to where they signed up from or to sign in page if undefined

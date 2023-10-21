@@ -52,6 +52,7 @@ function LoginForm() {
         notify({
           message: 'Two Factor Authentication Code Sent',
           type: 'success',
+          theme: 'light',
         });
 
         router.push('/auth/2fa');
@@ -71,6 +72,7 @@ function LoginForm() {
         notify({
           message: 'Login Successful',
           type: 'success',
+          theme: 'light',
         });
 
         router.push(userCameFrom || '/explore');
@@ -83,6 +85,7 @@ function LoginForm() {
         notify({
           message: e.message,
           type: 'error',
+          theme: 'light',
         });
         router.push('/auth/verification-complete');
         return;
@@ -91,6 +94,7 @@ function LoginForm() {
       notify({
         message: e.message,
         type: 'error',
+        theme: 'light',
       });
     },
   });

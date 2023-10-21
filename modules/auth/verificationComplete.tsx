@@ -33,6 +33,7 @@ function VerificationComplete() {
         notify({
           message: 'Verification Successful!',
           type: 'success',
+          theme: 'light',
         });
 
         router.push(userCameFrom || '/explore');
