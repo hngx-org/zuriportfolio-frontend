@@ -171,6 +171,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         const { education } = data;
         setEducations(education);
         // Extract the education IDs
+        console.log(education);
         const educationIds = educations.map((education) => education.id);
       }
     } catch (error) {
@@ -179,7 +180,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, slug]);
 
   const addNewEducation = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);

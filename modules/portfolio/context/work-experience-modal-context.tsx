@@ -148,7 +148,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       if (response.ok) {
         const data = await response.json();
         const { workExperience } = data;
-        if (workExperience.length === 0) {
+        if (workExperience?.length === 0) {
           setIsForm(true);
         }
         setWorkExperiences(workExperience);
@@ -224,6 +224,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       });
       if (response.ok) {
         getAllWorkExperience();
+        setWorkExperiences((prevExperiences) => []);
         notify({
           message: 'Work experience created successfully',
           position: 'top-center',
