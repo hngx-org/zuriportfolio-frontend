@@ -97,10 +97,12 @@ const View = () => {
       ]);
       setIsLoading(false);
     } catch (error: any) {
+      setIsLoading(false);
       setError({ state: true, error: error.message });
     }
   };
   const { firstName, lastName, city, country, coverImage, tracks } = userData;
+  console.log(error);
 
   const headerMargin = `w-full h-[200px] sm:h-[250px] md:h-[300px] object-center object-cover`;
 
@@ -110,8 +112,6 @@ const View = () => {
     <CoverDiv className={`bg-[#F0F1F0] opacity-80 ${headerMargin}`} />
   );
 
-  console.log(tracks);
-
   return (
     <PortfolioCtxProvider>
       <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
@@ -119,6 +119,12 @@ const View = () => {
           <>
             <Loader />
           </>
+        ) : error.state ? (
+          <div className="flex justify-center items-center min-h-[50vh]">
+            <p className="text-red-200 text-2xl font-semibold text-center">
+              Something went wrong, please try again later
+            </p>
+          </div>
         ) : (
           <div className="mx-auto w-[min(90vw,1240px)] relative font-manropeB pb-20 min-h-[50vh]">
             <div className="relative w-full flex-col justify-center items-center shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] rounded-b-lg -mt-5 mb-10">
