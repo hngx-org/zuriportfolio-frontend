@@ -9,6 +9,7 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import { Data, allRouteOptions } from './project-section-modal';
+import Loader from '@ui/Loader';
 
 type ProjectSectionProps = {
   onCloseModal: () => void;
@@ -319,21 +320,22 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 </label>
               )}
             </div>
-            {thumbnail && 
-            <div onClick={() => setThumbnail('')} className="flex items-center">
-              <div className="relative ">
-                <Image
-                  src={thumbnail}
-                  priority
-                  unoptimized
-                  width={0}
-                  height={0}
-                  alt=""
-                  className="rounded-lg object-cover object-center w-full h-[80px]"
-                />
-                <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
+            {thumbnail && (
+              <div onClick={() => setThumbnail('')} className="flex items-center">
+                <div className="relative ">
+                  <Image
+                    src={thumbnail}
+                    priority
+                    unoptimized
+                    width={0}
+                    height={0}
+                    alt=""
+                    className="rounded-lg object-cover object-center w-full h-[80px]"
+                  />
+                  <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
+                </div>
               </div>
-            </div>}
+            )}
             {/* Tags */}
             <div className="flex gap-1 flex-col">
               <div className="flex flex-wrap gap-2">
@@ -452,7 +454,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 className={`${loading ? 'opacity-90' : 'opacity-100'} rounded-lg min-w-[100px]`}
                 onClick={handleSubmit}
               >
-                Save
+                {loading ? <Loader /> : 'Save'}
               </Button>
             </div>
           </form>
