@@ -6,8 +6,8 @@ const BadgesComponentHeader = () => {
     <>
       <div className="w-full h-[130px] bg-[#005427] px-[15px] sm:px-[60px] lg:px-[60px] xl:px-[150px]  flex items-center sm:justify-start md:justify-between relative ">
         <div className="gap-[8px] flex flex-col  w-full items-center ">
-          <h1 className="text-[22px] sm:text-[32px] font-[600]   text-white-100 leading-[36px] md:leading-[40px] tracking-normal lg:pr-[150px] max-w-[1300px] w-full">
-            Keep tabs on all yours badges
+          <h1 className="text-[22px] sm:text-[32px] font-[600] text-white-100 leading-[36px] md:leading-[40px] tracking-normal lg:pr-[150px] max-w-[1300px] w-full">
+            Keep tabs on all your badges
           </h1>
           <p className="text-[14px] leading-[20px] font-[500] text-white-100 max-w-[1300px] w-full">
             Start your journey and earn a badge today!
