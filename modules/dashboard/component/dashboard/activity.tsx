@@ -32,13 +32,13 @@ export const Activity: React.FC<{ isPage: boolean }> = ({ isPage }) => {
           )}
         </p>
         <div className={`${isPage ? 'grid grid-cols-1 lg:grid-cols-2 gap-4 mt-2' : 'space-y-4'}`}>
-          {displayedData ? (
+          {/* {displayedData ? (
             displayedData?.map((data, index) => (
               <ActivityCard key={index} name={data?.name} item={data?.item} isPage={isPage} />
             ))
-          ) : (
-            <p className="text-brand-white-650 font-normal">No activity to display</p>
-          )}
+          ) : ( */}
+          <p className="text-brand-white-650 font-normal">No activity to display</p>
+          {/* )} */}
         </div>
       </div>
     </div>
