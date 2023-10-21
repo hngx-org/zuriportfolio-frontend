@@ -563,13 +563,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         </Link>
 
         <Cart items={cartCount} />
-<!-- <<<<<<< payment-confirmation-implementation
-
-        <span className="px-1 cursor-pointer">
-          <Image draggable={false} width={30} src={notificationIcon} alt="notification icon" />
-======= -->
         <div className="w-fit flex h-fit relative cursor-pointer" ref={notificationsRef}>
-
           <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
             {unreadNotifications}
           </span>
@@ -588,7 +582,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             </div>
           )}
         </div>
-
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           {/* <div className="details"> */}
             <p className=" font-bold font-manropeEB">
