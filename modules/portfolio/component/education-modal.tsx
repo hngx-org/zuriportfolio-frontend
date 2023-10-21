@@ -321,7 +321,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                     onCloseModal();
                     resetForm();
                     setIsEditMode(false);
-                    setIsForm(false);
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
@@ -356,7 +355,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                     onCloseModal();
                     resetForm();
                     setIsEditMode(false);
-                    setIsForm(false);
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
