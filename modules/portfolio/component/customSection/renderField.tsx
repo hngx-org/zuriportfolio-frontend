@@ -2,6 +2,7 @@ import { UseFormReturnType } from '@mantine/form';
 import { years } from '@modules/portfolio/data';
 import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
+import { CloseCircle, Trash } from 'iconsax-react';
 
 export const renderFields = (
   field: string,
@@ -23,14 +24,16 @@ export const renderFields = (
               placeholder="Section Title"
               {...form?.getInputProps(`addList.0.title`)}
             />
-            <p className="text-red-500 text-[0.6875rem] tracking-[0.00344rem] font-semibold"></p>
           </div>
         </div>
       );
     case 'subtitle':
       return (
         <div className="flex flex-col gap-1 items-start" id={`${id}`}>
-          <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#2 Subtitle</p>
+          <div className="flex justify-between items-center w-full">
+            <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#2 Subtitle</p>
+            <CloseCircle size={18} className="text-gray-200 cursor-pointer" />
+          </div>
           <input
             type="text"
             className="text-left mb-2 text-custom-color43 w-full font-semibold font-manropeL outline-none"
@@ -50,12 +53,15 @@ export const renderFields = (
     case 'links':
       return (
         <div className="flex text-left flex-col gap-1 items-start" id={`${id}`}>
-          <div>
+          <div className="flex justify-between items-center w-full">
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#4 Links</p>
+            <CloseCircle size={18} className="text-white-400 cursor-pointer" />
+          </div>
+          <div>
             <input
               type="text"
               className="text-left mb-1 text-custom-color43 w-full font-semibold font-manropeL outline-none"
-              placeholder="Field Title"
+              placeholder="Link text"
               {...form?.getInputProps(`addList.0.fields.${index}.links`)}
             />
           </div>
@@ -72,10 +78,13 @@ export const renderFields = (
     case 'description':
       return (
         <div className="flex flex-col text-left gap-1 items-start" id={`${id}`}>
-          <div>
+          <div className="flex justify-between items-center w-full">
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">
               #5 Description
             </p>
+            <CloseCircle size={18} className="text-white-400 cursor-pointer" />
+          </div>
+          <div>
             <p className="text-left mb-1 text-custom-color43 w-full font-semibold font-manropeL">Description</p>
           </div>
           <div className="w-full">
@@ -90,7 +99,12 @@ export const renderFields = (
     case 'inputfield':
       return (
         <div className="flex flex-col gap-1 items-start" id={`${id}`}>
-          <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#3Input field</p>
+          <div className="flex justify-between items-center w-full">
+            <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">
+              #3 Input field
+            </p>
+            <CloseCircle size={18} className="text-white-400 cursor-pointer" />
+          </div>
           <input
             type="text"
             className="text-left mb-2 text-custom-color43 w-full font-semibold font-manropeL outline-none"
@@ -110,7 +124,10 @@ export const renderFields = (
     case 'dates':
       return (
         <div className="flex flex-col gap-2 items-start" id={`${id}`}>
-          <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#6 Dates</p>
+          <div className="flex justify-between items-center w-full">
+            <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#6 Dates</p>
+            <CloseCircle size={18} className="text-white-400 cursor-pointer" />
+          </div>
           <div className="w-full">
             <div className="flex justify-between gap-7">
               <div className="w-full">
