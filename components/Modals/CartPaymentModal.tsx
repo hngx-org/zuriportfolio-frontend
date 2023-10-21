@@ -15,7 +15,7 @@ const CartPaymentsuccessModal = () => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
       <div className="relative py-6 rounded text-center w-[340px] ">
-        <div className='bg-white-100 z-10 p-5 h-[170px] relative rounded-md shadow-md'>
+        <div className="bg-white-100 z-10 p-5 h-[170px] relative rounded-md shadow-md">
           <div className="flex justify-center absolute top-[-30px] left-0 right-0 mx-auto">
             <Image width={80} height={80} src={checkedPayment} alt="checked" />
           </div>
@@ -40,7 +40,7 @@ export const CartPaymentFailureModal = () => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
       <div className="relative py-6 rounded text-center min-w-[340px] ">
-        <div className='bg-white-100 z-10 p-5 min-h-[170px] relative rounded-md shadow-md'>
+        <div className="bg-white-100 z-10 p-5 min-h-[170px] relative rounded-md shadow-md">
           <div className="flex justify-center absolute top-[-30px] left-0 right-0 mx-auto">
             <Image width={80} height={80} src={failedPayment} alt="checked" />
           </div>
@@ -53,4 +53,4 @@ export const CartPaymentFailureModal = () => {
       </div>
     </div>
   );
-}
+};

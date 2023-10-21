@@ -5,5 +5,5 @@ type Props = {};
 
 export default function successful({}: Props) {
   // return <CartPaymentsuccessModal></CartPaymentsuccessModal>;
-  return <CartPaymentFailureModal></CartPaymentFailureModal>
+  return <CartPaymentFailureModal></CartPaymentFailureModal>;
 }

@@ -9,6 +9,7 @@ import axios from 'axios';
 import { sendArrayOfObjects } from '../functions/sendArrayOfObjects';
 import { notify } from '@ui/Toast';
 import { Trash } from 'iconsax-react';
+import Loader from '@ui/Loader';
 
 const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -29,7 +30,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
   const [socials, setSocials] = useState<any[]>([]);
   const [socialmediaid, setSocialMediaId] = useState('');
   const [isForm, setIsForm] = useState(true);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [availableSocials, setAvailableSocials] = useState<{ Id: number; name: string }[] | []>([]);
 
   const handleAddNewSocial = () => {
@@ -292,8 +293,9 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                 className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]`}
                 size={'sm'}
                 onClick={handleSubmit}
+                disabled={loading}
               >
-                Save
+                {loading ? <Loader /> : 'Save'}
               </Button>
             </div>
           </div>

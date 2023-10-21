@@ -28,7 +28,7 @@ const PaymentInformationModal = ({
     if (selectedPaymentMethod) {
       try {
         const response = await makePayment(selectedPaymentMethod, token);
-        localStorage.setItem('gateway',selectedPaymentMethod);
+        localStorage.setItem('gateway', selectedPaymentMethod);
         window.location.href = response.data.transaction_url;
       } catch (error) {
         console.error('Error making payment:', error);
