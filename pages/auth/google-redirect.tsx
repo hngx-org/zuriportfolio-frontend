@@ -52,6 +52,7 @@ function GoogleRedirect() {
       notify({
         message: error.message,
         type: 'error',
+        theme: 'light',
       });
 
       // if an error occurs, take the user to where they signed up from or to sign in page if undefined

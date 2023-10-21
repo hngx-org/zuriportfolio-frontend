@@ -17,7 +17,7 @@ function ResendVerification() {
 
   const onresendEmailVerifySuccess = (data: { message: string; status: number }) => {
     if (data.message) {
-      notify({ message: data.message, type: data.status === 200 ? 'success' : 'error' });
+      notify({ message: data.message, type: data.status === 200 ? 'success' : 'error', theme: 'light' });
       if (data.status === 200) {
         router.push(`/auth/verification?email=${email}`);
       }
