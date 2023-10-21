@@ -13,7 +13,7 @@ import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
-import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
+import ProjectSectionModal from '@modules/portfolio/component/modals/project-modal/project-section-modal';
 import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
 import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
@@ -130,6 +130,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     tracks: [],
     level: '',
     icon: '',
+    badge: [],
   });
 
   const [getUserSections] = useQueries({
@@ -148,19 +149,17 @@ export function PortfolioCtxProvider(props: { children: any }) {
       setSlug(auth?.user?.slug!);
     }
     if (getUserSections.data) {
-      const { user } = getUserSections.data;
-      console.log(user)
+      const { user } = getUserSections?.data?.data;
       setUserData({
       
         firstName: user?.firstName,
         lastName: user?.lastName,
         avatarImage: user?.profilePic,
-        city: getUserSections?.data?.portfolio?.city,
-        country: getUserSections?.data?.portfolio?.country,
-        tracks: getUserSections.data?.tracks,
+        city: getUserSections?.data?.data?.portfolio?.city,
+        country: getUserSections?.data?.data?.portfolio?.country,
+        tracks: getUserSections?.data?.data?.tracks,
         coverImage: user?.profileCoverPhoto,
-        level: user?.badges?.name,
-        icon: user?.badges?.badge_image,
+        badge: getUserSections?.data?.data?.badges,
       });
       const {
         about,
@@ -176,7 +175,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         certificates,
         shop,
         custom,
-      } = getUserSections.data;
+      } = getUserSections?.data?.data;
       if (
         about ||
         projects ||
