@@ -28,6 +28,7 @@ const CreateAssessment = () => {
 
   const [newobject, setObject] = useState({
     skill_id: skillid,
+    id: 0,
     questions_and_answers: [
       {
         question_no: 1,
@@ -39,6 +40,23 @@ const CreateAssessment = () => {
     ],
     assessment_name: '',
     duration_in_minutes: 0,
+  });
+
+  const [assessment, setAssessment] = useState({
+    skill_id: 0,
+    id: newobject.id,
+    title: newobject.assessment_name, // Assuming 'assessment_name' is the title
+    createdAt: new Date(),
+    duration_minutes: newobject.duration_in_minutes,
+    questions: [
+      {
+        answers: [{}],
+        question_no: 1,
+        question_text: '',
+        question_type: newobject.questions_and_answers[0].question_type,
+      },
+    ],
+    updatedAt: new Date(),
   });
 
   const [active, setActive] = useState<null | string>('button1');
