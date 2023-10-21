@@ -5,6 +5,7 @@ import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
 import MainLayout from '../../../../../components/Layout/MainLayout';
 import ErrorData from '@modules/assessment/component/Badges/errordata';
 import { withUserAuth } from '../../../../../helpers/withAuth';
+import Head from 'next/head';
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -64,6 +65,11 @@ const Page: React.FC = () => {
     <>
       <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
         <>
+          <Head>
+            <title>Badge Page</title>
+            <meta name="description" content="View your assessment score and badge earned" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+          </Head>
           <BadgesHeader />
           {isLoading ? (
             <div className="flex justify-center items-center h-96">
