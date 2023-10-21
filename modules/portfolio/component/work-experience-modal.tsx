@@ -11,6 +11,7 @@ import Loader from '@ui/Loader';
 import { WorkExperience as WorkExperienceSkeleton } from './landing/Skeleton';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { generateEndYears } from '../data';
+import { Edit2, Trash } from 'iconsax-react';
 
 type WorkExperienceModalProps = {
   onCloseModal: () => void;
@@ -103,12 +104,32 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
           {isData && (
             <>
               {workExperiences.map((experience: WorkExperience, index: number) => {
+                const endYear = experience.isEmployee ? 'Present' : experience.endYear;
+
                 return (
                   <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
-                    <WorkExperienceSkeleton data={experience} />
+                    {/* <WorkExperienceSkeleton data={experience} /> */}
+                    <section className="flex w-full gap-x-10 mb-4 max-sm:flex-col max-sm:gap-y-3">
+                      <p className="text-gray-300 font-semibold text-sm flex-[3]">
+                        <span>
+                          {experience?.startMonth} {experience?.startYear}
+                        </span>{' '}
+                        -{' '}
+                        <span>
+                          {experience?.endMonth} {endYear}
+                        </span>
+                      </p>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-200">{experience?.company}</h3>
+                        <p className="text-sm font-manropeL text-brand-green-primary">{experience?.role}</p>
+                      </div>
+                      <p className="font-semibold text-sm text-gray-400 break-all flex-[4] break-normal">
+                        {experience?.description}
+                      </p>
+                    </section>
                     <div className="self-end pb-4 flex gap-4 font-manropeL">
                       <span
-                        className="font-semibold cursor-pointer text-[#5B8DEF]"
+                        className="font-semibold cursor-pointer "
                         onClick={(e) => {
                           setIsEditMode(true);
                           setEditingExperience(experience);
@@ -116,13 +137,13 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                           setIsData(false);
                         }}
                       >
-                        Edit
+                        <Edit2 size="32" color="#37d67a" variant="Outline" />
                       </span>
                       <span
-                        className="font-semibold cursor-pointer text-brand-red-hover"
+                        className="font-semibold cursor-pointer"
                         onClick={(e) => handleDeleteExperience(experience.id, e)}
                       >
-                        Delete
+                        <Trash size="32" color="#f47373" variant="Outline" />
                       </span>
                     </div>
                   </article>
@@ -149,13 +170,15 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     whiteSpace: 'normal',
                     overflowWrap: 'break-word',
                   }}
-                  className="font-semibold text-left sm:text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
+                  className="font-semibold text-left sm:text-left font-manropeEB text-[12px] max-w-full  text-ellipsis text-[#737876]"
                 >
                   {editingExperience?.description}
                 </p>
               </div>
               <div className="self-end flex gap-4 font-manropeL">
-                <span className="font-semibold cursor-pointer text-[#5B8DEF]">Edit</span>
+                <span className="font-semibold cursor-pointer">
+                  <Edit2 size="20" color="#009254" variant="Outline" />
+                </span>
                 <span
                   className="font-semibold cursor-pointer text-brand-red-hover"
                   onClick={(e) => {
@@ -163,7 +186,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     resetForm();
                   }}
                 >
-                  Delete
+                  <Trash size="32" color="#f47373" variant="Outline" />
                 </span>
               </div>
             </article>

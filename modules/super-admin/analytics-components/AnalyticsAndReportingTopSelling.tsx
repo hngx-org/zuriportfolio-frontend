@@ -1,9 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import SuperAdminPagination from '../components/pagination';
+import WithoutScroolPagination from '../components/withoutScroolPagination';
 import { topListingProduct } from '../../../@types';
-import Logo from '../../../public/assets/tsImages/image 12.png';
 import Loading from '../../../public/assets/tsImages/Loading_spin.svg';
 import Link from 'next/link';
 import { Input } from '@ui/Input';
@@ -13,7 +12,7 @@ const AnalyticsAndReportingTopSelling = () => {
   const [products, setProducts] = useState<topListingProduct | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const totalPages = 1;
+  const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState('');
 
   const bearerToken =
@@ -24,7 +23,7 @@ const AnalyticsAndReportingTopSelling = () => {
       try {
         setLoading(true);
         const res = await fetch(
-          `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?page=${currentPage}&page_size=10`,
+          `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/best-selling-products/?page=${currentPage}&page_size=10`,
           {
             headers: {
               Authorization: `Bearer ${bearerToken}`,
@@ -37,6 +36,7 @@ const AnalyticsAndReportingTopSelling = () => {
         }
         const data = await res.json();
         setProducts(data.results.data);
+        setTotalPages(data.results.total_page);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -69,9 +69,9 @@ const AnalyticsAndReportingTopSelling = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 min-w-[1000px] items-center text-custom-color2 border-b border-white-200 px-4 py-3 bord no-scrollbar">
-          <div className="flex items-center gap-1">
-            <span className="md:pl-8">Product Name </span>
+        <div className="grid grid-cols-3 min-w-[1000px] items-center text-custom-color2  pt-3 bord no-scrollbar">
+          <div className="flex items-center gap-1 bg-[#FCFCFD] border-[#EAECF0] ms-2 md:ms-0">
+            <span className="md:pl-8   py-3 ps-3">Product Name </span>
             <Image
               src="/assets/tsImages/arrow-down.png"
               alt="Product Icon"
@@ -80,12 +80,12 @@ const AnalyticsAndReportingTopSelling = () => {
               className="object-contain"
             />
           </div>
-          <div className="grid col-span-2 grid-cols-5 ps-10 text-center min-w-[100px] ">
-            <span>Category</span>
-            <span>Order</span>
-            <span>Price</span>
-            <span>Top Sales</span>
-            <span>Vendor</span>
+          <div className="grid col-span-2 grid-cols-4 ps-10 text-center min-w-[100px] ">
+            <span className="bg-[#FCFCFD] py-3 me-3">Category</span>
+            <span className="bg-[#FCFCFD] py-3 me-3">Order</span>
+            <span className="bg-[#FCFCFD] py-3 me-3">Price</span>
+            <span className="bg-[#FCFCFD] py-3 ">Top Sales</span>
+            {/* <span>Vendor</span> */}
           </div>
         </div>
         <div className="min-w-[1000px] min-h-[300px]">
@@ -103,18 +103,26 @@ const AnalyticsAndReportingTopSelling = () => {
                   key={product.product_id}
                   href={`/super-admin/product-listing/product-details/${product.product_id}`}
                 >
-                  <div className="grid grid-cols-3 items-center border-b border-white-200 shadow-sm bg-white-100 py-4 px-4 md:whitespace-normal hover:bg-[#E0E0E0]">
-                    <div className="flex items-center md:pl-8 ">
+                  <div className="grid grid-cols-3 items-center  border-white-200 shadow-sm bg-white-100   md:whitespace-normal hover:bg-[#E0E0E0] ">
+                    <div className="flex items-center md:pl-8 border-b border-[#EAECF0] ms-3 md:ms-0 min-h-[5rem]">
                       <Image src={product.product_image_url} alt={product.product_id} width={30} height={30} />
 
                       <span className="ml-4 text-md md:text-lg ">{product.product_name}</span>
                     </div>
-                    <div className="grid col-span-2 ps-10 grid-cols-5 text-custom-color2 text-center min-w-[100px]">
-                      <p className="">{product.category_name}</p>
-                      <p>{product.total_orders}</p>
-                      <p>₦{Number(product.price).toLocaleString()}</p>
-                      <p>{Number(product.total_sales).toLocaleString()}</p>
-                      <p>{product.vendor_name}</p>
+                    <div className="grid col-span-2 ps-10 grid-cols-4 text-custom-color2 text-center min-w-[100px] flex ">
+                      <p className="border-b border-[#EAECF0] me-3 min-h-[5rem] flex items-center justify-center">
+                        {product.category_name}
+                      </p>
+                      <p className="border-b border-[#EAECF0] me-3 min-h-[5rem] flex items-center justify-center">
+                        {product.total_orders}
+                      </p>
+                      <p className="border-b border-[#EAECF0] me-3 min-h-[5rem] flex items-center justify-center">
+                        ₦{Math.ceil(Number(product.price)).toLocaleString()}
+                      </p>
+                      <p className="border-b border-[#EAECF0] min-h-[5rem] ms-3 flex items-center justify-center">
+                        ₦{Math.ceil(Number(product.total_sales)).toLocaleString()}
+                      </p>
+                      {/* <p>{product.vendor_name}</p> */}
                     </div>
                   </div>
                 </Link>
@@ -125,7 +133,7 @@ const AnalyticsAndReportingTopSelling = () => {
             </div>
           )}
         </div>
-        <SuperAdminPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+        <WithoutScroolPagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
       </div>
     </section>
   );

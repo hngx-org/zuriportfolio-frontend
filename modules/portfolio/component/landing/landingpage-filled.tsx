@@ -1,26 +1,34 @@
 'use-client';
 import React, { useContext, useEffect, useState } from 'react';
 import Button from '@ui/Button';
-import { Add } from 'iconsax-react';
-import Portfolio from '../../../../context/PortfolioLandingContext';
 import {
-  Education,
-  About,
-  Awards,
-  Contact,
-  Custom,
-  Interests,
-  Language,
-  Project,
-  Reference,
-  Shop,
-  Skill,
-  Certificate,
-} from './Skeleton';
+  Add,
+  Award,
+  Book,
+  Briefcase,
+  LanguageSquare,
+  LikeTag,
+  PathTool,
+  Personalcard,
+  UserCirlceAdd,
+  Verify,
+} from 'iconsax-react';
+import Portfolio from '../../../../context/PortfolioLandingContext';
+import { Education, Shop } from './Skeleton';
 
 import { SectionDeleteModal } from '../warningModals';
 import Wrapper from './placeholders/Wrapper';
 import PworkExperience from './placeholders/PworkExperience';
+import Pabout from './placeholders/Pabout';
+import Pskils from './placeholders/Pskills';
+import Planguages from './placeholders/Planguages';
+import Pinterests from './placeholders/Pinterest';
+import Pprojects from './placeholders/Pprojects';
+import Pawards from './placeholders/Pawards';
+import Preferences from './placeholders/Preference';
+import Pcertificates from './placeholders/Pcertificate';
+import Peducation from './placeholders/Peducation';
+import Pcontact from './placeholders/Pcontact';
 
 const LandingPageFilled: React.FC = () => {
   const {
@@ -42,6 +50,8 @@ const LandingPageFilled: React.FC = () => {
   const [showMoreInterests, setShowMoreInterests] = useState(2);
   const [showMoreLanguages, setShowMoreLanguages] = useState(2);
   const [showMoreReferences, setShowMoreReferences] = useState(2);
+  const [showMoreSkills, setShowMoreSkills] = useState(2);
+  const [showMoreContacts, setShowMoreContacts] = useState(2);
 
   // Function to toggle "View More" and "View Less"
   const toggleShowMoreWorkExperience = () => {
@@ -68,8 +78,16 @@ const LandingPageFilled: React.FC = () => {
     setShowMoreInterests(showMoreInterests === 2 ? 9999 : 2);
   };
 
-  const toggleShowMoreLanguages = () => {
-    setShowMoreLanguages(showMoreLanguages === 2 ? 9999 : 2);
+  // const toggleShowMoreLanguages = () => {
+  //   setShowMoreLanguages(showMoreLanguages === 2 ? 9999 : 2);
+  // };
+
+  const toggleShowMoreContact = () => {
+    setShowMoreContacts(showMoreContacts === 2 ? 9999 : 2);
+  };
+
+  const toggleShowMoreSkills = () => {
+    setShowMoreSkills(showMoreSkills === 2 ? 9999 : 2);
   };
 
   const toggleShowMoreReferences = () => {
@@ -84,14 +102,29 @@ const LandingPageFilled: React.FC = () => {
         return <React.Fragment key={id}>{modalStates[id] && modal}</React.Fragment>;
       })}
 
-      {/* data from backend */}
       <div className="w-full flex flex-col justify-start items-start gap-8">
         {userSections?.map((section, i) => {
           return (
             <React.Fragment key={i}>
-              {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
+              {section?.id === 'about' && section?.data && (
+                <Pabout
+                  icon={<Personalcard variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  i={i}
+                  id={section.id}
+                  title={section.title}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
+              )}
+
               {section?.id === 'workExperience' && section?.data?.length > 0 && (
                 <PworkExperience
+                  icon={<Briefcase variant="Bold" size="24" color="#006811" />}
                   section={section}
                   showMoreWorkExperience={showMoreWorkExperience}
                   toggleShowMoreWorkExperience={toggleShowMoreWorkExperience}
@@ -106,250 +139,168 @@ const LandingPageFilled: React.FC = () => {
                 />
               )}
 
-              {section?.id === 'education' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    {section.data.slice(0, showMoreEducation).map((el: any, i: any) => {
-                      return <Education key={i} data={el} />;
-                    })}
-                    {section.data.length > 2 && (
-                      <div
-                        className="text-brand-green-primary font-semibold cursor-pointer"
-                        onClick={toggleShowMoreEducation}
-                      >
-                        {showMoreEducation === 2 ? 'View More' : 'View Less'}
-                      </div>
-                    )}
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
-              )}
-
-              {section?.id === 'interests' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    <Interests key={i} data={section.data} />
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
-              )}
-
-              {section?.id === 'languages' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    <Language key={i} data={section.data} />
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
-              )}
-
-              {section?.id === 'about' && section?.data && (
-                <React.Fragment key={i}>
-                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
-                  <Wrapper
-                    id={section?.id}
-                    title={section.title}
-                    edit={() => editSection(section?.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    <About key={i} bio={section?.data?.bio} />
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
+              {section?.id === 'projects' && section?.data?.length > 0 && (
+                <Pprojects
+                  icon={<Briefcase variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  showMoreProjects={showMoreProjects}
+                  toggleShowMoreProjects={toggleShowMoreProjects}
+                  key={i}
+                  id={section.id}
+                  title={section.title}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
               )}
 
               {section?.id === 'skills' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  {/* <SectionDeleteModal sectionToDelete={`be ${section.id}`} /> */}
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    <Skill key={i} data={section.data} />
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
+                <Pskils
+                  icon={<PathTool variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  i={i}
+                  id={section.id}
+                  title={section.title}
+                  showMoreSkills={showMoreSkills}
+                  toggleShowMoreSkills={toggleShowMoreSkills}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
               )}
 
-              {section?.id === 'projects' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    {section.data.slice(0, showMoreProjects).map((el: any, i: number) => {
-                      return <Project key={i} data={el} />;
-                    })}
-                    {section.data.length > 2 && (
-                      <div
-                        className="text-brand-green-primary font-semibold cursor-pointer"
-                        onClick={toggleShowMoreProjects}
-                      >
-                        {showMoreProjects === 2 ? 'View More' : 'View Less'}
-                      </div>
-                    )}
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
+              {section?.id === 'languages' && section?.data?.length > 0 && (
+                <Planguages
+                  icon={<LanguageSquare variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  i={i}
+                  id={section.id}
+                  title={section.title}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
+              )}
+
+              {section?.id === 'interests' && section?.data?.length > 0 && (
+                <Pinterests
+                  icon={<LikeTag variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  i={i}
+                  id={section.id}
+                  showMoreInterests={showMoreInterests}
+                  toggleShowMoreInterest={toggleShowMoreInterests}
+                  title={section.title}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
               )}
 
               {section?.id === 'awards' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    {section.data.slice(0, showMoreAwards).map((el: any, i: number) => {
-                      return <Awards key={i} data={el} />;
-                    })}
-                    {section.data.length > 2 && (
-                      <div
-                        className="text-brand-green-primary font-semibold cursor-pointer"
-                        onClick={toggleShowMoreAwards}
-                      >
-                        {showMoreAwards === 2 ? 'View More' : 'View Less'}
-                      </div>
-                    )}
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
+                <Pawards
+                  icon={<Award variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  id={section.id}
+                  title={section.title}
+                  showMoreAwards={showMoreAwards}
+                  toggleShowMoreAwards={toggleShowMoreAwards}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
+              )}
+
+              {section?.id === 'reference' && section?.data?.length > 0 && (
+                <Preferences
+                  icon={<UserCirlceAdd variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  id={section.id}
+                  title={section.title}
+                  showMoreReferences={showMoreReferences}
+                  toggleShowMoreReferences={toggleShowMoreReferences}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
               )}
 
               {section?.id === 'certificate' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    {section.data.slice(0, showMoreCertificates).map((el: any, i: number) => {
-                      return <Certificate key={i} data={el} />;
-                    })}
-                    {section.data.length > 2 && (
-                      <div
-                        className="text-brand-green-primary font-semibold cursor-pointer"
-                        onClick={toggleShowMoreCertificates}
-                      >
-                        {showMoreCertificates === 2 ? 'View More' : 'View Less'}
-                      </div>
-                    )}
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
+                <Pcertificates
+                  icon={<Verify variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  id={section.id}
+                  title={section.title}
+                  showMoreCertificates={showMoreCertificates}
+                  toggleShowMoreCertificates={toggleShowMoreCertificates}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
               )}
-
-              {/* Language Section */}
-              {section?.id === 'language' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    {section.data.slice(0, showMoreLanguages).map((el: any, i: number) => {
-                      return <Language key={i} data={el} />;
-                    })}
-                    {section.data.length > 2 && (
-                      <div
-                        className="text-brand-green-primary font-semibold cursor-pointer"
-                        onClick={toggleShowMoreLanguages}
-                      >
-                        {showMoreLanguages === 2 ? 'View More' : 'View Less'}
-                      </div>
-                    )}
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
+              {section?.id === 'education' && section?.data?.length > 0 && (
+                <Peducation
+                  icon={<Book variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  id={section.id}
+                  title={section.title}
+                  showMoreEducation={showMoreEducation}
+                  toggleShowMoreEducation={toggleShowMoreEducation}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
               )}
-
-              {/* Reference Section */}
-              {section?.id === 'reference' && section?.data?.length > 0 && (
-                <React.Fragment key={i}>
-                  <Wrapper
-                    id={section.id}
-                    title={section.title}
-                    edit={() => editSection(section.id)}
-                    remove={() => {
-                      setIdToDelete(section.id);
-                      setOpenDelete(true);
-                    }}
-                  >
-                    {section.data.slice(0, showMoreReferences).map((el: any, i: number) => {
-                      return <Reference key={i} data={el} />;
-                    })}
-                    {section.data.length > 2 && (
-                      <div
-                        className="text-brand-green-primary font-semibold cursor-pointer"
-                        onClick={toggleShowMoreReferences}
-                      >
-                        {showMoreReferences === 2 ? 'View More' : 'View Less'}
-                      </div>
-                    )}
-                  </Wrapper>
-                  <Line />
-                </React.Fragment>
+              {section?.id === 'contact' && section?.data?.length > 0 && (
+                <Pcontact
+                  icon={<Book variant="Bold" size="24" color="#006811" />}
+                  section={section}
+                  key={i}
+                  id={section.id}
+                  title={section.title}
+                  showMoreContacts={showMoreContacts}
+                  toggleShowMoreContact={toggleShowMoreContact}
+                  edit={() => editSection(section.id)}
+                  remove={() => {
+                    setIdToDelete(section.id);
+                    setOpenDelete(true);
+                  }}
+                />
               )}
             </React.Fragment>
           );
         })}
-      </div>
 
-      {selectedSections.length < 13 && (
-        <Button intent="secondary" className="rounded-lg border-[1px] pr-6" onClick={() => buildPortfolio()}>
-          <Add />
-          Add section
-        </Button>
-      )}
+        {selectedSections.length < 13 && (
+          <Button intent="secondary" className="rounded-lg border-[1px] pr-6" onClick={() => buildPortfolio()}>
+            <Add />
+            Add section
+          </Button>
+        )}
+      </div>
 
       <SectionDeleteModal />
     </>

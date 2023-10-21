@@ -1,4 +1,4 @@
-import ProductDetails from '../../../modules/shop/productDetails';
+import ProductDetails from '@modules/shop/productDetails';
 
 export default function Products() {
   return (
