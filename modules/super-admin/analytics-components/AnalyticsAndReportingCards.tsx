@@ -9,6 +9,7 @@ type PreviousData = {
   };
 };
 
+
 const AnalyticsAndReportingCards = () => {
   const [bearerToken, setBearerToken] = useState('');
   const [previousData, setPreviousData] = useState<PreviousData>({});
@@ -26,24 +27,29 @@ const AnalyticsAndReportingCards = () => {
 
     if (Array.isArray(result.data)) {
       const cardData = result.data;
+
+      // Calculate increase and set color for each card
       cardData.forEach((item: any) => {
-        const cardType: string = item.type; 
-        const previousItem = previousData[cardType] || null; 
+        const cardType = item.type;
+        const previousItem = previousData[cardType];
 
         if (previousItem) {
           if (item.amount > previousItem.amount) {
-            item.color = 'green';
-            item.arrowIcon = '/assets/tsImages/arrow-up.svg';
+            item.color = 'green'; 
           } else if (item.amount < previousItem.amount) {
             item.color = 'red'; 
-            item.arrowIcon = '/assets/tsImages/arrow-down.svg';
+            item.arrowIcon = '/assets/tsImages/arrow-down.svg'; 
           } else {
             item.color = 'default'; 
             item.arrowIcon = '/assets/tsImages/arrow-up.svg'; 
           }
-        } 
+        } else {
+          item.color = 'default'; 
+          item.arrowIcon = '/assets/tsImages/arrow-up.svg'; 
+        }
       });
-      setPreviousData(cardData);
+
+      setPreviousData(cardData); 
 
       return cardData;
     } else {
@@ -68,7 +74,7 @@ const AnalyticsAndReportingCards = () => {
   const formattedAmount = (amount: number | string) => {
     const amountValue = typeof amount === 'string' ? parseFloat(amount) : amount;
     const roundedValue = Math.round(amountValue);
-    const formattedValue =
+    const formattedValue = 
       roundedValue % 1 === 0 ? roundedValue.toLocaleString().replace('.00', '') : amountValue.toLocaleString();
     return formattedValue;
   };
@@ -114,17 +120,14 @@ const AnalyticsAndReportingCards = () => {
                         height={17}
                         className="object-contain"
                       />
-                      <p
-                        className={`text-[14px] ${
-                          items.color === 'green'
-                            ? 'text-[#E6F5EA]'
-                            : items.color === 'red'
-                            ? 'text-[#FFDCDC]'
-                            : 'text-custom-color30'
-                        }`}
-                      >
-                        {`${items.ratio}%`}
-                      </p>
+                      <p className={`text-[14px] ${
+                        items.color === 'green' ? 'text-[#E6F5EA]' :
+                        items.color === 'red' ? 'text-[#FFDCDC]' :
+                      'text-[#E6F5EA]' 
+                      }`}
+                    >
+                      {`${items.ratio}%`}
+                    </p>
                     </div>
                   </div>
                   <div className="flex justify-between items-center mt-1">
@@ -162,29 +165,29 @@ const AnalyticsAndReportingCards = () => {
                   key={index}
                   className="px-5 text= border border-white-200 bg-white-100  rounded-lg py-6 mx-2 min-w-[300px] sm:min-w-0"
                 >
+                  <div className="flex justify-between items-center">
+                    <p className="font-light text-[15px] text-custom-color30">{items.title}</p>
                     <div className="flex justify-between items-center">
-                      <p className="font-light text-[15px] text-custom-color30">{items.title}</p>
-                      <div className="flex items-center gap-2 rounded-full py-0.5 px-2 bg-[#E6F5EA]">
-                        <Image
-                          src="/assets/tsImages/arrow-up.svg"
-                          alt="kmenu"
-                          width={17}
-                          height={17}
-                          className="object-contain"
-                        />
-                        <p
-                          className={`text-[14px] ${
-                            items.color === 'green'
-                              ? 'text-[#E6F5EA]'
-                              : items.color === 'red'
-                              ? 'text-[#FFDCDC]'
-                              : 'text-custom-color30' 
-                          }`}
-                        >
-                          {`${items.ratio}%`}
-                        </p>
-                      </div>
+                    <p className="font-light text-[15px] text-custom-color30">{items.title}</p>
+                    <div className="flex items-center gap-2 rounded-full py-0.5 px-2 bg-[#E6F5EA]">
+                      <Image
+                        src="/assets/tsImages/arrow-up.svg"
+                        alt="kmenu"
+                        width={17}
+                        height={17}
+                        className="object-contain"
+                      />
+                      <p className={`text-[14px] ${
+                        items.color === 'green' ? 'text-[#E6F5EA]' :
+                        items.color === 'red' ? 'text-[#FFDCDC]' :
+                        'text-[#E6F5EA]' 
+                      }`}
+                    >
+                      {`${items.ratio}%`}
+                    </p>
                     </div>
+                    </div>
+                  </div>
                   <div className="flex justify-between items-center mt-1">
                     <h1 className="text-[30px] font-bold  ">
                       {index === 0 ? '\u20A6' + formattedAmount(items.amount) : formattedAmount(items.amount)}
