@@ -18,8 +18,7 @@ export const getUserByName = async (props: { name: string }) => {
 
 export const removeFromWishlist = async (userId: any, productId: any, token: any): Promise<AxiosResponse> => {
   try {
-    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/wishlist/delete/${userId}/${productId}`;
-    // const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${userId}/${productId}`;
+    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/user-wishlist/${userId}/${productId}`;
     const response = await axios.delete(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
