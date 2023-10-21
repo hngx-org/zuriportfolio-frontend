@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import checkedPayment from '../../public/assets/images/check1.png';
+
 import failedPayment from '../../public/assets/images/cancel.png';
+
 import { STAGING_URL } from '../../http/checkout';
 
 const CartPaymentsuccessModal = () => {
