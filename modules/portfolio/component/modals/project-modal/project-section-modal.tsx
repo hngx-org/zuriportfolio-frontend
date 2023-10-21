@@ -1,11 +1,12 @@
 import Modal from '@ui/Modal';
 import { useEffect, useState } from 'react';
 import ProjectSection from './projects';
-import AllProjectsModal from '../all-projects-modal';
 import axios from 'axios';
 import Loader from '@ui/Loader';
+import AllProjectsModal from './all-projects-modal';
+import SingleProject from './single-project';
 
-export type allRouteOptions = 'add-project' | 'view-projects';
+export type allRouteOptions = 'add-project' | 'view-projects' | 'single-project';
 
 export type Data = {
   title: string;
@@ -28,7 +29,7 @@ type ProjectModalProps = {
 };
 
 const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: ProjectModalProps) => {
-  const allRoutes = ['add-project', 'view-projects'];
+  const allRoutes = ['add-project', 'view-projects', 'single-project'];
   const [dataToEdit, setDataToEdit] = useState<Data | null>(null);
   const [route, setRoute] = useState<allRouteOptions>('add-project');
   const [loading, setLoading] = useState<boolean>(false);
@@ -81,7 +82,13 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
   }, []);
 
   return (
-    <Modal size="xxl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
+    <Modal
+      size={route === allRoutes[2] ? 'lg' : 'xxl'}
+      closeOnOverlayClick
+      isOpen={isOpen}
+      closeModal={onCloseModal}
+      isCloseIconPresent={false}
+    >
       {loading ? (
         <div className="py-52">
           <Loader />
@@ -110,6 +117,7 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
               userId={userId}
             />
           )}
+          {route === allRoutes[2] && <SingleProject dataToEdit={dataToEdit} handleSetRoute={handleSetRoute} />}
         </>
       )}
     </Modal>

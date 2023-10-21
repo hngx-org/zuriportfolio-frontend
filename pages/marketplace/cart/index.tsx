@@ -20,11 +20,6 @@ import { Metadata } from 'next';
 import { useCart } from '@modules/shop/component/CartContext';
 import { toast } from 'react-toastify';
 
-export const metadata: Metadata = {
-  title: 'Cart Summary',
-  description: 'A page showing the cart summary of user',
-};
-
 export default function Cart() {
   const { auth } = useAuth();
 
@@ -52,13 +47,10 @@ export default function Cart() {
         const cartItems = localStorage.getItem('products')
           ? JSON.parse(localStorage.getItem('products') as string)
           : [];
-        console.log(carts);
 
         carts = destructureProducts(cartItems);
-        console.log(carts);
 
         const productIdArray = carts.map((product) => product.productId);
-        console.log(productIdArray);
 
         const cartSum = await getGuestCartSummary(productIdArray);
         setCartSummary(cartSum);
@@ -158,7 +150,7 @@ export default function Cart() {
                   <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
                   <div
                     className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden 
-                    lg:items-center lg:items-stretch lg:justify-normal 
+                    lg:items-center lg:justify-normal 
                     md:flex-row md:justify-center md:flex-wrap md:gap-x-4 gap-y-4 lg:gap-x-4 mt-4 "
                   >
                     {recentlyViewedProducts}
