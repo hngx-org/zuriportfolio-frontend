@@ -159,27 +159,5 @@ export const renderFields = (
           </div>
         </div>
       );
-    case 'images':
-      return (
-        <div className="flex flex-col gap-1 items-start">
-          <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#7 Images</p>
-          {imageSrc ? (
-            <Image
-              src={imageSrc}
-              alt="Uploaded image"
-              className="w-full h-[200px] object-cover rounded-md"
-              width={0}
-              height={0}
-            />
-          ) : (
-            <div className="w-full h-[200px] flex items-center justify-center border-[1px] border-dashed border-gray-300 rounded-md">
-              <label className="cursor-pointer">
-                <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
-                <span className="text-brand-green-primary">+ Add Image</span>
-              </label>
-            </div>
-          )}
-        </div>
-      );
   }
 };

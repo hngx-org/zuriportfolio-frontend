@@ -24,10 +24,6 @@ const sectionButtonsData = [
     title: 'Description',
   },
   {
-    type: 'images',
-    title: 'Images',
-  },
-  {
     type: 'dates',
     title: 'Dates',
   },
@@ -37,7 +33,6 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
   const [getNewSection, setGetNewSection] = React.useState(false);
   const [newSection, setNewSection] = React.useState(true);
   const [renderedFields, setRenderedFields] = React.useState<React.ReactNode[]>([]);
-  const [imageSrc, setImageSrc] = React.useState('');
 
   const form = useForm({
     initialValues: {
@@ -60,20 +55,6 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
     addItem(e);
   };
 
-  const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        form.setFieldValue('addList.0.images', result);
-        setImageSrc(result);
-        console.log(result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const addItem = (field: string) => {
     const newKey = Math.random();
     if (field === 'title') {
@@ -86,9 +67,6 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
     } else if (field === 'dates') {
       form.setFieldValue('addList.0.dates', { from: '', to: '' });
       setRenderedFields((prev) => [...prev, renderFields(field, newKey, '', console.log, form)]);
-    } else if (field === 'images') {
-      form.setFieldValue('addList.0.images', '');
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey, imageSrc, handleImageChange, form)]);
     } else if (field === 'description') {
       form.setFieldValue('addList.0.description', '');
       setRenderedFields((prev) => [...prev, renderFields(field, newKey, '', console.log, form)]);
@@ -101,22 +79,27 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
 
   const handleClose = () => {
     onClose();
-    form.reset();
     setGetNewSection(false);
   };
 
   const handleSubmit = (values: any) => {
-    console.log(values);
     sectionForm.setFieldValue('section', values?.addList);
     setGetNewSection(true);
     setNewSection(false);
-    form.reset();
-    setRenderedFields([]);
   };
+
+  // console.log(form.values);
 
   return (
     <>
-      {getNewSection && <CustomNewSections onClose={onClose} />}
+      {getNewSection && (
+        <CustomNewSections
+          onClose={onClose}
+          data={sectionForm.values.section}
+          setNewSection={setNewSection}
+          setGetNewSection={setGetNewSection}
+        />
+      )}
       {newSection && (
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <div className="flex flex-col gap-3 my-19">

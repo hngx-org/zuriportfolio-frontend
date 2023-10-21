@@ -29,7 +29,7 @@ const CustomSectionModal = () => {
 
   return (
     <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
-      <div className="max-w-[600px] mx-auto my-10">
+      <div className="max-w-4xl mx-auto my-10">
         <Demo onClose={onClose} />
       </div>
     </Modal>
