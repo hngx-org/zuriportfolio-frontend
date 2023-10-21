@@ -329,8 +329,9 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal }: awardsModalProps) => {
 
                       className="w-full rounded-md sm:w-[6rem]"
                       size={'md'}
+                      disabled={isLoading}
                     >
-                      Save
+                      {isLoading ? <Loader /> : 'Save'}
                     </Button>
                   </div>
                 </div>
@@ -389,7 +390,6 @@ const AwardList: React.FC<AwardListProps> = () => {
   const { refreshPage, setError, isModalOpen, setIsLoading } = useContext(myContext);
   const { userId } = useContext(Portfolio);
   const [awards, setAwards] = useState<Award[]>([]);
-  console.log('this are my awards', awards);
 
   const fetchAwards = async () => {
     try {
@@ -447,7 +447,7 @@ const AwardList: React.FC<AwardListProps> = () => {
       // Fetch data when the AwardRead modal is opened
       fetchAwards();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isModalOpen, refreshPage]);
   useEffect(() => {}, [isModalOpen]);
 
@@ -473,8 +473,6 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   const openEditForm = () => {
     setIsEditFormOpen(true);
   };
-
-  console.log('this is the award', award);
   // Function to close the Edit form
   const closeEditForm = () => {
     setIsEditFormOpen(false);
@@ -734,7 +732,7 @@ const EditForm: React.FC<{
 
             <div className="flex  flex-col gap-2 flex-1">
               <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Year
+                Year *
               </label>
               <select
                 id="year"
@@ -746,7 +744,7 @@ const EditForm: React.FC<{
               >
                 {/* Add the default placeholder option */}
                 <option value="" disabled>
-                  Year *
+                  Year
                 </option>
                 {Array.from({ length: 124 }, (_, index) => {
                   const year = 2023 - index;
@@ -781,7 +779,7 @@ const EditForm: React.FC<{
             </div>
             <div className="flex  flex-col gap-[10px] flex-1">
               <label htmlFor="url" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Url
+                Url *
               </label>
               <Input
                 type="url"

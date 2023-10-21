@@ -76,7 +76,15 @@ const TakeTest: FC = () => {
                 <p className="mb-8 text-sm md:text-base text-custom-color43">
                   Question Count: This assessment has {result?.question_count} questions
                 </p>
-
+                <h5>Instructions:</h5>
+                <ul className="pl-5 list-decimal text-sm md:text-base text-custom-color43">
+                  <li>Focus: Find a quite, distraction free environment.</li>
+                  <li>Tech Requirements: Ensure a stable internet connection and device.</li>
+                  <li>Honesty: Answer honestly to access your skills accurately.</li>
+                  <li>Time Management: Manage your time wisely. Skip difficult questions if needed.</li>
+                  <li>No Asistence: Do not seek help or use external resources.</li>
+                  <li>Submission: Complete all questions and submit within the time limit</li>
+                </ul>
                 <div className="flex items-center justify-end mt-8">
                   <Link href={`/assessments/take-test/questions?data=${result?.skill_id}&id=${result?.assessment_id}`}>
                     <Button

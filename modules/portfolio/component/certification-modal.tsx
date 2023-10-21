@@ -309,8 +309,8 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                     required
                   />
                 </div>
-                <div className="flex sm:justify-between sm:text-left gap-2 sm:gap-0 justify-center text-center  items-center sm:flex-row flex-col">
-                  <div>{isLoading && <Loader />}</div>
+                <div className="flex sm:justify-end sm:text-left gap-2 sm:gap-0 justify-end text-center  items-center sm:flex-row flex-col">
+                  {/* <div>{isLoading && <Loader />}</div> */}
 
                   <div className="flex gap-4  items-center">
                     <Button
@@ -329,8 +329,9 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
 
                       className="w-full rounded-md sm:w-[6rem]"
                       size={'md'}
+                      disabled={isLoading}
                     >
-                      Save
+                      {isLoading ? <Loader /> : 'Save'}
                     </Button>
                   </div>
                 </div>

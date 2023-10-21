@@ -14,7 +14,12 @@ const ProductListing = () => {
   return (
     <div>
       <SuperAdminNavbar />
-      <ProductsListingNavbar data={data} isLoading={isLoading || pendLoading} pendData={pendData} pendLoading={pendLoading} />
+      <ProductsListingNavbar
+        data={data}
+        isLoading={isLoading || pendLoading}
+        pendData={pendData}
+        pendLoading={pendLoading}
+      />
       <ProductListingTable
         data={data}
         currentPage={currentPage}

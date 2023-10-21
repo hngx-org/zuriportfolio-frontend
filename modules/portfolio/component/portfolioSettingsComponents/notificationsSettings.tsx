@@ -44,8 +44,10 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
   return (
     <>
       <div className=" flex flex-col space-y-[16px] items-start container mx-auto">
-        <h1 className="font-semibold md:text-[22px] text-sm font-manropeB text-dark-105">Notification Setting</h1>
-        <p className="text-sm md:text-[16px] font-manropeB text-[#444846]">Email Notification</p>
+        <h1 className="font-manropeL text-[1rem] sm:text-[22px] text-[#2E3130] leading-[1.75rem]">
+          Notification Setting
+        </h1>
+        <p className="text-[14px] md:text-[16px] font-manropeB text-[#444846]">Email Notification</p>
         <div className="md:text-[16px] text-[14px] font-manropeL space-y-[16px] text-white-650">
           <div className="flex items-center gap-2">
             <input

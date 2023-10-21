@@ -167,64 +167,58 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
 
   return (
     <Modal size="xl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
-      {initialoading ? (
-        <>
-          <Loader />
-          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
-        </>
-      ) : (
-        <section className="py-6 px-6">
-          <section className="flex justify-between items-center border-b-4 pb-3 border-b-[#009254]">
-            <section className="flex items-center">
-              <h4 className="text-[1.2rem] sm:text-[1.4rem] font-bold text-[#2E3130] font-manropeL"> Interest </h4>
-            </section>
-            <button
-              className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
-              onClick={onCloseModal}
-            >
-              <AiOutlineClose />
-            </button>
+      <section className="py-6 px-16">
+        <section className="flex justify-between items-center border-b-4 pb-3 border-b-[#009254]">
+          <section className="flex items-center">
+            <h4 className="text-[1.2rem] sm:text-[1.4rem] font-bold text-[#2E3130] font-manropeL"> Interest </h4>
           </section>
-
-          {values.length > 0 && <section className="flex items-center flex-wrap gap-3 mt-10 mb-5">{items}</section>}
-
-          <section
-            className={`w-full flex items-center mt-12 mb-6 rounded-lg border ${
-              checks ? 'border-[#C4C7C6]' : 'border-red-205'
-            } px-2 `}
+          <button
+            className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
+            onClick={onCloseModal}
           >
-            <input
-              type="text"
-              className="w-full h-full focus:outline-none font-manropeL text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
-              placeholder="Enter your interest and press “ENTER”"
-              onChange={handleInputChange}
-              onKeyDown={handleEnterKeyPress}
-              maxLength={30}
-              value={inputValue}
-            />
-          </section>
-
-          <section className="mt-5">
-            <h5 className="text-green-600 text-base font-extrabold font-manropeL"> Suggestions </h5>
-            <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">{suggestions}</ul>
-          </section>
-
-          <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-4">
-            <Button onClick={onCloseModal} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
-              Cancel
-            </Button>
-            <Button
-              disabled={loading}
-              onClick={handleSubmit}
-              className={`${loading ? 'opacity-80' : 'opacity-100'} w-full rounded-md sm:w-[6rem]`}
-              size={'lg'}
-            >
-              {' '}
-              Save{' '}
-            </Button>
-          </section>
+            <AiOutlineClose />
+          </button>
         </section>
-      )}
+
+        {values.length > 0 && <section className="flex items-center flex-wrap gap-3 mt-10 mb-5">{items}</section>}
+
+        <section
+          className={`w-full flex items-center mt-10 mb-2 rounded-lg border ${
+            checks ? 'border-[#C4C7C6]' : 'border-red-205'
+          } px-2 `}
+        >
+          <input
+            type="text"
+            className="w-full h-full focus:outline-none font-manropeL text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
+            placeholder=""
+            onChange={handleInputChange}
+            onKeyDown={handleEnterKeyPress}
+            maxLength={30}
+            value={inputValue}
+          />
+        </section>
+        <label htmlFor="" className="text-brand-green-primary mb-2 ">
+          Enter your tags and press enter
+        </label>
+        <section className="mt-5">
+          <h5 className="text-green-600 text-base font-extrabold font-manropeL"> Suggestions </h5>
+          <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">{suggestions}</ul>
+        </section>
+
+        <section className="mt-8 sm:mt-16 ml-auto w-fit flex justify-end gap-4">
+          <Button onClick={onCloseModal} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+            Cancel
+          </Button>
+          <Button
+            disabled={loading || initialoading}
+            onClick={handleSubmit}
+            className={`${loading ? 'opacity-80' : 'opacity-100'} w-full rounded-md sm:w-[6rem]`}
+            size={'lg'}
+          >
+            {loading || initialoading ? <Loader /> : 'Save'}
+          </Button>
+        </section>
+      </section>
     </Modal>
   );
 };

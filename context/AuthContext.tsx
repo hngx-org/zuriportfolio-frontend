@@ -30,7 +30,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
   const handleUserCameFrom = (value: string | undefined) => {
     setUserCameFrom(value);
   };
-  
+
   const handleUserCameFromForOAuth = (value: string | undefined) => {
     setUserCameFromForOAuth(value);
   };
@@ -45,7 +45,7 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     userCameFrom,
     handleUserCameFrom,
     userCameFromForOAuth,
-    handleUserCameFromForOAuth
+    handleUserCameFromForOAuth,
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
