@@ -199,7 +199,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
           <section className="py-6 px-16">
             <section className="flex justify-between items-center border-b-4 pb-3 mb-12 border-b-[#009254]">
               <section className="flex items-center gap-5">
-                <h4 className="text-[1.2rem] sm:text-[1.4rem] font-bold text-[#2E3130] font-manropeL"> Language </h4>
+                <h4 className="text-[1.2rem] sm:text-[1.4rem] font-extrabold text-[#2E3130] font-manropeL"> Language </h4>
               </section>
               <button
                 className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"

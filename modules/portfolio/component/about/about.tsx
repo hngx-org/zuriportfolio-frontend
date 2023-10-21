@@ -193,7 +193,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         setHide(!hide);
       }}
       isCloseIconPresent={false}
-      size="lg"
+      size="xl"
     >
       {
         <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">

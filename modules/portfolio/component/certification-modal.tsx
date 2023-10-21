@@ -709,8 +709,8 @@ const EditForm: React.FC<{
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
         <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
           <div className="flex items-center gap-6">
-            <ArrowLeft2 />
-            <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
+            {/* <ArrowLeft2 /> */}
+            <h1 className="font-extrabold text-2xl text-white-700">Certifications</h1>
           </div>
           <div onClick={onClose}>
             <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
