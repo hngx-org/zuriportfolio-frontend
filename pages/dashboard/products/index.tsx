@@ -105,6 +105,14 @@ const Products = () => {
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
       <Head>
         <title>Products</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Product" />
+
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta key="metadescription" itemProp="description" name="description" content="View All Product" />
+        <meta name="keywords" content="Zuri, portfolio, add, product, dashboard" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
       <div className="max-w-[1240px] mx-auto my-4 px-6" ref={ref}>
         {product.length > 0 && (
