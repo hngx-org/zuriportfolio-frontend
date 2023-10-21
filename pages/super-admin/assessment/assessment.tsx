@@ -1,13 +1,16 @@
 import React from 'react';
 import Preview from '../../../modules/assessment/component/AssessmentPreview';
-import MainLayout from '../../../components/Layout/MainLayout';
+import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
+import Footer from '../../../components/Footer';
 import { withAdminAuth } from '../../../helpers/withAuth';
 
 function PreviewCreatedResponse() {
   return (
-    <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
+    <>
+      <SuperAdminNavbar />
       <Preview />
-    </MainLayout>
+      <Footer />
+    </>
   );
 }
 
