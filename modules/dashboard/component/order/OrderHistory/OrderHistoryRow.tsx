@@ -70,7 +70,7 @@ const OrderHistoryRow = (props: OrderHistory) => {
     return String(num).padStart(2, '0');
   };
   const formatDate = () => {
-    const date = props.date;
+    const date = props.date as Date;
 
     return `${padDate(date.getDate()).padStart(2, '0')}/${padDate(date.getMonth())}/${date.getFullYear()}`;
   };
@@ -97,7 +97,7 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
     return String(num).padStart(2, '0');
   };
   const formatDate = () => {
-    const date = props.date;
+    const date = props.date as Date;
 
     return `${padDate(date.getDate()).padStart(2, '0')}/${padDate(date.getMonth())}/${date.getFullYear()}`;
   };
@@ -109,10 +109,10 @@ export const OrderHistoryMobile = (props: OrderHistory) => {
       }}
     >
       <div className="flex flex-col">
-        <p className="text-custom-color2 font-normal text-[14px] leading-[142.857%] tracking-[0.014px]">
+        {/* <p className="text-custom-color2 font-normal text-[14px] leading-[142.857%] tracking-[0.014px]">
           {' '}
           Revenue: #{formatNum(props.revenue)}
-        </p>
+        </p> */}
         <p className="text-[12px] mb-3  text-dark-110">{props.customerName}</p>
         <p className="text-custom-color22 font-semibold">
           Order ID: <span className="text-dark-110 font-manropeL font-normal">#{props.id}</span>
