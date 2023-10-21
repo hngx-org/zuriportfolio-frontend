@@ -3,6 +3,7 @@ import Loader from '@ui/Loader';
 import Image from 'next/image';
 import { MetricCardProps } from '../../../../@types';
 import { logQueryResult } from '../../../../helpers/dashboard';
+import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 import {
   fetchTodaysAverageOrderValue,
   fetchTodaysOrders,
@@ -80,8 +81,14 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
   if (yesterdaysFinalCardValue === undefined || yesterdaysFinalCardValue === null) {
     yesterdaysFinalCardValue = 0;
   }
-  if (yesterdaysFinalCardValue !== undefined && yesterdaysFinalCardValue !== null && yesterdaysFinalCardValue !== 0) {
+  if (yesterdaysFinalCardValue !== 0) {
     finalPercentage = ((todaysFinalCardValue - yesterdaysFinalCardValue) / yesterdaysFinalCardValue) * 100;
+  }
+  if (yesterdaysFinalCardValue === 0 && todaysFinalCardValue > 0) {
+    finalPercentage = 100;
+  }
+  if (yesterdaysFinalCardValue === 0 && todaysFinalCardValue < 0) {
+    finalPercentage = -100;
   }
 
   return (
@@ -96,7 +103,9 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
       )}
       {!isFetching && isFetched && (
         <p className="flex items-center justify-between">
-          <span className="text-2xl font-bold md:text-3xl">{`${isCurrency ? '$' : ''}${todaysFinalCardValue}`}</span>
+          <span className="text-xl font-bold md:text-2xl">{`${
+            isCurrency ? formatToNigerianNaira(todaysFinalCardValue) : todaysFinalCardValue
+          }`}</span>
           <span
             className={`${
               finalPercentage > 0 ? 'bg-green-30 text-brand-green-primary' : 'bg-pink-120 text-brand-red-primary'

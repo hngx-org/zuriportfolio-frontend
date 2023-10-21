@@ -12,7 +12,8 @@ import Link from 'next/link';
 import Description from '../../../modules/assessment/component/Description';
 import Assessmentlist from '../../../modules/assessment/component/assessmentlist';
 import Assessmentresponses from '../../../modules/assessment/component/Assessmentresponses';
-import MainLayout from '../../../components/Layout/MainLayout';
+import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
+import Footer from '../../../components/Footer';
 import backarrow from '../../../modules/assessment/component/backarrow.svg';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import { withAdminAuth } from '../../../helpers/withAuth';
@@ -35,6 +36,7 @@ function Index() {
   useEffect(() => {
     const fetchData = async () => {
       console.log('fd', localStorage.getItem('zpt'));
+      setLoading(true);
       try {
         const apiUrl = 'https://piranha-assessment-jco5.onrender.com/api/admin/assessments/';
 
@@ -49,10 +51,12 @@ function Index() {
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
+          setLoading(false);
         }
 
         const data = await response.json();
         setAssessments(data);
+        setLoading(false);
         console.log('assessment data', data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -134,12 +138,8 @@ function Index() {
     );
   }
   return (
-    <MainLayout
-      activePage="/super-admin/assessment/"
-      className="assessmentheader"
-      showTopbar
-      showDashboardSidebar={false}
-    >
+    <>
+      <SuperAdminNavbar />
       {newModal && (
         <div className="fixed bg-dark-600 top-0 left-0 w-full h-full grid place-items-center z-20">
           <div className="bg-white-100 w-[300px] md:w-[558px] text-center font-semibold py-[60px] md:py-[80px] px-[20px] rounded-2xl">
@@ -244,7 +244,8 @@ function Index() {
           </ListContext.Provider>
         </div>
       </div>
-    </MainLayout>
+      <Footer />
+    </>
   );
 }
 
