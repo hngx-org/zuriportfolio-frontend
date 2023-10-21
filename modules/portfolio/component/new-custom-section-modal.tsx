@@ -8,7 +8,8 @@ import CustomNewSections from './customSection/customNewSections';
 import { CloseSquare } from 'iconsax-react';
 import { Popover, Transition } from '@headlessui/react';
 import { notify } from '@ui/Toast';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
 const sectionButtonsData = [
   {
@@ -39,6 +40,9 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
   const [renderedFields, setRenderedFields] = React.useState<React.ReactNode[]>([]);
   const urlRegex = /^(https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[a-zA-Z0-9-._~:\/?#\[\]@!$&'()*+,;=]*)?$/;
 
+  function containsWhitespace(str) {
+    return /\s/.test(str);
+  }
   const form = useForm({
     initialValues: {
       addList: [
@@ -51,7 +55,8 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     validateInputOnChange: true,
     validate: {
       addList: {
-        title: (value) => (value?.length === 0 ? 'Title is empty' : null),
+        title: (value) =>
+          value?.length === 0 || containsWhitespace(value) ? 'Title is empty or contains whitespaces' : null,
         subtitle: {
           title: (value) => (value?.length === 0 ? 'Subtitle title is empty' : null),
           value: (value) => (value?.length === 0 ? 'Subtitle value is empty' : null),
@@ -135,26 +140,56 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     setGetNewSection(false);
   };
 
-  const handleSubmit = (values: any) => {
-    sectionForm.setFieldValue('section', values?.addList);
-    setGetNewSection(true);
-    setNewSection(false);
-  };
-
-  const createNewCustomSection = async () => {
+  const createNewCustomSectionOption = useMutation(async () => {
     const response = await axios.post(`https://hng6-r5y3.onrender.com/api/v1/custom/`, {
       sectionId: 55,
       title: form?.values?.addList[0]?.title,
       userId: userId,
     });
     return response.data;
+  });
+
+  const createNewCustomSectionMutation = useMutation(async () => {
+    const response = await axios.post(`https://hng6-r5y3.onrender.com/api/v1/custom/field`, {
+      customUserSectionId: sectionForm?.values?.section[0]?.id,
+      fields: [sectionForm?.values?.section[0]?.fields],
+    });
+    return response.data;
+  });
+
+  const handleCreateNewCustomSection = () => {
+    createNewCustomSectionMutation.mutate(undefined, {
+      onSuccess: (res) => {
+        sectionForm.setFieldValue('section', values?.addList);
+        sectionForm.setFieldValue('section.0.id', res?.data?.id);
+        setGetNewSection(true);
+        setNewSection(false);
+      },
+      onError: (error) => {
+        console.error('Mutation failed:', error);
+      },
+    });
   };
 
-  const {
-    data: customeSection,
-    isLoading: creatingCustomSection,
-    isError: creatingCustomSectionError,
-  } = useQuery(['newCustom'], async () => createNewCustomSection());
+  const handleSubmit = (values: any) => {
+    createNewCustomSectionOption.mutate(undefined, {
+      onSuccess: (res) => {
+        sectionForm.setFieldValue('section', values?.addList);
+        sectionForm.setFieldValue('section.0.id', res?.data?.id);
+        setGetNewSection(true);
+        setNewSection(false);
+      },
+      onError: () => {
+        notify({
+          message: 'An error occurred please try again',
+          autoClose: 1000,
+          type: 'error',
+        });
+      },
+    });
+  };
+
+  // console.log(sectionForm.values)
 
   return (
     <CreateCustomSection
@@ -170,12 +205,16 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
       handleClose={handleClose}
       handleSubmit={handleSubmit}
       onClose={onClose}
+      isLoading={createNewCustomSectionOption.isLoading}
+      isCreatingSection={createNewCustomSectionMutation.isLoading}
     />
   );
 }
 
 function CreateCustomSection({
   getNewSection,
+  isLoading,
+  isCreatingSection,
   setGetNewSection,
   newSection,
   setNewSection,
@@ -189,6 +228,8 @@ function CreateCustomSection({
   onClose,
 }: {
   getNewSection: boolean;
+  isLoading: boolean;
+  isCreatingSection: boolean;
   setGetNewSection: React.Dispatch<React.SetStateAction<boolean>>;
   newSection: boolean;
   setNewSection: React.Dispatch<React.SetStateAction<boolean>>;
@@ -215,10 +256,11 @@ function CreateCustomSection({
           data={sectionForm.values.section}
           setNewSection={setNewSection}
           setGetNewSection={setGetNewSection}
+          isLoading={isCreatingSection}
         />
       )}
       <Transition show={newSection} as={React.Fragment} unmount={false}>
-        <form onSubmit={form.onSubmit((values: any) => handleSubmit(values))}>
+        <form onSubmit={form.onSubmit((values: any) => handleSubmit(values))} className="md:mx-5">
           <div className="flex flex-col gap-3 my-19">
             <>
               <div className="flex justify-between items-center">
@@ -261,7 +303,7 @@ function CreateCustomSection({
               Customize and arrange your fields by clicking on the options above
             </div>
           )}
-          {form.values.addList[0].id !== '' ? <CustomFooter handleClose={handleClose} /> : null}
+          {form.values.addList[0].id !== '' ? <CustomFooter handleClose={handleClose} loading={isLoading} /> : null}
         </form>
       </Transition>
     </>

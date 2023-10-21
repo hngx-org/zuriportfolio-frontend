@@ -8,11 +8,13 @@ const CustomNewSections = ({
   data,
   setNewSection,
   setGetNewSection,
+  isLoading,
 }: {
   onClose: () => void;
   data: any;
   setNewSection: any;
   setGetNewSection: any;
+  isLoading: boolean;
 }) => {
   const handleEdit = () => {
     setNewSection(true);
@@ -63,7 +65,7 @@ const CustomNewSections = ({
         </div>
       </article>
       <div className="mt-10">
-        <CustomFooter handleClose={onClose} />
+        <CustomFooter handleClose={onClose} isLoading={isLoading} />
       </div>
     </>
   );
