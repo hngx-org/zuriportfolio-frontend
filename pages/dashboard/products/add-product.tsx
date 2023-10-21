@@ -26,7 +26,6 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
   const linkRef = useRef<HTMLInputElement | null>(null);
-  const [shops, setShops] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState('');
   const auth = useAuth();
   const toggleNewCategoryInput = () => {
@@ -164,22 +163,7 @@ const AddProduct = () => {
       return [];
     }
   };
-  const getShopId = async () => {
-    try {
-      const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/shops/merchant', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-        },
-      });
-      console.log(data);
-      if (data.data.length > 0) {
-        setShops(data.data);
-      }
-    } catch (error) {
-      setShops([]);
-    }
-  };
+
   const [products, setProducts] = useState({
     image: '',
     name: '',
