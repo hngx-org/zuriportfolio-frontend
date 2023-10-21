@@ -70,7 +70,7 @@ const Questions: React.FC = () => {
 
   const { data: assessment } = useQuery(
     ['assessment'],
-    () =>  getAssessmentDetails(tokenRef.current as string, router.query?.data as string),
+    () => getAssessmentDetails(tokenRef.current as string, router.query?.data as string),
     { notifyOnChangeProps: ['data', 'error'] },
   );
   const submitAnswer = useMutation((data: any) => submitAssessment(data), {
@@ -128,10 +128,22 @@ const Questions: React.FC = () => {
     }
     setAssessmentData(assessment);
     setDuration(assessmentData?.duration_minutes as number);
-    console.log(newIsLoading, newIsError, newQuestions?.data?.questions, newError)
-    console.log(sessionLoading, sessionIsErrorr, session, sessionError)  
-    console.log(assessmentData)
-  }, [newQuestions?.data, newIsLoading, newIsError, assessment, sessionLoading, sessionIsErrorr, session, sessionError, newError, assessmentData?.duration_minutes, assessmentData]);
+    console.log(newIsLoading, newIsError, newQuestions?.data?.questions, newError);
+    console.log(sessionLoading, sessionIsErrorr, session, sessionError);
+    console.log(assessmentData);
+  }, [
+    newQuestions?.data,
+    newIsLoading,
+    newIsError,
+    assessment,
+    sessionLoading,
+    sessionIsErrorr,
+    session,
+    sessionError,
+    newError,
+    assessmentData?.duration_minutes,
+    assessmentData,
+  ]);
   useEffect(() => {
     const setTimeFunction = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
@@ -179,7 +191,7 @@ const Questions: React.FC = () => {
       }
     };
     getItemWithExpiry('duration');
-  }, [ duration, minute, second]);
+  }, [duration, minute, second]);
 
   if (isError) {
     return (
@@ -269,7 +281,7 @@ const Questions: React.FC = () => {
               <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
                 <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary">
                   <span className="text-white-100 text-2xl font-bold">
-                    {(minute !== null && minute!== undefined ) && (second !== null && second!== undefined ) ? (
+                    {minute !== null && minute !== undefined && second !== null && second !== undefined ? (
                       <CountdownTimer action={() => setIsTimeOut(true)} minutes={minute} seconds={second} />
                     ) : (
                       <span>- - : - -</span>

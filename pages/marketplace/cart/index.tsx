@@ -158,7 +158,7 @@ export default function Cart() {
                   <h1 className="text-[35px] font-bold md:ml-0 font-manropeEB">Recently Viewed</h1>
                   <div
                     className="w-full flex flex-row overflow-scroll lg:min-h-[200px] gap-x-8 md:overflow-hidden 
-                    lg:items-center lg:items-stretch lg:justify-normal 
+                    lg:items-center lg:justify-normal 
                     md:flex-row md:justify-center md:flex-wrap md:gap-x-4 gap-y-4 lg:gap-x-4 mt-4 "
                   >
                     {recentlyViewedProducts}

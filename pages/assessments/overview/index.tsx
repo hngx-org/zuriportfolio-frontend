@@ -59,16 +59,15 @@ function AssessmentOverview() {
     handleGetSession();
   }, []);
 
-  
-  useEffect(()=>{
-    if(timeUp||isSubmit){
-      localStorage.removeItem("minute")
-      localStorage.removeItem("second")
+  useEffect(() => {
+    if (timeUp || isSubmit) {
+      localStorage.removeItem('minute');
+      localStorage.removeItem('second');
     }
-    if(timeUp){
-      setIsTimeOut(true)
+    if (timeUp) {
+      setIsTimeOut(true);
     }
-  },[timeUp,isSubmit])
+  }, [timeUp, isSubmit]);
   useEffect(() => {
     const setTimeFunction = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
@@ -78,7 +77,7 @@ function AssessmentOverview() {
         const minuteInt = minuteString !== null ? parseInt(minuteString, 10) : null;
         const secondInt = secondString !== null ? parseInt(secondString, 10) : 0;
         setMinute(minuteInt);
-        setSecond(secondInt);        
+        setSecond(secondInt);
       } else {
         throw new Error('localStorage is not available on the server-side.');
       }
@@ -89,17 +88,16 @@ function AssessmentOverview() {
   const handleGetSession = async () => {
     const token = tokenRef.current;
     try {
-      const res = await fetchUserAssessmentSession(token as string, data as string);     
+      const res = await fetchUserAssessmentSession(token as string, data as string);
       setResult(res);
       if (!res) {
         setIsLoading(false);
         throw new Error('Network response was not ok');
-      } else {    
+      } else {
         setResult(res);
         setIsLoading(false);
       }
-    } catch (error) {  
-    }
+    } catch (error) {}
   };
 
   function sortQuestionsByQuestionNo(input: QuestionArrays | undefined): Question[] {
@@ -121,11 +119,11 @@ function AssessmentOverview() {
           assessment_id: data,
           token,
           minutes: minute,
-        }).then((res) => {      
+        }).then((res) => {
           setShowConfirm(false);
           setShowSuccessConfirm(true);
           setBadgeEarn(res?.badge_id);
-          setIsSubmit(true)
+          setIsSubmit(true);
         });
       }
     } catch (error) {
@@ -135,15 +133,15 @@ function AssessmentOverview() {
 
   return (
     <>
-    <Head>
+      <Head>
         <title>Assessment | Overview</title>
         <meta name="description" content="Zuri Portfolio Assessment Overview" />
         <link rel="icon" href="./public/assets/zuriLogo.svg" />
-    </Head>
+      </Head>
       {isTimeOut && (
         <OutOfTime
           onClose={() => router.push('/assessments/dashboard')}
-          message='Your time has elapsed!'
+          message="Your time has elapsed!"
           btn1={true}
           btn2={false}
         />
@@ -168,12 +166,8 @@ function AssessmentOverview() {
             <div className="w-full md:max-w-full px-4 max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
               <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary mt-5">
                 <p className="text-white-100 text-2xl font-bold">
-                  {(minute !== null||undefined) && (second !== null||undefined) ? (
-                    <CountdownTimer
-                      action={() => setTimeUp(true)}
-                      minutes={minute}
-                      seconds={second}
-                    />
+                  {(minute !== null || undefined) && (second !== null || undefined) ? (
+                    <CountdownTimer action={() => setTimeUp(true)} minutes={minute} seconds={second} />
                   ) : (
                     <span>- - : - -</span>
                   )}

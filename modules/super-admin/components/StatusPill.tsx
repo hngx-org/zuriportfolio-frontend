@@ -36,6 +36,8 @@ const StatusPill = ({ status, ...rest }: { status: string | null }) => {
         className={`inline-block w-2 h-2 rounded-full ${
           getValue(status) === 'yellow'
             ? 'bg-yellow-600'
+            : getValue(status) === 'brown'
+            ? 'bg-custom-color25'
             : getValue(status) === 'red'
             ? 'bg-custom-color34'
             : getValue(status) === 'green'
