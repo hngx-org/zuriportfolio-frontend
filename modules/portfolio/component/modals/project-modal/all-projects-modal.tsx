@@ -68,7 +68,6 @@ const AllProjectsModal = ({
     axios
       .delete(`${endpoint}/api/projects/${id}`)
       .then((res) => {
-        console.log(res.data);
         notify({
           message: 'Project deleted successfully',
           position: 'top-center',
@@ -78,7 +77,6 @@ const AllProjectsModal = ({
         getAllProjects();
       })
       .catch((err) => {
-        console.log(err);
         notify({
           message: 'Error occurred',
           position: 'top-center',

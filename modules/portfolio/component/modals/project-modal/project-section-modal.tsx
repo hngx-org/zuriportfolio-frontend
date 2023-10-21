@@ -86,45 +86,62 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
   }, [route]);
 
   return (
-    <Modal
-      size={route.trim() === allRoutes[2] ? 'lg' : 'xxl'}
-      closeOnOverlayClick
-      isOpen={isOpen}
-      closeModal={onCloseModal}
-      isCloseIconPresent={false}
-    >
+    <>
       {loading ? (
-        <div className="py-52">
-          <Loader />
-          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
-        </div>
+        <Modal size={'xxl'} closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
+          <div className="py-52">
+            <Loader />
+            <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+          </div>
+        </Modal>
       ) : (
         <>
           {route === allRoutes[0] && (
-            <ProjectSection
-              handleSetRoute={handleSetRoute}
-              dataToEdit={dataToEdit}
-              onSaveModal={onSaveModal}
-              onCloseModal={onCloseModal}
-              userId={userId}
-              projects={projects}
-            />
+            <Modal
+              size={'xxl'}
+              closeOnOverlayClick
+              isOpen={isOpen}
+              closeModal={onCloseModal}
+              isCloseIconPresent={false}
+            >
+              <ProjectSection
+                handleSetRoute={handleSetRoute}
+                dataToEdit={dataToEdit}
+                onSaveModal={onSaveModal}
+                onCloseModal={onCloseModal}
+                userId={userId}
+                projects={projects}
+              />
+            </Modal>
           )}
+
           {route === allRoutes[1] && (
-            <AllProjectsModal
-              handleSetProjects={handleSetProjects}
-              handleSetRoute={handleSetRoute}
-              handleLoading={handleLoading}
-              projects={projects}
-              onEdit={handleEditData}
-              onCloseModal={onCloseModal}
-              userId={userId}
-            />
+            <Modal
+              size={'xxl'}
+              closeOnOverlayClick
+              isOpen={isOpen}
+              closeModal={onCloseModal}
+              isCloseIconPresent={false}
+            >
+              <AllProjectsModal
+                handleSetProjects={handleSetProjects}
+                handleSetRoute={handleSetRoute}
+                handleLoading={handleLoading}
+                projects={projects}
+                onEdit={handleEditData}
+                onCloseModal={onCloseModal}
+                userId={userId}
+              />
+            </Modal>
           )}
-          {route === allRoutes[2] && <SingleProject dataToEdit={dataToEdit} handleSetRoute={handleSetRoute} />}
+          {route === allRoutes[2] && (
+            <Modal size={'lg'} closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
+              <SingleProject dataToEdit={dataToEdit} handleSetRoute={handleSetRoute} />
+            </Modal>
+          )}
         </>
       )}
-    </Modal>
+    </>
   );
 };
 
