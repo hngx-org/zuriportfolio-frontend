@@ -28,6 +28,7 @@ const CreateAssessment = () => {
 
   const [newobject, setObject] = useState({
     skill_id: skillid,
+    id: 0,
     questions_and_answers: [
       {
         question_no: 1,
@@ -40,6 +41,24 @@ const CreateAssessment = () => {
     assessment_name: '',
     duration_in_minutes: 0,
   });
+
+
+ const [assessment, setAssessment] = useState({
+  skill_id: 0,
+  id: newobject.id,
+  title: newobject.assessment_name, // Assuming 'assessment_name' is the title
+  createdAt: new Date(),
+  duration_minutes: newobject.duration_in_minutes,
+  questions: [
+    {
+      answers: [{}],
+      question_no: 1, 
+      question_text: '', 
+      question_type: newobject.questions_and_answers[0].question_type, 
+    },
+  ],
+  updatedAt: new Date(),
+});
 
   const [active, setActive] = useState<null | string>('button1');
   const [listupdate, setListupdate] = useState('waiting');
@@ -119,8 +138,10 @@ const CreateAssessment = () => {
         toast.error('Looks like the assessment name exists already! Give a unique name');
       } else if (postEnd.status === 406) {
         toast.error(`${postEnd.status}, Please make sure fields are correectly field`);
+      } else if (postEnd.status === 400) {
+        toast.error(`${postEnd.status}, you might need to create a new one if you did not set a skill id`);
       } else {
-        toast.error(postEnd.status, response?.message);
+        toast.error(`OOps! ${postEnd.status} , ${response?.message}`);
       }
 
       setPostLoading(false);

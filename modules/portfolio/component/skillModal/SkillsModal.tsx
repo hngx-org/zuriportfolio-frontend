@@ -27,17 +27,17 @@ type skillListRes = {
 const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalProps) => {
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<skillListRes>>([
-    { skill: 'Version Control', skillId: 1 },
-    { skill: 'DeveOps', skillId: 2 },
-    { skill: 'Testing', skillId: 3 },
-    { skill: 'Art', skillId: 4 },
-    { skill: 'Sketch', skillId: 5 },
-    { skill: 'Visual Branding', skillId: 6 },
-    { skill: 'Graphics Design', skillId: 7 },
-    { skill: 'Color Theory', skillId: 8 },
-    { skill: 'Illustration', skillId: 9 },
-    { skill: 'Animation', skillId: 10 },
-    { skill: 'API Intergration', skillId: 11 },
+    { skill: 'version control', skillId: 1 },
+    { skill: 'deveOps', skillId: 2 },
+    { skill: 'testing', skillId: 3 },
+    { skill: 'art', skillId: 4 },
+    { skill: 'sketch', skillId: 5 },
+    { skill: 'visual branding', skillId: 6 },
+    { skill: 'graphics design', skillId: 7 },
+    { skill: 'color theory', skillId: 8 },
+    { skill: 'illustration', skillId: 9 },
+    { skill: 'animation', skillId: 10 },
+    { skill: 'api intergration', skillId: 11 },
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
@@ -47,7 +47,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
       // Make a GET request to the API
       setIsLoading(true);
       const response = await axios.get(`https://hng6-r5y3.onrender.com/api/v1/skills/${userId}`);
-      const data = response.data.data;
+      const data = response.data.skills;
       setValues(data);
       setIsLoading(false);
     } catch (error) {
@@ -56,6 +56,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
       setIsLoading(false);
     }
   }, [userId]);
+
   // set the data in the db on the modal onload
 
   useEffect(() => {
@@ -94,8 +95,11 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   };
 
   const arrayOneItemAddition = (item: skillListRes) => {
-    if (!values.some((skill) => skill.skill === item.skill)) {
+    console.log('Big', values);
+
+    if (!values?.some((skill) => skill.skill === item.skill)) {
       //avoid duplicates
+
       setValues((values) => [...values, item]);
     }
   };
@@ -104,7 +108,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   const getAllSkill = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/getPortfolioDetails/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${userId}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -179,12 +183,12 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   };
 
   return (
-    <section className="w-full flex items-center justify-center fontFamily-manropeEL">
+    <section className="w-full flex items-center justify-center ">
       <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         {!isLoading ? (
-          <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL max-sm:px-2 ">
+          <div className=" w-full max-sm:w-full px-10 py-5 fontFamily-manropeEL max-sm:px-2 font-manropeL">
             <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
-              <h1 className="font-bold text-2xl ">Skill</h1>
+              <h1 className="font-extrabold text-2xl ">Skills</h1>
               <button
                 className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
                 onClick={onCloseModal}
