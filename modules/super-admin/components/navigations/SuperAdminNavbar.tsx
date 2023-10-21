@@ -102,7 +102,7 @@ const SuperAdminNavbar = () => {
               <p className="text-xs text-gray-500 font-manropeL hidden md:block">Super Admin</p>
             </div>
             <button
-              className="flex items-center gap-3 bg-pink-120 p-1 rounded-[8px] text-brand-red-primary text-xs md:text-sm"
+              className="flex items-center gap-3 bg-pink-120 py-1 px-2 rounded-[8px] text-brand-red-primary text-xs md:text-sm"
               onClick={() => logout(router)}
             >
               <LogoutCurve size="20" color="#ff2e2e" />
