@@ -36,7 +36,7 @@ function FacebookRedirect() {
         return;
       }
     },
-    onError: (error:any) => {
+    onError: (error: any) => {
       console.log('Facebook OAuth error', error);
 
       if (error.response && error.response.message === 'INTERNAL SERVER ERROR') {
@@ -52,6 +52,7 @@ function FacebookRedirect() {
       notify({
         message: error.message,
         type: 'error',
+        theme: 'light',
       });
 
       // if an error occurs, take the user to where they signed up from or to sign in page if undefined

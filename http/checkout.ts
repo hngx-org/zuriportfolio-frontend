@@ -65,7 +65,6 @@ export const createTempUser = async (datas: { email: string; firstName: string; 
     const apiUrl = 'https://staging.zuri.team/api/auth/api/auth/signup-guest';
     const response = await $http.post(apiUrl, datas);
     return response.data;
-    // return { data: { token: guestToken } };
   } catch (error) {
     return { error: error, data: { token: '' } };
   }

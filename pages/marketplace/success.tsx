@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import CartPaymentsuccessModal, { CartPaymentFailureModal } from '../../components/Modals/CartPaymentModal';
+import Loader from '../../components/Loader/loader2';
 import { confirmTransaction } from '../../http/checkout';
 import Head from 'next/head';
 
 export default function Successful() {
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function confirmTransactionStatus() {
       const query = new URLSearchParams(window.location.search);
-      const token = localStorage.getItem('zpt') as string;
+      const token = localStorage.getItem('trans_token') as string;
       const payment_gateway = localStorage.getItem('gateway') as string;
       const queryKey = payment_gateway == 'paystack' ? 'trxref' : 'tx_ref';
       const txn_ref = query.get(queryKey) as string;
       const confirmResponse = await confirmTransaction({ token, txn_ref, payment_gateway });
       setSuccess(confirmResponse);
       setIsLoading(false);
+      localStorage.setItem('trans_token',"")
     }
     confirmTransactionStatus();
+
   });
   return (
     <>
@@ -46,12 +49,12 @@ export default function Successful() {
         <meta property="og:title" content="Zuri Marketplace" />
         <meta property="og:description" content="Confirming Transaction" />
       </Head>
-      {!isLoading &&
+      {!isLoading ?
         (success ? (
           <CartPaymentsuccessModal></CartPaymentsuccessModal>
         ) : (
           <CartPaymentFailureModal></CartPaymentFailureModal>
-        ))}
+        )) : <Loader></Loader> }
     </>
   );
 }

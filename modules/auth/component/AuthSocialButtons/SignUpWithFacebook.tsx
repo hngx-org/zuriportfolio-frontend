@@ -7,7 +7,7 @@ const SignUpWithFacebook = () => {
   return (
     <SignUpWithSocialsButton
       href="https://staging.zuri.team/api/auth/api/auth/facebook"
-      leftIcon={<Image src={facebookLogo} alt="Google logo" className="w-5 h-5" />}
+      leftIcon={<Image src={facebookLogo} alt="Facebook Logo" className="w-5 h-5" />}
     >
       Continue with Facebook
     </SignUpWithSocialsButton>

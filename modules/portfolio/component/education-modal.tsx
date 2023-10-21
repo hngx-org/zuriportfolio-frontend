@@ -96,7 +96,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
-        <>{isLoading && <Loader />}</>
+        {/* <>{isLoading && <Loader />}</> */}
         <>
           {isData && (
             <div className="">
@@ -107,52 +107,41 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 console.log(education);
 
                 return (
-                  <article
-                    className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}
-                    key={index}
-                  >
-                    <div className="flex justify-around">
-                      <div className="flex gap-4">
-                        <div className="gap-4">
-                          <p className="text-[#8D9290] font-semibold font-manropeB">
-                            {education?.from} - {endYear}
-                          </p>
+                  <>
+                    <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
+                      <section className="flex w-full gap-x-10 mb-4 max-sm:flex-col max-sm:gap-y-3">
+                        <p className="text-[#8D9290] font-semibold font-manropeB">
+                          {education?.from} - {endYear}
+                        </p>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-200">{education?.fieldOfStudy}</h3>
+                          <p className="text-sm font-manropeL text-brand-green-primary">{education?.school}</p>
                         </div>
-                        <div className="flex flex-col gap-1 ml-4">
-                          <p className="text-[#2E3130] mb-1 text-[1.375rem] font-semibold">{education.fieldOfStudy}</p>
-                          <p className="font-normal text-brand-green-primary text-sm">{education.school}</p>
-                        </div>
+                        <p className="font-semibold text-sm text-gray-400 break-all flex-[4] break-normal">
+                          {education?.description}
+                        </p>
+                      </section>
+                      <div className="self-end pb-4 flex gap-4 font-manropeL">
+                        <span
+                          className="font-semibold cursor-pointer "
+                          onClick={(e) => {
+                            setIsEditMode(true);
+                            setEditingEducation(education);
+                            prefillForm(education);
+                            setIsData(false);
+                          }}
+                        >
+                          <Edit2 size="32" color="#37d67a" variant="Outline" />
+                        </span>
+                        <span
+                          className="font-semibold cursor-pointer"
+                          onClick={(e) => handleDeleteEducation(education.id, e)}
+                        >
+                          <Trash size="32" color="#f47373" variant="Outline" />
+                        </span>
                       </div>
-                      <p
-                        style={{
-                          whiteSpace: 'normal',
-                          overflowWrap: 'break-word',
-                        }}
-                        className="font-semibold text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
-                      >
-                        {education.description}
-                      </p>
-                    </div>
-                    <div className="self-end flex gap-4 font-manropeL">
-                      <span
-                        className="font-semibold cursor-pointer text-[#5B8DEF]"
-                        onClick={(e) => {
-                          setIsEditMode(true);
-                          setEditingEducation(education);
-                          prefillForm(education);
-                          setIsData(false);
-                        }}
-                      >
-                        <Edit2 size="32" color="#37d67a" variant="Outline" />
-                      </span>
-                      <span
-                        className="font-semibold cursor-pointer text-brand-red-hover"
-                        onClick={(e) => handleDeleteEducation(education.id, e)}
-                      >
-                        <Trash size="32" color="#f47373" variant="Outline" />
-                      </span>
-                    </div>
-                  </article>
+                    </article>
+                  </>
                 );
               })}
             </div>
@@ -278,7 +267,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                         value={from}
                       >
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="2020" />
+                          <SelectValue placeholder="Year" />
                         </SelectTrigger>
                         <>
                           <SelectContent>
@@ -302,7 +291,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                         value={to}
                       >
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Present" />
+                          <SelectValue placeholder="Year" />
                         </SelectTrigger>
                         <>
                           <SelectContent>
@@ -332,7 +321,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                     onCloseModal();
                     resetForm();
                     setIsEditMode(false);
-                    setIsForm(false);
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
@@ -341,7 +329,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   Cancel
                 </Button>
                 <Button disabled={isLoading} type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
-                  Save
+                  {isLoading ? <Loader /> : 'Save'}
                 </Button>
               </div>
             </form>
@@ -367,7 +355,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                     onCloseModal();
                     resetForm();
                     setIsEditMode(false);
-                    setIsForm(false);
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
@@ -379,6 +366,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   type="submit"
                   className="w-full rounded-md sm:w-[6rem]"
                   size={'lg'}
+                  disabled={isData}
                   onClick={() => {
                     console.log('SAVING');
                     onSaveModal();

@@ -36,12 +36,12 @@ function GoogleRedirect() {
         return;
       }
     },
-    onError: (error:any) => {
-      console.log("Google OAuth error", error);
+    onError: (error: any) => {
+      console.log('Google OAuth error', error);
 
-      if(error.response && error.response.message === "INTERNAL SERVER ERROR") {
+      if (error.response && error.response.message === 'INTERNAL SERVER ERROR') {
         notify({
-          message: "Something went wrong, please try again later",
+          message: 'Something went wrong, please try again later',
           type: 'error',
         });
 
@@ -52,6 +52,7 @@ function GoogleRedirect() {
       notify({
         message: error.message,
         type: 'error',
+        theme: 'light',
       });
 
       // if an error occurs, take the user to where they signed up from or to sign in page if undefined
