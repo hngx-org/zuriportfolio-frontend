@@ -13,7 +13,7 @@ const fetchActivityDetails = async (token: string) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   if (!response.ok) {

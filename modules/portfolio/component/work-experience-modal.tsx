@@ -113,7 +113,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
-        <>{isLoading && <Loader />}</>
+        {/* <>{isLoading && <Loader />}</> */}
         <>
           {isData && (
             <>
@@ -456,8 +456,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                   }}
                   className="w-full rounded-md sm:w-[6rem]"
                   size={'lg'}
-                  isLoading={isLoading}
-                  spinnerColor="#000"
                   disabled={isLoading}
                 >
                   Save

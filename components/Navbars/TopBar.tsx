@@ -93,7 +93,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   //   { id: 9, text: 'someone visited your shop', read: false },
   //   { id: 10, text: 'someone visited your shop', read: true },
   //   { id: 11, text: 'someone visited your shop', read: true },
-    
+
   // ]);
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -112,9 +112,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         setNotificationMenu(false);
       }
     }
-    
 
-    if (authMenu || searchMobile || toggle|| notificationMenu) {
+    if (authMenu || searchMobile || toggle || notificationMenu) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -147,8 +146,8 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   }
 
   const handleNotificationsToggle = () => {
-    setNotificationMenu(!notificationMenu)
-  }
+    setNotificationMenu(!notificationMenu);
+  };
 
   return (
     <>
@@ -425,19 +424,27 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                   </span>
                   <Cart items={cartCount} />
                   <div className="w-fit flex h-fit relative cursor-pointer" ref={notificationsRef}>
-        
-          <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
-            {unreadNotifications}
-          </span>
-        <Image src={notificationIcon} onClick={handleNotificationsToggle} draggable={false} width={24} height={24} alt="Cart Icon" />
+                    <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+                      {unreadNotifications}
+                    </span>
+                    <Image
+                      src={notificationIcon}
+                      onClick={handleNotificationsToggle}
+                      draggable={false}
+                      width={24}
+                      height={24}
+                      alt="Cart Icon"
+                    />
 
-{notificationMenu && 
-<div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
-
-<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
-</div>
-}
-      </div>
+                    {notificationMenu && (
+                      <div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
+                        <Notifications
+                          notificationsRef={notificationsRef}
+                          unreadNotifications={setUnreadNotifications}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
@@ -557,19 +564,24 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
 
         <Cart items={cartCount} />
         <div className="w-fit flex h-fit relative cursor-pointer" ref={notificationsRef}>
-        
-        <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
-          {unreadNotifications}
-        </span>
-      <Image src={notificationIcon} onClick={handleNotificationsToggle} draggable={false} width={24} height={24} alt="Cart Icon" />
+          <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+            {unreadNotifications}
+          </span>
+          <Image
+            src={notificationIcon}
+            onClick={handleNotificationsToggle}
+            draggable={false}
+            width={24}
+            height={24}
+            alt="Cart Icon"
+          />
 
-{notificationMenu && 
-<div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
-
-<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
-</div>
-}
-    </div>
+          {notificationMenu && (
+            <div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
+              <Notifications notificationsRef={notificationsRef} unreadNotifications={setUnreadNotifications} />
+            </div>
+          )}
+        </div>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           <div className="details">
             <p className=" font-bold font-manropeEB">
