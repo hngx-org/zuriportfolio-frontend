@@ -199,7 +199,6 @@ export const Project = ({ data }: SkeletonProps) => {
     'Thumbnail not found'
   );
   return (
-
     <div className="flex md:flex-row flex-col mb-10 gap-1">
       <div className="min-w-[200px] w-[200px] order-2 md:order-1 rounded-xl md:mr-5 flex flex-col gap-4">
         {image}{' '}
@@ -223,7 +222,6 @@ export const Project = ({ data }: SkeletonProps) => {
         <a className="text-blue-100 font-semibold" target="_blank" href={data?.url} rel="noreferrer">
           Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
-
       </div>
     </div>
   );

@@ -23,10 +23,12 @@ type AssessmentDetails = {
   status: string;
   start_date: Date;
   end_date: Date;
+  taken?:boolean
 };
 
 const Dashboard = () => {
   const [result, setResult] = React.useState<AssessmentDetails[]>([]);
+  const [resultTap, setResultTap] = React.useState<AssessmentDetails[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -196,7 +198,7 @@ const Dashboard = () => {
                   </div>
                   <Link href={`/assessments/take-test/intro?data=${item.skill_id}`}>
                     <Button className="mt-[1.5rem] lg:mt-[1.8rem] xl:mt-[2.9rem] mx-auto text-[.6rem] md:text-[.75rem] lg:text-[.95rem] xl:text-[1.125rem] py-[.8rem] lg:py-[1rem] xl:py-[1.3rem] h-0 rounded-md">
-                      Take Assessment
+                      {item.taken===true?"Retake assessment":"Take Assessment"}
                     </Button>
                   </Link>
                 </div>
