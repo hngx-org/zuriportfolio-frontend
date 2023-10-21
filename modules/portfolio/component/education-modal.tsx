@@ -61,8 +61,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
   // const[degreeOptions, setDegreeOptions] = useState<DegreeOption | null>(null);
 
   const prefillForm = async (education: any) => {
-    console.log(degreeOptions);
-    console.log(education, 'education from');
     setSelectedDegreeId(String(education.degree.id));
     setEditingEducationId(String(education.id));
     setnewdegree();
@@ -73,10 +71,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
     setTo(education.to);
     setIsForm(true);
   };
-
-  useEffect(() => {
-    console.log(isEditMode);
-  }, [isEditMode]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
@@ -110,6 +104,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 const year = new Date().getFullYear();
                 const currYear = String(year);
                 const endYear = education.to === currYear ? 'Present' : education.to;
+                console.log(education);
 
                 return (
                   <article
