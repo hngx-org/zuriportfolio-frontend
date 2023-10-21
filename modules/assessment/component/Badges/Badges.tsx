@@ -30,7 +30,7 @@ const Badges: React.FC<BadgesProps> = ({
 
   return (
     <section className="bg-[#F2F4F5]">
-      <div className="hidden lg:flex pl-6  sm:pl-[96px] pt-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
+      <div className="hidden lg:flex pl-6  sm:pl-12 pt-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
         <div onClick={handleBack}>
           <MdArrowBackIosNew />
         </div>

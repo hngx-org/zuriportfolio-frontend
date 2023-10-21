@@ -3,7 +3,7 @@ import Image from 'next/image';
 const BadgesHeader = () => {
   return (
     <div className=" flex h-[92px] sm:h-[128px]  bg-brand-green-pressed justify-between relative overflow-hidden">
-      <div className=" flex flex-col text-white-100 justify-center pl-6  sm:pl-[96px]">
+      <div className=" flex flex-col text-white-100 justify-center pl-12 sm:pl-14">
         <h1 className=" font-manropeB sm:text-[32px] text-[25px]">Badge Details and performance</h1>
         <p className=" text-[14px] font-manropeL">Your progress and recognition</p>
       </div>
