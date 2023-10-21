@@ -29,7 +29,7 @@ const useUserSession = () => {
       notify({
         message: 'Logged out',
         type: 'success',
-        theme: 'dark',
+        theme: 'light',
       });
       handleAuth(undefined);
       router.push('/');
