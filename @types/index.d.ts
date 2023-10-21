@@ -497,14 +497,16 @@ export interface MetricTimelineProps {
 
 export interface OrderHistory {
   id: number;
+  fullId?: any;
   productName: string;
-  customerName: string;
-  date: Date;
+  customerName?: string;
+  date?: Date;
   status: 'completed' | 'cancelled' | 'pending';
+  currency: string;
   productType: string;
   price: number;
-  sales: number;
-  revenue: number;
+  sales?: number;
+  revenue?: number;
 }
 
 export interface WishlistProduct {
