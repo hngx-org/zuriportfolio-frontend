@@ -2,6 +2,7 @@ import { Manrope } from 'next/font/google';
 import React from 'react';
 import { OrderHistory } from '../../../../../@types';
 import { Clock } from 'iconsax-react';
+import Link from 'next/link';
 const manropeMD = Manrope({
   weight: ['500'],
   subsets: ['latin'],
@@ -72,10 +73,14 @@ const OrderHistoryRow = (props: OrderHistory) => {
     return `${padDate(date.getDate()).padStart(2, '0')}/${padDate(date.getMonth())}/${date.getFullYear()}`;
   };
 
+  console.log(props);
+
   return (
-    <tr className="font-manropeL border border-custom-color1 font-normal text-custom-color2 [&>*]:px-6  [&>*]:py-4">
-      <td className={`text-custom-color10 ${manropeMD.className} text-center`}>#{props.id}</td>
-      <td>#{props.revenue}</td>
+    <tr className="w-full font-manropeL border border-custom-color1 font-normal text-custom-color2 [&>*]:px-6  [&>*]:py-4">
+      <td className={`text-custom-color10 underline ${manropeMD.className} text-center`}>
+        <Link href={`/details/${(props as any)?.fullId}`}>#{props.id}</Link>
+      </td>
+      <td>₦{props.revenue}</td>
       <td className={`text-custom-color10 ${manropeMD.className}`}>{props.customerName}</td>
       <td>{formatDate()}</td>
       <td>

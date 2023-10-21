@@ -161,7 +161,6 @@ export const getRecentlyViewedProducts = async (token: string) => {
   }
 };
 
-
 export const getRecommendedProducts = async () => {
   const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recommendations';
   try {
