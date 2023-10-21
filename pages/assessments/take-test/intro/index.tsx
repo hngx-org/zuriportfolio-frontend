@@ -8,6 +8,8 @@ import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { getAssessmentDetails } from '../../../../http/userTakenAssessment';
 import { withUserAuth } from '../../../../helpers/withAuth';
 import Loader from '@ui/Loader';
+import { useQuery } from '@tanstack/react-query';
+import Head from 'next/head';
 
 type AssessmentDetails = {
   assessment_id: number;
@@ -24,34 +26,28 @@ type AssessmentDetails = {
 const TakeTest: FC = () => {
   const router = useRouter();
   const tokenRef = useRef<string | null>(null);
-  const [result, setResult] = React.useState<AssessmentDetails>();
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const { data } = router.query;
 
-  useEffect(() => {
+  const {
+    isLoading,
+    isError,
+    error,
+    data: assessment,
+  } = useQuery(['allAssessment'], () => getAssessmentDetails(tokenRef.current as string, data as string));
+  console.log('assessment', assessment);
+
+  const result = assessment;
+
+  React.useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
-    handleGetStarted();
   }, []);
 
-  const handleGetStarted = async () => {
-    const token = tokenRef.current;
-    try {
-      const res = await getAssessmentDetails(token as string, data as string);
-      console.log('2', res);
-      if (!res) {
-        setIsLoading(false);
-        throw new Error('Network response was not ok');
-      } else {
-        console.log(res);
-        setResult(res);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.log('catch error', error);
-    }
-  };
   return (
     <>
+      <Head>
+        <title>Assessment Description</title>
+        <meta name="description" content={`User assessment description page`} />
+      </Head>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
@@ -72,21 +68,14 @@ const TakeTest: FC = () => {
                 <h1 className="text-brand-green-primary font-manropeEB mt-4 mb-6 font-extrabold text-2xl">
                   Welcome to the <span className="capitalize">{result?.title}</span> quiz
                 </h1>
+                <p className="mb-8 text-sm md:text-base text-custom-color43">{result?.description}</p>
                 <p className="mb-8 text-sm md:text-base text-custom-color43">
                   Test Duration: This assessment would take approximately {result?.duration_minutes} minute to complete
                 </p>
                 <p className="mb-8 text-sm md:text-base text-custom-color43">
                   Question Count: This assessment has {result?.question_count} questions
                 </p>
-                <h5 className="text-custom-color43">Instructions:</h5>
-                <ul className="pl-5 list-decimal text-sm md:text-base text-custom-color43">
-                  <li>Focus: Find a quite, distraction free environment.</li>
-                  <li>Tech Requirements: Ensure a stable internet connection and device.</li>
-                  <li>Honesty: Answer honestly to access your skills accurately.</li>
-                  <li>Time Management: Manage your time wisely. Skip difficult questions if needed.</li>
-                  <li>No Asistence: Do not seek help or use external resources.</li>
-                  <li>Submission: Complete all questions and submit within the time limit</li>
-                </ul>
+
                 <div className="flex items-center justify-end mt-8">
                   <Link href={`/assessments/take-test/questions?data=${result?.skill_id}&id=${result?.assessment_id}`}>
                     <Button
