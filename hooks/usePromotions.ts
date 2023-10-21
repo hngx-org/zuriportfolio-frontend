@@ -2,91 +2,91 @@ import { useState, useEffect } from 'react';
 import { PromotionHistory } from '../@types';
 import axios from 'axios';
 
-const dummyPromotions: PromotionHistory[] = [
-  {
-    productName: 'Programming Course',
-    type: 'Coupon Code',
-    status: 'active',
-    discount: '15%',
-    quantity: 12,
-    sales: 102,
-  },
-  {
-    productName: 'Learning Design 101',
-    type: 'Discount',
-    status: 'active',
-    discount: '15%',
-    quantity: 10,
-    sales: 98,
-  },
-  {
-    productName: 'Learning Design 101',
-    type: 'Discount',
-    status: 'expired',
-    discount: '₦5000',
-    quantity: 10,
-    sales: 98,
-  },
-  {
-    productName: 'Learning Design 101',
-    type: 'Discount',
-    status: 'active',
-    discount: '₦5000',
-    quantity: 10,
-    sales: 98,
-  },
-  {
-    productName: 'Learning Design 101',
-    type: 'Coupon Code',
-    status: 'expired',
-    discount: '15%',
-    quantity: 10,
-    sales: 98,
-  },
-  {
-    productName: 'Learning Design 101',
-    type: 'Discount',
-    status: 'deactivated',
-    discount: '₦5000',
-    quantity: 10,
-    sales: 98,
-  },
-  {
-    productName: 'Learning Design 101',
-    type: 'Coupon Code',
-    status: 'active',
-    discount: '15%',
-    quantity: 10,
-    sales: 98,
-  },
-  {
-    productName: 'Learning Design 101',
-    type: 'Coupon Code',
-    status: 'active',
-    discount: '15%',
-    quantity: 10,
-    sales: 98,
-  },
-  {
-    productName: 'HNGx year book',
-    type: 'Coupon Code',
-    status: 'expired',
-    discount: '₦5000',
-    quantity: 10,
-    sales: 128,
-  },
-  {
-    productName: 'Favorite Mentor 2023',
-    type: 'Coupon Code',
-    status: 'active',
-    discount: '₦5000',
-    quantity: 10,
-    sales: 128,
-  },
-];
+// const dummyPromotions: PromotionHistory[] = [
+//   {
+//     productName: 'Programming Course',
+//     type: 'Coupon Code',
+//     status: 'active',
+//     discount: '15%',
+//     quantity: 12,
+//     sales: 102,
+//   },
+//   {
+//     productName: 'Learning Design 101',
+//     type: 'Discount',
+//     status: 'active',
+//     discount: '15%',
+//     quantity: 10,
+//     sales: 98,
+//   },
+//   {
+//     productName: 'Learning Design 101',
+//     type: 'Discount',
+//     status: 'expired',
+//     discount: '₦5000',
+//     quantity: 10,
+//     sales: 98,
+//   },
+//   {
+//     productName: 'Learning Design 101',
+//     type: 'Discount',
+//     status: 'active',
+//     discount: '₦5000',
+//     quantity: 10,
+//     sales: 98,
+//   },
+//   {
+//     productName: 'Learning Design 101',
+//     type: 'Coupon Code',
+//     status: 'expired',
+//     discount: '15%',
+//     quantity: 10,
+//     sales: 98,
+//   },
+//   {
+//     productName: 'Learning Design 101',
+//     type: 'Discount',
+//     status: 'deactivated',
+//     discount: '₦5000',
+//     quantity: 10,
+//     sales: 98,
+//   },
+//   {
+//     productName: 'Learning Design 101',
+//     type: 'Coupon Code',
+//     status: 'active',
+//     discount: '15%',
+//     quantity: 10,
+//     sales: 98,
+//   },
+//   {
+//     productName: 'Learning Design 101',
+//     type: 'Coupon Code',
+//     status: 'active',
+//     discount: '15%',
+//     quantity: 10,
+//     sales: 98,
+//   },
+//   {
+//     productName: 'HNGx year book',
+//     type: 'Coupon Code',
+//     status: 'expired',
+//     discount: '₦5000',
+//     quantity: 10,
+//     sales: 128,
+//   },
+//   {
+//     productName: 'Favorite Mentor 2023',
+//     type: 'Coupon Code',
+//     status: 'active',
+//     discount: '₦5000',
+//     quantity: 10,
+//     sales: 128,
+//   },
+// ];
 
-const usePromotions = (initialPromotions = dummyPromotions) => {
-  const [promotions, setPromotions] = useState(initialPromotions);
+const usePromotions = () => {
+  const [promotions, setPromotions] = useState<PromotionHistory[]>([]);
   const [promotionFilter, setPromotionFilters] = useState('all');
   const [{ sortBy, sortOrder }, setSortObj] = useState<{
     sortBy: keyof PromotionHistory;
@@ -125,7 +125,7 @@ const usePromotions = (initialPromotions = dummyPromotions) => {
   };
 
   const sortPromotion = (promotions: any[]) => {
-    const sortedOrders = [...initialPromotions].sort((a, b) => {
+    const sortedOrders = [...promotions].sort((a, b) => {
       let valueA = a[sortBy];
       let valueB = b[sortBy];
 
@@ -161,8 +161,10 @@ const usePromotions = (initialPromotions = dummyPromotions) => {
     try {
       setIsLoading(true);
       const promotion = await getPromo();
+      console.log(promotion);
       setPromotions(promotion || []);
     } catch (error) {
+      setPromotions([]);
     } finally {
       setIsLoading(false);
     }

@@ -74,6 +74,18 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const redirectToAnotherPage = () => {
     router.push('/super-admin/analytics-and-reporting/reports/performance-data');
   };
+
+  const formattedAmount = (amount: number | string) => {
+    if (amount !== undefined) {
+      const amountValue = typeof amount === 'string' ? parseFloat(amount) : amount;
+      const roundedValue = Math.round(amountValue);
+      const formattedValue =
+        roundedValue % 1 === 0 ? roundedValue.toLocaleString().replace('.00', '') : amountValue.toLocaleString();
+      return formattedValue;
+    } else {
+      return '';
+    }
+  };
   return (
     <>
       <div className="max-[1310px]:px-[1rem] w-full max-[834px]:px-[2.5rem] max-[760px]:pr-0 max-[830px]:px-[2.5rem] max-[500px]:px-[1.5rem] max-[500px]:pr-0 mb-[3rem]">
@@ -144,27 +156,27 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                     >
                       <div className="max-w-[10rem] pl-[1.5rem] w-full max-[778px]:min-w-[7rem]">
                         <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                          2023-09-25
+                          {performance.date}
                         </h6>
                       </div>
                       <div className="max-w-[11.5rem] w-full max-[778px]:min-w-[8.5rem]">
                         <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                          {performance.transaction_value}
+                          {formattedAmount(performance.transaction_value)}
                         </p>
                       </div>
                       <div className="max-w-[11.5rem] w-full max-[778px]:min-w-[8.5rem]">
                         <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                          {performance.transaction_volume}
+                          {formattedAmount(performance.transaction_volume)}
                         </p>
                       </div>
                       <div className="max-w-[11.63rem] w-full max-[778px]:min-w-[8.63rem]">
                         <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                          {performance.active_users}
+                          {formattedAmount(performance.active_users)}
                         </p>
                       </div>
                       <div className="max-w-[10.19rem] w-full max-[778px]:min-w-[7.19rem]">
                         <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                          {performance.total_orders}
+                          {formattedAmount(performance.total_orders)}
                         </p>
                       </div>
                       <div className="max-w-[10.75rem] w-full max-[1000px]:hidden">
@@ -188,7 +200,7 @@ const PerformanceData: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
           </div>
           <div>
             {/* <div className="max-w-77.5rem w-full h-[0.3125rem] bg-[#EAECF0]"></div> */}
-            <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-[#EAECF0] max-[760px]:rounded-br-none"></div>
+            <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-t-0 border-[#EAECF0] max-[760px]:rounded-br-none"></div>
           </div>
         </div>
         <ToastContainer />
