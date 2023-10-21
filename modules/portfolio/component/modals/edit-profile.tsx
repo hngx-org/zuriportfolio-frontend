@@ -29,27 +29,27 @@ const EditProfile = () => {
 
   // const [isFormValid, setIsFormValid] = useState(false);
 
-  const [badgeData, setBadgeData] = useState({
-    name: '',
-    badgeImage: '',
-  });
+  // const [badgeData, setBadgeData] = useState({
+  //   name: '',
+  //   badgeImage: '',
+  // });
 
-  useEffect(() => {
-    // Fetch badge data from the provided endpoint
-    fetch('https://hng6-r5y3.onrender.com/api/v1/users/e2009b92-8acf-406d-a974-95fb6a5215f3')
-      .then((response) => response.json())
-      .then((data) => {
-        // Assuming that the badge label and badge image data are in the response
-        // Update the badge data state
-        setBadgeData({
-          name: data.name,
-          badgeImage: data.badgeImage,
-        });
-      })
-      .catch((error) => {
-        console.error('Error fetching badge data:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // Fetch badge data from the provided endpoint
+  //   fetch('https://hng6-r5y3.onrender.com/api/v1/users/e2009b92-8acf-406d-a974-95fb6a5215f3')
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Assuming that the badge label and badge image data are in the response
+  //       // Update the badge data state
+  //       setBadgeData({
+  //         name: data.name,
+  //         badgeImage: data.badgeImage,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching badge data:', error);
+  //     });
+  // }, []);
 
   const getUser = async () => {
     try {
@@ -69,7 +69,6 @@ const EditProfile = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -89,9 +88,11 @@ const EditProfile = () => {
         setIsLoading(false);
       }
     };
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // console.log(response);
   }, []);
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     let matchingTrack: any;
@@ -282,7 +283,7 @@ const EditProfile = () => {
                   </SelectContent>
                 </Select>
               </label>
-              <Badges name={badgeData.name} badgeImage={badgeData.badgeImage} />
+              {/* <Badges name={badgeData.name} badgeImage={badgeData.badgeImage} /> */}
             </div>
             ​ ​
             <CountryCityDropdown
