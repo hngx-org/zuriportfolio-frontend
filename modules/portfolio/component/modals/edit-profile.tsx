@@ -8,8 +8,7 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Modal from '@ui/Modal';
 import Loader from '@ui/Loader';
 import CountryCityDropdown from './CountryCityDropdown';
-// import response from '../../../../pages/super-admin/assessment/response';
-// import Badges from '@modules/assessment/component/Badges/Badges';
+import Badges from './badges';
 
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
@@ -31,7 +30,7 @@ const EditProfile = () => {
   // const [isFormValid, setIsFormValid] = useState(false);
 
   const [badgeData, setBadgeData] = useState({
-    badgeLabel: '',
+    name: '',
     badgeImage: '',
   });
 
@@ -43,7 +42,7 @@ const EditProfile = () => {
         // Assuming that the badge label and badge image data are in the response
         // Update the badge data state
         setBadgeData({
-          badgeLabel: data.badgeLabel,
+          name: data.name,
           badgeImage: data.badgeImage,
         });
       })
@@ -51,21 +50,6 @@ const EditProfile = () => {
         console.error('Error fetching badge data:', error);
       });
   }, []);
-
-
-  const Badges = ({ badgeLabel, badgeImage }) => {
-    return (
-      <div>
-        <div>
-          <h3>Badge Label: {badgeLabel}</h3>
-        </div>
-        <div>
-          <Image src={badgeImage} alt="Badge" />
-        </div>
-      </div>
-    );
-  };
-  
 
   const getUser = async () => {
     try {
@@ -105,7 +89,6 @@ const EditProfile = () => {
         setIsLoading(false);
       }
     };
-    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // console.log(response);
   }, []);
@@ -283,7 +266,7 @@ const EditProfile = () => {
                   <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
                     <SelectValue
                       defaultValue={selectedTrack}
-                      placeholder="select Track"
+                      placeholder="Select Track"
                       className="hover:border-green-500"
                     />
                   </SelectTrigger>
@@ -298,9 +281,8 @@ const EditProfile = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                <Badges badgeLabel={badgeData.badgeLabel} badgeImage={badgeData.badgeImage} />
               </label>
-              {/* <Badges badgeLabel={badgeData.badgeLabel} badgeImage={badgeData.badgeImage} /> */}
+              <Badges name={badgeData.name} badgeImage={badgeData.badgeImage} />
             </div>
             ​ ​
             <CountryCityDropdown

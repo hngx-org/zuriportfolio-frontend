@@ -1,17 +1,16 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-const Badges = ({ badgeLabel, badgeImage }) => {
-    return (
+const Badges = ({ name, badgeImage }) => {
+  return (
+    <div>
       <div>
-        <div>
-          <h3>Badge Label: {badgeLabel}</h3>
-        </div>
-        <div>
-          <Image src={badgeImage} alt="Badge" />
-        </div>
+        <p>Badge Label: {name}</p>
       </div>
-    );
-  };
-  
-  export default Badges;
-  
+      <div>
+        <Image src={badgeImage} alt="Badge" />
+      </div>
+    </div>
+  );
+};
+
+export default Badges;

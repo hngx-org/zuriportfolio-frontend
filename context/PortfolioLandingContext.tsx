@@ -149,12 +149,14 @@ export function PortfolioCtxProvider(props: { children: any }) {
     }
     if (getUserSections.data) {
       const { user } = getUserSections.data;
+      console.log(user)
       setUserData({
+      
         firstName: user?.firstName,
         lastName: user?.lastName,
         avatarImage: user?.profilePic,
-        city: user?.location,
-        country: user?.portfolio?.country,
+        city: getUserSections?.data?.portfolio?.city,
+        country: getUserSections?.data?.portfolio?.country,
         tracks: getUserSections.data?.tracks,
         coverImage: user?.profileCoverPhoto,
         level: user?.badges?.name,
