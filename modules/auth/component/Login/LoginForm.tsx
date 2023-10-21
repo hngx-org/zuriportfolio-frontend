@@ -205,8 +205,8 @@ function LoginForm() {
           </div>
           <div className="mt-[1.6rem] flex flex-col gap-[1rem] relative">
             <SignUpWithGoogle />
-            <SignUpWithGithub />
-            <SignUpWithFacebook />
+            {/* <SignUpWithGithub /> */}
+            {/* <SignUpWithFacebook /> */}
           </div>
         </div>
       </div>
