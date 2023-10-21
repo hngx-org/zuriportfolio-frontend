@@ -1,14 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { MetricChartProps, MetricTimelineProps } from '../../../../@types';
-import {
-  metricsChartTimeline,
-  twelveMonths,
-  threeMonths,
-  thirtyDays,
-  sevenDays,
-  twentyFourHours,
-} from '../../../../db/dashboard';
+import { metricsChartTimeline } from '../../../../db/dashboard';
 import { logQueryResult } from '../../../../helpers/dashboard';
 import {
   fetch12MonthStoreTraffic,
@@ -17,21 +10,13 @@ import {
   fetch3MonthStoreTraffic,
   fetch7DayStoreTraffic,
   fetchSalesReports,
-  fetchStoreTraffic,
 } from '../../../../http/dashboard';
 import Chart from './chart';
 
 export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
   let data;
-  const [timeline, setTimeline] = useState({ active: true, index: 0 });
-  const [chartData, setChartData] = useState(twelveMonths);
-
   // fetch sales report data
-  const {
-    data: querySalesReportData,
-    isFetched,
-    isFetching,
-  } = useQuery({
+  const { data: querySalesReportData } = useQuery({
     queryFn: () => fetchSalesReports(),
     queryKey: ['sales-reports'],
     enabled: true,
@@ -39,102 +24,91 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
   // logQueryResult('Query Sales Report', querySalesReportData);
 
   // fetch store traffic data
-  const { data: query12MonthStoreTrafficData } = useQuery({
+  const {
+    data: query12MonthStoreTrafficData,
+    isFetched,
+    isFetching,
+  } = useQuery({
     queryFn: () => fetch12MonthStoreTraffic(),
     queryKey: ['store-traffic-12m'],
     enabled: true,
   });
-  logQueryResult('Query Store Traffic 12m', query12MonthStoreTrafficData);
+  // logQueryResult('Query Store Traffic 12m', query12MonthStoreTrafficData);
 
   const { data: query3MonthStoreTrafficData } = useQuery({
     queryFn: () => fetch3MonthStoreTraffic(),
     queryKey: ['store-traffic-3m'],
     enabled: true,
   });
-  logQueryResult('Query Store Traffic 3m', query3MonthStoreTrafficData);
+  // logQueryResult('Query Store Traffic 3m', query3MonthStoreTrafficData);
 
   const { data: query30DayStoreTrafficData } = useQuery({
     queryFn: () => fetch30DayStoreTraffic(),
     queryKey: ['store-traffic-30d'],
     enabled: true,
   });
-  logQueryResult('Query Store Traffic 30d', query30DayStoreTrafficData);
+  // logQueryResult('Query Store Traffic 30d', query30DayStoreTrafficData);
 
   const { data: query7DayStoreTrafficData } = useQuery({
     queryFn: () => fetch7DayStoreTraffic(),
     queryKey: ['store-traffic-7d'],
     enabled: true,
   });
-  logQueryResult('Query Store Traffic 7d', query7DayStoreTrafficData);
+  // logQueryResult('Query Store Traffic 7d', query7DayStoreTrafficData);
 
   const { data: query24HourStoreTrafficData } = useQuery({
     queryFn: () => fetch24HourStoreTraffic(),
     queryKey: ['store-traffic-24h'],
     enabled: true,
   });
-  logQueryResult('Query Store Traffic 24h', query24HourStoreTrafficData);
+  // logQueryResult('Query Store Traffic 24h', query24HourStoreTrafficData);
 
-  //  create mock sales and report data
+  const [timeline, setTimeline] = useState({ active: true, index: 0 });
+  const [trafficChartData, setTrafficChartData] = useState(query12MonthStoreTrafficData);
+  const [salesChartData, setsalesChartData] = useState();
+
   const updateChartData = (index: number) => {
-    switch (index) {
-      case 0:
-        setChartData(twelveMonths);
-        break;
-      case 1:
-        setChartData(threeMonths);
-        break;
-      case 2:
-        setChartData(thirtyDays);
-        break;
-      case 3:
-        setChartData(sevenDays);
-        break;
-      case 4:
-        setChartData(twentyFourHours);
-        break;
-      default:
-        setChartData(twelveMonths);
-        break;
+    if (isBarChart) {
+      switch (index) {
+        case 0:
+          setTrafficChartData(query12MonthStoreTrafficData);
+          break;
+        case 1:
+          setTrafficChartData(query3MonthStoreTrafficData);
+          break;
+        case 2:
+          setTrafficChartData(query30DayStoreTrafficData);
+          break;
+        case 3:
+          setTrafficChartData(query7DayStoreTrafficData);
+          break;
+        case 4:
+          setTrafficChartData(query24HourStoreTrafficData);
+          break;
+        default:
+          setTrafficChartData(query12MonthStoreTrafficData);
+          break;
+      }
+    } else {
     }
     // update timeline
     setTimeline({ active: true, index });
   };
 
-  const numBars = {
-    0: 12,
-    1: 3,
-    2: 30,
-    3: 7,
-    4: 24,
-  }[timeline.index];
+  // const numBars = {
+  //   0: 12,
+  //   1: 3,
+  //   2: 30,
+  //   3: 7,
+  //   4: 24,
+  // }[timeline.index];
 
-  const numBarsAsNumber: number = numBars as number;
+  // const numBarsAsNumber: number = numBars as number;
 
-  const mockSalesReportData = Array.from({ length: numBarsAsNumber }, (_, i) => {
-    const income: number = Math.floor(Math.random() * 1001) + 500;
-    const timeline: string = chartData[i % chartData.length];
-    return { timeline, income };
-  });
-
-  const mockStoreTrafficData = Array.from({ length: numBarsAsNumber }, (_, i) => {
-    const income: number = Math.floor(Math.random() * 1001) + 500;
-    const timeline: string = chartData[i % chartData.length];
-    return { timeline, income };
-  });
-
-  // if fetch is successful, use queried data, else use mock data
   if (isBarChart) {
-    if (querySalesReportData?.timeline) {
-      data = querySalesReportData;
-    } else {
-      data = mockSalesReportData;
-    }
+    data = trafficChartData;
   } else {
-    if (queryStoreTrafficData?.timeline) {
-      data = queryStoreTrafficData;
-    } else {
-      data = mockStoreTrafficData;
-    }
+    data = 0;
   }
 
   return (
