@@ -447,6 +447,7 @@ const AwardList: React.FC<AwardListProps> = () => {
       // Fetch data when the AwardRead modal is opened
       fetchAwards();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isModalOpen, refreshPage]);
   useEffect(() => {}, [isModalOpen]);
 

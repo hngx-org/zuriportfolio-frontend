@@ -80,7 +80,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
-      <div className="space-y-6 bg-white-100 px-16 py-5 max-sm:px-">
+      <div className="space-y-6 bg-white-100 px-6 py-5 max-sm:px-">
         <div className="flex flex-col gap-3 mb-6  w-full">
           <div className="flex justify-between items-center">
             <>

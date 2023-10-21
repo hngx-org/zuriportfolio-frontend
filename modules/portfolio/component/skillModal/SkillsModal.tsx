@@ -186,7 +186,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
     <section className="w-full flex items-center justify-center ">
       <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         {!isLoading ? (
-          <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL max-sm:px-2 font-manropeL">
+          <div className=" w-full max-sm:w-full px-10 py-5 fontFamily-manropeEL max-sm:px-2 font-manropeL">
             <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
               <h1 className="font-extrabold text-2xl ">Skills</h1>
               <button

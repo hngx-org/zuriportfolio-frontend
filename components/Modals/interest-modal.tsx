@@ -173,7 +173,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
           <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
         </>
       ) : (
-        <section className="py-6 px-16">
+        <section className="py-6 px-6">
           <section className="flex justify-between items-center border-b-4 pb-3 border-b-[#009254]">
             <section className="flex items-center">
               <h4 className="text-[1.2rem] sm:text-[1.4rem] font-bold text-[#2E3130] font-manropeL"> Interest </h4>
