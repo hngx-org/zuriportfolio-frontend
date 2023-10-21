@@ -1,3 +1,17 @@
+function getAuthTokenFromCookies(cookieName: string): string | null {
+  const cookies = document.cookie;
+  const cookieArray = cookies.split(';');
+
+  for (const cookie of cookieArray) {
+    const [name, value] = cookie.trim().split('=');
+    if (name === cookieName) {
+      return value;
+    }
+  }
+
+  return null;
+}
+
 import { useState } from 'react';
 import Modal from '@ui/Modal';
 import { toast } from 'react-toastify';
@@ -10,13 +24,18 @@ interface ComplaintModalProps extends ModalProps {
   product: string;
   customerID: string;
 }
+const token = getAuthTokenFromCookies('UTM_tracker');
+const apiUrl = `https://zuri-cart-checkout.onrender.com/api/checkout_cart/complaints`;
 
 const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, product, customerID }) => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const payload = { user_id: customerID, product_id: product, complaint_text: description };
-  const stringifyData = JSON.stringify(payload);
+  const data = { product_id: '136fda3b-6e1e-4711-a4ac-6dfb298615a9 ', complaint: description };
+  const stringifyData = JSON.stringify(data);
+
+  //auth
+  // const authToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3YjRiOThiLWFlMzMtNGQ0Yy1hNmUzLTQ4YzY5MGQ5NDUyMyIsImZpcnN0TmFtZSI6IkJvcmRlciIsImVtYWlsIjoibW9yemV5b21sZUBndWZ1bS5jb20iLCJpYXQiOjE2OTcyNzUwMDR9.2v-dtbXuYl5J97F_S2M-vZB8lVuAnwCM1x3FJ0xOJWs`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,16 +44,14 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
       setError('Complaint cannot be empty');
     } else {
       try {
-        const response = await fetch(
-          `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/register_complaints/`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: stringifyData,
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
-        );
+          body: stringifyData,
+        });
         if (response.ok) {
           toast.success('Submitted Complaint, Successfully', {
             position: 'top-right',
@@ -46,16 +63,42 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
             progress: undefined,
             theme: 'light',
           });
-          const res = await response.json();
+          {
+            /* const res = await response.json();
           console.log(res.data);
           setError(''); // Clear any previous errors
           onClose();
         } else {
           setError('Failed to submit complaint. Please try again.');
+        }*/
+          }
+
+          const res = await response.json();
+          console.log(res.data);
+          setError(''); // Clear any previous errors
+          onClose();
+        } else {
+          const errorData = await response.json();
+          if (response.status === 404) {
+            console.error('404: 404 Not Found - Endpoint Not Found');
+          } else if (response.status === 403) {
+            console.error('403: 403 Forbidden - You are not authorized to perform this action');
+          } else if (response.status === 500) {
+            console.error('500: 500 Internal Server Error - Complaint not saved. Please try again');
+          } else if (response.status === 401) {
+            console.error('401: 401 Unauthorized - Authentication required');
+          } else if (response.status === 422) {
+            console.error('422: 422 Unprocessable Entity - Invalid data submitted');
+          } else {
+            console.error('An error occurred while submitting your complaint');
+          }
+          toast.error(errorData.message, {
+            // Other error notification settings
+          });
         }
-      } catch (err) {
-        console.log(err);
-        toast.error('An error occurred while submitting your complaint', {
+      } catch (err: any) {
+        console.error(err);
+        toast.error(err.message, {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
