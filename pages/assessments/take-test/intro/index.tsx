@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import { getAssessmentDetails } from '../../../../http/userTakenAssessment';
 import { withUserAuth } from '../../../../helpers/withAuth';
+import Head from 'next/head';
 import Loader from '@ui/Loader';
 
 type AssessmentDetails = {
@@ -37,22 +38,24 @@ const TakeTest: FC = () => {
     const token = tokenRef.current;
 
     try {
-      const res = await getAssessmentDetails(token as string, data as string);
-      console.log('2', res);
+      const res = await getAssessmentDetails(token as string, data as string);      
       if (!res) {
         setIsLoading(false);
         throw new Error('Network response was not ok');
-      } else {
-        console.log(res);
+      } else {        
         setResult(res);
         setIsLoading(false);
       }
-    } catch (error) {
-      console.log('catch error', error);
+    } catch (error) {      
     }
   };
   return (
     <>
+    <Head>         
+          <link rel="icon" href="/assets/zuriLogo.svg" />
+          <title>{result?.title}</title>
+          <meta name="description" content={result?.description} />
+        </Head>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
@@ -63,7 +66,7 @@ const TakeTest: FC = () => {
             <AssessmentBanner
               bannerImageSrc="/assets/images/banner/assm_1.svg"
               title="Assessment test"
-              subtitle="You are currently writing the user persona quiz"
+              subtitle={`You are currently writing the ${result?.title} quiz`}
             />
             <div className="container mx-auto pt-16 px-8 pb-36 md-pb-4 md:h-screen mb-24">
               <div className="mx-auto sm:w  md:w-fit rounded-lg border border-slate-100 pt-10 pb-5 md:pb-10 md:px-10 px-5 mb-16">
