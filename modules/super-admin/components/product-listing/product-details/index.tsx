@@ -193,7 +193,7 @@ const SuperAdminProdDetails = ({
                       data?.product_status === 'Active'
                         ? handleDelete()
                         : data?.product_status === null
-                        ? handleRestoreProd()
+                        ? handleRemoveSaction()
                         : setOpenModal(true);
                     }}
                   >
