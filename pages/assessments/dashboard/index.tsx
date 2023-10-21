@@ -11,6 +11,7 @@ import medal from '../../../public/assets/dashboard/medal-star.svg';
 import { useRouter } from 'next/router';
 import { withUserAuth } from '../../../helpers/withAuth';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import Loader from '@ui/Loader';
 
 type AssessmentDetails = {
   id?: string;
@@ -65,7 +66,7 @@ const Dashboard = () => {
     <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
       {isLoading ? (
         <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
+          <Loader />
         </div>
       ) : (
         <div className="w-[100%] mb-[3rem]">

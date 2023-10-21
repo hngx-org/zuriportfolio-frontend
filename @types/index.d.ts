@@ -1,7 +1,9 @@
 import React from 'react';
+
+import { boolean } from 'zod';
+
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
-import { boolean } from 'zod';
 
 // export all interfaces and types
 declare module 'nprogress';
@@ -293,6 +295,11 @@ export interface IntrestedProducts {
 export interface ratingProps {
   src: string;
   alt: string;
+}
+
+export interface ApiData {
+  endpoint: string;
+  status: string;
 }
 
 export interface starProps {
@@ -643,6 +650,7 @@ export type SectionModalProps = {
   primaryText?: string;
   onClickAction?: () => void;
   sectionToDelete?: string;
+  loading?: boolean;
 };
 
 export interface PaymentStatusModalProps {
@@ -819,6 +827,7 @@ export type User = {
   roleId: number;
   twoFactorAuth: boolean;
   two_factor_auth: boolean;
+  slug: string | null;
 };
 
 export type AuthResponse = {

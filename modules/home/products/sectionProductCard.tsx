@@ -26,7 +26,7 @@ const SectionProductCard = ({ title, price, rating, image, shop, currency, id }:
         <div className="p-6">
           <Link
             className="tracking-low text-[14px] font-manropeL text-[#052011] mb-1"
-            href={`/marketplace/product-details?id=${id}`}
+            href={`/marketplace/product-details/${id}`}
           >
             {title}
           </Link>
