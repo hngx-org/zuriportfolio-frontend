@@ -28,7 +28,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<skillListRes>>([
     { skill: 'version control', skillId: 1 },
-    { skill: 'deveOps', skillId: 2 },
+    { skill: 'devOps', skillId: 2 },
     { skill: 'testing', skillId: 3 },
     { skill: 'art', skillId: 4 },
     { skill: 'sketch', skillId: 5 },
@@ -223,8 +223,8 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
             <div className="my-12">
               <Input
                 type="text"
-                placeHolder='Enter your skill and press "ENTER'
-                className="w-full rounded-lg p-4 mb-6 border-2 border-[#C4C7C6] max-sm:p-2"
+                placeHolder=''
+                className="w-full rounded-lg p-4 mb-2 border-2 border-[#C4C7C6] max-sm:p-2"
                 onChange={inputChange}
                 onKeyDown={(e) => {
                   handleKeyPress(e);
@@ -232,6 +232,9 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
                 }}
                 value={inputValue}
               />
+              <label htmlFor="" className="text-brand-green-primary ">
+                Enter your tags and press enter
+              </label>
             </div>
 
             <div className="w-full">
