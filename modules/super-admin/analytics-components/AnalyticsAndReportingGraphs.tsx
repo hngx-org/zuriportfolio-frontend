@@ -3,6 +3,8 @@ import { BarChart, Bar, LineChart, Line, XAxis, YAxis, ReferenceLine, Responsive
 import Link from 'next/link';
 import Image from 'next/image';
 import ActivityDetails from './ActivityDetails';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface MonthlyData {
   name: string;
@@ -31,10 +33,10 @@ const fetchData = async (url: any) => {
     return data;
   } catch (error) {
     console.error('Error fetching data:', error);
+    toast.error('Internal Server Error');
     throw error;
   }
 };
-
 
 const AnalyticsAndReportingGraphs = () => {
   const [isGraph, setIsGraph] = useState(false);
@@ -100,6 +102,9 @@ const AnalyticsAndReportingGraphs = () => {
         });
       } catch (error) {
         console.error('Error fetching data for period:', error);
+        if (!toast.isActive('error')) {
+          toast.error('Server error, graph details unavailable!', { toastId: 'error' });
+        }
       } finally {
         setLoadingStates((prevLoadingStates) => ({
           ...prevLoadingStates,
@@ -265,7 +270,6 @@ const AnalyticsAndReportingGraphs = () => {
                     </div>
                   )}
                 </div>
-
                 <div style={{ position: 'relative' }} className="mt-6">
                   {index === 0 ? (
                     <ResponsiveContainer height={230} width="95%" className="mx-auto text-[14px]">
@@ -308,6 +312,7 @@ const AnalyticsAndReportingGraphs = () => {
             </div>
           ))}
         </div>
+        <ToastContainer />
         <ActivityDetails token={bearerToken} />
       </section>
     </>
