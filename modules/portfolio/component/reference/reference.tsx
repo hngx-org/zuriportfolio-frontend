@@ -404,9 +404,9 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   // Map through the original data, sort it, and create a new array
   const sortedCountryData = countryData.slice().sort(sortByCode);
   return (
-    <Modal isOpen={isOpen} closeModal={onCloseModal} size="lg" isCloseIconPresent={false}>
+    <Modal isOpen={isOpen} closeModal={onCloseModal} size="xl" isCloseIconPresent={false}>
       <div
-        className="mx-auto bg-white-100 rounded-md p-3 py-5"
+        className="mx-auto bg-white-100 rounded-md p-3 py-6"
         onClick={() => {
           !selHide ? setselHide(true) : '';
         }}
@@ -417,9 +417,9 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
               onClick={() => {
                 editing ? setEditing(false) : onCloseModal();
               }}
-              className="cursor-pointer hover:bg-brand-green-shade95 p-3 rounded-full"
+              className="cursor-pointer hover:bg-brand-green-shade95 rounded-full"
             >
-              <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M7.99984 16.9201L1.47984 10.4001C0.709844 9.63008 0.709844 8.37008 1.47984 7.60008L7.99984 1.08008"
                   stroke="#464646"
@@ -428,9 +428,9 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
-              </svg>
+              </svg> */}
             </div>
-            <span className="font-semibold text-lg">References</span>
+            <span className="font-medium text-2xl">References</span>
           </div>
           <div
             className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"

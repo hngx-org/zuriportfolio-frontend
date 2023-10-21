@@ -609,7 +609,7 @@ const AwardItem: React.FC<AwardItemProps> = ({ award }) => {
   };
 
   return (
-    <div className="border-b-[1px] border-b-brand-disabled gap-12 py-3">
+    <div className="border-b-[1px] border-b-brand-disabled gap-12 py-2">
       <div className="flex flex-col sm:flex-row gap-6 w-full justify-between">
         <div className="flex flex-col sm:flex-row sm:gap-10 sm:w-[60%] lg:w-[35%] gap-4  justify-between">
           <div>
@@ -703,7 +703,7 @@ const EditForm: React.FC<{
   return (
     <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
-        <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
+        <div className="flex gap-6  border-b-4 border-brand-green-hover py-2 px-0 justify-between items-center">
           <div className="flex items-center gap-6">
             <ArrowLeft2 />
             <h1 className="font-bold text-2xl text-white-700">Awards</h1>

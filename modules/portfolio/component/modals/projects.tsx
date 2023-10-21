@@ -239,8 +239,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   }, [dataToEdit]);
 
   return (
-    <section className="px-16 pt-10 max-sm:w-full max-sm:px-1">
+    <section className="px-6 pt-10 max-sm:w-full max-sm:px-1">
       {/* header */}
+      
       <div className="flex justify-between items-center max-sm:w-full">
         <p className="text-[1.2rem] sm:text-[1.5rem] font-extrabold text-[#2E3130] font-manropeL">Projects</p>
         <CloseSquare size="32" color="#009254" variant="Bold" onClick={close} className="cursor-pointer" />
@@ -447,6 +448,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         </div>
       </div>
     </section>
+    
   );
 };
 
