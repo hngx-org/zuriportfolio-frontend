@@ -2,16 +2,17 @@ import { UseFormReturnType } from '@mantine/form';
 import { years } from '@modules/portfolio/data';
 import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import { CloseCircle, Trash } from 'iconsax-react';
+import { CloseCircle } from 'iconsax-react';
 
 export const renderFields = (
   field: string,
   id: number,
+  deleteField: (id: number) => void,
+  index: number ,
   form?: UseFormReturnType<
     { addList: { id: string; fields: any[] }[] },
     (values: { addList: { id: string; fields: any[] }[] }) => { addList: { id: string; fields: any[] }[] }
   >,
-  index?: number | undefined,
 ) => {
   switch (field) {
     case 'title':
@@ -21,7 +22,7 @@ export const renderFields = (
           <div className="">
             <input
               className="border-brand-green-primary border-b-[5px] w-min-[9rem] pb-2 text-2xl inline-block focus:outline-none placeholder-black"
-              placeholder="Section Title"
+              placeholder="Add Section Title"
               {...form?.getInputProps(`addList.0.title`)}
             />
           </div>
@@ -32,12 +33,12 @@ export const renderFields = (
         <div className="flex flex-col gap-1 items-start" id={`${id}`}>
           <div className="flex justify-between items-center w-full">
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#2 Subtitle</p>
-            <CloseCircle size={18} className="text-gray-200 cursor-pointer" />
+            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
           </div>
           <input
             type="text"
             className="text-left mb-2 text-custom-color43 w-full font-semibold font-manropeL outline-none"
-            placeholder="Field Title"
+            placeholder="Add Field Title"
             {...form?.getInputProps(`addList.0.subtitle.title`)}
           />
           <div className="w-full">
@@ -55,7 +56,7 @@ export const renderFields = (
         <div className="flex text-left flex-col gap-1 items-start" id={`${id}`}>
           <div className="flex justify-between items-center w-full">
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#4 Links</p>
-            <CloseCircle size={18} className="text-white-400 cursor-pointer" />
+            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
           </div>
           <div>
             <input
@@ -82,7 +83,7 @@ export const renderFields = (
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">
               #5 Description
             </p>
-            <CloseCircle size={18} className="text-white-400 cursor-pointer" />
+            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
           </div>
           <div>
             <p className="text-left mb-1 text-custom-color43 w-full font-semibold font-manropeL">Description</p>
@@ -103,12 +104,12 @@ export const renderFields = (
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">
               #3 Input field
             </p>
-            <CloseCircle size={18} className="text-white-400 cursor-pointer" />
+            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
           </div>
           <input
             type="text"
             className="text-left mb-2 text-custom-color43 w-full font-semibold font-manropeL outline-none"
-            placeholder="Field Title"
+            placeholder="Add Input Title"
             {...form?.getInputProps(`addList.0.fields.${index}.inputfield`)}
           />
           <div className="w-full">
@@ -126,7 +127,7 @@ export const renderFields = (
         <div className="flex flex-col gap-2 items-start" id={`${id}`}>
           <div className="flex justify-between items-center w-full">
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#6 Dates</p>
-            <CloseCircle size={18} className="text-white-400 cursor-pointer" />
+            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
           </div>
           <div className="w-full">
             <div className="flex justify-between gap-7">

@@ -10,6 +10,7 @@ const CustomNewSections = ({
   setGetNewSection,
   isLoading,
   createCustomSection,
+  deleteSection,
 }: {
   onClose: () => void;
   data: any;
@@ -17,6 +18,7 @@ const CustomNewSections = ({
   setGetNewSection: any;
   isLoading: boolean;
   createCustomSection: () => void;
+  deleteSection: () => void;
 }) => {
   const handleEdit = () => {
     setNewSection(true);
@@ -56,13 +58,13 @@ const CustomNewSections = ({
           </div>
         </div>
         <div className="h-[1px] bg-[#E1E3E2] w-full"></div>
-        <div className="self-end flex gap-4 font-manropeL space-x-4 my-4">
+        <div className="self-end flex gap-2 font-manropeL space-x-3 my-4">
           <div onClick={handleEdit}>
-            <Edit2 size="28" color="#37d67a" variant="Outline" />
+            <Edit2 size="25" color="#37d67a" variant="Outline" className="cursor-pointer" />
           </div>
 
-          <div>
-            <Trash size="28" color="#f47373" variant="Outline" />
+          <div onClick={deleteSection}>
+            <Trash size="25" color="#f47373" variant="Outline" className="cursor-pointer" />
           </div>
         </div>
       </article>

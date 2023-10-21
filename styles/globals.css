@@ -16,3 +16,19 @@ input[type='number'] {
   -moz-appearance: textfield;
   -webkit-appearance: textfield;
 }
+
+/* disable scroll bar on custom section - portfolio */
+
+.renderedFields::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.renderedFields::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.renderedFields::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+}

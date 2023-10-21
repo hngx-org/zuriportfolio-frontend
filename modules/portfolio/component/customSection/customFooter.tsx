@@ -17,7 +17,7 @@ const CustomFooter = ({
         onClick={handleClose}
         intent={'secondary'}
         className="w-full rounded-md self-end sm:w-[6rem]"
-        size={'lg'}
+        size={'sm'}
       >
         Cancel
       </Button>
@@ -26,7 +26,7 @@ const CustomFooter = ({
         isLoading={isLoading}
         onClick={onclick}
         className="w-full rounded-md self-end sm:w-[6rem]"
-        size={'lg'}
+        size={'sm'}
       >
         Save
       </Button>
