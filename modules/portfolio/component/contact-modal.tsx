@@ -196,7 +196,9 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
             </div>
             ​
             <div className="flex mx-auto flex-col gap-[.5rem] w-full sm:w-[90%]">
-              <label className="font-semibold text-[#444846] text-[.9rem]">Email *</label>
+              <label className="font-semibold text-[#444846] text-[.9rem]">
+                Email <span className="text-red-300">*</span>
+              </label>
               <Input
                 placeHolder="Enter email"
                 onChange={(e) => {
@@ -242,7 +244,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                     <div className="flex flex-col justify-center w-[100%] h-full">
                       <label className="font-semibold text-[#444846] text-[.9rem] mb-[.1rem]">Link to social</label>
                       <div className="flex rounded-md justify-center items-center border h-[2.5rem] border-[#E1E3E2]">
-                        <span className="font-manropeL w-1/3 text-xs text-center">Type link</span>
+                        {/* <span className="font-manropeL w-1/3 text-xs text-center">Type link</span> */}
                         <Input
                           placeHolder="Enter social link"
                           onChange={(e) => {
@@ -256,7 +258,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                     </div>
                   </div>
 
-                  <div className="mb-3 font-manropeL mx-auto w-full sm:w-[90%] text-right">
+                  <div className="mb- font-manropeL mx-auto w-full sm:w-[90%] text-right">
                     <span
                       className="font-semibold cursor-pointer text-brand-red-hover"
                       onClick={() => handleSocialDelete(social.id)}
@@ -264,7 +266,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                       <Trash size="32" color="#f47373" variant="Outline" />
                     </span>
                   </div>
-                  <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
+                  <hr className="mb-6 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
                 </form>
               ))}
           </form>
