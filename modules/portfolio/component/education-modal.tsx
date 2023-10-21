@@ -102,7 +102,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
-        <>{isLoading && <Loader />}</>
+        {/* <>{isLoading && <Loader />}</> */}
         <>
           {isData && (
             <div className="">
@@ -346,7 +346,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   Cancel
                 </Button>
                 <Button disabled={isLoading} type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
-                  Save
+                  {isLoading ? <Loader /> : 'Save'}
                 </Button>
               </div>
             </form>
@@ -384,6 +384,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                   type="submit"
                   className="w-full rounded-md sm:w-[6rem]"
                   size={'lg'}
+                  disabled={isData}
                   onClick={() => {
                     console.log('SAVING');
                     onSaveModal();

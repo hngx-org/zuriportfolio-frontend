@@ -83,10 +83,10 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
   return (
     <Modal size="xxl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
       {loading ? (
-        <>
+        <div className="py-52">
           <Loader />
           <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
-        </>
+        </div>
       ) : (
         <>
           {route === allRoutes[0] && (

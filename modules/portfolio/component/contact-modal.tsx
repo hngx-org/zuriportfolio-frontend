@@ -9,6 +9,7 @@ import axios from 'axios';
 import { sendArrayOfObjects } from '../functions/sendArrayOfObjects';
 import { notify } from '@ui/Toast';
 import { Trash } from 'iconsax-react';
+import Loader from '@ui/Loader';
 
 const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -277,7 +278,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                 onClick={handleSubmit}
                 disabled={loading}
               >
-                Save
+                {loading ? <Loader /> : 'Save'}
               </Button>
             </div>
           </div>

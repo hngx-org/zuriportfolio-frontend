@@ -9,6 +9,7 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import { Data, allRouteOptions } from './project-section-modal';
+import Loader from '@ui/Loader';
 
 type ProjectSectionProps = {
   onCloseModal: () => void;
@@ -440,7 +441,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 className={`${loading ? 'opacity-90' : 'opacity-100'} rounded-lg min-w-[100px]`}
                 onClick={handleSubmit}
               >
-                Save
+                {loading ? <Loader /> : 'Save'}
               </Button>
             </div>
           </form>
