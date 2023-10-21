@@ -22,12 +22,12 @@ function VerificationLinkSent({ handleClick }: Props) {
   const { mutate, isLoading } = useAuthMutation(resendVerification, {
     onSuccess: (data) => {
       if (data.status === 200) {
-        notify({ message: data.message, type: 'success' });
+        notify({ message: data.message, type: 'success', theme: 'light'});
         return;
       }
     },
     onError: (error: any) => {
-      notify({ message: error.message, type: 'error' });
+      notify({ message: error.message, type: 'error', theme: 'light' });
       return;
     },
   });

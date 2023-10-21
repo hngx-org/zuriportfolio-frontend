@@ -44,18 +44,21 @@ function LoginForm() {
 
   const { mutate: loginUserMutation, isLoading: isLoginUserMutationLoading } = useAuthMutation(loginUser, {
     onSuccess: async (res) => {
-      if (res?.response && res?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+      // User has 2fa enabled 
+      if (res.status === 202) {
         localStorage.setItem('2fa', res?.response?.token);
         localStorage.setItem('email', res?.response?.email);
+
         notify({
           message: 'Two Factor Authentication Code Sent',
           type: 'success',
         });
+
         router.push('/auth/2fa');
         return;
       }
 
-      if (res.status === 200 && res.message === 'Login successful') {
+      if (res.status === 200) {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
 
@@ -72,14 +75,7 @@ function LoginForm() {
 
         router.push(userCameFrom || '/explore');
         return;
-      } else if (res.message === 'Please verify your account') {
-        notify({
-          message: 'Please verify your account',
-          type: 'error',
-        });
-        router.push('/auth/verification-complete');
-        return;
-      }
+      } 
     },
     onError: (e:any) => {
       // For a user who has not verified their account
