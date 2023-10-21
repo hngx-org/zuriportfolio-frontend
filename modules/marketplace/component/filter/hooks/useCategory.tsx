@@ -1,5 +1,6 @@
+import http from '@modules/marketplace/http';
 import { ProductList } from '@modules/marketplace/types/filter-types';
-import axios, { isAxiosError } from 'axios';
+import { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
 export type CategoryType = {
@@ -17,7 +18,7 @@ const useCategory = () => {
   }, []);
   async function getCategories() {
     try {
-      const { data } = await axios.get<{ data: CategoryType[] }>('/category-name/');
+      const { data } = await http.get<{ data: CategoryType[] }>('/category-name/');
 
       setCategories(data.data ? data.data : []);
       await getProducts();
@@ -31,7 +32,7 @@ const useCategory = () => {
   }
 
   async function getProducts() {
-    const { data } = await axios.get<{ data: ProductList[] }>('product-list/');
+    const { data } = await http.get<{ data: ProductList[] }>('product-list/');
     setProducts(data.data);
   }
 
