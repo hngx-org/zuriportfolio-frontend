@@ -193,12 +193,12 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         setHide(!hide);
       }}
       isCloseIconPresent={false}
-      size="lg"
+      size="xl"
     >
       {
-        <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
+        <div className="mx-auto py-6  bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 fontFamily-manropeEL  md:px-5">
           <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">
-            <span className="font-semibold text-lg">About</span>
+            <span className="font-medium text-2xl ">About</span>
             <div
               className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"
               onClick={onCloseModal}
@@ -214,7 +214,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
             <form className="py-3 md:pt-7" onSubmit={submitAbout}>
               {!isEditing ? (
                 <div className="w-full">
-                  <div className="w-full px-3">
+                  <div className="w-full px-">
                     <label htmlFor="about" className="block font-medium mb-2 text-[#444846]">
                       Description
                     </label>
