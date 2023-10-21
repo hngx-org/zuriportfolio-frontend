@@ -9,6 +9,7 @@ import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
 import { withUserAuth } from '../../../../helpers/withAuth';
+import Loader from '@ui/Loader';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import {
   fetchUserTakenAssessment,

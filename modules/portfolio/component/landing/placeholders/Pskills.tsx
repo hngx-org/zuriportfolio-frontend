@@ -10,12 +10,20 @@ type PskilsProps = {
   remove: () => void;
   section: any;
   icon?: React.ReactNode;
+  showMoreSkills: number;
+  toggleShowMoreSkills?: () => void;
 };
 
-const Pskils = ({ i, id, title, edit, remove, section, icon }: PskilsProps) => {
+const Pskils = ({ i, id, title, edit, remove, section, icon, showMoreSkills, toggleShowMoreSkills }: PskilsProps) => {
+  const data = showMoreSkills === 9999 ? section?.data : section?.data ? section.data.slice(0, 2) : [];
   return (
     <Wrapper icon={icon} id={id} title={title} edit={edit} remove={remove}>
-      <Skill key={i} data={section.data} />
+      <Skill key={i} data={data} />
+      {section.data.length > 2 && (
+        <div className="text-brand-green-primary font-semibold cursor-pointer mt-5" onClick={toggleShowMoreSkills}>
+          {showMoreSkills === 2 ? 'View More' : 'View Less'}
+        </div>
+      )}
     </Wrapper>
   );
 };
