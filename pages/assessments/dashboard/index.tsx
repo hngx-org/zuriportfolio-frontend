@@ -153,7 +153,7 @@ const Dashboard = () => {
                   </div>
                   <div className="mt-[1rem]">
                     <p className="text-[#2E3130] text-[.5rem] md:text-[.625rem] lg:text-[.85rem] xl:text-[1.rem] leading-1">
-                      Unlock your potential and level up your skills &ndash; take the assessment now!
+                      Unlock your potential and level up your skills - take the assessment now!
                     </p>
 
                     <div className="flex items-center gap-[1rem] xl:gap-[2rem] my-[1rem] px-3 ml-3">
