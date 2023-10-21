@@ -29,6 +29,7 @@ const Preferences = ({
         return (
           <>
             <Reference key={i} data={el} />
+            {section.data.length > 1 && <hr className="mb-5 border-gray-100 opacity-20" />}
           </>
         );
       })}

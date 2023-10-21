@@ -23,6 +23,7 @@ import { getUserCart } from '../../http/checkout';
 import { isUserAuthenticated } from '@modules/marketplace/hooks/useAuthHelper';
 import { useCart } from '@modules/shop/component/CartContext';
 import { toast } from 'react-toastify';
+import Notifications from '../Modals/Notifications';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -30,11 +31,14 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const { signIn, signUp } = useUserSession();
   const [auth, setAuth] = useState(false);
   const authMenuRef = useRef<HTMLDivElement | null>(null);
+  const notificationsRef = useRef<HTMLDivElement | null>(null);
   const searchRef1 = useRef<HTMLDivElement | null>(null);
   const searchRef2 = useRef<HTMLDivElement | null>(null);
   const [searchMobile, setSearchMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [authMenu, setAuthMenu] = useState(false);
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const [notificationMenu, setNotificationMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [dropDown, setDropDown] = useState<string>('Explore');
   const { cartCount, setCartCountNav } = useCart();
@@ -77,6 +81,20 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // const [notifications, setNotifications] = useState([
+  //   { id: 1, text: 'your item has been delivered', read: false },
+  //   { id: 2, text: 'someone visited your shop', read: false },
+  //   { id: 3, text: 'someone visited your shop', read: false },
+  //   { id: 4, text: 'someone visited your shop', read: true },
+  //   { id: 5, text: 'someone visited your shop', read: false },
+  //   { id: 6, text: 'someone visited your shop', read: true },
+  //   { id: 7, text: 'someone visited your shop', read: true },
+  //   { id: 8, text: 'someone visited your shop', read: true },
+  //   { id: 9, text: 'someone visited your shop', read: false },
+  //   { id: 10, text: 'someone visited your shop', read: true },
+  //   { id: 11, text: 'someone visited your shop', read: true },
+    
+  // ]);
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const targetNode = event.target as Node | null;
@@ -89,9 +107,14 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
       if (searchRef2.current && !searchRef2.current.contains(targetNode)) {
         setToggle(false);
       }
+      if (notificationsRef.current && !notificationsRef.current.contains(targetNode)) {
+        console.log(notificationsRef.current);
+        setNotificationMenu(false);
+      }
     }
+    
 
-    if (authMenu || searchMobile || toggle) {
+    if (authMenu || searchMobile || toggle|| notificationMenu) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -100,7 +123,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [authMenu, searchMobile, toggle]);
+  }, [authMenu, searchMobile, toggle, notificationMenu]);
 
   const handleSearch = async (e: React.KeyboardEvent) => {
     e.preventDefault();
@@ -123,9 +146,13 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     setDropDown(option);
   }
 
+  const handleNotificationsToggle = () => {
+    setNotificationMenu(!notificationMenu)
+  }
+
   return (
     <>
-      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40] isolate sticky top-0  ">
+      <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40]  isolate sticky top-0  ">
         <div className="max-w-[1240px] mx-auto flex items-center justify-between  relative gap-1">
           <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] gap-14">
             <div className="flex items-center gap-1">
@@ -241,6 +268,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {!globalAuth && (
               <div className=" p-2 justify-center items-center gap-4 lg:flex-row flex flex-col mt-5  lg:mt-0">
                 <Cart items={cartCount} />
+                {/* <div className="w-6 h-6 relative">
+        
+          <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+            2
+          </span>
+        
+
+        <Image src={notificationIcon} draggable={false} width={24} height={24} alt="notify" />
+      </div> */}
                 <div className="justify-center hidden items-center lg:w-auto w-[100%] gap-2 lg:flex-row lg:flex flex-col">
                   <Button
                     href="/auth/login"
@@ -388,6 +424,20 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                     </svg>
                   </span>
                   <Cart items={cartCount} />
+                  <div className="w-fit flex h-fit relative cursor-pointer" ref={notificationsRef}>
+        
+          <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+            {unreadNotifications}
+          </span>
+        <Image src={notificationIcon} onClick={handleNotificationsToggle} draggable={false} width={24} height={24} alt="Cart Icon" />
+
+{notificationMenu && 
+<div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
+
+<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
+</div>
+}
+      </div>
                 </div>
                 <div className="auth flex items-center scale-75 gap-1 cursor-pointer" onClick={handleAuthMenu}>
                   <div className="details hidden ">
@@ -506,10 +556,20 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
         </Link>
 
         <Cart items={cartCount} />
-
-        <span className="px-1 cursor-pointer">
-          <Image draggable={false} width={30} src={notificationIcon} alt="notification icon" />
+        <div className="w-fit flex h-fit relative cursor-pointer" ref={notificationsRef}>
+        
+        <span className="text-[#fff] text-[8px] font-bold  leading-3 tracking-tight w-3 h-3 px-1 absolute bg-emerald-600 rounded-[80px] flex-col justify-center items-center gap-2.5 inline-flex top-[-4px] left-[-2px]">
+          {unreadNotifications}
         </span>
+      <Image src={notificationIcon} onClick={handleNotificationsToggle} draggable={false} width={24} height={24} alt="Cart Icon" />
+
+{notificationMenu && 
+<div className="absolute w-fit right-8 mr-16" ref={notificationsRef}>
+
+<Notifications notificationsRef={notificationsRef}  unreadNotifications={setUnreadNotifications}/> 
+</div>
+}
+    </div>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
           {/* <div className="details"> */}
             <p className=" font-bold font-manropeEB">
