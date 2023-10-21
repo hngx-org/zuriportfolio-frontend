@@ -208,7 +208,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
             >
               <div className="w-full px-2">
                 <div className="flex flex-col gap-[.5rem] w-full mb-4">
-                  <label className="font-semibold text-[#444846] text-base mt-6">Degree</label>
+                  <label className="font-semibold text-[#444846] text-base mt-6">Degree *</label>
                   <Select
                     onValueChange={(value: string) => {
                       handleDegreeSelection(value); // Update the selected degree ID
@@ -233,7 +233,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 </div>
                 <div className="mb-4 w-full">
                   <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="fieldOfStudy">
-                    Field of Study
+                    Field of Study *
                   </label>
                   <Input
                     type="text"
@@ -245,7 +245,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 </div>
                 <div className="mb-4  w-full">
                   <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="school">
-                    School/Institution
+                    School/Institution *
                   </label>
                   <Input
                     type="text"
@@ -257,7 +257,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 </div>
                 <div className="mb-4 w-full">
                   <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="description">
-                    Description
+                    Description *
                   </label>
                   <textarea
                     className="resize-none border-[1px] border-solid w-full border-[#E1E3E2] pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary "

@@ -717,7 +717,7 @@ const EditForm: React.FC<{
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-2 flex-1">
               <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Award Title*
+                Award Title *
               </label>
               <Input
                 type="text"
@@ -746,7 +746,7 @@ const EditForm: React.FC<{
               >
                 {/* Add the default placeholder option */}
                 <option value="" disabled>
-                  Year
+                  Year *
                 </option>
                 {Array.from({ length: 124 }, (_, index) => {
                   const year = 2023 - index;
@@ -765,7 +765,7 @@ const EditForm: React.FC<{
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-[10px] flex-1">
               <label htmlFor="presented_by" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Organization*
+                Organization *
               </label>
               <Input
                 type="text"
@@ -798,7 +798,7 @@ const EditForm: React.FC<{
           </div>
           <div className="flex  flex-col gap-[10px]">
             <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-              Description
+              Description *
             </label>
             <Input
               type="text"

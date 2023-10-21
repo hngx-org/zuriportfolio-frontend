@@ -721,7 +721,7 @@ const EditForm: React.FC<{
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-2 flex-1">
               <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Certification Title*
+                Certification Title *
               </label>
               <Input
                 type="text"
@@ -738,7 +738,7 @@ const EditForm: React.FC<{
 
             <div className="flex  flex-col gap-2 flex-1">
               <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Year
+                Year *
               </label>
               <select
                 id="year"
@@ -769,7 +769,7 @@ const EditForm: React.FC<{
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-[10px] flex-1">
               <label htmlFor="organization" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                organization*
+                Organization *
               </label>
               <Input
                 type="text"
