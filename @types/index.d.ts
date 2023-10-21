@@ -507,6 +507,7 @@ export interface OrderHistory {
   price: number;
   sales?: number;
   revenue?: number;
+  currency?: string;
 }
 
 export interface WishlistProduct {
