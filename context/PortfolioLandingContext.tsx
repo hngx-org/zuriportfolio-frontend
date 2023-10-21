@@ -130,6 +130,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     tracks: [],
     level: '',
     icon: '',
+    badge: [],
   });
 
   const [getUserSections] = useQueries({
@@ -157,8 +158,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         country: getUserSections?.data?.data?.portfolio?.country,
         tracks: getUserSections?.data?.data?.tracks,
         coverImage: user?.profileCoverPhoto,
-        level: user?.badges?.name,
-        icon: user?.badges?.badge_image,
+        badge: getUserSections?.data?.data?.badges,
       });
       const {
         about,
