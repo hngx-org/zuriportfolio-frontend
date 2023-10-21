@@ -154,6 +154,8 @@ const Earnedbadges: React.FC = () => {
         <link rel="icon" href="/assets/zuriLogo.svg" />
         <meta name="keywords" content="Zuri, Zuri portfolio, Zuri Badges, Zuri skill badges" />
         <meta httpEquiv="content-language" content="en" />
+        <meta name="description" content="Keep track on all of your earned badges" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="w-full flex flex-col items-center h-auto font-manropeL">
         <BadgesComponentHeader />
