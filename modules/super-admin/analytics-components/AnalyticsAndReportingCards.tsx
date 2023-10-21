@@ -7,7 +7,7 @@ const AnalyticsAndReportingCards = () => {
   const [bearerToken, setBearerToken] = useState('');
 
   const fetchAnalyticsData = async () => {
-    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/';
+    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/';
 
     const response = await fetch(apiUrl, {
       headers: {
@@ -25,7 +25,10 @@ const AnalyticsAndReportingCards = () => {
     }
   };
 
-  const { data: analyticsData, isLoading, isError } = useQuery<cardinfo[]>(['analyticsData'], fetchAnalyticsData);
+  const { data: analyticsData, isLoading, isError } = useQuery<cardinfo[]>(
+    ['analyticsData'], 
+    fetchAnalyticsData
+  );
 
   const getTokenFromLocalStorage = () => {
     const tokenFromLocalStorage = localStorage.getItem('zpt');
@@ -36,12 +39,15 @@ const AnalyticsAndReportingCards = () => {
   useEffect(() => {
     getTokenFromLocalStorage();
   }, []);
+  
 
   const formattedAmount = (amount: number | string) => {
     const amountValue = typeof amount === 'string' ? parseFloat(amount) : amount;
     const roundedValue = Math.round(amountValue);
     const formattedValue =
-      roundedValue % 1 === 0 ? roundedValue.toLocaleString().replace('.00', '') : amountValue.toLocaleString();
+      roundedValue % 1 === 0
+        ? roundedValue.toLocaleString().replace('.00', '')
+        : amountValue.toLocaleString();
     return formattedValue;
   };
 
