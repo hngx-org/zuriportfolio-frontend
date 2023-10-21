@@ -33,6 +33,7 @@ function VerificationComplete() {
         notify({
           message: 'Verification Successful!',
           type: 'success',
+          theme: 'light',
         });
 
         router.push(userCameFrom || '/explore');
@@ -44,6 +45,7 @@ function VerificationComplete() {
         notify({
           message: response.data.message,
           type: 'error',
+          theme: 'light',
         });
         return;
       }
@@ -51,13 +53,14 @@ function VerificationComplete() {
       notify({
         message: 'Verification Unsuccessful!',
         type: 'error',
+        theme: 'light',
       });
     },
     onError: ({ response }: any) => {
       if (!isSuccess) {
         const resend = 'Invalid token / Expired token';
 
-        notify({ message: resend, type: 'error' });
+        notify({ message: resend, type: 'error', theme: 'light' });
         setIsError(true);
         return;
       }
@@ -69,13 +72,14 @@ function VerificationComplete() {
         notify({
           message: timeoutErrorMessage,
           type: 'error',
+          theme: 'light',
         });
 
         return;
       }
 
       if (response.data.message) {
-        notify({ message: response.data.message, type: 'error' });
+        notify({ message: response.data.message, type: 'error', theme: 'light' });
         router.push('/auth/verification');
         return;
       }
