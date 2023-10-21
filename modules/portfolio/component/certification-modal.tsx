@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
@@ -713,8 +714,8 @@ const EditForm: React.FC<{
       <div className="p-5 sm:p-6 lg:p-8 flex gap-6 flex-col font-manropeL">
         <div className="flex gap-6  border-b-4 border-brand-green-hover py-4 px-0 justify-between items-center">
           <div className="flex items-center gap-6">
-            <ArrowLeft2 />
-            <h1 className="font-bold text-2xl text-white-700">Certifications</h1>
+            {/* <ArrowLeft2 /> */}
+            <h1 className="font-extrabold text-2xl text-white-700">Certifications</h1>
           </div>
           <div onClick={onClose}>
             <CloseSquare className="fill-brand-green-primary text-white-100 h-7 w-7 cursor-pointer" />
@@ -724,7 +725,7 @@ const EditForm: React.FC<{
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-2 flex-1">
               <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Certification Title*
+                Certification Title *
               </label>
               <Input
                 type="text"
@@ -741,7 +742,7 @@ const EditForm: React.FC<{
 
             <div className="flex  flex-col gap-2 flex-1">
               <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                Year
+                Year *
               </label>
               <select
                 id="year"
@@ -772,7 +773,7 @@ const EditForm: React.FC<{
           <div className="flex flex-col sm:flex-row w-full gap-[10px]">
             <div className="flex  flex-col gap-[10px] flex-1">
               <label htmlFor="organization" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                organization*
+                Organization *
               </label>
               <Input
                 type="text"
