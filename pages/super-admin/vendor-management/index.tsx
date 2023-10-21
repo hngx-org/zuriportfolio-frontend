@@ -1,27 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import VendorsStat from '@modules/super-admin/components/vendormanagement/VendorStat';
 import VendorLists from '@modules/super-admin/components/vendormanagement/VendorLists';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
-import SearchProduct from '@modules/super-admin/components/vendormanagement/SearchProduct';
-import FilterProduct from '@modules/super-admin/components/vendormanagement/FilterProduct';
-import Button from '@ui/Button';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { useGetAllVendor } from '../../../http/super-admin1';
 import { withAdminAuth } from '../../../helpers/withAuth';
-import { Input, SelectInput } from '@ui/Input';
-import { SearchNormal1, Sort } from 'iconsax-react';
+import { Input } from '@ui/Input';
+import { SearchNormal1 } from 'iconsax-react';
+import SuperAdminVendorManagementHeader from '@modules/super-admin/components/vendormanagement/VendorsMgtHeader';
 
 const Index = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  // page: number, search: string, status: string
   const { data, isLoading } = useGetAllVendor(page, search);
 
   const handleFilter = () => {};
   return (
     <div className="">
+      <SuperAdminVendorManagementHeader />
+
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto">
@@ -46,9 +45,7 @@ const Index = () => {
                 className="md:min-w-[350px] w-[100%]"
                 placeHolder="search"
               />
-              <div className="">
-                <FilterProduct handleFilter={handleFilter} />
-              </div>
+              <div className="">{/* <FilterProduct handleFilter={handleFilter} /> */}</div>
             </div>
           </div>
           {isLoading ? (

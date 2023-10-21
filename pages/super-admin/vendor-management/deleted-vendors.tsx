@@ -14,6 +14,7 @@ import { Input, SelectInput } from '@ui/Input';
 import Image from 'next/image';
 import right from '/public/assets/vendor/arrow-right.svg';
 import { useRouter } from 'next/router';
+import SuperAdminDeletedVendorsHeader from '@modules/super-admin/components/vendormanagement/DeletedVendorsHeader';
 
 const Index = () => {
   //Variables for the pagination
@@ -24,6 +25,8 @@ const Index = () => {
   const router = useRouter();
   return (
     <div className="">
+      <SuperAdminDeletedVendorsHeader />
+
       <SuperAdminNavbar />
 
       <section className="px-5 md-px-auto">
@@ -82,9 +85,7 @@ const Index = () => {
                     <p className="hidden lg:block">Status</p>
                     {/* <p className="hidden lg:block">Action</p> */}
                   </div>
-                  <div>
-                    {data.data?.map((data: any) => <VendorLists key={data?.id} data={data} vendor_status="deleted" />)}
-                  </div>
+                  <div>{data.data?.map((data: any) => <VendorLists key={data?.id} data={data} />)}</div>
                   <SuperAdminPagination
                     currentPage={currentPage}
                     totalPages={data?.total_pages}

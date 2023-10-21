@@ -6,15 +6,13 @@ import Link from 'next/link';
 import EditCover from './editCover-takeAssessment';
 
 type Props = {
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
   userData: any;
 };
 
 const Cover = ({ isLoggedIn, userData }: Props) => {
   const { handleUploadCover, profileUpdate } = useContext(Portfolio);
-  const { avatarImage, tracks } = userData;
-
-  const link = ``;
+  const { avatarImage } = userData;
 
   const avatar = avatarImage ? (
     <Image
@@ -24,16 +22,19 @@ const Cover = ({ isLoggedIn, userData }: Props) => {
       width={0}
       height={0}
       alt="profile_photo"
-      className="absolute w-[120px] md:w-[170px] object-cover object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full bg-gray-400 bg-opacity-60 border-2 border-brand-green-primary"
+      className="w-full aspect-square rounded-full bg-gray-100 bg-opacity-10"
     />
   ) : (
-    <Profile isLoggedIn={isLoggedIn} profileUpdate={profileUpdate} />
+    <>
+      <Profile isLoggedIn={isLoggedIn} profileUpdate={profileUpdate} />
+    </>
   );
 
   return (
-    <div className="relative h-full flex flex-col items-end justify-between py-5 md:py-10 -mt-[20px] lg:-mt-[35px]">
+    <div
+      className={`absolute bottom-28 left-3 w-[140px] sm:w-[180px] md:w-[200px] aspect-square rounded-full bg-gray-100 bg-opacity-25 border-green-400 border-[2px]`}
+    >
       {avatar}
-      {isLoggedIn ? <EditCover Link={Link} handleUploadCover={handleUploadCover} link={link} /> : ''}
     </div>
   );
 };
