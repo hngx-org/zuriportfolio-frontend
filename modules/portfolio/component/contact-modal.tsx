@@ -102,8 +102,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
           type: 'success',
         });
         console.log('responseresponseresponseresponse', response);
-        if (response.message.includes('')) {
-        }
+        onSaveModal();
       })
       .catch((err) => {
         setLoading(false);
