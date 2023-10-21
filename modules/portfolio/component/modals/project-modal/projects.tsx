@@ -9,6 +9,7 @@ import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { checkObjectProperties } from '@modules/portfolio/functions/checkObjectProperties';
 import { Data, allRouteOptions } from './project-section-modal';
+import Loader from '@ui/Loader';
 
 type ProjectSectionProps = {
   onCloseModal: () => void;
@@ -290,7 +291,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                   </p> */}
 
                   <Input
-                    placeHolder="www.untitled.com"
+                    placeHolder="Type Link"
                     onChange={(e) => {
                       setLink(e.target.value);
                     }}
@@ -319,8 +320,24 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 </label>
               )}
             </div>
+            {thumbnail && (
+              <div onClick={() => setThumbnail('')} className="flex items-center">
+                <div className="relative ">
+                  <Image
+                    src={thumbnail}
+                    priority
+                    unoptimized
+                    width={0}
+                    height={0}
+                    alt=""
+                    className="rounded-lg object-cover object-center w-full h-[80px]"
+                  />
+                  <CloseCircle className="text-white-100 absolute top-2 right-2 cursor-pointer" size={24} />
+                </div>
+              </div>
+            )}
             {/* Tags */}
-            <div className="flex gap-3 flex-col">
+            <div className="flex gap-1 flex-col">
               <div className="flex flex-wrap gap-2">
                 {selectedTags.map((tag: any, index: any) => (
                   <div
@@ -335,7 +352,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               <div>
                 <p className="font-medium text-gray-200 pb-2 text-base">Tags</p>
                 <Input
-                  placeHolder="Enter your tag and press 'ENTER'"
+                  placeHolder=""
                   onKeyDown={handleAddTags}
                   onChange={(e) => setTagInput(e.target.value)}
                   className={`${
@@ -344,6 +361,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                   inputSize={'lg'}
                   value={tagInput}
                 />
+                <label htmlFor="" className="text-brand-green-primary ">
+                  Enter your tags and press enter
+                </label>
               </div>
             </div>
             {/* description */}
@@ -434,7 +454,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 className={`${loading ? 'opacity-90' : 'opacity-100'} rounded-lg min-w-[100px]`}
                 onClick={handleSubmit}
               >
-                Save
+                {loading ? <Loader /> : 'Save'}
               </Button>
             </div>
           </form>

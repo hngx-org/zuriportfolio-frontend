@@ -50,6 +50,7 @@ function LoginForm() {
         notify({
           message: 'Two Factor Authentication Code Sent',
           type: 'success',
+          theme: 'light',
         });
         router.push('/auth/2fa');
         return;
@@ -69,6 +70,7 @@ function LoginForm() {
         notify({
           message: 'Login Successful',
           type: 'success',
+          theme: 'light',
         });
 
         router.push(userCameFrom || '/explore');
@@ -77,18 +79,21 @@ function LoginForm() {
         notify({
           message: 'Invalid password',
           type: 'error',
+          theme: 'light',
         });
         return;
       } else if (res.message === 'User not found') {
         notify({
           message: 'User not found',
           type: 'error',
+          theme: 'light',
         });
         return;
       } else if (res.message === 'Please verify your account') {
         notify({
           message: 'Please verify your account',
           type: 'error',
+          theme: 'light',
         });
         router.push('/auth/verification-complete');
         return;
@@ -99,6 +104,7 @@ function LoginForm() {
       notify({
         message: 'Error logging in',
         type: 'error',
+        theme: 'light',
       });
     },
   });

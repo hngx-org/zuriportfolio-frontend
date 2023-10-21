@@ -79,6 +79,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const [refId, setRefId] = useState(Number);
   const [country, setCountry] = useState('+234');
   const [selHide, setselHide] = useState(true);
+  const [del, setDel] = useState(true);
 
   function validatePhoneNumber(phoneNumber: string): boolean {
     return /^[0-9]{8,10}$/.test(phoneNumber);
@@ -224,7 +225,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
     try {
       const axiosConfig = {
         method: 'post',
-        url: `${API_BASE_URL}/api/references/${userId}`,
+        url: `${API_BASE_URL}/api/v1/references/${userId}`,
         data: correctData,
       };
 
@@ -269,42 +270,78 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const callGet = () => {
     setIsData(false);
     const response = async () => {
-      const axiosConfig = {
-        method: 'get',
-        url: `${API_BASE_URL}/api/references/${userId}`,
-      };
+      try {
+        const axiosConfig = {
+          method: 'get',
+          url: `${API_BASE_URL}/api/v1/references/${userId}`,
+        };
 
-      const response = await axios(axiosConfig);
+        const response = await axios(axiosConfig);
 
-      if (response.status !== 200) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.status !== 200) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // console.log(response.data.data);
+        const fetchedArrData = response.data.data;
+
+        setArrData((prevArray: fetchedArrData[]) => [...fetchedArrData]);
+        // onSaveModal();
+        setIsData(true);
+      } catch (error) {
+        console.error('An error occurred:', error);
+        toast.error(`An error occured`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
       }
-      // console.log(response.data.data);
-      const fetchedArrData = response.data.data;
-
-      setArrData((prevArray: fetchedArrData[]) => [...fetchedArrData]);
-      // onSaveModal();
-      setIsData(true);
     };
     response();
   };
   // console.log(arrData)
   const handleDelete = (id: number) => {
-    setIsData(false);
     const response = async () => {
-      const axiosConfig = {
-        method: 'delete',
-        url: `${API_BASE_URL}/api/references/${id}`,
-      };
+      try {
+        const axiosConfig = {
+          method: 'delete',
+          url: `${API_BASE_URL}/api/v1/references/${id}`,
+        };
 
-      const response = await axios(axiosConfig);
+        const response = await axios(axiosConfig);
 
-      if (response.status !== 200) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.status !== 200) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        console.log(response.data);
+        toast.success(`reference deleted`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+        callGet();
+      } catch (error) {
+        console.error('An error occurred:', error);
+        toast.error(`An error occured`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
       }
-      console.log(response.data);
-      setIsData(true);
-      callGet();
     };
     response();
   };
@@ -323,7 +360,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       try {
         const axiosConfig = {
           method: 'put',
-          url: `${API_BASE_URL}/api/references/${id}`,
+          url: `${API_BASE_URL}/api/v1/references/${id}`,
           data: editObjData,
         };
 
@@ -406,7 +443,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} size="xl" isCloseIconPresent={false}>
       <div
-        className="mx-auto bg-white-100 rounded-md p-3 py-6"
+        className="mx-auto bg-white-100 rounded-md px-1 md:px-3 py-6"
         onClick={() => {
           !selHide ? setselHide(true) : '';
         }}
@@ -479,7 +516,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                     placeholder="Product Manager"
                     InputId="ptfl-position"
                     name="position"
-                    label="Position"
+                    label="Position *"
                     labelFor="position"
                     value={formData.position}
                     required={false}
@@ -557,100 +594,80 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
               >
                 Close
               </Button>
-              <Button intent={'primary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={handleSubmit}>
-                {loading ? (
-                  <div className="block w-5 h-5">
-                    <svg
-                      aria-hidden="true"
-                      className="text-brand-green-hover animate-spin fill-white-100"
-                      viewBox="0 0 100 101"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                        fill="currentFill"
-                      />
-                    </svg>
-                  </div>
-                ) : (
-                  `Save`
-                )}
+              <Button
+                intent={'primary'}
+                size={'sm'}
+                className="w-24 rounded-2xl"
+                type="button"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? <Loader /> : `Save`}
               </Button>
             </div>
           </form>
         ) : (
           <div className="md:pe-4 mt-5 ">
-            {isData ? (
-              <div className="mb-10  flex flex-col gap-2">
-                {arrData.map((reference: Reference) => (
-                  <div className="card md:ms-4 bg-gray-50 p-2 rounded-md" key={reference.id}>
-                    <div className="text-base font-semibold text-dark-800 flex gap-3 capitalize">
-                      Name
-                      <p className="text-base font-normal capitalize">{reference.referer}</p>
-                    </div>
-                    <div className="text-base font-semibold text-dark-800 flex gap-3">
-                      Company
-                      <p className="text-base font-normal">{reference.company}</p>
-                    </div>
-                    <div className="text-base font-semibold text-dark-800 flex gap-3">
-                      Email
-                      <p className="text-base font-normal">{reference.email}</p>
-                    </div>
-                    <div
-                      className={`${
-                        reference.position === '' ? 'hidden' : 'block'
-                      } text-base font-semibold text-dark-800 flex gap-3`}
-                    >
-                      Position
-                      <p className={`text-base font-normal capitalize`}>{reference.position}</p>
-                    </div>
-                    <div
-                      className={`text-base font-semibold text-dark-800 flex gap-3 ${
-                        reference.phone_number === '' ? 'hidden' : 'block'
-                      }`}
-                    >
-                      Phone
-                      <p className={`text-base font-normal`}>{reference.phone_number}</p>
-                    </div>
+            <div className="mb-10  flex flex-col gap-2">
+              {arrData.map((reference: Reference) => (
+                <div className="card md:ms-4 bg-gray-50 p-2 rounded-md" key={reference.id}>
+                  <div className="text-base font-semibold text-dark-800 flex gap-3 capitalize">
+                    Name
+                    <p className="text-base font-normal capitalize">{reference.referer}</p>
+                  </div>
+                  <div className="text-base font-semibold text-dark-800 flex gap-3">
+                    Company
+                    <p className="text-base font-normal">{reference.company}</p>
+                  </div>
+                  <div className="text-base font-semibold text-dark-800 flex gap-3">
+                    Email
+                    <p className="text-base font-normal">{reference.email}</p>
+                  </div>
+                  <div
+                    className={`${
+                      reference.position === '' ? 'hidden' : 'block'
+                    } text-base font-semibold text-dark-800 flex gap-3`}
+                  >
+                    Position
+                    <p className={`text-base font-normal capitalize`}>{reference.position}</p>
+                  </div>
+                  <div
+                    className={`text-base font-semibold text-dark-800 flex gap-3 ${
+                      reference.phone_number === '' ? 'hidden' : 'block'
+                    }`}
+                  >
+                    Phone
+                    <p className={`text-base font-normal`}>{reference.phone_number}</p>
+                  </div>
 
-                    <div>
-                      <div className="flex gap-3 justify-end px-2 mt-2 font-medium">
-                        <p
-                          onClick={() => {
-                            setEditing(true);
-                            editData(reference.id);
-                            setIsEditData(true);
-                            setRefId(reference.id);
-                            setErrors({ ...errors, company: '', phone: '', email: '', referer: '', position: '' });
-                            setselHide(true);
-                          }}
-                          className="text-blue-300 cursor-pointer"
-                        >
-                          Edit
-                        </p>
-                        <p
-                          className={`text-brand-red-primary cursor-pointer`}
-                          onClick={() => {
-                            handleDelete(reference.id);
-                          }}
-                        >
-                          Delete
-                        </p>
-                      </div>
+                  <div>
+                    <div className="flex gap-3 justify-end px-2 mt-2 font-medium">
+                      <p
+                        onClick={() => {
+                          setEditing(true);
+                          editData(reference.id);
+                          setIsEditData(true);
+                          setRefId(reference.id);
+                          setErrors({ ...errors, company: '', phone: '', email: '', referer: '', position: '' });
+                          setselHide(true);
+                        }}
+                        className="text-blue-300 cursor-pointer"
+                      >
+                        Edit
+                      </p>
+                      <p
+                        className={`text-brand-red-primary cursor-pointer`}
+                        onClick={() => {
+                          handleDelete(reference.id);
+                        }}
+                      >
+                        Delete
+                      </p>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="py-36">
-                <Loader />
-              </div>
-            )}
+                </div>
+              ))}
+            </div>
             <div className="w-full flex justify-between items-center">
               <div
                 onClick={() => {
@@ -680,29 +697,9 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   className="md:w-24 rounded-2xl"
                   type="button"
                   onClick={onSaveModal}
+                  disabled={!isData}
                 >
-                  {loading ? (
-                    <div className="block w-5 h-5">
-                      <svg
-                        aria-hidden="true"
-                        className="text-brand-green-hover animate-spin fill-white-100"
-                        viewBox="0 0 100 101"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                          fill="currentColor"
-                        />
-                        <path
-                          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                          fill="currentFill"
-                        />
-                      </svg>
-                    </div>
-                  ) : (
-                    `Save`
-                  )}
+                  {loading || !isData ? <Loader /> : `Save`}
                 </Button>
               </div>
             </div>

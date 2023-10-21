@@ -23,6 +23,8 @@ const Pcontact = ({
   showMoreContacts,
   toggleShowMoreContact,
 }: PcontactProps) => {
+  console.log(section);
+
   return (
     <Wrapper icon={icon} id={id} title={title} edit={edit} remove={remove}>
       <div className="flex flex-col gap-5">

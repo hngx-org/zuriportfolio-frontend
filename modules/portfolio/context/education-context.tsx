@@ -95,13 +95,23 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     e.preventDefault();
     try {
       const updatedEducation = {
-        degree,
         fieldOfStudy,
+        degree_id: +selectedDegreeId,
         school,
         description,
         from,
         to,
+        user_id: userId,
+        section_id: 2,
       };
+      // const updatedEducation = {
+      //   degree,
+      //   fieldOfStudy,
+      //   school,
+      //   description,
+      //   from,
+      //   to,
+      // };
       const response = await fetch(`${API_BASE_URL}api/v1/updateEducationDetail/${educationId}`, {
         method: 'PATCH',
         headers: {
@@ -168,9 +178,12 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
 
       if (response.ok) {
         const data = await response.json();
-        const { education } = data;
+        const { education } = data.data;
         setEducations(education);
-        // Extract the education IDs
+        if (education.length === 0) {
+          setIsForm(true);
+        }
+        console.log(education);
         const educationIds = educations.map((education) => education.id);
       }
     } catch (error) {
@@ -179,7 +192,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, slug]);
 
   const addNewEducation = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
@@ -216,6 +229,16 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         return;
       }
 
+      if (to < from) {
+        notify({
+          message: `To cant be less than that from`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
       if (missingFields.length > 0) {
         // Handle the case when required values are missing
         const missingFieldsString = missingFields.join(', ');
@@ -230,7 +253,6 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
       }
 
       const year = new Date().getFullYear();
-      const currYear = String(year);
 
       const response = await fetch(`${API_BASE_URL}api/v1/education/${userId}`, {
         method: 'POST',
@@ -261,14 +283,26 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setIsForm(false);
         setIsData(true);
       } else {
+        const responseJson = await response.json();
+        console.log(responseJson);
+        if (responseJson.message.includes('school should not contain sepecial characters')) {
+          notify({
+            message: `School should not contain special characters`,
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+          return;
+        } else {
+          notify({
+            message: 'We had some issues adding ur Education detail',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
         // Request failed, handle the error
         console.error('Request failed with status:', response.status);
-        notify({
-          message: 'We had some issues adding ur Education detail',
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
       }
     } catch (error) {
       console.error('Error:', error);

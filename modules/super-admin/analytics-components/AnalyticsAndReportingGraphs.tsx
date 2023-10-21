@@ -35,7 +35,6 @@ const fetchData = async (url: any) => {
   }
 };
 
-
 const AnalyticsAndReportingGraphs = () => {
   const [isGraph, setIsGraph] = useState(false);
   const [graphData, setGraphData] = useState<any[][]>([]);

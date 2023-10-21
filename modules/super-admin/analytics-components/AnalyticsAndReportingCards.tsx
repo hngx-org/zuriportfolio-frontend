@@ -25,10 +25,7 @@ const AnalyticsAndReportingCards = () => {
     }
   };
 
-  const { data: analyticsData, isLoading, isError } = useQuery<cardinfo[]>(
-    ['analyticsData'], 
-    fetchAnalyticsData
-  );
+  const { data: analyticsData, isLoading, isError } = useQuery<cardinfo[]>(['analyticsData'], fetchAnalyticsData);
 
   const getTokenFromLocalStorage = () => {
     const tokenFromLocalStorage = localStorage.getItem('zpt');
@@ -39,15 +36,12 @@ const AnalyticsAndReportingCards = () => {
   useEffect(() => {
     getTokenFromLocalStorage();
   }, []);
-  
 
   const formattedAmount = (amount: number | string) => {
     const amountValue = typeof amount === 'string' ? parseFloat(amount) : amount;
     const roundedValue = Math.round(amountValue);
     const formattedValue =
-      roundedValue % 1 === 0
-        ? roundedValue.toLocaleString().replace('.00', '')
-        : amountValue.toLocaleString();
+      roundedValue % 1 === 0 ? roundedValue.toLocaleString().replace('.00', '') : amountValue.toLocaleString();
     return formattedValue;
   };
 

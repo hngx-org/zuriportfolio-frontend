@@ -9,7 +9,7 @@ const useUserSession = () => {
 
   const setCurrentPathForOAuth = () => {
     handleUserCameFromForOAuth(url);
-  }
+  };
 
   const signUp = () => {
     // set the route the user came from to context
@@ -36,7 +36,7 @@ const useUserSession = () => {
     }
   };
 
-  return { signUp, signIn, logout,  setCurrentPathForOAuth};
+  return { signUp, signIn, logout, setCurrentPathForOAuth };
 };
 
 export default useUserSession;

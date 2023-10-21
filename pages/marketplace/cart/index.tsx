@@ -20,7 +20,6 @@ import { Metadata } from 'next';
 import { useCart } from '@modules/shop/component/CartContext';
 import { toast } from 'react-toastify';
 
-
 export default function Cart() {
   const { auth } = useAuth();
 
