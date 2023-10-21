@@ -213,7 +213,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                 <div className="flex flex-col sm:flex-row w-full gap-[10px]">
                   <div className="flex  flex-col gap-2 flex-1">
                     <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Certification Title*
+                      Certification Title <span className="text-red-300">*</span>
                     </label>
                     <Input
                       type="text"
@@ -230,7 +230,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
 
                   <div className="flex  flex-col gap-2 flex-1">
                     <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Year
+                      Year <span className="text-red-300">*</span>
                     </label>
                     <select
                       id="year"
@@ -261,7 +261,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                 <div className="flex flex-col sm:flex-row w-full gap-[10px]">
                   <div className="flex  flex-col gap-[10px] flex-1">
                     <label htmlFor="organization" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      organization*
+                      Organization <span className="text-red-300">*</span>
                     </label>
                     <Input
                       type="text"
@@ -294,7 +294,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                 </div>
                 <div className="flex  flex-col gap-[10px]">
                   <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                    Description
+                    Description <span className="text-red-300">*</span>
                   </label>
                   <Input
                     type="text"
