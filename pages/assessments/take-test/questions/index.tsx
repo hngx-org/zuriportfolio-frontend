@@ -11,6 +11,7 @@ import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { useRouter } from 'next/router';
 import { fetchUserTakenAssessment, getAssessmentDetails, submitAssessment } from '../../../../http/userTakenAssessment';
 import { withUserAuth } from '../../../../helpers/withAuth';
+import Loader from '@ui/Loader';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 type AssessmentDetails = {
@@ -137,7 +138,7 @@ const Questions: React.FC = () => {
       <MainLayout activePage={'questions'} showTopbar showFooter showDashboardSidebar={false}>
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
+            <Loader />
           </div>
         ) : (
           <>

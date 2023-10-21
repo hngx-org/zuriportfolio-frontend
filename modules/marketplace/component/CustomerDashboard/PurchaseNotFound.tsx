@@ -27,7 +27,7 @@ const PurchaseNotFound = ({ back }: { back?: () => void }) => {
           <Button onClick={back} intent={'secondary'} href={browseProdutLink} size={'lg'}>
             Back
           </Button>
-          <Button intent={'primary'} href={browseProdutLink} size={'lg'}>
+          <Button intent={'primary'} href="/marketplace" size={'lg'}>
             Browse Products
           </Button>
         </div>

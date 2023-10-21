@@ -19,7 +19,6 @@ const Landing = () => {
     showBuildPortfolio,
     showViewtemplates,
     userData,
-    getUserInfo,
     getUserSections,
     userSections,
     setHasPortfolio,
@@ -37,8 +36,7 @@ const Landing = () => {
     }
   }, [getUserSections.data, getUserSections.isLoading, setHasPortfolio, userSections]);
 
-  const headerMargin =
-    'mt-[81px] lg:mt-[96px] absolute top-0 left-0 -z-50 w-screen h-[200px] md:h-[300px] lg:h-[350px]  object-cover';
+  const headerMargin = 'w-full h-[200px] md:h-[300px] lg:h-[350px] object-cover rounded-lg rounded-bl-[40px]';
 
   const cover = coverImage ? (
     <Image src={coverImage} priority unoptimized width={0} height={0} alt="" className={`${headerMargin}`} />
@@ -52,10 +50,10 @@ const Landing = () => {
         {showBuildPortfolio && <Home />}
         {/* {showViewtemplates && <ViewTemplate />} */}
       </div>
-      <div className="mx-auto w-[min(90vw,1200px)] font-manropeB pb-20 min-h-[50vh]">
-        {getUserInfo.isLoading || getUserSections.isLoading ? (
+      <div className="mx-auto w-[min(90vw,1240px)] relative font-manropeB pb-20 min-h-[50vh]">
+        {getUserSections.isLoading ? (
           <Loader />
-        ) : !getUserInfo.isSuccess || !getUserSections.isSuccess ? (
+        ) : !getUserSections.isSuccess ? (
           <div className="flex justify-center items-center min-h-[50vh]">
             <p className="text-red-200 text-2xl font-semibold text-center">
               Something went wrong, please try again later
@@ -63,11 +61,11 @@ const Landing = () => {
           </div>
         ) : (
           <>
-            <div className=" h-[200px] md:h-[300px] lg:h-[350px] ">
+            <div className="h-[200px] md:h-[300px] lg:h-[350px]">
               {cover}
               <Cover userData={userData} isLoggedIn={true} />
             </div>
-            <div className="flex justify-between items-center pt-8 md:pt-14">
+            <div className="flex justify-between items-center pt-8 md:pt-20">
               <div>
                 <h1 className="font-semibold text-lg md:text-[25px] text-gray-700">
                   {firstName === 'undefined' || !firstName ? '' : firstName}{' '}

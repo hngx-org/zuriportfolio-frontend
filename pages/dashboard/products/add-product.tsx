@@ -36,9 +36,9 @@ const AddProduct = () => {
   const productScehema = z.object({
     name: z.string().min(5, { message: 'Add Product Name' }),
     description: z.string().min(50, { message: 'Add a minimum of 50 words' }),
-    category_id: z.string().min(1, { message: 'Select category' }),
+    sub_category_id: z.string().min(1, { message: 'Select category' }),
     price: z.string().min(1, { message: 'Add Price' }),
-    discountPrice: z.string().min(1, { message: 'Add discount' }),
+    discountPrice: z.number().optional(),
     tax: z.string(),
     currency: z.string().min(1),
     assets_link: z.string().min(4, { message: 'Provide the link to your file' }),
@@ -53,9 +53,9 @@ const AddProduct = () => {
     initialValues: {
       name: '',
       description: '',
-      category_id: '',
+      sub_category_id: '',
       price: '',
-      discountPrice: '',
+      discountPrice: 10,
       tax: '',
       currency: 'NGN',
       assets_link: '',
@@ -87,7 +87,6 @@ const AddProduct = () => {
     async function fetchCategoriesData() {
       const updatedCategories = await fetchCategories();
       setCategoriesData(updatedCategories);
-      await getShopId();
     }
 
     fetchCategoriesData();
@@ -142,7 +141,7 @@ const AddProduct = () => {
     event.target.blur();
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setProducts({ ...products, category_id: event.target.value });
+    setProducts({ ...products, sub_category_id: event.target.value });
   };
 
   const fetchCategories = async () => {
@@ -186,7 +185,7 @@ const AddProduct = () => {
     name: '',
     description: '',
     quantity: '',
-    category_id: '',
+    sub_category_id: '',
     price: '',
     discountPrice: '0',
     tax: '',
@@ -273,6 +272,10 @@ const AddProduct = () => {
     Object.entries(values).forEach(([key, value]: any[]) => {
       formData.append(key, value);
     });
+    if (!selectedImage) {
+      toast.error('Please upload a thumbnail');
+      return;
+    }
     formData.append('image', selectedImage as any);
     // formData.delete('image');
 
@@ -350,7 +353,7 @@ const AddProduct = () => {
         </div>
         <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'opacity-0'}`}>
           <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-10 my-4">
-            <div className="border-r-[1px] border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
+            <div className="border-r-[1px] md:max-h-[80vh] md:overflow-y-scroll scrollbar-thin md:scrollbar-thumb-slate-300 border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
               <input
                 type="file"
@@ -481,12 +484,12 @@ const AddProduct = () => {
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-black py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    // value={products.category_id}
+                    // value={products.sub_category_id}
                     // onChange={handleOptionChange}
 
-                    {...form.getInputProps('category_id')}
+                    {...form.getInputProps('sub_category_id')}
                   >
                     <option value="" className="placeholder:text-[#000] text-black capitalize">
                       Select product category
@@ -504,9 +507,9 @@ const AddProduct = () => {
                   {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label> */}
                   {/* <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    // value={products.sub_category_id}
+                    // value={products.sub_sub_category_id}
                     // onChange={handleOptionChange}
 
                     {...form.getInputProps('shopId')}
@@ -572,7 +575,7 @@ const AddProduct = () => {
                 </div>
               </div>
             </div>
-            <div className="p-5 mt-0 md:mt-0">
+            <div className="p-5 mt-0 md:mt-0 ">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">PREVIEW</label>
               {previewImage ? (
                 <Image

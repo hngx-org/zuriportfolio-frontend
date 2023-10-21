@@ -25,7 +25,7 @@ const Pinterests = ({
   showMoreInterests,
   toggleShowMoreInterest,
 }: PinterestsProps) => {
-  const data = showMoreInterests === 9999 ? section?.data : section?.data ? section.data.slice(0, 5) : [];
+  const data = showMoreInterests === 9999 ? section?.data : section?.data ? section.data.slice(0, 2) : [];
   return (
     <Wrapper icon={icon} id={id} title={title} edit={edit} remove={remove}>
       <Interests key={i} data={data} />

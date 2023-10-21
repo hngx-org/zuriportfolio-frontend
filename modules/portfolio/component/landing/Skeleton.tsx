@@ -8,6 +8,7 @@ import Link from 'next/link';
 import CustomSectionModal from '../custom-section-modal';
 
 // types
+import successful from '../../../../pages/marketplace/success';
 
 type AboutProps = {
   bio?: string;
@@ -222,7 +223,7 @@ export const Project = ({ data }: SkeletonProps) => {
   );
 };
 
-export const Shop = () => {
+export const Shop = (data: any) => {
   //demo data
   const shop = [
     {
@@ -269,6 +270,30 @@ export const Shop = () => {
     </div>
   ) : (
     <AddShopErrorModal />
+  );
+};
+
+export type GetShopItemProps = {
+  isOpen?: boolean;
+  onCloseModal?: () => void;
+  onSaveModal?: () => void;
+  userId?: any;
+};
+export const GetShopItem = ({ isOpen, onCloseModal, onSaveModal, userId }: GetShopItemProps) => {
+  //Get the function to open the shop modal
+  const { setOpenShop } = useContext(Portfolio);
+
+  let successful: boolean;
+  successful = false;
+
+  useEffect(() => {
+    // if(!successful) setOpenShop(true);
+  }, []);
+
+  return successful ? (
+    <></>
+  ) : (
+    <AddShopErrorModal isOpen={isOpen} onCloseModal={onCloseModal} onSaveModal={onSaveModal} />
   );
 };
 

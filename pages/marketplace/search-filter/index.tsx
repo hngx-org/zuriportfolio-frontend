@@ -3,7 +3,7 @@ import ProductCard from '@modules/marketplace/component/ProductCard';
 import Link from 'next/link';
 import Error from '@modules/marketplace/component/landingpageerror/ErrorPage';
 import { GetServerSideProps } from 'next';
-import  { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { ProductList } from '@modules/marketplace/types/filter-types';
 import CategoryLayout from '@modules/marketplace/component/layout/category-layout';
 import { Fragment } from 'react';

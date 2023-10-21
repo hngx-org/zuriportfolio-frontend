@@ -119,8 +119,10 @@ const CreateAssessment = () => {
         toast.error('Looks like the assessment name exists already! Give a unique name');
       } else if (postEnd.status === 406) {
         toast.error(`${postEnd.status}, Please make sure fields are correectly field`);
+      } else if (postEnd.status === 400) {
+        toast.error(`${postEnd.status}, you might need to create a new one if you did not set a skill id`);
       } else {
-        toast.error(postEnd.status, response?.message);
+        toast.error(`OOps! ${postEnd.status} , ${response?.message}`);
       }
 
       setPostLoading(false);
