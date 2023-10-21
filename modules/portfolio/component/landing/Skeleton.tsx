@@ -278,20 +278,40 @@ export const Shop = () => {
 };
 
 export const Contact = ({ data }: SkeletonProps) => {
+  console.log(data);
+  let urlTitle;
+  let color;
+
+  if (data?.url?.includes('facebook')) {
+    urlTitle = 'Facebook';
+    color = 'text-blue-500';
+  } else if (data?.url?.includes('twitter')) {
+    urlTitle = 'Twitter';
+    color = 'text-blue-400';
+  } else if (data?.url?.includes('linkedin')) {
+    urlTitle = 'LinkedIn';
+    color = 'text-blue-600';
+  } else if (data?.url?.includes('github')) {
+    urlTitle = 'Github';
+    color = 'text-gray-800';
+  } else if (data?.url?.includes('threads')) {
+    urlTitle = 'Threads';
+    color = 'text-black';
+  }
+
   return (
     <div className="flex flex-col w-full gap-5">
       {/* {data?.map((contact: { title: string; info: string; url: string }, i: string) => ( */}
       <div>
-        <div className="flex justify-start items-center gap-10">
-          <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{data.title}</span>
-          <a
-            className="text-blue-100 font-semibold text-sm flex-[2] flex items-center text-center gap-3"
-            href={data.url}
-          >
-            {data.url}
-            <ExportSquare size={14} />
-          </a>
-        </div>
+        <a
+          className={`${color} font-semibold text-sm flex-[2] flex items-center text-center gap-3"`}
+          href={data.url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {urlTitle}
+          <ArrowUp size={20} className="rotate-45 inline ms-1" />
+        </a>
       </div>
       {/* ))} */}
     </div>
