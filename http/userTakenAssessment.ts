@@ -42,9 +42,6 @@ export const getAllAssessments = async (token: string) => {
         token: token,
       },
     });
-    if (!response.data) {
-      return;
-    }
     return response.data;
   } catch (error) {
     console.log(error);
@@ -90,9 +87,7 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
         },
       },
     );
-    if (!res.data) {
-      return;
-    }
+    console.log('responce', res.data.data);
     return res.data;
   } catch (error) {
     console.error('Error fetching user taken assessment:', error);

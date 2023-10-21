@@ -38,24 +38,23 @@ const TakeTest: FC = () => {
     const token = tokenRef.current;
 
     try {
-      const res = await getAssessmentDetails(token as string, data as string);      
+      const res = await getAssessmentDetails(token as string, data as string);
       if (!res) {
         setIsLoading(false);
         throw new Error('Network response was not ok');
-      } else {        
+      } else {
         setResult(res);
         setIsLoading(false);
       }
-    } catch (error) {      
-    }
+    } catch (error) {}
   };
   return (
     <>
-    <Head>         
-          <link rel="icon" href="/assets/zuriLogo.svg" />
-          <title>{result?.title}</title>
-          <meta name="description" content={result?.description} />
-        </Head>
+      <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <title>{result?.title}</title>
+        <meta name="description" content={result?.description} />
+      </Head>
       <MainLayout activePage={'intro'} showTopbar showFooter showDashboardSidebar={false}>
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
