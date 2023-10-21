@@ -107,7 +107,7 @@ const Products = () => {
         <title>Products</title>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="Product" />
-
+        <link rel="icon" href="/assets/zuriLogo.svg" />
         <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
         <meta key="metadescription" itemProp="description" name="description" content="View All Product" />
         <meta name="keywords" content="Zuri, portfolio, add, product, dashboard" />

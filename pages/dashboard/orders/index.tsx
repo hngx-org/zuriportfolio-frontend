@@ -12,7 +12,7 @@ const Orders: React.FC = () => {
           <title>Orders</title>
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-title" content="View orders" />
-
+          <link rel="icon" href="/assets/zuriLogo.svg" />
           <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
           <meta
             key="metadescription"

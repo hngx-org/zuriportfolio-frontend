@@ -9,6 +9,7 @@ const Promotions: React.FC = () => {
       <MainLayout activePage="promotions" showDashboardSidebar={true} showTopbar={true}>
         <Head>
           <title>Promotions</title>
+          <link rel="icon" href="/assets/zuriLogo.svg" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-title" content="Prmotions" />
 
