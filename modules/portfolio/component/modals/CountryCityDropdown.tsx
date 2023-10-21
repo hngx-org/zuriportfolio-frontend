@@ -20,17 +20,17 @@ const CountryCityDropdown: React.FC<Props> = ({
   const [countries, setCountries] = useState<OptionType[]>([]);
   const [cities, setCities] = useState<string[]>([]);
   const [cityError, setCityError] = useState<string | null>(null);
-
   useEffect(() => {
     // Fetch the list of countries from the API
     fetch('https://countriesnow.space/api/v0.1/countries')
       .then((response) => response.json())
       .then((data) => {
         if (!data.error && data.data && data.data.length > 0) {
+          // Extract the list of countries from the API response
           const countryNames = data.data.map((country: { country: string; cities: string[] }) => ({
             label: country.country,
             value: country.country,
-            cities: country.cities,
+            cities: country.cities, // Include the list of cities for each country
           }));
           setCountries(countryNames);
         }
@@ -39,25 +39,21 @@ const CountryCityDropdown: React.FC<Props> = ({
         console.error('Error fetching countries:', error);
       });
   }, []);
-
   useEffect(() => {
-    if (selectedCountry) {
-      // Find the selected country and its cities
-      const selectedCountryData = countries.find((country) => country.value === selectedCountry);
-      if (selectedCountryData) {
-        setCities(selectedCountryData.cities);
+    if (!selectedCountry) {
+      setCityError('Pick a country first');
+      setCities([]); // Clear the cities
+    } else {
+      setCityError(null);
+      if (selectedCountry) {
+        // Find the selected country and its cities
+        const selectedCountryData = countries.find((country) => country.value === selectedCountry);
+        if (selectedCountryData) {
+          setCities(selectedCountryData.cities);
+        }
       }
     }
   }, [selectedCountry, countries]);
-
-  // Validation to display the error message
-  useEffect(() => {
-    if (selectedCity && !selectedCountry) {
-      setCityError( 'Please Select Tracks' );
-    } else {
-      setCityError(null);
-    }
-  }, [selectedCity, selectedCountry]);
 
   return (
     <div className="w-full flex md:flex-row gap-4 justify-between mt-[-17px]">
@@ -73,7 +69,7 @@ const CountryCityDropdown: React.FC<Props> = ({
             <SelectTrigger className="border-[#59595977]  h-[50px] rounded-[10px]">
               <SelectValue
                 defaultValue={selectedCountry || ''}
-                placeholder={'Select Country'}
+                placeholder='Select Country'
                 className="hover:border-green-500"
               />
             </SelectTrigger>
@@ -89,7 +85,7 @@ const CountryCityDropdown: React.FC<Props> = ({
       </div>
       <div className="w-full md:w-[47%]">
         <label>
-          Select City {cityError && <span className="text-red-200"> - {cityError}</span>}
+          Select City
           <Select
             onValueChange={(value: string) => {
               setSelectedCity(value);
@@ -99,7 +95,7 @@ const CountryCityDropdown: React.FC<Props> = ({
             <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
               <SelectValue
                 defaultValue={selectedCity || ''}
-                placeholder="Select City"
+                placeholder='Select City'
                 className="hover:border-green-500"
               />
             </SelectTrigger>

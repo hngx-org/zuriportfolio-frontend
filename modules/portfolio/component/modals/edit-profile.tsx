@@ -13,18 +13,19 @@ import Badges from './badges';
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
 const EditProfile = () => {
-  const { setUserData, showProfileUpdate, setShowProfileUpdate } = useContext(Portfolio);
+  const { userData, setUserData, showProfileUpdate, setShowProfileUpdate } = useContext(Portfolio);
   const [picture, setPicture] = useState<string | StaticImport>();
   const [firstNamee, setFirstnamee] = useState('');
   const [lastNamee, setLastNamee] = useState('');
-  const [selectedTrack, setSelectedTrack] = useState<any>();
+  const [selectedTrack, setSelectedTrack] = useState<string>('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [availableTracks, setAvailableTracks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ status: false, message: '' });
-  const [selectedCountry, setSelectedCountry] = useState<string>('');
-  const [selectedCity, setSelectedCity] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(userData.country || null);
+  const [selectedCity, setSelectedCity] = useState<string | null>(userData.city || null);
+
   const { userId, onSaveModal } = useContext(Portfolio);
 
   // const [isFormValid, setIsFormValid] = useState(false);
@@ -51,37 +52,23 @@ const EditProfile = () => {
   //     });
   // }, []);
 
-  const getUser = async () => {
-    try {
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
-      const data = await response.json();
-      return data;
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
-  const getTracks = async () => {
-    try {
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/tracks');
-      const data = await response.json();
-      return data.data;
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const userData = await getUser();
-        const tracks = await getTracks();
-        setPicture(userData?.user?.profilePic);
-        setFirstnamee(userData?.user?.firstName);
-        setLastNamee(userData?.user?.lastName);
-        setCity(userData?.portfolio?.city);
-        setCountry(userData?.portfolio?.country);
-        setSelectedTrack(userData?.userTracks?.track);
-        setAvailableTracks(tracks);
+        const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
+        const userData = await response.json();
+
+    
+        // Set default values as placeholders if data is not present
+        setPicture(userData.data.user.profilePic || '');
+        setFirstnamee(userData.data.user.firstName || ''); // Access 'user' inside 'data'
+        setLastNamee(userData.data.user.lastName || ''); // Access 'user' inside 'data'
+        setCity(userData.data.portfolio.city || ''); // Access 'portfolio' inside 'data'
+        setCountry(userData.data.portfolio.country || ''); // Access 'portfolio' inside 'data'
+        setSelectedTrack(userData.data.userTracks.track || ''); // Access 'userTracks' inside 'data'
+        
+        setAvailableTracks(await getTracks());
         setIsLoading(false);
       } catch (error: any) {
         setError({ status: true, message: error.message });
@@ -89,12 +76,22 @@ const EditProfile = () => {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // console.log(response);
-  }, []);
+  }, [userId]);
+
+  const getTracks = async () => {
+    try {
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/tracks');
+      const data = await response.json();
+      return data.data;
+    } catch (error: any) {
+  
+    }
+  };
+
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+  
     let matchingTrack: any;
     matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
     if (!isLoading) {
@@ -135,25 +132,7 @@ const EditProfile = () => {
       }
     }
   };
-  // try {
-  //   setIsLoading(true);
-  //   const update = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`, {
-  //     method: 'Post',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(body),
-  //   });
-  //   await update.json();
-  //   console.log(update);
-  //   await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-  //   setIsLoading(false);
-  //   modal();
-  // } catch (error) {
-  //   console.error(error);
-  //   await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-  //   setIsLoading(false);
-  // }
+
   const uploadProfile = async (coverImage: string | Blob) => {
     try {
       const formData = new FormData();
@@ -165,9 +144,7 @@ const EditProfile = () => {
       });
       const data = await response.json();
       setUserData((p: any) => ({ ...p, avatarImage: data.data.profilePic }));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -179,6 +156,7 @@ const EditProfile = () => {
       await uploadProfile(file);
     }
   };
+
   return (
     <Modal isOpen={showProfileUpdate} closeModal={() => setShowProfileUpdate(false)} isCloseIconPresent={false}>
       {isLoading ? (
@@ -229,13 +207,10 @@ const EditProfile = () => {
               <label className="w-full mb-3">
                 Firstname <span className="text-red-200">*</span>
                 <input
-                  className={`w-[100%] text-black mt-1 ${inputStyle}`}
-                  onChange={(e) => {
-                    setFirstnamee(e.target.value);
-                  }}
                   type="text"
-                  disabled={false}
-                  placeholder="Enter your firstname"
+                  className={`w-[100%] text-black mt-1 ${inputStyle}`}
+                  onChange={(e) => setFirstnamee(e.target.value)}
+                  placeholder="First Name"
                   value={firstNamee}
                 />
               </label>
@@ -250,7 +225,7 @@ const EditProfile = () => {
                   }}
                   type="text"
                   disabled={false}
-                  placeholder="Enter your lastname"
+                  placeholder="LastName"
                   value={lastNamee}
                 />
               </label>
@@ -267,7 +242,7 @@ const EditProfile = () => {
                   <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
                     <SelectValue
                       defaultValue={selectedTrack}
-                      placeholder="Select Track"
+                      placeholder="LastName"
                       className="hover:border-green-500"
                     />
                   </SelectTrigger>
