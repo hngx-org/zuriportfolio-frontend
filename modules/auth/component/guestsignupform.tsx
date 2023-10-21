@@ -25,12 +25,14 @@ const Guestsignupform: React.FC = () => {
         notify({
           message: 'User created successfully. Please check your email to verify your account',
           type: 'success',
+          theme: 'light',
         });
         router.push('/auth/verification');
       } else {
         notify({
           message: data.message,
           type: 'error',
+          theme: 'light',
         });
       }
     },
@@ -41,6 +43,7 @@ const Guestsignupform: React.FC = () => {
           message:
             'Oops! The request timed out. Please try again later. If the problem persists, please contact support.',
           type: 'error',
+          theme: 'light',
         });
         return;
       }
