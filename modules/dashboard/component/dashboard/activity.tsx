@@ -18,14 +18,14 @@ export const Activity: React.FC<{ isPage: boolean }> = ({ isPage }) => {
 
   // const displayedData = isPage ? queryActivity : queryActivity.slice(queryActivity.length - 10, queryActivity.length);
 
-  const displayedData = null;
+  const displayedData: any[] = [];
 
   return (
     <div className={isPage ? 'pb-[50px]' : ''}>
       <div className={`${isPage ? '' : 'space-y-4 shadow rounded-md p-5'} font-manropeL`}>
         <p className="flex items-center justify-between font-medium">
           <span className={isPage ? 'text-2xl md:text-3xl font-bold' : 'text-xl md:text-2xl'}>Activity</span>
-          {!isPage && displayedData && (
+          {!isPage && displayedData.length > 0 && (
             <Link href="/dashboard/activity" className="text-sm text-brand-white-650 md:text-base">
               View all
             </Link>
