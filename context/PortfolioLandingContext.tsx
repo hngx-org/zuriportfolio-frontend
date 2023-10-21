@@ -152,6 +152,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     if (getUserSections.data) {
       const { user, badges, portfolio, tracks } = getUserSections?.data?.data;
       setUserData({
+      
         firstName: user?.firstName,
         lastName: user?.lastName,
         avatarImage: user?.profilePic,

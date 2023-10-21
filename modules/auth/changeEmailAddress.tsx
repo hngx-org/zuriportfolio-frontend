@@ -16,7 +16,7 @@ function ChangeEmailAddress() {
   const onSignUpWithEmailSuccess = (data: { message: string }) => {
     if (data.message !== 'Email is available for use') {
       const errorMessage = 'This email is already registered. Please try logging in or use a different email address.';
-      notify({ message: errorMessage, type: 'error' });
+      notify({ message: errorMessage, type: 'error', theme: 'light' });
       return;
     }
 
@@ -27,12 +27,12 @@ function ChangeEmailAddress() {
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-      notify({ message: timeoutErrorMessage });
+      notify({ message: timeoutErrorMessage, theme: 'light' });
       return;
     }
 
     const serverErrorMessage = 'Oops! Something went wrong. Please try again later.';
-    notify({ message: serverErrorMessage });
+    notify({ message: serverErrorMessage, theme: 'light' });
   };
 
   const { mutate: signUpUser, isLoading: isUserSigningUp } = useAuthMutation(checkEmail, {
