@@ -39,7 +39,6 @@ const OrderHistoryTable: React.FC<{
     }
   };
 
-  console.log(pageItem);
   return (
     <table className="w-full mb-10 hidden md:table">
       <thead>
