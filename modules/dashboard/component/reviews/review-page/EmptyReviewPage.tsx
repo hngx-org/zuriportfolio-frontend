@@ -22,18 +22,7 @@ function EmptyReviewPage() {
       </div>
       <div className="flex flex-col justify-center items-center h-full w-full py-52">
         <Image src="/assets/reviews/Table.png" width={150} height={150} alt="Empty Grid" />
-        <p>There are no reviews for this product</p>
-        <div className="flex flex-col justify-center items-center">
-          <p className="pt-6">Have any thoughts?</p>
-          {id && (
-            <Link
-              href={`../create/${id}`}
-              className="flex text-sm md:text-base font-manropeB text-brand-green-pressed h-5 w-36 self-start"
-            >
-              <button className="hover:text-green-200 w-full">Write a Review!</button>
-            </Link>
-          )}
-        </div>
+        <p className="font-bold">There are no reviews for this product</p>
       </div>
     </div>
   );

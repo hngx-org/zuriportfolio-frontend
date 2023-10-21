@@ -54,7 +54,7 @@ export default function SellerReview(props: reviewProps) {
         <div className="flex flex-col w-full mb-7">
           <div className="flex flex-row my-3 mx-0">{getStars(props.noOfStars)}</div>
           <div className="flex text-xs text-dark-600">
-            <Link href="/portfolio" className="username" style={{ textDecoration: 'underline' }}>
+            <Link href="/portfolio" className="username font-bold text-sm" style={{ textDecoration: 'underline' }}>
               {props.buyerName}
             </Link>
             <Image
@@ -64,13 +64,16 @@ export default function SellerReview(props: reviewProps) {
               alt="Line"
               style={{ margin: '0 10px' }}
             />
-            <div className="date">{props.mainDate}</div>
+            <div className="date font-bold text-sm">{props.mainDate}</div>
           </div>
-          <div className="my-3 mx-0 flex text-sm text-black">{props.review}</div>
+          <div className="my-3 mx-0 flex text-md font-semibold text-black">{props.review}</div>
           {props.shopReply ? (
-            <p className="flex text-xs m-0 mb-2 max-w-max text-dark-600">1 reply</p>
+            <p className="flex m-0 mb-2 max-w-max text-dark-600 font-bold text-sm">1 reply</p>
           ) : (
-            <p className="flex text-xs m-0 mb-2 cursor-pointer max-w-max text-dark-600" onClick={(e) => setRes(!res)}>
+            <p
+              className="flex m-0 mb-2 cursor-pointer max-w-max text-dark-600 font-bold text-sm"
+              onClick={(e) => setRes(!res)}
+            >
               Reply customer
             </p>
           )}
@@ -106,12 +109,12 @@ export default function SellerReview(props: reviewProps) {
           )}
         </div>
         {props.shopReply && (
-          <div className="flex flex-col w-full p-5 mt-3 mb-7 mx-0 bg-white-200">
+          <div className="flex flex-col w-full p-5 mt-3 mb-7 mx-0 bg-[#D3D3D3]">
             <div className=" flex text-xs w-full justify-between items-center text-dark-600 ">
               <div className=" text-black text-sm font-semibold">{props.shopName}</div>
-              <div className="date">{props.adminDate}</div>
+              <div className="date font-bold text-sm">{props.adminDate}</div>
             </div>
-            <div className="my-3 mx-0 flex text-sm text-black">{props.shopReply}</div>
+            <div className="my-3 mx-0 flex text-md font-semibold text-black">{props.shopReply}</div>
           </div>
         )}
       </div>
