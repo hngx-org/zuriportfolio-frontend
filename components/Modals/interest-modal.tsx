@@ -43,6 +43,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
+    console.log(value);
     if (value !== '') {
       setInputValue(e.target.value);
     }
@@ -151,7 +152,6 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
       .then((res) => {
         setInitialLoading(false);
         const interestsArray: string[] = res.data?.interestArray;
-        console.log(interestsArray);
         setValues(interestsArray ? interestsArray : []);
       })
       .catch((err) => {

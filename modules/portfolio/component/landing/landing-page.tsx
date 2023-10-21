@@ -66,7 +66,7 @@ const Landing = () => {
           <>
             <div className="relative w-full flex-col justify-center items-center shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] rounded-b-lg -mt-5">
               {cover}
-              <Cover userData={userData} />
+              {/* <Cover userData={userData} /> */}
               <div className="absolute top-0 right-5 md:right-10 text-white-100 flex flex-col justify-between items-end h-[200px] sm:h-[250px] md:h-[300px] py-5">
                 <EditCover Link={Link} handleUploadCover={handleUploadCover} />
               </div>
