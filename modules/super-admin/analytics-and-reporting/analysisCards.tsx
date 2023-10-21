@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { DateObject } from 'react-multi-date-picker';
 import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
+import { ImSpinner8 } from 'react-icons/im';
 
 interface zaProps {
   dateRange: DateObject[];
@@ -17,12 +18,11 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
     if (reportClicked && dateRange.length === 2) {
       const starttDate = dateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
       const enddDate = dateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
       setLoading(true);
 
       fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
+        `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
         {
           method: 'GET',
           headers: {
@@ -42,10 +42,9 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         });
     } else {
       setLoading(true);
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
 
-      fetch(`https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/`, {
+      fetch(`https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${bearerToken}`,
@@ -597,161 +596,207 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
       </div>
       <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] max-[834px]:block max-[800px]:px-[1.5rem]">
         <div className="grid grid-cols-3 gap-[1rem] max-[800px]:grid-cols-2 max-[800px]:gap-[0.7rem] max-[540px]:grid-cols-1">
-          {CardDataOne?.map((hero: any) => (
-            <div
-              key={hero?.index}
-              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
-            >
-              <div className="flex w-full justify-between gap-[0.5rem]">
-                <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
-                  {hero?.title}
-                </p>
-                {/* <Image
+          {loadingState ? (
+            <>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+            </>
+          ) : (
+            CardDataOne?.map((hero: any) => (
+              <div
+                key={hero?.index}
+                className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] max-w-[18.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
+              >
+                <div className="flex w-full justify-between gap-[0.5rem]">
+                  <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
+                    {hero?.title}
+                  </p>
+                  {/* <Image
                   src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
                   className="w-[1.25rem] h-[1.25rem]"
                 /> */}
-              </div>
-              <div className="flex w-full justify-between gap-[1rem] items-center">
-                <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
-                {hero?.ratio < 0 && (
-                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                    <svg
-                      width="17"
-                      height="16"
-                      viewBox="0 0 17 16"
-                      fill="none"
-                      className="rotate-180"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
-                        stroke="#dc2626"
-                        strokeWidth="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                </div>
+                <div className="flex w-full justify-between gap-[1rem] items-center">
+                  <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
+                  {hero?.ratio < 0 && (
+                    <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                      <svg
+                        width="17"
+                        height="16"
+                        viewBox="0 0 17 16"
+                        fill="none"
+                        className="rotate-180"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                          stroke="#dc2626"
+                          strokeWidth="1.5"
+                          strokeMiterlimit="10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M8.33398 13.6673V2.44727"
+                          stroke="#dc2626"
+                          stroke-width="1.5"
+                          strokeMiterlimit="10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                        {Math.floor(hero?.ratio)}%
+                      </p>
+                    </div>
+                  )}
+                  {hero?.ratio > 0 && (
+                    <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                      <Image
+                        src={percentile}
+                        alt="Percentage-rate"
+                        width={16}
+                        height={16}
+                        className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                       />
-                      <path
-                        d="M8.33398 13.6673V2.44727"
-                        stroke="#dc2626"
-                        stroke-width="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {Math.floor(hero?.ratio)}%
-                    </p>
-                  </div>
-                )}
-                {hero?.ratio > 0 && (
-                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                    <Image
-                      src={percentile}
-                      alt="Percentage-rate"
-                      width={16}
-                      height={16}
-                      className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
-                    />
-                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {Math.floor(hero?.ratio)}%
-                    </p>
-                  </div>
-                )}
-                {hero?.ratio == 0 && (
-                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {Math.floor(hero?.ratio)}%
-                    </p>
-                  </div>
-                )}
+                      <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                        {Math.floor(hero?.ratio)}%
+                      </p>
+                    </div>
+                  )}
+                  {hero?.ratio == 0 && (
+                    <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                      <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                        {Math.floor(hero?.ratio)}%
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
       <div className="hidden max-w-[47.125rem] w-full mx-auto mt-[1.75rem] pl-[1.5rem] max-[500px]:block pr-0">
         <div className="flex gap-[1.5rem] overflow-x-scroll no-scrollbar">
-          {CardDataOne?.map((hero: any) => (
-            // {loadingState ? <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />:}
-            <div
-              key={hero?.index}
-              className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
-            >
-              <div className="flex w-full justify-between gap-[0.5rem]">
-                <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
-                  {hero?.title}
-                </p>
-                {/* <Image
+          {loadingState ? (
+            <>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+              <div className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full">
+                <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+              </div>
+            </>
+          ) : (
+            CardDataOne?.map((hero: any) => (
+              // {loadingState ? <ImSpinner8 className="w-6 h-6  text-brand-success-primary animate-spin" />:}
+              <div
+                key={hero?.index}
+                className="flex flex-col gap-[0.5rem] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.06),0px_1px_3px_0px_rgba(16,24,40,0.10)] p-[1.5rem] min-w-[14.25rem] w-full bg-[#FFF] rounded-[0.5rem] border border-[#F9F9F9] max-[800px]:mx-auto max-[800px]:max-w-[25rem] max-[540px]:max-w-[30.25rem] max-[540px]:w-full"
+              >
+                <div className="flex w-full justify-between gap-[0.5rem]">
+                  <p className="text-[0.875rem] text-[#737876] font-normal leading-[1.25rem] tracking-[0.00219rem] font-manropeL">
+                    {hero?.title}
+                  </p>
+                  {/* <Image
                   src="/assets/images/reports/more.svg"
                   alt="More options"
                   width={20}
                   height={20}
                   className="w-[1.25rem] h-[1.25rem]"
                 /> */}
-              </div>
-              <div className="flex w-full justify-between gap-[1rem] items-center">
-                <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
-                {hero?.ratio < 0 && (
-                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                    <svg
-                      width="17"
-                      height="16"
-                      viewBox="0 0 17 16"
-                      fill="none"
-                      className="rotate-180"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
-                        stroke="#dc2626"
-                        strokeWidth="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                </div>
+                <div className="flex w-full justify-between gap-[1rem] items-center">
+                  <p className="text-[2rem] font-manropeL font-bold leading-[2.5rem] text-[#000]">{hero?.amount}</p>
+                  {hero?.ratio < 0 && (
+                    <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#fecaca] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                      <svg
+                        width="17"
+                        height="16"
+                        viewBox="0 0 17 16"
+                        fill="none"
+                        className="rotate-180"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12.3804 6.38065L8.33378 2.33398L4.28711 6.38065"
+                          stroke="#dc2626"
+                          strokeWidth="1.5"
+                          strokeMiterlimit="10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M8.33398 13.6673V2.44727"
+                          stroke="#dc2626"
+                          stroke-width="1.5"
+                          strokeMiterlimit="10"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                        {Math.floor(hero?.ratio)}%
+                      </p>
+                    </div>
+                  )}
+                  {hero?.ratio > 0 && (
+                    <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                      <Image
+                        src={percentile}
+                        alt="Percentage-rate"
+                        width={16}
+                        height={16}
+                        className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
                       />
-                      <path
-                        d="M8.33398 13.6673V2.44727"
-                        stroke="#dc2626"
-                        stroke-width="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-red-300 tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {Math.floor(hero?.ratio)}%
-                    </p>
-                  </div>
-                )}
-                {hero?.ratio > 0 && (
-                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-[#E6F5EA] h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                    <Image
-                      src={percentile}
-                      alt="Percentage-rate"
-                      width={16}
-                      height={16}
-                      className="w-[1rem] h-[1rem] max-[1024px]:w-[0.5rem] max-[1024px]:h-[0.5rem] "
-                    />
-                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {Math.floor(hero?.ratio)}%
-                    </p>
-                  </div>
-                )}
-                {hero?.ratio == 0 && (
-                  <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
-                    <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
-                      {Math.floor(hero?.ratio)}%
-                    </p>
-                  </div>
-                )}
+                      <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                        {Math.floor(hero?.ratio)}%
+                      </p>
+                    </div>
+                  )}
+                  {hero?.ratio == 0 && (
+                    <div className="flex items-center py-[0.125rem] pl-[0.5rem] pr-[0.75rem] gap-[0.125rem] rounded-[0.75rem] bg-blue-50 h-[1.5rem] max-[1024px]:gap-[0.1rem]">
+                      <p className="font-manropeL text-[0.875rem] leading-[1.25rem] text-[#009254] tracking-[0.00219rem] text-center max-[1024px]:text-[0.6rem]">
+                        {Math.floor(hero?.ratio)}%
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
         <ToastContainer />
       </div>

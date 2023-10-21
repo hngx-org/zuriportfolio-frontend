@@ -1,8 +1,16 @@
 import axios from 'axios';
 
 const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth/api/auth';
+const AUTH_HTTP_URL_2 = 'https://staging.zuri.team/api/auth/api';
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json; charset=UTF-8',
+  },
+});
+const $http_2 = axios.create({
+  baseURL: AUTH_HTTP_URL_2,
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json; charset=UTF-8',
@@ -148,7 +156,7 @@ export const revalidateAuth = async (props: { token: string }) => {
   }
 };
 
-export const signUpWithOAuth = async (props: {query: string, oAuth: string}) => {
+export const signUpWithOAuth = async (props: { query: string; oAuth: string }) => {
   try {
     const res = await $http.get(`/${props.oAuth}/redirect?${props.query}`);
     return res?.data;
@@ -156,4 +164,14 @@ export const signUpWithOAuth = async (props: {query: string, oAuth: string}) => 
     throw e.response.data;
     // return e.response.data ?? { message: e.message };
   }
-}
+};
+
+export const authorizeToken = async (props: { token: string }) => {
+  try {
+    const res = await $http_2.post('/authorize', props);
+    return res?.data;
+  } catch (e: any) {
+    const error = JSON.stringify(e.response.data);
+    throw error;
+  }
+};

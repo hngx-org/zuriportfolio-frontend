@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import mainImage from '../../public/assets/mainImage.png';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
 import likeIcon from '../../public/assets/icons/like.svg';
@@ -17,13 +16,13 @@ import { ProductData } from '../../@types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../context/AuthContext';
-import { destructureProducts } from '../../helpers';
 import { isUserAuthenticated } from './hooks/useAuthHelper';
 import { CART_ENDPOINT } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
+import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
 
-export default function ProductDetailsDescription() {
+export default function ProductDetailsDescription({ productId }: { productId: string }) {
   const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -35,8 +34,8 @@ export default function ProductDetailsDescription() {
   const { setCartCountNav, cartCount } = useCart();
 
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/getproduct/${id}/none/?guest=true`;
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -47,47 +46,48 @@ export default function ProductDetailsDescription() {
     axios
       .get<ProductData>(apiUrl, { headers })
       .then((response) => {
-        setProduct(response.data);
+        console.log(response);
+        setProduct(response.data.data);
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+      .catch((error) => {});
   }, [apiUrl, id]);
 
   const addToCart = async () => {
     const apiUrl = `${CART_ENDPOINT}/carts`;
+    const bearerToken = localStorage.getItem('zpt');
+    console.log(bearerToken);
     if (auth?.token) {
+      console.log(auth.token);
       try {
         const response = await axios.post(
           apiUrl,
           { product_ids: [`${id}`] },
           {
             headers: {
-              Authorization: `Bearer ${auth?.token}`,
+              Authorization: `Bearer ${bearerToken}`,
             },
           },
         );
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           setCartCountNav(cartCount + 1);
+          toast.success('Item Added to Cart');
           setCartLoading(false);
         }
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
       }
-      toast.success('Added to Cart');
     } else {
       const products: any[] = localStorage.getItem('products')
         ? JSON.parse(localStorage.getItem('products') as string)
         : [];
-      
+      console.log('no auth');
+
       if (product) {
-                
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
-        console.log(products);
         toast.success('Item added to cart🎊');
         setCartLoading(false);
         setCartCountNav(cartCount + 1);
@@ -104,6 +104,7 @@ export default function ProductDetailsDescription() {
     try {
       const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
 
+      console.log(response);
       if (response.status === 201) {
         toast.success(response.data.message);
       }
@@ -193,7 +194,16 @@ export default function ProductDetailsDescription() {
                       (50 Customers)
                     </p>
                   </div>
-                ) : null}
+                ) : (
+                  <div className="flex flex-wrap items-center">
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <Image src={star2} alt="rating star" />
+                    <p>(no ratings for this product)</p>
+                  </div>
+                )}
               </div>
 
               <hr className="bg-white-110 text-white-110 h-[2px] border-0 lg:block hidden" />
@@ -243,7 +253,7 @@ export default function ProductDetailsDescription() {
 
           {/* Description, Specification, Reviews (Desktop View)  */}
           {/* Pass all the data down to this component as props  */}
-          <TabContainer desc={product?.description} />
+          <TabContainer desc={product?.description} id={productId} />
 
           {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
           <div className="md:hidden block mt-[26px] mr-auto">
@@ -454,6 +464,9 @@ export default function ProductDetailsDescription() {
 
           {/* favorite products  */}
           <div></div>
+          <div>
+            <ProductWeThoughtMightInterestYou id={id} />
+          </div>
         </main>
       )}
       {/* lg:px-[100px] md:px-10*/}

@@ -9,14 +9,15 @@ import Pagination from '@ui/Pagination';
 import { useCart } from './component/CartContext';
 import Loader from '@ui/Loader';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Error from '../shop/component/error/Error';
 
 const ZuriLandingPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [shopOwnerQuery, setShopOwnerQuery] = useState('');
-  const [categoryQuery, setCategoryQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8;
+  const productsPerPage = 10;
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(true);
@@ -38,10 +39,7 @@ const ZuriLandingPage = () => {
       setShowLoader(true);
       if (shop_id) {
         try {
-          console.log('Fetching shop data for shop_id:', shop_id);
-
           const response = await axios.get(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shop_id}`);
-          console.log('Shop data:', response.data);
 
           setShop(response.data);
 
@@ -50,12 +48,10 @@ const ZuriLandingPage = () => {
             setLoading(false);
           }, 2000);
         } catch (error) {
-          console.error('Error fetching data:', error);
           setLoading(false);
           setShowLoader(false);
         }
       } else {
-        console.error('shop_id is not provided.');
         setLoading(false);
         setShowLoader(false);
       }
@@ -64,22 +60,17 @@ const ZuriLandingPage = () => {
     if (router.query.shop_id) {
       const newShopId = router.query.shop_id as string;
       setShopId(newShopId);
-      console.log('Router shop_id:', newShopId);
     }
 
     fetchShopData();
   }, [router.query.shop_id, shop_id]);
 
-  console.log('Current shop_id:', shop_id);
-  console.log('Shop data:', shop);
   if (shop && shop.data) {
     const shopName = shop.data?.name;
-    console.log('Shop name:', shopName);
   }
 
   if (shop && shop.data) {
     const shopP = shop.data?.products;
-    console.log('Shop name:', shopP);
   }
 
   useEffect(() => {
@@ -95,43 +86,49 @@ const ZuriLandingPage = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
+      <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''}</title>
+        <meta
+          name="description"
+          content="Discover a versatile online marketplace where sellers can showcase their products, and buyers can find a wide range of goods. Shop for unique handcrafted items, everyday essentials, and more."
+        />
+        <meta property="og:title" content={shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''} />
+        <meta
+          property="og:description"
+          content={`Experience the magic of ${
+            shop ? shop.data?.name : 'Shop'
+          } Shop, a place where you can discover, shop, and thrive. Our exceptional products cater to all your needs. Join us today!`}
+        />
+
+        <meta
+          property="og:url"
+          content="https://zuriportfolio-frontend-pw1h.vercel.app/shop?shop_id=3a9a50be-990d-492b-bcfa-0936d6d8d82b"
+        />
+      </Head>
       <Header
         setSearchQuery={setSearchQuery}
         setShopOwnerQuery={setShopOwnerQuery}
-        setCategoryQuery={setCategoryQuery}
         cartItemCount={cartItemCount}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
         handleCategoryChange={handleCategoryChange}
       />
-      <div className="px-4 sm:px-6 md:px-3 py-5 container mx-auto">
+      <div className=" flex-grow px-4 sm:px-6 md:px-6 lg:px-10 py-5 container mx-auto">
         {shop ? (
           <div className="space-y-12 py-10">
             <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
-
-            <p className="md:text-base text-xs font-normal font-manropeL">
-              Explore our store for courses and E-books that will elevate your skills from novice to expert.
-            </p>
           </div>
         ) : loading ? (
-          <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              background: 'rgba(255, 255, 255, 0.8)',
-              zIndex: 9999,
-            }}
-          >
+          <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-white bg-opacity-80 z-50">
             <Loader />
           </div>
-        ) : null}
+        ) : (
+          <div className="text-center py-10">
+            <Error />
+          </div>
+        )}
         <div className="py-10">
           {shop ? (
             <ShopProductList
@@ -143,8 +140,8 @@ const ZuriLandingPage = () => {
           ) : null}
         </div>
 
-        <div className="w-full mx-auto flex justify-center">
-          {shop ? (
+        <a href="#top" className="w-fit mx-auto flex justify-center">
+          {totalPageCount > 1 && (
             <Pagination
               visiblePaginatedBtn={5}
               activePage={currentPage}
@@ -152,10 +149,10 @@ const ZuriLandingPage = () => {
               page={currentPage}
               setPage={handlePageChange}
             />
-          ) : null}
-        </div>
+          )}
+        </a>
       </div>
-      <Footer />
+      <Footer shopName={shop ? shop.data?.name : ''} />
     </div>
   );
 };

@@ -25,10 +25,9 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
       const endDate = dateRange[1].format('YYYY-MM-DD');
       setIsLoading(true);
 
-      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/best-selling-products/?start_date=${startDate}&end_date=${endDate}`;
 
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
 
       axios
         .get(apiUrl, {
@@ -38,8 +37,8 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
           },
         })
         .then((response) => {
-          console.log(response.data.data);
-          setTopSellingProducts(response.data.data);
+          console.log(response.data.results.data);
+          setTopSellingProducts(response.data.result.data);
           setIsLoading(false);
         })
         .catch((error) => {
@@ -49,11 +48,9 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
         });
     } else {
       setIsLoading(true);
-      const apiUrl =
-        'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?start_date=2023-01-10&end_date=2023-11-12';
+      const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/best-selling-products';
 
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
 
       axios
         .get(apiUrl, {
@@ -63,8 +60,8 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
           },
         })
         .then((response) => {
-          console.log(response.data.data);
-          setTopSellingProducts(response.data.data);
+          console.log(response.data.results.data);
+          setTopSellingProducts(response.data.results.data);
           setIsLoading(false);
         })
         .catch((error) => {
@@ -186,11 +183,11 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
             </div>
             <div>
               <div className="border-b-[0.0625rem] border-[#EAECF0]"></div>
-              <SuperAdminPagination
+              {/* <SuperAdminPagination
                 currentPage={currentPage}
                 totalPages={Math.ceil(topSellingProducts?.length / pageSize)}
                 onPageChange={handlePageChange}
-              />
+              /> */}
               <div className="h-[0.94rem] rounded-b-[0.5rem] border-[0.001rem] border-t-0 border-[#EAECF0] max-[760px]:rounded-br-none"></div>
             </div>
           </div>

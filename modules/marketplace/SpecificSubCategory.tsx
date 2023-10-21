@@ -1,14 +1,13 @@
 import { FC, useState, useEffect } from 'react';
 import { manropeL, manropeB, manropeEB } from '../../config/font';
 import MainLayout from '../../components/Layout/MainLayout';
-import Button from '@ui/Button';
 import { MarketPlaceProductCardProps } from '../../@types';
 import ProductCard from './component/ProductCard';
 import { formatNumberWithCommas } from '../../helpers';
-import CategoriesNav from './component/CategoriesNav/CategoriesNav';
 import SearchFilter from './component/filter/search-filter';
 import useSearchFilter from './component/filter/hooks/useSearchFilter';
 import CategoryLayout from './component/layout/category-layout';
+import Pagination from '@ui/Pagination';
 
 interface CardType {
   id: string;
@@ -65,13 +64,19 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
     setCurrentPageSet(Math.floor(pageNumber / pagesPerSet));
   }, [pageNumber]);
 
+  const scrollToFunc = () => {
+    // console.log('ddjjdjdjd');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const nextPage = () => {
+    scrollToFunc();
     if (pageNumber < totalPages - 1) {
       setPageNumber(pageNumber + 1);
     }
   };
 
   const prevPage = () => {
+    scrollToFunc();
     if (pageNumber > 0) {
       setPageNumber(pageNumber - 1);
     }
@@ -141,12 +146,12 @@ const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
                   >
                     {formatNumberWithCommas(props?.response?.data?.length || 0)} Products
                   </div>
-                  <Button
-                    className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-white-100 w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem] hover:text-white-100"
+                  <button
+                    className="border-green-300 border-[1px] text-green-300 rounded-[0.5rem] bg-white-100 w-[6rem] ml-auto px-[1rem] py-[0.75rem] text-center font-[400] text-[0.75rem] tracking-[0.003rem] md:w-[9.25rem] md:text-[0.875rem] lg:text-[1rem] hover:bg-green-300 hover:text-white-100 active:bg-green-200"
                     onClick={toggle}
                   >
                     Filter
-                  </Button>
+                  </button>
                 </div>
 
                 <div className="grid grid-cols-2 place-items-center [grid-column-gap:0.56rem] [grid-row-gap:1.25rem] md:grid-cols-3 md:[grid-column-gap:1.5rem] md:[grid-row-gap:3.25rem] lg:grid-cols-4 lg:[grid-column-gap:2rem] lg:[grid-row-gap:3.75rem] ">

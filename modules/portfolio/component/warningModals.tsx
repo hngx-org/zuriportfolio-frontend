@@ -2,9 +2,13 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import { SectionModalProps } from '../../../@types';
 import { CloseSquare } from 'iconsax-react';
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import Portfolio from '../../../context/PortfolioLandingContext';
-import { set } from 'nprogress';
+import { redirect } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import { useRouter } from 'next/navigation';
+import router from 'next/router';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({
@@ -14,11 +18,11 @@ function SectionModal({
   primaryText,
   onClickAction,
   sectionToDelete,
+  loading,
 }: SectionModalProps) {
   //Destructure the useDisclosure hook
   const { openDelete, setOpenDelete } = useContext(Portfolio);
   const onClose = () => setOpenDelete(false);
-  console.log(sectionToDelete, 'sectiontodelete');
 
   return (
     <>
@@ -34,9 +38,9 @@ function SectionModal({
         />
 
         <div className="box-border h-full w-full my-14 text-center font-normal flex justify-center items-center flex-col gap-6 py-8 px-1">
-          <h1 className="text-red-200 text-xl font-manropeL">{heading}</h1>
+          <h1 className="text-[#FF5C5C] text-xl font-manropeEB">{heading}</h1>
 
-          <p className="text-sm sm:w-3/5 text-gray-400 font-manropeE">{paragraph}</p>
+          <p className="text-sm sm:w-3/5 text-[#737876] font-manropeE">{paragraph}</p>
 
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-2 sm:px-5 w-9/12 sm:w-full">
             <Button
@@ -53,10 +57,11 @@ function SectionModal({
             <Button
               intent={'primary'}
               size={'md'}
-              isLoading={false}
+              disabled={loading}
+              isLoading={loading}
               spinnerColor="#000"
               onClick={onClickAction}
-              className="w-full rounded-xl"
+              className={`${loading ? 'opacity-50' : 'opacity-100'}w-full rounded-xl`}
             >
               {primaryText}
             </Button>
@@ -67,41 +72,60 @@ function SectionModal({
   );
 }
 
-const deleteSection = (sections: string) => {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-
-  const raw = JSON.stringify({
-    section: 'workExperience',
-  });
-
-  const requestOptions: any = {
-    method: 'DELETE',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow',
-  };
-
-  fetch('https://hng6-r5y3.onrender.com/api/profile/details/:userID', requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log('error', error));
-};
-
 //A Modal function for the deleting of a section
 export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
-  const { toggleSection, setOpenDelete } = useContext(Portfolio);
-  const deleteFromBe = sectionToDelete?.split(' ')[0] === 'be';
-  const deleteLocal = sectionToDelete?.split(' ')[0] === 'local';
+  const { setOpenDelete, idToDelete, onSaveModal } = useContext(Portfolio);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  //userID
+  const { userId } = useContext(Portfolio);
+
+  // function for popup
+  const toastId = useRef<any>(null);
+
+  //function to delete sections
   const deleteSection = async () => {
-    if (deleteFromBe) {
-    } else if (deleteLocal) {
-      const parts = sectionToDelete.split(' ');
-      const section = parts.slice(1).join(' ');
-      toggleSection(section);
-      setOpenDelete(false);
-    }
+    //make loader visible
+    setLoading(true);
+
+    //Query the backend
+    let myHeaders: any;
+    myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    let raw: any;
+    raw = JSON.stringify({
+      section: idToDelete,
+    });
+
+    let requestOptions: any;
+    requestOptions = {
+      method: 'DELETE',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    // delete popup
+    const notify = () => (toastId.current = toast.success('Section deleted successfully'));
+
+    //fetch the endpoint for deleting
+    await fetch(`https://hng6-r5y3.onrender.com/api/v1/profile/details/${userId}`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        //Show popup when section is deleted successfully
+        notify();
+        //take off the modal
+        setOpenDelete(false);
+        //Update the main page
+        onSaveModal(idToDelete);
+      })
+      .catch((error) => console.log({ error: error }));
+
+    //remove loader
+    setLoading(false);
   };
+
   return (
     <>
       <SectionModal
@@ -111,7 +135,10 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
         primaryText={'Delete'}
         onClickAction={deleteSection}
         sectionToDelete={sectionToDelete}
+        loading={loading}
       />
+
+      <ToastContainer />
     </>
   );
 }

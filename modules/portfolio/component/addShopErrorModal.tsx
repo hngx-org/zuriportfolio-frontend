@@ -2,11 +2,15 @@ import Button from '@ui/Button';
 import Modal from '@ui/Modal';
 import useDisclosure from '../../../hooks/useDisclosure';
 import { CloseSquare } from 'iconsax-react';
-import { useContext } from 'react';
+import { useContext, useState, useRef } from 'react';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { useRouter } from 'next/navigation';
+import { Input } from '@ui/Input';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function AddShopErrorModal() {
+function AddShopErrorModal({ isOpen, onCloseModal, onSaveModal }: any) {
   // const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
 
   const { openShop, setOpenShop } = useContext(Portfolio);
@@ -17,14 +21,13 @@ function AddShopErrorModal() {
 
   return (
     <>
-      {/* <Button intent={'primary'} size={'md'} isLoading={false} spinnerColor="#000" onClick={onOpen} className="m-5">
-        Add Shop
-      </Button> */}
-
       <Modal
         closeOnOverlayClick
-        isOpen={openShop}
-        closeModal={onClose}
+        isOpen={isOpen}
+        closeModal={() => {
+          onCloseModal();
+          onSaveModal();
+        }}
         isCloseIconPresent={false}
         size="lg"
         title="Shop"
@@ -33,7 +36,10 @@ function AddShopErrorModal() {
           size="32"
           color="#009254"
           variant="Bold"
-          onClick={onClose}
+          onClick={() => {
+            onCloseModal();
+            onSaveModal();
+          }}
           className="absolute top-3 right-4 cursor-pointer"
         />
 
@@ -62,3 +68,128 @@ function AddShopErrorModal() {
 }
 
 export default AddShopErrorModal;
+
+export function AddShopModal({ isOpen, onCloseModal, onSaveModal }: any) {
+  //set states
+  const [shopName, setShopName] = useState<string>('');
+  const [shopId, setShopId] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // function for popup
+  const toastId = useRef<any>(null);
+
+  //function for creating a user's shop
+  async function handleSubmit() {
+    // created popup
+    const notify = () => (toastId.current = toast.success('Shop created successfully'));
+
+    //make loader visible
+    setLoading(true);
+    const url = 'https://zuriportfolio-shop-internal-api.onrender.com/api/shop';
+
+    //get bearer token
+    const BearerToken = localStorage.getItem('zpt');
+
+    //set configuration for axios
+    const config = {
+      headers: { Authorization: `Bearer ${BearerToken}` },
+    };
+
+    //set the name
+    const name = { name: shopName };
+
+    try {
+      //Query the backend for creating of shp
+      const result = await axios.post(url, name, config);
+
+      //Show popup when shop is created successfully
+      notify();
+
+      console.log({
+        result: result.data.data.id,
+        BearerToken: BearerToken,
+      });
+
+      //close the Modal and refresh
+      onCloseModal();
+      onSaveModal();
+      //if failed logged out error
+    } catch (error: any) {
+      const result = error.response.data;
+      console.log({
+        result: result,
+        BearerToken: BearerToken,
+      });
+    }
+
+    //reset the shop name
+    //set name field back to default
+    setShopName('');
+    //remove loader
+    setLoading(false);
+  }
+
+  return (
+    <>
+      <Modal
+        closeOnOverlayClick
+        isOpen={isOpen}
+        closeModal={() => {
+          onCloseModal();
+          onSaveModal();
+        }}
+        isCloseIconPresent={false}
+        size="sm"
+        title="Create shop"
+      >
+        <CloseSquare
+          size="32"
+          color="#009254"
+          variant="Bold"
+          onClick={() => {
+            onCloseModal();
+            onSaveModal();
+          }}
+          className="absolute top-3 right-4 cursor-pointer"
+        />
+
+        <hr className="mt-2 bg-green-600 border-t-2 border-green-600" />
+
+        <form onSubmit={handleSubmit} className="flex flex-col mt-5 gap-y-5">
+          <Input
+            placeHolder="Enter shop name"
+            onChange={(e) => {
+              setShopName(e.target.value);
+            }}
+            className="border-[#E1E3E2] text-sm font-semibold text-gray-900 border w-[100%] font-manropeL rounded-md"
+            inputSize={'sm'}
+            value={shopName}
+          />
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-end">
+            <Button
+              type="button"
+              onClick={onCloseModal}
+              intent={'secondary'}
+              className="border w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]"
+              size={'sm'}
+            >
+              Cancel
+            </Button>
+            <Button
+              disabled={loading}
+              type="submit"
+              className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]`}
+              size={'sm'}
+              isLoading={loading}
+              spinnerColor="#000"
+              onClick={handleSubmit}
+            >
+              Save
+            </Button>
+          </div>
+        </form>
+      </Modal>
+    </>
+  );
+}

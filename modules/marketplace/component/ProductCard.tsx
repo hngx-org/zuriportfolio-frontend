@@ -45,9 +45,9 @@ export default function ProductCard({
   }
   return (
     <div className="p-[16px] border-[1px] border-custom-color32 rounded-[8px] h-full w-[286px] max-w-full">
-      <Link href={`/marketplace/product-details?id=${id}`} className="relative h-full flex flex-col">
-        <div className="flex flex-col h-full items-start">
-          {/* Product Image */}
+      <div className="flex flex-col h-full items-start">
+        {/* Product Image */}
+        <Link href={`/marketplace/product-details/${id}`} className="relative flex flex-col">
           <div>
             <div>
               {showTopPicks ? (
@@ -56,7 +56,7 @@ export default function ProductCard({
                 </div>
               ) : showDiscount ? (
                 <div className="absolute w-[100px] h-[36px] bg-brand-green-shade95 rounded-[8px] flex items-center justify-center text-brand-green-shade50 tracking-[0.4%] font-manropeL font-semibold text-[12px]">
-                  {`${discount_price}% Off`}
+                  {`${discount_price ? Math.floor((discount_price / price) * 100) : 0}% Off`}
                 </div>
               ) : showLimitedOffer ? (
                 <div className="absolute w-[100px] h-[36px] bg-custom-color24 rounded-[8px] flex items-center justify-center text-custom-color25 tracking-[0.4%] font-manropeL font-semibold text-[12px]">
@@ -93,16 +93,18 @@ export default function ProductCard({
           </p>
           {/* Product Price */}
           <h1 className="font-manropeL text-brand-green-shade10 text-[18px] font-bold leading-[20px] letter pt-[2px] pb-[8px]">
-            {`$ ${formatPrice(price)}`}
+            {`₦ ${formatPrice(price)}`}
           </h1>
-          {/* Product Owner */}
-          <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">
-            By:{' '}
-            <Link href={shop?.id ? `/shop/${shop.id}` : '/shop'} className="underline">
-              {user}
-            </Link>
-          </p>
-          {/* Star rating */}
+        </Link>
+        {/* Product Owner */}
+        <p className="font-manropeL text-custom-color15 text-[14px] font-normal leading-[20px] letter tracking-[0.035px] pb-[20px]">
+          By:{' '}
+          <Link href={shop?.id ? `/shop/?shop_id=${shop.id}` : '/shop'} className="underline">
+            {user}
+          </Link>
+        </p>
+        {/* Star rating */}
+        <Link href={`/marketplace/product-details/${id}`}>
           <div>
             {starRating ? (
               <div className="flex flex-row items-center gap-[5px]">
@@ -113,8 +115,8 @@ export default function ProductCard({
               <p>No Rating for this product</p>
             )}
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </div>
   );
 }

@@ -5,27 +5,32 @@ import Button from '@ui/Button';
 import { ArrowRight } from 'iconsax-react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useBanShop, useGetShop, useRemoveBan, useRestoreShop, useTempDeleteShop } from '../../../../../http';
+import {
+  useBanShop,
+  useGetShop,
+  useRemoveBan,
+  useRestoreShop,
+  useTempDeleteShop,
+} from '../../../../../http/super-admin1';
 import Loader from '@modules/portfolio/component/landing/Loader';
-import { formatDate, handleBack } from '@modules/super-admin/components/product-listing/product-details';
+import { formatDate, formatNumber, handleBack } from '@modules/super-admin/components/product-listing/product-details';
 import { toast } from 'react-toastify';
 import StarRating from '@modules/super-admin/components/StarRating';
 import DeleteModal from '@modules/super-admin/components/product-listing/product-details/DeleteModal';
 import { useQueryClient } from '@tanstack/react-query';
+import { withAdminAuth } from '../../../../../helpers/withAuth';
+import StatusPill from '@modules/super-admin/components/StatusPill';
 
 export const brokenImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/800px-No-Image-Placeholder.svg.png';
 function VendorDetails() {
   const router = useRouter();
-  const { amount, quantity, statusText } = router.query;
+  const { quantity } = router.query;
 
   const id = router.query?.id as string;
 
   const { data, isLoading } = useGetShop(id);
   const details = data?.data?.length > 0 ? data?.data[0] : null;
-  //Access Query paramterts
-
-  //States for opening and closing the modaals
   const [isModal, setIsModal] = React.useState(false);
   const { removeBan, isLoading: isRemovingBan } = useRemoveBan();
   const { restoreShop, isLoading: isRestoringShop } = useRestoreShop();
@@ -137,20 +142,18 @@ function VendorDetails() {
               <div className="sales flex flex-col items-center justify-center lg:w-1/2 lg:ml-10">
                 <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
                   <p>Total Products</p>
-                  <h1 className="text-xl font-bold">{details?.total_products}</h1>
+                  <h1 className="text-xl font-bold">{formatNumber(data?.total_products)}</h1>
                 </div>
                 <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
-                  <p>{quantity ? quantity : 'Total Order'}</p>
+                  <p>Total Order</p>
                   <div className="badge flex items-center justify-between">
-                    <h1 className="text-xl font-bold">{details?.total_products}</h1>
-                    {/* <Image src={badge} alt="Price Badge" /> */}
+                    <h1 className="text-xl font-bold">{formatNumber(details?.vendor_total_orders)}</h1>
                   </div>
                 </div>
                 <div className="revenue border border-white-200  p-2 w-full lg:w-full">
                   <p>Total Sales</p>
                   <div className="badge flex items-center justify-between">
-                    <h1 className="text-xl font-bold">{amount ? amount : '$430600'}</h1>
-                    {/* <Image src={badge} alt="Price Badge" /> */}
+                    <h1 className="text-xl font-bold">&#36;{formatNumber(details?.vendor_total_sales)}</h1>
                   </div>
                 </div>
               </div>
@@ -168,7 +171,7 @@ function VendorDetails() {
                     />
                   </div>
                   <div className="name">
-                    <h1 className="text-3xl font-bold font-manropeL">{details?.merchant_name}</h1>
+                    <h1 className="text-3xl font-bold font-manropeL">{details?.vendor_name}</h1>
                     <p>{details?.merchant_email}</p>
                   </div>
                 </div>
@@ -192,26 +195,7 @@ function VendorDetails() {
                     <p>
                       ({data?.rating_id ?? 0} Customer{data?.rating_id > 0 ? 's' : ''})
                     </p>
-                    <div
-                      className={` hidden  rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL text-xs font-medium md:flex items-center justify-center gap-2 w-max ${
-                        details?.vendor_status === 'Banned'
-                          ? 'bg-custom-color40 text-yellow-600 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                          : details?.vendor_status === 'Deleted'
-                          ? 'hidden bg-pink-120 text-custom-color34 rounded-2xl py-0.5 pl-1.5 pr-2 text-center font-manropeL font-medium'
-                          : 'bg-green-200 bg-opacity-50 text-green-800'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block w-2 h-2 rounded-full ${
-                          details?.vendor_status === 'Banned'
-                            ? 'bg-yellow-600'
-                            : details?.vendor_status === 'Deleted'
-                            ? 'bg-red-800'
-                            : 'bg-green-800'
-                        }`}
-                      ></span>
-                      <span>{details?.vendor_status}</span>
-                    </div>
+                    <StatusPill status={data?.vendor_status} />
                   </div>
                   <div className="buttons w-full flex items-center justify-between mt-6"></div>
                   <div className="flex py-8 justify-center space-x-9">
@@ -351,4 +335,4 @@ function VendorDetails() {
   );
 }
 
-export default VendorDetails;
+export default withAdminAuth(VendorDetails);

@@ -1,7 +1,9 @@
 import React from 'react';
+
+import { boolean } from 'zod';
+
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
-import { boolean } from 'zod';
 
 // export all interfaces and types
 declare module 'nprogress';
@@ -17,6 +19,7 @@ export interface MainLayoutProps {
 }
 
 export interface ProductData {
+  [x: string]: SetStateAction<ProductData | null>;
   id: string;
   name: string;
   discount_price: string;
@@ -164,7 +167,7 @@ export interface Products {
   discount_price: string;
 }
 
-interface Data {
+export interface Data {
   id: string;
   merchant_id: string;
   name: string;
@@ -178,17 +181,16 @@ interface Data {
   updatedAt: string;
   products: Product;
 }
-interface ShopData {
+export interface ShopData {
   products: Product;
   data?: Data;
-
-  // Add other properties here
 }
 
-interface Shop {
-  id: number;
-  name: string;
-  // Add other properties as needed
+export interface SEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }
 export interface SuperAdminPagination {
   title: any;
@@ -293,6 +295,11 @@ export interface IntrestedProducts {
 export interface ratingProps {
   src: string;
   alt: string;
+}
+
+export interface ApiData {
+  endpoint: string;
+  status: string;
 }
 
 export interface starProps {
@@ -520,6 +527,7 @@ export interface WorkExperience {
   endYear: string;
   endMonth: string;
   id: number;
+  isEmployee: boolean;
 }
 export interface VerificationProps {
   handleClick(): void;
@@ -532,7 +540,7 @@ export interface PaginationBtn {
 export interface AdminTablePagination {
   currentPage: number;
   totalPages: number;
-  onPageChange: (newPage: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface PromotionHistory {
@@ -622,6 +630,11 @@ export interface reviewProps {
   help?: number;
 }
 
+export interface revNavProps {
+  shopNav?: boolean;
+  marketPlaceNav?: boolean;
+}
+
 export interface searchProp {
   handleSearchChange: (searchString: string) => void;
 }
@@ -637,6 +650,7 @@ export type SectionModalProps = {
   primaryText?: string;
   onClickAction?: () => void;
   sectionToDelete?: string;
+  loading?: boolean;
 };
 
 export interface PaymentStatusModalProps {
@@ -655,10 +669,6 @@ export interface Vendor {
 }
 
 export type BannedDeletedVendorsProps = {
-  showBanned: boolean;
-  setShowBanned: (any: boolean) => void;
-  showDeleted: boolean;
-  setShowDeleted: (any: boolean) => void;
   data: any;
   isLoading: Boolean;
 };
@@ -693,6 +703,7 @@ export type Graph = {
 };
 
 export type topListingProduct = {
+  filter: any;
   map(arg0: (item: any, id: any) => React.JSX.Element): React.ReactNode;
   product_id?: number;
   product_name?: string;
@@ -719,9 +730,11 @@ type activity = {
 };
 export type cardinfo = {
   title: string;
-  amount: any;
+  amount: number;
   ratio: number;
 };
+
+type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
 
 export type inputErrorMessage = {
   errorMessage: string;
@@ -815,6 +828,8 @@ export type User = {
   isVerified: boolean;
   roleId: number;
   twoFactorAuth: boolean;
+  two_factor_auth: boolean;
+  slug: string | null;
 };
 
 export type AuthResponse = {
@@ -856,4 +871,46 @@ export interface ProductResult {
   category: ProductCategory;
   rating: number;
   user: string;
+}
+
+export interface ReviewData {
+  productId: string;
+  reviewId: string;
+  customerName: string;
+  description: string;
+  isHelpful: number;
+  rating: 0;
+  reply: {
+    id: string;
+    name: string;
+    message: string;
+    createdAt: string;
+  };
+  numberOfPages: 0;
+  updatedAt: string;
+  createdAt: string;
+}
+
+export interface ReviewApiResponse {
+  data: ReviewData[];
+}
+
+export interface RatsData {
+  oneStar: number;
+  twoStar: number;
+  threeStar: number;
+  fourStar: number;
+  fiveStar: number;
+  totalRating: number;
+  averageRating: number;
+  numberOfRating: number;
+  productId: string;
+  id: string;
+}
+
+export interface ExploreSEOProps {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
 }
