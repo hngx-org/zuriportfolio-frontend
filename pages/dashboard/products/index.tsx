@@ -27,6 +27,7 @@ type Product = {
     maximum_discount_price: number;
   } | null;
 };
+let first = true;
 const Products = () => {
   const [pageSize, setPageSize] = useState(2);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,9 +43,12 @@ const Products = () => {
 
   const fetchProducts = async () => {
     // Fetch the product data from the server
-    if (ref) {
-      ref.current?.scrollIntoView(true);
-    }
+    // if (first) {
+    //   first = false;
+    //   console.log('first');
+    // } else {
+    //   ref.current?.scrollIntoView(true);
+    // }
     setIsLoading(true);
     try {
       setIsLoading(true);
