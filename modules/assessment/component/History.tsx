@@ -37,7 +37,7 @@ const History: React.FC = () => {
     error,
     data: assessmentsHistory,
   } = useQuery(['assessmentsHistory'], () => fetchAssessmentHistory(tokenRef.current as string));
-  console.log('assessments', assessmentsHistory);
+  console.log('history', assessmentsHistory);
 
   const assessments = assessmentsHistory;
 
