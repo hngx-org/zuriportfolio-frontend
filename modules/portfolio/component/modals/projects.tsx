@@ -239,8 +239,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
   }, [dataToEdit]);
 
   return (
-    <section className="px-16 pt-10 max-sm:w-full max-sm:px-1">
+    <section className="px-6 pt-10 max-sm:w-full max-sm:px-1">
       {/* header */}
+      
       <div className="flex justify-between items-center max-sm:w-full">
         <p className="text-[1.2rem] sm:text-[1.5rem] font-extrabold text-[#2E3130] font-manropeL">Projects</p>
         <CloseSquare size="32" color="#009254" variant="Bold" onClick={close} className="cursor-pointer" />
@@ -288,12 +289,12 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
               <div className="flex-[7] w-full md:w-[50%]">
                 <p className="font-medium text-gray-200 pb-2 text-base">Link to project</p>
                 <div className="flex">
-                  <p
+                  {/* <p
                     className={`min-w-fit grid place-content-center px-2 border-2 rounded-lg border-[#E1E3E2]
                     rounded-tr-none rounded-br-none border-r-0 font-base text-gray-300 text-base`}
                   >
                     Type link
-                  </p>
+                  </p> */}
 
                   <Input
                     placeHolder="www.untitled.com"
@@ -302,7 +303,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                     }}
                     className={`${
                       allChecks.includes('url') ? 'border-red-205' : 'border-[#E1E3E2]'
-                    } w-full h-[50px] rounded-md border-[2px] rounded-tl-none rounded-bl-none text-[14px] font-medium placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
+                    } w-full h-[50px] rounded-md border-[2px] text-[14px] font-medium placeholder:text-[#8D9290] placeholder:font-normal text-base font-manropeL text-black`}
                     inputSize={'lg'}
                     value={link}
                   />
@@ -355,7 +356,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
             {/* description */}
             <div className="flex flex-col w-full">
               <div className="w-full">
-                <p className="font-medium text-gray-200 pb-2 text-base">Description</p>
+                <p className="font-medium text-gray-200 pb-2 text-base">Description *</p>
                 <Input
                   placeHolder="Add some details about your project"
                   onChange={(e) => {
@@ -447,6 +448,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         </div>
       </div>
     </section>
+    
   );
 };
 
