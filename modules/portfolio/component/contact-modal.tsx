@@ -257,7 +257,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                     </div>
                   </div>
 
-                  <div className="mb-3 font-manropeL mx-auto w-full sm:w-[90%] text-right">
+                  <div className="mb- font-manropeL mx-auto w-full sm:w-[90%] text-right">
                     <span
                       className="font-semibold cursor-pointer text-brand-red-hover"
                       onClick={() => handleSocialDelete(social.id)}
@@ -265,7 +265,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                       <Trash size="32" color="#f47373" variant="Outline" />
                     </span>
                   </div>
-                  <hr className="mt-1 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
+                  <hr className="mb-6 border-t-1 border-[#E1E3E2] mx-auto w-full sm:w-[90%]" />
                 </form>
               ))}
           </form>
