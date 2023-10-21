@@ -97,8 +97,8 @@ const View = () => {
       ]);
       setIsLoading(false);
     } catch (error: any) {
-      setIsLoading(false);
       setError({ state: true, error: error.message });
+      setIsLoading(false);
     }
   };
   const { firstName, lastName, city, country, coverImage, tracks } = userData;
