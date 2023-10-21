@@ -8,6 +8,7 @@ import ErrorData from '@modules/assessment/component/Badges/errordata';
 import BadgesComponentHeader from '@modules/assessment/component/Badges/BadgesComponentHeader';
 import { MdArrowBackIosNew } from 'react-icons/md';
 import { withUserAuth } from '../../../../helpers/withAuth';
+import Head from 'next/head';
 
 interface Skill {
   id: number;
@@ -148,6 +149,12 @@ const Earnedbadges: React.FC = () => {
 
   return (
     <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
+      <Head>
+        <title>Badges</title>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta name="keywords" content="Zuri, Zuri portfolio, Zuri Badges, Zuri skill badges" />
+        <meta httpEquiv="content-language" content="en" />
+      </Head>
       <div className="w-full flex flex-col items-center h-auto font-manropeL">
         <BadgesComponentHeader />
 
@@ -158,7 +165,7 @@ const Earnedbadges: React.FC = () => {
         ) : errorMessage ? (
           <ErrorData />
         ) : (
-          <div className="h-full w-full lg:max-w-[1440px]  lg:px-[60px] xl:px-[100px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:mt-[100px] pb-[80px] sm:pb-[200px] gap-[26px]">
+          <div className="h-full w-full lg:max-w-[1440px]  lg:px-[60px] xl:px-[100px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:my-[50px] pb-[80px] sm:pb-[200px] gap-[26px]">
             <div>
               <div className="flex py-4 pb-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
                 <div onClick={handleBack}>
@@ -170,10 +177,10 @@ const Earnedbadges: React.FC = () => {
               </h1>
             </div>
             {badges.length <= 0 ? (
-              <>
+              <div className="flex flex-col items-center gap-8">
                 <h2 className="capitalize">Oops You Have Not Earned A {router.query?.badges} Badge Yet </h2>
                 <Button href="/assessments/dashboard">Take Assessment</Button>
-              </>
+              </div>
             ) : (
               <div className="badgecomponents flex flex-col md:flex-row items-center justif gap-[30px]  md:gap-[24px]  ">
                 {badges.map((badge, index) => (
