@@ -314,7 +314,6 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
                     size={'sm'}
                     className="w-full md:w-24 rounded-lg"
                     type="button"
-                    disabled={loading}
                     onClick={onCloseModal}
                   >
                     Close

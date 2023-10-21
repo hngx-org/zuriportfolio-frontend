@@ -322,6 +322,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
 
                       className="w-full rounded-md sm:w-[6rem]"
                       size={'md'}
+                      disabled={isLoading}
                     >
                       Save
                     </Button>

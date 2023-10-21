@@ -369,7 +369,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
-                  disabled={isLoading}
                   onClick={(e) => {
                     onCloseModal();
                     resetForm();
@@ -383,7 +382,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'} disabled={isLoading}>
                   Save
                 </Button>
               </div>
@@ -424,6 +423,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                   }}
                   className="w-full rounded-md sm:w-[6rem]"
                   size={'lg'}
+                  disabled={isLoading}
                 >
                   Save
                 </Button>

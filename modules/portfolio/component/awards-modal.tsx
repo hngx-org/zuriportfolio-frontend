@@ -374,6 +374,7 @@ const Awards = ({ isOpen, onCloseModal, onSaveModal, userId }: awardsModalProps)
 
                           className="w-full rounded-md sm:w-[6rem]"
                           size={'md'}
+                          disabled={isLoading}
                         >
                           Save
                         </Button>

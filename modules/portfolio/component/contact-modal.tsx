@@ -28,7 +28,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
   const [socials, setSocials] = useState<any[]>([]);
   const [socialmediaid, setSocialMediaId] = useState('');
   const [isForm, setIsForm] = useState(true);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [availableSocials, setAvailableSocials] = useState<{ Id: number; name: string }[] | []>([]);
 
   const handleAddNewSocial = () => {
@@ -272,6 +272,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                 className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-md sm:w-[4.5rem] sm:h-[2.5rem]`}
                 size={'sm'}
                 onClick={handleSubmit}
+                disabled={loading}
               >
                 Save
               </Button>

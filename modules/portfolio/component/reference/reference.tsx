@@ -591,7 +591,6 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                 className="w-24 rounded-2xl"
                 type="button"
                 onClick={onCloseModal}
-                disabled={loading}
               >
                 Close
               </Button>
@@ -716,7 +715,6 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   className="md:w-24 rounded-2xl"
                   type="button"
                   onClick={onCloseModal}
-                  disabled={!isData}
                 >
                   Close
                 </Button>
