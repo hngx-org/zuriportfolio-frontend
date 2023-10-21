@@ -12,6 +12,7 @@ function GoogleRedirect() {
   const { handleAuth, userCameFrom, userCameFromForOAuth } = useAuth();
   const { mutate: signUserWithGoogle } = useAuthMutation(signUpWithOAuth, {
     onSuccess: (data) => {
+      console.log("Goog;le data", data)
       // Checking if user enabled 2fa
       if (data?.status === 202) {
         // Setting to localStorage because 2fa page needs them
