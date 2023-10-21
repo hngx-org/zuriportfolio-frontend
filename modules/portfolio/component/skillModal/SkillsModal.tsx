@@ -56,8 +56,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
       setIsLoading(false);
     }
   }, [userId]);
-  
-  
+
   // set the data in the db on the modal onload
 
   useEffect(() => {
@@ -96,17 +95,13 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   };
 
   const arrayOneItemAddition = (item: skillListRes) => {
-     console.log("Big",values);
-    
+    console.log('Big', values);
+
     if (!values?.some((skill) => skill.skill === item.skill)) {
       //avoid duplicates
-      
+
       setValues((values) => [...values, item]);
-      
-      
     }
-   
-    
   };
 
   // update skill items on the landing page with reloading the page
@@ -248,7 +243,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
                       <Button
                         className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100 focus:text-white-100 "
                         onClick={() => {
-                          arrayOneItemAddition(item);                          
+                          arrayOneItemAddition(item);
                         }}
                         type="button"
                       >
