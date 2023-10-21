@@ -130,10 +130,10 @@ const AllProjectsModal = ({
                       handleSetRoute('add-project');
                     }}
                   >
-                     <Edit2 size="32" color="#37d67a" variant="Outline" />
+                    <Edit2 size="32" color="#37d67a" variant="Outline" />
                   </span>
                   <span className="text-[#FF5C5C] cursor-pointer font-manropeL" onClick={() => handleDelete(id)}>
-                  <Trash size="32" color="#f47373" variant="Outline"/>
+                    <Trash size="32" color="#f47373" variant="Outline" />
                   </span>
                 </section>
 
