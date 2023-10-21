@@ -32,11 +32,13 @@ function ResetPasswordForm() {
   const onResetPasswordError = (error: any) => {
     // Handle different error scenarios and display relevant error messages for each situation.
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
+      console.log('hi', error.message);
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
       notifyError(timeoutErrorMessage);
       return;
     } else if (error.message === 'AxiosError: Network Error') {
+      console.log('hi', error.message);
       const networkErrorMessage = 'Oops! Looks like there was a network error. Please give it another try later.';
       notifyError(networkErrorMessage);
       return;
@@ -59,7 +61,18 @@ function ResetPasswordForm() {
         type: 'error',
       });
     },
-    onError: (error: any) => onResetPasswordError(error),
+    // onError: (error: any) => onResetPasswordError(error),
+    onError: (e: any) => {
+      console.log('Error', e);
+      if (e.status === 422) {
+        notify({
+          message: e.message,
+          type: 'error',
+          theme: 'light',
+        });
+        return;
+      }
+    },
   });
 
   // inputs validation
