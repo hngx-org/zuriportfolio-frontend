@@ -85,7 +85,6 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   //   };
 
   const formattedAmount = (amount: number | string) => {
-    // Check if amount is not undefined
     if (amount !== undefined) {
       const amountValue = typeof amount === 'string' ? parseFloat(amount) : amount;
       const roundedValue = Math.round(amountValue);
@@ -165,22 +164,22 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                 >
                   <div className="max-w-[8.5rem] w-full max-[834px]:max-w-[3.75rem] max-[778px]:min-w-[6rem]">
                     <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[730px]:w-[6rem]">
-                      {BusinessOverviewArray[0]?.amount}
+                      {formattedAmount(BusinessOverviewArray[0]?.amount)}
                     </h6>
                   </div>
                   <div className="max-w-[10.3rem] w-full max-[834px]:max-w-[4.5rem] max-[778px]:min-w-[5rem]">
                     <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[730px]:w-[5rem]">
-                      {BusinessOverviewArray[1]?.amount}
+                      {formattedAmount(BusinessOverviewArray[1]?.amount)}
                     </p>
                   </div>
                   <div className="max-w-[10rem] w-full max-[834px]:max-w-[3.5rem] max-[778px]:min-w-[5.44rem]">
                     <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[730px]:w-[6rem]">
-                      {BusinessOverviewArray[2]?.amount}
+                      {formattedAmount(BusinessOverviewArray[2]?.amount)}
                     </p>
                   </div>
                   <div className="max-w-[8.63rem] w-full max-[834px]:max-w-[4.31rem] max-[778px]:min-w-[5.69rem]">
                     <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[730px]:w-[6rem]">
-                      {BusinessOverviewArray[5]?.amount}
+                      {formattedAmount(BusinessOverviewArray[5]?.amount)}
                     </p>
                   </div>
                   <div className="max-w-[13.8rem] w-full max-[834px]:max-w-[4.5rem] max-[778px]:min-w-[5rem]">
@@ -190,7 +189,7 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                   </div>
                   <div className="max-w-[9.25rem] w-full max-[834px]:max-w-[4.5rem] max-[778px]:min-w-[4.38rem]">
                     <p className="text-[0.875rem] font-manropeL font-normal text-center text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[#000] max-[730px]:w-[5rem]">
-                      {BusinessOverviewArray[4]?.amount}
+                      {formattedAmount(BusinessOverviewArray[4]?.amount)}
                     </p>
                   </div>
                   {/* <div className="hidden max-w-[4.5rem] w-full max-[834px]:block max-[834px]:min-w-[5.5rem]">
