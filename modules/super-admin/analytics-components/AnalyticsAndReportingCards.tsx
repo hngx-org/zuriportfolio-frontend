@@ -39,6 +39,7 @@ const fetchAnalyticsData = async (bearerToken: string) => {
 const AnalyticsAndReportingCards = () => {
   const [bearerToken, setBearerToken] = useState('');
 
+
   const { data: analyticsData, isLoading } = useQuery<cardinfo[]>(
     ['analyticsData', bearerToken],
     () => fetchAnalyticsData(bearerToken),
