@@ -12,6 +12,7 @@ import { WorkExperience as WorkExperienceSkeleton } from './landing/Skeleton';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { generateEndYears } from '../data';
 import { Edit2, Trash } from 'iconsax-react';
+import { boolean } from 'zod';
 
 type WorkExperienceModalProps = {
   onCloseModal: () => void;
@@ -72,6 +73,19 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     }
     setIsForm(true);
   };
+
+  useEffect(() => {
+    const date = new Date();
+    const currMonth = months[date.getMonth()];
+    const currYr = date.getFullYear();
+    if (isChecked) {
+      setEndMonth(currMonth?.value);
+      setEndYear(String(currYr));
+    } else {
+      setEndMonth(endMonth);
+      setEndYear(endYear);
+    }
+  }, [isChecked, endMonth, endYear]);
 
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
@@ -344,15 +358,16 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     <div className="relative w-7 h-7 flex items-center justify-center">
                       <input
                         type="checkbox"
+                        checked={isChecked}
                         onChange={() => {
-                          setIsChecked(!isChecked);
-                          if (isChecked) {
-                            setEndYear('Present');
-                            setEndMonth('Present');
-                          } else {
-                            setEndMonth(endMonth);
-                            setEndYear(endYear);
-                          }
+                          setIsChecked((prev: boolean) => !prev);
+                          // const date = new Date();
+                          // const currMonth = months[date.getMonth()];
+                          // const currYr = date.getFullYear();
+                          // if (!isChecked) {
+                          //   setEndMonth(currMonth?.value);
+                          //   setEndYear(String(currYr));
+                          // }
                         }}
                         className="peer shrink-0 appearance-none h-[100%] w-[100%] border-[1px] border-[#A8ACAB] rounded-md checked:bg-brand-green-primary checked:border-0"
                       />
@@ -376,7 +391,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
-                  disabled={isLoading}
                   onClick={(e) => {
                     onCloseModal();
                     resetForm();
@@ -390,7 +404,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button disabled={isLoading} type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                   Save
                 </Button>
               </div>
