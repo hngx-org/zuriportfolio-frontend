@@ -76,10 +76,8 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
 export const loginUser = async (props: { email: string; password: string }) => {
   try {
     const res = await $http.post('/login', props);
-    console.log("Login", res.data);
     return res?.data;
   } catch (e: any) {
-    console.log("login error", e.response.data);
     throw e.response.data;
   }
 };
@@ -96,19 +94,23 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
 export const checkEmail = async (props: { email: string }) => {
   try {
     const res = await $http.post('/check-email', props);
+    console.log("check email", res);
     return res?.data;
   } catch (e: any) {
     const errorData = e.response.data;
-    // throw new Error(errorData);
-    return e.response.data ?? { message: e.message };
+    console.log('check email error', e.response.data);
+    throw e.response.data;
   }
 };
 
 export const verifyUser = async (props: { token: string }) => {
   try {
     const res = await $http.get(`/verify/${props.token}`);
+    console.log(res.data);
     return res?.data;
   } catch (e: any) {
+    console.log(e.response.data);
+    throw e.response.data;
     return e.response.data ?? { message: e.message };
   }
 };
@@ -116,9 +118,11 @@ export const verifyUser = async (props: { token: string }) => {
 export const resendVerification = async (props: { email: string }) => {
   try {
     const res = await $http.post('/verify/resend', props);
+    console.log("resend verify", res.data);
     return res?.data;
   } catch (e: any) {
-    return e.response.data ?? { message: e.message };
+    console.log("resend error", e.response.data);
+    throw e.response.data
   }
 };
 

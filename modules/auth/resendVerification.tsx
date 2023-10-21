@@ -15,7 +15,7 @@ function ResendVerification() {
 
   const [email, setEmail] = useState('');
 
-  const onresendEmailVerifySuccess = (data: { message: string; status: number }) => {
+  const onresendEmailVerifySuccess = (data: any) => {
     if (data.message) {
       notify({ message: data.message, type: data.status === 200 ? 'success' : 'error' });
       if (data.status === 200) {
@@ -25,16 +25,15 @@ function ResendVerification() {
     }
   };
 
-  const onresendEmailVerifyError = (error: { message: string }) => {
-    if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
+  const onresendEmailVerifyError = (error: any) => {
+    if (error.response && error.response.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
       notify({ message: timeoutErrorMessage });
       return;
     }
 
-    const serverErrorMessage = 'Oops! Something went wrong. Please try again later.';
-    notify({ message: serverErrorMessage });
+    notify({ message: error.message, type: 'error' });
   };
 
   const { mutate: resendVerify, isLoading: isUserSigningUp } = useAuthMutation(resendVerification, {

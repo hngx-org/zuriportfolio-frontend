@@ -25,12 +25,10 @@ function VerificationLinkSent({ handleClick }: Props) {
         notify({ message: data.message, type: 'success' });
         return;
       }
-      // for any error returned from the endpoint
-      notify({ message: data.message, type: 'error' });
     },
     onError: (error: any) => {
       notify({ message: error.message, type: 'error' });
-      console.log(error);
+      return;
     },
   });
 
