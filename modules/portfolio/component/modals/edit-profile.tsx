@@ -28,29 +28,44 @@ const EditProfile = () => {
   const [selectedCity, setSelectedCity] = useState<string>('');
   const { userId, onSaveModal } = useContext(Portfolio);
 
-  const [isFormValid, setIsFormValid] = useState(false);
+  // const [isFormValid, setIsFormValid] = useState(false);
 
-  // const [badgeData, setBadgeData] = useState({
-  //   badgeLabel: 'expert', // Initialize with empty values
-  //   badgeImage: '',
-  // });
+  const [badgeData, setBadgeData] = useState({
+    badgeLabel: '',
+    badgeImage: '',
+  });
 
-  // useEffect(() => {
-  //   // Fetch badge data here from your API
-  //   // You can replace this with your actual API endpoint
-  //   fetch('https://hng6-r5y3.onrender.com/api/v1/users/badge')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       // Set the badge data once it's fetched
-  //       setBadgeData({
-  //         badgeLabel: data.badgeLabel,
-  //         badgeImage: data.badgeImage,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching badge data:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    // Fetch badge data from the provided endpoint
+    fetch('https://hng6-r5y3.onrender.com/api/v1/users/e2009b92-8acf-406d-a974-95fb6a5215f3')
+      .then((response) => response.json())
+      .then((data) => {
+        // Assuming that the badge label and badge image data are in the response
+        // Update the badge data state
+        setBadgeData({
+          badgeLabel: data.badgeLabel,
+          badgeImage: data.badgeImage,
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching badge data:', error);
+      });
+  }, []);
+
+
+  const Badges = ({ badgeLabel, badgeImage }) => {
+    return (
+      <div>
+        <div>
+          <h3>Badge Label: {badgeLabel}</h3>
+        </div>
+        <div>
+          <Image src={badgeImage} alt="Badge" />
+        </div>
+      </div>
+    );
+  };
+  
 
   const getUser = async () => {
     try {
@@ -127,7 +142,7 @@ const EditProfile = () => {
           setIsLoading(false);
           setShowProfileUpdate(false);
         } else {
-          setError({ status: true, message: 'No matching track found' });
+          setError({ status: true, message: 'Please Select Tracks' });
         }
       } catch (error) {
         console.error(error);
@@ -283,6 +298,7 @@ const EditProfile = () => {
                     ))}
                   </SelectContent>
                 </Select>
+                <Badges badgeLabel={badgeData.badgeLabel} badgeImage={badgeData.badgeImage} />
               </label>
               {/* <Badges badgeLabel={badgeData.badgeLabel} badgeImage={badgeData.badgeImage} /> */}
             </div>
