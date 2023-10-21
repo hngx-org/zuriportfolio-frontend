@@ -65,7 +65,6 @@ export const createTempUser = async (datas: { email: string; firstName: string; 
     const apiUrl = 'https://staging.zuri.team/api/auth/api/auth/signup-guest';
     const response = await $http.post(apiUrl, datas);
     return response.data;
-    // return { data: { token: guestToken } };
   } catch (error) {
     return { error: error, data: { token: '' } };
   }
@@ -143,6 +142,25 @@ const getTokenDetails = async (token: string) => {
     return error;
   }
 };
+
+
+export const confirmTransaction = async ({txn_ref,payment_gateway,token}:{txn_ref: string,payment_gateway:string,token: string}) => {
+  const payload = {txn_ref,payment_gateway };
+  const apiUrl = `${CART_ENDPOINT}/transactions/confirm`
+  try {
+    const response = await $http.post(apiUrl,payload,{
+      headers:{
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return response.data.status
+  }catch(error) {
+    console.log(error);
+    
+    return false;
+  }
+}
+
 
 export const getRecentlyViewedProducts = async (token: string) => {
   try {

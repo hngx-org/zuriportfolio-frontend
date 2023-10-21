@@ -583,12 +583,11 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           )}
         </div>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
-          <div className="details">
+          {/* <div className="details"> */}
             <p className=" font-bold font-manropeEB">
               {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
             </p>
-            <p className="text-sm font-manropeL">Zuri Team</p>
-          </div>
+          {/* </div> */}
           <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
         </div>
       </>

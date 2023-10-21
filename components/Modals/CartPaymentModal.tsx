@@ -12,10 +12,35 @@ const CartPaymentsuccessModal = () => {
       window.location.href = `${STAGING_URL}/marketplace/cart`;
     }, 50000);
   });
+
+const closeModal = () => {
+  window.location.href = `${STAGING_URL}/marketplace/cart`;
+}
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
       <div className="relative py-6 rounded text-center w-[340px] ">
+      <div className='bg-[#fff] flex items-center p-1 rounded-[50%] w-[25px] h-[25px] absolute top-[-15px] right-0 pointer' onClick={closeModal} role='button'>
+          <svg
+            onClick={closeModal}
+            className='pointer'
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            style={{ cursor: 'pointer' }}
+          >
+            <path
+              d="M18 6.5L6 18.5M6 6.5L18 18.5"
+              stroke="#EF4C45"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
         <div className="bg-white-100 z-10 p-5 h-[170px] relative rounded-md shadow-md">
+
           <div className="flex justify-center absolute top-[-30px] left-0 right-0 mx-auto">
             <Image width={80} height={80} src={checkedPayment} alt="checked" />
           </div>
@@ -37,9 +62,34 @@ export const CartPaymentFailureModal = () => {
       window.location.href = `${STAGING_URL}/marketplace/cart`;
     }, 50000);
   });
+  const closeModal = () => {
+    window.location.href = `${STAGING_URL}/marketplace/cart`;
+  }
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
       <div className="relative py-6 rounded text-center min-w-[340px] ">
+        <div className='bg-[#fff] flex items-center p-1 rounded-[50%] w-[25px] h-[25px] absolute top-[-15px] right-0 pointer' onClick={closeModal} role='button'>
+          <svg
+            onClick={closeModal}
+            className='pointer'
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            style={{ cursor: 'pointer' }}
+          >
+            <path
+              d="M18 6.5L6 18.5M6 6.5L18 18.5"
+              stroke="#EF4C45"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      
         <div className="bg-white-100 z-10 p-5 min-h-[170px] relative rounded-md shadow-md">
           <div className="flex justify-center absolute top-[-30px] left-0 right-0 mx-auto">
             <Image width={80} height={80} src={failedPayment} alt="checked" />
@@ -53,4 +103,6 @@ export const CartPaymentFailureModal = () => {
       </div>
     </div>
   );
+
 };
+
