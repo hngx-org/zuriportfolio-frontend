@@ -28,6 +28,10 @@ const TakeTest: FC = () => {
   const tokenRef = useRef<string | null>(null);
   const { data } = router.query;
 
+  React.useEffect(() => {
+    tokenRef.current = localStorage.getItem('zpt');
+  }, []);
+
   const {
     isLoading,
     isError,
@@ -37,10 +41,6 @@ const TakeTest: FC = () => {
   console.log('assessment', assessment);
 
   const result = assessment;
-
-  React.useEffect(() => {
-    tokenRef.current = localStorage.getItem('zpt');
-  }, []);
 
   return (
     <>
