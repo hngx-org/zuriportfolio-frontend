@@ -48,7 +48,7 @@ const EditCover = ({ handleUploadCover, Link }: Props) => {
       />
       <Link
         href={'/assessments/dashboard'}
-        className="rounded-lg bg-brand-green-primary text-white-100 focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled py-1 px-2 md:text-base text-sm md:px-4 md:py-3 flex items-center justify-center gap-5 w-fit h-[48px] font-manropeB bg-opacity-50 cursor-pointer shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] hover:scale-[1.01] transition-all duration-200 hover:bg-green-600"
+        className="rounded-lg bg-brand-green-primary text-white-100 focus:shadow-brand-green-shd active:bg-brand-green-shd disabled:bg-brand-disabled py-1 px-2 md:text-base text-sm md:px-4 md:py-3 flex items-center justify-center gap-5 w-fit h-[48px] font-manropeB bg-opacity-80 cursor-pointer shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] hover:scale-[1.01] transition-all duration-200 hover:bg-green-600"
       >
         Take Assesment
       </Link>
