@@ -7,6 +7,9 @@ import ReviewForms from '@modules/dashboard/component/reviews/ReviewForm';
 import EmptyReviewPage from '@modules/dashboard/component/reviews/review-page/EmptyReviewPage';
 import RatingCard from '@modules/dashboard/component/reviews/review-page/RatingCard';
 import RatingBar from '@modules/dashboard/component/reviews/review-page/RatingBar';
+import BuyersPreview from '@modules/dashboard/component/reviews/reviewPreviews/BuyersPreview';
+import SellersPreview from '@modules/dashboard/component/reviews/reviewPreviews/SellersPreview';
+import { Router, useRouter } from 'next/router';
 
 const ratingData = [
   { rating: 5, users: 12, total: 67 },
@@ -76,6 +79,14 @@ function reviewComponents() {
             <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />
           ))}
         </div>
+      </div>
+      <div className="flex flex-col justify-center items-center py-1 px-9 pb-10">
+        <h3 className="text-3xl flex justify-center py-10">Buyers Preview</h3>
+        <BuyersPreview />
+      </div>
+      <div className="flex flex-col justify-center items-center py-1 px-9 pb-10">
+        <h3 className="text-3xl flex justify-center py-10">Sellers Preview</h3>
+        <SellersPreview />
       </div>
     </>
   );

@@ -35,7 +35,7 @@ const RatingCard = ({ rating, users, totalReviews }: RatingCardProps) => {
             value={volume}
             className="bg-stone-300 [&::-webkit-slider-thumb]:appearance-none h-3 rounded-2xl w-full appearance-none"
             style={{
-              background: `linear-gradient(to right, #E5B800 0%, #E5B800 ${(volume / 50) * 100}%, #D5DBDD ${
+              background: `linear-gradient(to right, #FFCC00 0%, #FFCC00 ${(volume / 50) * 100}%, #E5E4E2 ${
                 (volume / 50) * 100
               }%, #D5DBDD 100%)`,
             }}
