@@ -66,16 +66,21 @@
             Hi <span style="font-weight: bold">{{$name}}</span>,
           </mj-text>
           <mj-text font-family="Verdana" color="#000" font-size="16px">
-            This is to notify you that
-            <span style="font-weight: bold">{{ $buyer_name }}</span> has completed the
+            This is to inform you that
+            <span style="font-weight: bold">{{ $buyer_name }}</span> has successfully completed the
             <span style="font-weight: bold">{{ $service }} </span>
-            internal assessment you assigned to them. Their results have been submitted to you for review.
+            internal assessment you assigned to them. The assessment results have been submitted to you for your review.
           </mj-text>
           <mj-text font-family="Verdana" color="#000" font-size="16px">
-            You can view their results and provide feedback by logging in to your account, click on the button below to
-            login.
+            Guidelines for Assessment Review:
+            <p>Please follow these steps to review the assessment and provide feedback:</p>
+            <ol>
+              <li>Log in to your account.</li>
+              <li>Navigate to the 'Assessment' section.</li>
+              <li>Locate the assessment named "<span style="font-weight: bold">{{ $service }}</span>."</li>
+              <li>Examine the results and offer feedback as necessary.</li>
+            </ol>
           </mj-text>
-
           <mj-button
             href="https://zuriportfolio.com/login"
             border-radius="10px"
@@ -87,7 +92,8 @@
           >
 
           <mj-text font-family="Verdana" color="#000" font-size="16px" padding-bottom="30px">
-            If you have any questions about your results, please contact our support group at
+            If you have any queries regarding the assessment or require further assistance, please don't hesitate to
+            contact our support team at
             <a href="mailto:zurisupport@gmail.com" style="font-weight: bold; color: #000">zurisupport@gmail.com</a>
           </mj-text>
         </mj-column>
