@@ -161,7 +161,8 @@ export const signUpWithOAuth = async (props: { query: string; oAuth: string }) =
     const res = await $http.get(`/${props.oAuth}/redirect?${props.query}`);
     return res?.data;
   } catch (e: any) {
-    return e.response.data ?? { message: e.message };
+    throw e.response.data;
+    // return e.response.data ?? { message: e.message };
   }
 };
 

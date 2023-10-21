@@ -9,15 +9,9 @@ import Head from 'next/head';
 
 function GoogleRedirect() {
   const router = useRouter();
-  const { handleAuth, userCameFrom } = useAuth();
+  const { handleAuth, userCameFrom, userCameFromForOAuth } = useAuth();
   const { mutate: signUserWithGoogle } = useAuthMutation(signUpWithOAuth, {
     onSuccess: (data) => {
-      // TODO: Find out the response for succesful signup for users with 2fa enabled and disabled
-      console.log('Google success data: ', data);
-
-      // const token = data.data.token;
-      // localStorage.setItem('zpt', token);
-
       // Checking if user enabled 2fa
       if (data?.response && data?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
         // Setting to localStorage because 2fa page needs them
@@ -42,14 +36,27 @@ function GoogleRedirect() {
         return;
       }
     },
-    onError: (error) => {
+    onError: (error:any) => {
+      console.log("Google OAuth error", error);
+
+      if(error.response && error.response.message === "INTERNAL SERVER ERROR") {
+        notify({
+          message: "Something went wrong, please try again later",
+          type: 'error',
+        });
+
+        router.replace(userCameFromForOAuth || '/auth/login');
+        return;
+      }
+
       notify({
-        message: 'Error logging in. Please try again.',
+        message: error.message,
         type: 'error',
       });
 
-      // if an error occurs, take the user to where they came from or to home page if undefined
-      router.push(userCameFrom || '/');
+      // if an error occurs, take the user to where they signed up from or to sign in page if undefined
+      router.replace(userCameFromForOAuth || '/auth/login');
+      // router.replace(userCameFrom || '/');
     },
   });
 
