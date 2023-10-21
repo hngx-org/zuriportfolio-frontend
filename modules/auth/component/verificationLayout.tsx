@@ -14,7 +14,10 @@ function VerificationLayout({ children }: VerificationLayoutProps) {
             <Image src={logo} alt="logo" />
           </Link>
 
-          <Link href={'/'} className="font-manropeL text-brand-green-primary hover:underline flex gap-2">
+          <Link
+            href={'/'}
+            className="font-manropeL text-sm md:text-base text-brand-green-primary hover:underline flex items-center gap-2"
+          >
             <p>Back to Explore</p>
             <ArrowRight size="24" color="#009254" />
           </Link>

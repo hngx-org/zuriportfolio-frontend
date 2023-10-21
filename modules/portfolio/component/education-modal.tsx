@@ -131,13 +131,13 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                             setIsData(false);
                           }}
                         >
-                          <Edit2 size="32" color="#37d67a" variant="Outline" />
+                          <Edit2 size="24" color="#37d67a" variant="Outline" />
                         </span>
                         <span
                           className="font-semibold cursor-pointer"
                           onClick={(e) => handleDeleteEducation(education.id, e)}
                         >
-                          <Trash size="32" color="#f47373" variant="Outline" />
+                          <Trash size="24" color="#f47373" variant="Outline" />
                         </span>
                       </div>
                     </article>
@@ -192,7 +192,9 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
             >
               <div className="w-full px-2">
                 <div className="flex flex-col gap-[.5rem] w-full mb-4">
-                  <label className="font-semibold text-[#444846] text-base mt-6">Degree *</label>
+                  <label className="font-semibold text-[#444846] text-base mt-6">
+                    Degree <span className="text-red-300">*</span>
+                  </label>
                   <Select
                     onValueChange={(value: string) => {
                       handleDegreeSelection(value); // Update the selected degree ID
@@ -217,7 +219,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 </div>
                 <div className="mb-4 w-full">
                   <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="fieldOfStudy">
-                    Field of Study *
+                    Field of Study <span className="text-red-300">*</span>
                   </label>
                   <Input
                     type="text"
@@ -229,7 +231,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 </div>
                 <div className="mb-4  w-full">
                   <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="school">
-                    School/Institution *
+                    School/Institution <span className="text-red-300">*</span>
                   </label>
                   <Input
                     type="text"
@@ -241,7 +243,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 </div>
                 <div className="mb-4 w-full">
                   <label className="block mb-1 text-base font-semibold text-[#444846]" htmlFor="description">
-                    Description *
+                    Description <span className="text-red-300">*</span>
                   </label>
                   <textarea
                     className="resize-none border-[1px] border-solid w-full border-[#E1E3E2] pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary "
@@ -255,7 +257,9 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
               <div className="w-full">
                 <div className="flex gap-4 ">
                   <div className=" font-semibold w-3/6">
-                    <label className="text-[#444846]">From*</label>
+                    <label className="text-[#444846]">
+                      From <span className="text-red-300">*</span>
+                    </label>
                     <>
                       <Select
                         onValueChange={(value: string) => {
@@ -282,7 +286,9 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                     </>
                   </div>
                   <div className="font-semibold w-3/6">
-                    <label className="text-[#444846]">To*</label>
+                    <label className="text-[#444846]">
+                      To <span className="text-red-300">*</span>
+                    </label>
                     <>
                       <Select
                         onValueChange={(value: string) => {
@@ -321,7 +327,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                     onCloseModal();
                     resetForm();
                     setIsEditMode(false);
-                    setIsForm(false);
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
@@ -356,7 +361,6 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                     onCloseModal();
                     resetForm();
                     setIsEditMode(false);
-                    setIsForm(false);
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
