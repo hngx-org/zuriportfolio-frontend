@@ -28,14 +28,14 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     queryKey: ['sales-reports'],
     enabled: true,
   });
-  logQueryResult('Query Sales Report', querySalesReportData);
+  // logQueryResult('Query Sales Report', querySalesReportData);
 
   const { data: queryStoreTrafficData } = useQuery({
     queryFn: () => fetchStoreTraffic(),
     queryKey: ['store-traffic'],
     enabled: true,
   });
-  logQueryResult('Query Store Traffic', queryStoreTrafficData);
+  // logQueryResult('Query Store Traffic', queryStoreTrafficData);
 
   //  create mock sales and report data
   const updateChartData = (index: number) => {

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { notify } from '@ui/Toast';
 
+const shop_id = '6d022186-7c7f-4439-af0c-8209202ef4a6';
+
 const fetchErrorToast = (data: string) => notify({ type: 'error', message: `Error fetching ${data}`, theme: 'light' });
 
 const baseURL = 'https://zuriportfolio-shop-internal-api.onrender.com/api';
@@ -116,12 +118,15 @@ export const fetchYesterdaysAverageOrderValue = async () => {
 
 export const fetchSalesReports = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/sales/reports?timeframe=12m,3m,1yr,7d,24hr`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+    const res: any = await axiosDashboardInstance.get(
+      `/shop/store-traffic/12months/6d022186-7c7f-4439-af0c-8209202ef4a6`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
       },
-    });
-    const salesReport = res?.data?.data;
+    );
+    const salesReport = res;
     console.log(salesReport);
     return salesReport;
   } catch (error) {
@@ -133,7 +138,6 @@ export const fetchSalesReports = async () => {
 export const fetchStoreTraffic = async () => {
   try {
     const token = localStorage.getItem('zpt');
-    const shop_id = '6d022186-7c7f-4439-af0c-8209202ef4a6';
 
     const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/${shop_id}`, {
       headers: {
