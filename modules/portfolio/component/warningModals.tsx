@@ -27,8 +27,6 @@ function SectionModal({
 
   return (
     <>
-      {/*Creating a button here because of the click event needed to open the Modal*/}
-
       <Modal closeOnOverlayClick isOpen={openDelete} closeModal={onClose} isCloseIconPresent={false} size="sm">
         <CloseSquare
           size="32"
@@ -38,12 +36,12 @@ function SectionModal({
           className="absolute top-6 right-6 cursor-pointer"
         />
 
-        <div className="box-border h-full w-full my-14 text-center font-normal flex justify-center items-center flex-col gap-6 py-8 px-1">
+        <div className="box-border h-full w-full my-10 mb-2 text-center font-normal flex justify-center items-center flex-col gap-6 py-4 px-1">
           <h1 className="text-[#FF5C5C] text-xl font-manropeEB">{heading}</h1>
 
           <p className="text-sm sm:w-3/5 text-[#737876] font-manropeE">{paragraph}</p>
 
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-2 sm:px-5 w-9/12 sm:w-full">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-4 sm:px-3 w-9/12 sm:w-full">
             <Button
               intent={'secondary'}
               size={'md'}
@@ -62,7 +60,7 @@ function SectionModal({
               isLoading={loading}
               spinnerColor="#000"
               onClick={onClickAction}
-              className={`${loading ? 'opacity-50' : 'opacity-100'}w-full rounded-xl`}
+              className={`${loading ? 'opacity-50' : 'opacity-100'} w-full rounded-xl`}
             >
               {primaryText}
             </Button>
