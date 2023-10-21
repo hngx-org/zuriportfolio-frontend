@@ -92,8 +92,15 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       });
       if (response.ok) {
         setIsEditMode(false);
+        notify({
+          message: `Work experience edited successfully`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'success',
+        });
         setIsData(true);
         setIsForm(false);
+
         getAllWorkExperience();
       }
     } catch (error) {
@@ -119,7 +126,7 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       });
       if (response.ok) {
         notify({
-          message: `Work experience ${isEditMode ? 'Edited' : 'Deleted'} successfully`,
+          message: `Work experience deleted successfully`,
           position: 'top-center',
           theme: 'light',
           type: 'success',
@@ -147,8 +154,8 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
 
       if (response.ok) {
         const data = await response.json();
-        const { workExperience } = data;
-        if (workExperience?.length === 0) {
+        const { workExperience } = data.data;
+        if (workExperience.length === 0) {
           setIsForm(true);
         }
         setWorkExperiences(workExperience);

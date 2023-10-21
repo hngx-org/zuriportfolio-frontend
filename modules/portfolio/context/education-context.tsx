@@ -168,7 +168,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
 
       if (response.ok) {
         const data = await response.json();
-        const { education } = data;
+        const { education } = data.data;
         setEducations(education);
         // Extract the education IDs
         console.log(education);
