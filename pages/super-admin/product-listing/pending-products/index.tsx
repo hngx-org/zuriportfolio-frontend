@@ -1,39 +1,36 @@
-import { ArrowDown, More, SearchNormal1 } from 'iconsax-react';
+import { ArrowDown, SearchNormal1 } from 'iconsax-react';
 
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
-import SearchProduct from '@modules/super-admin/components/product-listing/searchProduct';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { useRouter } from 'next/router';
-import { useGetPending, useGetProd } from '../../../../http/super-admin1';
-import { DeletedProducts } from '../../../../@types';
+import { useGetPending } from '../../../../http/super-admin1';
 import { LoadingTable } from '@modules/super-admin/components/product-listing/ProductListingTable';
 import { formatDate } from '@modules/super-admin/components/product-listing/product-details';
 import { withAdminAuth } from '../../../../helpers/withAuth';
 import { Input } from '@ui/Input';
 import StatusPill from '@modules/super-admin/components/StatusPill';
+import Image from 'next/image';
+import right from '/public/assets/vendor/arrow-right.svg';
 
 const PendingProducts = () => {
   const [searchVal, setSearchVal] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const { pendData, pendLoading } = useGetPending(currentPage, searchVal);
 
-  const sanctionedProd = pendData?.data;
-
-  const [filteredProducts, setFilteredProducts] = useState(sanctionedProd);
-
-  const handlePageChange = (newPage: number) => {
-    window.scroll(0, 10);
-    setCurrentPage(newPage);
-  };
-
-  useEffect(() => {}, [sanctionedProd]);
-
   const route = useRouter();
 
   return (
     <>
       <SuperAdminNavbar />
+      <div className=" container">
+        <Image
+          src={right}
+          alt="back"
+          className="  pb-3 cursor-pointer"
+          onClick={() => route.push('/super-admin/product-listing/')}
+        ></Image>
+      </div>
 
       <div className=" container  font-manropeL mx-auto border-2 border-custom-color1">
         <div className="py-3 px-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
