@@ -49,7 +49,6 @@ const Dashboard = () => {
         <title>Assessment dashboard</title>
         <meta name="description" content={`User's assessments dashboard page`} />
       </Head>
-
       <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
