@@ -200,7 +200,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
             >
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex flex-col gap-[.5rem] w-full sm:w-[90%]">
-                  <label className="font-semibold text-[#444846] text-[1rem]">Role</label>
+                  <label className="font-semibold text-[#444846] text-[1rem]">Role *</label>
                   <Input
                     placeHolder=""
                     onChange={(e) => {
@@ -212,7 +212,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                   />
                 </div>
                 <div className="flex flex-col gap-[.5rem] w-full sm:w-[90%]">
-                  <label className="font-semibold text-[#444846] text-[1rem]">Company</label>
+                  <label className="font-semibold text-[#444846] text-[1rem]">Company *</label>
                   <Input
                     placeHolder=""
                     onChange={(e) => {
@@ -225,7 +225,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 </div>
               </div>
               <div className="flex flex-col gap-[.5rem]">
-                <label className="font-semibold text-[#444846] text-[1rem]">Description</label>
+                <label className="font-semibold text-[#444846] text-[1rem]">Description *</label>
                 <textarea
                   className="resize-none border-[1px] border-solid border-[#E1E3E2] pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary "
                   rows={4}
