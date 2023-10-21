@@ -206,8 +206,6 @@ export default function ProductDetails() {
       }
     }
   };
- 
- 
 
   const handleReadMoreClick = () => {
     setShowFullDescription(!showFullDescription); // Step 2

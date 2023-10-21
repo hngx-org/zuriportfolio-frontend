@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import loder from '../../public/assets/loader/loader.svg';
+import loader from '../../public/assets/loader/loader2.svg';
 
-const Loader2: React.FC = () => {
+const Loader: React.FC = () => {
   const centerStyles: React.CSSProperties = {
     position: 'absolute',
     top: '50%',
@@ -10,31 +10,25 @@ const Loader2: React.FC = () => {
     transform: 'translate(-50%, -50%)',
   };
 
-  const textStyles: React.CSSProperties = {
-    fontSize: '18px',
-    color: '#009254',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: '10px',
-    fontFamily: 'Manrope',
-  };
-
   return (
     <div style={centerStyles}>
-      <p style={textStyles}>Please Wait. Your page is Loading.</p>
-
-      <br />
-      <br />
       <div className="relative flex justify-center items-center">
-        <div className="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-green-500"></div>
-        <img
-          src="https://www.svgrepo.com/show/509001/avatar-thinking-9.svg"
+        <div className="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-green-500 spinner"></div>
+        <Image
+          src={loader}
           alt="Loader"
-          className="rounded-full h-28 w-28"
+          width={80}
+          height={80}
+          //   className='animate-ping'
         />
       </div>
+      <style jsx>{`
+        .spinner {
+          border-top-color: #006f37;
+        }
+      `}</style>
     </div>
   );
 };
 
-export default Loader2;
+export default Loader;

@@ -18,12 +18,11 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
     if (reportClicked && dateRange.length === 2) {
       const starttDate = dateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
       const enddDate = dateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
       setLoading(true);
 
       fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
+        `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
         {
           method: 'GET',
           headers: {
@@ -43,10 +42,9 @@ const AnalysisCards: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
         });
     } else {
       setLoading(true);
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
 
-      fetch(`https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/`, {
+      fetch(`https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${bearerToken}`,

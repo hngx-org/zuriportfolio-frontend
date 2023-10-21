@@ -15,7 +15,7 @@ type PskilsProps = {
 };
 
 const Pskils = ({ i, id, title, edit, remove, section, icon, showMoreSkills, toggleShowMoreSkills }: PskilsProps) => {
-  const data = showMoreSkills === 9999 ? section?.data : section?.data ? section.data.slice(0, 5) : [];
+  const data = showMoreSkills === 9999 ? section?.data : section?.data ? section.data.slice(0, 2) : [];
   return (
     <Wrapper icon={icon} id={id} title={title} edit={edit} remove={remove}>
       <Skill key={i} data={data} />

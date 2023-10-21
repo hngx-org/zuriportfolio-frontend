@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let API_URI = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1';
+export let API_URI = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1';
 
 const http = axios.create({
   baseURL: API_URI,

@@ -25,10 +25,9 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
       const endDate = dateRange[1].format('YYYY-MM-DD');
       setIsLoading(true);
 
-      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products/?start_date=${startDate}&end_date=${endDate}`;
+      const apiUrl = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/best-selling-products/?start_date=${startDate}&end_date=${endDate}`;
 
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
 
       axios
         .get(apiUrl, {
@@ -49,10 +48,9 @@ const TopSellingProducts: React.FC<TopSellingProps> = ({ dateRange, reportClicke
         });
     } else {
       setIsLoading(true);
-      const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/best_selling_products';
+      const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/best-selling-products';
 
-      const bearerToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+      const bearerToken = localStorage.getItem('zpt');
 
       axios
         .get(apiUrl, {
