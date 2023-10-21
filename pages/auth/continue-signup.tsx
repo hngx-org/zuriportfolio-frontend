@@ -29,14 +29,13 @@ function Signup() {
       setIsMicrosoftEdge(true);
     }
   }, []);
+
   const onSignUpSuccess = (data: any) => {
     console.log(data);
     if (data.status === 200) {
       router.push(`/auth/verification?email=${userEmail}`);
       return;
     }
-
-    notifyError(data.message);
   };
 
   const onSignUpError = (error: any) => {
@@ -47,6 +46,8 @@ function Signup() {
       notifyError(timeoutErrorMessage);
       return;
     }
+
+    notifyError(error.message);
   };
 
   const { mutate: signUpUserFn, isLoading } = useAuthMutation(signUpUser, {
