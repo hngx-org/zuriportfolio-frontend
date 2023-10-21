@@ -13,8 +13,8 @@ import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
-import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
-import { useQueries, UseQueryResult } from '@tanstack/react-query';
+import ProjectSectionModal from '@modules/portfolio/component/modals/project-modal/project-section-modal';
+import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
 import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
 
@@ -113,6 +113,7 @@ const Portfolio = createContext<PortfolioContext>({
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
+  const queryClient = useQueryClient();
   const portfolioUrl = `https://hng6-r5y3.onrender.com/api/v1/portfolio`;
   const { auth } = useAuth();
   const [userId, setUserId] = useState('');
@@ -129,6 +130,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     tracks: [],
     level: '',
     icon: '',
+    badge: [],
   });
 
   const [getUserSections] = useQueries({
@@ -137,7 +139,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
         queryKey: ['sections'],
         queryFn: () => getSections(),
         enabled: slug != '',
-        // refetchInterval: 1000,
       },
     ],
   });
@@ -148,17 +149,16 @@ export function PortfolioCtxProvider(props: { children: any }) {
       setSlug(auth?.user?.slug!);
     }
     if (getUserSections.data) {
-      const { user } = getUserSections.data;
+      const { user } = getUserSections?.data?.data;
       setUserData({
         firstName: user?.firstName,
         lastName: user?.lastName,
         avatarImage: user?.profilePic,
-        city: user?.location,
-        country: user?.portfolio?.country,
-        tracks: getUserSections.data?.tracks,
+        city: getUserSections?.data?.data?.portfolio?.city,
+        country: getUserSections?.data?.data?.portfolio?.country,
+        tracks: getUserSections?.data?.data?.tracks,
         coverImage: user?.profileCoverPhoto,
-        level: user?.badges?.name,
-        icon: user?.badges?.badge_image,
+        badge: getUserSections?.data?.data?.badges,
       });
       const {
         about,
@@ -174,7 +174,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         certificates,
         shop,
         custom,
-      } = getUserSections.data;
+      } = getUserSections?.data?.data;
       if (
         about ||
         projects ||
@@ -322,6 +322,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowViewtemplates(false);
     onClose();
     onCloseModal(sectionTitle || '');
+    queryClient.invalidateQueries({ queryKey: ['sections'] });
   };
 
   const onCloseModal = (modalToClose: string) => {
@@ -329,6 +330,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       ...prevModalStates,
       [modalToClose]: false,
     }));
+    queryClient.invalidateQueries({ queryKey: ['sections'] });
   };
 
   const modals: any[] = [

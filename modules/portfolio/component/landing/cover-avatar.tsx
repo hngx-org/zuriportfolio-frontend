@@ -6,7 +6,7 @@ import Link from 'next/link';
 import EditCover from './editCover-takeAssessment';
 
 type Props = {
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
   userData: any;
 };
 
@@ -22,14 +22,18 @@ const Cover = ({ isLoggedIn, userData }: Props) => {
       width={0}
       height={0}
       alt="profile_photo"
-      className="absolute w-[120px] md:w-[180px] object-cover object-center aspect-square -bottom-5 md:-bottom-[110px] left-[0px] rounded-full bg-gray-400 bg-opacity-60 border-2 border-brand-green-primary border-opacity-40"
+      className="bottom-24 sm:bottom-20 md:bottom-24 left-3 md:left-5 w-[140px] sm:w-[180px] md:w-[200px] aspect-square rounded-full bg-gray-100 bg-opacity-10"
     />
   ) : (
-    <Profile isLoggedIn={isLoggedIn} profileUpdate={profileUpdate} />
+    <>
+      <Profile isLoggedIn={isLoggedIn} profileUpdate={profileUpdate} />
+    </>
   );
 
   return (
-    <div className="absolute h-[200px] md:h-[300px] lg:h-[350px] w-full flex flex-col items-end justify-between p-5 md:p-10 -mt-[20px] lg:-mt-[35px] z-0 top-0 left-0">
+    <div
+      className={`absolute bottom-24 sm:bottom-20 md:bottom-24 left-3 md:left-5 w-[140px] sm:w-[180px] md:w-[200px] aspect-square rounded-full bg-gray-100 bg-opacity-25 border-green-400 border-[2px]`}
+    >
       {avatar}
       {isLoggedIn ? <EditCover Link={Link} handleUploadCover={handleUploadCover} /> : ''}
     </div>
