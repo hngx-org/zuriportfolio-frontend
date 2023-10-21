@@ -40,6 +40,7 @@ const closeModal = () => {
           </svg>
         </div>
         <div className="bg-white-100 z-10 p-5 h-[170px] relative rounded-md shadow-md">
+
           <div className="flex justify-center absolute top-[-30px] left-0 right-0 mx-auto">
             <Image width={80} height={80} src={checkedPayment} alt="checked" />
           </div>
@@ -102,4 +103,6 @@ export const CartPaymentFailureModal = () => {
       </div>
     </div>
   );
+
 };
+

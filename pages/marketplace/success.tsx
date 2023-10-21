@@ -4,6 +4,7 @@ import Loader from '../../components/Loader/loader2';
 import { confirmTransaction } from '../../http/checkout';
 import Head from 'next/head';
 
+
 export default function Successful() {
   const [success, setSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
