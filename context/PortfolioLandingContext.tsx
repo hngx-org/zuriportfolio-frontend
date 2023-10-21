@@ -13,7 +13,7 @@ import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
-import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
+import ProjectSectionModal from '@modules/portfolio/component/modals/project-modal/project-section-modal';
 import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import $http from '../http/axios';
 import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
