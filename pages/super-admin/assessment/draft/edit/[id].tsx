@@ -116,7 +116,10 @@ const DraftPreviewEdit: React.FC = () => {
         })
         .then((responseData) => {
           console.log('This is the data', responseData);
-          setDraftData(responseData);
+          setDraftData({
+            ...responseData,
+            duration_minutes: responseData.duration_minutes || 0,
+          });
           setAssessment(responseData);
           setLoading(false);
         })
