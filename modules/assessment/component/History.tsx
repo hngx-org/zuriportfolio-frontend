@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from '@ui/Button';
 import { FaDownload, FaSearch, FaClipboardList, FaFilter, FaUser, FaStar, FaUserTie } from 'react-icons/fa';
 import Pagination from '@ui/Pagination';
@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { fetchAssessmentHistory } from '../../../http/userTakenAssessment';
 import Loader from '@ui/Loader';
+import { useQuery } from '@tanstack/react-query';
 
 // Define a type or interface for the assessment data
 interface Assessment {
@@ -24,37 +25,26 @@ interface Assessment {
 const History: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(9);
-  const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('All');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showFilters, setShowFilters] = useState(true);
   const [expandedAssessment, setExpandedAssessment] = useState<string | null>(null);
+  const tokenRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    const token = localStorage.getItem('zpt');
-    // You can call the fetchAssessmentHistory function within useEffect or any other event handler
-    fetchAssessmentHistory(token as string)
-      .then((response) => {
-        if (!response) {
-          setIsLoading(false);
-          throw new Error('Network response was not ok');
-        }
-        // Check if the 'data' property is available in the response
-        if (response) {
-          setIsLoading(true);
-          // Extract relevant data from the API response and convert it to an array
-          console.log(response);
-          // Update the state variable 'assessments' with the 'badges' array
-          setAssessments(response);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        // Handle errors, if necessary
-        console.error('Error fetching assessment history:', error);
-      });
+  const {
+    isLoading,
+    isError,
+    error,
+    data: assessmentsHistory,
+  } = useQuery(['assessmentsHistory'], () => fetchAssessmentHistory(tokenRef.current as string));
+  console.log('history', assessmentsHistory);
+
+  const assessments = assessmentsHistory;
+
+  React.useEffect(() => {
+    tokenRef.current = localStorage.getItem('zpt');
   }, []);
+
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -82,14 +72,14 @@ const History: React.FC = () => {
   };
 
   const filteredAssessments = assessments
-    .filter(
-      (assessment) =>
+    ?.filter(
+      (assessment: Assessment) =>
         assessment.assessment_name?.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedLevel === 'All' ? true : assessment.badge_name?.toLowerCase() === selectedLevel),
     )
     .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const totalItems = Math.ceil(filteredAssessments.length / itemsPerPage);
+  const totalItems = Math.ceil(filteredAssessments?.length / itemsPerPage);
 
   return (
     <div className="w-full font-manropeEL">
@@ -202,15 +192,15 @@ const History: React.FC = () => {
                   </th>
                 </tr>
               </thead>
-              {filteredAssessments.length === 0 ? (
+              {filteredAssessments?.length === 0 || filteredAssessments == null ? (
                 <tbody>
                   <tr className="text-center text-gray-500 font-bold text-lg">
-                    You have not taken any assessments to earn badge.
+                    <td>You have not taken any assessments to earn badge.</td>
                   </tr>
                 </tbody>
               ) : (
                 <tbody>
-                  {filteredAssessments.map((assessment) => (
+                  {filteredAssessments?.map((assessment: Assessment) => (
                     <React.Fragment key={assessment.id}>
                       <tr onClick={() => toggleExpand(assessment.id)} className="bg-white border ">
                         <td className="border-r whitespace-nowrap  border-l-[0] border-b-0 border-gray-300 items-center gap-2 flex py-2 px-4 text-left cursor-pointer">

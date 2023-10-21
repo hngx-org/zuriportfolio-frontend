@@ -10,7 +10,7 @@ interface OutOfTimeProps {
   btn2?: boolean;
 }
 
-const OutOfTime: React.FC<OutOfTimeProps> = ({ onClose, onRetake,message,btn1,btn2 }) => {
+const OutOfTime: React.FC<OutOfTimeProps> = ({ onClose, onRetake, message, btn1, btn2 }) => {
   return (
     <div className="fixed flex items-center justify-center bg-dark-600 w-full h-screen z-[9999]">
       <div className="w-fit m-auto items-center font-manropeB justify-center bg-transparent rounded-[16px] p-4 gap-3 flex flex-col">
@@ -27,20 +27,24 @@ const OutOfTime: React.FC<OutOfTimeProps> = ({ onClose, onRetake,message,btn1,bt
           </div>
 
           <div className="flex gap-4 sm:flex-row flex-col">
-            {btn1 && <button
-              onClick={onClose}
-              className="bg-transparent text-brand-green-hover hover:bg-brand-green-hover hover:text-white-100 rounded-[16px] px-8 py-2"
-            >
-              {' '}
-              Go to my Dashboard
-            </button>}
-           { btn2 && <button
-              onClick={onRetake}
-              className="bg-brand-green-primary text-[1.1em] hover:bg-brand-green-hover rounded-[16px] text-white-100 px-8 py-2"
-            >
-              {' '}
-              Retake assessment
-            </button>}
+            {btn1 && (
+              <button
+                onClick={onClose}
+                className="bg-transparent text-brand-green-hover hover:bg-brand-green-hover hover:text-white-100 rounded-[16px] px-8 py-2"
+              >
+                {' '}
+                Go to my Dashboard
+              </button>
+            )}
+            {btn2 && (
+              <button
+                onClick={onRetake}
+                className="bg-brand-green-primary text-[1.1em] hover:bg-brand-green-hover rounded-[16px] text-white-100 px-8 py-2"
+              >
+                {' '}
+                Retake assessment
+              </button>
+            )}
           </div>
         </div>
       </div>
