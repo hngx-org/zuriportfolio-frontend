@@ -114,7 +114,7 @@ const Card = ({ data }: { data: UserInfo }) => {
         </div>
 
         <div className="text-center text-[#32475c]">
-          <Link href={`/portfolio/${data?.id}`} className="block w-fit mx-auto">
+          <Link href={`/portfolio/${data?.slug}`} className="block w-fit mx-auto">
             <h3 className="w-fit font-manropeEB text-base capitalize md:text-[1.375rem] hover:underline">
               {data?.firstName} {data?.lastName}
             </h3>
@@ -155,7 +155,7 @@ const Card = ({ data }: { data: UserInfo }) => {
         </div>
       </div>
 
-      <input type="text" value={`${homepageURl}portfolio/${data.id}`} disabled ref={urlInputRef} className="hidden" />
+      <input type="text" value={`${homepageURl}portfolio/${data.slug}`} disabled ref={urlInputRef} className="hidden" />
     </div>
   );
 };

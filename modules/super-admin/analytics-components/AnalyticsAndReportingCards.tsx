@@ -7,7 +7,7 @@ const AnalyticsAndReportingCards = () => {
   const [bearerToken, setBearerToken] = useState('');
 
   const fetchAnalyticsData = async () => {
-    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/data/';
+    const apiUrl = 'https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/';
 
     const response = await fetch(apiUrl, {
       headers: {

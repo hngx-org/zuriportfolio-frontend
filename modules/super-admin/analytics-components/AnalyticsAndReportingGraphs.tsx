@@ -35,14 +35,6 @@ const fetchData = async (url: any) => {
   }
 };
 
-const formatCurrency = (value: any) => `₦${value.toFixed(2)}`;
-const formatSalesData = (data: any) => {
-  return data.map((entry: any) => ({
-    ...entry,
-    salesWithNaira: `₦${entry.sales.toFixed(2)}`,
-  }));
-};
-
 const AnalyticsAndReportingGraphs = () => {
   const [isGraph, setIsGraph] = useState(false);
   const [graphData, setGraphData] = useState<any[][]>([]);
@@ -62,7 +54,7 @@ const AnalyticsAndReportingGraphs = () => {
       }));
 
       try {
-        const url = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/total-sales-orders-users/?last=${period}`;
+        const url = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
         const response = await fetch(url, {
           headers: {
             Authorization: `Bearer ${bearerToken}`,
@@ -282,11 +274,11 @@ const AnalyticsAndReportingGraphs = () => {
                         <LineChart data={graphData[0]}>
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
                           <Tooltip />
-                          <YAxis tickFormatter={formatCurrency} />
-                          <ReferenceLine y={80} stroke="#F2F4F7" />
-                          <ReferenceLine y={60} stroke="#F2F4F7" />
-                          <ReferenceLine y={40} stroke="#F2F4F7" />
-                          <ReferenceLine y={20} stroke="#F2F4F7" />
+                          <YAxis />
+                          <ReferenceLine y={100} stroke="#F2F4F7" />
+                          <ReferenceLine y={75} stroke="#F2F4F7" />
+                          <ReferenceLine y={50} stroke="#F2F4F7" />
+                          <ReferenceLine y={25} stroke="#F2F4F7" />
                           <Line type="natural" dataKey="sales" stroke="#EABE95" strokeWidth={3} />
                         </LineChart>
                       )}
