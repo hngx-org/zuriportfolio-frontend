@@ -81,9 +81,13 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    console.log(route, 'routee');
+  }, [route]);
+
   return (
     <Modal
-      size={route === allRoutes[2] ? 'lg' : 'xxl'}
+      size={route.trim() === allRoutes[2] ? 'lg' : 'xxl'}
       closeOnOverlayClick
       isOpen={isOpen}
       closeModal={onCloseModal}

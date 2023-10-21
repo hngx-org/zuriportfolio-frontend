@@ -103,7 +103,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
         .catch((err) => {
           setLoading(false);
           notify({
-            message: 'Error occurred',
+            message: err?.response?.data?.message || 'Error occurred',
             position: 'top-center',
             theme: 'light',
             type: 'error',
@@ -151,12 +151,16 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
       .then((res) => {
         setInitialLoading(false);
         const interestsArray: string[] = res.data?.interestArray;
-        console.log(interestsArray);
         setValues(interestsArray ? interestsArray : []);
       })
       .catch((err) => {
         setInitialLoading(false);
-        console.log(err);
+        notify({
+          message: err?.response?.data?.message || 'Error occurred when fetching Interests',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       });
   };
 
