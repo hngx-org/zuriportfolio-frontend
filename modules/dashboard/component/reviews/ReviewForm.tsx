@@ -16,7 +16,7 @@ function ReviewForms() {
   const router = useRouter();
   const { id } = router.query;
 
-  const teamLiquidReviewUrl = '  https://team-liquid-repo.onrender.com/api/review/products/${id}/reviews'
+  const teamLiquidReviewUrl = '  https://team-liquid-repo.onrender.com/api/review/products/${id}/reviews';
 
   const [rateNo, setRating] = useState(0);
   const [name, setName] = useState('');

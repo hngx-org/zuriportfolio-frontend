@@ -23,12 +23,29 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
   }
 };
 
+// Getting pending products starts here
+
+//
+//Getting pending product ends here
+
 // products
 export const useGetProdDetails = (id: string) => {
   return useQuery(['get-prod', id], async () => {
     return makeRequest(`product/${id}`, 'get');
   });
 };
+
+//pending product start
+export const useGetPending = (page: number, search: string) => {
+  const pendingData = useQuery(['get-pending', page, search], async () => {
+    return makeRequest(`product/pending/all?page=${page}${search ? `&search=${search}` : ''}`, 'get');
+  });
+  return {
+    pendData: pendingData.data,
+    pendLoading: pendingData.isLoading,
+  };
+};
+// pending product end
 
 export const useRemoveSanction = () => {
   const removeSanctionMutation = useMutation((id: string) => {
