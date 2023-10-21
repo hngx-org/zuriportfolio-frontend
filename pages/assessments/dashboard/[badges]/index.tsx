@@ -91,6 +91,8 @@ const Earnedbadges: React.FC = () => {
   const [badges, setBadges] = useState<BadgeData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [scorePercentage, setScorePercentage] = useState<number>(0);
+  const [assessmentId, setAssessmentId] = useState<number>(0);
 
   function formatDate(dateString: string) {
     const date = new Date(dateString);
@@ -131,6 +133,8 @@ const Earnedbadges: React.FC = () => {
           }
           const data = await response.json();
           setBadges(data.data.badges);
+          setScorePercentage(data.data.badge.UserAssessment.score);
+          setAssessmentId(data.data.badge.UserAssessment.Assessment.id);
         }
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
@@ -164,6 +168,13 @@ const Earnedbadges: React.FC = () => {
           </div>
         ) : errorMessage ? (
           <ErrorData />
+        ) : scorePercentage < 20 ? (
+          <div className="flex flex-col items-center px-6 gap-8 h-[500px] justify-center">
+            <h2 className="flex flex-wrap">
+              Unfortunately, your score of {scorePercentage}% is below pass mark to earn a badge{' '}
+            </h2>
+            <Button href={`/assessments/take-test/intro?data=${assessmentId}`}>Retake Assessment</Button>
+          </div>
         ) : (
           <div className="h-full w-full lg:max-w-[1440px]  lg:px-[60px] xl:px-[100px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:my-[50px] pb-[80px] sm:pb-[200px] gap-[26px]">
             <div>
