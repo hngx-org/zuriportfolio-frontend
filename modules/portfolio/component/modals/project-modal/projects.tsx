@@ -204,12 +204,11 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
             });
             handleDataClear();
             onSaveModal();
-            console.log(res);
           })
           .catch((err) => {
             setLoading(false);
             notify({
-              message: 'Error occurred',
+              message: err?.response?.data?.message || 'Error occurred',
               position: 'top-center',
               theme: 'light',
               type: 'error',
@@ -226,7 +225,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
       setYear(year);
       setLink(link);
       setThumbnail(thumbnail);
-      setSelectedTags(tags.split(','));
+      setSelectedTags(tags.trim().split(','));
       setDescription(description);
       setUrlsFromCloudinary(projectsImages);
       setId(id);
