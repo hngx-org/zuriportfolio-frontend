@@ -22,6 +22,8 @@ tsconfig.tsbuildinfo
 
 /yarn
 
+/pnpm-lock.yaml
+
 /.vscode
 .DS_Store 
 health_check.md

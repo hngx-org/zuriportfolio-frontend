@@ -123,6 +123,7 @@ const DeleteModal = (props: any) => {
       size="lg"
       closeModal={props.closeModal}
       closeBtnClass="bg-transparent text-custom-color34 hover:bg-transparent "
+      isCloseIconPresent={false}
     >
       <div className="flex flex-row cursor-pointer justify-end px-5">
         <RiCloseCircleFill size={25} color="red" onClick={props.closeModal} />
@@ -411,7 +412,7 @@ const EditModal = (props: {
 
   return (
     <Modal isOpen={props.isOpen} isCloseIconPresent={true} title="EDIT PRODUCT" closeModal={props.closeEditModal}>
-      <div className="relative">
+      <div className="relative md:max-h-[70vh] md:overflow-y-scroll md:scrollbar-thin md:scrollbar-thumb-white-700 z-[9999] bg-white-100">
         <div>
           <div className="flex flex-row cursor-pointer justify-end mt-[-20px]">
             <RiCloseCircleFill size={20} color="red" onClick={props.closeEditModal} />

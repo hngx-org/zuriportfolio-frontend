@@ -5,6 +5,7 @@ import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
 import MainLayout from '../../../../../components/Layout/MainLayout';
 import ErrorData from '@modules/assessment/component/Badges/errordata';
 import { withUserAuth } from '../../../../../helpers/withAuth';
+import Head from 'next/head';
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -14,6 +15,7 @@ const Page: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [screenLoading, setScreenLoading] = useState<boolean>(false);
+  const [assessmentId, setAssessmentId] = useState<number>(0);
   const [badgeName, setbadgeName] = useState<string>('');
   const onClose = () => {
     setIsdownloadOpen(false);
@@ -48,6 +50,7 @@ const Page: React.FC = () => {
           setScorePercentage(data.data.badge.UserAssessment.score);
           console.log(data.data.badge);
           setIsLoading(false);
+          setAssessmentId(data.data.badge.UserAssessment.Assessment.id);
         }
       } catch (error) {
         setErrorMessage('Error fetching Data');
@@ -62,6 +65,11 @@ const Page: React.FC = () => {
     <>
       <MainLayout activePage="marketplace" showDashboardSidebar={false} showFooter={true} showTopbar={true}>
         <>
+          <Head>
+            <title>Badge Page</title>
+            <meta name="description" content="View your assessment score and badge earned" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+          </Head>
           <BadgesHeader />
           {isLoading ? (
             <div className="flex justify-center items-center h-96">
@@ -77,6 +85,7 @@ const Page: React.FC = () => {
                 setIsdownloadOpen={setIsdownloadOpen}
                 isdownloadOpen={isdownloadOpen}
                 onClose={onClose}
+                assessmentId={assessmentId}
               />
             </>
           )}
