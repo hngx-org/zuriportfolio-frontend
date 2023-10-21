@@ -7,13 +7,12 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 type aboutModalProps = {
-  onCloseModal: () => void;
-  onSaveModal: () => void;
+  onClose: () => void;
   isOpen: boolean;
   userId: string;
 };
 
-const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, isOpen, userId }) => {
+const PortfolioAbout: React.FC<aboutModalProps> = ({ onClose, isOpen, userId }) => {
   const [bio, setBio] = useState({ bio: '', section_id: 54 });
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -22,8 +21,6 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
   const [errorBorder, setErrorBorder] = useState('[#E1E3E2]');
-  const [bioId, setBioId] = useState(Number);
-  const [create, setCreate] = useState(false);
 
   // POST ABOUT VALUE TO DATABASE
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com';
@@ -31,51 +28,8 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     setLoading(true);
     try {
       const axiosConfig = {
-        method: 'post',
-        url: `${API_BASE_URL}/api/v1/about/${userId}`,
-        data: bio,
-      };
-
-      const response = await axios(axiosConfig);
-      if (response.status !== 200 && response.status !== 201) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      setLoading(false);
-      toast.success(`Successful`, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
-      const data = await response.data;
-      console.log(data.about.id);
-      setBioId(data.about.id);
-      onSaveModal();
-    } catch (error) {
-      console.error('An error occurred:', error);
-      toast.error(`${error}`, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
-      setLoading(false);
-    }
-  };
-  const editResponse = async (id: number) => {
-    setLoading(false);
-    try {
-      const axiosConfig = {
         method: 'put',
-        url: `${API_BASE_URL}/api/v1/about/${id}`,
+        url: `${API_BASE_URL}/api/about/${userId}`,
         data: bio,
       };
 
@@ -83,6 +37,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
       if (response.status !== 200 && response.status !== 201) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
+      setLoading(false);
       toast.success(`Successful`, {
         position: 'top-right',
         autoClose: 5000,
@@ -94,12 +49,11 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         theme: 'light',
       });
       const data = await response.data;
-      console.log(data.about.id);
-      setBioId(data.about.id);
-      onSaveModal();
+      console.log(data);
+      onClose();
     } catch (error) {
       console.error('An error occurred:', error);
-      toast.error(`${error}`, {
+      toast.warning(`Waiting for endpoint`, {
         position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
@@ -109,14 +63,9 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         progress: undefined,
         theme: 'light',
       });
+      setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (isEditing && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isEditing]);
 
   // GET ABOUT VALUE FROM DATA BASE
   const getResponse = async () => {
@@ -124,7 +73,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     try {
       const axiosConfig = {
         method: 'get',
-        url: `${API_BASE_URL}/api/v1/about/${userId}`,
+        url: `${API_BASE_URL}/api/about/${userId}`,
       };
 
       const response = await axios(axiosConfig);
@@ -134,10 +83,8 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
       const data = await response.data;
 
       console.log(data.about);
-      setBioId(data.about.id);
       setBio({ ...bio, bio: data.about.bio });
       setgetLoading(false);
-      setCreate(false);
       toast.success(`${data.message}`, {
         position: 'top-right',
         autoClose: 5000,
@@ -151,9 +98,15 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     } catch (error) {
       console.error('An error occurred:', error);
       setgetLoading(false);
-      setCreate(true);
     }
   };
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
   useEffect(() => {
     getResponse();
   }, []);
@@ -163,17 +116,19 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
       setIsEditing(false);
     }
   };
-  const handleDeleteClick = (id: number) => {
-    if (!loading && !create) {
+  const handleDeleteClick = () => {
+    if (!loading) {
       setBio({ ...bio, bio: '' });
       setIsEditing(false);
 
       const delResponse = async () => {
         console.log(bio);
+        setgetLoading(true);
         try {
           const axiosConfig = {
-            method: 'delete',
-            url: `${API_BASE_URL}/api/v1/about/${id}`,
+            method: 'put',
+            url: `${API_BASE_URL}/api/about/${userId}`,
+            data: bio,
           };
 
           const response = await axios(axiosConfig);
@@ -182,7 +137,9 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
           }
           const data = await response.data;
 
-          console.log(data);
+          console.log(data.about);
+          setBio({ ...bio, bio: data.about.bio });
+          setgetLoading(false);
           toast.success(`About deleted`, {
             position: 'top-right',
             autoClose: 5000,
@@ -193,15 +150,13 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
             progress: undefined,
             theme: 'light',
           });
-          setCreate(true);
         } catch (error) {
           console.error('An error occurred:', error);
+          setgetLoading(false);
         }
       };
 
       delResponse();
-    } else {
-      setBio({ ...bio, bio: '' });
     }
   };
 
@@ -221,11 +176,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         } else {
           if (!loading) {
             console.log('successfully loaded!');
-            if (create) {
-              createResponse();
-            } else {
-              editResponse(bioId);
-            }
+            createResponse();
           }
         }
       }
@@ -244,20 +195,37 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
       isCloseIconPresent={false}
       size="lg"
     >
-      {
+      {loading ? (
+        <Loader />
+      ) : (
         <div className="mx-auto bg-white-100 rounded-md sm:py-2 sm:px-3 md:py-3 md:px-5">
           <div className="flex justify-between border-b-[3.6px] border-brand-green-primary pb-1">
             <span className="font-semibold text-lg">About</span>
             <div
               className="flex item-center justify-center rounded-lg w-6 h-6 bg-brand-green-primary text-white-100 font-semibold cursor-pointer"
-              onClick={onCloseModal}
+              onClick={onClose}
             >
               x
             </div>
           </div>
           {getloading ? (
-            <div className="py-36">
-              <Loader />
+            <div className="block w-[10%] mx-auto my-32">
+              <svg
+                aria-hidden="true"
+                className="text-brand-green-hover animate-spin fill-white-100"
+                viewBox="0 0 100 101"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                  fill="currentFill"
+                />
+              </svg>
             </div>
           ) : (
             <form className="py-3 md:pt-7" onSubmit={submitAbout}>
@@ -296,12 +264,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
                     <p onClick={handleEditClick} className="text-blue-300 cursor-pointer">
                       Edit
                     </p>
-                    <p
-                      onClick={() => {
-                        handleDeleteClick(bioId);
-                      }}
-                      className={`text-brand-red-primary cursor-pointer`}
-                    >
+                    <p onClick={handleDeleteClick} className={`text-brand-red-primary cursor-pointer`}>
                       Delete
                     </p>
                   </div>
@@ -314,17 +277,17 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
                     size={'sm'}
                     className="w-full md:w-24 rounded-lg"
                     type="button"
-                    onClick={onCloseModal}
+                    disabled={loading}
+                    onClick={onClose}
                   >
                     Close
                   </Button>
                   <Button
                     intent={'primary'}
                     size={'sm'}
-                    className="w-full md:w-24 rounded-lg border-[2px] border-brand-green-primary focus:border-none  focus:border-white-400 hover:border-brand-green-hover"
+                    className="w-full md:w-24 rounded-lg border-[2px] border-brand-green-primary hover:border-brand-green-hover"
                     type="button"
                     onClick={submitAbout}
-                    disabled={loading}
                   >
                     {loading ? (
                       <div className="block w-5 h-5">
@@ -354,7 +317,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
             </form>
           )}
         </div>
-      }
+      )}
     </Modal>
   );
 };
