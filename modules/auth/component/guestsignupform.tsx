@@ -28,12 +28,6 @@ const Guestsignupform: React.FC = () => {
           theme: 'light',
         });
         router.push('/auth/verification');
-      } else {
-        notify({
-          message: data.message,
-          type: 'error',
-          theme: 'light',
-        });
       }
     },
     onError: (res: any) => {
@@ -47,6 +41,12 @@ const Guestsignupform: React.FC = () => {
         });
         return;
       }
+
+      notify({
+        message: res.message,
+        type: 'error',
+        theme: 'light'
+      });
     },
   });
   const [passwordVisible, togglePasswordVisibility] = usePasswordVisibility();
