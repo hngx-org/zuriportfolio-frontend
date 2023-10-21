@@ -2,16 +2,13 @@ import { UseFormReturnType } from '@mantine/form';
 import { years } from '@modules/portfolio/data';
 import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
-import Image from 'next/image';
 
 export const renderFields = (
   field: string,
   id: number,
-  imageSrc?: string,
-  handleImageChange?: (e: any) => void,
   form?: UseFormReturnType<
-    { addList: { id: string; fields: never[] }[] },
-    (values: { addList: { id: string; fields: never[] }[] }) => { addList: { id: string; fields: never[] }[] }
+    { addList: { id: string; fields: any[] }[] },
+    (values: { addList: { id: string; fields: any[] }[] }) => { addList: { id: string; fields: any[] }[] }
   >,
   index?: number | undefined,
 ) => {
@@ -26,6 +23,7 @@ export const renderFields = (
               placeholder="Section Title"
               {...form?.getInputProps(`addList.0.title`)}
             />
+            <p className="text-red-500 text-[0.6875rem] tracking-[0.00344rem] font-semibold"></p>
           </div>
         </div>
       );
