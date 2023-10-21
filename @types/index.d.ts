@@ -507,6 +507,7 @@ export interface OrderHistory {
   price: number;
   sales?: number;
   revenue?: number;
+  currency?: string;
 }
 
 export interface WishlistProduct {
@@ -814,10 +815,12 @@ export interface AuthContextProps {
   email: string;
   redirect: string;
   userCameFrom: string | undefined;
+  userCameFromForOAuth: string | undefined;
   handleAuth: (value: AuthResponse | undefined) => void;
   handleEmail: (value: string) => void;
   handleRedirect: (value: string) => void;
   handleUserCameFrom: (value: string | undefined) => void;
+  handleUserCameFromForOAuth: (value: string | undefined) => void;
 }
 
 export type User = {
