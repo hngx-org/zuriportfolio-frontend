@@ -2,7 +2,7 @@ import axios from 'axios';
 import $http from './axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-const assessmentBaseUrl = `https://assessment.cofucan.tech/api`;
+const assessmentBaseUrl = `https://assessment.cofucan.tech/api/v1`;
 
 export const fetchAssessmentHistory = async (token: string) => {
   try {

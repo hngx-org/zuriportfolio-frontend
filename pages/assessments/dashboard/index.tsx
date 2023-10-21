@@ -27,7 +27,6 @@ type AssessmentDetails = {
 
 const Dashboard = () => {
   const [result, setResult] = React.useState<AssessmentDetails[]>([]);
-  const [resultTap, setResultTap] = React.useState<AssessmentDetails[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const router = useRouter();
   const queryClient = useQueryClient();
