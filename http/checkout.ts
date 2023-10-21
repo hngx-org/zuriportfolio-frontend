@@ -145,10 +145,9 @@ const getTokenDetails = async (token: string) => {
 };
 
 export const getRecentlyViewedProducts = async (token: string) => {
-  const user_res = await getTokenDetails(token);
-  const user_id = user_res.user.id;
-
   try {
+    const user_res = await getTokenDetails(token);
+    const user_id = user_res.user.id;
     const apiUrl = `${RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
     const response = await axios.get(apiUrl, {
       headers: {

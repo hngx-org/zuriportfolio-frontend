@@ -42,6 +42,8 @@ const StatusPill = ({ status, ...rest }: { status: string | null }) => {
             ? 'bg-custom-color34'
             : getValue(status) === 'green'
             ? 'bg-brand-green-focused'
+            : getValue(status) === 'brown'
+            ? 'bg-custom-color25'
             : 'bg-black'
         }`}
       ></span>
