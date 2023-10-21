@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Data, allRouteOptions } from './modals/project-section-modal';
 import Button from '@ui/Button';
 import { Add } from 'iconsax-react';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
 import { Edit2, Trash } from 'iconsax-react';
+import { Data, allRouteOptions } from './project-section-modal';
 
 const endpoint = 'https://hng6-r5y3.onrender.com';
 const AllProjectsModal = ({
@@ -53,6 +53,7 @@ const AllProjectsModal = ({
       .then((res) => {
         handleLoading(false);
         handleSetProjects(res.data.data);
+        console.log(res.data.data, 'all projects');
       })
       .catch((err) => {
         handleLoading(false);
@@ -111,14 +112,25 @@ const AllProjectsModal = ({
                         ))}
                     </div>
 
-                    <Link
-                      href={url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="font-semibold text-[#5B8DEF] text-sm md:text-base mt-5 font-manropeL"
-                    >
-                      Link to project <span className="ml-1 text-base">&#8599;</span>
-                    </Link>
+                    <section className="flex flex-wrap gap-4">
+                      <Link
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-semibold text-[#5B8DEF] text-sm md:text-base mt-5 font-manropeL block"
+                      >
+                        Link to project <span className="ml-1 text-base">&#8599;</span>
+                      </Link>
+                      <span
+                        onClick={() => {
+                          handleEdit(project);
+                          handleSetRoute('single-project');
+                        }}
+                        className="text-green-600 text-sm md:text-base mt-5 font-manropeL font-semibold cursor-pointer"
+                      >
+                        View More
+                      </span>
+                    </section>
                   </section>
                 </section>
 
