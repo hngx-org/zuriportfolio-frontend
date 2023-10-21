@@ -55,8 +55,7 @@ function LoginForm() {
         return;
       }
 
-      if (res.message === 'Login successful') {
-        console.log(res.data);
+      if (res.status === 200 && res.message === 'Login successful') {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
 
@@ -73,18 +72,6 @@ function LoginForm() {
 
         router.push(userCameFrom || '/explore');
         return;
-      } else if (res.message === 'Invalid password') {
-        notify({
-          message: 'Invalid password',
-          type: 'error',
-        });
-        return;
-      } else if (res.message === 'User not found') {
-        notify({
-          message: 'User not found',
-          type: 'error',
-        });
-        return;
       } else if (res.message === 'Please verify your account') {
         notify({
           message: 'Please verify your account',
@@ -94,10 +81,19 @@ function LoginForm() {
         return;
       }
     },
-    onError: (e) => {
-      console.error({ error: e });
+    onError: (e:any) => {
+      // For a user who has not verified their account
+      if( e.status === 401 ) {
+        notify({
+          message: e.message,
+          type: 'error',
+        });
+        router.push('/auth/verification-complete');
+        return;
+      }
+
       notify({
-        message: 'Error logging in',
+        message: e.message,
         type: 'error',
       });
     },

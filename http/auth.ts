@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const AUTH_HTTP_URL = 'https://staging.zuri.team/api/auth/api/auth';
 const AUTH_HTTP_URL_2 = 'https://staging.zuri.team/api/auth/api';
+
 const $http = axios.create({
   baseURL: AUTH_HTTP_URL,
   timeout: 30000,
@@ -9,6 +10,7 @@ const $http = axios.create({
     'Content-Type': 'application/json; charset=UTF-8',
   },
 });
+
 const $http_2 = axios.create({
   baseURL: AUTH_HTTP_URL_2,
   timeout: 30000,
@@ -67,16 +69,18 @@ export const signUpUser = async (props: { firstName: string; lastName: string; e
     const res = await $http.post('/signup', props);
     return res?.data;
   } catch (e: any) {
-    return e.response.data ?? { message: e.message };
+    throw e.response.data;
   }
 };
 
 export const loginUser = async (props: { email: string; password: string }) => {
   try {
     const res = await $http.post('/login', props);
+    console.log("Login", res.data);
     return res?.data;
   } catch (e: any) {
-    return e.response.data ?? { message: e.message };
+    console.log("login error", e.response.data);
+    throw e.response.data;
   }
 };
 
@@ -85,9 +89,7 @@ export const signUpUserWithEmail = async (props: { email: string }) => {
     const res = await $http.post('/check-email', props);
     return res?.data;
   } catch (e: any) {
-    const errorData = e.response.data;
-    // throw new Error(errorData);
-    return e.response.data ?? { message: e.message };
+    throw e.response.data;
   }
 };
 
