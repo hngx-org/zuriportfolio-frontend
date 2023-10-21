@@ -32,7 +32,7 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     queryKey: ['store-traffic-12m'],
     enabled: true,
   });
-  logQueryResult('Query Store Traffic 12m', query12MonthStoreTrafficData);
+  // logQueryResult('Query Store Traffic 12m', query12MonthStoreTrafficData);
 
   const { data: query3MonthStoreTrafficData } = useQuery({
     queryFn: () => fetch3MonthStoreTraffic(),
@@ -69,7 +69,7 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
   // Initialize data with the default value
   let data = isBarChart ? trafficChartData : salesChartData;
 
-  logQueryResult('trafficChartData', trafficChartData);
+  // logQueryResult('trafficChartData', trafficChartData);
 
   const updateChartData = (index: number) => {
     if (isBarChart) {

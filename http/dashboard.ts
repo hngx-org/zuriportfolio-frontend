@@ -114,7 +114,7 @@ export const fetchSalesReports = async () => {
       },
     });
     const salesReport = res?.data;
-    // console.log(salesReport);
+    console.log(salesReport);
     return salesReport;
   } catch (error) {
     throw error;
