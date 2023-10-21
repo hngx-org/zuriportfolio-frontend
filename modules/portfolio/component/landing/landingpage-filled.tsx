@@ -10,6 +10,7 @@ import {
   LikeTag,
   PathTool,
   Personalcard,
+  Profile2User,
   UserCirlceAdd,
   Verify,
 } from 'iconsax-react';
@@ -276,7 +277,7 @@ const LandingPageFilled: React.FC = () => {
               )}
               {section?.id === 'contact' && section?.data?.length > 0 && (
                 <Pcontact
-                  icon={<Book variant="Bold" size="24" color="#006811" />}
+                  icon={<Profile2User variant="Bold" size="24" color="#006811" />}
                   section={section}
                   key={i}
                   id={section.id}
