@@ -29,14 +29,14 @@ interface SpecificSubCategoryProps {
 }
 
 const SpecificSubCategory: FC<SpecificSubCategoryProps> = (props) => {
-  const data: CardType[] | null | undefined = !props?.response?.error ? props?.response?.data : null;
-  const [productCards, setProductCards] = useState(data);
+  const productCards: CardType[] | null | undefined = !props?.response?.error ? props?.response?.data : null;
+  // const [productCards, setProductCards] = useState(data);
   const [pageNumber, setPageNumber] = useState(0);
   const [currentPageSet, setCurrentPageSet] = useState(0);
 
   const usersPerPage = 8;
   const pagesVisited = pageNumber * usersPerPage;
-  const totalPages = Math.ceil((productCards?.length ? productCards.length : 1) / usersPerPage);
+  const totalPages = Math.ceil((productCards?.length ? productCards?.length : 1) / usersPerPage);
   const pagesPerSet = 4;
 
   // search filter hook
