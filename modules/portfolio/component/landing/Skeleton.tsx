@@ -19,7 +19,7 @@ type SkeletonProps = {
 
 // styles
 
-const text = `text-gray-500 text-sm font-light leading-6 font-manropeL tracking-wide [word-spacing:3px]`;
+const text = `text-gray-500 text-sm font-light leading-6 font-manropeL tracking-wide [word-spacing:3px] break-all`;
 const description = `text-sm text-gray-600 leading-5 font-manropeL tracking-wide`;
 const main = `text-gray-800 text-xl font-semibold`;
 const date = `text-gray-500 text-sm font-semibold`;
