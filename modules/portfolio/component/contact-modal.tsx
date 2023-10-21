@@ -92,7 +92,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     }));
 
     sendArrayOfObjects(data, 'https://hng6-r5y3.onrender.com/api/v1/contacts')
-      .then((response) => {
+      .then((response: any) => {
         setLoading(false);
         notify({
           message: 'Contact created successfully',
@@ -100,11 +100,21 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
           theme: 'light',
           type: 'success',
         });
-        console.log('response', response);
+        console.log('responseresponseresponseresponse', response);
+        if (response.message.includes('')) {
+        }
       })
       .catch((err) => {
         setLoading(false);
         console.log(err);
+        if (err.response.data.message.includes('contact already exists')) {
+          notify({
+            message: 'Contact already exists',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
         notify({
           message: 'Error occurred',
           position: 'top-center',
@@ -114,6 +124,7 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
       });
   };
   const handleDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
     console.log('delete clicked');
     const id = 5;
     try {
@@ -208,8 +219,6 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
                             if (selectedSocial) {
                               handleSocialSelectChange(selectedSocial.Id, index);
                             }
-                            console.log(value);
-                            console.log(social);
                           }}
                         >
                           <SelectTrigger className="border-[#E1E3E2] w-[100%] border text-xs font-manropeL">

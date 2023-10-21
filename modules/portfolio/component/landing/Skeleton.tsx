@@ -280,12 +280,11 @@ export const Shop = () => {
 export const Contact = ({ data }: SkeletonProps) => {
   return (
     <div className="flex flex-col w-full gap-5">
-      {/* {data?.map((contact: { title: string; info: string; url: string }, i: string) => ( */}
       <div>
         <div className="flex justify-start items-center gap-10">
           <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{data.title}</span>
           <a
-            className="text-blue-100 font-semibold text-sm flex-[2] flex items-center text-center gap-3"
+            className="text-blue-100 font-semibold text-sm flex-[2] flex underline decoration-solid decoration-1 underline-offset-4 items-center text-center gap-3"
             href={data.url}
           >
             {data.url}
@@ -293,7 +292,6 @@ export const Contact = ({ data }: SkeletonProps) => {
           </a>
         </div>
       </div>
-      {/* ))} */}
     </div>
   );
 };
