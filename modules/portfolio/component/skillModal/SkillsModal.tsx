@@ -1,11 +1,13 @@
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
-import { useEffect, useState, MouseEvent, useCallback } from 'react';
+import { useEffect, useState, MouseEvent, useCallback, useContext } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
 import Loader from '@ui/Loader';
+import Portfolio from '../../../../context/PortfolioLandingContext';
+
 
 type skillModalProps = {
   onCloseModal: () => void;
@@ -41,6 +43,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
+ const slug  = useContext(Portfolio);
 
   const fetchSkillData = useCallback(async () => {
     try {
@@ -108,7 +111,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   const getAllSkill = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${slug}`);
 
       if (response.ok) {
         const data = await response.json();

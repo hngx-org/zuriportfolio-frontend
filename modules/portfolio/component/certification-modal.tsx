@@ -213,7 +213,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                 <div className="flex flex-col sm:flex-row w-full gap-[10px]">
                   <div className="flex  flex-col gap-2 flex-1">
                     <label htmlFor="title" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Certification Title*
+                      Certification Title <span className="text-red-300">*</span>
                     </label>
                     <Input
                       type="text"
@@ -230,7 +230,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
 
                   <div className="flex  flex-col gap-2 flex-1">
                     <label htmlFor="year" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      Year
+                      Year <span className="text-red-300">*</span>
                     </label>
                     <select
                       id="year"
@@ -261,7 +261,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                 <div className="flex flex-col sm:flex-row w-full gap-[10px]">
                   <div className="flex  flex-col gap-[10px] flex-1">
                     <label htmlFor="organization" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                      organization*
+                      Organization <span className="text-red-300">*</span>
                     </label>
                     <Input
                       type="text"
@@ -294,7 +294,7 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
                 </div>
                 <div className="flex  flex-col gap-[10px]">
                   <label htmlFor="description" className="font-semibold text-[16px] leading-[24px]  text-[#444846]">
-                    Description
+                    Description <span className="text-red-300">*</span>
                   </label>
                   <Input
                     type="text"
@@ -652,13 +652,13 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             onClick={openEditForm}
             className="border-none outline-none text-[#5B8DEF] bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            <Edit2 size="25" color="#37d67a" variant="Outline" />
+            <Edit2 size="24" color="#37d67a" variant="Outline" />
           </Button>{' '}
           <Button
             onClick={handleDelete}
             className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            <Trash size="25" color="#f47373" variant="Outline" />
+            <Trash size="24" color="#f47373" variant="Outline" />
           </Button>
         </div>
       </div>

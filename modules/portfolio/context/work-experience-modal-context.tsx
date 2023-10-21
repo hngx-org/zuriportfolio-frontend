@@ -83,6 +83,65 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       sectionId: 2,
     });
     try {
+      const missingFields = [];
+      const numberFields = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
+      if (numbersOnlyRegex.test(role)) {
+        numberFields.push('Role');
+      }
+      if (numbersOnlyRegex.test(company)) {
+        numberFields.push('Company');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
+
+      if (role === '') {
+        missingFields.push('Role');
+      }
+      if (company === '') {
+        missingFields.push('Company');
+      }
+      if (description === '') {
+        missingFields.push('Description');
+      }
+      if (startMonth === '') {
+        missingFields.push('Start Month');
+      }
+      if (startYear === '') {
+        missingFields.push('Start Year');
+      }
+      if (endMonth === '') {
+        missingFields.push('End Month');
+      }
+      if (endYear === '') {
+        missingFields.push('End Year');
+      }
+
+      if (missingFields.length > 0) {
+        // Handle the case when required values are missing
+        const missingFieldsString = missingFields.join(', ');
+        // Notify the user about missing fields
+        notify({
+          message: `Please fill in the required fields: ${missingFieldsString}`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
       const response = await fetch(`${API_BASE_URL}api/v1/updateexperience/${id}`, {
         method: 'PUT',
         headers: {
@@ -155,9 +214,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       if (response.ok) {
         const data = await response.json();
         const { workExperience } = data.data;
-        if (workExperience.length === 0) {
-          setIsForm(true);
-        }
         setWorkExperiences(workExperience);
       }
     } catch (error) {
@@ -173,6 +229,17 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     setIsLoading(true);
     try {
       const missingFields = [];
+      const numberFields = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
+      if (numbersOnlyRegex.test(role)) {
+        numberFields.push('Role');
+      }
+      if (numbersOnlyRegex.test(company)) {
+        numberFields.push('Company');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
 
       if (role === '') {
         missingFields.push('Role');
@@ -209,6 +276,17 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
         return;
       }
 
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
       const endYearValue = isChecked ? 'Present' : endYear;
 
       const response = await fetch(`${API_BASE_URL}api/v1/createexperience/${userId}`, {
@@ -231,7 +309,6 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
       });
       if (response.ok) {
         getAllWorkExperience();
-        setWorkExperiences((prevExperiences) => []);
         notify({
           message: 'Work experience created successfully',
           position: 'top-center',
@@ -297,7 +374,14 @@ export const WorkExperienceModalContextProvider = ({ children }: { children: Rea
     if (userId.trim().length > 0) {
       getAllWorkExperience();
     }
-  }, [getAllWorkExperience, userId]);
+  }, [getAllWorkExperience, userId, slug]);
+
+  useEffect(() => {
+    console.log('workExperiences', workExperiences);
+    if (workExperiences.length === 0) {
+      setIsForm(true);
+    }
+  }, [workExperiences]);
 
   return (
     <WorkExperienceModalContext.Provider
