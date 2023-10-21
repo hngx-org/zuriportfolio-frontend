@@ -169,8 +169,8 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
     <>
       <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
         <div className="space-y bg-white-100 sm:p-10">
-          <form className="flex flex-col gap-y-5">
-            <div className="flex flex-col gap-3 my-19">
+          <form className="flex flex-col ">
+            <div className="flex flex-col gap-3 mb-4">
               <div className="flex justify-between items-center">
                 <p className="text-[1.2rem] sm:text-[1.5rem] font-bold text-[#2E3130] font-manropeL">Contact</p>
                 <CloseSquare
@@ -185,13 +185,13 @@ function ContactModal({ isOpen, onCloseModal, onSaveModal, userId }: contactModa
             </div>
             ​
             <div className="flex mx-auto flex-col gap-[.5rem] w-full sm:w-[90%]">
-              <label className="font-semibold text-[#444846] text-[.9rem]">Email</label>
+              <label className="font-semibold text-[#444846] text-[.9rem]">Email *</label>
               <Input
                 placeHolder="Enter email"
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                className="border-[#E1E3E2] border w-[100%] font-manropeL rounded-md"
+                className="border-[#E1E3E2] border w-[100%] font-manropeL rounded-md  mb-3"
                 inputSize={'sm'}
               />
             </div>
