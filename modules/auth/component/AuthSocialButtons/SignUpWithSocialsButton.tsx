@@ -15,7 +15,7 @@ interface ButtonProps extends ButtonVariants {
   spinnerSize?: string | number;
 }
 
-const SignUpWithSocialsButton: FC<ButtonProps> = ({ children, ...props }) => {
+const SignUpWithSocialsButton: FC<ButtonProps> = ({ children, leftIcon, ...props }) => {
   // Once button is clicked, set the current path user is in so we can redirect there if an error is thrown
   const { setCurrentPathForOAuth } = useUserSession();
 
@@ -27,7 +27,11 @@ const SignUpWithSocialsButton: FC<ButtonProps> = ({ children, ...props }) => {
       onClick={setCurrentPathForOAuth}
       {...props}
     >
-      {children}
+      <div className=" w-[90%]  sm:w-[70%] md:w-[60%] lg:w-[80%] xl:w-[70%]   flex gap-1 justify-center ">
+        {/* <div className='flex justify-center'> */}
+        <div className=" w-[10%]">{leftIcon}</div>
+        <p className=" w-[80%] sm:w-[70%] md:w-[70%] lg:w-[80%] xl:w-[70%] 2xl:w-[60%]">{children}</p>
+      </div>
     </Button>
   );
 };
