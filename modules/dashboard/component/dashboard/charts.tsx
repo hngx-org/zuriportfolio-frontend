@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MetricChartProps, MetricTimelineProps } from '../../../../@types';
-import { metricsChartTimeline } from '../../../../db/dashboard';
+import { metricsChartTimeline, nullSalesData } from '../../../../db/dashboard';
 import { logQueryResult } from '../../../../helpers/dashboard';
 import {
   fetch12MonthStoreTraffic,
@@ -14,7 +14,6 @@ import {
 import Chart from './chart';
 
 export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
-  let data;
   // fetch sales report data
   const { data: querySalesReportData } = useQuery({
     queryFn: () => fetchSalesReports(),
@@ -33,7 +32,7 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     queryKey: ['store-traffic-12m'],
     enabled: true,
   });
-  // logQueryResult('Query Store Traffic 12m', query12MonthStoreTrafficData);
+  logQueryResult('Query Store Traffic 12m', query12MonthStoreTrafficData);
 
   const { data: query3MonthStoreTrafficData } = useQuery({
     queryFn: () => fetch3MonthStoreTraffic(),
@@ -65,7 +64,12 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
 
   const [timeline, setTimeline] = useState({ active: true, index: 0 });
   const [trafficChartData, setTrafficChartData] = useState(query12MonthStoreTrafficData);
-  const [salesChartData, setsalesChartData] = useState();
+  const [salesChartData, setSalesChartData] = useState(nullSalesData);
+
+  // Initialize data with the default value
+  let data = isBarChart ? trafficChartData : salesChartData;
+
+  logQueryResult('trafficChartData', trafficChartData);
 
   const updateChartData = (index: number) => {
     if (isBarChart) {
@@ -95,21 +99,11 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
     setTimeline({ active: true, index });
   };
 
-  // const numBars = {
-  //   0: 12,
-  //   1: 3,
-  //   2: 30,
-  //   3: 7,
-  //   4: 24,
-  // }[timeline.index];
-
-  // const numBarsAsNumber: number = numBars as number;
-
-  if (isBarChart) {
-    data = trafficChartData;
-  } else {
-    data = 0;
-  }
+  useEffect(() => {
+    if (isBarChart) {
+      setTrafficChartData(query12MonthStoreTrafficData);
+    }
+  }, [isBarChart, query12MonthStoreTrafficData]);
 
   return (
     <div className="shadow rounded-md px-5 py-5 space-y-1.5 md:space-y-3">
