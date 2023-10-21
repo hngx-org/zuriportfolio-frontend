@@ -78,7 +78,7 @@ const Landing = () => {
                       {lastName === 'undefined' || !lastName ? '' : lastName}
                     </h1>
                     <div className="flex items-center space-x-2">
-                      {<p className="text-gray-500 font-semibold text-[15px] md:text-[18px]">{tracks?.track}</p>}
+                      {<p className="flex flex-col text-gray-500 font-semibold text-[15px]">{tracks?.track}</p>}
                     </div>
                     <p className="text-gray-500 text-[14px] md:text-base font-semibold">
                       {city ? city : ``}
