@@ -1,7 +1,15 @@
 import Button from '@ui/Button';
 import React from 'react';
 
-const CustomFooter = ({ handleClose, isLoading }: { handleClose: () => void; isLoading: boolean }) => {
+const CustomFooter = ({
+  handleClose,
+  isLoading,
+  onclick,
+}: {
+  handleClose: () => void;
+  isLoading: boolean;
+  onclick?: () => void;
+}) => {
   return (
     <div className="flex gap-2 justify-end items-end">
       <Button
@@ -13,7 +21,13 @@ const CustomFooter = ({ handleClose, isLoading }: { handleClose: () => void; isL
       >
         Cancel
       </Button>
-      <Button type="submit" isLoading={isLoading} className="w-full rounded-md self-end sm:w-[6rem]" size={'lg'}>
+      <Button
+        type="submit"
+        isLoading={isLoading}
+        onClick={onclick}
+        className="w-full rounded-md self-end sm:w-[6rem]"
+        size={'lg'}
+      >
         Save
       </Button>
     </div>

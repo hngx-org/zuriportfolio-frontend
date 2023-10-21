@@ -9,12 +9,14 @@ const CustomNewSections = ({
   setNewSection,
   setGetNewSection,
   isLoading,
+  createCustomSection,
 }: {
   onClose: () => void;
   data: any;
   setNewSection: any;
   setGetNewSection: any;
   isLoading: boolean;
+  createCustomSection: () => void;
 }) => {
   const handleEdit = () => {
     setNewSection(true);
@@ -30,8 +32,8 @@ const CustomNewSections = ({
           </div>
           <div className="bg-brand-green-primary w-full h-1 rounded-sm"></div>
         </div>
-        <div className="flex justify-between gap-4">
-          <div>
+        <div className="flex flex-col md:flex-row justify-between gap-4">
+          <div className="w-full md:w-[35%]">
             <div className="flex flex-col gap-4">
               <p className="text-[#8D9290]">
                 {data[0]?.dates?.from} - {data[0]?.dates?.to}
@@ -45,11 +47,11 @@ const CustomNewSections = ({
                     {field?.links}
                   </Link>
                 )}
-                {field?.inputfield && <p className="text-[#8D9290]">{field?.inputfield}</p>}
+                {field?.inputfield && <p className="text-[#8D9290]">{field?.value}</p>}
               </>
             ))}
           </div>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 w-full md:w-[65%]">
             <p className="text-[#737876] font-manropeL" dangerouslySetInnerHTML={{ __html: data[0]?.description }}></p>
           </div>
         </div>
@@ -65,7 +67,7 @@ const CustomNewSections = ({
         </div>
       </article>
       <div className="mt-10">
-        <CustomFooter handleClose={onClose} isLoading={isLoading} />
+        <CustomFooter handleClose={onClose} isLoading={isLoading} onclick={createCustomSection} />
       </div>
     </>
   );

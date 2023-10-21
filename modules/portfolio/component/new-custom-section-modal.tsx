@@ -58,8 +58,9 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
         title: (value) =>
           value?.length === 0 || containsWhitespace(value) ? 'Title is empty or contains whitespaces' : null,
         subtitle: {
-          title: (value) => (value?.length === 0 ? 'Subtitle title is empty' : null),
-          value: (value) => (value?.length === 0 ? 'Subtitle value is empty' : null),
+          title: (value) =>
+            value?.length === 0 || containsWhitespace(value) ? 'Subtitle is empty or contains whitespaces' : null,
+          value: (value) => (value?.length === 0 ? 'Subtitle - value is empty or contains whitespaces' : null),
         },
         dates: {
           from: (value) => (value?.length === 0 ? 'From date is empty' : null),
@@ -79,19 +80,19 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
         fields: (value) => {
           const errors = value?.reduce((acc, field, index) => {
             if (field?.inputfield !== undefined) {
-              if (field.inputfield?.length === 0) {
-                acc.push(`Input title at index ${index} is empty`);
+              if (field.inputfield?.length === 0 || containsWhitespace(field.inputfield)) {
+                acc.push(`Input title is empty or contains whitespaces`);
               }
               if (field?.value?.length === 0) {
-                acc.push(`Input field at index ${index} is empty`);
+                acc.push(`Input field is empty`);
               }
             }
             if (field?.links !== undefined) {
-              if (field.links?.length === 0) {
-                acc.push(`Link title at index ${index} is empty`);
+              if (field.links?.length === 0 || containsWhitespace(field.links)) {
+                acc.push(`Link title is empty or contains whitespaces`);
               }
               if (!urlRegex.test(field.value)) {
-                acc.push(`Link at index ${index} is not a valid URL`);
+                acc.push(`Link is not a valid URL`);
               }
             }
             return acc;
@@ -129,7 +130,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
       form.setFieldValue('addList.0.description', '');
       setRenderedFields((prev) => [...prev, renderFields(field, newKey, form)]);
     } else {
-      form.insertListItem('addList.0.fields', { [field]: '', value: '', key: newKey });
+      form.insertListItem('addList.0.fields', { [field]: '', value: '', key: newKey, type: field });
       const fieldIndex = form.values.addList[0].fields.length;
       setRenderedFields((prev) => [...prev, renderFields(field, newKey, form, fieldIndex)]);
     }
@@ -150,20 +151,62 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
   });
 
   const createNewCustomSectionMutation = useMutation(async () => {
-    const response = await axios.post(`https://hng6-r5y3.onrender.com/api/v1/custom/field`, {
-      customUserSectionId: sectionForm?.values?.section[0]?.id,
-      fields: [sectionForm?.values?.section[0]?.fields],
-    });
-    return response.data;
+    const fields = [];
+
+    if (sectionForm?.values?.section[0].subtitle) {
+      fields.push({
+        fieldType: 'subtitle',
+        fieldName: sectionForm?.values?.section[0].subtitle.title,
+        value: sectionForm?.values?.section[0].subtitle.value,
+      });
+    }
+    if (sectionForm?.values?.section[0].dates?.from && sectionForm?.values?.section[0].dates?.to) {
+      fields.push({
+        fieldType: 'date',
+        fieldName: 'date',
+        value: `${values.addList[0].dates.from} - ${values.addList[0].dates.to}`,
+      });
+    }
+
+    if (sectionForm?.values?.section[0].description) {
+      fields.push({
+        fieldType: 'description',
+        fieldName: 'Description',
+        value: sectionForm?.values?.section[0].description,
+      });
+    }
+    console.log(sectionForm?.values?.section[0].fields);
+    fields.push(
+      ...sectionForm?.values?.section[0].fields
+        .filter((field) => field.type && field.inputfield && field.value)
+        .map((field) => {
+          return {
+            fieldType: field.type,
+            fieldName: field.inputfield,
+            value: field.value,
+          };
+        }),
+    );
+
+    if (fields.length) {
+      const response = await axios.post(`https://hng6-r5y3.onrender.com/api/v1/custom/field`, {
+        customUserSectionId: sectionForm?.values?.section[0]?.id,
+        fields: fields,
+      });
+      return response.data;
+    } else {
+      return notify({
+        message: 'No fields added',
+        autoClose: 1000,
+        type: 'error',
+      });
+    }
   });
 
   const handleCreateNewCustomSection = () => {
     createNewCustomSectionMutation.mutate(undefined, {
       onSuccess: (res) => {
-        sectionForm.setFieldValue('section', values?.addList);
-        sectionForm.setFieldValue('section.0.id', res?.data?.id);
-        setGetNewSection(true);
-        setNewSection(false);
+        console.log('onSuccess', res);
       },
       onError: (error) => {
         console.error('Mutation failed:', error);
@@ -189,7 +232,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     });
   };
 
-  // console.log(sectionForm.values)
+  // console.log(sectionForm.values);
 
   return (
     <CreateCustomSection
@@ -207,6 +250,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
       onClose={onClose}
       isLoading={createNewCustomSectionOption.isLoading}
       isCreatingSection={createNewCustomSectionMutation.isLoading}
+      createCustomSection={handleCreateNewCustomSection}
     />
   );
 }
@@ -226,6 +270,7 @@ function CreateCustomSection({
   handleClose,
   handleSubmit,
   onClose,
+  createCustomSection,
 }: {
   getNewSection: boolean;
   isLoading: boolean;
@@ -241,6 +286,7 @@ function CreateCustomSection({
   handleClose: () => void;
   handleSubmit: (values: any) => void;
   onClose: () => void;
+  createCustomSection: () => void;
 }) {
   const errorMessages = Object.values(form.errors)
     .flat()
@@ -257,6 +303,7 @@ function CreateCustomSection({
           setNewSection={setNewSection}
           setGetNewSection={setGetNewSection}
           isLoading={isCreatingSection}
+          createCustomSection={createCustomSection}
         />
       )}
       <Transition show={newSection} as={React.Fragment} unmount={false}>
@@ -303,7 +350,7 @@ function CreateCustomSection({
               Customize and arrange your fields by clicking on the options above
             </div>
           )}
-          {form.values.addList[0].id !== '' ? <CustomFooter handleClose={handleClose} loading={isLoading} /> : null}
+          {form.values.addList[0].id !== '' ? <CustomFooter handleClose={handleClose} isLoading={isLoading} /> : null}
         </form>
       </Transition>
     </>
