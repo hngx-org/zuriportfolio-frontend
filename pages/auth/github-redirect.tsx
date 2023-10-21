@@ -46,6 +46,7 @@ function GithubRedirect() {
       notify({
         message: 'Error logging in. Please try again.',
         type: 'error',
+        theme: 'light',
       });
 
       // if an error occurs, take the user to where they came from or to home page if undefined

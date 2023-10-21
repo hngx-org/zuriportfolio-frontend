@@ -29,6 +29,7 @@ function Code2FALogic() {
         notify({
           message: 'Login Successful',
           type: 'success',
+          theme: 'light',
         });
 
         router.push(userCameFrom || '/explore');
@@ -37,6 +38,7 @@ function Code2FALogic() {
         notify({
           message: 'Invalid Code',
           type: 'error',
+          theme: 'light',
         });
       }
     },
@@ -59,6 +61,7 @@ function Code2FALogic() {
         notify({
           message: 'Two Factor Authentication Code Re-sent',
           type: 'success',
+          theme: 'light',
         });
       }
     },
