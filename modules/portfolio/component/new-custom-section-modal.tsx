@@ -32,7 +32,7 @@ const sectionButtonsData = [
   },
 ];
 
-function CreateCustomSectionContainer({ onClose }: { onClose: () => void }) {
+function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void; userId: string }) {
   const [getNewSection, setGetNewSection] = React.useState(false);
   const [newSection, setNewSection] = React.useState(true);
   const [renderedFields, setRenderedFields] = React.useState<React.ReactNode[]>([]);

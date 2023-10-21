@@ -8,21 +8,8 @@ import Button from '@ui/Button';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import Demo from './new-custom-section-modal';
 
-type Section = {
-  type: string; // Type of the section (e.g., 'title', 'sub-title', etc.)
-  data: Record<string, any>; // Section-specific data stored as a key-value pair
-  id: number;
-};
-
-type CustomSectionModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-};
-
-//{ isOpen, onClose }: CustomSectionModalProps
-
 const CustomSectionModal = () => {
-  const { openCustom, setOpenCustom } = useContext(Portfolio);
+  const { openCustom, setOpenCustom, userId } = useContext(Portfolio);
 
   let isOpen = openCustom,
     onClose = () => setOpenCustom(false);
@@ -30,7 +17,7 @@ const CustomSectionModal = () => {
   return (
     <Modal isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="xl">
       <div className="max-w-4xl mx-auto my-10">
-        <Demo onClose={onClose} />
+        <Demo onClose={onClose} userId={userId} />
       </div>
     </Modal>
   );
