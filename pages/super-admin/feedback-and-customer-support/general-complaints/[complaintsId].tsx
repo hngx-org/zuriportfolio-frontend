@@ -116,6 +116,18 @@ function ComplaintsDetails() {
     }
   };
 
+  // const [reload, setReload] = useState(false);
+
+  // const reloadPage = () => {
+  //   setReload(true);
+
+  //   setTimeout(() => {
+  //     window.location.reload();
+
+  //     setReload(false);
+  //   }, 6000);
+  // };
+
   const [showform, setshowForm] = useState(false);
   const [text, setText] = useState('');
   const [profile, setProfile] = useState(false);

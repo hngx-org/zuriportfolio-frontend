@@ -67,22 +67,6 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   const [complainStatus, setComplainStatus] = useState('pending');
   const [fetchComplains, setfetchComplains] = useState([]);
 
-  const [filteredComplaints, setFilteredComplaints] = useState<Complain[]>([]); // Initialize as an empty array
-
-  // Function to filter complaints based on search input
-  const filterComplaints = (searchQuery: string) => {
-    if (fetchComplains && Array.isArray(fetchComplains)) {
-      const filtered = fetchComplains.filter((item: Complain) => {
-        const itemsName = item.data?.user_details.first_name || '';
-        return searchQuery.toLowerCase() === '' || itemsName.toLowerCase().includes(searchQuery.toLowerCase());
-      });
-      setFilteredComplaints(filtered);
-    }
-  };
-
-  // Use the filtered complaints for rendering
-  const complaintsToRender = filteredComplaints.length > 0 ? filteredComplaints : fetchComplains;
-
   const newStatus = 'In Progress';
 
   async function updateComplaintStatus(complaintId: number, newStatus: string) {
@@ -109,10 +93,10 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
       const complaint = await response.json();
 
       // Update the status of the complaint
-      if (complaint.status === 'Pending' || complaint.status === 'pending') {
+      if (complaint.status === 'Pending') {
         complaint.status = newStatus;
       } else {
-        return;
+        complaint.status = complaint.status;
       }
 
       // Send a PATCH request to update the complaint on the server
@@ -133,7 +117,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
   }
 
   const [search, setSearch] = React.useState<string>('');
-  const [filter, setFilter] = React.useState<string>('');
+  const [filter, setFilter] = React.useState<string>('All');
   const [tag, setTag] = React.useState<string>('pending');
 
   const router = useRouter();
@@ -223,9 +207,6 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    filterComplaints(search);
-  }, [search, fetchComplains]);
   // State to store the API data
   const [pending, setpending] = useState<PendingType | null>(null);
 
@@ -446,7 +427,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                   <Input
                     type="search"
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search"
+                    placeholder="Search by Complaint Description"
                     className="  border-none focus:outline-none ml-1 h-6 w-96 max-md:w-56"
                   />
                 </div>
@@ -462,14 +443,15 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                   </svg>
                   <select
                     name=""
+                    value={filter}
                     onChange={(e) => setFilter(e.target.value)}
                     id=""
                     className="border-none outline-none pl-2 text-slate-600 font-manropeL text-xs font-normal"
                   >
-                    <option value="Filter">All</option>
+                    <option value="All">All</option>
                     <option value="Resolved">Resolved</option>
                     <option value="Pending">Pending</option>
-                    <option value="In-progress">In-progress</option>
+                    <option value="In progress">In-progress</option>
                   </select>
                 </div>
               </div>
@@ -507,10 +489,14 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                   </p>
                 </div>
               </div>
-              {complaintsToRender
-                .filter((item) => {
-                  const firstName = item?.data?.user_details.first_name.toLowerCase();
-                  return search.toLowerCase() === '' ? item : firstName?.includes(search);
+              {fetchComplains
+                .filter((item: any) => {
+                  const complaintStatus = item.status.toLowerCase();
+                  const searchLowerCase = search.toLowerCase();
+                  return (
+                    (searchLowerCase === '' || item.complaint_text?.includes(searchLowerCase)) &&
+                    (filter === 'All' || complaintStatus === filter.toLowerCase())
+                  );
                 })
                 .map((complain: any) => {
                   const handleClick = () => {
@@ -524,93 +510,94 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
 
                   return (
                     <>
-                      <div
-                        onClick={product}
-                        key={complain.id}
-                        className="vendorComplaints py-3 pr-16 pl-10 flex flex-row items-center justify-between border-solid border-b cursor-pointer border-zinc-200"
-                      >
-                        <div className="name w-80 flex flex-row gap-3 items-center min-w-[250px]" key={complain.id}>
-                          {/* <input className="w-6 h-5 cursor-pointer min-w-[30px]" type="checkbox" name="" id="" /> */}
-                          <div className="displayPicture">
-                            <Image
-                              alt=""
-                              src={
-                                complain?.data?.user_details?.profile_pic ||
-                                'https://i.pinimg.com/736x/17/57/1c/17571cdf635b8156272109eaa9cb5900.jpg'
-                              } // Provide a fallback image source
-                              className="h-10 w-10 rounded-full object-contain"
-                              width={40}
-                              height={40}
-                            />
+                      <div key={complain.id}>
+                        <div
+                          onClick={product}
+                          className="vendorComplaints py-3 pr-16 pl-10 flex flex-row items-center justify-between border-solid border-b cursor-pointer border-zinc-200"
+                        >
+                          <div className="name w-80 flex flex-row gap-3 items-center min-w-[250px]" key={complain.id}>
+                            {/* <input className="w-6 h-5 cursor-pointer min-w-[30px]" type="checkbox" name="" id="" /> */}
+                            <div className="displayPicture">
+                              <Image
+                                alt=""
+                                src={
+                                  complain?.data?.user_details?.profile_pic ||
+                                  'https://i.pinimg.com/736x/17/57/1c/17571cdf635b8156272109eaa9cb5900.jpg'
+                                } // Provide a fallback image source
+                                className="h-10 w-10 rounded-full object-contain"
+                                width={40}
+                                height={40}
+                              />
 
-                            {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
-                          </div>
-                          <div key={complain.id} id={complain.id} className="identity pl-2">
-                            <div>
-                              {complain.user_details ? (
-                                <h2 className="font-manropeL font-semibold text-base">
-                                  {complain.user_details.first_name} {complain.user_details.last_name}
-                                </h2>
-                              ) : (
-                                <h2 className="font-manropeL font-semibold text-base">User Details Unavailable</h2>
-                              )}
-                              {complain.user_details ? (
-                                <p className="font-manropeL text-xs font-normal text-slate-500">
-                                  {complain.user_details.email}
-                                </p>
-                              ) : (
-                                <p className="font-manropeL text-xs font-normal text-slate-500">Email Unavailable</p>
-                              )}
+                              {/* <img src="" className="h-10 w-10 rounded-full object-contain" alt="" /> */}
+                            </div>
+                            <div key={complain.id} id={complain.id} className="identity pl-2">
+                              <div>
+                                {complain.user_details ? (
+                                  <h2 className="font-manropeL font-semibold text-base">
+                                    {complain.user_details.first_name} {complain.user_details.last_name}
+                                  </h2>
+                                ) : (
+                                  <h2 className="font-manropeL font-semibold text-base">User Details Unavailable</h2>
+                                )}
+                                {complain.user_details ? (
+                                  <p className="font-manropeL text-xs font-normal text-slate-500">
+                                    {complain.user_details.email}
+                                  </p>
+                                ) : (
+                                  <p className="font-manropeL text-xs font-normal text-slate-500">Email Unavailable</p>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
-                          {complain.user_details ? (
-                            <p className="font-manropeL text-base truncate font-normal text-slate-500">
-                              {complain.complaint_text}
-                            </p>
-                          ) : (
-                            <p className="font-manropeL text-md truncate font-normal text-slate-500">
-                              Description Unavailable
-                            </p>
-                          )}
-                        </div>
-                        <div className="date w-40 min-w-[120px] flex items-center justify-center">
-                          {complain.user_details && complain.createdAt ? (
-                            <p className="font-manropeL font-medium text-base truncate text-slate-500">
-                              {new Date(complain.createdAt).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                // hour: '2-digit',
-                                // minute: '2-digit',
-                              })}
-                            </p>
-                          ) : (
-                            <p className="font-manropeL font-medium text-base text-slate-500">Date Unavailable</p>
-                          )}
-                        </div>
-                        <div className="flex items-start">
-                          {complain.status === 'Pending' ? (
-                            <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
-                              <div className="w-2 h-2 bg-yellow-300 rounded-md"></div>
-                              <p className="text-xs text-yellow-300">Pending</p>
-                            </div>
-                          ) : complain.status === 'In Progress' ||
-                            complain.status === 'in Progress' ||
-                            complain.status === 'in progress' ? (
-                            <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
-                              <div className="w-2 h-2 bg-blue-300 rounded-md"></div>
-                              <p className="text-xs text-blue-300">In Progress</p>
-                            </div>
-                          ) : complain.status === 'Resolved' ? (
-                            <div className="bg-green-50 px-3 py-2 flex items-center gap-2 rounded-full">
-                              <div className="w-2 h-2 bg-green-300 rounded-md"></div>
-                              <p className="text-xs text-green-300">Resolved</p>
-                            </div>
-                          ) : (
-                            <div>No Status</div> // You can add a default case if none of the above conditions match
-                          )}
+                          <div className="description w-40  min-w-[120px] max-lg:min-w-[160px] flex items-center justify-center">
+                            {complain.user_details ? (
+                              <p className="font-manropeL text-base truncate font-normal text-slate-500">
+                                {complain.complaint_text}
+                              </p>
+                            ) : (
+                              <p className="font-manropeL text-md truncate font-normal text-slate-500">
+                                Description Unavailable
+                              </p>
+                            )}
+                          </div>
+                          <div className="date w-40 min-w-[120px] flex items-center justify-center">
+                            {complain.user_details && complain.createdAt ? (
+                              <p className="font-manropeL font-medium text-base truncate text-slate-500">
+                                {new Date(complain.createdAt).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric',
+                                  // hour: '2-digit',
+                                  // minute: '2-digit',
+                                })}
+                              </p>
+                            ) : (
+                              <p className="font-manropeL font-medium text-base text-slate-500">Date Unavailable</p>
+                            )}
+                          </div>
+                          <div className="flex items-start">
+                            {complain.status === 'Pending' ? (
+                              <div className="bg-yellow-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                                <div className="w-2 h-2 bg-yellow-300 rounded-md"></div>
+                                <p className="text-xs text-yellow-300">Pending</p>
+                              </div>
+                            ) : complain.status === 'In Progress' ||
+                              complain.status === 'in Progress' ||
+                              complain.status === 'in progress' ? (
+                              <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                                <div className="w-2 h-2 bg-blue-300 rounded-md"></div>
+                                <p className="text-xs text-blue-300">In Progress</p>
+                              </div>
+                            ) : complain.status === 'Resolved' ? (
+                              <div className="bg-green-50 px-3 py-2 flex items-center gap-2 rounded-full">
+                                <div className="w-2 h-2 bg-green-300 rounded-md"></div>
+                                <p className="text-xs text-green-300">Resolved</p>
+                              </div>
+                            ) : (
+                              <div>No Status</div> // You can add a default case if none of the above conditions match
+                            )}
+                          </div>
                         </div>
                       </div>
                     </>
