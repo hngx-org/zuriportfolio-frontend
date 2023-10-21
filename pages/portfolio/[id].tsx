@@ -12,7 +12,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const View = () => {
   const router = useRouter();
-  const id = Array.isArray(router?.query?.id) ? router?.query?.id[0] : router?.query?.id;
+  const urlSlug = Array.isArray(router?.query?.id) ? router?.query?.id[0] : router?.query?.id;
 
   // Auth to get userid
   const { auth } = useAuth();
@@ -20,17 +20,20 @@ const View = () => {
   useEffect(() => {
     // wait for router to be ready
     if (!router.isReady) return;
-
+    if (!auth?.user?.slug) {
+      return;
+    }
     // if user is logged in and user id is same as id in url, redirect to dashboard
-    if (auth?.user?.id === id) {
+    if (auth?.user?.slug === urlSlug) {
       router.push(`/portfolio`);
     } else {
       // if user is not logged in and id is not in url, fetch info with the id from url
-      if (id) {
-        getUser(id);
+      if (urlSlug) {
+        getUser();
       }
     }
-  }, [auth?.user?.id, id, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth?.user?.slug, urlSlug, router]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({
@@ -45,11 +48,13 @@ const View = () => {
   const [userSections, setUserSections] = useState<any>([]);
   const [error, setError] = useState({ state: false, error: '' });
 
-  const getUser = async (userId: string) => {
+  const getUser = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/PortfolioDetails/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${urlSlug}`);
       const data = await response.json();
+      console.log('Data', data);
+
       if (!response.ok) throw new Error(data.error);
       setUserData({
         firstName: data?.user?.firstName,
