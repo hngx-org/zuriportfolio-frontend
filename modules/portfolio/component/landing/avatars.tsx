@@ -1,11 +1,11 @@
 type PortfolioContext = {
   profileUpdate?: () => void;
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
 };
 
 const Profile = ({ profileUpdate, isLoggedIn }: PortfolioContext) => {
   return (
-    <div className="grid place-content-center absolute w-[120px] md:w-[170px] object-fill object-center aspect-square -bottom-5 md:-bottom-10 left-0 rounded-full bg-emerald-50">
+    <div className="absolute bottom-24 sm:bottom-20 md:bottom-24 left-3 md:left-5 w-[140px] sm:w-[180px] md:w-[200px] aspect-square rounded-full bg-green-100">
       <svg width="57" height="56" viewBox="0 0 57 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M28.4189 25.3637C28.1855 25.3403 27.9055 25.3403 27.6489 25.3637C22.0955 25.177 17.6855 20.627 17.6855 15.027C17.6855 9.31033 22.3055 4.66699 28.0455 4.66699C33.7622 4.66699 38.4055 9.31033 38.4055 15.027C38.3822 20.627 33.9722 25.177 28.4189 25.3637Z"

@@ -187,7 +187,7 @@ const History: React.FC = () => {
                   <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">
                     Assessment Taken
                   </th>
-                  <th scope="col" className="border w-fit border-gray-300 py-2 px-4 text-left ">
+                  <th scope="col" className="border w-fit hidden sm:table-cell border-gray-300 py-2 px-4 text-left ">
                     Badge Level
                   </th>
 
@@ -221,12 +221,12 @@ const History: React.FC = () => {
                             width={20}
                             height={20}
                             alt="icon"
-                            className="ml-2 sm:hidden"
+                            className="ml-auto sm:hidden"
                           />
                         </td>
                         <td
                           onClick={() => toggleExpand(assessment.id)}
-                          className="whitespace-nowrap border-r border-b-0 cursor-pointer border-gray-300 py-2 px-4"
+                          className="whitespace-nowrap border-r border-b-0 cursor-pointer border-gray-300 py-2 px-4 hidden sm:table-cell"
                         >
                           {assessment.badge_name === 'Beginner' && (
                             <span className="flex items-center">
@@ -267,13 +267,31 @@ const History: React.FC = () => {
                       {expandedAssessment === assessment.id && (
                         <tr className="sm:hidden w-full col-span-2 p-4" aria-colspan={2}>
                           <td className=" p-4  gap-4 " colSpan={2}>
+                            {assessment.badge_name === 'Beginner' && (
+                              <span className="flex items-center p-2">
+                                <FaUser className="mr-1 text-blue-500" />
+                                Beginner
+                              </span>
+                            )}
+                            {assessment.badge_name === 'Intermediate' && (
+                              <span className="flex items-center p-2">
+                                <FaUserTie className="mr-1 text-green-200" />
+                                Intermediate
+                              </span>
+                            )}
+                            {assessment.badge_name === 'Expert' && (
+                              <span className="flex items-center p-2">
+                                <FaStar className="mr-1 text-[#f8eb3b]" />
+                                Expert
+                              </span>
+                            )}
                             <div className="p-2">Date: {formatDate(assessment?.submission_date)}</div>
                             <div className="p-2">Score: {assessment.score}/100</div>
 
                             <Link
                               href={`/assessments/dashboard/badge/[id]`}
                               as={`/assessments/dashboard/badge/${assessment.badge_id}`}
-                              className="hover:underline hover:text-green-200"
+                              className="hover:underline hover:text-green-200 p-2"
                             >
                               View
                             </Link>
