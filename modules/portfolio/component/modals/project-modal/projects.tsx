@@ -247,14 +247,16 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         <p className="text-[1.2rem] sm:text-[1.5rem] font-extrabold text-[#2E3130] font-manropeL">Projects</p>
         <CloseSquare size="32" color="#009254" variant="Bold" onClick={close} className="cursor-pointer" />
       </div>
-      <hr className="border-2 rounded-lg border-brand-green-primary mt-2.5 md:mb-1 mb-10 " />
+      <hr className="border-2 rounded-lg border-brand-green-primary mt-2.5 md:mb-1 mb-2 " />
       <div className="w-full flex-col bg-white-100 p-4 py-5 font-manropeL mt-12">
         <div className="flex flex-col gap-5 w-full">
           <form className="flex flex-col gap-5 w-full max-sm:w-full">
             {/* title */}
             <div className="flex justify-center items-center flex-col md:flex-row gap-5">
               <div className="w-full">
-                <p className="font-bold text-gray-200 pb-2 text-base">Project Title*</p>
+                <p className="font-bold text-gray-200 pb-2 text-base">
+                  Project Title <span className="text-red-300">*</span>
+                </p>
                 <Input
                   placeHolder="My best yet"
                   onChange={(e) => {
@@ -272,7 +274,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 />
               </div>
               <div className="w-full md:w-[50%]">
-                <p className="font-medium text-gray-200 pb-2 text-base">Year*</p>
+                <p className="font-medium text-gray-200 pb-2 text-base">
+                  Year <span className="text-red-300">*</span>
+                </p>
                 <select
                   onChange={(e) => handleSetYear(e)}
                   placeholder="Year"
@@ -292,7 +296,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
             {/* Link */}
             <div className="flex justify-center items-center flex-col md:flex-row md:gap-5">
               <div className="flex-[7] w-full md:w-[50%]">
-                <p className="font-medium text-gray-200 pb-2 text-base">Link to project</p>
+                <p className="font-medium text-gray-200 pb-2 text-base">
+                  Link to project <span className="text-red-300">*</span>
+                </p>
                 <div className="flex">
                   {/* <p
                     className={`min-w-fit grid place-content-center px-2 border-2 rounded-lg border-[#E1E3E2]
@@ -391,7 +397,9 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
             {/* description */}
             <div className="flex flex-col w-full">
               <div className="w-full">
-                <p className="font-medium text-gray-200 pb-2 text-base">Description *</p>
+                <p className="font-medium text-gray-200 pb-2 text-base">
+                  Description <span className="text-red-300">*</span>
+                </p>
                 <Input
                   placeHolder="Add some details about your project"
                   onChange={(e) => {
