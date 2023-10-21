@@ -107,66 +107,9 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                 console.log(education);
 
                 return (
-                  // <article
-                  //   className={`border-b-2 pt-4 pb-5 border-brand-disabled flex flex-col gap-5 px-2 py-3 sm:px-0`}
-                  //   key={index}
-                  // >
-                  //   <div className="flex justify-around">
-                  //     <div className="flex gap-4">
-                  //       <div className="gap-4">
-                  // <p className="text-[#8D9290] font-semibold font-manropeB">
-                  //   {education?.from} - {endYear}
-                  // </p>
-                  //       </div>
-                  //       <div className="flex flex-col gap-1 ml-4">
-                  //         <p className="text-[#2E3130] mb-1 text-[1.375rem] font-semibold">{education.fieldOfStudy}</p>
-                  //         <p className="font-normal text-brand-green-primary text-sm">{education.school}</p>
-                  //       </div>
-                  //     </div>
-                  //     <p
-                  //       style={{
-                  //         whiteSpace: 'normal',
-                  //         overflowWrap: 'break-word',
-                  //       }}
-                  //       className="font-semibold text-right font-manropeEB text-[12px] max-w-full sm:pl-[2rem] text-ellipsis text-[#737876]"
-                  //     >
-                  //       {education.description}
-                  //     </p>
-                  //   </div>
-                  //   <div className="self-end flex gap-4 font-manropeL">
-                  //     <span
-                  //       className="font-semibold cursor-pointer text-[#5B8DEF]"
-                  //       onClick={(e) => {
-                  //         setIsEditMode(true);
-                  //         setEditingEducation(education);
-                  //         prefillForm(education);
-                  //         setIsData(false);
-                  //       }}
-                  //     >
-                  //       <Edit2 size="32" color="#37d67a" variant="Outline" />
-                  //     </span>
-                  //     <span
-                  //       className="font-semibold cursor-pointer text-brand-red-hover"
-                  //       onClick={(e) => handleDeleteEducation(education.id, e)}
-                  //     >
-                  //       <Trash size="32" color="#f47373" variant="Outline" />
-                  //     </span>
-                  //   </div>
-                  // </article>
-
                   <>
                     <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
-                      {/* <WorkExperienceSkeleton data={experience} /> */}
                       <section className="flex w-full gap-x-10 mb-4 max-sm:flex-col max-sm:gap-y-3">
-                        {/* <p className="text-gray-300 font-semibold text-sm flex-[3]">
-                        <span>
-                          {education?.startMonth} {education?.startYear}
-                        </span>{' '}
-                        -{' '}
-                        <span>
-                          {education?.endMonth} {endYear}
-                        </span>
-                      </p> */}
                         <p className="text-[#8D9290] font-semibold font-manropeB">
                           {education?.from} - {endYear}
                         </p>
@@ -324,7 +267,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                         value={from}
                       >
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="2020" />
+                          <SelectValue placeholder="Year" />
                         </SelectTrigger>
                         <>
                           <SelectContent>
@@ -348,7 +291,7 @@ const EducationSection: React.FC<EducationModalProps> = ({ isOpen, onCloseModal,
                         value={to}
                       >
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Present" />
+                          <SelectValue placeholder="Year" />
                         </SelectTrigger>
                         <>
                           <SelectContent>
