@@ -79,6 +79,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const [refId, setRefId] = useState(Number);
   const [country, setCountry] = useState('+234');
   const [selHide, setselHide] = useState(true);
+  const [del, setDel] = useState(true);
 
   function validatePhoneNumber(phoneNumber: string): boolean {
     return /^[0-9]{8,10}$/.test(phoneNumber);
@@ -194,7 +195,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       const response = async () => {
         const axiosConfig = {
           method: 'get',
-          url: `${API_BASE_URL}/api/references/${userId}`,
+          url: `${API_BASE_URL}/api/v1/references/${userId}`,
         };
 
         const response = await axios(axiosConfig);
@@ -224,7 +225,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
     try {
       const axiosConfig = {
         method: 'post',
-        url: `${API_BASE_URL}/api/references/${userId}`,
+        url: `${API_BASE_URL}/api/v1/references/${userId}`,
         data: correctData,
       };
 
@@ -269,42 +270,78 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   const callGet = () => {
     setIsData(false);
     const response = async () => {
-      const axiosConfig = {
-        method: 'get',
-        url: `${API_BASE_URL}/api/references/${userId}`,
-      };
+      try {
+        const axiosConfig = {
+          method: 'get',
+          url: `${API_BASE_URL}/api/v1/references/${userId}`,
+        };
 
-      const response = await axios(axiosConfig);
+        const response = await axios(axiosConfig);
 
-      if (response.status !== 200) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.status !== 200) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // console.log(response.data.data);
+        const fetchedArrData = response.data.data;
+
+        setArrData((prevArray: fetchedArrData[]) => [...fetchedArrData]);
+        // onSaveModal();
+        setIsData(true);
+      } catch (error) {
+        console.error('An error occurred:', error);
+        toast.error(`An error occured`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
       }
-      // console.log(response.data.data);
-      const fetchedArrData = response.data.data;
-
-      setArrData((prevArray: fetchedArrData[]) => [...fetchedArrData]);
-      // onSaveModal();
-      setIsData(true);
     };
     response();
   };
   // console.log(arrData)
   const handleDelete = (id: number) => {
-    setIsData(false);
     const response = async () => {
-      const axiosConfig = {
-        method: 'delete',
-        url: `${API_BASE_URL}/api/references/${id}`,
-      };
+      try {
+        const axiosConfig = {
+          method: 'delete',
+          url: `${API_BASE_URL}/api/v1/references/${id}`,
+        };
 
-      const response = await axios(axiosConfig);
+        const response = await axios(axiosConfig);
 
-      if (response.status !== 200) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.status !== 200) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        console.log(response.data);
+        toast.success(`reference deleted`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+        callGet();
+      } catch (error) {
+        console.error('An error occurred:', error);
+        toast.error(`An error occured`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
       }
-      console.log(response.data);
-      setIsData(true);
-      callGet();
     };
     response();
   };
@@ -323,7 +360,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
       try {
         const axiosConfig = {
           method: 'put',
-          url: `${API_BASE_URL}/api/references/${id}`,
+          url: `${API_BASE_URL}/api/v1/references/${id}`,
           data: editObjData,
         };
 
@@ -406,7 +443,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} size="lg" isCloseIconPresent={false}>
       <div
-        className="mx-auto bg-white-100 rounded-md p-3 py-5"
+        className="mx-auto bg-white-100 rounded-md px-1 md:px-3 py-5"
         onClick={() => {
           !selHide ? setselHide(true) : '';
         }}
@@ -554,10 +591,18 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                 className="w-24 rounded-2xl"
                 type="button"
                 onClick={onCloseModal}
+                disabled={loading}
               >
                 Close
               </Button>
-              <Button intent={'primary'} size={'sm'} className="w-24 rounded-2xl" type="button" onClick={handleSubmit}>
+              <Button
+                intent={'primary'}
+                size={'sm'}
+                className="w-24 rounded-2xl"
+                type="button"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
                 {loading ? (
                   <div className="block w-5 h-5">
                     <svg
@@ -671,6 +716,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   className="md:w-24 rounded-2xl"
                   type="button"
                   onClick={onCloseModal}
+                  disabled={!isData}
                 >
                   Close
                 </Button>
@@ -680,6 +726,7 @@ const PortfolioReference: React.FC<referenceModalProps> = ({ isOpen, onCloseModa
                   className="md:w-24 rounded-2xl"
                   type="button"
                   onClick={onSaveModal}
+                  disabled={!isData}
                 >
                   {loading ? (
                     <div className="block w-5 h-5">

@@ -260,12 +260,14 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
                   onCloseModal();
                   cancelBtnFn();
                 }}
+                disabled={isLoading}
               >
                 Cancel
               </Button>
               <Button
                 className="border-2 p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
                 onClick={handleAddSkills}
+                disabled={isLoading}
               >
                 Save
               </Button>

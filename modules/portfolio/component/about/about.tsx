@@ -22,6 +22,8 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
   const [errorBorder, setErrorBorder] = useState('[#E1E3E2]');
+  const [bioId, setBioId] = useState(Number);
+  const [create, setCreate] = useState(false);
 
   // POST ABOUT VALUE TO DATABASE
   const API_BASE_URL = 'https://hng6-r5y3.onrender.com';
@@ -29,8 +31,8 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     setLoading(true);
     try {
       const axiosConfig = {
-        method: 'put',
-        url: `${API_BASE_URL}/api/about/${userId}`,
+        method: 'post',
+        url: `${API_BASE_URL}/api/v1/about/${userId}`,
         data: bio,
       };
 
@@ -50,11 +52,12 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         theme: 'light',
       });
       const data = await response.data;
-      console.log(data);
+      console.log(data.about.id);
+      setBioId(data.about.id);
       onSaveModal();
     } catch (error) {
       console.error('An error occurred:', error);
-      toast.warning(`Waiting for endpoint`, {
+      toast.error(`${error}`, {
         position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
@@ -65,6 +68,47 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         theme: 'light',
       });
       setLoading(false);
+    }
+  };
+  const editResponse = async (id: number) => {
+    setLoading(false);
+    try {
+      const axiosConfig = {
+        method: 'put',
+        url: `${API_BASE_URL}/api/v1/about/${id}`,
+        data: bio,
+      };
+
+      const response = await axios(axiosConfig);
+      if (response.status !== 200 && response.status !== 201) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      toast.success(`Successful`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      const data = await response.data;
+      console.log(data.about.id);
+      setBioId(data.about.id);
+      onSaveModal();
+    } catch (error) {
+      console.error('An error occurred:', error);
+      toast.error(`${error}`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
     }
   };
 
@@ -80,7 +124,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     try {
       const axiosConfig = {
         method: 'get',
-        url: `${API_BASE_URL}/api/about/${userId}`,
+        url: `${API_BASE_URL}/api/v1/about/${userId}`,
       };
 
       const response = await axios(axiosConfig);
@@ -90,8 +134,10 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
       const data = await response.data;
 
       console.log(data.about);
+      setBioId(data.about.id);
       setBio({ ...bio, bio: data.about.bio });
       setgetLoading(false);
+      setCreate(false);
       toast.success(`${data.message}`, {
         position: 'top-right',
         autoClose: 5000,
@@ -105,6 +151,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
     } catch (error) {
       console.error('An error occurred:', error);
       setgetLoading(false);
+      setCreate(true);
     }
   };
   useEffect(() => {
@@ -116,19 +163,17 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
       setIsEditing(false);
     }
   };
-  const handleDeleteClick = () => {
-    if (!loading) {
+  const handleDeleteClick = (id: number) => {
+    if (!loading && !create) {
       setBio({ ...bio, bio: '' });
       setIsEditing(false);
 
       const delResponse = async () => {
         console.log(bio);
-        setgetLoading(true);
         try {
           const axiosConfig = {
-            method: 'put',
-            url: `${API_BASE_URL}/api/about/${userId}`,
-            data: bio,
+            method: 'delete',
+            url: `${API_BASE_URL}/api/v1/about/${id}`,
           };
 
           const response = await axios(axiosConfig);
@@ -137,9 +182,7 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
           }
           const data = await response.data;
 
-          console.log(data.about);
-          setBio({ ...bio, bio: data.about.bio });
-          setgetLoading(false);
+          console.log(data);
           toast.success(`About deleted`, {
             position: 'top-right',
             autoClose: 5000,
@@ -150,13 +193,15 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
             progress: undefined,
             theme: 'light',
           });
+          setCreate(true);
         } catch (error) {
           console.error('An error occurred:', error);
-          setgetLoading(false);
         }
       };
 
       delResponse();
+    } else {
+      setBio({ ...bio, bio: '' });
     }
   };
 
@@ -176,7 +221,11 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
         } else {
           if (!loading) {
             console.log('successfully loaded!');
-            createResponse();
+            if (create) {
+              createResponse();
+            } else {
+              editResponse(bioId);
+            }
           }
         }
       }
@@ -247,7 +296,12 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
                     <p onClick={handleEditClick} className="text-blue-300 cursor-pointer">
                       Edit
                     </p>
-                    <p onClick={handleDeleteClick} className={`text-brand-red-primary cursor-pointer`}>
+                    <p
+                      onClick={() => {
+                        handleDeleteClick(bioId);
+                      }}
+                      className={`text-brand-red-primary cursor-pointer`}
+                    >
                       Delete
                     </p>
                   </div>
@@ -268,9 +322,10 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
                   <Button
                     intent={'primary'}
                     size={'sm'}
-                    className="w-full md:w-24 rounded-lg border-[2px] border-brand-green-primary hover:border-brand-green-hover"
+                    className="w-full md:w-24 rounded-lg border-[2px] border-brand-green-primary focus:border-none  focus:border-white-400 hover:border-brand-green-hover"
                     type="button"
                     onClick={submitAbout}
+                    disabled={loading}
                   >
                     {loading ? (
                       <div className="block w-5 h-5">
