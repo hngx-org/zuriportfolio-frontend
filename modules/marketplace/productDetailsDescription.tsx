@@ -34,8 +34,8 @@ export default function ProductDetailsDescription({productId}:{productId: string
   const { setCartCountNav, cartCount } = useCart();
 
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${productId}/none/?guest=true`;
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -62,7 +62,7 @@ export default function ProductDetailsDescription({productId}:{productId: string
       try {
         const response = await axios.post(
           apiUrl,
-          { product_ids: [`${id}`] },
+          { product_ids: [`${productId}`] },
           {
             headers: {
               Authorization: `Bearer ${bearerToken}`,

@@ -12,9 +12,9 @@ import { useQuery } from '@tanstack/react-query';
 import Head from 'next/head';
 
 function LandingPage() {
-  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/';
+  const baseUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/';
   const fetchRecommendation = () => fetch(`${baseUrl}recommendations`).then((res) => res.json());
-  const fetchLimitedOffers = () => fetch(`${baseUrl}products/limited_offers/`).then((res) => res.json());
+  const fetchLimitedOffers = () => fetch(`${baseUrl}products/limited-offers/`).then((res) => res.json());
   const { isLoading, data } = useQuery(['recommendations'], fetchRecommendation);
   const { isLoading: isLimitedOfferLoading, data: limitedOffersData } = useQuery(
     ['products/limited_offers'],
