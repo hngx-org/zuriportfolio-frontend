@@ -36,7 +36,7 @@ function GithubRedirect() {
         return;
       }
     },
-    onError: (error:any) => {
+    onError: (error: any) => {
       console.log('Github OAuth error', error);
 
       if (error.response && error.response.message === 'INTERNAL SERVER ERROR') {

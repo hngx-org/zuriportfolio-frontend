@@ -278,7 +278,6 @@ export const Shop = () => {
 };
 
 export const Contact = ({ data }: SkeletonProps) => {
-  console.log(data);
   let urlTitle;
   let color;
 
@@ -301,7 +300,6 @@ export const Contact = ({ data }: SkeletonProps) => {
 
   return (
     <div className="flex flex-col w-full gap-5">
-      {/* {data?.map((contact: { title: string; info: string; url: string }, i: string) => ( */}
       <div>
         <a
           className={`${color} font-semibold text-sm flex-[2] flex items-center text-center gap-3"`}
@@ -313,7 +311,6 @@ export const Contact = ({ data }: SkeletonProps) => {
           <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
       </div>
-      {/* ))} */}
     </div>
   );
 };
