@@ -21,6 +21,10 @@ const tableHeaders: {
     id: 'price',
     title: 'Price/unit',
   },
+  {
+    id: 'price',
+    title: 'Status',
+  },
 ];
 
 const OrderDetailsTable: React.FC<{
