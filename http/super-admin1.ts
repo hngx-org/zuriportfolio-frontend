@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { NextRouter } from 'next/router';
 
 //super-admin(spit-fire)
 const makeRequest = async (apiUrl: string, method = 'get', data = null, config = {}) => {
@@ -183,3 +184,8 @@ export const useDeleteShop = () => {
     isLoading: deleteShop.isLoading,
   };
 };
+
+export const logout = (route: NextRouter) => {
+  localStorage.removeItem('zpt');
+  route.push('/')
+}
