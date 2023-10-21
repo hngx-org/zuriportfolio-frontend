@@ -63,7 +63,7 @@ export default function ProductDetailsDescription({ productId }: { productId: st
       try {
         const response = await axios.post(
           apiUrl,
-          { product_ids: [`${id}`] },
+          { product_ids: [`${productId}`] },
           {
             headers: {
               Authorization: `Bearer ${bearerToken}`,
