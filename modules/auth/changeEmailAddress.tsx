@@ -19,20 +19,17 @@ function ChangeEmailAddress() {
       notify({ message: errorMessage, type: 'error', theme: 'light' });
       return;
     }
-
-    router.push(`/auth/guest-signup-form?email=${form.values.email}`);
   };
 
-  const onSignUpWithEmailError = (error: { message: string }) => {
+  const onSignUpWithEmailError = (error: any) => {
     if (error.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-      notify({ message: timeoutErrorMessage, theme: 'light' });
+      notify({ message: timeoutErrorMessage, type: 'error', theme: 'light' });
       return;
     }
 
-    const serverErrorMessage = 'Oops! Something went wrong. Please try again later.';
-    notify({ message: serverErrorMessage, theme: 'light' });
+    notify({ message: error.message, type: 'error', theme: 'light' });
   };
 
   const { mutate: signUpUser, isLoading: isUserSigningUp } = useAuthMutation(checkEmail, {
