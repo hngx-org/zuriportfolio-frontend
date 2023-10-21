@@ -4,6 +4,7 @@ import { ADMIN_ID, useAuth } from '../../context/AuthContext';
 import { verfiy2FA, resend2FACode } from '../../http/auth';
 import { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
+import { error } from 'console';
 
 type InputRef = React.RefObject<HTMLInputElement>; // Define a type for the input refs
 
@@ -36,13 +37,14 @@ function Code2FALogic() {
 
         router.push(userCameFrom || '/explore');
         return;
-      } else {
-        notify({
-          message: 'Invalid Code',
-          type: 'error',
-          theme: 'light',
-        });
       }
+    },
+    onError: (error: any) => {
+      notify({
+        message: error.message,
+        type: 'error',
+        theme: 'light',
+      });
     },
   });
 
@@ -66,6 +68,13 @@ function Code2FALogic() {
           theme: 'light',
         });
       }
+    },
+    onError: (error: any) => {
+      notify({
+        message: error.message,
+        type: 'error',
+        theme: 'light',
+      });
     },
   });
 
