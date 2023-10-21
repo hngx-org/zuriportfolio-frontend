@@ -78,9 +78,9 @@ const LandingPageFilled: React.FC = () => {
     setShowMoreInterests(showMoreInterests === 2 ? 9999 : 2);
   };
 
-  const toggleShowMoreLanguages = () => {
-    setShowMoreLanguages(showMoreLanguages === 2 ? 9999 : 2);
-  };
+  // const toggleShowMoreLanguages = () => {
+  //   setShowMoreLanguages(showMoreLanguages === 2 ? 9999 : 2);
+  // };
 
   const toggleShowMoreContact = () => {
     setShowMoreContacts(showMoreContacts === 2 ? 9999 : 2);
