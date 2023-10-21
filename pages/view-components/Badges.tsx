@@ -4,9 +4,9 @@ import BadgesHeader from '@modules/assessment/component/Badges/BadgesHeader';
 import MainLayout from '../../components/Layout/MainLayout';
 
 const Page: React.FC = () => {
-  const badgelabel = 'beginner';
+  const badgelabel = 'expert';
 
-  const [scorePercentage, setScorePercentage] = useState<number>(10);
+  const [scorePercentage, setScorePercentage] = useState<number>(90);
   const [isdownloadOpen, setIsdownloadOpen] = useState<boolean>(false);
   const [assessmentId, setAssessmentId] = useState<number>(0);
   const onClose = () => {

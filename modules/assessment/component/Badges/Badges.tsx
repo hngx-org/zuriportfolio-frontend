@@ -40,11 +40,11 @@ const Badges: React.FC<BadgesProps> = ({
         <div className="flex items-center rounded-t-3xl justify-center flex-col w-full p-6  border-0 h-auto md:px-10 lg:w-7/12">
           <div className="flex h-52 sm:h-52 justify-center items-center bg-[#F1AE67] w-full rounded-t-3xl">
             <Image
-              src="/assets/images/badges/emoji-happy.png"
+              src="/emoji-happy (1).png"
               width={200}
               height={200}
               alt="smiling emoji"
-              className="w-24 h-24 sm:h-40 sm:w-40"
+              className="w-40 h-40 sm:h-40 sm:w-40"
             />
           </div>
           <div className="h-auto w-full bg-[#FFFFFF] flex flex-col justify-center align-middle text-center px-2 rounded-b-3xl ">
