@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { useRouter } from 'next/navigation';
 import router from 'next/router';
+import { useQueryClient } from '@tanstack/react-query';
 
 //A section modal component for both the unsave changes and section delete
 function SectionModal({
@@ -74,6 +75,8 @@ function SectionModal({
 
 //A Modal function for the deleting of a section
 export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
+  const queryClient = useQueryClient();
+
   const { setOpenDelete, idToDelete, onSaveModal } = useContext(Portfolio);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -119,6 +122,7 @@ export function SectionDeleteModal({ sectionToDelete }: SectionModalProps) {
         setOpenDelete(false);
         //Update the main page
         onSaveModal(idToDelete);
+        queryClient.invalidateQueries({ queryKey: ['sections'] });
       })
       .catch((error) => console.log({ error: error }));
 
