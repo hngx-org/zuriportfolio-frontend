@@ -12,32 +12,32 @@ const CustomHeader = ({ sectionButtonsData, handleChange, list }: CustomHeaderPr
     return list[0].title === undefined;
   };
   const isSubTitleEmpty = () => {
-    return list[0].subtitle === '';
+    return list[0].subtitle === undefined;
   };
   const isDatesEmpty = () => {
-    return list[0].dates === '';
+    return list[0].dates === undefined;
   };
   const isImageEmpty = () => {
-    return list[0].images === '';
+    return list[0].images === undefined;
   };
   const isDescEmpty = () => {
-    return list[0].description === '';
+    return list[0].description === undefined;
   };
 
   const checkDisabled = (type: string) => {
     if (isTitleEmpty()) {
       return true;
     }
-    if (type === 'subtitle' && isSubTitleEmpty()) {
+    if (type === 'subtitle' && !isSubTitleEmpty()) {
       return true;
     }
-    if (type === 'dates' && isDatesEmpty()) {
+    if (type === 'dates' && !isDatesEmpty()) {
       return true;
     }
-    if (type === 'images' && isImageEmpty()) {
+    if (type === 'images' && !isImageEmpty()) {
       return true;
     }
-    if (type === 'description' && isDescEmpty()) {
+    if (type === 'description' && !isDescEmpty()) {
       return true;
     }
   };

@@ -37,6 +37,7 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
   const [getNewSection, setGetNewSection] = React.useState(false);
   const [newSection, setNewSection] = React.useState(true);
   const [renderedFields, setRenderedFields] = React.useState<React.ReactNode[]>([]);
+  const [imageSrc, setImageSrc] = React.useState('');
 
   const form = useForm({
     initialValues: {
@@ -46,12 +47,12 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
           fields: [],
         },
       ],
-      section: [
-        {
-          id: '',
-          fields: [],
-        },
-      ],
+    },
+  });
+
+  const sectionForm = useForm({
+    initialValues: {
+      section: [],
     },
   });
 
@@ -59,27 +60,42 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
     addItem(e);
   };
 
+  const handleImageChange = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        form.setFieldValue('addList.0.images', result);
+        setImageSrc(result);
+        console.log(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const addItem = (field: string) => {
     const newKey = Math.random();
     if (field === 'title') {
-      form.setFieldValue('addList.0.title', field);
+      form.setFieldValue('addList.0.title', '');
       form.setFieldValue('addList.0.id', Math.random());
-      setRenderedFields((prev) => [renderFields(field, 6554), ...prev]);
+      setRenderedFields((prev) => [renderFields(field, 6554, '', console.log, form), ...prev]);
     } else if (field === 'subtitle') {
-      form.setFieldValue('addList.0.subtitle', '');
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey)]);
+      form.setFieldValue('addList.0.subtitle', { title: '', value: '' });
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey, '', console.log, form)]);
     } else if (field === 'dates') {
-      form.setFieldValue('addList.0.dates', '');
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey)]);
+      form.setFieldValue('addList.0.dates', { from: '', to: '' });
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey, '', console.log, form)]);
     } else if (field === 'images') {
       form.setFieldValue('addList.0.images', '');
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey)]);
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey, imageSrc, handleImageChange, form)]);
     } else if (field === 'description') {
       form.setFieldValue('addList.0.description', '');
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey)]);
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey, '', console.log, form)]);
     } else {
       form.insertListItem('addList.0.fields', { [field]: '', value: '', key: newKey });
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey)]);
+      const fieldIndex = form.values.addList[0].fields.length;
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey, '', console.log, form, fieldIndex)]);
     }
   };
 
@@ -91,6 +107,7 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
 
   const handleSubmit = (values: any) => {
     console.log(values);
+    sectionForm.setFieldValue('section', values?.addList);
     setGetNewSection(true);
     setNewSection(false);
     form.reset();
@@ -120,7 +137,7 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
             sectionButtonsData={sectionButtonsData}
             handleChange={handleChange}
           />
-          {form.values.addList[0].id !== '' || form.values.section[0].fields.length > 0 ? (
+          {form.values.addList[0].id !== '' ? (
             <div className="border-brand-disabled rounded p-5 mt-2 mb-10 text-center border-[1px] space-y-4">
               {renderedFields}
             </div>
@@ -129,9 +146,7 @@ function CreateCustomSection({ onClose }: { onClose: () => void }) {
               Customize and arrange your fields by clicking on the options above
             </div>
           )}
-          {form.values.addList[0].id !== '' || form.values.section[0].fields.length > 0 ? (
-            <CustomFooter handleClose={handleClose} />
-          ) : null}
+          {form.values.addList[0].id !== '' ? <CustomFooter handleClose={handleClose} /> : null}
         </form>
       )}
     </>

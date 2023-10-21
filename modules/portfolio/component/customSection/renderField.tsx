@@ -1,9 +1,20 @@
+import { UseFormReturnType } from '@mantine/form';
 import { years } from '@modules/portfolio/data';
 import { Input } from '@ui/Input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 import Image from 'next/image';
 
-export const renderFields = (field: string, id: number, imageSrc?: string, handleImageChange?: any) => {
+export const renderFields = (
+  field: string,
+  id: number,
+  imageSrc?: string,
+  handleImageChange?: (e: any) => void,
+  form?: UseFormReturnType<
+    { addList: { id: string; fields: never[] }[] },
+    (values: { addList: { id: string; fields: never[] }[] }) => { addList: { id: string; fields: never[] }[] }
+  >,
+  index?: number | undefined,
+) => {
   switch (field) {
     case 'title':
       return (
@@ -13,6 +24,7 @@ export const renderFields = (field: string, id: number, imageSrc?: string, handl
             <input
               className="border-brand-green-primary border-b-[5px] w-min-[9rem] pb-2 text-2xl inline-block focus:outline-none placeholder-black"
               placeholder="Section Title"
+              {...form?.getInputProps(`addList.0.title`)}
             />
           </div>
         </div>
@@ -25,12 +37,14 @@ export const renderFields = (field: string, id: number, imageSrc?: string, handl
             type="text"
             className="text-left mb-2 text-custom-color43 w-full font-semibold font-manropeL outline-none"
             placeholder="Field Title"
+            {...form?.getInputProps(`addList.0.subtitle.title`)}
           />
           <div className="w-full">
             <Input
               placeHolder="Senior project manager"
               className="border-[#E1E3E2] w-full h-[54px] rounded-md border-[1px]"
               inputSize={'lg'}
+              {...form?.getInputProps(`addList.0.subtitle.value`)}
             />
           </div>
         </div>
@@ -44,6 +58,7 @@ export const renderFields = (field: string, id: number, imageSrc?: string, handl
               type="text"
               className="text-left mb-1 text-custom-color43 w-full font-semibold font-manropeL outline-none"
               placeholder="Field Title"
+              {...form?.getInputProps(`addList.0.fields.${index}.links`)}
             />
           </div>
           <div className="w-full">
@@ -51,6 +66,7 @@ export const renderFields = (field: string, id: number, imageSrc?: string, handl
               placeHolder="Links"
               className="border-[#E1E3E2] w-full h-[54px] rounded-md border-[1px]"
               inputSize={'lg'}
+              {...form?.getInputProps(`addList.0.fields.${index}.value`)}
             />
           </div>
         </div>
@@ -68,6 +84,7 @@ export const renderFields = (field: string, id: number, imageSrc?: string, handl
             <textarea
               className="resize-none border-[1px] w-full border-solid border-[#E1E3E2] pt-2 pl-2 text-white-650 font-semibold rounded-lg outline-none focus:border-brand-green-primary "
               rows={3}
+              {...form?.getInputProps(`addList.0.description`)}
             ></textarea>
           </div>
         </div>
@@ -80,12 +97,14 @@ export const renderFields = (field: string, id: number, imageSrc?: string, handl
             type="text"
             className="text-left mb-2 text-custom-color43 w-full font-semibold font-manropeL outline-none"
             placeholder="Field Title"
+            {...form?.getInputProps(`addList.0.fields.${index}.inputfield`)}
           />
           <div className="w-full">
             <Input
               placeHolder="Senior project manager"
               className="border-[#E1E3E2] w-full h-[54px] rounded-md border-[1px]"
               inputSize={'lg'}
+              {...form?.getInputProps(`addList.0.fields.${index}.value`)}
             />
           </div>
         </div>
@@ -99,18 +118,16 @@ export const renderFields = (field: string, id: number, imageSrc?: string, handl
               <div className="w-full">
                 <p className="text-[#444846] mb-2 text-left font-semibold">From *</p>
                 <Select
-                // onValueChange={(value: string) => {
-                //   setStartYear(value);
-                // }}
-                // value={startYear}
+                  {...form?.getInputProps('addList.0.dates.from')}
+                  onValueChange={(value) => form?.setFieldValue('addList.0.dates.from', value)}
                 >
                   <SelectTrigger className="w-full border-[1px] border-brand-disabled">
-                    <SelectValue placeholder="Month" />
+                    <SelectValue placeholder="Year" />
                   </SelectTrigger>
                   <>
                     <SelectContent>
-                      {years.map((year: any) => (
-                        <SelectItem key={year.value} value={year.value}>
+                      {years.map((year, index) => (
+                        <SelectItem key={index} value={year.value}>
                           {year.label}
                         </SelectItem>
                       ))}
@@ -121,18 +138,16 @@ export const renderFields = (field: string, id: number, imageSrc?: string, handl
               <div className="w-full">
                 <p className="text-[#444846] mb-2 text-left font-semibold">To *</p>
                 <Select
-                // onValueChange={(value: string) => {
-                //   setStartYear(value);
-                // }}
-                // value={startYear}
+                  {...form?.getInputProps('addList.0.dates.to')}
+                  onValueChange={(value) => form?.setFieldValue('addList.0.dates.to', value)}
                 >
                   <SelectTrigger className="w-full border-[1px] border-brand-disabled">
                     <SelectValue placeholder="Year" />
                   </SelectTrigger>
                   <>
                     <SelectContent>
-                      {years.map((year: any) => (
-                        <SelectItem key={year.value} value={year.value}>
+                      {years.map((year, index) => (
+                        <SelectItem key={index} value={year.value}>
                           {year.label}
                         </SelectItem>
                       ))}
