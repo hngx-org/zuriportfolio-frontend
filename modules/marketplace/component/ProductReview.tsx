@@ -8,7 +8,7 @@ import { reviewProps } from '../../../@types';
 export const ProductReview = ({ id }: { id: string }) => {
   const [reviews, setReviews] = useState<reviewProps[]>([]);
   // const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews`;
-  const reviews_urel = `https://team-titan.mrprotocoll.me/api/messaging/store${id}/review`
+  const reviews_urel = `https://team-titan.mrprotocoll.me/api/messaging/store${id}/review`;
   useEffect(() => {
     const getReviews = async () => {
       try {
@@ -16,7 +16,7 @@ export const ProductReview = ({ id }: { id: string }) => {
         console.log(response);
         setReviews(response.data.data);
       } catch (error) {
-        setReviews([])
+        setReviews([]);
         console.log(error);
       }
     };
