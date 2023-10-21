@@ -130,6 +130,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     tracks: [],
     level: '',
     icon: '',
+    badge: [],
   });
 
   const [getUserSections] = useQueries({
@@ -148,17 +149,16 @@ export function PortfolioCtxProvider(props: { children: any }) {
       setSlug(auth?.user?.slug!);
     }
     if (getUserSections.data) {
-      const { user } = getUserSections.data;
+      const { user } = getUserSections?.data?.data;
       setUserData({
         firstName: user?.firstName,
         lastName: user?.lastName,
         avatarImage: user?.profilePic,
-        city: user?.location,
-        country: user?.portfolio?.country,
-        tracks: getUserSections.data?.tracks,
+        city: getUserSections?.data?.data?.portfolio?.city,
+        country: getUserSections?.data?.data?.portfolio?.country,
+        tracks: getUserSections?.data?.data?.tracks,
         coverImage: user?.profileCoverPhoto,
-        level: user?.badges?.name,
-        icon: user?.badges?.badge_image,
+        badge: getUserSections?.data?.data?.badges,
       });
       const {
         about,
@@ -174,7 +174,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         certificates,
         shop,
         custom,
-      } = getUserSections.data;
+      } = getUserSections?.data?.data;
       if (
         about ||
         projects ||
