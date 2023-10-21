@@ -20,10 +20,6 @@ import { Metadata } from 'next';
 import { useCart } from '@modules/shop/component/CartContext';
 import { toast } from 'react-toastify';
 
-export const metadata: Metadata = {
-  title: 'Cart Summary',
-  description: 'A page showing the cart summary of user',
-};
 
 export default function Cart() {
   const { auth } = useAuth();
@@ -52,13 +48,10 @@ export default function Cart() {
         const cartItems = localStorage.getItem('products')
           ? JSON.parse(localStorage.getItem('products') as string)
           : [];
-        console.log(carts);
 
         carts = destructureProducts(cartItems);
-        console.log(carts);
 
         const productIdArray = carts.map((product) => product.productId);
-        console.log(productIdArray);
 
         const cartSum = await getGuestCartSummary(productIdArray);
         setCartSummary(cartSum);
