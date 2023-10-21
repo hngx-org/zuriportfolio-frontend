@@ -25,11 +25,15 @@ const Cover = ({ isLoggedIn, userData }: Props) => {
       className="bottom-24 sm:bottom-20 md:bottom-24 left-3 md:left-5 w-[140px] sm:w-[180px] md:w-[200px] aspect-square rounded-full bg-gray-100 bg-opacity-10"
     />
   ) : (
-    <Profile isLoggedIn={isLoggedIn} profileUpdate={profileUpdate} />
+    <>
+      <Profile isLoggedIn={isLoggedIn} profileUpdate={profileUpdate} />
+    </>
   );
 
   return (
-    <div className="absolute bottom-24 sm:bottom-20 md:bottom-24 left-3 md:left-5 w-[140px] sm:w-[180px] md:w-[200px] aspect-square rounded-full bg-gray-100 bg-opacity-25 border-green-400 border-[2px]">
+    <div
+      className={`absolute bottom-24 sm:bottom-20 md:bottom-24 left-3 md:left-5 w-[140px] sm:w-[180px] md:w-[200px] aspect-square rounded-full bg-gray-100 bg-opacity-25 border-green-400 border-[2px]`}
+    >
       {avatar}
       {isLoggedIn ? <EditCover Link={Link} handleUploadCover={handleUploadCover} /> : ''}
     </div>
