@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Image from 'next/image';
 import star1 from '../../public/assets/star1.svg';
 import star2 from '../../public/assets/star2.svg';
@@ -22,9 +21,9 @@ import { CART_ENDPOINT } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { formatToNigerianNaira } from '../../helpers/formatCurrency';
 import ProductWeThoughtMightInterestYou from './component/ProductWeThoughtMightInterestYou';
-import { ProductReview } from './component/ProductReview';
+import Loader from '@ui/Loader';
 
-export default function ProductDetailsDescription() {
+export default function ProductDetailsDescription({ productId }: { productId: string }) {
   const { auth } = useAuth();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -35,11 +34,9 @@ export default function ProductDetailsDescription() {
   const token: any = isUserAuthenticated();
   const { setCartCountNav, cartCount } = useCart();
 
-  // const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/products/${id}/rating`
-
   const apiUrl: string = token
-    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${id}/${token?.id}/?guest=false`
-    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/getproduct/${id}/none/?guest=true`;
+    ? `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/${token?.id}/?guest=false`
+    : `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/get-product/${productId}/none/?guest=true`;
 
   useEffect(() => {
     // Fetch data using Axios
@@ -106,7 +103,7 @@ export default function ProductDetailsDescription() {
     };
 
     try {
-      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/wishlist/', data);
+      const response = await axios.post('https://coral-app-8bk8j.ondigitalocean.app/api/wishlist/', data);
 
       console.log(response);
       if (response.status === 201) {
@@ -152,11 +149,13 @@ export default function ProductDetailsDescription() {
     setShowAll(!showAll);
   };
 
+  const breadcrumbs: any = product?.name ? `/marketplace/${product?.name}` : '/marketplace/';
+
   return (
-    <CategoryLayout pathName={`/marketplace/${product?.name}`}>
+    <CategoryLayout isBreadcrumb={true} pathName={breadcrumbs}>
       {!product ? (
         <div className="animate-pulse h-[50vh] w-full flex justify-center items-center text-4xl text-gray-400">
-          Loading...
+          <Loader />
         </div>
       ) : (
         <main className={`flex flex-col items-center max-w-[1240px] mx-auto lg:px-0 px-4 lg:pt-6 pt-4 lg:pb-6 pb-4`}>
@@ -216,7 +215,7 @@ export default function ProductDetailsDescription() {
                 <p className="text-base font-normal font-manropeL leading-normal tracking-tight">
                   Total Payment (Incl. taxes)
                 </p>
-                <p className="flex flex-wrap gap-x-4 items-center">
+                <p className="flex gap-x-4 items-center">
                   <span className="text-black text-[32px] font-semibold font-manropeEB leading-10">
                     {product?.discount_price === '0.00'
                       ? formatToNigerianNaira(product?.price)
@@ -257,7 +256,7 @@ export default function ProductDetailsDescription() {
 
           {/* Description, Specification, Reviews (Desktop View)  */}
           {/* Pass all the data down to this component as props  */}
-          <TabContainer desc={product?.description} id={product?.id} />
+          <TabContainer desc={product?.description} id={productId} />
 
           {/* Description, Specification, Reviews (Mobile & Tablet View)  */}
           <div className="md:hidden block mt-[26px] mr-auto">
@@ -283,13 +282,11 @@ export default function ProductDetailsDescription() {
 
             <div className="mt-4">
               <h2 className="text-[#101928] font-manropeB font-semibold text-[22px] text-left">Customer Feedback</h2>
-              {/* <p className="text-sm font-manropeL mt-4">
+              <p className="text-sm font-manropeL mt-4">
                 VERIFIED RATINGS <span>(173)</span>
-              </p> */}
+              </p>
 
-              <ProductReview id={product?.id} />
-
-              {/* <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
+              <div className="mt-10 grid gap-10 grid-rows-[1fr] sm:grid-cols-[0.5fr_1fr] items-start">
                 <div className="w-6/12 py-8 px-6 flex flex-col gap-[20px] rounded-2xl border-custom-color32 border-[1px] items-center sm:w-full">
                   <h2 className="text-4xl font-manropeB font-semibold">3.0/5</h2>
                   <div className="flex mr-[17px]">
@@ -464,7 +461,7 @@ export default function ProductDetailsDescription() {
                     required
                   ></textarea>
                 </form>
-              </div> */}
+              </div>
             </div>
           </div>
 

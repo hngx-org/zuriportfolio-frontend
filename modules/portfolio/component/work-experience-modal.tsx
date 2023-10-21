@@ -11,6 +11,8 @@ import Loader from '@ui/Loader';
 import { WorkExperience as WorkExperienceSkeleton } from './landing/Skeleton';
 import Portfolio from '../../../context/PortfolioLandingContext';
 import { generateEndYears } from '../data';
+import { Edit2, Trash } from 'iconsax-react';
+import { boolean } from 'zod';
 
 type WorkExperienceModalProps = {
   onCloseModal: () => void;
@@ -72,6 +74,19 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
     setIsForm(true);
   };
 
+  useEffect(() => {
+    const date = new Date();
+    const currMonth = months[date.getMonth()];
+    const currYr = date.getFullYear();
+    if (isChecked) {
+      setEndMonth(currMonth?.value);
+      setEndYear(String(currYr));
+    } else {
+      setEndMonth(endMonth);
+      setEndYear(endYear);
+    }
+  }, [isChecked, endMonth, endYear]);
+
   return (
     <Modal isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
       <div className="space-y-6 bg-white-100 p-4 py-5">
@@ -102,48 +117,52 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
         <>
           {isData && (
             <>
-              {workExperiences.map((experience: WorkExperience, index: number) => (
-                <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
-                  {/* <WorkExperienceSkeleton data={experience} /> */}
-                  <section className="flex w-full gap-x-10 mb-4 max-sm:flex-col max-sm:gap-y-3">
-                    <p className="text-gray-300 font-semibold text-sm flex-[3]">
-                      <span>
-                        {experience?.startMonth} {experience?.startYear}
-                      </span>{' '}
-                      -{' '}
-                      <span>
-                        {experience?.endMonth} {experience?.endYear}
+              {workExperiences.map((experience: WorkExperience, index: number) => {
+                const endYear = experience.isEmployee ? 'Present' : experience.endYear;
+
+                return (
+                  <article key={index} className="border-b-2 flex flex-col border-brand-disabled">
+                    {/* <WorkExperienceSkeleton data={experience} /> */}
+                    <section className="flex w-full gap-x-10 mb-4 max-sm:flex-col max-sm:gap-y-3">
+                      <p className="text-gray-300 font-semibold text-sm flex-[3]">
+                        <span>
+                          {experience?.startMonth} {experience?.startYear}
+                        </span>{' '}
+                        -{' '}
+                        <span>
+                          {experience?.endMonth} {endYear}
+                        </span>
+                      </p>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-200">{experience?.company}</h3>
+                        <p className="text-sm font-manropeL text-brand-green-primary">{experience?.role}</p>
+                      </div>
+                      <p className="font-semibold text-sm text-gray-400 break-all flex-[4] break-normal">
+                        {experience?.description}
+                      </p>
+                    </section>
+                    <div className="self-end pb-4 flex gap-4 font-manropeL">
+                      <span
+                        className="font-semibold cursor-pointer "
+                        onClick={(e) => {
+                          setIsEditMode(true);
+                          setEditingExperience(experience);
+                          prefillForm(experience);
+                          setIsData(false);
+                        }}
+                      >
+                        <Edit2 size="32" color="#37d67a" variant="Outline" />
                       </span>
-                    </p>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-200">{experience?.company}</h3>
-                      <p className="text-sm font-manropeL text-brand-green-primary">{experience?.role}</p>
+                      <span
+                        className="font-semibold cursor-pointer"
+                        onClick={(e) => handleDeleteExperience(experience.id, e)}
+                      >
+                        <Trash size="32" color="#f47373" variant="Outline" />
+                      </span>
                     </div>
-                    <p className="font-semibold text-sm text-gray-400 break-all flex-[4] break-normal">
-                      {experience?.description}
-                    </p>
-                  </section>
-                  <div className="self-end pb-4 flex gap-4 font-manropeL">
-                    <span
-                      className="font-semibold cursor-pointer text-[#5B8DEF]"
-                      onClick={(e) => {
-                        setIsEditMode(true);
-                        setEditingExperience(experience);
-                        prefillForm(experience);
-                        setIsData(false);
-                      }}
-                    >
-                      Edit
-                    </span>
-                    <span
-                      className="font-semibold cursor-pointer text-brand-red-hover"
-                      onClick={(e) => handleDeleteExperience(experience.id, e)}
-                    >
-                      Delete
-                    </span>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </>
           )}
         </>
@@ -171,7 +190,9 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 </p>
               </div>
               <div className="self-end flex gap-4 font-manropeL">
-                <span className="font-semibold cursor-pointer text-[#5B8DEF]">Edit</span>
+                <span className="font-semibold cursor-pointer">
+                  <Edit2 size="20" color="#009254" variant="Outline" />
+                </span>
                 <span
                   className="font-semibold cursor-pointer text-brand-red-hover"
                   onClick={(e) => {
@@ -179,7 +200,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     resetForm();
                   }}
                 >
-                  Delete
+                  <Trash size="32" color="#f47373" variant="Outline" />
                 </span>
               </div>
             </article>
@@ -193,7 +214,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
             >
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex flex-col gap-[.5rem] w-full sm:w-[90%]">
-                  <label className="font-semibold text-[#444846] text-[1rem]">Role</label>
+                  <label className="font-semibold text-[#444846] text-[1rem]">Role *</label>
                   <Input
                     placeHolder=""
                     onChange={(e) => {
@@ -205,7 +226,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                   />
                 </div>
                 <div className="flex flex-col gap-[.5rem] w-full sm:w-[90%]">
-                  <label className="font-semibold text-[#444846] text-[1rem]">Company</label>
+                  <label className="font-semibold text-[#444846] text-[1rem]">Company *</label>
                   <Input
                     placeHolder=""
                     onChange={(e) => {
@@ -218,7 +239,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 </div>
               </div>
               <div className="flex flex-col gap-[.5rem]">
-                <label className="font-semibold text-[#444846] text-[1rem]">Description</label>
+                <label className="font-semibold text-[#444846] text-[1rem]">Description *</label>
                 <textarea
                   className="resize-none border-[1px] border-solid border-[#E1E3E2] pt-2 pl-2 text-dark-600 rounded-lg outline-none focus:border-brand-green-primary "
                   rows={4}
@@ -337,15 +358,16 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     <div className="relative w-7 h-7 flex items-center justify-center">
                       <input
                         type="checkbox"
+                        checked={isChecked}
                         onChange={() => {
-                          setIsChecked(!isChecked);
-                          if (isChecked) {
-                            setEndYear('Present');
-                            setEndMonth('Present');
-                          } else {
-                            setEndMonth(endMonth);
-                            setEndYear(endYear);
-                          }
+                          setIsChecked((prev: boolean) => !prev);
+                          // const date = new Date();
+                          // const currMonth = months[date.getMonth()];
+                          // const currYr = date.getFullYear();
+                          // if (!isChecked) {
+                          //   setEndMonth(currMonth?.value);
+                          //   setEndYear(String(currYr));
+                          // }
                         }}
                         className="peer shrink-0 appearance-none h-[100%] w-[100%] border-[1px] border-[#A8ACAB] rounded-md checked:bg-brand-green-primary checked:border-0"
                       />
@@ -369,7 +391,6 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
-                  disabled={isLoading}
                   onClick={(e) => {
                     onCloseModal();
                     resetForm();
@@ -383,7 +404,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button disabled={isLoading} type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                   Save
                 </Button>
               </div>

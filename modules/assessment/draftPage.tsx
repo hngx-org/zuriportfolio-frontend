@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface Draft {
+  skill_id: number;
   id: number;
   title: string;
   createdAt: string;

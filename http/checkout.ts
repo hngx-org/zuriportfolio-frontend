@@ -145,10 +145,9 @@ const getTokenDetails = async (token: string) => {
 };
 
 export const getRecentlyViewedProducts = async (token: string) => {
-  const user_res = await getTokenDetails(token);
-  const user_id = user_res.user.id;
-
   try {
+    const user_res = await getTokenDetails(token);
+    const user_id = user_res.user.id;
     const apiUrl = `${RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
     const response = await axios.get(apiUrl, {
       headers: {
@@ -159,5 +158,15 @@ export const getRecentlyViewedProducts = async (token: string) => {
   } catch (error) {
     console.error('Error fetching data', error);
     return [];
+  }
+};
+
+export const getRecommendedProducts = async () => {
+  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recommendations';
+  try {
+    const response = await axios.get(apiUrl);
+    return response.data.data;
+  } catch {
+    return { error: 'Failed to fetch' };
   }
 };

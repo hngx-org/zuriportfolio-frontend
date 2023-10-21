@@ -6,20 +6,23 @@ import Link from 'next/link';
 import { reviewProps } from '../../../@types';
 
 export const ProductReview = ({ id }: { id: string }) => {
-  const [reviews, setReviews] = useState<reviewProps[] | null>(null);
-  const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews`;
+  const [reviews, setReviews] = useState<reviewProps[]>([]);
+  // const reviewsUrl = `https://team-liquid-repo.onrender.com/api/review/shop/${id}/reviews`;
+  const reviews_urel = `https://team-titan.mrprotocoll.me/api/messaging/store${id}/review`;
   useEffect(() => {
     const getReviews = async () => {
       try {
-        const response = await axios.get(reviewsUrl);
+        const response = await axios.get(reviews_urel);
         console.log(response);
         setReviews(response.data.data);
       } catch (error) {
+        setReviews([]);
         console.log(error);
       }
     };
     getReviews();
-  }, [reviewsUrl]);
+  }, []);
+
   return (
     <div className="mt-4 mx-1">
       {!reviews ? (
