@@ -391,12 +391,12 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
               <div className="flex flex-col sm:flex-row gap-3 justify-start sm:justify-end">
                 <Button
                   type="button"
-                  onClick={(e) => {
+                  onClick={() => {
                     onCloseModal();
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
-                    isEditMode ? handleEditExperience() : addWorkExperience(e);
+                    setIsData(true);
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"
@@ -431,6 +431,8 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                     resetForm();
                     setIsEditMode(false);
                     setIsForm(false);
+                    setIsData(true);
+                    onCloseModal();
                   }}
                   intent={'secondary'}
                   className="w-full rounded-md sm:w-[6rem]"

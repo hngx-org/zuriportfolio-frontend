@@ -183,21 +183,23 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
         {values.length > 0 && <section className="flex items-center flex-wrap gap-3 mt-10 mb-5">{items}</section>}
 
         <section
-          className={`w-full flex items-center mt-12 mb-6 rounded-lg border ${
+          className={`w-full flex items-center mt-10 mb-2 rounded-lg border ${
             checks ? 'border-[#C4C7C6]' : 'border-red-205'
           } px-2 `}
         >
           <input
             type="text"
             className="w-full h-full focus:outline-none font-manropeL text-black text-base font-semibold bg-transparent py-3 placeholder:text-[#8D9290] placeholder:font-normal"
-            placeholder="Enter your interest and press “ENTER”"
+            placeholder=""
             onChange={handleInputChange}
             onKeyDown={handleEnterKeyPress}
             maxLength={30}
             value={inputValue}
           />
         </section>
-
+        <label htmlFor="" className="text-brand-green-primary mb-2 ">
+          Enter your tags and press enter
+        </label>
         <section className="mt-5">
           <h5 className="text-green-600 text-base font-extrabold font-manropeL"> Suggestions </h5>
           <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">{suggestions}</ul>
