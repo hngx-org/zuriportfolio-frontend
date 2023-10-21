@@ -8,6 +8,7 @@ import CustomNewSections from './customSection/customNewSections';
 import { CloseSquare } from 'iconsax-react';
 import { Popover, Transition } from '@headlessui/react';
 import { notify } from '@ui/Toast';
+import { useQuery } from '@tanstack/react-query';
 
 const sectionButtonsData = [
   {
@@ -36,6 +37,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
   const [getNewSection, setGetNewSection] = React.useState(false);
   const [newSection, setNewSection] = React.useState(true);
   const [renderedFields, setRenderedFields] = React.useState<React.ReactNode[]>([]);
+  const urlRegex = /^(https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[a-zA-Z0-9-._~:\/?#\[\]@!$&'()*+,;=]*)?$/;
 
   const form = useForm({
     initialValues: {
@@ -49,27 +51,47 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     validateInputOnChange: true,
     validate: {
       addList: {
-        title: (value) => (value?.length === 0 ? 'Title is required' : null),
+        title: (value) => (value?.length === 0 ? 'Title is empty' : null),
         subtitle: {
-          title: (value) => (value?.length === 0 ? 'Subtitle title is required' : null),
-          value: (value) => (value?.length === 0 ? 'Subtitle value is required' : null),
+          title: (value) => (value?.length === 0 ? 'Subtitle title is empty' : null),
+          value: (value) => (value?.length === 0 ? 'Subtitle value is empty' : null),
         },
         dates: {
-          from: (value) => (value?.length === 0 ? 'From date is required' : null),
-          to: (value) => (value?.length === 0 ? 'To date is required' : null),
+          from: (value) => (value?.length === 0 ? 'From date is empty' : null),
+          to: (value, allValues) => {
+            const fromDate = parseInt(allValues.addList[0].dates.from);
+            const toDate = parseInt(value);
+
+            if (toDate < fromDate) {
+              return 'To date should not be earlier than From date';
+            }
+
+            return null;
+          },
         },
-        description: (value) => (value?.length === 0 ? 'Description is required' : null),
-        fields: (value, allValues) => {
-          const fields = allValues.addList[0].fields;
-          const errors = [];
-          for (let i = 0; i < fields.length; i++) {
-            if (fields[i].type === 'inputfield' && fields[i].value === '') {
-              errors.push(`Field #${i + 1} is required`);
+        description: (value) => (value?.length === 0 ? 'Description is empty' : null),
+
+        fields: (value) => {
+          const errors = value?.reduce((acc, field, index) => {
+            if (field?.inputfield !== undefined) {
+              if (field.inputfield?.length === 0) {
+                acc.push(`Input title at index ${index} is empty`);
+              }
+              if (field?.value?.length === 0) {
+                acc.push(`Input field at index ${index} is empty`);
+              }
             }
-            if (fields[i].type === 'links' && fields[i].value === '') {
-              errors.push(`Link #${i + 1} is required`);
+            if (field?.links !== undefined) {
+              if (field.links?.length === 0) {
+                acc.push(`Link title at index ${index} is empty`);
+              }
+              if (!urlRegex.test(field.value)) {
+                acc.push(`Link at index ${index} is not a valid URL`);
+              }
             }
-          }
+            return acc;
+          }, []);
+
           return errors.length ? errors : null;
         },
       },
@@ -118,6 +140,21 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     setGetNewSection(true);
     setNewSection(false);
   };
+
+  const createNewCustomSection = async () => {
+    const response = await axios.post(`https://hng6-r5y3.onrender.com/api/v1/custom/`, {
+      sectionId: 55,
+      title: form?.values?.addList[0]?.title,
+      userId: userId,
+    });
+    return response.data;
+  };
+
+  const {
+    data: customeSection,
+    isLoading: creatingCustomSection,
+    isError: creatingCustomSectionError,
+  } = useQuery(['newCustom'], async () => createNewCustomSection());
 
   return (
     <CreateCustomSection
@@ -202,7 +239,7 @@ function CreateCustomSection({
             <Popover className="relative">
               <Popover.Button>
                 <p className="text-red-300 mb-4 text-[0.6875rem] tracking-[0.00344rem] font-semibold">
-                  Click to see errors
+                  Click to view errors
                 </p>
               </Popover.Button>
 

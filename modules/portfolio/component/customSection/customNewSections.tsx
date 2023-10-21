@@ -48,7 +48,7 @@ const CustomNewSections = ({
             ))}
           </div>
           <div className="flex flex-col gap-3">
-            <p className="text-[#737876] font-manropeL">{data[0]?.description}</p>
+            <p className="text-[#737876] font-manropeL" dangerouslySetInnerHTML={{ __html: data[0]?.description }}></p>
           </div>
         </div>
         <div className="h-[1px] bg-[#E1E3E2] w-full"></div>
