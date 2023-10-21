@@ -3,6 +3,7 @@ import MainLayout from '../../../components/Layout/MainLayout';
 import Head from 'next/head';
 import History from '@modules/assessment/component/History';
 import { withUserAuth } from '../../../helpers/withAuth';
+import assessment from '../../super-admin/assessment';
 
 const Assessmenthistory = () => {
   return (
@@ -10,6 +11,8 @@ const Assessmenthistory = () => {
       <div>
         <Head>
           <style>
+            <title>Assessment history</title>
+            <meta name="description" content={`User assessment history page`} />
             {`
         
         .overscroll::-webkit-scrollbar{
