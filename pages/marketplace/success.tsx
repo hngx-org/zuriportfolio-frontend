@@ -3,9 +3,11 @@ import CartPaymentsuccessModal, { CartPaymentFailureModal } from '../../componen
 import { confirmTransaction } from '../../http/checkout';
 import Head from 'next/head';
 
+
 export default function Successful() {
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     async function confirmTransactionStatus() {
@@ -54,4 +56,5 @@ export default function Successful() {
         ))}
     </>
   );
+
 }
