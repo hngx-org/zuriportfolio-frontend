@@ -113,7 +113,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
           </div>
           <div className="bg-brand-green-primary h-1 rounded-sm"></div>
         </div>
-        <>{isLoading && <Loader />}</>
+        {/* <>{isLoading && <Loader />}</> */}
         <>
           {isData && (
             <>
@@ -404,7 +404,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                 >
                   Cancel
                 </Button>
-                <Button disabled={isLoading} type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
+                <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'lg'}>
                   Save
                 </Button>
               </div>
@@ -447,6 +447,7 @@ const WorkExperienceModalSection: React.FC<WorkExperienceModalProps> = ({ isOpen
                   }}
                   className="w-full rounded-md sm:w-[6rem]"
                   size={'lg'}
+                  disabled={isLoading}
                 >
                   Save
                 </Button>
