@@ -3,14 +3,14 @@ import FilterSection from './filter-section';
 import Button from '@ui/Button';
 import { CancelIcon } from './icons';
 import useSearchFilter from './hooks/useSearchFilter';
-import { formatToNigerianNaira } from '../../../../helpers/formatCurrency';
 import useCategory from './hooks/useCategory';
 import { ProductList } from '@modules/marketplace/types/filter-types';
 import Modal from '../../../../components/ui/Modal';
+import { formatToNigerianNaira } from './helper/utils';
 
 const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void }) => {
   const { resetFilter, handleSearch, loading } = useSearchFilter();
-  const { categories, loading: isLoading, products } = useCategory();
+  const { categories, c_loading: isLoading, p_loading, products } = useCategory();
   const sub_categories = categories.flatMap((category) => category.subcategories).map((sub) => sub?.name);
   function getLowestAndHighestPrices(products: ProductList[]) {
     const sortedPrices = products
@@ -29,7 +29,9 @@ const SearchFilter = ({ isOpen, toggle }: { isOpen?: boolean; toggle: () => void
   }
   const results = getLowestAndHighestPrices(products);
   const prices = [...results.lowest, ...results.highest];
-  const uniquePrices = Array.from(new Set(prices)).map((price) => formatToNigerianNaira(price));
+  const uniquePrices = Array.from(new Set(prices)).map((price) => {
+    return !isNaN(price) ? formatToNigerianNaira(price) : 0
+  });
   const discount_price = [5, 10, 20, 30, 40, 50];
 
   return (
