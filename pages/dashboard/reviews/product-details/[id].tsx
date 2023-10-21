@@ -70,7 +70,7 @@ const UserReview = () => {
       }&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
-        .then((data: ReviewApiResponse) => setData(data.data))
+        .then((data) => setData(data.data.items))
         .catch((e) => console.log(e));
     } else {
       const url: string = `https://team-liquid-repo.onrender.com/api/review/shop/products/1/reviews/rating?rating=${filterRating}&pageNumber=${
@@ -78,7 +78,7 @@ const UserReview = () => {
       }&pageSize=10`;
       fetch(url)
         .then((res) => res.json())
-        .then((data: ReviewApiResponse) => setData(data.data))
+        .then((data) => setData(data.data.items))
         .catch((e) => console.log(e));
     }
   }, [mountUI, filterRating, filterView, currentPage, id]);
