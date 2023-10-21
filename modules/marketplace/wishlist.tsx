@@ -13,6 +13,8 @@ import { LoadingSkeleton } from '../marketplace/component/LoadingSkeleton';
 import { CART_ENDPOINT } from '../../http/checkout';
 import { removeFromWishlist } from '../../http';
 
+import { API_URI } from './http';
+
 function Wishlist() {
   const [data, setData] = useState<ProductEntry[]>([]);
   const [dataCheck, setDataCheck] = useState(false);
@@ -27,9 +29,7 @@ function Wishlist() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/user-wishlist/${token?.id}`,
-      );
+      const response = await axios.get(`${API_URI}/user-wishlist/${token?.id}`);
       const { message, status_code, data: result } = response.data;
 
       if (Array.isArray(result) && result.length === 0) {
