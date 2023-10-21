@@ -11,9 +11,17 @@ interface BadgesProps {
   setIsdownloadOpen: (value: boolean) => void;
   isdownloadOpen: boolean;
   onClose: () => void;
+  assessmentId: number;
 }
 
-const Badges: React.FC<BadgesProps> = ({ scorePercentage, badgelabel, setIsdownloadOpen, isdownloadOpen, onClose }) => {
+const Badges: React.FC<BadgesProps> = ({
+  scorePercentage,
+  badgelabel,
+  setIsdownloadOpen,
+  isdownloadOpen,
+  onClose,
+  assessmentId,
+}) => {
   const router = useRouter();
 
   const handleBack = () => {
@@ -72,7 +80,7 @@ const Badges: React.FC<BadgesProps> = ({ scorePercentage, badgelabel, setIsdownl
             </div>
           </div>
           <div className="flex justify-end w-full">
-            <Link href={'/assessments/dashboard'}>
+            <Link href={`/assessments/take-test/intro?data=${assessmentId}`}>
               <p className=" underline mt-[30px] flex right-6 pr-4 sm:pr-10 ">Retake Test</p>
             </Link>
           </div>

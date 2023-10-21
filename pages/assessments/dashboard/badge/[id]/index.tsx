@@ -14,6 +14,7 @@ const Page: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [screenLoading, setScreenLoading] = useState<boolean>(false);
+  const [assessmentId, setAssessmentId] = useState<number>(0);
   const [badgeName, setbadgeName] = useState<string>('');
   const onClose = () => {
     setIsdownloadOpen(false);
@@ -48,6 +49,7 @@ const Page: React.FC = () => {
           setScorePercentage(data.data.badge.UserAssessment.score);
           console.log(data.data.badge);
           setIsLoading(false);
+          setAssessmentId(data.data.badge.UserAssessment.Assessment.id);
         }
       } catch (error) {
         setErrorMessage('Error fetching Data');
@@ -77,6 +79,7 @@ const Page: React.FC = () => {
                 setIsdownloadOpen={setIsdownloadOpen}
                 isdownloadOpen={isdownloadOpen}
                 onClose={onClose}
+                assessmentId={assessmentId}
               />
             </>
           )}
