@@ -10,21 +10,20 @@ const Assessmenthistory = () => {
     <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
       <div>
         <Head>
+          <title>Assessment history</title>
+          <meta name="description" content={`User assessment history page`} />
           <style>
-            <title>Assessment history</title>
-            <meta name="description" content={`User assessment history page`} />
             {`
-        
-        .overscroll::-webkit-scrollbar{
-          width: 7px;
-          height: 10px;
-          background: #eee;
-      }
-      .overscroll::-webkit-scrollbar-thumb{
-          background: #009254;
-          border-radius: 5px;
-      }
-        `}
+              .overscroll::-webkit-scrollbar{
+                width: 7px;
+                height: 10px;
+                background: #eee;
+              }
+              .overscroll::-webkit-scrollbar-thumb{
+                  background: #009254;
+                  border-radius: 5px;
+              }
+            `}
           </style>
         </Head>
         <History />
