@@ -1,7 +1,6 @@
 import axios from 'axios';
 import $http from './axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
-
 import { AxiosResponse } from 'axios';
 
 export const getUserByName = async (props: { name: string }) => {
@@ -14,11 +13,13 @@ export const getUserByName = async (props: { name: string }) => {
   }
 };
 
+import { API_URI } from '@modules/marketplace/http';
+
 // remove from wishlist
 
 export const removeFromWishlist = async (userId: any, productId: any, token: any): Promise<AxiosResponse> => {
   try {
-    const apiUrl = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/user-wishlist/${userId}/${productId}`;
+    const apiUrl = `${API_URI}/user-wishlist/${userId}/${productId}`;
     const response = await axios.delete(apiUrl, {
       headers: {
         Authorization: `Bearer ${token}`,
