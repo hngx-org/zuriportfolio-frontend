@@ -112,8 +112,8 @@ function SignUpWithEmail() {
         </div>
         <div className="flex flex-col gap-y-4">
           <SignUpWithGoogle />
-          <SignUpWithGithub />
-          <SignUpWithFacebook />
+          {/* <SignUpWithGithub /> */}
+          {/* <SignUpWithFacebook /> */}
         </div>
       </div>
     </AuthLayout>
