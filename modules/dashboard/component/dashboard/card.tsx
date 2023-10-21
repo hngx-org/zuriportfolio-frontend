@@ -84,8 +84,11 @@ export const MetricCard = ({ title, percentage, isCurrency, value }: MetricCardP
   if (yesterdaysFinalCardValue !== 0) {
     finalPercentage = ((todaysFinalCardValue - yesterdaysFinalCardValue) / yesterdaysFinalCardValue) * 100;
   }
-  if (yesterdaysFinalCardValue === 0 && todaysFinalCardValue !== 0) {
+  if (yesterdaysFinalCardValue === 0 && todaysFinalCardValue > 0) {
     finalPercentage = 100;
+  }
+  if (yesterdaysFinalCardValue === 0 && todaysFinalCardValue < 0) {
+    finalPercentage = -100;
   }
 
   return (
