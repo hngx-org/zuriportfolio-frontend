@@ -497,14 +497,17 @@ export interface MetricTimelineProps {
 
 export interface OrderHistory {
   id: number;
+  fullId?: any;
   productName: string;
-  customerName: string;
-  date: Date;
+  customerName?: string;
+  date?: Date;
   status: 'completed' | 'cancelled' | 'pending';
+  currency: string;
   productType: string;
   price: number;
-  sales: number;
-  revenue: number;
+  sales?: number;
+  revenue?: number;
+  currency?: string;
 }
 
 export interface WishlistProduct {
@@ -650,6 +653,7 @@ export type SectionModalProps = {
   primaryText?: string;
   onClickAction?: () => void;
   sectionToDelete?: string;
+  loading?: boolean;
 };
 
 export interface PaymentStatusModalProps {
