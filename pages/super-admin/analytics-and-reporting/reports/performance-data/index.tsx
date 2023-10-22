@@ -210,7 +210,7 @@ const PerformanceDataPage: React.FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       {loading ? (
-        <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
+        <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mt-[30rem] mb-2rem text-brand-success-primary animate-spin" />
       ) : (
         <>
           <SuperAdminNavbar />
