@@ -28,10 +28,6 @@ const sectionButtonsData = [
     type: 'description',
     title: 'Description',
   },
-  {
-    type: 'dates',
-    title: 'Dates',
-  },
 ];
 
 function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void; userId: string }) {
@@ -123,9 +119,6 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     } else if (field === 'subtitle') {
       form.setFieldValue('addList.0.subtitle', { title: '', value: '' });
       setRenderedFields((prev) => [...prev, renderFields(field, newKey, form)]);
-    } else if (field === 'dates') {
-      form.setFieldValue('addList.0.dates', { from: '', to: '' });
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey, form)]);
     } else if (field === 'description') {
       form.setFieldValue('addList.0.description', '');
       setRenderedFields((prev) => [...prev, renderFields(field, newKey, form)]);
@@ -202,6 +195,14 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     createNewCustomSectionMutation.mutate(undefined, {
       onSuccess: (res) => {
         console.log('onSuccess', res);
+        notify({
+          message: 'Custom Section created successfully',
+          autoClose: 1000,
+          type: 'success',
+        });
+        onClose();
+        setGetNewSection(false);
+        setNewSection(true);
       },
       onError: (error) => {
         console.error('Mutation failed:', error);
@@ -210,21 +211,25 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
   };
 
   const handleSubmit = (values: any) => {
-    createNewCustomSectionOption.mutate(undefined, {
-      onSuccess: (res) => {
-        sectionForm.setFieldValue('section', values?.addList);
-        sectionForm.setFieldValue('section.0.id', res?.data?.id);
-        setGetNewSection(true);
-        setNewSection(false);
-      },
-      onError: () => {
-        notify({
-          message: 'An error occurred please try again',
-          autoClose: 1000,
-          type: 'error',
-        });
-      },
-    });
+    // createNewCustomSectionOption.mutate(undefined, {
+    //   onSuccess: (res) => {
+    //     sectionForm.setFieldValue('section', values?.addList);
+    //     sectionForm.setFieldValue('section.0.id', res?.data?.id);
+    //     setGetNewSection(true);
+    //     setNewSection(false);
+    //   },
+    //   onError: () => {
+    //     notify({
+    //       message: 'An error occurred please try again',
+    //       autoClose: 1000,
+    //       type: 'error',
+    //     });
+    //   },
+    // });
+    sectionForm.setFieldValue('section', values?.addList);
+    // sectionForm.setFieldValue('section.0.id', res?.data?.id);
+    setGetNewSection(true);
+    setNewSection(false);
   };
 
   const handleClose = () => {
@@ -258,6 +263,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
       isLoading={createNewCustomSectionOption.isLoading}
       isCreatingSection={createNewCustomSectionMutation.isLoading}
       createCustomSection={handleCreateNewCustomSection}
+      deleteSection={deleteSection}
     />
   );
 }
@@ -278,6 +284,7 @@ function CreateCustomSection({
   handleSubmit,
   onClose,
   createCustomSection,
+  deleteSection,
 }: {
   getNewSection: boolean;
   isLoading: boolean;
@@ -294,6 +301,7 @@ function CreateCustomSection({
   handleSubmit: (values: any) => void;
   onClose: () => void;
   createCustomSection: () => void;
+  deleteSection: () => void;
 }) {
   const errorMessages = Object.values(form.errors)
     .flat()
@@ -315,6 +323,7 @@ function CreateCustomSection({
           setGetNewSection={setGetNewSection}
           isLoading={isCreatingSection}
           createCustomSection={createCustomSection}
+          deleteSection={deleteSection}
         />
       )}
       <Transition show={newSection} as={React.Fragment} unmount={false}>
@@ -352,7 +361,7 @@ function CreateCustomSection({
             <div
               className={`${
                 isErrorsEmpty ? 'border-brand-disabled ' : 'border-red-300'
-              } rounded p-5 mt-2 mb-10 text-center border-[1px] space-y-6 max-h-[500px] overflow-y-auto renderedFields`}
+              } rounded p-5 sm:p-8 mt-2 mb-10 text-center border-[1px] space-y-6 max-h-[500px] overflow-y-auto renderedFields`}
             >
               {renderedFields}
             </div>

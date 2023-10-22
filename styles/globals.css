@@ -20,7 +20,7 @@ input[type='number'] {
 /* disable scroll bar on custom section - portfolio */
 
 .renderedFields::-webkit-scrollbar {
-  width: 5px;
+  width: 12px;
 }
 
 /* Track */
@@ -30,5 +30,5 @@ input[type='number'] {
 
 /* Handle */
 .renderedFields::-webkit-scrollbar-thumb {
-  background: #d1d1d1;
+  background: #c2c1c1;
 }

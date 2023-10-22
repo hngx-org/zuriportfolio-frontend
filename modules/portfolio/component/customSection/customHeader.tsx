@@ -14,9 +14,6 @@ const CustomHeader = ({ sectionButtonsData, handleChange, list }: CustomHeaderPr
   const isSubTitleEmpty = () => {
     return list[0].subtitle === undefined;
   };
-  const isDatesEmpty = () => {
-    return list[0].dates === undefined;
-  };
   const isDescEmpty = () => {
     return list[0].description === undefined;
   };
@@ -26,9 +23,6 @@ const CustomHeader = ({ sectionButtonsData, handleChange, list }: CustomHeaderPr
       return true;
     }
     if (type === 'subtitle' && !isSubTitleEmpty()) {
-      return true;
-    }
-    if (type === 'dates' && !isDatesEmpty()) {
       return true;
     }
     if (type === 'description' && !isDescEmpty()) {

@@ -1,7 +1,5 @@
 import { UseFormReturnType } from '@mantine/form';
-import { years } from '@modules/portfolio/data';
 import { Input } from '@ui/Input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 export const renderFields = (
   field: string,
@@ -80,7 +78,8 @@ export const renderFields = (
           <div className="w-full">
             <textarea
               className="resize-none border-[1px] w-full border-solid border-[#E1E3E2] pt-2 pl-2 text-white-650 font-semibold rounded-lg outline-none focus:border-brand-green-primary "
-              rows={3}
+              rows={4}
+              maxLength={250}
               {...form?.getInputProps(`addList.0.description`)}
             ></textarea>
           </div>
@@ -105,52 +104,6 @@ export const renderFields = (
               inputSize={'lg'}
               {...form?.getInputProps(`addList.0.fields.${index}.value`)}
             />
-          </div>
-        </div>
-      );
-    case 'dates':
-      return (
-        <div className="flex flex-col gap-2 items-start" id={`${id}`}>
-          <div>
-            <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#6 Dates</p>
-            <p className="text-[#444846] mb-2 text-left font-semibold">From *</p>
-            <Select
-              {...form?.getInputProps('addList.0.dates.from')}
-              onValueChange={(value) => form?.setFieldValue('addList.0.dates.from', value)}
-            >
-              <SelectTrigger className="w-full border-[1px] border-brand-disabled">
-                <SelectValue placeholder="Year" />
-              </SelectTrigger>
-              <>
-                <SelectContent>
-                  {years.map((year, index) => (
-                    <SelectItem key={index} value={year.value}>
-                      {year.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </>
-            </Select>
-          </div>
-          <div className="w-full">
-            <p className="text-[#444846] mb-2 text-left font-semibold">To *</p>
-            <Select
-              {...form?.getInputProps('addList.0.dates.to')}
-              onValueChange={(value) => form?.setFieldValue('addList.0.dates.to', value)}
-            >
-              <SelectTrigger className="w-full border-[1px] border-brand-disabled">
-                <SelectValue placeholder="Year" />
-              </SelectTrigger>
-              <>
-                <SelectContent>
-                  {years.map((year, index) => (
-                    <SelectItem key={index} value={year.value}>
-                      {year.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </>
-            </Select>
           </div>
         </div>
       );
