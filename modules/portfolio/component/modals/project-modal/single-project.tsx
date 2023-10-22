@@ -22,9 +22,9 @@ const SingleProject: React.FC<SingleProjectProps> = ({ dataToEdit, handleSetRout
   const handleSingleProjectData = () => {
     setLoading(true);
     if (dataToEdit !== null) {
-      const { title, year, link, thumbnail, tags, description, media, id, projectsImages } = dataToEdit;
+      const { title, year, url, thumbnail, tags, description, media, id, projectsImages } = dataToEdit;
       setTitle(title);
-      setLink(link);
+      setLink(url);
       setThumbnail(thumbnail);
       setTags(tags);
       setDescription(description);
@@ -56,11 +56,16 @@ const SingleProject: React.FC<SingleProjectProps> = ({ dataToEdit, handleSetRout
             <h2 className="font-manropeEB text-2xl sm:text-3xl md:text-4xl">{title}</h2>
 
             <section className="flex flex-wrap gap-3 mt-8 mb-5 text-sm text-[#444846] capitalize">
-              {tags.split(',').map((tag, id) => (
-                <span key={id} className="border border-[#8D9290] rounded-full px-2 py-1 font-manropeL">
-                  {tag}
-                </span>
-              ))}
+              {tags.split(',').length > 0 &&
+                tags.split(',').map((tag: string) => {
+                  if (tag.length > 0) {
+                    return (
+                      <span key={tag} className="border-2 border-[#8D9290] rounded-full px-2 py-1 font-manropeL">
+                        {tag}
+                      </span>
+                    );
+                  }
+                })}
             </section>
 
             <p className="font-semibold font-manropeEB mt-9 text-base sm:text-lg text-white-650 md:text-xl md:leading-[2rem]">
@@ -78,19 +83,13 @@ const SingleProject: React.FC<SingleProjectProps> = ({ dataToEdit, handleSetRout
           </section>
           <section className="pt-7 space-y-5">
             <section className="w-full mx-auto h-[350px]">
-              <Image
-                width={undefined}
-                height={undefined}
-                src={thumbnail}
-                className="w-full h-full rounded-lg"
-                alt="Project image"
-              />
+              <Image width={0} height={0} src={thumbnail} className="w-full h-full rounded-lg" alt="Project image" />
             </section>
             {projectsImages.map((projectImage) => (
               <section key={projectImage} className="w-full mx-auto h-[350px]">
                 <Image
-                  width={undefined}
-                  height={undefined}
+                  width={0}
+                  height={0}
                   src={projectImage}
                   className="w-full h-full rounded-lg"
                   alt="Project image"
