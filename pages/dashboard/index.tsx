@@ -12,6 +12,14 @@ function dashboard() {
       <Head>
         <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>Customer Dashboard</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Customer Dashboard" />
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta key="metaname" itemProp="name" name="title" content="Customer Dashboard" />
+        <meta key="metadescription" itemProp="description" name="description" content="Customer Dashboard" />
+        <meta name="keywords" content="Zuri, portfolio, add, product, dashboard" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
       <div className="w-full">
         <main className="max-w-[1240px] mx-auto md:px-10 px-4">
