@@ -26,8 +26,6 @@ const ForgotPassword = () => {
       router.push(`/auth/forgot-password-link-sent?email=${email}`);
       return;
     }
-
-    notifyError(data.message);
   };
 
   // Form validation
