@@ -52,7 +52,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName, searchQuer
     } else {
       try {
         const response = await axios.post(
-          'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
+          'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/checkout_cart/carts',
           {
             product_ids: [product.id],
           },
@@ -132,7 +132,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, shopName, searchQuer
             className="md:text-sm text-xs  text-black  font-manropeB capitalize"
             dangerouslySetInnerHTML={{ __html: highlightSearchQuery(product.name, searchQuery) }}
           ></h3>{' '}
-          <p className="text-[#052011] md:text-lg text-base font-manropeB ">₦{product.price.toLocaleString()}</p>
+          <p className="text-[#052011] md:text-lg text-base font-manropeB ">
+            ₦{product.discount_price.toLocaleString()}
+          </p>
           {shopName && (
             <div>
               <p className="md:text-sm text-xs text-custom-color15 font-manropeL">

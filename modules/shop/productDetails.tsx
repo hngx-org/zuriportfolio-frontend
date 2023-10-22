@@ -43,7 +43,7 @@ export default function ProductDetails() {
     const { id } = router.query;
     if (id) {
       setLoading(true);
-      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/product/${id}`)
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/${id}`)
         .then((response) => response.json())
         .then((response) => {
           setProduct(response.data);
@@ -66,7 +66,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (shopID) {
-      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/shop/${shopID}`)
+      fetch(`https://zuriportfolio-shop-internal-api.onrender.com/api/v1/shop/${shopID}`)
         .then((response) => response.json())
         .then((response) => {
           setOtherProducts(response.data.products);
@@ -178,7 +178,7 @@ export default function ProductDetails() {
     } else {
       try {
         const response = await axios.post(
-          'https://zuri-cart-checkout.onrender.com/api/checkout_cart/carts',
+          'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/checkout_cart/carts',
           {
             product_ids: [product.id],
           },
@@ -375,7 +375,7 @@ export default function ProductDetails() {
               Other Products By {shopName}{' '}
             </h3>
           </div>
-          {otherProducts.length > 0 ? (
+          {otherProducts && otherProducts.length > 0 ? (
             <>
               <div className="md:mx-[0.66rem] mx-0 hidden lg:block">
                 <ShopProductList products={otherProducts.slice(0, 8)} productId={product.id} shopName={shopName} />

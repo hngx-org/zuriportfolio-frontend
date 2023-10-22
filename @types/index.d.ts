@@ -181,9 +181,20 @@ export interface Data {
   updatedAt: string;
   products: Product;
 }
-export interface ShopData {
-  products: Product;
-  data?: Data;
+interface PaginationData {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  pageSize: number;
+}
+interface ShopData {
+  code: string;
+  message: string;
+  data: ShopResponse;
+}
+export interface ShopResponse {
+  shop: Data;
+  pagination: PaginationData;
 }
 
 export interface SEOProps {

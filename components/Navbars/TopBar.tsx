@@ -588,7 +588,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
             {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
           </p>
           {/* </div> */}
-          <div className="w-10 h-10 relative bg-gray-400 rounded-[100px]" />
+          <UserSquare size="32" color="#555555" />{' '}
         </div>
       </>
     );

@@ -13,11 +13,15 @@ interface ShopProductListProps {
 const ShopProductList: React.FC<ShopProductListProps> = ({ shop, currentPage, productsPerPage, searchQuery }) => {
   const shopData = shop?.data;
 
-  if (!shopData) {
-    return null;
+  if (!shopData || !Array.isArray(shopData.shop.products)) {
+    return (
+      <div>
+        <p>No products available.</p>
+      </div>
+    );
   }
 
-  const filteredProducts = shopData.products.filter((product: Products) =>
+  const filteredProducts = shopData.shop.products.filter((product: Products) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
@@ -26,7 +30,6 @@ const ShopProductList: React.FC<ShopProductListProps> = ({ shop, currentPage, pr
       position: 'top-right',
     });
   }
-
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const productsToDisplay = filteredProducts.slice(startIndex, endIndex);
@@ -35,7 +38,12 @@ const ShopProductList: React.FC<ShopProductListProps> = ({ shop, currentPage, pr
     <div className="h-full">
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 md:gap-4 gap-2">
         {productsToDisplay.map((product: Products) => (
-          <ProductCard key={product.id} product={product} shopName={shopData.name || ''} searchQuery={searchQuery} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            shopName={shopData.shop.name || ''}
+            searchQuery={searchQuery}
+          />
         ))}
       </div>
     </div>
