@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { notify } from '@ui/Toast';
-
-const fetchErrorToast = (data: string) => notify({ type: 'error', message: `Error fetching ${data}`, theme: 'light' });
+import { logQueryResult } from '../helpers/dashboard';
 
 const shop_id = '6d022186-7c7f-4439-af0c-8209202ef4a6';
 
@@ -23,7 +21,8 @@ export const fetchTodaysRevenue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const todaysRevenue = res?.data?.data?.todayRevenue;
+    const todaysRevenue = res?.data?.data?.revenue;
+    // logQueryResult('todays revenue', todaysRevenue);
     return todaysRevenue;
   } catch (error) {
     throw error;
@@ -37,7 +36,8 @@ export const fetchYesterdaysRevenue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const yesterdaysRevenue = res?.data?.data?.todayRevenue;
+    const yesterdaysRevenue = res?.data?.data?.revenue;
+    // logQueryResult('yesterdays revenue', yesterdaysRevenue);
     return yesterdaysRevenue;
   } catch (error) {
     throw error;
@@ -54,6 +54,7 @@ export const fetchTodaysOrders = async () => {
       },
     });
     const orderCount: number = res?.data?.data?.orderCount;
+    // logQueryResult('todays orders', orderCount);
     return orderCount;
   } catch (error) {
     throw error;
@@ -68,6 +69,7 @@ export const fetchYesterdaysOrders = async () => {
       },
     });
     const orderCount: number = res?.data?.data?.orderCount;
+    // logQueryResult('yesterdays orders', orderCount);
     return orderCount;
   } catch (error) {
     throw error;
@@ -108,13 +110,13 @@ export const fetchYesterdaysAverageOrderValue = async () => {
 
 export const fetchSalesReports = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/sales/report/timeframe=1y,1m,24h`, {
+    const res: any = await axiosDashboardInstance.get(`/sales/reports/timeframe=12m`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const salesReport = res?.data;
-    console.log(salesReport);
+    const salesReport = res;
+    logQueryResult('sales report', salesReport);
     return salesReport;
   } catch (error) {
     throw error;
@@ -207,8 +209,9 @@ export const fetchActivity = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    console.log(res);
-    return res.data;
+    const activity = res?.data?.data;
+    // logQueryResult('activity', activity);
+    return activity;
   } catch (error) {
     throw error;
   }

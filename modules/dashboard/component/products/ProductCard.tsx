@@ -260,7 +260,7 @@ const EditModal = (props: {
   };
   useEffect(() => {
     // Fetch product categories
-    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
+    fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/categories', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,

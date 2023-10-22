@@ -41,14 +41,15 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
     }
   };
 
-    const deleteInputCharacter = (e: { key: string }) => {
-      if (e.key === 'Backspace') {
-        setInputValue(inputValue.slice(0, -1));
-      }
-    };
+  const deleteInputCharacter = (e: { key: string }) => {
+    if (e.key === 'Backspace') {
+      setInputValue(inputValue.slice(0, -1));
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
+    console.log(value);
     if (value !== '') {
       setInputValue(e.target.value);
     }
@@ -203,9 +204,9 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
             placeholder=""
             onChange={handleInputChange}
             onKeyDown={(e) => {
-              handleEnterKeyPress(e)
-              deleteInputCharacter(e)}
-            }
+              handleEnterKeyPress(e);
+              deleteInputCharacter(e);
+            }}
             maxLength={30}
             value={inputValue}
           />
