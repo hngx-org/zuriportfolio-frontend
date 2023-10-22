@@ -201,13 +201,16 @@ const Products = () => {
                         <Loader />
                       </div>
                     ) : (
-                      <ProductCard
-                        product={productsToDisplay}
-                        fetchProducts={fetchProducts}
-                        insertProduct={insertProduct}
-                        insertSelectedProduct={insertSelectedProduct}
-                        selectedProduct={selectedProduct}
-                      />
+                      product.map((product) => (
+                        <ProductCard
+                          product={product}
+                          fetchProducts={fetchProducts}
+                          insertProduct={insertProduct}
+                          insertSelectedProduct={insertSelectedProduct}
+                          selectedProduct={selectedProduct}
+                          key={product.id}
+                        />
+                      ))
                     )}
                   </div>
                   <div className="flex justify-center my-4">
