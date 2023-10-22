@@ -1,49 +1,49 @@
 'use-client';
-import React, { useEffect, useState } from 'react';
-import { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
+import React, { useContext, useEffect, useState } from 'react';
+import Portfolio, { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
 import ExternalView from '@modules/portfolio/component/landing/external-view';
 import MainLayout from '../../components/Layout/MainLayout';
 import Cover from '@modules/portfolio/component/landing/cover-avatar';
 import Image from 'next/image';
 import { CoverDiv } from '@modules/portfolio/component/landing/avatars';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../context/AuthContext';
+// import { useAuth } from '../../context/AuthContext';
 import Loader from '@modules/portfolio/component/landing/Loader';
 import { useParams } from 'next/navigation';
+import withAuth from '../../helpers/withAuth';
 
 const View = () => {
-  // const urlSlug = Array.isArray(router?.query?.id) ? router?.query?.id[0] : router?.query?.id;
-  //  const urlSlug = router.query.slug
-  // console.log(urlSlug);
+  const router = useRouter();
+  const urlSlug = router.query.slug;
 
   // Auth to get userid
-  const { auth } = useAuth();
-  const router = useRouter();
-  const urlSlug = Array.isArray(router?.query?.slug) ? router?.query?.slug[0] : router?.query?.slug;
-  // const urlSlug = router.query.slug;
+  // const { auth } = useAuth();
+
+  // const urlSlug = Array.isArray(router?.query?.slug) ? router?.query?.slug[0] : router?.query?.slug;
+
   // const params = useParams();
-  useEffect(() => {
-    console.log(urlSlug);
+  // useEffect(() => {
+  //   console.log("Slug",urlSlug);
 
-    // console.log(params);
-    // wait for router to be ready
-    if (!router.isReady) return;
-    if (!auth?.user?.slug) {
-      return;
-    }
-    // if user is logged in and user id is same as id in url, redirect to dashboard
-    if (auth?.user?.slug === urlSlug) {
-      router.push(`/portfolio`);
-    } else {
-      // if user is not logged in and id is not in url, fetch info with the id from url
-      if (urlSlug) {
-        getUser();
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   // console.log(params);
+  //   // wait for router to be ready
+  //   if (!router.isReady) return;
+  //   if (!auth?.user?.slug) {
+  //     return
+  //   }
+  //   // if user is logged in and user id is same as id in url, redirect to dashboard
+  //   if (auth?.user?.slug === urlSlug) {
+  //     router.push(`/portfolio`);
+  //   } else {
+  //     // if user is not logged in and id is not in url, fetch info with the id from url
+  //     if (urlSlug) {
+  //       getUser();
+  //     }
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-  auth?.user?.slug, urlSlug, router;
+  // auth?.user?.slug, urlSlug, router
 
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({
@@ -65,6 +65,8 @@ const View = () => {
       setIsLoading(true);
       const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${urlSlug}`);
       const data = await response.json();
+      console.log('data', data);
+
       if (!response.ok) throw new Error(data.error);
       setUserData({
         firstName: data?.data?.user?.firstName,
@@ -108,6 +110,7 @@ const View = () => {
       setIsLoading(false);
       console.log(isLoading);
     } catch (error: any) {
+      setIsLoading(false);
       setError({ state: true, error: error.message });
     }
   };
@@ -163,13 +166,13 @@ const View = () => {
   );
 };
 
-export default View;
+export default withAuth(View);
 
 export async function getServerSideProps(context: any) {
   const { slug } = context.query;
   return {
     props: {
-      userId: slug,
+      userslug: slug,
     },
   };
 }
