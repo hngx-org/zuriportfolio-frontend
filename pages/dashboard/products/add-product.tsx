@@ -397,12 +397,12 @@ const AddProduct = () => {
                 <p className="text-[red] text-lg my-3 font-semibold">
                   {form.errors.assets_link && form.errors.assets_link}
                 </p>
-                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]"> Note</label>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]"> Access Instructions</label>
                 <textarea
                   className={`w-full border-solid border-[2px]  placeholder:text-[#191C1E] text-black focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 ${
                     form.errors.assets_notes ? 'border-red-200' : 'border-slate-50'
                   }`}
-                  placeholder="Add note for your file"
+                  placeholder="Please provide notes, passwords or links to your file."
                   inputMode="none"
                   {...form.getInputProps('assets_notes')}
                 />

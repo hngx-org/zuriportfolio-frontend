@@ -37,4 +37,5 @@ function dashboard() {
 }
 
 // uncomment after auth is implemented
-export default withUserAuth(dashboard);
+// export default withUserAuth(dashboard);
+export default dashboard;
