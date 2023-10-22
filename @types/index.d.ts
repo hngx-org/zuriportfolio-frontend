@@ -738,7 +738,9 @@ export type cardinfo = {
   color?: string;
 };
 
-type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
+interface ActivityDetailsProps {
+  token: string;
+}
 
 export type inputErrorMessage = {
   errorMessage: string;
@@ -893,7 +895,8 @@ export interface ReviewData {
   };
   numberOfPages: 0;
   updatedAt: string;
-  createdAt: string;
+  createdAtTime: string;
+  createdAtDate: string;
 }
 
 export interface ReviewApiResponse {
@@ -918,4 +921,17 @@ export interface ExploreSEOProps {
   description: string;
   image: string;
   url: string;
+}
+
+export type DashboardActivity = {
+  id?: string;
+  action?: string;
+  user_id?: string;
+  title?: string;
+  description?: string;
+  createdAt?: string;
+};
+
+export interface ExtendedDashboardActivity extends DashboardActivity {
+  isPage?: boolean;
 }

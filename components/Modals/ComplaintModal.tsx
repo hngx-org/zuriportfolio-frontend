@@ -1,6 +1,27 @@
-import { useState } from 'react';
+// from cookies
+{
+  /*function getAuthTokenFromCookies(cookieName: string): string | null {
+  const cookies = document.cookie;
+  const cookieArray = cookies.split(';');
+
+  for (const cookie of cookieArray) {
+    const [name, value] = cookie.trim().split('=');
+    if (name === cookieName) {
+      return value;
+    }
+  }
+
+  return null;
+}
+*/
+}
+
+// from local storage
+
+import { useState, useEffect } from 'react';
 import Modal from '@ui/Modal';
 import { toast } from 'react-toastify';
+import getZptValueFromLocalStorage from './tokenkey';
 
 interface ModalProps {
   isOpen: boolean;
@@ -10,13 +31,18 @@ interface ComplaintModalProps extends ModalProps {
   product: string;
   customerID: string;
 }
+// const token = getAuthTokenFromCookies('UTM_tracker');
+const apiURL = 'https://zuri-cart-checkout.onrender.com/api/v1/checkout_cart/complaints';
 
 const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, product, customerID }) => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const payload = { user_id: customerID, product_id: product, complaint_text: description };
-  const stringifyData = JSON.stringify(payload);
+  const data = { product_id: product, complaint: description };
+  const stringifyData = JSON.stringify(data);
+
+  //auth Token
+  const zptValue = getZptValueFromLocalStorage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,16 +51,14 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
       setError('Complaint cannot be empty');
     } else {
       try {
-        const response = await fetch(
-          `https://team-mirage-super-amind2.onrender.com/api/superadmin/feedback/register_complaints/`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: stringifyData,
+        const response = await fetch(apiURL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${zptValue}`,
           },
-        );
+          body: stringifyData,
+        });
         if (response.ok) {
           toast.success('Submitted Complaint, Successfully', {
             position: 'top-right',
@@ -46,16 +70,31 @@ const ComplaintModal: React.FC<ComplaintModalProps> = ({ isOpen, onClose, produc
             progress: undefined,
             theme: 'light',
           });
+
           const res = await response.json();
           console.log(res.data);
-          setError(''); // Clear any previous errors
+          setError('');
           onClose();
         } else {
-          setError('Failed to submit complaint. Please try again.');
+          const errorData = await response.json();
+          if (response.status === 404) {
+            console.error('404: 404 Not Found - Endpoint Not Found');
+          } else if (response.status === 403) {
+            console.error('403: 403 Forbidden - You are not authorized to perform this action');
+          } else if (response.status === 500) {
+            console.error('500: 500 something went wrong. Please try again');
+          } else if (response.status === 401) {
+            console.error('401: 401 Unauthorized - Authentication required');
+          } else if (response.status === 422) {
+            console.error('422: 422 Unprocessable Entity - Invalid data submitted');
+          } else {
+            console.error('An error occurred while submitting your complaint');
+          }
+          toast.error(errorData.message, {});
         }
-      } catch (err) {
-        console.log(err);
-        toast.error('An error occurred while submitting your complaint', {
+      } catch (err: any) {
+        console.error(err);
+        toast.error(err.message, {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
