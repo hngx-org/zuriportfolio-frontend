@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { NextRouter } from 'next/router';
 
 //super-admin(spit-fire)
 const makeRequest = async (apiUrl: string, method = 'get', data = null, config = {}) => {
@@ -11,7 +12,7 @@ const makeRequest = async (apiUrl: string, method = 'get', data = null, config =
         'Content-Type': 'application/json; charset=UTF-8',
       },
       method,
-      url: `https://staging.zuri.team/api/admin/${apiUrl}`,
+      url: `https://staging.zuri.team/api/v1/admin/${apiUrl}`,
       data,
       ...config,
     };
@@ -182,4 +183,9 @@ export const useDeleteShop = () => {
     deleteShop: deleteShop.mutate,
     isLoading: deleteShop.isLoading,
   };
+};
+
+export const logout = (route: NextRouter) => {
+  localStorage.removeItem('zpt');
+  route.push('/');
 };

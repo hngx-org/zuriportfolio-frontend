@@ -130,6 +130,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     tracks: [],
     level: '',
     icon: '',
+    badge: [],
   });
 
   const [getUserSections] = useQueries({
@@ -145,20 +146,20 @@ export function PortfolioCtxProvider(props: { children: any }) {
   useEffect(() => {
     if (auth?.user?.id) {
       setUserId(auth?.user?.id!);
+      // setSlug('alameen-adeyemi-1');
       setSlug(auth?.user?.slug!);
     }
     if (getUserSections.data) {
-      const { user } = getUserSections.data;
+      const { user, badges, portfolio, tracks } = getUserSections?.data?.data;
       setUserData({
         firstName: user?.firstName,
         lastName: user?.lastName,
         avatarImage: user?.profilePic,
-        city: user?.location,
-        country: user?.portfolio?.country,
-        tracks: getUserSections.data?.tracks,
+        city: portfolio?.city,
+        country: portfolio?.country,
+        tracks: tracks,
         coverImage: user?.profileCoverPhoto,
-        level: user?.badges?.name,
-        icon: user?.badges?.badge_image,
+        badge: badges,
       });
       const {
         about,
@@ -174,7 +175,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         certificates,
         shop,
         custom,
-      } = getUserSections.data;
+      } = getUserSections?.data?.data;
       if (
         about ||
         projects ||
@@ -191,6 +192,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
         custom
       ) {
       }
+      console.log(languages);
       setUserSections([
         { title: 'About', id: 'about', data: about },
         { title: 'Project', id: 'projects', data: projects },

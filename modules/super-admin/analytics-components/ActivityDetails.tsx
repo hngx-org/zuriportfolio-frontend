@@ -1,6 +1,8 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { activity } from '../../../@types';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface ActivityDetailsProps {
   token: string;
@@ -29,7 +31,14 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
     data: activityDetails,
     isLoading,
     isError,
-  } = useQuery<activity[]>(['activityDetails', token], () => fetchActivityDetails(token));
+  } = useQuery<activity[]>(['activityDetails', token], () => fetchActivityDetails(token), {
+    onError: (error) => {
+      console.error('Error fetching data:', error);
+      if (!toast.isActive('activityError')) {
+        toast.error('Could not load activity details. Try again!', { toastId: 'activityError' });
+      }
+    },
+  });
 
   return (
     <section className="lg:w-[25%]">
@@ -51,8 +60,6 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
                   <div className="h-4 w-1/2 bg-black bg-opacity-10 animate-pulse" />
                 </div>
               ))
-            : isError
-            ? 'Error fetching data. Please try again.'
             : Array.isArray(activityDetails) &&
               activityDetails.map((item, index) => (
                 <div key={index}>
@@ -67,6 +74,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({ token }) => {
               ))}
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };

@@ -6,6 +6,7 @@ import TempUser from './../../../../../components/Modals/TempUser';
 import useDisclosure from '../../../../../hooks/useDisclosure';
 import isAuthenticated from '../../../../../helpers/isAuthenticated';
 import CartPaymentModal from '../../../../../components/Modals/CartPaymentModal';
+import { formatCurrency } from '../../../../../helpers/formatCurrency';
 
 const Summary = ({ prices, summary, token }: SummaryProps & { token: string; summary: CartSumaryProp }) => {
   const [couponValue, setCouponValue] = useState<string>('');
@@ -70,7 +71,9 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
             <div className="cart-summary__prices flex flex-col space-y-3">
               <div className="sum flex justify-between">
                 <p className="font-bold">Subtotal</p>
-                <span className="text-gray-200">₦ {summary.subtotal ? summary.subtotal.toFixed(2) : ''}</span>
+                <span className="text-gray-200">
+                  ₦ {summary.subtotal ? formatCurrency(summary.subtotal.toFixed(2)) : ''}
+                </span>
               </div>
 
               <div className="sum flex justify-between">
@@ -81,7 +84,7 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
               <div className="sum flex justify-between">
                 <p className="font-bold">Vat</p>
                 <span className="text-brand-red-primary transition-all duration-300">
-                  +₦ {summary.VAT ? summary.VAT.toFixed(2) : ''}
+                  +₦ {summary.VAT ? formatCurrency(summary.VAT.toFixed(2)) : ''}
                 </span>
               </div>
             </div>
@@ -92,7 +95,7 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
               <div className="sum flex justify-between">
                 <p className="font-bold">Total:</p>
                 <span className="font-bold text-xl transition-all duration-300">
-                  ₦ {summary.total ? summary.total.toFixed(2) : ''}
+                  ₦ {summary.total ? formatCurrency(summary.total.toFixed(2)) : ''}
                 </span>
               </div>
             </div>
@@ -106,7 +109,11 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
               </button>
             </div>
             {token.length > 0 && modalOpen ? (
-              <PaymentInformationModal token={token} orderTotal={summary.total} closeModal={closeModal} />
+              <PaymentInformationModal
+                token={token}
+                orderTotal={formatCurrency(summary.total)}
+                closeModal={closeModal}
+              />
             ) : (
               <TempUser isOpen={modalOpen} onClose={closeModal} />
             )}

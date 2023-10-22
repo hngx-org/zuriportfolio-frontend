@@ -33,52 +33,62 @@ function VerificationComplete() {
         notify({
           message: 'Verification Successful!',
           type: 'success',
+          theme: 'light',
         });
 
         router.push(userCameFrom || '/explore');
         return;
       }
 
-      if (response.status !== 200) {
-        setIsError(true);
-        notify({
-          message: response.data.message,
-          type: 'error',
-        });
-        return;
-      }
+      // if (response.status !== 200) {
+      //   setIsError(true);
+      //   notify({
+      //     message: response.data.message,
+      //     type: 'error',
+      //   });
+      //   return;
+      // }
 
-      notify({
-        message: 'Verification Unsuccessful!',
-        type: 'error',
-      });
+      // notify({
+      //   message: 'Verification Unsuccessful!',
+      //   type: 'error',
+      // });
     },
-    onError: ({ response }: any) => {
-      if (!isSuccess) {
-        const resend = 'Invalid token / Expired token';
+    onError: (error: any) => {
+      console.log(error);
+      // if (!isSuccess) {
+      //   const resend = 'Invalid token / Expired token';
 
-        notify({ message: resend, type: 'error' });
-        setIsError(true);
-        return;
-      }
+      //   notify({ message: resend, type: 'error' });
+      //   setIsError(true);
+      //   return;
+      // }
 
-      if (response.data.message === 'timeout of 30000ms exceeded') {
+      if (error.respsonse && error.response.message === 'timeout of 30000ms exceeded') {
         const timeoutErrorMessage =
           'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
 
         notify({
           message: timeoutErrorMessage,
           type: 'error',
+          theme: 'light',
         });
-
+        setIsError(true);
         return;
       }
 
-      if (response.data.message) {
-        notify({ message: response.data.message, type: 'error' });
-        router.push('/auth/verification');
-        return;
-      }
+      // if (response.data.message) {
+      //   notify({ message: response.data.message, type: 'error' });
+      //   router.push('/auth/verification');
+      //   return;
+      // }
+
+      notify({
+        message: error.message,
+        type: 'error',
+        theme: 'light',
+      });
+      setIsError(true);
     },
   });
 

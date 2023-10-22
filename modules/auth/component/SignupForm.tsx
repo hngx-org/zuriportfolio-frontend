@@ -21,13 +21,12 @@ function SignUpWithEmail() {
   const { handleEmail } = useAuth();
   const [userEmail, setUserEmail] = useState('');
   const router = useRouter();
+
   const onSignUpWithEmailSuccess = (data: any) => {
     if (data.status === 200) {
       router.push(`/auth/continue-signup?email=${userEmail}`);
       return;
     }
-
-    notifyError(data.message);
   };
 
   const onSignUpWithEmailError = (error: any) => {
@@ -38,6 +37,9 @@ function SignUpWithEmail() {
       notifyError(timeoutErrorMessage);
       return;
     }
+
+    // Error sent from API
+    notifyError(error.message);
   };
 
   const { mutate: signUpUser, isLoading: isUserSigningUp } = useAuthMutation(signUpUserWithEmail, {
@@ -110,8 +112,8 @@ function SignUpWithEmail() {
         </div>
         <div className="flex flex-col gap-y-4">
           <SignUpWithGoogle />
-          <SignUpWithGithub />
-          <SignUpWithFacebook />
+          {/* <SignUpWithGithub /> */}
+          {/* <SignUpWithFacebook /> */}
         </div>
       </div>
     </AuthLayout>

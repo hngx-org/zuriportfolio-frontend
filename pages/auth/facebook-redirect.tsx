@@ -13,7 +13,7 @@ function FacebookRedirect() {
   const { mutate: signUserWithFacebook } = useAuthMutation(signUpWithOAuth, {
     onSuccess: (data) => {
       // Checking if user enabled 2fa
-      if (data?.response && data?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+      if (data?.status === 202) {
         // Setting to localStorage because 2fa page needs them
         localStorage.setItem('2fa', data?.response?.token);
         localStorage.setItem('email', data?.response?.email);
@@ -22,7 +22,7 @@ function FacebookRedirect() {
         return;
       }
 
-      if (data.message === 'Login successful') {
+      if (data.status === 200) {
         handleAuth(data.data);
         localStorage.setItem('zpt', data?.data?.token);
 
@@ -52,6 +52,7 @@ function FacebookRedirect() {
       notify({
         message: error.message,
         type: 'error',
+        theme: 'light',
       });
 
       // if an error occurs, take the user to where they signed up from or to sign in page if undefined

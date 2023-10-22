@@ -1,11 +1,12 @@
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import Modal from '@ui/Modal';
-import { useEffect, useState, MouseEvent, useCallback } from 'react';
+import { useEffect, useState, MouseEvent, useCallback, useContext } from 'react';
 import { AiOutlinePlus, AiOutlineCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import axios from 'axios';
 import { notify } from '@ui/Toast';
 import Loader from '@ui/Loader';
+import Portfolio from '../../../../context/PortfolioLandingContext';
 
 type skillModalProps = {
   onCloseModal: () => void;
@@ -28,7 +29,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   const [inputValue, setInputValue] = useState('');
   const [arrayOne, setArrayOne] = useState<Array<skillListRes>>([
     { skill: 'version control', skillId: 1 },
-    { skill: 'deveOps', skillId: 2 },
+    { skill: 'devOps', skillId: 2 },
     { skill: 'testing', skillId: 3 },
     { skill: 'art', skillId: 4 },
     { skill: 'sketch', skillId: 5 },
@@ -41,6 +42,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
+  const slug = useContext(Portfolio);
 
   const fetchSkillData = useCallback(async () => {
     try {
@@ -108,7 +110,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   const getAllSkill = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${userId}`);
+      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${slug}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -185,102 +187,99 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   return (
     <section className="w-full flex items-center justify-center ">
       <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false} size="xl">
-        {!isLoading ? (
-          <div className=" w-full max-sm:w-full px-10 py-5 fontFamily-manropeEL max-sm:px-2 font-manropeL">
-            <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
-              <h1 className="font-extrabold text-2xl ">Skills</h1>
-              <button
-                className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
-                onClick={onCloseModal}
-              >
-                <AiOutlineClose />
-              </button>
-            </div>
-            <div className="w-full">
-              {values?.length > 0 && (
-                <ul className="w-full flex flex-wrap gap-4 my-12">
-                  {values?.map((item: skillListRes) => (
-                    <li key={item.skillId}>
-                      <Button
-                        className=" group/skillsbtn text-brand-green-shade20 h-10 bg-brand-green-shade95  hover:text-white-100   text-sm font-semibold leading-5 rounded-lg px-2 py-4 flex items-center gap-4"
-                        onClick={() => {
-                          arrayTwolist(item);
-                          deleteSkillsData(item.skillId);
-                        }}
-                        type="button"
-                      >
-                        {item.skill}
-                        <span className="text-base rounded-full m-auto ml-4 flex items-center justify-center  group-hover/skillsbtn:border-white-100">
-                          <AiOutlineCloseCircle />
-                        </span>
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            <div className="my-12">
-              <Input
-                type="text"
-                placeHolder='Enter your skill and press "ENTER'
-                className="w-full rounded-lg p-4 mb-6 border-2 border-[#C4C7C6] max-sm:p-2"
-                onChange={inputChange}
-                onKeyDown={(e) => {
-                  handleKeyPress(e);
-                  deleteInputCharacter(e);
-                }}
-                value={inputValue}
-              />
-            </div>
-
-            <div className="w-full">
-              <h2 className="text-brand-green-primary text-base font-bold">Suggestions</h2>
-              {arrayOne.length > 0 && (
-                <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">
-                  {arrayOne.map((item) => (
-                    <li key={item.skillId}>
-                      <Button
-                        className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100 focus:text-white-100 "
-                        onClick={() => {
-                          arrayOneItemAddition(item);
-                        }}
-                        type="button"
-                      >
-                        {item.skill}
-                        <span className="group-hover/skillsbtn:border-white-100">
-                          <AiOutlinePlus />
-                        </span>
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            <div className="flex justify-end gap-4 pb-4 max-sm:flex-col max-sm:items-center pt-12">
-              <Button
-                className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
-                onClick={() => {
-                  onCloseModal();
-                  cancelBtnFn();
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                className="border-2 p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
-                onClick={handleAddSkills}
-              >
-                Save
-              </Button>
-            </div>
+        <div className=" w-full max-sm:w-full px-10 py-6 fontFamily-manropeEL max-sm:px-2 ">
+          <div className="flex justify-between items-center border-b-4 border-brand-green-primary pb-4">
+            <h1 className="font-medium text-2xl ">Skills</h1>
+            <button
+              className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
+              onClick={onCloseModal}
+            >
+              <AiOutlineClose />
+            </button>
           </div>
-        ) : (
-          <>
-            <Loader />
-            <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
-          </>
-        )}
+          <div className="w-full">
+            {values?.length > 0 && (
+              <ul className="w-full flex flex-wrap gap-4 my-12">
+                {values?.map((item: skillListRes) => (
+                  <li key={item.skillId}>
+                    <Button
+                      className=" group/skillsbtn text-brand-green-shade20 h-10 bg-brand-green-shade95  hover:text-white-100   text-sm font-semibold leading-5 rounded-lg px-2 py-4 flex items-center gap-4"
+                      onClick={() => {
+                        arrayTwolist(item);
+                        deleteSkillsData(item.skillId);
+                      }}
+                      type="button"
+                    >
+                      {item.skill}
+                      <span className="text-base rounded-full m-auto ml-4 flex items-center justify-center  group-hover/skillsbtn:border-white-100">
+                        <AiOutlineCloseCircle />
+                      </span>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="my-12">
+            <Input
+              type="text"
+              placeHolder=""
+              className="w-full rounded-lg p-4 mb-2 border-2 border-[#C4C7C6] max-sm:p-2"
+              onChange={inputChange}
+              onKeyDown={(e) => {
+                handleKeyPress(e);
+                deleteInputCharacter(e);
+              }}
+              value={inputValue}
+            />
+            <label htmlFor="" className="text-brand-green-primary ">
+              Enter your tags and press enter
+            </label>
+          </div>
+
+          <div className="w-full">
+            <h2 className="text-brand-green-primary text-base font-bold">Suggestions</h2>
+            {arrayOne.length > 0 && (
+              <ul className=" pt-4 flex gap-6 rounded-sm flex-wrap w-full max-sm:p-2 max-sm:text-sm">
+                {arrayOne.map((item) => (
+                  <li key={item.skillId}>
+                    <Button
+                      className="text-[#737876] group/addSkillsBtn  bg-white border-2 border-brand-disabled2 hover:text-white-100 focus:text-white-100 "
+                      onClick={() => {
+                        arrayOneItemAddition(item);
+                      }}
+                      type="button"
+                    >
+                      {item.skill}
+                      <span className="group-hover/skillsbtn:border-white-100">
+                        <AiOutlinePlus />
+                      </span>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="flex justify-end gap-4 pb-4 max-sm:flex-col max-sm:items-center pt-12">
+            <Button
+              className="border-2 p-5 rounded-lg h-5 text-center w-24 flex bg-white-100 hover:text-white-100 items-center max-sm:w-10/12 border-brand-green-primary text-brand-green-primary"
+              onClick={() => {
+                onCloseModal();
+                cancelBtnFn();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="p-5 rounded-lg h-5 w-24 flex items-center max-sm:w-10/12 border-brand-green-primary"
+              onClick={handleAddSkills}
+              disabled={isLoading}
+            >
+              {isLoading ? <Loader /> : `Save`}
+            </Button>
+          </div>
+        </div>
       </Modal>
     </section>
   );

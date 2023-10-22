@@ -157,7 +157,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
         .catch((err) => {
           setLoading(false);
           notify({
-            message: 'Error occurred',
+            message: err?.response?.data?.message || 'Error occurred',
             position: 'top-center',
             theme: 'light',
             type: 'error',
@@ -179,6 +179,12 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
       })
       .catch((err) => {
         setInitialLoading(false);
+        notify({
+          message: err?.response?.data?.message || 'Error occurred when fetching language',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       });
   };
 
@@ -191,8 +197,10 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
     <Modal size="xl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
       {initialoading ? (
         <>
-          <Loader />
-          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+          <div className="py-32">
+            <Loader />
+            <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+          </div>
         </>
       ) : (
         <>
@@ -252,8 +260,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
                 className={`${loading ? 'opacity-80' : 'opacity-100'} w-full rounded-md sm:w-[6rem]`}
                 size={'lg'}
               >
-                {' '}
-                Save{' '}
+                {loading ? <Loader /> : 'Save'}
               </Button>
             </section>
           </section>
