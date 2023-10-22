@@ -1,15 +1,13 @@
 'use-client';
-import React, { useContext, useEffect, useState } from 'react';
-import Portfolio, { PortfolioCtxProvider } from '../../../context/PortfolioLandingContext';
+import React, { useEffect, useState } from 'react';
+import { PortfolioCtxProvider } from '../../../context/PortfolioLandingContext';
 import ExternalView from '@modules/portfolio/component/landing/external-view';
 import MainLayout from '../../../components/Layout/MainLayout';
 import Cover from '@modules/portfolio/component/landing/cover-avatar';
 import Image from 'next/image';
 import { CoverDiv } from '@modules/portfolio/component/landing/avatars';
 import { useRouter } from 'next/router';
-// import { useAuth } from '../../context/AuthContext';
 import Loader from '@modules/portfolio/component/landing/Loader';
-import { useParams } from 'next/navigation';
 import withAuth from '../../../helpers/withAuth';
 
 const View = () => {
@@ -45,6 +43,64 @@ const View = () => {
 
   // auth?.user?.slug, urlSlug, router
 
+  useEffect(() => {
+    if (urlSlug) {
+      const getUser = async () => {
+        try {
+          setIsLoading(true);
+          const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${urlSlug}`);
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error);
+          setUserData({
+            firstName: data?.data?.user?.firstName,
+            lastName: data?.data?.user?.lastName,
+            avatarImage: data?.data?.user?.profilePic,
+            city: data?.data?.portfolio?.city,
+            country: data?.data?.portfolio?.country,
+            tracks: data?.data?.tracks,
+            coverImage: data?.data?.user?.profileCoverPhoto,
+          });
+          const {
+            about,
+            projects,
+            workExperience,
+            education,
+            skills,
+            contact,
+            interestArray,
+            awards,
+            language,
+            reference,
+            certificates,
+            shop,
+            custom,
+          } = data.data;
+          setUserSections([
+            { title: 'About', id: 'about', data: about },
+            { title: 'Project', id: 'projects', data: projects },
+            { title: 'Work Experience', id: 'workExperience', data: workExperience },
+            { title: 'Education', id: 'education', data: education },
+            { title: 'Skills', id: 'skills', data: skills },
+            { title: 'Interests', id: 'interests', data: interestArray },
+            { title: 'Awards', id: 'awards', data: awards },
+            { title: 'Certificate', id: 'certificate', data: certificates },
+            { title: 'Language', id: 'language', data: language },
+            { title: 'Reference', id: 'reference', data: reference },
+            { title: 'Shop', id: 'shop', data: shop },
+            { title: 'Contact', id: 'contact', data: contact },
+            { title: 'Custom', id: 'custom', data: custom },
+          ]);
+          setIsLoading(false);
+        } catch (error: any) {
+          setIsLoading(false);
+          setError({ state: true, error: error.message });
+          setIsLoading(false);
+        }
+      };
+      getUser();
+    }
+  }, [urlSlug]);
+
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({
     firstName: '',
@@ -60,66 +116,7 @@ const View = () => {
   const [userSections, setUserSections] = useState<any>([]);
   const [error, setError] = useState({ state: false, error: '' });
 
-  console.log(userData, isLoading);
-
-  const getUser = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/portfolio/${urlSlug}`);
-      const data = await response.json();
-      console.log('data', data);
-
-      if (!response.ok) throw new Error(data.error);
-      setUserData({
-        firstName: data?.data?.user?.firstName,
-        lastName: data?.data?.user?.lastName,
-        avatarImage: data?.data?.user?.profilePic,
-        city: data?.data?.portfolio?.city,
-        country: data?.data?.portfolio?.country,
-        tracks: data?.data?.tracks,
-        coverImage: data?.data?.user?.profileCoverPhoto,
-      });
-      const {
-        about,
-        projects,
-        workExperience,
-        education,
-        skills,
-        contact,
-        interestArray,
-        awards,
-        language,
-        reference,
-        certificates,
-        shop,
-        custom,
-      } = data.data;
-      setUserSections([
-        { title: 'About', id: 'about', data: about },
-        { title: 'Project', id: 'projects', data: projects },
-        { title: 'Work Experience', id: 'workExperience', data: workExperience },
-        { title: 'Education', id: 'education', data: education },
-        { title: 'Skills', id: 'skills', data: skills },
-        { title: 'Interests', id: 'interests', data: interestArray },
-        { title: 'Awards', id: 'awards', data: awards },
-        { title: 'Certificate', id: 'certificate', data: certificates },
-        { title: 'Language', id: 'language', data: language },
-        { title: 'Reference', id: 'reference', data: reference },
-        { title: 'Shop', id: 'shop', data: shop },
-        { title: 'Contact', id: 'contact', data: contact },
-        { title: 'Custom', id: 'custom', data: custom },
-      ]);
-      setIsLoading(false);
-      console.log(isLoading);
-    } catch (error: any) {
-      setIsLoading(false);
-      setError({ state: true, error: error.message });
-      setIsLoading(false);
-    }
-  };
   const { firstName, lastName, city, country, coverImage, tracks } = userData;
-  console.log(error);
-
   const headerMargin = `w-full h-[200px] sm:h-[250px] md:h-[300px] object-center object-cover`;
 
   const cover = coverImage ? (
@@ -174,7 +171,7 @@ const View = () => {
   );
 };
 
-export default withAuth(View);
+export default View;
 
 export async function getServerSideProps(context: any) {
   const { slug } = context.query;
