@@ -49,6 +49,7 @@ const InterestModal = ({ isOpen, onCloseModal, onSaveModal, userId }: interestMo
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
+    console.log(value);
     if (value !== '') {
       setInputValue(e.target.value);
     }
