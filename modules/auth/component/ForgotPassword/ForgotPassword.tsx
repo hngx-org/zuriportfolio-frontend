@@ -58,7 +58,7 @@ const ForgotPassword = () => {
       // status code for user whose email is not verified
       if (e.status === 403) {
         notify({
-          message: "Account not verified, redirecting to verification page.",
+          message: 'Account not verified, redirecting to verification page.',
           type: 'error',
           theme: 'light',
         });
