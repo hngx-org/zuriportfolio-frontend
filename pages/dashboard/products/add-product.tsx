@@ -327,7 +327,16 @@ const AddProduct = () => {
   return (
     <MainLayout showTopbar activePage="products">
       <Head>
-        <title>Add Product</title>
+        <title>Add Products</title>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Add Products" />
+
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta key="metadescription" itemProp="description" name="description" content="Add products" />
+        <meta name="keywords" content="Zuri, portfolio, prmotion, discount, product, dashboard" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
       <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
         <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>

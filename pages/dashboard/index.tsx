@@ -10,7 +10,20 @@ function dashboard() {
   return (
     <MainLayout showTopbar={true} showDashboardSidebar={true} activePage="dashboard">
       <Head>
-        <title>Customer Dashboard</title>
+        <title>Customer Dashboard - Zuri Portfolio</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Customer Dashboard - Zuri Portfolio" />
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta
+          key="metadescription"
+          itemProp="description"
+          name="description"
+          content="Customer Dashboard - Zuri Portfolio"
+        />
+        <meta name="keywords" content="Zuri, portfolio, add, product, dashboard, reviews" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
       <div className="w-full">
         <main className="max-w-[1240px] mx-auto md:px-10 px-4">

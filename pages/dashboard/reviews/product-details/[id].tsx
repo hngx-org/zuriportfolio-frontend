@@ -16,6 +16,7 @@ import Container from '@modules/auth/component/Container/Container';
 import Loader from '@ui/Loader';
 import { ReviewData, ReviewApiResponse, RatsData } from '../../../../@types';
 import { set } from 'nprogress';
+import Head from 'next/head';
 
 //* Moved type definitions to @types/index.d.ts
 const UserReview = () => {
@@ -148,6 +149,22 @@ const UserReview = () => {
 
   return (
     <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
+      <Head>
+        <title>Reviews - Zuri Portfolio</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Reviews - Zuri Portfolio" />
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta
+          key="metadescription"
+          itemProp="description"
+          name="description"
+          content="Reviews Dashboard - Zuri Portfolio"
+        />
+        <meta name="keywords" content="Zuri, portfolio, add, product, dashboard, reviews" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+      </Head>
       <Container>
         <NavDashBoard active="reviews" />
         {!data ? (

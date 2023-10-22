@@ -8,6 +8,7 @@ import ReviewForm from '@modules/dashboard/component/reviews/ReviewForm';
 import useCategoryNav from '@modules/marketplace/hooks/useCategoryNav';
 import { useRouter } from 'next/router';
 import NavDashBoard from '@modules/dashboard/component/Navbar';
+import Head from 'next/head';
 
 interface RatsData {
   oneStar: number;
@@ -60,6 +61,22 @@ export default function UserReview() {
   return (
     <div className="">
       <MainLayout activePage="Explore" showDashboardSidebar={false} showTopbar>
+        <Head>
+          <title>Reviews - Zuri Portfolio</title>
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-title" content="Reviews - Zuri Portfolio" />
+          <link rel="icon" href="/assets/zuriLogo.svg" />
+          <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+          <meta
+            key="metadescription"
+            itemProp="description"
+            name="description"
+            content="Reviews Dashboard - Zuri Portfolio"
+          />
+          <meta name="keywords" content="Zuri, portfolio, add, product, dashboard, reviews" />
+          <meta name="robots" content="index, follow" />
+          <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        </Head>
         <div className="max-w-[1240px] hidden lg:block mx-auto my-0">
           <NavDashBoard active="reviews" />
         </div>
