@@ -6,22 +6,34 @@ import MainLayout from '../../components/Layout/MainLayout';
 import Cover from '@modules/portfolio/component/landing/cover-avatar';
 import Image from 'next/image';
 import { CoverDiv } from '@modules/portfolio/component/landing/avatars';
-import { useRouter } from 'next/router';
+import { useRouter} from 'next/router';
 import { useAuth } from '../../context/AuthContext';
 import Loader from '@modules/portfolio/component/landing/Loader';
+import { useParams } from 'next/navigation';
 
 const View = () => {
-  const router = useRouter();
-  const urlSlug = Array.isArray(router?.query?.id) ? router?.query?.id[0] : router?.query?.id;
+  
+  // const urlSlug = Array.isArray(router?.query?.id) ? router?.query?.id[0] : router?.query?.id;
+  //  const urlSlug = router.query.slug
+  // console.log(urlSlug);
+  
+  
+  
 
   // Auth to get userid
   const { auth } = useAuth();
-
+  const router = useRouter();
+  const urlSlug = Array.isArray(router?.query?.slug) ? router?.query?.slug[0] : router?.query?.slug;
+  // const urlSlug = router.query.slug;
+  // const params = useParams();
   useEffect(() => {
+    console.log(urlSlug);
+  
+    // console.log(params);
     // wait for router to be ready
     if (!router.isReady) return;
     if (!auth?.user?.slug) {
-      return;
+      return
     }
     // if user is logged in and user id is same as id in url, redirect to dashboard
     if (auth?.user?.slug === urlSlug) {
@@ -33,7 +45,9 @@ const View = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth?.user?.slug, urlSlug, router]);
+  }, []);
+
+  auth?.user?.slug, urlSlug, router
 
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({
@@ -48,6 +62,8 @@ const View = () => {
   const [userSections, setUserSections] = useState<any>([]);
   const [error, setError] = useState({ state: false, error: '' });
 
+  console.log(userData, isLoading);
+  
   const getUser = async () => {
     try {
       setIsLoading(true);
@@ -94,6 +110,8 @@ const View = () => {
         { title: 'Custom', id: 'custom', data: custom },
       ]);
       setIsLoading(false);
+      console.log(isLoading);
+      
     } catch (error: any) {
       setError({ state: true, error: error.message });
     }
@@ -110,6 +128,8 @@ const View = () => {
 
   return (
     <PortfolioCtxProvider>
+    
+      
       <MainLayout showTopbar showDashboardSidebar={false} activePage="portfolio" showFooter>
         {isLoading ? (
           <>
@@ -145,7 +165,7 @@ const View = () => {
             <ExternalView userSections={userSections} />
           </div>
         )}
-      </MainLayout>
+      </MainLayout> 
     </PortfolioCtxProvider>
   );
 };
@@ -153,10 +173,10 @@ const View = () => {
 export default View;
 
 export async function getServerSideProps(context: any) {
-  const { id } = context.query;
+  const { slug } = context.query;
   return {
     props: {
-      userId: id,
+      userId: slug,
     },
   };
 }
