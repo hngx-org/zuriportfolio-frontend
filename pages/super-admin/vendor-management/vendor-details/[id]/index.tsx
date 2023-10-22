@@ -283,7 +283,7 @@ function VendorDetails() {
                                 {item?.product_name}
                               </p>
                               <p className="font-bold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-green-850">
-                              ₦{new Intl.NumberFormat('en-US').format(item?.price)}
+                                ₦{new Intl.NumberFormat('en-US').format(item?.price)}
                               </p>
                               <p className="mb-3 text-custom-color15 font-semibold text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%]">
                                 {item?.description}

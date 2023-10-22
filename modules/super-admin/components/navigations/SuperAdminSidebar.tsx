@@ -39,7 +39,10 @@ const SuperAdminSidebar = () => {
             ))}
           </div>
         </div>
-        <button className="flex items-center gap-3 text-brand-red-primary border-t py-5  text-xs md:text-sm  mx-5 border-white-115" onClick={() => logout()}>
+        <button
+          className="flex items-center gap-3 text-brand-red-primary border-t py-5  text-xs md:text-sm  mx-5 border-white-115"
+          onClick={() => logout()}
+        >
           <LogoutCurve size="20" color="#ff2e2e" />
           Log out
         </button>

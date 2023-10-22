@@ -19,7 +19,6 @@ export default function Successful() {
       const confirmResponse = await confirmTransaction({ token, txn_ref, payment_gateway });
       setSuccess(confirmResponse);
       setIsLoading(false);
-      localStorage.setItem('trans_token',"")
     }
     confirmTransactionStatus();
 
