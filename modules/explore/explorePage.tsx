@@ -134,6 +134,7 @@ const HomePage = () => {
             </div>
           </div>
         )}
+        {/* Say Hello */}
       </section>
     </main>
   );
