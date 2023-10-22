@@ -17,7 +17,7 @@ function ResendVerification() {
 
   const onresendEmailVerifySuccess = (data: any) => {
     if (data.message) {
-      notify({ message: data.message, type: data.status === 200 ? 'success' : 'error', theme: 'light' });
+      notify({ message: data.message, type: 'success', theme: 'light' });
       if (data.status === 200) {
         router.push(`/auth/verification?email=${email}`);
       }
@@ -29,11 +29,11 @@ function ResendVerification() {
     if (error.response && error.response.message === 'AxiosError: timeout of 30000ms exceeded') {
       const timeoutErrorMessage =
         'Oops! The request timed out. Please try again later. If the problem persists, please contact support.';
-      notify({ message: timeoutErrorMessage });
+      notify({ message: timeoutErrorMessage, type: 'error', theme: 'light' });
       return;
     }
 
-    notify({ message: error.message, type: 'error' });
+    notify({ message: error.message, type: 'error', theme: 'light' });
   };
 
   const { mutate: resendVerify, isLoading: isUserSigningUp } = useAuthMutation(resendVerification, {
