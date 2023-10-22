@@ -50,7 +50,7 @@ export default function ProductCard({
         src="/assets/icons/close.svg"
         alt="close"
       ></Image>
-      <Link href={`/marketplace/product-details?id=${id}`}>
+      <Link href={`/marketplace/product-details/${id}`}>
         <div className="relative w-full md:items-stretch flex-1 mb-3 overflow-hidden">
           <div className="lg:max-w-[300px] lg:w-[100%] h-[200px] md:h-[209px] overflow-hidden z-50">
             <Image

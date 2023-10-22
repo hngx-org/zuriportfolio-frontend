@@ -1,36 +1,41 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import Button from '@ui/Button';
 import { Input } from '@ui/Input';
 import { Add } from 'iconsax-react';
-import { FaTimes } from 'react-icons/fa';
-import avatar from './avatar.svg';
 import minus from './minus.svg';
 import questions_and_answers from './newlist';
+import useDisclosure from '../../../hooks/useDisclosure';
+import Modal from '@ui/Modal';
 import { ToPushContext } from '../../../pages/super-admin/assessment/new';
 import { UpdateContext } from '../../../pages/super-admin/assessment/new';
+import { toast } from 'react-toastify';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/SelectInput';
 
 import Image from 'next/image';
 const CreateTemplate = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const [newobject, setObject]: any = useContext(ToPushContext);
   const [list, setList] = useState(questions_and_answers);
-  const handleinputQuestion = (e: any, index: number) => {
-    const updatedData = [...list];
-    updatedData[index].question_text = e.target.value;
-    setList(updatedData);
+  const [delModal, setDelModal] = useState(false);
+  const [delQuestId, setDelQuestId] = useState(0);
+  const updatelistinobj = () => {
     const newt = { ...newobject };
     newt.questions_and_answers = list;
     setObject(newt);
   };
+  const handleinputQuestion = (e: any, index: number) => {
+    const updatedData = [...list];
+    updatedData[index].question_text = e.target.value;
+    setList(updatedData);
+    updatelistinobj();
+  };
+
   const [listupdate, setListupdate]: any = useContext(UpdateContext);
   const handleinputOption = (e: any, index: number, n: number) => {
-    console.log(index, n);
     const updatedData = [...list];
-    updatedData[index].answer.options[n] = e.target.value;
+    updatedData[index].options[n] = e.target.value;
     setList(updatedData);
-    const newt = { ...newobject };
-    newt.questions_and_answers = list;
-    setObject(newt);
+    updatelistinobj();
   };
   function splicearr(arr: any, index: number) {
     const resultArray = arr.slice(0, index).concat(arr.slice(index + 1));
@@ -38,27 +43,30 @@ const CreateTemplate = () => {
   }
   //deleting options
   const handleDelete = (index: number, n: number) => {
-    var updatedData = [...list];
-    const newdata = splicearr(updatedData[index].answer.options, n);
-    updatedData[index].answer.options = newdata;
-    setList(updatedData);
+    if (list[index].options.length > 1) {
+      var updatedData = [...list];
+      if (list[index].correct_option === list[index].options.length) {
+        list[index].correct_option = 0;
+      }
+      const newdata = splicearr(updatedData[index].options, n);
+      updatedData[index].options = newdata;
+      setList(updatedData);
+      updatelistinobj();
+    }
   };
   //adding options
   const handleIncreaseOption = (index: number) => {
     const updatedData = [...list];
     //updatedData[indextoadd]?.options.push('')
-    updatedData[index].answer.options.push('');
+    updatedData[index].options.push('');
     setList(updatedData);
-    console.log(list[index]);
-    console.log(newobject);
+    updatelistinobj();
   };
   const setCorrect = (value: any, index: number) => {
     const updatedData = [...list];
-    updatedData[index].answer.correct_option = list[index].answer.options[value];
+    updatedData[index].correct_option = Number(value);
     setList(updatedData);
-    const newt = { ...newobject };
-    newt.questions_and_answers = list;
-    setObject(newt);
+    updatelistinobj();
   };
   //handling Adding questions
   const handleAddquestion = () => {
@@ -68,41 +76,87 @@ const CreateTemplate = () => {
         question_no: list.length + 1,
         question_type: 'multiple_choice',
         question_text: '',
-        answer: {
-          options: [''],
-          correct_option: '',
-        },
+        options: [''],
+        correct_option: 0,
       },
     ]);
+    updatelistinobj();
   };
-  const handleRemovequest = () => {
-    setList((list) => {
-      if (list.length > 1) {
-        const updatedList = [...list.slice(0, list.length - 1)];
-        return updatedList;
-      } else {
-        return list;
-      }
-    });
+  const delquest = (index: number) => {
+    if (list.length > 1) {
+      setDelQuestId(index);
+      setDelModal(true);
+    } else {
+      toast.error('You have only one question, you can not delete it');
+    }
   };
+  const [yesdel, setYesdel] = useState(false);
+  const confirmDelQuest = () => {
+    setYesdel(true);
+    setDelModal(false);
+  };
+
+  useEffect(() => {
+    if (yesdel === true) {
+      const updatedData = [...list];
+      const newdata = splicearr(updatedData, delQuestId);
+      newobject.questions_and_answers = newdata;
+      setList(newobject.questions_and_answers);
+      setYesdel(false);
+    }
+  }, [delModal, newobject]);
 
   useEffect(() => {
     if (listupdate === 'addquest') {
       setList(newobject.questions_and_answers);
-      console.log(list, newobject);
       setListupdate('waiting');
     }
 
     if (listupdate === 'save') {
+      const fixing = [...list];
+      fixing.forEach((child) => {
+        child.question_no = fixing.indexOf(child) + 1;
+      });
+      setList(fixing);
       const newt = { ...newobject };
       newt.questions_and_answers = list;
       setObject(newt);
+
       setListupdate('post');
+    }
+    if (listupdate === 'clear') {
+      const cleared = [...list];
+      while (cleared.length > 1) {
+        cleared.pop();
+      }
+      if (cleared.length == 1) {
+        cleared[0].question_text = '';
+        (cleared[0].options = ['']), (cleared[0].correct_option = 0), setList(cleared);
+      }
+      setListupdate('waiting');
     }
   }, [listupdate, newobject, setObject, setListupdate, list]);
   return (
     <>
       <div className="flex flex-col gap-y-8">
+        {delModal && (
+          <Modal
+            isOpen={!isOpen}
+            closeModal={onOpen}
+            title={'Are you sure you are deleting this question? Deleted questions can not be retrieved'}
+            isCloseIconPresent={false}
+            size="sm"
+          >
+            <div className="flex my-5 gap-2 w-full">
+              <Button className="w-full flex-1" onClick={() => setDelModal(false)}>
+                NO
+              </Button>
+              <Button className="w-full bg-red-300 flex-1" onClick={confirmDelQuest}>
+                Yes
+              </Button>
+            </div>
+          </Modal>
+        )}
         {list.map((item, index) => {
           return (
             <div
@@ -121,12 +175,17 @@ const CreateTemplate = () => {
                   intent={'default'}
                   size={15}
                 />
-                <div className="bg-[#dcd2d2] rounded">
-                  <Image src={avatar} alt="avatar" width={36} height={36} />
+                <div
+                  className="text-white-100 bg-red-200 p-3 shadow cursor-pointer rounded hover:shadow-lg"
+                  onClick={() => {
+                    delquest(index);
+                  }}
+                >
+                  Del
                 </div>
               </div>
               <div className=" text-[20px] font-semibold pt-4 text-[#1A1C1B]">Answers</div>
-              {list[index].answer.options.map((opt: any, n: any) => {
+              {list[index].options.map((opt: any, n: any) => {
                 return (
                   <div key={index + '-' + n} className="pt-4 flex flex-col gap-y-[10px]">
                     <div className=" text-[18px] font-semibold  text-[#1A1C1B]">{`Option ${n + 1}`}</div>
@@ -175,12 +234,12 @@ const CreateTemplate = () => {
                   }}
                 >
                   <SelectTrigger className="w-full p-6">
-                    <SelectValue placeholder="Select option" />
+                    <SelectValue placeholder={`option ${item.correct_option}`} />
                   </SelectTrigger>
                   <SelectContent>
-                    {list[index].answer.options.map((optt: any, n: number) => {
+                    {list[index].options.map((optt: any, n: number) => {
                       return (
-                        <SelectItem key={index + '-' + n} value={`${n}`}>
+                        <SelectItem key={index + '-' + n} value={`${n + 1}`}>
                           Option {n + 1}
                         </SelectItem>
                       );
@@ -202,17 +261,6 @@ const CreateTemplate = () => {
         >
           Add Question
         </Button>
-        {list.length > 1 && (
-          <Button
-            onClick={handleRemovequest}
-            leftIcon={<FaTimes color="black" />}
-            intent={'primary'}
-            size={'md'}
-            className="bg-[transparent] text-dark-100 border-2 border-red-100 hover:bg-red-200 hover:text-white-100"
-          >
-            Delete Question
-          </Button>
-        )}
       </div>
     </>
   );

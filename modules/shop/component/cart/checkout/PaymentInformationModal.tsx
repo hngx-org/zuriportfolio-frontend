@@ -9,11 +9,10 @@ const PaymentInformationModal = ({
   token,
 }: {
   closeModal: () => void;
-  orderTotal: number;
+  orderTotal: number | string;
   token: string;
 }) => {
   const [modalOpen, setModalOpen] = useState(true);
-  const [showOTP, setShowOTP] = useState(true);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [paymentMethodError, setPaymentMethodError] = useState('');
   const [paymentButtonClicked, setPaymentButtonClicked] = useState(false);
@@ -28,6 +27,8 @@ const PaymentInformationModal = ({
     if (selectedPaymentMethod) {
       try {
         const response = await makePayment(selectedPaymentMethod, token);
+        localStorage.setItem('trans_token', token);
+        localStorage.setItem('gateway', selectedPaymentMethod);
         window.location.href = response.data.transaction_url;
       } catch (error) {
         console.error('Error making payment:', error);
@@ -66,16 +67,9 @@ const PaymentInformationModal = ({
 
             <h1 className="text-lg font-semibold mb-6 font-manropeB">Choose Payment</h1>
 
-            <div className="relative">
-              <input
-                type="text"
-                className="w-full py-2 pr-10 pl-4 border  border-[#E1E3E2] rounded-lg"
-                placeholder="Order Total"
-                readOnly
-              />
-              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-[#00894C] font-semibold">₦ {orderTotal}</span>
-              </div>
+            <div className="flex items-center justify-between p-3 border border-[#E1E3E2] shadow-md rounded-md">
+              <span>Order Total</span>
+              <span className="text-[#00894C] font-semibold">₦ {orderTotal}</span>
             </div>
 
             <div className="relative w-full">

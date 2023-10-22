@@ -3,6 +3,8 @@ import { notify } from '@ui/Toast';
 
 const fetchErrorToast = (data: string) => notify({ type: 'error', message: `Error fetching ${data}`, theme: 'light' });
 
+const shop_id = '6d022186-7c7f-4439-af0c-8209202ef4a6';
+
 const baseURL = 'https://zuriportfolio-shop-internal-api.onrender.com/api';
 
 const axiosDashboardInstance = axios.create({
@@ -12,8 +14,8 @@ const axiosDashboardInstance = axios.create({
   },
 });
 
-// card.tsx
-// today
+// revenue
+
 export const fetchTodaysRevenue = async () => {
   try {
     const res: any = await axiosDashboardInstance.get(`/revenues?timeframe=today`, {
@@ -21,14 +23,28 @@ export const fetchTodaysRevenue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const todaysRevenue = res?.data?.data?.data;
+    const todaysRevenue = res?.data?.data?.todayRevenue;
     return todaysRevenue;
   } catch (error) {
-    // fetchErrorToast("today's revenue");
-    // console.error('Error fetching revenues:', error);
     throw error;
   }
 };
+
+export const fetchYesterdaysRevenue = async () => {
+  try {
+    const res: any = await axiosDashboardInstance.get(`/revenues?timeframe=yesterday`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
+    const yesterdaysRevenue = res?.data?.data?.todayRevenue;
+    return yesterdaysRevenue;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// orders
 
 export const fetchTodaysOrders = async () => {
   try {
@@ -40,42 +56,6 @@ export const fetchTodaysOrders = async () => {
     const orderCount: number = res?.data?.data?.orderCount;
     return orderCount;
   } catch (error) {
-    // fetchErrorToast("today's orders");
-    // console.error('Error fetching todays orders:', error);
-    throw error;
-  }
-};
-
-export const fetchTodaysAverageOrderValue = async () => {
-  try {
-    const res: any = await axiosDashboardInstance.get(`/orders/average?timeframe=today`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-      },
-    });
-    const todaysAverageOrderValue = res?.data?.data?.averageSales;
-    return todaysAverageOrderValue;
-  } catch (error) {
-    // fetchErrorToast('todays average order value');
-    // console.error('Error fetching order/average:', error);
-    throw error;
-  }
-};
-
-//  yesterday
-
-export const fetchYesterdaysRevenue = async () => {
-  try {
-    const res: any = await axiosDashboardInstance.get(`/revenues?timeframe=yesterday`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-      },
-    });
-    const yesterdaysRevenue = res?.data?.data?.data;
-    return yesterdaysRevenue;
-  } catch (error) {
-    // fetchErrorToast("yesterday's revenue");
-    // console.error('Error fetching yesterdays revenues:', error);
     throw error;
   }
 };
@@ -90,8 +70,22 @@ export const fetchYesterdaysOrders = async () => {
     const orderCount: number = res?.data?.data?.orderCount;
     return orderCount;
   } catch (error) {
-    // fetchErrorToast("yesterday's orders");
-    // console.error('Error fetching Yesterdays orders:', error);
+    throw error;
+  }
+};
+
+// average value
+
+export const fetchTodaysAverageOrderValue = async () => {
+  try {
+    const res: any = await axiosDashboardInstance.get(`/orders/average?timeframe=today`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
+    const todaysAverageOrderValue = res?.data?.data?.averageOrderValue;
+    return todaysAverageOrderValue;
+  } catch (error) {
     throw error;
   }
 };
@@ -103,45 +97,103 @@ export const fetchYesterdaysAverageOrderValue = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const yesterdaysAverageOrderValue = res?.data?.data?.averageSales;
+    const yesterdaysAverageOrderValue = res?.data?.data?.averageOrderValue;
     return yesterdaysAverageOrderValue;
   } catch (error) {
-    // fetchErrorToast('yesterdays average order value');
-    // console.error('Error fetching order/average:', error);
     throw error;
   }
 };
 
-// charts.tsx
+// sales report
 
 export const fetchSalesReports = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/reports?timeframe=12m,3m,1yr,7d,24hr`, {
+    const res: any = await axiosDashboardInstance.get(`/sales/report/timeframe=1y,1m,24h`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    // console.log(res);
-    return res.data;
+    const salesReport = res?.data;
+    console.log(salesReport);
+    return salesReport;
   } catch (error) {
-    // fetchErrorToast('sales reports');
-    // console.error('Error fetching reports:', error);
     throw error;
   }
 };
 
-export const fetchStoreTraffic = async () => {
+//  store traffic
+
+export const fetch12MonthStoreTraffic = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic`, {
+    const token = localStorage.getItem('zpt');
+    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/12months/${shop_id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        Authorization: `Bearer ${token}`,
       },
     });
-    // console.log(res);
-    return res.data;
+    const storeTraffic = res?.data?.data;
+    return storeTraffic;
   } catch (error) {
-    // fetchErrorToast('store traffic');
-    // console.error('Error fetching store-traffic:', error);
+    throw error;
+  }
+};
+
+export const fetch3MonthStoreTraffic = async () => {
+  try {
+    const token = localStorage.getItem('zpt');
+    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/3months/${shop_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const storeTraffic = res?.data?.data;
+    return storeTraffic;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetch30DayStoreTraffic = async () => {
+  try {
+    const token = localStorage.getItem('zpt');
+    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/30days/${shop_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const storeTraffic = res?.data?.data;
+    return storeTraffic;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetch7DayStoreTraffic = async () => {
+  try {
+    const token = localStorage.getItem('zpt');
+    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/7days/${shop_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const storeTraffic = res?.data?.data;
+    return storeTraffic;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetch24HourStoreTraffic = async () => {
+  try {
+    const token = localStorage.getItem('zpt');
+    const res: any = await axiosDashboardInstance.get(`/shop/store-traffic/count/24hrs/${shop_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const storeTraffic = res?.data?.data;
+    return storeTraffic;
+  } catch (error) {
     throw error;
   }
 };
@@ -155,11 +207,9 @@ export const fetchActivity = async () => {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    // console.log(res);
+    console.log(res);
     return res.data;
   } catch (error) {
-    // fetchErrorToast('activity');
-    // console.error('Error fetching activity:', error);
     throw error;
   }
 };

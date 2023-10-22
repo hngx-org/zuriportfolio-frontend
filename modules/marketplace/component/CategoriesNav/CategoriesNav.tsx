@@ -22,7 +22,7 @@ interface CategoriesNavProps {
 const CategoriesNav = (props: CategoriesNavProps) => {
   const [active, setActive] = useState(-1);
   const [allCatActive, setAllCatActive] = useState(false);
-  // const [categories, setCategories] = useState([]);
+  const [showCategories, setShowCategories] = useState(false);
 
   const { authenticated } = useAuthentication();
   const { navItems } = props;
@@ -44,7 +44,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
   // }, []);
 
   const navContainerRef = useRef<HTMLDivElement>(null);
-  console.log(props);
+
   useEffect(() => {
     if (active >= 0) setAllCatActive(false);
   }, [active]);
@@ -64,8 +64,8 @@ const CategoriesNav = (props: CategoriesNavProps) => {
   };
 
   return (
-    <div className={`font-ppReg shadow-sm -mt-4 px-4 py-5`}>
-      <aside className="max-w-[1240px] mx-auto hidden xl:flex gap-8 items-center z-50">
+    <div className={`font-ppReg shadow-sm -mt-4 px-4 py-5 relative`}>
+      <aside className="max-w-[1240px] mx-auto flex justify-between xl:gap-8 items-center z-50">
         <button
           className={`${allCatActive ? 'text-brand-green-shade50' : ''}  items-center gap-1 whitespace-nowrap flex`}
           onClick={() => {
@@ -75,7 +75,7 @@ const CategoriesNav = (props: CategoriesNavProps) => {
         >
           <Link href="/marketplace/allcategories">All Categories</Link>
         </button>
-        <div className={`overflow-x-scroll  ${styles['hide-scroll']}`} ref={navContainerRef}>
+        <div className={`overflow-x-scroll hidden xl:block ${styles['hide-scroll']}`} ref={navContainerRef}>
           <ul className={`list flex whitespace-nowrap gap-8 bg-white-100 text-base `}>
             {/*  */}
             {props.isLoading &&
@@ -95,9 +95,35 @@ const CategoriesNav = (props: CategoriesNavProps) => {
         </div>
 
         {navItems.length !== 0 && (
-          <Image className="cursor-pointer" src={more} alt="move icon" onClick={handleScrollLeft} />
+          <Image className="cursor-pointer hidden xl:flex" src={more} alt="move icon" onClick={handleScrollLeft} />
+        )}
+        {navItems.length !== 0 && (
+          <Image
+            className={`cursor-pointer xl:hidden ${showCategories ? '-rotate-90' : 'rotate-90'}`}
+            src={more}
+            alt="open icon"
+            onClick={() => setShowCategories((prev) => !prev)}
+          />
         )}
       </aside>
+
+      {showCategories && (
+        <ul className="xl:hidden mt-6 flex flex-col gap-6 absolute bg-white-100 z-50 h-[500px] overflow-x-scroll left-0 w-[80%] pl-4 py-5 drop-shadow-2xl">
+          {props.isLoading &&
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+              <li key={num} className="w-[100px] h-[20px] animate-pulse bg-custom-color32"></li>
+            ))}
+          {!props.isLoading &&
+            Array.isArray(navItems) &&
+            navItems.map((category, i: number) => {
+              return (
+                <li key={i + 1} className="" onClick={() => setShowCategories(false)}>
+                  <ButtonCat active={active} handleActiveNav={handleActiveNav} category={category} index={i} />
+                </li>
+              );
+            })}
+        </ul>
+      )}
     </div>
   );
 };

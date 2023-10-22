@@ -1,44 +1,39 @@
 import Image from 'next/image';
 import Slider from 'react-slick';
-import { Key, useEffect, useState } from 'react';
+import {
+  JSXElementConstructor,
+  Key,
+  PromiseLikeOfReactNode,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useEffect,
+  useState,
+} from 'react';
 import badge from '../../../../public/assets/home/badge.svg';
 import axios from 'axios';
 import { ArrowCircleLeft, ArrowCircleRight } from 'iconsax-react';
-
-interface Slide {
-  src: string;
-  alt?: string;
-  name?: string;
-  role?: string;
-  skills?: string[];
-  section: 'portrait' | 'portfolio' | 'shop';
-  products?: number;
-}
+import { useQuery } from '@tanstack/react-query';
 
 const DynamicPortfolioCarousel = () => {
-  const [slides, setSlides] = useState<Slide[]>([]);
+  const fetchSlides = async () => {
+    const response = await axios.get(
+      'https://hngstage6-eagles.azurewebsites.net/api/explore/GetAllPortfolio?pageNumber=1&pageSize=10',
+    );
+    return response.data.data.map((item: any) => ({
+      id: item.id,
+      src: item.profilePictureUrl,
+      alt: item.track,
+      name: item.firstName + ' ' + item.lastName,
+      role: item.track,
+      skills: item.skills.slice(0, 2),
+      section: 'portfolio',
+    }));
+  };
 
-  useEffect(() => {
-    axios
-      .get('https://hngstage6-eagles.azurewebsites.net/api/explore/GetAllPortfolio?pageNumber=1&pageSize=10')
-      .then((response) => {
-        const fetchedSlides =
-          response?.data &&
-          response?.data?.data?.map((item: any) => ({
-            src: item.profilePictureUrl,
-            alt: item.track,
-            name: item.firstName + ' ' + item.lastName,
-            role: item.track,
-            skills: item.skills.slice(0, 2),
-            section: 'portfolio',
-          }));
-
-        setSlides(fetchedSlides);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+  const { data: slides, isError: error } = useQuery(['slides'], fetchSlides, {
+    refetchOnWindowFocus: false,
+  });
 
   /**
    *
@@ -53,7 +48,7 @@ const DynamicPortfolioCarousel = () => {
     return (
       <ArrowCircleRight
         className={className}
-        style={{ ...style, zIndex: 999, right: 20, width: '36px', height: '36px' }}
+        style={{ ...style, zIndex: 10, right: 20, width: '36px', height: '36px' }}
         onClick={onClick}
         color="#fff"
         variant="Bold"
@@ -74,7 +69,7 @@ const DynamicPortfolioCarousel = () => {
     return (
       <ArrowCircleLeft
         className={className}
-        style={{ ...style, zIndex: 999, left: 20, width: '36px', height: '36px' }}
+        style={{ ...style, zIndex: 10, left: 20, width: '36px', height: '36px' }}
         onClick={onClick}
         color="#fff"
         variant="Bold"
@@ -122,13 +117,17 @@ const DynamicPortfolioCarousel = () => {
     ],
   };
 
+  if (error) {
+    return null;
+  }
+
   return (
     <>
-      {slides.length > 0 && (
-        <div className="overflow-hidden p-2 w-full mx-0 mt-[0]">
-          <Slider {...settings}>
-            {slides.map((logo, index) => (
-              <div key={index} className="relative h-[250px] sm:h-[300px] w-[182.71]">
+      <div className="overflow-hidden p-2 w-full mx-0 mt-[0]">
+        <Slider {...settings}>
+          {slides?.map(
+            (logo: { section: string; src: any; name: string; role: string; skills: string[]; id: string }) => (
+              <div key={logo?.id} className="relative h-[250px] sm:h-[300px] w-[182.71]">
                 {/* Portfolio section */}
                 {logo?.section === 'portfolio' && (
                   <div
@@ -157,10 +156,10 @@ const DynamicPortfolioCarousel = () => {
                   </div>
                 )}
               </div>
-            ))}
-          </Slider>
-        </div>
-      )}
+            ),
+          )}
+        </Slider>
+      </div>
     </>
   );
 };

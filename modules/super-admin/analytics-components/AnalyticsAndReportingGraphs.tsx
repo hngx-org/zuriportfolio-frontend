@@ -3,6 +3,8 @@ import { BarChart, Bar, LineChart, Line, XAxis, YAxis, ReferenceLine, Responsive
 import Link from 'next/link';
 import Image from 'next/image';
 import ActivityDetails from './ActivityDetails';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface MonthlyData {
   name: string;
@@ -31,16 +33,9 @@ const fetchData = async (url: any) => {
     return data;
   } catch (error) {
     console.error('Error fetching data:', error);
+    toast.error('Internal Server Error');
     throw error;
   }
-};
-
-const formatCurrency = (value: any) => `₦${value.toFixed(2)}`;
-const formatSalesData = (data: any) => {
-  return data.map((entry: any) => ({
-    ...entry,
-    salesWithNaira: `₦${entry.sales.toFixed(2)}`,
-  }));
 };
 
 const AnalyticsAndReportingGraphs = () => {
@@ -52,9 +47,7 @@ const AnalyticsAndReportingGraphs = () => {
   });
   const [activePeriodGraph1, setActivePeriodGraph1] = useState('12months');
   const [activePeriodGraph2, setActivePeriodGraph2] = useState('12months');
-
-  const bearerToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5YTcwOTllLTM0ZTQtNGU0OS04ODU2LTE1YWI2ZWQxMzgwYyIsImlhdCI6MTY5NzQ2ODM0MH0.UZ0CgNydpooLXFygcTgbjE6EHEQMIcFH5rjHFXpi8_w';
+  const [bearerToken, setBearerToken] = useState('');
 
   useEffect(() => {
     const fetchDataForGraph = async (period: any, graphIndex: number) => {
@@ -64,7 +57,7 @@ const AnalyticsAndReportingGraphs = () => {
       }));
 
       try {
-        const url = `https://team-mirage-super-amind2.onrender.com/api/superadmin/analytics/total-sales-orders-users/?last=${period}`;
+        const url = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
         const response = await fetch(url, {
           headers: {
             Authorization: `Bearer ${bearerToken}`,
@@ -109,6 +102,9 @@ const AnalyticsAndReportingGraphs = () => {
         });
       } catch (error) {
         console.error('Error fetching data for period:', error);
+        if (!toast.isActive('error')) {
+          toast.error('Server error, graph details unavailable!', { toastId: 'error' });
+        }
       } finally {
         setLoadingStates((prevLoadingStates) => ({
           ...prevLoadingStates,
@@ -119,7 +115,14 @@ const AnalyticsAndReportingGraphs = () => {
 
     fetchDataForGraph(activePeriodGraph1, 0);
     fetchDataForGraph(activePeriodGraph2, 1);
-  }, [activePeriodGraph1, activePeriodGraph2]);
+  }, [activePeriodGraph1, activePeriodGraph2, bearerToken]);
+
+  const getTokenFromLocalStorage = () => {
+    const tokenFromLocalStorage = localStorage.getItem('zpt');
+    if (tokenFromLocalStorage) {
+      setBearerToken(tokenFromLocalStorage);
+    }
+  };
 
   useEffect(() => {
     const updateIsGraph = () => {
@@ -128,6 +131,8 @@ const AnalyticsAndReportingGraphs = () => {
     updateIsGraph();
 
     window.addEventListener('resize', updateIsGraph);
+
+    getTokenFromLocalStorage();
 
     return () => {
       window.removeEventListener('resize', updateIsGraph);
@@ -146,7 +151,6 @@ const AnalyticsAndReportingGraphs = () => {
       setActivePeriodGraph2(period);
     }
 
-    // Reset the loading state for the other graph
     const otherGraphIndex = graphIndex === 0 ? 1 : 0;
     setLoadingStates((prevLoadingStates) => ({
       ...prevLoadingStates,
@@ -266,7 +270,6 @@ const AnalyticsAndReportingGraphs = () => {
                     </div>
                   )}
                 </div>
-
                 <div style={{ position: 'relative' }} className="mt-6">
                   {index === 0 ? (
                     <ResponsiveContainer height={230} width="95%" className="mx-auto text-[14px]">
@@ -276,13 +279,12 @@ const AnalyticsAndReportingGraphs = () => {
                         <LineChart data={graphData[0]}>
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
                           <Tooltip />
-                          <YAxis tickFormatter={formatCurrency} />
-                          <ReferenceLine y={1000} stroke="#00000" />
-                          <ReferenceLine y={3200} stroke="#F2F4F7" />
-                          <ReferenceLine y={5200} stroke="#F2F4F7" />
-                          <ReferenceLine y={7200} stroke="#F2F4F7" />
-                          <ReferenceLine y={9200} stroke="#F2F4F7" />
-                          <Line type="natural" dataKey="sales" stroke="#EABE95" strokeWidth={3} dot={false} />
+                          <YAxis />
+                          <ReferenceLine y={100} stroke="#F2F4F7" />
+                          <ReferenceLine y={75} stroke="#F2F4F7" />
+                          <ReferenceLine y={50} stroke="#F2F4F7" />
+                          <ReferenceLine y={25} stroke="#F2F4F7" />
+                          <Line type="natural" dataKey="sales" stroke="#EABE95" strokeWidth={3} />
                         </LineChart>
                       )}
                     </ResponsiveContainer>
@@ -294,9 +296,10 @@ const AnalyticsAndReportingGraphs = () => {
                         <BarChart data={graphData[1]}>
                           <XAxis dataKey="combinedInfo" height={60} width={80} />
                           <Tooltip />
-                          <ReferenceLine y={1800} stroke="#F2F4F7" />
-                          <ReferenceLine y={3600} stroke="#F2F4F7" />
-                          <ReferenceLine y={7200} stroke="#F2F4F7" />
+                          <ReferenceLine y={300} stroke="#F2F4F7" />
+                          <ReferenceLine y={600} stroke="#F2F4F7" />
+                          <ReferenceLine y={900} stroke="#F2F4F7" />
+                          <ReferenceLine y={1200} stroke="#F2F4F7" />
                           <Bar dataKey="sales" fill="#F1AE67" barSize={10} />
                           <Bar dataKey="orders" fill="#06C270" barSize={10} />
                           <Bar dataKey="users" fill="#A46A26" barSize={10} />
@@ -309,6 +312,7 @@ const AnalyticsAndReportingGraphs = () => {
             </div>
           ))}
         </div>
+        <ToastContainer />
         <ActivityDetails token={bearerToken} />
       </section>
     </>

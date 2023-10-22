@@ -7,22 +7,24 @@ import LanguageModal from '../components/Modals/language-modal';
 import InterestModal from '../components/Modals/interest-modal';
 import { sections as s } from '@modules/portfolio/component/landing/data';
 import SkillModal from '@modules/portfolio/component/skillModal/SkillsModal';
-import ProjectSection from '@modules/portfolio/component/modals/projects';
 import PortfolioAbout from '@modules/portfolio/component/about/about';
 import PortfolioReference from '@modules/portfolio/component/reference/reference';
 import ContactModal from '@modules/portfolio/component/contact-modal';
 import Certifications from '@modules/portfolio/component/certification-modal';
 import Awards from '@modules/portfolio/component/awards-modal';
 import { useAuth } from './AuthContext';
-import ProjectSectionModal from '@modules/portfolio/component/modals/project-section-modal';
+import ProjectSectionModal from '@modules/portfolio/component/modals/project-modal/project-section-modal';
+import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-query';
+import $http from '../http/axios';
+import { AddShopModal } from '@modules/portfolio/component/addShopErrorModal';
 
 type PortfolioContext = {
-  setGettingSection: React.Dispatch<React.SetStateAction<boolean>>;
+  portfolioUrl: string;
+  getUserSections: UseQueryResult<any>;
   hasPortfolio: boolean;
   setHasPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
   setShowBuildPortfolio: React.Dispatch<React.SetStateAction<boolean>>;
   setShowProfileUpdate: React.Dispatch<React.SetStateAction<boolean>>;
-  gettinSection: boolean;
   userId: string;
   setUserData: React.Dispatch<React.SetStateAction<any>>;
   userData: any;
@@ -60,15 +62,15 @@ type PortfolioContext = {
   setOpenCustom: React.Dispatch<React.SetStateAction<boolean>>;
   idToDelete: string;
   setIdToDelete: React.Dispatch<React.SetStateAction<string>>;
+  slug: string;
 };
 
 const Portfolio = createContext<PortfolioContext>({
-  setGettingSection: () => {},
+  getUserSections: {} as UseQueryResult<any>,
   hasPortfolio: false,
   setHasPortfolio: () => {},
   setShowBuildPortfolio: () => {},
   setShowProfileUpdate: () => {},
-  gettinSection: true,
   userId: '',
   setUserData: () => {},
   userData: {},
@@ -106,23 +108,124 @@ const Portfolio = createContext<PortfolioContext>({
   setOpenCustom: () => {},
   idToDelete: '',
   setIdToDelete: () => {},
+  portfolioUrl: '',
+  slug: '',
 });
 
 export function PortfolioCtxProvider(props: { children: any }) {
-  const [userId, setUserId] = useState('');
+  const queryClient = useQueryClient();
+  const portfolioUrl = `https://hng6-r5y3.onrender.com/api/v1/portfolio`;
   const { auth } = useAuth();
+  const [userId, setUserId] = useState('');
+  const [slug, setSlug] = useState('');
   const [userSections, setUserSections] = useState<any[]>([]);
+
+  const [userData, setUserData] = useState<any>({
+    firstName: '',
+    lastName: '',
+    avatarImage: '',
+    coverImage: '',
+    city: '',
+    country: '',
+    tracks: [],
+    level: '',
+    icon: '',
+    badge: [],
+  });
+
+  const [getUserSections] = useQueries({
+    queries: [
+      {
+        queryKey: ['sections'],
+        queryFn: () => getSections(),
+        // enabled: slug != '',
+      },
+    ],
+  });
 
   useEffect(() => {
     if (auth?.user?.id) {
-      setUserId(auth.user.id);
-      getUser(auth.user.id);
-      getUserSections(auth.user.id);
+      setUserId(auth?.user?.id!);
+      // setSlug('alameen-adeyemi-1');
+      setSlug(auth?.user?.slug!);
     }
-  }, [auth?.user?.id]);
+    if (getUserSections.data) {
+      const { user, badges, portfolio, tracks } = getUserSections?.data?.data;
+      setUserData({
+      
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        avatarImage: user?.profilePic,
+        city: portfolio?.city,
+        country: portfolio?.country,
+        tracks: tracks,
+        coverImage: user?.profileCoverPhoto,
+        badge: badges,
+      });
+      const {
+        about,
+        projects,
+        workExperience,
+        education,
+        skills,
+        contacts,
+        interestArray,
+        awards,
+        languages,
+        reference,
+        certificates,
+        shop,
+        custom,
+      } = getUserSections?.data?.data;
+      if (
+        about ||
+        projects ||
+        workExperience ||
+        education ||
+        skills ||
+        contacts ||
+        interestArray ||
+        awards ||
+        languages ||
+        reference ||
+        certificates ||
+        shop ||
+        custom
+      ) {
+      }
+      console.log(languages);
+      setUserSections([
+        { title: 'About', id: 'about', data: about },
+        { title: 'Project', id: 'projects', data: projects },
+        { title: 'Work Experience', id: 'workExperience', data: workExperience },
+        { title: 'Education', id: 'education', data: education },
+        { title: 'Skills', id: 'skills', data: skills },
+        { title: 'Interests', id: 'interests', data: interestArray },
+        { title: 'Awards', id: 'awards', data: awards },
+        { title: 'Certificate', id: 'certificate', data: certificates },
+        { title: 'Languages', id: 'languages', data: languages },
+        { title: 'Reference', id: 'reference', data: reference },
+        { title: 'Shop', id: 'shop', data: shop },
+        { title: 'Contact', id: 'contact', data: contacts },
+        { title: 'Custom', id: 'custom', data: custom },
+      ]);
+    }
+  }, [auth?.user?.id, auth?.user?.slug, getUserSections.data]);
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [gettinSection, setGettingSection] = useState(true);
+  const getSections = async () => {
+    try {
+      const response = await $http.get(`${portfolioUrl}/${slug}`);
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalStates, setModalStates] = useState<{ [key: string]: boolean }>({});
   const [sections, setSections] = useState<Array<any>>(s);
@@ -137,93 +240,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
   const [showBuildPortfolio, setShowBuildPortfolio] = useState<boolean>(false);
   const [showViewtemplates, setShowViewtemplates] = useState<boolean>(false);
   const [hasPortfolio, setHasPortfolio] = useState<boolean>(false);
-
-  const [userData, setUserData] = useState<any>({
-    firstName: '',
-    lastName: '',
-    avatarImage: '',
-    coverImage: '',
-    city: '',
-    country: '',
-    tracks: [],
-  });
-
-  const getUser = async (userId: string) => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/users/${userId}`);
-      const data = await response.json();
-      setUserData({
-        firstName: data?.user?.firstName,
-        lastName: data?.user?.lastName,
-        avatarImage: data?.user?.profilePic,
-        city: data?.portfolio?.city,
-        country: data?.portfolio?.country,
-        tracks: data?.userTracks,
-        coverImage: data?.user?.profileCoverPhoto,
-      });
-      setIsLoading(false);
-    } catch (error: any) {
-      setError({ state: true, error: error.message });
-    }
-  };
-
-  const getUserSections = async (userId: string) => {
-    try {
-      setGettingSection(true);
-      const response = await fetch(`https://hng6-r5y3.onrender.com/api/getPortfolioDetails/${userId}`);
-      const data = await response.json();
-      const {
-        about,
-        projects,
-        workExperience,
-        education,
-        skills,
-        contact,
-        interestArray,
-        awards,
-        languages,
-        reference,
-        certificate,
-        shop,
-        custom,
-      } = data;
-      if (
-        about ||
-        projects ||
-        workExperience ||
-        education ||
-        skills ||
-        contact ||
-        interestArray ||
-        awards ||
-        languages ||
-        reference ||
-        certificate ||
-        shop ||
-        custom
-      ) {
-      }
-      setUserSections([
-        { title: 'About', id: 'about', data: about },
-        { title: 'Project', id: 'projects', data: projects },
-        { title: 'Work Experience', id: 'workExperience', data: workExperience },
-        { title: 'Education', id: 'education', data: education },
-        { title: 'Skills', id: 'skills', data: skills },
-        { title: 'Interests', id: 'interests', data: interestArray },
-        { title: 'Awards', id: 'awards', data: awards },
-        { title: 'Certificate', id: 'certificate', data: certificate },
-        { title: 'Languages', id: 'languages', data: languages },
-        { title: 'Reference', id: 'reference', data: reference },
-        { title: 'Shop', id: 'shop', data: shop },
-        { title: 'Contact', id: 'contact', data: contact },
-        { title: 'Custom', id: 'custom', data: custom },
-      ]);
-      setGettingSection(false);
-    } catch (error: any) {
-      setError({ state: true, error: error.message });
-    }
-  };
 
   const profileUpdate = () => {
     setShowProfileUpdate(true);
@@ -253,7 +269,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       formData.append('images', coverImage as string | Blob);
       formData.append('userId', userId);
 
-      const response = await fetch('https://hng6-r5y3.onrender.com/api/profile/cover/upload', {
+      const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/profile/cover/upload', {
         method: 'POST',
         body: formData,
       });
@@ -309,10 +325,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
     setShowViewtemplates(false);
     onClose();
     onCloseModal(sectionTitle || '');
-    getUser(userId);
-    getUser(userId);
-    getUserSections(userId);
-    getUserSections(userId);
+    queryClient.invalidateQueries({ queryKey: ['sections'] });
   };
 
   const onCloseModal = (modalToClose: string) => {
@@ -320,6 +333,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       ...prevModalStates,
       [modalToClose]: false,
     }));
+    queryClient.invalidateQueries({ queryKey: ['sections'] });
   };
 
   const modals: any[] = [
@@ -382,8 +396,8 @@ export function PortfolioCtxProvider(props: { children: any }) {
         <SkillModal
           isOpen={modalStates['skills']}
           onCloseModal={() => onCloseModal('skills')}
-          onSaveModal={() => onSaveModal('skills')}
           userId={userId}
+          onSaveModal={() => onSaveModal('skills')}
         />
       ),
     },
@@ -441,6 +455,17 @@ export function PortfolioCtxProvider(props: { children: any }) {
         />
       ),
     },
+    {
+      id: 'shop',
+      modal: (
+        <AddShopModal
+          isOpen={modalStates['shop']}
+          onCloseModal={() => onCloseModal('shop')}
+          onSaveModal={() => onSaveModal('shop')}
+          // userId={userId}
+        />
+      ),
+    },
   ];
 
   const contextValue = {
@@ -477,17 +502,17 @@ export function PortfolioCtxProvider(props: { children: any }) {
     userId,
     openShop,
     setOpenShop,
-    getUser,
     openCustom,
     setOpenCustom,
-    gettinSection,
     idToDelete,
     setIdToDelete,
     setShowProfileUpdate,
     setShowBuildPortfolio,
-    setGettingSection,
     hasPortfolio,
     setHasPortfolio,
+    getUserSections,
+    portfolioUrl,
+    slug,
   };
 
   return <Portfolio.Provider value={contextValue}>{props.children}</Portfolio.Provider>;

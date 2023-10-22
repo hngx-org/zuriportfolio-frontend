@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ArrowCircleLeft, ArrowCircleRight } from 'iconsax-react';
 import shopOne from '../../../public/assets/home/shopOne.webp';
 import shopTwo from '../../../public/assets/home/shopTwo.webp';
+import { useQuery } from '@tanstack/react-query';
 
 interface Slide {
   src?: string;
@@ -66,42 +67,40 @@ const sliders: Slide[] = [
 ];
 
 const DynamicCategoryCarousel = () => {
-  const [slides, setSlides] = useState<Slide[]>([]);
+  const [slides, setSlides] = useState<Slide[]>(sliders);
 
-  useEffect(() => {
-    const fetchCategoryNames = async () => {
-      try {
-        const categoriesResponse = await axios.get(
-          'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/categoryNames/',
-        );
-        const categories = categoriesResponse.data['categories name'].slice(0, 8);
-        return categories;
-      } catch (error) {
-        console.error('Error fetching category names:', error);
-      }
-    };
+  const {
+    data: categoryNamesQuery,
+    isLoading: isCategoryNamesLoading,
+    isError: isCategoryNamesError,
+  } = useQuery(
+    ['categoryNames'],
+    async () => {
+      const response = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/');
+      return response?.data?.data?.slice(0, 12);
+    },
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 36000000,
+      retry: false,
+      cacheTime: 36000000,
+    },
+  );
 
-    const fetchProducts = async (category: string) => {
-      try {
-        const response = await axios.get(
-          `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}`,
-        );
-        return response.data;
-      } catch (error) {
-        console.error(`Error fetching products for category ${category}:`, error);
-      }
-    };
-
-    const fetchSlides = async () => {
-      const categories = await fetchCategoryNames();
+  const { data: productsQuery, isError: isProductsError } = useQuery(
+    ['products', categoryNamesQuery],
+    async () => {
       const fetchedSlides = [];
-
       try {
-        for (const category of categories) {
-          const products = await fetchProducts(category);
+        for (const categoryObj of categoryNamesQuery) {
+          const category = categoryObj.name;
+          const response = await axios.get(
+            `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}`,
+          );
+          const products = response.data;
 
           fetchedSlides.push({
-            src: products?.products[0]?.images[0]?.url,
+            src: products?.data[0]?.images[0]?.url,
             alt: 'shop',
             section: 'shop',
             name: category,
@@ -109,6 +108,7 @@ const DynamicCategoryCarousel = () => {
           });
         }
       } catch (error) {
+        console.error('Error fetching slides:', error);
         for (const category of sliders) {
           fetchedSlides.push({
             src: category.src,
@@ -120,11 +120,15 @@ const DynamicCategoryCarousel = () => {
         }
       }
 
-      setSlides(fetchedSlides);
-    };
-
-    fetchSlides();
-  }, []);
+      return fetchedSlides;
+    },
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 36000000,
+      retry: false,
+      enabled: !!categoryNamesQuery,
+    },
+  );
 
   /**
    *
@@ -139,7 +143,7 @@ const DynamicCategoryCarousel = () => {
     return (
       <ArrowCircleRight
         className={className}
-        style={{ ...style, zIndex: 999, right: 20, width: '36px', height: '36px' }}
+        style={{ ...style, zIndex: 10, right: 20, width: '36px', height: '36px' }}
         onClick={onClick}
         color="#fff"
         variant="Bold"
@@ -160,7 +164,7 @@ const DynamicCategoryCarousel = () => {
     return (
       <ArrowCircleLeft
         className={className}
-        style={{ ...style, zIndex: 999, left: 20, width: '36px', height: '36px' }}
+        style={{ ...style, zIndex: 10, left: 20, width: '36px', height: '36px' }}
         onClick={onClick}
         color="#fff"
         variant="Bold"
@@ -169,7 +173,7 @@ const DynamicCategoryCarousel = () => {
   }
 
   var settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     autoplay: false,
@@ -208,13 +212,17 @@ const DynamicCategoryCarousel = () => {
     ],
   };
 
+  if (isCategoryNamesError || isProductsError) {
+    return null;
+  }
+
   return (
     <>
       {slides.length > 0 && (
         <div className="overflow-hidden p-2 w-full mx-0 mt-[0]">
           <Slider {...settings}>
-            {slides.map((category, index) => (
-              <div key={index} className="relative h-[250px] sm:h-[300px] w-[182.71]">
+            {(productsQuery ?? slides).map((category) => (
+              <div key={category?.name} className="relative h-[250px] sm:h-[300px] w-[182.71]">
                 {category?.section === 'shop' && (
                   <div
                     className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"
@@ -235,6 +243,31 @@ const DynamicCategoryCarousel = () => {
                 )}
               </div>
             ))}
+
+            {isCategoryNamesLoading ||
+              (slides.length === 0 &&
+                sliders.map((category, index) => (
+                  <div key={index} className="relative h-[250px] sm:h-[300px] w-[182.71]">
+                    {category?.section === 'shop' && (
+                      <div
+                        className="absolute border-white-200 border-[1px] inset-0 bg-cover bg-center bg-no-repeat flex flex-col justify-end mr-2 md:mr-6 rounded-md"
+                        style={{ backgroundImage: `url(${category?.src})` }}
+                      >
+                        <div className="flex justify-center w-full items-center bg-white-100 p-2 h-16 rounded-b">
+                          <div className="flex justify-center w-full space-x-2 items-center">
+                            <Image src={link} alt="link" width={30} height={30} />
+                            <div className="text-left flex flex-col">
+                              <p className="text-[11px] xl:text-[12px] font-manropeEB">{category?.name}</p>
+                              <p className="text-[11px] xl:text-[12px] font-manropeL">
+                                {category?.products} Digital Products
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )))}
           </Slider>
         </div>
       )}

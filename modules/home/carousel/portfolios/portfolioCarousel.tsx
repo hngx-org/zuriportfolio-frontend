@@ -26,10 +26,6 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    src: portraitOne.src,
-    section: 'portrait',
-  },
-  {
     src: portraitTwo.src,
     alt: 'portfolio',
     name: 'Daniel Buffa',
@@ -52,10 +48,7 @@ const slides: Slide[] = [
     skills: ['Animation', 'Figma'],
     section: 'portfolio',
   },
-  {
-    src: portraitFour.src,
-    section: 'portrait',
-  },
+
   {
     src: portraitFive.src,
     alt: 'portfolio',
@@ -80,10 +73,6 @@ const slides: Slide[] = [
     section: 'portfolio',
   },
   {
-    src: portraitSeven.src,
-    section: 'portrait',
-  },
-  {
     src: portraitEight.src,
     alt: 'portfolio',
     name: 'Nazar Ali',
@@ -100,7 +89,7 @@ const PortfolioCarousel = () => {
     speed: 500,
     arrows: false,
     autoplay: true,
-    slidesToShow: 6,
+    slidesToShow: 5.5,
     slidesToScroll: 1,
     pauseOnHover: false,
     responsive: [

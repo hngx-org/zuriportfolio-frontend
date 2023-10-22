@@ -31,26 +31,31 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
     };
     const payment = userForm.get('paymentMethod') as string;
     const tempUser = await createTempUser(data);
-
+    
     if (tempUser.data.token) {
-      console.log(tempUser.data.token);
+      localStorage.setItem('trans_token',tempUser.data.token);
 
       const cartItems = JSON.parse(localStorage.getItem('products') as string);
       const cartIds = await getCardItemsId(cartItems);
 
       const cartResponse = await addToCart(cartIds, tempUser.data.token);
       if (cartResponse.status == 201) {
-        console.log('status passed');
         const response = await makePayment(payment, tempUser.data.token);
         if (response.status == 201) {
+          toast.success('Payment succesful');
           localStorage.setItem('products', '');
           window.location.href = response.data.transaction_url;
         } else {
-          toast.error('Error occured try again');
+          toast.error('Payment not successful');
+          setIsDisabled(false);
         }
       } else {
-        toast.error('Error making transaction');
+        toast.error('Error processing transaction');
+        setIsDisabled(false);
       }
+    } else {
+      toast.error('Error Processing transaction');
+      setIsDisabled(false);
     }
   };
 
