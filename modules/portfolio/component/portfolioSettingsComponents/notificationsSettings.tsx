@@ -55,7 +55,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="emailSummary"
               id="emailSummary"
               onChange={() => handleLabelClick('emailSummary')}
-              checked={checkboxState.emailSummary}
+              checked={checkboxState?.emailSummary}
               className="appearance-none hidden"
             />
             <label
@@ -65,11 +65,11 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
             >
               <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
                 <p
-                  className={` flex  justify-center relative ${checkboxState.emailSummary && 'block'}   w-[16px] 
+                  className={` flex  justify-center relative ${checkboxState?.emailSummary && 'block'}   w-[16px] 
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.emailSummary && (
+                  {checkboxState?.emailSummary && (
                     <MdCheck
                       className={`text-brand-green-primary 
              `}
@@ -86,7 +86,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="specialOffers"
               id="specialOffers"
               onChange={() => handleLabelClick('specialOffers')}
-              checked={checkboxState.specialOffers}
+              checked={checkboxState?.specialOffers}
               className="appearance-none hidden"
             />
             <label
@@ -96,11 +96,11 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
             >
               <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
                 <p
-                  className={` flex  justify-center relative ${checkboxState.specialOffers && 'block'}   w-[16px] 
+                  className={` flex  justify-center relative ${checkboxState?.specialOffers && 'block'}   w-[16px] 
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.specialOffers && (
+                  {checkboxState?.specialOffers && (
                     <MdCheck
                       className={`text-brand-green-primary 
              `}
@@ -117,7 +117,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="communityUpdate"
               id="communityUpdate"
               onChange={() => handleLabelClick('communityUpdate')}
-              checked={checkboxState.communityUpdate}
+              checked={checkboxState?.communityUpdate}
               className="appearance-none hidden"
             />
             <label
@@ -127,11 +127,11 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
             >
               <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
                 <p
-                  className={` flex  justify-center relative ${checkboxState.communityUpdate && 'block'}   w-[16px] 
+                  className={` flex  justify-center relative ${checkboxState?.communityUpdate && 'block'}   w-[16px] 
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.communityUpdate && (
+                  {checkboxState?.communityUpdate && (
                     <MdCheck
                       className={`text-brand-green-primary 
              `}
@@ -148,7 +148,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="followUpdate"
               id="followUpdate"
               onChange={() => handleLabelClick('followUpdate')}
-              checked={checkboxState.followUpdate}
+              checked={checkboxState?.followUpdate}
               className="appearance-none hidden"
             />
             <label
@@ -162,7 +162,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.followUpdate && <MdCheck className={`text-brand-green-primary`} />}
+                  {checkboxState?.followUpdate && <MdCheck className={`text-brand-green-primary`} />}
                 </p>
               </div>
               Notify when someone follows you
@@ -174,7 +174,7 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
               name="newMessages"
               id="newMessages"
               onChange={() => handleLabelClick('newMessages')}
-              checked={checkboxState.newMessages}
+              checked={checkboxState?.newMessages}
               className="appearance-none hidden"
             />
             <label
@@ -184,11 +184,11 @@ const NotificationsSettings: React.FC<Props> = ({ checkboxState, setCheckboxStat
             >
               <div className="border-[1.6px]  rounded-md relative flex items-center justify-center border-white-650">
                 <p
-                  className={` flex  justify-center relative ${checkboxState.newMessages && 'block'}   w-[16px] 
+                  className={` flex  justify-center relative ${checkboxState?.newMessages && 'block'}   w-[16px] 
                  h-[16px]`}
                 >
                   {' '}
-                  {checkboxState.newMessages && (
+                  {checkboxState?.newMessages && (
                     <MdCheck
                       className={`text-brand-green-primary 
              `}
