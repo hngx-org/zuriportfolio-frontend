@@ -22,6 +22,7 @@ import { getUserCart } from '../../http/checkout';
 import { useCart } from '@modules/shop/component/CartContext';
 import { toast } from 'react-toastify';
 import Notifications from '../Modals/Notifications';
+import axios from 'axios';
 
 function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   // change auth to True to see Auth User Header
@@ -40,7 +41,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [dropDown, setDropDown] = useState<string>('Explore');
   const { cartCount, setCartCountNav } = useCart();
-
+  const [shopId, setShopId] = useState();
   useEffect(() => {
     async function cartFetch() {
       let carts;
@@ -56,7 +57,15 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     cartFetch();
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
-
+  const getShopId = async () => {
+    const res = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/shops/merchant', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      },
+    });
+    console.log(res);
+  };
   const handleAuthMenu = () => {
     setAuthMenu(!authMenu);
   };
@@ -75,6 +84,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     const isLoggedIn = isAuthenticated(token as string);
     if (isLoggedIn) {
       setAuth(true);
+      getShopId();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -532,7 +542,6 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           )}
         </div>
         <div className="auth flex items-center gap-3 cursor-pointer" onClick={handleAuthMenu}>
-
           <p className=" font-bold font-manropeEB">
             {globalAuth?.user?.firstName} {globalAuth?.user?.lastName}
           </p>
