@@ -26,10 +26,6 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    src: portraitOne.src,
-    section: 'portrait',
-  },
-  {
     src: portraitTwo.src,
     alt: 'portfolio',
     name: 'Daniel Buffa',
@@ -52,10 +48,7 @@ const slides: Slide[] = [
     skills: ['Animation', 'Figma'],
     section: 'portfolio',
   },
-  {
-    src: portraitFour.src,
-    section: 'portrait',
-  },
+
   {
     src: portraitFive.src,
     alt: 'portfolio',
@@ -78,10 +71,6 @@ const slides: Slide[] = [
     role: 'Teacher',
     skills: ['Math', 'English'],
     section: 'portfolio',
-  },
-  {
-    src: portraitSeven.src,
-    section: 'portrait',
   },
   {
     src: portraitEight.src,

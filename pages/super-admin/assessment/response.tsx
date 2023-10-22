@@ -5,7 +5,6 @@ import { ArrowLeft2 } from 'iconsax-react';
 import { ArrowRight2 } from 'iconsax-react';
 import styles from './assessment_response.module.css';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
-import Footer from '../../../components/Footer';
 import { withAdminAuth } from '../../../helpers/withAuth';
 
 function AssessmentResponse() {
@@ -490,7 +489,6 @@ function AssessmentResponse() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

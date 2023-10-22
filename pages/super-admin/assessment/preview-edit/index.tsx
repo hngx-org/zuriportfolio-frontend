@@ -12,7 +12,6 @@ import { number } from 'zod';
 import { withAdminAuth } from '../../../../helpers/withAuth';
 import { any } from 'zod';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
-import Footer from '../../../../components/Footer';
 
 const Previewedit: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -191,7 +190,6 @@ const Previewedit: React.FC = () => {
           )}
         </div>
       </main>
-      <Footer />
     </>
   );
 };

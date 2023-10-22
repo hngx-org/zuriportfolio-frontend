@@ -37,6 +37,14 @@ function Code2FALogic() {
         router.push(userCameFrom || '/explore');
         return;
       }
+
+      if (res.status === 401) {
+        notify({
+          message: res?.message,
+          type: 'error',
+          theme: 'light',
+        });
+      }
     },
     onError: (error: any) => {
       notify({

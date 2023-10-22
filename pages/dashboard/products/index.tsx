@@ -10,6 +10,7 @@ import Pagination from '@ui/Pagination';
 import { toast } from 'react-toastify';
 import Head from 'next/head';
 import Image from 'next/image';
+import withAuth from '../../../helpers/withAuth';
 type Product = {
   product_id: any;
   image: any;
@@ -52,7 +53,7 @@ const Products = () => {
     setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/products', {
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/products', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
@@ -229,4 +230,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default withAuth(Products);
