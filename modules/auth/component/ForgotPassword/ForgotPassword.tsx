@@ -66,6 +66,12 @@ const ForgotPassword = () => {
         router.push('/auth/verification');
         return;
       }
+
+      notify({
+        message: e.message,
+        type: 'error',
+        theme: 'light',
+      });
     },
   });
 
