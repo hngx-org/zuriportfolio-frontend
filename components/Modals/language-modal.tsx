@@ -157,7 +157,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
         .catch((err) => {
           setLoading(false);
           notify({
-            message: 'Error occurred',
+            message: err?.response?.data?.message || 'Error occurred',
             position: 'top-center',
             theme: 'light',
             type: 'error',
@@ -179,6 +179,12 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
       })
       .catch((err) => {
         setInitialLoading(false);
+        notify({
+          message: err?.response?.data?.message || 'Error occurred when fetching language',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       });
   };
 
