@@ -86,7 +86,7 @@ const ZuriLandingPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col h-screen">
       <Head>
         <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>{shop ? `${shop.data?.name} Shop - Discover, Buy, and Sell` : ''}</title>
@@ -121,7 +121,7 @@ const ZuriLandingPage = () => {
             <h1 className="mb-4 md:text-3xl text-xl font-manropeEB">Hello, Welcome to {shop.data?.name}.</h1>
           </div>
         ) : loading ? (
-          <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-white bg-opacity-80 z-50">
+          <div className="flex items-center justify-center h-screen py-10">
             <Loader />
           </div>
         ) : (

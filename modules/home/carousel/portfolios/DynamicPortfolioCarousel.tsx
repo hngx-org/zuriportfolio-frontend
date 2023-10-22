@@ -31,7 +31,9 @@ const DynamicPortfolioCarousel = () => {
     }));
   };
 
-  const { data: slides, isError: error } = useQuery(['slides'], fetchSlides);
+  const { data: slides, isError: error } = useQuery(['slides'], fetchSlides, {
+    refetchOnWindowFocus: false,
+  });
 
   /**
    *

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import $http from './axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
 
 const assessmentBaseUrl = `https://assessment.cofucan.tech/api/v1`;
 
@@ -25,9 +24,6 @@ export const getAssessmentDetails = async (token: string, data: string) => {
         token: token,
       },
     });
-    if (!response.data) {
-      return;
-    }
     return response.data;
   } catch (error) {
     console.log('detail', error);
@@ -47,26 +43,6 @@ export const getAllAssessments = async (token: string) => {
     console.log(error);
     throw error;
   }
-};
-
-export const useAllAssessments = async (token: string) => {
-  return useQuery(['allAssessments', token], async () => {
-    try {
-      const response = await $http.get(`${assessmentBaseUrl}/assessments`, {
-        headers: {
-          token: token,
-        },
-      });
-      if (!response.data) {
-        return;
-      }
-      console.log('Tap', response.data);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  });
 };
 
 const axiosInstance = axios.create({
@@ -95,9 +71,9 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
   }
 };
 
-export const fetchUserAssessmentSession = async (token: string, id: any) => {
+export const fetchUserAssessmentSession = async (token: string) => {
   try {
-    const res = await axios.get(`${assessmentBaseUrl}/assessments/session/${id}`, {
+    const res = await axios.get(`${assessmentBaseUrl}/assessments/session/`, {
       headers: {
         'Content-Type': 'application/json',
         token: token,
