@@ -8,11 +8,11 @@ export const renderFields = (
   field: string,
   id: number,
   deleteField: (id: number) => void,
-  index: number ,
   form?: UseFormReturnType<
     { addList: { id: string; fields: any[] }[] },
     (values: { addList: { id: string; fields: any[] }[] }) => { addList: { id: string; fields: any[] }[] }
   >,
+  index?: number | undefined,
 ) => {
   switch (field) {
     case 'title':
@@ -33,7 +33,7 @@ export const renderFields = (
         <div className="flex flex-col gap-1 items-start" id={`${id}`}>
           <div className="flex justify-between items-center w-full">
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#2 Subtitle</p>
-            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
+            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
           </div>
           <input
             type="text"
@@ -56,7 +56,7 @@ export const renderFields = (
         <div className="flex text-left flex-col gap-1 items-start" id={`${id}`}>
           <div className="flex justify-between items-center w-full">
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#4 Links</p>
-            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
+            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
           </div>
           <div>
             <input
@@ -83,7 +83,7 @@ export const renderFields = (
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">
               #5 Description
             </p>
-            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
+            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
           </div>
           <div>
             <p className="text-left mb-1 text-custom-color43 w-full font-semibold font-manropeL">Description</p>
@@ -104,7 +104,7 @@ export const renderFields = (
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">
               #3 Input field
             </p>
-            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
+            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
           </div>
           <input
             type="text"
@@ -127,10 +127,8 @@ export const renderFields = (
         <div className="flex flex-col gap-2 items-start" id={`${id}`}>
           <div className="flex justify-between items-center w-full">
             <p className="text-brand-green-primary text-[0.6875rem] tracking-[0.00344rem] font-semibold">#6 Dates</p>
-            <CloseCircle onClick={() => deleteField(index)} size={18} className="text-white-400 cursor-pointer" />
-          </div>
-          <div className="w-full">
-            <div className="flex justify-between gap-7">
+            <CloseCircle onClick={() => deleteField(id)} size={18} className="text-white-400 cursor-pointer" />
+            <div>
               <div className="w-full">
                 <p className="text-[#444846] mb-2 text-left font-semibold">From *</p>
                 <Select

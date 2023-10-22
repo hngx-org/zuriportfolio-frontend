@@ -137,7 +137,7 @@ function CreateCustomSectionContainer({ onClose, userId }: { onClose: () => void
     } else {
       form.insertListItem('addList.0.fields', { [field]: '', value: '', key: newKey, type: field });
       const fieldIndex = form.values.addList[0].fields.length;
-      setRenderedFields((prev) => [...prev, renderFields(field, newKey,removeField,fieldIndex, form)]);
+      setRenderedFields((prev) => [...prev, renderFields(field, newKey,removeField, form, fieldIndex)]);
     }
   };
 
