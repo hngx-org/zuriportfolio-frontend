@@ -116,9 +116,9 @@ const SearchAndFilter = (prop: {
     <section id="top" className="p-4 xl:px-0">
       <div className="relative -mt-[7rem] mx-auto mb-5 border border-white-110 py-8 px-6 rounded-lg bg-white-100 font-manropeL xl:max-w-[77.5rem] z-[1]">
         <div className="md:justify-between justify-center items-center md:items-start flex flex-col md:flex-row gap-8">
-          <div className="w-full grid grid-cols-2 gap-4 md:grid-cols-[1fr_1fr_1fr_1fr_1fr_48px]">
-            <div className="col-span-full grid gap-3 md:col-span-3">
-              <label className="text-[#5B5F5E]" htmlFor="Search query title">
+          <div className="w-full grid grid-cols-2 gap-4 md:grid-cols-5">
+            <form className="col-span-full grid grid-cols-[1fr_auto] gap-3 md:col-span-3">
+              <label className="col-span-full text-[#5B5F5E]" htmlFor="Search query title">
                 Search by name or role
               </label>
               <Input
@@ -131,9 +131,16 @@ const SearchAndFilter = (prop: {
                 name="search input"
                 intent={'default'}
                 placeHolder="Search by name or role"
+                required
                 className="w-full text-grey-900 border-[1px] border-white-120 rounded-lg placeholder:text-white-400"
               />
-            </div>
+              <button
+                onClick={handleGo}
+                className="h-12 self-end bg-brand-green-primary text-lg tracking-wide text-white-100 p-2 px-4 rounded-lg uppercase sm:px-6"
+              >
+                Go
+              </button>
+            </form>
 
             <div className="grid gap-3">
               <label className="text-[#5B5F5E]" htmlFor="Badge">
@@ -166,7 +173,6 @@ const SearchAndFilter = (prop: {
                 className="border-2 border-brand-disabled2 text-black rounded-xl p-2 hover:bg-brand-green-primary"
               />
             </button>
-
             <button
               onClick={handleGo}
               disabled={isButtonDisabled}
@@ -205,7 +211,7 @@ const SearchAndFilter = (prop: {
                   key={index}
                   className={`px-4 py-[0.625rem] rounded-lg justify-center items-center gap-2 flex cursor-pointer font-manropeB text-[0.875rem] ${
                     activeSection === index ? 'bg-brand-green-primary text-white-100' : 'bg-white text-[#737373]'
-                  } ${section.name === 'All' ? 'hidden sm:flex' : ''}`}
+                  }`}
                   onClick={() => {
                     setActiveSection(index);
                     handleFilters('Track', section.name);
@@ -213,12 +219,12 @@ const SearchAndFilter = (prop: {
                   }}
                 >
                   {section.name === 'All' ? (
-                    <div className="flex justify-center gap-2 text-center">
+                    <div className="flex justify-center items-center gap-2 text-center">
                       <Element3 size="24" color={activeSection === index ? '#fff' : '#5B5F5E'} variant="Bold" />
                       {section.name}
                     </div>
                   ) : (
-                    <div className="text-center">{section.name}</div>
+                    <div className="flex justify-center items-center gap-2 text-center">{section.name}</div>
                   )}
                 </div>
               ))
@@ -229,7 +235,7 @@ const SearchAndFilter = (prop: {
         <div className="relative right-1 flex top-3 md:top-0">
           {showLeftButton && (
             <div
-              className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-[3.5rem] bg-white-100"
+              className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[2.95rem] right-[3.5rem] bg-white-100"
               onClick={slideLeft}
             >
               <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
@@ -242,7 +248,7 @@ const SearchAndFilter = (prop: {
 
           {showRightButton && (
             <div
-              className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[3.05rem] right-0 bg-white-100"
+              className="w-12 h-12 p-3 bg-white rounded-2xl border border-stone-300 justify-center items-center gap-2 inline-flex absolute -top-[2.95rem] right-0 bg-white-100"
               onClick={slideRight}
             >
               <div className="w-6 h-6 justify-center items-center flex cursor-pointer">
