@@ -288,12 +288,14 @@ const PortfolioAbout: React.FC<aboutModalProps> = ({ onCloseModal, onSaveModal, 
                 </div>
               ) : (
                 <>
-                  <span className="text-[#737876] inline-block font-normal">{bio.bio}</span>
+                  <div className="w-full">
+                    <span className="text-[#737876] flex w-full font-normal break-all">{bio.bio}</span>
+                  </div>
                 </>
               )}
               <div className={`flex gap-2 flex-col justify-end mt-8 ${!isEditing ? 'px-3' : 'px-0'}`}>
                 {isEditing ? (
-                  <div className="flex gap-3 justify-end mb-5 font-medium">
+                  <div className="flex gap-3 justify-end mb-5 font-medium flex-wrap break-all">
                     <p onClick={handleEditClick} className="text-blue-300 cursor-pointer">
                       Edit
                     </p>

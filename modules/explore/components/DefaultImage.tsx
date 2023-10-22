@@ -6,7 +6,7 @@ function DefaultImage(props: { name: string }) {
       .join('');
   };
   return (
-    <div className="w-[7rem] h-[7rem] grid place-items-center rounded-full bg-[#0092541F] font-manropeL text-4xl text-[#009254]">
+    <div className="w-full h-full grid place-items-center rounded-full bg-[#0092541F] font-manropeL uppercase text-4xl text-[#009254]">
       {getInitials(props?.name)}
     </div>
   );

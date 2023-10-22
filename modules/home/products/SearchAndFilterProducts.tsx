@@ -154,7 +154,9 @@ const SearchAndFilterProducts = (prop: {
     isError: isCategoryError,
     refetch: refetchCategories,
     isRefetching: isRefetchingCategories,
-  } = useQuery(['categories'], fetchCategoryNames);
+  } = useQuery(['categories'], fetchCategoryNames, {
+    refetchOnWindowFocus: false,
+  });
 
   const {
     data: productsData,
@@ -170,6 +172,7 @@ const SearchAndFilterProducts = (prop: {
       }
     },
     {
+      refetchOnWindowFocus: false,
       select: (data) => {
         let filteredProducts = data;
 

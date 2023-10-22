@@ -11,39 +11,39 @@ import Loader from '@ui/Loader';
 import { notify } from '@ui/Toast';
 import { Edit2, Trash } from 'iconsax-react';
 
+// Defining a context to share state across components
 interface Context {
   refreshPage: boolean;
   setRefreshPage: React.Dispatch<React.SetStateAction<boolean>>;
   isModalOpen?: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setRender: React.Dispatch<React.SetStateAction<boolean>>;
   urlError: boolean | string;
   setUrlError: React.Dispatch<React.SetStateAction<string>>;
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
-  render: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
   baseURL: string; // Add baseURL
   setBaseURL: React.Dispatch<React.SetStateAction<string>>; // Add setter for baseURL
 }
+
+// Initial context values
 const initialContextValue: Context = {
   refreshPage: false,
   setRefreshPage: () => {},
   setError: () => {},
   isModalOpen: false,
   setIsModalOpen: () => {},
-  setRender: () => {},
   urlError: false,
   setUrlError: () => {},
   error: '',
-  render: false,
   setIsLoading: () => {},
   isLoading: false,
   baseURL: 'https://hng6-r5y3.onrender.com', // Add baseURL with a default value
   setBaseURL: () => {}, // Add setter for baseURL
 };
 
+// Props for the Certifications component
 type certificationModalProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
@@ -53,7 +53,7 @@ type certificationModalProps = {
 
 const myContext = createContext(initialContextValue);
 
-const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModalProps) => {
+const Certifications = ({ isOpen, onCloseModal }: certificationModalProps) => {
   const { userId } = useContext(Portfolio);
   const [formData, setFormData] = useState({
     title: '',
@@ -66,9 +66,10 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [urlError, setUrlError] = useState('');
   const [error, setError] = useState('');
-  const [render, setRender] = useState(false);
   const [refreshPage, setRefreshPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Function to open the modal when adding new certifications
   const openModal = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent the default form submission
     const newCertification = {
@@ -92,6 +93,8 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
       const status = response.status;
 
       setIsLoading(false);
+
+      // Handle different response statuses
       if (response.ok) {
         notify({
           message: 'Certificate created successfully',
@@ -109,38 +112,42 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
             description: '',
           });
         }, 4000);
-      } else if (status === 400) {
+      }
+      // Handle a 400 Bad Request error
+      else if (status === 400) {
         notify({
           message: 'Bad Request: Invalid data',
           position: 'top-center',
           theme: 'light',
           type: 'error',
         });
-        // Handle a 400 Bad Request error
-      } else if (status === 402) {
+      }
+      // Handle a 402 Payment Required error
+      else if (status === 402) {
         notify({
           message: 'Payment Required: Payment is required for this action',
           position: 'top-center',
           theme: 'light',
           type: 'error',
         });
-        // Handle a 402 Payment Required error
-      } else if (status === 500) {
+      }
+      // Handle a 500 Internal Server Error
+      else if (status === 500) {
         notify({
           message: 'Internal Server Error: Something went wrong on the server',
           position: 'top-center',
           theme: 'light',
           type: 'error',
         });
-        // Handle a 500 Internal Server Error
-      } else {
+      }
+      // Handle other errors
+      else {
         notify({
           message: 'An error occurred',
           position: 'top-center',
           theme: 'light',
           type: 'error',
         });
-        // Handle other errors
       }
     } catch (error) {
       notify({
@@ -151,17 +158,15 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
       });
     }
   };
+
+  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(true);
   };
 
+  // Function to handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-
-    // console.log('Name:', name);
-    // console.log('Value:', value);
-    // console.log('Character Count:', characterCount);
-    // console.log('IsValidDescription:', isValidDescription);
 
     if (name === 'year') {
       setFormData((prevData) => ({
@@ -186,8 +191,6 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
         setIsModalOpen,
         setUrlError,
         urlError,
-        setRender,
-        render,
         error,
         setIsLoading,
         isLoading,
@@ -372,8 +375,9 @@ const Certifications = ({ isOpen, onCloseModal, onSaveModal }: certificationModa
 const CertificationList: React.FC<CertificationListProps> = () => {
   const { refreshPage, isModalOpen, setIsLoading, baseURL, setIsModalOpen } = useContext(myContext);
   const [certifications, setCertifications] = useState<Certification[]>([]);
-
   const { userId } = useContext(Portfolio);
+
+  // Fetch certifications from the server
   const fetchCertifications = async () => {
     try {
       setIsLoading(true);
@@ -385,30 +389,33 @@ const CertificationList: React.FC<CertificationListProps> = () => {
         const res = await response.json();
         setCertifications(res.data);
         res.awards.length > 0 ? setIsModalOpen(false) : setIsModalOpen(true);
-      } else if (status === 400) {
+      }
+      // Handle a 400 Bad Request error
+      else if (status === 400) {
         notify({
           message: 'Bad Request: Invalid data',
           position: 'top-center',
           theme: 'light',
           type: 'error',
         });
-        // Handle a 400 Bad Request error
-      } else if (status === 402) {
+      }
+      // Handle a 402 Payment Required error
+      else if (status === 402) {
         notify({
           message: 'Payment Required: Payment is required for this action',
           position: 'top-center',
           theme: 'light',
           type: 'error',
         });
-        // Handle a 402 Payment Required error
-      } else if (status === 500) {
+      }
+      // Handle a 500 Internal Server Error
+      else if (status === 500) {
         notify({
           message: 'Internal Server Error: Something went wrong on the server',
           position: 'top-center',
           theme: 'light',
           type: 'error',
         });
-        // Handle a 500 Internal Server Error
       } else {
         notify({
           message: 'An error occurred',
@@ -466,6 +473,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   // State to store the edited data
   const [editedCertification, setEditedCertification] = useState(initialEditedCertification);
 
+  // Function to close the Edit form
   const openEditForm = () => {
     setIsEditFormOpen(true);
   };
@@ -475,9 +483,8 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     setIsEditFormOpen(false);
   };
 
+  // Send a PUT request to update the certification
   const handleSave = async () => {
-    // Send a PUT request to update the certification
-
     try {
       setEditLoading(true);
       const response = await fetch(`${baseURL}/api/v1/certificates/${userId}/${id}`, {
@@ -489,7 +496,6 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
       });
       const status = response.status;
       setEditLoading(false);
-      console.log(response);
 
       if (response.ok) {
         notify({
@@ -543,9 +549,8 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     }
   };
 
+  // Function to delete a certification
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Extract the id from the event
-
     try {
       setDeleteLoading(true);
       const response = await fetch(`${baseURL}/api/v1/certificates/${userId}/${id}`, {
@@ -604,6 +609,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
     }
   };
 
+  //Displays all the Certifications from the User
   return (
     <div className="border-b-[1px] border-b-brand-disabled gap-12 py-3">
       <div className="flex flex-col sm:flex-row gap-6 w-full justify-between">
@@ -640,13 +646,13 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
             onClick={openEditForm}
             className="border-none outline-none text-[#5B8DEF] bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            <Edit2 size="24" color="#37d67a" variant="Outline" />
+            <Edit2 size="20" color="#37d67a" variant="Outline" />
           </Button>{' '}
           <Button
             onClick={handleDelete}
             className="border-none outline-none text-brand-red-hover bg-transparent hover:bg-zinc-100 focus:bg-zinc-200 active:bg-zinc-100 duration-300"
           >
-            <Trash size="24" color="#f47373" variant="Outline" />
+            <Trash size="20" color="#f47373" variant="Outline" />
           </Button>
         </div>
       </div>
@@ -663,6 +669,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ certification }) 
   );
 };
 
+//Edit form for updating the data
 const EditForm: React.FC<{
   handleSave: () => void;
   isOpen: boolean;
@@ -670,8 +677,6 @@ const EditForm: React.FC<{
   setCertification: React.Dispatch<React.SetStateAction<Certification>>;
   onClose: () => void;
 }> = ({ isOpen, certification, setCertification, onClose, handleSave }) => {
-  const { urlError, setUrlError, setRender, error, render, setError } = useContext(myContext);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     // Update the certification state
@@ -815,13 +820,7 @@ const EditForm: React.FC<{
               <Button onClick={onClose} intent={'secondary'} className="w-full rounded-md sm:w-[6rem]" size={'md'}>
                 Cancel
               </Button>{' '}
-              <Button
-                type="submit"
-                // disabled={!isValid}
-
-                className="w-full rounded-md sm:w-[6rem]"
-                size={'md'}
-              >
+              <Button type="submit" className="w-full rounded-md sm:w-[6rem]" size={'md'}>
                 Save
               </Button>
             </div>

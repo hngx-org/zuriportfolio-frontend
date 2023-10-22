@@ -11,7 +11,7 @@ const Promotions: React.FC = () => {
           <title>Promotions</title>
           <link rel="icon" href="/assets/zuriLogo.svg" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-title" content="Prmotions" />
+          <meta name="apple-mobile-web-app-title" content="Promotions" />
 
           <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
           <meta key="metadescription" itemProp="description" name="description" content="View all promotions" />

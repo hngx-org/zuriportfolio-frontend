@@ -97,11 +97,14 @@ const usePromotions = () => {
     setPromotionFilters(val);
   };
   const getPromo = async () => {
-    const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/discount/promotions', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+    const { data } = await axios.get(
+      'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/discount/promotions',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
       },
-    });
+    );
     return data.data;
     //  .catch((error) => {
     //    console.error('Error fetching data: ', error);

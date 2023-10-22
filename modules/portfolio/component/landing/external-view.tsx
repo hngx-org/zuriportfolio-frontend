@@ -1,5 +1,5 @@
 'use-client';
-import React, { useContext} from 'react';
+import React, { useContext } from 'react';
 import {
   WorkExperience,
   Education,
@@ -22,9 +22,7 @@ type Props = {
   userSections: any;
 };
 
-
 const ExternalView: React.FC<Props> = ({ userSections }) => {
-  
   return (
     <>
       {/* data from backend */}

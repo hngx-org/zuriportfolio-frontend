@@ -13,6 +13,7 @@ import ViewTemplate from '../modals/view-template';
 import { Edit2 } from 'iconsax-react';
 import Link from 'next/link';
 import EditCover from './editCover-takeAssessment';
+import SkeletonLoader from './SkeletonLoader';
 
 const Landing = () => {
   const {
@@ -55,7 +56,7 @@ const Landing = () => {
       </div>
       <div className="mx-auto w-[min(90vw,1240px)] relative font-manropeB pb-20 min-h-[50vh]">
         {getUserSections.isLoading ? (
-          <Loader />
+          <SkeletonLoader />
         ) : !getUserSections.isSuccess ? (
           <div className="flex justify-center items-center min-h-[50vh]">
             <p className="text-red-200 text-2xl font-semibold text-center">
@@ -66,7 +67,7 @@ const Landing = () => {
           <>
             <div className="relative w-full flex-col justify-center items-center shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] rounded-b-lg -mt-5">
               {cover}
-              <Cover userData={userData} />
+              {/* <Cover userData={userData} /> */}
               <div className="absolute top-0 right-5 md:right-10 text-white-100 flex flex-col justify-between items-end h-[200px] sm:h-[250px] md:h-[300px] py-5">
                 <EditCover Link={Link} handleUploadCover={handleUploadCover} />
               </div>

@@ -70,15 +70,15 @@ export default function Cart() {
     setRecentlyViewed(recentlyViewedProducts);
   };
 
-  const clearCart = async() => {
+  const clearCart = async () => {
     const token = localStorage.getItem('zpt');
     if (token) {
-        // await clearCart(token)
+      // await clearCart(token)
     } else {
-      localStorage.setItem('products',"")
+      localStorage.setItem('products', '');
       setCartItems([]);
     }
-  }
+  };
 
   async function removeProductHandler(productId: string) {
     const items = [...cartItems];
@@ -173,10 +173,13 @@ export default function Cart() {
             <>
               <section className="w-full mt-[3%] flex flex-col lg:flex-row lg:gap-5 ">
                 <div className="w-full flex flex-col justify-center md:w-full lg:justify-normal lg:w-4/5 ">
-
                   <div className="flex justify-between items-center mb-5">
                     <h1 className="text-2xl font-manropeEB">Shopping Cart ({cartItems.length}) </h1>
-                    <span role='button' onClick={clearCart} className="flex items-center justify-center border border-[#d5dbdd] px-4 py-2 hover:bg-[#EF4C45] hover:text-[#fff] cursor-pointer rounded-md text-gray-300 group-hover:text-[#fff]">
+                    <span
+                      role="button"
+                      onClick={clearCart}
+                      className="flex items-center justify-center border border-[#d5dbdd] px-4 py-2 hover:bg-[#EF4C45] hover:text-[#fff] cursor-pointer rounded-md text-gray-300 group-hover:text-[#fff]"
+                    >
                       <BiTrash />
                       <span>Clear Cart</span>
                     </span>

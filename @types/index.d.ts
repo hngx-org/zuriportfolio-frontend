@@ -920,3 +920,16 @@ export interface ExploreSEOProps {
   image: string;
   url: string;
 }
+
+export type DashboardActivity = {
+  id?: string;
+  action?: string;
+  user_id?: string;
+  title?: string;
+  description?: string;
+  createdAt?: string;
+};
+
+export interface ExtendedDashboardActivity extends DashboardActivity {
+    isPage?: boolean;
+}
