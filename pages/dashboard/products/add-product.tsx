@@ -59,9 +59,9 @@ const AddProduct = () => {
     initialValues: {
       name: '',
       description: '',
-      category_id: '',
+      sub_category_id: '',
       price: '',
-      discountPrice: '',
+      discountPrice: '0',
       tax: '',
       currency: 'NGN',
       assets_link: '',
@@ -147,7 +147,7 @@ const AddProduct = () => {
     event.target.blur();
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setProducts({ ...products, category_id: event.target.value });
+    setProducts({ ...products, sub_category_id: event.target.value });
   };
 
   const fetchCategories = async () => {
@@ -194,7 +194,7 @@ const AddProduct = () => {
     name: '',
     description: '',
     quantity: '',
-    category_id: '',
+    sub_category_id: '',
     price: '',
     discountPrice: '0',
     tax: '',
@@ -500,12 +500,12 @@ const AddProduct = () => {
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-black py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    // value={products.category_id}
+                    // value={products.sub_category_id}
                     // onChange={handleOptionChange}
 
-                    {...form.getInputProps('category_id')}
+                    {...form.getInputProps('sub_category_id')}
                   >
                     <option value="" className="placeholder:text-[#000] text-black capitalize" disabled>
                       Select product category
@@ -524,9 +524,9 @@ const AddProduct = () => {
                   {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label> */}
                   {/* <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    // value={products.sub_category_id}
+                    // value={products.sub_sub_category_id}
                     // onChange={handleOptionChange}
 
                     {...form.getInputProps('shopId')}
