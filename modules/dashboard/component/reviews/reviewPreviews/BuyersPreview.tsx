@@ -139,7 +139,7 @@ const BuyersPreview = () => {
                       <Review
                         key={review.reviewId}
                         buyerName={review.customerName}
-                        mainDate={review.createdAt}
+                        mainDate={review.createdAtDate + ' ' + review.createdAtTime}
                         adminDate={review.reply?.createdAt}
                         review={review.description}
                         noOfStars={review.rating}
