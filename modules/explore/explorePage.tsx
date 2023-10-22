@@ -2,7 +2,7 @@
 import SearchAndFilter from './SearchAndFilter';
 import axios from 'axios';
 import useDebounce from './hooks/deBounce';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
@@ -41,7 +41,9 @@ const HomePage = () => {
   };
 
   const handleGo = () => {
-    searchTerm.push(`/explore/search?searchQuery=${searchQuery}`);
+    if (searchQuery.trim() !== '') {
+      searchTerm.push(`/explore/search?searchQuery=${searchQuery}`);
+    }
   };
 
   const deBounce = useDebounce(searchQuery, 1200);
@@ -108,7 +110,7 @@ const HomePage = () => {
         )}
         {data && (
           <div className="m-auto p-6">
-            <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-0 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
+            <div className="grid justify-center gap-8 sm:grid-cols-2 sm:gap-6 sm:gap-y-8 sm:mx-3 sm:px-0 lg:gap-x-4 xl:max-w-[77.5rem] xl:mx-auto xl:grid-cols-3 xl:gap-11">
               {data.data.map((card, key) => (
                 <Card key={key} data={card} />
               ))}
