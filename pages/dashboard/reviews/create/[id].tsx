@@ -66,7 +66,10 @@ export default function UserReview() {
         <Container>
           <div className="flex flex-col  md:flex-row md:items-start items-center content-center  justify-center m-0">
             <div className=" flex md:flex-col items-center flex-row md:mr-7 mr-0 p-4 ">
-              <RatingBar avgRating={rats?.averageRating === undefined ? 0 : rats?.averageRating!} verUser={100} />
+              <RatingBar
+                avgRating={rats?.averageRating === undefined ? 0 : rats?.averageRating!}
+                verUser={rats?.numberOfRating! || 0}
+              />
               <div className=" my-5">
                 {ratingData.map((data, index) => (
                   <RatingCard key={index} rating={data.rating} users={data.users} totalReviews={data.total} />

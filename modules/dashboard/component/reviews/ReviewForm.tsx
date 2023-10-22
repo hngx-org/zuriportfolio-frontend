@@ -110,9 +110,10 @@ function ReviewForms() {
           </div>
           <div className=" my-3">
             <h2 className="font-semibold lg:leading-8 md:leading-6 text-lg md:text-base lg:text-2xl text-[#8D9290] font-manropeEL py-3">
-              Describe your experience(optional)
+              Describe your experience
             </h2>
             <textarea
+              title="Description"
               value={description}
               onChange={handleDescriptionChange}
               className="lg:w-[738px] md:w-[454px] border-2 resize-none rounded-[10px] font-semibold border-[#8D9290] font-manropeL text-black hide-caret transition-all select-none focus-within:border-brand-green-primary  px-4 py-3  outline-none  h-[177px] md:h-[240px] lg:h-[400px] relative  flex items-start justify-start w-[324px]"

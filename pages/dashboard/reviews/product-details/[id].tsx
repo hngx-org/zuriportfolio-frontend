@@ -34,7 +34,7 @@ const UserReview = () => {
   //* Added page variable and current page state also added isLoading state to hide page change
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const [data, setData] = useState<ReviewData[] | null>([]);
+  const [data, setData] = useState<ReviewData[] | null>(null);
   const [rats, setRats] = useState<RatsData>();
   const [filterRating, setFilterRating] = useState<string>('all');
   const [filterView, setFilterView] = useState<string>('topReviews');
@@ -100,11 +100,11 @@ const UserReview = () => {
   }, [id]);
 
   const ratingData = [
-    { rating: 5, users: rats?.fiveStar!, total: rats?.numberOfRating! },
-    { rating: 4, users: rats?.fourStar!, total: rats?.numberOfRating! },
-    { rating: 3, users: rats?.threeStar!, total: rats?.numberOfRating! },
-    { rating: 2, users: rats?.twoStar!, total: rats?.numberOfRating! },
-    { rating: 1, users: rats?.oneStar!, total: rats?.numberOfRating! },
+    { rating: 5, users: rats?.fiveStar! || 0, total: rats?.numberOfRating! },
+    { rating: 4, users: rats?.fourStar! || 0, total: rats?.numberOfRating! },
+    { rating: 3, users: rats?.threeStar! || 0, total: rats?.numberOfRating! },
+    { rating: 2, users: rats?.twoStar! || 0, total: rats?.numberOfRating! },
+    { rating: 1, users: rats?.oneStar! || 0, total: rats?.numberOfRating! },
   ];
 
   // ToDo: Remove all commented out code
@@ -180,7 +180,7 @@ const UserReview = () => {
               <div className="flex flex-col md:flex-row lg:gap-24 md:gap-10 gap-4 mx-5">
                 <div className="flex flex-row md:flex-col gap-4 md:gap-8 lg:w-80 md:w-48">
                   <div>
-                    <RatingBar avgRating={rats?.averageRating!} verUser={100} />
+                    <RatingBar avgRating={rats?.averageRating! || 0} verUser={rats?.numberOfRating! || 0} />
                     {/* <div className="md:hidden block">
                       <p className="pt-6">Have any thoughts?</p>
                       <Link
@@ -209,8 +209,8 @@ const UserReview = () => {
                 <div className="flex flex-col">
                   <div className="w-full justify-start">
                     <Filter
-                      rating={rats?.totalRating!}
-                      review={rats?.numberOfRating!}
+                      rating={rats?.totalRating! || 0}
+                      review={rats?.numberOfRating! || 0}
                       filterReview={(view, rating) => handleFilter(view, rating)}
                     />
                   </div>
@@ -218,7 +218,7 @@ const UserReview = () => {
                     {!filteredData ? (
                       <Loader />
                     ) : filteredData?.length === 0 ? (
-                      <h2>No results</h2>
+                      <EmptyReviewPage />
                     ) : (
                       filteredData?.map((review) => (
                         <SellerReview
