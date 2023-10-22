@@ -321,7 +321,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
                 </Link>
                 <Link
                   onClick={handleAuthMenu}
-                  href="/portfolio"
+                  href={`/portfolio/${globalAuth?.user?.slug}`}
                   className=" border-[#EBEEEF] cursor-pointer hover:bg-[#F4FBF6] py-5 px-4 flex gap-6 "
                 >
                   <Image draggable={false} src={briefCaseIcon} alt="Briefcase icon" />
@@ -451,6 +451,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           handleAuthMenu={handleAuthMenu}
           auth={auth}
           refMenu={searchRef2}
+          globalAuth={globalAuth}
         />
 
         {/* Search Mobile Nav */}
@@ -607,6 +608,7 @@ function MenuIcon({ style, toggle, toggler }: { style?: string; toggle?: boolean
 }
 
 function MenuUI({
+  globalAuth,
   toggle,
   toggler,
   style,
@@ -615,6 +617,7 @@ function MenuUI({
   handleAuthMenu,
   authMenu,
 }: {
+  globalAuth?: any;
   toggle?: boolean;
   toggler: () => void;
   style?: string;
@@ -691,8 +694,11 @@ function MenuUI({
                 <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" />
               ) : null}
             </div>
-            <div className=" group flex flex-col  ali justify-center  gap-1 ">
-              <Link className={activeLink('/portfolio')} href={'/portfolio'}>
+            <div className=" group flex flex-col ali justify-center  gap-1 ">
+              <Link
+                className={activeLink(`/portfolio/${globalAuth?.user?.slug}`)}
+                href={`/portfolio/${globalAuth?.user?.slug}`}
+              >
                 Manage Portfolio
               </Link>
               {router.pathname === '/portfolio' ? <div className="w-[100%] h-0.5 bg-emerald-600 rounded-lg" /> : null}
