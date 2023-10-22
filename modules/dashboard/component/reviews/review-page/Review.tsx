@@ -28,15 +28,17 @@ export default function Review(props: reviewProps) {
       <div className="border-b w-full m-0 mb-6 border-white-400">
         <div className=" flex flex-col w-full mb-7">
           <div className="flex flex-row my-3 mx-0">{getStars(props.noOfStars)}</div>
-          <div className=" flex text-xs text-dark-600 tracking-tight">
-            <Link href="/" className=" underline">
+          <div className=" flex font-medium text-sm text-dark-600 tracking-tight">
+            <Link href="/" className="underline">
               {props.buyerName}
             </Link>
             <Image src="/assets/reviewsAssets/ShortLine.svg" width={2} height={1} alt="Line" className=" mx-3 my-0" />
             <div className="date">{props.mainDate}</div>
           </div>
-          <div className=" my-3 mx-0 flex text-sm tracking-tight font-manropeL text-black">{props.review}</div>
-          <p className=" flex text-xs m-0 mb-3 text-dark-600 tracking-tight">{props.help} people found this helpful</p>
+          <div className=" my-3 mx-0 flex tracking-tight font-manropeL text-black">{props.review}</div>
+          <p className="flex font-medium text-sm m-0 mb-3 text-dark-600 tracking-tight">
+            {props.help} people found this helpful
+          </p>
           <Button
             leftIcon={<Like1 color="#777" />}
             intent={'secondary'}
