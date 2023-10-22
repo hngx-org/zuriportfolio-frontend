@@ -19,7 +19,7 @@ const HeroSection = ({ title, subtitle, href, slug, desc, badge, bottom = true, 
     <div
       className={`max-w-[1410px] ${
         (bottom && button) || (!bottom && button) ? 'mx-auto' : 'mr-auto'
-      } px-10 md:px-[90px] lg:px-24 space-y-14`}
+      } px-5 sm:px-10 md:px-[90px] lg:px-24 space-y-14`}
     >
       <div className="flex justify-center items-center pt-10 md:pt-[110px] w-full px-0 flex-col">
         <div className="flex justify-start items-center w-full mb-10">
@@ -35,8 +35,10 @@ const HeroSection = ({ title, subtitle, href, slug, desc, badge, bottom = true, 
           }`}
         >
           <div className={`${(bottom && button) || (!bottom && button) ? 'md:w-[60%]' : ''} w-full space-y-6`}>
-            <p className=" text-left font-manropeL text-[40px] lg:text-[48px] -mt-3 leading-[52px]">{title}</p>
-            <p className=" text-left font-manropeL text-[16px] leading-[24px] ">{subtitle}</p>
+            <h2 className="font-bold text-left font-manropeEL text-[28px] sm:text-[32px] md:text-[36px] lg:text-[48px] -mt-3 leading-8 md:leading-10 lg:leading-[52px]">
+              {title}
+            </h2>
+            <p className="text-left font-manropeL text-[16px] leading-[24px] ">{subtitle}</p>
             {button && (
               <Button
                 href={href}
