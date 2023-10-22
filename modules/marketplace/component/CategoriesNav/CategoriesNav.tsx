@@ -108,7 +108,9 @@ const CategoriesNav = (props: CategoriesNavProps) => {
       </aside>
 
       {showCategories && (
-        <ul className="xl:hidden mt-6 flex flex-col gap-6 absolute bg-white-100 z-50 h-[500px] overflow-x-scroll left-0 w-[80%] pl-4 py-5 drop-shadow-2xl">
+        <ul
+          className={`xl:hidden mt-6 flex flex-col gap-6 absolute bg-white-100 z-50 h-[500px] overflow-x-scroll left-0 w-[80%] pl-4 py-5 drop-shadow-2xl ${styles['hide-scroll']}`}
+        >
           {props.isLoading &&
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
               <li key={num} className="w-[100px] h-[20px] animate-pulse bg-custom-color32"></li>
