@@ -1,6 +1,6 @@
 'use-client';
-import React, { useEffect, useState } from 'react';
-import { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
+import React, { useContext, useEffect, useState } from 'react';
+import Portfolio, { PortfolioCtxProvider } from '../../context/PortfolioLandingContext';
 import ExternalView from '@modules/portfolio/component/landing/external-view';
 import MainLayout from '../../components/Layout/MainLayout';
 import Cover from '@modules/portfolio/component/landing/cover-avatar';
@@ -10,11 +10,14 @@ import { useRouter} from 'next/router';
 // import { useAuth } from '../../context/AuthContext';
 import Loader from '@modules/portfolio/component/landing/Loader';
 import { useParams } from 'next/navigation';
+import withAuth from '../../helpers/withAuth';
+
 
 const View = () => {
   const router = useRouter();
   const urlSlug = router.query.slug;
   
+
   // Auth to get userid
   // const { auth } = useAuth();
   
@@ -110,6 +113,7 @@ const View = () => {
       console.log(isLoading);
       
     } catch (error: any) {
+      setIsLoading(false);
       setError({ state: true, error: error.message });
     }
   };
@@ -167,7 +171,7 @@ const View = () => {
   );
 };
 
-export default View;
+export default withAuth(View);
 
 export async function getServerSideProps(context: any) {
   const { slug } = context.query;

@@ -138,7 +138,7 @@ export function PortfolioCtxProvider(props: { children: any }) {
       {
         queryKey: ['sections'],
         queryFn: () => getSections(),
-        enabled: slug != '',
+        // enabled: slug != '',
       },
     ],
   });
