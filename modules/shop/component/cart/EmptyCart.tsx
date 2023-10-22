@@ -7,7 +7,7 @@ const EmptyCart = () => {
       <section className="flex flex-col pb-[40px]">
         <div className="lg:px-[100px] px-[50px] pt-[100px] pb-[40px] lg:pt-[211px] lg:pb-[72px] flex flex-col gap-[32px] items-center justify-center">
           <div className="heading flex flex-col items-center gap-[8px]">
-            <h1 className="text-[34px] lg:text-[57px] font-bold leading-[64px] font-manropeL text-[#2E3130]">
+            <h1 className="text-[34px] text-center lg:text-[57px] font-bold leading-[64px] font-manropeL text-[#2E3130]">
               Your Cart is Empty
             </h1>
             <p className="text-[16px] font-[700] text-center leading-[24px] font-manropeL text-[#737876]">
