@@ -133,7 +133,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
     <>
       <nav className="w-full py-6  bg-white-100 border-b border-[#EBEEEF] justify-between items-center px-4  z-[40]  isolate sticky top-0  ">
         <div className="max-w-[1240px] mx-auto flex items-center justify-between  relative gap-1">
-          <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] gap-14">
+          <div className=" flex lg:max-w-[368px] max-w-none lg:w-[100%] lg:gap-14 gap-6">
             <div className="flex items-center gap-1">
               {auth && (
                 <>
@@ -180,7 +180,7 @@ function TopBar(props: { activePage: string; showDashBorad: boolean }) {
           <div
             className={`lg:flex hidden items-center gap-4   lg:flex-row flex-col  bg-white-100 w-[100%] py-8 lg:py-0 lg:justify-end lg:opacity-100 transition-all ease-in-out duration-500 top-[9vh]   z-[1]`}
           >
-            <div className="max-w-[496px] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col basis-[100%]">
+            <div className="max-w-[53%] h-auto lg:h-12 p-4 rounded-lg border border-neutral-200 justify-start items-center gap-3 flex lg:flex-row flex-col basis-[100%]">
               <div className="grow shrink basis-0 h-6 justify-start items-center gap-2 flex lg:w-full w-auto">
                 <div className="w-4 h-4 justify-center items-center flex">
                   <div className="w-4 h-4 relative">
