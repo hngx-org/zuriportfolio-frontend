@@ -1,5 +1,5 @@
 'use-client';
-import React, { useContext } from 'react';
+import React, { useContext} from 'react';
 import {
   WorkExperience,
   Education,
@@ -17,12 +17,14 @@ import {
 } from './Skeleton';
 import Wrapper from './placeholders/Wrapper';
 import { Book, Briefcase, LanguageSquare, LikeTag, PathTool, Personalcard } from 'iconsax-react';
-
+import { useState } from 'react';
 type Props = {
   userSections: any;
 };
 
+
 const ExternalView: React.FC<Props> = ({ userSections }) => {
+  
   return (
     <>
       {/* data from backend */}

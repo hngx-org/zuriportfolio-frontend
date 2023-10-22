@@ -4,14 +4,10 @@ import { useAuth } from '../../../../context/AuthContext';
 import { CloseCircle } from 'iconsax-react';
 import Help from '../../../../public/assets/inviteAssets/Help.svg';
 import Image from 'next/image';
-import { boolean, set } from 'zod';
-import useAuthMutation from '../../../../hooks/Auth/useAuthMutation';
 import Router, { useRouter } from 'next/router';
 import { notify } from '@ui/Toast';
-import router from 'next/router';
 import { verfiy2FA, resend2FACode, enabled2FA, disable2FA } from '../../../../http/auth';
 import _2FA from '../../../../pages/auth/2fa';
-import { AuthResponse, User } from '../../../../@types';
 import Logic2FA from '../../../../modules/auth/Logic2FA';
 import Button from '@ui/Button';
 
@@ -20,16 +16,13 @@ interface close {
   setCloseAcc: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Handling2FA = (props: close) => {
-  const { auth, userCameFrom, handleAuth } = useAuth();
+  const { auth, handleAuth } = useAuth();
   const [open2Fa, setOpen2Fa] = useState<boolean>(false);
-  const [enabled, setEnabled] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [countinue2Fa, setContinue2Fa] = useState<boolean>(false);
-  const [authdata, setAuthData] = useState<User>();
   const [lgModal, setLgModal] = useState<boolean>(false);
   const [token, setToken] = useState<string>('');
   const [fill, setFill] = useState<boolean>(false);
-  const [toggleSize, setToggleSize] = useState<boolean>(false);
 
   const { digits, inputRefs, handlePaste, handleKeyDown, handleDigitChange } = Logic2FA();
   const router = useRouter();
@@ -176,11 +169,8 @@ const Handling2FA = (props: close) => {
     }
   };
 
-  const [error, setError] = useState<string>('');
-  const [inputError, setInputError] = useState(false);
-  console.log('true', auth?.user.two_factor_auth);
-  console.log('true2', auth?.user.twoFactorAuth);
-  console.log('user4', auth?.user);
+  const [showHint, setShowHint] = useState<boolean>(false);
+
   const toggleModal = () => {
     setOpen2Fa((prev: boolean) => !prev);
     props.setCloseAcc(false);
@@ -362,7 +352,7 @@ const Handling2FA = (props: close) => {
         <div className="hidden md:block">
           <Modal isOpen={open2Fa} closeModal={toggleModal} size={'sm'} isCloseIconPresent={false}>
             <div className=" relative  max-w-[440px] px-5 text-[14px] py-[40px]">
-              <button onClick={toggleModal} className="absolute right-0 top-[-10px]">
+              <button onClick={toggleModal} className="absolute right-0 top-0">
                 {' '}
                 <CloseCircle size="20" color="#009254" />
               </button>
@@ -378,12 +368,25 @@ const Handling2FA = (props: close) => {
                   className="border-[1px] outline-none  rounded-lg py-[10px] px-[14px] border-[#D0D5DD]"
                 />
                 <Image
+                  // onClick={() =>  setShowHint(prv=>!prv)}
+                  onMouseOver={() => setShowHint((prv) => !prv)}
+                  onMouseOut={() => setShowHint((prv) => !prv)}
                   src={Help}
                   width={'20'}
                   height={'20'}
                   alt="help"
-                  className="absolute right-[12px]   top-[35px]"
+                  className="absolute
+                   right-[12px] hover:before:content-['your OTP will be sent here']   top-[35px]"
                 ></Image>
+                <p
+                  className={`${
+                    showHint
+                      ? 'absolute lg:-bottom-7 -bottom-6 right-0 text-[9px] lg:text-[10px] text-[#667085] p-2 font-manropeL'
+                      : 'hidden'
+                  }`}
+                >
+                  The otp code will be sent here
+                </p>
               </label>
 
               <Button

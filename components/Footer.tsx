@@ -82,7 +82,7 @@ function Footer() {
 
             <ul className="flex flex-col gap-2 font-normal">
               <li>
-                <a href="https://training.zuri.team/" className="hover:underline">
+                <a href="https://training.zuri.team/" target="_blank" rel="noreferrer" className="hover:underline">
                   Zuri Training
                 </a>
               </li>
@@ -97,12 +97,18 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://www.zuri.team/recruit-talent" className="hover:underline">
+                <a
+                  href="https://www.zuri.team/recruit-talent"
+                  className="hover:underline"
+                >
                   Recruit Talent
                 </a>
               </li>
               <li>
-                <a href="https://www.zuri.team/find-a-training-partner" className="hover:underline">
+                <a
+                  href="https://www.zuri.team/find-a-training-partner"
+                  className="hover:underline"
+                >
                   Partner to Train
                 </a>
               </li>

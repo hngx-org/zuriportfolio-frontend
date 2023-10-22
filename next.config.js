@@ -11,6 +11,8 @@ const nextConfig = {
       'images.unsplash.com',
       'ugc.futurelearn.com',
       'themeforest.img.customer.envatousercontent.com',
+      'i.pinimg.com',
+      'fisnikde.com',
     ],
   },
 };

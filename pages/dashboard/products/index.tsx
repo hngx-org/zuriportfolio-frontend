@@ -21,7 +21,13 @@ type Product = {
   category_id: any;
   description: any;
   id: any;
+  promo: {
+    amount: number;
+    inPercentage: string;
+    maximum_discount_price: number;
+  } | null;
 };
+let first = true;
 const Products = () => {
   const [pageSize, setPageSize] = useState(2);
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,11 +39,16 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [totalPage, setTotalPage] = useState(1);
   // const [currentPage,setCurrentPage] = useState(1)
+  const [productsError, setProductsError] = useState<string | null>(null);
+
   const fetchProducts = async () => {
     // Fetch the product data from the server
-    if (ref) {
-      ref.current?.scrollIntoView(true);
-    }
+    // if (first) {
+    //   first = false;
+    //   console.log('first');
+    // } else {
+    //   ref.current?.scrollIntoView(true);
+    // }
     setIsLoading(true);
     try {
       setIsLoading(true);
@@ -94,6 +105,14 @@ const Products = () => {
     <MainLayout showDashboardSidebar={true} activePage="products" showTopbar={true}>
       <Head>
         <title>Products</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Product" />
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta key="metadescription" itemProp="description" name="description" content="View All Product" />
+        <meta name="keywords" content="Zuri, portfolio, add, product, dashboard" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
       <div className="max-w-[1240px] mx-auto my-4 px-6" ref={ref}>
         {product.length > 0 && (

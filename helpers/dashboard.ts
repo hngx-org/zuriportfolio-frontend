@@ -1,4 +1,5 @@
 import { sevenDays, thirtyDays, twelveMonths, twentyFourHours } from '../db/dashboard';
+import { formatToNigerianNaira } from './formatCurrency';
 
 export function logQueryResult(queryName: string, queryData: any) {
   console.log(`${queryName}:`, queryData);
@@ -14,16 +15,17 @@ export const chartMargins = {
 export function getSalesTooltipMessage(label: string, payload: any[]) {
   let message = `Your total revenue `;
   if (label && payload && payload[0]) {
+    const saleValue = formatToNigerianNaira(payload[0]?.value);
     if (twelveMonths.includes(label)) {
-      message += `in ${label} was $${payload[0]?.value}`;
+      message += `in ${label} was ${saleValue}`;
     } else if (sevenDays.includes(label)) {
-      message += `on ${label} was $${payload[0]?.value}`;
+      message += `on ${label} was ${saleValue}`;
     } else if (thirtyDays.includes(label)) {
-      message += `on the ${label} was $${payload[0]?.value}`;
+      message += `on the ${label} was ${saleValue}`;
     } else if (twentyFourHours.includes(label)) {
-      message += `at ${label} was $${payload[0]?.value}`;
+      message += `at ${label} was ${saleValue}`;
     } else {
-      message += `for ${label} was $${payload[0]?.value}`;
+      message += `for ${label} was ${saleValue}`;
     }
   }
 

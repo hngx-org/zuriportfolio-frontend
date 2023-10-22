@@ -8,12 +8,13 @@ import { ChangeAnswerModal } from '@modules/assessment/component/changeAnswerMod
 import { ConfirmSubmitModal } from '@modules/assessment/component/confirmSubmitModal';
 import { SuccessFeedbackModal } from '@modules/assessment/component/successFeedbackModal';
 import Button from '@ui/Button';
-import { DATA, QuestionType } from '@modules/assessment/mock-data';
 import { fetchUserAssessmentSession, submitFinalAssessment } from '../../../http/userTakenAssessment';
 import { CountdownTimer } from '@modules/assessment/CountdownTimer';
 import OutOfTime from '@modules/assessment/modals/OutOfTime';
 import { TimerStart } from 'iconsax-react';
 import { withUserAuth } from '../../../helpers/withAuth';
+import Head from 'next/head';
+import Loader from '@ui/Loader';
 
 export interface Question {
   answer_id: number;
@@ -50,30 +51,33 @@ function AssessmentOverview() {
   const [showSuccessConfirm, setShowSuccessConfirm] = useState(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [badgeEarn, setBadgeEarn] = React.useState<string | null>(null);
-  const [clearStorage, setClearStorage] = React.useState<boolean>(false);
+  const [timeUp, setTimeUp] = React.useState<boolean>(false);
+  const [isSubmit, setIsSubmit] = React.useState<boolean>(false);
 
   useEffect(() => {
     tokenRef.current = localStorage.getItem('zpt');
     handleGetSession();
   }, []);
 
-  const handleTimeOut = () => {
-    // Set clearStorage to true and setIsTimeOut to true
-    setIsTimeOut(true);
-    setClearStorage(true);
-  };
+  useEffect(() => {
+    if (timeUp || isSubmit) {
+      localStorage.removeItem('minute');
+      localStorage.removeItem('second');
+    }
+    if (timeUp) {
+      setIsTimeOut(true);
+    }
+  }, [timeUp, isSubmit]);
   useEffect(() => {
     const setTimeFunction = () => {
       if (typeof window !== 'undefined' && window.localStorage) {
         const minuteString = localStorage.getItem('minute');
         minuteRef.current = minuteString;
         const secondString = localStorage.getItem('second');
-        const minuteInt = minuteString !== null ? parseInt(minuteString, 10) : duration;
+        const minuteInt = minuteString !== null ? parseInt(minuteString, 10) : null;
         const secondInt = secondString !== null ? parseInt(secondString, 10) : 0;
         setMinute(minuteInt);
         setSecond(secondInt);
-        console.log(minuteString, secondString);
-        console.log('donezo', minute, second, duration);
       } else {
         throw new Error('localStorage is not available on the server-side.');
       }
@@ -90,13 +94,10 @@ function AssessmentOverview() {
         setIsLoading(false);
         throw new Error('Network response was not ok');
       } else {
-        console.log(res);
         setResult(res);
         setIsLoading(false);
       }
-    } catch (error) {
-      console.log('catch error', error);
-    }
+    } catch (error) {}
   };
 
   function sortQuestionsByQuestionNo(input: QuestionArrays | undefined): Question[] {
@@ -119,12 +120,10 @@ function AssessmentOverview() {
           token,
           minutes: minute,
         }).then((res) => {
-          console.log(res);
           setShowConfirm(false);
           setShowSuccessConfirm(true);
-          setClearStorage(true);
           setBadgeEarn(res?.badge_id);
-          setClearStorage(false);
+          setIsSubmit(true);
         });
       }
     } catch (error) {
@@ -134,12 +133,17 @@ function AssessmentOverview() {
 
   return (
     <>
+      <Head>
+        <title>Assessment | Overview</title>
+        <meta name="description" content="Zuri Portfolio Assessment Overview" />
+        <link rel="icon" href="./public/assets/zuriLogo.svg" />
+      </Head>
       {isTimeOut && (
         <OutOfTime
           onClose={() => router.push('/assessments/dashboard')}
-          onRetake={() => {
-            router.push('/assessments/take-test/intro');
-          }}
+          message="Your time has elapsed!"
+          btn1={true}
+          btn2={false}
         />
       )}
       <MainLayout activePage="" showTopbar showFooter showDashboardSidebar={false}>
@@ -149,7 +153,7 @@ function AssessmentOverview() {
         <SuccessFeedbackModal showModal={showSuccessConfirm} setShowModal={setShowSuccessConfirm} badgeID={badgeEarn} />
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full border-t-4 border-b-4 border-brand-green-pressed h-16 w-16"></div>
+            <Loader />
           </div>
         ) : (
           <main className="w-full">
@@ -159,19 +163,13 @@ function AssessmentOverview() {
               subtitle="An overview of all answers."
               bannerImageSrc="/assets/images/banner/assessmentOverview.svg"
             />
-            <div className="w-full md:max-w-xl max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
+            <div className="w-full md:max-w-full px-4 max-w-xs mt-8 mb-16 mx-auto font-manropeL flex flex-col items-stretch justify-between gap-y-8">
               <div className="w-full lg:max-w-lg md:max-w-full sm:mx-w-xs rounded-lg flex  items-center justify-between  py-4 px-8 bg-brand-green-primary mt-5">
                 <p className="text-white-100 text-2xl font-bold">
-                  {minute !== null && second !== null ? (
-                    <CountdownTimer
-                      action={() => handleTimeOut()}
-                      minutes={minute}
-                      seconds={second}
-                      setClearStorage={setClearStorage}
-                      clearStorage={clearStorage}
-                    />
+                  {(minute !== null || undefined) && (second !== null || undefined) ? (
+                    <CountdownTimer action={() => setTimeUp(true)} minutes={minute} seconds={second} />
                   ) : (
-                    <span>--:--</span>
+                    <span>- - : - -</span>
                   )}
                 </p>
                 <span>
