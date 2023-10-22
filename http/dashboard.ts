@@ -1,8 +1,5 @@
 import axios from 'axios';
-import { notify } from '@ui/Toast';
 import { logQueryResult } from '../helpers/dashboard';
-
-const fetchErrorToast = (data: string) => notify({ type: 'error', message: `Error fetching ${data}`, theme: 'light' });
 
 const shop_id = '6d022186-7c7f-4439-af0c-8209202ef4a6';
 
