@@ -32,7 +32,7 @@ const Cover = ({ isLoggedIn, userData }: Props) => {
 
   return (
     <div
-      className={`absolute bottom-28 left-3 w-[140px] sm:w-[180px] md:w-[200px] aspect-square rounded-full bg-gray-100 bg-opacity-25 border-green-400 border-[2px]`}
+      className={`absolute bottom-28 left-3 w-[140px] sm:w-[180px] md:w-[200px] aspect-square object-cover object-center rounded-full bg-gray-100 bg-opacity-25 border-green-400 border-[2px]`}
     >
       {avatar}
     </div>
