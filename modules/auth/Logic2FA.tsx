@@ -40,10 +40,10 @@ function Code2FALogic() {
 
       if (res.status === 401) {
         notify({
-        message: res?.message,
-        type: 'error',
-        theme: 'light',
-      });
+          message: res?.message,
+          type: 'error',
+          theme: 'light',
+        });
       }
     },
     onError: (error: any) => {
