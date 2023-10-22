@@ -9,7 +9,6 @@ import Portfolio from '../../../../context/PortfolioLandingContext';
 import Profile, { CoverDiv } from './avatars';
 import Loader from './Loader';
 import EditProfile from '../modals/edit-profile';
-import ViewTemplate from '../modals/view-template';
 import { Edit2 } from 'iconsax-react';
 import Link from 'next/link';
 import EditCover from './editCover-takeAssessment';
@@ -20,7 +19,6 @@ const Landing = () => {
     profileUpdate,
     showProfileUpdate,
     showBuildPortfolio,
-    showViewtemplates,
     userData,
     getUserSections,
     userSections,
