@@ -325,7 +325,7 @@ const AddProduct = () => {
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
       <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
-        <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
+        <div className={`max-w-[1240px] mx-auto my-4 px-3 ${loading && 'hidden'} `}>
           <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
             <Link href={'/dashboard/products'}>Products</Link>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
