@@ -535,14 +535,14 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                               <div>
                                 {complain.user_details ? (
                                   <h2 className="font-manropeL font-semibold text-base">
-                                    {complain.user_details.first_name} {complain.user_details.last_name}
+                                    {complain.user_details?.first_name} {complain.user_details?.last_name}
                                   </h2>
                                 ) : (
                                   <h2 className="font-manropeL font-semibold text-base">User Details Unavailable</h2>
                                 )}
                                 {complain.user_details ? (
                                   <p className="font-manropeL text-xs font-normal text-slate-500">
-                                    {complain.user_details.email}
+                                    {complain.user_details?.email}
                                   </p>
                                 ) : (
                                   <p className="font-manropeL text-xs font-normal text-slate-500">Email Unavailable</p>
@@ -582,9 +582,7 @@ function GeneralComplaints({ complain }: { complain: Complain }) {
                                 <div className="w-2 h-2 bg-yellow-300 rounded-md"></div>
                                 <p className="text-xs text-yellow-300">Pending</p>
                               </div>
-                            ) : complain.status === 'In Progress' ||
-                              complain.status === 'in Progress' ||
-                              complain.status === 'in progress' ? (
+                            ) : complain.status === 'In Progress' || complain.status === 'in Progress' ? (
                               <div className="bg-blue-50 px-3 py-2 flex items-center gap-2 rounded-full">
                                 <div className="w-2 h-2 bg-blue-300 rounded-md"></div>
                                 <p className="text-xs text-blue-300">In Progress</p>
