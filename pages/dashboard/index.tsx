@@ -10,6 +10,7 @@ function dashboard() {
   return (
     <MainLayout showTopbar={true} showDashboardSidebar={true} activePage="dashboard">
       <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>Customer Dashboard</title>
       </Head>
       <div className="w-full">
