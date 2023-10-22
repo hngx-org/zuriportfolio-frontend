@@ -6,6 +6,7 @@ import { ProjectModalProps } from '../../@types';
 import projectPlaceholder from '../../public/assets/images/portfolio/project.png';
 import Button from '@ui/Button';
 import Link from 'next/link';
+import { AiOutlineClose } from 'react-icons/ai';
 
 function ProjectModal({
   title = 'Byte Financial App',
@@ -35,34 +36,48 @@ function ProjectModal({
       >
         Toggle Project Modal
       </Button>
-      <Modal size="xxl" isOpen={!isOpen} closeModal={onOpen}>
-        <section className="flex flex-wrap gap-10 mt-10">
-          <section className="w-full min-[920px]:w-[300px] h-[300px]">
-            <Image src={projectPlaceholder} className="w-full h-full" alt="Project sample image" />
-          </section>
+      <Modal size="lg" isOpen={!isOpen} closeModal={onOpen}>
+        <section className="space-y-4 p-3">
+          <button
+            className="bg-green-500 w-6 h-6 rounded-lg ml-auto flex justify-center items-center text-white-100"
+            onClick={onClose}
+          >
+            <AiOutlineClose />
+          </button>
           <section className="min-[920px]:flex-1 font-manropeL">
             <h2 className="font-manropeEB text-2xl sm:text-3xl md:text-4xl">{title}</h2>
 
-            <p className="font-semibold mt-5 text-sm sm:text-base text-white-650 md:text-xl md:leading-[2rem]">
-              {description}
-            </p>
-
-            <div className="flex flex-wrap gap-3 mt-5 mb-5 text-sm text-[#444846] capitalize">
+            <section className="flex flex-wrap gap-3 mt-8 mb-5 text-sm text-[#444846] capitalize">
               {tags.map((tag, id) => (
-                <span key={id} className="border-2 border-[#8D9290] rounded-full px-2 py-1 font-manropeL">
+                <span key={id} className="border border-[#8D9290] rounded-full px-2 py-1 font-manropeL">
                   {tag}
                 </span>
               ))}
-            </div>
+            </section>
+
+            <p className="font-semibold font-manropeEB mt-9 text-base sm:text-lg text-white-650 md:text-xl md:leading-[2rem]">
+              {description}
+            </p>
 
             <Link
               href={url}
               target="_blank"
               rel="noreferrer"
-              className="font-semibold text-[#5B8DEF] text-sm md:text-base mt-5"
+              className="font-semibold text-[#5B8DEF] text-sm md:text-base mt-5 block"
             >
-              Link to project <span className="ml-1 text-base">&#8599;</span>
+              Link to project <span className="ml-1 text-base font-manropeL">&#8599;</span>
             </Link>
+          </section>
+          <section className="pt-7 space-y-5">
+            <section className="w-full mx-auto h-[350px]">
+              <Image src={projectPlaceholder} className="w-full h-full rounded-lg" alt="Project sample image" />
+            </section>
+            <section className="w-full mx-auto h-[350px]">
+              <Image src={projectPlaceholder} className="w-full h-full rounded-lg" alt="Project sample image" />
+            </section>
+            <section className="w-full mx-auto h-[350px]">
+              <Image src={projectPlaceholder} className="w-full h-full rounded-lg" alt="Project sample image" />
+            </section>
           </section>
         </section>
       </Modal>

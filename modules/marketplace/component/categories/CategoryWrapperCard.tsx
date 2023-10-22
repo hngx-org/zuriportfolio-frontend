@@ -1,10 +1,9 @@
 import ProductCard from '../ProductCard';
-import Button from '@ui/Button';
 import Link from 'next/link';
-import axios from 'axios';
 import { FC, useEffect, useState } from 'react';
 import CategoryLoading from './CategoryLoading';
 import CategoryError from './CategoryError';
+import http from '@modules/marketplace/http';
 
 interface CategoryWrapperCardProps {
   category: string;
@@ -16,12 +15,12 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
   //   console.log(subCategory, category);
-  const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}/${subCategory}/`;
+  // const url = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}/${subCategory}/`;
 
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
-        const res = await axios(url);
+        const res = await http.get(`/products/${category}/${subCategory}/`);
         if (res.data.data.length === 0) {
           return setError(true);
         }
@@ -35,7 +34,7 @@ const CategoryWrapperCard: FC<CategoryWrapperCardProps> = ({ category, subCatego
       }
     };
     fetchSubCategories();
-  }, [url]);
+  }, [category, subCategory]);
 
   //   console.log(data, loading, error);
 

@@ -157,7 +157,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
         .catch((err) => {
           setLoading(false);
           notify({
-            message: 'Error occurred',
+            message: err?.response?.data?.message || 'Error occurred',
             position: 'top-center',
             theme: 'light',
             type: 'error',
@@ -179,6 +179,12 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
       })
       .catch((err) => {
         setInitialLoading(false);
+        notify({
+          message: err?.response?.data?.message || 'Error occurred when fetching language',
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
       });
   };
 
@@ -191,15 +197,20 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
     <Modal size="xl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
       {initialoading ? (
         <>
-          <Loader />
-          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+          <div className="py-32">
+            <Loader />
+            <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+          </div>
         </>
       ) : (
         <>
-          <section className="py-6 px-16">
+          <section className="py-6 px-6">
             <section className="flex justify-between items-center border-b-4 pb-3 mb-12 border-b-[#009254]">
               <section className="flex items-center gap-5">
-                <h4 className="text-[1.2rem] sm:text-[1.4rem] font-bold text-[#2E3130] font-manropeL"> Language </h4>
+                <h4 className="text-[1.2rem] sm:text-[1.4rem] font-extrabold text-[#2E3130] font-manropeL">
+                  {' '}
+                  Language{' '}
+                </h4>
               </section>
               <button
                 className="bg-green-500 w-8 h-8 rounded-lg flex justify-center items-center text-white-100"
@@ -249,8 +260,7 @@ const LanguageModal = ({ isOpen, onCloseModal, onSaveModal, userId }: languageMo
                 className={`${loading ? 'opacity-80' : 'opacity-100'} w-full rounded-md sm:w-[6rem]`}
                 size={'lg'}
               >
-                {' '}
-                Save{' '}
+                {loading ? <Loader /> : 'Save'}
               </Button>
             </section>
           </section>

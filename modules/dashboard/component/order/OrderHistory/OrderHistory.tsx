@@ -11,6 +11,7 @@ import { OrderHistory } from '../../../../../@types';
 
 import Loader from '@ui/Loader';
 import axios from 'axios';
+import { twMerge } from 'tailwind-merge';
 
 const orderNavs: {
   id: string;
@@ -65,6 +66,7 @@ const dummyOrders: OrderHistory[] = [
     price: 3000,
     sales: 123,
     revenue: 369000,
+    currency: '₦',
   },
   {
     id: 3065,
@@ -76,6 +78,7 @@ const dummyOrders: OrderHistory[] = [
     price: 45000,
     sales: 64,
     revenue: 2880000,
+    currency: '₦',
   },
   {
     id: 3064,
@@ -87,6 +90,7 @@ const dummyOrders: OrderHistory[] = [
     price: 73000,
     sales: 236,
     revenue: 17228000,
+    currency: '₦',
   },
   {
     id: 3063,
@@ -98,6 +102,7 @@ const dummyOrders: OrderHistory[] = [
     price: 12000,
     sales: 1043,
     revenue: 12516000,
+    currency: '₦',
   },
   {
     id: 3062,
@@ -109,6 +114,7 @@ const dummyOrders: OrderHistory[] = [
     price: 6500,
     sales: 1022,
     revenue: 6779500,
+    currency: '₦',
   },
   {
     id: 3061,
@@ -120,6 +126,7 @@ const dummyOrders: OrderHistory[] = [
     price: 200000,
     sales: 75,
     revenue: 15000000,
+    currency: '₦',
   },
   {
     id: 3060,
@@ -131,10 +138,12 @@ const dummyOrders: OrderHistory[] = [
     price: 85000,
     sales: 32,
     revenue: 1120000,
+    currency: '₦',
   },
 ];
 const OrderHistory: React.FC = () => {
   const [pageOrders, setOrders] = useState<OrderHistory[]>(dummyOrders);
+  const [allOrders, setAllOrders] = useState<OrderHistory[]>([]);
   const [orderFilter, setOrderFilter] = useState('all');
   const [sort, setSort] = useState<{
     sortBy: keyof OrderHistory;
@@ -144,6 +153,9 @@ const OrderHistory: React.FC = () => {
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [searching, setSearching] = useState(false);
   const [totalPage, setTotalPage] = useState(1);
+  const [orderError, setOrderError] = useState<string | null>(null);
+  const itemsPerPage = 10;
+
   const filterFunc = useCallback((filter: string, order: any[]) => {
     let filteredOrders = [...order];
     if (filter !== 'all') {
@@ -160,8 +172,10 @@ const OrderHistory: React.FC = () => {
   const fetchOrders = async () => {
     try {
       setLoadingOrders(true);
+      const url = `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all?page=${currentPage}`;
+      // const url = `http://localhost:8080/api/orders/all?page=${currentPage}&itemsPerPage=${itemsPerPage}`;
       const { data } = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all?page=${currentPage}`,
+        url,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
@@ -175,16 +189,24 @@ const OrderHistory: React.FC = () => {
         return [];
       }
 
-      const transformedOrder = data.data.orders.map((order: any) => ({
-        revenue: 3000,
-        id: order.id.slice(0, 4),
-        status: order.order_status,
-        customerName: order.customerInfo.firstName + ' ' + order.customerInfo.lastName,
-        date: new Date(order.date),
-      }));
+      const transformedOrder = data.data.orders.map((order: any) => {
+        const revenue = order.items.reduce((acc: number, ord: any) => (acc += ord?.price), 0);
+
+        return {
+          revenue,
+          id: order.id.slice(0, 4),
+          fullId: order.id,
+          status: order.order_status,
+          customerName: order.customerInfo.firstName + ' ' + order.customerInfo.lastName,
+          date: new Date(order.date),
+        };
+      });
+      setAllOrders(transformedOrder);
       setTotalPage(data.data.totalPages);
       return transformedOrder ?? [];
     } catch (error) {
+      setOrderError((error as any)?.response?.data?.message ?? (error as any)?.message);
+      console.log(error);
       return [];
     } finally {
       setLoadingOrders(false);
@@ -234,9 +256,10 @@ const OrderHistory: React.FC = () => {
   useEffect(() => {
     const order = sortOrders(pageOrders);
     insertOrders(order);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort]);
-  //  Search Logic
 
+  //  Search Logic
   const changeSearchQuery = (val: string) => {
     setSearchQuery(val);
   };
@@ -250,6 +273,9 @@ const OrderHistory: React.FC = () => {
   useEffect(() => {}, [currentPage]);
 
   useEffect(() => {
+    // prevent request from going through if all orders is empty initially
+    if (!loadingOrders && allOrders.length === 0) return;
+
     const changeStatus = async () => {
       changeSearchQuery('');
       const order = await fetchOrders();
@@ -258,7 +284,10 @@ const OrderHistory: React.FC = () => {
       insertOrders(sortedOrders);
     };
     changeStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderFilter, currentPage]);
+
+  console.log(pageOrders);
 
   return (
     <>
@@ -433,19 +462,29 @@ const OrderHistory: React.FC = () => {
               {pageOrders.length > 0 ? (
                 pageOrders.map((item, i) => <OrderHistoryMobile key={`${item.id}${i}`} {...item} />)
               ) : (
-                <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                  No Order to Show
-                </p>
+                <div>
+                  <p
+                    className={twMerge(
+                      'text-center text-dark-110 font-manropeB text-[24px] mt-[70px] ',
+                      orderError !== null && 'py-1',
+                    )}
+                  >
+                    No Order to Show
+                  </p>
+                  {orderError !== null && (
+                    <p className="text-center text-white-400 font-manropeB text-[14px] py-[1em] ">{orderError}</p>
+                  )}
+                </div>
               )}
             </div>
           )}
         </section>
 
-        {pageOrders.length > 0 && !loadingOrders && totalPage > 1 && (
+        {loadingOrders ? null : pageOrders.length > itemsPerPage ? (
           <div className="flex justify-center my-6">
             <PaginationBar changeCurrentPage={setCurrentPage} currentPage={currentPage} pageLength={totalPage} />
           </div>
-        )}
+        ) : null}
       </main>
       {/* Add a footer component */}
     </>

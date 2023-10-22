@@ -1,7 +1,9 @@
 import React from 'react';
+
+import { boolean } from 'zod';
+
 import SuperAdminNavbar from '../modules/super-admin/components/navigations/SuperAdminNavbar';
 import SuperAdminPagination from '../modules/super-admin/components/pagination';
-import { boolean } from 'zod';
 
 // export all interfaces and types
 declare module 'nprogress';
@@ -295,6 +297,11 @@ export interface ratingProps {
   alt: string;
 }
 
+export interface ApiData {
+  endpoint: string;
+  status: string;
+}
+
 export interface starProps {
   [key: number]: ratingProps;
 }
@@ -490,14 +497,17 @@ export interface MetricTimelineProps {
 
 export interface OrderHistory {
   id: number;
+  fullId?: any;
   productName: string;
-  customerName: string;
-  date: Date;
+  customerName?: string;
+  date?: Date;
   status: 'completed' | 'cancelled' | 'pending';
+  currency: string;
   productType: string;
   price: number;
-  sales: number;
-  revenue: number;
+  sales?: number;
+  revenue?: number;
+  currency?: string;
 }
 
 export interface WishlistProduct {
@@ -643,6 +653,7 @@ export type SectionModalProps = {
   primaryText?: string;
   onClickAction?: () => void;
   sectionToDelete?: string;
+  loading?: boolean;
 };
 
 export interface PaymentStatusModalProps {
@@ -724,6 +735,7 @@ export type cardinfo = {
   title: string;
   amount: number;
   ratio: number;
+  color?: string;
 };
 
 type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
@@ -790,6 +802,7 @@ export interface UserInfo {
   skills: string[];
   tag: string;
   track: string;
+  slug: string;
 }
 
 interface ChartProps {
@@ -804,10 +817,12 @@ export interface AuthContextProps {
   email: string;
   redirect: string;
   userCameFrom: string | undefined;
+  userCameFromForOAuth: string | undefined;
   handleAuth: (value: AuthResponse | undefined) => void;
   handleEmail: (value: string) => void;
   handleRedirect: (value: string) => void;
   handleUserCameFrom: (value: string | undefined) => void;
+  handleUserCameFromForOAuth: (value: string | undefined) => void;
 }
 
 export type User = {

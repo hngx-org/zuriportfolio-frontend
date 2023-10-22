@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_URI } from '@modules/marketplace/http';
 import { ProductResult } from '../../@types';
 
-const MARKETPLACE_URL = `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/product-retrieval/`;
+const MARKETPLACE_URL = `${API_URI}/product-retrieval/`;
 const axiosSearchInstance = axios.create({
   baseURL: MARKETPLACE_URL,
   headers: {

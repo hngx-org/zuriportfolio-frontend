@@ -12,6 +12,7 @@ import { withAdminAuth } from '../../../../helpers/withAuth';
 const EditAssesment = () => {
   const [active, setActive] = useState<null | string>('button1');
   const [assessment, setAssessment] = useState({
+    skill_id: 0,
     id: 0,
     title: '',
     createdAt: new Date(), // Initialize with a default date or null if needed
@@ -132,7 +133,7 @@ const EditAssesment = () => {
               </div>
             </>
           ) : (
-            <ScoringScreen assessment={assessment} skillId={skillId} />
+            <ScoringScreen assessment={assessment} skillId={assessment.skill_id} />
           )}
         </div>
       </main>

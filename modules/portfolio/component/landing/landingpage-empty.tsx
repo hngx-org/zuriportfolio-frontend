@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 
 const LandinEmptyState = () => {
-  const { viewPortfolio, buildPortfolio } = useContext(Portfolio);
+  const { buildPortfolio } = useContext(Portfolio);
   return (
     <div className="flex w-full min-h-[50vh] flex-col items-center">
       <svg width="336" height="268" viewBox="0 0 336 268" fill="none" xmlns="http://www.w3.org/2000/svg">

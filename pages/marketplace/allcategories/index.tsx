@@ -6,8 +6,11 @@ export default function Categories() {
   return (
     <CategoryLayout>
       <Head>
-        <title>Marketplace - All Categories</title>
-        <meta property="og:title" content="Marketplace - All Categories" key="title" />
+        <title>Zuri All Catgories Products</title>
+        <meta
+          name="description"
+          content={`Select a wide range of Zuri category products.We offer the best affordable products`}
+        />
       </Head>
       <div className="max-w-[1240px] mx-auto"></div>
       <div className="py-6 px-4 overflow-hidden w-full lg:max-w-[1350px] mx-auto">

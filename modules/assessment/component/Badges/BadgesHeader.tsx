@@ -3,9 +3,9 @@ import Image from 'next/image';
 const BadgesHeader = () => {
   return (
     <div className=" flex h-[92px] sm:h-[128px]  bg-brand-green-pressed justify-between relative overflow-hidden">
-      <div className=" flex flex-col text-white-100 justify-center pl-6  sm:pl-[96px]">
-        <h1 className=" font-manropeB sm:text-[32px] text-[25px]">Wireframe Challenge</h1>
-        <p className=" text-[14px] font-manropeL">Design Assessment</p>
+      <div className=" flex flex-col text-white-100 justify-center pl-12 sm:pl-14">
+        <h1 className=" font-manropeB sm:text-[32px] text-[25px]">Badge Details and performance</h1>
+        <p className=" text-[14px] font-manropeL">Your progress and recognition</p>
       </div>
       <div className="absolute -bottom-8 sm:-bottom-4 right-2 sm:right-28 lg:right-72 lg:bottom-0">
         <Image src="/assets/images/assbase.png" alt="assbase" width={200} height={200} />

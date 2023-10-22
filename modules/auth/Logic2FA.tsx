@@ -19,6 +19,8 @@ function Code2FALogic() {
       if (res.status === 200) {
         handleAuth(res.data);
         localStorage.setItem('zpt', res?.data?.token);
+        localStorage.removeItem('email');
+        localStorage.removeItem('2fa');
 
         // redirecting the user  to admin dashbord if they are an admin
         if (res.data.user.roleId === ADMIN_ID) {
@@ -29,6 +31,7 @@ function Code2FALogic() {
         notify({
           message: 'Login Successful',
           type: 'success',
+          theme: 'light',
         });
 
         router.push(userCameFrom || '/explore');
@@ -37,13 +40,14 @@ function Code2FALogic() {
         notify({
           message: 'Invalid Code',
           type: 'error',
+          theme: 'light',
         });
       }
     },
   });
 
   useEffect(() => {
-    let token = localStorage.getItem('zpt');
+    let token = localStorage.getItem('2fa');
     if (typeof window !== undefined) {
       setToken(token as string);
     }
@@ -54,11 +58,12 @@ function Code2FALogic() {
       console.log(res?.response);
       if (res?.response?.status === 200) {
         console.log(res?.response?.status);
-        localStorage.setItem('zpt', res?.response?.token);
+        localStorage.setItem('2fa', res?.response?.token);
         setToken(res?.response?.token);
         notify({
           message: 'Two Factor Authentication Code Re-sent',
           type: 'success',
+          theme: 'light',
         });
       }
     },
