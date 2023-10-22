@@ -21,9 +21,13 @@ function ForgotPasswordLinkSent() {
     notify({ message: data.message, type: 'error', theme: 'light' });
   };
 
+  const onResetLinkSentError = (error: any) => {
+    notify({ message: error.message, type: 'error', theme: 'light' });
+  };
+
   const { mutate, isLoading } = useAuthMutation(resendForgetPassword, {
     onSuccess: (data) => onResetLinkSentSuccess(data),
-    onError: (error: any) => console.log(error),
+    onError: (error: any) => onResetLinkSentError(error),
   });
 
   const handleResetLinkResent = () => {

@@ -45,13 +45,11 @@ function ResetPasswordForm() {
     // onError: (error: any) => onResetPasswordError(error),
     onError: (e: any) => {
       console.log('Error', e);
-      if (e.status === 422 || e.status === 401) {
         notify({
           message: e.message,
           type: 'error',
           theme: 'light',
         });
-      }
     },
   });
 
