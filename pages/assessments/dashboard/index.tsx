@@ -47,6 +47,9 @@ const Dashboard = () => {
       <Head>
         <title>Assessment dashboard</title>
         <meta name="description" content={`User's assessments dashboard page`} />
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta name="keywords" content="Zuri, Zuri assessments, Zuri Badges, Zuri skill badges" />
+        <meta httpEquiv="content-language" content="en" />
       </Head>
       <MainLayout showTopbar activePage="dashboard" showFooter showDashboardSidebar={false}>
         {isLoading ? (
@@ -93,7 +96,7 @@ const Dashboard = () => {
                         href={`/assessments/dashboard/[badges]`}
                         as={`/assessments/dashboard/${item.level}`}
                         key={index}
-                        className="flex md:mx-2 xl:mx-4 items-center gap-[.5rem] my-[1rem] md:my-0 md:gap-[.7rem] lg:gap-[1rem] p-[.7rem] lg:p-[1rem] border-[.58px] border-white-400 md:w-[14.4rem] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] rounded-md h-[6rem] md:h-[7rem] lg:h-[9rem]"
+                        className="flex md:mx-2 xl:mx-4 items-center gap-[.5rem] my-[1rem] md:my-0 md:gap-[.7rem] lg:gap-[1rem] p-[.7rem] lg:p-[1rem] border-[.58px] border-white-400 md:w-[14.4rem] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] rounded-md h-[6rem] md:h-[7rem] lg:h-[9rem] transition-transform duration-300 hover:scale-105"
                       >
                         <div className="relative group">
                           <div className="rounded-full overflow-hidden">

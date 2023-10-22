@@ -31,9 +31,9 @@ const TempUser = ({ isOpen, onClose }: TempUser) => {
     };
     const payment = userForm.get('paymentMethod') as string;
     const tempUser = await createTempUser(data);
-    
+
     if (tempUser.data.token) {
-      localStorage.setItem('trans_token',tempUser.data.token);
+      localStorage.setItem('trans_token', tempUser.data.token);
 
       const cartItems = JSON.parse(localStorage.getItem('products') as string);
       const cartIds = await getCardItemsId(cartItems);

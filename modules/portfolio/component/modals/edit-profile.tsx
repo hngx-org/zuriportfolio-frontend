@@ -14,7 +14,6 @@ import { useAuth } from '../../../../context/AuthContext';
 const inputStyle = `placeholder-gray-300 placeholder-opacity-40 font-semibold text-gray-500 h-[50px] border-2 border-[#bcbcbc] rounded-[10px] px-4  ring-0 outline-brand-green-primary transition-all duration-300 ease-in-out select-none focus-within:border-brand-green-primary`;
 
 const EditProfile = () => {
-  
   const { userData, setUserData, showProfileUpdate, setShowProfileUpdate } = useContext(Portfolio);
   const [picture, setPicture] = useState<string | StaticImport>();
   const [firstNamee, setFirstnamee] = useState('');
@@ -61,7 +60,6 @@ const EditProfile = () => {
         const response = await fetch(`https://hng6-r5y3.onrender.com/api/v1/users/${userId}`);
         const userData = await response.json();
 
-    
         // Set default values as placeholders if data is not present
         setPicture(userData.data.user.profilePic || '');
         setFirstnamee(userData.data.user.firstName || ''); // Access 'user' inside 'data'
@@ -69,7 +67,7 @@ const EditProfile = () => {
         setCity(userData.data.portfolio.city || ''); // Access 'portfolio' inside 'data'
         setCountry(userData.data.portfolio.country || ''); // Access 'portfolio' inside 'data'
         setSelectedTrack(userData.data.userTracks.track || ''); // Access 'userTracks' inside 'data'
-        
+
         setAvailableTracks(await getTracks());
         setIsLoading(false);
       } catch (error: any) {
@@ -85,15 +83,12 @@ const EditProfile = () => {
       const response = await fetch('https://hng6-r5y3.onrender.com/api/v1/tracks');
       const data = await response.json();
       return data.data;
-    } catch (error: any) {
-  
-    }
+    } catch (error: any) {}
   };
-
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-  
+
     let matchingTrack: any;
     matchingTrack = availableTracks.find((track: any) => track.track === selectedTrack);
     if (!isLoading) {

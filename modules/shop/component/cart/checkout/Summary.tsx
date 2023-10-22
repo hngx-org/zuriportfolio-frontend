@@ -71,7 +71,9 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
             <div className="cart-summary__prices flex flex-col space-y-3">
               <div className="sum flex justify-between">
                 <p className="font-bold">Subtotal</p>
-                <span className="text-gray-200">₦ {summary.subtotal ? formatCurrency(summary.subtotal.toFixed(2)) : ''}</span>
+                <span className="text-gray-200">
+                  ₦ {summary.subtotal ? formatCurrency(summary.subtotal.toFixed(2)) : ''}
+                </span>
               </div>
 
               <div className="sum flex justify-between">
@@ -107,7 +109,11 @@ const Summary = ({ prices, summary, token }: SummaryProps & { token: string; sum
               </button>
             </div>
             {token.length > 0 && modalOpen ? (
-              <PaymentInformationModal token={token} orderTotal={formatCurrency(summary.total)} closeModal={closeModal} />
+              <PaymentInformationModal
+                token={token}
+                orderTotal={formatCurrency(summary.total)}
+                closeModal={closeModal}
+              />
             ) : (
               <TempUser isOpen={modalOpen} onClose={closeModal} />
             )}

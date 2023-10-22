@@ -29,7 +29,7 @@ const BadgeComponent: React.FC<BadgeComponentProps> = ({
       href={href}
       as={as}
       passHref
-      className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[236px] lg:min-w-[300px] lg:min-h-[300px] xl:min-w-[330px] xl:min-h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden"
+      className="badgecomponent w-[330px] h-[330px] sm:w-[236px] sm:h-[236px] lg:min-w-[300px] lg:min-h-[300px] xl:min-w-[330px] xl:min-h-[330px] p-[16px] flex flex-col items-center border border-neutral-200 rounded-[8px] gap-[12px] relative overflow-hidden transition-transform duration-300 hover:scale-105"
     >
       <div className="badgerewardimage w-[160px] h-[128px] relative">
         <Image src={imageSrc} fill={true} alt={imageAlt} style={{ objectFit: 'contain' }} />

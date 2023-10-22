@@ -71,7 +71,7 @@ function VerificationComplete() {
         notify({
           message: timeoutErrorMessage,
           type: 'error',
-          theme: 'light'
+          theme: 'light',
         });
         setIsError(true);
         return;
@@ -86,7 +86,7 @@ function VerificationComplete() {
       notify({
         message: error.message,
         type: 'error',
-        theme: 'light'
+        theme: 'light',
       });
       setIsError(true);
     },

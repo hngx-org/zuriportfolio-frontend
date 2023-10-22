@@ -8,7 +8,6 @@ import { notify } from '@ui/Toast';
 import Loader from '@ui/Loader';
 import Portfolio from '../../../../context/PortfolioLandingContext';
 
-
 type skillModalProps = {
   onCloseModal: () => void;
   onSaveModal: () => void;
@@ -43,7 +42,7 @@ const SkillModal = ({ onCloseModal, onSaveModal, isOpen, userId }: skillModalPro
   ]);
   const [arrayTwo, setArrayTwo] = useState<Array<skillListRes>>([]);
   const [values, setValues] = useState<Array<skillListRes>>([]);
- const slug  = useContext(Portfolio);
+  const slug = useContext(Portfolio);
 
   const fetchSkillData = useCallback(async () => {
     try {

@@ -45,7 +45,7 @@ const Guestsignupform: React.FC = () => {
       notify({
         message: res.message,
         type: 'error',
-        theme: 'light'
+        theme: 'light',
       });
     },
   });

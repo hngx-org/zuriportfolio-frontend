@@ -16,6 +16,6 @@ export const formatToNigerianNaira = (num: number | string): string => {
   return formatter.format(parsedNum);
 };
 
-export const formatCurrency = (currency:number|string) => {
-  return currency.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+export const formatCurrency = (currency: number | string) => {
+  return currency.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};

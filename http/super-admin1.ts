@@ -187,5 +187,5 @@ export const useDeleteShop = () => {
 
 export const logout = (route: NextRouter) => {
   localStorage.removeItem('zpt');
-  route.push('/')
-}
+  route.push('/');
+};
