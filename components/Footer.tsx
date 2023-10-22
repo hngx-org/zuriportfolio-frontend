@@ -20,10 +20,10 @@ function Footer() {
           </Link>
 
           <p className="font-normal">
-            Zuri Portfolio shows you with the brightest and most creative talents from across the globe. Whether
-            you&apos;re searching for the best designers, developers, engineers or any other talent, we&apos;ve got you
-            covered. Explore our page and discover the talent that will take your projects to new heights. Your next
-            masterpiece begins here.
+            Zuri Portfolio shows you the brightest and most creative talents from across the globe. Whether you&apos;re
+            searching for the best designers, developers, engineers or any other talent, we&apos;ve got you covered.
+            Explore our page and discover the talent that will take your projects to new heights. Your next masterpiece
+            begins here.
           </p>
         </div>
 
@@ -97,18 +97,12 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a
-                  href="https://www.zuri.team/recruit-talent"
-                  className="hover:underline"
-                >
+                <a href="https://www.zuri.team/recruit-talent" className="hover:underline">
                   Recruit Talent
                 </a>
               </li>
               <li>
-                <a
-                  href="https://www.zuri.team/find-a-training-partner"
-                  className="hover:underline"
-                >
+                <a href="https://www.zuri.team/find-a-training-partner" className="hover:underline">
                   Partner to Train
                 </a>
               </li>
