@@ -19,6 +19,7 @@ import { useAuth } from '../../../context/AuthContext';
 import Head from 'next/head';
 const AddProduct = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const mainRef = useRef<HTMLFormElement>(null);
   const [categoriesData, setCategoriesData] = useState([]);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
@@ -26,6 +27,7 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
   const linkRef = useRef<HTMLInputElement | null>(null);
+  const [shops, setShops] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState('');
   const auth = useAuth();
   const toggleNewCategoryInput = () => {
@@ -34,27 +36,32 @@ const AddProduct = () => {
 
   const productScehema = z.object({
     name: z.string().min(5, { message: 'Add Product Name' }),
-    description: z.string().min(50, { message: 'Add a minimum of 50 words' }),
+    description: z
+      .string()
+      .min(50, { message: 'Add a minimum of 50 words' })
+      .max(240, { message: 'Maximum of 240 characters' }),
     sub_category_id: z.string().min(1, { message: 'Select category' }),
     price: z.string().min(1, { message: 'Add Price' }),
-    discountPrice: z.number().optional(),
+    discountPrice: z.string().min(1, { message: 'Add discount' }),
     tax: z.string(),
     currency: z.string().min(1),
     assets_link: z.string().min(4, { message: 'Provide the link to your file' }),
     assets_type: z.string(),
-    assets_notes: z.string().min(50, { message: 'Add a minimum of 50 words' }),
+    assets_notes: z
+      .string()
+      .min(50, { message: 'Add a minimum of 50 words' })
+      .max(240, { message: 'Maximum of 240 characters' }),
     assets_name: z.string().min(4, { message: 'Add File name' }),
     // shopId: z.string().min(3, { message: 'Select Shop' }),
-    quantity: z.number(),
   });
   const form = useForm({
     validate: zodResolver(productScehema),
     initialValues: {
       name: '',
       description: '',
-      sub_category_id: '',
+      category_id: '',
       price: '',
-      discountPrice: 10,
+      discountPrice: '',
       tax: '',
       currency: 'NGN',
       assets_link: '',
@@ -62,7 +69,6 @@ const AddProduct = () => {
       assets_notes: '',
       assets_name: '',
       // shopId: '',
-      quantity: 1,
     },
   });
   const handleNewCategoryChange = (event: any) => {
@@ -86,6 +92,7 @@ const AddProduct = () => {
     async function fetchCategoriesData() {
       const updatedCategories = await fetchCategories();
       setCategoriesData(updatedCategories);
+      await getShopId();
     }
 
     fetchCategoriesData();
@@ -97,7 +104,7 @@ const AddProduct = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/category',
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/category',
         { name: newCategoryName },
         {
           headers: {
@@ -140,17 +147,20 @@ const AddProduct = () => {
     event.target.blur();
   };
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setProducts({ ...products, sub_category_id: event.target.value });
+    setProducts({ ...products, category_id: event.target.value });
   };
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/product/categories', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+      const response = await axios.get(
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/categories',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+          },
         },
-      });
+      );
 
       if (response.status === 200) {
         return response.data.data || [];
@@ -163,13 +173,28 @@ const AddProduct = () => {
       return [];
     }
   };
-
+  const getShopId = async () => {
+    try {
+      const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/shops/merchant', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
+        },
+      });
+      console.log(data);
+      if (data.data.length > 0) {
+        setShops(data.data);
+      }
+    } catch (error) {
+      setShops([]);
+    }
+  };
   const [products, setProducts] = useState({
     image: '',
     name: '',
     description: '',
     quantity: '',
-    sub_category_id: '',
+    category_id: '',
     price: '',
     discountPrice: '0',
     tax: '',
@@ -190,7 +215,7 @@ const AddProduct = () => {
     try {
       // Make a POST request to your API endpoint with Axios
       const response = await axios.post(
-        'https://zuriportfolio-shop-internal-api.onrender.com/api/product/add',
+        'https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/add',
         formData,
         {
           headers: {
@@ -250,21 +275,18 @@ const AddProduct = () => {
     }
   };
   const handleSubmit = async (values: any) => {
-    console.log(values, 'hey');
-    setLoading(true);
     const formData = new FormData();
     Object.entries(values).forEach(([key, value]: any[]) => {
       formData.append(key, value);
     });
-    if (!selectedImage) {
-      toast.error('Please upload a thumbnail');
-      return;
-    }
     formData.append('image', selectedImage as any);
-    // formData.delete('image');
 
     try {
-      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/product/add', {
+      setLoading(true);
+      if (mainRef) {
+        mainRef.current?.scrollIntoView();
+      }
+      const res = await fetch('https://zuriportfolio-shop-internal-api.onrender.com/api/v1/product/add', {
         method: 'POST',
         body: formData,
         headers: {
@@ -314,18 +336,19 @@ const AddProduct = () => {
   return (
     <MainLayout showTopbar activePage="products">
       <Head>
-        <title>Add Product</title>
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-title" content="Add product" />
+        <title>Add Products</title>
         <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Add Products" />
+
         <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
-        <meta key="metadescription" itemProp="description" name="description" content="Add product to your shop" />
-        <meta name="keywords" content="Zuri, portfolio, add, dashboard , product" />
+        <meta key="metadescription" itemProp="description" name="description" content="Add products" />
+        <meta name="keywords" content="Zuri, portfolio, prmotion, discount, product, dashboard" />
         <meta name="robots" content="index, follow" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
-      <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
-        <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
+      <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} ref={mainRef} className="relative">
+        <div className={`max-w-[1240px] mx-auto my-4 px-3 ${loading && 'hidden'} `}>
           <div className="text-gray-300 font-manropeB font-medium text-[14px] leading-[142.857%] tracking-[0.014px]  items-center gap-[2px] mb-4 hidden md:flex">
             <Link href={'/dashboard/products'}>Products</Link>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -343,9 +366,9 @@ const AddProduct = () => {
           </div>
           <h2 className="text-dark-400 font-manropeEB text-[32px] capitalize">Add new Product</h2>
         </div>
-        <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'opacity-0'}`}>
+        <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'hidden'}`}>
           <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-10 my-4">
-            <div className="border-r-[1px] md:max-h-[80vh] md:overflow-y-scroll scrollbar-thin md:scrollbar-thumb-slate-300 border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
+            <div className="border-r-[1px] border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
               <input
                 type="file"
@@ -383,12 +406,12 @@ const AddProduct = () => {
                 <p className="text-[red] text-lg my-3 font-semibold">
                   {form.errors.assets_link && form.errors.assets_link}
                 </p>
-                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]"> Note</label>
+                <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]"> Access Instructions</label>
                 <textarea
                   className={`w-full border-solid border-[2px]  placeholder:text-[#191C1E] text-black focus-within:text-dark-100 p-2 rounded-md  mb-5 mt-2 ${
                     form.errors.assets_notes ? 'border-red-200' : 'border-slate-50'
                   }`}
-                  placeholder="Add note for your file"
+                  placeholder="Please provide notes, passwords or links to your file."
                   inputMode="none"
                   {...form.getInputProps('assets_notes')}
                 />
@@ -401,9 +424,10 @@ const AddProduct = () => {
                 <span className="font-manropeEB text-[16px] uppercase text-[#191C1E]">product thumbnail</span>
                 <div className="mt-3 flex flex-col">
                   <div
-                    className={`bg-[#F8F9FA] p-2 rounded-sm items-center text-center ${
+                    className={`bg-[#F8F9FA] p-2 rounded-sm items-center text-center cursor-pointer ${
                       form.errors.email && 'border-red-20'
                     }`}
+                    onClick={handleImageUploadClick}
                   >
                     <center>
                       <Image
@@ -476,12 +500,12 @@ const AddProduct = () => {
                   <label className="font-manropeEB text-[16px] capitalize text-[#191C1E]">Product Category</label>
                   <select
                     className={`border-solid border-[2px] capitalize text-black py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    // value={products.sub_category_id}
+                    // value={products.category_id}
                     // onChange={handleOptionChange}
 
-                    {...form.getInputProps('sub_category_id')}
+                    {...form.getInputProps('category_id')}
                   >
                     <option value="" className="placeholder:text-[#000] text-black capitalize" disabled>
                       Select product category
@@ -500,9 +524,9 @@ const AddProduct = () => {
                   {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label> */}
                   {/* <select
                     className={`border-solid border-[2px] capitalize text-dark-600 py-3 text-[14px] rounded-lg mt-3 text-left pl-2 pr-20 hover:border-brand-green-primary ${
-                      form.errors.sub_category_id ? 'border-red-200' : 'border-slate-50'
+                      form.errors.category_id ? 'border-red-200' : 'border-slate-50'
                     }`}
-                    // value={products.sub_sub_category_id}
+                    // value={products.sub_category_id}
                     // onChange={handleOptionChange}
 
                     {...form.getInputProps('shopId')}
@@ -568,7 +592,7 @@ const AddProduct = () => {
                 </div>
               </div>
             </div>
-            <div className="p-5 mt-0 md:mt-0 ">
+            <div className="p-5 mt-0 md:mt-0">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">PREVIEW</label>
               {previewImage ? (
                 <Image
@@ -613,7 +637,7 @@ const AddProduct = () => {
           </div>
         </div>
         {loading && (
-          <div className="absolute z-50 inset-0 min-h-[300px] max-h-[70vh]  bg-white-100">
+          <div className="z-50 inset-0 min-h-[80vh] grid place-items-center h-full max-h-[70vh]  bg-white-100">
             <Loader />
           </div>
         )}
