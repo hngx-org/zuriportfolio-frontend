@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Button from '@ui/Button';
 import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperAdminNavbar';
-import Footer from '../../../../components/Footer';
 import { AssessmentBanner } from '@modules/assessment/component/banner';
 import CreateTemplate from '@modules/assessment/component/createnewassessments';
 import backarrow from '../../../../modules/assessment/component/backarrow.svg';
@@ -286,7 +285,6 @@ const CreateAssessment = () => {
           </main>
         </UpdateContext.Provider>
       </ToPushContext.Provider>
-      <Footer />
     </>
   );
 };
