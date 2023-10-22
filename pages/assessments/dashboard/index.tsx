@@ -28,6 +28,9 @@ type AssessmentDetails = {
 
 const Dashboard = () => {
   const tokenRef = useRef<string | null>(null);
+  React.useEffect(() => {
+    tokenRef.current = localStorage.getItem('zpt');
+  }, []);
 
   const {
     isLoading,
@@ -38,10 +41,6 @@ const Dashboard = () => {
   console.log('assessment', allAssessment?.assessments);
 
   const result = allAssessment?.assessments;
-
-  React.useEffect(() => {
-    tokenRef.current = localStorage.getItem('zpt');
-  }, []);
 
   return (
     <>

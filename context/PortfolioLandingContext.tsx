@@ -146,7 +146,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
   useEffect(() => {
     if (auth?.user?.id) {
       setUserId(auth?.user?.id!);
-      // setSlug('alameen-adeyemi-1');
       setSlug(auth?.user?.slug!);
     }
     if (getUserSections.data) {
@@ -192,7 +191,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
         custom
       ) {
       }
-      console.log(languages);
       setUserSections([
         { title: 'About', id: 'about', data: about },
         { title: 'Project', id: 'projects', data: projects },
