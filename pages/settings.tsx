@@ -397,4 +397,4 @@ const SettingPage = () => {
     </MainLayout>
   );
 };
-export default SettingPage;
+export default withAuth(SettingPage);
