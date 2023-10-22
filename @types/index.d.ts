@@ -735,7 +735,9 @@ export type cardinfo = {
   color?: string
 };
 
-type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
+interface ActivityDetailsProps {
+  token: string;
+}
 
 export type inputErrorMessage = {
   errorMessage: string;
