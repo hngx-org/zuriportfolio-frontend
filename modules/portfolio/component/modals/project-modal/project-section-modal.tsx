@@ -1,11 +1,12 @@
 import Modal from '@ui/Modal';
 import { useEffect, useState } from 'react';
 import ProjectSection from './projects';
-import AllProjectsModal from '../all-projects-modal';
 import axios from 'axios';
 import Loader from '@ui/Loader';
+import AllProjectsModal from './all-projects-modal';
+import SingleProject from './single-project';
 
-export type allRouteOptions = 'add-project' | 'view-projects';
+export type allRouteOptions = 'add-project' | 'view-projects' | 'single-project';
 
 export type Data = {
   title: string;
@@ -28,7 +29,7 @@ type ProjectModalProps = {
 };
 
 const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: ProjectModalProps) => {
-  const allRoutes = ['add-project', 'view-projects'];
+  const allRoutes = ['add-project', 'view-projects', 'single-project'];
   const [dataToEdit, setDataToEdit] = useState<Data | null>(null);
   const [route, setRoute] = useState<allRouteOptions>('add-project');
   const [loading, setLoading] = useState<boolean>(false);
@@ -80,39 +81,67 @@ const ProjectSectionModal = ({ isOpen, onCloseModal, onSaveModal, userId }: Proj
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    console.log(route, 'routee');
+  }, [route]);
+
   return (
-    <Modal size="xxl" closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
+    <>
       {loading ? (
-        <>
-          <Loader />
-          <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
-        </>
+        <Modal size={'xxl'} closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
+          <div className="py-52">
+            <Loader />
+            <p className="text-center text-green-400 my-3 font-semibold text-lg animate-pulse">Please wait</p>
+          </div>
+        </Modal>
       ) : (
         <>
           {route === allRoutes[0] && (
-            <ProjectSection
-              handleSetRoute={handleSetRoute}
-              dataToEdit={dataToEdit}
-              onSaveModal={onSaveModal}
-              onCloseModal={onCloseModal}
-              userId={userId}
-              projects={projects}
-            />
+            <Modal
+              size={'xxl'}
+              closeOnOverlayClick
+              isOpen={isOpen}
+              closeModal={onCloseModal}
+              isCloseIconPresent={false}
+            >
+              <ProjectSection
+                handleSetRoute={handleSetRoute}
+                dataToEdit={dataToEdit}
+                onSaveModal={onSaveModal}
+                onCloseModal={onCloseModal}
+                userId={userId}
+                projects={projects}
+              />
+            </Modal>
           )}
+
           {route === allRoutes[1] && (
-            <AllProjectsModal
-              handleSetProjects={handleSetProjects}
-              handleSetRoute={handleSetRoute}
-              handleLoading={handleLoading}
-              projects={projects}
-              onEdit={handleEditData}
-              onCloseModal={onCloseModal}
-              userId={userId}
-            />
+            <Modal
+              size={'xxl'}
+              closeOnOverlayClick
+              isOpen={isOpen}
+              closeModal={onCloseModal}
+              isCloseIconPresent={false}
+            >
+              <AllProjectsModal
+                handleSetProjects={handleSetProjects}
+                handleSetRoute={handleSetRoute}
+                handleLoading={handleLoading}
+                projects={projects}
+                onEdit={handleEditData}
+                onCloseModal={onCloseModal}
+                userId={userId}
+              />
+            </Modal>
+          )}
+          {route === allRoutes[2] && (
+            <Modal size={'lg'} closeOnOverlayClick isOpen={isOpen} closeModal={onCloseModal} isCloseIconPresent={false}>
+              <SingleProject dataToEdit={dataToEdit} handleSetRoute={handleSetRoute} />
+            </Modal>
           )}
         </>
       )}
-    </Modal>
+    </>
   );
 };
 
