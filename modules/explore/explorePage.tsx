@@ -74,7 +74,7 @@ const HomePage = () => {
     queryKey: ['profile', deBounce, filters, pageNumber],
     queryFn: () => fetchUsers(searchQuery),
   });
-
+  console.log(data);
   return (
     <main>
       <Banner />

@@ -44,7 +44,7 @@ const ButtonCat = ({ category, index, handleActiveNav, active }: CategoriesProps
       <div
         className={`py-3 flex-col gap-3 ${
           popupClass ? `flex opacity-100` : 'hidden opacity-0'
-        } rounded-lg absolute -translate-y-1 transition-all duration-500 w-[286px] bg-white-100 border-[0.5px] border-slate-50 z-50 shadow-lg`}
+        } rounded-lg absolute -translate-y-1 transition-all duration-500 w-[286px] bg-white-100 border-[0.5px] border-slate-50 z-50 shadow-lg hidden xl:visible`}
         style={{
           left: `${position.left}px`,
         }}

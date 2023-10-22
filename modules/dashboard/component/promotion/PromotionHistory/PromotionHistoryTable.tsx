@@ -49,6 +49,7 @@ const PromotionHistoryTable: React.FC<{
       changeSort(val);
     }
   };
+  console.log(pageItem);
   return (
     <table className="w-full md:table border rounded-lg">
       <thead>

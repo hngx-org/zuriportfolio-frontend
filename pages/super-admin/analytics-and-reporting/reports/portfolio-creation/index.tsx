@@ -9,12 +9,13 @@ import SuperAdminNavbar from '@modules/super-admin/components/navigations/SuperA
 import { useRouter } from 'next/router';
 import { ImSpinner8 } from 'react-icons/im';
 import { ToastContainer, toast } from 'react-toastify';
+import { withAdminAuth } from '../../../../../helpers/withAuth';
 
-interface zaProps {
-  dateRange: DateObject[];
-}
+// interface zaProps {
+//   dateRange: DateObject[];
+// }
 
-const PortfolioCreationPage: React.FC<zaProps> = ({ dateRange }) => {
+const PortfolioCreationPage: React.FC = () => {
   const [portfolioCreationArray, setPortfolioCreationArray] = useState<any>([]);
   const [loadingState, setLoadingState] = useState<Boolean>(false);
   const [showContent, setShowContent] = useState<Boolean | null>(false);
@@ -479,4 +480,4 @@ const PortfolioCreationPage: React.FC<zaProps> = ({ dateRange }) => {
   );
 };
 
-export default PortfolioCreationPage;
+export default withAdminAuth(PortfolioCreationPage);

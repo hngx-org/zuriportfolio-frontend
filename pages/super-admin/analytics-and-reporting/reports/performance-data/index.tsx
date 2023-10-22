@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import SuperAdminPagination from '@modules/super-admin/components/pagination';
 import { ImSpinner8 } from 'react-icons/im';
 import axios from 'axios';
+import { withAdminAuth } from '../../../../../helpers/withAuth';
 import Modal from '@ui/Modal';
 
 // interface zaProps {
@@ -117,7 +118,7 @@ const PerformanceDataPage: React.FC = () => {
         setLoadingState(false);
         toast.error('Internal Server Error');
       });
-  }, []);
+  }, [currentPage]);
 
   function saveFile(data: BlobPart, filename: string, contentType: any) {
     const blob = new Blob([data], { type: contentType });
@@ -168,8 +169,8 @@ const PerformanceDataPage: React.FC = () => {
 
   const fetchAnalyticsData = () => {
     if (selectedDateRange.length === 2) {
-      const startDate = selectedDateRange[0].format('YYYY-MM-DDTHH:mm:ssZ');
-      const endDate = selectedDateRange[1].format('YYYY-MM-DDTHH:mm:ssZ');
+      const startDate = selectedDateRange[0].format('YYYY-MM-DD');
+      const endDate = selectedDateRange[1].format('YYYY-MM-DD');
       setLoadingState(true);
       setGet(true);
 
@@ -236,6 +237,18 @@ const PerformanceDataPage: React.FC = () => {
 
   const toggleVisibility = () => {
     setShowItems(!showItems);
+  };
+
+  const formattedAmount = (amount: number | string) => {
+    if (amount !== undefined) {
+      const amountValue = typeof amount === 'string' ? parseFloat(amount) : amount;
+      const roundedValue = Math.round(amountValue);
+      const formattedValue =
+        roundedValue % 1 === 0 ? roundedValue.toLocaleString().replace('.00', '') : amountValue.toLocaleString();
+      return formattedValue;
+    } else {
+      return '';
+    }
   };
   return (
     <>
@@ -430,27 +443,27 @@ const PerformanceDataPage: React.FC = () => {
                         >
                           <div className="max-w-[10rem] pl-[1.5rem] w-full max-[778px]:min-w-[7rem]">
                             <h6 className="text-[0.875rem] font-manropeL font-semibold text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                              2023-09-25
+                              {performance.date}
                             </h6>
                           </div>
                           <div className="max-w-[11.5rem] w-full max-[778px]:min-w-[8.5rem]">
                             <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                              {performance.transaction_value}
+                              {formattedAmount(performance.transaction_value)}
                             </p>
                           </div>
                           <div className="max-w-[11.5rem] w-full max-[778px]:min-w-[8.5rem]">
                             <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                              {performance.transaction_volume}
+                              {formattedAmount(performance.transaction_volume)}
                             </p>
                           </div>
                           <div className="max-w-[11.63rem] w-full max-[778px]:min-w-[8.63rem]">
                             <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                              {performance.active_users}
+                              {formattedAmount(performance.active_users)}
                             </p>
                           </div>
                           <div className="max-w-[10.19rem] w-full max-[778px]:min-w-[7.19rem]">
                             <p className="text-[0.875rem] font-manropeL text-center font-normal text-[#667085] leading-[1.25rem] tracking-[0.00088rem] max-[834px]:text-[0.75rem]">
-                              {performance.total_orders}
+                              {formattedAmount(performance.total_orders)}
                             </p>
                           </div>
                           <div className="max-w-[10.75rem] w-full max-[1000px]:hidden">
@@ -488,4 +501,4 @@ const PerformanceDataPage: React.FC = () => {
   );
 };
 
-export default PerformanceDataPage;
+export default withAdminAuth(PerformanceDataPage);

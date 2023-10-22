@@ -1,7 +1,8 @@
 import axios from 'axios';
 import $http from './axios';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
-const assessmentBaseUrl = `https://assessment.cofucan.tech/api`;
+const assessmentBaseUrl = `https://assessment.cofucan.tech/api/v1`;
 
 export const fetchAssessmentHistory = async (token: string) => {
   try {
@@ -41,14 +42,31 @@ export const getAllAssessments = async (token: string) => {
         token: token,
       },
     });
-    if (!response.data) {
-      return;
-    }
     return response.data;
   } catch (error) {
     console.log(error);
     throw error;
   }
+};
+
+export const useAllAssessments = async (token: string) => {
+  return useQuery(['allAssessments', token], async () => {
+    try {
+      const response = await $http.get(`${assessmentBaseUrl}/assessments`, {
+        headers: {
+          token: token,
+        },
+      });
+      if (!response.data) {
+        return;
+      }
+      console.log('Tap', response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  });
 };
 
 const axiosInstance = axios.create({
@@ -69,9 +87,6 @@ export const fetchUserTakenAssessment = async (token: string, id: any) => {
         },
       },
     );
-    if (!res.data) {
-      return;
-    }
     console.log('responce', res.data.data);
     return res.data;
   } catch (error) {
@@ -123,7 +138,6 @@ export const submitAssessment = async ({
         answer_text: answer_text,
       },
     });
-    console.log(res);
   } catch (error) {
     console.error('Error submitting assessment:', error);
     throw error;
@@ -151,7 +165,6 @@ export const submitFinalAssessment = async ({
       is_submitted: true,
       time_spent: minutes,
     });
-    console.log(res);
     return res.data;
   } catch (error) {
     console.error('Error submitting assessment:', error);

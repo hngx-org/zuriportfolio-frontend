@@ -1,11 +1,11 @@
 import SpecificSubCategory from '@modules/marketplace/SpecificSubCategory';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import type { GetServerSideProps } from 'next';
 import { FilterContextProvider } from '@modules/marketplace/component/filter/hooks/context';
 import { useContext, useEffect, useState } from 'react';
 import { PreviousUrlContext } from '@modules/marketplace/context/PreviousUrlProvider';
 import Head from 'next/head';
+import http from '@modules/marketplace/http';
 import style from '../../../../modules/marketplace/component/categories/RemoveDefault.module.css';
 
 interface CardType {
@@ -55,9 +55,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: any
   }
 
   try {
-    const res = await axios.get(
-      `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}/${subCategory}/`,
-    );
+    const res = await http.get(`/products/${category}/${subCategory}/`);
 
     if (res.data.data.length === 0) {
       return {

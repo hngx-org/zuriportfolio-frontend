@@ -74,7 +74,7 @@ const CustomSectionModal = () => {
   };
 
   const handleSave = () => {
-    // Create a new section with the title "Section Title" and the current fields
+    // Create a new section with the title "Section Title" and the current fie lds
     setIsFormValid(true);
     const newSection = {
       title: customTitle, // You can customize this title as needed

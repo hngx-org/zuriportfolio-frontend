@@ -9,17 +9,11 @@ import Head from 'next/head';
 
 function GithubRedirect() {
   const router = useRouter();
-  const { handleAuth, userCameFrom } = useAuth();
+  const { handleAuth, userCameFrom, userCameFromForOAuth } = useAuth();
   const { mutate: signUserWithGithub } = useAuthMutation(signUpWithOAuth, {
     onSuccess: (data) => {
-      // TODO: Find out the response for succesful signup for users with 2fa enabled and disabled
-      console.log('Google success data: ', data);
-
-      // const token = data.data.token;
-      // localStorage.setItem('zpt', token);
-
       // Checking if user enabled 2fa
-      if (data?.response && data?.response?.message === 'TWO FACTOR AUTHENTICATION CODE SENT') {
+      if (data?.status === 202) {
         // Setting to localStorage because 2fa page needs them
         localStorage.setItem('2fa', data?.response?.token);
         localStorage.setItem('email', data?.response?.email);
@@ -28,7 +22,7 @@ function GithubRedirect() {
         return;
       }
 
-      if (data.message === 'Login successful') {
+      if (data.status === 200) {
         handleAuth(data.data);
         localStorage.setItem('zpt', data?.data?.token);
 
@@ -42,14 +36,28 @@ function GithubRedirect() {
         return;
       }
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      console.log('Github OAuth error', error);
+
+      if (error.response && error.response.message === 'INTERNAL SERVER ERROR') {
+        notify({
+          message: 'Something went wrong, please try again later',
+          type: 'error',
+        });
+
+        router.replace(userCameFromForOAuth || '/auth/login');
+        return;
+      }
+
       notify({
-        message: 'Error logging in. Please try again.',
+        message: error.message,
         type: 'error',
+        theme: 'light',
       });
 
-      // if an error occurs, take the user to where they came from or to home page if undefined
-      router.push(userCameFrom || '/');
+      // if an error occurs, take the user to where they signed up from or to sign in page if undefined
+      router.replace(userCameFromForOAuth || '/auth/login');
+      // router.replace(userCameFrom || '/');
     },
   });
 

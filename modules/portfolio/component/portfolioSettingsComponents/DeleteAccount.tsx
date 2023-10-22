@@ -52,9 +52,7 @@ function DeleteAccount() {
   return (
     <div className="w-full sm:w-[465px] mt-[2rem] sm:mt-0">
       <div className="flex flex-col gap-y-[1rem]">
-        <h3 className=" font-manropeB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
-          Delete Account
-        </h3>
+        <h3 className="font-manropeL text-[1rem] sm:text-[22px] text-[#2E3130] leading-[1.75rem]  ">Delete Account</h3>
         <p className="text-[#737876] font-manropeL text-[0.875rem] leading-[1.25rem] ">
           Would you like to delete your portfolio account:{' '}
           <span className="text-[#009254] text-[0.875rem] sm:text-[1rem]  font-manropeEL leading-[1.5rem]">

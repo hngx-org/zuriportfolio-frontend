@@ -26,7 +26,6 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
   const linkRef = useRef<HTMLInputElement | null>(null);
-  const [shops, setShops] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState('');
   const auth = useAuth();
   const toggleNewCategoryInput = () => {
@@ -164,22 +163,7 @@ const AddProduct = () => {
       return [];
     }
   };
-  const getShopId = async () => {
-    try {
-      const { data } = await axios.get('https://zuriportfolio-shop-internal-api.onrender.com/api/shops/merchant', {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('zpt')}`,
-        },
-      });
-      console.log(data);
-      if (data.data.length > 0) {
-        setShops(data.data);
-      }
-    } catch (error) {
-      setShops([]);
-    }
-  };
+
   const [products, setProducts] = useState({
     image: '',
     name: '',
@@ -331,6 +315,14 @@ const AddProduct = () => {
     <MainLayout showTopbar activePage="products">
       <Head>
         <title>Add Product</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Add product" />
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Portfolio" />
+        <meta key="metadescription" itemProp="description" name="description" content="Add product to your shop" />
+        <meta name="keywords" content="Zuri, portfolio, add, dashboard , product" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       </Head>
       <form onSubmit={form.onSubmit(handleSubmit, (errors) => console.log(errors))} className="relative">
         <div className={`max-w-[1240px] mx-auto my-4 px-3 `}>
@@ -491,17 +483,18 @@ const AddProduct = () => {
 
                     {...form.getInputProps('sub_category_id')}
                   >
-                    <option value="" className="placeholder:text-[#000] text-black capitalize">
+                    <option value="" className="placeholder:text-[#000] text-black capitalize" disabled>
                       Select product category
                     </option>
                     {categoriesData.map((category: any) => (
-                      <option
-                        value={category.id}
-                        key={category.id}
-                        className="placeholder:text-[#000] text-black capitalize"
-                      >
-                        {category.name}
-                      </option>
+                      <>
+                        {category.sub_categories?.length > 0 &&
+                          category.sub_categories.map((cat: any) => (
+                            <option className="" key={cat.id} value={cat.id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                      </>
                     ))}
                   </select>
                   {/* <label className="font-manropeEB text-[16px] capitalize text-[#191C1E] mt-8">Select Shop</label> */}

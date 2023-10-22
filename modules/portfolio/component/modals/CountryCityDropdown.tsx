@@ -69,7 +69,7 @@ const CountryCityDropdown: React.FC<Props> = ({
             <SelectTrigger className="border-[#59595977]  h-[50px] rounded-[10px]">
               <SelectValue
                 defaultValue={selectedCountry || ''}
-                placeholder={'Select Country'}
+                placeholder='Select Country'
                 className="hover:border-green-500"
               />
             </SelectTrigger>
@@ -95,7 +95,7 @@ const CountryCityDropdown: React.FC<Props> = ({
             <SelectTrigger className="border-[#59595977] text-grey-300 h-[50px] rounded-[10px]">
               <SelectValue
                 defaultValue={selectedCity || ''}
-                placeholder="Select City"
+                placeholder='Select City'
                 className="hover:border-green-500"
               />
             </SelectTrigger>
