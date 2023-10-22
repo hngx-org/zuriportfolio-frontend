@@ -106,15 +106,13 @@ const Earnedbadges: React.FC = () => {
 
   useEffect(() => {
     const bearerToken = localStorage.getItem('zpt');
-    console.log(bearerToken);
 
     const fetchData = async () => {
       try {
         const badgelabel = router.query?.badges;
-        console.log(badgelabel);
+
         if (badgelabel) {
           const apiUrl = `https://staging.zuri.team/api/badges/user/badges?badges=${badgelabel}`;
-          console.log(apiUrl);
 
           const response = await fetch(apiUrl, {
             method: 'GET',
@@ -167,12 +165,15 @@ const Earnedbadges: React.FC = () => {
         ) : errorMessage ? (
           <ErrorData />
         ) : (
-          <div className="h-full w-full lg:max-w-[1440px]  lg:px-[60px] xl:px-[100px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:my-[50px] pb-[80px] sm:pb-[200px] gap-[26px]">
+          <div className="h-full w-full lg:max-w-[1440px] relative lg:px-[60px] xl:px-[100px] px-[40px] flex flex-col justify-start sm:mt-[80px] mt-[34px] lg:my-[50px] pb-[80px] sm:pb-[200px] gap-[26px]">
             <div>
               <div className="flex py-4 pb-8 sm:flex justify-start align-middle text-2xl cursor-pointer">
-                <div onClick={handleBack}>
+                <div onClick={handleBack} className="hidden sm:block">
                   <MdArrowBackIosNew />
                 </div>
+                <p onClick={handleBack} className="sm:hidden text-[14px] underline cursor-pointer absolute bottom-5">
+                  go back
+                </p>
               </div>
               <h1 className="text-[16px] font-[600] leading-[24px] tracking-normal w-full text-center md:text-start capitalize">
                 {router.query?.badges} Badges
