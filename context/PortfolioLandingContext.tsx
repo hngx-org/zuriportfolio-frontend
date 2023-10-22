@@ -191,7 +191,6 @@ export function PortfolioCtxProvider(props: { children: any }) {
         custom
       ) {
       }
-      console.log(languages);
       setUserSections([
         { title: 'About', id: 'about', data: about },
         { title: 'Project', id: 'projects', data: projects },

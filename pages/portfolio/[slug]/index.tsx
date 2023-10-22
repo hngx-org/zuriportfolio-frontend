@@ -52,7 +52,9 @@ const View = () => {
     avatarImage: '',
     city: '',
     country: '',
-    tracks: [],
+    tracks: {
+      track: '',
+    },
     coverImage: '',
   });
   const [userSections, setUserSections] = useState<any>([]);
@@ -112,9 +114,11 @@ const View = () => {
     } catch (error: any) {
       setIsLoading(false);
       setError({ state: true, error: error.message });
+      setIsLoading(false);
     }
   };
   const { firstName, lastName, city, country, coverImage, tracks } = userData;
+  console.log(error);
 
   const headerMargin = `w-full h-[200px] sm:h-[250px] md:h-[300px] object-center object-cover`;
 
@@ -131,6 +135,12 @@ const View = () => {
           <>
             <Loader />
           </>
+        ) : error.state ? (
+          <div className="flex justify-center items-center min-h-[50vh]">
+            <p className="text-red-200 text-2xl font-semibold text-center">
+              Something went wrong, please try again later
+            </p>
+          </div>
         ) : (
           <div className="mx-auto w-[min(90vw,1240px)] relative font-manropeB pb-20 min-h-[50vh]">
             <div className="relative w-full flex-col justify-center items-center shadow-[0_0px_6px_1px_rgba(0,0,0,0.14)] rounded-b-lg -mt-5 mb-10">
@@ -144,10 +154,8 @@ const View = () => {
                       {lastName === 'undefined' || !lastName ? '' : lastName}
                     </h1>
                     <div className="flex items-center space-x-2">
-                      {tracks.length > 0 && (
-                        <p className="flex flex-col text-gray-500 font-semibold text-[15px]">
-                          {(tracks[0] as { track: string }).track}
-                        </p>
+                      {tracks && (
+                        <p className="flex flex-col text-gray-500 font-semibold text-[15px]">{tracks?.track}</p>
                       )}
                     </div>
                     <p className="text-gray-500 text-[14px] md:text-base font-semibold">
