@@ -221,7 +221,7 @@ const DynamicCategoryCarousel = () => {
       {slides.length > 0 && (
         <div className="overflow-hidden p-2 w-full mx-0 mt-[0]">
           <Slider {...settings}>
-            {slides.map((category) => (
+            {(productsQuery ?? slides).map((category) => (
               <div key={category?.name} className="relative h-[250px] sm:h-[300px] w-[182.71]">
                 {category?.section === 'shop' && (
                   <div
