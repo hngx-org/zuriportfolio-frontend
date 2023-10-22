@@ -147,13 +147,13 @@ function VendorDetails() {
                 <div className="revenue border border-white-110 p-2 mb-5 w-full lg:w-full">
                   <p>Total Order</p>
                   <div className="badge flex items-center justify-between">
-                    <h1 className="text-xl font-bold">{formatNumber(details?.vendor_total_orders)}</h1>
+                    <h1 className="text-xl font-bold">{formatNumber(data?.vendor_total_orders)}</h1>
                   </div>
                 </div>
                 <div className="revenue border border-white-200  p-2 w-full lg:w-full">
                   <p>Total Sales</p>
                   <div className="badge flex items-center justify-between">
-                    <h1 className="text-xl font-bold">&#36;{formatNumber(details?.vendor_total_sales)}</h1>
+                    <h1 className="text-xl font-bold">₦{formatNumber(details?.vendor_total_sales) ?? null}</h1>
                   </div>
                 </div>
               </div>
@@ -176,26 +176,21 @@ function VendorDetails() {
                   </div>
                 </div>
                 <div className="bio-text mt-3 ml-5 lg:ml-0">
-                  <h1 className="w-full mb-2">
-                    A UX Designer loves to make UX and the career easier for others, no fancy stuff.
-                  </h1>
+                  <h1 className="w-full mb-2">{details?.merchant_name}</h1>
                 </div>
                 <div className="bio ml-5 lg:ml-0">
                   <div className="rating flex items-center justify-between mr-3 mb-3">
                     <aside className="left flex items-center ">
                       <p className=" text-base font-semibold font-manropeB leading-normal tracking-[0.08px]">
-                        {data?.rating_id ?? 0}/5
+                        {parseInt(details?.rating, 10) ?? 0}/5
                       </p>
-                      <StarRating rating={data?.rating_id ?? 0} />
+                      <StarRating rating={details?.rating ?? 0} />
                     </aside>
                     <p className="text-xs mr-5 lg:mr-0 sm:ml-auto">{`Date Added ${formatDate(details?.createdAt)}`}</p>
                   </div>
 
                   <div className="status flex items-center justify-between mb-3">
-                    <p>
-                      ({data?.rating_id ?? 0} Customer{data?.rating_id > 0 ? 's' : ''})
-                    </p>
-                    <StatusPill status={data?.vendor_status} />
+                    <StatusPill status={details?.vendor_status ?? null} />
                   </div>
                   <div className="buttons w-full flex items-center justify-between mt-6"></div>
                   <div className="flex py-8 justify-center space-x-9">
@@ -288,14 +283,14 @@ function VendorDetails() {
                                 {item?.product_name}
                               </p>
                               <p className="font-bold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-green-850">
-                                ${new Intl.NumberFormat('en-US').format(item?.price)}
+                              ₦{new Intl.NumberFormat('en-US').format(item?.price)}
                               </p>
                               <p className="mb-3 text-custom-color15 font-semibold text-[0.65rem] md:text-[0.75rem] lg:text-[0.85rem] truncate w-[100%] max-w-[100%]">
                                 {item?.description}
                               </p>
                               <aside className="left flex items-center gap-[1px] w-[100px] md:gap-[2px] lg:gap-[2px] mt-6 lg:w-[230px]">
                                 <StarRating rating={item?.rating ?? 0} />
-                                <p>({item?.rating ?? 0})</p>
+                                {/* <p>({item?.rating ?? 0})</p> */}
                               </aside>
                             </div>
                           ) : null}
