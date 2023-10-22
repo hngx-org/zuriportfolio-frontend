@@ -32,15 +32,6 @@ export const Activity: React.FC<{ isPage: boolean }> = ({ isPage }) => {
             </Link>
           )}
         </p>
-        <div className={`${isPage ? 'grid grid-cols-1 lg:grid-cols-2 gap-4 mt-2' : 'space-y-4'}`}>
-          {/* {displayedData ? (
-            displayedData?.map((data, index) => (
-              <ActivityCard key={index} name={data?.name} item={data?.item} isPage={isPage} />
-            ))
-          ) : ( */}
-          <p className="text-brand-white-650 font-normal">No activity to display</p>
-          {/* )} */}
-        </div>
         {isFetching ? (
           <div className="bg-white-100 grid place-items-center z-50 inset-0 min-h-[300px]">
             <Loader />

@@ -3,7 +3,7 @@ import { logQueryResult } from '../helpers/dashboard';
 
 const shop_id = '6d022186-7c7f-4439-af0c-8209202ef4a6';
 
-const baseURL = 'https://zuriportfolio-shop-internal-api.onrender.com/api';
+const baseURL = 'https://zuriportfolio-shop-internal-api.onrender.com/api/v1';
 
 const axiosDashboardInstance = axios.create({
   baseURL,
