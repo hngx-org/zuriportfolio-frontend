@@ -6,26 +6,6 @@ import ActivityDetails from './ActivityDetails';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-interface MonthlyData {
-  name: string;
-  sales: number;
-  orders: number;
-  users: number;
-}
-
-type ApiResponse = {
-  status: string;
-  message: string;
-  sales: number;
-  users: number;
-  orders: number;
-  active_users: number;
-  start_date: string;
-  end_date: string;
-};
-
-type PeriodType = '12 mon' | '3 mon' | '30 days' | '7 days' | '24 hrs';
-
 const fetchData = async (url: any) => {
   try {
     const response = await fetch(url);
@@ -57,7 +37,7 @@ const AnalyticsAndReportingGraphs = () => {
       }));
 
       try {
-        const url = `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
+        const url = `https://staging.zuri.team/api/v1/super-admin/analytics/total-sales-orders-users/?last=${period}`;
         const response = await fetch(url, {
           headers: {
             Authorization: `Bearer ${bearerToken}`,
