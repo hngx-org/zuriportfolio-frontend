@@ -2,14 +2,18 @@ import { Information } from 'iconsax-react';
 import React from 'react';
 import useUserSession from '../../../../hooks/Auth/useUserSession';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const Logout = () => {
   const { logout } = useUserSession();
-
+  const router = useRouter();
   return (
     <div
       role="button"
-      onClick={logout}
+      onClick={() => {
+        logout();
+        router.push('/');
+      }}
       className="border-b cursor-pointer hover:bg-[#F4FBF6] border-[#EBEEEF] py-5 px-4 flex gap-6 text-[#FF2E2E]"
     >
       <Information size="24" color="#ff2e2e" />
@@ -19,12 +23,15 @@ const Logout = () => {
 };
 
 export const MobileLogout = () => {
+  const router = useRouter();
   const { logout } = useUserSession();
   return (
-    <Link
+    <div
       className="rounded-lg relative px-4 flex items-center justify-center gap-5 h-[48px] font-manropeB focus:shadow-brand-green-shd   border-solid text-base py-3  border-0 bg-pink-50 text-[#FF2E2E] w-[100%]"
-      href="/"
-      onClick={logout}
+      onClick={() => {
+        logout();
+        router.push('/');
+      }}
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" fill="none" viewBox="0 0 25 24">
         <g fill="#FF2E2E">
@@ -33,7 +40,8 @@ export const MobileLogout = () => {
         </g>
       </svg>
       <p className="font-manropeB">Sign Out</p>
-    </Link>
+
+    </div>
   );
 };
 export default Logout;
