@@ -19,7 +19,6 @@ export function formatNumber(number: any) {
   return new Intl.NumberFormat('en-US').format(numericValue);
 }
 
-
 export function formatDate(inputDate: string) {
   const date = new Date(inputDate);
   const day = date.getDate().toString().padStart(2, '0');
