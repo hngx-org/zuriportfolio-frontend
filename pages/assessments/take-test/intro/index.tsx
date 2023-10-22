@@ -78,7 +78,7 @@ const TakeTest: FC = () => {
                 </p>
 
                 <div className="flex items-center justify-end mt-8">
-                  <Link href={`/assessments/take-test/questions?data=${result?.skill_id}&id=${result?.assessment_id}`}>
+                  <Link href={`/assessments/take-test/questions?data=${result?.assessment_id}`}>
                     <Button
                       intent={'primary'}
                       size={'md'}
