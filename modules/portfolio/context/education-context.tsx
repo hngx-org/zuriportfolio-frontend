@@ -60,9 +60,9 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     setIsForm(true);
   };
 
-  const { userId } = useContext(Portfolio);
+  const { userId, slug, portfolioUrl } = useContext(Portfolio);
   const setnewdegree = useCallback(async () => {
-    fetch('https://hng6-r5y3.onrender.com/api/degree')
+    fetch('https://hng6-r5y3.onrender.com/api/v1/degree')
       .then((res) => {
         return res.json();
       })
@@ -95,21 +95,48 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     e.preventDefault();
     try {
       const updatedEducation = {
-        degree, // You may need to add the degree information as well
         fieldOfStudy,
-        id: educationId,
+        degree_id: +selectedDegreeId,
         school,
         description,
         from,
         to,
+        user_id: userId,
+        section_id: 2,
       };
-      const response = await fetch(`${API_BASE_URL}api/education/${educationId}`, {
+
+      const response = await fetch(`${API_BASE_URL}api/v1/updateEducationDetail/${educationId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(updatedEducation),
       });
+
+      const numberFields: string[] = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
+
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      if (numbersOnlyRegex.test(fieldOfStudy)) {
+        numberFields.push('Field Of Study');
+      }
+      if (numbersOnlyRegex.test(school)) {
+        numberFields.push('School');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
+
       if (response.ok) {
         notify({
           message: 'Education detail updated successfully',
@@ -136,7 +163,7 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const handleDeleteEducation = async (educationId: number) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/education/${educationId}`, {
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${educationId}`, {
         method: 'DELETE',
       });
       if (response.ok) {
@@ -165,13 +192,16 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
   const getAllEducation = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}api/getPortfolioDetails/${userId}`);
+      const response = await fetch(`${portfolioUrl}/${slug}`);
 
       if (response.ok) {
         const data = await response.json();
-        const { education } = data;
+        const { education } = data.data;
         setEducations(education);
-        // Extract the education IDs
+        if (education.length === 0) {
+          setIsForm(true);
+        }
+        console.log(education);
         const educationIds = educations.map((education) => education.id);
       }
     } catch (error) {
@@ -180,14 +210,25 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     } finally {
       setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, slug]);
 
   const addNewEducation = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     e.preventDefault();
     try {
       const missingFields = [];
+      const numberFields: string[] = [];
+      const numbersOnlyRegex = /^[0-9]+$/;
 
+      if (numbersOnlyRegex.test(fieldOfStudy)) {
+        numberFields.push('Field Of Study');
+      }
+      if (numbersOnlyRegex.test(school)) {
+        numberFields.push('School');
+      }
+      if (numbersOnlyRegex.test(description)) {
+        numberFields.push('Description');
+      }
       if (fieldOfStudy === '') {
         missingFields.push('fieldOfStudy');
       }
@@ -207,9 +248,9 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         missingFields.push('End date');
       }
 
-      if (from === to) {
+      if (to < from) {
         notify({
-          message: `Start date and end date cant be the same`,
+          message: `To cant be less than that from`,
           position: 'top-center',
           theme: 'light',
           type: 'error',
@@ -230,10 +271,30 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         return;
       }
 
-      const year = new Date().getFullYear();
-      const currYear = String(year);
+      if (numberFields.length > 0) {
+        const numberFieldsString = numberFields.join(', ');
+        notify({
+          message: `${numberFieldsString} cant consist of only numbers`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
 
-      const response = await fetch(`${API_BASE_URL}api/education/${userId}`, {
+      if (description.length < 13) {
+        notify({
+          message: `Description cant be less than 13 characters`,
+          position: 'top-center',
+          theme: 'light',
+          type: 'error',
+        });
+        return;
+      }
+
+      const year = new Date().getFullYear();
+
+      const response = await fetch(`${API_BASE_URL}api/v1/education/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON
@@ -262,14 +323,26 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
         setIsForm(false);
         setIsData(true);
       } else {
+        const responseJson = await response.json();
+        console.log(responseJson);
+        if (responseJson.message.includes('school should not contain sepecial characters')) {
+          notify({
+            message: `School should not contain special characters`,
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+          return;
+        } else {
+          notify({
+            message: 'We had some issues adding ur Education detail',
+            position: 'top-center',
+            theme: 'light',
+            type: 'error',
+          });
+        }
         // Request failed, handle the error
         console.error('Request failed with status:', response.status);
-        notify({
-          message: 'We had some issues adding ur Education detail',
-          position: 'top-center',
-          theme: 'light',
-          type: 'error',
-        });
       }
     } catch (error) {
       console.error('Error:', error);
@@ -284,6 +357,16 @@ export const EducationModalContextProvider = ({ children }: { children: React.Re
     getAllEducation();
     // }
   }, [getAllEducation]);
+  useEffect(() => {
+    console.log(educations);
+  }, [educations]);
+
+  useEffect(() => {
+    console.log('educations', educations);
+    if (educations.length === 0) {
+      setIsForm(true);
+    }
+  }, [educations]);
 
   return (
     <EducationModalContext.Provider

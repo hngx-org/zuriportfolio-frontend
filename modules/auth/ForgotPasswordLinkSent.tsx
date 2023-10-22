@@ -14,11 +14,11 @@ function ForgotPasswordLinkSent() {
 
   const onResetLinkSentSuccess = (data: any) => {
     if (data.status === 200) {
-      notify({ message: 'Reset Link has been resent.', type: 'success' });
+      notify({ message: 'Reset Link has been resent.', type: 'success', theme: 'light' });
       return;
     }
 
-    notify({ message: data.message, type: 'error' });
+    notify({ message: data.message, type: 'error', theme: 'light' });
   };
 
   const { mutate, isLoading } = useAuthMutation(resendForgetPassword, {
@@ -60,6 +60,3 @@ function ForgotPasswordLinkSent() {
 }
 
 export default ForgotPasswordLinkSent;
-function handleEmail(userEmail: string) {
-  throw new Error('Function not implemented.');
-}

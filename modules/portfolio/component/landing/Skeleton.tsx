@@ -187,6 +187,7 @@ export const Project = ({ data }: SkeletonProps) => {
   const dataToMap = data?.tags?.split(',');
   const image = data?.thumbnail ? (
     <Image
+      loading="lazy"
       unoptimized
       width={0}
       height={0}
@@ -198,8 +199,14 @@ export const Project = ({ data }: SkeletonProps) => {
     'Thumbnail not found'
   );
   return (
-    <div className="flex md:flex-row flex-col mb-10 gap-1 md:gap-5">
-      <div className="min-w-[290px] w-[290px] order-2 md:order-1 rounded-xl">{image}</div>
+    <div className="flex md:flex-row flex-col mb-10 gap-1">
+      <div className="min-w-[200px] w-[200px] order-2 md:order-1 rounded-xl md:mr-5 flex flex-col gap-4">
+        {image}{' '}
+        <a className="text-brand-green-primary font-semibold" target="_blank" href={data?.url} rel="noreferrer">
+          Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
+        </a>
+      </div>
+
       <div className="order-1 md:order-2 flex flex-col gap-2">
         <h3 className="font-semibold text-xl tracking-tight">{data?.title}</h3>
         <p className="font-semibold text-sm text-gray-400 break-all">{data?.description}</p>
@@ -211,6 +218,7 @@ export const Project = ({ data }: SkeletonProps) => {
               </span>
             ))}
         </div>
+
         <a className="text-blue-100 font-semibold" target="_blank" href={data?.url} rel="noreferrer">
           Link to project <ArrowUp size={20} className="rotate-45 inline ms-1" />
         </a>
@@ -272,20 +280,18 @@ export const Shop = () => {
 export const Contact = ({ data }: SkeletonProps) => {
   return (
     <div className="flex flex-col w-full gap-5">
-      {data?.map((contact: { title: string; info: string; link: string }, i: string) => (
-        <div key={i}>
-          <div className="flex justify-start items-center gap-10">
-            <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
-            <a
-              className="text-blue-100 font-semibold text-sm flex-[2] flex items-center text-center gap-3"
-              href={contact.link}
-            >
-              {contact.info}
-              <ExportSquare size={14} />
-            </a>
-          </div>
+      <div>
+        <div className="flex justify-start items-center gap-10">
+          <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{data.title}</span>
+          <a
+            className="text-blue-100 font-semibold text-sm flex-[2] flex underline decoration-solid decoration-1 underline-offset-4 items-center text-center gap-3"
+            href={data.url}
+          >
+            {data.url}
+            <ExportSquare size={14} />
+          </a>
         </div>
-      ))}
+      </div>
     </div>
   );
 };

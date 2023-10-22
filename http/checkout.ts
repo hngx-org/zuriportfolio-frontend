@@ -8,7 +8,7 @@ export const CART_ENDPOINT =
 export const STAGING_URL = process.env.NEXT_PUBLIC_APP_STAGING_URL || 'https://staging.zuri.team';
 export const RECENTLY_VIEWED_ENDPOINT =
   process.env.NEXT_PUBLIC_RECENTLY_VIEWED_ENDPOINT ||
-  'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recently-viewed';
+  'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/v1/recently-viewed';
 
 export const addToCart = async (cartItems: string[], token: string) => {
   try {
@@ -65,7 +65,6 @@ export const createTempUser = async (datas: { email: string; firstName: string; 
     const apiUrl = 'https://staging.zuri.team/api/auth/api/auth/signup-guest';
     const response = await $http.post(apiUrl, datas);
     return response.data;
-    // return { data: { token: guestToken } };
   } catch (error) {
     return { error: error, data: { token: '' } };
   }
@@ -144,11 +143,29 @@ const getTokenDetails = async (token: string) => {
   }
 };
 
-export const getRecentlyViewedProducts = async (token: string) => {
-  const user_res = await getTokenDetails(token);
-  const user_id = user_res.user.id;
 
+export const confirmTransaction = async ({txn_ref,payment_gateway,token}:{txn_ref: string,payment_gateway:string,token: string}) => {
+  const payload = {txn_ref,payment_gateway };
+  const apiUrl = `${CART_ENDPOINT}/transactions/confirm`
   try {
+    const response = await $http.post(apiUrl,payload,{
+      headers:{
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return response.data.status
+  }catch(error) {
+    console.log(error);
+    
+    return false;
+  }
+}
+
+
+export const getRecentlyViewedProducts = async (token: string) => {
+  try {
+    const user_res = await getTokenDetails(token);
+    const user_id = user_res.user.id;
     const apiUrl = `${RECENTLY_VIEWED_ENDPOINT}/${user_id}`;
     const response = await axios.get(apiUrl, {
       headers: {
@@ -159,5 +176,15 @@ export const getRecentlyViewedProducts = async (token: string) => {
   } catch (error) {
     console.error('Error fetching data', error);
     return [];
+  }
+};
+
+export const getRecommendedProducts = async () => {
+  const apiUrl = 'https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/recommendations';
+  try {
+    const response = await axios.get(apiUrl);
+    return response.data.data;
+  } catch {
+    return { error: 'Failed to fetch' };
   }
 };
