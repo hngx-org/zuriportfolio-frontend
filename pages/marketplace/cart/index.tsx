@@ -20,11 +20,6 @@ import { Metadata } from 'next';
 import { useCart } from '@modules/shop/component/CartContext';
 import { toast } from 'react-toastify';
 
-export const metadata: Metadata = {
-  title: 'Cart Summary',
-  description: 'A page showing the cart summary of user',
-};
-
 export default function Cart() {
   const { auth } = useAuth();
 
@@ -52,13 +47,10 @@ export default function Cart() {
         const cartItems = localStorage.getItem('products')
           ? JSON.parse(localStorage.getItem('products') as string)
           : [];
-        console.log(carts);
 
         carts = destructureProducts(cartItems);
-        console.log(carts);
 
         const productIdArray = carts.map((product) => product.productId);
-        console.log(productIdArray);
 
         const cartSum = await getGuestCartSummary(productIdArray);
         setCartSummary(cartSum);
@@ -136,7 +128,34 @@ export default function Cart() {
       <Head>
         <title>Marketplace | Cart</title>
         <meta property="og:title" content="Marketplace | Cart" key="title" />
+        <link rel="icon" href="/assets/zuriLogo.svg" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Zuri Marketplace" />
+
+        <meta key="metaname" itemProp="name" name="title" content="Zuri Marketplace" />
+        <meta
+          key="metadescription"
+          itemProp="description"
+          name="description"
+          content="View your cart Items"
+        />
+        <meta name="keywords" content="Zuri, marketplace, cart" />
+        <meta name="robots" content="index, follow" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <meta name="language" content="English" />
+
+        <meta key="twitter:title" name="twitter:title" content="Zuri Marketplace" />
+        <meta key="twitter:description" name="twitter:description" content="Zuri marketplace cart" />
+
+        
+        <meta property="og:url" content="https://staging.zuri.team/marketplace/cart" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Zuri Marketplace" />
+        <meta property="og:description" content="View your cart items" />
       </Head>
+
       {isLoading ? (
         <CartPageSkeleton></CartPageSkeleton>
       ) : (
