@@ -42,6 +42,13 @@ const ForgotPassword = () => {
     },
   });
 
+  // const { mutate, isLoading } = useAuthMutation(forgetPassword, {
+  //   onSuccess: (data) => {
+  //     forgotPasswordSuccess(data);
+  //   },
+  //   onError: (error: any) => console.log(error),
+  // });
+
   // Hook for making an API call and handling the response
   const { mutate, isLoading } = useAuthMutation(forgetPassword, {
     onSuccess: (data) => {
@@ -50,13 +57,14 @@ const ForgotPassword = () => {
     },
     onError: (e: any) => {
       console.log('Error', e);
+      // status code for user whose email is not verified
       if (e.status === 403) {
         notify({
-          message: e.message,
+          message: 'Account not verified, redirecting to verification page.',
           type: 'error',
           theme: 'light',
         });
-        router.push('/auth/verification');
+        router.push('/auth/verification-complete');
         return;
       }
 
