@@ -97,7 +97,12 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://www.zuri.team/recruit-talent" className="hover:underline">
+                <a
+                  href="https://www.zuri.team/recruit-talent"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:underline"
+                >
                   Recruit Talent
                 </a>
               </li>

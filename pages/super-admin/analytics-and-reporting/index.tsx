@@ -12,6 +12,7 @@ const AnalyticsAndReportingLayouts = () => {
         <meta name="description" content="Analytics and reporting for zuriportfolio, marketplace, shops, etc." />
         <meta name="keywords" content="analytics, reporting, data analysis, metrics, statistics" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/assets/zuriLogo.svg"/>
       </Head>
       <SuperAdminNavbar />
       <Layouts />

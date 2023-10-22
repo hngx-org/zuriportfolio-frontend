@@ -76,7 +76,7 @@ const DynamicCategoryCarousel = () => {
   } = useQuery(
     ['categoryNames'],
     async () => {
-      const response = await axios.get('https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/category-name/');
+      const response = await axios.get('https://staging.zuri.team/api/marketplace/v1/category-name/');
       return response?.data?.data?.slice(0, 12);
     },
     {
@@ -94,9 +94,7 @@ const DynamicCategoryCarousel = () => {
       try {
         for (const categoryObj of categoryNamesQuery) {
           const category = categoryObj.name;
-          const response = await axios.get(
-            `https://coral-app-8bk8j.ondigitalocean.app/api/marketplace/products/${category}`,
-          );
+          const response = await axios.get(`https://staging.zuri.team/api/marketplace/v1/products/${category}`);
           const products = response.data;
 
           fetchedSlides.push({

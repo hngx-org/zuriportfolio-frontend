@@ -64,7 +64,7 @@ const LogoCarousel: React.FC<LogoCarouselProps> = ({ color }) => {
   };
 
   return (
-    <div className={`${color ? 'bg-[#009254]' : 'bg-[#80c9aa]'} overflow-hidden p-2 w-full`}>
+    <div className={`bg-[#009254] overflow-hidden p-2 w-full`}>
       <Slider {...settings}>
         {slides.map((logo, index) => (
           <div key={index}>

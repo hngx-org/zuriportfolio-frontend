@@ -368,7 +368,7 @@ const AddProduct = () => {
         </div>
         <div className={`border-t-[1px] border-[#E1E3E2] mt-[50px] relative ${loading && 'hidden'}`}>
           <div className="max-w-[1240px] mx-auto flex flex-col md:flex-row gap-10 my-4">
-            <div className="border-r-[1px] border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
+            <div className="border-r-[1px]  md:max-h-[80vh] md:overflow-y-scroll md:scrollbar-thin md:scrollbar-thumb-white-610 border-[#E1E3E2] p-5 md:w-[70%] w-[100%] pr-[20px] md:pr-[50px]">
               <label className="font-manropeEB text-[16px] uppercase text-[#191C1E]">Add product file</label>
               <input
                 type="file"
