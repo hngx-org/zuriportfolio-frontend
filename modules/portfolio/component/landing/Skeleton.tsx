@@ -309,18 +309,16 @@ export const Custom = ({ contacts }: CustomProps) => {
   }, []);
 
   return (
-    <>
-      <CustomSectionModal />
-      <div className="flex flex-col">
-        {contacts?.map((contact) => (
-          <div className="flex flex-col gap-2" key={contact.id}>
-            <div className="flex justify-start items-center gap-10">
-              <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
-              <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
+    <CustomSectionModal />
+    // <div className="flex flex-col">
+    //   {contacts?.map((contact) => (
+    //     <div className="flex flex-col gap-2" key={contact.id}>
+    //       <div className="flex justify-start items-center gap-10">
+    //         <span className="text-gray-300 font-semibold text-sm min-w-min flex-[1]">{contact.title}</span>
+    //         <span className="text-blue-100 font-semibold text-sm flex-[2]">{contact.info}</span>
+    //       </div>
+    //     </div>
+    //   ))}
+    // </div>
   );
 };
