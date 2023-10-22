@@ -210,8 +210,6 @@ const SearchAndFilterProducts = (prop: {
     }
   };
 
-  const queryClient = useQueryClient();
-
   if (isCategoryLoading || isRefetchingCategories) {
     return (
       <div className="text-center flex justify-center items-center">
