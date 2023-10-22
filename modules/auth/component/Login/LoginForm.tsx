@@ -46,8 +46,8 @@ function LoginForm() {
     onSuccess: async (res) => {
       // User has 2fa enabled
       if (res.status === 202) {
-        localStorage.setItem('2fa', res?.response?.token);
-        localStorage.setItem('email', res?.response?.email);
+        localStorage.setItem('2fa', res?.token);
+        localStorage.setItem('email', res?.email);
 
         notify({
           message: 'Two Factor Authentication Code Sent',
