@@ -87,7 +87,7 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://internship.zuri.team/" className="hover:underline">
+                <a href="https://internship.zuri.team/" target="_blank" rel="noreferrer" className="hover:underline">
                   Zuri Internship
                 </a>
               </li>
@@ -97,18 +97,12 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a
-                  href="https://www.zuri.team/recruit-talent"
-                  className="hover:underline"
-                >
+                <a href="https://www.zuri.team/recruit-talent" className="hover:underline">
                   Recruit Talent
                 </a>
               </li>
               <li>
-                <a
-                  href="https://www.zuri.team/find-a-training-partner"
-                  className="hover:underline"
-                >
+                <a href="https://www.zuri.team/find-a-training-partner" className="hover:underline">
                   Partner to Train
                 </a>
               </li>
