@@ -26,7 +26,7 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
       setLoadingState(true);
       const bearerToken = localStorage.getItem('zpt');
       fetch(
-        `https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
+        `https://staging.zuri.team/api/v1/super-admin/analytics/data/?start_date=${starttDate}&end_date=${enddDate}`,
         {
           method: 'GET',
           headers: {
@@ -49,7 +49,7 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
     } else {
       const bearerToken = localStorage.getItem('zpt');
       setLoadingState(true);
-      fetch('https://team-mirage-super-amind2.onrender.com/api/v1/super-admin/analytics/data/', {
+      fetch('https://staging.zuri.team/api/v1/super-admin/analytics/data/', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${bearerToken}`,
@@ -73,16 +73,6 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
   const toggleVisibility = () => {
     setShowItems(!showItems);
   };
-
-  //   const formattedAmount = (amount: number | string) => {
-  //     const amountValue = typeof amount === 'string' ? parseFloat(amount) : amount;
-  //     const roundedValue = Math.round(amountValue);
-  //     const formattedValue =
-  //       roundedValue % 1 === 0
-  //         ? roundedValue.toLocaleString().replace('.00', '')
-  //         : amountValue.toLocaleString();
-  //     return formattedValue;
-  //   };
 
   const formattedAmount = (amount: number | string) => {
     if (amount !== undefined) {
@@ -148,11 +138,6 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                     Total order
                   </p>
                 </div>
-                {/* <div className="hidden max-w-[5.5rem] w-full max-[834px]:block max-[778px]:min-w-[5.5rem]">
-                  <p className="text-[0.875rem] text-center font-manropeL text-[#667085] font-normal leading-[1.25rem] tracking-[0.00088rem] max-[730px]:w-[6rem]">
-                    Total revenue
-                  </p>
-                </div> */}
               </div>
               {loadingState ? (
                 <ImSpinner8 className="w-6 h-6 mx-auto my-[3rem] mb-2rem text-brand-success-primary animate-spin" />
@@ -192,11 +177,6 @@ const AnalyticsOverview: React.FC<zaProps> = ({ dateRange, reportClicked }) => {
                       {formattedAmount(BusinessOverviewArray[4]?.amount)}
                     </p>
                   </div>
-                  {/* <div className="hidden max-w-[4.5rem] w-full max-[834px]:block max-[834px]:min-w-[5.5rem]">
-                  <p className="text-[0.875rem] font-manropeL font-normal text-center leading-[1.25rem] tracking-[0.00088rem] text-[#000] max-[730px]:w-[6rem]">
-                    $20000000
-                  </p>
-                </div> */}
                 </div>
               )}
             </div>

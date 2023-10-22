@@ -6,6 +6,7 @@ export default function Categories() {
   return (
     <CategoryLayout>
       <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>Zuri All Catgories Products</title>
         <meta
           name="description"
