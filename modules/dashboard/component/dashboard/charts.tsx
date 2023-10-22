@@ -72,7 +72,7 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
 
   const [timeline, setTimeline] = useState({ active: true, index: 0 });
   const [trafficChartData, setTrafficChartData] = useState(query12MonthStoreTrafficData);
-  const [salesChartData, setSalesChartData] = useState(nullSalesData);
+  const [salesChartData, setSalesChartData] = useState(querySalesReportData[0]);
 
   // Initialize data with the default value
   let data = isBarChart ? trafficChartData : salesChartData;
@@ -102,6 +102,26 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
           break;
       }
     } else {
+      switch (index) {
+        case 0:
+          setSalesChartData(querySalesReportData[0]);
+          break;
+        case 1:
+          setSalesChartData(querySalesReportData[1]);
+          break;
+        case 2:
+          setSalesChartData(querySalesReportData[2]);
+          break;
+        case 3:
+          setSalesChartData(querySalesReportData[3]);
+          break;
+        case 4:
+          setSalesChartData(querySalesReportData[4]);
+          break;
+        default:
+          setSalesChartData(querySalesReportData[0]);
+          break;
+      }
     }
     // update timeline
     setTimeline({ active: true, index });
@@ -110,8 +130,10 @@ export const MetricChart = ({ title, src, isBarChart }: MetricChartProps) => {
   useEffect(() => {
     if (isBarChart) {
       setTrafficChartData(query12MonthStoreTrafficData);
+    } else {
+      setSalesChartData(querySalesReportData[0]);
     }
-  }, [isBarChart, query12MonthStoreTrafficData]);
+  }, [isBarChart, query12MonthStoreTrafficData, querySalesReportData]);
 
   return (
     <div className="shadow rounded-md px-5 py-5 space-y-1.5 md:space-y-3">

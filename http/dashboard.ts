@@ -127,12 +127,12 @@ export const fetchYesterdaysAverageOrderValue = async () => {
 
 export const fetchSalesReports = async () => {
   try {
-    const res: any = await axiosDashboardInstance.get(`/sales/reports?timeframe=12m,3m,1y,7d,24h,1d`, {
+    const res: any = await axiosDashboardInstance.get(`/sales/reports?timeframe=12m,3m,30d,7d,24h`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('zpt')}`,
       },
     });
-    const salesReport = res;
+    const salesReport = res?.data;
     logQueryResult('sales report', salesReport);
     return salesReport;
   } catch (error) {
