@@ -81,11 +81,7 @@ function LoginForm() {
     },
     onError: (e: any) => {
       // For a user who has not verified their account
-
-
-
       if (e.status === 403) {
-
         notify({
           message: e.message,
           type: 'error',
@@ -119,7 +115,7 @@ function LoginForm() {
           <p className=" font-manropeEB text-2xl md:text-4xl  text-[1.5rem] mb-1 md:mb-6 text-center lg:text-left ">
             Log In
           </p>
-          <p className="text-custom-color30  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
+          <p className="text-[#6B797F]  mt-[1rem] md:text-[22px] font-manropeB lg:text-[20px] xl:text-[1.375rem] leading-[28px]  lg:font-semibold text-center md:text-left">
             Log in to continue using zuriportfolio.
           </p>
         </div>
