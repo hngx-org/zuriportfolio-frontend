@@ -33,7 +33,7 @@ function ResendVerification() {
       return;
     }
 
-    notify({ message: error.message, type: 'error' });
+    notify({ message: error.message, type: 'error', theme: 'light' });
   };
 
   const { mutate: resendVerify, isLoading: isUserSigningUp } = useAuthMutation(resendVerification, {
