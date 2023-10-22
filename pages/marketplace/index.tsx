@@ -5,6 +5,7 @@ function Home() {
   return (
     <div>
       <Head>
+        <link rel="icon" href="/assets/zuriLogo.svg" />
         <title>Zuri MarketPlace</title>
         <meta name="description" content={`Explore a wide range of products in Zuri MarketPlace`} />
       </Head>

@@ -92,7 +92,7 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://www.zuri.team/partner" className="hover:underline">
+                <a href="https://www.zuri.team/partner" target="_blank" rel="noreferrer" className="hover:underline">
                   Partner with Us
                 </a>
               </li>
