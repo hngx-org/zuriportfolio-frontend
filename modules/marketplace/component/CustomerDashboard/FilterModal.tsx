@@ -119,78 +119,80 @@ const FilterModal = ({ filter, isOpen, onClose, setData, setLoading }: Props) =>
 
   return (
     <>
-      {filter === 'price' && (
-        <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
-          <div className="">
-            <h5 className="mb-[1rem] font-bold">Add a range</h5>
-            <div className="flex justify-between">
-              <Input
-                onChange={(e) => {
-                  setFrom(e.target.value);
-                }}
-                type="number"
-                intent={'default'}
-                disabled={false}
-                placeHolder="from"
-                className="w-[12rem]"
-              />
-              <Input
-                onChange={(e) => {
-                  setTo(e.target.value);
-                }}
-                type="number"
-                intent={'default'}
-                disabled={false}
-                placeHolder="to"
-                className="w-[12rem]"
-              />
-            </div>
-          </div>
-          <div className="cta flex justify-center mt-[2rem]">
-            <Button intent={'primary'} size={'md'} onClick={filterByPrice} className="w-[10rem] rounded-lg">
-              Filter
-            </Button>
-          </div>
-        </Modal>
-      )}
-      {/* filter by month */}
-      {filter === 'month' && (
-        <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
-          <h5 className="mb-[1rem] font-bold">Choose a month</h5>
-          <div className="grid grid-cols-3 gap-3">
-            {MONTH.map((item, i) => (
-              <div
-                onClick={() => filterByMonth(item)}
-                key={i}
-                className="border-slate-200 border rounded-md cursor-pointer p-[1rem] font-semibold hover:text-white-100 hover:bg-brand-green-hover"
-              >
-                {item}
+      <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
+        {filter === 'price' && (
+          <>
+            <div className="">
+              <h5 className="mb-[1rem] font-bold">Add a range</h5>
+              <div className="flex justify-between">
+                <Input
+                  onChange={(e) => {
+                    setFrom(e.target.value);
+                  }}
+                  type="number"
+                  intent={'default'}
+                  disabled={false}
+                  placeHolder="from"
+                  className="w-[12rem]"
+                />
+                <Input
+                  onChange={(e) => {
+                    setTo(e.target.value);
+                  }}
+                  type="number"
+                  intent={'default'}
+                  disabled={false}
+                  placeHolder="to"
+                  className="w-[12rem]"
+                />
               </div>
-            ))}
-          </div>
-        </Modal>
-      )}
-      {/* filter by year */}
-      {filter === 'year' && (
-        <Modal closeOnOverlayClick isOpen={isOpen} closeModal={onClose} isCloseIconPresent={false} size="sm" title="">
-          <h5 className="mb-[1rem] font-bold">Enter year</h5>
-          <div className="cta flex justify-between ">
-            <Input
-              onChange={(e) => {
-                setYear(e.target.value);
-              }}
-              type="number"
-              intent={'default'}
-              disabled={false}
-              placeHolder="year"
-            />
+            </div>
+            <div className="cta flex justify-center mt-[2rem]">
+              <Button intent={'primary'} size={'md'} onClick={filterByPrice} className="w-[10rem] rounded-lg">
+                Filter
+              </Button>
+            </div>
+          </>
+        )}
+        {/* filter by month */}
+        {filter === 'month' && (
+          <>
+            <h5 className="mb-[1rem] font-bold">Choose a month</h5>
+            <div className="grid grid-cols-3 gap-3">
+              {MONTH.map((item, i) => (
+                <div
+                  onClick={() => filterByMonth(item)}
+                  key={i}
+                  className="border-slate-200 border rounded-md cursor-pointer p-[1rem] font-semibold hover:text-white-100 hover:bg-brand-green-hover"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        {/* filter by year */}
+        {filter === 'year' && (
+          <>
+            <h5 className="mb-[1rem] font-bold">Enter year</h5>
+            <div className="cta flex justify-between ">
+              <Input
+                onChange={(e) => {
+                  setYear(e.target.value);
+                }}
+                type="number"
+                intent={'default'}
+                disabled={false}
+                placeHolder="year"
+              />
 
-            <Button intent={'primary'} size={'md'} onClick={filterByYear} className="rounded-lg">
-              Filter
-            </Button>
-          </div>
-        </Modal>
-      )}
+              <Button intent={'primary'} size={'md'} onClick={filterByYear} className="rounded-lg">
+                Filter
+              </Button>
+            </div>
+          </>
+        )}
+      </Modal>
     </>
   );
 };
