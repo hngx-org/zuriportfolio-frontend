@@ -115,7 +115,7 @@ const HomePage = () => {
             </div>
           </div>
         )}
-        {data?.data?.length === 0 || isLoading || data?.totalPages === 1 || errorMsg ? null : (
+        {data?.data?.length === 0 || isLoading || data?.totalPages === 1 || Object.keys(errorMsg).length > 0 ? null : (
           <a href="#top" className="w-fit mx-auto my-4 mb-12 flex justify-center">
             <Pagination
               visiblePaginatedBtn={3}
