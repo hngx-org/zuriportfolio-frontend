@@ -123,7 +123,7 @@ const SuperAdminProdDetails = ({
                     <p>{formatDate(data?.updatedAt)}</p>
                   </div>
                   <div className="flex flex-end">
-                    <StatusPill status={data?.product_status} />
+                    <StatusPill status={data?.product_status != null ? data?.product_status : data?.admin_status} />
                   </div>
                 </div>
               </div>
@@ -134,12 +134,16 @@ const SuperAdminProdDetails = ({
                 </p>
 
                 <div className="flex flex-col gap-y-2 ">
-                  <div className="flex gap-x-1">
-                    <p className=" text-base font-semibold font-manropeB leading-normal tracking-[0.08px]">
-                      {data?.rating_id ?? 0}/5
-                    </p>
-                    <StarRating rating={data?.rating_id ?? 0} />
-                  </div>
+                  {data?.rating_id != null ? (
+                    <div className="flex gap-x-1">
+                      <p className=" text-base font-semibold font-manropeB leading-normal tracking-[0.08px]">
+                        {data?.rating_id ?? 0}/5
+                      </p>
+                      <StarRating rating={data?.rating_id ?? 0} />
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                   <p className="text-base font-manropeL text-[14px] leading-normal tracking-[0.035px] md:text-[16px] lg:tracking-[0.08px]">
                     ({data?.rating_id ?? 0} Customer{data?.rating_id > 0 ? 's' : ''})
                   </p>
@@ -162,27 +166,43 @@ const SuperAdminProdDetails = ({
                     </p>
                     <p className="font-manropeB text-[16px]  font-semibold md:text-[24px]">{data?.category_name}</p>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <p className="font-manropeB text-[14px]  tracking-[0.035px] text-custom-color43  md:text-[16px]">
-                      Total Sold
-                    </p>
-                    <p className="font-manropeB text-[16px]  font-semibold md:text-[24px] ">
-                      {new Intl.NumberFormat('en-US').format(data?.quantity)}
-                    </p>
-                  </div>
+                  {data?.product_status != null ? (
+                    <div className="flex justify-between items-center">
+                      <p className="font-manropeB text-[14px]  tracking-[0.035px] text-custom-color43  md:text-[16px]">
+                        Total Sold
+                      </p>
+                      <p className="font-manropeB text-[16px]  font-semibold md:text-[24px] ">
+                        {new Intl.NumberFormat('en-US').format(data?.quantity)}
+                      </p>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
 
                 <div className="flex py-8 justify-center space-x-9">
                   <Button
-                    intent={'secondary'}
+                    intent={data?.product_status === null ? 'primary' : 'secondary'}
                     isLoading={isTempDeleting}
-                    className="text-brand-red-primary active:bg-brand-red-pressed hover:bg-brand-red-hover hover:text-white-100 border-brand-red-primary lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px]"
+                    className={`${
+                      data?.product_status != null
+                        ? 'text-brand-red-primary active:bg-brand-red-pressed hover:bg-brand-red-hover hover:text-white-100 border-brand-red-primary lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px]'
+                        : 'text-white-100 lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px]'
+                    }`}
                     onClick={() => {
-                      data?.product_status === 'Active' ? handleDelete() : setOpenModal(true);
+                      data?.product_status === 'Active'
+                        ? handleDelete()
+                        : data?.product_status === null
+                        ? handleRemoveSaction()
+                        : setOpenModal(true);
                     }}
                   >
                     <span className="font-manropeL text-[12px]">
-                      {data?.product_status === 'Active' ? 'Delete' : 'Permanently Delete'}
+                      {data?.product_status === 'Active'
+                        ? 'Delete'
+                        : data?.product_status === null
+                        ? 'Approve'
+                        : 'Permanently Delete'}
                     </span>
                   </Button>
 
@@ -195,7 +215,7 @@ const SuperAdminProdDetails = ({
                         : 'secondary'
                     }
                     className={`${
-                      data?.product_status === 'Active'
+                      data?.product_status === 'Active' || data?.product_status === null
                         ? 'bg-transparent focus:bg-brand-green-focused active:bg-black active:text-white-100 disabled:bg-brand-disabled disabled:cursor-not-allowed border-black text-black'
                         : ''
                     } lg:w-[284.5px] lg:h-[60px]lg:w-[284.5px] lg:h-[60px] md:w-[359px] md:h-[52px] w-[145.5px]`}

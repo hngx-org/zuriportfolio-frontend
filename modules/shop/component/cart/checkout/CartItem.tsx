@@ -35,7 +35,7 @@ export default function CartItem({
         <RemoveCart productId={id as string} closeModal={closeModal} onRemoveItem={removeHandler} />
       </div>
       <div className="flex flex-col md:flex-row gap-x-5 w-full border-t border-[#efeff4] py-5 px-5 cart-item">
-        <div className="max-w-[300px] w-[100%] h-[209px] h-[120px] md:h-[209px] overflow-hidden">
+        <div className="max-w-[300px] w-[100%] h-[120px] md:h-[209px] overflow-hidden">
           <Link href={`/marketplace/product-details/${productId}`}>
             <Image
               width={0}

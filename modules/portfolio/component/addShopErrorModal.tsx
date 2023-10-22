@@ -139,7 +139,7 @@ export function AddShopModal({ isOpen, onCloseModal, onSaveModal }: any) {
           onSaveModal();
         }}
         isCloseIconPresent={false}
-        size="sm"
+        size="lg"
         title="Create shop"
       >
         <CloseSquare
@@ -150,12 +150,12 @@ export function AddShopModal({ isOpen, onCloseModal, onSaveModal }: any) {
             onCloseModal();
             onSaveModal();
           }}
-          className="absolute top-3 right-4 cursor-pointer"
+          className="absolute top-3 right-4 cursor-pointer "
         />
 
-        <hr className="mt-2 bg-green-600 border-t-2 border-green-600" />
+        <hr className="mt-2 bg-green-600 border-t-2 border-green-600 px-4" />
 
-        <form onSubmit={handleSubmit} className="flex flex-col mt-5 gap-y-5">
+        <form onSubmit={handleSubmit} className="flex flex-col mt-5 gap-y-5 px-4">
           <Input
             placeHolder="Enter shop name"
             onChange={(e) => {

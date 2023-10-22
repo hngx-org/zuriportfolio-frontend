@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../../../context/AuthContext';
 //import { useQuery, useMutation } from 'react-query';
 import Image from 'next/image';
-import defaultpic from '../../../../public/assets/inviteAssets/profile.svg';
+import defaultpic from '../../../../public/assets/inviteAssets/avatar.svg';
 import $http from '../../../../http/axios';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -98,10 +98,8 @@ const UpdatingProfilePic = () => {
 
   return (
     <>
-      <h3 className="font-manropeEB text-[1rem] sm:text-[1.375rem] text-[#2E3130] leading-[1.75rem]">
-        Account Management
-      </h3>
-      <h4 className="text-4 font-manropeB mt-4 text-[#2E3130]"> Profile Image</h4>
+      <h3 className="font-manropeL text-[1rem] sm:text-[22px] text-[#2E3130] leading-[1.75rem]">Account Management</h3>
+      <h4 className="text-[14px] md:text-[16px] font-manropeB mt-4 text-[#2E3130]"> Profile Image</h4>
       <div className="rounded-full">
         <label
           htmlFor="avatarUpload"
@@ -113,15 +111,19 @@ const UpdatingProfilePic = () => {
               width={280}
               height={180}
               alt="avatar"
-              className="w-[100px] h-[100px] rounded-full"
+              className={`${
+                !userData?.data?.user?.profilePic
+                  ? ' rounded-none w-[107px] h-[100px]'
+                  : 'w-[107px] h-[100px] rounded-full'
+              }`}
             ></Image>
-            <Image
+            {/* <Image
               src={addPics}
               width={30}
               height={30}
               alt=""
               className="bg-brand-green-primary rounded-full p-1 absolute right-0 bottom-0"
-            ></Image>
+            ></Image> */}
           </>
         </label>
         <input

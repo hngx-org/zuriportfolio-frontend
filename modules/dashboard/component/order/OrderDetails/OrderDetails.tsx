@@ -12,6 +12,8 @@ import Pagination from '@ui/Pagination';
 import { useRouter } from 'next/router';
 import Loader from '@ui/Loader';
 import axios from 'axios';
+import usePageLoaded from '../../../../../hooks/usePageLoaded';
+import { twMerge } from 'tailwind-merge';
 const filters: {
   id: keyof OrderHistory;
   title: string;
@@ -44,6 +46,7 @@ const dummyOrders: OrderHistory[] = [
     price: 3000,
     sales: 123,
     revenue: 369000,
+    currency: '₦',
   },
   {
     id: 3065,
@@ -55,6 +58,7 @@ const dummyOrders: OrderHistory[] = [
     price: 45000,
     sales: 64,
     revenue: 2880000,
+    currency: '₦',
   },
   {
     id: 3064,
@@ -66,6 +70,7 @@ const dummyOrders: OrderHistory[] = [
     price: 73000,
     sales: 236,
     revenue: 17228000,
+    currency: '₦',
   },
   {
     id: 3063,
@@ -77,6 +82,7 @@ const dummyOrders: OrderHistory[] = [
     price: 12000,
     sales: 1043,
     revenue: 12516000,
+    currency: '₦',
   },
   {
     id: 3062,
@@ -88,6 +94,7 @@ const dummyOrders: OrderHistory[] = [
     price: 6500,
     sales: 1022,
     revenue: 6779500,
+    currency: '₦',
   },
   {
     id: 3061,
@@ -99,6 +106,7 @@ const dummyOrders: OrderHistory[] = [
     price: 200000,
     sales: 75,
     revenue: 15000000,
+    currency: '₦',
   },
   {
     id: 3060,
@@ -110,68 +118,77 @@ const dummyOrders: OrderHistory[] = [
     price: 85000,
     sales: 32,
     revenue: 1120000,
+    currency: '₦',
   },
 ];
+
 const OrderDetails = () => {
-  // const {
-  //   orders: pageOrders,
-  //   orderFilter,
-  //   changeFilter,
-  //   changeSortBy,
-  //   sortBy,
-  //   changeSearchQuery,
-  //   fetchOrders,
-  //   getSearchResult,
-  //   insertOrders,
-  //   searchQuery,
-  //   filterFunc,
-  //   sortOrders,
-  //   loading: loadingOrders,
-  //   searching,
-  //   totalPage,
-  const [pageOrders, setOrders] = useState<OrderHistory[]>(dummyOrders);
+  const pageLoaded = usePageLoaded(0.5);
+  const [pageOrders, setOrders] = useState<OrderHistory[]>([]);
   const [orderFilter, setOrderFilter] = useState('all');
   const [sort, setSort] = useState<{
     sortBy: keyof OrderHistory;
     sortOrder: 'asc' | 'desc';
   }>({ sortBy: 'id', sortOrder: 'asc' });
   const [searchQuery, setSearchQuery] = useState('');
-  const [loadingOrders, setLoadingOrders] = useState(false);
+  const [loadingOrders, setLoadingOrders] = useState(true);
   const [searching, setSearching] = useState(false);
-  const [totalPage, setTotalPage] = useState(1);
+  const router = useRouter();
+  const orderId = router.query['order_id'];
+  const [orderError, setOrderError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const itemsPerPage = 10;
 
   const changeFilter = (val: string) => {
     // show orders by status which is either all | completed | cancelled or pending
     setOrderFilter(val);
   };
+
   const fetchOrders = async () => {
     try {
+      const url = `https://zuriportfolio-shop-internal-api.onrender.com/api/order/${orderId}?page=${currentPage}&pageSize=${itemsPerPage}`;
+      // const url = `http://localhost:8080/api/order/${orderId}?page=${currentPage}&pageSize=${itemsPerPage}`;
       setLoadingOrders(true);
-      const data = await axios({
-        url: `https://zuriportfolio-shop-internal-api.onrender.com/api/orders/all`,
+      const req = await axios({
+        url,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('zpt')}`,
         },
       });
-      console.log(data);
-      if (data.data?.errorStatus === true) {
-        return [];
-      }
-      if (!data.data.data || data.data.data?.length === 0) {
-        return [];
-      }
-      const transformedOrder = data?.data.data?.data?.orders?.map((order: any) => ({
-        productName: order.product.name,
-        id: order.order_id,
-        status: order.merchant.customer_orders[0]?.status,
-        customerName: order.customer.first_name + ' ' + order.customer.last_name,
-        date: new Date(order.createdAt),
-        price: order.product.price,
-      }));
+      const result = req.data;
 
-      return transformedOrder ?? [];
+      if (result?.errorStatus) {
+        setOrderError(result?.message);
+        return [];
+      } else if (!result.errorStatus && result?.data?.orders.length === 0) {
+        setOrderError(null);
+        return [];
+      } else {
+        const orders = result?.data?.orders;
+        const allDetails = [];
+        for (const ord of orders) {
+          const items = ord?.items;
+          for (const item of items) {
+            allDetails.push({
+              id: item?.id.slice(0, 5),
+              fullId: item?.id,
+              productType: item?.category?.name,
+              price: item?.price,
+              currency: '₦',
+              productName: item?.name,
+              status: item?.order_item_status,
+            });
+          }
+        }
+
+        return allDetails ?? [];
+      }
     } catch (error) {
+      setOrderError((error as any)?.response?.data?.message ?? (error as any)?.message);
+      console.log(error);
       return [];
     } finally {
       setLoadingOrders(false);
@@ -279,15 +296,14 @@ const OrderDetails = () => {
   useEffect(() => {
     const order = sortOrders(pageOrders);
     insertOrders(order);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort]);
-  //  Search Logic
 
+  //  Search Logic
   const changeSearchQuery = (val: string) => {
     setSearchQuery(val);
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [showFilters, setShowFilters] = useState(false);
   const closeFilter = () => {
     setShowFilters(false);
   };
@@ -295,13 +311,16 @@ const OrderDetails = () => {
   useEffect(() => {}, [currentPage]);
 
   useEffect(() => {
+    if (!pageLoaded) return;
+
     const changeStatus = async () => {
       changeSearchQuery('');
       const order = await fetchOrders();
       const sortedOrders = sortOrders(order);
       insertOrders(sortedOrders);
     };
-  }, []);
+    changeStatus();
+  }, [currentPage, pageLoaded]);
   const changeInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     changeSearchQuery(e.target.value.trim());
     let order;
@@ -439,9 +458,19 @@ const OrderDetails = () => {
               {!searching ? (
                 <>
                   {pageOrders.length === 0 ? (
-                    <p className="text-center text-dark-110 font-manropeB text-[24px] leading-[133%] py-[30px] mb-[94px] mt-[70px] ">
-                      No Order to Show
-                    </p>
+                    <div className="">
+                      <p
+                        className={twMerge(
+                          'text-center text-dark-110 font-manropeB text-[24px] mt-[70px] ',
+                          orderError !== null && 'py-1',
+                        )}
+                      >
+                        No Order to Show
+                      </p>
+                      {orderError !== null && (
+                        <p className="text-center text-white-400 font-manropeB text-[14px] py-[1em] ">{orderError}</p>
+                      )}
+                    </div>
                   ) : (
                     <OrderDetailsTable pageItem={pageOrders} changeSort={changeSortBy} currentSort={sort.sortBy} />
                   )}
@@ -471,13 +500,17 @@ const OrderDetails = () => {
             )}
           </div>
           <a href="#top" className="flex justify-center my-6 w-fit mx-auto">
-            <Pagination
-              activePage={currentPage}
-              page={currentPage}
-              pages={3}
-              visiblePaginatedBtn={3}
-              setPage={setCurrentPage}
-            />
+            {loadingOrders ? null : pageOrders.length > itemsPerPage ? (
+              <div className="flex justify-center my-6">
+                <Pagination
+                  activePage={currentPage}
+                  page={currentPage}
+                  pages={pageOrders.length}
+                  visiblePaginatedBtn={3}
+                  setPage={setCurrentPage}
+                />
+              </div>
+            ) : null}
           </a>
         </>
       )}
